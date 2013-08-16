@@ -1,5 +1,9 @@
 <?php
 /**
+ * A vocabulary.
+ * 
+ * Vocabularies are defined sets of classes and properties.
+ * 
  * @Entity
  */
 class Vocabulary

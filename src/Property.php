@@ -1,5 +1,9 @@
 <?php
 /**
+ * A property, representing the predicate in an RDF triple.
+ * 
+ * Properties define relationships between resources and their values.
+ * 
  * @Entity
  */
 class Property

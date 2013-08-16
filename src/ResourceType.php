@@ -1,5 +1,10 @@
 <?php
 /**
+ * A resource type.
+ * 
+ * Essentially, resource types represent top-level classes that are specific to 
+ * the Omeka data model.
+ * 
  * @Entity
  * @HasLifecycleCallbacks
  */

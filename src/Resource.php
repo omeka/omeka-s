@@ -1,5 +1,7 @@
 <?php
 /**
+ * A resource, representing the subject in an RDF triple.
+ * 
  * @Entity
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")

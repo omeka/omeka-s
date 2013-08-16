@@ -1,5 +1,7 @@
 <?php
 /**
+ * A value, representing the object in a RDF triple.
+ * 
  * @Entity
  */
 class Value

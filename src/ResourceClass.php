@@ -1,5 +1,10 @@
 <?php
 /**
+ * A resource class.
+ * 
+ * Classes are logical groupings of resources that have specified ranges of 
+ * descriptive properties.
+ * 
  * @Entity
  * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type_id", "default"})})
  */

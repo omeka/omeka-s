@@ -35,7 +35,7 @@ class Value
     protected $lang;
     
     /** @Column(type="boolean") */
-    protected $html;
+    protected $isHtml;
     
     /** @ManyToOne(targetEntity="Resource") */
     protected $valueResource;

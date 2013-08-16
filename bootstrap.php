@@ -39,5 +39,30 @@ class TablePrefix
     }
 }
 
+/**
+ * Load the Resource discriminator map dynamically.
+ */
+class LoadResourceDiscriminatorMap
+{
+    protected $defaultResources = array(
+        'Item' => 'Item', 
+        'Media' => 'Media', 
+        'ItemSet' => 'ItemSet', 
+    );
+    
+    public function loadClassMetadata(LoadClassMetadataEventArgs $event)
+    {
+        $classMetadata = $event->getClassMetadata();
+        if ('Resource' == $classMetadata->name) {
+            // Load default resources.
+            $classMetadata->discriminatorMap = $this->defaultResources;
+            
+            // Load plugin resources dynamically.
+            // $this->loadPluginResources($classMetadata);
+        }
+    }
+}
+
 $em = EntityManager::create($conn, $config);
 $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix('omeka_'));
+$em->getEventManager()->addEventListener(Events::loadClassMetadata, new LoadResourceDiscriminatorMap);

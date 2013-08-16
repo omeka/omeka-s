@@ -2,14 +2,21 @@
 /**
  * A resource, representing the subject in an RDF triple.
  * 
+ * Note that the discriminator map is loaded dynamically.
+ * 
  * @Entity
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
- * @DiscriminatorMap({"Item" = "Item", "ItemSet" = "ItemSet", "Media" = "Media"})
  */
 class Resource
 {
+    const TYPE_ITEM_SET = 'ItemSet';
+    
+    const TYPE_ITEM = 'Item';
+    
+    const TYPE_MEDIA = 'Media';
+    
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
     
@@ -28,8 +35,8 @@ class Resource
     {
         $em = $event->getEntityManager();
         if (null === $this->resourceClass) {
-            $resourceType = $em->getRepository('ResourceType')->findOneByLabel(get_called_class());
-            $resourceClass = $em->getRepository('ResourceClass')->findOneBy(array('resourceType' => $resourceType, 'default' => true));
+            $resourceClass = $em->getRepository('ResourceClass')
+                ->findOneBy(array('resourceType' => get_called_class(), 'isDefault' => true));
             $this->resourceClass = $resourceClass;
         }
     }

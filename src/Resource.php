@@ -6,7 +6,7 @@
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
- * @DiscriminatorMap({"Item" = "Item", "Set" = "Set", "Media" = "Media"})
+ * @DiscriminatorMap({"Item" = "Item", "ItemSet" = "ItemSet", "Media" = "Media"})
  */
 class Resource
 {

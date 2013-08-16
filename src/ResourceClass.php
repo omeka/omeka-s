@@ -6,7 +6,7 @@
  * descriptive properties.
  * 
  * @Entity
- * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type_id", "default"})})
+ * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type_id", "default_class"})})
  */
 class ResourceClass
 {

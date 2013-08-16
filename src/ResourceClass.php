@@ -26,8 +26,8 @@ class ResourceClass
     /** @Column(type="text", nullable=true) */
     protected $comment;
     
-    /** @Column(name="`default`", type="boolean") */
-    protected $default;
+    /** @Column(type="boolean") */
+    protected $defaultClass;
     
     public function __construct()
     {
@@ -89,14 +89,14 @@ class ResourceClass
         $this->comment = $comment;
     }
     
-    public function getDefault()
+    public function getDefaultClass()
     {
-        return $this->default;
+        return $this->defaultClass;
     }
     
-    public function setDefault($default)
+    public function setDefaultClass($default)
     {
-        $this->default = $default;
+        $this->defaultClass = $defaultClass;
     }
     
 }

@@ -32,6 +32,9 @@ class Value
     /** @Column(nullable=true) */
     protected $lang;
     
+    /** @Column(type="boolean") */
+    protected $html;
+    
     /** @ManyToOne(targetEntity="Resource") */
     protected $valueResource;
     

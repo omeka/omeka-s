@@ -1,8 +1,8 @@
 <?php
 /**
- * @Entity @Table(name="`set`")
+ * @Entity
  */
-class Set extends Resource
+class ItemSet extends Resource
 {
     /** @Id @Column(type="integer") */
     protected $id;

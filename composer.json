@@ -1,9 +1,11 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "doctrine/orm": "2.4.0-RC2"
+        "php": ">=5.3",
+        "doctrine/orm": "2.4.0-RC2",
+        "zendframework/zendframework": "2.*"
     },
     "autoload": {
-        "psr-0": {"": "src/"}
+        "psr-0": {"": "module/src"}
     }
 }

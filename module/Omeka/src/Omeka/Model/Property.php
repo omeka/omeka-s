@@ -1,4 +1,6 @@
 <?php
+namespace Omeka\Model;
+
 /**
  * A property, representing the predicate in an RDF triple.
  * 

@@ -1,4 +1,6 @@
 <?php
+namespace Omeka\Model;
+
 /**
  * A vocabulary.
  * 

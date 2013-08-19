@@ -1,4 +1,6 @@
 <?php
+namespace Omeka\Model;
+
 /**
  * A resource, representing the subject in an RDF triple.
  * 

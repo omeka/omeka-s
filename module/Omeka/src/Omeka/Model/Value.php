@@ -1,4 +1,6 @@
 <?php
+namespace Omeka\Model;
+
 /**
  * A value, representing the object in a RDF triple.
  * 

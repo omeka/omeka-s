@@ -14,12 +14,6 @@ class Property
     /** @ManyToOne(targetEntity="Vocabulary") */
     protected $vocabulary;
     
-    /** @ManyToOne(targetEntity="Property", inversedBy="subproperties") */
-    protected $superproperty;
-    
-    /** @OneToMany(targetEntity="Property", mappedBy="superproperty") */
-    protected $subproperties;
-    
     /** @OneToMany(targetEntity="ResourceClassProperty", mappedBy="property") */
     protected $resourceClasses;
     
@@ -34,7 +28,6 @@ class Property
     
     public function __construct()
     {
-        $this->subproperties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->resourceClasses = new \Doctrine\Common\Collections\ArrayCollection();
     }
     

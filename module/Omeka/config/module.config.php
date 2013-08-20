@@ -1,5 +1,12 @@
 <?php
 return array(
+    'db' => array(
+        'driver' => 'pdo_mysql',
+        'user' => '',
+        'password' => '',
+        'dbname' => '',
+        'prefix' => 'omeka_'
+    ),
     'router' => array(
         'routes' => array(
             'home' => array(

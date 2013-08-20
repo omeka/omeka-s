@@ -14,13 +14,18 @@ class EntityManagerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $conn = array('driver' => 'pdo_sqlite', 'path' => 'db.sqlite');
+        $dbParams = array(
+            'driver'   => 'pdo_mysql',
+            'user'     => '',
+            'password' => '',
+            'dbname'   => '',
+        );
 
         $isDevMode = true;
         $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/../Model'), $isDevMode);
         $config->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
-        $em = EntityManager::create($conn, $config);
+        $em = EntityManager::create($dbParams, $config);
         $tablePrefix = 'omeka_';
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix($tablePrefix));
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new ResourceDiscriminatorMap);

@@ -8,7 +8,12 @@ use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 ini_set('display_errors', 1);
 require_once 'vendor/autoload.php';
 
-$conn = array('driver' => 'pdo_sqlite', 'path' => 'db.sqlite');
+$dbParams = array(
+    'driver'   => 'pdo_mysql',
+    'user'     => '',
+    'password' => '',
+    'dbname'   => '',
+);
 
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/module/Omeka/src/Omeka/Model'), $isDevMode);
@@ -63,6 +68,6 @@ class LoadResourceDiscriminatorMap
     }
 }
 
-$em = EntityManager::create($conn, $config);
+$em = EntityManager::create($dbParams, $config);
 $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix('omeka_'));
 $em->getEventManager()->addEventListener(Events::loadClassMetadata, new LoadResourceDiscriminatorMap);

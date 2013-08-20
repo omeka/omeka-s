@@ -6,6 +6,6 @@
         "zendframework/zendframework": "2.*"
     },
     "autoload": {
-        "psr-0": {"": "module/src"}
+        "psr-0": {"": "module/Omeka/src"}
     }
 }

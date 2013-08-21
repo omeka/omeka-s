@@ -13,6 +13,9 @@ class Property
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
     
+    /** @ManyToOne(targetEntity="User") */
+    protected $owner;
+    
     /** @ManyToOne(targetEntity="Vocabulary") */
     protected $vocabulary;
     

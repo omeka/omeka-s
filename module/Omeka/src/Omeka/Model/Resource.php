@@ -22,10 +22,14 @@ class Resource
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
     
-    /** 
-     * @ManyToOne(targetEntity="ResourceClass") @JoinColumn(nullable=false)
-     */
+    /** @ManyToOne(targetEntity="User") */
+    protected $owner;
+    
+    /** @ManyToOne(targetEntity="ResourceClass") @JoinColumn(nullable=false) */
     protected $resourceClass;
+    
+    /** @OneToMany(targetEntity="SiteResource", mappedBy="resource") */
+    protected $sites;
     
     /**
      * All resources must belong to a class. If one is not set prior to persist, 

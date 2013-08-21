@@ -13,6 +13,9 @@ class Vocabulary
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
     
+    /** @ManyToOne(targetEntity="User") */
+    protected $owner;
+    
     /** @Column(unique=true) */
     protected $namespaceUri;
     

@@ -9,6 +9,9 @@ class ResourceClassProperty
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
     
+    /** @ManyToOne(targetEntity="User") */
+    protected $assigner;
+    
     /**
      * @ManyToOne(targetEntity="ResourceClass", inversedBy="properties")
      * @JoinColumn(nullable=false)

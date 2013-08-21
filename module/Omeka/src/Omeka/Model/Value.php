@@ -18,6 +18,9 @@ class Value
      */
     protected $id;
     
+    /** @ManyToOne(targetEntity="User") */
+    protected $owner;
+    
     /** @ManyToOne(targetEntity="Resource") @JoinColumn(nullable=false) */
     protected $resource;
     

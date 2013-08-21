@@ -1,12 +1,5 @@
 <?php
 return array(
-    'db' => array(
-        'driver' => 'pdo_mysql',
-        'user' => '',
-        'password' => '',
-        'dbname' => '',
-        'prefix' => 'omeka_'
-    ),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -16,36 +9,6 @@ return array(
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Index',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /omeka/:controller/:action
-            'omeka' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/omeka',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Omeka\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
                     ),
                 ),
             ),

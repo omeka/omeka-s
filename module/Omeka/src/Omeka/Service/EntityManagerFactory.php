@@ -14,24 +14,31 @@ class EntityManagerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
-        if (!isset($config['db'])) {
-            throw new RuntimeException('No database configuration given.');
+        $config = $serviceLocator->get('ApplicationConfig');
+        return $this->createEntityManager($config);
+    }
+    
+    public function createEntityManager($config)
+    {
+        if (!isset($config['doctrine']['conn'])) {
+            throw new \RuntimeException('No database configuration given.');
         }
-        $dbParams = $config['db'];
-
-        if (isset($dbParams['prefix'])) {
-            $tablePrefix = $dbParams['prefix'];
-            unset($dbParams['prefix']);
+        $conn = $config['doctrine']['conn'];
+        if (isset($config['doctrine']['table_prefix'])) {
+            $tablePrefix = $config['doctrine']['table_prefix'];
         } else {
             $tablePrefix = 'omeka_';
         }
+        if (isset($config['doctrine']['is_dev_mode'])) {
+            $isDevMode = $config['doctrine']['is_dev_mode'];
+        } else {
+            $isDevMode = false;
+        }
 
-        $isDevMode = true;
         $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/../Model'), $isDevMode);
         $config->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
-        $em = EntityManager::create($dbParams, $config);
+        $em = EntityManager::create($conn, $config);
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix($tablePrefix));
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new ResourceDiscriminatorMap);
 

@@ -7,30 +7,50 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Events;
-use Omeka\Doctrine\TablePrefix;
-use Omeka\Doctrine\ResourceDiscriminatorMap;
+use Omeka\Db\Event\Listener\TablePrefix;
+use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 
+/**
+ * Factory for creating the Doctrine entity manager.
+ */
 class EntityManagerFactory implements FactoryInterface
 {
+    /**
+     * Create the entity manager object service.
+     * 
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return EntityManager
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('ApplicationConfig');
-        return $this->createEntityManager($config);
-    }
-    
-    public function createEntityManager($config)
-    {
-        if (!isset($config['doctrine']['conn'])) {
+        if (!isset($config['doctrine'])) {
             throw new \RuntimeException('No database configuration given.');
         }
-        $conn = $config['doctrine']['conn'];
-        if (isset($config['doctrine']['table_prefix'])) {
-            $tablePrefix = $config['doctrine']['table_prefix'];
+        return $this->createEntityManager($config['doctrine']);
+    }
+
+    /**
+     * Create the entity manager object.
+     * 
+     * Use this method to create the entity manager outside ZF2 MVC.
+     * 
+     * @param array $config
+     * @return EntityManager
+     */
+    public function createEntityManager(array $config)
+    {
+        if (!isset($config['conn'])) {
+            throw new \RuntimeException('No database connection configuration given.');
+        }
+        $conn = $config['conn'];
+        if (isset($config['table_prefix'])) {
+            $tablePrefix = $config['table_prefix'];
         } else {
             $tablePrefix = 'omeka_';
         }
-        if (isset($config['doctrine']['is_dev_mode'])) {
-            $isDevMode = $config['doctrine']['is_dev_mode'];
+        if (isset($config['is_dev_mode'])) {
+            $isDevMode = $config['is_dev_mode'];
         } else {
             $isDevMode = false;
         }

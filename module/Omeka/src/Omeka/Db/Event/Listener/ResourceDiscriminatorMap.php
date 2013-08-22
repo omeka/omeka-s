@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Doctrine;
+namespace Omeka\Db\Event\Listener;
 
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 

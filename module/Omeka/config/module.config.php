@@ -2,12 +2,12 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+            'api' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/api/:resource[/:id]',
                     'defaults' => array(
-                        'controller' => 'Omeka\Controller\Index',
+                        'controller' => 'Omeka\Controller\Api\Index',
                         'action'     => 'index',
                     ),
                 ),
@@ -16,7 +16,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Index' => 'Omeka\Controller\IndexController'
+            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController'
         ),
     ),
     'view_manager' => array(

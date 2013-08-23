@@ -1,12 +1,11 @@
 <?php
 namespace Omeka\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class IndexController extends AbstractActionController implements ServiceLocatorAwareInterface
+abstract class AbstractRestfulController extends \Zend\Mvc\Controller\AbstractRestfulController 
+    implements ServiceLocatorAwareInterface
 {
     protected $services;
 
@@ -18,11 +17,5 @@ class IndexController extends AbstractActionController implements ServiceLocator
     public function getServiceLocator()
     {
         return $this->services;
-    }
-
-    public function indexAction()
-    {
-        $em = $this->getServiceLocator()->get('EntityManager');
-        return new ViewModel();
     }
 }

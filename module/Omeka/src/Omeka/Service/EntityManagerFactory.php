@@ -24,10 +24,10 @@ class EntityManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('ApplicationConfig');
-        if (!isset($config['doctrine'])) {
+        if (!isset($config['entity_manager'])) {
             throw new \RuntimeException('No database configuration given.');
         }
-        return $this->createEntityManager($config['doctrine']);
+        return $this->createEntityManager($config['entity_manager']);
     }
 
     /**
@@ -41,7 +41,7 @@ class EntityManagerFactory implements FactoryInterface
     public function createEntityManager(array $config)
     {
         if (!isset($config['conn'])) {
-            throw new \RuntimeException('No database connection configuration given.');
+            throw new \RuntimeException('No database configuration given.');
         }
         $conn = $config['conn'];
         if (isset($config['table_prefix'])) {

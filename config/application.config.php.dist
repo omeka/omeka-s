@@ -1,6 +1,6 @@
 <?php
 return array(
-    'doctrine' => array(
+    'entity_manager' => array(
         'conn' => array(
             'user'        => '',
             'password'    => '',
@@ -13,6 +13,11 @@ return array(
         ),
         'table_prefix' => 'omeka_',
         'is_dev_mode'  => true,
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+        ),
     ),
     'modules' => array(
         'Omeka',

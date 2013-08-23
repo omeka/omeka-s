@@ -1,6 +1,7 @@
 <?php
 namespace OmekaTest;
 
+use Omeka\Service\EntityManagerFactory;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
@@ -15,6 +16,8 @@ chdir(__DIR__);
 class Bootstrap
 {
     protected static $serviceManager;
+    protected static $entityManager;
+    protected static $applicationConfig;
 
     public static function init()
     {
@@ -25,9 +28,17 @@ class Bootstrap
         if (($path = static::findParentPath('module')) !== $omekaModulePaths[0]) {
             $omekaModulePaths[] = $path;
         }
-
+        
         static::initAutoloader();
 
+        static::$applicationConfig = include './../../../config/application.config.php';
+        
+        $factory = new EntityManagerFactory;
+        $conn = include('./doctrine.config.php');        
+        $em = $factory->createEntityManager($conn);        
+        static::$entityManager = $em;
+        
+        
         // use ModuleManager to load this module and it's dependencies
         $config = array(
                 'module_listener_options' => array(
@@ -53,6 +64,16 @@ class Bootstrap
     public static function getServiceManager()
     {
         return static::$serviceManager;
+    }
+    
+    public static function getApplicationConfig()
+    {
+        return static::$applicationConfig;
+    }
+    
+    public static function getEntityManager()
+    {
+        return static::$entityManager;
     }
 
     protected static function initAutoloader()

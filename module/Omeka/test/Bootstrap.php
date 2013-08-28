@@ -1,6 +1,8 @@
 <?php
 namespace OmekaTest;
 
+require_once '/var/www/Omeka3/module/Omeka/src/Omeka/Test/ModelTest.php';
+
 use Omeka\Service\EntityManagerFactory;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -16,7 +18,7 @@ chdir(__DIR__);
 class Bootstrap
 {
     protected static $serviceManager;
-    protected static $entityManager;
+    protected static $entityManagerConfig;
     protected static $applicationConfig;
 
     public static function init()
@@ -33,10 +35,7 @@ class Bootstrap
 
         static::$applicationConfig = include './../../../config/application.config.php';
         
-        $factory = new EntityManagerFactory;
-        $conn = include('./testdb.config.php');        
-        $em = $factory->createEntityManager($conn);        
-        static::$entityManager = $em;
+        static::$entityManagerConfig = include('./testdb.config.php');
         
         
         // use ModuleManager to load this module and it's dependencies
@@ -71,9 +70,9 @@ class Bootstrap
         return static::$applicationConfig;
     }
     
-    public static function getEntityManager()
+    public static function getEntityManagerConfig()
     {
-        return static::$entityManager;
+        return static::$entityManagerConfig;
     }
 
     protected static function initAutoloader()

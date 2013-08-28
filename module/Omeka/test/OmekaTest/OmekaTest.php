@@ -17,10 +17,4 @@ class OmekaTest extends PHPUnit_Framework_TestCase
         $config = Bootstrap::getApplicationConfig();
         $this->assertTrue(is_array($config));
     }
-    
-    public function testHasEntityManager()
-    {
-        $emClassName = get_class(Bootstrap::getEntityManager());
-        $this->assertEquals($emClassName, 'Doctrine\ORM\EntityManager');    
-    }
 }

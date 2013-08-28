@@ -41,7 +41,7 @@ class Resource
     {
         $em = $event->getEntityManager();
         if (null === $this->resourceClass) {
-            $resourceClass = $em->getRepository('ResourceClass')
+            $resourceClass = $em->getRepository('Omeka\\Model\\ResourceClass')
                 ->findOneBy(array('resourceType' => get_called_class(), 'isDefault' => true));
             $this->resourceClass = $resourceClass;
         }

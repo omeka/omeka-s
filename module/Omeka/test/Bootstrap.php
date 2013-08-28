@@ -34,7 +34,7 @@ class Bootstrap
         static::$applicationConfig = include './../../../config/application.config.php';
         
         $factory = new EntityManagerFactory;
-        $conn = include('./doctrine.config.php');        
+        $conn = include('./testdb.config.php');        
         $em = $factory->createEntityManager($conn);        
         static::$entityManager = $em;
         

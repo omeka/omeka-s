@@ -2,9 +2,9 @@
 
 return array(
         'conn' => array(
-            'user'        => 'root',
-            'password'    => 'root',
-            'dbname'      => 'omeka3',
+            'user'        => '',
+            'password'    => '',
+            'dbname'      => '',
             'driver'      => 'pdo_mysql',
             'host'        => 'localhost',
             'port'        => null,

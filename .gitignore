@@ -2,3 +2,4 @@ composer.lock
 composer.phar
 vendor/
 config/application.config.php
+module/Omeka/test/testdb.config.php

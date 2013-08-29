@@ -5,7 +5,7 @@ use OmekaTest\Bootstrap;
 use Omeka\Model\Site;
 use Omeka\Test\ModelTest;
 
-class SiteCrudTest extends ModelTest
+class SiteTest extends ModelTest
 {
     public $em;
     protected $className = 'Omeka\\Model\\Site';

@@ -4,7 +4,7 @@ namespace OmekaTest\Controller;
 use OmekaTest\Bootstrap;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class OmekaControllerTest extends AbstractHttpControllerTestCase
+class ApiControllerTest extends AbstractHttpControllerTestCase
 {
     public function setUp()
     {

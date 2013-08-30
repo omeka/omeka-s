@@ -36,7 +36,7 @@ abstract class ModelTest extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }    
     
-    public function testCrud()
+    public function testCreateAndDelete()
     {
         //create and read
         $className = $this->className;
@@ -47,9 +47,6 @@ abstract class ModelTest extends PHPUnit_Framework_TestCase
         $newEntity = $this->em->getRepository($this->className)->find(1);
         $this->assertNotNull($newEntity);
         
-        //update
-        $this->updateNewEntity($entity);
-        
         //delete
         $this->em->remove($entity);
         $this->em->flush();
@@ -58,5 +55,4 @@ abstract class ModelTest extends PHPUnit_Framework_TestCase
     }
     
     protected function setUpNewEntity($entity) {}
-    abstract protected function updateNewEntity($entity);
 }

@@ -35,14 +35,6 @@ class ApiControllerTest extends AbstractHttpControllerTestCase
         $this->assertEquals('res', $routeMatch->getParam('resource'));
     }
     
-    //@TODO: This isn't really relevant to the API, but is currently here for demo purposes only
-    public function testIndexPageStructure()
-    {
-        $this->dispatch('/api/index');
-        $this->assertQuery("p");
-        $this->assertQueryContentContains("p", "index");
-    }
-    
     public function testResponseHeaders()
     {
         $this->dispatch('/api/index');

@@ -29,4 +29,11 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    'api_manager' => array(
+        'resources' => array(
+            'sites' => array(
+                
+            ),
+        ),
+    ),
 );

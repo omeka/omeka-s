@@ -12,11 +12,22 @@ return array(
                     ),
                 ),
             ),
+             'install' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route'     => '/install[/:step]',
+                    'defaults'  => array(
+                        'controller' => 'Omeka\Controller\Install',
+                        'action'     => 'index',
+                     ),
+                ),       
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController'
+            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
+            'Omeka\Controller\Install' => 'Omeka\Controller\Install\InstallController'
         ),
     ),
     'view_manager' => array(

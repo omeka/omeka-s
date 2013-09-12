@@ -32,7 +32,11 @@ return array(
     'api_manager' => array(
         'resources' => array(
             'sites' => array(
-                
+                'adapter_class' => '\Omeka\Api\Adapter\Db',
+                'adapter_data' => array('entity_name' => 'Site'),
+                'functions' => array(
+                    \Omeka\Api\Request::FUNCTION_SEARCH,
+                ),
             ),
         ),
     ),

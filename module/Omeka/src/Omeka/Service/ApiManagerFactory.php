@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Omeka\Api\Manager as ApiManager;
 
 /**
- * Factory for creating the Doctrine entity manager.
+ * Factory for creating the Omeka API manager service.
  */
 class ApiManagerFactory implements FactoryInterface
 {
@@ -22,7 +22,7 @@ class ApiManagerFactory implements FactoryInterface
         $resources = $config['api_manager']['resources'];
         
         $apiManager = new ApiManager;
-        $apiManager->addResources($resources);
+        $apiManager->registerResources($resources);
         return $apiManager;
     }
 }

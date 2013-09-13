@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Api\Manager as ApiManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Omeka\Api\Manager as ApiManager;
 
 /**
  * API manager factory.

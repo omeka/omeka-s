@@ -1,64 +1,64 @@
 <?php
 namespace Omeka\Api;
 
-use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Api\Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * API manager service.
  */
-class Manager implements ServiceLocatorAwareInterface
+class Manager
 {
-    /**
-     * @var array Registered API resources configuration.
-     */
-    protected $resourcesConfig = array();
-    
     /**
      * @var ServiceLocatorInterface
      */
     protected $services;
     
     /**
-     * Respond to an API request.
+     * @var array Registered API resources and configuration.
+     */
+    protected $resources = array();
+    
+    /**
+     * Execute an API request.
      * 
      * @param Request $request
      * @return Response
      */
-    public function respond(Request $request)
+    public function execute(Request $request)
     {
         // Validate the resource.
-        if (!array_key_exists($request->getResource(), $this->resourcesConfig)) {
-            throw new ApiException(sprintf('The "%s" resource is not registered.', $request->getResource()));
+        if (!array_key_exists($request->getResource(), $this->getResources())) {
+            throw new Exception\RuntimeException(sprintf('The "%s" resource is not registered.', $request->getResource()));
         }
         
-        $resourceConfig = $this->resourcesConfig[$request->getResource()];
+        $resource = $this->getResources($request->getResource());
         
         // Validate the adapter class.
-        if (!isset($resourceConfig['adapter_class'])) {
-            throw new ApiException(sprintf('An adapter class is not registered for the "%s" resource.', $request->getResource()));
+        if (!isset($resource['adapter_class'])) {
+            throw new Exception\RuntimeException(sprintf('An adapter class is not registered for the "%s" resource.', $request->getResource()));
         }
-        if (!class_exists($resourceConfig['adapter_class'])) {
-            throw new ApiException(sprintf('The adapter class "%s" does not exist for the "%s" resource.', $resourceConfig['adapter_class'], $request->getResource()));
+        if (!class_exists($resource['adapter_class'])) {
+            throw new Exception\RuntimeException(sprintf('The adapter class "%s" does not exist for the "%s" resource.', $resource['adapter_class'], $request->getResource()));
         }
-        if (!in_array('Omeka\Api\Adapter\AdapterInterface', class_implements($resourceConfig['adapter_class']))) {
-            throw new ApiException(sprintf('The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', $resourceConfig['adapter_class'], $request->getResource()));
+        if (!in_array('Omeka\Api\Adapter\AdapterInterface', class_implements($resource['adapter_class']))) {
+            throw new Exception\RuntimeException(sprintf('The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', $resource['adapter_class'], $request->getResource()));
         }
         
         // Validate the allowable functions.
-        if (!isset($resourceConfig['functions'])) {
-            throw new ApiException(sprintf('No functions are registered for the "%s" resource.', $request->getResource()));
+        if (!isset($resource['functions'])) {
+            throw new Exception\RuntimeException(sprintf('No functions are registered for the "%s" resource.', $request->getResource()));
         }
-        if (!in_array($request->getFunction(), $resourceConfig['functions'])) {
-            throw new ApiException(sprintf('The "%s" function is not implemented by the "%s" resource adapter.', $request->getFunction(), $request->getResource()));
+        if (!in_array($request->getFunction(), $resource['functions'])) {
+            throw new Exception\RuntimeException(sprintf('The "%s" function is not implemented by the "%s" resource adapter.', $request->getFunction(), $request->getResource()));
         }
         
-        $adapter = new $resourceConfig['adapter_class'];
+        $adapter = new $resource['adapter_class'];
         
-        if (isset($resourceConfig['adapter_data'])) {
-            $adapter->setData($resourceConfig['adapter_data']);
+        if (isset($resource['adapter_data'])) {
+            $adapter->setData($resource['adapter_data']);
         }
         if ($adapter instanceof ServiceLocatorAwareInterface) {
             $adapter->setServiceLocator($this->getServiceLocator());
@@ -78,11 +78,11 @@ class Manager implements ServiceLocatorAwareInterface
      * Register an API resource.
      * 
      * @param string $name
-     * @param array $data
+     * @param array $config
      */
-    public function registerResource($name, array $data)
+    public function registerResource($name, array $config)
     {
-        $this->resourcesConfig[$name] = $data;
+        $this->resources[$name] = $config;
     }
     
     /**
@@ -92,16 +92,43 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerResources(array $resources)
     {
-        foreach ($resources as $name => $data) {
-            $this->registerResource($name, $data);
+        foreach ($resources as $name => $config) {
+            $this->registerResource($name, $config);
         }
     }
     
+    /**
+     * Get registered API resources.
+     * 
+     * @param null|string $name
+     * @return array
+     */
+    public function getResources($name = null)
+    {
+        if (null === $name) {
+            return $this->resources;
+        }
+        if (!array_key_exists($name, $this->resources)) {
+            throw new Exception\RuntimeException(sprintf('The "%s" resource does not exist.', $name));
+        }
+        return $this->resources[$name];
+    }
+    
+    /**
+     * Set the service locator.
+     * 
+     * @param ServiceLocatorInterface $serviceLocator
+     */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->services = $serviceLocator;
     }
     
+    /**
+     * Get the service locator.
+     * 
+     * @return ServiceLocatorInterface
+     */
     public function getServiceLocator()
     {
         return $this->services;

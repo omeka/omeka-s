@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Api;
 
+use Omeka\Api\Exception;
+
 /**
  * API request.
  */
@@ -35,26 +37,6 @@ class Request
     }
     
     /**
-     * Get the request function.
-     * 
-     * @return int
-     */
-    public function getFunction()
-    {
-        return $this->function;
-    }
-    
-    /**
-     * Get the request resource.
-     * 
-     * @return string
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-    
-    /**
      * Set the request function.
      * 
      * @param int $function
@@ -69,9 +51,19 @@ class Request
             self::FUNCTION_DELETE,
         );
         if (!in_array($function, $validFunctions)) {
-            throw new \InvalidArgumentException(sprintf('The API does not support the "%s" function.', $function));
+            throw new Exception\RuntimeException(sprintf('The API does not support the "%s" function.', $function));
         }
         $this->function = $function;
+    }
+    
+    /**
+     * Get the request function.
+     * 
+     * @return int
+     */
+    public function getFunction()
+    {
+        return $this->function;
     }
     
     /**
@@ -82,5 +74,15 @@ class Request
     public function setResource($resource)
     {
         $this->resource = $resource;
+    }
+    
+    /**
+     * Get the request resource.
+     * 
+     * @return string
+     */
+    public function getResource()
+    {
+        return $this->resource;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Exception as ApiException;
+use Omeka\Api\Exception;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -13,7 +13,7 @@ class Db extends AbstractAdapter
     public function setData(array $data)
     {
         if (!isset($data['entity_class'])) {
-            throw new ApiException('An entity class is not registered.');
+            throw new Exception('An entity class is not registered.');
         }
         parent::setData($data);
     }

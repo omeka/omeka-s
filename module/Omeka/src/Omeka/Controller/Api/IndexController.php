@@ -1,10 +1,9 @@
 <?php
 namespace Omeka\Controller\Api;
 
-use Omeka\Controller\AbstractRestfulController;
 use Omeka\Api\Request as ApiRequest;
+use Omeka\Controller\AbstractRestfulController;
 use Zend\View\Model\ViewModel;
-use Doctrine\Common\Util\Debug;
 
 class IndexController extends AbstractRestfulController
 {
@@ -15,7 +14,7 @@ class IndexController extends AbstractRestfulController
             ApiRequest::FUNCTION_SEARCH, 
             $this->params()->fromRoute('resource')
         );
-        $apiResponse = $apiManager->respond($apiRequest);
+        $apiResponse = $apiManager->execute($apiRequest);
         return new ViewModel();
     }
 }

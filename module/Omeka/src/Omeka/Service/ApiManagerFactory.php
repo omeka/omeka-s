@@ -23,6 +23,7 @@ class ApiManagerFactory implements FactoryInterface
         
         $apiManager = new ApiManager;
         $apiManager->registerResources($resources);
+        $apiManager->setServiceLocator($serviceLocator);
         return $apiManager;
     }
 }

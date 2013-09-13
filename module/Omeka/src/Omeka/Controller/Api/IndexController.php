@@ -11,9 +11,11 @@ class IndexController extends AbstractRestfulController
     public function indexAction()
     {
         $apiManager = $this->getServiceLocator()->get('ApiManager');
-        $apiRequest = new ApiRequest(ApiRequest::FUNCTION_SEARCH, 'sites');
+        $apiRequest = new ApiRequest(
+            ApiRequest::FUNCTION_SEARCH, 
+            $this->params()->fromRoute('resource')
+        );
         $apiResponse = $apiManager->respond($apiRequest);
-        
         return new ViewModel();
     }
 }

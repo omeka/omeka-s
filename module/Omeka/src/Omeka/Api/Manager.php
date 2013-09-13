@@ -2,16 +2,24 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Exception as ApiException;
+use Omeka\Api\Adapter\AdapterInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * The API manager service.
  */
-class Manager
+class Manager implements ServiceLocatorAwareInterface
 {
     /**
-     * @var array Registered API resources.
+     * @var array Registered API resources configuration.
      */
-    protected $resources = array();
+    protected $resourcesConfig = array();
+    
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $services;
     
     /**
      * Respond to an API request.
@@ -21,28 +29,39 @@ class Manager
      */
     public function respond(Request $request)
     {
-        // Set the resource.
-        if (!array_key_exists($request->getResource(), $this->resources)) {
+        if (!array_key_exists($request->getResource(), $this->resourcesConfig)) {
             throw new ApiException(sprintf('The "%s" resource is not registered.', $request->getResource()));
         }
-        $resourceConfig = $this->resources[$request->getResource()];
         
-        // Set the adapter.
+        $resourceConfig = $this->resourcesConfig[$request->getResource()];
+        
         if (!isset($resourceConfig['adapter_class'])) {
             throw new ApiException(sprintf('An adapter class is not registered for the "%s" resource.', $request->getResource()));
+        }
+        if (!class_exists($resourceConfig['adapter_class'])) {
+            throw new ApiException(sprintf('The adapter class "%s" does not exist for the "%s" resource.', $resourceConfig['adapter_class'], $request->getResource()));
         }
         if (!isset($resourceConfig['functions'])) {
             throw new ApiException(sprintf('No functions are registered for the "%s" resource.', $request->getResource()));
         }
         if (!in_array($request->getFunction(), $resourceConfig['functions'])) {
-            throw new ApiException(sprintf('The requested function is not implemented for the "%s" resource.', $request->getResource()));
+            throw new ApiException(sprintf('The "%s" function is not implemented by the "%s" resource adapter.', $request->getFunction(), $request->getResource()));
         }
-        if (!isset($resourceConfig['adapter_data'])) {
-            $resource['adapter_data'] = array();
-        }
-        $adapter = new $resourceConfig['adapter_class']($resourceConfig['adapter_data']);
         
-        // call adapter to do the actual work
+        $adapter = new $resourceConfig['adapter_class'];
+        
+        if ($adapter instanceof AdapterInterface && isset($resourceConfig['adapter_data'])) {
+            $adapter->setData($resourceConfig['adapter_data']);
+        }
+        if ($adapter instanceof ServiceLocatorAwareInterface) {
+            $adapter->setServiceLocator($this->getServiceLocator());
+        }
+        
+        switch ($request->getFunction()) {
+            case Request::FUNCTION_SEARCH:
+                $response = $adapter->search();
+                break;
+        }
     }
     
     /**
@@ -53,7 +72,7 @@ class Manager
      */
     public function registerResource($name, array $data)
     {
-        $this->resources[$name] = $data;
+        $this->resourcesConfig[$name] = $data;
     }
     
     /**
@@ -66,5 +85,15 @@ class Manager
         foreach ($resources as $name => $data) {
             $this->registerResource($name, $data);
         }
+    }
+    
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->services = $serviceLocator;
+    }
+    
+    public function getServiceLocator()
+    {
+        return $this->services;
     }
 }

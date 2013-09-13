@@ -6,11 +6,11 @@ namespace Omeka\Api;
  */
 class Request
 {
-    const FUNCTION_SEARCH = 1;
-    const FUNCTION_CREATE = 2;
-    const FUNCTION_READ   = 3;
-    const FUNCTION_UPDATE = 4;
-    const FUNCTION_DELETE = 5;
+    const FUNCTION_SEARCH = 'search';
+    const FUNCTION_CREATE = 'create';
+    const FUNCTION_READ   = 'read';
+    const FUNCTION_UPDATE = 'update';
+    const FUNCTION_DELETE = 'delete';
     
     /**
      * @var int
@@ -69,7 +69,7 @@ class Request
             self::FUNCTION_DELETE,
         );
         if (!in_array($function, $validFunctions)) {
-            throw new \InvalidArgumentException('The API request function is not supported.');
+            throw new \InvalidArgumentException(sprintf('The API does not support the "%s" function.', $function));
         }
         $this->function = $function;
     }

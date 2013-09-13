@@ -31,28 +31,49 @@ class Manager
     {
         // Validate the resource.
         if (!array_key_exists($request->getResource(), $this->getResources())) {
-            throw new Exception\RuntimeException(sprintf('The "%s" resource is not registered.', $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'The "%s" resource is not registered.', 
+                $request->getResource()
+            ));
         }
         
         $resource = $this->getResources($request->getResource());
         
         // Validate the adapter class.
         if (!isset($resource['adapter_class'])) {
-            throw new Exception\RuntimeException(sprintf('An adapter class is not registered for the "%s" resource.', $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'An adapter class is not registered for the "%s" resource.', 
+                $request->getResource()
+            ));
         }
         if (!class_exists($resource['adapter_class'])) {
-            throw new Exception\RuntimeException(sprintf('The adapter class "%s" does not exist for the "%s" resource.', $resource['adapter_class'], $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'The adapter class "%s" does not exist for the "%s" resource.', 
+                $resource['adapter_class'], 
+                $request->getResource()
+            ));
         }
         if (!in_array('Omeka\Api\Adapter\AdapterInterface', class_implements($resource['adapter_class']))) {
-            throw new Exception\RuntimeException(sprintf('The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', $resource['adapter_class'], $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
+                $resource['adapter_class'], 
+                $request->getResource()
+            ));
         }
         
         // Validate the allowable functions.
         if (!isset($resource['functions'])) {
-            throw new Exception\RuntimeException(sprintf('No functions are registered for the "%s" resource.', $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'No functions are registered for the "%s" resource.', 
+                $request->getResource()
+            ));
         }
         if (!in_array($request->getFunction(), $resource['functions'])) {
-            throw new Exception\RuntimeException(sprintf('The "%s" function is not implemented by the "%s" resource adapter.', $request->getFunction(), $request->getResource()));
+            throw new Exception\RuntimeException(sprintf(
+                'The "%s" function is not implemented by the "%s" resource adapter.', 
+                $request->getFunction(), 
+                $request->getResource()
+            ));
         }
         
         $adapter = new $resource['adapter_class'];
@@ -109,7 +130,10 @@ class Manager
             return $this->resources;
         }
         if (!array_key_exists($name, $this->resources)) {
-            throw new Exception\RuntimeException(sprintf('The "%s" resource does not exist.', $name));
+            throw new Exception\RuntimeException(sprintf(
+                'The "%s" resource does not exist.', 
+                $name
+            ));
         }
         return $this->resources[$name];
     }

@@ -51,7 +51,10 @@ class Request
             self::FUNCTION_DELETE,
         );
         if (!in_array($function, $validFunctions)) {
-            throw new Exception\RuntimeException(sprintf('The API does not support the "%s" function.', $function));
+            throw new Exception\RuntimeException(sprintf(
+                'The API does not support the "%s" function.', 
+                $function
+            ));
         }
         $this->function = $function;
     }

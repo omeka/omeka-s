@@ -1,6 +1,7 @@
 <?php
-
 namespace Omeka\Install;
+
+use Omeka\Install\SchemaTask;
 
 class Install
 {
@@ -14,8 +15,9 @@ class Install
     public function install()
     {
         foreach($this->tasks as $taskName) {
-            $fullTaskName = $taskName . 'Task';
-            $task = new $fullTaskName();
+            //$task = new SchemaTask;
+            $fullTaskName = '\\Omeka\\Install\\' . ucfirst($taskName) . 'Task';
+            $task = new $fullTaskName;
             $task->perform();
         }
     }

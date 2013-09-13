@@ -17,5 +17,6 @@ class InstallController extends AbstractRestfulController
     {
         $installer = new \Omeka\Install\Install;
         $installer->addTask('schema');
+        $installer->install();
     }
 }

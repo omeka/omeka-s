@@ -5,6 +5,9 @@ use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Database API adapter.
+ */
 class Db extends AbstractAdapter
 {
     public function setData(array $data)
@@ -18,6 +21,7 @@ class Db extends AbstractAdapter
     public function search()
     {
         $entityManager = $this->getServiceLocator()->get('EntityManager');
-        echo get_class($entityManager->getRepository($this->getData('entity_class')));
+        $entities = $entityManager->getRepository($this->getData('entity_class'))->findAll();
+        var_dump($entities);exit;
     }
 }

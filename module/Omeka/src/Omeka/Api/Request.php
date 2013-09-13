@@ -2,7 +2,7 @@
 namespace Omeka\Api;
 
 /**
- * An API request.
+ * API request.
  */
 class Request
 {

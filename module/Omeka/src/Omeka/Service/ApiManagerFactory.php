@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Omeka\Api\Manager as ApiManager;
 
 /**
- * Factory for creating the Omeka API manager service.
+ * API manager factory.
  */
 class ApiManagerFactory implements FactoryInterface
 {

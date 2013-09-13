@@ -5,6 +5,9 @@ use Omeka\Api\Exception as ApiException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Abstract API adapter.
+ */
 abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareInterface
 {
     protected $data = array();

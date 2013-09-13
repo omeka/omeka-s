@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+/**
+ * API adapter interface.
+ */
 interface AdapterInterface
 {
     public function search();

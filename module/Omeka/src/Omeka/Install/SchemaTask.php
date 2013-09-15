@@ -1,32 +1,45 @@
 <?php
 namespace Omeka\Install;
-use Omeka\Install\InstallTaskInterface;
 
-class SchemaTask implements InstallTaskInterface
+use Omeka\Install\InstallTaskAbstract;
+use Omeka\Install\InstallTaskInterface;
+use Doctrine\ORM\EntityManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class SchemaTask extends InstallTaskAbstract implements InstallTaskInterface
 {
     public function perform()
     {
+        $conn = $this->serviceLocator->get('EntityManager')->getConnection();
+        $config = $this->serviceLocator->get('ApplicationConfig');
+        
+        //check if tables already exist
+        $tables = $conn->getSchemaManager()->listTableNames();
+        if(!empty($tables)) {
+            $this->addMessage('Omeka is already installed.');
+            return;
+        }
         if(isset($_POST['submit'])) {
-            
-            $factory = new \Omeka\Service\EntityManagerFactory;
-            $config = include 'config/application.config.php';
-            $em = $factory->createEntityManager($config['entity_manager']);
-            $conn = $em->getConnection();
 
-            //check if tables already exist
-            $tables = $conn->getSchemaManager()->listTableNames();
-            if(!empty($tables)) {
+            try {
+                $classes = unserialize(file_get_contents( __DIR__ . '/install_data/schema.txt'));
+            } catch(Exception $e) {
+                $this->addMessage($e->getMessage(), $e->getCode());
                 return;
             }
-            $classes = unserialize(file_get_contents( __DIR__ . '/install_data/schema.txt'));
-
+            
             //dbExport slaps 'DBPREFIX_' as the prefix onto all classes, so do the replace here for the real prefix
             foreach($classes as $index=>$sql) {
                 $classes[$index] = str_replace('DBPREFIX_', $config['entity_manager']['table_prefix'], $classes[$index]);
             }
-            
+
             foreach ($classes as $sql) {
-                $conn->executeQuery($sql);
+                try {
+                    $conn->executeQuery($sql);                    
+                } catch(Exception $e) {
+                    $this->addMessage($e->getMessage(), $e->getCode());
+                    $this->setFail();
+                }
             }        
         }
     }

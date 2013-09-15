@@ -1,3 +1,19 @@
+<?php if($success): ?>
+<p>The database and filesystem are ready</p>
 <form method="post">
-    <button name="submit">Would you like to know more?</button>
+    <button name="submit">Install database</button>
 </form>
+<?php else:?>
+<dl>
+    <?php
+    foreach($messages as $step=>$messages): ?>
+    <dt>
+    <?php echo $step; ?>
+    </dt>
+        <?php foreach($messages as $message):?>
+        <dd><?php echo $message['code'];?> <?php echo $message['message'];?></dd>
+        <?php endforeach; ?>
+    </dl>
+    <?php endforeach;?>
+<?php endif;?>
+

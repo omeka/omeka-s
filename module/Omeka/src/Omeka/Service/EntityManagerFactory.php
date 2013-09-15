@@ -16,7 +16,7 @@ use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 class EntityManagerFactory implements FactoryInterface
 {
     /**
-     * Create the entity manager object service.
+     * Create the entity manager service.
      * 
      * @param ServiceLocatorInterface $serviceLocator
      * @return EntityManager

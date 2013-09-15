@@ -40,4 +40,17 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    'api_manager' => array(
+        'resources' => array(
+            'sites' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Db',
+                'adapter_data' => array(
+                    'entity_class' => 'Omeka\Model\Site',
+                ),
+                'functions' => array(
+                    \Omeka\Api\Request::FUNCTION_SEARCH,
+                ),
+            ),
+        ),
+    ),
 );

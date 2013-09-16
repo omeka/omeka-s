@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
+use Doctrine\ORM\Tools\Setup;
+use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
+use Omeka\Db\Event\Listener\TablePrefix;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
-use Doctrine\ORM\Events;
-use Omeka\Db\Event\Listener\TablePrefix;
-use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 
 /**
  * Factory for creating the Doctrine entity manager.
@@ -55,7 +55,7 @@ class EntityManagerFactory implements FactoryInterface
             $isDevMode = false;
         }
 
-        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/../Model'), $isDevMode);
+        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/../Model/Entity'), $isDevMode);
         $config->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
         $em = EntityManager::create($conn, $config);

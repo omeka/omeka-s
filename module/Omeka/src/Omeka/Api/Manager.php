@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * API manager service.
  */
-class Manager
+class Manager implements ServiceLocatorAwareInterface
 {
     /**
      * @var ServiceLocatorInterface

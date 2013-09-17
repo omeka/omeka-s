@@ -1,37 +1,37 @@
 <?php
 namespace Omeka\Controller\Install;
 
-use Omeka\Install\Install;
-use Omeka\Controller\AbstractRestfulController;
+use Omeka\Install\Installer;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\View\Model\ViewModel;
 
-class InstallController extends AbstractRestfulController
+class InstallController extends AbstractActionController
 {
     protected $installer;
+    protected $services;
     
     public function indexAction()
     {
-        //give the installer the service locator, which gets passed on
-        //to each install task, so the tasks can dig up whatever data they need,
-        //usually the Entity Manager
-        
-        $this->installer = new Install($this->getServiceLocator()); 
-        $this->install();
-        
-        //stuff the messages into the view somehow
-        return new ViewModel(array('messages'=>$this->installer->getMessages(), 'success'=>$this->installer->success));
+        $messages = array();
+        if(isset($_POST['submit'])) {
+            $installer = new Installer;
+            $installer->setServiceLocator($this->getServiceLocator());
+            $installer->loadTasks();
+            $success = $installer->install();
+            $messages = $installer->getMessages();
+        }
+        return new ViewModel(array('messages'=>$messages, 'success'=>true));
     }
     
-    protected function install()
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
-
-        //Each task name for addTask must have a corresponding class
-        //that extends InstallTaskAbstract and implements InstallTaskInterface.
-        //Naming convention is the class name is the name here, plus "Task", CamelCased,
-        //e.g. class SchemaTask for 'schema'. Namespace is Omeka\Install
-        
-        $this->installer->addTask('schema');
-        $this->installer->install();
-        //return array('success'=>$success, 'messages'=>$installer->getMessages());
+        $this->services = $serviceLocator;
     }
+    
+    public function getServiceLocator()
+    {
+        return $this->services;
+    }    
 }

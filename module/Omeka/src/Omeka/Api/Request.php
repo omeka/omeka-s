@@ -8,16 +8,27 @@ use Omeka\Api\Exception;
  */
 class Request
 {
-    const FUNCTION_SEARCH = 'search';
-    const FUNCTION_CREATE = 'create';
-    const FUNCTION_READ   = 'read';
-    const FUNCTION_UPDATE = 'update';
-    const FUNCTION_DELETE = 'delete';
+    const SEARCH = 'search';
+    const CREATE = 'create';
+    const READ   = 'read';
+    const UPDATE = 'update';
+    const DELETE = 'delete';
+    
+    /**
+     * @var array
+     */
+    public static $validOperations = array(
+        self::SEARCH,
+        self::CREATE,
+        self::READ,
+        self::UPDATE,
+        self::DELETE,
+    );
     
     /**
      * @var int
      */
-    protected $function;
+    protected $operation;
     
     /**
      * @var string
@@ -27,46 +38,43 @@ class Request
     /**
      * Construct an API request.
      * 
-     * @param null|int $function
+     * @param null|int $operation
      * @param null|string $resource
      */
-    public function __construct($function = null, $resource = null)
+    public function __construct($operation = null, $resource = null)
     {
-        $this->setFunction($function);
-        $this->setResource($resource);
+        if (null !== $operation) {
+            $this->setOperation($operation);
+        }
+        if (null !== $resource) {
+            $this->setResource($resource);
+        }
     }
     
     /**
-     * Set the request function.
+     * Set the request operation.
      * 
-     * @param int $function
+     * @param int $operation
      */
-    public function setFunction($function)
+    public function setOperation($operation)
     {
-        $validFunctions = array(
-            self::FUNCTION_SEARCH,
-            self::FUNCTION_CREATE,
-            self::FUNCTION_READ,
-            self::FUNCTION_UPDATE,
-            self::FUNCTION_DELETE,
-        );
-        if (!in_array($function, $validFunctions)) {
+        if (!in_array($operation, self::$validOperations)) {
             throw new Exception\RuntimeException(sprintf(
-                'The API does not support the "%s" function.', 
-                $function
+                'The API does not support the "%s" operation.', 
+                $operation
             ));
         }
-        $this->function = $function;
+        $this->operation = $operation;
     }
     
     /**
-     * Get the request function.
+     * Get the request operation.
      * 
      * @return int
      */
-    public function getFunction()
+    public function getOperation()
     {
-        return $this->function;
+        return $this->operation;
     }
     
     /**

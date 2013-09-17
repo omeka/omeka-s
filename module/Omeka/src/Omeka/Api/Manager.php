@@ -61,17 +61,17 @@ class Manager implements ServiceLocatorAwareInterface
             ));
         }
         
-        // Validate the allowable functions.
-        if (!isset($resource['functions'])) {
+        // Validate the allowable operations.
+        if (!isset($resource['operations'])) {
             throw new Exception\RuntimeException(sprintf(
-                'No functions are registered for the "%s" resource.', 
+                'No operations are registered for the "%s" resource.', 
                 $request->getResource()
             ));
         }
-        if (!in_array($request->getFunction(), $resource['functions'])) {
+        if (!in_array($request->getOperation(), $resource['operations'])) {
             throw new Exception\RuntimeException(sprintf(
-                'The "%s" function is not implemented by the "%s" resource adapter.', 
-                $request->getFunction(), 
+                'The "%s" operation is not implemented by the "%s" resource adapter.', 
+                $request->getOperation(), 
                 $request->getResource()
             ));
         }
@@ -85,11 +85,11 @@ class Manager implements ServiceLocatorAwareInterface
             $adapter->setServiceLocator($this->getServiceLocator());
         }
         
-        switch ($request->getFunction()) {
-            case Request::FUNCTION_SEARCH:
+        switch ($request->getOperation()) {
+            case Request::SEARCH:
                 $response = $adapter->search();
                 break;
-            case Request::FUNCTION_CREATE:
+            case Request::CREATE:
                 $response = $adapter->create();
                 break;
         }

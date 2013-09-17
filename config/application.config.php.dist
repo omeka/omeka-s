@@ -27,4 +27,8 @@ return array(
             './module',
         )
     ),
+    'install_tasks' => array(
+        '\\Omeka\\Install\\TaskConnectDb',
+        '\\Omeka\\Install\\TaskSchema'
+    )    
 );

@@ -59,7 +59,7 @@ class Request
     public function setOperation($operation)
     {
         if (!in_array($operation, self::$validOperations)) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\InvalidArgumentException(sprintf(
                 'The API does not support the "%s" operation.', 
                 $operation
             ));

@@ -29,62 +29,32 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function execute(Request $request)
     {
-        // Validate the resource.
         if (!array_key_exists($request->getResource(), $this->getResources())) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\InvalidRequestException(sprintf(
                 'The "%s" resource is not registered.', 
                 $request->getResource()
             ));
         }
-        
+
         $resource = $this->getResources($request->getResource());
-        
-        // Validate the adapter class.
-        if (!isset($resource['adapter_class'])) {
-            throw new Exception\RuntimeException(sprintf(
-                'An adapter class is not registered for the "%s" resource.', 
-                $request->getResource()
-            ));
-        }
-        if (!class_exists($resource['adapter_class'])) {
-            throw new Exception\RuntimeException(sprintf(
-                'The adapter class "%s" does not exist for the "%s" resource.', 
-                $resource['adapter_class'], 
-                $request->getResource()
-            ));
-        }
-        if (!in_array('Omeka\Api\Adapter\AdapterInterface', class_implements($resource['adapter_class']))) {
-            throw new Exception\RuntimeException(sprintf(
-                'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
-                $resource['adapter_class'], 
-                $request->getResource()
-            ));
-        }
-        
-        // Validate the allowable operations.
-        if (!isset($resource['operations'])) {
-            throw new Exception\RuntimeException(sprintf(
-                'No operations are registered for the "%s" resource.', 
-                $request->getResource()
-            ));
-        }
+
         if (!in_array($request->getOperation(), $resource['operations'])) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\InvalidRequestException(sprintf(
                 'The "%s" operation is not implemented by the "%s" resource adapter.', 
                 $request->getOperation(), 
                 $request->getResource()
             ));
         }
-        
+
         $adapter = new $resource['adapter_class'];
-        
+
         if (isset($resource['adapter_data'])) {
             $adapter->setData($resource['adapter_data']);
         }
         if ($adapter instanceof ServiceLocatorAwareInterface) {
             $adapter->setServiceLocator($this->getServiceLocator());
         }
-        
+
         switch ($request->getOperation()) {
             case Request::SEARCH:
                 $response = $adapter->search();
@@ -103,6 +73,32 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerResource($name, array $config)
     {
+        if (!isset($config['adapter_class'])) {
+            throw new Exception\ConfigException(sprintf(
+                'An adapter class is not registered for the "%s" resource.', 
+                $name
+            ));
+        }
+        if (!class_exists($config['adapter_class'])) {
+            throw new Exception\ConfigException(sprintf(
+                'The adapter class "%s" does not exist for the "%s" resource.', 
+                $config['adapter_class'], 
+                $name
+            ));
+        }
+        if (!in_array('Omeka\Api\Adapter\AdapterInterface', class_implements($config['adapter_class']))) {
+            throw new Exception\ConfigException(sprintf(
+                'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
+                $config['adapter_class'], 
+                $name
+            ));
+        }
+        if (empty($config['operations'])) {
+            throw new Exception\ConfigException(sprintf(
+                'No operations are registered for the "%s" resource.', 
+                $name
+            ));
+        }
         $this->resources[$name] = $config;
     }
     

@@ -28,7 +28,6 @@ return array(
         'invokables' => array(
             'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
             'Omeka\Controller\Install'   => 'Omeka\Controller\Install\InstallController',
-            'Omeka\Install'   => 'Omeka\Install\Installer'
         ),
     ),
     'view_manager' => array(

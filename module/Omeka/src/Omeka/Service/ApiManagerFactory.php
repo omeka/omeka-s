@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Api\Exception;
 use Omeka\Api\Manager as ApiManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -19,8 +20,10 @@ class ApiManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
+        if (!isset($config['api_manager']['resources'])) {
+            throw new Exception\RuntimeException('The configuration has no registered API resources.');
+        }
         $resources = $config['api_manager']['resources'];
-        
         $apiManager = new ApiManager;
         $apiManager->registerResources($resources);
         return $apiManager;

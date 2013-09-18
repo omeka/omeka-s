@@ -17,11 +17,27 @@ class Db extends AbstractAdapter
         }
         parent::setData($data);
     }
-    
+
     public function search()
     {
         $entityManager = $this->getServiceLocator()->get('EntityManager');
         $entities = $entityManager->getRepository($this->getData('entity_class'))->findAll();
         var_dump($entities);exit;
+    }
+
+    public function create()
+    {
+    }
+
+    public function read()
+    {
+    }
+
+    public function update()
+    {
+    }
+
+    public function delete()
+    {
     }
 }

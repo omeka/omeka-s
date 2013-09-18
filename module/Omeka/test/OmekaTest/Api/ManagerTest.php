@@ -3,7 +3,7 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Manager;
 
-class ApiManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected $config = array(
         'adapter_class' => 'Omeka\Api\Adapter\Db',

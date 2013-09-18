@@ -3,7 +3,7 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Request;
 
-class ApiRequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     protected $validOperations = array(
         'search','create','read','update','delete',

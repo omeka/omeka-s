@@ -3,7 +3,7 @@ namespace OmekaTest\Api;
 
 use Omeka\Service\ApiManagerFactory;
 
-class ApiManagerFactoryTest extends \PHPUnit_Framework_TestCase
+class ManagerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreatesService()
     {

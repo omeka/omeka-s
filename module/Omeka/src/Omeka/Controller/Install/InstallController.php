@@ -15,6 +15,7 @@ class InstallController extends AbstractActionController
     public function indexAction()
     {
         $messages = array();
+        $success = true;
         if(isset($_POST['submit'])) {
             $installer = new Installer;
             $installer->setServiceLocator($this->getServiceLocator());
@@ -22,7 +23,7 @@ class InstallController extends AbstractActionController
             $success = $installer->install();
             $messages = $installer->getMessages();
         }
-        return new ViewModel(array('messages'=>$messages, 'success'=>true));
+        return new ViewModel(array('messages'=>$messages, 'success'=>$success));
     }
     
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

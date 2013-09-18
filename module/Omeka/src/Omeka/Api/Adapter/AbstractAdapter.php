@@ -92,7 +92,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
             return $this->data;
         }
         if (!array_key_exists($key, $this->data)) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\InvalidArgumentException(sprintf(
                 '"%s" is an invalid data key.', 
                 $key
             ));

@@ -20,9 +20,13 @@ class Db extends AbstractAdapter
 
     public function search()
     {
-        $entityManager = $this->getServiceLocator()->get('EntityManager');
-        $entities = $entityManager->getRepository($this->getData('entity_class'))->findAll();
-        var_dump($entities);exit;
+        $em = $this->getServiceLocator()->get('EntityManager');
+        $entities = $em->getRepository($this->getData('entity_class'))->findAll();
+        $entityArrays = array();
+        foreach ($entities as $entity) {
+            $entityArrays[] = $entity->toArray();
+        }
+        return $entityArrays;
     }
 
     public function create()

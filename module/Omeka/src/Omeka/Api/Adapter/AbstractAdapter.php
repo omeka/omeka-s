@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Exception;;
+use Omeka\Api\Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -100,11 +100,21 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
         return $this->data[$key];
     }
 
+    /**
+     * Set the service locator.
+     * 
+     * @param ServiceLocatorInterface $serviceLocator
+     */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->services = $serviceLocator;
     }
 
+    /**
+     * Get the service locator.
+     * 
+     * @return ServiceLocatorInterface
+     */
     public function getServiceLocator()
     {
         return $this->services;

@@ -13,13 +13,10 @@ use Doctrine\ORM\Tools\SchemaTool;
  *
  */
 
-class DbExporter
+class SchemaExporter
 {
     public function export()
     {
-        ini_set('display_errors', 1);
-        
-        require_once '../../../../../vendor/autoload.php';
         
         $factory = new \Omeka\Service\EntityManagerFactory;
         
@@ -60,9 +57,6 @@ class DbExporter
         $classes[] = $em->getClassMetadata('Omeka\\Model\\Vocabulary');
         
         $sql = $tool->getCreateSchemaSql($classes);
-        file_put_contents('install_data/schema.txt', serialize($sql));        
+        file_put_contents('schema.txt', serialize($sql));        
     }
 }
-
-$exporter = new DbExporter();
-$exporter->export();

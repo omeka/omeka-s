@@ -22,14 +22,14 @@ class TaskSchema extends TaskAbstract implements TaskInterface
             $this->result->setSuccess(false);
             return;
         }
-
-        if(!is_readable( __DIR__ . '/install_data/schema.txt')) {
+        
+        if(!is_readable($this->installDataPath . '/schema.txt' )) {
             $this->result->addMessage('Could not read the schema installation file.', 'ERROR');
             //_log($e);
             $this->result->setSuccess(false);
             return;   
         }
-        $classes = unserialize(file_get_contents( __DIR__ . '/install_data/schema.txt'));
+        $classes = unserialize(file_get_contents($this->installDataPath . '/schema.txt'));
         if(!is_array($classes)) {
             $this->result->addMessage('Could not read the schema installation file.', 'ERROR');
             //_log($e);
@@ -54,4 +54,5 @@ class TaskSchema extends TaskAbstract implements TaskInterface
         $this->result->addMessage('Tables installed ok.'); 
         $this->result->setSuccess(true);
     }
+
 }

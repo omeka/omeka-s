@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Model;
+namespace Omeka\Model\Entity;
 
 /**
  * A resource, representing the subject in an RDF triple.

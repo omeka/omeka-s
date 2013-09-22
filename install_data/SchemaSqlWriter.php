@@ -1,9 +1,7 @@
 <?php
-namespace Omeka\Install;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-
 
 /**
  * Exports the SQL needed to install a new Omeka site.
@@ -13,9 +11,9 @@ use Doctrine\ORM\Tools\SchemaTool;
  *
  */
 
-class SchemaExporter
+class SchemaSqlWriter
 {
-    public function export()
+    public function write()
     {
         
         $factory = new \Omeka\Service\EntityManagerFactory;
@@ -39,22 +37,21 @@ class SchemaExporter
                         );
         $em = $factory->createEntityManager($config);
         $tool = new SchemaTool($em);
-        
         //As models are added to the core, need to add them here, too
         $classes = array();
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\File');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Item');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\ItemSet');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Media');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Property');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Resource');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\ResourceClass');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\ResourceClassProperty');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Site');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\SiteResource');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\User');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Value');
-        $classes[] = $em->getClassMetadata('Omeka\\Model\\Vocabulary');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\File');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Item');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\ItemSet');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Media');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Property');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Resource');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\ResourceClass');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\ResourceClassProperty');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Site');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\SiteResource');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\User');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Value');
+        $classes[] = $em->getClassMetadata('Omeka\\Model\\Entity\\Vocabulary');
         
         $sql = $tool->getCreateSchemaSql($classes);
         file_put_contents('schema.txt', serialize($sql));        

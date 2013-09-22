@@ -9,10 +9,12 @@ abstract class TaskAbstract implements ServiceLocatorAwareInterface, TaskInterfa
     protected $services;
     protected $taskName;
     protected $result;
+    protected $installDataPath;
     
     public function __construct()
     {
-        $this->result = new TaskResult($this);  
+        $this->result = new TaskResult($this);
+        $this->installDataPath = $this->findInstallDataPath();  
     }   
      
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
@@ -34,4 +36,21 @@ abstract class TaskAbstract implements ServiceLocatorAwareInterface, TaskInterfa
     {
         return $this->result;
     }
+    
+    /**
+     * Find the correct path to the install data, regardless of whether running through
+     * browser or through cli.
+     */
+    protected function findInstallDataPath()
+    {
+        $dir = __DIR__;
+        $previousDir = '.';
+        while (!is_dir($dir . '/install_data')) {
+            $dir = dirname($dir);
+            if ($previousDir === $dir) return false;
+            $previousDir = $dir;
+        }
+        return $dir . '/install_data';
+    }    
+    
 }

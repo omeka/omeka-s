@@ -16,9 +16,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         'search','create','read','update','delete',
     );
 
-    public function testHasValidOperations()
+    public function testUnsetPropertiesReturnNull()
     {
-        $this->assertEquals($this->validOperations, Request::$validOperations);
+        $this->assertNull($this->request->getOperation());
+        $this->assertNull($this->request->getResource());
+        $this->assertNull($this->request->getId());
     }
 
     public function testConstructorSetsProperties()
@@ -29,19 +31,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $request->getId());
     }
 
+    public function testHasValidOperations()
+    {
+        $this->assertEquals($this->validOperations, Request::$validOperations);
+    }
+
     public function testSetsAndGetsValidOperations()
     {
         foreach ($this->validOperations as $validOperation) {
             $this->request->setOperation($validOperation);
             $this->assertEquals($validOperation, $this->request->getOperation());
         }
-    }
-
-    public function testUnsetPropertiesReturnNull()
-    {
-        $this->assertNull($this->request->getOperation());
-        $this->assertNull($this->request->getResource());
-        $this->assertNull($this->request->getId());
     }
 
     /**

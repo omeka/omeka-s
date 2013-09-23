@@ -15,12 +15,12 @@ class Manager implements ServiceLocatorAwareInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
-    
+
     /**
      * @var array Registered API resources and configuration.
      */
     protected $resources = array();
-    
+
     /**
      * Execute an API request.
      * 
@@ -40,6 +40,15 @@ class Manager implements ServiceLocatorAwareInterface
             case Request::CREATE:
                 $response = $adapter->create();
                 break;
+            case Request::READ:
+                $response = $adapter->read();
+                break;
+            case Request::UPDATE:
+                $response = $adapter->update();
+                break;
+            case Request::DELETE:
+                $response = $adapter->delete();
+                break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(
                     'The "%s" operation is not implemented by the "%s" resource adapter.', 
@@ -47,6 +56,7 @@ class Manager implements ServiceLocatorAwareInterface
                     $request->getResource()
                 ));
         }
+        return new Response($response, $request);
     }
 
     /**
@@ -67,7 +77,7 @@ class Manager implements ServiceLocatorAwareInterface
         }
         return $adapter;
     }
-    
+
     /**
      * Register an API resource.
      * 
@@ -104,7 +114,7 @@ class Manager implements ServiceLocatorAwareInterface
         }
         $this->resources[$resource] = $config;
     }
-    
+
     /**
      * Register API resources.
      * 
@@ -116,7 +126,7 @@ class Manager implements ServiceLocatorAwareInterface
             $this->registerResource($resource, $config);
         }
     }
-    
+
     /**
      * Get registered API resources.
      * 
@@ -126,7 +136,7 @@ class Manager implements ServiceLocatorAwareInterface
     {
         return $this->resources;
     }
-    
+
     /**
      * Get registered API resource.
      * 
@@ -143,7 +153,7 @@ class Manager implements ServiceLocatorAwareInterface
         }
         return $this->resources[$resource];
     }
-    
+
     /**
      * Check that resource is registered.
      * 
@@ -157,7 +167,7 @@ class Manager implements ServiceLocatorAwareInterface
         }
         return true;
     }
-    
+
     /**
      * Set the service locator.
      * 
@@ -167,7 +177,7 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->services = $serviceLocator;
     }
-    
+
     /**
      * Get the service locator.
      * 

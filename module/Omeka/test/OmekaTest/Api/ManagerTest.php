@@ -5,6 +5,8 @@ use Omeka\Api\Manager;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
+    protected $manager;
+    
     protected $config = array(
         'adapter_class' => 'Omeka\Api\Adapter\Db',
         'adapter_data' => array(
@@ -14,16 +16,20 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             \Omeka\Api\Request::SEARCH,
         ),
     );
-    
+
+    public function setUp()
+    {
+        $this->manager = new Manager;
+    }
+
     /**
      * @expectedException Omeka\Api\Exception\ConfigException
      */
     public function testRegistrationRequiresAdapterClassKey()
     {
-        $manager = new Manager;
         $config = $this->config;
         unset($config['adapter_class']);
-        $manager->registerResource('foo', $config);
+        $this->manager->registerResource('foo', $config);
     }
 
     /**
@@ -31,10 +37,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresAdapterClass()
     {
-        $manager = new Manager;
         $config = $this->config;
         $config['adapter_class'] = 'Foo';
-        $manager->registerResource('foo', $config);
+        $this->manager->registerResource('foo', $config);
     }
 
     /**
@@ -42,10 +47,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdapterClassImplementsAdapterInterface()
     {
-        $manager = new Manager;
         $config = $this->config;
         $config['adapter_class'] = 'stdClass';
-        $manager->registerResource('foo', $config);
+        $this->manager->registerResource('foo', $config);
     }
 
     /**
@@ -53,10 +57,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresOperationsKey()
     {
-        $manager = new Manager;
         $config = $this->config;
         unset($config['operations']);
-        $manager->registerResource('foo', $config);
+        $this->manager->registerResource('foo', $config);
     }
 
     /**
@@ -64,56 +67,50 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresOperationsArray()
     {
-        $manager = new Manager;
         $config = $this->config;
         $config['operations'] = array();
-        $manager->registerResource('foo', $config);
+        $this->manager->registerResource('foo', $config);
     }
 
     public function testGetResource()
     {
-        $manager = new Manager;
-        $manager->registerResource('foo', $this->config);
-        $this->assertEquals($this->config, $manager->getResource('foo'));
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertEquals($this->config, $this->manager->getResource('foo'));
     }
 
     public function testGetResources()
     {
-        $manager = new Manager;
-        $manager->registerResource('foo', $this->config);
-        $manager->registerResource('bar', $this->config);
+        $this->manager->registerResource('foo', $this->config);
+        $this->manager->registerResource('bar', $this->config);
         $this->assertEquals(array(
             'foo' => $this->config,
             'bar' => $this->config,
-        ), $manager->getResources());
+        ), $this->manager->getResources());
     }
 
     public function testIsRegisteredWorks()
     {
-        $manager = new Manager;
-        $manager->registerResource('foo', $this->config);
-        $this->assertTrue($manager->isRegistered('foo'));
-        $this->assertFalse($manager->isRegistered('bar'));
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertTrue($this->manager->isRegistered('foo'));
+        $this->assertFalse($this->manager->isRegistered('bar'));
     }
 
     public function testSetsAndGetsServiceLocator()
     {
-        $manager = new Manager;
         $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $manager->setServiceLocator($serviceLocator);
+        $this->manager->setServiceLocator($serviceLocator);
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceLocatorInterface', 
-            $manager->getServiceLocator()
+            $this->manager->getServiceLocator()
         );
     }
 
     public function testGetAdapter()
     {
-        $manager = new Manager;
-        $manager->registerResource('foo', $this->config);
+        $this->manager->registerResource('foo', $this->config);
         $mockServiceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $manager->setServiceLocator($mockServiceLocator);
-        $adapter = $manager->getAdapter('foo');
+        $this->manager->setServiceLocator($mockServiceLocator);
+        $adapter = $this->manager->getAdapter('foo');
         $this->assertInstanceOf('Omeka\Api\Adapter\AdapterInterface', $adapter);
         $this->assertEquals($this->config['adapter_data'], $adapter->getData());
         $this->assertSame($mockServiceLocator, $adapter->getServiceLocator());
@@ -132,7 +129,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->any())
                 ->method('getOperation')
                 ->will($this->returnValue('bar'));
-        $manager = new Manager;
-        $manager->execute($request);
+        $this->manager->execute($request);
     }
 }

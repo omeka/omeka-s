@@ -5,37 +5,42 @@ use Omeka\Api\Request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
+    protected $request;
+    
+    public function setUp()
+    {
+        $this->request = new Request;
+    }
+    
     protected $validOperations = array(
         'search','create','read','update','delete',
     );
 
     public function testHasValidOperations()
     {
-        $request = new Request;
         $this->assertEquals($this->validOperations, Request::$validOperations);
     }
 
     public function testConstructorSetsProperties()
     {
-        $request = new Request('search', 'foo');
+        $request = new Request('search', 'foo', 1);
         $this->assertEquals('search', $request->getOperation());
         $this->assertEquals('foo', $request->getResource());
+        $this->assertEquals(1, $request->getId());
     }
 
     public function testSetsAndGetsValidOperations()
     {
-        $request = new Request;
         foreach ($this->validOperations as $validOperation) {
-            $request->setOperation($validOperation);
-            $this->assertEquals($validOperation, $request->getOperation());
+            $this->request->setOperation($validOperation);
+            $this->assertEquals($validOperation, $this->request->getOperation());
         }
     }
 
     public function testUnsetPropertiesReturnNull()
     {
-        $request = new Request;
-        $this->assertNull($request->getOperation());
-        $this->assertNull($request->getResource());
+        $this->assertNull($this->request->getOperation());
+        $this->assertNull($this->request->getResource());
     }
 
     /**
@@ -43,14 +48,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testRejectsInvalidOperation()
     {
-        $request = new Request;
-        $request->setOperation('foo');
+        $this->request->setOperation('foo');
     }
 
-    public function testSetsandGetsResource()
+    public function testSetsAndGetsResource()
     {
-        $request = new Request;
-        $request->setResource('foo');
-        $this->assertEquals('foo', $request->getResource());
+        $this->request->setResource('foo');
+        $this->assertEquals('foo', $this->request->getResource());
+    }
+
+    public function testSetsAndGetsId()
+    {
+        $this->request->setId(1);
+        $this->assertEquals(1, $this->request->getId());
     }
 }

@@ -13,7 +13,7 @@ class Request
     const READ   = 'read';
     const UPDATE = 'update';
     const DELETE = 'delete';
-    
+
     /**
      * @var array
      */
@@ -24,24 +24,29 @@ class Request
         self::UPDATE,
         self::DELETE,
     );
-    
+
     /**
      * @var int
      */
     protected $operation;
-    
+
     /**
      * @var string
      */
     protected $resource;
-    
+
+    /**
+     * @var mixed
+     */
+    protected $id;
+
     /**
      * Construct an API request.
      * 
      * @param null|int $operation
      * @param null|string $resource
      */
-    public function __construct($operation = null, $resource = null)
+    public function __construct($operation = null, $resource = null, $id = null)
     {
         if (null !== $operation) {
             $this->setOperation($operation);
@@ -49,8 +54,11 @@ class Request
         if (null !== $resource) {
             $this->setResource($resource);
         }
+        if (null !== $id) {
+            $this->setId($id);
+        }
     }
-    
+
     /**
      * Set the request operation.
      * 
@@ -66,7 +74,7 @@ class Request
         }
         $this->operation = $operation;
     }
-    
+
     /**
      * Get the request operation.
      * 
@@ -76,7 +84,7 @@ class Request
     {
         return $this->operation;
     }
-    
+
     /**
      * Set the requested resource.
      * 
@@ -86,7 +94,7 @@ class Request
     {
         $this->resource = $resource;
     }
-    
+
     /**
      * Get the request resource.
      * 
@@ -95,5 +103,25 @@ class Request
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Set the requested resource ID.
+     * 
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Get the request resource ID.
+     * 
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

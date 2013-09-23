@@ -41,6 +41,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->request->getOperation());
         $this->assertNull($this->request->getResource());
+        $this->assertNull($this->request->getId());
     }
 
     /**

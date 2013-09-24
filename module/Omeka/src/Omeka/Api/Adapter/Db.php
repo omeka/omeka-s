@@ -13,7 +13,9 @@ class Db extends AbstractAdapter
     public function setData(array $data)
     {
         if (!isset($data['entity_class'])) {
-            throw new Exception('An entity class is not registered.');
+            throw new Exception\ConfigException(
+                'An entity class is not registered for the database API adapter.'
+            );
         }
         parent::setData($data);
     }
@@ -33,15 +35,18 @@ class Db extends AbstractAdapter
     {
     }
 
-    public function read()
+    public function read($id)
+    {
+        $em = $this->getServiceLocator()->get('EntityManager');
+        $entity = $em->getRepository($this->getData('entity_class'))->find($id);
+        return $entity->toArray();
+    }
+
+    public function update($id)
     {
     }
 
-    public function update()
-    {
-    }
-
-    public function delete()
+    public function delete($id)
     {
     }
 }

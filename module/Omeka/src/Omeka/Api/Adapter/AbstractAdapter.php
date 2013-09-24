@@ -43,7 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Read operation stub.
      */
-    public function read()
+    public function read($id)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the read function.'
@@ -53,7 +53,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Update operation stub.
      */
-    public function update()
+    public function update($id)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the update function.'
@@ -63,7 +63,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Delete operation stub.
      */
-    public function delete()
+    public function delete($id)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the delete function.'

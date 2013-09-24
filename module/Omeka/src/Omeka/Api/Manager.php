@@ -41,13 +41,13 @@ class Manager implements ServiceLocatorAwareInterface
                 $response = $adapter->create();
                 break;
             case Request::READ:
-                $response = $adapter->read();
+                $response = $adapter->read($request->getId());
                 break;
             case Request::UPDATE:
-                $response = $adapter->update();
+                $response = $adapter->update($request->getId());
                 break;
             case Request::DELETE:
-                $response = $adapter->delete();
+                $response = $adapter->delete($request->getId());
                 break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(

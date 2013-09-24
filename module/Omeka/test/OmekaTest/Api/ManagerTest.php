@@ -122,7 +122,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecuteRequiresRegisteredOperation()
     {
         $request = $this->getMock('Omeka\Api\Request');
-        $request->setResource('foo');
         $request->expects($this->any())
                 ->method('getResource')
                 ->will($this->returnValue('foo'));
@@ -130,5 +129,26 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->method('getOperation')
                 ->will($this->returnValue('bar'));
         $this->manager->execute($request);
+    }
+
+    public function testExecuteReturnsExpectedResponseForSearch()
+    {
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->any())
+                ->method('getResource')
+                ->will($this->returnValue('foo'));
+        $request->expects($this->any())
+                ->method('getOperation')
+                ->will($this->returnValue('search'));
+        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $adapter->expects($this->once())
+                ->method('search')
+                ->will($this->returnValue('bar'));
+        $response = $this->manager->execute($request, $adapter);
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals('bar', $response->getResponse());
+        $this->assertInstanceOf('Omeka\Api\Request', $response->getRequest());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('search', $response->getRequest()->getOperation());
     }
 }

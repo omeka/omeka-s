@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Exception;;
+use Omeka\Api\Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -10,56 +10,111 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareInterface
 {
+    /**
+     * @var array
+     */
     protected $data = array();
-    
+
+    /**
+     * @var ServiceLocatorInterface
+     */
     protected $services;
-    
-    public function search()
+
+    /**
+     * Search operation stub.
+     */
+    public function search($data = null)
     {
-        throw new Exception\RuntimeException('The adapter does not implement the search function.');
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the search function.'
+        );
     }
-    
-    public function create()
+
+    /**
+     * Create operation stub.
+     */
+    public function create($data = null)
     {
-        throw new Exception\RuntimeException('The adapter does not implement the create function.');
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the create function.'
+        );
     }
-    
-    public function read()
+
+    /**
+     * Read operation stub.
+     */
+    public function read($id, $data = null)
     {
-        throw new Exception\RuntimeException('The adapter does not implement the read function.');
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the read function.'
+        );
     }
-    
-    public function update()
+
+    /**
+     * Update operation stub.
+     */
+    public function update($id, $data = null)
     {
-        throw new Exception\RuntimeException('The adapter does not implement the update function.');
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the update function.'
+        );
     }
-    
-    public function delete()
+
+    /**
+     * Delete operation stub.
+     */
+    public function delete($id, $data = null)
     {
-        throw new Exception\RuntimeException('The adapter does not implement the delete function.');
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the delete function.'
+        );
     }
-    
+
+    /**
+     * Set adapter data.
+     * 
+     * @param array $data
+     */
     public function setData(array $data)
     {
         $this->data = $data;
     }
-    
+
+    /**
+     * Get adapter data.
+     * 
+     * @param null|string $key
+     * @return mixed
+     */
     public function getData($key = null)
     {
         if (null === $key) {
             return $this->data;
         }
         if (!array_key_exists($key, $this->data)) {
-            throw new Exception\RuntimeException(sprintf('"%s" is an invalid data key.', $key));
+            throw new Exception\InvalidArgumentException(sprintf(
+                '"%s" is an invalid data key.', 
+                $key
+            ));
         }
         return $this->data[$key];
     }
-    
+
+    /**
+     * Set the service locator.
+     * 
+     * @param ServiceLocatorInterface $serviceLocator
+     */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->services = $serviceLocator;
     }
-    
+
+    /**
+     * Get the service locator.
+     * 
+     * @return ServiceLocatorInterface
+     */
     public function getServiceLocator()
     {
         return $this->services;

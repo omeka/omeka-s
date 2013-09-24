@@ -36,8 +36,8 @@ return array(
                 'adapter_data' => array(
                     'entity_class' => 'Omeka\Model\Entity\Site',
                 ),
-                'functions' => array(
-                    \Omeka\Api\Request::FUNCTION_SEARCH,
+                'operations' => array(
+                    \Omeka\Api\Request::SEARCH,
                 ),
             ),
         ),

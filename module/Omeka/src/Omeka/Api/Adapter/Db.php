@@ -20,7 +20,7 @@ class Db extends AbstractAdapter
         parent::setData($data);
     }
 
-    public function search()
+    public function search($data = null)
     {
         $em = $this->getServiceLocator()->get('EntityManager');
         $entities = $em->getRepository($this->getData('entity_class'))->findAll();
@@ -31,22 +31,22 @@ class Db extends AbstractAdapter
         return $entityArrays;
     }
 
-    public function create()
+    public function create($data = null)
     {
     }
 
-    public function read($id)
+    public function read($id, $data = null)
     {
         $em = $this->getServiceLocator()->get('EntityManager');
         $entity = $em->getRepository($this->getData('entity_class'))->find($id);
         return $entity->toArray();
     }
 
-    public function update($id)
+    public function update($id, $data = null)
     {
     }
 
-    public function delete($id)
+    public function delete($id, $data = null)
     {
     }
 }

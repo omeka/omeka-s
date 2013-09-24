@@ -23,7 +23,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Search operation stub.
      */
-    public function search()
+    public function search($data = null)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the search function.'
@@ -33,7 +33,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Create operation stub.
      */
-    public function create()
+    public function create($data = null)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the create function.'
@@ -43,7 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Read operation stub.
      */
-    public function read($id)
+    public function read($id, $data = null)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the read function.'
@@ -53,7 +53,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Update operation stub.
      */
-    public function update($id)
+    public function update($id, $data = null)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the update function.'
@@ -63,7 +63,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
     /**
      * Delete operation stub.
      */
-    public function delete($id)
+    public function delete($id, $data = null)
     {
         throw new Exception\RuntimeException(
             'The adapter does not implement the delete function.'
@@ -84,7 +84,7 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
      * Get adapter data.
      * 
      * @param null|string $key
-     * @return array|string
+     * @return mixed
      */
     public function getData($key = null)
     {

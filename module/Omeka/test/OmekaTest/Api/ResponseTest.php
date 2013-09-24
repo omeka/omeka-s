@@ -14,7 +14,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsetPropertiesReturnNull()
     {
-        $this->assertNull($this->response->getResponse());
+        $this->assertNull($this->response->getData());
         $this->assertNull($this->response->getRequest());
     }
 
@@ -22,14 +22,14 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->getMock('Omeka\Api\Request');
         $response = new Response('foo', $request);
-        $this->assertEquals('foo', $response->getResponse());
+        $this->assertEquals('foo', $response->getData());
         $this->assertSame($request, $response->getRequest());
     }
 
-    public function testSetsAndGetsResponse()
+    public function testSetsAndGetsData()
     {
-        $this->response->setResponse('foo');
-        $this->assertEquals('foo', $this->response->getResponse());
+        $this->response->setData('foo');
+        $this->assertEquals('foo', $this->response->getData());
     }
 
     public function testSetsAndGetsRequest()

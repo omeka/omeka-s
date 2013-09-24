@@ -20,15 +20,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->request->getOperation());
         $this->assertNull($this->request->getResource());
-        $this->assertNull($this->request->getId());
     }
 
     public function testConstructorSetsProperties()
     {
-        $request = new Request('search', 'foo', 1);
+        $request = new Request('search', 'foo');
         $this->assertEquals('search', $request->getOperation());
         $this->assertEquals('foo', $request->getResource());
-        $this->assertEquals(1, $request->getId());
     }
 
     public function testHasValidOperations()
@@ -60,7 +58,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testSetsAndGetsId()
     {
-        $this->request->setId(1);
-        $this->assertEquals(1, $this->request->getId());
+        $this->request->setId('foo');
+        $this->assertEquals('foo', $this->request->getId());
     }
-}
+
+    public function testSetsAndGetsData()
+    {
+        $this->request->setData('foo');
+        $this->assertEquals('foo', $this->request->getData());
+    }}

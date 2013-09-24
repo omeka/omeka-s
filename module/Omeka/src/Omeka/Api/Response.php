@@ -11,7 +11,7 @@ class Response
     /**
      * @var mixed
      */
-    protected $response;
+    protected $data;
 
     /**
      * @var Request
@@ -21,13 +21,13 @@ class Response
     /**
      * Construct the API response.
      *
-     * @param mixed $response
+     * @param mixed $data
      * @param null|Request $request
      */
-    public function __construct($response = null, Request $request = null)
+    public function __construct($data = null, Request $request = null)
     {
-        if (null !== $response) {
-            $this->response = $response;
+        if (null !== $data) {
+            $this->data = $data;
         }
         if (null !== $request) {
             $this->request = $request;
@@ -39,9 +39,9 @@ class Response
      *
      * @param mixed $response
      */
-    public function setResponse($response)
+    public function setData($data)
     {
-        $this->response = $response;
+        $this->data = $data;
     }
 
     /**
@@ -49,9 +49,9 @@ class Response
      * 
      * @return string
      */
-    public function getResponse()
+    public function getData()
     {
-        return $this->response;
+        return $this->data;
     }
 
     /**

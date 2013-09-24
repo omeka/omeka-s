@@ -41,21 +41,23 @@ class Request
     protected $id;
 
     /**
+     * @var mixed
+     */
+    protected $data;
+
+    /**
      * Construct an API request.
      * 
      * @param null|int $operation
      * @param null|string $resource
      */
-    public function __construct($operation = null, $resource = null, $id = null)
+    public function __construct($operation = null, $resource = null)
     {
         if (null !== $operation) {
             $this->setOperation($operation);
         }
         if (null !== $resource) {
             $this->setResource($resource);
-        }
-        if (null !== $id) {
-            $this->setId($id);
         }
     }
 
@@ -86,7 +88,7 @@ class Request
     }
 
     /**
-     * Set the requested resource.
+     * Set the request resource.
      * 
      * @param string $resource
      */
@@ -106,7 +108,7 @@ class Request
     }
 
     /**
-     * Set the requested resource ID.
+     * Set the request resource ID.
      * 
      * @param mixed $id
      */
@@ -123,5 +125,25 @@ class Request
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the request data.
+     * 
+     * @param mixed $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Get the request data.
+     * 
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

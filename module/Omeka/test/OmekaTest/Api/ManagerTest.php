@@ -133,22 +133,107 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteReturnsExpectedResponseForSearch()
     {
+        $response = $this->manager->execute(
+            $this->getMockRequestForExecuteTest('search', 'resource', null, 'data_in'),
+            $this->getMockAdapterForExecuteTest('search', null, 'data_in', 'data_out')
+        );
+        $this->assertForExecuteTest($response, 'search', 'resource', null,
+            'data_in', 'data_out');
+    }
+
+    public function testExecuteReturnsExpectedResponseForCreate()
+    {
+        $response = $this->manager->execute(
+            $this->getMockRequestForExecuteTest('create', 'resource', null, 'data_in'),
+            $this->getMockAdapterForExecuteTest('create', null, 'data_in', 'data_out')
+        );
+        $this->assertForExecuteTest($response, 'create', 'resource', null,
+            'data_in', 'data_out');
+    }
+
+    public function testExecuteReturnsExpectedResponseForRead()
+    {
+        $response = $this->manager->execute(
+            $this->getMockRequestForExecuteTest('read', 'resource', 'id', 'data_in'),
+            $this->getMockAdapterForExecuteTest('read', 'id', 'data_in', 'data_out')
+        );
+        $this->assertForExecuteTest($response, 'read', 'resource', 'id',
+            'data_in', 'data_out');
+    }
+
+    public function testExecuteReturnsExpectedResponseForUpdate()
+    {
+        $response = $this->manager->execute(
+            $this->getMockRequestForExecuteTest('update', 'resource', 'id', 'data_in'),
+            $this->getMockAdapterForExecuteTest('update', 'id', 'data_in', 'data_out')
+        );
+        $this->assertForExecuteTest($response, 'update', 'resource', 'id',
+            'data_in', 'data_out');
+    }
+
+    public function testExecuteReturnsExpectedResponseForDelete()
+    {
+        $response = $this->manager->execute(
+            $this->getMockRequestForExecuteTest('delete', 'resource', 'id', 'data_in'),
+            $this->getMockAdapterForExecuteTest('delete', 'id', 'data_in', 'data_out')
+        );
+        $this->assertForExecuteTest($response, 'delete', 'resource', 'id',
+            'data_in', 'data_out');
+    }
+
+    protected function getMockRequestForExecuteTest($operation, $resource, $id, $dataIn)
+    {
         $request = $this->getMock('Omeka\Api\Request');
         $request->expects($this->any())
-                ->method('getResource')
-                ->will($this->returnValue('foo'));
-        $request->expects($this->any())
                 ->method('getOperation')
-                ->will($this->returnValue('search'));
+                ->will($this->returnValue($operation));
+        $request->expects($this->any())
+                ->method('getResource')
+                ->will($this->returnValue($resource));
+        if (null !== $id) {
+            $request->expects($this->any())
+                    ->method('getId')
+                    ->will($this->returnValue($id));
+        }
+        if (null !== $dataIn) {
+            $request->expects($this->any())
+                    ->method('getData')
+                    ->will($this->returnValue($dataIn));
+        }
+        return $request;
+    }
+
+    protected function getMockAdapterForExecuteTest($operation, $id, $dataIn, $dataOut)
+    {
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $adapter->expects($this->once())
-                ->method('search')
-                ->will($this->returnValue('bar'));
-        $response = $this->manager->execute($request, $adapter);
+        // Not all operations take an ID argument, but all take a data argument.
+        if (null === $id) {
+            $adapter->expects($this->once())
+                    ->method($operation)
+                    ->with($this->equalTo($dataIn))
+                    ->will($this->returnValue($dataOut));
+        } else {
+            $adapter->expects($this->once())
+                    ->method($operation)
+                    ->with($this->equalTo($id), $this->equalTo($dataIn))
+                    ->will($this->returnValue($dataOut));
+        }
+        return $adapter;
+    }
+
+    protected function assertForExecuteTest($response, $operation, $resource,
+        $id, $dataIn, $dataOut
+    ) {
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertEquals('bar', $response->getResponse());
         $this->assertInstanceOf('Omeka\Api\Request', $response->getRequest());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('search', $response->getRequest()->getOperation());
+        $this->assertEquals($operation, $response->getRequest()->getOperation());
+        $this->assertEquals($resource, $response->getRequest()->getResource());
+        // Not all operations take an ID argument.
+        if (null !== $id) {
+            $this->assertEquals($id, $response->getRequest()->getId());
+        }
+        // All operations take a data argument.
+        $this->assertEquals($dataIn, $response->getRequest()->getData());
+        $this->assertEquals($dataOut, $response->getData());
     }
 }

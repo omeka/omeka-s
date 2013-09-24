@@ -47,7 +47,7 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     public function testReadStubThrowsError()
     {
         $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->read();
+        $adapter->read(1);
     }
 
     /**
@@ -56,7 +56,7 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     public function testUpdateStubThrowsError()
     {
         $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->update();
+        $adapter->update(1);
     }
 
     /**
@@ -65,6 +65,6 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     public function testDeleteStubThrowsError()
     {
         $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->delete();
+        $adapter->delete(1);
     }
 }

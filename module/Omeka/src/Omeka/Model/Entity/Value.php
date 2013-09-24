@@ -6,7 +6,7 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Value
+class Value extends AbstractEntity
 {
     const TYPE_LITERAL = 'literal';
     
@@ -58,5 +58,9 @@ class Value
             throw new \InvalidArgumentException('Invalid type');
         }
         $this->type = $type;
+    }
+
+    public function toArray()
+    {
     }
 }

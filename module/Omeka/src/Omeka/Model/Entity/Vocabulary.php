@@ -8,7 +8,7 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Vocabulary
+class Vocabulary extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -28,5 +28,9 @@ class Vocabulary
     public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray()
+    {
     }
 }

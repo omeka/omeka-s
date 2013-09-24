@@ -8,7 +8,7 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Property
+class Property extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -39,5 +39,9 @@ class Property
     public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray()
+    {
     }
 }

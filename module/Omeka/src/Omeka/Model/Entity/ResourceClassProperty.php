@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class ResourceClassProperty
+class ResourceClassProperty extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -33,5 +33,9 @@ class ResourceClassProperty
     public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray()
+    {
     }
 }

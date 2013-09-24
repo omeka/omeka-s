@@ -25,4 +25,8 @@ class Media extends Resource
     {
         return $this->id;
     }
+
+    public function toArray()
+    {
+    }
 }

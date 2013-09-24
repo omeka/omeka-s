@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class File
+class File extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -12,5 +12,9 @@ class File
     public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray()
+    {
     }
 }

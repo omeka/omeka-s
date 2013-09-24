@@ -10,7 +10,7 @@ namespace Omeka\Model\Entity;
  * @Entity
  * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"})})
  */
-class ResourceClass
+class ResourceClass extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -114,5 +114,9 @@ class ResourceClass
     public function setIsDefault($isDefault)
     {
         $this->isDefault = (bool) $isDefault;
+    }
+
+    public function toArray()
+    {
     }
 }

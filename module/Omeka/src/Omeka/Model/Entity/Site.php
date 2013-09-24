@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class Site
+class Site extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
@@ -15,5 +15,9 @@ class Site
     public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray()
+    {
     }
 }

@@ -11,7 +11,7 @@ namespace Omeka\Model\Entity;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  */
-class Resource
+class Resource extends AbstractEntity
 {
     const TYPE_ITEM_SET = 'ItemSet';
     
@@ -60,5 +60,9 @@ class Resource
     public function setResourceClass($resourceClass)
     {
         $this->resourceClass = $resourceClass;
+    }
+
+    public function toArray()
+    {
     }
 }

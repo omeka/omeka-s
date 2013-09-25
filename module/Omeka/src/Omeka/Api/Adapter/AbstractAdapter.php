@@ -72,6 +72,8 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
 
     /**
      * Set adapter data.
+     *
+     * Override this method to validate data specific to the adapter.
      * 
      * @param array $data
      */

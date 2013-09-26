@@ -24,13 +24,14 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testSearches()
     {
-        // NEEDS WORK, probably need to make a repository interface that
-        // includes search() and mock that instead of doctrine's repository.
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('search', 'OmekaTest\Api\TestEntity', null, 'data_in', null)
+            $this->getServiceLocator('search', 'entity_class', null, 'data_in', 'data_out')
         );
-        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals('data_out', $this->dbAdapter->search('data_in'));
+        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
+        $this->assertEquals(
+            array('data_out', 'data_out'),
+            $this->dbAdapter->search('data_in')
+        );
     }
 
     public function testCreates()
@@ -45,9 +46,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     public function testReads()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator(
-                'read', 'OmekaTest\Api\TestEntity', 'id', 'data_in', 'data_out'
-            )
+            $this->getServiceLocator('read', 'OmekaTest\Api\TestEntity', 'id', 'data_in', 'data_out')
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
         $this->assertEquals('data_out', $this->dbAdapter->read('id', 'data_in'));
@@ -56,43 +55,48 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     public function testUpdates()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator(
-                'update', 'OmekaTest\Api\TestEntity', 'id', 'data_in', 'data_out'
-            )
+            $this->getServiceLocator('update', 'entity_class', 'id', 'data_in', 'data_out')
         );
-        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
+        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
         $this->assertEquals('data_out', $this->dbAdapter->update('id', 'data_in'));
     }
 
     public function testDeletes()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator(
-                'delete', 'OmekaTest\Api\TestEntity', 'id', 'data_in', 'data_out'
-            )
+            $this->getServiceLocator('delete', 'entity_class', 'id', 'data_in', 'data_out')
         );
-        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
+        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
         $this->assertEquals('data_out', $this->dbAdapter->delete('id', 'data_in'));
     }
 
     protected function getServiceLocator($operation, $entityClass, $id, $dataIn, $dataOut)
     {
-        // Set the entity to be assigned to the entity repository.
+        // The create operation is a special case since it instantiates its own
+        // concrete test entity (See TestEntity class below).
         if ('create' !== $operation) {
-            $entity = $this->getMock('Omeka\Model\Entity\EntityInterface');
-            if (in_array($operation, array('search', 'read', 'update', 'delete'))) {
+            // Set the entity to be assigned to the entity repository. 
+            $entity = $this->getMock('Omeka\Model\Entity\AbstractEntity');
+            if (in_array($operation, array('read', 'update', 'delete'))) {
                 $entity->expects($this->once())
                        ->method('toArray')
                        ->will($this->returnValue($dataOut));
             }
-            if (in_array($operation, array('search', 'update'))) {
+            if ('search' === $operation) {
+                // Note below that the return value for $entityRepository::search()
+                // is set to an array containing exactly two mock entities.
+                $entity->expects($this->exactly(2))
+                       ->method('toArray')
+                       ->will($this->returnValue($dataOut));
+            }
+            if ('update' === $operation) {
                 $entity->expects($this->once())
                        ->method('setData')
                        ->with($this->equalTo($dataIn));
             }
 
             // Set the entity repository to be assigned to the entity manager.
-            $entityRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            $entityRepository = $this->getMockBuilder('Omeka\Model\Repository\AbstractRepository')
                                      ->disableOriginalConstructor()
                                      ->getMock();
             if (in_array($operation, array('read', 'update', 'delete'))) {
@@ -105,7 +109,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
                 $entityRepository->expects($this->once())
                                  ->method('search')
                                  ->with($this->equalTo($dataIn))
-                                 ->will($this->returnValue(array(1,2,3)));
+                                 ->will($this->returnValue(array($entity, $entity)));
             }
         }
 

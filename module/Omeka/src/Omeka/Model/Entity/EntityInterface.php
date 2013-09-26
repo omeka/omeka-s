@@ -3,6 +3,6 @@ namespace Omeka\Model\Entity;
 
 interface EntityInterface
 {
-    public function setData($data);
+    public function setData(array $data);
     public function toArray();
 }

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
+use Omeka\Model\Entity\EntityInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -21,6 +22,21 @@ class Db extends AbstractAdapter
             throw new Exception\ConfigException(
                 'An entity class is not registered for the database API adapter.'
             );
+        }
+        if (!class_exists($data['entity_class'])) {
+            throw new Exception\ConfigException(sprintf(
+                'The entity class "%s" does not exist for database API adapter.',
+                $data['entity_class']
+            ));
+        }
+        if (!in_array(
+            'Omeka\Model\Entity\EntityInterface',
+            class_implements($data['entity_class'])
+        )) {
+            throw new Exception\ConfigException(sprintf(
+                'The entity class "%s" does not implement Omeka\Model\Entity\EntityInterface for database API adapter.', 
+                $data['entity_class']
+            ));
         }
         parent::setData($data);
     }
@@ -53,6 +69,7 @@ class Db extends AbstractAdapter
         $entity = new $entityClass;
         $entity->setData($data);
         $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
         return $entity->toArray();
     }
 
@@ -80,6 +97,7 @@ class Db extends AbstractAdapter
     {
         $entity = $this->findEntity($id);
         $entity->setData($data);
+        $this->getEntityManager()->flush();
         return $entity->toArray();
     }
 
@@ -94,6 +112,7 @@ class Db extends AbstractAdapter
     {
         $entity = $this->findEntity($id);
         $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
         return $entity->toArray();
     }
 
@@ -115,8 +134,16 @@ class Db extends AbstractAdapter
      */
     protected function findEntity($id)
     {
-        return $this->getEntityManager()
-                    ->getRepository($this->getData('entity_class'))
-                    ->find($id);
+        $entity = $this->getEntityManager()
+                       ->getRepository($this->getData('entity_class'))
+                       ->find($id);
+        if (!$entity instanceof EntityInterface) {
+            throw new Exception\ResourceNotFoundException(sprintf(
+                'An "%s" entity with ID "%s" was not found',
+                $this->getData('entity_class'),
+                $id
+            ));
+        }
+        return $entity;
     }
 }

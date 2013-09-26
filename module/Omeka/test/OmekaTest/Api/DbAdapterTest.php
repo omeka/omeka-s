@@ -16,58 +16,86 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Omeka\Api\Exception\ConfigException
      */
-    public function testSetDataRequiresEntityClass()
+    public function testSetDataRequiresEntityClassConfig()
     {
         $dbAdapter = new Db;
         $dbAdapter->setData(array());
     }
 
+    /**
+     * @expectedException Omeka\Api\Exception\ConfigException
+     */
+    public function testSetDataRequiresEntityClass()
+    {
+        $dbAdapter = new Db;
+        $dbAdapter->setData(array('entity_class' => 'foo'));
+    }
+
+    /**
+     * @expectedException Omeka\Api\Exception\ConfigException
+     */
+    public function testSetDataRequiresEntityClassEntityInterface()
+    {
+        $dbAdapter = new Db;
+        $dbAdapter->setData(array('entity_class' => 'stdClass'));
+    }
+
     public function testSearches()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('search', 'entity_class', null, 'data_in', 'data_out')
+            $this->getServiceLocator(
+                'search', 'OmekaTest\Api\TestEntity', null, array('data_in'), array('data_out')
+            )
         );
-        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
+        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
         $this->assertEquals(
-            array('data_out', 'data_out'),
-            $this->dbAdapter->search('data_in')
+            array(array('data_out'), array('data_out')),
+            $this->dbAdapter->search(array('data_in'))
         );
     }
 
     public function testCreates()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('create', null, null, null, null)
+            $this->getServiceLocator(
+                'create', null, null, null, null
+            )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals('data_out', $this->dbAdapter->create('data_in'));
+        $this->assertEquals(array('data_out'), $this->dbAdapter->create(array('data_in')));
     }
 
     public function testReads()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('read', 'OmekaTest\Api\TestEntity', 'id', 'data_in', 'data_out')
+            $this->getServiceLocator(
+                'read', 'OmekaTest\Api\TestEntity', 'id', null, array('data_out')
+            )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals('data_out', $this->dbAdapter->read('id', 'data_in'));
+        $this->assertEquals(array('data_out'), $this->dbAdapter->read('id', array()));
     }
 
     public function testUpdates()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('update', 'entity_class', 'id', 'data_in', 'data_out')
+            $this->getServiceLocator(
+                'update', 'OmekaTest\Api\TestEntity', 'id', array('data_in'), array('data_out')
+            )
         );
-        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
-        $this->assertEquals('data_out', $this->dbAdapter->update('id', 'data_in'));
+        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
+        $this->assertEquals(array('data_out'), $this->dbAdapter->update('id', array('data_in')));
     }
 
     public function testDeletes()
     {
         $this->dbAdapter->setServiceLocator(
-            $this->getServiceLocator('delete', 'entity_class', 'id', 'data_in', 'data_out')
+            $this->getServiceLocator(
+                'delete', 'OmekaTest\Api\TestEntity', 'id', null, array('data_out')
+            )
         );
-        $this->dbAdapter->setData(array('entity_class' => 'entity_class'));
-        $this->assertEquals('data_out', $this->dbAdapter->delete('id', 'data_in'));
+        $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
+        $this->assertEquals(array('data_out'), $this->dbAdapter->delete('id', array()));
     }
 
     protected function getServiceLocator($operation, $entityClass, $id, $dataIn, $dataOut)
@@ -117,6 +145,10 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
                               ->disableOriginalConstructor()
                               ->getMock();
+        if (in_array($operation, array('create', 'update', 'delete'))) {
+            $entityManager->expects($this->once())
+                          ->method('flush');
+        }
         if ('create' !== $operation) {
             $entityManager->expects($this->any())
                           ->method('getRepository')
@@ -148,12 +180,12 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
 class TestEntity implements EntityInterface
 {
-    public function setData($data)
+    public function setData(array $data)
     {
     }
 
     public function toArray()
     {
-        return 'data_out';
+        return array('data_out');
     }
 }

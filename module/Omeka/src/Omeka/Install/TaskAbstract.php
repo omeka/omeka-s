@@ -3,6 +3,7 @@ namespace Omeka\Install;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Omeka\Install\Exception\TaskSetupException;
 
 abstract class TaskAbstract implements ServiceLocatorAwareInterface, TaskInterface
 {
@@ -14,7 +15,10 @@ abstract class TaskAbstract implements ServiceLocatorAwareInterface, TaskInterfa
     public function __construct()
     {
         $this->result = new TaskResult($this);
-        $this->installDataPath = $this->findInstallDataPath();  
+        $this->installDataPath = $this->findInstallDataPath();
+        if(!$this->taskName) {
+            throw new TaskSetupException("taskName must be set for install tasks");
+        }  
     }   
      
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

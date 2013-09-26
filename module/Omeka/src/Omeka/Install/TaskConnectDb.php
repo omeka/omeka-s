@@ -12,6 +12,9 @@ class TaskConnectDb extends TaskAbstract implements TaskInterface
     {
         $em = $this->getServiceLocator()->get('EntityManager');
         $conn = $em->getConnection();
+        //The exact Exception is impossible to predict since it depends on
+        //how the EntityManager is actually making the connection, so we
+        //have to catch at the most general level
         try {
             $conn->connect();
         } catch(\Exception $e) {

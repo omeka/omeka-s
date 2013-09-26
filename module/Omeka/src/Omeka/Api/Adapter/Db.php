@@ -25,6 +25,12 @@ class Db extends AbstractAdapter
         parent::setData($data);
     }
 
+    /**
+     * Search a set of entities.
+     *
+     * @param mixed $data
+     * @return array
+     */
     public function search($data = null)
     {
         $entities = $this->getEntityManager()
@@ -35,6 +41,12 @@ class Db extends AbstractAdapter
         }, $entities);
     }
 
+    /**
+     * Create an entity.
+     *
+     * @param mixed $data
+     * @return array
+     */
     public function create($data = null)
     {
         $entityClass = $this->getData('entity_class');
@@ -44,12 +56,26 @@ class Db extends AbstractAdapter
         return $entity->toArray();
     }
 
+    /**
+     * Read an entity.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return array
+     */
     public function read($id, $data = null)
     {
         $entity = $this->findEntity($id);
         return $entity->toArray();
     }
 
+    /**
+     * Update an entity.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return array
+     */
     public function update($id, $data = null)
     {
         $entity = $this->findEntity($id);
@@ -57,6 +83,13 @@ class Db extends AbstractAdapter
         return $entity->toArray();
     }
 
+    /**
+     * Delete an entity.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return array
+     */
     public function delete($id, $data = null)
     {
         $entity = $this->findEntity($id);
@@ -64,11 +97,22 @@ class Db extends AbstractAdapter
         return $entity->toArray();
     }
 
+    /**
+     * Get the entity manager.
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
     protected function getEntityManager()
     {
         return $this->getServiceLocator()->get('EntityManager');
     }
 
+    /**
+     * Find an entity by its identifier.
+     *
+     * @param int $id
+     * @return \Omeka\Model\Entity\EntityInterface
+     */
     protected function findEntity($id)
     {
         return $this->getEntityManager()

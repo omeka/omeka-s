@@ -51,12 +51,23 @@ class Manager implements ServiceLocatorAwareInterface
                 break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(
-                    'The "%s" operation is not implemented by the "%s" resource adapter.', 
-                    $request->getOperation(), 
+                    'The "%s" operation is not implemented by the "%s" resource adapter.',
+                    $request->getOperation(),
                     $request->getResource()
                 ));
         }
-        return new Response($response, $request);
+        if (!$response instanceof Response) {
+            throw new Exception\InvalidResponseException(sprintf(
+                'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
+                $request->getOperation(),
+                $request->getResource()
+            ));
+        }
+        // The adapter may have set the request. If not, set it now.
+        if (null === $response->getRequest()) {
+            $response->setRequest($request);
+        }
+        return $response;
     }
 
     /**

@@ -30,6 +30,19 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
+        if (!$this->resourceIsRegistered($request->getResource())) {
+            throw new Exception\InvalidRequestException(sprintf(
+                'The "%s" resource is not registered.', 
+                $request->getResource()
+            ));
+        }
+        if (!$this->resourceAllowsOperation($request->getResource(), $request->getOperation())) {
+            throw new Exception\InvalidRequestException(sprintf(
+                'The "%s" operation is not implemented by the "%s" resource.',
+                $request->getOperation(),
+                $request->getResource()
+            ));
+        }
         if (null === $adapter) {
             $adapter = $this->getAdapter($request->getResource());
         }
@@ -51,9 +64,8 @@ class Manager implements ServiceLocatorAwareInterface
                 break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(
-                    'The "%s" operation is not implemented by the "%s" resource adapter.',
-                    $request->getOperation(),
-                    $request->getResource()
+                    'The "%s" operation is not implemented by the API.',
+                    $request->getOperation()
                 ));
         }
         if (!$response instanceof Response) {
@@ -156,7 +168,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getResource($resource)
     {
-        if (!$this->isRegistered($resource)) {
+        if (!$this->resourceIsRegistered($resource)) {
             throw new Exception\InvalidRequestException(sprintf(
                 'The "%s" resource is not registered.', 
                 $resource
@@ -166,14 +178,32 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Check that resource is registered.
+     * Check that a resource is registered.
      * 
      * @param string $resource
      * @return bool
      */
-    public function isRegistered($resource)
+    public function resourceIsRegistered($resource)
     {
         if (!array_key_exists($resource, $this->resources)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check that a resource allows an operation.
+     *
+     * @param string $resource
+     * @param string $operation
+     * @return bool
+     */
+    public function resourceAllowsOperation($resource, $operation)
+    {
+        if (!array_key_exists($resource, $this->resources)) {
+            return false;
+        }
+        if (!in_array($operation, $this->resources[$resource]['operations'])) {
             return false;
         }
         return true;

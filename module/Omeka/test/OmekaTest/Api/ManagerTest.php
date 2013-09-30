@@ -14,6 +14,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         ),
         'operations' => array(
             \Omeka\Api\Request::SEARCH,
+            \Omeka\Api\Request::CREATE,
+            \Omeka\Api\Request::READ,
+            \Omeka\Api\Request::UPDATE,
+            \Omeka\Api\Request::DELETE,
         ),
     );
 
@@ -88,11 +92,22 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         ), $this->manager->getResources());
     }
 
-    public function testIsRegisteredWorks()
+    public function testResourceIsRegisteredWorks()
     {
         $this->manager->registerResource('foo', $this->config);
-        $this->assertTrue($this->manager->isRegistered('foo'));
-        $this->assertFalse($this->manager->isRegistered('bar'));
+        $this->assertTrue($this->manager->resourceIsRegistered('foo'));
+        $this->assertFalse($this->manager->resourceIsRegistered('bar'));
+    }
+
+    public function testResourceAllowsOperationWorks()
+    {
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertTrue($this->manager->resourceAllowsOperation(
+            'foo', \Omeka\Api\Request::SEARCH
+        ));
+        $this->assertFalse($this->manager->resourceAllowsOperation(
+            'foo', 'bar'
+        ));
     }
 
     public function testSetsAndGetsServiceLocator()
@@ -133,32 +148,40 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function _testExecuteReturnsExpectedResponseForSearch()
     {
-        $this->assertExecuteReturnsExpectedResponse('search');
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertExecuteReturnsExpectedResponse('foo', 'search');
     }
 
     public function testExecuteReturnsExpectedResponseForCreate()
     {
-        $this->assertExecuteReturnsExpectedResponse('create');
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertExecuteReturnsExpectedResponse('foo', 'create');
     }
 
     public function testExecuteReturnsExpectedResponseForRead()
     {
-        $this->assertExecuteReturnsExpectedResponse('read');
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertExecuteReturnsExpectedResponse('foo', 'read');
     }
 
     public function testExecuteReturnsExpectedResponseForUpdate()
     {
-        $this->assertExecuteReturnsExpectedResponse('update');
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertExecuteReturnsExpectedResponse('foo', 'update');
     }
 
     public function testExecuteReturnsExpectedResponseForDelete()
     {
-        $this->assertExecuteReturnsExpectedResponse('delete');
+        $this->manager->registerResource('foo', $this->config);
+        $this->assertExecuteReturnsExpectedResponse('foo', 'delete');
     }
 
-    protected function assertExecuteReturnsExpectedResponse($operation)
+    protected function assertExecuteReturnsExpectedResponse($resource, $operation)
     {
         $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->any())
+                ->method('getResource')
+                ->will($this->returnValue($resource));
         $request->expects($this->any())
                 ->method('getOperation')
                 ->will($this->returnValue($operation));

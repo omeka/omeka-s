@@ -48,10 +48,8 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals(
-            array(array('data_out'), array('data_out')),
-            $this->dbAdapter->search(array('data_in'))
-        );
+        $response = $this->dbAdapter->search(array('data_in'));
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
     }
 
     public function testCreates()
@@ -62,7 +60,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals(array('data_out'), $this->dbAdapter->create(array('data_in')));
+        $response = $this->dbAdapter->create(array('data_in'));
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals(array('data_out'), $response->getData());
     }
 
     public function testReads()
@@ -73,7 +73,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals(array('data_out'), $this->dbAdapter->read('id', array()));
+        $response = $this->dbAdapter->read('id', array());
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals(array('data_out'), $response->getData());
     }
 
     public function testUpdates()
@@ -84,7 +86,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals(array('data_out'), $this->dbAdapter->update('id', array('data_in')));
+        $response = $this->dbAdapter->update('id', array('data_in'));
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals(array('data_out'), $response->getData());
     }
 
     public function testDeletes()
@@ -95,7 +99,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->dbAdapter->setData(array('entity_class' => 'OmekaTest\Api\TestEntity'));
-        $this->assertEquals(array('data_out'), $this->dbAdapter->delete('id', array()));
+        $response = $this->dbAdapter->delete('id', array());
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals(array('data_out'), $response->getData());
     }
 
     protected function getServiceLocator($operation, $entityClass, $id, $dataIn, $dataOut)

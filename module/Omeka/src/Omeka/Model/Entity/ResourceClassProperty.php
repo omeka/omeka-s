@@ -35,6 +35,10 @@ class ResourceClassProperty extends AbstractEntity
         return $this->id;
     }
 
+    public function setData(array $data)
+    {
+    }
+
     public function toArray()
     {
     }

@@ -10,7 +10,7 @@ class Site extends AbstractEntity
     protected $id;
     
     /** @OneToMany(targetEntity="SiteResource", mappedBy="site") */
-    protected $sites;
+    protected $siteResources;
     
     public function getId()
     {

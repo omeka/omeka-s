@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
+use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -52,9 +53,10 @@ class Db extends AbstractAdapter
         $entities = $this->getEntityManager()
                          ->getRepository($this->getData('entity_class'))
                          ->search($data);
-        return array_map(function($entity) {
+        array_map(function($entity) {
             return $entity->toArray();
         }, $entities);
+        return new Response($entities);
     }
 
     /**
@@ -70,7 +72,7 @@ class Db extends AbstractAdapter
         $entity->setData($data);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-        return $entity->toArray();
+        return new Response($entity->toArray());
     }
 
     /**
@@ -83,7 +85,7 @@ class Db extends AbstractAdapter
     public function read($id, $data = null)
     {
         $entity = $this->findEntity($id);
-        return $entity->toArray();
+        return new Response($entity->toArray());
     }
 
     /**
@@ -98,7 +100,7 @@ class Db extends AbstractAdapter
         $entity = $this->findEntity($id);
         $entity->setData($data);
         $this->getEntityManager()->flush();
-        return $entity->toArray();
+        return new Response($entity->toArray());
     }
 
     /**
@@ -113,7 +115,7 @@ class Db extends AbstractAdapter
         $entity = $this->findEntity($id);
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        return $entity->toArray();
+        return new Response($entity->toArray());
     }
 
     /**

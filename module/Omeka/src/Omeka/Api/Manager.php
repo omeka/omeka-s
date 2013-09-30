@@ -64,7 +64,7 @@ class Manager implements ServiceLocatorAwareInterface
                 break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(
-                    'The "%s" operation is not implemented by the API.',
+                    'The API does not support the "%s" operation.',
                     $request->getOperation()
                 ));
         }

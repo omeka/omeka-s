@@ -14,11 +14,6 @@ class ApiManagerFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Omeka\Api\Manager', $apiManager);
     }
 
-    public function testRejectsInvalidConfig()
-    {
-        
-    }
-
     public function getMockServiceLocator(array $config)
     {
         $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');

@@ -6,7 +6,7 @@ namespace Omeka\Model\Entity;
  * 
  * Vocabularies are defined sets of classes and properties.
  * 
- * @Entity
+ * @Entity(repositoryClass="Omeka\Model\Repository\Vocabulary")
  */
 class Vocabulary extends AbstractEntity
 {
@@ -30,11 +30,43 @@ class Vocabulary extends AbstractEntity
         return $this->id;
     }
 
-    public function setData(array $data)
+    public function setOwner($owner)
     {
+        $this->owner = $owner;
     }
 
-    public function toArray()
+    public function getOwner()
     {
+        return $this->owner;
+    }
+
+    public function setNamespaceUri($namespaceUri)
+    {
+        $this->namespaceUri = $namespaceUri;
+    }
+
+    public function getNamespaceUri()
+    {
+        return $this->namespaceUri;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    public function getlabel()
+    {
+        return $this->label;
+    }
+
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

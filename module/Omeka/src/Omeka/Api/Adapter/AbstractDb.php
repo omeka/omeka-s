@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Adapter\AbstractAdapter;
+use Omeka\Api\Adapter\DbInterface;
 use Omeka\Api\Exception;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
@@ -10,38 +11,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Database API adapter.
  */
-class Db extends AbstractAdapter
+abstract class AbstractDb extends AbstractAdapter implements DbInterface
 {
-    /**
-     * Validate and set adapter data.
-     * 
-     * @param array $data
-     */
-    public function setData(array $data)
-    {
-        if (!isset($data['entity_class'])) {
-            throw new Exception\ConfigException(
-                'An entity class is not registered for the database API adapter.'
-            );
-        }
-        if (!class_exists($data['entity_class'])) {
-            throw new Exception\ConfigException(sprintf(
-                'The entity class "%s" does not exist for database API adapter.',
-                $data['entity_class']
-            ));
-        }
-        if (!in_array(
-            'Omeka\Model\Entity\EntityInterface',
-            class_implements($data['entity_class'])
-        )) {
-            throw new Exception\ConfigException(sprintf(
-                'The entity class "%s" does not implement Omeka\Model\Entity\EntityInterface for database API adapter.', 
-                $data['entity_class']
-            ));
-        }
-        parent::setData($data);
-    }
-
     /**
      * Search a set of entities.
      *
@@ -51,7 +22,7 @@ class Db extends AbstractAdapter
     public function search($data = null)
     {
         $entities = $this->getEntityManager()
-                         ->getRepository($this->getData('entity_class'))
+                         ->getRepository($this->getEntityClass())
                          ->search($data);
         array_map(function($entity) {
             return $entity->toArray();
@@ -67,12 +38,12 @@ class Db extends AbstractAdapter
      */
     public function create($data = null)
     {
-        $entityClass = $this->getData('entity_class');
+        $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
-        $entity->setData($data);
+        $this->setData($entity, $data);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-        return new Response($entity->toArray());
+        return new Response($this->toArray($entity));
     }
 
     /**
@@ -85,7 +56,7 @@ class Db extends AbstractAdapter
     public function read($id, $data = null)
     {
         $entity = $this->findEntity($id);
-        return new Response($entity->toArray());
+        return new Response($this->toArray($entity));
     }
 
     /**
@@ -98,9 +69,9 @@ class Db extends AbstractAdapter
     public function update($id, $data = null)
     {
         $entity = $this->findEntity($id);
-        $entity->setData($data);
+        $this->setData($entity, $data);
         $this->getEntityManager()->flush();
-        return new Response($entity->toArray());
+        return new Response($this->toArray($entity));
     }
 
     /**
@@ -115,7 +86,7 @@ class Db extends AbstractAdapter
         $entity = $this->findEntity($id);
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        return new Response($entity->toArray());
+        return new Response($this->toArray($entity));
     }
 
     /**
@@ -137,12 +108,12 @@ class Db extends AbstractAdapter
     protected function findEntity($id)
     {
         $entity = $this->getEntityManager()
-                       ->getRepository($this->getData('entity_class'))
+                       ->getRepository($this->getEntityClass())
                        ->find($id);
         if (!$entity instanceof EntityInterface) {
             throw new Exception\ResourceNotFoundException(sprintf(
                 'An "%s" entity with ID "%s" was not found',
-                $this->getData('entity_class'),
+                $this->getEntityClass(),
                 $id
             ));
         }

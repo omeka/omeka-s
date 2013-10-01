@@ -59,12 +59,4 @@ class Value extends AbstractEntity
         }
         $this->type = $type;
     }
-
-    public function setData(array $data)
-    {
-    }
-
-    public function toArray()
-    {
-    }
 }

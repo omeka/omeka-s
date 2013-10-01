@@ -36,13 +36,6 @@ class Manager implements ServiceLocatorAwareInterface
                 $request->getResource()
             ));
         }
-        if (!$this->resourceAllowsOperation($request->getResource(), $request->getOperation())) {
-            throw new Exception\InvalidRequestException(sprintf(
-                'The "%s" operation is not implemented by the "%s" resource.',
-                $request->getOperation(),
-                $request->getResource()
-            ));
-        }
         if (null === $adapter) {
             $adapter = $this->getAdapter($request->getResource());
         }
@@ -92,9 +85,6 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $config = $this->getResource($resource);
         $adapter = new $config['adapter_class'];
-        if (isset($config['adapter_data'])) {
-            $adapter->setData($config['adapter_data']);
-        }
         if ($adapter instanceof ServiceLocatorAwareInterface) {
             $adapter->setServiceLocator($this->getServiceLocator());
         }
@@ -126,12 +116,6 @@ class Manager implements ServiceLocatorAwareInterface
             throw new Exception\ConfigException(sprintf(
                 'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
                 $config['adapter_class'], 
-                $resource
-            ));
-        }
-        if (empty($config['operations'])) {
-            throw new Exception\ConfigException(sprintf(
-                'No operations are registered for the "%s" resource.', 
                 $resource
             ));
         }
@@ -186,24 +170,6 @@ class Manager implements ServiceLocatorAwareInterface
     public function resourceIsRegistered($resource)
     {
         if (!array_key_exists($resource, $this->resources)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Check that a resource allows an operation.
-     *
-     * @param string $resource
-     * @param string $operation
-     * @return bool
-     */
-    public function resourceAllowsOperation($resource, $operation)
-    {
-        if (!array_key_exists($resource, $this->resources)) {
-            return false;
-        }
-        if (!in_array($operation, $this->resources[$resource]['operations'])) {
             return false;
         }
         return true;

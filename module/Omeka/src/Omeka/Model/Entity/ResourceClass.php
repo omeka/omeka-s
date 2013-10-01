@@ -115,12 +115,4 @@ class ResourceClass extends AbstractEntity
     {
         $this->isDefault = (bool) $isDefault;
     }
-
-    public function setData(array $data)
-    {
-    }
-
-    public function toArray()
-    {
-    }
 }

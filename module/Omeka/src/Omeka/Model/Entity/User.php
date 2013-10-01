@@ -8,17 +8,17 @@ class User extends AbstractEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
+
+    /** @Column(unique=true) */
+    protected $username;
     
     public function getId()
     {
         return $this->id;
     }
 
-    public function setData(array $data)
+    public function getUsername()
     {
-    }
-
-    public function toArray()
-    {
+        return $this->username;
     }
 }

@@ -48,19 +48,4 @@ interface AdapterInterface
      * @return mixed
      */
     public function delete($id, $data = null);
-
-    /**
-     * Set adapter data.
-     * 
-     * @param array $data
-     */
-    public function setData(array $data);
-
-    /**
-     * Get adapter data.
-     * 
-     * @param null|string $key
-     * @return mixed
-     */
-    public function getData($key = null);
 }

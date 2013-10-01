@@ -11,11 +11,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareInterface
 {
     /**
-     * @var array
-     */
-    protected $data = array();
-
-    /**
      * @var ServiceLocatorInterface
      */
     protected $services;
@@ -68,38 +63,6 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
         throw new Exception\RuntimeException(
             'The adapter does not implement the delete function.'
         );
-    }
-
-    /**
-     * Set adapter data.
-     *
-     * Override this method to validate data specific to the adapter.
-     * 
-     * @param array $data
-     */
-    public function setData(array $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * Get adapter data.
-     * 
-     * @param null|string $key
-     * @return mixed
-     */
-    public function getData($key = null)
-    {
-        if (null === $key) {
-            return $this->data;
-        }
-        if (!array_key_exists($key, $this->data)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                '"%s" is an invalid data key.', 
-                $key
-            ));
-        }
-        return $this->data[$key];
     }
 
     /**

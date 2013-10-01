@@ -13,12 +13,4 @@ class ItemSet extends Resource
     {
         return $this->id;
     }
-
-    public function setData(array $data)
-    {
-    }
-
-    public function toArray()
-    {
-    }
 }

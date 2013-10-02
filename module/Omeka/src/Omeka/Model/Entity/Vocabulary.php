@@ -6,7 +6,7 @@ namespace Omeka\Model\Entity;
  * 
  * Vocabularies are defined sets of classes and properties.
  * 
- * @Entity(repositoryClass="Omeka\Model\Repository\Vocabulary")
+ * @Entity
  */
 class Vocabulary extends AbstractEntity
 {

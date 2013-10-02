@@ -10,6 +10,7 @@ class User extends AbstractDb
 
     public function setData($entity, array $data)
     {
+        $entity->setUsername($data['username']);
     }
 
     public function toArray($entity)

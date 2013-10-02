@@ -6,7 +6,6 @@ use Omeka\Api\Adapter\DbInterface;
 use Omeka\Api\Exception;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Database API adapter.
@@ -16,8 +15,8 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     /**
      * Search a set of entities.
      *
-     * @param mixed $data
-     * @return array
+     * @param null|array $data
+     * @return Response
      */
     public function search($data = null)
     {
@@ -33,8 +32,8 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     /**
      * Create an entity.
      *
-     * @param mixed $data
-     * @return array
+     * @param null|array $data
+     * @return Response
      */
     public function create($data = null)
     {
@@ -50,8 +49,8 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      * Read an entity.
      *
      * @param mixed $id
-     * @param mixed $data
-     * @return array
+     * @param null|array $data
+     * @return Response
      */
     public function read($id, $data = null)
     {
@@ -63,8 +62,8 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      * Update an entity.
      *
      * @param mixed $id
-     * @param mixed $data
-     * @return array
+     * @param null|array $data
+     * @return Response
      */
     public function update($id, $data = null)
     {
@@ -78,8 +77,8 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      * Delete an entity.
      *
      * @param mixed $id
-     * @param mixed $data
-     * @return array
+     * @param null|array $data
+     * @return Response
      */
     public function delete($id, $data = null)
     {

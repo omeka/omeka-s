@@ -1,6 +1,6 @@
 <?php
 namespace Omeka\Model\Entity;
 
-abstract class AbstractEntity
+abstract class AbstractEntity implements EntityInterface
 {
 }

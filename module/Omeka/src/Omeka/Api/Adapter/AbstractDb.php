@@ -8,7 +8,7 @@ use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
 
 /**
- * Database API adapter.
+ * Abstract database API adapter.
  */
 abstract class AbstractDb extends AbstractAdapter implements DbInterface
 {
@@ -20,12 +20,10 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function search($data = null)
     {
-        $entities = $this->getEntityManager()
-                         ->getRepository($this->getEntityClass())
-                         ->search($data);
-        array_map(function($entity) {
-            return $entity->toArray();
-        }, $entities);
+        $entities = $this->findByData($data);
+        foreach ($entities as &$entity) {
+            $entity = $this->toArray($entity);
+        }
         return new Response($entities);
     }
 

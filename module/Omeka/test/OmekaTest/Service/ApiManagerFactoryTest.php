@@ -5,13 +5,37 @@ use Omeka\Service\ApiManagerFactory;
 
 class ApiManagerFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    protected $factory;
+
+    protected $validConfig = array(
+        'api_manager' => array(
+            'resources' => array(),
+        ),
+    );
+
+    public function setUp()
+    {
+        $this->factory = new ApiManagerFactory;
+    }
+
     public function testCreatesService()
     {
-        $factory = new ApiManagerFactory;
-        $apiManager = $factory->createService(
-            $this->getMockServiceLocator(array('api_manager' => array('resources' => array())))
+        $apiManager = $this->factory->createService(
+            $this->getMockServiceLocator($this->validConfig)
         );
         $this->assertInstanceOf('Omeka\Api\Manager', $apiManager);
+    }
+
+    /**
+     * @expectedException Omeka\Api\Exception\ConfigException
+     */
+    public function testRejectsInvalidConfig()
+    {
+        $invalidConfig = $this->validConfig;
+        unset($invalidConfig['api_manager']['resources']);
+        $apiManager = $this->factory->createService(
+            $this->getMockServiceLocator($invalidConfig)
+        );
     }
 
     public function getMockServiceLocator(array $config)

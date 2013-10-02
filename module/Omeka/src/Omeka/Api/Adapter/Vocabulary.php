@@ -29,4 +29,11 @@ class Vocabulary extends AbstractDb
             'comment' => $entity->getComment(),
         );
     }
+
+    public function findByData(array $data)
+    {
+        return $this->getEntityManager()
+                    ->getRepository($this->getEntityClass())
+                    ->findAll();
+    }
 }

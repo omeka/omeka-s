@@ -26,6 +26,7 @@ class IndexController extends AbstractRestfulController
             Request::SEARCH,
             $this->params()->fromRoute('resource')
         );
+        $request->setData($this->params()->fromQuery());
         $response = $manager->execute($request);
         print_r($response);exit;
     }

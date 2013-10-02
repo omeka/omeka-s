@@ -20,4 +20,11 @@ class User extends AbstractDb
             'username' => $entity->getUsername(),
         );
     }
+
+    public function findByData(array $data)
+    {
+        return $this->getEntityManager()
+                    ->getRepository($this->getEntityClass())
+                    ->findAll();
+    }
 }

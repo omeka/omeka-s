@@ -52,7 +52,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function read($id, $data = null)
     {
-        $entity = $this->findEntity($id);
+        $entity = $this->find($id);
         return new Response($this->toArray($entity));
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function update($id, $data = null)
     {
-        $entity = $this->findEntity($id);
+        $entity = $this->find($id);
         $this->setData($entity, $data);
         $this->getEntityManager()->flush();
         return new Response($this->toArray($entity));
@@ -80,7 +80,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function delete($id, $data = null)
     {
-        $entity = $this->findEntity($id);
+        $entity = $this->find($id);
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
         return new Response($this->toArray($entity));
@@ -97,16 +97,24 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     }
 
     /**
+     * Get an entity repository.
+     *
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getRepository()
+    {
+        return $this->getEntityManager()->getRepository($this->getEntityClass());
+    }
+
+    /**
      * Find an entity by its identifier.
      *
      * @param int $id
      * @return \Omeka\Model\Entity\EntityInterface
      */
-    protected function findEntity($id)
+    protected function find($id)
     {
-        $entity = $this->getEntityManager()
-                       ->getRepository($this->getEntityClass())
-                       ->find($id);
+        $entity = $this->getRepository()->find($id);
         if (!$entity instanceof EntityInterface) {
             throw new Exception\ResourceNotFoundException(sprintf(
                 'An "%s" entity with ID "%s" was not found',

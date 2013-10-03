@@ -8,7 +8,6 @@ return array(
                     'route'    => '/api/:resource[/:id]',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Api\Index',
-                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -31,14 +30,11 @@ return array(
     ),
     'api_manager' => array(
         'resources' => array(
-            'sites' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Db',
-                'adapter_data' => array(
-                    'entity_class' => 'Omeka\Model\Entity\Site',
-                ),
-                'operations' => array(
-                    \Omeka\Api\Request::SEARCH,
-                ),
+            'users' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\User',
+            ),
+            'vocabularies' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Vocabulary',
             ),
         ),
     ),

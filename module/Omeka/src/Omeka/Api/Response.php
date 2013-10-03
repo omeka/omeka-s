@@ -24,13 +24,10 @@ class Response
      * @param mixed $data
      * @param null|Request $request
      */
-    public function __construct($data = null, Request $request = null)
+    public function __construct($data = null)
     {
         if (null !== $data) {
             $this->data = $data;
-        }
-        if (null !== $request) {
-            $this->request = $request;
         }
     }
 

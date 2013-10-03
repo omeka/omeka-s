@@ -28,8 +28,4 @@ class SiteResource extends AbstractEntity
     {
         return $this->id;
     }
-
-    public function toArray()
-    {
-    }
 }

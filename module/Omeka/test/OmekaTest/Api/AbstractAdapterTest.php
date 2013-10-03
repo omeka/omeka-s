@@ -3,15 +3,6 @@ namespace OmekaTest\Api;
 
 class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSetsAndGetsData()
-    {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $data = array('foo' => 'bar');
-        $adapter->setData($data);
-        $this->assertEquals('bar', $adapter->getData('foo'));
-        $this->assertEquals($data, $adapter->getData());
-    }
-
     public function testSetsAndGetsServiceLocator()
     {
         $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');

@@ -34,8 +34,4 @@ class ResourceClassProperty extends AbstractEntity
     {
         return $this->id;
     }
-
-    public function toArray()
-    {
-    }
 }

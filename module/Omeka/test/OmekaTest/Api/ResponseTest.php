@@ -20,10 +20,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorSetsProperties()
     {
-        $request = $this->getMock('Omeka\Api\Request');
-        $response = new Response('foo', $request);
+        $response = new Response('foo');
         $this->assertEquals('foo', $response->getData());
-        $this->assertSame($request, $response->getRequest());
     }
 
     public function testSetsAndGetsData()

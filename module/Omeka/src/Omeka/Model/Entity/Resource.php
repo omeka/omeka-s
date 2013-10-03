@@ -61,8 +61,4 @@ class Resource extends AbstractEntity
     {
         $this->resourceClass = $resourceClass;
     }
-
-    public function toArray()
-    {
-    }
 }

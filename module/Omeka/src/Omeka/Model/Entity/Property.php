@@ -40,8 +40,4 @@ class Property extends AbstractEntity
     {
         return $this->id;
     }
-
-    public function toArray()
-    {
-    }
 }

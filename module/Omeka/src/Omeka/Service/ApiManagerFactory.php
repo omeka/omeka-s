@@ -23,9 +23,8 @@ class ApiManagerFactory implements FactoryInterface
         if (!isset($config['api_manager']['resources'])) {
             throw new Exception\ConfigException('The configuration has no registered API resources.');
         }
-        $resources = $config['api_manager']['resources'];
         $apiManager = new ApiManager;
-        $apiManager->registerResources($resources);
+        $apiManager->registerResources($config['api_manager']['resources']);
         return $apiManager;
     }
 }

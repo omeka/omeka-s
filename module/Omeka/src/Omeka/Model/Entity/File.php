@@ -13,8 +13,4 @@ class File extends AbstractEntity
     {
         return $this->id;
     }
-
-    public function toArray()
-    {
-    }
 }

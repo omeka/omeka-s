@@ -10,13 +10,18 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dbAdapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractDb');
+        $this->dbAdapter = $this->getMockForAbstractClass(
+            'Omeka\Api\Adapter\AbstractDb'
+        );
     }
 
     public function testSearches()
     {
         $dataIn = array();
-        $responseDataOut = array(array(), array());
+        $responseDataOut = array(
+            array('foo' => 'bar'),
+            array('foo' => 'bar'),
+        );
 
         $this->dbAdapter->expects($this->once())
             ->method('findByData')
@@ -28,7 +33,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
         $this->dbAdapter->expects($this->exactly(2))
             ->method('toArray')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array('foo' => 'bar')));
 
         $response = $this->dbAdapter->search($dataIn);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
@@ -38,7 +43,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     public function testCreates()
     {
         $dataIn = array();
-        $responseDataOut = array();
+        $responseDataOut = array('foo' => 'bar');
 
         $this->dbAdapter->setServiceLocator($this->getServiceLocator('create'));
         $this->dbAdapter->expects($this->once())
@@ -62,13 +67,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         $dataIn = array();
-        $responseDataOut = array();
+        $responseDataOut = array('foo' => 'bar');
 
-        $this->dbAdapter->setServiceLocator($this->getServiceLocator('read'));
-        //~ $this->dbAdapter->expects($this->once())
-            //~ ->method('findEntity')
-            //~ ->with($this->equalTo($id))
-            //~ ->will($this->returnValue(new TestEntity));
+        $this->dbAdapter->setServiceLocator($this->getServiceLocator('read', $id));
         $this->dbAdapter->expects($this->once())
             ->method('toArray')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
@@ -83,9 +84,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         $dataIn = array();
-        $responseDataOut = array();
+        $responseDataOut = array('foo' => 'bar');
 
-        $this->dbAdapter->setServiceLocator($this->getServiceLocator('update'));
+        $this->dbAdapter->setServiceLocator($this->getServiceLocator('update', $id));
         $this->dbAdapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
@@ -107,9 +108,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         $dataIn = array();
-        $responseDataOut = array();
+        $responseDataOut = array('foo' => 'bar');
 
-        $this->dbAdapter->setServiceLocator($this->getServiceLocator('delete'));
+        $this->dbAdapter->setServiceLocator($this->getServiceLocator('delete', $id));
         $this->dbAdapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
@@ -123,7 +124,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($responseDataOut, $response->getData());
     }
 
-    protected function getServiceLocator($operation)
+    protected function getServiceLocator($operation, $id = null)
     {
         // Build the mock entity repository.
         $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
@@ -132,6 +133,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
         if (in_array($operation, array('read', 'update', 'delete'))) {
             $repository->expects($this->once())
                 ->method('find')
+                ->with($this->equalTo($id))
                 ->will($this->returnValue(new TestEntity));
         }
 

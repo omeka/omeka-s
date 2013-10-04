@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Api;
 
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Api\Adapter\AbstractDb;
 
 class DbAdapterTest extends \PHPUnit_Framework_TestCase
@@ -172,6 +172,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestEntity implements EntityInterface
+class TestEntity extends AbstractEntity
 {
 }

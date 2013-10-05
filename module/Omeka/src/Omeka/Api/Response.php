@@ -16,8 +16,17 @@ class Response
     /**
      * @var array
      */
-    public static $validStatuses = array(
+    protected $validStatuses = array(
         self::SUCCESS,
+        self::ERROR_INTERNAL,
+        self::ERROR_VALIDATION,
+        self::ERROR_NOT_FOUND,
+    );
+
+    /**
+     * @var array
+     */
+    protected $errorStatuses = array(
         self::ERROR_INTERNAL,
         self::ERROR_VALIDATION,
         self::ERROR_NOT_FOUND,
@@ -83,7 +92,7 @@ class Response
      */
     public function setStatus($status)
     {
-        if (!in_array($status, self::$validStatuses)) {
+        if (!in_array($status, $this->validStatuses)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'The API does not support the "%s" response status.', 
                 $status
@@ -146,6 +155,16 @@ class Response
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Check whether this response is an error.
+     * 
+     * @return bool
+     */
+    public function isError()
+    {
+        return in_array($this->status, $this->errorStatuses);
     }
 
     /**

@@ -25,10 +25,34 @@ class Manager implements ServiceLocatorAwareInterface
      * Execute an API request.
      * 
      * @param Request $request
-     * @param AdapterInterface $adapter
+     * @param null|AdapterInterface $adapter
      * @return Response
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
+    {
+        try {
+            $response = $this->getResponse($request, $adapter);
+        } catch (\Exception $e) {
+            // Always return a Response object, regardless of exception.
+            $response = new Response;
+            $response->setStatus(Response::ERROR_INTERNAL);
+            $response->setError(Response::ERROR_INTERNAL, $e->getMessage());
+        }
+        // The adapter may have set the request. If not, set it now.
+        if (null === $response->getRequest()) {
+            $response->setRequest($request);
+        }
+        return $response;
+    }
+
+    /**
+     * Get the response of an API request.
+     * 
+     * @param Request $request
+     * @param null|AdapterInterface $adapter
+     * @return Response
+     */
+    protected function getResponse(Request $request, $adapter)
     {
         if (!$this->resourceIsRegistered($request->getResource())) {
             throw new Exception\InvalidRequestException(sprintf(
@@ -67,10 +91,6 @@ class Manager implements ServiceLocatorAwareInterface
                 $request->getOperation(),
                 $request->getResource()
             ));
-        }
-        // The adapter may have set the request. If not, set it now.
-        if (null === $response->getRequest()) {
-            $response->setRequest($request);
         }
         return $response;
     }

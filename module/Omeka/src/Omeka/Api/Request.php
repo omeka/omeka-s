@@ -17,7 +17,7 @@ class Request
     /**
      * @var array
      */
-    public static $validOperations = array(
+    protected $validOperations = array(
         self::SEARCH,
         self::CREATE,
         self::READ,
@@ -68,7 +68,7 @@ class Request
      */
     public function setOperation($operation)
     {
-        if (!in_array($operation, self::$validOperations)) {
+        if (!in_array($operation, $this->validOperations)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'The API does not support the "%s" operation.', 
                 $operation

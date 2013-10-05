@@ -66,7 +66,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $response->setData($this->toArray($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError('id', $e->getMessage());
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
         }
         return $response;
     }
@@ -88,7 +88,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $response->setData($this->toArray($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError('id', $e->getMessage());
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
         } catch (ModelException\EntityValidationException $e) {
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->setErrors($e->getValidationErrors());
@@ -117,7 +117,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $response->setData($this->toArray($entity));
         } catch (ModelException\EntityValidationException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError('id', $e->getMessage());
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
         }
         return $response;
     }

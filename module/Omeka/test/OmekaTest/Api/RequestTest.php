@@ -29,11 +29,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $request->getResource());
     }
 
-    public function testHasValidOperations()
-    {
-        $this->assertEquals($this->validOperations, Request::$validOperations);
-    }
-
     public function testSetsAndGetsValidOperations()
     {
         foreach ($this->validOperations as $validOperation) {

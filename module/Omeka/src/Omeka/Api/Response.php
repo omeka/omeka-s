@@ -130,8 +130,10 @@ class Response
     public function setErrors(array $errors)
     {
         foreach ($errors as $key => $messages) {
-            foreach ($messages as $message) {
-                $this->setError($key, $message);
+            if (is_array($messages)) {
+                foreach ($messages as $message) {
+                    $this->setError($key, $message);
+                }
             }
         }
     }

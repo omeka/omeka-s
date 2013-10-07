@@ -3,9 +3,9 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Adapter\DbInterface;
-use Omeka\Api\Exception;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Exception as ModelException;
 
 /**
  * Abstract database API adapter.
@@ -39,8 +39,16 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
         $entity = new $entityClass;
         $this->setData($entity, $data);
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-        return new Response($this->toArray($entity));
+
+        $response = new Response;
+        try {
+            $this->getEntityManager()->flush();
+            $response->setData($this->toArray($entity));
+        } catch (ModelException\EntityValidationException $e) {
+            $response->setStatus(Response::ERROR_VALIDATION);
+            $response->setErrors($e->getValidationErrors());
+        }
+        return $response;
     }
 
     /**
@@ -52,8 +60,15 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function read($id, $data = null)
     {
-        $entity = $this->find($id);
-        return new Response($this->toArray($entity));
+        $response = new Response;
+        try {
+            $entity = $this->find($id);
+            $response->setData($this->toArray($entity));
+        } catch (ModelException\EntityNotFoundException $e) {
+            $response->setStatus(Response::ERROR_NOT_FOUND);
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+        }
+        return $response;
     }
 
     /**
@@ -65,10 +80,24 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function update($id, $data = null)
     {
-        $entity = $this->find($id);
-        $this->setData($entity, $data);
-        $this->getEntityManager()->flush();
-        return new Response($this->toArray($entity));
+        $response = new Response;
+        try {
+            $entity = $this->find($id);
+            $this->setData($entity, $data);
+            $this->getEntityManager()->flush();
+            $response->setData($this->toArray($entity));
+        } catch (ModelException\EntityNotFoundException $e) {
+            $response->setStatus(Response::ERROR_NOT_FOUND);
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+        } catch (ModelException\EntityValidationException $e) {
+            $response->setStatus(Response::ERROR_VALIDATION);
+            $response->setErrors($e->getValidationErrors());
+            // Refresh the entity from the database, overriding any local
+            // changes that have not yet been persisted
+            $this->getEntityManager()->refresh($entity);
+            $response->setData($this->toArray($entity));
+        }
+        return $response;
     }
 
     /**
@@ -80,10 +109,17 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
      */
     public function delete($id, $data = null)
     {
-        $entity = $this->find($id);
-        $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
-        return new Response($this->toArray($entity));
+        $response = new Response;
+        try {
+            $entity = $this->find($id);
+            $this->getEntityManager()->remove($entity);
+            $this->getEntityManager()->flush();
+            $response->setData($this->toArray($entity));
+        } catch (ModelException\EntityNotFoundException $e) {
+            $response->setStatus(Response::ERROR_NOT_FOUND);
+            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+        }
+        return $response;
     }
 
     /**
@@ -116,7 +152,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     {
         $entity = $this->getRepository()->find($id);
         if (!$entity instanceof EntityInterface) {
-            throw new Exception\ResourceNotFoundException(sprintf(
+            throw new ModelException\EntityNotFoundException(sprintf(
                 'An "%s" entity with ID "%s" was not found',
                 $this->getEntityClass(),
                 $id

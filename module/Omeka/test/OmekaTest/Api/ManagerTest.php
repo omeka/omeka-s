@@ -3,6 +3,7 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Manager;
+use Omeka\Api\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -104,9 +105,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($mockServiceLocator, $adapter->getServiceLocator());
     }
 
-    /**
-     * @expectedException Omeka\Api\Exception\InvalidRequestException
-     */
     public function testExecuteRequiresValidRequestResource()
     {
         $request = $this->getMock('Omeka\Api\Request');
@@ -114,12 +112,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->method('getResource')
                 ->will($this->returnValue('bar'));
         $this->manager->registerResource('foo', $this->validConfig);
-        $this->manager->execute($request);
+        $response = $this->manager->execute($request);
+        $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
     }
 
-    /**
-     * @expectedException Omeka\Api\Exception\InvalidRequestException
-     */
     public function testExecuteRequiresValidRequestOperation()
     {
         $request = $this->getMock('Omeka\Api\Request');
@@ -131,7 +127,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('bar'));
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
         $this->manager->registerResource('foo', $this->validConfig);
-        $this->manager->execute($request, $adapter);
+        $response = $this->manager->execute($request, $adapter);
+        $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
     }
 
     public function testExecuteReturnsExpectedResponseForSearch()

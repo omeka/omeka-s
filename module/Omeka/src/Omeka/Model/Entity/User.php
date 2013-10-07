@@ -19,6 +19,13 @@ class User extends AbstractEntity
 
     public function setUsername($username)
     {
+        //~ if (1) {
+            //~ $this->setValidationError('foo', 'foo message one');
+            //~ $this->setValidationError('foo', 'foo message two');
+        //~ }
+        //~ if (1) {
+            //~ $this->setValidationError('bar', 'bar message');
+        //~ }
         $this->username = $username;
     }
 

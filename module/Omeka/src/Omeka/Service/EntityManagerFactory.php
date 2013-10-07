@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\TablePrefix;
+use Omeka\Db\Event\Listener\EntityValidationErrorDetector;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -61,6 +62,7 @@ class EntityManagerFactory implements FactoryInterface
         $em = EntityManager::create($conn, $config);
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix($tablePrefix));
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new ResourceDiscriminatorMap);
+        $em->getEventManager()->addEventListener(Events::onFlush, new EntityValidationErrorDetector);
 
         return $em;
     }

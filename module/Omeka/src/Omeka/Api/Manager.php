@@ -189,10 +189,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function resourceIsRegistered($resource)
     {
-        if (!array_key_exists($resource, $this->resources)) {
-            return false;
-        }
-        return true;
+        return array_key_exists($resource, $this->resources);
     }
 
     /**

@@ -12,12 +12,12 @@ class EntityValidationException extends RuntimeException
     protected $validationErrors = array();
 
     /**
-     * Set an entity validation error.
+     * Add an entity validation error.
      *
      * @param string $key
      * @param string $message
      */
-    public function setValidationError($key, $message)
+    public function addValidationError($key, $message)
     {
         $this->validationErrors[$key][] = $message;
     }

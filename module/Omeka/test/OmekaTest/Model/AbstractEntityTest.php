@@ -20,11 +20,11 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetsValidationErrors()
+    public function testAddsValidationErrors()
     {
-        $this->abstractEntity->setValidationError('foo', 'foo_message_one');
-        $this->abstractEntity->setValidationError('foo', 'foo_message_two');
-        $this->abstractEntity->setValidationError('bar', 'bar_message');
+        $this->abstractEntity->addValidationError('foo', 'foo_message_one');
+        $this->abstractEntity->addValidationError('foo', 'foo_message_two');
+        $this->abstractEntity->addValidationError('bar', 'bar_message');
         $this->assertEquals(
             array(
                 'foo' => array(
@@ -42,13 +42,13 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
     public function testHasValidationErrors()
     {
         $this->assertFalse($this->abstractEntity->hasValidationErrors());
-        $this->abstractEntity->setValidationError('foo', 'foo_message');
+        $this->abstractEntity->addValidationError('foo', 'foo_message');
         $this->assertTrue($this->abstractEntity->hasValidationErrors());
     }
 
     public function testClearsValidationErrors()
     {
-        $this->abstractEntity->setValidationError('foo', 'foo_message');
+        $this->abstractEntity->addValidationError('foo', 'foo_message');
         $this->abstractEntity->clearValidationErrors();
         $this->assertEquals(
             array(),

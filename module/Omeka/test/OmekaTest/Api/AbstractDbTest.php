@@ -291,7 +291,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             if (in_array($operation, array('create', 'update', 'delete'))) {
                 if ($throwValidationException) {
                     $exception = new ModelException\EntityValidationException;
-                    $exception->setValidationError('foo', 'foo_message');
+                    $exception->addValidationError('foo', 'foo_message');
                     $entityManager->expects($this->once())
                         ->method('flush')
                         ->will($this->throwException($exception));

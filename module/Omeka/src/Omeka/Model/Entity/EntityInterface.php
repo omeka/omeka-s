@@ -14,12 +14,12 @@ interface EntityInterface
     public function getValidationException();
 
     /**
-     * Set an entity validation error to the validation exception.
+     * Add an entity validation error to the validation exception.
      *
      * @param string $key
      * @param string $message
      */
-    public function setValidationError($key, $message);
+    public function addValidationError($key, $message);
 
     /**
      * Check whether this entity has validation errors.

@@ -38,10 +38,7 @@ class Manager implements ServiceLocatorAwareInterface
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->setError(Response::ERROR_INTERNAL, $e->getMessage());
         }
-        // The adapter may have set the request. If not, set it now.
-        if (null === $response->getRequest()) {
-            $response->setRequest($request);
-        }
+        $response->setRequest($request);
         return $response;
     }
 

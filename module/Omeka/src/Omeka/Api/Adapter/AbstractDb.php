@@ -115,7 +115,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $this->getEntityManager()->remove($entity);
             $this->getEntityManager()->flush();
             $response->setData($this->toArray($entity));
-        } catch (ModelException\EntityValidationException $e) {
+        } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
         }

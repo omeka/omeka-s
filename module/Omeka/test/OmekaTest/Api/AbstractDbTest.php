@@ -290,8 +290,10 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
             if (in_array($operation, array('create', 'update', 'delete'))) {
                 if ($throwValidationException) {
-                    $exception = new ModelException\EntityValidationException;
-                    $exception->addValidationError('foo', 'foo_message');
+                    $exception = $this->getMock('Omeka\Model\Exception\EntityValidationException');
+                    $exception->expects($this->once())
+                              ->method('getValidationErrors')
+                              ->will($this->returnValue(array('foo' => array('foo_message'))));
                     $entityManager->expects($this->once())
                         ->method('flush')
                         ->will($this->throwException($exception));

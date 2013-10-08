@@ -1,7 +1,9 @@
 <?php
 namespace OmekaTest\Api;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Api\Adapter\AbstractDb;
+use Omeka\Error\Map as ErrorMap;
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Model\Exception as ModelException;
 
@@ -291,9 +293,13 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             if (in_array($operation, array('create', 'update', 'delete'))) {
                 if ($throwValidationException) {
                     $exception = $this->getMock('Omeka\Model\Exception\EntityValidationException');
+                    $errorMap = $this->getMock('Omeka\Error\Map');
+                    $errorMap->expects($this->once())
+                             ->method('getErrors')
+                             ->will($this->returnValue(array('foo' => array('foo_message'))));
                     $exception->expects($this->once())
-                              ->method('getValidationErrors')
-                              ->will($this->returnValue(array('foo' => array('foo_message'))));
+                              ->method('getErrorMap')
+                              ->will($this->returnValue($errorMap));
                     $entityManager->expects($this->once())
                         ->method('flush')
                         ->will($this->throwException($exception));
@@ -317,4 +323,8 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
 class TestEntity extends AbstractEntity
 {
+    public function validate(ErrorMap $errorMap, $isPersistent,
+        EntityManager $entityManager
+    ) {
+    }
 }

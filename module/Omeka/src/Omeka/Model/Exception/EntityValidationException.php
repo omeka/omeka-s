@@ -1,42 +1,35 @@
 <?php
 namespace Omeka\Model\Exception;
 
+use Omeka\Error\Map as ErrorMap;
+
 /**
  * Entity validation exception.
  */
 class EntityValidationException extends RuntimeException
 {
     /**
-     * @var array
+     * @var ErrorMap
      */
-    protected $validationErrors = array();
+    protected $errorMap;
 
     /**
-     * Add an entity validation error.
+     * Set the error map.
      *
-     * @param string $key
-     * @param string $message
+     * @param ErrorMap $errorMap
      */
-    public function addValidationError($key, $message)
+    public function setErrorMap(ErrorMap $errorMap)
     {
-        $this->validationErrors[$key][] = $message;
+        $this->errorMap = $errorMap;
     }
 
     /**
-     * Get validation errors.
+     * Get the error map.
      *
      * @return array
      */
-    public function getValidationErrors()
+    public function getErrorMap()
     {
-        return $this->validationErrors;
-    }
-
-    /**
-     * Clear validation errors.
-     */
-    public function clearValidationErrors()
-    {
-        $this->validationErrors = array();
+        return $this->errorMap;
     }
 }

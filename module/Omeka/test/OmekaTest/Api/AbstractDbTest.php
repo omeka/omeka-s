@@ -7,7 +7,7 @@ use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Model\Exception as ModelException;
 
-class DbAdapterTest extends \PHPUnit_Framework_TestCase
+class AbstractDbTest extends \PHPUnit_Framework_TestCase
 {
     protected $dbAdapter;
 
@@ -34,7 +34,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
                 new TestEntity,
             )));
         $this->dbAdapter->expects($this->exactly(2))
-            ->method('toArray')
+            ->method('extract')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
             ->will($this->returnValue(array('foo' => 'bar')));
 
@@ -53,11 +53,11 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
         $this->dbAdapter->expects($this->once())
-            ->method('setData')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'),
-                   $this->equalTo($dataIn));
+            ->method('hydrate')
+            ->with($this->equalTo($dataIn),
+                   $this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
         $this->dbAdapter->expects($this->once())
-            ->method('toArray')
+            ->method('extract')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
             ->will($this->returnValue($responseDataOut));
 
@@ -77,9 +77,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
         $this->dbAdapter->expects($this->once())
-            ->method('setData')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'),
-                   $this->equalTo($dataIn));
+            ->method('hydrate')
+            ->with($this->equalTo($dataIn),
+                   $this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
 
         $response = $this->dbAdapter->create($dataIn);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
@@ -99,7 +99,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->dbAdapter->setServiceLocator($this->getServiceLocator('read', $id));
         $this->dbAdapter->expects($this->once())
-            ->method('toArray')
+            ->method('extract')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
             ->will($this->returnValue($responseDataOut));
 
@@ -140,11 +140,11 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
         $this->dbAdapter->expects($this->once())
-            ->method('setData')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'),
-                   $this->equalTo($dataIn));
+            ->method('hydrate')
+            ->with($this->equalTo($dataIn),
+                   $this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
         $this->dbAdapter->expects($this->once())
-            ->method('toArray')
+            ->method('extract')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
             ->will($this->returnValue($responseDataOut));
 
@@ -187,9 +187,9 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
         $this->dbAdapter->expects($this->once())
-            ->method('setData')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'),
-                   $this->equalTo($dataIn));
+            ->method('hydrate')
+            ->with($this->equalTo($dataIn),
+                   $this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
 
         $response = $this->dbAdapter->update($id, $dataIn);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
@@ -212,7 +212,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityClass')
             ->will($this->returnValue('OmekaTest\Api\TestEntity'));
         $this->dbAdapter->expects($this->once())
-            ->method('toArray')
+            ->method('extract')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
             ->will($this->returnValue($responseDataOut));
 

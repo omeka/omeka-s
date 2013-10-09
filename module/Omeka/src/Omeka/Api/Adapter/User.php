@@ -8,14 +8,14 @@ class User extends AbstractDb
         return 'Omeka\Model\Entity\User';
     }
 
-    public function setData($entity, array $data)
+    public function hydrate(array $data, $entity)
     {
         if (isset($data['username'])) {
             $entity->setUsername($data['username']);
         }
     }
 
-    public function toArray($entity)
+    public function extract($entity)
     {
         return array(
             'id' => $entity->getId(),

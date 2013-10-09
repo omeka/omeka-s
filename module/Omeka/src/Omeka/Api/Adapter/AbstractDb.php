@@ -6,11 +6,14 @@ use Omeka\Api\Adapter\DbInterface;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Abstract database API adapter.
  */
-abstract class AbstractDb extends AbstractAdapter implements DbInterface
+abstract class AbstractDb extends AbstractAdapter implements
+    DbInterface,
+    HydratorInterface
 {
     /**
      * Search a set of entities.
@@ -22,7 +25,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     {
         $entities = $this->findByData($data);
         foreach ($entities as &$entity) {
-            $entity = $this->toArray($entity);
+            $entity = $this->extract($entity);
         }
         return new Response($entities);
     }
@@ -37,13 +40,13 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
     {
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
-        $this->setData($entity, $data);
+        $this->hydrate($data, $entity);
         $this->getEntityManager()->persist($entity);
 
         $response = new Response;
         try {
             $this->getEntityManager()->flush();
-            $response->setData($this->toArray($entity));
+            $response->setData($this->extract($entity));
         } catch (ModelException\EntityValidationException $e) {
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->setErrors($e->getErrorStore()->getErrors());
@@ -63,7 +66,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
         $response = new Response;
         try {
             $entity = $this->find($id);
-            $response->setData($this->toArray($entity));
+            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
@@ -83,9 +86,9 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
         $response = new Response;
         try {
             $entity = $this->find($id);
-            $this->setData($entity, $data);
+            $this->hydrate($data, $entity);
             $this->getEntityManager()->flush();
-            $response->setData($this->toArray($entity));
+            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
@@ -95,7 +98,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);
-            $response->setData($this->toArray($entity));
+            $response->setData($this->extract($entity));
         }
         return $response;
     }
@@ -114,7 +117,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $entity = $this->find($id);
             $this->getEntityManager()->remove($entity);
             $this->getEntityManager()->flush();
-            $response->setData($this->toArray($entity));
+            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());

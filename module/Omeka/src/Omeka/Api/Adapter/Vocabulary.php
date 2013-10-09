@@ -8,7 +8,7 @@ class Vocabulary extends AbstractDb
         return 'Omeka\Model\Entity\Vocabulary';
     }
 
-    public function setData($entity, array $data)
+    public function hydrate(array $data, $entity)
     {
         $owner = $this->getEntityManager()
                       ->getRepository('Omeka\Model\Entity\User')
@@ -19,7 +19,7 @@ class Vocabulary extends AbstractDb
         $entity->setComment($data['comment']);
     }
 
-    public function toArray($entity)
+    public function extract($entity)
     {
         $userAdapter = new User;
         return array(

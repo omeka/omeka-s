@@ -42,8 +42,8 @@ class IsUnique extends AbstractValidator
      */
     protected $messageTemplates = array(
         self::NOT_UNIQUE => 'The value "%value%" is not unique for the "%field%" field.',
-        self::INVALID_ENTITY => 'Invalid entity passed to IsUnique validator.',
-        self::INVALID_FIELD => 'Invalid field passed to IsUnique validator.',
+        self::INVALID_ENTITY => 'Invalid entity "%value%" passed to IsUnique validator.',
+        self::INVALID_FIELD => 'Invalid field "%value%" passed to IsUnique validator.',
     );
 
     /**
@@ -66,7 +66,7 @@ class IsUnique extends AbstractValidator
     public function isValid($entity)
     {
         if (!$entity instanceof EntityInterface) {
-            $this->error(self::INVALID_ENTITY);
+            $this->error(self::INVALID_ENTITY, get_class($entity));
             return false;
         }
 
@@ -74,7 +74,7 @@ class IsUnique extends AbstractValidator
         // Check whether the passed field belongs to the passed entity. This
         // prevents SQL injection of malicious user data.
         if (!in_array($this->field, $classMetadata->fieldNames)) {
-            $this->error(self::INVALID_FIELD);
+            $this->error(self::INVALID_FIELD, $this->field);
             return false;
         }
 

@@ -3,7 +3,7 @@ namespace Omeka\Db\Event\Listener;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Omeka\StdLib\ErrorStore;
+use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception\EntityValidationException;
 

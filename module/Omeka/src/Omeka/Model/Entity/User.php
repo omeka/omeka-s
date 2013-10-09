@@ -3,7 +3,7 @@ namespace Omeka\Model\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Omeka\StdLib\ErrorStore;
+use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
 
 /**

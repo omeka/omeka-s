@@ -3,7 +3,7 @@ namespace OmekaTest\Api;
 
 use Doctrine\ORM\EntityManager;
 use Omeka\Api\Adapter\AbstractDb;
-use Omeka\StdLib\ErrorStore;
+use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Model\Exception as ModelException;
 
@@ -293,7 +293,7 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase
             if (in_array($operation, array('create', 'update', 'delete'))) {
                 if ($throwValidationException) {
                     $exception = $this->getMock('Omeka\Model\Exception\EntityValidationException');
-                    $errorStore = $this->getMock('Omeka\StdLib\ErrorStore');
+                    $errorStore = $this->getMock('Omeka\Stdlib\ErrorStore');
                     $errorStore->expects($this->once())
                              ->method('getErrors')
                              ->will($this->returnValue(array('foo' => array('foo_message'))));

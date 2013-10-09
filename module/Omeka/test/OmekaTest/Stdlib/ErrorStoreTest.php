@@ -1,7 +1,7 @@
 <?php
-namespace Omeka\StdLib;
+namespace Omeka\Stdlib;
 
-use Omeka\StdLib\ErrorStore;
+use Omeka\Stdlib\ErrorStore;
 
 class ErrorStoreTest extends \PHPUnit_Framework_TestCase
 {

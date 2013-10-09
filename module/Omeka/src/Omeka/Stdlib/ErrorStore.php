@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\StdLib;
+namespace Omeka\Stdlib;
 
 /**
  * Error key/message store.

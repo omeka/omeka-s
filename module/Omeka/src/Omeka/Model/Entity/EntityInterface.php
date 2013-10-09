@@ -2,7 +2,7 @@
 namespace Omeka\Model\Entity;
 
 use Doctrine\ORM\EntityManager;
-use Omeka\Error\Store as ErrorStore;
+use Omeka\StdLib\ErrorStore;
 
 /**
  * Entity API adapter interface.

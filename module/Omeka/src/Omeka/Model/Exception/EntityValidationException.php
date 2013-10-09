@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Model\Exception;
 
-use Omeka\Error\Store as ErrorStore;
+use Omeka\StdLib\ErrorStore;
 
 /**
  * Entity validation exception.

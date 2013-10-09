@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Error;
+namespace Omeka\StdLib;
 
 /**
  * Error key/message store.
  */
-class Store
+class ErrorStore
 {
     /**
      * @var array

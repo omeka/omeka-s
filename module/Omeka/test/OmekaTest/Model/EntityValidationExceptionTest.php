@@ -7,7 +7,7 @@ class EntityValidationExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetsAndGetsErrorStore()
     {
-        $errorStore = $this->getMock('Omeka\Error\Store');
+        $errorStore = $this->getMock('Omeka\StdLib\ErrorStore');
         $exception = new EntityValidationException;
         $exception->setErrorStore($errorStore);
         $this->assertSame($errorStore, $exception->getErrorStore());

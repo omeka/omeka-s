@@ -6,17 +6,18 @@ use Omeka\Model\Entity\EntityInterface;
 use Zend\Validator\AbstractValidator;
 
 /**
- * Check whether a value of a property is unique.
+ * Check whether a value of an entity field is unique.
  */
 class IsUnique extends AbstractValidator
 {
     const NOT_UNIQUE = 'notUnique';
     const INVALID_ENTITY = 'invalidEntity';
+    const INVALID_FIELD = 'invalidField';
 
     /**
      * @var string
      */
-    protected $property;
+    protected $field;
 
     /**
      * @var EntityInterface
@@ -32,7 +33,7 @@ class IsUnique extends AbstractValidator
      * @var array
      */
     protected $messageVariables = array(
-        'property' => 'property',
+        'field' => 'field',
         'value' => 'value',
     );
 
@@ -40,23 +41,24 @@ class IsUnique extends AbstractValidator
      * @var array
      */
     protected $messageTemplates = array(
-        self::NOT_UNIQUE => 'The value "%value%" is not unique for the "%property%" property.',
+        self::NOT_UNIQUE => 'The value "%value%" is not unique for the "%field%" field.',
         self::INVALID_ENTITY => 'Invalid entity passed to IsUnique validator.',
+        self::INVALID_FIELD => 'Invalid field passed to IsUnique validator.',
     );
 
     /**
-     * @param string $property The property to check for uniqueness
+     * @param string $field The entity field to check for uniqueness
      * @param EntityManager $entityManager
      */
-    public function __construct($property, EntityManager $entityManager)
+    public function __construct($field, EntityManager $entityManager)
     {
-        $this->property = $property;
+        $this->field = $field;
         $this->entityManager = $entityManager;
         parent::__construct();
     }
 
     /**
-     * Check whether a value of a property is unique.
+     * Check whether a value of an entity field is unique.
      *
      * @param EntityInterface $entity
      * @return bool
@@ -68,28 +70,32 @@ class IsUnique extends AbstractValidator
             return false;
         }
 
-        // Set the value as the value of the specified property of the entity.
-        $getProperty = 'get' . ucfirst($this->property);
-        $value = $entity->$getProperty();
+        $classMetadata = $this->entityManager->getClassMetadata(get_class($entity));
+        // Check whether the passed field belongs to the passed entity. This
+        // prevents SQL injection of malicious user data.
+        if (!in_array($this->field, $classMetadata->fieldNames)) {
+            $this->error(self::INVALID_FIELD);
+            return false;
+        }
+
+        // Set the value as the value of the specified field of the entity. The
+        // field must have a corresponding get*() method.
+        $getField = 'get' . ucfirst($this->field);
+        $value = $entity->$getField();
         $this->setValue($value);
 
-        // Get the fully qualified class name of the entity.
-        $entityClass = $this->entityManager
-            ->getClassMetadata(get_class($entity))
-            ->name;
-
-        // Check uniqueness on an entity that is not yet persistent. In this
-        // case, a value is unique if no entity has the specified property equal
-        // to the assigned value.
         $qb = $this->entityManager->createQueryBuilder();
+        // Check uniqueness on an entity that is not yet persistent. In this
+        // case, a value is unique if no entity has the specified field equal
+        // to the assigned value.
         $qb->select('1')
-           ->from($entityClass, 'entity')
-           ->where($qb->expr()->eq("entity.{$this->property}", ':value'))
+           ->from($classMetadata->name, 'entity')
+           ->where($qb->expr()->eq("entity.{$this->field}", ':value'))
            ->setParameter('value', $value);
 
         // Check uniqueness on a persistent entity. In this case, a value is
         // unique if no entity, other than the persistent entity itself, has the
-        // specified property equal to the assigned value.
+        // specified field equal to the assigned value.
         if (null !== $entity->getId()) {
             $qb->andWhere($qb->expr()->neq('entity.id', ':id'))
                ->setParameter('id', $entity->getId());

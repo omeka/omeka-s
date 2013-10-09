@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Model\Entity;
 
-use Omeka\Model\Exception;
-
 /**
  * Abstract entity.
  */

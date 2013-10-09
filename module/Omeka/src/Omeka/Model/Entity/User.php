@@ -1,14 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Omeka\Stdlib\ErrorStore;
-use Omeka\Validator\Db\IsUnique;
-
 /**
  * @Entity
- * @HasLifecycleCallbacks
  */
 class User extends AbstractEntity
 {
@@ -31,14 +25,5 @@ class User extends AbstractEntity
     public function getUsername()
     {
         return $this->username;
-    }
-
-    public function validate(ErrorStore $errorStore, $isPersistent,
-        EntityManager $entityManager
-    ) {
-        $validator = new IsUnique('username', $entityManager);
-        if (!$validator->isValid($this)) {
-            $errorStore->addValidatorMessages('username', $validator->getMessages());
-        }
     }
 }

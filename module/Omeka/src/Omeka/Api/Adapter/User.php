@@ -1,6 +1,10 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Model\Entity\EntityInterface;
+use Omeka\Stdlib\ErrorStore;
+use Omeka\Validator\Db\IsUnique;
+
 class User extends AbstractDb
 {
     public function getEntityClass()
@@ -28,5 +32,14 @@ class User extends AbstractDb
         return $this->getEntityManager()
                     ->getRepository($this->getEntityClass())
                     ->findAll();
+    }
+
+    public function validate(EntityInterface $entity, ErrorStore $errorStore,
+        $isPersistent
+    ) {
+        $validator = new IsUnique('username', $this->getEntityManager());
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages('username', $validator->getMessages());
+        }
     }
 }

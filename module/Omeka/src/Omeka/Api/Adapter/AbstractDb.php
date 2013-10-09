@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Adapter\DbInterface;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
+use Omeka\Stdlib\ErrorStore;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
@@ -38,19 +40,22 @@ abstract class AbstractDb extends AbstractAdapter implements
      */
     public function create($data = null)
     {
+        $response = new Response;
+
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
         $this->hydrate($data, $entity);
-        $this->getEntityManager()->persist($entity);
 
-        $response = new Response;
-        try {
-            $this->getEntityManager()->flush();
-            $response->setData($this->extract($entity));
-        } catch (ModelException\EntityValidationException $e) {
+        $errorStore = $this->validateEntity($entity);
+        if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($e->getErrorStore()->getErrors());
+            $response->setErrors($errorStore->getErrors());
+            return $response;
         }
+
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+        $response->setData($this->extract($entity));
         return $response;
     }
 
@@ -66,11 +71,12 @@ abstract class AbstractDb extends AbstractAdapter implements
         $response = new Response;
         try {
             $entity = $this->find($id);
-            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            return $response;
         }
+        $response->setData($this->extract($entity));
         return $response;
     }
 
@@ -86,20 +92,24 @@ abstract class AbstractDb extends AbstractAdapter implements
         $response = new Response;
         try {
             $entity = $this->find($id);
-            $this->hydrate($data, $entity);
-            $this->getEntityManager()->flush();
-            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
-        } catch (ModelException\EntityValidationException $e) {
+            return $response;
+        }
+        $this->hydrate($data, $entity);
+        $errorStore = $this->validateEntity($entity);
+        if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($e->getErrorStore()->getErrors());
+            $response->setErrors($errorStore->getErrors());
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);
             $response->setData($this->extract($entity));
+            return $response;
         }
+        $this->getEntityManager()->flush();
+        $response->setData($this->extract($entity));
         return $response;
     }
 
@@ -115,13 +125,14 @@ abstract class AbstractDb extends AbstractAdapter implements
         $response = new Response;
         try {
             $entity = $this->find($id);
-            $this->getEntityManager()->remove($entity);
-            $this->getEntityManager()->flush();
-            $response->setData($this->extract($entity));
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            return $response;
         }
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
+        $response->setData($this->extract($entity));
         return $response;
     }
 
@@ -162,5 +173,32 @@ abstract class AbstractDb extends AbstractAdapter implements
             ));
         }
         return $entity;
+    }
+
+    /**
+     * Validate an entity.
+     *
+     * @param EntityInterface $entity
+     * @return ErrorStore
+     */
+    protected function validateEntity(EntityInterface $entity)
+    {
+        $errorStore = new ErrorStore;
+        $this->validate($entity, $errorStore, $this->entityIsPersistent($entity));
+        return $errorStore;
+    }
+
+    /**
+     * Check whether an entity is persistent.
+     *
+     * @param EntityInterface $entity
+     * @return bool
+     */
+    protected function entityIsPersistent(EntityInterface $entity)
+    {
+        $entityState = $this->getEntityManager()
+            ->getUnitOfWork()
+            ->getEntityState($entity);
+        return UnitOfWork::STATE_MANAGED === $entityState;
     }
 }

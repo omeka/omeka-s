@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Model\Entity\EntityInterface;
+use Omeka\Stdlib\ErrorStore;
+
 class Vocabulary extends AbstractDb
 {
     public function getEntityClass()
@@ -35,5 +38,10 @@ class Vocabulary extends AbstractDb
         return $this->getEntityManager()
                     ->getRepository($this->getEntityClass())
                     ->findAll();
+    }
+
+    public function validate(EntityInterface $entity, ErrorStore $errorStore,
+        $isPersistent
+    ) {
     }
 }

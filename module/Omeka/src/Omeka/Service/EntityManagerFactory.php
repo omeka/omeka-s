@@ -62,7 +62,6 @@ class EntityManagerFactory implements FactoryInterface
         $em = EntityManager::create($conn, $config);
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix($tablePrefix));
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new ResourceDiscriminatorMap);
-        $em->getEventManager()->addEventListener(Events::onFlush, new EntityValidationErrorDetector);
 
         return $em;
     }

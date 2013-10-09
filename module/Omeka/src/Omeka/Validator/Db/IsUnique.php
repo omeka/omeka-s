@@ -33,13 +33,14 @@ class IsUnique extends AbstractValidator
      */
     protected $messageVariables = array(
         'property' => 'property',
+        'value' => 'value',
     );
 
     /**
      * @var array
      */
     protected $messageTemplates = array(
-        self::NOT_UNIQUE => 'The "%property%" property is not unique.',
+        self::NOT_UNIQUE => 'The value "%value%" is not unique for the "%property%" property.',
         self::INVALID_ENTITY => 'Invalid entity passed to IsUnique validator.',
     );
 
@@ -74,30 +75,27 @@ class IsUnique extends AbstractValidator
 
         // Get the fully qualified class name of the entity.
         $entityClass = $this->entityManager
-                            ->getClassMetadata(get_class($entity))
-                            ->name;
+            ->getClassMetadata(get_class($entity))
+            ->name;
 
         // Check uniqueness on an entity that is not yet persistent. In this
         // case, a value is unique if no entity has the specified property equal
         // to the assigned value.
-        if (null === $entity->getId()) {
-            $dql = "SELECT 1 FROM $entityClass entity "
-                 . "WHERE entity.{$this->property} = :value ";
-            $query = $this->entityManager->createQuery($dql);
-            $query->setParameter('value', $value);
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('1')
+           ->from($entityClass, 'entity')
+           ->where($qb->expr()->eq("entity.{$this->property}", ':value'))
+           ->setParameter('value', $value);
+
         // Check uniqueness on a persistent entity. In this case, a value is
         // unique if no entity, other than the persistent entity itself, has the
         // specified property equal to the assigned value.
-        } else {
-            $dql = "SELECT 1 FROM $entityClass entity "
-                 . "WHERE entity.{$this->property} = :value "
-                 . 'AND entity.id != :id';
-            $query = $this->entityManager->createQuery($dql);
-            $query->setParameter('value', $value);
-            $query->setParameter('id', $entity->getId());
+        if (null !== $entity->getId()) {
+            $qb->andWhere($qb->expr()->neq('entity.id', ':id'))
+               ->setParameter('id', $entity->getId());
         }
 
-        if ($query->getOneOrNullResult()) {
+        if ($qb->getQuery()->getOneOrNullResult()) {
             $this->error(self::NOT_UNIQUE);
             return false;
         }

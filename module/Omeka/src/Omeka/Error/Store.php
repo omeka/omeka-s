@@ -1,7 +1,10 @@
 <?php
 namespace Omeka\Error;
 
-class Map
+/**
+ * Error key/message store.
+ */
+class Store
 {
     /**
      * @var array
@@ -20,15 +23,15 @@ class Map
     }
 
     /**
-     * Add errors derived from Zend validators.
+     * Add errors derived from Zend validator messages.
      *
      * @param array $errors
      * @param null|string $customKey
      */
-    public function addValidatorErrors($customKey, array $errors)
+    public function addValidatorMessages($key, array $messages)
     {
-        foreach ($errors as $error) {
-            $this->addError($customKey, $error);
+        foreach ($messages as $message) {
+            $this->addError($key, $message);
         }
     }
 
@@ -51,7 +54,7 @@ class Map
     }
 
     /**
-     * Check whether the error map contains errors.
+     * Check whether the error store contains errors.
      *
      * @return bool
      */

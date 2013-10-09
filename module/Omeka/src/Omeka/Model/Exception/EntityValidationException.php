@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Model\Exception;
 
-use Omeka\Error\Map as ErrorMap;
+use Omeka\Error\Store as ErrorStore;
 
 /**
  * Entity validation exception.
@@ -9,27 +9,27 @@ use Omeka\Error\Map as ErrorMap;
 class EntityValidationException extends RuntimeException
 {
     /**
-     * @var ErrorMap
+     * @var ErrorStore
      */
-    protected $errorMap;
+    protected $errorStore;
 
     /**
-     * Set the error map.
+     * Set the error store.
      *
-     * @param ErrorMap $errorMap
+     * @param ErrorStore $errorStore
      */
-    public function setErrorMap(ErrorMap $errorMap)
+    public function setErrorStore(ErrorStore $errorStore)
     {
-        $this->errorMap = $errorMap;
+        $this->errorStore = $errorStore;
     }
 
     /**
-     * Get the error map.
+     * Get the error store.
      *
      * @return array
      */
-    public function getErrorMap()
+    public function getErrorStore()
     {
-        return $this->errorMap;
+        return $this->errorStore;
     }
 }

@@ -3,7 +3,7 @@ namespace Omeka\Db\Event\Listener;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Omeka\Error\Map as ErrorMap;
+use Omeka\Error\Store as ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception\EntityValidationException;
 
@@ -42,11 +42,11 @@ class EntityValidationErrorDetector
         if (!$entity instanceof EntityInterface) {
             return;
         }
-        $errorMap = new ErrorMap;
-        $entity->validate($errorMap, $isPersistent, $entityManager);
-        if ($errorMap->hasErrors()) {
+        $errorStore = new ErrorStore;
+        $entity->validate($errorStore, $isPersistent, $entityManager);
+        if ($errorStore->hasErrors()) {
             $exception = new EntityValidationException('Entity validation failed.');
-            $exception->setErrorMap($errorMap);
+            $exception->setErrorStore($errorStore);
             throw $exception;
         }
     }

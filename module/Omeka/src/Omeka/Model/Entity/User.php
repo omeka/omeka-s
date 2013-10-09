@@ -3,7 +3,7 @@ namespace Omeka\Model\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Omeka\Error\Map as ErrorMap;
+use Omeka\Error\Store as ErrorStore;
 use Omeka\Validator\Db\IsUnique;
 
 /**
@@ -33,12 +33,12 @@ class User extends AbstractEntity
         return $this->username;
     }
 
-    public function validate(ErrorMap $errorMap, $isPersistent,
+    public function validate(ErrorStore $errorStore, $isPersistent,
         EntityManager $entityManager
     ) {
         $validator = new IsUnique('username', $entityManager);
         if (!$validator->isValid($this)) {
-            $errorMap->addValidatorErrors('username', $validator->getMessages());
+            $errorStore->addValidatorMessages('username', $validator->getMessages());
         }
     }
 }

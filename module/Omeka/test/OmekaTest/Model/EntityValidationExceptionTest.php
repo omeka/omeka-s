@@ -5,11 +5,11 @@ use Omeka\Model\Exception\EntityValidationException;
 
 class EntityValidationExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSetsAndGetsErrorMap()
+    public function testSetsAndGetsErrorStore()
     {
-        $errorMap = $this->getMock('Omeka\Error\Map');
+        $errorStore = $this->getMock('Omeka\Error\Store');
         $exception = new EntityValidationException;
-        $exception->setErrorMap($errorMap);
-        $this->assertSame($errorMap, $exception->getErrorMap());
+        $exception->setErrorStore($errorStore);
+        $this->assertSame($errorStore, $exception->getErrorStore());
     }
 }

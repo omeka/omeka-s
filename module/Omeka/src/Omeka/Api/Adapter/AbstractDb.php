@@ -46,7 +46,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $response->setData($this->toArray($entity));
         } catch (ModelException\EntityValidationException $e) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($e->getErrorMap()->getErrors());
+            $response->setErrors($e->getErrorStore()->getErrors());
         }
         return $response;
     }
@@ -91,7 +91,7 @@ abstract class AbstractDb extends AbstractAdapter implements DbInterface
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
         } catch (ModelException\EntityValidationException $e) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($e->getErrorMap()->getErrors());
+            $response->setErrors($e->getErrorStore()->getErrors());
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);

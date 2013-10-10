@@ -23,6 +23,22 @@ class ErrorStore
     }
 
     /**
+     * Merge errors of an ErrorStore onto this one.
+     *
+     * @param ErrorStore $errorStore
+     */
+    public function mergeErrors(ErrorStore $errorStore)
+    {
+        foreach ($errorStore->getErrors() as $key => $messages) {
+            if (is_array($messages)) {
+                foreach ($messages as $message) {
+                    $this->addError($key, $message);
+                }
+            }
+        }
+    }
+
+    /**
      * Add errors derived from Zend validator messages.
      *
      * @param array $errors

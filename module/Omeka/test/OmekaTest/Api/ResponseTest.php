@@ -2,6 +2,7 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\Response;
+use Omeka\Stdlib\ErrorStore;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,22 +17,25 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->response = new Response;
     }
 
-    public function testUnsetPropertiesReturnNull()
+    public function testInitialState()
     {
         $this->assertEquals('', $this->response->getContent());
+        $this->assertEquals('success', $this->response->getStatus());
+        $this->assertInstanceOf('Omeka\Stdlib\ErrorStore', $this->response->getErrorStore());
+        $this->assertEmpty($this->response->getErrors());
         $this->assertNull($this->response->getRequest());
     }
 
     public function testConstructorSetsProperties()
     {
-        $response = new Response('foo');
-        $this->assertEquals('foo', $response->getContent());
+        $response = new Response('content');
+        $this->assertEquals('content', $response->getContent());
     }
 
-    public function testSetsAndGetsData()
+    public function testSetsAndGetsContent()
     {
-        $this->response->setContent('foo');
-        $this->assertEquals('foo', $this->response->getContent());
+        $this->response->setContent('content');
+        $this->assertEquals('content', $this->response->getContent());
     }
 
     public function testSetsAndGetsValidStatuses()
@@ -50,27 +54,34 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->response->setStatus('foo');
     }
 
-    public function testSetsAndGetsError()
+    public function testAddsAndGetsError()
     {
-        $this->response->setError('foo', 'one');
-        $this->response->setError('foo', 'two');
-        $this->response->setError('bar', 'three');
+        $this->response->addError('foo', 'foo_message_one');
+        $this->response->addError('foo', 'foo_message_two');
+        $this->response->addError('bar', 'bar_message');
         $this->assertEquals($this->response->getErrors(), array(
-            'foo' => array('one', 'two'),
-            'bar' => array('three'),
+            'foo' => array('foo_message_one', 'foo_message_two'),
+            'bar' => array('bar_message'),
         ));
     }
 
-    public function testSetErrorsWorks()
+    public function testMergesErrors()
     {
-        $this->response->setErrors(array(
-            'foo' => array('one', 'two'),
-            'bar' => array('three'),
-        ));
-        $this->assertEquals($this->response->getErrors(), array(
-            'foo' => array('one', 'two'),
-            'bar' => array('three'),
-        ));
+        $this->response->addError('foo', 'foo_message_one');
+        $errorStore = new ErrorStore;
+        $errorStore->addError('foo', 'foo_message_two');
+        $errorStore->addError('bar', 'bar_message');
+        $this->response->mergeErrors($errorStore);
+        $this->assertEquals(
+            array(
+                'foo' => array(
+                    'foo_message_one',
+                    'foo_message_two',
+                ),
+                'bar' => array('bar_message'),
+            ),
+            $this->response->getErrors()
+        );
     }
 
     public function testIsErrorWorks()

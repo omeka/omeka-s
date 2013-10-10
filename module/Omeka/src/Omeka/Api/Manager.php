@@ -36,7 +36,7 @@ class Manager implements ServiceLocatorAwareInterface
             // Always return a Response object, regardless of exception.
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
-            $response->setError(Response::ERROR_INTERNAL, $e->getMessage());
+            $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
         $response->setRequest($request);
         return $response;

@@ -49,7 +49,7 @@ abstract class AbstractDb extends AbstractAdapter implements
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($errorStore->getErrors());
+            $response->mergeErrors($errorStore);
             return $response;
         }
 
@@ -73,7 +73,7 @@ abstract class AbstractDb extends AbstractAdapter implements
             $entity = $this->find($id);
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
         $response->setContent($this->extract($entity));
@@ -94,14 +94,14 @@ abstract class AbstractDb extends AbstractAdapter implements
             $entity = $this->find($id);
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
         $this->hydrate($data, $entity);
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
-            $response->setErrors($errorStore->getErrors());
+            $response->mergeErrors($errorStore);
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);
@@ -127,7 +127,7 @@ abstract class AbstractDb extends AbstractAdapter implements
             $entity = $this->find($id);
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
         $this->getEntityManager()->remove($entity);

@@ -16,7 +16,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         'search','create','read','update','delete',
     );
 
-    public function testUnsetPropertiesReturnNull()
+    public function testInitialState()
     {
         $this->assertEquals('', $this->request->getContent());
         $this->assertNull($this->request->getOperation());
@@ -59,7 +59,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $this->request->getId());
     }
 
-    public function testSetsAndGetsData()
+    public function testSetsAndGetsContent()
     {
         $this->request->setContent('foo');
         $this->assertEquals('foo', $this->request->getContent());

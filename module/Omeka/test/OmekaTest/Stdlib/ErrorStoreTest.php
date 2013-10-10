@@ -39,6 +39,22 @@ class ErrorStoreTest extends \PHPUnit_Framework_TestCase
         ), $this->errorStore->getErrors());
     }
 
+    public function testMergesErrors()
+    {
+        $errorStore = $this->getMock('Omeka\Stdlib\ErrorStore');
+        $errorStore->expects($this->once())
+            ->method('getErrors')
+            ->will($this->returnValue(array('foo' => array('foo_message_two'))));
+        $this->errorStore->addError('foo', 'foo_message_one');
+        $this->errorStore->mergeErrors($errorStore);
+        $this->assertEquals(array(
+            'foo' => array(
+                'foo_message_one',
+                'foo_message_two',
+            )
+        ), $this->errorStore->getErrors());
+    }
+
     public function testClearsErrors()
     {
         $this->errorStore->addError('foo', 'foo_message');

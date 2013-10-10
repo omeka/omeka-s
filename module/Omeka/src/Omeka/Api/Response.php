@@ -2,6 +2,7 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Request;
+use Omeka\Stdlib\ErrorStore;
 use Zend\Stdlib\Request as ZendResponse;
 
 /**
@@ -41,8 +42,9 @@ class Response extends ZendResponse
      */
     public function __construct($content = null)
     {
-        // Set the default status.
-        $this->setStatus(self::SUCCESS);
+        // Set the default metadata.
+        $this->setMetadata('status', self::SUCCESS);
+        $this->setMetadata('error_store', new ErrorStore);
         if (null !== $content) {
             $this->setContent($content);
         }
@@ -75,53 +77,44 @@ class Response extends ZendResponse
     }
 
     /**
-     * Set errors.
-     *
-     * Errors must be in the following format:
-     * array(
-     *     'foo' => array(
-     *         'foo error message one',
-     *         'foo error message two',
-     *     ),
-     *     'bar' => array(
-     *         'bar error message one',
-     *     ),
-     * )
-     *
+     * Merge errors of an ErrorStore.
+     * 
      * @param array $errors
      */
-    public function setErrors(array $errors)
+    public function mergeErrors(ErrorStore $errorStore)
     {
-        foreach ($errors as $key => $messages) {
-            if (is_array($messages)) {
-                foreach ($messages as $message) {
-                    $this->setError($key, $message);
-                }
-            }
-        }
+        $this->getMetadata('error_store')->mergeErrors($errorStore);
     }
 
     /**
-     * Set an error.
+     * Add an error to the ErrorStore.
      *
      * @param string $key
      * @param string $message
      */
-    public function setError($key, $message)
+    public function addError($key, $message)
     {
-        $errors = $this->getMetadata('errors', array());
-        $errors[$key][] = $message;
-        $this->setMetadata('errors', $errors);
+        $this->getMetadata('error_store')->addError($key, $message);
     }
 
     /**
-     * Get the errors.
+     * Get the error store.
+     *
+     * @return ErrorStore
+     */
+    public function getErrorStore()
+    {
+        return $this->getMetadata('error_store');
+    }
+
+    /**
+     * Get the errors from the ErrorStore.
      * 
      * @return array
      */
     public function getErrors()
     {
-        return $this->getMetadata('errors');
+        return $this->getMetadata('error_store')->getErrors();
     }
 
     /**

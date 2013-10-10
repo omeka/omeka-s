@@ -55,7 +55,7 @@ abstract class AbstractDb extends AbstractAdapter implements
 
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-        $response->setData($this->extract($entity));
+        $response->setContent($this->extract($entity));
         return $response;
     }
 
@@ -76,7 +76,7 @@ abstract class AbstractDb extends AbstractAdapter implements
             $response->setError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
-        $response->setData($this->extract($entity));
+        $response->setContent($this->extract($entity));
         return $response;
     }
 
@@ -105,11 +105,11 @@ abstract class AbstractDb extends AbstractAdapter implements
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);
-            $response->setData($this->extract($entity));
+            $response->setContent($this->extract($entity));
             return $response;
         }
         $this->getEntityManager()->flush();
-        $response->setData($this->extract($entity));
+        $response->setContent($this->extract($entity));
         return $response;
     }
 
@@ -132,7 +132,7 @@ abstract class AbstractDb extends AbstractAdapter implements
         }
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        $response->setData($this->extract($entity));
+        $response->setContent($this->extract($entity));
         return $response;
     }
 

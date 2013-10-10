@@ -18,20 +18,20 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsetPropertiesReturnNull()
     {
-        $this->assertNull($this->response->getData());
+        $this->assertEquals('', $this->response->getContent());
         $this->assertNull($this->response->getRequest());
     }
 
     public function testConstructorSetsProperties()
     {
         $response = new Response('foo');
-        $this->assertEquals('foo', $response->getData());
+        $this->assertEquals('foo', $response->getContent());
     }
 
     public function testSetsAndGetsData()
     {
-        $this->response->setData('foo');
-        $this->assertEquals('foo', $this->response->getData());
+        $this->response->setContent('foo');
+        $this->assertEquals('foo', $this->response->getContent());
     }
 
     public function testSetsAndGetsValidStatuses()

@@ -62,19 +62,19 @@ class Manager implements ServiceLocatorAwareInterface
         }
         switch ($request->getOperation()) {
             case Request::SEARCH:
-                $response = $adapter->search($request->getData());
+                $response = $adapter->search($request->getContent());
                 break;
             case Request::CREATE:
-                $response = $adapter->create($request->getData());
+                $response = $adapter->create($request->getContent());
                 break;
             case Request::READ:
-                $response = $adapter->read($request->getId(), $request->getData());
+                $response = $adapter->read($request->getId(), $request->getContent());
                 break;
             case Request::UPDATE:
-                $response = $adapter->update($request->getId(), $request->getData());
+                $response = $adapter->update($request->getId(), $request->getContent());
                 break;
             case Request::DELETE:
-                $response = $adapter->delete($request->getId(), $request->getData());
+                $response = $adapter->delete($request->getId(), $request->getContent());
                 break;
             default:
                 throw new Exception\InvalidRequestException(sprintf(

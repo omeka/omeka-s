@@ -2,11 +2,12 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Request;
+use Zend\Stdlib\Request as ZendResponse;
 
 /**
  * Api response.
  */
-class Response
+class Response extends ZendResponse
 {
     const SUCCESS          = 'success';
     const ERROR_INTERNAL   = 'error_internal';
@@ -33,56 +34,18 @@ class Response
     );
 
     /**
-     * @var mixed
-     */
-    protected $data;
-
-    /**
-     * @var int
-     */
-    protected $status = self::SUCCESS;
-
-    /**
-     * @var array
-     */
-    protected $errors;
-
-    /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * Construct the API response.
      *
      * @param mixed $data
      * @param null|Request $request
      */
-    public function __construct($data = null)
+    public function __construct($content = null)
     {
-        if (null !== $data) {
-            $this->data = $data;
+        // Set the default status.
+        $this->setStatus(self::SUCCESS);
+        if (null !== $content) {
+            $this->setContent($content);
         }
-    }
-
-    /**
-     * Set the response data.
-     *
-     * @param mixed $data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * Get the response data.
-     * 
-     * @return string
-     */
-    public function getData()
-    {
-        return $this->data;
     }
 
     /**
@@ -98,7 +61,7 @@ class Response
                 $status
             ));
         }
-        $this->status = $status;
+        $this->setMetadata('status', $status);
     }
 
     /**
@@ -108,7 +71,7 @@ class Response
      */
     public function getStatus()
     {
-        return $this->status;
+        return $this->getMetadata('status');
     }
 
     /**
@@ -146,7 +109,9 @@ class Response
      */
     public function setError($key, $message)
     {
-        $this->errors[$key][] = $message;
+        $errors = $this->getMetadata('errors', array());
+        $errors[$key][] = $message;
+        $this->setMetadata('errors', $errors);
     }
 
     /**
@@ -156,7 +121,7 @@ class Response
      */
     public function getErrors()
     {
-        return $this->errors;
+        return $this->getMetadata('errors');
     }
 
     /**
@@ -166,7 +131,7 @@ class Response
      */
     public function isError()
     {
-        return in_array($this->status, $this->errorStatuses);
+        return in_array($this->getMetadata('status'), $this->errorStatuses);
     }
 
     /**
@@ -176,7 +141,7 @@ class Response
      */
     public function setRequest(Request $request)
     {
-        $this->request = $request;
+        $this->setMetadata('request', $request);
     }
 
     /**
@@ -186,6 +151,6 @@ class Response
      */
     public function getRequest()
     {
-        return $this->request;
+        return $this->getMetadata('request');
     }
 }

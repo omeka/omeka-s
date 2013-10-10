@@ -2,11 +2,12 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Exception;
+use Zend\Stdlib\Request as ZendRequest;
 
 /**
  * API request.
  */
-class Request
+class Request extends ZendRequest
 {
     const SEARCH = 'search';
     const CREATE = 'create';
@@ -24,26 +25,6 @@ class Request
         self::UPDATE,
         self::DELETE,
     );
-
-    /**
-     * @var int
-     */
-    protected $operation;
-
-    /**
-     * @var string
-     */
-    protected $resource;
-
-    /**
-     * @var mixed
-     */
-    protected $id;
-
-    /**
-     * @var mixed
-     */
-    protected $data;
 
     /**
      * Construct an API request.
@@ -74,7 +55,7 @@ class Request
                 $operation
             ));
         }
-        $this->operation = $operation;
+        $this->setMetadata('operation', $operation);
     }
 
     /**
@@ -84,7 +65,7 @@ class Request
      */
     public function getOperation()
     {
-        return $this->operation;
+        return $this->getMetadata('operation');
     }
 
     /**
@@ -94,7 +75,7 @@ class Request
      */
     public function setResource($resource)
     {
-        $this->resource = $resource;
+        $this->setMetadata('resource', $resource);
     }
 
     /**
@@ -104,7 +85,7 @@ class Request
      */
     public function getResource()
     {
-        return $this->resource;
+        return $this->getMetadata('resource');
     }
 
     /**
@@ -114,7 +95,7 @@ class Request
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->setMetadata('id', $id);
     }
 
     /**
@@ -124,26 +105,6 @@ class Request
      */
     public function getId()
     {
-        return $this->id;
-    }
-
-    /**
-     * Set the request data.
-     * 
-     * @param mixed $data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * Get the request data.
-     * 
-     * @return mixed
-     */
-    public function getData()
-    {
-        return $this->data;
+        return $this->getMetadata('id');
     }
 }

@@ -6,7 +6,11 @@ namespace Omeka\Model\Entity;
  */
 class File extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
     public function getId()

@@ -19,16 +19,27 @@ class Resource extends AbstractEntity
     const TYPE_ITEM = 'Item';
     const TYPE_MEDIA = 'Media';
 
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
 
-    /** @ManyToOne(targetEntity="ResourceClass") @JoinColumn(nullable=false) */
+    /**
+     * @ManyToOne(targetEntity="ResourceClass")
+     * @JoinColumn(nullable=false)
+     */
     protected $resourceClass;
 
-    /** @OneToMany(targetEntity="SiteResource", mappedBy="resource") */
+    /**
+     * @OneToMany(targetEntity="SiteResource", mappedBy="resource")
+     */
     protected $sites;
 
     /**

@@ -12,31 +12,51 @@ namespace Omeka\Model\Entity;
  */
 class ResourceClass extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
 
-    /** @ManyToOne(targetEntity="Vocabulary") */
+    /**
+     * @ManyToOne(targetEntity="Vocabulary")
+     */
     protected $vocabulary;
 
-    /** @OneToMany(targetEntity="ResourceClassProperty", mappedBy="resourceClass") */
+    /**
+     * @OneToMany(targetEntity="ResourceClassProperty", mappedBy="resourceClass")
+     */
     protected $properties;
 
-    /** @Column(nullable=true) */
+    /**
+     * @Column(nullable=true)
+     */
     protected $localName;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $label;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $comment;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $resourceType;
 
-    /** @Column(type="boolean") */
+    /**
+     * @Column(type="boolean")
+     */
     protected $isDefault;
 
     public function __construct()

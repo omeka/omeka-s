@@ -12,25 +12,41 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Property extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
 
-    /** @ManyToOne(targetEntity="Vocabulary") */
+    /**
+     * @ManyToOne(targetEntity="Vocabulary")
+     */
     protected $vocabulary;
 
-    /** @OneToMany(targetEntity="ResourceClassProperty", mappedBy="property") */
+    /**
+     * @OneToMany(targetEntity="ResourceClassProperty", mappedBy="property")
+     */
     protected $resourceClasses;
 
-    /** @Column(nullable=true) */
+    /**
+     * @Column(nullable=true)
+     */
     protected $localName;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $label;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $comment;
 
     public function __construct()

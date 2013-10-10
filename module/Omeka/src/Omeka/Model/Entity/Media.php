@@ -6,19 +6,31 @@ namespace Omeka\Model\Entity;
  */
 class Media extends Resource
 {
-    /** @Id @Column(type="integer") */
+    /**
+     * @Id
+     * @Column(type="integer")
+     */
     protected $id;
 
-    /** @ManyToOne(targetEntity="Item") @JoinColumn(nullable=false) */
+    /**
+     * @ManyToOne(targetEntity="Item")
+     * @JoinColumn(nullable=false)
+     */
     protected $item;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $type;
     
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $data;
 
-    /** @OneToOne(targetEntity="File") */
+    /**
+     * @OneToOne(targetEntity="File")
+     */
     private $file;
 
     public function getId()

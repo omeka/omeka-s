@@ -6,10 +6,16 @@ namespace Omeka\Model\Entity;
  */
 class Site extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
-    /** @OneToMany(targetEntity="SiteResource", mappedBy="site") */
+    /**
+     * @OneToMany(targetEntity="SiteResource", mappedBy="site")
+     */
     protected $siteResources;
 
     public function getId()

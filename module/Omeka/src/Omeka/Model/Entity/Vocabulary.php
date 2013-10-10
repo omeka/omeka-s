@@ -10,19 +10,31 @@ namespace Omeka\Model\Entity;
  */
 class Vocabulary extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
 
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
 
-    /** @Column(unique=true) */
+    /**
+     * @Column(unique=true)
+     */
     protected $namespaceUri;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $label;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $comment;
 
     public function getId()

@@ -6,10 +6,16 @@ namespace Omeka\Model\Entity;
  */
 class SiteResource extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
     
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $assigner;
     
     /**

@@ -12,35 +12,58 @@ class Value extends AbstractEntity
     const TYPE_RESOURCE = 'resource';
     const TYPE_URI = 'uri';
 
-    /** @Id @Column(type="integer") @GeneratedValue
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
      */
     protected $id;
 
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
 
-    /** @ManyToOne(targetEntity="Resource") @JoinColumn(nullable=false) */
+    /**
+     * @ManyToOne(targetEntity="Resource")
+     * @JoinColumn(nullable=false)
+     */
     protected $resource;
 
-    /** @ManyToOne(targetEntity="Property") @JoinColumn(nullable=false) */
+    /**
+     * @ManyToOne(targetEntity="Property")
+     * @JoinColumn(nullable=false)
+     */
     protected $property;
 
-    /** @Column */
+    /**
+     * @Column
+     */
     protected $type;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $value;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $valueTransformed;
 
-    /** @Column(nullable=true) */
+    /**
+     * @Column(nullable=true)
+     */
     protected $lang;
 
-    /** @Column(type="boolean") */
+    /**
+     * @Column(type="boolean")
+     */
     protected $isHtml;
 
-    /** @ManyToOne(targetEntity="Resource") */
+    /**
+     * @ManyToOne(targetEntity="Resource")
+     */
     protected $valueResource;
 
     public function getId()

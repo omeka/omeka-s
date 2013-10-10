@@ -28,4 +28,34 @@ class SiteResource extends AbstractEntity
     {
         return $this->id;
     }
+
+    public function setAssigner($assigner)
+    {
+        $this->assigner = $assigner;
+    }
+
+    public function getAssigner()
+    {
+        return $this->assigner;
+    }
+
+    public function setSite($site)
+    {
+        $this->site = $site;
+    }
+
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
+    }
+
+    public function getResource()
+    {
+        return $this->resource;
+    }
 }

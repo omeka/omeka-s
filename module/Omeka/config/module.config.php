@@ -31,10 +31,10 @@ return array(
     'api_manager' => array(
         'resources' => array(
             'users' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\User',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\User',
             ),
             'vocabularies' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Vocabulary',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\Vocabulary',
             ),
         ),
     ),

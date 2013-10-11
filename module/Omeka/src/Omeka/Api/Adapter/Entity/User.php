@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Api\Adapter;
+namespace Omeka\Api\Adapter\Entity;
 
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
 
-class User extends AbstractDb
+class User extends AbstractEntity
 {
     public function getEntityClass()
     {
@@ -27,7 +27,7 @@ class User extends AbstractDb
         );
     }
 
-    public function findByData(array $data)
+    public function findByQuery(array $query)
     {
         return $this->getEntityManager()
                     ->getRepository($this->getEntityClass())

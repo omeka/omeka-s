@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Api\Adapter;
+namespace Omeka\Api\Adapter\Entity;
 
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
-class Vocabulary extends AbstractDb
+class Vocabulary extends AbstractEntity
 {
     public function getEntityClass()
     {
@@ -33,7 +33,7 @@ class Vocabulary extends AbstractDb
         );
     }
 
-    public function findByData(array $data)
+    public function findByQuery(array $query)
     {
         return $this->getEntityManager()
                     ->getRepository($this->getEntityClass())

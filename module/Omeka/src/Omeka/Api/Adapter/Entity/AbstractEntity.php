@@ -1,9 +1,8 @@
 <?php
-namespace Omeka\Api\Adapter;
+namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Adapter\AbstractAdapter;
-use Omeka\Api\Adapter\DbInterface;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
@@ -11,10 +10,10 @@ use Omeka\Stdlib\ErrorStore;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
- * Abstract database API adapter.
+ * Abstract entity API adapter.
  */
-abstract class AbstractDb extends AbstractAdapter implements
-    DbInterface,
+abstract class AbstractEntity extends AbstractAdapter implements
+    EntityInterface,
     HydratorInterface
 {
     /**
@@ -25,7 +24,7 @@ abstract class AbstractDb extends AbstractAdapter implements
      */
     public function search($data = null)
     {
-        $entities = $this->findByData($data);
+        $entities = $this->findByQuery($data);
         foreach ($entities as &$entity) {
             $entity = $this->extract($entity);
         }

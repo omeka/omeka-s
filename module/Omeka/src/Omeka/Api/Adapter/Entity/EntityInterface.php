@@ -1,13 +1,13 @@
 <?php
-namespace Omeka\Api\Adapter;
+namespace Omeka\Api\Adapter\Entity;
 
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
 
 /**
- * Database API adapter interface.
+ * Entity API adapter interface.
  */
-interface DbInterface
+interface EntityInterface
 {
     /**
      * Get this entity's fully qualified class name.
@@ -17,12 +17,12 @@ interface DbInterface
     public function getEntityClass();
 
     /**
-     * Find entities by API request data.
+     * Find entities by API request query.
      *
-     * @param array $data
+     * @param array $query
      * @return array An array of entities
      */
-    public function findByData(array $data);
+    public function findByQuery(array $query);
 
     /**
      * Validate an entity.

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
@@ -33,11 +34,8 @@ class Vocabulary extends AbstractEntity
         );
     }
 
-    public function findByQuery(array $query)
+    public function buildQuery(array $query, QueryBuilder $qb)
     {
-        return $this->getEntityManager()
-                    ->getRepository($this->getEntityClass())
-                    ->findAll();
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,

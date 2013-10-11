@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Response;
@@ -24,7 +25,20 @@ abstract class AbstractEntity extends AbstractAdapter implements
      */
     public function search($data = null)
     {
-        $entities = $this->findByQuery($data);
+        $queryBuilder = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select($this->getEntityClass())
+            ->from($this->getEntityClass(), $this->getEntityClass());
+        $this->buildQuery($data, $queryBuilder);
+        $this->setOrderBy($data, $queryBuilder);
+        $this->setLimitAndOffset($data, $queryBuilder);
+
+        //~ echo $queryBuilder->getDQL();
+        //~ echo "\n\n";
+        //~ echo $queryBuilder->getQuery()->getSQL();
+        //~ exit;
+
+        $entities = $queryBuilder->getQuery()->getResult();
         foreach ($entities as &$entity) {
             $entity = $this->extract($entity);
         }
@@ -199,5 +213,45 @@ abstract class AbstractEntity extends AbstractAdapter implements
             ->getUnitOfWork()
             ->getEntityState($entity);
         return UnitOfWork::STATE_MANAGED === $entityState;
+    }
+
+    /**
+     * Set an order by condition to the query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $queryBuilder
+     */
+    protected function setOrderBy(array $query, QueryBuilder $queryBuilder)
+    {
+        if (!isset($query['order_by'])) {
+            return;
+        }
+        $orderBy = $query['order_by'];
+        $sort = null;
+        if (isset($query['sort'])
+            && in_array($query['sort'], array('ASC', 'DESC'))) {
+            $sort = $query['sort'];
+        }
+        $queryBuilder->orderBy($this->getEntityClass() . ".$orderBy", $sort);
+    }
+
+    /**
+     * Set limit (max results) and offset (first result) conditions to the
+     * query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $queryBuilder
+     */
+    protected function setLimitAndOffset(array $query, QueryBuilder $queryBuilder)
+    {
+        if (!isset($query['limit']) && !isset($query['offset'])) {
+            return;
+        }
+        if (isset($query['limit'])) {
+            $queryBuilder->setMaxResults($query['limit']);
+        }
+        if (isset($query['offset'])) {
+            $queryBuilder->setFirstResult($query['offset']);
+        }
     }
 }

@@ -15,8 +15,8 @@ class Vocabulary extends AbstractEntity
     public function hydrate(array $data, $entity)
     {
         $owner = $this->getEntityManager()
-                      ->getRepository('Omeka\Model\Entity\User')
-                      ->find($data['owner']['id']);
+            ->getRepository('Omeka\Model\Entity\User')
+            ->find($data['owner']['id']);
         $entity->setOwner($owner);
         $entity->setNamespaceUri($data['namespace_uri']);
         $entity->setLabel($data['label']);
@@ -27,7 +27,7 @@ class Vocabulary extends AbstractEntity
     {
         $userAdapter = new User;
         return array(
-            'owner' => $userAdapter->toArray($entity->getOwner()),
+            'owner' => $userAdapter->extract($entity->getOwner()),
             'namespace_uri' => $entity->getNamespaceUri(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),
@@ -36,6 +36,22 @@ class Vocabulary extends AbstractEntity
 
     public function buildQuery(array $query, QueryBuilder $qb)
     {
+        if (isset($query['owner_id'])) {
+            $userAdapter = new User;
+            $qb->innerJoin(
+                $userAdapter->getEntityClass(),
+                $userAdapter->getEntityClass(),
+                'WITH',
+                $userAdapter->getEntityClass() . '.id = ' . $this->getEntityClass() . '.owner'
+            )->andWhere(
+                $userAdapter->getEntityClass() . '.id = :owner_id'
+            )->setParameter('owner_id', $query['owner_id']);
+        }
+        if (isset($query['namespace_uri'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.namespaceUri', ':namespace_uri'
+            ))->setParameter('namespace_uri', $query['namespace_uri']);
+        }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,

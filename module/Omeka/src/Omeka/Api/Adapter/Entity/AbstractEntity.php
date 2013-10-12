@@ -25,24 +25,32 @@ abstract class AbstractEntity extends AbstractAdapter implements
      */
     public function search($data = null)
     {
-        $queryBuilder = $this->getEntityManager()
-            ->createQueryBuilder()
-            ->select($this->getEntityClass())
-            ->from($this->getEntityClass(), $this->getEntityClass());
-        $this->buildQuery($data, $queryBuilder);
-        $this->setOrderBy($data, $queryBuilder);
-        $this->setLimitAndOffset($data, $queryBuilder);
+        // Build the search query.
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->from($this->getEntityClass(), $this->getEntityClass());
+        $this->buildQuery($data, $qb);
 
-        //~ echo $queryBuilder->getDQL();
+        // Get total results.
+        $qb->select($qb->expr()->count($this->getEntityClass() . '.id'));
+        $totalResults = $qb->getQuery()->getSingleScalarResult();
+
+        // Get the queried results.
+        $qb->select($this->getEntityClass());
+        $this->setOrderBy($data, $qb);
+        $this->setLimitAndOffset($data, $qb);
+
+        //~ echo $qb->getDQL();
         //~ echo "\n\n";
-        //~ echo $queryBuilder->getQuery()->getSQL();
+        //~ echo $qb->getQuery()->getSQL();
         //~ exit;
 
-        $entities = $queryBuilder->getQuery()->getResult();
+        $entities = $qb->getQuery()->getResult();
         foreach ($entities as &$entity) {
             $entity = $this->extract($entity);
         }
-        return new Response($entities);
+        $response = new Response($entities);
+        $response->setTotalResults($totalResults);
+        return $response;
     }
 
     /**

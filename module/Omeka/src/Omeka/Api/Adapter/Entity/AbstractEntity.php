@@ -34,7 +34,7 @@ abstract class AbstractEntity extends AbstractAdapter implements
         $qb->select($qb->expr()->count($this->getEntityClass() . '.id'));
         $totalResults = $qb->getQuery()->getSingleScalarResult();
 
-        // Get the queried results.
+        // Finish building the search query.
         $qb->select($this->getEntityClass());
         $this->setOrderBy($data, $qb);
         $this->setLimitAndOffset($data, $qb);
@@ -44,9 +44,11 @@ abstract class AbstractEntity extends AbstractAdapter implements
         //~ echo $qb->getQuery()->getSQL();
         //~ exit;
 
-        $entities = $qb->getQuery()->getResult();
-        foreach ($entities as &$entity) {
-            $entity = $this->extract($entity);
+        $entities = array();
+        foreach ($qb->getQuery()->iterate() as $row) {
+            $entities[] = $this->extract($row[0]);
+            // Garbage collect immediately.
+            $this->getEntityManager()->detach($row[0]);
         }
         $response = new Response($entities);
         $response->setTotalResults($totalResults);

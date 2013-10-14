@@ -36,20 +36,19 @@ class Vocabulary extends AbstractEntity
 
     public function buildQuery(array $query, QueryBuilder $qb)
     {
+        $entityClass = $this->getEntityClass();
         if (isset($query['owner_id'])) {
             $userAdapter = new User;
-            $qb->innerJoin(
-                $userAdapter->getEntityClass(),
-                $userAdapter->getEntityClass(),
-                'WITH',
-                $userAdapter->getEntityClass() . '.id = ' . $this->getEntityClass() . '.owner'
-            )->andWhere(
-                $userAdapter->getEntityClass() . '.id = :owner_id'
-            )->setParameter('owner_id', $query['owner_id']);
+            $entityClassUser = $userAdapter->getEntityClass();
+            $qb->addSelect($entityClassUser)
+                ->innerJoin($entityClassUser, $entityClassUser,
+                    'WITH', "$entityClassUser.id = $entityClass.owner")
+                ->andWhere("$entityClassUser.id = :owner_id")
+                ->setParameter('owner_id', $query['owner_id']);
         }
         if (isset($query['namespace_uri'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.namespaceUri', ':namespace_uri'
+                "$entityClass.namespaceUri", ':namespace_uri'
             ))->setParameter('namespace_uri', $query['namespace_uri']);
         }
     }

@@ -25,31 +25,28 @@ abstract class AbstractEntity extends AbstractAdapter implements
      */
     public function search($data = null)
     {
-        // Build the search query.
+        $entityClass = $this->getEntityClass();
+
+        // Begin building the search query.
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->from($this->getEntityClass(), $this->getEntityClass());
+        $qb->select($entityClass)->from($entityClass, $entityClass);
         $this->buildQuery($data, $qb);
 
         // Get total results.
-        $qb->select($qb->expr()->count($this->getEntityClass() . '.id'));
-        $totalResults = $qb->getQuery()->getSingleScalarResult();
+        $qbTotalResults = clone $qb;
+        $qbTotalResults->select(
+            $qbTotalResults->expr()->count("$entityClass.id")
+        );
+        $totalResults = $qbTotalResults->getQuery()->getSingleScalarResult();
 
-        // Finish building the search query.
-        $qb->select($this->getEntityClass());
+        // Finish building the search query and get the results.
         $this->setOrderBy($data, $qb);
         $this->setLimitAndOffset($data, $qb);
-
-        //~ echo $qb->getDQL();
-        //~ echo "\n\n";
-        //~ echo $qb->getQuery()->getSQL();
-        //~ exit;
-
         $entities = array();
         foreach ($qb->getQuery()->iterate() as $row) {
             $entities[] = $this->extract($row[0]);
-            // Garbage collect immediately.
-            $this->getEntityManager()->detach($row[0]);
         }
+
         $response = new Response($entities);
         $response->setTotalResults($totalResults);
         return $response;
@@ -231,18 +228,18 @@ abstract class AbstractEntity extends AbstractAdapter implements
      * @param array $query
      * @param QueryBuilder $queryBuilder
      */
-    protected function setOrderBy(array $query, QueryBuilder $queryBuilder)
+    protected function setOrderBy(array $query, QueryBuilder $qb)
     {
-        if (!isset($query['order_by'])) {
+        if (!isset($query['sort_by'])) {
             return;
         }
-        $orderBy = $query['order_by'];
-        $sort = null;
-        if (isset($query['sort'])
-            && in_array($query['sort'], array('ASC', 'DESC'))) {
-            $sort = $query['sort'];
+        $sortBy = $query['sort_by'];
+        $sortOrder = null;
+        if (isset($query['sort_order'])
+            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
+            $sortOrder = strtoupper($query['sort_order']);
         }
-        $queryBuilder->orderBy($this->getEntityClass() . ".$orderBy", $sort);
+        $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
     }
 
     /**
@@ -252,16 +249,16 @@ abstract class AbstractEntity extends AbstractAdapter implements
      * @param array $query
      * @param QueryBuilder $queryBuilder
      */
-    protected function setLimitAndOffset(array $query, QueryBuilder $queryBuilder)
+    protected function setLimitAndOffset(array $query, QueryBuilder $qb)
     {
         if (!isset($query['limit']) && !isset($query['offset'])) {
             return;
         }
         if (isset($query['limit'])) {
-            $queryBuilder->setMaxResults($query['limit']);
+            $qb->setMaxResults($query['limit']);
         }
         if (isset($query['offset'])) {
-            $queryBuilder->setFirstResult($query['offset']);
+            $qb->setFirstResult($query['offset']);
         }
     }
 }

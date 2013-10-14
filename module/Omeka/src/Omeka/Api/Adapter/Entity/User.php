@@ -40,7 +40,7 @@ class User extends AbstractEntity
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        $validator = new IsUnique('username', $this->getEntityManager());
+        $validator = new IsUnique(array('username'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('username', $validator->getMessages());
         }

@@ -36,6 +36,9 @@ return array(
             'vocabularies' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\Vocabulary',
             ),
+            'resource-classes' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClass',
+            ),
         ),
     ),
 );

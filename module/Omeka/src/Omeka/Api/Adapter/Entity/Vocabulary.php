@@ -27,6 +27,7 @@ class Vocabulary extends AbstractEntity
     {
         $userAdapter = new User;
         return array(
+            'id' => $entity->getId(),
             'owner' => $userAdapter->extract($entity->getOwner()),
             'namespace_uri' => $entity->getNamespaceUri(),
             'label' => $entity->getLabel(),

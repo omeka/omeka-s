@@ -10,109 +10,138 @@ namespace Omeka\Model\Entity;
  * @Entity
  * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"})})
  */
-class ResourceClass
+class ResourceClass extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
-    
-    /** @ManyToOne(targetEntity="User") */
+
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
-    
-    /** @ManyToOne(targetEntity="Vocabulary") */
+
+    /**
+     * @ManyToOne(targetEntity="Vocabulary")
+     */
     protected $vocabulary;
-    
-    /** @OneToMany(targetEntity="ResourceClassProperty", mappedBy="resourceClass") */
+
+    /**
+     * @OneToMany(targetEntity="ResourceClassProperty", mappedBy="resourceClass")
+     */
     protected $properties;
-    
-    /** @Column(nullable=true) */
+
+    /**
+     * @Column(nullable=true)
+     */
     protected $localName;
-    
-    /** @Column */
+
+    /**
+     * @Column
+     */
     protected $label;
-    
-    /** @Column(type="text", nullable=true) */
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $comment;
-    
-    /** @Column */
+
+    /**
+     * @Column
+     */
     protected $resourceType;
-    
-    /** @Column(type="boolean") */
+
+    /**
+     * @Column(type="boolean")
+     */
     protected $isDefault;
-    
+
     public function __construct()
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
-    public function getVocabulary()
+
+    public function setOwner($owner)
     {
-        return $this->vocabulary;
+        $this->owner = $owner;
     }
-    
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
     public function setVocabulary($vocabulary)
     {
         $this->vocabulary = $vocabulary;
     }
-    
-    public function getLocalName()
+
+    public function getVocabulary()
     {
-        return $this->localName;
+        return $this->vocabulary;
     }
-    
+
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
     public function setLocalName($localName)
     {
         $this->localName = $localName;
     }
-    
-    public function getLabel()
+
+    public function getLocalName()
     {
-        return $this->label;
+        return $this->localName;
     }
-    
+
     public function setLabel($label)
     {
         $this->label = $label;
     }
-    
-    public function getComment()
+
+    public function getLabel()
     {
-        return $this->comment;
+        return $this->label;
     }
-    
+
     public function setComment($comment)
     {
         $this->comment = $comment;
     }
-    
+
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    public function setResourceType($resourceType)
+    {
+        $this->resourceType = $resourceType;
+    }
+
     public function getResourceType()
     {
         return $this->resourceType;
     }
-    
-    public function setResourceType($resourceType)
-    {
-        if (!in_array($resourceType, array(
-            Resource::TYPE_ITEM_SET, 
-            Resource::TYPE_ITEM, 
-            Resource::TYPE_MEDIA
-        ))) {
-            throw new \InvalidArgumentException('Invalid resource type');
-        }
-        $this->resourceType = $resourceType;
-    }
-    
-    public function getIsDefault()
-    {
-        return $this->defaultClass;
-    }
-    
+
     public function setIsDefault($isDefault)
     {
-        $this->isDefault = (bool) $isDefault;
+        $this->isDefault = $isDefault;
     }
+
+    public function getIsDefault()
+    {
+        return $this->isDefault;
+    }
+
 }

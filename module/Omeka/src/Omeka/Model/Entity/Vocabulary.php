@@ -8,25 +8,77 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Vocabulary
+class Vocabulary extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
-    
-    /** @ManyToOne(targetEntity="User") */
+
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
-    
-    /** @Column(unique=true) */
+
+    /**
+     * @Column(unique=true)
+     */
     protected $namespaceUri;
-    
-    /** @Column */
+
+    /**
+     * @Column
+     */
     protected $label;
-    
-    /** @Column(type="text", nullable=true) */
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $comment;
-    
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function setNamespaceUri($namespaceUri)
+    {
+        $this->namespaceUri = $namespaceUri;
+    }
+
+    public function getNamespaceUri()
+    {
+        return $this->namespaceUri;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

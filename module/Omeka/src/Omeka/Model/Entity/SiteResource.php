@@ -4,12 +4,18 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class SiteResource
+class SiteResource extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
     
-    /** @ManyToOne(targetEntity="User") */
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $assigner;
     
     /**
@@ -27,5 +33,35 @@ class SiteResource
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setAssigner($assigner)
+    {
+        $this->assigner = $assigner;
+    }
+
+    public function getAssigner()
+    {
+        return $this->assigner;
+    }
+
+    public function setSite($site)
+    {
+        $this->site = $site;
+    }
+
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
+    }
+
+    public function getResource()
+    {
+        return $this->resource;
     }
 }

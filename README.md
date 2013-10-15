@@ -6,6 +6,8 @@
    `$ git clone git@github.com:omeka/Omeka3.git`
 2. Install [Composer](http://getcomposer.org/): 
    `$ curl -sS https://getcomposer.org/installer | php`
+2. Change into the Omeka3 directory:
+   `$ cd Omeka3`
 3. Install the [Doctrine](http://www.doctrine-project.org/) environment: 
    `$ ./composer.phar install`
 4. Copy and rename the application config file: 

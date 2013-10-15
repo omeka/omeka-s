@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
+
 /**
  * A resource, representing the subject in an RDF triple.
  * 
@@ -11,54 +13,81 @@ namespace Omeka\Model\Entity;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  */
-class Resource
+class Resource extends AbstractEntity
 {
     const TYPE_ITEM_SET = 'ItemSet';
-    
     const TYPE_ITEM = 'Item';
-    
     const TYPE_MEDIA = 'Media';
-    
-    /** @Id @Column(type="integer") @GeneratedValue */
+
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
-    
-    /** @ManyToOne(targetEntity="User") */
+
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     protected $owner;
-    
-    /** @ManyToOne(targetEntity="ResourceClass") @JoinColumn(nullable=false) */
+
+    /**
+     * @ManyToOne(targetEntity="ResourceClass")
+     * @JoinColumn(nullable=false)
+     */
     protected $resourceClass;
-    
-    /** @OneToMany(targetEntity="SiteResource", mappedBy="resource") */
+
+    /**
+     * @OneToMany(targetEntity="SiteResource", mappedBy="resource")
+     */
     protected $sites;
-    
+
     /**
      * All resources must belong to a class. If one is not set prior to persist, 
      * set it to the default class of this resource type.
      * 
      * @PrePersist
      */
-    public function prePersistSetResourceClass($event)
+    public function setDefaultResourceClass(LifecycleEventArgs $eventArgs)
     {
-        $em = $event->getEntityManager();
+        $entityManager = $eventArgs->getEntityManager();
         if (null === $this->resourceClass) {
-            $resourceClass = $em->getRepository('Omeka\\Model\\ResourceClass')
-                ->findOneBy(array('resourceType' => get_called_class(), 'isDefault' => true));
+            $resourceClass = $entityManager->getRepository('Omeka\Model\ResourceClass')
+                ->findOneBy(array(
+                    'resourceType' => get_called_class(),
+                    'isDefault' => true)
+                );
             $this->resourceClass = $resourceClass;
         }
     }
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function setResourceClass($resourceClass)
+    {
+        $this->resourceClass = $resourceClass;
+    }
+
     public function getResourceClass()
     {
         return $this->resourceClass;
     }
-    
-    public function setResourceClass($resourceClass)
+
+    public function getSites()
     {
-        $this->resourceClass = $resourceClass;
+        return $this->sites;
     }
 }

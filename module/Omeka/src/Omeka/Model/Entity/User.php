@@ -4,13 +4,32 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class User
+class User extends AbstractEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
     protected $id;
+
+    /**
+     * @Column(unique=true)
+     */
+    protected $username;
     
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 }

@@ -6,11 +6,46 @@ namespace Omeka\Api\Adapter;
  */
 interface AdapterInterface
 {
-    public function search();
-    public function create();
-    public function read();
-    public function update();
-    public function delete();
-    public function setData(array $data);
-    public function getData($key = null);
+    /**
+     * Search a set of resources.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function search($data = null);
+
+    /**
+     * Create a resource.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function create($data = null);
+
+    /**
+     * Read a resource.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return mixed
+     */
+    public function read($id, $data = null);
+
+    /**
+     * Update a resource.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return mixed
+     */
+    public function update($id, $data = null);
+
+    /**
+     * Delete a resource.
+     *
+     * @param mixed $id
+     * @param mixed $data
+     * @return mixed
+     */
+    public function delete($id, $data = null);
 }

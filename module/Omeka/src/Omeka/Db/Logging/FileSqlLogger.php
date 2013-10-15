@@ -40,10 +40,12 @@ class FileSqlLogger implements SQLLogger
     {
         $this->file->fwrite(date('c') . PHP_EOL);
         $this->file->fwrite($sql . PHP_EOL);
-        foreach ($params as $key => $param) {
-            $type = $this->getType($types[$key]);
-            $param = var_export($param, true);
-            $this->file->fwrite("($type) $param" . PHP_EOL);
+        if (is_array($params)) {
+            foreach ($params as $key => $param) {
+                $type = $this->getType($types[$key]);
+                $param = var_export($param, true);
+                $this->file->fwrite("($type) $param" . PHP_EOL);
+            }
         }
         $this->file->fwrite(PHP_EOL);
     }

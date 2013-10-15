@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\TablePrefix;
 use Omeka\Db\Event\Listener\EntityValidationErrorDetector;
+use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -56,13 +57,29 @@ class EntityManagerFactory implements FactoryInterface
             $isDevMode = false;
         }
 
-        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/../Model/Entity'), $isDevMode);
-        $config->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+        $emConfig = Setup::createAnnotationMetadataConfiguration(
+            array(__DIR__ . '/../Model/Entity'), $isDevMode
+        );
+        $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
-        $em = EntityManager::create($conn, $config);
-        $em->getEventManager()->addEventListener(Events::loadClassMetadata, new TablePrefix($tablePrefix));
-        $em->getEventManager()->addEventListener(Events::loadClassMetadata, new ResourceDiscriminatorMap);
+        if (isset($config['log_sql'])
+            && $config['log_sql']
+            && isset($config['log_path'])
+            && is_file($config['log_path'])
+            && is_writable($config['log_path'])
+        ) {
+            $emConfig->setSQLLogger(new FileSqlLogger($config['log_path']));
+        }
 
+        $em = EntityManager::create($conn, $emConfig);
+        $em->getEventManager()->addEventListener(
+            Events::loadClassMetadata,
+            new TablePrefix($tablePrefix)
+        );
+        $em->getEventManager()->addEventListener(
+            Events::loadClassMetadata,
+            new ResourceDiscriminatorMap
+        );
         return $em;
     }
 }

@@ -42,6 +42,11 @@ class Resource extends AbstractEntity
      */
     protected $sites;
 
+    public function __construct()
+    {
+        $this->sites = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * All resources must belong to a class. If one is not set prior to persist, 
      * set it to the default class of this resource type.
@@ -52,7 +57,7 @@ class Resource extends AbstractEntity
     {
         $entityManager = $eventArgs->getEntityManager();
         if (null === $this->resourceClass) {
-            $resourceClass = $entityManager->getRepository('Omeka\Model\ResourceClass')
+            $resourceClass = $entityManager->getRepository('Omeka\Model\Entity\ResourceClass')
                 ->findOneBy(array(
                     'resourceType' => get_called_class(),
                     'isDefault' => true)

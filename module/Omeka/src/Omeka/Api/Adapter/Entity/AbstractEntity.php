@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Response;
@@ -24,11 +25,31 @@ abstract class AbstractEntity extends AbstractAdapter implements
      */
     public function search($data = null)
     {
-        $entities = $this->findByQuery($data);
-        foreach ($entities as &$entity) {
-            $entity = $this->extract($entity);
+        $entityClass = $this->getEntityClass();
+
+        // Begin building the search query.
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select($entityClass)->from($entityClass, $entityClass);
+        $this->buildQuery($data, $qb);
+
+        // Get total results.
+        $qbTotalResults = clone $qb;
+        $qbTotalResults->select(
+            $qbTotalResults->expr()->count("$entityClass.id")
+        );
+        $totalResults = $qbTotalResults->getQuery()->getSingleScalarResult();
+
+        // Finish building the search query and get the results.
+        $this->setOrderBy($data, $qb);
+        $this->setLimitAndOffset($data, $qb);
+        $entities = array();
+        foreach ($qb->getQuery()->iterate() as $row) {
+            $entities[] = $this->extract($row[0]);
         }
-        return new Response($entities);
+
+        $response = new Response($entities);
+        $response->setTotalResults($totalResults);
+        return $response;
     }
 
     /**
@@ -199,5 +220,45 @@ abstract class AbstractEntity extends AbstractAdapter implements
             ->getUnitOfWork()
             ->getEntityState($entity);
         return UnitOfWork::STATE_MANAGED === $entityState;
+    }
+
+    /**
+     * Set an order by condition to the query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $queryBuilder
+     */
+    protected function setOrderBy(array $query, QueryBuilder $qb)
+    {
+        if (!isset($query['sort_by'])) {
+            return;
+        }
+        $sortBy = $query['sort_by'];
+        $sortOrder = null;
+        if (isset($query['sort_order'])
+            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
+            $sortOrder = strtoupper($query['sort_order']);
+        }
+        $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
+    }
+
+    /**
+     * Set limit (max results) and offset (first result) conditions to the
+     * query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $queryBuilder
+     */
+    protected function setLimitAndOffset(array $query, QueryBuilder $qb)
+    {
+        if (!isset($query['limit']) && !isset($query['offset'])) {
+            return;
+        }
+        if (isset($query['limit'])) {
+            $qb->setMaxResults($query['limit']);
+        }
+        if (isset($query['offset'])) {
+            $qb->setFirstResult($query['offset']);
+        }
     }
 }

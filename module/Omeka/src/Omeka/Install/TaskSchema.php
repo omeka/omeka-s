@@ -25,14 +25,12 @@ class TaskSchema extends TaskAbstract implements TaskInterface
         
         if(!is_readable($this->installDataPath . '/schema.txt' )) {
             $this->result->addMessage('Could not read the schema installation file.', 'ERROR');
-            //_log($e);
             $this->result->setSuccess(false);
             return;   
         }
         $classes = unserialize(file_get_contents($this->installDataPath . '/schema.txt'));
         if(!is_array($classes)) {
             $this->result->addMessage('Could not read the schema installation file.', 'ERROR');
-            //_log($e);
             $this->result->setSuccess(false);
             return;            
         }
@@ -47,12 +45,10 @@ class TaskSchema extends TaskAbstract implements TaskInterface
                 $conn->executeQuery($sql);                    
             } catch(\Doctrine\DBAL\DBALException $e) {
                 $this->result->addExceptionMessage($e, 'A problem occurred while creating tables.');
-                //_log($e);
                 $this->result->setSuccess(false);
             }
         }       
         $this->result->addMessage('Tables installed ok.'); 
         $this->result->setSuccess(true);
     }
-
 }

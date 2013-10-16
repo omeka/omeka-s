@@ -28,7 +28,8 @@ return array(
         )
     ),
     'install_tasks' => array(
-        '\\Omeka\\Install\\TaskConnectDb',
-        '\\Omeka\\Install\\TaskSchema'
+        '\\Omeka\\Install\\TaskConnectDb', //check that the conn settings allow connecting to the db
+        '\\Omeka\\Install\\TaskSchema', //check that schemas can be installed
+        '\\Omeka\\Install\\TaskCreateUserOne' //create the first super user
     )    
 );

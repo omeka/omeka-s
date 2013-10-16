@@ -1,8 +1,7 @@
 <?php
-namespace Omeka\Install;
+namespace Omeka\Install\Exception;
 use \Exception;
 
 class TaskSetupException extends \Exception
 {
-    
 }

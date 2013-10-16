@@ -7,21 +7,31 @@ use Omeka\Install\TaskResult;
 use OmekaTest\Bootstrap;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/*
+ * Create a fake task that fails
+ */
+
 class FailPerformTask extends TaskAbstract
 {
+    protected $taskName = "Test Task Failure";
+    
     public function perform() {
         $this->result->setSuccess(false);
     }
 };
 
+/*
+ * Create a fake task that succeeds
+ */
+
 class SuccessPerformTask extends TaskAbstract
 {
+    protected $taskName = "Test Task Success";
+    
     public function perform() {
         $this->result->setSuccess(true);
     }
 };
-
-
 
 class InstallTest extends \PHPUnit_Framework_TestCase
 {

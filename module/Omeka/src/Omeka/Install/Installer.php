@@ -21,8 +21,8 @@ class Installer implements ServiceLocatorAwareInterface
     {
         $config = $this->getServiceLocator()->get('ApplicationConfig');
         $tasks = $config['install_tasks'];
-        foreach($tasks as $taskName) {
-            $this->addTask(new $taskName);
+        foreach($tasks as $task) {
+            $this->addTask(new $task);
         }
     }
     

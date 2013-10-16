@@ -40,6 +40,9 @@ class User extends AbstractEntity
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        if (null === $entity->getUsername()) {
+            $errorStore->addError('username', 'The username field cannot be null.');
+        }
         $validator = new IsUnique(array('username'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('username', $validator->getMessages());

@@ -15,19 +15,33 @@ class ResourceClass extends AbstractEntity
 
     public function hydrate(array $data, $entity)
     {
-        $owner = $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\User')
-            ->find($data['owner']['id']);
-        $vocabulary = $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Vocabulary')
-            ->find($data['vocabulary']['id']);
-        $entity->setOwner($owner);
-        $entity->setVocabulary($vocabulary);
-        $entity->setLocalName($data['local_name']);
-        $entity->setLabel($data['label']);
-        $entity->setComment($data['comment']);
-        $entity->setResourceType($data['resource_type']);
-        $entity->setIsDefault($data['is_default']);
+        if (isset($data['owner']['id'])) {
+            $owner = $this->getEntityManager()
+                ->getRepository('Omeka\Model\Entity\User')
+                ->find($data['owner']['id']);
+            $entity->setOwner($owner);
+        }
+        if (isset($data['vocabulary']['id'])) {
+            $vocabulary = $this->getEntityManager()
+                ->getRepository('Omeka\Model\Entity\Vocabulary')
+                ->find($data['vocabulary']['id']);
+            $entity->setVocabulary($vocabulary);
+        }
+        if (isset($data['local_name'])) {
+            $entity->setLocalName($data['local_name']);
+        }
+        if (isset($data['label'])) {
+            $entity->setLabel($data['label']);
+        }
+        if (isset($data['comment'])) {
+            $entity->setComment($data['comment']);
+        }
+        if (isset($data['resource_type'])) {
+            $entity->setResourceType($data['resource_type']);
+        }
+        if (isset($data['is_default'])) {
+            $entity->setIsDefault($data['is_default']);
+        }
     }
 
     public function extract($entity)
@@ -75,6 +89,15 @@ class ResourceClass extends AbstractEntity
         $validator = new IsUnique(array('resourceType', 'isDefault'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('default_resource_type', $validator->getMessages());
+        }
+        if (null === $entity->getLabel()) {
+            $errorStore->addError('label', 'The label field cannot be null.');
+        }
+        if (null === $entity->getResourceType()) {
+            $errorStore->addError('resource_type', 'The resource_type field cannot be null.');
+        }
+        if (null === $entity->getIsDefault()) {
+            $errorStore->addError('is_default', 'The is_default field cannot be null.');
         }
     }
 }

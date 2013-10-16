@@ -14,13 +14,21 @@ class Vocabulary extends AbstractEntity
 
     public function hydrate(array $data, $entity)
     {
-        $owner = $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\User')
-            ->find($data['owner']['id']);
-        $entity->setOwner($owner);
-        $entity->setNamespaceUri($data['namespace_uri']);
-        $entity->setLabel($data['label']);
-        $entity->setComment($data['comment']);
+        if (isset($data['owner']['id'])) {
+            $owner = $this->getEntityManager()
+                ->getRepository('Omeka\Model\Entity\User')
+                ->find($data['owner']['id']);
+            $entity->setOwner($owner);
+        }
+        if (isset($data['namespace_uri'])) {
+            $entity->setNamespaceUri($data['namespace_uri']);
+        }
+        if (isset($data['label'])) {
+            $entity->setLabel($data['label']);
+        }
+        if (isset($data['comment'])) {
+            $entity->setComment($data['comment']);
+        }
     }
 
     public function extract($entity)
@@ -57,5 +65,11 @@ class Vocabulary extends AbstractEntity
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        if (null === $entity->getNamespaceUri()) {
+            $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
+        }
+        if (null === $entity->getLabel()) {
+            $errorStore->addError('label', 'The label field cannot be null.');
+        }
     }
 }

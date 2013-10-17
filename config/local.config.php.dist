@@ -5,15 +5,15 @@ return array(
             'user'        => '',
             'password'    => '',
             'dbname'      => '',
-            'driver'      => 'pdo_mysql',
-            'host'        => null,
-            'port'        => null,
-            'unix_socket' => null,
-            'charset'     => null,
+            'host'        => '',
         ),
-        'table_prefix' => 'omeka_',
-        'is_dev_mode'  => false,
-        'log_sql' => false,
-        'log_path' => __DIR__ . '/../data/logs/sql.log',
+    ),
+    'loggers' => array(
+        'application' => array(
+            'log' => false,
+        ),
+        'sql' => array(
+            'log' => false,
+        ),
     ),
 );

@@ -111,6 +111,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->exactly(2))
                 ->method('getResource')
                 ->will($this->returnValue('bar'));
+        $this->manager->setServiceLocator(
+            $this->getMockServiceLocatorForInternalErrors()
+        );
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->execute($request);
         $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
@@ -126,6 +129,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->method('getOperation')
                 ->will($this->returnValue('bar'));
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $this->manager->setServiceLocator(
+            $this->getMockServiceLocatorForInternalErrors()
+        );
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->execute($request, $adapter);
         $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
@@ -159,6 +165,19 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->manager->registerResource('foo', $this->validConfig);
         $this->assertExecuteReturnsExpectedResponse('foo', 'delete');
+    }
+
+    protected function getMockServiceLocatorForInternalErrors()
+    {
+        $logger = $this->getMock('Zend\Log\Logger');
+        $logger->expects($this->once())
+            ->method('err');
+        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('Logger'))
+            ->will($this->returnValue($logger));
+        return $serviceLocator;
     }
 
     protected function assertExecuteReturnsExpectedResponse($resource, $operation)

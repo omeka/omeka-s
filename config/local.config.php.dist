@@ -20,19 +20,4 @@ return array(
         'log' => false,
         'path' => __DIR__ . '/../data/logs/application.log',
     ),
-    'service_manager' => array(
-        'factories' => array(
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
-            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
-            'Logger' => 'Omeka\Service\LoggerFactory',
-        ),
-    ),
-    'modules' => array(
-        'Omeka',
-    ),
-    'module_listener_options' => array(
-        'module_paths' => array(
-            './module',
-        )
-    ),
 );

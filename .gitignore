@@ -1,7 +1,7 @@
+config/local.config.php
 composer.lock
 composer.phar
 vendor/
-config/application.config.php
 module/Omeka/test/test.config.php
 data/logs/sql.log
 data/logs/application.log

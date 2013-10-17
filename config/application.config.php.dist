@@ -16,10 +16,15 @@ return array(
         'log_sql' => false,
         'log_path' => __DIR__ . '/../data/logs/sql.log',
     ),
+    'logger' => array(
+        'log' => false,
+        'path' => __DIR__ . '/../data/logs/application.log',
+    ),
     'service_manager' => array(
         'factories' => array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
+            'Logger' => 'Omeka\Service\LoggerFactory',
         ),
     ),
     'modules' => array(

@@ -1,0 +1,39 @@
+<?php
+namespace OmekaTest\Service;
+
+use Omeka\Service\LoggerFactory;
+
+class LoggerFactoryTest extends \PHPUnit_Framework_TestCase
+{
+    protected $factory;
+
+    protected $validConfig = array(
+        'logger' => array(
+            'log' => true,
+            'path' => '/',
+        ),
+    );
+
+    public function setUp()
+    {
+        $this->factory = new LoggerFactory;
+    }
+
+    public function testCreatesService()
+    {
+        $logger = $this->factory->createService(
+            $this->getMockServiceLocator($this->validConfig)
+        );
+        $this->assertInstanceOf('Zend\Log\Logger', $logger);
+    }
+
+    protected function getMockServiceLocator(array $config)
+    {
+        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('ApplicationConfig'))
+            ->will($this->returnValue($config));
+        return $serviceLocator;
+    }
+}

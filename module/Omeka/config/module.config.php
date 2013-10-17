@@ -44,4 +44,28 @@ return array(
             ),
         ),
     ),
+    'entity_manager' => array(
+        'conn' => array(
+            'user'        => null,
+            'password'    => null,
+            'dbname'      => null,
+            'host'        => null,
+            'port'        => null,
+            'unix_socket' => null,
+            'charset'     => null,
+            'driver'      => 'pdo_mysql',
+        ),
+        'table_prefix' => 'omeka_',
+        'is_dev_mode'  => false,
+    ),
+    'loggers' => array(
+        'application' => array(
+            'log' => false,
+            'path' => __DIR__ . '/../../../data/logs/application.log',
+        ),
+        'sql' => array(
+            'log' => false,
+            'path' => __DIR__ . '/../../../data/logs/sql.log',
+        ),
+    ),
 );

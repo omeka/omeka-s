@@ -20,7 +20,7 @@ class LoggerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('ApplicationConfig');
+        $config = $serviceLocator->get('Config');
         if (isset($config['logger']['log'])
             && $config['logger']['log']
             && isset($config['logger']['path'])

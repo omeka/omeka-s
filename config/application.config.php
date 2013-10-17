@@ -4,6 +4,7 @@ return array(
         'factories' => array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
+            'Logger' => 'Omeka\Service\LoggerFactory',
         ),
     ),
     'modules' => array(

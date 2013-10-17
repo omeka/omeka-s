@@ -1,6 +1,4 @@
 config/local.config.php
-composer.lock
-composer.phar
 vendor/
 module/Omeka/test/test.config.php
 data/logs/sql.log

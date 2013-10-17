@@ -32,7 +32,7 @@ class LoggerFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
         $serviceLocator->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('ApplicationConfig'))
+            ->with($this->equalTo('Config'))
             ->will($this->returnValue($config));
         return $serviceLocator;
     }

@@ -146,4 +146,24 @@ class Response extends ZendResponse
     {
         return $this->getMetadata('request');
     }
+
+    /**
+     * Set the total results of the query.
+     *
+     * @param int
+     */
+    public function setTotalResults($totalResults)
+    {
+        $this->setMetadata('total_results', $totalResults);
+    }
+
+    /**
+     * Get the total results of the query.
+     * 
+     * @return int
+     */
+    public function getTotalResults()
+    {
+        return $this->getMetadata('total_results');
+    }
 }

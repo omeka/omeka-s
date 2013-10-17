@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
 
@@ -17,12 +18,12 @@ interface EntityInterface
     public function getEntityClass();
 
     /**
-     * Find entities by API request query.
+     * Build a conditional search query from an API request.
      *
      * @param array $query
-     * @return array An array of entities
+     * @param QueryBuilder $queryBuilder
      */
-    public function findByQuery(array $query);
+    public function buildQuery(array $query, QueryBuilder $queryBuilder);
 
     /**
      * Validate an entity.

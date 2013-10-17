@@ -12,11 +12,14 @@ return array(
             'charset'     => null,
         ),
         'table_prefix' => 'omeka_',
-        'is_dev_mode'  => true,
+        'is_dev_mode'  => false,
+        'log_sql' => false,
+        'log_path' => __DIR__ . '/../data/logs/sql.log',
     ),
     'service_manager' => array(
         'factories' => array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
         ),
     ),
     'modules' => array(

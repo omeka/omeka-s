@@ -16,18 +16,4 @@ return array(
         'log_sql' => false,
         'log_path' => __DIR__ . '/../data/logs/sql.log',
     ),
-    'service_manager' => array(
-        'factories' => array(
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
-            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
-        ),
-    ),
-    'modules' => array(
-        'Omeka',
-    ),
-    'module_listener_options' => array(
-        'module_paths' => array(
-            './module',
-        )
-    ),
 );

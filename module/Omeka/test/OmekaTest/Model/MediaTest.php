@@ -17,7 +17,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->media->getId());
         $this->assertNull($this->media->getOwner());
         $this->assertNull($this->media->getResourceClass());
-        $this->assertNull($this->media->getSites());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->media->getSites()
+        );
         $this->assertNull($this->media->getItem());
         $this->assertNull($this->media->getType());
         $this->assertNull($this->media->getData());

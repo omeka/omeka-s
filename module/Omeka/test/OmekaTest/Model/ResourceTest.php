@@ -17,7 +17,10 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->resource->getId());
         $this->assertNull($this->resource->getOwner());
         $this->assertNull($this->resource->getResourceClass());
-        $this->assertNull($this->resource->getSites());
+        $this->assertInstanceOf(
+            '\Doctrine\Common\Collections\ArrayCollection',
+            $this->resource->getSites()
+        );
     }
 
     public function testSetState()
@@ -54,7 +57,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityManager->expects($this->once())
             ->method('getRepository')
-            ->with($this->equalTo('Omeka\Model\ResourceClass'))
+            ->with($this->equalTo('Omeka\Model\Entity\ResourceClass'))
             ->will($this->returnValue($entityRepository));
 
         // LifecycleEventArgs

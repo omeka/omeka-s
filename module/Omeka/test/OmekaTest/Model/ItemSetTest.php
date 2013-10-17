@@ -17,7 +17,10 @@ class ItemSetTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->itemSet->getId());
         $this->assertNull($this->itemSet->getOwner());
         $this->assertNull($this->itemSet->getResourceClass());
-        $this->assertNull($this->itemSet->getSites());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->itemSet->getSites()
+        );
     }
 
     public function testSetState()

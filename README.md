@@ -17,10 +17,7 @@
 6. Create the Omeka database: `$ php vendor/bin/doctrine orm:schema-tool:create`
 7. In your web browser, navigate to the Omeka directory.
 
-You can find Omeka-specific code under module/Omeka. You may include 
-bootstrap.php in your own script and use the `$em` entity manager to work with 
-Omeka's ORM. See Doctrine's 
-[documentation](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/index.html).
+You can find Omeka-specific code under module/Omeka.
 
 ## Libraries Used
 

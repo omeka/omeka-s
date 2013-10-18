@@ -59,7 +59,7 @@ return array(
             'host'        => null,
             'port'        => null,
             'unix_socket' => null,
-            'charset'     => null,
+            'charset'     => 'utf8',
             'driver'      => 'pdo_mysql',
         ),
         'table_prefix' => 'omeka_',

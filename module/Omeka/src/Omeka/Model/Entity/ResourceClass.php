@@ -10,7 +10,10 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * descriptive properties.
  * 
  * @Entity
- * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"})})
+ * @Table(uniqueConstraints={
+ *     @UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"}),
+ *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
+ * })
  */
 class ResourceClass extends AbstractEntity
 {

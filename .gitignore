@@ -1,5 +1,6 @@
+composer.phar
 config/local.config.php
-vendor/
-module/Omeka/test/test.config.php
 data/logs/sql.log
 data/logs/application.log
+module/Omeka/test/test.config.php
+vendor/

@@ -5,7 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
-class Item extends AbstractEntity
+class ItemAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {

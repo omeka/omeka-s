@@ -13,8 +13,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 /**
  * Abstract entity API adapter.
  */
-abstract class AbstractEntity extends AbstractAdapter implements
-    EntityInterface,
+abstract class AbstractEntityAdapter extends AbstractAdapter implements
+    EntityAdapterInterface,
     HydratorInterface
 {
     /**

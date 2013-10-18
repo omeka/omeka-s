@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
 
-class ResourceClass extends AbstractEntity
+class ResourceClassAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {

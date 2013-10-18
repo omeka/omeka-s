@@ -1,14 +1,14 @@
 <?php
 namespace OmekaTest\Api;
 
-class AbstractEntityTest extends \PHPUnit_Framework_TestCase
+class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
 {
     protected $dbAdapter;
 
     public function setUp()
     {
         $this->dbAdapter = $this->getMockForAbstractClass(
-            'Omeka\Api\Adapter\Entity\AbstractEntity'
+            'Omeka\Api\Adapter\Entity\AbstractEntityAdapter'
         );
     }
 

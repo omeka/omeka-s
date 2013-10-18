@@ -223,6 +223,23 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Extract an entity using the provided adapter.
+     *
+     * Primarily used to extract inverse associations.
+     *
+     * @param null|EntityInterface $entity
+     * @param EntityAdapterInterface $adapter
+     * @return null|array
+     */
+    protected function extractEntity($entity, EntityAdapterInterface $adapter)
+    {
+        if (!$entity instanceof EntityInterface) {
+            return null;
+        }
+        return $adapter->extract($entity);
+    }
+
+    /**
      * Set an order by condition to the query builder.
      *
      * @param array $query

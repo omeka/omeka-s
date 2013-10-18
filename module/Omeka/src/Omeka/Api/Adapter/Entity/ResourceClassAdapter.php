@@ -46,12 +46,13 @@ class ResourceClassAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        $userAdapter = new User;
-        $vocabularyAdapter = new Vocabulary;
         return array(
             'id' => $entity->getId(),
-            'owner' => $userAdapter->extract($entity->getOwner()),
-            'vocabulary' => $vocabularyAdapter->extract($entity->getVocabulary()),
+            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
+            'vocabulary' => $this->extractEntity(
+                $entity->getVocabulary(),
+                new VocabularyAdapter
+            ),
             'local_name' => $entity->getLocalName(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),

@@ -30,12 +30,13 @@ class ItemAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        $userAdapter = new User;
-        $resourceClassAdapter = new ResourceClass;
         return array(
             'id' => $entity->getId(),
-            'owner' => $userAdapter->extract($entity->getOwner()),
-            'resource_class' => $resourceClassAdapter->extract($entity->getResourceClass()),
+            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
+            'resource_class' => $this->extractEntity(
+                $entity->getOwner(),
+                new ResourceClassAdapter
+            ),
         );
     }
 

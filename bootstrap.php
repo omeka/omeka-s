@@ -1,8 +1,7 @@
 <?php
-ini_set('display_errors', 1);
+ini_set('display_errors', true);
 
-require_once 'vendor/autoload.php';
+require 'init_autoloader.php';
 
-$factory = new \Omeka\Service\EntityManagerFactory;
-$config = include 'config/local.config.php';
-$em = $factory->createEntityManager($config);
+$application = Zend\Mvc\Application::init(require 'config/application.config.php');
+$em = $application->getServiceManager()->get('EntityManager');

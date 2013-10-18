@@ -1,0 +1,20 @@
+<?php
+return array(
+    'entity_manager' => array(
+        'conn' => array(
+            'user'        => '',
+            'password'    => '',
+            'dbname'      => '',
+            'host'        => '',
+        ),
+        'table_prefix' => 'omeka_',
+    ),
+    'loggers' => array(
+        'application' => array(
+            'log' => false,
+        ),
+        'sql' => array(
+            'log' => false,
+        ),
+    ),
+);

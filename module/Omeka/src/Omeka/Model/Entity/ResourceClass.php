@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use \Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * A resource class.
  * 
@@ -61,7 +63,7 @@ class ResourceClass extends AbstractEntity
 
     public function __construct()
     {
-        $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->properties = new ArrayCollection;
     }
 
     public function getId()

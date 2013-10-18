@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
@@ -44,7 +45,7 @@ class Resource extends AbstractEntity
 
     public function __construct()
     {
-        $this->sites = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sites = new ArrayCollection;
     }
 
     /**

@@ -1,6 +1,6 @@
-composer.lock
 composer.phar
-vendor/
-config/application.config.php
-module/Omeka/test/test.config.php
+config/local.config.php
 data/logs/sql.log
+data/logs/application.log
+module/Omeka/test/test.config.php
+vendor/

@@ -25,11 +25,11 @@ class EntityManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('ApplicationConfig');
+        $config = $serviceLocator->get('Config');
         if (!isset($config['entity_manager'])) {
             throw new \RuntimeException('No database configuration given.');
         }
-        return $this->createEntityManager($config['entity_manager']);
+        return $this->createEntityManager($config);
     }
 
     /**
@@ -42,17 +42,17 @@ class EntityManagerFactory implements FactoryInterface
      */
     public function createEntityManager(array $config)
     {
-        if (!isset($config['conn'])) {
+        if (!isset($config['entity_manager']['conn'])) {
             throw new \RuntimeException('No database configuration given.');
         }
-        $conn = $config['conn'];
+        $conn = $config['entity_manager']['conn'];
         if (isset($config['table_prefix'])) {
-            $tablePrefix = $config['table_prefix'];
+            $tablePrefix = $config['entity_manager']['table_prefix'];
         } else {
             $tablePrefix = 'omeka_';
         }
-        if (isset($config['is_dev_mode'])) {
-            $isDevMode = $config['is_dev_mode'];
+        if (isset($config['entity_manager']['is_dev_mode'])) {
+            $isDevMode = $config['entity_manager']['is_dev_mode'];
         } else {
             $isDevMode = false;
         }
@@ -62,13 +62,13 @@ class EntityManagerFactory implements FactoryInterface
         );
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
-        if (isset($config['log_sql'])
-            && $config['log_sql']
-            && isset($config['log_path'])
-            && is_file($config['log_path'])
-            && is_writable($config['log_path'])
+        if (isset($config['loggers']['sql']['log'])
+            && $config['loggers']['sql']['log']
+            && isset($config['loggers']['sql']['path'])
+            && is_file($config['loggers']['sql']['path'])
+            && is_writable($config['loggers']['sql']['path'])
         ) {
-            $emConfig->setSQLLogger(new FileSqlLogger($config['log_path']));
+            $emConfig->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
         }
 
         $em = EntityManager::create($conn, $emConfig);

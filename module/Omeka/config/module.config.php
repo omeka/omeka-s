@@ -1,5 +1,12 @@
 <?php
 return array(
+    'service_manager' => array(
+        'factories' => array(
+            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
+            'Logger' => 'Omeka\Service\LoggerFactory',
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'api' => array(
@@ -54,5 +61,29 @@ return array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\Item',
             ),
         ),
-    )
+    ),
+    'entity_manager' => array(
+        'conn' => array(
+            'user'        => null,
+            'password'    => null,
+            'dbname'      => null,
+            'host'        => null,
+            'port'        => null,
+            'unix_socket' => null,
+            'charset'     => null,
+            'driver'      => 'pdo_mysql',
+        ),
+        'table_prefix' => 'omeka_',
+        'is_dev_mode'  => false,
+    ),
+    'loggers' => array(
+        'application' => array(
+            'log' => false,
+            'path' => __DIR__ . '/../../../data/logs/application.log',
+        ),
+        'sql' => array(
+            'log' => false,
+            'path' => __DIR__ . '/../../../data/logs/sql.log',
+        ),
+    ),
 );

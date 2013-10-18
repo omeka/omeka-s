@@ -33,6 +33,7 @@ class Manager implements ServiceLocatorAwareInterface
         try {
             $response = $this->getResponse($request, $adapter);
         } catch (\Exception $e) {
+            $this->getServiceLocator()->get('Logger')->err($e->__toString());
             // Always return a Response object, regardless of exception.
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);

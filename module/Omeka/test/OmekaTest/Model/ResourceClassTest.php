@@ -43,6 +43,6 @@ class ResourceClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('label', $this->resourceClass->getLabel());
         $this->assertEquals('comment', $this->resourceClass->getComment());
         $this->assertEquals('resource_type', $this->resourceClass->getResourceType());
-        $this->assertEquals('is_default', $this->resourceClass->getIsDefault());
+        $this->assertTrue($this->resourceClass->getIsDefault());
     }
 }

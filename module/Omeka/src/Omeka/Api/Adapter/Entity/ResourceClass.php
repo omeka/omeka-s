@@ -96,8 +96,8 @@ class ResourceClass extends AbstractEntity
         if (null === $entity->getResourceType()) {
             $errorStore->addError('resource_type', 'The resource_type field cannot be null.');
         }
-        if (null === $entity->getIsDefault()) {
-            $errorStore->addError('is_default', 'The is_default field cannot be null.');
+        if (!is_bool($entity->getIsDefault()) && null !== $entity->getIsDefault()) {
+            $errorStore->addError('is_default', 'The is_default field must be boolean or null.');
         }
     }
 }

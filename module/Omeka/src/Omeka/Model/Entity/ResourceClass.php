@@ -57,7 +57,7 @@ class ResourceClass extends AbstractEntity
     protected $resourceType;
 
     /**
-     * @Column(type="boolean")
+     * @Column(type="boolean", nullable=true)
      */
     protected $isDefault;
 
@@ -138,7 +138,9 @@ class ResourceClass extends AbstractEntity
 
     public function setIsDefault($isDefault)
     {
-        $this->isDefault = $isDefault;
+        // Must be true or null for the resource_type/is_default unique
+        // constraint to work.
+        $this->isDefault = $isDefault ? (bool) $isDefault : null;
     }
 
     public function getIsDefault()

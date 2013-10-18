@@ -1,12 +1,5 @@
 <?php
 return array(
-    'service_manager' => array(
-        'factories' => array(
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
-            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
-            'Logger' => 'Omeka\Service\LoggerFactory',
-        ),
-    ),
     'modules' => array(
         'Omeka',
     ),

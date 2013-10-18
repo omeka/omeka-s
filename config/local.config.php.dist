@@ -7,6 +7,7 @@ return array(
             'dbname'      => '',
             'host'        => '',
         ),
+        'table_prefix' => 'omeka_',
     ),
     'loggers' => array(
         'application' => array(

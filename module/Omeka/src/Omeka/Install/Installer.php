@@ -8,10 +8,13 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 /**
  * Installs the Omeka schema and initial data
  * 
+ * Initial schema in /data/install/schema.sql is generated via
+ * php vendor/bin/doctrine orm:schema-tool:create --dump-sql > data/install/schema.sql
+ * To handle prefixes, the dump MUST have dbprefix DBPREFIX_
+ * 
  * @author patrickmj
  *
  */
-
 class Installer implements ServiceLocatorAwareInterface
 {
     public $messages = array();
@@ -63,7 +66,7 @@ class Installer implements ServiceLocatorAwareInterface
         foreach($this->tasks as $task) {
             $task->setServiceLocator($serviceLocator);
             $task->perform();
-            $result = $task->getResult();
+            $result = $task->getTaskResult();
             $this->addMessages($result->getMessages());
             if(!$result->getSuccess()) {
                 return false;

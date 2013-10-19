@@ -79,12 +79,12 @@ abstract class AbstractTask implements ServiceLocatorAwareInterface, TaskInterfa
     {
         $dir = __DIR__;
         $previousDir = '.';
-        while (!is_dir($dir . '/install_data')) {
+        while (!is_dir($dir . '/data')) {
             $dir = dirname($dir);
             if ($previousDir === $dir) return false;
             $previousDir = $dir;
         }
-        return $dir . '/install_data';
+        return $dir . '/data/install';
     }    
     
 }

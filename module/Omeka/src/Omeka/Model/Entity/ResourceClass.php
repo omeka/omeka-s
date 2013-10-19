@@ -10,7 +10,10 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * descriptive properties.
  * 
  * @Entity
- * @Table(uniqueConstraints={@UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"})})
+ * @Table(uniqueConstraints={
+ *     @UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"}),
+ *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
+ * })
  */
 class ResourceClass extends AbstractEntity
 {
@@ -57,7 +60,7 @@ class ResourceClass extends AbstractEntity
     protected $resourceType;
 
     /**
-     * @Column(type="boolean")
+     * @Column(type="boolean", nullable=true)
      */
     protected $isDefault;
 
@@ -138,7 +141,9 @@ class ResourceClass extends AbstractEntity
 
     public function setIsDefault($isDefault)
     {
-        $this->isDefault = $isDefault;
+        // Must be true or null for the resource_type/is_default unique
+        // constraint to work.
+        $this->isDefault = $isDefault ? (bool) $isDefault : null;
     }
 
     public function getIsDefault()

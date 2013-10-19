@@ -9,6 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Properties define relationships between resources and their values.
  * 
  * @Entity
+ * @Table(uniqueConstraints={
+ *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
+ * })
  */
 class Property extends AbstractEntity
 {

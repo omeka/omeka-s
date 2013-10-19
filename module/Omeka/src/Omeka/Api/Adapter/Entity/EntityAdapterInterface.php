@@ -8,7 +8,7 @@ use Omeka\Model\Entity\EntityInterface;
 /**
  * Entity API adapter interface.
  */
-interface EntityInterface
+interface EntityAdapterInterface
 {
     /**
      * Get this entity's fully qualified class name.

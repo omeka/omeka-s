@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
 
-class ResourceClass extends AbstractEntity
+class ResourceClassAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {
@@ -46,12 +46,13 @@ class ResourceClass extends AbstractEntity
 
     public function extract($entity)
     {
-        $userAdapter = new User;
-        $vocabularyAdapter = new Vocabulary;
         return array(
             'id' => $entity->getId(),
-            'owner' => $userAdapter->extract($entity->getOwner()),
-            'vocabulary' => $vocabularyAdapter->extract($entity->getVocabulary()),
+            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
+            'vocabulary' => $this->extractEntity(
+                $entity->getVocabulary(),
+                new VocabularyAdapter
+            ),
             'local_name' => $entity->getLocalName(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),
@@ -96,8 +97,8 @@ class ResourceClass extends AbstractEntity
         if (null === $entity->getResourceType()) {
             $errorStore->addError('resource_type', 'The resource_type field cannot be null.');
         }
-        if (null === $entity->getIsDefault()) {
-            $errorStore->addError('is_default', 'The is_default field cannot be null.');
+        if (!is_bool($entity->getIsDefault()) && null !== $entity->getIsDefault()) {
+            $errorStore->addError('is_default', 'The is_default field must be boolean or null.');
         }
     }
 }

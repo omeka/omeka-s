@@ -49,16 +49,16 @@ return array(
     'api_manager' => array(
         'resources' => array(
             'users' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\User',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\UserAdapter',
             ),
             'vocabularies' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\Vocabulary',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\VocabularyAdapter',
             ),
             'resource_classes' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClass',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
             ),
             'items' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\Item',
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),
         ),
     ),
@@ -70,7 +70,7 @@ return array(
             'host'        => null,
             'port'        => null,
             'unix_socket' => null,
-            'charset'     => null,
+            'charset'     => 'utf8',
             'driver'      => 'pdo_mysql',
         ),
         'table_prefix' => 'DBPREFIX_',

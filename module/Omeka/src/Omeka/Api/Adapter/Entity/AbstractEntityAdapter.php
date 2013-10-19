@@ -13,8 +13,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 /**
  * Abstract entity API adapter.
  */
-abstract class AbstractEntity extends AbstractAdapter implements
-    EntityInterface,
+abstract class AbstractEntityAdapter extends AbstractAdapter implements
+    EntityAdapterInterface,
     HydratorInterface
 {
     /**
@@ -220,6 +220,23 @@ abstract class AbstractEntity extends AbstractAdapter implements
             ->getUnitOfWork()
             ->getEntityState($entity);
         return UnitOfWork::STATE_MANAGED === $entityState;
+    }
+
+    /**
+     * Extract an entity using the provided adapter.
+     *
+     * Primarily used to extract inverse associations.
+     *
+     * @param null|EntityInterface $entity
+     * @param EntityAdapterInterface $adapter
+     * @return null|array
+     */
+    protected function extractEntity($entity, EntityAdapterInterface $adapter)
+    {
+        if (!$entity instanceof EntityInterface) {
+            return null;
+        }
+        return $adapter->extract($entity);
     }
 
     /**

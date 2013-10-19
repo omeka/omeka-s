@@ -5,7 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
-class Vocabulary extends AbstractEntity
+class VocabularyAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {
@@ -33,10 +33,9 @@ class Vocabulary extends AbstractEntity
 
     public function extract($entity)
     {
-        $userAdapter = new User;
         return array(
             'id' => $entity->getId(),
-            'owner' => $userAdapter->extract($entity->getOwner()),
+            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
             'namespace_uri' => $entity->getNamespaceUri(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),

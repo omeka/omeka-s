@@ -1,20 +1,24 @@
 <?php
-namespace Omeka\Install;
+namespace Omeka\Install\Task;
 
-use Omeka\Install\TaskAbstract;
-use Omeka\Install\TaskInterface;
+use Omeka\Install\Task\AbstractTask;
+use Omeka\Install\Task\TaskInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TaskSchema extends TaskAbstract implements TaskInterface
+/**
+ * Task to install the basic Omeka schema
+ * @author patrickmj
+ *
+ */
+class Schema extends AbstractTask implements TaskInterface
 {
     protected $taskName = "Install tables";
     
     public function perform()
     {
         $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();
-        $config = $this->getServiceLocator()->get('ApplicationConfig');
-        
+        $config = $this->getServiceLocator()->get('Config');
         //check if tables already exist
         $tables = $conn->getSchemaManager()->listTableNames();
         if(!empty($tables)) {
@@ -35,7 +39,7 @@ class TaskSchema extends TaskAbstract implements TaskInterface
             return;            
         }
         
-        //dbExport slaps 'DBPREFIX_' as the prefix onto all classes, so do the replace here for the real prefix
+        //database export slaps 'DBPREFIX_' as the prefix onto all classes, so do the replace here for the real prefix
         foreach($classes as $index=>$sql) {
             $classes[$index] = str_replace('DBPREFIX_', $config['entity_manager']['table_prefix'], $classes[$index]);
         }

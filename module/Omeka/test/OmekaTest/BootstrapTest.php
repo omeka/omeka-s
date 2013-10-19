@@ -11,17 +11,10 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $factory = new EntityManagerFactory;
-        $em = $factory->createEntityManager(Bootstrap::getEntityManagerConfig());
+        $em = Bootstrap::getServiceManager()->get('EntityManager');
         $this->connection = $em->getConnection();        
         parent::setUp();
-    }
-    
-    public function testApplicationConfigIsArray()
-    {
-        $config = Bootstrap::getApplicationConfig();
-        $this->assertTrue(is_array($config));
-    }
+    }    
     
     public function testInstallTables()
     {

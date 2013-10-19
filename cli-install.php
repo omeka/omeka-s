@@ -8,11 +8,9 @@ use Zend\ServiceManager\ServiceManager;
 
 $factory = new EntityManagerFactory;
 $config = include 'config/application.config.php';
-$em = $factory->createEntityManager($config['entity_manager']);
 
 $serviceManager = new ServiceManager(new ServiceManagerConfig());
 $serviceManager->setService('ApplicationConfig', $config);
-$serviceManager->setService('EntityManager', $em);
 $serviceManager->get('ModuleManager')->loadModules();
 
 $installer = new Installer;

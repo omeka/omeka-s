@@ -18,9 +18,7 @@ chdir(__DIR__);
 class Bootstrap
 {
     protected static $serviceManager;
-    protected static $entityManagerConfig;
     protected static $applicationConfig;
-    protected static $entityManager;
 
     public static function init()
     {
@@ -33,38 +31,29 @@ class Bootstrap
         }
         
         static::initAutoloader();
-
-        static::$applicationConfig = include './../../../config/application.config.php';
+        $applicationConfig = include './../../../config/application.config.php';
+        $applicationConfig['module_listener_options']['config_glob_paths'] = array('./test.config.php');
         
-        static::$entityManagerConfig = include('./test.config.php');
-        
-        self::$applicationConfig['module_listener_options'] = array(
-                        'module_paths' => $omekaModulePaths,
-                );
-
-        $factory = new EntityManagerFactory;
-        $em = $factory->createEntityManager(self::$entityManagerConfig);                
+        $applicationConfig['module_listener_options']['module_paths'] = $omekaModulePaths;
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
-        $serviceManager->setService('ApplicationConfig', self::$applicationConfig);
-        $serviceManager->setService('EntityManager', $em);        
+        $serviceManager->setService('ApplicationConfig', $applicationConfig);
         $serviceManager->get('ModuleManager')->loadModules();
+        static::$applicationConfig = $applicationConfig;
         static::$serviceManager = $serviceManager;
-        static::$entityManager = $em;
     }
     
     public static function installTables()
     {
         $installer = new Installer();
         $installer->setServiceLocator(self::$serviceManager);        
-        $installer->addTask(new \Omeka\Install\TaskConnectDb);
-        $installer->addTask(new \Omeka\Install\TaskSchema);
+        $installer->addTask(new \Omeka\Install\Task\Connection);
+        $installer->addTask(new \Omeka\Install\Task\Schema);
         $installer->install();
     }
     
     public static function dropTables()
     {
-        $factory = new EntityManagerFactory;
-        $em = $factory->createEntityManager(Bootstrap::getEntityManagerConfig());        
+        $em = self::getServiceManager()->get('EntityManager');        
         $connection = $em->getConnection();
         $tables   = $connection->getSchemaManager()->listTableNames();
         $platform   = $connection->getDatabasePlatform();
@@ -85,25 +74,15 @@ class Bootstrap
     {
         return static::$serviceManager;
     }
-    
+
     public static function getApplicationConfig()
     {
         return static::$applicationConfig;
     }
     
-    public static function getEntityManagerConfig()
-    {
-        return static::$entityManagerConfig;
-    }
-    
-    public static function getEntityManager()
-    {
-        return static::$entityManager;
-    }
-
     protected static function initAutoloader()
     {
-        $vendorPath = static::findParentPath('vendor');        
+        $vendorPath = static::findParentPath('vendor');
         require $vendorPath . '/autoload.php';
     }
 

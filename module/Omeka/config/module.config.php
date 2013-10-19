@@ -73,7 +73,7 @@ return array(
             'charset'     => null,
             'driver'      => 'pdo_mysql',
         ),
-        'table_prefix' => 'omeka_',
+        'table_prefix' => 'DBPREFIX_',
         'is_dev_mode'  => false,
     ),
     'loggers' => array(
@@ -86,4 +86,11 @@ return array(
             'path' => __DIR__ . '/../../../data/logs/sql.log',
         ),
     ),
+    'install' => array(
+        'tasks' => array(
+            'Omeka\Install\Task\Connection',
+            'Omeka\Install\Task\Schema',
+            'Omeka\Install\Task\UserOne'        
+        )        
+    )
 );

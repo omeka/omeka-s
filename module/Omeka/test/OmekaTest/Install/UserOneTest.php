@@ -2,8 +2,9 @@
 namespace OmekaTest\Install;
 
 use Omeka\Install\Installer;
-use Omeka\Install\TaskAbstract;
-use Omeka\Install\TaskResult;
+use Omeka\Install\Task\AbstractTask;
+use Omeka\Install\Task\TaskResult;
+use Omeka\Install\Task\UserOne;
 use OmekaTest\Bootstrap;
 
 class UserOneTest extends \PHPUnit_Framework_TestCase
@@ -20,10 +21,10 @@ class UserOneTest extends \PHPUnit_Framework_TestCase
         $manager = Bootstrap::getServiceManager();
         $installer = new Installer;
         $installer->setServiceLocator($manager);        
-        $installer->addTask(new \Omeka\Install\TaskCreateUserOne);
+        $installer->addTask(new \Omeka\Install\Task\UserOne);
         $installer->install();
-        $em = Bootstrap::getEntityManager();
-        $userOne = $em->getRepository('\\Omeka\\Model\\Entity\\User')->find(1);        
+        $em = $manager->get('EntityManager');
+        $userOne = $em->getRepository('\Omeka\Model\Entity\User')->find(1);        
         $this->assertEquals($userOne->getUsername(), 'userone');
         $this->assertEquals($userOne->getId(), 1);
     }

@@ -2,8 +2,8 @@
 namespace OmekaTest\Install;
 
 use Omeka\Install\Installer;
-use Omeka\Install\TaskAbstract;
-use Omeka\Install\TaskResult;
+use Omeka\Install\Task\AbstractTask;
+use Omeka\Install\Task\TaskResult;
 use OmekaTest\Bootstrap;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * Create a fake task that fails
  */
 
-class FailPerformTask extends TaskAbstract
+class FailPerformTask extends AbstractTask
 {
     protected $taskName = "Test Task Failure";
     
@@ -24,7 +24,7 @@ class FailPerformTask extends TaskAbstract
  * Create a fake task that succeeds
  */
 
-class SuccessPerformTask extends TaskAbstract
+class SuccessPerformTask extends AbstractTask
 {
     protected $taskName = "Test Task Success";
     
@@ -75,8 +75,8 @@ class InstallTest extends \PHPUnit_Framework_TestCase
      */
     public function testTasksHaveClasses()
     {
-        $appConfig = Bootstrap::getApplicationConfig();
-        $taskNames = $appConfig['install_tasks'];
+        $appConfig = Bootstrap::getServiceManager()->get('Config');
+        $taskNames = $appConfig['install']['tasks'];
         foreach($taskNames as $taskName) {
             $this->assertTrue(class_exists($taskName), "$taskName class does not exist");
         }

@@ -5,6 +5,10 @@ return array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
+            'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
+        ),
+        'invokables' => array(
+            'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
     ),
     'router' => array(
@@ -33,6 +37,9 @@ return array(
         'exception_template'       => 'error/index',
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewApiJsonStrategy',
         ),
     ),
     'api_manager' => array(

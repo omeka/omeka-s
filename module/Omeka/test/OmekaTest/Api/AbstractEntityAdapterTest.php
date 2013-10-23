@@ -36,7 +36,7 @@ class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
         $queryExpr = $this->getMock('Doctrine\ORM\Query\Expr');
         $queryBuilder = $mockBuilder->getQueryBuilder();
         $entityManager = $mockBuilder->getEntityManager();
-        $serviceManager = $mockBuilder->getServiceManager($entityManager);
+        $serviceManager = $mockBuilder->getServiceManager('EntityManager', $entityManager);
 
         // EntityManager expectations
         $entityManager->expects($this->once())
@@ -46,12 +46,10 @@ class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
         // QueryBuilder expectations
         $queryBuilder->expects($this->exactly(2))
             ->method('select')
-            ->with($this->callback(function ($subject) use ($entityClass) {
-                if ($subject == $entityClass || $subject == null) {
-                    return true;
-                }
-                return false;
-            }))
+            ->with($this->logicalOr(
+                $this->equalTo($entityClass),
+                $this->equalTo(null)
+            ))
             ->will($this->returnSelf());
         $queryBuilder->expects($this->once())
             ->method('from')

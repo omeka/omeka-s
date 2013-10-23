@@ -20,6 +20,11 @@ interface EntityAdapterInterface
     /**
      * Build a conditional search query from an API request.
      *
+     * Modify the passed $queryBuilder object according to the passed $query.
+     * The sort_by, sort_order, limit, and offset parameters are included
+     * automatically.
+     *
+     * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
      * @param array $query
      * @param QueryBuilder $queryBuilder
      */
@@ -27,6 +32,9 @@ interface EntityAdapterInterface
 
     /**
      * Validate an entity.
+     *
+     * Set validation errors to the passed $errorStore object. If an error is
+     * present the entity will not be persisted or updated.
      *
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore

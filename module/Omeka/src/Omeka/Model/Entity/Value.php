@@ -6,7 +6,7 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Value extends AbstractEntity
+class Value implements EntityInterface
 {
     const TYPE_LITERAL = 'literal';
     const TYPE_RESOURCE = 'resource';

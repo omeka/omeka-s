@@ -21,16 +21,17 @@ class MockBuilder extends TestCase
      * Pass a mock service object that should be accessible via the mocked 
      * ServiceManager::get().
      *
+     * @param string $key
      * @param mixed $service
      * @return ServiceManager
      */
-    public function getServiceManager($service = null)
+    public function getServiceManager($key = null, $service = null)
     {
         $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
-        if ($service instanceof EntityManager) {
-            $serviceManager->expects($this->once())
+        if ($key && $service) {
+            $serviceManager->expects($this->any())
                 ->method('get')
-                ->with($this->equalTo('EntityManager'))
+                ->with($this->equalTo($key))
                 ->will($this->returnValue($service));
         }
         return $serviceManager;
@@ -47,6 +48,14 @@ class MockBuilder extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         return $entityManager;
+    }
+
+    public function getEntityRepository()
+    {
+        $entityRepostory = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+        return $entityRepostory;
     }
 
     /**

@@ -14,7 +14,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  */
-class Resource extends AbstractEntity
+class Resource implements EntityInterface
 {
     const TYPE_ITEM_SET = 'ItemSet';
     const TYPE_ITEM = 'Item';

@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class User extends AbstractEntity
+class User implements EntityInterface
 {
     /**
      * @Id

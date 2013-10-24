@@ -48,12 +48,11 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('Omeka\Model\Entity\Vocabulary')
             ))
             ->will($this->returnValue($entityRepository));
-        $data = $this->data;
         $entityRepository->expects($this->exactly(2))
             ->method('find')
             ->with($this->logicalOr(
-                $this->equalTo($data['owner']['id']),
-                $this->equalTo($data['vocabulary']['id'])
+                $this->equalTo($this->data['owner']['id']),
+                $this->equalTo($this->data['vocabulary']['id'])
             ))
             ->will($this->onConsecutiveCalls(new User, new Vocabulary));
 
@@ -63,6 +62,7 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($entity->getOwner()->getId());
         $this->assertInstanceOf('Omeka\Model\Entity\User', $entity->getOwner());
+        $this->assertNull($entity->getVocabulary()->getId());
         $this->assertInstanceOf('Omeka\Model\Entity\Vocabulary', $entity->getVocabulary());
         $this->assertEquals($this->data['local_name'], $entity->getLocalName());
         $this->assertEquals($this->data['label'], $entity->getLabel());

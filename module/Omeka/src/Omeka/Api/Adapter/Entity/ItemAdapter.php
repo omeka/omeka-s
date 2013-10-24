@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractEntityAdapter
@@ -34,7 +35,7 @@ class ItemAdapter extends AbstractEntityAdapter
             'id' => $entity->getId(),
             'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
             'resource_class' => $this->extractEntity(
-                $entity->getOwner(),
+                $entity->getResourceClass(),
                 new ResourceClassAdapter
             ),
         );
@@ -47,7 +48,7 @@ class ItemAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (!$entity->getResourceClass() instanceof Omeka\Model\Entity\ResourceClass) {
+        if (!$entity->getResourceClass() instanceof ResourceClass) {
             $errorStore->addError('resource_class', 'The item is missing a resource class.');
         }
     }

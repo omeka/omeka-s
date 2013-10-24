@@ -53,6 +53,12 @@ return array(
             'resource_classes' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
             ),
+            'properties' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            ),
+            'values' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ValueAdapter',
+            ),
             'items' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),

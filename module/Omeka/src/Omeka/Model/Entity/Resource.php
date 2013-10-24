@@ -13,13 +13,11 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
+ *
+ * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
 class Resource implements EntityInterface
 {
-    const TYPE_ITEM_SET = 'ItemSet';
-    const TYPE_ITEM = 'Item';
-    const TYPE_MEDIA = 'Media';
-
     /**
      * @Id
      * @Column(type="integer")

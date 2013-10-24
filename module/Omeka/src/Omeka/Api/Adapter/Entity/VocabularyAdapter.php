@@ -64,6 +64,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        $validator = new IsUnique(array('namespace_uri'), $this->getEntityManager());
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages('namespace_uri', $validator->getMessages());
+        }
         if (null === $entity->getNamespaceUri()) {
             $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
         }

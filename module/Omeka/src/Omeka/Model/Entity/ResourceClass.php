@@ -55,7 +55,7 @@ class ResourceClass implements EntityInterface
     protected $comment;
 
     /**
-     * @Column
+     * @Column(nullable=true)
      */
     protected $resourceType;
 

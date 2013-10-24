@@ -16,4 +16,9 @@ class ItemSet extends Resource
     {
         return $this->id;
     }
+
+    public function getAdapterClass()
+    {
+        return 'Omeka\Api\Adapter\Entity\ItemSet';
+    }
 }

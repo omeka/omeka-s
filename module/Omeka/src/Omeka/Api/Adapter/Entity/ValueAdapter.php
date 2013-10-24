@@ -55,12 +55,9 @@ class ValueAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * @todo We need a way to get the entity adapter when we only know about the
-     * entity. That way, we can extract inverse record association.
-     */
     public function extract($entity)
     {
+        return array();
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

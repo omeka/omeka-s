@@ -12,6 +12,11 @@ class Item extends Resource
      */
     protected $id;
 
+    public function getAdapterClass()
+    {
+        return 'Omeka\Api\Adapter\Entity\Item';
+    }
+
     public function getId()
     {
         return $this->id;

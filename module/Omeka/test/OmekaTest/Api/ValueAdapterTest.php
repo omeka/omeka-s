@@ -62,9 +62,9 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
             ))
             ->will($this->onConsecutiveCalls(
                 new User,
-                new Resource,
+                $this->getMockForAbstractClass('Omeka\Model\Entity\Resource'),
                 new Property,
-                new Resource)
+                $this->getMockForAbstractClass('Omeka\Model\Entity\Resource'))
             );
 
         $this->adapter->setServiceLocator($serviceManager);

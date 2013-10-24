@@ -16,7 +16,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  *
  * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
-class Resource implements EntityInterface
+abstract class Resource implements EntityInterface
 {
     /**
      * @Id
@@ -45,6 +45,18 @@ class Resource implements EntityInterface
     {
         $this->sites = new ArrayCollection;
     }
+
+    /**
+     * Get the fully qualified class name of the entity API adapter.
+     *
+     * This can be used when the entity is known but the corresponding adapter
+     * is not. Primarily used when extracting children of this class (Item,
+     * Media, ItemSet, etc.) to an array when the adapter is unknown.
+     *
+     * @see \Omeka\Api\Adapter\Entity\AbstractEntityAdapter::extract()
+     * @return string
+     */
+    abstract public function getAdapterClass();
 
     /**
      * All resources must belong to a class. If one is not set prior to persist, 

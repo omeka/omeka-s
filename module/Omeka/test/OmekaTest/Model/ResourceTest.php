@@ -9,7 +9,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->resource = new Resource;
+        $this->resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
     }
 
     public function testInitialState()
@@ -45,7 +45,6 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                 if (!is_array($subject)) return false;
                 if (!isset($subject['resourceType'])) return false;
                 if (!isset($subject['isDefault'])) return false;
-                if ('Omeka\Model\Entity\Resource' !== $subject['resourceType']) return false;
                 if (true !== $subject['isDefault']) return false;
                 return true;
             }))

@@ -60,6 +60,9 @@ class EntityManagerFactory implements FactoryInterface
         $emConfig = Setup::createAnnotationMetadataConfiguration(
             array(__DIR__ . '/../Model/Entity'), $isDevMode
         );
+        // Use the underscore naming strategy to preempt potential compatibility
+        // issues with the case sensitivity of various operating systems.
+        // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
         if (isset($config['loggers']['sql']['log'])

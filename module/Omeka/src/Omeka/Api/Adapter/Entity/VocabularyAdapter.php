@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Validator\Db\IsUnique;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
@@ -64,7 +65,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        $validator = new IsUnique(array('namespace_uri'), $this->getEntityManager());
+        $validator = new IsUnique(array('namespaceUri'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('namespace_uri', $validator->getMessages());
         }

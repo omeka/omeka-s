@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class ResourceClassProperty extends AbstractEntity
+class ResourceClassProperty implements EntityInterface
 {
     /**
      * @Id

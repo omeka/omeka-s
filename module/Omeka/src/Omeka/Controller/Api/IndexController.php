@@ -1,9 +1,10 @@
 <?php
 namespace Omeka\Controller\Api;
 
+use Omeka\Api\Response;
 use Omeka\Api\Request;
+use Omeka\View\Model\ApiJsonModel;
 use Zend\Mvc\Controller\AbstractRestfulController;
-use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractRestfulController
 {
@@ -16,7 +17,7 @@ class IndexController extends AbstractRestfulController
         );
         $request->setId($id);
         $response = $manager->execute($request);
-        print_r($response);exit;
+        return new ApiJsonModel($response);
     }
 
     public function getList()
@@ -28,7 +29,7 @@ class IndexController extends AbstractRestfulController
         );
         $request->setContent($this->params()->fromQuery());
         $response = $manager->execute($request);
-        print_r($response);exit;
+        return new ApiJsonModel($response);
     }
 
     public function create($data)
@@ -40,7 +41,7 @@ class IndexController extends AbstractRestfulController
         );
         $request->setContent($this->processBodyContent($this->getRequest()));
         $response = $manager->execute($request);
-        print_r($response);exit;
+        return new ApiJsonModel($response);
     }
 
     public function update($id, $data)
@@ -53,7 +54,7 @@ class IndexController extends AbstractRestfulController
         $request->setId($id);
         $request->setContent($data);
         $response = $manager->execute($request);
-        print_r($response);exit;
+        return new ApiJsonModel($response);
     }
 
     public function delete($id)
@@ -65,6 +66,6 @@ class IndexController extends AbstractRestfulController
         );
         $request->setId($id);
         $response = $manager->execute($request);
-        print_r($response);exit;
+        return new ApiJsonModel($response);
     }
 }

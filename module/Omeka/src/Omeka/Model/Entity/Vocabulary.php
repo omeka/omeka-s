@@ -8,7 +8,7 @@ namespace Omeka\Model\Entity;
  * 
  * @Entity
  */
-class Vocabulary extends AbstractEntity
+class Vocabulary implements EntityInterface
 {
     /**
      * @Id

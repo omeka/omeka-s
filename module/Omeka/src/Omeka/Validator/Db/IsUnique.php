@@ -75,22 +75,41 @@ class IsUnique extends AbstractValidator
         }
 
         $classMetadata = $this->entityManager->getClassMetadata(get_class($entity));
+
+        // Check the passed fields exist as entity field names or association
+        // mapping names.
         foreach ($this->fields as $field) {
-            if (!in_array($field, $classMetadata->fieldNames)) {
+            if (!in_array($field, $classMetadata->fieldNames)
+                && !array_key_exists($field, $classMetadata->associationMappings)) {
                 $this->error(self::INVALID_FIELD, $field);
                 return false;
             }
         }
 
-        $qb = $this->entityManager->createQueryBuilder();
         // Check uniqueness on an entity that is not yet persistent.
+        $qb = $this->entityManager->createQueryBuilder();
         $qb->select('1')->from($classMetadata->name, 'entity');
         $values = array();
         foreach ($this->fields as $alias => $field) {
+
             $getField = 'get' . ucfirst($field);
-            $values[$alias] = $entity->$getField();
-            $qb->andWhere($qb->expr()->eq("entity.$field", "?$alias"))
-                ->setParameter($alias, $values[$alias]);
+            $qb->andWhere($qb->expr()->eq("entity.$field", "?$alias"));
+
+            // Build a condition for a field.
+            if (in_array($field, $classMetadata->fieldNames)) {
+                $qb->setParameter($alias, $entity->$getField());
+                $values[$alias] = $entity->$getField();
+
+            // Build a condition for an association mapping.
+            } else {
+                if ($entity->$getField() instanceof EntityInterface) {
+                    $qb->setParameter($alias, $entity->$getField()->getId());
+                    $values[$alias] = $entity->$getField()->getId();
+                } else {
+                    $qb->setParameter($alias, null);
+                    $values[$alias] = null;
+                }
+            }
         }
         $this->values = implode(', ', $values);
 

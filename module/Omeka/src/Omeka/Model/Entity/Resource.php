@@ -13,13 +13,11 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
+ *
+ * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
-class Resource extends AbstractEntity
+abstract class Resource implements EntityInterface
 {
-    const TYPE_ITEM_SET = 'ItemSet';
-    const TYPE_ITEM = 'Item';
-    const TYPE_MEDIA = 'Media';
-
     /**
      * @Id
      * @Column(type="integer")
@@ -47,6 +45,18 @@ class Resource extends AbstractEntity
     {
         $this->sites = new ArrayCollection;
     }
+
+    /**
+     * Get the fully qualified class name of the entity API adapter.
+     *
+     * This can be used when the entity is known but the corresponding adapter
+     * is not. Primarily used when extracting children of this class (Item,
+     * Media, ItemSet, etc.) to an array when the adapter is unknown.
+     *
+     * @see \Omeka\Api\Adapter\Entity\AbstractEntityAdapter::extract()
+     * @return string
+     */
+    abstract public function getAdapterClass();
 
     /**
      * All resources must belong to a class. If one is not set prior to persist, 

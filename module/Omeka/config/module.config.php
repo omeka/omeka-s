@@ -5,6 +5,10 @@ return array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
+            'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
+        ),
+        'invokables' => array(
+            'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
     ),
     'router' => array(
@@ -45,6 +49,9 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+        'strategies' => array(
+            'ViewApiJsonStrategy',
+        ),
     ),
     'api_manager' => array(
         'resources' => array(
@@ -56,6 +63,12 @@ return array(
             ),
             'resource_classes' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+            ),
+            'properties' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            ),
+            'values' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             ),
             'items' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',

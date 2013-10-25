@@ -4,13 +4,12 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Validator\Db\IsUnique;
 
-class VocabularyAdapter extends AbstractEntityAdapter
+class PropertyAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Vocabulary';
+        return 'Omeka\Model\Entity\Property';
     }
 
     public function hydrate(array $data, $entity)
@@ -21,8 +20,14 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 ->find($data['owner']['id']);
             $entity->setOwner($owner);
         }
-        if (isset($data['namespace_uri'])) {
-            $entity->setNamespaceUri($data['namespace_uri']);
+        if (isset($data['vocabulary']['id'])) {
+            $vocabulary = $this->getEntityManager()
+                ->getRepository('Omeka\Model\Entity\Vocabulary')
+                ->find($data['vocabulary']['id']);
+            $entity->setVocabulary($vocabulary);
+        }
+        if (isset($data['local_name'])) {
+            $entity->setLocalName($data['local_name']);
         }
         if (isset($data['label'])) {
             $entity->setLabel($data['label']);
@@ -30,6 +35,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }
+
     }
 
     public function extract($entity)
@@ -37,7 +43,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         return array(
             'id' => $entity->getId(),
             'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
-            'namespace_uri' => $entity->getNamespaceUri(),
+            'vocabulary' => $this->extractEntity(
+                $entity->getVocabulary(),
+                new VocabularyAdapter
+            ),
+            'local_name' => $entity->getLocalName(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),
         );
@@ -55,23 +65,20 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 ->andWhere("$entityClassUser.id = :owner_id")
                 ->setParameter('owner_id', $query['owner_id']);
         }
-        if (isset($query['namespace_uri'])) {
-            $qb->andWhere($qb->expr()->eq(
-                "$entityClass.namespaceUri", ':namespace_uri'
-            ))->setParameter('namespace_uri', $query['namespace_uri']);
+        if (isset($query['vocabulary_id'])) {
+            $vocabularyAdapter = new Vocabulary;
+            $entityClassVocabulary = $vocabularyAdapter->getEntityClass();
+            $qb->addSelect($entityClassVocabulary)
+                ->innerJoin($entityClassVocabulary, $entityClassVocabulary,
+                    'WITH', "$entityClassVocabulary.id = $entityClass.vocabulary")
+                ->andWhere("$entityClassVocabulary.id = :vocabulary_id")
+                ->setParameter('vocabulary_id', $query['vocabulary_id']);
         }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        $validator = new IsUnique(array('namespaceUri'), $this->getEntityManager());
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('namespace_uri', $validator->getMessages());
-        }
-        if (null === $entity->getNamespaceUri()) {
-            $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
-        }
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');
         }

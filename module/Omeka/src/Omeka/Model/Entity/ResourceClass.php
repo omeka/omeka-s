@@ -15,7 +15,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
  * })
  */
-class ResourceClass extends AbstractEntity
+class ResourceClass implements EntityInterface
 {
     /**
      * @Id
@@ -55,7 +55,7 @@ class ResourceClass extends AbstractEntity
     protected $comment;
 
     /**
-     * @Column
+     * @Column(nullable=true)
      */
     protected $resourceType;
 

@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
  * })
  */
-class Property extends AbstractEntity
+class Property implements EntityInterface
 {
     /**
      * @Id

@@ -18,6 +18,26 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     HydratorInterface
 {
     /**
+     * Extract properties from an entity.
+     *
+     * @param EntityInterface $entity
+     * @return array
+     */
+    abstract public function extract($entity);
+
+    /**
+     * Hydrate an entity with the provided array.
+     *
+     * Do not modify or perform operations on the data when setting properties.
+     * Validation should be done in self::validate(). Filtering should be done
+     * in the entity's mutator methods.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     */
+    abstract public function hydrate(array $data, $object);
+
+    /**
      * Search a set of entities.
      *
      * @param null|array $data

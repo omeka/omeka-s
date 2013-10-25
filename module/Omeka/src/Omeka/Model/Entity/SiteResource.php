@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class SiteResource extends AbstractEntity
+class SiteResource implements EntityInterface
 {
     /**
      * @Id

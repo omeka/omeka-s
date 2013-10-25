@@ -9,20 +9,21 @@ use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 class ResourceDiscriminatorMap
 {
     protected $defaultResources = array(
-        'Item' => 'Item', 
-        'Media' => 'Media', 
-        'ItemSet' => 'ItemSet', 
+        'Omeka\Model\Entity\Item' => 'Omeka\Model\Entity\Item', 
+        'Omeka\Model\Entity\Media' => 'Omeka\Model\Entity\Media', 
+        'Omeka\Model\Entity\ItemSet' => 'Omeka\Model\Entity\ItemSet', 
     );
     
     public function loadClassMetadata(LoadClassMetadataEventArgs $event)
     {
         $classMetadata = $event->getClassMetadata();
-        if ('Resource' == $classMetadata->name) {
-            // Load default resources.
-            $classMetadata->discriminatorMap = $this->defaultResources;
-            
-            // Load plugin resources dynamically.
-            // $this->loadPluginResources($classMetadata);
+        if ('Omeka\Model\Entity\Resource' != $classMetadata->name) {
+            return;
         }
+        // Load default resources.
+        $classMetadata->discriminatorMap = $this->defaultResources;
+        
+        // Load plugin resources dynamically.
+        // $this->loadPluginResources($classMetadata);
     }
 }

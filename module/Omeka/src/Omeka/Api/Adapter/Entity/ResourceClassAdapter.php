@@ -87,18 +87,54 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        $validator = new IsUnique(array('resourceType', 'isDefault'), $this->getEntityManager());
+        // Validate resourceType/isDefault unique constraint.
+        $validator = new IsUnique(
+            array('resourceType', 'isDefault'),
+            $this->getEntityManager()
+        );
         if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('default_resource_type', $validator->getMessages());
+            $errorStore->addValidatorMessages(
+                'default_resource_type',
+                $validator->getMessages()
+            );
         }
+
+        // Validate the vocabulary/localName unique constraint.
+        $validator = new IsUnique(
+            array('vocabulary', 'localName'),
+            $this->getEntityManager()
+        );
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages(
+                'vocabulary_local_name',
+                $validator->getMessages()
+            );
+        }
+
+        // Validate resourceType.
+        $discriminatorMap = $this->getEntityManager()
+            ->getClassMetadata('Omeka\Model\Entity\Resource')
+            ->discriminatorMap;
+        if (!in_array($entity->getResourceType(), $discriminatorMap)
+            && !is_null($entity->getResourceType())
+        ) {
+            $errorStore->addError(
+                'resource_type',
+                'The provided resource_type is not a registered resource type.'
+            );
+        }
+
+        // Validate label.
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');
         }
-        if (null === $entity->getResourceType()) {
-            $errorStore->addError('resource_type', 'The resource_type field cannot be null.');
-        }
-        if (!is_bool($entity->getIsDefault()) && null !== $entity->getIsDefault()) {
-            $errorStore->addError('is_default', 'The is_default field must be boolean or null.');
+
+        // Validate is_default.
+        if (!is_bool($entity->getIsDefault()) && !is_null($entity->getIsDefault())) {
+            $errorStore->addError(
+                'is_default',
+                'The is_default field must be boolean or null.'
+            );
         }
     }
 }

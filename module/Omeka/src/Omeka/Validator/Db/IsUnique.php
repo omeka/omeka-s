@@ -97,8 +97,14 @@ class IsUnique extends AbstractValidator
 
             // Build a condition for a field.
             if (in_array($field, $classMetadata->fieldNames)) {
-                $qb->setParameter($alias, $entity->$getField());
-                $values[$alias] = $entity->$getField();
+                if (is_null($entity->$getField())) {
+                    // A null field always indicates uniqueness because null is
+                    // never equal to anything, not even another null value.
+                    return true;
+                } else {
+                    $qb->setParameter($alias, $entity->$getField());
+                    $values[$alias] = $entity->$getField();
+                }
 
             // Build a condition for an association mapping.
             } else {
@@ -106,8 +112,9 @@ class IsUnique extends AbstractValidator
                     $qb->setParameter($alias, $entity->$getField()->getId());
                     $values[$alias] = $entity->$getField()->getId();
                 } else {
-                    $qb->setParameter($alias, null);
-                    $values[$alias] = null;
+                    // An association that does not resolve to an entity
+                    // is null and always indicates uniqueness.
+                    return true;
                 }
             }
         }

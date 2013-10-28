@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Property;
 use Omeka\Stdlib\ErrorStore;
 
 class ValueAdapter extends AbstractEntityAdapter
@@ -92,5 +93,26 @@ class ValueAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate resource
+        if (!$entity->getResource() instanceof Resource) {
+            $errorStore->addError('resource', 'The resource must be an instance of Omeka\Model\Entity\Resource.');
+        }
+
+        // Validate property
+        if (!$entity->getProperty() instanceof Property) {
+            $errorStore->addError('resource', 'The resource must be an instance of Omeka\Model\Entity\Property.');
+        }
+
+        // Validate type
+        if (!in_array($entity->getType(), $entity->getValidTypes())) {
+            $errorStore->addError('label', 'The provided value type is invalid.');
+        }
+
+        // Validate value resource
+        if (null !== $entity->getResource()
+            && !$entity->getResource() instanceof Resource
+        ) {
+            $errorStore->addError('resource', 'The value resource must be an instance of Omeka\Model\Entity\Resource.');
+        }
     }
 }

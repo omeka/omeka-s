@@ -21,7 +21,7 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
         'value' => 'Value',
         'value_transformed' => 'ValueTransformed',
         'lang' => 'Lang',
-        'is_html' => 'IsHtml',
+        'is_html' => true,
         'value_resource' => array('id' => 4),
     );
 
@@ -82,7 +82,7 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data['value'], $entity->getValue());
         $this->assertEquals($this->data['value_transformed'], $entity->getValueTransformed());
         $this->assertEquals($this->data['lang'], $entity->getLang());
-        $this->assertEquals($this->data['is_html'], $entity->getIsHtml());
+        $this->assertTrue($entity->getIsHtml());
         $this->assertNull($entity->getValueResource()->getId());
         $this->assertInstanceOf('Omeka\Model\Entity\Resource', $entity->getValueResource());
     }

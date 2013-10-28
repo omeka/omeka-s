@@ -79,6 +79,19 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate the vocabulary/localName unique constraint.
+        $validator = new IsUnique(
+            array('vocabulary', 'localName'),
+            $this->getEntityManager()
+        );
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages(
+                'vocabulary_local_name',
+                $validator->getMessages()
+            );
+        }
+
+        // Validate label
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');
         }

@@ -13,6 +13,15 @@ class Value implements EntityInterface
     const TYPE_URI = 'uri';
 
     /**
+     * @var array
+     */
+    protected $validTypes = array(
+        self::TYPE_LITERAL,
+        self::TYPE_RESOURCE,
+        self::TYPE_URI,
+    );
+
+    /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
@@ -59,7 +68,7 @@ class Value implements EntityInterface
     /**
      * @Column(type="boolean")
      */
-    protected $isHtml;
+    protected $isHtml = false;
 
     /**
      * @ManyToOne(targetEntity="Resource")
@@ -143,7 +152,8 @@ class Value implements EntityInterface
 
     public function setIsHtml($isHtml)
     {
-        $this->isHtml = $isHtml;
+        // Default is false.
+        $this->isHtml = $isHtml ? (bool) $isHtml : false;
     }
 
     public function getIsHtml()
@@ -159,5 +169,10 @@ class Value implements EntityInterface
     public function getValueResource()
     {
         return $this->valueResource;
+    }
+
+    public function getValidTypes()
+    {
+        return $this->validTypes;
     }
 }

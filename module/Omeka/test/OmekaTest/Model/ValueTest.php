@@ -22,7 +22,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->value->getValue());
         $this->assertNull($this->value->getValueTransformed());
         $this->assertNull($this->value->getLang());
-        $this->assertNull($this->value->getIsHtml());
+        $this->assertFalse($this->value->getIsHtml());
         $this->assertNull($this->value->getValueResource());
     }
 
@@ -35,7 +35,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         $this->value->setValue('value');
         $this->value->setValueTransformed('value_transformed');
         $this->value->setLang('lang');
-        $this->value->setIsHtml('is_html');
+        $this->value->setIsHtml(true);
         $this->value->setValueResource('value_resource');
         $this->assertEquals('owner', $this->value->getOwner());
         $this->assertEquals('resource', $this->value->getResource());
@@ -44,7 +44,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $this->value->getValue());
         $this->assertEquals('value_transformed', $this->value->getValueTransformed());
         $this->assertEquals('lang', $this->value->getLang());
-        $this->assertEquals('is_html', $this->value->getIsHtml());
+        $this->assertTrue($this->value->getIsHtml());
         $this->assertEquals('value_resource', $this->value->getValueResource());
     }
 }

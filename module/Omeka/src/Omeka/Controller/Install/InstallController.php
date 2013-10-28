@@ -18,11 +18,19 @@ class InstallController extends AbstractActionController
         $success = true;
         if(isset($_POST['submit'])) {
             $installer = $this->getServiceLocator()->get('Installer');
-            //$installer = new Installer;
-            //$installer->setServiceLocator($this->getServiceLocator());
-            //$installer->loadTasks();
             $success = $installer->install();
-            $messages = $installer->getMessages();
+            $tasks = $installer->getTasks();
+            foreach($tasks as $task) {
+                $taskResult = $task->getTaskResult();
+                if($taskResult->getSuccess()) {
+                    $messages[] = array('taskName' => $task->getTaskName(), 
+                                        'messages' => array(array('code' => 'OK', 'message' => 'Completed'))
+                                       );
+                } else {
+                    $messages[] = $taskResult->getMessages();
+                    break;
+                }
+            }
         }
         return new ViewModel(array('messages'=>$messages, 'success'=>$success));
     }

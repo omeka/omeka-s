@@ -6,21 +6,29 @@ use Omeka\Service\EntityManagerFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
-$factory = new EntityManagerFactory;
 $config = include 'config/application.config.php';
-
-$serviceManager = new ServiceManager(new ServiceManagerConfig());
-$serviceManager->setService('ApplicationConfig', $config);
-$serviceManager->get('ModuleManager')->loadModules();
-
-$installer = new Installer;
-$installer->setServiceLocator($serviceManager);
-$installer->loadTasks();
+$application = Zend\Mvc\Application::init(require 'config/application.config.php');
+$installer = $application->getServiceManager()->get('Installer');
 $success = $installer->install();
 if($success) {
     echo 'ok';    
 } else {
     echo 'fail';   
-    print_r($installer->getMessages());
+    $tasks = $installer->getTasks();
+    foreach($tasks as $task) {
+        $taskResult = $task->getTaskResult();
+        echo "\n" . $task->getTaskName() . ': '; 
+        if($taskResult->getSuccess()) {
+            echo ' OK';
+        } else {
+            $taskMessages = $taskResult->getMessages();
+            foreach($taskMessages as $messages) {
+                foreach($messages as $message)
+                echo ' ' . $message['code'] . ' ' . $message['message'];
+            }
+            break;
+        }
+    }
+    
 }
 

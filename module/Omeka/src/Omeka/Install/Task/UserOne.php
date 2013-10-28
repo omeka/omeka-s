@@ -23,7 +23,6 @@ class UserOne extends AbstractTask implements TaskInterface
         $em->persist($user);
         try {
             $em->flush();
-            $this->result->addMessage('User One Installed');
             $this->result->setSuccess(true);
         } catch(\Exception $e) {
             $this->result->addMessage($e->getMessage());

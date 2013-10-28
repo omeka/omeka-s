@@ -15,7 +15,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 class Installer implements ServiceLocatorAwareInterface
 {
-    public $messages = array();
     public $success = true;
     protected $tasks = array();
     protected $services;
@@ -61,22 +60,12 @@ class Installer implements ServiceLocatorAwareInterface
             $task->setServiceLocator($serviceLocator);
             $task->perform();
             $result = $task->getTaskResult();
-            $this->addMessages($result->getMessages());
+            //$this->addResult($result);
             if(!$result->getSuccess()) {
                 return false;
             }
         }
         return true;
-    }
-    
-    /**
-     * Return a list of messages from installation tasks
-     * 
-     * @return array
-     */
-    public function getMessages()
-    {
-        return $this->messages;
     }
     
     /**
@@ -98,14 +87,4 @@ class Installer implements ServiceLocatorAwareInterface
     {
         return $this->services;
     }
-    
-    /**
-     * Add messages from an installation task
-     * 
-     * @param array $messages
-     */
-    protected function addMessages($messages)
-    {
-        $this->messages[] = $messages;
-    }    
 }

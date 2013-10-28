@@ -20,6 +20,7 @@ class Schema extends AbstractTask implements TaskInterface
         $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();
         $config = $this->getServiceLocator()->get('Config');
         //check if tables already exist
+        //@TODO filter for only the proper prefixes in the table names
         $tables = $conn->getSchemaManager()->listTableNames();
         if(!empty($tables)) {
             $this->result->addMessage('Omeka is already installed.', TaskResult::TASK_RESULT_ERROR);
@@ -32,7 +33,6 @@ class Schema extends AbstractTask implements TaskInterface
             $this->result->setSuccess(false);
             return;   
         }
-        //$classes = unserialize(file_get_contents($this->installDataPath . '/schema.txt'));
         $queries = file($this->installDataPath . '/schema.sql');
         if(!is_array($queries)) {
             $this->result->addMessage('Could not read the schema installation file.', TaskResult::TASK_RESULT_ERROR);
@@ -50,7 +50,6 @@ class Schema extends AbstractTask implements TaskInterface
                 $this->result->setSuccess(false);
             }            
         }
-        $this->result->addMessage('Tables installed ok.'); 
         $this->result->setSuccess(true);
     }
 }

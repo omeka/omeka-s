@@ -12,11 +12,11 @@
     </dt>
     <?php foreach($taskMessage['messages'] as $message):?>
         <dd><?php echo $message['code'];?> <?php echo $message['message'];?></dd>
-        <?php if($message['exception']):?>
-        <?php $e = $message['exception']; ?>
-        <dd>
-        <?php echo $e->getMessage(); ?>
-        </dd>
+        <?php if(isset($message['exception']) && $message['exception']):?>
+            <?php $e = $message['exception']; ?>
+            <dd>
+            <?php echo $e->getMessage(); ?>
+            </dd>
         <?php endif; ?>
     <?php endforeach; ?>
 </dl>

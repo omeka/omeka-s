@@ -6,6 +6,7 @@ return array(
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
+            'Installer' => 'Omeka\Service\InstallerFactory'
         ),
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
@@ -86,7 +87,7 @@ return array(
             'charset'     => 'utf8',
             'driver'      => 'pdo_mysql',
         ),
-        'table_prefix' => 'DBPREFIX_',
+        'table_prefix' => 'omeka_',
         'is_dev_mode'  => false,
     ),
     'loggers' => array(

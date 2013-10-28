@@ -12,8 +12,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * php vendor/bin/doctrine orm:schema-tool:create --dump-sql > data/install/schema.sql
  * To handle prefixes, the dump MUST have dbprefix DBPREFIX_
  * 
- * @author patrickmj
- *
  */
 class Installer implements ServiceLocatorAwareInterface
 {
@@ -32,18 +30,6 @@ class Installer implements ServiceLocatorAwareInterface
     {
         $this->tasks[] = $task;
     }
-
-    /**
-     * Load all the tasks from the application config
-     */
-    public function loadTasks()
-    {
-        $config = $this->getServiceLocator()->get('Config');
-        $tasks = $config['install']['tasks'];
-        foreach($tasks as $task) {
-            $this->addTask(new $task);
-        }
-    }
     
     /**
      * Get all the added tasks
@@ -53,6 +39,14 @@ class Installer implements ServiceLocatorAwareInterface
     public function getTasks()
     {
         return $this->tasks;
+    }
+    
+    /**
+     * Empty the list of tasks. Used for testing
+     */
+    public function emptyTasks()
+    {
+        $this->tasks = array();
     }
     
     /**

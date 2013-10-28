@@ -36,11 +36,13 @@ class SuccessPerformTask extends AbstractTask
 class InstallTest extends \PHPUnit_Framework_TestCase
 {
     protected $tasks;
+    protected $installer;
     
     protected function setUp()
     {
         $this->tasks['successPerformTask'] = new SuccessPerformTask;
         $this->tasks['failPerformTask'] = new FailPerformTask;
+        $this->installer = Bootstrap::getServiceManager()->get('Installer');
         parent::setUp();
     }
     
@@ -49,23 +51,19 @@ class InstallTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstallFailsOnTaskFail()
     {
-        $installer = new Installer;
-        $manager = Bootstrap::getServiceManager();
-        $installer->setServiceLocator($manager);
-        $installer->addTask($this->tasks['successPerformTask']);
-        $installer->addTask($this->tasks['failPerformTask']);
-        $installer->addTask($this->tasks['successPerformTask']);
-        $status = $installer->install();
+        $this->installer->emptyTasks();
+        $this->installer->addTask($this->tasks['successPerformTask']);
+        $this->installer->addTask($this->tasks['failPerformTask']);
+        $this->installer->addTask($this->tasks['successPerformTask']);
+        $status = $this->installer->install();
         $this->assertFalse($status);
     }
     
     public function testInstallSucceedsOnTasksSucceed()
     {
-        $installer = new Installer;
-        $manager = Bootstrap::getServiceManager();
-        $installer->setServiceLocator($manager);
-        $installer->addTask($this->tasks['successPerformTask']);
-        $status = $installer->install();
+        $this->installer->emptyTasks();
+        $this->installer->addTask($this->tasks['successPerformTask']);
+        $status = $this->installer->install();
         $this->assertTrue($status);        
     }
     

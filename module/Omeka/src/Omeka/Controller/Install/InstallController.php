@@ -17,9 +17,10 @@ class InstallController extends AbstractActionController
         $messages = array();
         $success = true;
         if(isset($_POST['submit'])) {
-            $installer = new Installer;
-            $installer->setServiceLocator($this->getServiceLocator());
-            $installer->loadTasks();
+            $installer = $this->getServiceLocator()->get('Installer');
+            //$installer = new Installer;
+            //$installer->setServiceLocator($this->getServiceLocator());
+            //$installer->loadTasks();
             $success = $installer->install();
             $messages = $installer->getMessages();
         }

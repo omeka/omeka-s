@@ -35,7 +35,7 @@ class Media extends Resource
 
     public function getAdapterClass()
     {
-        return 'Omeka\Api\Adapter\Entity\Media';
+        return 'Omeka\Api\Adapter\Entity\MediaAdapter';
     }
 
     public function getId()

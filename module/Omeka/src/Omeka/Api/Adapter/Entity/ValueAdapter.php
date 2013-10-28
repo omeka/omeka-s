@@ -57,7 +57,32 @@ class ValueAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        return array();
+        $resourceAdapterClass = $entity->getResource()->getAdapterClass();
+        $valueResourceAdapterClass = $entity->getValueResource()->getAdapterClass();
+        return array(
+            'id' => $entity->getId(),
+            'owner' => $this->extractEntity(
+                $entity->getOwner(),
+                new UserAdapter
+            ),
+            'resource' => $this->extractEntity(
+                $entity->getResource(),
+                new $resourceAdapterClass
+            ),
+            'property' => $this->extractEntity(
+                $entity->getProperty(),
+                new PropertyAdapter
+            ),
+            'type' => $entity->getType(),
+            'value' => $entity->getValue(),
+            'value_transformed' => $entity->getValueTransformed(),
+            'lang' => $entity->getLang(),
+            'is_html' => $entity->getIsHtml(),
+            'value_resource' => $this->extractEntity(
+                $entity->getValueResource(),
+                new $valueResourceAdapterClass
+            ),
+        );
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

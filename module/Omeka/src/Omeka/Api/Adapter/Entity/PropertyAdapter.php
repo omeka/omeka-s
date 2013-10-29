@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Validator\Db\IsUnique;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {

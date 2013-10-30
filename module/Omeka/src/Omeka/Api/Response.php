@@ -3,7 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Request;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Stdlib\Request as ZendResponse;
+use Zend\Stdlib\Response as ZendResponse;
 
 /**
  * Api response.

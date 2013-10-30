@@ -75,6 +75,9 @@ return array(
             'items' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),
+            'rdf' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Rdf',
+            ),
         ),
     ),
     'entity_manager' => array(

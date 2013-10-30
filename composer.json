@@ -2,7 +2,8 @@
     "require": {
         "php": ">=5.3",
         "doctrine/orm": "v2.4.0",
-        "zendframework/zendframework": "2.*"
+        "zendframework/zendframework": "2.*",
+        "easyrdf/easyrdf": "*"
     },
     "autoload": {
         "psr-0": {"": "module/Omeka/src"}

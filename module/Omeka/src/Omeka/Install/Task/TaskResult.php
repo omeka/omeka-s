@@ -3,7 +3,6 @@ namespace Omeka\Install\Task;
 
 /**
  * Results and messages for a task in the installation process
- * @author patrickmj
  *
  */
 
@@ -17,6 +16,11 @@ class TaskResult
     const TASK_RESULT_ERROR = 'ERROR';
     const TASK_RESULT_WARNING = 'WARNING';
     
+    /**
+     * Construct the TaskResult object, injecting a TaskInterface
+     * 
+     * @param TaskInterface $task
+     */
     public function __construct(TaskInterface $task)
     {
         $this->task = $task;    

@@ -17,7 +17,6 @@ class InstallerFactory implements FactoryInterface
      * 
      * @param ServiceLocatorInterface $serviceLocator
      * @return Installer
-     * @see Zend\ServiceManager.FactoryInterface::createService()
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

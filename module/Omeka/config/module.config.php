@@ -2,11 +2,12 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
+            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'Installer' => 'Omeka\Service\InstallerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
-            'Installer' => 'Omeka\Service\InstallerFactory'
+            
         ),
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',

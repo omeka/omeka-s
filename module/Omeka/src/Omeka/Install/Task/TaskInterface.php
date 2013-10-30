@@ -3,10 +3,13 @@ namespace Omeka\Install\Task;
 
 /**
  * Install Task interface
- * @author patrickmj
  *
  */
 interface TaskInterface
 {
+    /**
+     * Perform the installation task
+     * 
+     */
     public function perform();
 }

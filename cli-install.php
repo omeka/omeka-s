@@ -6,7 +6,6 @@ use Omeka\Service\EntityManagerFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
-$config = include 'config/application.config.php';
 $application = Zend\Mvc\Application::init(require 'config/application.config.php');
 $installer = $application->getServiceManager()->get('Installer');
 $success = $installer->install();

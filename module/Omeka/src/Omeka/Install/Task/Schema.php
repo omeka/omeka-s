@@ -8,13 +8,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Task to install the basic Omeka schema
- * @author patrickmj
  *
  */
 class Schema extends AbstractTask implements TaskInterface
 {
     protected $taskName = "Install tables";
     
+    /**
+     * Install the schema
+     * 
+     */
     public function perform()
     {
         $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();

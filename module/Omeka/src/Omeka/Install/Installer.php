@@ -60,7 +60,6 @@ class Installer implements ServiceLocatorAwareInterface
             $task->setServiceLocator($serviceLocator);
             $task->perform();
             $result = $task->getTaskResult();
-            //$this->addResult($result);
             if(!$result->getSuccess()) {
                 return false;
             }
@@ -71,7 +70,6 @@ class Installer implements ServiceLocatorAwareInterface
     /**
      * Set the service locator
      * 
-     * @see Zend\ServiceManager.ServiceLocatorAwareInterface::setServiceLocator()
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -81,7 +79,6 @@ class Installer implements ServiceLocatorAwareInterface
     /**
      * Get the service locator
      * 
-     * @see Zend\ServiceManager.ServiceLocatorAwareInterface::getServiceLocator()
      */
     public function getServiceLocator()
     {

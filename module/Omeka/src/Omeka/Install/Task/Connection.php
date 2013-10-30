@@ -8,13 +8,16 @@ use Omeka\Install\Task\AbstractTask;
  * Installation task to simply check if the connection exists
  * 
  * Allows message to be passed back to the installer if the db configuration is wrong
- * @author patrickmj
  *
  */
 class Connection extends AbstractTask implements TaskInterface
 {
     protected $taskName = "Database connection";
     
+    /**
+     * Check that the db connection exists
+     * 
+     */
     public function perform()
     {
         $em = $this->getServiceLocator()->get('EntityManager');

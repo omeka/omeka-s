@@ -9,8 +9,6 @@ use Omeka\Install\Exception\TaskSetupException;
  * Abstraction of installation tasks
  * 
  * Each installation task must be listed in application.config.php
- * @author patrickmj
- *
  */
 abstract class AbstractTask implements ServiceLocatorAwareInterface, TaskInterface
 {
@@ -19,6 +17,11 @@ abstract class AbstractTask implements ServiceLocatorAwareInterface, TaskInterfa
     protected $result;
     protected $installDataPath;
     
+    /**
+     * Set up the installation task
+     * 
+     * @throws TaskSetupException
+     */
     public function __construct()
     {
         $this->result = new TaskResult($this);

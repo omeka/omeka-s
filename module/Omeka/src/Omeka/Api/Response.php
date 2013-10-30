@@ -35,6 +35,11 @@ class Response extends ZendResponse
     );
 
     /**
+     * @var mixed
+     */
+    protected $content = null;
+
+    /**
      * Construct the API response.
      *
      * @param mixed $data

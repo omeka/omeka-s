@@ -18,12 +18,18 @@ class Rdf extends AbstractAdapter
      */
     public function create($data = null)
     {
-        // Load the RDF graph.
-        $graph = new EasyRdf_Graph;
-        $graph->parseFile($data['file']);
-
         $response = new Response;
         $manager = $this->getServiceLocator()->get('ApiManager');
+
+        // Load the RDF graph.
+        $graph = new EasyRdf_Graph;
+        if (isset($data['file']) && is_file($data['file'])) {
+            $graph->parseFile($data['file']);
+        } else {
+            $response->setStatus(Response::ERROR_NOT_FOUND);
+            $response->addError('file', 'The RDF file is invalid.');
+            return $response;
+        }
 
         // Create the vocabulary.
         $request = new Request(Request::CREATE, 'vocabularies');
@@ -31,6 +37,7 @@ class Rdf extends AbstractAdapter
         $responseVocab = $manager->execute($request);
         // If there are errors, stop importing the vocabulary.
         if ($responseVocab->isError()) {
+            $response->setStatus($responseVocab->getStatus());
             $response->mergeErrors($responseVocab->getErrorStore());
             return $response;
         }
@@ -68,9 +75,11 @@ class Rdf extends AbstractAdapter
             }
         }
 
-        // If there are no errors, invoke flush to create all classes and
-        // properties in a single transaction.
-        if (!$response->isError()) {
+        if ($response->isError()) {
+            $response->setStatus(Response::ERROR_INTERNAL);
+        } else {
+            // Invoke flush to create all classes and properties in a single
+            // transaction.
             $this->getServiceLocator()->get('EntityManager')->flush();
         }
 

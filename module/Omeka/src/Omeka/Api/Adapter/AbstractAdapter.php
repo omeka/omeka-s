@@ -2,14 +2,24 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Request;
+use Omeka\Api\RequestAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Abstract API adapter.
  */
-abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareInterface
+abstract class AbstractAdapter implements
+    AdapterInterface,
+    RequestAwareInterface,
+    ServiceLocatorAwareInterface
 {
+    /**
+     * @var Request
+     */
+    protected $request;
+
     /**
      * @var ServiceLocatorInterface
      */
@@ -63,6 +73,26 @@ abstract class AbstractAdapter implements AdapterInterface, ServiceLocatorAwareI
         throw new Exception\RuntimeException(
             'The adapter does not implement the delete function.'
         );
+    }
+
+    /**
+     * Set the API request.
+     *
+     * @param Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Get the API request.
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     /**

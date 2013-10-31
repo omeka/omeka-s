@@ -3,6 +3,8 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Manager;
+use Omeka\Api\Request;
+use Omeka\Api\RequestAwareInterface;
 use Omeka\Api\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -97,12 +99,17 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAdapterWorks()
     {
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue('foo'));
+        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
         $this->manager->registerResource('foo', $this->validConfig);
-        $mockServiceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->manager->setServiceLocator($mockServiceLocator);
-        $adapter = $this->manager->getAdapter('foo');
+        $this->manager->setServiceLocator($serviceLocator);
+        $adapter = $this->manager->getAdapter($request);
         $this->assertInstanceOf('Omeka\Api\Adapter\AdapterInterface', $adapter);
-        $this->assertSame($mockServiceLocator, $adapter->getServiceLocator());
+        $this->assertSame($request, $adapter->getRequest());
+        $this->assertSame($serviceLocator, $adapter->getServiceLocator());
     }
 
     public function testExecuteRequiresValidRequestResource()
@@ -208,8 +215,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestAdapter implements AdapterInterface, ServiceLocatorAwareInterface
+class TestAdapter implements
+    AdapterInterface,
+    RequestAwareInterface,
+    ServiceLocatorAwareInterface
 {
+    protected $request;
+
     protected $services;
 
     public function search($data = null)
@@ -230,6 +242,16 @@ class TestAdapter implements AdapterInterface, ServiceLocatorAwareInterface
 
     public function delete($id, $data = null)
     {
+    }
+
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

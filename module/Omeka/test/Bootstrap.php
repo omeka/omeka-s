@@ -5,9 +5,11 @@ use Omeka\Service\EntityManagerFactory;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
+use Omeka\Install\Installer;
 use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
 chdir(__DIR__);
 
 /**
@@ -16,7 +18,6 @@ chdir(__DIR__);
 class Bootstrap
 {
     protected static $serviceManager;
-    protected static $entityManagerConfig;
     protected static $applicationConfig;
 
     public static function init()
@@ -30,26 +31,37 @@ class Bootstrap
         }
         
         static::initAutoloader();
-
-        static::$applicationConfig = include './../../../config/application.config.php';
+        $applicationConfig = include './../../../config/application.config.php';
+        $applicationConfig['module_listener_options']['config_glob_paths'] = array('./test.config.php');
         
-        static::$entityManagerConfig = include('./test.config.php');
-        
-        
-        // use ModuleManager to load this module and it's dependencies
-        $config = array(
-                'module_listener_options' => array(
-                        'module_paths' => $omekaModulePaths,
-                ),
-                'modules' => array(
-                        'Omeka'
-                )
-        );
-
+        $applicationConfig['module_listener_options']['module_paths'] = $omekaModulePaths;
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
-        $serviceManager->setService('ApplicationConfig', $config);
+        $serviceManager->setService('ApplicationConfig', $applicationConfig);
         $serviceManager->get('ModuleManager')->loadModules();
+        static::$applicationConfig = $applicationConfig;
         static::$serviceManager = $serviceManager;
+    }
+    
+    public static function installTables()
+    {
+        $installer = new Installer();
+        $installer->setServiceLocator(self::$serviceManager);        
+        $installer->addTask(new \Omeka\Install\Task\Connection);
+        $installer->addTask(new \Omeka\Install\Task\Schema);
+        $installer->install();
+    }
+    
+    public static function dropTables()
+    {
+        $em = self::getServiceManager()->get('EntityManager');        
+        $connection = $em->getConnection();
+        $tables   = $connection->getSchemaManager()->listTableNames();
+        $platform   = $connection->getDatabasePlatform();
+        $connection->query('SET FOREIGN_KEY_CHECKS=0');
+        foreach($tables as $table) {
+            $connection->executeUpdate($platform->getDropTableSQL($table));
+        }
+        $connection->query('SET FOREIGN_KEY_CHECKS=1');    
     }
 
     public static function chroot()
@@ -62,20 +74,15 @@ class Bootstrap
     {
         return static::$serviceManager;
     }
-    
+
     public static function getApplicationConfig()
     {
         return static::$applicationConfig;
     }
     
-    public static function getEntityManagerConfig()
-    {
-        return static::$entityManagerConfig;
-    }
-
     protected static function initAutoloader()
     {
-        $vendorPath = static::findParentPath('vendor');        
+        $vendorPath = static::findParentPath('vendor');
         require $vendorPath . '/autoload.php';
     }
 

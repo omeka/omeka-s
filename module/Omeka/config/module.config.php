@@ -2,10 +2,12 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
+            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'Installer' => 'Omeka\Service\InstallerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
+            
         ),
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
@@ -22,11 +24,22 @@ return array(
                     ),
                 ),
             ),
+             'install' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route'     => '/install[/:step]',
+                    'defaults'  => array(
+                        'controller' => 'Omeka\Controller\Install',
+                        'action'     => 'index',
+                     ),
+                ),       
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController'
+            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
+            'Omeka\Controller\Install'   => 'Omeka\Controller\Install\InstallController',
         ),
     ),
     'view_manager' => array(
@@ -88,4 +101,11 @@ return array(
             'path' => __DIR__ . '/../../../data/logs/sql.log',
         ),
     ),
+    'install' => array(
+        'tasks' => array(
+            'Omeka\Install\Task\Connection',
+            'Omeka\Install\Task\Schema',
+            'Omeka\Install\Task\UserOne'        
+        )        
+    )
 );

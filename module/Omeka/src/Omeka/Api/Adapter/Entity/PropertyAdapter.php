@@ -58,7 +58,7 @@ class PropertyAdapter extends AbstractEntityAdapter
     {
         $entityClass = $this->getEntityClass();
         if (isset($query['owner_id'])) {
-            $userAdapter = new User;
+            $userAdapter = new UserAdapter;
             $entityClassUser = $userAdapter->getEntityClass();
             $qb->addSelect($entityClassUser)
                 ->innerJoin($entityClassUser, $entityClassUser,
@@ -67,7 +67,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                 ->setParameter('owner_id', $query['owner_id']);
         }
         if (isset($query['vocabulary_id'])) {
-            $vocabularyAdapter = new Vocabulary;
+            $vocabularyAdapter = new VocabularyAdapter;
             $entityClassVocabulary = $vocabularyAdapter->getEntityClass();
             $qb->addSelect($entityClassVocabulary)
                 ->innerJoin($entityClassVocabulary, $entityClassVocabulary,

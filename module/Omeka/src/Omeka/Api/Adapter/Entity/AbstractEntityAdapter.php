@@ -94,7 +94,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+        // Sub-requests should not be flushed.
+        if (!$this->getRequest()->isSubRequest()) {
+            $this->getEntityManager()->flush();
+        }
         $response->setContent($this->extract($entity));
         return $response;
     }
@@ -148,7 +151,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $response->setContent($this->extract($entity));
             return $response;
         }
-        $this->getEntityManager()->flush();
+        // Sub-requests should not be flushed.
+        if (!$this->getRequest()->isSubRequest()) {
+            $this->getEntityManager()->flush();
+        }
         $response->setContent($this->extract($entity));
         return $response;
     }
@@ -171,7 +177,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             return $response;
         }
         $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
+        // Sub-requests should not be flushed.
+        if (!$this->getRequest()->isSubRequest()) {
+            $this->getEntityManager()->flush();
+        }
         $response->setContent($this->extract($entity));
         return $response;
     }

@@ -47,7 +47,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     {
         $entityClass = $this->getEntityClass();
         if (isset($query['owner_id'])) {
-            $userAdapter = new User;
+            $userAdapter = new UserAdapter;
             $entityClassUser = $userAdapter->getEntityClass();
             $qb->addSelect($entityClassUser)
                 ->innerJoin($entityClassUser, $entityClassUser,

@@ -5,84 +5,75 @@ use EasyRdf_Graph;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 
+/**
+ * RDF adapter.
+ */
 class Rdf extends AbstractAdapter
 {
     /**
+     * Import an RDF vocabulary, including its classes and properties.
+     * 
      * @param mixed $data
      * @return mixed
      */
     public function create($data = null)
     {
-        $response = new Response;
-
-        // Require a vocabulary ID.
-        if (!isset($data['vocabulary']['id'])) {
-            $response->setStatus(Response::ERROR_VALIDATION);
-            $response->addError('vocabulary', 'A vocabulary ID is required.');
-            return $response;
-        }
-
-        // Require a valid vocabulary.
-        $request = new Request(Request::READ, 'vocabularies');
-        $request->setId($data['vocabulary']['id']);
-        $vocabularyResponse = $manager->execute($request);
-        if ($vocabularyResponse->isError()) {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError('vocabulary', sprintf(
-                'A vocabulary with ID "%s" was not found',
-                $data['vocabulary']['id']
-            ));
-            return $response;
-        }
-
         // Load the RDF graph.
         $graph = new EasyRdf_Graph;
         $graph->parseFile($data['file']);
 
-        // Set the response content.
-        $content = array(
-            'vocabulary' => $vocabularyResponse->getContent(),
-            'resource_classes' => array(),
-            'properties' => array(),
-        );
+        $response = new Response;
+        $manager = $this->getServiceLocator()->get('ApiManager');
+
+        // Create the vocabulary.
+        $request = new Request(Request::CREATE, 'vocabularies');
+        $request->setContent($data['vocabulary']);
+        $responseVocab = $manager->execute($request);
+        // If there are errors, stop importing the vocabulary.
+        if ($responseVocab->isError()) {
+            $response->mergeErrors($responseVocab->getErrorStore());
+            return $response;
+        }
+        $vocabulary = $responseVocab->getContent();
 
         // Create the vocabulary's classes.
-        $classes = $graph->allOfType('rdfs:Class');
-        foreach ($classes as $resource) {
-            $class = array(
-                'vocabulary' => array('id' => $data['vocabulary']['id']),
+        foreach ($graph->allOfType('rdfs:Class') as $resource) {
+            $request = new Request(Request::CREATE, 'resource_classes');
+            $request->setContent(array(
+                'vocabulary' => array('id' => $vocabulary['id']),
                 'local_name' => $resource->localName(),
                 'label' => $resource->label()->getValue(),
                 'comment' => $resource->get('rdfs:comment')->getValue(),
-            );
-            $request = new Request(Request::CREATE, 'resource_classes');
-            $request->setContent($class);
-            $classResponse = $manager->execute($request);
-            $content['resource_classes'][] = $classResponse->getContent();
-            if ($classResponse->isError()) {
-                $response->mergeErrors($classResponse->getErrorStore());
+            ));
+            $request->setIsSubRequest(true);
+            $responseClass = $manager->execute($request);
+            if ($responseClass->isError()) {
+                $response->mergeErrors($responseClass->getErrorStore());
             }
         }
 
         // Create the vocabulary's properties.
-        $properties = $graph->allOfType('rdf:Property');
-        foreach ($properties as $resource) {
-            $property = array(
-                'vocabulary' => array('id' => $data['vocabulary']['id']),
+        foreach ($graph->allOfType('rdf:Property') as $resource) {
+            $request = new Request(Request::CREATE, 'properties');
+            $request->setContent(array(
+                'vocabulary' => array('id' => $vocabulary['id']),
                 'local_name' => $resource->localName(),
                 'label' => $resource->label()->getValue(),
                 'comment' => $resource->get('rdfs:comment')->getValue(),
-            );
-            $request = new Request(Request::CREATE, 'properties');
-            $request->setContent($property);
-            $propertyResponse = $manager->execute($request);
-            $content['properties'][] = $propertyResponse->getContent();
-            if ($propertyResponse->isError()) {
-                $response->mergeErrors($propertyResponse->getErrorStore());
+            ));
+            $request->setIsSubRequest(true);
+            $responseProperty = $manager->execute($request);
+            if ($responseProperty->isError()) {
+                $response->mergeErrors($responseProperty->getErrorStore());
             }
         }
 
-        $response->setContent($content);
+        // If there are no errors, invoke flush to create all classes and
+        // properties in a single transaction.
+        if (!$response->isError()) {
+            $this->getServiceLocator()->get('EntityManager')->flush();
+        }
+
         return $response;
     }
 }

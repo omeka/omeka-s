@@ -119,9 +119,9 @@ class Request extends ZendRequest
      * 
      * @param bool $isSubrequest
      */
-    public function setIsSubrequest($isSubrequest)
+    public function setIsSubRequest($isSubrequest)
     {
-        $this->setMetadata('is_subrequest', (bool) $isSubrequest);
+        $this->setMetadata('is_sub_request', (bool) $isSubrequest);
     }
 
     /**
@@ -129,8 +129,8 @@ class Request extends ZendRequest
      *
      * @return bool
      */
-    public function isSubrequest()
+    public function isSubRequest()
     {
-        return (bool) $this->getMetadata('is_subrequest');
+        return (bool) $this->getMetadata('is_sub_request');
     }
 }

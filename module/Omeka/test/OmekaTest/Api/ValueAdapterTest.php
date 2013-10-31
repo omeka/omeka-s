@@ -3,7 +3,8 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Adapter\Entity\ValueAdapter;
 use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\Resource;
+use Omeka\Model\Entity\Item;
+use Omeka\Model\Entity\Media;
 use Omeka\Model\Entity\User;
 use Omeka\Model\Entity\Value;
 use Omeka\Test\MockBuilder;
@@ -16,11 +17,11 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
         'owner' => array('id' => 1),
         'resource' => array('id' => 2),
         'property' => array('id' => 3),
-        'type' => '',
-        'value' => '',
-        'value_transformed' => '',
-        'lang' => '',
-        'is_html' => '',
+        'type' => 'Type',
+        'value' => 'Value',
+        'value_transformed' => 'ValueTransformed',
+        'lang' => 'Lang',
+        'is_html' => true,
         'value_resource' => array('id' => 4),
     );
 
@@ -81,12 +82,33 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data['value'], $entity->getValue());
         $this->assertEquals($this->data['value_transformed'], $entity->getValueTransformed());
         $this->assertEquals($this->data['lang'], $entity->getLang());
-        $this->assertEquals($this->data['is_html'], $entity->getIsHtml());
+        $this->assertTrue($entity->getIsHtml());
         $this->assertNull($entity->getValueResource()->getId());
         $this->assertInstanceOf('Omeka\Model\Entity\Resource', $entity->getValueResource());
     }
 
     public function testExtract()
     {
+        $entity = new Value;
+        $entity->setOwner(new User);
+        $entity->setResource(new Item);
+        $entity->setProperty(new Property);
+        $entity->setType($this->data['type']);
+        $entity->setValue($this->data['value']);
+        $entity->setValueTransformed($this->data['value_transformed']);
+        $entity->setLang($this->data['lang']);
+        $entity->setIsHtml($this->data['is_html']);
+        $entity->setValueResource(new Item);
+        $data = $this->adapter->extract($entity);
+        $this->assertNull($data['id']);
+        $this->assertInternalType('array', $data['owner']);
+        $this->assertInternalType('array', $data['resource']);
+        $this->assertInternalType('array', $data['property']);
+        $this->assertEquals($this->data['type'], $data['type']);
+        $this->assertEquals($this->data['value'], $data['value']);
+        $this->assertEquals($this->data['value_transformed'], $data['value_transformed']);
+        $this->assertEquals($this->data['lang'], $data['lang']);
+        $this->assertEquals($this->data['is_html'], $data['is_html']);
+        $this->assertInternalType('array', $data['value_resource']);
     }
 }

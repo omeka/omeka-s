@@ -12,13 +12,13 @@ class ItemSet extends Resource
      */
     protected $id;
 
+    public function getAdapterClass()
+    {
+        return 'Omeka\Api\Adapter\Entity\ItemSetAdapter';
+    }
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getAdapterClass()
-    {
-        return 'Omeka\Api\Adapter\Entity\ItemSet';
     }
 }

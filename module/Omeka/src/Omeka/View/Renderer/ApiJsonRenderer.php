@@ -20,6 +20,10 @@ class ApiJsonRenderer extends JsonRenderer
             $payload = $apiResponse->getContent();
         }
 
+        if (null === $payload) {
+            return null;
+        }
+
         return parent::render($payload);
     }
 }

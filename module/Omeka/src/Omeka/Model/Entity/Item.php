@@ -14,7 +14,7 @@ class Item extends Resource
 
     public function getAdapterClass()
     {
-        return 'Omeka\Api\Adapter\Entity\Item';
+        return 'Omeka\Api\Adapter\Entity\ItemAdapter';
     }
 
     public function getId()

@@ -3,7 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Request;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Stdlib\Request as ZendResponse;
+use Zend\Stdlib\Response as ZendResponse;
 
 /**
  * Api response.
@@ -33,6 +33,11 @@ class Response extends ZendResponse
         self::ERROR_VALIDATION,
         self::ERROR_NOT_FOUND,
     );
+
+    /**
+     * @var mixed
+     */
+    protected $content = null;
 
     /**
      * Construct the API response.

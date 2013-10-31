@@ -37,23 +37,27 @@ class ApiJsonStrategyTest extends \PHPUnit_Framework_TestCase
     public function statusProvider()
     {
         return array(
-            array(ApiResponse::SUCCESS, 200),
-            array(ApiResponse::ERROR_VALIDATION, 422),
-            array(ApiResponse::ERROR_NOT_FOUND, 404),
-            array(ApiResponse::ERROR_INTERNAL, 500),
-            array('foo', 500)
+            array(ApiResponse::SUCCESS, 'bar', 200),
+            array(ApiResponse::SUCCESS, null, 204),
+            array(ApiResponse::ERROR_VALIDATION, 'bar', 422),
+            array(ApiResponse::ERROR_NOT_FOUND, 'bar', 404),
+            array(ApiResponse::ERROR_INTERNAL, 'bar', 500),
+            array('foo', 'bar', 500)
         );
     }
 
     /**
      * @dataProvider statusProvider
      */
-    public function testStrategySetsStatus($apiStatus, $httpStatus)
+    public function testStrategySetsStatus($apiStatus, $apiContent, $httpStatus)
     {
         $apiResponse = $this->getMock('Omeka\Api\Response');
         $apiResponse->expects($this->once())
                     ->method('getStatus')
                     ->will($this->returnValue($apiStatus));
+        $apiResponse->expects($this->any())
+                    ->method('getContent')
+                    ->will($this->returnValue($apiContent));
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())

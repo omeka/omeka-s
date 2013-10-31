@@ -59,7 +59,7 @@ class Manager implements ServiceLocatorAwareInterface
             ));
         }
         if (null === $adapter) {
-            $adapter = $this->getAdapter($request->getResource());
+            $adapter = $this->getAdapter($request);
         }
         switch ($request->getOperation()) {
             case Request::SEARCH:
@@ -95,14 +95,20 @@ class Manager implements ServiceLocatorAwareInterface
 
     /**
      * Get the API adapter.
+     *
+     * Note that this sets the Request and ServiceLocator objects to the adapter
+     * if it implements their respective interfaces.
      * 
-     * @param string $resource
+     * @param Request $request
      * @return AdapterInterface
      */
-    public function getAdapter($resource)
+    public function getAdapter(Request $request)
     {
-        $config = $this->getResource($resource);
+        $config = $this->getResource($request->getResource());
         $adapter = new $config['adapter_class'];
+        if ($adapter instanceof RequestAwareInterface) {
+            $adapter->setRequest($request);
+        }
         if ($adapter instanceof ServiceLocatorAwareInterface) {
             $adapter->setServiceLocator($this->getServiceLocator());
         }

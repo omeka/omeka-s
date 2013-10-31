@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Property;
 use Omeka\Stdlib\ErrorStore;
 
 class ValueAdapter extends AbstractEntityAdapter
@@ -57,7 +58,32 @@ class ValueAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        return array();
+        $resourceAdapterClass = $entity->getResource()->getAdapterClass();
+        $valueResourceAdapterClass = $entity->getValueResource()->getAdapterClass();
+        return array(
+            'id' => $entity->getId(),
+            'owner' => $this->extractEntity(
+                $entity->getOwner(),
+                new UserAdapter
+            ),
+            'resource' => $this->extractEntity(
+                $entity->getResource(),
+                new $resourceAdapterClass
+            ),
+            'property' => $this->extractEntity(
+                $entity->getProperty(),
+                new PropertyAdapter
+            ),
+            'type' => $entity->getType(),
+            'value' => $entity->getValue(),
+            'value_transformed' => $entity->getValueTransformed(),
+            'lang' => $entity->getLang(),
+            'is_html' => $entity->getIsHtml(),
+            'value_resource' => $this->extractEntity(
+                $entity->getValueResource(),
+                new $valueResourceAdapterClass
+            ),
+        );
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)
@@ -67,5 +93,26 @@ class ValueAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate resource
+        if (!$entity->getResource() instanceof Resource) {
+            $errorStore->addError('resource', 'The resource must be an instance of Omeka\Model\Entity\Resource.');
+        }
+
+        // Validate property
+        if (!$entity->getProperty() instanceof Property) {
+            $errorStore->addError('resource', 'The resource must be an instance of Omeka\Model\Entity\Property.');
+        }
+
+        // Validate type
+        if (!in_array($entity->getType(), $entity->getValidTypes())) {
+            $errorStore->addError('label', 'The provided value type is invalid.');
+        }
+
+        // Validate value resource
+        if (null !== $entity->getResource()
+            && !$entity->getResource() instanceof Resource
+        ) {
+            $errorStore->addError('resource', 'The value resource must be an instance of Omeka\Model\Entity\Resource.');
+        }
     }
 }

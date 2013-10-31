@@ -68,14 +68,17 @@ class ApiJsonStrategy extends JsonStrategy
     {
         switch ($response->getStatus()) {
             case Response::SUCCESS:
-                return 200;
+                if (null === $response->getContent()) {
+                    return 204; // No Content
+                }
+                return 200; // OK
             case Response::ERROR_VALIDATION:
-                return 422;
+                return 422; // Unprocessable Entity
             case Response::ERROR_NOT_FOUND:
-                return 404;
+                return 404; // Not Found
             case Response::ERROR_INTERNAL:
             default:
-                return 500;
+                return 500; // Internal Server Error
         }
     }
 }

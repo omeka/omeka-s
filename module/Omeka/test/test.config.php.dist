@@ -1,16 +1,14 @@
 <?php
 
 return array(
+    'entity_manager' => array(
         'conn' => array(
             'user'        => '',
             'password'    => '',
             'dbname'      => '',
-            'driver'      => '',
             'host'        => '',
-            'port'        => null,
-            'unix_socket' => null,
-            'charset'     => null,
         ),
         'table_prefix' => 'omeka_',
         'is_dev_mode'  => true,
-    );
+    ),
+);

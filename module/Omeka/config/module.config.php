@@ -76,7 +76,7 @@ return array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),
             'rdf' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Rdf',
+                'adapter_class' => 'Omeka\Api\Adapter\RdfAdapter',
             ),
         ),
     ),

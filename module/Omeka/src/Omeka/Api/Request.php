@@ -40,8 +40,6 @@ class Request extends ZendRequest
         if (null !== $resource) {
             $this->setResource($resource);
         }
-        // All requests are not sub-requests unless set otherwise.
-        $this->setIsSubRequest(false);
     }
 
     /**
@@ -108,29 +106,5 @@ class Request extends ZendRequest
     public function getId()
     {
         return $this->getMetadata('id');
-    }
-
-    /**
-     * Set whether this request is a sub-request.
-     *
-     * Sub-requests are requests that are executed within another API request.
-     * This typically changes which operations are performed on the resource
-     * during this request.
-     * 
-     * @param bool $isSubrequest
-     */
-    public function setIsSubRequest($isSubrequest)
-    {
-        $this->setMetadata('is_sub_request', (bool) $isSubrequest);
-    }
-
-    /**
-     * Check whether this request is a sub-request.
-     *
-     * @return bool
-     */
-    public function isSubRequest()
-    {
-        return (bool) $this->getMetadata('is_sub_request');
     }
 }

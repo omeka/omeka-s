@@ -8,7 +8,7 @@ use Omeka\Api\Response;
 /**
  * RDF adapter.
  */
-class Rdf extends AbstractAdapter
+class RdfAdapter extends AbstractAdapter
 {
     /**
      * Import an RDF vocabulary, including its classes and properties.
@@ -18,6 +18,9 @@ class Rdf extends AbstractAdapter
      */
     public function create($data = null)
     {
+        $entityManager = $this->getServiceLocator()->get('EntityManager');
+        $entityManager->getConnection()->beginTransaction();
+
         $response = new Response;
         $manager = $this->getServiceLocator()->get('ApiManager');
 
@@ -52,7 +55,6 @@ class Rdf extends AbstractAdapter
                 'label' => $resource->label()->getValue(),
                 'comment' => $resource->get('rdfs:comment')->getValue(),
             ));
-            $request->setIsSubRequest(true);
             $responseClass = $manager->execute($request);
             if ($responseClass->isError()) {
                 $response->mergeErrors($responseClass->getErrorStore());
@@ -68,7 +70,6 @@ class Rdf extends AbstractAdapter
                 'label' => $resource->label()->getValue(),
                 'comment' => $resource->get('rdfs:comment')->getValue(),
             ));
-            $request->setIsSubRequest(true);
             $responseProperty = $manager->execute($request);
             if ($responseProperty->isError()) {
                 $response->mergeErrors($responseProperty->getErrorStore());
@@ -76,11 +77,10 @@ class Rdf extends AbstractAdapter
         }
 
         if ($response->isError()) {
+            $entityManager->getConnection()->rollback();
             $response->setStatus(Response::ERROR_INTERNAL);
         } else {
-            // Invoke flush to create all classes and properties in a single
-            // transaction.
-            $this->getServiceLocator()->get('EntityManager')->flush();
+            $entityManager->getConnection()->commit();
         }
 
         return $response;

@@ -10,10 +10,24 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * descriptive properties.
  * 
  * @Entity
- * @Table(uniqueConstraints={
- *     @UniqueConstraint(name="default_resource_type", columns={"resource_type", "is_default"}),
- *     @UniqueConstraint(name="vocabulary_local_name", columns={"vocabulary_id", "local_name"})
- * })
+ * @Table(
+ *     options={"collate"="utf8_bin"},
+ *     uniqueConstraints={
+ *         @UniqueConstraint(
+ *             name="default_resource_type",
+ *             columns={"resource_type", "is_default"}
+ *         ),
+ *         @UniqueConstraint(
+ *             name="vocabulary_local_name",
+ *             columns={"vocabulary_id", "local_name"}
+ *         )
+ *     }
+ * )
+ *
+ * @todo Once the following Doctrine DBAL bug is resolved, move the utf8_bin
+ * collation to the localName column, using options={"collation"="utf8_bin"}.
+ * That particular collation is needed so unique constraints are case sensitive.
+ * http://www.doctrine-project.org/jira/browse/DBAL-647 
  */
 class ResourceClass implements EntityInterface
 {

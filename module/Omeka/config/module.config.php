@@ -27,7 +27,7 @@ return array(
              'install' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'     => '/install[/:step]',
+                    'route'     => '/install',
                     'defaults'  => array(
                         'controller' => 'Omeka\Controller\Install',
                         'action'     => 'index',

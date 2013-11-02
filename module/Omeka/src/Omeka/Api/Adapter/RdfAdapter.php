@@ -13,6 +13,8 @@ use Omeka\Api\Response;
 class RdfAdapter extends AbstractAdapter
 {
     /**
+     * Class types to import.
+     * 
      * @var $classTypes
      */
     protected $classTypes = array(
@@ -21,16 +23,22 @@ class RdfAdapter extends AbstractAdapter
     );
 
     /**
+     * The property types to import.
+     *
+     * Not included are the OWL DL properties owl:AnnotationProperty and
+     * owl:OntologyProperty because they typically serve internal annotative
+     * purposes.
+     * 
      * @var $propertyTypes
      */
     protected $propertyTypes = array(
         'rdf:Property',
         'owl:ObjectProperty',
-        'owl:AnnotationProperty',
         'owl:DatatypeProperty',
         'owl:SymmetricProperty',
         'owl:TransitiveProperty',
         'owl:FunctionalProperty',
+        'owl:InverseFunctionalProperty',
     );
 
     /**
@@ -43,16 +51,6 @@ class RdfAdapter extends AbstractAdapter
     {
         $response = new Response;
         $manager = $this->getServiceLocator()->get('ApiManager');
-
-        // Load the RDF graph.
-        $graph = new EasyRdf_Graph;
-        if (isset($data['file']) && is_file($data['file'])) {
-            $graph->parseFile($data['file']);
-        } else {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError('file', 'The RDF file is invalid.');
-            return $response;
-        }
 
         $entityManager = $this->getServiceLocator()->get('EntityManager');
         $entityManager->getConnection()->beginTransaction();
@@ -70,8 +68,26 @@ class RdfAdapter extends AbstractAdapter
         }
         $vocabulary = $responseVocab->getContent();
 
+        // Load the RDF graph.
+        $graph = new EasyRdf_Graph;
+        if (isset($data['file']) && is_file($data['file'])) {
+            $graph->parseFile($data['file'], 'rdfxml', $vocabulary['namespace_uri']);
+        } else {
+            $response->setStatus(Response::ERROR_NOT_FOUND);
+            $response->addError('file', 'The RDF file is invalid.');
+            return $response;
+        }
+
+        // Iterate through all resources of the graph instead of selectively by 
+        // rdf:type becuase a resource may have more than one type, causing
+        // illegal attempts to duplicate classes and properties.
         foreach ($graph->resources() as $resource) {
 
+            // The resource must not be a blank node.
+            if ($resource->isBnode()) {
+                continue;
+            }
+            // The resource must be a local member of the vocabulary.
             if (!$this->isMember($resource, $vocabulary['namespace_uri'])) {
                 continue;
             }
@@ -110,8 +126,8 @@ class RdfAdapter extends AbstractAdapter
         }
 
         if ($response->isError()) {
-            $response->setStatus(Response::ERROR_INTERNAL);
             $entityManager->getConnection()->rollback();
+            $response->setStatus(Response::ERROR_INTERNAL);
         } else {
             $entityManager->getConnection()->commit();
         }
@@ -120,11 +136,8 @@ class RdfAdapter extends AbstractAdapter
     }
 
     /**
-     * Determine whether a resource is a member of a namespace URI.
+     * Determine whether a resource is a local member of the vocabulary.
      *
-     * @todo Once the following EasyRDF issue is resolved, RDF graphs that use
-     * xml:base in the root element (such as SKOS and BIBO) can be imported.
-     * https://github.com/njh/easyrdf/issues/157
      * @param EasyRdf_Resource $resource
      * @param string $namespaceUri
      */

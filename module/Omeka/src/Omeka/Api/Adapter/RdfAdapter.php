@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 
@@ -15,7 +16,7 @@ class RdfAdapter extends AbstractAdapter
     /**
      * Class types to import.
      * 
-     * @var $classTypes
+     * @var array
      */
     protected $classTypes = array(
         'rdfs:Class',
@@ -29,7 +30,7 @@ class RdfAdapter extends AbstractAdapter
      * owl:OntologyProperty because they typically serve internal annotative
      * purposes.
      * 
-     * @var $propertyTypes
+     * @var array
      */
     protected $propertyTypes = array(
         'rdf:Property',
@@ -43,12 +44,38 @@ class RdfAdapter extends AbstractAdapter
 
     /**
      * Import an RDF vocabulary, including its classes and properties.
+     *
+     * Available keys:
      * 
-     * @param mixed $data
-     * @return mixed
+     * - vocabulary: (required) Vocabulary data, as supported by the vocabulary
+     *   entity adapter.
+     * - strategy: (required) The import strategy to use (e.g. file, url).
+     * - format: (optional) The format of the RDF file. If not given, the RDF
+     *   parser will attempt to guess the format.
+     * - file: (required for "file" strategy) The RDF file in the
+     *   /data/vocabularies directory.
+     * - url: (required for "url" strategy) The URL of the RDF file.
+     *
+     * @param array $data
+     * @return Response
      */
     public function create($data = null)
     {
+        if (!isset($data['vocabulary'])) {
+            throw new Exception\InvalidRequestException(
+                'No vocabulary was specified.'
+            );
+        }
+        if (!isset($data['strategy'])) {
+            throw new Exception\InvalidRequestException(
+                'No import strategy was specified.'
+            );
+        }
+        if (!isset($data['format'])) {
+            // EasyRDF should guess the format if none given.
+            $data['format'] = 'guess';
+        }
+
         $response = new Response;
         $manager = $this->getServiceLocator()->get('ApiManager');
 
@@ -69,12 +96,12 @@ class RdfAdapter extends AbstractAdapter
         $vocabulary = $responseVocab->getContent();
 
         // Load the RDF graph.
-        $graph = new EasyRdf_Graph;
-        if (isset($data['file']) && is_file($data['file'])) {
-            $graph->parseFile($data['file'], 'rdfxml', $vocabulary['namespace_uri']);
-        } else {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError('file', 'The RDF file is invalid.');
+        try {
+            $graph = $this->getGraph($data, $vocabulary);
+        } catch (Exception\InvalidRequestException $e) {
+            $entityManager->getConnection()->rollback();
+            $response->setStatus(Response::ERROR_VALIDATION);
+            $response->addError('rdf', $e->getMessage());
             return $response;
         }
 
@@ -128,11 +155,61 @@ class RdfAdapter extends AbstractAdapter
         if ($response->isError()) {
             $entityManager->getConnection()->rollback();
             $response->setStatus(Response::ERROR_INTERNAL);
-        } else {
-            $entityManager->getConnection()->commit();
+            return $response;
         }
 
+        $entityManager->getConnection()->commit();
         return $response;
+    }
+
+    /**
+     * Get the RDF graph using the specified import strategy.
+     *
+     * @param array $data
+     * @param array $vocabulary
+     * @return EasyRdf_Graph
+     */
+    protected function getGraph(array $data, array $vocabulary)
+    {
+        switch ($data['strategy']) {
+
+            // Import from a file in /data/vocabularies directory.
+            case 'file':
+                if (!isset($data['file'])) {
+                    throw new Exception\InvalidRequestException(
+                        'No file specified for the file import strategy.'
+                    );
+                }
+                $file = OMEKA_PATH
+                    . DIRECTORY_SEPARATOR . 'data'
+                    . DIRECTORY_SEPARATOR . 'vocabularies'
+                    . DIRECTORY_SEPARATOR . $data['file'];
+                // Make sure the provided file path matches the expected path.
+                if ($file != realpath($file) || !is_file($file)) {
+                    throw new Exception\InvalidRequestException(
+                        'Invalid path to file.'
+                    );
+                }
+                $graph = new EasyRdf_Graph;
+                $graph->parseFile($file, $data['format'], $vocabulary['namespace_uri']);
+                return $graph;
+
+            // Import from a URL.
+            case 'url':
+                if (!isset($data['url'])) {
+                    throw new Exception\InvalidRequestException(
+                        'No URL specified for the URL import strategy.'
+                    );
+                }
+                $graph = new EasyRdf_Graph;
+                $graph->load($data['url'], $data['format']);
+                return $graph;
+
+            default:
+                throw new Exception\InvalidRequestException(
+                    'Unsupported import strategy.'
+                );
+        }
     }
 
     /**

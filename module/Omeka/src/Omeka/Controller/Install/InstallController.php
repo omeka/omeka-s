@@ -1,10 +1,7 @@
 <?php
 namespace Omeka\Controller\Install;
 
-use Omeka\Install\Installer;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\View\Model\ViewModel;
 
 class InstallController extends AbstractActionController

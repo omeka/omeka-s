@@ -1,16 +1,17 @@
 <?php
 namespace OmekaTest;
 
+use Omeka\Installation\Manager as InstallationManager;
 use Omeka\Service\EntityManagerFactory;
+use RuntimeException;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
-use Omeka\Install\Installer;
-use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 chdir(__DIR__);
+define('OMEKA_PATH', dirname(dirname(dirname(__DIR__))));
 
 /**
  * Test bootstrap, for setting up autoloading
@@ -44,11 +45,11 @@ class Bootstrap
     
     public static function installTables()
     {
-        $installer = new Installer();
-        $installer->setServiceLocator(self::$serviceManager);        
-        $installer->addTask(new \Omeka\Install\Task\Connection);
-        $installer->addTask(new \Omeka\Install\Task\Schema);
-        $installer->install();
+        $manager = new InstallationManager;
+        $manager->setServiceLocator(self::$serviceManager);        
+        $manager->registerTask('Omeka\Installation\Task\CheckDbConfigurationTask');
+        $manager->registerTask('Omeka\Installation\Task\InstallSchemaTask');
+        $result = $manager->install();
     }
     
     public static function dropTables()

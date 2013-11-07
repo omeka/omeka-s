@@ -4,7 +4,7 @@ return array(
         'factories' => array(
             'ApiManager' => 'Omeka\Service\ApiManagerFactory',
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
-            'Installer' => 'Omeka\Service\InstallerFactory',
+            'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
             
@@ -104,11 +104,11 @@ return array(
             'path' => __DIR__ . '/../../../data/logs/sql.log',
         ),
     ),
-    'install' => array(
+    'installation_manager' => array(
         'tasks' => array(
-            'Omeka\Install\Task\Connection',
-            'Omeka\Install\Task\Schema',
-            'Omeka\Install\Task\UserOne'        
-        )        
-    )
+            'Omeka\Installation\Task\CheckDbConfigurationTask',
+            'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\InstallDefaultRdfVocabulariesTask',
+        ),
+    ),
 );

@@ -4,8 +4,16 @@ namespace Omeka\Installation\Task;
 use Doctrine\DBAL\DBALException;
 use Omeka\Installation\Result;
 
+/**
+ * Install schema task.
+ */
 class InstallSchemaTask extends AbstractTask
 {
+    /**
+     * Install the Omeka database.
+     *
+     * @param Result $result
+     */
     public function perform(Result $result)
     {
         $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();
@@ -17,8 +25,7 @@ class InstallSchemaTask extends AbstractTask
         if (!empty($tables)) {
             $result->addMessage(
                 'Omeka is already installed.',
-                Result::MESSAGE_TYPE_ERROR,
-                'InstallSchemaTask'
+                Result::MESSAGE_TYPE_ERROR
             );
             return;
         }
@@ -27,8 +34,7 @@ class InstallSchemaTask extends AbstractTask
         if (!is_readable($schema)) {
             $result->addMessage(
                 'Could not read the schema installation file.',
-                Result::MESSAGE_TYPE_ERROR,
-                'InstallSchemaTask'
+                Result::MESSAGE_TYPE_ERROR
             );
             return;
         }
@@ -37,8 +43,7 @@ class InstallSchemaTask extends AbstractTask
         if (!is_array($statements)) {
             $result->addMessage(
                 'Could not read the schema installation file.',
-                Result::MESSAGE_TYPE_ERROR,
-                'InstallSchemaTask'
+                Result::MESSAGE_TYPE_ERROR
             );
             return;
         }
@@ -56,11 +61,19 @@ class InstallSchemaTask extends AbstractTask
             } catch (DBALException $e) {
                 $result->addMessage(
                     $e->getMessage(),
-                    Result::MESSAGE_TYPE_ERROR,
-                    'InstallSchemaTask'
+                    Result::MESSAGE_TYPE_ERROR
                 );
                 return;
             }
         }
+        $result->addMessage('Successfully installed the Omeka database.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'Install the Omeka database';
     }
 }

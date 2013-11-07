@@ -15,9 +15,7 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     protected $services;
 
     /**
-     * Set the service locator.
-     * 
-     * @param ServiceLocatorInterface $serviceLocator
+     * {@inheritdoc}
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -25,9 +23,7 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     }
 
     /**
-     * Get the service locator.
-     * 
-     * @return ServiceLocatorInterface
+     * {@inheritdoc}
      */
     public function getServiceLocator()
     {

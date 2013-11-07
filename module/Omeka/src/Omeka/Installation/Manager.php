@@ -32,6 +32,7 @@ class Manager implements ServiceLocatorAwareInterface
             if ($task instanceof ServiceLocatorAwareInterface) {
                 $task->setServiceLocator($this->getServiceLocator());
             }
+            $result->setCurrentTask(get_class($task), $task->getName());
             $task->perform($result);
             // Tasks tend to be dependent on previously run tasks. If there is
             // an error, stop installation immediately and return the result.
@@ -87,9 +88,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Set the service locator.
-     * 
-     * @param ServiceLocatorInterface $serviceLocator
+     * {@inheritdoc}
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -97,9 +96,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the service locator.
-     * 
-     * @return ServiceLocatorInterface
+     * {@inheritdoc}
      */
     public function getServiceLocator()
     {

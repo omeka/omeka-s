@@ -27,18 +27,22 @@ class Result
     protected $isError = false;
 
     /**
+     * @var string
+     */
+    protected $currentTaskClass;
+
+    /**
      * Add an installation message.
      *
      * @param string $message The message.
      * @param string $type The type of message.
-     * @param string $task The installation task that's adding the message.
      */
-    public function addMessage($message, $type, $task)
+    public function addMessage($message, $type = self::MESSAGE_TYPE_INFO)
     {
         if (!in_array($type, $this->validMessageTypes)) {
             $type = self::MESSAGE_TYPE_INFO;
         }
-        $this->messages[$task][$type][] = $message;
+        $this->messages[$this->currentTaskClass][$type][] = $message;
         // One error message sets this as an error result.
         if (self::MESSAGE_TYPE_ERROR == $type) {
             $this->isError = true;
@@ -63,5 +67,34 @@ class Result
     public function isError()
     {
         return (bool) $this->isError;
+    }
+
+    /**
+     * Set information about the current installation task.
+     *
+     * @param string $taskClass
+     * @param string $taskName
+     */
+    public function setCurrentTask($taskClass, $taskName)
+    {
+        $this->currentTaskClass = $taskClass;
+        $this->messages[$taskClass] = array(
+            'task_name' => $taskName,
+        );
+    }
+
+    /**
+     * Add errors derived from an ErrorStore.
+     *
+     * @param array $errors
+     */
+    public function addErrorStoreMessages(array $errors)
+    {
+        foreach ($errors as $error) {
+            foreach ($error as $message) {
+                // Assume all messages are error messages.
+                $this->addMessage($message, self::MESSAGE_TYPE_ERROR);
+            }
+        }
     }
 }

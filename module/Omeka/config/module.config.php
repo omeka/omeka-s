@@ -106,8 +106,9 @@ return array(
     ),
     'installation_manager' => array(
         'tasks' => array(
-            'Omeka\Installation\Task\CheckDbConnectionTask',
+            'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\InstallDefaultRdfVocabulariesTask',
         ),
     ),
 );

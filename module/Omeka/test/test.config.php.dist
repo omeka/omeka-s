@@ -1,5 +1,4 @@
 <?php
-
 return array(
     'entity_manager' => array(
         'conn' => array(

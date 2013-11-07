@@ -48,8 +48,8 @@ return array(
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
+        'template_path_stack'      => array(
+            OMEKA_PATH . '/module/Omeka/view',
         ),
         'strategies' => array(
             'ViewApiJsonStrategy',
@@ -97,11 +97,11 @@ return array(
     'loggers' => array(
         'application' => array(
             'log' => false,
-            'path' => __DIR__ . '/../../../data/logs/application.log',
+            'path' => OMEKA_PATH . '/data/logs/application.log',
         ),
         'sql' => array(
             'log' => false,
-            'path' => __DIR__ . '/../../../data/logs/sql.log',
+            'path' => OMEKA_PATH . '/data/logs/sql.log',
         ),
     ),
     'installation_manager' => array(

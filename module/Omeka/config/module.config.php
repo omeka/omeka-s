@@ -75,8 +75,8 @@ return array(
             'items' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),
-            'rdf' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\RdfAdapter',
+            'vocabulary_import' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\VocabularyImportAdapter',
             ),
         ),
     ),
@@ -108,7 +108,7 @@ return array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
-            'Omeka\Installation\Task\InstallDefaultRdfVocabulariesTask',
+            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
         ),
     ),
 );

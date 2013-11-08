@@ -7,7 +7,7 @@ use Omeka\Installation\Result;
 /**
  * Install default RDF vocabularies.
  */
-class InstallDefaultRdfVocabulariesTask extends AbstractTask
+class InstallDefaultVocabulariesTask extends AbstractTask
 {
     /**
      * Default RDF vocabularies.
@@ -76,7 +76,7 @@ class InstallDefaultRdfVocabulariesTask extends AbstractTask
     {
         $manager = $this->getServiceLocator()->get('ApiManager');
         foreach ($this->vocabularies as $vocabulary) {
-            $request = new Request(Request::CREATE, 'rdf');
+            $request = new Request(Request::CREATE, 'vocabulary_import');
             $request->setContent($vocabulary);
             $response = $manager->execute($request);
             if ($response->isError()) {

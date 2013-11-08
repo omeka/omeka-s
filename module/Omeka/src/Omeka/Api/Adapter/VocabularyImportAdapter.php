@@ -9,9 +9,9 @@ use Omeka\Api\Request;
 use Omeka\Api\Response;
 
 /**
- * RDF adapter.
+ * Vocabulary import adapter.
  */
-class RdfAdapter extends AbstractAdapter
+class VocabularyImportAdapter extends AbstractAdapter
 {
     /**
      * Class types to import.

@@ -4,7 +4,6 @@ namespace Omeka\Test;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
-use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -13,7 +12,7 @@ use Zend\ServiceManager\ServiceManager;
  * The idea is to first set the mock objects to variables and then set
  * their expectations according to the specific test case.
  */
-class MockBuilder extends TestCase
+class MockBuilder extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.

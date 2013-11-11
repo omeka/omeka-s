@@ -6,12 +6,14 @@ use Omeka\Api\Manager;
 use Omeka\Api\Request;
 use Omeka\Api\RequestAwareInterface;
 use Omeka\Api\Response;
+use Omeka\Test\MockBuilder;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected $manager;
+    protected $mockBuilder;
     
     protected $validConfig = array(
         'adapter_class' => 'OmekaTest\Api\TestAdapter',
@@ -20,6 +22,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->manager = new Manager;
+        $this->mockBuilder = new MockBuilder;
     }
 
     /**
@@ -89,8 +92,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetsAndGetsServiceLocator()
     {
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->manager->setServiceLocator($serviceLocator);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceLocatorInterface', 
             $this->manager->getServiceLocator()
@@ -103,7 +105,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue('foo'));
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator = $this->mockBuilder->getServiceManager();
         $this->manager->registerResource('foo', $this->validConfig);
         $this->manager->setServiceLocator($serviceLocator);
         $adapter = $this->manager->getAdapter($request);
@@ -174,17 +176,65 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertExecuteReturnsExpectedResponse('foo', 'delete');
     }
 
+    public function testSearchReturnsExpectedResponse()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $response = $this->manager->search('foo', 'data_in');
+        $this->assertEquals('search', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
+    public function testCreateReturnsExpectedResponse()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $response = $this->manager->create('foo', 'data_in');
+        $this->assertEquals('create', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
+    public function testReadReturnsExpectedResponse()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $response = $this->manager->read('foo', 'id', 'data_in');
+        $this->assertEquals('read', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('id', $response->getRequest()->getId());
+        $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
+    public function testUpdateReturnsExpectedResponse()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $response = $this->manager->update('foo', 'id', 'data_in');
+        $this->assertEquals('update', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('id', $response->getRequest()->getId());
+        $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
+    public function testDeleteReturnsExpectedResponse()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $response = $this->manager->delete('foo', 'id', 'data_in');
+        $this->assertEquals('delete', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals('id', $response->getRequest()->getId());
+        $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
     protected function getMockServiceLocatorForInternalErrors()
     {
         $logger = $this->getMock('Zend\Log\Logger');
         $logger->expects($this->once())
             ->method('err');
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $serviceLocator->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('Logger'))
-            ->will($this->returnValue($logger));
-        return $serviceLocator;
+        return $this->mockBuilder->getServiceManager('Logger', $logger);
     }
 
     protected function assertExecuteReturnsExpectedResponse($resource, $operation)
@@ -226,22 +276,27 @@ class TestAdapter implements
 
     public function search($data = null)
     {
+        return new Response;
     }
 
     public function create($data = null)
     {
+        return new Response;
     }
 
     public function read($id, $data = null)
     {
+        return new Response;
     }
 
     public function update($id, $data = null)
     {
+        return new Response;
     }
 
     public function delete($id, $data = null)
     {
+        return new Response;
     }
 
     public function setRequest(Request $request)

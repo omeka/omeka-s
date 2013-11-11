@@ -22,6 +22,82 @@ class Manager implements ServiceLocatorAwareInterface
     protected $resources = array();
 
     /**
+     * Execute a search API request.
+     *
+     * @param string $resource
+     * @param mixed $data
+     * @return Response
+     */
+    public function search($resource, $data = null)
+    {
+        $request = new Request(Request::SEARCH, $resource);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
+     * Execute a create API request.
+     *
+     * @param string $resource
+     * @param mixed $data
+     * @return Response
+     */
+    public function create($resource, $data = null)
+    {
+        $request = new Request(Request::CREATE, $resource);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
+     * Execute a read API request.
+     *
+     * @param string $resource
+     * @param mixed $id
+     * @param mixed $data
+     * @return Response
+     */
+    public function read($resource, $id, $data = null)
+    {
+        $request = new Request(Request::READ, $resource);
+        $request->setId($id);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
+     * Execute an update API request.
+     *
+     * @param string $resource
+     * @param mixed $id
+     * @param mixed $data
+     * @return Response
+     */
+    public function update($resource, $id, $data = null)
+    {
+        $request = new Request(Request::UPDATE, $resource);
+        $request->setId($id);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
+     * Execute a delete API request.
+     *
+     * @param string $resource
+     * @param mixed $id
+     * @param mixed $data
+     * @return Response
+     */
+    public function delete($resource, $id, $data = null)
+    {
+        $request = new Request(Request::DELETE, $resource);
+        $request->setId($id);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
      * Execute an API request.
      * 
      * @param Request $request

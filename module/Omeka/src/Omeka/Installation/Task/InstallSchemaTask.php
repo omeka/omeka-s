@@ -16,10 +16,11 @@ class InstallSchemaTask extends AbstractTask
         $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();
         $config = $this->getServiceLocator()->get('Config');
         
-        // Check if tables already exist
-        // @todo filter for only the proper prefixes in the table names
+        // Check whether the database was already installed by checking whether
+        // the resource table exists.
         $tables = $conn->getSchemaManager()->listTableNames();
-        if (!empty($tables)) {
+        $checkTable = $config['entity_manager']['table_prefix'] . 'resource';
+        if (in_array($checkTable, $tables)) {
             $this->addError('Omeka is already installed.');
             return;
         }

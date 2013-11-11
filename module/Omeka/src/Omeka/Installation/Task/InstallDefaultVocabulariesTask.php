@@ -2,7 +2,6 @@
 namespace Omeka\Installation\Task;
 
 use Omeka\Api\Request;
-use Omeka\Installation\Result;
 
 /**
  * Install default RDF vocabularies.
@@ -69,10 +68,8 @@ class InstallDefaultVocabulariesTask extends AbstractTask
     
     /**
      * Install default RDF vocabularies.
-     * 
-     * @param Result $result
      */
-    public function perform(Result $result)
+    public function perform()
     {
         $manager = $this->getServiceLocator()->get('ApiManager');
         foreach ($this->vocabularies as $vocabulary) {
@@ -80,13 +77,10 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             $request->setContent($vocabulary);
             $response = $manager->execute($request);
             if ($response->isError()) {
-                $result->addErrorStoreMessages(
-                    $response->getErrors(),
-                    Result::MESSAGE_TYPE_ERROR
-                );
+                $this->addErrorStore($response->getErrorStore());
                 return;
             }
-            $result->addMessage(sprintf(
+            $this->addInfo(sprintf(
                 'Successfully installed "%s"',
                 $vocabulary['vocabulary']['label']
             ));

@@ -4,6 +4,7 @@ namespace OmekaTest\Installation;
 use Omeka\Installation\Manager;
 use Omeka\Installation\Result;
 use Omeka\Installation\Task\AbstractTask;
+use Omeka\Test\MockBuilder;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,6 +13,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->manager = new Manager;
+        $this->mockBuilder = new MockBuilder;
     }
 
     /**
@@ -42,8 +44,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testSetsAndGetsServiceLocator()
     {
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->manager->setServiceLocator($serviceLocator);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceLocatorInterface', 
             $this->manager->getServiceLocator()
@@ -52,8 +53,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testInstallSuccessfulTask()
     {
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->manager->setServiceLocator($serviceLocator);
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
         $this->manager->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $this->manager->install();
         $this->assertInstanceOf('Omeka\Installation\Result', $result);
@@ -88,10 +88,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
 class SuccessTask extends AbstractTask
 {
-    public function perform(Result $result)
+    public function perform()
     {
-        $result->addMessage('info_message', Result::MESSAGE_TYPE_INFO);
-        $result->addMessage('warning_message', Result::MESSAGE_TYPE_WARNING);
+        $this->addInfo('info_message');
+        $this->addWarning('warning_message');
     }
 
     public function getName()
@@ -102,11 +102,11 @@ class SuccessTask extends AbstractTask
 
 class ErrorTask extends AbstractTask
 {
-    public function perform(Result $result)
+    public function perform()
     {
-        $result->addMessage('info_message', Result::MESSAGE_TYPE_INFO);
-        $result->addMessage('warning_message', Result::MESSAGE_TYPE_WARNING);
-        $result->addMessage('error_message', Result::MESSAGE_TYPE_ERROR);
+        $this->addInfo('info_message');
+        $this->addWarning('warning_message');
+        $this->addError('error_message');
     }
 
     public function getName()

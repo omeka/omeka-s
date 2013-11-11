@@ -82,19 +82,4 @@ class Result
             'task_name' => $taskName,
         );
     }
-
-    /**
-     * Add errors derived from an ErrorStore.
-     *
-     * @param array $errors
-     */
-    public function addErrorStoreMessages(array $errors)
-    {
-        foreach ($errors as $error) {
-            foreach ($error as $message) {
-                // Assume all messages are error messages.
-                $this->addMessage($message, self::MESSAGE_TYPE_ERROR);
-            }
-        }
-    }
 }

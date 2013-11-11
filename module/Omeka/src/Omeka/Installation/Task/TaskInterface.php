@@ -10,10 +10,8 @@ interface TaskInterface
 {
     /**
      * Perform the installation task.
-     *
-     * @param Result $result
      */
-    public function perform(Result $result);
+    public function perform();
 
     /**
      * Get the human-readable name of the task.

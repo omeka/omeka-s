@@ -28,14 +28,13 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $result = new Result;
         foreach ($this->getTasks() as $task) {
-            $task = new $task;
+            $task = new $task($result);
             if ($task instanceof ServiceLocatorAwareInterface) {
                 $task->setServiceLocator($this->getServiceLocator());
             }
-            $result->setCurrentTask(get_class($task), $task->getName());
-            $task->perform($result);
-            // Tasks tend to be dependent on previously run tasks. If there is
-            // an error, stop installation immediately and return the result.
+            $task->perform();
+            // Tasks are dependent on previously run tasks. If there is an
+            // error, stop installation immediately and return the result.
             if ($result->isError()) {
                 return $result;
             }

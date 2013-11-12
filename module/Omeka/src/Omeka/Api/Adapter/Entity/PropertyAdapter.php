@@ -56,34 +56,17 @@ class PropertyAdapter extends AbstractEntityAdapter
 
     public function buildQuery(array $query, QueryBuilder $qb)
     {
-        $entityClass = $this->getEntityClass();
-        if (isset($query['owner'])) {
-            $userAdapter = new UserAdapter;
-            $entityClassUser = $userAdapter->getEntityClass();
-            $qb->addSelect($entityClassUser)
-                ->innerJoin($entityClassUser, $entityClassUser,
-                    'WITH', "$entityClassUser.id = $entityClass.owner");
-            if (isset($query['owner']['id'])) {
-                $qb->andWhere("$entityClassUser.id = :owner_id")
-                    ->setParameter('owner_id', $query['owner']['id']);
-            }
+        if (isset($query['owner']['id'])) {
+            $this->joinWhere($qb, new UserAdapter, 'owner',
+                'id', $query['owner']['id']);
         }
-        if (isset($query['vocabulary'])) {
-            $vocabularyAdapter = new VocabularyAdapter;
-            $entityClassVocabulary = $vocabularyAdapter->getEntityClass();
-            $qb->addSelect($entityClassVocabulary)
-                ->innerJoin(
-                    $entityClassVocabulary, $entityClassVocabulary,
-                    'WITH', "$entityClassVocabulary.id = $entityClass.vocabulary"
-                );
-            if (isset($query['vocabulary']['id'])) {
-                $qb->andWhere("$entityClassVocabulary.id = :vocabulary_id")
-                    ->setParameter('vocabulary_id', $query['vocabulary']['id']);
-            }
-            if (isset($query['vocabulary']['namespace_uri'])) {
-                $qb->andWhere("$entityClassVocabulary.namespaceUri = :vocabulary_namespace_uri")
-                    ->setParameter('vocabulary_namespace_uri', $query['vocabulary']['namespace_uri']);
-            }
+        if (isset($query['vocabulary']['namespace_uri'])) {
+            $this->joinWhere($qb, new VocabularyAdapter, 'vocabulary',
+                'namespaceUri', $query['vocabulary']['namespace_uri']);
+        }
+        if (isset($query['vocabulary']['id'])) {
+            $this->joinWhere($qb, new VocabularyAdapter, 'vocabulary',
+                'id', $query['vocabulary']['id']);
         }
     }
 

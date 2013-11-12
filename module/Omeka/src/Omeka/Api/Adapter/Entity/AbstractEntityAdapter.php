@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\EntityInterface;
@@ -200,7 +201,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Find an entity by its identifier.
      *
      * @param int $id
-     * @return \Omeka\Model\Entity\EntityInterface
+     * @return EntityInterface
      */
     protected function find($id)
     {
@@ -263,7 +264,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Set an order by condition to the query builder.
      *
      * @param array $query
-     * @param QueryBuilder $queryBuilder
+     * @param QueryBuilder $qb
      */
     protected function setOrderBy(array $query, QueryBuilder $qb)
     {
@@ -284,7 +285,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * query builder.
      *
      * @param array $query
-     * @param QueryBuilder $queryBuilder
+     * @param QueryBuilder $qb
      */
     protected function setLimitAndOffset(array $query, QueryBuilder $qb)
     {
@@ -297,5 +298,51 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         if (isset($query['offset'])) {
             $qb->setFirstResult($query['offset']);
         }
+    }
+
+    /**
+     * Add a simple where clause, using inner join, to a query for a many-to-one
+     * association.
+     *
+     * @param QueryBuilder $qb
+     * @param EntityAdapterInterface $targetEntityAdapter
+     * @param string $targetEntityField The target entity field on the root
+     * entity declaring the many-to-one association
+     * @param string $whereField The target entity field to query
+     * @param string $whereValue The value to query
+     */
+    protected function joinWhere(QueryBuilder $qb,
+        EntityAdapterInterface $targetEntityAdapter, $targetEntityField,
+        $whereField, $whereValue
+    ) {
+        $rootEntityClass = $this->getEntityClass();
+        $targetEntityClass = $targetEntityAdapter->getEntityClass();
+        $alias = "{$targetEntityField}_{$whereField}";
+
+        // Get all joined entities from the query builder and check whether the
+        // target entity is already joined. A duplicate joined entity would
+        // raise an error when making the query.
+        $joinEntityClasses = array();
+        $joins = $qb->getDQLPart('join');
+        foreach ($joins[$rootEntityClass] as $join) {
+            $joinEntityClasses[] = $join->getJoin();
+        }
+
+        if (!in_array($targetEntityClass, $joinEntityClasses)) {
+            $qb->addSelect($targetEntityClass)
+                ->innerJoin(
+                    $targetEntityClass,
+                    $targetEntityClass,
+                    Expr\Join::WITH,
+                    $qb->expr()->eq(
+                        "$rootEntityClass.$targetEntityField",
+                        "$targetEntityClass.id"
+                    )
+                );
+        }
+        $qb->andWhere($qb->expr()->eq(
+            "$targetEntityClass.$whereField",
+            ":$alias")
+        )->setParameter($alias, $whereValue);
     }
 }

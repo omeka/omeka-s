@@ -57,14 +57,16 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         $entityClass = $this->getEntityClass();
-        if (isset($query['owner_id'])) {
+        if (isset($query['owner'])) {
             $userAdapter = new UserAdapter;
             $entityClassUser = $userAdapter->getEntityClass();
             $qb->addSelect($entityClassUser)
                 ->innerJoin($entityClassUser, $entityClassUser,
-                    'WITH', "$entityClassUser.id = $entityClass.owner")
-                ->andWhere("$entityClassUser.id = :owner_id")
-                ->setParameter('owner_id', $query['owner_id']);
+                    'WITH', "$entityClassUser.id = $entityClass.owner");
+            if (isset($query['owner']['id'])) {
+                $qb->andWhere("$entityClassUser.id = :owner_id")
+                    ->setParameter('owner_id', $query['owner']['id']);
+            }
         }
         if (isset($query['vocabulary'])) {
             $vocabularyAdapter = new VocabularyAdapter;

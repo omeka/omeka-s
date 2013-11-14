@@ -108,11 +108,11 @@ class Manager implements ServiceLocatorAwareInterface
     {
         try {
             $response = $this->getResponse($request, $adapter);
-        } catch (Exception\InvalidRequestException $e) {
+        } catch (Exception\BadRequestException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
             $response->addError(Response::ERROR_BAD_REQUEST, $e->getMessage());
-        } catch (Exception\InvalidResponseException $e) {
+        } catch (Exception\BadResponseException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
@@ -137,7 +137,7 @@ class Manager implements ServiceLocatorAwareInterface
     protected function getResponse(Request $request, $adapter)
     {
         if (!$this->resourceIsRegistered($request->getResource())) {
-            throw new Exception\InvalidRequestException(sprintf(
+            throw new Exception\BadRequestException(sprintf(
                 'The "%s" resource is not registered.', 
                 $request->getResource()
             ));
@@ -162,13 +162,13 @@ class Manager implements ServiceLocatorAwareInterface
                 $response = $adapter->delete($request->getId(), $request->getContent());
                 break;
             default:
-                throw new Exception\InvalidRequestException(sprintf(
+                throw new Exception\BadRequestException(sprintf(
                     'The API does not support the "%s" operation.',
                     $request->getOperation()
                 ));
         }
         if (!$response instanceof Response) {
-            throw new Exception\InvalidResponseException(sprintf(
+            throw new Exception\BadResponseException(sprintf(
                 'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
                 $request->getOperation(),
                 $request->getResource()
@@ -261,7 +261,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function getResource($resource)
     {
         if (!$this->resourceIsRegistered($resource)) {
-            throw new Exception\InvalidRequestException(sprintf(
+            throw new Exception\BadRequestException(sprintf(
                 'The "%s" resource is not registered.', 
                 $resource
             ));

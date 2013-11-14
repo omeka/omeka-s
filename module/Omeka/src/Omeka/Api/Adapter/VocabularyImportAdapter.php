@@ -62,12 +62,12 @@ class VocabularyImportAdapter extends AbstractAdapter
     public function create($data = null)
     {
         if (!isset($data['vocabulary'])) {
-            throw new Exception\InvalidRequestException(
+            throw new Exception\BadRequestException(
                 'No vocabulary was specified.'
             );
         }
         if (!isset($data['strategy'])) {
-            throw new Exception\InvalidRequestException(
+            throw new Exception\BadRequestException(
                 'No import strategy was specified.'
             );
         }
@@ -98,7 +98,7 @@ class VocabularyImportAdapter extends AbstractAdapter
         // Load the RDF graph.
         try {
             $graph = $this->getGraph($data, $vocabulary);
-        } catch (Exception\InvalidRequestException $e) {
+        } catch (Exception\BadRequestException $e) {
             $entityManager->getConnection()->rollback();
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->addError('rdf', $e->getMessage());
@@ -176,7 +176,7 @@ class VocabularyImportAdapter extends AbstractAdapter
             // Import from a file in /data/vocabularies directory.
             case 'file':
                 if (!isset($data['file'])) {
-                    throw new Exception\InvalidRequestException(
+                    throw new Exception\BadRequestException(
                         'No file specified for the file import strategy.'
                     );
                 }
@@ -186,7 +186,7 @@ class VocabularyImportAdapter extends AbstractAdapter
                     . DIRECTORY_SEPARATOR . $data['file'];
                 // Make sure the provided file path matches the expected path.
                 if ($file != realpath($file) || !is_file($file)) {
-                    throw new Exception\InvalidRequestException(
+                    throw new Exception\BadRequestException(
                         'Invalid path to file.'
                     );
                 }
@@ -197,7 +197,7 @@ class VocabularyImportAdapter extends AbstractAdapter
             // Import from a URL.
             case 'url':
                 if (!isset($data['url'])) {
-                    throw new Exception\InvalidRequestException(
+                    throw new Exception\BadRequestException(
                         'No URL specified for the URL import strategy.'
                     );
                 }
@@ -206,7 +206,7 @@ class VocabularyImportAdapter extends AbstractAdapter
                 return $graph;
 
             default:
-                throw new Exception\InvalidRequestException(
+                throw new Exception\BadRequestException(
                     'Unsupported import strategy.'
                 );
         }

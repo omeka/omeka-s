@@ -107,7 +107,44 @@ class Manager implements ServiceLocatorAwareInterface
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
         try {
-            $response = $this->getResponse($request, $adapter);
+            if (!$this->resourceIsRegistered($request->getResource())) {
+                throw new Exception\BadRequestException(sprintf(
+                    'The "%s" resource is not registered.', 
+                    $request->getResource()
+                ));
+            }
+            if (null === $adapter) {
+                $adapter = $this->getAdapter($request);
+            }
+            switch ($request->getOperation()) {
+                case Request::SEARCH:
+                    $response = $adapter->search($request->getContent());
+                    break;
+                case Request::CREATE:
+                    $response = $adapter->create($request->getContent());
+                    break;
+                case Request::READ:
+                    $response = $adapter->read($request->getId(), $request->getContent());
+                    break;
+                case Request::UPDATE:
+                    $response = $adapter->update($request->getId(), $request->getContent());
+                    break;
+                case Request::DELETE:
+                    $response = $adapter->delete($request->getId(), $request->getContent());
+                    break;
+                default:
+                    throw new Exception\BadRequestException(sprintf(
+                        'The API does not support the "%s" operation.',
+                        $request->getOperation()
+                    ));
+            }
+            if (!$response instanceof Response) {
+                throw new Exception\BadResponseException(sprintf(
+                    'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
+                    $request->getOperation(),
+                    $request->getResource()
+                ));
+            }
         } catch (Exception\BadRequestException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
@@ -124,56 +161,6 @@ class Manager implements ServiceLocatorAwareInterface
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
         $response->setRequest($request);
-        return $response;
-    }
-
-    /**
-     * Get the response of an API request.
-     * 
-     * @param Request $request
-     * @param null|AdapterInterface $adapter
-     * @return Response
-     */
-    protected function getResponse(Request $request, $adapter)
-    {
-        if (!$this->resourceIsRegistered($request->getResource())) {
-            throw new Exception\BadRequestException(sprintf(
-                'The "%s" resource is not registered.', 
-                $request->getResource()
-            ));
-        }
-        if (null === $adapter) {
-            $adapter = $this->getAdapter($request);
-        }
-        switch ($request->getOperation()) {
-            case Request::SEARCH:
-                $response = $adapter->search($request->getContent());
-                break;
-            case Request::CREATE:
-                $response = $adapter->create($request->getContent());
-                break;
-            case Request::READ:
-                $response = $adapter->read($request->getId(), $request->getContent());
-                break;
-            case Request::UPDATE:
-                $response = $adapter->update($request->getId(), $request->getContent());
-                break;
-            case Request::DELETE:
-                $response = $adapter->delete($request->getId(), $request->getContent());
-                break;
-            default:
-                throw new Exception\BadRequestException(sprintf(
-                    'The API does not support the "%s" operation.',
-                    $request->getOperation()
-                ));
-        }
-        if (!$response instanceof Response) {
-            throw new Exception\BadResponseException(sprintf(
-                'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
-                $request->getOperation(),
-                $request->getResource()
-            ));
-        }
         return $response;
     }
 

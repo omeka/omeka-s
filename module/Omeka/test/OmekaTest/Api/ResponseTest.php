@@ -10,6 +10,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     protected $validStatuses = array(
         'success', 'error_internal', 'error_validation', 'error_not_found',
+        'error_bad_request', 'error_bad_response',
     );
 
     public function setUp()

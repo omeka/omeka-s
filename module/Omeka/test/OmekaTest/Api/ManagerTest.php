@@ -120,12 +120,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->exactly(2))
                 ->method('getResource')
                 ->will($this->returnValue('bar'));
-        $this->manager->setServiceLocator(
-            $this->getMockServiceLocatorForInternalErrors()
-        );
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->execute($request);
-        $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
+        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
     }
 
     public function testExecuteRequiresValidRequestOperation()
@@ -138,12 +135,25 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->method('getOperation')
                 ->will($this->returnValue('bar'));
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $this->manager->setServiceLocator(
-            $this->getMockServiceLocatorForInternalErrors()
-        );
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->execute($request, $adapter);
-        $this->assertEquals(Response::ERROR_INTERNAL, $response->getStatus());
+        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+    }
+
+    public function testExecuteRequiresValidResponse()
+    {
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->any())
+                ->method('getResource')
+                ->will($this->returnValue('foo'));
+        $request->expects($this->any())
+                ->method('getOperation')
+                ->will($this->returnValue('delete'));
+        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $this->manager->registerResource('foo', $this->validConfig);
+        $response = $this->manager->execute($request, $adapter);
+        $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
+
     }
 
     public function testExecuteReturnsExpectedResponseForSearch()
@@ -296,7 +306,7 @@ class TestAdapter implements
 
     public function delete($id, $data = null)
     {
-        return new Response;
+        return null;
     }
 
     public function setRequest(Request $request)

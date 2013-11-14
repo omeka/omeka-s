@@ -108,6 +108,14 @@ class Manager implements ServiceLocatorAwareInterface
     {
         try {
             $response = $this->getResponse($request, $adapter);
+        } catch (Exception\InvalidRequestException $e) {
+            $response = new Response;
+            $response->setStatus(Response::ERROR_BAD_REQUEST);
+            $response->addError(Response::ERROR_BAD_REQUEST, $e->getMessage());
+        } catch (Exception\InvalidResponseException $e) {
+            $response = new Response;
+            $response->setStatus(Response::ERROR_BAD_RESPONSE);
+            $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Logger')->err($e->__toString());
             // Always return a Response object, regardless of exception.

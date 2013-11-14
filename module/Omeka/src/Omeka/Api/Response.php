@@ -10,10 +10,12 @@ use Zend\Stdlib\Response as ZendResponse;
  */
 class Response extends ZendResponse
 {
-    const SUCCESS          = 'success';
-    const ERROR_INTERNAL   = 'error_internal';
-    const ERROR_VALIDATION = 'error_validation';
-    const ERROR_NOT_FOUND  = 'error_not_found';
+    const SUCCESS            = 'success';
+    const ERROR_INTERNAL     = 'error_internal';
+    const ERROR_VALIDATION   = 'error_validation';
+    const ERROR_NOT_FOUND    = 'error_not_found';
+    const ERROR_BAD_REQUEST  = 'error_bad_request';
+    const ERROR_BAD_RESPONSE = 'error_bad_response';
 
     /**
      * @var array
@@ -23,6 +25,8 @@ class Response extends ZendResponse
         self::ERROR_INTERNAL,
         self::ERROR_VALIDATION,
         self::ERROR_NOT_FOUND,
+        self::ERROR_BAD_REQUEST,
+        self::ERROR_BAD_RESPONSE,
     );
 
     /**
@@ -32,6 +36,8 @@ class Response extends ZendResponse
         self::ERROR_INTERNAL,
         self::ERROR_VALIDATION,
         self::ERROR_NOT_FOUND,
+        self::ERROR_BAD_REQUEST,
+        self::ERROR_BAD_RESPONSE,
     );
 
     /**

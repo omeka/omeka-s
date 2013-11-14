@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * API manager service.
  */
-class Manager implements ServiceLocatorAwareInterface
+class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterface
 {
     /**
      * @var ServiceLocatorInterface
@@ -127,13 +127,11 @@ class Manager implements ServiceLocatorAwareInterface
             if (null === $adapter) {
                 $adapter = $this->getAdapter($request);
             }
+            $adapterEvents = $this->getServiceLocator()->get('EventManager');
+            $adapterEvents->setIdentifiers(get_class($adapter));
             // Trigger the pre-operation event.
-            if ($adapter instanceof EventManagerAwareInterface) {
-                $adapter->getEventManager()->trigger(
-                    'pre' . ucfirst($request->getOperation()), $adapter,
-                    array('request' => $request)
-                );
-            }
+            $adapterEvents->trigger('pre' . ucfirst($request->getOperation()),
+                $adapter, array('request' => $request));
             switch ($request->getOperation()) {
                 case Request::SEARCH:
                     $response = $adapter->search($request->getContent());
@@ -163,6 +161,9 @@ class Manager implements ServiceLocatorAwareInterface
                     $request->getResource()
                 ));
             }
+            // Trigger the post-operation event.
+            $adapterEvents->trigger('post' . ucfirst($request->getOperation()),
+                $adapter, array('request' => $request, 'response' => $response));
         } catch (Exception\BadRequestException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
@@ -177,13 +178,6 @@ class Manager implements ServiceLocatorAwareInterface
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
-        }
-        // Trigger the post-operation event.
-        if ($adapter instanceof EventManagerAwareInterface) {
-            $adapter->getEventManager()->trigger(
-                'post' . ucfirst($request->getOperation()), $adapter,
-                array('request' => $request, 'response' => $response)
-            );
         }
         // Trigger the post-execute event.
         $this->getEventManager()->trigger('postExecute', $this,
@@ -333,9 +327,6 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getEventManager()
     {
-        if (!$this->events) {
-            $this->setEventManager(new EventManager);
-        }
         return $this->events;
     }
 }

@@ -45,5 +45,15 @@ class Module implements ConfigProviderInterface
                 );
             }
         );
+        $manager->attach('Omeka\Api\Manager', 'postExecute',
+            function($e) {
+                printf(
+                    'Handled event "%s" on target "%s", with parameters %s',
+                    $e->getName(),
+                    get_class($e->getTarget()),
+                    json_encode($e->getParams())
+                );
+            }
+        );
     }
 }

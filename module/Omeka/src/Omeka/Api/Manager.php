@@ -3,6 +3,9 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -15,6 +18,11 @@ class Manager implements ServiceLocatorAwareInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
 
     /**
      * @var array Registered API resources and configuration.
@@ -107,6 +115,9 @@ class Manager implements ServiceLocatorAwareInterface
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
         try {
+            // Trigger the pre-execute event.
+            $this->getEventManager()->trigger('preExecute', $this,
+                array('request' => $request));
             if (!$this->resourceIsRegistered($request->getResource())) {
                 throw new Exception\BadRequestException(sprintf(
                     'The "%s" resource is not registered.', 
@@ -115,6 +126,13 @@ class Manager implements ServiceLocatorAwareInterface
             }
             if (null === $adapter) {
                 $adapter = $this->getAdapter($request);
+            }
+            // Trigger the pre-operation event.
+            if ($adapter instanceof EventManagerAwareInterface) {
+                $adapter->getEventManager()->trigger(
+                    'pre' . ucfirst($request->getOperation()), $adapter,
+                    array('request' => $request)
+                );
             }
             switch ($request->getOperation()) {
                 case Request::SEARCH:
@@ -160,6 +178,16 @@ class Manager implements ServiceLocatorAwareInterface
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
+        // Trigger the post-operation event.
+        if ($adapter instanceof EventManagerAwareInterface) {
+            $adapter->getEventManager()->trigger(
+                'post' . ucfirst($request->getOperation()), $adapter,
+                array('request' => $request, 'response' => $response)
+            );
+        }
+        // Trigger the post-execute event.
+        $this->getEventManager()->trigger('postExecute', $this,
+            array('request' => $request, 'response' => $response));
         $response->setRequest($request);
         return $response;
     }
@@ -285,5 +313,29 @@ class Manager implements ServiceLocatorAwareInterface
     public function getServiceLocator()
     {
         return $this->services;
+    }
+
+    /**
+     * Set the event manager.
+     *
+     * @param EventManagerInterface $events
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(get_class($this));
+        $this->events = $events;
+    }
+
+    /**
+     * Get the event manager.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        if (!$this->events) {
+            $this->setEventManager(new EventManager);
+        }
+        return $this->events;
     }
 }

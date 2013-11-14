@@ -324,8 +324,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // raise an error when making the query.
         $joinEntityClasses = array();
         $joins = $qb->getDQLPart('join');
-        foreach ($joins[$rootEntityClass] as $join) {
-            $joinEntityClasses[] = $join->getJoin();
+        if (isset($joins[$rootEntityClass])) {
+            foreach ($joins[$rootEntityClass] as $join) {
+                $joinEntityClasses[] = $join->getJoin();
+            }
         }
 
         if (!in_array($targetEntityClass, $joinEntityClasses)) {

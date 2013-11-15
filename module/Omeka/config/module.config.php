@@ -6,6 +6,7 @@ return array(
             'EntityManager' => 'Omeka\Service\EntityManagerFactory',
             'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
             'Logger' => 'Omeka\Service\LoggerFactory',
+            'MigrationManager' => 'Omeka\Service\MigrationManagerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
             
         ),
@@ -93,6 +94,11 @@ return array(
         ),
         'table_prefix' => 'omeka_',
         'is_dev_mode'  => false,
+    ),
+    'migration_manager' => array(
+        'path' => OMEKA_PATH . '/data/migrations',
+        'namespace' => 'Omeka\Db\Migrations',
+        'entity' => 'Omeka\Model\Entity\Migration',
     ),
     'loggers' => array(
         'application' => array(

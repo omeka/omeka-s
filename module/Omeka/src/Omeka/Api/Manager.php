@@ -114,24 +114,31 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
+        // Trigger the execute.pre event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($request);
+        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_PRE, $event);
+
         try {
-            // Trigger the pre-execute event.
-            $this->getEventManager()->trigger('preExecute', $this,
-                array('request' => $request));
             if (!$this->resourceIsRegistered($request->getResource())) {
                 throw new Exception\BadRequestException(sprintf(
                     'The "%s" resource is not registered.', 
                     $request->getResource()
                 ));
             }
+
             if (null === $adapter) {
                 $adapter = $this->getAdapter($request);
             }
+
             $adapterEvents = $this->getServiceLocator()->get('EventManager');
             $adapterEvents->setIdentifiers(get_class($adapter));
-            // Trigger the pre-operation event.
-            $adapterEvents->trigger('pre' . ucfirst($request->getOperation()),
-                $adapter, array('request' => $request));
+
+            // Trigger the operation.pre event.
+            $event = new ApiEvent;
+            $event->setTarget($adapter)->setRequest($request);
+            $adapterEvents->trigger($request->getOperation() . '.pre', $event);
+
             switch ($request->getOperation()) {
                 case Request::SEARCH:
                     $response = $adapter->search($request->getContent());
@@ -154,6 +161,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                         $request->getOperation()
                     ));
             }
+
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
                     'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
@@ -161,9 +169,13 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                     $request->getResource()
                 ));
             }
-            // Trigger the post-operation event.
-            $adapterEvents->trigger('post' . ucfirst($request->getOperation()),
-                $adapter, array('request' => $request, 'response' => $response));
+
+            // Trigger the operation.post event.
+            $event = new ApiEvent;
+            $event->setTarget($adapter)->setRequest($request)->setResponse($response);
+            $adapterEvents->trigger($request->getOperation() . '.post', $event);
+
+        // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
@@ -174,14 +186,16 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Logger')->err($e->__toString());
-            // Always return a Response object, regardless of exception.
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
-        // Trigger the post-execute event.
-        $this->getEventManager()->trigger('postExecute', $this,
-            array('request' => $request, 'response' => $response));
+
+        // Trigger the execute.post event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($request)->setResponse($response);
+        $this->getEventManager()->trigger('execute.post', $event);
+
         $response->setRequest($request);
         return $response;
     }

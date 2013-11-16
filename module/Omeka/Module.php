@@ -13,9 +13,8 @@ class Module implements ConfigProviderInterface
 
     public function onBootstrap(EventInterface $event)
     {
-        $manager = $event->getApplication()->getServiceManager()
-            ->get('SharedEventManager');
-        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'preSearch',
+        $manager = $event->getApplication()->getEventManager()->getSharedManager();
+        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'search.pre',
             function($e) {
                 printf(
                     'Handled event "%s" on target "%s", with parameters %s',
@@ -25,7 +24,7 @@ class Module implements ConfigProviderInterface
                 );
             }
         );
-        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'postSearch',
+        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'search.post',
             function($e) {
                 printf(
                     'Handled event "%s" on target "%s", with parameters %s',
@@ -35,7 +34,7 @@ class Module implements ConfigProviderInterface
                 );
             }
         );
-        $manager->attach('Omeka\Api\Manager', 'preExecute',
+        $manager->attach('Omeka\Api\Manager', 'execute.pre',
             function($e) {
                 printf(
                     'Handled event "%s" on target "%s", with parameters %s',
@@ -45,7 +44,7 @@ class Module implements ConfigProviderInterface
                 );
             }
         );
-        $manager->attach('Omeka\Api\Manager', 'postExecute',
+        $manager->attach('Omeka\Api\Manager', 'execute.post',
             function($e) {
                 printf(
                     'Handled event "%s" on target "%s", with parameters %s',

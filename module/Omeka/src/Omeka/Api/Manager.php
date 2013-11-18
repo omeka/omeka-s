@@ -3,6 +3,8 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
+use Omeka\Event\ApiEvent;
+use Omeka\Event\FilterEvent;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -114,6 +116,10 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
+        $event = new FilterEvent(array('foo'));
+        $this->getEventManager()->trigger('myFilterEvent', $event);
+        print_r($event->getArg());
+
         // Trigger the execute.pre event.
         $event = new ApiEvent;
         $event->setTarget($this)->setRequest($request);

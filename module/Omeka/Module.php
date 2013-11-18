@@ -1,58 +1,73 @@
 <?php
 namespace Omeka;
 
+use Omeka\Module\AbstractModule;
 use Zend\EventManager\EventInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\EventManager\SharedEventManagerInterface;
 
-class Module implements ConfigProviderInterface
+/**
+ * The Omeka module.
+ */
+class Module extends AbstractModule
 {
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function onBootstrap(EventInterface $event)
+    public function attachShared(SharedEventManagerInterface $events)
     {
-        $manager = $event->getApplication()->getEventManager()->getSharedManager();
-        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'search.pre',
-            function($e) {
-                printf(
-                    'Handled event "%s" on target "%s", with parameters %s',
-                    $e->getName(),
-                    get_class($e->getTarget()),
-                    json_encode($e->getParams())
-                );
-            }
+        $this->attachFilter(
+            'Omeka\Api\Manager',
+            'myFilterEvent',
+            array($this, 'myFilterCallbackOne')
         );
-        $manager->attach('Omeka\Api\Adapter\Entity\PropertyAdapter', 'search.post',
-            function($e) {
-                printf(
-                    'Handled event "%s" on target "%s", with parameters %s',
-                    $e->getName(),
-                    get_class($e->getTarget()),
-                    json_encode($e->getParams())
-                );
-            }
+        $this->attachFilter(
+            'Omeka\Api\Manager',
+            'myFilterEvent',
+            array($this, 'myFilterCallbackTwo')
         );
-        $manager->attach('Omeka\Api\Manager', 'execute.pre',
-            function($e) {
-                printf(
-                    'Handled event "%s" on target "%s", with parameters %s',
-                    $e->getName(),
-                    get_class($e->getTarget()),
-                    json_encode($e->getParams())
-                );
-            }
+        $this->attachEvent(
+            'Omeka\Api\Manager',
+            'execute.pre',
+            array($this, 'myEventCallback')
         );
-        $manager->attach('Omeka\Api\Manager', 'execute.post',
-            function($e) {
-                printf(
-                    'Handled event "%s" on target "%s", with parameters %s',
-                    $e->getName(),
-                    get_class($e->getTarget()),
-                    json_encode($e->getParams())
-                );
-            }
+        $this->attachEvent(
+            'Omeka\Api\Manager',
+            'execute.post',
+            array($this, 'myEventCallback')
         );
+        $this->attachEvent(
+            'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'search.pre',
+            array($this, 'myEventCallback')
+        );
+        $this->attachEvent(
+            'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'search.post',
+            array($this, 'myEventCallback')
+        );
+    }
+
+    public function myEventCallback(EventInterface $event)
+    {
+        printf(
+            'Handled event "%s" on target "%s", with parameters %s',
+            $event->getName(),
+            get_class($event->getTarget()),
+            json_encode($event->getParams())
+        );
+    }
+
+    public function myFilterCallbackOne($arg, EventInterface $event)
+    {
+        $arg[] = 'bar';
+        return $arg;
+    }
+
+    public function myFilterCallbackTwo($arg, EventInterface $event)
+    {
+        $arg[] = 'baz';
+        return $arg;
     }
 }

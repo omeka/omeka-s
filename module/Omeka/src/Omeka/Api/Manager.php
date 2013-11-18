@@ -3,18 +3,28 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
+use Omeka\Event\ApiEvent;
+use Omeka\Event\FilterEvent;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * API manager service.
  */
-class Manager implements ServiceLocatorAwareInterface
+class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterface
 {
     /**
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
 
     /**
      * @var array Registered API resources and configuration.
@@ -106,6 +116,11 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
+        // Trigger the execute.pre event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($request);
+        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_PRE, $event);
+
         try {
             if (!$this->resourceIsRegistered($request->getResource())) {
                 throw new Exception\BadRequestException(sprintf(
@@ -113,9 +128,19 @@ class Manager implements ServiceLocatorAwareInterface
                     $request->getResource()
                 ));
             }
+
             if (null === $adapter) {
                 $adapter = $this->getAdapter($request);
             }
+
+            $adapterEvents = $this->getServiceLocator()->get('EventManager');
+            $adapterEvents->setIdentifiers(get_class($adapter));
+
+            // Trigger the operation.pre event.
+            $event = new ApiEvent;
+            $event->setTarget($adapter)->setRequest($request);
+            $adapterEvents->trigger($request->getOperation() . '.pre', $event);
+
             switch ($request->getOperation()) {
                 case Request::SEARCH:
                     $response = $adapter->search($request->getContent());
@@ -138,6 +163,7 @@ class Manager implements ServiceLocatorAwareInterface
                         $request->getOperation()
                     ));
             }
+
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
                     'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
@@ -145,6 +171,13 @@ class Manager implements ServiceLocatorAwareInterface
                     $request->getResource()
                 ));
             }
+
+            // Trigger the operation.post event.
+            $event = new ApiEvent;
+            $event->setTarget($adapter)->setRequest($request)->setResponse($response);
+            $adapterEvents->trigger($request->getOperation() . '.post', $event);
+
+        // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
@@ -155,11 +188,16 @@ class Manager implements ServiceLocatorAwareInterface
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Logger')->err($e->__toString());
-            // Always return a Response object, regardless of exception.
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
+
+        // Trigger the execute.post event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($request)->setResponse($response);
+        $this->getEventManager()->trigger('execute.post', $event);
+
         $response->setRequest($request);
         return $response;
     }
@@ -285,5 +323,26 @@ class Manager implements ServiceLocatorAwareInterface
     public function getServiceLocator()
     {
         return $this->services;
+    }
+
+    /**
+     * Set the event manager.
+     *
+     * @param EventManagerInterface $events
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(get_class($this));
+        $this->events = $events;
+    }
+
+    /**
+     * Get the event manager.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->events;
     }
 }

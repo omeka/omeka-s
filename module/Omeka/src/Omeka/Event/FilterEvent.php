@@ -5,6 +5,16 @@ use Zend\EventManager\Event;
 
 /**
  * Filter event.
+ *
+ * Trigger a filter event like so:
+ * 
+ * <code>
+ * $arg = array('foo');
+ * $event = new FilterEvent;
+ * $event->setArg($arg);
+ * $this->getEventManager()->trigger('myFilterEvent', $event);
+ * $arg = $event->getArg();
+ * </code>
  */
 class FilterEvent extends Event
 {
@@ -12,20 +22,6 @@ class FilterEvent extends Event
      * @var mixed The argument to filter.
      */
     protected $arg;
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param mixed $arg The argument to filter
-     */
-    public function __construct($arg = null, $name = null, $target = null,
-        $params = null
-    ) {
-        if (null !== $arg) {
-            $this->setArg($arg);
-        }
-        parent::__construct($name, $target, $params);
-    }
 
     /**
      * Set the argument to filter.

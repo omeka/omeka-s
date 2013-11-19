@@ -212,7 +212,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         // Trigger the execute.post event.
         $event = new ApiEvent;
         $event->setTarget($this)->setRequest($request)->setResponse($response);
-        $this->getEventManager()->trigger('execute.post', $event);
+        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_POST, $event);
 
         $response->setRequest($request);
         return $response;

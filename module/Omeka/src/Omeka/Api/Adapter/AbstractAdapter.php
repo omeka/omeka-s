@@ -3,7 +3,8 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
-use Omeka\Api\RequestAwareInterface;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -12,8 +13,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractAdapter implements
     AdapterInterface,
-    RequestAwareInterface,
-    ServiceLocatorAwareInterface
+    ServiceLocatorAwareInterface,
+    EventManagerAwareInterface
 {
     /**
      * @var Request
@@ -24,6 +25,11 @@ abstract class AbstractAdapter implements
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
 
     /**
      * Search operation stub.
@@ -113,5 +119,26 @@ abstract class AbstractAdapter implements
     public function getServiceLocator()
     {
         return $this->services;
+    }
+    
+    /**
+     * Set the event manager.
+     *
+     * @param EventManagerInterface $events
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(get_class($this));
+        $this->events = $events;
+    }
+
+    /**
+     * Get the event manager.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->events;
     }
 }

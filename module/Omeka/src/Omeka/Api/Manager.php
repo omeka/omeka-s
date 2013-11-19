@@ -4,7 +4,6 @@ namespace Omeka\Api;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
 use Omeka\Event\ApiEvent;
-use Omeka\Event\FilterEvent;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -111,7 +110,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      * Execute an API request.
      * 
      * @param Request $request
-     * @param null|AdapterInterface $adapter
+     * @param null|AdapterInterface $adapter Custom adapter
      * @return Response
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
@@ -130,16 +129,29 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             }
 
             if (null === $adapter) {
-                $adapter = $this->getAdapter($request);
+                // Use the registered adapter if a custom one is not passed.
+                $config = $this->getResource($request->getResource());
+                $adapter = new $config['adapter_class'];
             }
 
-            $adapterEvents = $this->getServiceLocator()->get('EventManager');
-            $adapterEvents->setIdentifiers(get_class($adapter));
+            // Set adapter dependencies.
+            $adapter->setRequest($request);
+            if ($adapter instanceof ServiceLocatorAwareInterface) {
+                $adapter->setServiceLocator($this->getServiceLocator());
+            }
+            if ($adapter instanceof EventManagerAwareInterface) {
+                $adapter->setEventManager(
+                    $this->getServiceLocator()->get('EventManager')
+                );
+            }
 
-            // Trigger the operation.pre event.
-            $event = new ApiEvent;
-            $event->setTarget($adapter)->setRequest($request);
-            $adapterEvents->trigger($request->getOperation() . '.pre', $event);
+            if ($adapter instanceof EventManagerAwareInterface) {
+                // Trigger the operation.pre event.
+                $event = new ApiEvent;
+                $event->setTarget($adapter)->setRequest($request);
+                $adapter->getEventManager()
+                    ->trigger($request->getOperation() . '.pre', $event);
+            }
 
             switch ($request->getOperation()) {
                 case Request::SEARCH:
@@ -172,10 +184,14 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                 ));
             }
 
-            // Trigger the operation.post event.
-            $event = new ApiEvent;
-            $event->setTarget($adapter)->setRequest($request)->setResponse($response);
-            $adapterEvents->trigger($request->getOperation() . '.post', $event);
+            if ($adapter instanceof EventManagerAwareInterface) {
+                // Trigger the operation.post event.
+                $event = new ApiEvent;
+                $event->setTarget($adapter)->setRequest($request)
+                    ->setResponse($response);
+                $adapter->getEventManager()
+                    ->trigger($request->getOperation() . '.post', $event);
+            }
 
         // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
@@ -200,28 +216,6 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
         $response->setRequest($request);
         return $response;
-    }
-
-    /**
-     * Get the API adapter.
-     *
-     * Note that this sets the Request and ServiceLocator objects to the adapter
-     * if it implements their respective interfaces.
-     * 
-     * @param Request $request
-     * @return AdapterInterface
-     */
-    public function getAdapter(Request $request)
-    {
-        $config = $this->getResource($request->getResource());
-        $adapter = new $config['adapter_class'];
-        if ($adapter instanceof RequestAwareInterface) {
-            $adapter->setRequest($request);
-        }
-        if ($adapter instanceof ServiceLocatorAwareInterface) {
-            $adapter->setServiceLocator($this->getServiceLocator());
-        }
-        return $adapter;
     }
 
     /**

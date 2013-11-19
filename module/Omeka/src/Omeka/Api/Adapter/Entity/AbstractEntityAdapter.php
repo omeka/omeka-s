@@ -6,6 +6,7 @@ use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Response;
+use Omeka\Event\ApiEvent;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
@@ -52,6 +53,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
         $this->buildQuery($data, $qb);
+
+        // Trigger the search.query event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($this->getRequest())
+            ->setQueryBuilder($qb);
+        $this->getEventManager()->trigger(ApiEvent::EVENT_SEARCH_QUERY, $event);
 
         // Get total results.
         $qbTotalResults = clone $qb;

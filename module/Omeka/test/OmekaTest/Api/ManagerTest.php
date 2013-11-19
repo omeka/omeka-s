@@ -99,21 +99,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetAdapterWorks()
-    {
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->once())
-            ->method('getResource')
-            ->will($this->returnValue('foo'));
-        $serviceLocator = $this->mockBuilder->getServiceManager();
-        $this->manager->registerResource('foo', $this->validConfig);
-        $this->manager->setServiceLocator($serviceLocator);
-        $adapter = $this->manager->getAdapter($request);
-        $this->assertInstanceOf('Omeka\Api\Adapter\AdapterInterface', $adapter);
-        $this->assertSame($request, $adapter->getRequest());
-        $this->assertSame($serviceLocator, $adapter->getServiceLocator());
-    }
-
     public function testExecuteRequiresValidRequestResource()
     {
         $request = $this->getMock('Omeka\Api\Request');
@@ -291,7 +276,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
 class TestAdapter implements
     AdapterInterface,
-    RequestAwareInterface,
     ServiceLocatorAwareInterface
 {
     protected $request;

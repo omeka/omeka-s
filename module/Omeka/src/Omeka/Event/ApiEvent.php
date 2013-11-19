@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Event;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Zend\EventManager\Event;
@@ -14,6 +15,7 @@ class ApiEvent extends Event
     const EVENT_EXECUTE_POST = 'execute.post';
     const EVENT_SEARCH_PRE   = 'search.pre';
     const EVENT_SEARCH_POST  = 'search.post';
+    const EVENT_SEARCH_QUERY = 'search.query';
     const EVENT_CREATE_PRE   = 'create.pre';
     const EVENT_CREATE_POST  = 'create.post';
     const EVENT_READ_PRE     = 'read.pre';
@@ -32,6 +34,11 @@ class ApiEvent extends Event
      * @var Response
      */
     protected $response;
+
+    /**
+     * @var QueryBuilder
+     */
+    protected $qb;
 
     /**
      * Set the request.
@@ -75,5 +82,27 @@ class ApiEvent extends Event
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Set the query builder.
+     *
+     * @param QueryBuilder $qb
+     */
+    public function setQueryBuilder(QueryBuilder $qb)
+    {
+        $this->setParam('query_builder', $qb);
+        $this->qb = $qb;
+        return $this;
+    }
+
+    /**
+     * Get the query builder.
+     *
+     * @return QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->qb;
     }
 }

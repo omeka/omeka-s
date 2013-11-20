@@ -48,7 +48,8 @@ class RdfVocabularyAdapter extends AbstractAdapter
      * Available keys:
      *
      * - strategy: (required) The import strategy to use (e.g. file, url).
-     * - namespace_uri: (required) The namespace URI of the vocabulary.
+     * - vocabulary[namespace_uri]: (required) Vocabulary namespace URI, as
+     *   supported by the vocabulary entity adapter.
      * - format: (optional) The format of the RDF file. If not given, the RDF
      *   parser will attempt to guess the format.
      * - file: (required for "file" strategy) The RDF file in the
@@ -67,7 +68,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
                 'No import strategy was specified.'
             );
         }
-        if (!isset($data['namespace_uri'])) {
+        if (!isset($data['vocabulary']['namespace_uri'])) {
             throw new Exception\BadRequestException(
                 'No vocabulary namespace URI was specified.'
             );
@@ -152,7 +153,6 @@ class RdfVocabularyAdapter extends AbstractAdapter
             return $response;
         }
         $vocabulary = $responseVocab->getContent();
-        $data['namespace_uri'] = $vocabulary['namespace_uri'];
 
         // Load the RDF graph.
         try {
@@ -218,7 +218,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
                 continue;
             }
             // The resource must be a local member of the vocabulary.
-            if (!$this->isMember($resource, $data['namespace_uri'])) {
+            if (!$this->isMember($resource, $data['vocabulary']['namespace_uri'])) {
                 continue;
             }
             // Get the vocabulary's classes.
@@ -270,7 +270,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
                     );
                 }
                 $graph = new EasyRdf_Graph;
-                $graph->parseFile($file, $data['format'], $data['namespace_uri']);
+                $graph->parseFile($file, $data['format'], $data['vocabulary']['namespace_uri']);
                 return $graph;
 
             // Import from a URL.

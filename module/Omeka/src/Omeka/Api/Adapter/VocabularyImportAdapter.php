@@ -55,6 +55,8 @@ class VocabularyImportAdapter extends AbstractAdapter
      * - file: (required for "file" strategy) The RDF file in the
      *   /data/vocabularies directory.
      * - url: (required for "url" strategy) The URL of the RDF file.
+     * - comment_property: (optional) The RDF property containing the preferred
+     *   property comment (defaults to rdfs:comment)
      *
      * @param array $data
      * @return Response

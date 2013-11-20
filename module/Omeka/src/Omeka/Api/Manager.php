@@ -195,10 +195,12 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
         // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
+            $this->getServiceLocator()->get('Logger')->err($e->__toString());
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
             $response->addError(Response::ERROR_BAD_REQUEST, $e->getMessage());
         } catch (Exception\BadResponseException $e) {
+            $this->getServiceLocator()->get('Logger')->err($e->__toString());
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());

@@ -9,9 +9,9 @@ use Omeka\Api\Request;
 use Omeka\Api\Response;
 
 /**
- * Vocabulary import adapter.
+ * RDF vocabulary adapter.
  */
-class VocabularyImportAdapter extends AbstractAdapter
+class RdfVocabularyAdapter extends AbstractAdapter
 {
     /**
      * Class types to import.
@@ -41,6 +41,59 @@ class VocabularyImportAdapter extends AbstractAdapter
         'owl:FunctionalProperty',
         'owl:InverseFunctionalProperty',
     );
+
+    /**
+     * Extract members (classes and properties) of the RDF vocabulary.
+     *
+     * Available keys:
+     *
+     * - strategy: (required) The import strategy to use (e.g. file, url).
+     * - namespace_uri: (required) The namespace URI of the vocabulary.
+     * - format: (optional) The format of the RDF file. If not given, the RDF
+     *   parser will attempt to guess the format.
+     * - file: (required for "file" strategy) The RDF file in the
+     *   /data/vocabularies directory.
+     * - url: (required for "url" strategy) The URL of the RDF file.
+     * - comment_property: (optional) The RDF property containing the preferred
+     *   property comment (defaults to rdfs:comment)
+     *
+     * @param array $data
+     * @return Response
+     */
+    public function search($data = null)
+    {
+        if (!isset($data['strategy'])) {
+            throw new Exception\BadRequestException(
+                'No import strategy was specified.'
+            );
+        }
+        if (!isset($data['namespace_uri'])) {
+            throw new Exception\BadRequestException(
+                'No vocabulary namespace URI was specified.'
+            );
+        }
+        if (!isset($data['format'])) {
+            // EasyRDF should guess the format if none given.
+            $data['format'] = 'guess';
+        }
+        if (!isset($data['comment_property'])) {
+            $data['comment_property'] = 'rdfs:comment';
+        }
+
+        $response = new Response;
+
+        // Load the RDF graph.
+        try {
+            $graph = $this->getGraph($data);
+        } catch (Exception\BadRequestException $e) {
+            $response->setStatus(Response::ERROR_VALIDATION);
+            $response->addError('rdf', $e->getMessage());
+            return $response;
+        }
+
+        $response->setContent($this->extractMembers($graph, $data));
+        return $response;
+    }
 
     /**
      * Import an RDF vocabulary, including its classes and properties.
@@ -77,6 +130,9 @@ class VocabularyImportAdapter extends AbstractAdapter
             // EasyRDF should guess the format if none given.
             $data['format'] = 'guess';
         }
+        if (!isset($data['comment_property'])) {
+            $data['comment_property'] = 'rdfs:comment';
+        }
 
         $response = new Response;
         $manager = $this->getServiceLocator()->get('ApiManager');
@@ -96,10 +152,11 @@ class VocabularyImportAdapter extends AbstractAdapter
             return $response;
         }
         $vocabulary = $responseVocab->getContent();
+        $data['namespace_uri'] = $vocabulary['namespace_uri'];
 
         // Load the RDF graph.
         try {
-            $graph = $this->getGraph($data, $vocabulary);
+            $graph = $this->getGraph($data);
         } catch (Exception\BadRequestException $e) {
             $entityManager->getConnection()->rollback();
             $response->setStatus(Response::ERROR_VALIDATION);
@@ -107,50 +164,25 @@ class VocabularyImportAdapter extends AbstractAdapter
             return $response;
         }
 
-        // Iterate through all resources of the graph instead of selectively by 
-        // rdf:type becuase a resource may have more than one type, causing
-        // illegal attempts to duplicate classes and properties.
-        foreach ($graph->resources() as $resource) {
-
-            // The resource must not be a blank node.
-            if ($resource->isBnode()) {
-                continue;
+        $members = $this->extractMembers($graph, $data);
+        foreach ($members['classes'] as $class) {
+            $request = new Request(Request::CREATE, 'resource_classes');
+            $class['vocabulary'] = array('id' => $vocabulary['id']);
+            $request->setContent($class);
+            $responseClass = $manager->execute($request);
+            if ($responseClass->isError()) {
+                $response->setStatus($responseClass->getStatus());
+                $response->mergeErrors($responseClass->getErrorStore());
             }
-            // The resource must be a local member of the vocabulary.
-            if (!$this->isMember($resource, $vocabulary['namespace_uri'])) {
-                continue;
-            }
-
-            // Create the vocabulary's classes.
-            if (in_array($resource->type(), $this->classTypes)) {
-                $request = new Request(Request::CREATE, 'resource_classes');
-                $request->setContent(array(
-                    'vocabulary' => array('id' => $vocabulary['id']),
-                    'local_name' => $resource->localName(),
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $data),
-                ));
-                $responseClass = $manager->execute($request);
-                if ($responseClass->isError()) {
-                    $response->setStatus($responseClass->getStatus());
-                    $response->mergeErrors($responseClass->getErrorStore());
-                }
-            }
-
-            // Create the vocabulary's properties.
-            if (in_array($resource->type(), $this->propertyTypes)) {
-                $request = new Request(Request::CREATE, 'properties');
-                $request->setContent(array(
-                    'vocabulary' => array('id' => $vocabulary['id']),
-                    'local_name' => $resource->localName(),
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $data),
-                ));
-                $responseProperty = $manager->execute($request);
-                if ($responseProperty->isError()) {
-                    $response->setStatus($responseProperty->getStatus());
-                    $response->mergeErrors($responseProperty->getErrorStore());
-                }
+        }
+        foreach ($members['properties'] as $property) {
+            $request = new Request(Request::CREATE, 'properties');
+            $property['vocabulary'] = array('id' => $vocabulary['id']);
+            $request->setContent($property);
+            $responseProperty = $manager->execute($request);
+            if ($responseProperty->isError()) {
+                $response->setStatus($responseProperty->getStatus());
+                $response->mergeErrors($responseProperty->getErrorStore());
             }
         }
 
@@ -165,13 +197,58 @@ class VocabularyImportAdapter extends AbstractAdapter
     }
 
     /**
+     * Extract members (classes and properties) of the specified namespace.
+     *
+     * @param EasyRdf_Graph $graph
+     * @param array $data
+     * @return array
+     */
+    protected function extractMembers(EasyRdf_Graph $graph, array $data)
+    {
+        $members = array(
+            'classes' => array(),
+            'properties' => array(),
+        );
+        // Iterate through all resources of the graph instead of selectively by 
+        // rdf:type becuase a resource may have more than one type, causing
+        // illegal attempts to duplicate classes and properties.
+        foreach ($graph->resources() as $resource) {
+            // The resource must not be a blank node.
+            if ($resource->isBnode()) {
+                continue;
+            }
+            // The resource must be a local member of the vocabulary.
+            if (!$this->isMember($resource, $data['namespace_uri'])) {
+                continue;
+            }
+            // Get the vocabulary's classes.
+            if (in_array($resource->type(), $this->classTypes)) {
+                $members['classes'][] = array(
+                    'local_name' => $resource->localName(),
+                    'label' => $this->getLabel($resource, $resource->localName()),
+                    'comment' => $this->getComment($resource, $data),
+                );
+            }
+            // Get the vocabulary's properties.
+            if (in_array($resource->type(), $this->propertyTypes)) {
+                $members['properties'][] = array(
+                    'local_name' => $resource->localName(),
+                    'label' => $this->getLabel($resource, $resource->localName()),
+                    'comment' => $this->getComment($resource, $data),
+                );
+            }
+        }
+        return $members;
+    }
+
+    /**
      * Get the RDF graph using the specified import strategy.
      *
      * @param array $data
-     * @param array $vocabulary
+     * @param string $namespaceUri
      * @return EasyRdf_Graph
      */
-    protected function getGraph(array $data, array $vocabulary)
+    protected function getGraph(array $data)
     {
         switch ($data['strategy']) {
 
@@ -193,7 +270,7 @@ class VocabularyImportAdapter extends AbstractAdapter
                     );
                 }
                 $graph = new EasyRdf_Graph;
-                $graph->parseFile($file, $data['format'], $vocabulary['namespace_uri']);
+                $graph->parseFile($file, $data['format'], $data['namespace_uri']);
                 return $graph;
 
             // Import from a URL.
@@ -251,12 +328,7 @@ class VocabularyImportAdapter extends AbstractAdapter
      */
     protected function getComment(EasyRdf_Resource $resource, array $data)
     {
-        if (isset($data['comment_property'])) {
-            $property = $data['comment_property'];
-        } else {
-            $property = 'rdfs:comment';
-        }
-        $comment = $resource->get($property);
+        $comment = $resource->get($data['comment_property']);
         if ($comment instanceof EasyRdf_Literal) {
             return $comment->getValue();
         }

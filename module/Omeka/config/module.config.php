@@ -69,6 +69,9 @@ return array(
             'properties' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
             ),
+            'resource_class_properties' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassPropertyAdapter',
+            ),
             'values' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             ),
@@ -108,6 +111,7 @@ return array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\InstallDcmiVocabularyTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
         ),
     ),

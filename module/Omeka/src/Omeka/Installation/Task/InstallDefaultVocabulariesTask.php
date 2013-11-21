@@ -26,16 +26,6 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         ),
         array(
             'vocabulary' => array(
-                'namespace_uri' => 'http://purl.org/dc/terms/',
-                'label' => 'DCMI Metadata Terms',
-                'comment' => 'The Dublin Core metadata terms are a set of vocabulary terms which can be used to describe resources for the purposes of discovery.',
-            ),
-            'strategy' => 'file',
-            'file' => 'dcterms.rdf',
-            'format' => 'rdfxml',
-        ),
-        array(
-            'vocabulary' => array(
                 'namespace_uri' => 'http://purl.org/dc/dcmitype/',
                 'label' => 'DCMI Type Vocabulary',
                 'comment' => 'The DCMI Type Vocabulary provides a general, cross-domain list of approved terms that may be used as values for the Type element to identify the genre of a resource.',
@@ -73,7 +63,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
     {
         $manager = $this->getServiceLocator()->get('ApiManager');
         foreach ($this->vocabularies as $vocabulary) {
-            $request = new Request(Request::CREATE, 'vocabulary_import');
+            $request = new Request(Request::CREATE, 'rdf_vocabulary');
             $request->setContent($vocabulary);
             $response = $manager->execute($request);
             if ($response->isError()) {

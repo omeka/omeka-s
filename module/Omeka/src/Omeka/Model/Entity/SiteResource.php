@@ -19,13 +19,13 @@ class SiteResource implements EntityInterface
     protected $assigner;
     
     /**
-     * @ManyToOne(targetEntity="Site", inversedBy="sites")
+     * @ManyToOne(targetEntity="Site", inversedBy="siteResources")
      * @JoinColumn(nullable=false)
      */
     protected $site;
     
     /**
-     * @ManyToOne(targetEntity="Resource", inversedBy="resources")
+     * @ManyToOne(targetEntity="Resource", inversedBy="sites")
      * @JoinColumn(nullable=false)
      */
     protected $resource;

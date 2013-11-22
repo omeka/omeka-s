@@ -70,6 +70,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
                 $this->addErrorStore($response->getErrorStore());
                 return;
             }
+            $this->getServiceLocator()->get('EntityManager')->clear();
             $this->addInfo(sprintf(
                 'Successfully installed "%s"',
                 $vocabulary['vocabulary']['label']

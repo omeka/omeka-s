@@ -20,7 +20,7 @@ class Module extends AbstractModule
     {
         $this->attach(
             'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-            'create.post',
+            'create.pre',
             array($this, 'assignDcmiPropertiesToClass')
         );
     }
@@ -32,18 +32,24 @@ class Module extends AbstractModule
      */
     public function assignDcmiPropertiesToClass(ApiEvent $event)
     {
-        $ap = $this->getServiceLocator()->get('ApiManager');
-        $class = $event->getResponse()->getContent();
-        $response = $ap->search('properties', array(
-            'vocabulary' => array(
-                'namespace_uri' => 'http://purl.org/dc/terms/',
-            ),
-        ));
-        foreach ($response->getContent() as $property) {
-            $response = $ap->create('resource_class_properties', array(
-                'resource_class' => array('id' => $class['id']),
-                'property' => array('id' => $property['id']),
+        static $properties;
+        if (!$properties) {
+            $ap = $this->getServiceLocator()->get('ApiManager');
+            $response = $ap->search('properties', array(
+                'vocabulary' => array(
+                    'namespace_uri' => 'http://purl.org/dc/terms/',
+                ),
             ));
+            $properties = $response->getContent();
         }
+
+        $request = $event->getRequest();
+        $data = $request->getContent();
+        foreach ($properties as $property) {
+            $data['properties'][] = array(
+                'id' => $property['id'],
+            );
+        }
+        $request->setContent($data);
     }
 }

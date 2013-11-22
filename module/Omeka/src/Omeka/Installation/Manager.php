@@ -28,11 +28,14 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $result = new Result;
         foreach ($this->getTasks() as $task) {
+            $start = microtime(true);
             $task = new $task($result);
             if ($task instanceof ServiceLocatorAwareInterface) {
                 $task->setServiceLocator($this->getServiceLocator());
             }
             $task->perform();
+            $end = microtime(true);
+            $result->addMessage(sprintf('time: %.2f', $end - $start)); 
             // Tasks are dependent on previously run tasks. If there is an
             // error, stop installation immediately and return the result.
             if ($result->isError()) {

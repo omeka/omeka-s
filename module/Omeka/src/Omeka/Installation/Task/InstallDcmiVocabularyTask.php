@@ -24,7 +24,9 @@ class InstallDcmiVocabularyTask extends AbstractTask
     public function perform()
     {
         $am = $this->getServiceLocator()->get('ApiManager');
+        $em = $this->getServiceLocator()->get('EntityManager');
 
+        $em->getConnection()->beginTransaction();
         // Create the DCMI vocabulary.
         $response = $am->create('vocabularies', $this->vocabulary);
         if ($response->isError()) {
@@ -67,6 +69,8 @@ class InstallDcmiVocabularyTask extends AbstractTask
                 return;
             }
         }
+
+        $em->getConnection()->commit();
 
         $this->addInfo('Successfully installed "DCMI Metdata Terms"');
     }

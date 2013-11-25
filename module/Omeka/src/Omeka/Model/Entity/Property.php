@@ -44,11 +44,6 @@ class Property implements EntityInterface
     protected $vocabulary;
 
     /**
-     * @OneToMany(targetEntity="ResourceClassProperty", mappedBy="property")
-     */
-    protected $resourceClasses;
-
-    /**
      * @Column(nullable=true)
      */
     protected $localName;
@@ -62,11 +57,6 @@ class Property implements EntityInterface
      * @Column(type="text", nullable=true)
      */
     protected $comment;
-
-    public function __construct()
-    {
-        $this->resourceClasses = new ArrayCollection;
-    }
 
     public function getId()
     {

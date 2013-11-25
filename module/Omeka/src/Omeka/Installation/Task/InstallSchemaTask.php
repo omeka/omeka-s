@@ -25,21 +25,22 @@ class InstallSchemaTask extends AbstractTask
             return;
         }
 
-        $schema = OMEKA_PATH . '/data/install/schema.sql';
-        if (!is_readable($schema)) {
+        $schemaPath = OMEKA_PATH . '/data/install/schema.sql';
+        if (!is_readable($schemaPath)) {
             $this->addError('Could not read the schema installation file.');
             return;
         }
 
-        $statements = file($schema);
-        if (!is_array($statements)) {
-            $this->addError('Could not read the schema installation file.');
-            return;
-        }
+        $schema = file_get_contents($schemaPath);
+        $statements = explode(';', $schema);
         
         // The schema file uses "DBPREFIX_" as a placeholder table prefix.
         // Replace them here with the configured table prefix.
         foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if (!$statement) {
+                continue;
+            }
             $prefixedStatement = str_replace(
                 'DBPREFIX_',
                 $config['entity_manager']['table_prefix'],

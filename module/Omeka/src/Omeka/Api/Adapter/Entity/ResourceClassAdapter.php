@@ -36,33 +36,10 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }
-        if (isset($data['resource_type'])) {
-            $entity->setResourceType($data['resource_type']);
-        }
-        if (isset($data['is_default'])) {
-            $entity->setIsDefault($data['is_default']);
-        }
-        if (isset($data['properties'])) {
-            $properties = $entity->getProperties();
-            $properties->clear();
-            foreach ($data['properties'] as $propertyData) {
-                $classProperty = new \Omeka\Model\Entity\ResourceClassProperty;
-                $this->hydrateClassProperty($propertyData, $classProperty);
-                $classProperty->setResourceClass($entity);
-                $properties->add($classProperty);
-            }
-        }
     }
 
     public function extract($entity)
     {
-        $properties = array();
-        foreach ($entity->getProperties() as $classProperty) {
-            $properties[] = $this->extractEntity(
-                $classProperty->getProperty(),
-                new PropertyAdapter
-            );
-        }
         return array(
             'id' => $entity->getId(),
             'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
@@ -73,9 +50,6 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             'local_name' => $entity->getLocalName(),
             'label' => $entity->getLabel(),
             'comment' => $entity->getComment(),
-            'resource_type' => $entity->getResourceType(),
-            'is_default' => $entity->getIsDefault(),
-            'properties' => $properties
         );
     }
 
@@ -98,18 +72,6 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        // Validate resourceType/isDefault unique constraint.
-        $validator = new IsUnique(
-            array('resourceType', 'isDefault'),
-            $this->getEntityManager()
-        );
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages(
-                'default_resource_type',
-                $validator->getMessages()
-            );
-        }
-
         // Validate the vocabulary/localName unique constraint.
         $validator = new IsUnique(
             array('vocabulary', 'localName'),
@@ -122,40 +84,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
 
-        // Validate resourceType.
-        $discriminatorMap = $this->getEntityManager()
-            ->getClassMetadata('Omeka\Model\Entity\Resource')
-            ->discriminatorMap;
-        if (!in_array($entity->getResourceType(), $discriminatorMap)
-            && !is_null($entity->getResourceType())
-        ) {
-            $errorStore->addError(
-                'resource_type',
-                'The provided resource_type is not a registered resource type.'
-            );
-        }
-
         // Validate label.
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');
-        }
-
-        // Validate is_default.
-        if (!is_bool($entity->getIsDefault()) && !is_null($entity->getIsDefault())) {
-            $errorStore->addError(
-                'is_default',
-                'The is_default field must be boolean or null.'
-            );
-        }
-    }
-
-    protected function hydrateClassProperty($data, $classProperty)
-    {
-        if (isset($data['id'])) {
-            $property = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\Property')
-                ->find($data['id']);
-            $classProperty->setProperty($property);
         }
     }
 }

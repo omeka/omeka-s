@@ -14,10 +14,6 @@ use \Doctrine\Common\Collections\ArrayCollection;
  *     options={"collate"="utf8_bin"},
  *     uniqueConstraints={
  *         @UniqueConstraint(
- *             name="default_resource_type",
- *             columns={"resource_type", "is_default"}
- *         ),
- *         @UniqueConstraint(
  *             name="vocabulary_local_name",
  *             columns={"vocabulary_id", "local_name"}
  *         )
@@ -50,10 +46,10 @@ class ResourceClass implements EntityInterface
 
     /**
      * @OneToMany(
-     *  targetEntity="ResourceClassProperty", mappedBy="resourceClass",
+     *  targetEntity="PropertyOverride", mappedBy="resourceClass",
      *  orphanRemoval=true, cascade={"persist", "remove"})
      */
-    protected $properties;
+    protected $propertyOverrides;
 
     /**
      * @Column(nullable=true)
@@ -70,19 +66,9 @@ class ResourceClass implements EntityInterface
      */
     protected $comment;
 
-    /**
-     * @Column(nullable=true)
-     */
-    protected $resourceType;
-
-    /**
-     * @Column(type="boolean", nullable=true)
-     */
-    protected $isDefault;
-
     public function __construct()
     {
-        $this->properties = new ArrayCollection;
+        $this->propertyOverrides = new ArrayCollection;
     }
 
     public function getId()
@@ -110,9 +96,9 @@ class ResourceClass implements EntityInterface
         return $this->vocabulary;
     }
 
-    public function getProperties()
+    public function getPropertyOverrides()
     {
-        return $this->properties;
+        return $this->propertyOverrides;
     }
 
     public function setLocalName($localName)
@@ -144,27 +130,4 @@ class ResourceClass implements EntityInterface
     {
         return $this->comment;
     }
-
-    public function setResourceType($resourceType)
-    {
-        $this->resourceType = $resourceType;
-    }
-
-    public function getResourceType()
-    {
-        return $this->resourceType;
-    }
-
-    public function setIsDefault($isDefault)
-    {
-        // Must be true or null for the resource_type/is_default unique
-        // constraint to work.
-        $this->isDefault = $isDefault ? (bool) $isDefault : null;
-    }
-
-    public function getIsDefault()
-    {
-        return $this->isDefault;
-    }
-
 }

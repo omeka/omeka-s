@@ -69,9 +69,6 @@ return array(
             'properties' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
             ),
-            'resource_class_properties' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassPropertyAdapter',
-            ),
             'values' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             ),

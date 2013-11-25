@@ -175,7 +175,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                     $response = $adapter->create($request->getContent());
                     break;
                 case Request::BATCH_CREATE:
-                    $response = $adapter->batchCreate($request->getContent());
+                    $response = $this->executeBatchCreate($request, $adapter);
                     break;
                 case Request::READ:
                     $response = $adapter->read($request->getId(), $request->getContent());
@@ -234,6 +234,55 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_POST, $event);
 
         $response->setRequest($request);
+        return $response;
+    }
+
+    /**
+     * Execute a batch create operation.
+     *
+     * @param Request $request
+     * @param null|AdapterInterface $adapter Custom adapter
+     * @return Response
+     */
+    protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
+    {
+        // Create a simulated request for individual create events.
+        $createRequest = new Request(
+            Request::CREATE,
+            $request->getResource()
+        );
+
+        // Trigger the create.pre event for every resource.
+        foreach ($request->getContent() as $content) {
+            $createRequest->setContent($content);
+            $createEvent = new ApiEvent;
+            $createEvent->setTarget($adapter)->setRequest($createRequest);
+            $adapter->getEventManager()->trigger(
+                Request::CREATE . '.pre',
+                $createEvent
+            );
+        }
+
+        $response = $adapter->batchCreate($request->getContent());
+
+        // Do not trigger create.post events if an error has occured or if the
+        // response does not return valid content.
+        if ($response->isError() || !is_array($response->getContent())) {
+            return $response;
+        }
+
+        // Trigger the create.post event for every created resource.
+        foreach ($response->getContent() as $resource) {
+            $createRequest->setContent($resource);
+            $createEvent = new ApiEvent;
+            $createEvent->setTarget($adapter)->setRequest($createRequest)
+                ->setResponse(new Response($resource));
+            $adapter->getEventManager()->trigger(
+                Request::CREATE . '.post',
+                $createEvent
+            );
+        }
+
         return $response;
     }
 

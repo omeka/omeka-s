@@ -27,6 +27,10 @@ interface AdapterInterface
     /**
      * Batch create resources.
      *
+     * Adapters implementing this operation should return the resultant
+     * resources as the response content so the create.pre and create.post
+     * events can be triggered for every resource.
+     *
      * @param mixed $data
      * @return mixed
      */

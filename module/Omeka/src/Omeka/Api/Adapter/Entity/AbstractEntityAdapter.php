@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
+use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Event\ApiEvent;
 use Omeka\Model\Entity\EntityInterface;
@@ -117,7 +118,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $response = new Response;
 
+        $entities = array();
         foreach ($data as $datum) {
+
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $this->hydrate($datum, $entity);
@@ -130,9 +133,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
 
             $this->getEntityManager()->persist($entity);
+            $entities[] = $this->extract($entity);
+        }
+
+        if ($response->isError()) {
+            // Prevent subsequent flushes when an error has occurred.
+            foreach ($entities as $entity) {
+                $this->getServiceLocator()->get('EntityManager')->detach($entity);
+            }
+            return $response;
         }
 
         $this->getEntityManager()->flush();
+        $response->setContent($entities);
         return $response;
     }
 

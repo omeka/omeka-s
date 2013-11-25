@@ -9,11 +9,12 @@ use Zend\Stdlib\Request as ZendRequest;
  */
 class Request extends ZendRequest
 {
-    const SEARCH = 'search';
-    const CREATE = 'create';
-    const READ   = 'read';
-    const UPDATE = 'update';
-    const DELETE = 'delete';
+    const SEARCH       = 'search';
+    const CREATE       = 'create';
+    const BATCH_CREATE = 'batch_create';
+    const READ         = 'read';
+    const UPDATE       = 'update';
+    const DELETE       = 'delete';
 
     /**
      * @var array
@@ -21,6 +22,7 @@ class Request extends ZendRequest
     protected $validOperations = array(
         self::SEARCH,
         self::CREATE,
+        self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
         self::DELETE,

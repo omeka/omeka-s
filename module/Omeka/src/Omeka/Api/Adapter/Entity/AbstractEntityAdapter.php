@@ -108,6 +108,35 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Batch create entities.
+     *
+     * @param null|array $data
+     * @return Response
+     */
+    public function batchCreate($data = null)
+    {
+        $response = new Response;
+
+        foreach ($data as $datum) {
+            $entityClass = $this->getEntityClass();
+            $entity = new $entityClass;
+            $this->hydrate($datum, $entity);
+
+            $errorStore = $this->validateEntity($entity);
+            if ($errorStore->hasErrors()) {
+                $response->setStatus(Response::ERROR_VALIDATION);
+                $response->mergeErrors($errorStore);
+                continue;
+            }
+
+            $this->getEntityManager()->persist($entity);
+        }
+
+        $this->getEntityManager()->flush();
+        return $response;
+    }
+
+    /**
      * Read an entity.
      *
      * @param mixed $id

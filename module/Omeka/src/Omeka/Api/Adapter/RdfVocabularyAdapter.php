@@ -165,25 +165,24 @@ class RdfVocabularyAdapter extends AbstractAdapter
         }
 
         $members = $this->extractMembers($graph, $data);
-        foreach ($members['classes'] as $class) {
-            $request = new Request(Request::CREATE, 'resource_classes');
+        
+        
+        array_walk($members['classes'], function ($class) {
             $class['vocabulary'] = array('id' => $vocabulary['id']);
-            $request->setContent($class);
-            $responseClass = $manager->execute($request);
-            if ($responseClass->isError()) {
-                $response->setStatus($responseClass->getStatus());
-                $response->mergeErrors($responseClass->getErrorStore());
-            }
+        });
+        $responseClass = $manager->batchCreate('resource_classes', $members['classes']);
+        if ($responseClass->isError()) {
+            $response->setStatus($responseClass->getStatus());
+            $response->mergeErrors($responseClass->getErrorStore());
         }
-        foreach ($members['properties'] as $property) {
-            $request = new Request(Request::CREATE, 'properties');
-            $property['vocabulary'] = array('id' => $vocabulary['id']);
-            $request->setContent($property);
-            $responseProperty = $manager->execute($request);
-            if ($responseProperty->isError()) {
-                $response->setStatus($responseProperty->getStatus());
-                $response->mergeErrors($responseProperty->getErrorStore());
-            }
+
+        array_walk($members['properties'], function ($class) {
+            $class['vocabulary'] = array('id' => $vocabulary['id']);
+        });
+        $responseProperty = $manager->batchCreate('properties', $members['properties']);
+        if ($responseProperty->isError()) {
+            $response->setStatus($responseProperty->getStatus());
+            $response->mergeErrors($responseProperty->getErrorStore());
         }
 
         if ($response->isError()) {

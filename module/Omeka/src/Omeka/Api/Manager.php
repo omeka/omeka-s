@@ -59,6 +59,20 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     }
 
     /**
+     * Execute a batch create API request.
+     *
+     * @param string $resource
+     * @param mixed $data
+     * @return Response
+     */
+    public function batchCreate($resource, $data = null)
+    {
+        $request = new Request(Request::BATCH_CREATE, $resource);
+        $request->setContent($data);
+        return $this->execute($request);
+    }
+
+    /**
      * Execute a read API request.
      *
      * @param string $resource
@@ -159,6 +173,9 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                     break;
                 case Request::CREATE:
                     $response = $adapter->create($request->getContent());
+                    break;
+                case Request::BATCH_CREATE:
+                    $response = $adapter->batchCreate($request->getContent());
                     break;
                 case Request::READ:
                     $response = $adapter->read($request->getId(), $request->getContent());

@@ -25,6 +25,14 @@ interface AdapterInterface
     public function create($data = null);
 
     /**
+     * Batch create resources.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function batchCreate($data = null);
+
+    /**
      * Read a resource.
      *
      * @param mixed $id

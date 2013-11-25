@@ -37,7 +37,7 @@ abstract class AbstractAdapter implements
     public function search($data = null)
     {
         throw new Exception\RuntimeException(
-            'The adapter does not implement the search function.'
+            'The adapter does not implement the search operation.'
         );
     }
 
@@ -47,7 +47,17 @@ abstract class AbstractAdapter implements
     public function create($data = null)
     {
         throw new Exception\RuntimeException(
-            'The adapter does not implement the create function.'
+            'The adapter does not implement the create operation.'
+        );
+    }
+
+    /**
+     * Batch create operation stub.
+     */
+    public function batchCreate($data = null)
+    {
+        throw new Exception\RuntimeException(
+            'The adapter does not implement the batch create operation.'
         );
     }
 
@@ -57,7 +67,7 @@ abstract class AbstractAdapter implements
     public function read($id, $data = null)
     {
         throw new Exception\RuntimeException(
-            'The adapter does not implement the read function.'
+            'The adapter does not implement the read operation.'
         );
     }
 
@@ -67,7 +77,7 @@ abstract class AbstractAdapter implements
     public function update($id, $data = null)
     {
         throw new Exception\RuntimeException(
-            'The adapter does not implement the update function.'
+            'The adapter does not implement the update operation.'
         );
     }
 
@@ -77,7 +87,7 @@ abstract class AbstractAdapter implements
     public function delete($id, $data = null)
     {
         throw new Exception\RuntimeException(
-            'The adapter does not implement the delete function.'
+            'The adapter does not implement the delete operation.'
         );
     }
 

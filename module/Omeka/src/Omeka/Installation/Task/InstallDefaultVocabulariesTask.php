@@ -16,6 +16,16 @@ class InstallDefaultVocabulariesTask extends AbstractTask
     protected $vocabularies = array(
         array(
             'vocabulary' => array(
+                'namespace_uri' => 'http://purl.org/dc/terms/',
+                'label' => 'DCMI Metadata Terms',
+                'comment' => 'The Dublin Core metadata terms are a set of vocabulary terms which can be used to describe resources for the purposes of discovery.',
+            ),
+            'strategy' => 'file',
+            'file' => 'dcterms.rdf',
+            'format' => 'rdfxml',
+        ),
+        array(
+            'vocabulary' => array(
                 'namespace_uri' => 'http://purl.org/ontology/bibo/',
                 'label' => 'Bibliographic Ontology (BIBO)',
                 'comment' => 'The Bibliographic Ontology (BIBO) is an ontology for the semantic Web to describe bibliographic things.',

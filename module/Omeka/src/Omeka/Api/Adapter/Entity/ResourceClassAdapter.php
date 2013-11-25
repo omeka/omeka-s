@@ -42,10 +42,27 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($data['is_default'])) {
             $entity->setIsDefault($data['is_default']);
         }
+        if (isset($data['properties'])) {
+            $properties = $entity->getProperties();
+            $properties->clear();
+            foreach ($data['properties'] as $propertyData) {
+                $classProperty = new \Omeka\Model\Entity\ResourceClassProperty;
+                $this->hydrateClassProperty($propertyData, $classProperty);
+                $classProperty->setResourceClass($entity);
+                $properties->add($classProperty);
+            }
+        }
     }
 
     public function extract($entity)
     {
+        $properties = array();
+        foreach ($entity->getProperties() as $classProperty) {
+            $properties[] = $this->extractEntity(
+                $classProperty->getProperty(),
+                new PropertyAdapter
+            );
+        }
         return array(
             'id' => $entity->getId(),
             'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
@@ -58,6 +75,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             'comment' => $entity->getComment(),
             'resource_type' => $entity->getResourceType(),
             'is_default' => $entity->getIsDefault(),
+            'properties' => $properties
         );
     }
 
@@ -128,6 +146,16 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 'is_default',
                 'The is_default field must be boolean or null.'
             );
+        }
+    }
+
+    protected function hydrateClassProperty($data, $classProperty)
+    {
+        if (isset($data['id'])) {
+            $property = $this->getEntityManager()
+                ->getRepository('Omeka\Model\Entity\Property')
+                ->find($data['id']);
+            $classProperty->setProperty($property);
         }
     }
 }

@@ -49,7 +49,9 @@ class ResourceClass implements EntityInterface
     protected $vocabulary;
 
     /**
-     * @OneToMany(targetEntity="ResourceClassProperty", mappedBy="resourceClass")
+     * @OneToMany(
+     *  targetEntity="ResourceClassProperty", mappedBy="resourceClass",
+     *  orphanRemoval=true, cascade={"persist", "remove"})
      */
     protected $properties;
 

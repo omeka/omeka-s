@@ -166,8 +166,8 @@ class RdfVocabularyAdapter extends AbstractAdapter
 
         $members = $this->extractMembers($graph, $data);
         
-        
-        array_walk($members['classes'], function ($class) {
+        // Add vocabulary data and batch create the classes.
+        array_walk($members['classes'], function (&$class) use ($vocabulary) {
             $class['vocabulary'] = array('id' => $vocabulary['id']);
         });
         $responseClass = $manager->batchCreate('resource_classes', $members['classes']);
@@ -176,8 +176,9 @@ class RdfVocabularyAdapter extends AbstractAdapter
             $response->mergeErrors($responseClass->getErrorStore());
         }
 
-        array_walk($members['properties'], function ($class) {
-            $class['vocabulary'] = array('id' => $vocabulary['id']);
+        // Add vocabulary data and batch create the properties.
+        array_walk($members['properties'], function (&$property) use ($vocabulary) {
+            $property['vocabulary'] = array('id' => $vocabulary['id']);
         });
         $responseProperty = $manager->batchCreate('properties', $members['properties']);
         if ($responseProperty->isError()) {

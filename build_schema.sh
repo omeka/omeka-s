@@ -1,0 +1,24 @@
+#! /bin/bash
+
+# Doctrine's schema-tools creates unoptimized schema SQL that takes an
+# inordinate time to install. Thankfully, mysqldump creates more highly
+# optimized SQL. That, along with toggling off foreign key checks, greatly
+# reduces installation time.
+
+USERNAME="root"
+DBNAME="omeka3"
+
+# Drop existing tables and create the schema using Doctrine.
+vendor/doctrine/orm/bin/doctrine --force orm:schema-tool:drop
+vendor/doctrine/orm/bin/doctrine orm:schema-tool:create
+
+# Build the schema SQL.
+printf 'SET FOREIGN_KEY_CHECKS = 0;\n' > schema.sql.tmp
+mysqldump --compact --user $USERNAME --password $DBNAME >> schema.sql.tmp
+printf 'SET FOREIGN_KEY_CHECKS = 1;' >> schema.sql.tmp
+sed -i 's/omeka_/DBPREFIX_/g' schema.sql.tmp # find/replasce database prefix
+awk '!/\*\/;$/' schema.sql.tmp > data/install/schema.sql # remove comments
+
+# Clean up.
+rm schema.sql.tmp
+vendor/doctrine/orm/bin/doctrine --force orm:schema-tool:drop

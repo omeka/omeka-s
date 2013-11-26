@@ -7,6 +7,8 @@ use Omeka\Api\Request;
 use Omeka\Api\RequestAwareInterface;
 use Omeka\Api\Response;
 use Omeka\Test\MockBuilder;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -99,6 +101,15 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetsAndGetsEventManager()
+    {
+        $this->manager->setEventManager($this->getMock('Zend\EventManager\EventManager'));
+        $this->assertInstanceOf(
+            'Zend\EventManager\EventManager', 
+            $this->manager->getEventManager()
+        );
+    }
+
     public function testExecuteRequiresValidRequestResource()
     {
         $request = $this->getMock('Omeka\Api\Request');
@@ -106,7 +117,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->method('getResource')
                 ->will($this->returnValue('bar'));
         $this->manager->registerResource('foo', $this->validConfig);
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $response = $this->manager->execute($request);
         $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
     }
@@ -122,7 +133,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('bar'));
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
         $this->manager->registerResource('foo', $this->validConfig);
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $response = $this->manager->execute($request, $adapter);
         $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
     }
@@ -138,7 +149,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('delete'));
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
         $this->manager->registerResource('foo', $this->validConfig);
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $response = $this->manager->execute($request, $adapter);
         $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
 
@@ -176,7 +187,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchReturnsExpectedResponse()
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->search('foo', 'data_in');
         $this->assertEquals('search', $response->getRequest()->getOperation());
@@ -186,7 +197,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateReturnsExpectedResponse()
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->create('foo', 'data_in');
         $this->assertEquals('create', $response->getRequest()->getOperation());
@@ -196,7 +207,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testReadReturnsExpectedResponse()
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->read('foo', 'id', 'data_in');
         $this->assertEquals('read', $response->getRequest()->getOperation());
@@ -207,7 +218,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateReturnsExpectedResponse()
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->update('foo', 'id', 'data_in');
         $this->assertEquals('update', $response->getRequest()->getOperation());
@@ -218,7 +229,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testDeleteReturnsExpectedResponse()
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $this->manager->registerResource('foo', $this->validConfig);
         $response = $this->manager->delete('foo', 'id', 'data_in');
         $this->assertEquals('delete', $response->getRequest()->getOperation());
@@ -227,27 +238,22 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('data_in', $response->getRequest()->getContent());
     }
 
-    protected function getMockServiceLocatorForInternalErrors()
+    protected function setServiceLocator()
     {
         $logger = $this->getMock('Zend\Log\Logger');
-        $logger->expects($this->once())
-            ->method('err');
-        return $this->mockBuilder->getServiceManager('Logger', $logger);
-    }
-
-    protected function setServiceLocatorAndEventManager()
-    {
+        $logger->expects($this->any())->method('err');
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
-        $eventManager->expects($this->any())
-            ->method('setIdentifiers');
-        $serviceLocator = $this->mockBuilder->getServiceManager('EventManager', $eventManager);
+        $eventManager->expects($this->any())->method('setIdentifiers');
+        $serviceLocator = $this->mockBuilder->getServiceManager(
+            array('EventManager' => $eventManager, 'Logger' => $logger)
+        );
         $this->manager->setServiceLocator($serviceLocator);
         $this->manager->setEventManager($eventManager);
     }
 
     protected function assertExecuteReturnsExpectedResponse($resource, $operation)
     {
-        $this->setServiceLocatorAndEventManager();
+        $this->setServiceLocator();
         $request = $this->getMock('Omeka\Api\Request');
         $request->expects($this->any())
                 ->method('getResource')
@@ -276,11 +282,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
 class TestAdapter implements
     AdapterInterface,
-    ServiceLocatorAwareInterface
+    ServiceLocatorAwareInterface,
+    EventManagerAwareInterface
 {
     protected $request;
 
     protected $services;
+
+    protected $events;
 
     public function search($data = null)
     {
@@ -288,6 +297,11 @@ class TestAdapter implements
     }
 
     public function create($data = null)
+    {
+        return new Response;
+    }
+
+    public function batchCreate($data = null)
     {
         return new Response;
     }
@@ -304,7 +318,7 @@ class TestAdapter implements
 
     public function delete($id, $data = null)
     {
-        return null;
+        return Response;
     }
 
     public function setRequest(Request $request)
@@ -325,5 +339,15 @@ class TestAdapter implements
     public function getServiceLocator()
     {
         return $this->services;
+    }
+
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $this->events = $events;
+    }
+
+    public function getEventManager()
+    {
+        return $this->events;
     }
 }

@@ -17,8 +17,6 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
         'local_name' => 'LocalName',
         'label' => 'Label',
         'comment' => 'Comment',
-        'resource_type' => 'ResourceType',
-        'is_default' => 'IsDefault',
     );
 
     public function setUp()
@@ -39,7 +37,7 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
         $builder = new MockBuilder;
         $entityRepository = $builder->getEntityRepository();
         $entityManager = $builder->getEntityManager();
-        $serviceManager = $builder->getServiceManager('EntityManager', $entityManager);
+        $serviceManager = $builder->getServiceManager(array('EntityManager' => $entityManager));
 
         $entityManager->expects($this->exactly(2))
             ->method('getRepository')
@@ -67,8 +65,6 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data['local_name'], $entity->getLocalName());
         $this->assertEquals($this->data['label'], $entity->getLabel());
         $this->assertEquals($this->data['comment'], $entity->getComment());
-        $this->assertEquals($this->data['resource_type'], $entity->getResourceType());
-        $this->assertTrue($entity->getIsDefault());
     }
 
     public function testExtract()
@@ -79,8 +75,6 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
         $entity->setLocalName($this->data['local_name']);
         $entity->setLabel($this->data['label']);
         $entity->setComment($this->data['comment']);
-        $entity->setResourceType($this->data['resource_type']);
-        $entity->setIsDefault($this->data['is_default']);
         $data = $this->adapter->extract($entity);
         $this->assertNull($data['id']);
         $this->assertInternalType('array', $data['owner']);
@@ -88,7 +82,5 @@ class ResourceClassAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data['local_name'], $data['local_name']);
         $this->assertEquals($this->data['label'], $data['label']);
         $this->assertEquals($this->data['comment'], $data['comment']);
-        $this->assertEquals($this->data['resource_type'], $data['resource_type']);
-        $this->assertTrue($data['is_default']);
     }
 }

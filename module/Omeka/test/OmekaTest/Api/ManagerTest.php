@@ -152,7 +152,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->setServiceLocator();
         $response = $this->manager->execute($request, $adapter);
         $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
-
     }
 
     public function testExecuteReturnsExpectedResponseForSearch()
@@ -185,6 +184,47 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertExecuteReturnsExpectedResponse('foo', 'delete');
     }
 
+    public function testBatchCreateRequiresValidRequestContent()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->setServiceLocator();
+        // Nopte that the request has no content. An array should be expected.
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->any())
+            ->method('getResource')
+            ->will($this->returnValue('foo'));
+        $request->expects($this->any())
+            ->method('getOperation')
+            ->will($this->returnValue('batch_create'));
+        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $response = $this->manager->execute($request, $adapter);
+        $this->assertTrue($response->isError());
+        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+    }
+
+    public function testExecuteReturnsExpectedResponseForBatchCreate()
+    {
+        $this->manager->registerResource('foo', $this->validConfig);
+        $this->setServiceLocator();
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->any())
+            ->method('getResource')
+            ->will($this->returnValue('foo'));
+        $request->expects($this->any())
+            ->method('getOperation')
+            ->will($this->returnValue('batch_create'));
+        $request->expects($this->any())
+            ->method('getContent')
+            ->will($this->returnValue(array()));
+        $expectedResponse = $this->getMock('Omeka\Api\Response');
+        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $adapter->expects($this->once())
+                ->method('batchCreate')
+                ->will($this->returnValue($expectedResponse));
+        $actualResponse = $this->manager->execute($request, $adapter);
+        $this->assertSame($expectedResponse, $actualResponse);
+    }
+
     public function testSearchReturnsExpectedResponse()
     {
         $this->setServiceLocator();
@@ -203,6 +243,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('create', $response->getRequest()->getOperation());
         $this->assertEquals('foo', $response->getRequest()->getResource());
         $this->assertEquals('data_in', $response->getRequest()->getContent());
+    }
+
+    public function testBatchCreateReturnsExpectedResponse()
+    {
+        $this->setServiceLocator();
+        $this->manager->registerResource('foo', $this->validConfig);
+        $response = $this->manager->batchCreate('foo', array('data_in'));
+        $this->assertEquals('batch_create', $response->getRequest()->getOperation());
+        $this->assertEquals('foo', $response->getRequest()->getResource());
+        $this->assertEquals(array('data_in'), $response->getRequest()->getContent());
     }
 
     public function testReadReturnsExpectedResponse()

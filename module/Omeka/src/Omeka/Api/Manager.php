@@ -246,6 +246,10 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
     {
+        if (!is_array($request->getContent())) {
+            throw new Exception\BadRequestException('Invalid batch operation request data.');
+        }
+
         // Create a simulated request for individual create events.
         $createRequest = new Request(
             Request::CREATE,

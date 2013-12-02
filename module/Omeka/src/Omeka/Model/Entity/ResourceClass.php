@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Model\Entity;
 
-use \Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * A resource class.
@@ -46,8 +46,11 @@ class ResourceClass implements EntityInterface
 
     /**
      * @OneToMany(
-     *  targetEntity="PropertyOverride", mappedBy="resourceClass",
-     *  orphanRemoval=true, cascade={"persist", "remove"})
+     *     targetEntity="PropertyOverride",
+     *     mappedBy="resourceClass",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     protected $propertyOverrides;
 

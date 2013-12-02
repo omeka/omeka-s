@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * A vocabulary.
  * 
@@ -36,6 +38,32 @@ class Vocabulary implements EntityInterface
      * @Column(type="text", nullable=true)
      */
     protected $comment;
+
+    /**
+     * @OneToMany(
+     *     targetEntity="ResourceClass",
+     *     mappedBy="vocabulary",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $resourceClasses;
+
+    /**
+     * @OneToMany(
+     *     targetEntity="Property",
+     *     mappedBy="vocabulary",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $properties;
+
+    public function __construct()
+    {
+        $this->resourceClasses = new ArrayCollection;
+        $this->properties = new ArrayCollection;
+    }
 
     public function getId()
     {
@@ -80,5 +108,15 @@ class Vocabulary implements EntityInterface
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getResourceClasses()
+    {
+        return $this->resourceClasses;
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
     }
 }

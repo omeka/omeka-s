@@ -58,6 +58,21 @@ class Property implements EntityInterface
      */
     protected $comment;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="Value",
+     *     mappedBy="property",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $values;
+
+    public function __construct()
+    {
+        $this->values = new ArrayCollection;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -116,5 +131,10 @@ class Property implements EntityInterface
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getValues()
+    {
+        return $this->values;
     }
 }

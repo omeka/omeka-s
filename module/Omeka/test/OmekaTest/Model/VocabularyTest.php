@@ -19,6 +19,14 @@ class VocabularyTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->vocabulary->getNamespaceUri());
         $this->assertNull($this->vocabulary->getLabel());
         $this->assertNull($this->vocabulary->getComment());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->vocabulary->getResourceClasses()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->vocabulary->getProperties()
+        );
     }
 
     public function testSetState()

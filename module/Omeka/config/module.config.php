@@ -2,10 +2,10 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'ApiManager'          => 'Omeka\Service\ApiManagerFactory',
+            'EntityManager'       => 'Omeka\Service\EntityManagerFactory',
             'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
-            'Logger' => 'Omeka\Service\LoggerFactory',
+            'Logger'              => 'Omeka\Service\LoggerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
             
         ),
@@ -15,10 +15,35 @@ return array(
     ),
     'router' => array(
         'routes' => array(
+            'site' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/:site-slug',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Omeka\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index',
+                    ),
+                ),
+                'child_routes' => array(
+                    'resource' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action]]',
+                        ),
+                        'constraints' => array(
+                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        ),
+                        'defaults' => array(
+                        ),
+                    ),
+                ),
+            ),
             'api' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/api/:resource[/:id]',
+                    'route' => '/api/:resource[/:id]',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Api\Index',
                     ),
@@ -27,19 +52,21 @@ return array(
              'install' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'     => '/install',
-                    'defaults'  => array(
+                    'route' => '/install',
+                    'defaults' => array(
                         'controller' => 'Omeka\Controller\Install',
-                        'action'     => 'index',
+                        'action' => 'index',
                      ),
-                ),       
+                ),
             ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
-            'Omeka\Controller\Install'   => 'Omeka\Controller\Install\InstallController',
+            'Omeka\Controller\Install'   => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Index'     => 'Omeka\Controller\IndexController',
+            'Omeka\Controller\Item'      => 'Omeka\Controller\ItemController',
         ),
     ),
     'view_manager' => array(

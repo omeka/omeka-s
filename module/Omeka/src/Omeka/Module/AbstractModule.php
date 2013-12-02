@@ -7,6 +7,7 @@ use Zend\EventManager\SharedEventManagerAwareInterface;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\Mvc\ModuleRouteListener;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -39,10 +40,17 @@ class AbstractModule implements
      */
     public function onBootstrap(EventInterface $event)
     {
-        $app = $event->getApplication();
-        $this->setServiceLocator($app->getServiceManager());
-        $this->setSharedManager($app->getEventManager()->getSharedManager());
+        $application    = $event->getApplication();
+        $serviceManager = $application->getServiceManager();
+        $eventManager   = $application->getEventManager();
+        
+        $this->setServiceLocator($serviceManager);
+        $this->setSharedManager($eventManager->getSharedManager());
         $this->getSharedManager()->attachAggregate($this);
+
+        // Enable the /:controller/:action route.
+        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener->attach($eventManager);
     }
 
     /**

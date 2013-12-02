@@ -58,25 +58,6 @@ abstract class Resource implements EntityInterface
      */
     abstract public function getAdapterClass();
 
-    /**
-     * All resources must belong to a class. If one is not set prior to persist, 
-     * set it to the default class of this resource type.
-     * 
-     * @PrePersist
-     */
-    public function setDefaultResourceClass(LifecycleEventArgs $eventArgs)
-    {
-        $entityManager = $eventArgs->getEntityManager();
-        if (null === $this->resourceClass) {
-            $resourceClass = $entityManager->getRepository('Omeka\Model\Entity\ResourceClass')
-                ->findOneBy(array(
-                    'resourceType' => get_called_class(),
-                    'isDefault' => true)
-                );
-            $this->resourceClass = $resourceClass;
-        }
-    }
-
     public function getId()
     {
         return $this->id;

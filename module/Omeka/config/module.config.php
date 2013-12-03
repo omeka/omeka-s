@@ -16,26 +16,25 @@ return array(
     'router' => array(
         'routes' => array(
             'site' => array(
-                'type' => 'Segment',
+                'type'    => 'Segment',
                 'options' => array(
-                    'route' => '/:site-slug',
+                    'route' => '/[:site-slug]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Omeka\Controller',
-                        'controller' => 'Index',
-                        'action' => 'index',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
                     ),
                 ),
+                'may_terminate' => true,
                 'child_routes' => array(
-                    'resource' => array(
+                    'default' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/[:controller[/:action]]',
-                        ),
-                        'constraints' => array(
-                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        ),
-                        'defaults' => array(
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
                         ),
                     ),
                 ),

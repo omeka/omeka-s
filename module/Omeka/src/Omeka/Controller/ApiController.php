@@ -1,12 +1,12 @@
 <?php
-namespace Omeka\Controller\Api;
+namespace Omeka\Controller;
 
 use Omeka\Api\Response;
 use Omeka\Api\Request;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Mvc\Controller\AbstractRestfulController;
 
-class IndexController extends AbstractRestfulController
+class ApiController extends AbstractRestfulController
 {
     public function get($id)
     {

@@ -48,7 +48,7 @@ class AbstractModule implements
         $this->setSharedManager($eventManager->getSharedManager());
         $this->getSharedManager()->attachAggregate($this);
 
-        // Enable the /:controller/:action route.
+        // Enable the /:controller/:action route using __NAMESPACE__.
         $moduleRouteListener = new ModuleRouteListener;
         $moduleRouteListener->attach($eventManager);
     }

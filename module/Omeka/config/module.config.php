@@ -19,8 +19,11 @@ return array(
                 'type'    => 'Segment',
                 'options' => array(
                     'route' => '/[:site-slug]',
+                    'constraints' => array(
+                        'site-slug' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Omeka\Controller',
+                        '__NAMESPACE__' => 'Omeka\Controller\Site',
                         'controller'    => 'Index',
                         'action'        => 'index',
                     ),
@@ -37,21 +40,59 @@ return array(
                             ),
                         ),
                     ),
-                ),
-            ),
-            'api' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
-                    'route' => '/api/:resource[/:id]',
-                    'defaults' => array(
-                        'controller' => 'Omeka\Controller\Api\Index',
+                    'site-admin' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/admin[/:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                            ),
+                        ),
                     ),
                 ),
             ),
-             'install' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+            'global-admin' => array(
+                'type' => 'Literal',
                 'options' => array(
-                    'route' => '/install',
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Omeka\Controller\GlobalAdmin',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'api' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/:resource[/:id]',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Api',
+                    ),
+                ),
+            ),
+            'install' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/install(/.*)?',
+                    'spec' => '/install',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Install',
                         'action' => 'index',
@@ -62,10 +103,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
-            'Omeka\Controller\Install'   => 'Omeka\Controller\InstallController',
-            'Omeka\Controller\Index'     => 'Omeka\Controller\IndexController',
-            'Omeka\Controller\Item'      => 'Omeka\Controller\ItemController',
+            'Omeka\Controller\Api'               => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Install'           => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\SiteAdmin\Index'   => 'Omeka\Controller\SiteAdmin\IndexController',
+            'Omeka\Controller\GlobalAdmin\Index' => 'Omeka\Controller\GlobalAdmin\IndexController',
+            'Omeka\Controller\Site\Index'        => 'Omeka\Controller\Site\IndexController',
+            'Omeka\Controller\Site\Item'         => 'Omeka\Controller\Site\ItemController',
         ),
     ),
     'view_manager' => array(

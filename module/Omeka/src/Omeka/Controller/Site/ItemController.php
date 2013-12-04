@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Controller;
+namespace Omeka\Controller\Site;
 
 use Zend\Mvc\Controller\AbstractActionController;
 

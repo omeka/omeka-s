@@ -1,0 +1,66 @@
+<h1>Add Item</h1>
+
+<form method="post">
+
+    <!-- values[:property-id][:value-index][value|type|lang|html] -->
+
+    <p>Title<br>
+    <textarea name="values[1][0][value]"></textarea>
+    <br>
+    <select name="values[1][0][type]">
+        <option value="literal" selected>literal</option>
+        <option value="resource">resource</option>
+        <option value="url">url</option>
+    </select>
+    <select name="values[1][0][lang]">
+        <option value="en">en</option>
+        <option value="de">de</option>
+        <option value="es">es</option>
+        <option value="fr">fr</option>
+    </select>
+    <input type="hidden" name="values[1][0][html]" value="false">
+    html<input type="checkbox" name="values[1][0][html]" value="true">
+    </p>
+
+    <p>Title<br>
+    <input name="values[1][1][value]" placeholder="Autosuggest">
+    <br>
+    <select name="values[1][1][type]">
+        <option value="literal">literal</option>
+        <option value="resource" selected>resource</option>
+        <option value="url">url</option>
+    </select>
+    </p>
+
+    <p>Title<br>
+    <input name="values[1][2][value]">
+    <br>
+    <select name="values[1][2][type]">
+        <option value="literal">literal</option>
+        <option value="resource">resource</option>
+        <option value="url" selected>url</option>
+    </select>
+    </p>
+
+    <p>Description<br>
+    <textarea name="values[2][0][value]"></textarea>
+    <br>
+    <select name="values[2][0][type]">
+        <option value="literal">literal</option>
+        <option value="resource">resource</option>
+        <option value="url">url</option>
+    </select>
+    <select name="values[2][0][lang]">
+        <option value="de">de</option>
+        <option value="en">en</option>
+        <option value="es">es</option>
+        <option value="fr">fr</option>
+    </select>
+    <input type="hidden" name="values[2][0][html]" value="false">
+    html<input type="checkbox" name="values[2][0][html]" value="true">
+    </p>
+
+    <input type="submit" value="Add Item">
+
+</form>
+<pre><?php print_r($_POST); ?></pre>

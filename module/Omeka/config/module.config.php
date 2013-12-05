@@ -92,13 +92,41 @@ return array(
                         ),
                     ),
                     'site' => array(
-                        'type' => 'Segment',
+                        'type' => 'Literal',
                         'options' => array(
-                            'route' => '/manage/:site-slug[/:controller[/:action]]',
-                            'constraints' => array(
-                                'site-slug'  => '[a-zA-Z0-9_-]+',
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'route' => '/manage',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                                'controller'    => 'Index',
+                                'action'        => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'default' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/[:site-slug[/:controller[/:action]]]',
+                                    'constraints' => array(
+                                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                ),
+                            ),
+                            'id' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:site-slug/:controller/:id',
+                                    'constraints' => array(
+                                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'id'         => '\d+',
+                                    ),
+                                    'defaults' => array(
+                                        'action' => 'edit',
+                                    ),
+                                ),
                             ),
                         ),
                     ),
@@ -140,12 +168,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api'         => 'Omeka\Controller\ApiController',
-            'Omeka\Controller\Install'     => 'Omeka\Controller\InstallController',
-            'Omeka\Controller\Site\Index'  => 'Omeka\Controller\Site\IndexController',
-            'Omeka\Controller\Site\Item'   => 'Omeka\Controller\Site\ItemController',
+            'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
-            'Omeka\Controller\Admin\Item'  => 'Omeka\Controller\Admin\ItemController',
+            'Omeka\Controller\Admin\Item' => 'Omeka\Controller\Admin\ItemController',
+            'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),
     'view_manager' => array(

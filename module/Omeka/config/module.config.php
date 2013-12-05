@@ -16,11 +16,11 @@ return array(
     'router' => array(
         'routes' => array(
             'site' => array(
-                'type'    => 'Segment',
+                'type' => 'Segment',
                 'options' => array(
-                    'route' => '/[:site-slug]',
+                    'route' => '/:site-slug',
                     'constraints' => array(
-                        'site-slug' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'site-slug'  => '[a-zA-Z0-9_-]+',
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Omeka\Controller\Site',
@@ -40,27 +40,28 @@ return array(
                             ),
                         ),
                     ),
-                    'site-admin' => array(
+                    'id' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/admin[/:controller[/:action]]',
+                            'route' => '/:controller/:id',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'         => '\d+',
                             ),
                             'defaults' => array(
-                                '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                                'action' => 'show',
                             ),
                         ),
                     ),
+
                 ),
             ),
-            'global-admin' => array(
+            'admin' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/admin',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Omeka\Controller\GlobalAdmin',
+                        '__NAMESPACE__' => 'Omeka\Controller\Admin',
                         'controller'    => 'Index',
                         'action'        => 'index',
                     ),
@@ -73,18 +74,54 @@ return array(
                             'route' => '/[:controller[/:action]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                        ),
+                    ),
+                    'id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:controller/:id',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'         => '\d+',
+                            ),
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                        ),
+                    ),
+                    'site' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/manage/:site-slug[/:controller[/:action]]',
+                            'constraints' => array(
+                                'site-slug'  => '[a-zA-Z0-9_-]+',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                         ),
                     ),
                 ),
             ),
             'api' => array(
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => array(
-                    'route' => '/api/:resource[/:id]',
+                    'route' => '/api',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Api',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:resource[/:id]]',
+                            'constraints' => array(
+                                'resource' => '[a-zA-Z0-9_-]+',
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -103,12 +140,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api'               => 'Omeka\Controller\ApiController',
-            'Omeka\Controller\Install'           => 'Omeka\Controller\InstallController',
-            'Omeka\Controller\SiteAdmin\Index'   => 'Omeka\Controller\SiteAdmin\IndexController',
-            'Omeka\Controller\GlobalAdmin\Index' => 'Omeka\Controller\GlobalAdmin\IndexController',
-            'Omeka\Controller\Site\Index'        => 'Omeka\Controller\Site\IndexController',
-            'Omeka\Controller\Site\Item'         => 'Omeka\Controller\Site\ItemController',
+            'Omeka\Controller\Api'         => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Install'     => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Site\Index'  => 'Omeka\Controller\Site\IndexController',
+            'Omeka\Controller\Site\Item'   => 'Omeka\Controller\Site\ItemController',
+            'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
+            'Omeka\Controller\Admin\Item'  => 'Omeka\Controller\Admin\ItemController',
         ),
     ),
     'view_manager' => array(

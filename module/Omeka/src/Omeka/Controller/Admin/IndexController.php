@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\Controller\Site;
+namespace Omeka\Controller\Admin;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-class ItemController extends AbstractActionController
+class IndexController extends AbstractActionController
 {
     public function indexAction()
     {}

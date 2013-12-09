@@ -59,31 +59,38 @@ class ValueAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
+        $owner = $this->extractEntity(
+            $entity->getOwner(),
+            new UserAdapter
+        );
         $resourceAdapterClass = $entity->getResource()->getAdapterClass();
-        //~ $valueResourceAdapterClass = $entity->getValueResource()->getAdapterClass();
+        $resource = $this->extractEntity(
+            $entity->getResource(),
+            new $resourceAdapterClass
+        );
+        $property = $this->extractEntity(
+            $entity->getProperty(),
+            new PropertyAdapter
+        );
+        $valueResource = null;
+        if ($entity->getValueResource() instanceof Resource) {
+            $valueResourceAdapterClass = $entity->getValueResource()->getAdapterClass();
+            $valueResource = $this->extractEntity(
+                $entity->getValueResource(),
+                new $valueResourceAdapterClass
+            );
+        }
         return array(
             'id' => $entity->getId(),
-            'owner' => $this->extractEntity(
-                $entity->getOwner(),
-                new UserAdapter
-            ),
-            'resource' => $this->extractEntity(
-                $entity->getResource(),
-                new $resourceAdapterClass
-            ),
-            'property' => $this->extractEntity(
-                $entity->getProperty(),
-                new PropertyAdapter
-            ),
+            'owner' => $owner,
+            'resource' => $resource,
+            'property' => $property,
             'type' => $entity->getType(),
             'value' => $entity->getValue(),
             'value_transformed' => $entity->getValueTransformed(),
             'lang' => $entity->getLang(),
             'is_html' => $entity->getIsHtml(),
-            //~ 'value_resource' => $this->extractEntity(
-                //~ $entity->getValueResource(),
-                //~ new $valueResourceAdapterClass
-            //~ ),
+            'value_resource' => $valueResource,
         );
     }
 

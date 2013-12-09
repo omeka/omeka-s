@@ -32,7 +32,6 @@ abstract class Resource implements EntityInterface
 
     /**
      * @ManyToOne(targetEntity="ResourceClass")
-     * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
 

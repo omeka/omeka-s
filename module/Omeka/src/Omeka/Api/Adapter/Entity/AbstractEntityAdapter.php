@@ -119,6 +119,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $response = new Response;
 
         $entities = array();
+        $entityRepresentations = array();
         foreach ($data as $datum) {
 
             $entityClass = $this->getEntityClass();
@@ -133,7 +134,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
 
             $this->getEntityManager()->persist($entity);
-            $entities[] = $this->extract($entity);
+            $entities[] = $entity;
+            $entityRepresentations[] = $this->extract($entity);
         }
 
         if ($response->isError()) {
@@ -145,7 +147,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         $this->getEntityManager()->flush();
-        $response->setContent($entities);
+        $response->setContent($entityRepresentations);
         return $response;
     }
 

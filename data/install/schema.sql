@@ -56,7 +56,7 @@ CREATE TABLE `DBPREFIX_property_override` (
 CREATE TABLE `DBPREFIX_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
-  `resource_class_id` int(11) NOT NULL,
+  `resource_class_id` int(11) DEFAULT NULL,
   `resource_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_CB5438CA7E3C61F9` (`owner_id`),

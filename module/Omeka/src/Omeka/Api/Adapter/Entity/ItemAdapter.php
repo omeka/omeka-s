@@ -47,9 +47,5 @@ class ItemAdapter extends AbstractEntityAdapter
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
-    ) {
-        if (!$entity->getResourceClass() instanceof ResourceClass) {
-            $errorStore->addError('resource_class', 'The item is missing a resource class.');
-        }
-    }
+    ) {}
 }

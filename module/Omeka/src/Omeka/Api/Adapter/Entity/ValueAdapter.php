@@ -96,6 +96,16 @@ class ValueAdapter extends AbstractEntityAdapter
 
     public function buildQuery(array $query, QueryBuilder $qb)
     {
+        $entityClass = $this->getEntityClass();
+        if (isset($query['resource']['id'])) {
+            $this->andWhere($qb, 'resource', $query['resource']['id']);
+        }
+        if (isset($query['property']['id'])) {
+            $this->andWhere($qb, 'property', $query['property']['id']);
+        }
+        if (isset($query['type'])) {
+            $this->andWhere($qb, 'type', $query['type']);
+        }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,

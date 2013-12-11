@@ -352,7 +352,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Add a simple where clause, using inner join, to a query for a many-to-one
+     * Add a simple where clause to query a field.
+     *
+     * @param QueryBuilder $qb
+     * @param string $whereField The field to query
+     * @param string $whereValue The value to query
+     */
+    protected function andWhere(QueryBuilder $qb, $whereField, $whereValue)
+    {
+        $qb->andWhere($qb->expr()->eq(
+            $this->getEntityClass() . ".$whereField", ":$whereField"
+        ))->setParameter($whereField, $whereValue);
+    }
+
+    /**
+     * Add a simple where clause (using inner join) to a query for a many-to-one
      * association.
      *
      * @param QueryBuilder $qb

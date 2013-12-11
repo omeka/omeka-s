@@ -45,20 +45,12 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
     public function buildQuery(array $query, QueryBuilder $qb)
     {
-        $entityClass = $this->getEntityClass();
-        if (isset($query['owner_id'])) {
-            $userAdapter = new UserAdapter;
-            $entityClassUser = $userAdapter->getEntityClass();
-            $qb->addSelect($entityClassUser)
-                ->innerJoin($entityClassUser, $entityClassUser,
-                    'WITH', "$entityClassUser.id = $entityClass.owner")
-                ->andWhere("$entityClassUser.id = :owner_id")
-                ->setParameter('owner_id', $query['owner_id']);
+        if (isset($query['owner']['id'])) {
+            $this->joinWhere($qb, new UserAdapter, 'owner',
+                'id', $query['owner']['id']);
         }
         if (isset($query['namespace_uri'])) {
-            $qb->andWhere($qb->expr()->eq(
-                "$entityClass.namespaceUri", ':namespace_uri'
-            ))->setParameter('namespace_uri', $query['namespace_uri']);
+            $this->andWhere($qb, 'namespaceUri', $query['namespace_uri']);
         }
     }
 

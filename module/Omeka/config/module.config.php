@@ -164,12 +164,24 @@ return array(
                      ),
                 ),
             ),
+            'migrate' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/migrate(/.*)?',
+                    'spec' => '/migrate',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Migrate',
+                        'action' => 'index',
+                     ),
+                ),
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
             'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Migrate' => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\Item' => 'Omeka\Controller\Admin\ItemController',

@@ -61,7 +61,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'OmekaTest\Installation\SuccessTask' => array(
                 'task_name' => 'success_task',
-                'info' => array('info_message'),
+                'info' => array('info_message', 'time: 0.00'),
                 'warning' => array('warning_message'),
             )
         ), $result->getMessages());
@@ -78,7 +78,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'OmekaTest\Installation\ErrorTask' => array(
                 'task_name' => 'error_task',
-                'info' => array('info_message'),
+                'info' => array('info_message', 'time: 0.00'),
                 'warning' => array('warning_message'),
                 'error' => array('error_message'),
             )

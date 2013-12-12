@@ -19,13 +19,11 @@ class ResourceClassTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->resourceClass->getVocabulary());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->resourceClass->getProperties()
+            $this->resourceClass->getPropertyOverrides()
         );
         $this->assertNull($this->resourceClass->getLocalName());
         $this->assertNull($this->resourceClass->getLabel());
         $this->assertNull($this->resourceClass->getComment());
-        $this->assertNull($this->resourceClass->getResourceType());
-        $this->assertNull($this->resourceClass->getIsDefault());
     }
 
     public function testSetState()
@@ -35,14 +33,10 @@ class ResourceClassTest extends \PHPUnit_Framework_TestCase
         $this->resourceClass->setLocalName('local_name');
         $this->resourceClass->setLabel('label');
         $this->resourceClass->setComment('comment');
-        $this->resourceClass->setResourceType('resource_type');
-        $this->resourceClass->setIsDefault('is_default');
         $this->assertEquals('owner', $this->resourceClass->getOwner());
         $this->assertEquals('vocabulary', $this->resourceClass->getVocabulary());
         $this->assertEquals('local_name', $this->resourceClass->getLocalName());
         $this->assertEquals('label', $this->resourceClass->getLabel());
         $this->assertEquals('comment', $this->resourceClass->getComment());
-        $this->assertEquals('resource_type', $this->resourceClass->getResourceType());
-        $this->assertTrue($this->resourceClass->getIsDefault());
     }
 }

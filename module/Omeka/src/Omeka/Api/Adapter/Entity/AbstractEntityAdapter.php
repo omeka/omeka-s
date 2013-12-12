@@ -5,7 +5,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
+use Omeka\Api\Request;
 use Omeka\Api\Response;
+use Omeka\Event\ApiEvent;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
@@ -53,6 +55,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->select($entityClass)->from($entityClass, $entityClass);
         $this->buildQuery($data, $qb);
 
+        // Trigger the search.query event.
+        $event = new ApiEvent;
+        $event->setTarget($this)->setRequest($this->getRequest())
+            ->setQueryBuilder($qb);
+        $this->getEventManager()->trigger(ApiEvent::EVENT_SEARCH_QUERY, $event);
+
         // Get total results.
         $qbTotalResults = clone $qb;
         $qbTotalResults->select(
@@ -97,6 +105,49 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
         $response->setContent($this->extract($entity));
+        return $response;
+    }
+
+    /**
+     * Batch create entities.
+     *
+     * @param null|array $data
+     * @return Response
+     */
+    public function batchCreate($data = null)
+    {
+        $response = new Response;
+
+        $entities = array();
+        $entityRepresentations = array();
+        foreach ($data as $datum) {
+
+            $entityClass = $this->getEntityClass();
+            $entity = new $entityClass;
+            $this->hydrate($datum, $entity);
+
+            $errorStore = $this->validateEntity($entity);
+            if ($errorStore->hasErrors()) {
+                $response->setStatus(Response::ERROR_VALIDATION);
+                $response->mergeErrors($errorStore);
+                continue;
+            }
+
+            $this->getEntityManager()->persist($entity);
+            $entities[] = $entity;
+            $entityRepresentations[] = $this->extract($entity);
+        }
+
+        if ($response->isError()) {
+            // Prevent subsequent flushes when an error has occurred.
+            foreach ($entities as $entity) {
+                $this->getServiceLocator()->get('EntityManager')->detach($entity);
+            }
+            return $response;
+        }
+
+        $this->getEntityManager()->flush();
+        $response->setContent($entityRepresentations);
         return $response;
     }
 

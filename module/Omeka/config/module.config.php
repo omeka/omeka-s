@@ -2,11 +2,11 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'ApiManager' => 'Omeka\Service\ApiManagerFactory',
-            'EntityManager' => 'Omeka\Service\EntityManagerFactory',
+            'ApiManager'          => 'Omeka\Service\ApiManagerFactory',
+            'EntityManager'       => 'Omeka\Service\EntityManagerFactory',
             'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
-            'Logger' => 'Omeka\Service\LoggerFactory',
-            'MigrationManager' => 'Omeka\Service\MigrationManagerFactory',
+            'Logger'              => 'Omeka\Service\LoggerFactory',
+            'MigrationManager'    => 'Omeka\Service\MigrationManagerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
             
         ),
@@ -16,31 +16,164 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'api' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+            'site' => array(
+                'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/api/:resource[/:id]',
+                    'route' => '/:site-slug',
+                    'constraints' => array(
+                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                    ),
                     'defaults' => array(
-                        'controller' => 'Omeka\Controller\Api\Index',
+                        '__NAMESPACE__' => 'Omeka\Controller\Site',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                        ),
+                    ),
+                    'id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:controller/:id',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'         => '\d+',
+                            ),
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                        ),
                     ),
                 ),
             ),
-             'install' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+            'admin' => array(
+                'type' => 'Literal',
                 'options' => array(
-                    'route'     => '/install',
-                    'defaults'  => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Omeka\Controller\Admin',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                        ),
+                    ),
+                    'id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:controller/:id',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'         => '\d+',
+                            ),
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                        ),
+                    ),
+                    'site' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/manage',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                                'controller'    => 'Index',
+                                'action'        => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'default' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/[:site-slug[/:controller[/:action]]]',
+                                    'constraints' => array(
+                                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                ),
+                            ),
+                            'id' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:site-slug/:controller/:id',
+                                    'constraints' => array(
+                                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'id'         => '\d+',
+                                    ),
+                                    'defaults' => array(
+                                        'action' => 'edit',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'api' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/api',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Api',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:resource[/:id]]',
+                            'constraints' => array(
+                                'resource' => '[a-zA-Z0-9_-]+',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'install' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/install(/.*)?',
+                    'spec' => '/install',
+                    'defaults' => array(
                         'controller' => 'Omeka\Controller\Install',
-                        'action'     => 'index',
+                        'action' => 'index',
                      ),
-                ),       
+                ),
             ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'Omeka\Controller\Api\Index' => 'Omeka\Controller\Api\IndexController',
-            'Omeka\Controller\Install'   => 'Omeka\Controller\Install\InstallController',
+            'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
+            'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
+            'Omeka\Controller\Admin\Item' => 'Omeka\Controller\Admin\ItemController',
+            'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),
     'view_manager' => array(
@@ -76,8 +209,8 @@ return array(
             'items' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             ),
-            'vocabulary_import' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\VocabularyImportAdapter',
+            'rdf_vocabulary' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
             ),
         ),
     ),

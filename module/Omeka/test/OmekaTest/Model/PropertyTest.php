@@ -17,13 +17,13 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->property->getId());
         $this->assertNull($this->property->getOwner());
         $this->assertNull($this->property->getVocabulary());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->property->getResourceClasses()
-        );
         $this->assertNull($this->property->getLocalName());
         $this->assertNull($this->property->getLabel());
         $this->assertNull($this->property->getComment());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->property->getValues()
+        );
     }
 
     public function testSetState()

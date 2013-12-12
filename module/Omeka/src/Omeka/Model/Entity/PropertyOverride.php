@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class ResourceClassProperty implements EntityInterface
+class PropertyOverride implements EntityInterface
 {
     /**
      * @Id
@@ -14,18 +14,13 @@ class ResourceClassProperty implements EntityInterface
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     */
-    protected $assigner;
-
-    /**
-     * @ManyToOne(targetEntity="ResourceClass", inversedBy="properties")
+     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrides")
      * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="Property", inversedBy="resourceClasses")
+     * @ManyToOne(targetEntity="Property")
      * @JoinColumn(nullable=false)
      */
     protected $property;
@@ -36,19 +31,12 @@ class ResourceClassProperty implements EntityInterface
     /** @Column(type="text", nullable=true) */
     protected $alternateComment;
 
+    /** @Column(type="boolean") */
+    protected $visible = false;
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setAssigner($assigner)
-    {
-        $this->assigner = $assigner;
-    }
-
-    public function getAssigner()
-    {
-        return $this->assigner;
     }
 
     public function setResourceClass($resourceClass)
@@ -89,5 +77,15 @@ class ResourceClassProperty implements EntityInterface
     public function getAlternateComment()
     {
         return $this->alternateComment;
+    }
+
+    public function setVisible($visible)
+    {
+        $this->visible = (bool) $visible;
+    }
+
+    public function isVisible()
+    {
+        return $this->visible;
     }
 }

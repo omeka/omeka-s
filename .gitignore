@@ -1,4 +1,5 @@
 .htaccess
+build_schema.sh
 composer.phar
 config/local.config.php
 data/logs/sql.log

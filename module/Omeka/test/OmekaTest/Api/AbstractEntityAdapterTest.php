@@ -36,7 +36,8 @@ class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
         $queryExpr = $this->getMock('Doctrine\ORM\Query\Expr');
         $queryBuilder = $mockBuilder->getQueryBuilder();
         $entityManager = $mockBuilder->getEntityManager();
-        $serviceManager = $mockBuilder->getServiceManager('EntityManager', $entityManager);
+        $serviceManager = $mockBuilder->getServiceManager(array('EntityManager' => $entityManager));
+        $eventManager = $this->getMock('Zend\EventManager\EventManager');
 
         // EntityManager expectations
         $entityManager->expects($this->once())
@@ -97,7 +98,9 @@ class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('extract')
             ->will($this->returnArgument(0));
 
+        $this->adapter->setRequest($this->getMock('Omeka\Api\Request'));
         $this->adapter->setServiceLocator($serviceManager);
+        $this->adapter->setEventManager($eventManager);
         $response = $this->adapter->search($data);
         $this->assertEquals(array('row_one', 'row_two'), $response->getContent());
         $this->assertEquals($totalResults, $response->getTotalResults());

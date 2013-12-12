@@ -1,11 +1,15 @@
 <?php
 namespace Omeka;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Omeka\Event\ApiEvent;
+use Omeka\Module\AbstractModule;
+use Zend\EventManager\EventInterface;
+use Zend\EventManager\SharedEventManagerInterface;
 
-class Module implements ConfigProviderInterface
+/**
+ * The Omeka module.
+ */
+class Module extends AbstractModule
 {
     public function getConfig()
     {

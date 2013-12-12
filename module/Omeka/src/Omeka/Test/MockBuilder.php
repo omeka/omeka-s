@@ -17,24 +17,26 @@ class MockBuilder extends \PHPUnit_Framework_TestCase
     /**
      * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.
      *
-     * Pass a mock service object that should be accessible via the mocked 
+     * Pass mock service objects that should be accessible via the mocked 
      * ServiceManager::get().
      *
-     * @param string $key
-     * @param mixed $service
+     * @param array $services Where the key is the service name and the value
+     * is the mock service object
      * @return ServiceManager
      */
-    public function getServiceManager($key = null, $service = null)
+    public function getServiceManager(array $services = array())
     {
         $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
-        if ($key && $service) {
-            $serviceManager->expects($this->any())
-                ->method('get')
-                ->with($this->equalTo($key))
-                ->will($this->returnValue($service));
-        }
+        $serviceManager->expects($this->any())
+            ->method('get')
+            ->with($this->callback(function($subject) use ($services) {
+                return array_key_exists($subject, $services);
+            }))
+            ->will($this->returnCallback(function($subject) use ($services) {
+                return $services[$subject];
+            }));
         return $serviceManager;
-    }
+    }   
 
     /**
      * Get a mock Doctrine\ORM\EntityManager object.

@@ -37,7 +37,7 @@ class PropertyAdapterTest extends \PHPUnit_Framework_TestCase
         $builder = new MockBuilder;
         $entityRepository = $builder->getEntityRepository();
         $entityManager = $builder->getEntityManager();
-        $serviceManager = $builder->getServiceManager('EntityManager', $entityManager);
+        $serviceManager = $builder->getServiceManager(array('EntityManager' => $entityManager));
 
         $entityManager->expects($this->exactly(2))
             ->method('getRepository')

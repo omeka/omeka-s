@@ -43,7 +43,7 @@ class ValueAdapterTest extends \PHPUnit_Framework_TestCase
         $builder = new MockBuilder;
         $entityRepository = $builder->getEntityRepository();
         $entityManager = $builder->getEntityManager();
-        $serviceManager = $builder->getServiceManager('EntityManager', $entityManager);
+        $serviceManager = $builder->getServiceManager(array('EntityManager' => $entityManager));
 
         $entityManager->expects($this->exactly(4))
             ->method('getRepository')

@@ -3,9 +3,24 @@ namespace Omeka\Db\Migration;
 
 use Doctrine\DBAL\Connection;
 
+/**
+ * Interface for database migrations.
+ */
 interface MigrationInterface
 {
-    public function up(Connection $conn);
+    /**
+     * Upgrade the database.
+     *
+     * @param Doctrine\DBAL\Connection $conn Database connection
+     * @param Omeka\Db\Migration\TableResolver $resolver Table resolver
+     */
+    public function up(Connection $conn, TableResolver $resolver);
 
-    public function down(Connection $conn);
+    /**
+     * Downgrade the database.
+     *
+     * @param Doctrine\DBAL\Connection $conn Database connection
+     * @param Omeka\Db\Migration\TableResolver $resolver Table resolver
+     */
+    public function down(Connection $conn, TableResolver $resolver);
 }

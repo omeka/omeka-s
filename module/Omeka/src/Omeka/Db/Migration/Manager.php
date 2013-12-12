@@ -66,12 +66,14 @@ class Manager implements ServiceLocatorAwareInterface
     public function upgrade()
     {
         $toPerform = $this->getMigrationsToPerform();
-        $conn = $this->getServiceLocator()->get('EntityManager')->getConnection();
+        $em = $this->getServiceLocator()->get('EntityManager');
+        $conn = $em->getConnection();
+        $resolver = new TableResolver($em);
 
         foreach ($toPerform as $version => $migrationInfo) {
             $migration = $this->loadMigration(
                 $migrationInfo['path'], $migrationInfo['class']);
-            $migration->up($conn);
+            $migration->up($conn, $resolver);
             $this->recordMigration($version);
         }
     }

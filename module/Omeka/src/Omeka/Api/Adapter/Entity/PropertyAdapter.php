@@ -68,6 +68,9 @@ class PropertyAdapter extends AbstractEntityAdapter
             $this->joinWhere($qb, new VocabularyAdapter, 'vocabulary',
                 'id', $query['vocabulary']['id']);
         }
+        if (isset($query['local_name'])) {
+            $this->andWhere($qb, 'localName', $query['local_name']);
+        }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,

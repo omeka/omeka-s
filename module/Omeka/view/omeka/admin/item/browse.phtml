@@ -1,0 +1,11 @@
+<h1>Browse Items</h1>
+<ul>
+<?php foreach ($items as $item): ?>
+<li>
+    <a href="<?php echo $this->url('admin/id', array(
+        'controller' => 'item',
+        'id' => $item['id']
+    )); ?>">Item <?php echo $item['id']; ?>: "<?php echo $item['title']; ?>"</a>
+</li>
+<?php endforeach; ?>
+</ul>

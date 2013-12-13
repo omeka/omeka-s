@@ -106,6 +106,9 @@ class ValueAdapter extends AbstractEntityAdapter
         if (isset($query['type'])) {
             $this->andWhere($qb, 'type', $query['type']);
         }
+        if (isset($query['lang'])) {
+            $this->andWhere($qb, 'lang', $query['lang']);
+        }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,

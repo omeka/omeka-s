@@ -1,1 +1,13 @@
 <p>admin/item/edit</p>
+
+<p>Title: <?php print_r(
+    $this->value(4, 'http://purl.org/dc/terms/', 'title', array(
+        'all' => true,
+        'default' => '[n/a]',
+        'delimiter' => ', ',
+        'lang' => 'en',
+    ))
+); ?></p>
+<p>Description: <?php print_r($this->value(4, 'http://purl.org/dc/terms/', 'description')); ?></p>
+
+

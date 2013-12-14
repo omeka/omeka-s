@@ -34,20 +34,27 @@ class Value extends AbstractHelper
      * @param string $namespaceUri The namespace URI of the vocabulary
      * @param string $localName The local name of the property
      * @param array $options
-     *     - default: the default value, if the value is not found or is an
-     *       empty string
-     *     - all: if true, return all values
-     *     - delimiter: return all values as a string, separated by the provided 
-     *       delimiter
-     *     - htmlescape: escape HTML characters in each value
-     *     - trim: trim whitespace on both sides of each value
-     *     - lang: return only those values using the provided language code
+     *   - type: the type of value (default: "literal")
+     *   - default: the default value, if the value is not found or is an empty
+     *     string (default: null)
+     *   - all: if true, return all values (default: false)
+     *   - delimiter: return all values as a string, separated by the given 
+     *     delimiter (default: false)
+     *   - htmlescape: escape HTML characters in each value (default: true)
+     *   - trim: trim whitespace on both sides of each value (default: false)
+     *   - lang: only return values tagged with the given language code
+     *     (default: false)
+     *   - truncate: truncate each value to the given character length (default:
+     *     false)
      * @return mixed
      */
     public function __invoke($resourceId, $namespaceUri, $localName,
         array $options = array()
     ) {
         // Set the options.
+        if (!isset($options['type'])) {
+            $options['type'] = 'literal';
+        }
         if (!isset($options['default'])) {
             $options['default'] = null;
         }
@@ -65,6 +72,9 @@ class Value extends AbstractHelper
         }
         if (!isset($options['lang'])) {
             $options['lang'] = false;
+        }
+        if (!isset($options['truncate'])) {
+            $options['truncate'] = false;
         }
 
         $filter = new ResponseFilter;
@@ -86,6 +96,7 @@ class Value extends AbstractHelper
         $valueData = array(
             'resource' => array('id' => $resourceId),
             'property' => array('id' => $filter->get($response, 'id', array('one' => true))),
+            'type'     => $options['type'],
         );
         if ($options['lang']) {
             $valueData['lang'] = $options['lang'];
@@ -95,19 +106,35 @@ class Value extends AbstractHelper
             throw new Exception\RuntimeException('Error during values request.');
         }
         if (!$response->getTotalResults()) {
-            return null;
+            return $options['default'];
         }
 
-        // Set the callbacks.
+        // Only literal values can be formatted as strings.
+        if ('literal' !== $options['type']) {
+            return $filter->get($response, 'value', array(
+                'one'     => !$options['all'],
+                'default' => $options['default'],
+            ));
+        }
+
+        // Set the callbacks in order of desired execution.
         $callbacks = array();
+        $view = $this->getView();
+        if ($options['trim']) {
+            $callbacks[] = 'trim';
+        }
+        if ($options['truncate']) {
+            $truncate = (int) $options['truncate'];
+            $callbacks[] = function ($value) use ($view, $truncate) {
+                // @todo further develop the truncate function and port  it to a
+                // view helper. See http://stackoverflow.com/questions/79960/how-to-truncate-a-string-in-php-to-the-word-closest-to-a-certain-number-of-chara
+                return substr($value, 0, $truncate);
+            };
+        }
         if ($options['htmlescape']) {
-            $view = $this->getView();
             $callbacks[] = function ($value) use ($view) {
                 return $view->escapeHtml($value);
             };
-        }
-        if ($options['trim']) {
-            $callbacks[] = 'trim';
         }
 
         return $filter->get($response, 'value', array(

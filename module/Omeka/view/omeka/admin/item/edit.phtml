@@ -3,11 +3,8 @@
 <p>Title: <?php var_dump(
     $this->value(4, 'http://purl.org/dc/terms/', 'title', array(
         'all' => true,
-        'default' => '[n/a]',
-        'delimiter' => ', ',
-        //'lang' => 'en',
-        'truncate' => 100,
-        'type' => 'uri',
+        'default' => 'DEFAULT',
+        'default_if' => array('DEFAULT'),
     ))
 ); ?></p>
 <p>Description: <?php var_dump($this->value(4, 'http://purl.org/dc/terms/', 'description')); ?></p>

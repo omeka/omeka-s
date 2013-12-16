@@ -2,7 +2,7 @@
 namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
-use Omeka\View\Helper\Value;
+use Omeka\View\Helper\Api;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\SharedEventManagerAwareInterface;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -53,10 +53,10 @@ class AbstractModule implements
         $moduleRouteListener = new ModuleRouteListener;
         $moduleRouteListener->attach($eventManager);
 
-        // Inject the service manager into the Value view helper.
+        // Inject the API manager into the Api view helper.
         $serviceManager->get('viewhelpermanager')
-            ->setFactory('Value', function ($helperPluginManager) use ($serviceManager) {
-                return new Value($serviceManager);
+            ->setFactory('Api', function ($helperPluginManager) use ($serviceManager) {
+                return new Api($serviceManager->get('ApiManager'));
             });
     }
 

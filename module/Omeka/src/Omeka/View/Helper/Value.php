@@ -1,9 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\ResponseFilter;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Exception;
 
@@ -13,39 +11,27 @@ use Zend\View\Exception;
 class Value extends AbstractHelper
 {
     /**
-     * @var ApiManager
-     */
-    protected $apiManager;
-
-    /**
-     * Construct the helper.
-     *
-     * @param ServiceLocatorInterface $serviceManager
-     */
-    public function __construct(ServiceLocatorInterface $serviceManager)
-    {
-        $this->apiManager = $serviceManager->get('ApiManager');
-    }
-
-    /**
      * Return the requested value or values.
      *
      * @param int $resourceId
      * @param string $namespaceUri The namespace URI of the vocabulary
      * @param string $localName The local name of the property
      * @param array $options
-     *   - type: the type of value (default: "literal")
-     *   - default: the default value, if the value is not found or is an empty
-     *     string (default: null)
-     *   - all: if true, return all values (default: false)
-     *   - delimiter: return all values as a string, separated by the given 
-     *     delimiter (default: false)
-     *   - htmlescape: escape HTML characters in each value (default: true)
-     *   - trim: trim whitespace on both sides of each value (default: false)
-     *   - lang: only return values tagged with the given language code
-     *     (default: false)
-     *   - truncate: truncate each value to the given character length (default:
-     *     false)
+     *   - type: (default: "literal") the type of value
+     *   - default: (default: null) the default value, if the value is not found
+     *     or matches one of the default_if values
+     *   - default_if: (default: array("")) an array of values to match against
+     *     the returned value; return the default value if the two values are
+     *     identical
+     *   - all: (default: false) if true, return all values
+     *   - delimiter: (default: false) return all values as a string, separated
+     *     by the given delimiter 
+     *   - htmlescape: (default: true) escape HTML characters in each value
+     *   - trim: (default: false) trim whitespace on both sides of each value
+     *   - lang: (default: false) only return values tagged with the given
+     *     language code
+     *   - truncate: (default: false) truncate each value to the given character
+     *     length 
      * @return mixed
      */
     public function __invoke($resourceId, $namespaceUri, $localName,
@@ -57,6 +43,9 @@ class Value extends AbstractHelper
         }
         if (!isset($options['default'])) {
             $options['default'] = null;
+        }
+        if (!isset($options['default_if'])) {
+            $options['default_if'] = array('');
         }
         if (!isset($options['all'])) {
             $options['all'] = false;
@@ -80,7 +69,7 @@ class Value extends AbstractHelper
         $filter = new ResponseFilter;
 
         // Get the specified property.
-        $response = $this->apiManager->search('properties', array(
+        $response = $this->getView()->api()->search('properties', array(
             'vocabulary' => array('namespace_uri' => $namespaceUri),
             'local_name' => $localName,
         ));
@@ -101,7 +90,7 @@ class Value extends AbstractHelper
         if ($options['lang']) {
             $valueData['lang'] = $options['lang'];
         }
-        $response = $this->apiManager->search('values', $valueData);
+        $response = $this->getView()->api()->search('values', $valueData);
         if ($response->isError()) {
             throw new Exception\RuntimeException('Error during values request.');
         }
@@ -112,8 +101,9 @@ class Value extends AbstractHelper
         // Only literal values can be formatted as strings.
         if ('literal' !== $options['type']) {
             return $filter->get($response, 'value', array(
-                'one'     => !$options['all'],
-                'default' => $options['default'],
+                'one'        => !$options['all'],
+                'default'    => $options['default'],
+                'default_if' => $options['default_if'],
             ));
         }
 
@@ -126,7 +116,7 @@ class Value extends AbstractHelper
         if ($options['truncate']) {
             $truncate = (int) $options['truncate'];
             $callbacks[] = function ($value) use ($view, $truncate) {
-                // @todo further develop the truncate function and port  it to a
+                // @todo further develop the truncate function and port it to a
                 // view helper. See http://stackoverflow.com/questions/79960/how-to-truncate-a-string-in-php-to-the-word-closest-to-a-certain-number-of-chara
                 return substr($value, 0, $truncate);
             };
@@ -141,6 +131,7 @@ class Value extends AbstractHelper
             'one'        => !$options['all'],
             'delimiter'  => $options['delimiter'],
             'default'    => $options['default'],
+            'default_if' => $options['default_if'],
             'callbacks'  => $callbacks,
         ));
     }

@@ -15,7 +15,13 @@ class AbstractModuleTest extends \PHPUnit_Framework_TestCase
         $sharedManager->expects($this->once())
             ->method('attachAggregate')
             ->with($this->equalTo($module));
-        $serviceManager = $mockBuilder->getServiceManager();
+
+        $viewHelperManager = $this->getMockBuilder('Zend\View\HelperPluginManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $serviceManager = $mockBuilder->getServiceManager(
+            array('viewhelpermanager' => $viewHelperManager)
+        );
 
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->once())

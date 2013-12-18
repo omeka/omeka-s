@@ -11,6 +11,11 @@ use Zend\View\Exception;
 class Value extends AbstractHelper
 {
     /**
+     * @var ResponseFilter
+     */
+    protected $responseFilter;
+
+    /**
      * Return the requested value or values.
      *
      * @param int $resourceId
@@ -66,8 +71,6 @@ class Value extends AbstractHelper
             $options['truncate'] = false;
         }
 
-        $filter = new ResponseFilter;
-
         // Get the specified property.
         $response = $this->getView()->api()->search('properties', array(
             'vocabulary' => array('namespace_uri' => $namespaceUri),
@@ -84,7 +87,9 @@ class Value extends AbstractHelper
         }
         $valueData = array(
             'resource' => array('id' => $resourceId),
-            'property' => array('id' => $filter->get($response, 'id', array('one' => true))),
+            'property' => array('id' => $this->getResponseFilter()->get(
+                $response, 'id', array('one' => true)
+            )),
             'type'     => $options['type'],
         );
         if ($options['lang']) {
@@ -100,7 +105,7 @@ class Value extends AbstractHelper
 
         // Only literal values can be formatted as strings.
         if ('literal' !== $options['type']) {
-            return $filter->get($response, 'value', array(
+            return $this->getResponseFilter()->get($response, 'value', array(
                 'one'        => !$options['all'],
                 'default'    => $options['default'],
                 'default_if' => $options['default_if'],
@@ -127,12 +132,35 @@ class Value extends AbstractHelper
             };
         }
 
-        return $filter->get($response, 'value', array(
+        return $this->getResponseFilter()->get($response, 'value', array(
             'one'        => !$options['all'],
             'delimiter'  => $options['delimiter'],
             'default'    => $options['default'],
             'default_if' => $options['default_if'],
             'callbacks'  => $callbacks,
         ));
+    }
+
+    /**
+     * Set the response filter.
+     *
+     * @param ResponseFilter $responseFilter
+     */
+    public function setResponseFilter(ResponseFilter $responseFilter)
+    {
+        $this->responseFilter = $responseFilter;
+    }
+
+    /**
+     * Get the response filter.
+     *
+     * @return ResponseFilter
+     */
+    public function getResponseFilter()
+    {
+        if (!$this->responseFilter instanceof ResponseFilter) {
+            $this->responseFilter = new ResponseFilter;
+        }
+        return $this->responseFilter;
     }
 }

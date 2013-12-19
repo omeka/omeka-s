@@ -2,6 +2,7 @@
 namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
+use Omeka\View\Helper\Api;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\SharedEventManagerAwareInterface;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -51,6 +52,12 @@ class AbstractModule implements
         // Enable the /:controller/:action route using __NAMESPACE__.
         $moduleRouteListener = new ModuleRouteListener;
         $moduleRouteListener->attach($eventManager);
+
+        // Inject the API manager into the Api view helper.
+        $serviceManager->get('viewhelpermanager')
+            ->setFactory('Api', function ($helperPluginManager) use ($serviceManager) {
+                return new Api($serviceManager->get('ApiManager'));
+            });
     }
 
     /**

@@ -188,6 +188,11 @@ return array(
             'ViewApiJsonStrategy',
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'value' => 'Omeka\View\Helper\Value',
+        ),
+    ),
     'api_manager' => array(
         'resources' => array(
             'users' => array(

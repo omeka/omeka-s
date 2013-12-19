@@ -2,8 +2,28 @@
 
 <form method="post">
 
-    <!-- properties[:property-id][:value-index][value|type|lang|html] -->
+    <!-- properties[:property-id][:value-index][id|value|type|lang|html] -->
 
+<?php foreach ($properties as $index => $property): ?>
+    <?php $namePrefix = "properties[{$property['id']}][$index]"; ?>
+    <p><?php echo $property['vocabulary']['label'] ?>: <?php echo $property['label'] ?><br>
+    <textarea name="<?php echo $namePrefix; ?>[value]"><?php echo $property['local_name'] ?></textarea><br>
+    <select name="<?php echo $namePrefix; ?>[type]">
+        <option value="literal" selected>literal</option>
+        <option value="resource">resource</option>
+        <option value="uri">uri</option>
+    </select>
+    <select name="<?php echo $namePrefix; ?>[lang]">
+        <option value="en">en</option>
+        <option value="de">de</option>
+        <option value="es">es</option>
+        <option value="fr">fr</option>
+    </select>
+    <input type="hidden" name="<?php echo $namePrefix; ?>[html]" value="false">
+    html<input type="checkbox" name="<?php echo $namePrefix; ?>[html]" value="true"></p>
+<?php endforeach; ?>
+
+<!--
     <p>Title<br>
     <textarea name="properties[1][0][value]"></textarea>
     <br>
@@ -59,6 +79,7 @@
     <input type="hidden" name="properties[2][0][html]" value="false">
     html<input type="checkbox" name="properties[2][0][html]" value="true">
     </p>
+-->
 
     <input type="submit" value="Add Item">
 

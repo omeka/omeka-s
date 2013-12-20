@@ -246,6 +246,7 @@ return array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\InstallDefaultVocabularyTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
         ),
     ),

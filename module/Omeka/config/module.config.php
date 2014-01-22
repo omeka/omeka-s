@@ -6,8 +6,9 @@ return array(
             'EntityManager'       => 'Omeka\Service\EntityManagerFactory',
             'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
             'Logger'              => 'Omeka\Service\LoggerFactory',
+            'MigrationManager'    => 'Omeka\Service\MigrationManagerFactory',
             'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
-            
+
         ),
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
@@ -163,12 +164,24 @@ return array(
                      ),
                 ),
             ),
+            'migrate' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/migrate(/.*)?',
+                    'spec' => '/migrate',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Migrate',
+                        'action' => 'index',
+                     ),
+                ),
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
             'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Migrate' => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\Item' => 'Omeka\Controller\Admin\ItemController',
@@ -232,6 +245,11 @@ return array(
         'table_prefix' => 'omeka_',
         'is_dev_mode'  => false,
     ),
+    'migration_manager' => array(
+        'path' => OMEKA_PATH . '/data/migrations',
+        'namespace' => 'Omeka\Db\Migrations',
+        'entity' => 'Omeka\Model\Entity\Migration',
+    ),
     'loggers' => array(
         'application' => array(
             'log' => false,
@@ -246,7 +264,7 @@ return array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
-            'Omeka\Installation\Task\InstallDefaultVocabularyTask',
+            'Omeka\Installation\Task\RecordMigrationsTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
         ),
     ),

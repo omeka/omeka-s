@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
@@ -18,6 +19,20 @@ class UserAdapter extends AbstractEntityAdapter
         if (isset($data['username'])) {
             $entity->setUsername($data['username']);
         }
+
+        if (isset($data['name'])) {
+            $entity->setName($data['name']);
+        }
+
+        if (isset($data['email'])) {
+            $entity->setEmail($data['email']);
+        }
+
+        if (isset($data['created'])) {
+            $entity->setCreated(new DateTime($data['created']));
+        } else {
+            $entity->setCreated(new DateTime());
+        }
     }
 
     public function extract($entity)
@@ -25,6 +40,9 @@ class UserAdapter extends AbstractEntityAdapter
         return array(
             'id' => $entity->getId(),
             'username' => $entity->getUsername(),
+            'name' => $entity->getName(),
+            'email' => $entity->getEmail(),
+            'created' => $entity->getCreated()
         );
     }
 

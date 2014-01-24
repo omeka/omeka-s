@@ -14,10 +14,25 @@ class User implements EntityInterface
     protected $id;
 
     /**
-     * @Column(unique=true)
+     * @Column(type="string", length=30, unique=true)
      */
     protected $username;
-    
+
+    /**
+     * @Column(type="text", unique=true)
+     */
+    protected $email;
+
+    /**
+     * @Column(type="text")
+     */
+    protected $name;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
+
     public function getId()
     {
         return $this->id;
@@ -31,5 +46,35 @@ class User implements EntityInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
     }
 }

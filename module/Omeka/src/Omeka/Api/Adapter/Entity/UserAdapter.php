@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use DateTime;
 use Doctrine\ORM\QueryBuilder;
+use Zend\Validator\EmailAddress;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
@@ -56,12 +57,25 @@ class UserAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (null === $entity->getUsername()) {
+        $username = $entity->getUsername();
+        if (empty($username)) {
             $errorStore->addError('username', 'The username field cannot be null.');
+        }
+        $name = $entity->getName();
+        if (empty($name)) {
+            $errorStore->addError('name', 'The name field cannot be null.');
         }
         $validator = new IsUnique(array('username'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('username', $validator->getMessages());
+        }
+        $validator = new IsUnique(array('email'), $this->getEntityManager());
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages('email', $validator->getMessages());
+        }
+        $validator = new EmailAddress();
+        if (!$validator->isValid($entity->getEmail())) {
+            $errorStore->addValidatorMessages('email', $validator->getMessages());
         }
     }
 }

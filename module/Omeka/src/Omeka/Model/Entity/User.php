@@ -14,17 +14,17 @@ class User implements EntityInterface
     protected $id;
 
     /**
-     * @Column(type="string", length=30, unique=true)
+     * @Column(type="string", length=255, unique=true)
      */
     protected $username;
 
     /**
-     * @Column(type="text", unique=true)
+     * @Column(type="string", length=255, unique=true)
      */
     protected $email;
 
     /**
-     * @Column(type="text")
+     * @Column(type="string", length=255)
      */
     protected $name;
 

@@ -1,6 +1,9 @@
+
+
 <form  method="post">
-<input type='text' name='name' />
-<input type='text' name='username' />
-<input type='text' name='email' />
+<label for='name'>Name</label> <input type='text' name='name' />
+<label for='name'>Username</label> <input type='text' name='username' />
+<label for='name'>Email</label> <input type='text' name='email' />
 <button>Submit</button>
 </form>
+<pre><?php if(isset($errors)) { print_r($errors); } ?></pre>

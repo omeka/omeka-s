@@ -13,14 +13,16 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         $api = $this->getServiceLocator()->get('ApiManager');
+        $viewModel = new ViewModel();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost()->toArray();
             $response = $api->create('users', $data);
             if ($response->isError()) {
-                print_r($response->getErrors());
+                $viewModel->setVariable('errors', $response->getErrors());
             }
             $user = $response->getContent();
-            return new ViewModel(array('user' => $user));
+            $viewModel->setVariable('user', $user);
+            return $viewModel;
         }
     }
 

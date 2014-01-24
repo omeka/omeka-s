@@ -10,9 +10,10 @@ class BasicUserProperties extends AbstractMigration
 	public function up(Connection $conn, TableResolver $resolver)
 	{
         $tableName = $resolver->getTableName("Omeka\Model\Entity\User");
-        $sql = "ALTER TABLE omeka_user ADD email LONGTEXT NOT NULL, ADD name LONGTEXT NOT NULL,
-                ADD created DATETIME NOT NULL, CHANGE username username VARCHAR(30) NOT NULL;
-                CREATE UNIQUE INDEX UNIQ_AACC6A08E7927C74 ON omeka_user (email);";
+        $sql = "ALTER TABLE $tableName ADD email VARCHAR(255) NOT NULL,
+                ADD name VARCHAR(255) NOT NULL, ADD created DATETIME NOT NULL;
+                CREATE UNIQUE INDEX UNIQ_AACC6A08E7927C74 ON $tableName (email);
+        ";
         $conn->exec($sql);
 	}
 }

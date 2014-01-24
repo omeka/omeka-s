@@ -43,7 +43,7 @@ class UserAdapter extends AbstractEntityAdapter
             'username' => $entity->getUsername(),
             'name' => $entity->getName(),
             'email' => $entity->getEmail(),
-            'created' => $entity->getCreated()
+            'created' => $entity->getCreated()->format('c')
         );
     }
 

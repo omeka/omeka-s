@@ -2,7 +2,7 @@
 namespace Omeka\Model\Entity;
 
 /**
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class User implements EntityInterface
 {
@@ -68,13 +68,14 @@ class User implements EntityInterface
         return $this->email;
     }
 
-    public function setCreated($created)
-    {
-        $this->created = $created;
-    }
-
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /** PrePersist */
+    public function prePersist()
+    {
+        $this->created = date('c');
     }
 }

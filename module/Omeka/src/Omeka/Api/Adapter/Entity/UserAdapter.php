@@ -28,23 +28,23 @@ class UserAdapter extends AbstractEntityAdapter
         if (isset($data['email'])) {
             $entity->setEmail($data['email']);
         }
-
-        if (isset($data['created'])) {
-            $entity->setCreated(new DateTime($data['created']));
-        } else {
-            $entity->setCreated(new DateTime());
-        }
     }
 
     public function extract($entity)
     {
-        return array(
+        $extracted = array(
             'id' => $entity->getId(),
             'username' => $entity->getUsername(),
             'name' => $entity->getName(),
             'email' => $entity->getEmail(),
-            'created' => $entity->getCreated()->format('c')
         );
+        $created = $entity->getCreated();
+        if(is_null($created)) {
+            $extracted['created'] = null;
+        } else {
+            $extracted['created'] = $created->format('c');
+        }
+        return $extracted;
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

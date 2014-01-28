@@ -73,9 +73,9 @@ class User implements EntityInterface
         return $this->created;
     }
 
-    /** PrePersist */
-    public function prePersist()
+    /** @PrePersist */
+    public function setCreated()
     {
-        $this->created = date('c');
+        $this->created = new \DateTime();
     }
 }

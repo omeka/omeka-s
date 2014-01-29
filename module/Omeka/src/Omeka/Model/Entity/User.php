@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use DateTime;
+
 /**
  * @Entity @HasLifecycleCallbacks
  */
@@ -76,6 +78,6 @@ class User implements EntityInterface
     /** @PrePersist */
     public function setCreated()
     {
-        $this->created = new \DateTime();
+        $this->created = new DateTime();
     }
 }

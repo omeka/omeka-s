@@ -39,14 +39,11 @@ class UserAdapter extends AbstractEntityAdapter
             'email' => $entity->getEmail(),
             'created' => $entity->getCreated()
         );
-        $created = $entity->getCreated();
 
         //normally the entity manager will return \DateTime
         //otherwise just the value
         if($extracted['created'] instanceof DateTime) {
-            $extracted['created'] = $created->format('c');
-        } else {
-            $extracted['created'] = $created;
+            $extracted['created'] = $extracted['created']->format('c');
         }
         return $extracted;
     }

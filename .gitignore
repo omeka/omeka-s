@@ -1,7 +1,9 @@
 .htaccess
+build/
 build_schema.sh
 composer.phar
 config/local.config.php
+data/doctrine-proxies/
 data/logs/sql.log
 data/logs/application.log
 module/Omeka/test/test.config.php

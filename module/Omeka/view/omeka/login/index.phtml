@@ -1,0 +1,16 @@
+<?php if ($user): ?>
+    <p><strong>Current User</strong>: <?php echo $user->getUsername(); ?></p>
+<?php else: ?>
+    <p>No authenticated user.</p>
+<?php endif; ?>
+
+<?php if (isset($messages)): ?>
+<strong>Messages</strong>
+<pre><?php print_r($messages); ?></pre>
+<?php endif; ?>
+
+<form method="post">
+    <label>Username: <input type="text" name="username"></label>
+    <label>Password: <input type="password" name="password"></label>
+    <button name="submit">Log In</button>
+</form>

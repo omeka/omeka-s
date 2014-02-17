@@ -14,7 +14,7 @@ return array(
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
-        'alias' => array(
+        'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'AuthenticationService'
         ),
     ),

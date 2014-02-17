@@ -12,12 +12,12 @@ class LoginController extends AbstractActionController
     public function indexAction()
     {
         $model = array();
-        $auth = $this->getServiceLocator()->get('AuthenticationService');
 
         if ($this->getRequest()->isPost()) {
             $username = $this->params()->fromPost('username');
             $password = $this->params()->fromPost('password');
 
+            $auth = $this->getServiceLocator()->get('AuthenticationService');
             $adapter = $auth->getAdapter();
             $adapter->setIdentity($username);
             $adapter->setCredential($password);
@@ -28,7 +28,7 @@ class LoginController extends AbstractActionController
             }
         }
 
-        $model['user'] = $auth->getIdentity();
+        $model['user'] = $this->identity();
 
         return new ViewModel($model);
     }

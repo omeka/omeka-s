@@ -1,10 +1,11 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use DateTime;
 use Zend\Crypt\Password\Bcrypt;
 
 /**
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class User implements EntityInterface
 {
@@ -16,9 +17,24 @@ class User implements EntityInterface
     protected $id;
 
     /**
-     * @Column(unique=true)
+     * @Column(type="string", length=255, unique=true)
      */
     protected $username;
+
+    /**
+     * @Column(type="string", length=255, unique=true)
+     */
+    protected $email;
+
+    /**
+     * @Column(type="string", length=255)
+     */
+    protected $name;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
 
     /**
      * @Column(type="string", length=60, nullable=true)
@@ -40,6 +56,37 @@ class User implements EntityInterface
         return $this->username;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /** @PrePersist */
+    public function setCreated()
+    {
+        $this->created = new DateTime();
+    }
+    
     /**
      * Update the user's password, storing it hashed.
      *

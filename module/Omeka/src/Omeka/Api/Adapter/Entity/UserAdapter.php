@@ -1,7 +1,9 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
+use Zend\Validator\EmailAddress;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Validator\Db\IsUnique;
@@ -18,14 +20,32 @@ class UserAdapter extends AbstractEntityAdapter
         if (isset($data['username'])) {
             $entity->setUsername($data['username']);
         }
+
+        if (isset($data['name'])) {
+            $entity->setName($data['name']);
+        }
+
+        if (isset($data['email'])) {
+            $entity->setEmail($data['email']);
+        }
     }
 
     public function extract($entity)
     {
-        return array(
+        $extracted = array(
             'id' => $entity->getId(),
             'username' => $entity->getUsername(),
+            'name' => $entity->getName(),
+            'email' => $entity->getEmail(),
+            'created' => $entity->getCreated()
         );
+
+        //normally the entity manager will return \DateTime
+        //otherwise just the value
+        if($extracted['created'] instanceof DateTime) {
+            $extracted['created'] = $extracted['created']->format('c');
+        }
+        return $extracted;
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)
@@ -38,12 +58,25 @@ class UserAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (null === $entity->getUsername()) {
+        $username = $entity->getUsername();
+        if (empty($username)) {
             $errorStore->addError('username', 'The username field cannot be null.');
+        }
+        $name = $entity->getName();
+        if (empty($name)) {
+            $errorStore->addError('name', 'The name field cannot be null.');
         }
         $validator = new IsUnique(array('username'), $this->getEntityManager());
         if (!$validator->isValid($entity)) {
             $errorStore->addValidatorMessages('username', $validator->getMessages());
+        }
+        $validator = new IsUnique(array('email'), $this->getEntityManager());
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages('email', $validator->getMessages());
+        }
+        $validator = new EmailAddress();
+        if (!$validator->isValid($entity->getEmail())) {
+            $errorStore->addValidatorMessages('email', $validator->getMessages());
         }
     }
 }

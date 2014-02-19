@@ -1,0 +1,12 @@
+<h1><?php echo count($users); ?> Users</h1>
+<p>Username, Name, Email, Created</p>
+<ul>
+<?php foreach($users as $user): ?>
+<li>
+<?php echo $user['username']?>,
+<?php echo $user['name']?>,
+<?php echo $user['email']?>,
+<?php echo $user['created']; ?>
+</li>
+<?php endforeach; ?>
+</ul>

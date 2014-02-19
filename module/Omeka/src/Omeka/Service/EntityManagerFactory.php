@@ -74,6 +74,9 @@ class EntityManagerFactory implements FactoryInterface
             $emConfig->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
         }
 
+        $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
+        $emConfig->setProxyDir($proxyDir);
+
         $em = EntityManager::create($conn, $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,

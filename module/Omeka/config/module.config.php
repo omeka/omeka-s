@@ -2,16 +2,20 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'ApiManager'          => 'Omeka\Service\ApiManagerFactory',
-            'EntityManager'       => 'Omeka\Service\EntityManagerFactory',
-            'InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
-            'Logger'              => 'Omeka\Service\LoggerFactory',
-            'MigrationManager'    => 'Omeka\Service\MigrationManagerFactory',
-            'ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
+            'AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
+            'ApiManager'            => 'Omeka\Service\ApiManagerFactory',
+            'EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
+            'Logger'                => 'Omeka\Service\LoggerFactory',
+            'MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
+            'ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
 
         ),
         'invokables' => array(
             'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
+        ),
+        'aliases' => array(
+            'Zend\Authentication\AuthenticationService' => 'AuthenticationService'
         ),
     ),
     'router' => array(
@@ -175,12 +179,24 @@ return array(
                      ),
                 ),
             ),
+            'login' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/login(/.*)?',
+                    'spec' => '/login',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'index',
+                     ),
+                ),
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
             'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Login' => 'Omeka\Controller\LoginController',
             'Omeka\Controller\Migrate' => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',

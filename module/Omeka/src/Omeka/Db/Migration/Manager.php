@@ -2,6 +2,7 @@
 namespace Omeka\Db\Migration;
 
 use GlobIterator;
+use PDO;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -135,7 +136,8 @@ class Manager implements ServiceLocatorAwareInterface
         $conn = $em->getConnection();
 
         $tableName = $this->getTableName($em);
-        $completed = $conn->fetchArray("SELECT version FROM $tableName");
+        $completed = $conn->executeQuery("SELECT version FROM $tableName")
+            ->fetchAll(PDO::FETCH_COLUMN);
 
         if (!$completed) {
             $completed = array();

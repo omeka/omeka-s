@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Omeka" basedir=".">
+    <property name="build.dir" location="build"/>
+    <property name="composer.path" location="${build.dir}/composer.phar"/>
+    <target name="build-dir">
+        <mkdir dir="${build.dir}"/>
+    </target>
+    <target name="check-composer">
+        <available property="composer.installed" file="${composer.path}"/>
+    </target>
+    <target name="get-composer" depends="build-dir"
+        description="Install a local copy of composer.">
+        <get src="https://getcomposer.org/installer"
+            dest="${build.dir}/composer-installer"/>
+        <exec executable="php" dir="${build.dir}">
+            <arg file="${build.dir}/composer-installer"/>
+        </exec>
+    </target>
+    <target name="check-get-composer" depends="check-composer"
+        unless="composer.installed">
+        <antcall target="get-composer"/>
+    </target>
+    <target name="install-deps" depends="check-get-composer"
+        description="Install dependencies.">
+        <exec executable="php">
+            <arg file="${composer.path}"/>
+            <arg value="install"/>
+        </exec>
+    </target>
+    <target name="dedist"
+        description="Copy .dist files to their proper locations.">
+        <copy todir=".">
+            <filelist dir=".">
+                <file name=".htaccess.dist"/>
+                <file name="local.config.php.dist"/>
+                <file name="module/Omeka/test/test.config.php.dist"/>
+            </filelist>
+            <mapper type="glob" from="*.changeme" to="*"/>
+        </copy>
+    </target>
+    <target name="generate-proxies"
+        description="Generate Doctrine proxies.">
+        <exec executable="./vendor/bin/doctrine">
+            <arg value="orm:generate-proxies"/>
+        </exec>
+    </target>
+    <target name="test" description="Run automated tests.">
+        <exec executable="phpunit" dir="module/Omeka/test" failonerror="true"/>
+    </target>
+</project>

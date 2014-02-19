@@ -102,9 +102,13 @@ CREATE TABLE `DBPREFIX_site_resource` (
 CREATE TABLE `DBPREFIX_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
   `password_hash` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_AACC6A08F85E0677` (`username`)
+  UNIQUE KEY `UNIQ_AACC6A08F85E0677` (`username`),
+  UNIQUE KEY `UNIQ_AACC6A08E7927C74` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `DBPREFIX_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -139,6 +143,3 @@ CREATE TABLE `DBPREFIX_vocabulary` (
   CONSTRAINT `FK_2FC6BA367E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `DBPREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SET FOREIGN_KEY_CHECKS = 1;
-ALTER TABLE `DBPREFIX_user` ADD `email` VARCHAR(255) NOT NULL,
-ADD `name` VARCHAR(255) NOT NULL, ADD `created` DATETIME NOT NULL;
-CREATE UNIQUE INDEX UNIQ_AACC6A08E7927C74 ON `DBPREFIX_user` (`email`);

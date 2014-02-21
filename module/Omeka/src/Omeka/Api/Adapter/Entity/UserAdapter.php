@@ -28,6 +28,10 @@ class UserAdapter extends AbstractEntityAdapter
         if (isset($data['email'])) {
             $entity->setEmail($data['email']);
         }
+
+        if (isset($data['role'])) {
+            $entity->setRole($data['role']);
+        }
     }
 
     public function extract($entity)
@@ -37,14 +41,14 @@ class UserAdapter extends AbstractEntityAdapter
             'username' => $entity->getUsername(),
             'name' => $entity->getName(),
             'email' => $entity->getEmail(),
-            'created' => $entity->getCreated()
+            'created' => $entity->getCreated(),
+            'role' => $entity->getRole(),
         );
 
-        //normally the entity manager will return \DateTime
-        //otherwise just the value
-        if($extracted['created'] instanceof DateTime) {
+        if ($extracted['created'] instanceof DateTime) {
             $extracted['created'] = $extracted['created']->format('c');
         }
+
         return $extracted;
     }
 

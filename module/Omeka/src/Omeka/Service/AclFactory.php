@@ -38,8 +38,7 @@ class AclFactory implements FactoryInterface
         $auth = $serviceLocator->get('AuthenticationService');
         if ($auth->hasIdentity()) {
             $currentUser = $auth->getIdentity();
-            // Right now, assume that a logged in user is a global-admin
-            $acl->addRole($currentUser, /* $currentUser->role */'global-admin');
+            $acl->addRole($currentUser, $currentUser->getRole());
         } else {
             $acl->addRole('current-user', 'guest');
         }

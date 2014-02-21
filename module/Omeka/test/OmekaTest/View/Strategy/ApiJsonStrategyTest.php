@@ -41,6 +41,7 @@ class ApiJsonStrategyTest extends \PHPUnit_Framework_TestCase
             array(ApiResponse::SUCCESS, null, 204),
             array(ApiResponse::ERROR_VALIDATION, 'bar', 422),
             array(ApiResponse::ERROR_NOT_FOUND, 'bar', 404),
+            array(ApiResponse::ERROR_PERMISSION_DENIED, 'bar', 403),
             array(ApiResponse::ERROR_INTERNAL, 'bar', 500),
             array('foo', 'bar', 500)
         );

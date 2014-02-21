@@ -228,12 +228,12 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
         // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
-            $this->getServiceLocator()->get('Logger')->err($e->__toString());
+            $this->getServiceLocator()->get('Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
             $response->addError(Response::ERROR_BAD_REQUEST, $e->getMessage());
         } catch (Exception\BadResponseException $e) {
-            $this->getServiceLocator()->get('Logger')->err($e->__toString());
+            $this->getServiceLocator()->get('Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
@@ -243,7 +243,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response->setStatus(Response::ERROR_PERMISSION_DENIED);
             $response->addError(Response::ERROR_PERMISSION_DENIED, $e->getMessage());
         } catch (\Exception $e) {
-            $this->getServiceLocator()->get('Logger')->err($e->__toString());
+            $this->getServiceLocator()->get('Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());

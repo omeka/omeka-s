@@ -25,7 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * That particular collation is needed so unique constraints are case sensitive.
  * http://www.doctrine-project.org/jira/browse/DBAL-647 
  */
-class ResourceClass implements EntityInterface
+class ResourceClass extends AbstractEntity
 {
     /**
      * @Id

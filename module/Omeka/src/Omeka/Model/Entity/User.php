@@ -3,11 +3,12 @@ namespace Omeka\Model\Entity;
 
 use DateTime;
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
  * @Entity @HasLifecycleCallbacks
  */
-class User implements EntityInterface
+class User extends AbstractEntity implements RoleInterface
 {
     /**
      * @Id
@@ -114,5 +115,13 @@ class User implements EntityInterface
 
         $bcrypt = new Bcrypt;
         return $bcrypt->verify($possiblePassword, $this->passwordHash);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoleId()
+    {
+        return 'current-user';
     }
 }

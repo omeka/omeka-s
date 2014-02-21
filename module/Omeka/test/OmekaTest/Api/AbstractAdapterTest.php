@@ -25,6 +25,15 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetsResourceId()
+    {
+        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
+        $this->assertSame(
+            strpos($adapter->getResourceId(), 'Mock_AbstractAdapter_'),
+            0
+        );
+    }
+
     /**
      * @expectedException Omeka\Api\Exception\RuntimeException
      */

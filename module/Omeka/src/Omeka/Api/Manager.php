@@ -160,6 +160,21 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                 );
             }
 
+            // Verify that the current user has general access to this resource.
+            $acl = $this->getServiceLocator()->get('Acl');
+            $isAllowed = $acl->isAllowed(
+                'current-user',
+                $adapter,
+                $request->getOperation()
+            );
+            if (!$isAllowed) {
+                throw new Exception\PermissionDeniedException(sprintf(
+                    'Permission denied for the current user to %s the %s resource.',
+                    $request->getOperation(),
+                    $adapter->getResourceId()
+                ));
+            }
+
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.pre event.
                 $event = new ApiEvent;
@@ -222,6 +237,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
+        } catch (Exception\PermissionDeniedException $e) {
+            $this->getServiceLocator()->get('Logger')->err($e->__toString());
+            $response = new Response;
+            $response->setStatus(Response::ERROR_PERMISSION_DENIED);
+            $response->addError(Response::ERROR_PERMISSION_DENIED, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Logger')->err($e->__toString());
             $response = new Response;

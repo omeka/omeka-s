@@ -238,7 +238,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
         } catch (Exception\PermissionDeniedException $e) {
-            $this->getServiceLocator()->get('Logger')->err($e->__toString());
+            $this->getServiceLocator()->get('Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_PERMISSION_DENIED);
             $response->addError(Response::ERROR_PERMISSION_DENIED, $e->getMessage());

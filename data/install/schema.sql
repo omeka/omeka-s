@@ -106,6 +106,7 @@ CREATE TABLE `DBPREFIX_user` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   `password_hash` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_AACC6A08F85E0677` (`username`),
   UNIQUE KEY `UNIQ_AACC6A08E7927C74` (`email`)

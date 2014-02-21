@@ -40,7 +40,12 @@ class User implements EntityInterface
      * @Column(type="string", length=60, nullable=true)
      */
     protected $passwordHash;
-    
+
+    /**
+     * @Column(type="string", length=255)
+     */
+    protected $role;
+
     public function getId()
     {
         return $this->id;
@@ -114,5 +119,15 @@ class User implements EntityInterface
 
         $bcrypt = new Bcrypt;
         return $bcrypt->verify($possiblePassword, $this->passwordHash);
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 }

@@ -21,6 +21,11 @@ class Manager implements ServiceLocatorAwareInterface
     protected $tasks = array();
 
     /**
+     * @var array Registered task variables.
+     */
+    protected $vars = array();
+
+    /**
      * Install Omeka.
      *
      * @return Result
@@ -28,11 +33,16 @@ class Manager implements ServiceLocatorAwareInterface
     public function install()
     {
         $result = new Result;
-        foreach ($this->getTasks() as $task) {
+        foreach ($this->getTasks() as $taskName) {
             $start = microtime(true);
-            $task = new $task($result);
+            $task = new $taskName($result);
             if ($task instanceof ServiceLocatorAwareInterface) {
                 $task->setServiceLocator($this->getServiceLocator());
+            }
+            // Set task-specific variables.
+            $vars = $this->getVars($taskName);
+            if ($vars) {
+                $task->setVars($vars);
             }
             $task->perform();
             $end = microtime(true);
@@ -88,6 +98,27 @@ class Manager implements ServiceLocatorAwareInterface
     public function getTasks()
     {
         return $this->tasks;
+    }
+
+    /**
+     * Register a specific task's variables.
+     *
+     * @param str $task
+     * @param array $vars
+     */
+    public function registerVars($task, array $vars)
+    {
+        $this->vars[$task] = $vars;
+    }
+
+    /**
+     * Get a specific task's variables.
+     *
+     * @return array|null
+     */
+    public function getVars($task)
+    {
+        return isset($this->vars[$task]) ? $this->vars[$task] : null;
     }
 
     /**

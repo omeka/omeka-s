@@ -19,27 +19,19 @@ class InstallController extends AbstractActionController
             $acl->allow();
 
             // Perform the installation.
+            $data = $this->getRequest()->getPost()->toArray();
             $installationManager = $this->getServiceLocator()->get('InstallationManager');
+            $installationManager->registerVars(
+                'Omeka\Installation\Task\CreateFirstUserTask',
+                array(
+                    'username' => $data['username'],
+                    'password' => $data['password'],
+                    'name'     => $data['name'],
+                    'email'    => $data['email']
+                )
+            );
             $result = $installationManager->install();
             $installationMessages = $result->getMessages();
-
-            if (!$result->isError()) {
-                // Create the global admin user.
-                $api = $this->getServiceLocator()->get('ApiManager');
-                $data = $this->getRequest()->getPost()->toArray();
-                $data['role'] = 'global-admin';
-                $response = $api->create('users', $data);
-                if ($response->isError()) {
-                    $userCreationErrors = $response->getErrors();
-                } else {
-                    // Set the password.
-                    $user = $response->getContent();
-                    $em = $this->getServiceLocator()->get('EntityManager');
-                    $userEntity = $em->find('Omeka\Model\Entity\User', $user['id']);
-                    $userEntity->setPassword($data['password']);
-                    $em->flush();
-                }
-            }
         }
 
         return new ViewModel(array(

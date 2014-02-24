@@ -130,11 +130,6 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
-        // Trigger the execute.pre event.
-        $event = new ApiEvent;
-        $event->setTarget($this)->setRequest($request);
-        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_PRE, $event);
-
         try {
             if (!$this->resourceIsRegistered($request->getResource())) {
                 throw new Exception\BadRequestException(sprintf(
@@ -174,6 +169,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                     $adapter->getResourceId()
                 ));
             }
+
+            // Trigger the execute.pre event.
+            $event = new ApiEvent;
+            $event->setTarget($this)->setRequest($request);
+            $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_PRE, $event);
 
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.pre event.

@@ -56,10 +56,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->buildQuery($data, $qb);
 
         // Trigger the search.query event.
-        $event = new ApiEvent;
-        $event->setTarget($this)->setRequest($this->getRequest())
-            ->setQueryBuilder($qb);
-        $this->getEventManager()->trigger(ApiEvent::EVENT_SEARCH_QUERY, $event);
+        $event = new ApiEvent(ApiEvent::EVENT_SEARCH_QUERY, $this, array(
+            'request' => $this->getRequest(),
+            'query_builder' => $qb,
+        ));
+        $this->getEventManager()->trigger($event);
 
         // Get total results.
         $qbTotalResults = clone $qb;

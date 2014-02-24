@@ -5,6 +5,7 @@ use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -14,7 +15,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractAdapter implements
     AdapterInterface,
     ServiceLocatorAwareInterface,
-    EventManagerAwareInterface
+    EventManagerAwareInterface,
+    ResourceInterface
 {
     /**
      * @var Request
@@ -150,5 +152,13 @@ abstract class AbstractAdapter implements
     public function getEventManager()
     {
         return $this->events;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceId()
+    {
+        return get_class($this);
     }
 }

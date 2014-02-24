@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class PropertyOverride implements EntityInterface
+class PropertyOverride extends AbstractEntity
 {
     /**
      * @Id

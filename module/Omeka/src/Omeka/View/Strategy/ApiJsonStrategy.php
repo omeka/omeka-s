@@ -76,6 +76,8 @@ class ApiJsonStrategy extends JsonStrategy
                 return 422; // Unprocessable Entity
             case Response::ERROR_NOT_FOUND:
                 return 404; // Not Found
+            case Response::ERROR_PERMISSION_DENIED:
+                return 403; // Forbidden
             case Response::ERROR_INTERNAL:
             default:
                 return 500; // Internal Server Error

@@ -130,11 +130,6 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
-        // Trigger the execute.pre event.
-        $event = new ApiEvent;
-        $event->setTarget($this)->setRequest($request);
-        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_PRE, $event);
-
         try {
             if (!$this->resourceIsRegistered($request->getResource())) {
                 throw new Exception\BadRequestException(sprintf(
@@ -160,12 +155,33 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
                 );
             }
 
+            // Verify that the current user has general access to this resource.
+            $acl = $this->getServiceLocator()->get('Acl');
+            $isAllowed = $acl->isAllowed(
+                'current-user',
+                $adapter,
+                $request->getOperation()
+            );
+            if (!$isAllowed) {
+                throw new Exception\PermissionDeniedException(sprintf(
+                    'Permission denied for the current user to %s the %s resource.',
+                    $request->getOperation(),
+                    $adapter->getResourceId()
+                ));
+            }
+
+            // Trigger the execute.pre event.
+            $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_PRE, $this, array(
+                'request' => $request,
+            ));
+            $this->getEventManager()->trigger($event);
+
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.pre event.
-                $event = new ApiEvent;
-                $event->setTarget($adapter)->setRequest($request);
-                $adapter->getEventManager()
-                    ->trigger($request->getOperation() . '.pre', $event);
+                $event = new ApiEvent($request->getOperation() . '.pre', $adapter, array(
+                    'request' => $request,
+                ));
+                $this->getEventManager()->trigger($event);
             }
 
             switch ($request->getOperation()) {
@@ -204,11 +220,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.post event.
-                $event = new ApiEvent;
-                $event->setTarget($adapter)->setRequest($request)
-                    ->setResponse($response);
-                $adapter->getEventManager()
-                    ->trigger($request->getOperation() . '.post', $event);
+                $event = new ApiEvent($request->getOperation() . '.post', $adapter, array(
+                    'request' => $request,
+                    'response' => $response,
+                ));
+                $adapter->getEventManager()->trigger($event);
             }
 
         // Always return a Response object, regardless of exception.
@@ -222,6 +238,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
             $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
+        } catch (Exception\PermissionDeniedException $e) {
+            $this->getServiceLocator()->get('Logger')->err((string) $e);
+            $response = new Response;
+            $response->setStatus(Response::ERROR_PERMISSION_DENIED);
+            $response->addError(Response::ERROR_PERMISSION_DENIED, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Logger')->err((string) $e);
             $response = new Response;
@@ -230,9 +251,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         }
 
         // Trigger the execute.post event.
-        $event = new ApiEvent;
-        $event->setTarget($this)->setRequest($request)->setResponse($response);
-        $this->getEventManager()->trigger(ApiEvent::EVENT_EXECUTE_POST, $event);
+        $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_POST, $this, array(
+            'request' => $request,
+            'response' => $response,
+        ));
+        $this->getEventManager()->trigger($event);
 
         $response->setRequest($request);
         return $response;
@@ -260,12 +283,10 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {
             $createRequest->setContent($content);
-            $createEvent = new ApiEvent;
-            $createEvent->setTarget($adapter)->setRequest($createRequest);
-            $adapter->getEventManager()->trigger(
-                Request::CREATE . '.pre',
-                $createEvent
-            );
+            $createEvent = new ApiEvent(Request::CREATE . '.pre', $adapter, array(
+                'request' => $createRequest,
+            ));
+            $adapter->getEventManager()->trigger($createEvent);
         }
 
         $response = $adapter->batchCreate($request->getContent());
@@ -279,13 +300,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         // Trigger the create.post event for every created resource.
         foreach ($response->getContent() as $resource) {
             $createRequest->setContent($resource);
-            $createEvent = new ApiEvent;
-            $createEvent->setTarget($adapter)->setRequest($createRequest)
-                ->setResponse(new Response($resource));
-            $adapter->getEventManager()->trigger(
-                Request::CREATE . '.post',
-                $createEvent
-            );
+            $createEvent = new ApiEvent(Request::CREATE . '.post', $adapter, array(
+                'request' => $createRequest,
+                'response' => new Response($resource),
+            ));
+            $adapter->getEventManager()->trigger($createEvent);
         }
 
         return $response;

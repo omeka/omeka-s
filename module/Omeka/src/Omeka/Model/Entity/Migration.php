@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class Migration implements EntityInterface
+class Migration extends AbstractEntity
 {
     /**
      * @Id

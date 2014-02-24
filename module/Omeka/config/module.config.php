@@ -3,6 +3,7 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
+            'Acl'                   => 'Omeka\Service\AclFactory',
             'ApiManager'            => 'Omeka\Service\ApiManagerFactory',
             'EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
@@ -283,6 +284,7 @@ return array(
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\CreateFirstUserTask',
         ),
     ),
 );

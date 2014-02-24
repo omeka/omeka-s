@@ -1,9 +1,12 @@
-
-
 <form  method="post">
-<label for='name'>Name</label> <input type='text' name='name' />
-<label for='name'>Username</label> <input type='text' name='username' />
-<label for='name'>Email</label> <input type='text' name='email' />
+<label for='username'>Username</label> <input type='text' name='username' /><br>
+<label for='name'>Name</label> <input type='text' name='name' /><br>
+<label for='email'>Email</label> <input type='text' name='email' /><br>
+<label for='role'>Role</label> <select name="role"><br>
+    <option value="global-admin">Global Administrator</option>
+    <option value="site-admin">Site Administrator</option>
+    <option value="item-creator">Item Creator</option>
+</select><br>
 <button>Submit</button>
 </form>
 <pre><?php if(isset($errors)) { print_r($errors); } ?></pre>

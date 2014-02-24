@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 
  * @Entity
  */
-class Vocabulary implements EntityInterface
+class Vocabulary extends AbstractEntity
 {
     /**
      * @Id

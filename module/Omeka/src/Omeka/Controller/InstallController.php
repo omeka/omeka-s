@@ -8,17 +8,36 @@ class InstallController extends AbstractActionController
 {
     public function indexAction()
     {
-        $messages = array();
-        $isError = false;
+        $installationMessages = array();
+        $userCreationErrors = array();
+        $user = array();
+
         if ($this->getRequest()->isPost()) {
+
+            // Allow all privileges during installation.
+            $acl = $this->getServiceLocator()->get('Acl');
+            $acl->allow();
+
+            // Perform the installation.
+            $data = $this->getRequest()->getPost()->toArray();
             $installationManager = $this->getServiceLocator()->get('InstallationManager');
+            $installationManager->registerVars(
+                'Omeka\Installation\Task\CreateFirstUserTask',
+                array(
+                    'username' => $data['username'],
+                    'password' => $data['password'],
+                    'name'     => $data['name'],
+                    'email'    => $data['email']
+                )
+            );
             $result = $installationManager->install();
-            $messages = $result->getMessages();
-            $isError = $result->isError();
+            $installationMessages = $result->getMessages();
         }
+
         return new ViewModel(array(
-            'messages' => $messages,
-            'is_error' => $isError,
+            'installation_messages' => $installationMessages,
+            'user_creation_errors' => $userCreationErrors,
+            'user' => $user,
         ));
     }
 }

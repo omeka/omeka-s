@@ -16,7 +16,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  *
  * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
-abstract class Resource implements EntityInterface
+abstract class Resource extends AbstractEntity
 {
     /**
      * @Id

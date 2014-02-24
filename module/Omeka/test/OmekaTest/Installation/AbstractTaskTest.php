@@ -17,6 +17,23 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Omeka\Installation\Result', $task->getResult());
     }
 
+    public function testSetsAndGetsVar()
+    {
+        $vars = array('foo' => 'bar');
+
+        $result = $this->getMock('Omeka\Installation\Result');
+        $result->expects($this->once())
+            ->method('setCurrentTask');
+        $task = $this->getMockForAbstractClass(
+            'Omeka\Installation\Task\AbstractTask',
+            array($result)
+        );
+
+        $task->setVars($vars);
+        $this->assertEquals($task->getVar('foo'), 'bar');
+        $this->assertNull($task->getVar('baz'));
+    }
+
     public function testAddsError()
     {
         $message = 'error_message';

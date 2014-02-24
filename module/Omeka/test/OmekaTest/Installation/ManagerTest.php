@@ -41,6 +41,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager->registerTasks($tasks);
         $this->assertEquals($tasks, $this->manager->getTasks());
     }
+
+    public function testRegistersAndGetsVars()
+    {
+        $vars = array('baz' => 'bat');
+        $this->manager->registerVars('foo', $vars);
+        $this->assertEquals($this->manager->getVars('foo'), $vars);
+    }
     
     public function testSetsAndGetsServiceLocator()
     {

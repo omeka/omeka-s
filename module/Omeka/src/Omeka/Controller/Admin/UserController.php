@@ -31,6 +31,9 @@ class UserController extends AbstractActionController
         $api = $this->getServiceLocator()->get('ApiManager');
         $filter = new ResponseFilter();
         $response = $api->search('users', array());
+        if ($response->isError()) {
+            print_r($response->getErrors());exit;
+        }
         $users = $response->getContent();
         return new ViewModel(array('users'=>$users));
     }

@@ -22,6 +22,11 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     protected $services;
 
     /**
+     * @var array
+     */
+    protected $vars = array();
+
+    /**
      * Construct the task.
      *
      * @param Result $result
@@ -84,6 +89,27 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * Set this task's variables.
+     *
+     * @param array $vars
+     */
+    public function setVars(array $vars)
+    {
+        $this->vars = $vars;
+    }
+
+    /**
+     * Get a variable set to this task.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getVar($key)
+    {
+        return isset($this->vars[$key]) ? $this->vars[$key] : null;
     }
 
     /**

@@ -2,7 +2,7 @@
 namespace Omeka\Model\Entity;
 
 /**
- * Entity API adapter interface.
+ * Entity interface.
  *
  * Use Doctrine's docblock annotations to specify object-relational mapping
  * metadata.

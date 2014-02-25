@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Event\ApiEvent;
@@ -96,6 +97,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = new $entityClass;
         $this->hydrate($data, $entity);
 
+        // Verify that the current user has access to create this entity.
+        $acl = $this->getServiceLocator()->get('Acl');
+        if (!$acl->isAllowed('current-user', $entity, 'create')) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                'Permission denied for the current user to create the %s resource.',
+                $entity->getResourceId()
+            ));
+        }
+
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
@@ -169,6 +179,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
+        // Verify that the current user has access to read this entity.
+        $acl = $this->getServiceLocator()->get('Acl');
+        if (!$acl->isAllowed('current-user', $entity, 'read')) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                'Permission denied for the current user to read the %s resource.',
+                $entity->getResourceId()
+            ));
+        }
         $response->setContent($this->extract($entity));
         return $response;
     }
@@ -191,6 +209,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             return $response;
         }
         $this->hydrate($data, $entity);
+
+        // Verify that the current user has access to update this entity.
+        $acl = $this->getServiceLocator()->get('Acl');
+        if (!$acl->isAllowed('current-user', $entity, 'update')) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                'Permission denied for the current user to update the %s resource.',
+                $entity->getResourceId()
+            ));
+        }
+
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
@@ -223,6 +251,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
+
+        // Verify that the current user has access to delete this entity.
+        $acl = $this->getServiceLocator()->get('Acl');
+        if (!$acl->isAllowed('current-user', $entity, 'delete')) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                'Permission denied for the current user to delete the %s resource.',
+                $entity->getResourceId()
+            ));
+        }
+
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
         $response->setContent($this->extract($entity));

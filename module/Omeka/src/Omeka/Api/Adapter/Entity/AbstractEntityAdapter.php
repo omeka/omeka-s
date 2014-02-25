@@ -137,6 +137,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $entity = new $entityClass;
             $this->hydrate($datum, $entity);
 
+            // Verify that the current user has access to create this entity.
+            $acl = $this->getServiceLocator()->get('Acl');
+            if (!$acl->isAllowed('current-user', $entity, 'create')) {
+                $response->setStatus(Response::ERROR_PERMISSION_DENIED);
+                $response->addError(Response::ERROR_PERMISSION_DENIED, sprintf(
+                    'Permission denied for the current user to create the %s resource.',
+                    $entity->getResourceId()
+                ));
+                continue;
+            }
+
             $errorStore = $this->validateEntity($entity);
             if ($errorStore->hasErrors()) {
                 $response->setStatus(Response::ERROR_VALIDATION);

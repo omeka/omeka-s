@@ -6,4 +6,4 @@ if ('development' == $_SERVER['APPLICATION_ENV']) {
 
 require 'bootstrap.php';
 
-Zend\Mvc\Application::init(require 'config/application.config.php')->run();
+Omeka\Mvc\Application::init(require 'config/application.config.php')->run();

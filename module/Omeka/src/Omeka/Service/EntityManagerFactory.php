@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
@@ -25,34 +26,20 @@ class EntityManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
-        if (!isset($config['entity_manager'])) {
-            throw new \RuntimeException('No database configuration given.');
-        }
-        return $this->createEntityManager($config);
-    }
 
-    /**
-     * Create the entity manager object.
-     * 
-     * Use this method to create the entity manager outside ZF2 MVC.
-     * 
-     * @param array $config
-     * @return EntityManager
-     */
-    public function createEntityManager(array $config)
-    {
-        if (!isset($config['entity_manager']['conn'])) {
-            throw new \RuntimeException('No database configuration given.');
+        if (!isset($appConfig['entity_manager'])) {
+            throw new \RuntimeException('No entity manager configuration given.');
         }
-        $conn = $config['entity_manager']['conn'];
-        if (isset($config['table_prefix'])) {
-            $tablePrefix = $config['entity_manager']['table_prefix'];
+
+        if (isset($appConfig['entity_manager']['table_prefix'])) {
+            $tablePrefix = $appConfig['entity_manager']['table_prefix'];
         } else {
             $tablePrefix = 'omeka_';
         }
-        if (isset($config['entity_manager']['is_dev_mode'])) {
-            $isDevMode = $config['entity_manager']['is_dev_mode'];
+        if (isset($appConfig['entity_manager']['is_dev_mode'])) {
+            $isDevMode = (bool) $appConfig['entity_manager']['is_dev_mode'];
         } else {
             $isDevMode = false;
         }
@@ -77,7 +64,7 @@ class EntityManagerFactory implements FactoryInterface
         $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
         $emConfig->setProxyDir($proxyDir);
 
-        $em = EntityManager::create($conn, $emConfig);
+        $em = EntityManager::create($serviceLocator->get('Connection'), $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new TablePrefix($tablePrefix)

@@ -1,0 +1,12 @@
+[connection]
+user         = ''
+password     = ''
+dbname       = ''
+host         = ''
+;charset      = ''
+;port         = ''
+;unix_socket  = ''
+
+[entity_manager]
+table_prefix = 'omeka_'
+;is_dev_mode  = false

@@ -249,20 +249,6 @@ return array(
             ),
         ),
     ),
-    'entity_manager' => array(
-        'conn' => array(
-            'user'        => null,
-            'password'    => null,
-            'dbname'      => null,
-            'host'        => null,
-            'port'        => null,
-            'unix_socket' => null,
-            'charset'     => 'utf8',
-            'driver'      => 'pdo_mysql',
-        ),
-        'table_prefix' => 'omeka_',
-        'is_dev_mode'  => false,
-    ),
     'migration_manager' => array(
         'path' => OMEKA_PATH . '/data/migrations',
         'namespace' => 'Omeka\Db\Migrations',

@@ -12,27 +12,6 @@ use Zend\Mvc\MvcEvent;
  */
 class Module extends AbstractModule
 {
-    /**
-     * Load active modules.
-     *
-     * @param ModuleManager $moduleManager
-     */
-    public function init(ModuleManager $moduleManager)
-    {
-        /*
-        $connection = $moduleManager->getEvent()
-            ->getParam('ServiceManager')->get('Connection');
-
-        // Get active modules from DB.
-        $activeModules = array('Test');
-
-        // Load the modules
-        foreach ($activeModules as $activeModule) {
-            $moduleManager->loadModule($activeModule);
-        }
-        */
-    }
-
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);

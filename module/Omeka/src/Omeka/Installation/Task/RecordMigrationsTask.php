@@ -15,7 +15,7 @@ class RecordMigrationsTask extends AbstractTask
     {
         $sl = $this->getServiceLocator();
         $migrator = $sl->get('MigrationManager');
-        $conn = $sl->get('EntityManager')->getConnection();
+        $conn = $sl->get('Connection');
 
         $migrations = $migrator->getAvailableMigrations();
 

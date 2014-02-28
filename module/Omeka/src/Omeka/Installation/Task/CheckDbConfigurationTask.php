@@ -12,7 +12,7 @@ class CheckDbConfigurationTask extends AbstractTask
     public function perform()
     {
         try {
-            $this->getServiceLocator()->get('EntityManager')->getConnection()->connect();
+            $this->getServiceLocator()->get('Connection')->connect();
         } catch (\Exception $e) {
             $this->addError($e->getMessage());
             return;

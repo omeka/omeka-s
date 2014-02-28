@@ -275,5 +275,8 @@ return array(
     ),
     'entity_manager' => array(
         'is_dev_mode' => false,
+        'mapping_classes_paths' => array(
+            OMEKA_PATH . '/module/Omeka/src/Omeka/Model/Entity',
+        ),
     ),
 );

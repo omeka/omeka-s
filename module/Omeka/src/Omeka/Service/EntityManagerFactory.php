@@ -46,7 +46,7 @@ class EntityManagerFactory implements FactoryInterface
         }
 
         $emConfig = Setup::createAnnotationMetadataConfiguration(
-            array(__DIR__ . '/../Model/Entity'), $isDevMode
+            $config['entity_manager']['mapping_classes_paths'], $isDevMode
         );
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.

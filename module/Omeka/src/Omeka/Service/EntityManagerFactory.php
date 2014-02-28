@@ -16,6 +16,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class EntityManagerFactory implements FactoryInterface
 {
+    const TABLE_PREFIX = 'omeka_';
+    const IS_DEV_MODE = false;
+
     /**
      * Create the entity manager service.
      * 
@@ -27,19 +30,19 @@ class EntityManagerFactory implements FactoryInterface
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
 
-        if (!isset($appConfig['entity_manager'])) {
+        if (!isset($config['entity_manager']) || !isset($appConfig['connection'])) {
             throw new \RuntimeException('No entity manager configuration given.');
         }
 
-        if (isset($appConfig['entity_manager']['table_prefix'])) {
-            $tablePrefix = $appConfig['entity_manager']['table_prefix'];
+        if (isset($appConfig['connection']['table_prefix'])) {
+            $tablePrefix = $appConfig['connection']['table_prefix'];
         } else {
-            $tablePrefix = 'omeka_';
+            $tablePrefix = self::TABLE_PREFIX;
         }
-        if (isset($appConfig['entity_manager']['is_dev_mode'])) {
-            $isDevMode = (bool) $appConfig['entity_manager']['is_dev_mode'];
+        if (isset($config['entity_manager']['is_dev_mode'])) {
+            $isDevMode = (bool) $config['entity_manager']['is_dev_mode'];
         } else {
-            $isDevMode = false;
+            $isDevMode = self::IS_DEV_MODE;
         }
 
         $emConfig = Setup::createAnnotationMetadataConfiguration(

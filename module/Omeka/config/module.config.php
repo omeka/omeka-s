@@ -273,4 +273,7 @@ return array(
             'Omeka\Installation\Task\CreateFirstUserTask',
         ),
     ),
+    'entity_manager' => array(
+        'is_dev_mode' => false,
+    ),
 );

@@ -11,8 +11,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class ConnectionFactory implements FactoryInterface
 {
-    const CONNECTION_DRIVER = 'pdo_mysql';
-    const CONNECTION_CHARSET = 'utf8';
+    const DRIVER = 'pdo_mysql';
+    const CHARSET = 'utf8';
 
     /**
      * Create the DBAL connection service.
@@ -22,17 +22,17 @@ class ConnectionFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $appConfig = $serviceLocator->get('ApplicationConfig');
+        $config = $serviceLocator->get('ApplicationConfig');
 
-        if (!isset($appConfig['connection'])) {
+        if (!isset($config['connection'])) {
             throw new \RuntimeException('No database connection configuration given.');
         }
 
-        $appConfig['connection']['driver'] = self::CONNECTION_DRIVER;
-        if (!isset($config['charset'])) {
-            $appConfig['connection']['charset'] = self::CONNECTION_CHARSET;
+        $config['connection']['driver'] = self::DRIVER;
+        if (!isset($config['connection']['charset'])) {
+            $config['connection']['charset'] = self::CHARSET;
         }
 
-        return DriverManager::getConnection($appConfig['connection']);
+        return DriverManager::getConnection($config['connection']);
     }
 }

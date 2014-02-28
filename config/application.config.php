@@ -18,6 +18,5 @@ return array(
             'Connection' => 'Omeka\Service\ConnectionFactory',
         )
     ),
-    'connection'     => $config['connection'],
-    'entity_manager' => $config['entity_manager'],
+    'connection' => $config,
 );

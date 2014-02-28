@@ -52,19 +52,23 @@ class EntityManagerFactory implements FactoryInterface
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
+        $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
+        $emConfig->setProxyDir($proxyDir);
+
+        $connection = $serviceLocator->get('Connection');
+
         if (isset($config['loggers']['sql']['log'])
             && $config['loggers']['sql']['log']
             && isset($config['loggers']['sql']['path'])
             && is_file($config['loggers']['sql']['path'])
             && is_writable($config['loggers']['sql']['path'])
         ) {
-            $emConfig->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
+            $connection
+                ->getConfiguration()
+                ->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
         }
 
-        $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
-        $emConfig->setProxyDir($proxyDir);
-
-        $em = EntityManager::create($serviceLocator->get('Connection'), $emConfig);
+        $em = EntityManager::create($connection, $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new TablePrefix($tablePrefix)

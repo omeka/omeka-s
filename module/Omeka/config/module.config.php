@@ -247,6 +247,9 @@ return array(
             'rdf_vocabulary' => array(
                 'adapter_class' => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
             ),
+            'modules' => array(
+                'adapter_class' => 'Omeka\Api\Adapter\Entity\ModuleAdapter',
+            ),
         ),
     ),
     'migration_manager' => array(

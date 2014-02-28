@@ -73,10 +73,17 @@ class AclFactory implements FactoryInterface
             ApiRequest::READ,
         ));
         // Deny guests access to search or read users.
-        $acl->deny('guest', 'Omeka\Api\Adapter\Entity\UserAdapter', array(
-            ApiRequest::SEARCH,
-            ApiRequest::READ,
-        ));
+        $acl->deny(
+            'guest',
+            array(
+                'Omeka\Api\Adapter\Entity\UserAdapter',
+                'Omeka\Api\Adapter\Entity\ModuleAdapter',
+            ),
+            array(
+                ApiRequest::SEARCH,
+                ApiRequest::READ,
+            )
+        );
         // Allow item creators access to create, update, and delete items.
         $acl->allow('item-creator', 'Omeka\Api\Adapter\Entity\ItemAdapter', array(
             ApiRequest::CREATE,

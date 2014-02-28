@@ -53,7 +53,10 @@ class DbTestCase extends \PHPUnit_Framework_TestCase
             return self::$application;
         }
         $config = require OMEKA_PATH . '/config/application.config.php';
-        $testConfig = require OMEKA_PATH . '/module/Omeka/test/test.config.php';
+        $reader = new \Zend\Config\Reader\Ini;
+        $testConfig = array(
+            'connection' => $reader->fromFile(OMEKA_PATH . '/module/Omeka/test/config/database.ini')
+        );
         $config = array_merge($config, $testConfig);
         self::$application = Application::init($config);
         return self::$application;

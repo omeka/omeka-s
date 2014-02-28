@@ -53,8 +53,8 @@ class DbTestCase extends \PHPUnit_Framework_TestCase
             return self::$application;
         }
         $config = require OMEKA_PATH . '/config/application.config.php';
-        $config['module_listener_options']['config_glob_paths']
-            = array(OMEKA_PATH . '/module/Omeka/test/test.config.php');
+        $testConfig = require OMEKA_PATH . '/module/Omeka/test/test.config.php';
+        $config = array_merge($config, $testConfig);
         self::$application = Application::init($config);
         return self::$application;
     }

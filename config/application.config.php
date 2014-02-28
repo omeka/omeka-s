@@ -16,6 +16,7 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'Connection' => 'Omeka\Service\ConnectionFactory',
+            'ActiveModules' => 'Omeka\Service\ActiveModulesFactory',
         )
     ),
     'connection' => $config,

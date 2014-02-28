@@ -19,26 +19,15 @@ class Application extends ZendApplication
         $listeners = isset($configuration['listeners']) ? $configuration['listeners'] : array();
         $serviceManager = new ServiceManager(new Service\ServiceManagerConfig($smConfig));
         $serviceManager->setService('ApplicationConfig', $configuration);
-        // Set all modules before loading them.
-        $serviceManager->get('ModuleManager')
-            ->setModules(self::getModules($serviceManager))->loadModules();
-        return $serviceManager->get('Application')->bootstrap($listeners);
-    }
 
-    /**
-     * Get all modules.
-     *
-     * Merges modules that are defined in configuration and those flagged active
-     * in the database.
-     *
-     * @param ServiceManager $serviceManager
-     * @return array
-     */
-    public static function getModules(ServiceManager $serviceManager)
-    {
-        $configuration = $serviceManager->get('ApplicationConfig');
-        $connection = $serviceManager->get('Connection');
-        $activeModules = array();
-        return array_merge($configuration['modules'], $activeModules);
+        // Merge modules that are defined in configuration and those flagged
+        // active in the database. Set all modules before loading them.
+        $activeModules = $serviceManager->get('ActiveModules');
+        $serviceManager
+            ->get('ModuleManager')
+            ->setModules(array_merge($configuration['modules'], $activeModules))
+            ->loadModules();
+
+        return $serviceManager->get('Application')->bootstrap($listeners);
     }
 }

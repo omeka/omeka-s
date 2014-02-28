@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\TablePrefix;
-use Omeka\Db\Event\Listener\EntityValidationErrorDetector;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -17,6 +16,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class EntityManagerFactory implements FactoryInterface
 {
+    const TABLE_PREFIX = 'omeka_';
+    const IS_DEV_MODE = false;
+
     /**
      * Create the entity manager service.
      * 
@@ -25,45 +27,36 @@ class EntityManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
-        if (!isset($config['entity_manager'])) {
-            throw new \RuntimeException('No database configuration given.');
-        }
-        return $this->createEntityManager($config);
-    }
 
-    /**
-     * Create the entity manager object.
-     * 
-     * Use this method to create the entity manager outside ZF2 MVC.
-     * 
-     * @param array $config
-     * @return EntityManager
-     */
-    public function createEntityManager(array $config)
-    {
-        if (!isset($config['entity_manager']['conn'])) {
-            throw new \RuntimeException('No database configuration given.');
+        if (!isset($config['entity_manager']) || !isset($appConfig['connection'])) {
+            throw new \RuntimeException('No entity manager configuration given.');
         }
-        $conn = $config['entity_manager']['conn'];
-        if (isset($config['table_prefix'])) {
-            $tablePrefix = $config['entity_manager']['table_prefix'];
+
+        if (isset($appConfig['connection']['table_prefix'])) {
+            $tablePrefix = $appConfig['connection']['table_prefix'];
         } else {
-            $tablePrefix = 'omeka_';
+            $tablePrefix = self::TABLE_PREFIX;
         }
         if (isset($config['entity_manager']['is_dev_mode'])) {
-            $isDevMode = $config['entity_manager']['is_dev_mode'];
+            $isDevMode = (bool) $config['entity_manager']['is_dev_mode'];
         } else {
-            $isDevMode = false;
+            $isDevMode = self::IS_DEV_MODE;
         }
 
         $emConfig = Setup::createAnnotationMetadataConfiguration(
-            array(__DIR__ . '/../Model/Entity'), $isDevMode
+            $config['entity_manager']['mapping_classes_paths'], $isDevMode
         );
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+
+        $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
+        $emConfig->setProxyDir($proxyDir);
+
+        $connection = $serviceLocator->get('Connection');
 
         if (isset($config['loggers']['sql']['log'])
             && $config['loggers']['sql']['log']
@@ -71,13 +64,12 @@ class EntityManagerFactory implements FactoryInterface
             && is_file($config['loggers']['sql']['path'])
             && is_writable($config['loggers']['sql']['path'])
         ) {
-            $emConfig->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
+            $connection
+                ->getConfiguration()
+                ->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
         }
 
-        $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
-        $emConfig->setProxyDir($proxyDir);
-
-        $em = EntityManager::create($conn, $emConfig);
+        $em = EntityManager::create($connection, $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new TablePrefix($tablePrefix)

@@ -2,7 +2,6 @@
 namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
-use Zend\EventManager\SharedEventManagerAwareInterface;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -16,7 +15,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class AbstractModule implements
     ConfigProviderInterface,
     ServiceLocatorAwareInterface,
-    SharedEventManagerAwareInterface,
     SharedListenerAggregateInterface
 {
     /**
@@ -30,19 +28,12 @@ class AbstractModule implements
     protected $services;
 
     /**
-     * @var SharedEventManagerInterface
-     */
-    protected $events;
-
-    /**
      * {@inheritDoc}
      */
     public function onBootstrap(MvcEvent $event)
     {
-        $application = $event->getApplication();
-        $this->setServiceLocator($application->getServiceManager());
-        $this->setSharedManager($application->getEventManager()->getSharedManager());
-        $this->getSharedManager()->attachAggregate($this);
+        $this->setServiceLocator($event->getApplication()->getServiceManager());
+        $this->getServiceLocator()->get('SharedEventManager')->attachAggregate($this);
     }
 
     /**
@@ -98,9 +89,10 @@ class AbstractModule implements
      */
     public function attach($id, $event, $callback, $priority = 1)
     {
-        $this->listeners[] = $this->getSharedManager()->attach(
-            $id, $event, $callback, $priority
-        );
+        $this->listeners[] = $this->getServiceLocator()
+            ->get('SharedEventManager')->attach(
+                $id, $event, $callback, $priority
+            );
     }
 
     /**
@@ -129,19 +121,20 @@ class AbstractModule implements
      * @return CallbackHandler|array
      */
     public function attachFilter($id, $event, $callback, $priority = 1) {
-        $this->listeners[] = $this->getSharedManager()->attach(
-            $id, $event,
-            function($e) use ($callback) {
-                if (!$e instanceof FilterEvent) {
-                    // Ignore non-filter events.
-                    return;
-                }
-                // Set the new argument as the response of the user-defined
-                // callback.
-                $e->setArg(call_user_func($callback, $e->getArg(), $e));
-            },
-            $priority
-        );
+        $this->listeners[] = $this->getServiceLocator()
+            ->get('SharedEventManager')->attach(
+                $id, $event,
+                function($e) use ($callback) {
+                    if (!$e instanceof FilterEvent) {
+                        // Ignore non-filter events.
+                        return;
+                    }
+                    // Set the new argument as the response of the user-defined
+                    // callback.
+                    $e->setArg(call_user_func($callback, $e->getArg(), $e));
+                },
+                $priority
+            );
     }
 
     /**
@@ -158,29 +151,5 @@ class AbstractModule implements
     public function getServiceLocator()
     {
         return $this->services;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSharedManager(SharedEventManagerInterface $sharedEventManager)
-    {
-        $this->events = $sharedEventManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSharedManager()
-    {
-        return $this->events;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function unsetSharedManager()
-    {
-        $this->events = null;
     }
 }

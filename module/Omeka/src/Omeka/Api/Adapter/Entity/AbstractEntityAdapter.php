@@ -106,6 +106,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             ));
         }
 
+        // Trigger the create.validate.pre event.
+        $event = new ApiEvent(ApiEvent::EVENT_CREATE_VALIDATE_PRE, $this, array(
+            'request' => $this->getRequest(),
+            'entity' => $entity,
+        ));
+        $this->getEventManager()->trigger($event);
+
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
             $response->setStatus(Response::ERROR_VALIDATION);
@@ -147,6 +154,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 ));
                 continue;
             }
+
+            // Trigger the create.validate.pre event.
+            $event = new ApiEvent(ApiEvent::EVENT_CREATE_VALIDATE_PRE, $this, array(
+                'request' => $this->getRequest(),
+                'entity' => $entity,
+            ));
+            $this->getEventManager()->trigger($event);
 
             $errorStore = $this->validateEntity($entity);
             if ($errorStore->hasErrors()) {
@@ -198,6 +212,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $entity->getResourceId()
             ));
         }
+
+        // Trigger the read.find.post event.
+        $event = new ApiEvent(ApiEvent::EVENT_READ_FIND_POST, $this, array(
+            'request' => $this->getRequest(),
+            'entity' => $entity,
+        ));
+        $this->getEventManager()->trigger($event);
+
         $response->setContent($this->extract($entity));
         return $response;
     }
@@ -229,6 +251,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $entity->getResourceId()
             ));
         }
+
+        // Trigger the update.validate.pre event.
+        $event = new ApiEvent(ApiEvent::EVENT_UPDATE_VALIDATE_PRE, $this, array(
+            'request' => $this->getRequest(),
+            'entity' => $entity,
+        ));
+        $this->getEventManager()->trigger($event);
 
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
@@ -271,6 +300,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $entity->getResourceId()
             ));
         }
+
+        // Trigger the delete.find.post event.
+        $event = new ApiEvent(ApiEvent::EVENT_DELETE_FIND_POST, $this, array(
+            'request' => $this->getRequest(),
+            'entity' => $entity,
+        ));
+        $this->getEventManager()->trigger($event);
 
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();

@@ -172,6 +172,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
             // Trigger the execute.pre event.
             $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_PRE, $this, array(
+                'services' => $this->getServiceLocator(),
                 'request' => $request,
             ));
             $this->getEventManager()->trigger($event);
@@ -179,6 +180,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.pre event.
                 $event = new ApiEvent($request->getOperation() . '.pre', $adapter, array(
+                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                 ));
                 $this->getEventManager()->trigger($event);
@@ -221,11 +223,20 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.post event.
                 $event = new ApiEvent($request->getOperation() . '.post', $adapter, array(
+                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                     'response' => $response,
                 ));
                 $adapter->getEventManager()->trigger($event);
             }
+
+            // Trigger the execute.post event.
+            $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_POST, $this, array(
+                'services' => $this->getServiceLocator(),
+                'request' => $request,
+                'response' => $response,
+            ));
+            $this->getEventManager()->trigger($event);
 
         // Always return a Response object, regardless of exception.
         } catch (Exception\BadRequestException $e) {
@@ -249,13 +260,6 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             $response->setStatus(Response::ERROR_INTERNAL);
             $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
         }
-
-        // Trigger the execute.post event.
-        $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_POST, $this, array(
-            'request' => $request,
-            'response' => $response,
-        ));
-        $this->getEventManager()->trigger($event);
 
         $response->setRequest($request);
         return $response;

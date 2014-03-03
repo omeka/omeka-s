@@ -3,7 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
-use Omeka\Event\ApiEvent;
+use Omeka\Event\Event;
 use Omeka\Stdlib\ClassCheck;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -171,7 +171,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             }
 
             // Trigger the execute.pre event.
-            $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_PRE, $this, array(
+            $event = new Event(Event::EVENT_EXECUTE_PRE, $this, array(
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
             ));
@@ -179,7 +179,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.pre event.
-                $event = new ApiEvent($request->getOperation() . '.pre', $adapter, array(
+                $event = new Event($request->getOperation() . '.pre', $adapter, array(
                     'services' => $this->getServiceLocator(),
                     'request' => $request,
                 ));
@@ -222,7 +222,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
 
             if ($adapter instanceof EventManagerAwareInterface) {
                 // Trigger the operation.post event.
-                $event = new ApiEvent($request->getOperation() . '.post', $adapter, array(
+                $event = new Event($request->getOperation() . '.post', $adapter, array(
                     'services' => $this->getServiceLocator(),
                     'request' => $request,
                     'response' => $response,
@@ -231,7 +231,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             }
 
             // Trigger the execute.post event.
-            $event = new ApiEvent(ApiEvent::EVENT_EXECUTE_POST, $this, array(
+            $event = new Event(Event::EVENT_EXECUTE_POST, $this, array(
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
                 'response' => $response,
@@ -287,7 +287,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {
             $createRequest->setContent($content);
-            $createEvent = new ApiEvent(Request::CREATE . '.pre', $adapter, array(
+            $createEvent = new Event(Event::EVENT_CREATE_PRE, $adapter, array(
                 'request' => $createRequest,
             ));
             $adapter->getEventManager()->trigger($createEvent);
@@ -304,7 +304,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
         // Trigger the create.post event for every created resource.
         foreach ($response->getContent() as $resource) {
             $createRequest->setContent($resource);
-            $createEvent = new ApiEvent(Request::CREATE . '.post', $adapter, array(
+            $createEvent = new Event(Event::EVENT_CREATE_POST, $adapter, array(
                 'request' => $createRequest,
                 'response' => new Response($resource),
             ));

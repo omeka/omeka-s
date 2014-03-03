@@ -8,7 +8,7 @@ use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Event\ApiEvent;
+use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
@@ -57,7 +57,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->buildQuery($data, $qb);
 
         // Trigger the search.query event.
-        $event = new ApiEvent(ApiEvent::EVENT_SEARCH_QUERY, $this, array(
+        $event = new Event(Event::EVENT_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
             'request' => $this->getRequest(),
             'query_builder' => $qb,
@@ -108,7 +108,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Trigger the create.validate.pre event.
-        $event = new ApiEvent(ApiEvent::EVENT_CREATE_VALIDATE_PRE, $this, array(
+        $event = new Event(Event::EVENT_CREATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'request' => $this->getRequest(),
             'entity' => $entity,
@@ -158,7 +158,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
 
             // Trigger the create.validate.pre event.
-            $event = new ApiEvent(ApiEvent::EVENT_CREATE_VALIDATE_PRE, $this, array(
+            $event = new Event(Event::EVENT_CREATE_VALIDATE_PRE, $this, array(
                 'services' => $this->getServiceLocator(),
                 'request' => $this->getRequest(),
                 'entity' => $entity,
@@ -217,7 +217,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Trigger the read.find.post event.
-        $event = new ApiEvent(ApiEvent::EVENT_READ_FIND_POST, $this, array(
+        $event = new Event(Event::EVENT_READ_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
             'request' => $this->getRequest(),
             'entity' => $entity,
@@ -257,7 +257,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Trigger the update.validate.pre event.
-        $event = new ApiEvent(ApiEvent::EVENT_UPDATE_VALIDATE_PRE, $this, array(
+        $event = new Event(Event::EVENT_UPDATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'request' => $this->getRequest(),
             'entity' => $entity,
@@ -307,7 +307,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Trigger the delete.find.post event.
-        $event = new ApiEvent(ApiEvent::EVENT_DELETE_FIND_POST, $this, array(
+        $event = new Event(Event::EVENT_DELETE_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
             'request' => $this->getRequest(),
             'entity' => $entity,

@@ -1,21 +1,25 @@
 <?php
 namespace Omeka\Event;
 
-use Zend\EventManager\Event;
+use Zend\EventManager\Event as ZendEvent;
 
 /**
- * API event.
+ * An Omeka event
  */
-class ApiEvent extends Event
+class Event extends ZendEvent
 {
     /**#@+
-     * API events triggered by the API manger.
+     * Events triggered by the API manger.
      */
     const EVENT_EXECUTE_PRE       = 'execute.pre';
     const EVENT_EXECUTE_POST      = 'execute.post';
+    /**#@-*/
+
+    /**#@+
+     * Events triggered by API adapters.
+     */
     const EVENT_SEARCH_PRE        = 'search.pre';
     const EVENT_SEARCH_POST       = 'search.post';
-    const EVENT_SEARCH_QUERY      = 'search.query';
     const EVENT_CREATE_PRE        = 'create.pre';
     const EVENT_CREATE_POST       = 'create.post';
     const EVENT_BATCH_CREATE_PRE  = 'batch_create.pre';
@@ -29,8 +33,9 @@ class ApiEvent extends Event
     /**#@-*/
 
     /**#@+
-     * API events triggered by API entity adapters.
+     * Events triggered by API entity adapters.
      */
+    const EVENT_SEARCH_QUERY        = 'search.query';
     const EVENT_CREATE_VALIDATE_PRE = 'create.validate.pre';
     const EVENT_READ_FIND_POST      = 'read.find.post';
     const EVENT_UPDATE_VALIDATE_PRE = 'update.validate.pre';

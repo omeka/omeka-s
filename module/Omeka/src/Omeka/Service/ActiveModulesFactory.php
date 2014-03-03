@@ -17,6 +17,10 @@ class ActiveModulesFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        if (!$serviceLocator->get('Installation')->isInstalled()) {
+            return array();
+        }
+
         $config = $serviceLocator->get('ApplicationConfig');
         $connection = $serviceLocator->get('Connection');
 

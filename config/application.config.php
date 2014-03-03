@@ -17,7 +17,10 @@ return array(
         'factories' => array(
             'Connection' => 'Omeka\Service\ConnectionFactory',
             'ActiveModules' => 'Omeka\Service\ActiveModulesFactory',
-        )
+        ),
+        'invokables' => array(
+            'Installation' => 'Omeka\Installation\Installation',
+        ),
     ),
     'connection' => $config,
 );

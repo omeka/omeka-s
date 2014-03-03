@@ -13,7 +13,7 @@ class CreateFirstUserTask extends AbstractTask
     {
         $api = $this->getServiceLocator()->get('ApiManager');
         $response = $api->create('users', array(
-            'role'     => 'global-admin',
+            'role'     => 'global_admin',
             'username' => $this->getVar('username'),
             'name'     => $this->getVar('name'),
             'email'    => $this->getVar('email'),

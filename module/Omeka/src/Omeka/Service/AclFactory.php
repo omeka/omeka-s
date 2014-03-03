@@ -30,17 +30,17 @@ class AclFactory implements FactoryInterface
 
         // Add ACL roles.
         $acl->addRole('guest')
-            ->addRole('item-creator', 'guest')
-            ->addRole('site-admin')
-            ->addRole('global-admin');
+            ->addRole('item_creator', 'guest')
+            ->addRole('site_admin')
+            ->addRole('global_admin');
 
-        // Set the logged in user as the current-user role.
+        // Set the logged in user as the current_user role.
         $auth = $serviceLocator->get('AuthenticationService');
         if ($auth->hasIdentity()) {
             $currentUser = $auth->getIdentity();
             $acl->addRole($currentUser, $currentUser->getRole());
         } else {
-            $acl->addRole('current-user', 'guest');
+            $acl->addRole('current_user', 'guest');
         }
 
         // Add ACL resources.
@@ -85,13 +85,13 @@ class AclFactory implements FactoryInterface
             )
         );
         // Allow item creators access to create, update, and delete items.
-        $acl->allow('item-creator', 'Omeka\Api\Adapter\Entity\ItemAdapter', array(
+        $acl->allow('item_creator', 'Omeka\Api\Adapter\Entity\ItemAdapter', array(
             ApiRequest::CREATE,
             ApiRequest::UPDATE,
             ApiRequest::DELETE,
         ));
-        $acl->allow('site-admin');
-        $acl->allow('global-admin');
+        $acl->allow('site_admin');
+        $acl->allow('global_admin');
 
         return $acl;
     }

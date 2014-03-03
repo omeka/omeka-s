@@ -158,7 +158,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
             // Verify that the current user has general access to this resource.
             $acl = $this->getServiceLocator()->get('Acl');
             $isAllowed = $acl->isAllowed(
-                'current-user',
+                'current_user',
                 $adapter,
                 $request->getOperation()
             );

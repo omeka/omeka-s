@@ -137,6 +137,6 @@ class User extends AbstractEntity implements RoleInterface
      */
     public function getRoleId()
     {
-        return 'current-user';
+        return 'current_user';
     }
 }

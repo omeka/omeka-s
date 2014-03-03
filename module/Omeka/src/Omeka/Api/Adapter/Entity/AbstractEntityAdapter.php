@@ -100,7 +100,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Verify that the current user has access to create this entity.
         $acl = $this->getServiceLocator()->get('Acl');
-        if (!$acl->isAllowed('current-user', $entity, 'create')) {
+        if (!$acl->isAllowed('current_user', $entity, 'create')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to create the %s resource.',
                 $entity->getResourceId()
@@ -148,7 +148,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
             // Verify that the current user has access to create this entity.
             $acl = $this->getServiceLocator()->get('Acl');
-            if (!$acl->isAllowed('current-user', $entity, 'create')) {
+            if (!$acl->isAllowed('current_user', $entity, 'create')) {
                 $response->setStatus(Response::ERROR_PERMISSION_DENIED);
                 $response->addError(Response::ERROR_PERMISSION_DENIED, sprintf(
                     'Permission denied for the current user to create the %s resource.',
@@ -209,7 +209,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
         // Verify that the current user has access to read this entity.
         $acl = $this->getServiceLocator()->get('Acl');
-        if (!$acl->isAllowed('current-user', $entity, 'read')) {
+        if (!$acl->isAllowed('current_user', $entity, 'read')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to read the %s resource.',
                 $entity->getResourceId()
@@ -249,7 +249,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Verify that the current user has access to update this entity.
         $acl = $this->getServiceLocator()->get('Acl');
-        if (!$acl->isAllowed('current-user', $entity, 'update')) {
+        if (!$acl->isAllowed('current_user', $entity, 'update')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to update the %s resource.',
                 $entity->getResourceId()
@@ -299,7 +299,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Verify that the current user has access to delete this entity.
         $acl = $this->getServiceLocator()->get('Acl');
-        if (!$acl->isAllowed('current-user', $entity, 'delete')) {
+        if (!$acl->isAllowed('current_user', $entity, 'delete')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to delete the %s resource.',
                 $entity->getResourceId()

@@ -28,7 +28,10 @@ class AbstractModule implements
     protected $services;
 
     /**
-     * {@inheritDoc}
+     * Bootstrap the module.
+     *
+     * Be sure to call parent::onBootstrap($event) first when overriding this
+     * method.
      */
     public function onBootstrap(MvcEvent $event)
     {

@@ -3,6 +3,7 @@ namespace Omeka\Service;
 
 use Omeka\Api\Adapter\Entity\EntityAdapterInterface;
 use Omeka\Api\Request as ApiRequest;
+use Omeka\Event\Event;
 use Omeka\Stdlib\ClassCheck;
 use Zend\Permissions\Acl\Acl;
 use Zend\ServiceManager\FactoryInterface;
@@ -92,6 +93,9 @@ class AclFactory implements FactoryInterface
         ));
         $acl->allow('site_admin');
         $acl->allow('global_admin');
+
+        $event = new Event('acl', $acl, array('services' => $serviceLocator));
+        $serviceLocator->get('EventManager')->trigger($event);
 
         return $acl;
     }

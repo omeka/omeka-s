@@ -2,6 +2,7 @@
 namespace Omeka;
 
 use Omeka\Module\AbstractModule;
+use Omeka\Mvc\AuthorizationListener;
 use Omeka\View\Helper\Api;
 use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\ModuleRouteListener;
@@ -22,6 +23,10 @@ class Module extends AbstractModule
         // Enable the /:controller/:action route using __NAMESPACE__.
         $moduleRouteListener = new ModuleRouteListener;
         $moduleRouteListener->attach($eventManager);
+
+        // Perform the MVC authorization checks.
+        $authorizationListener = new AuthorizationListener;
+        $authorizationListener->attach($eventManager);
 
         // Inject the API manager into the Api view helper.
         $serviceManager->get('viewhelpermanager')

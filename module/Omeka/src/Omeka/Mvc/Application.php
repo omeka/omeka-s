@@ -10,6 +10,8 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Application extends ZendApplication
 {
+    const ERROR_CONTROLLER_PERMISSION_DENIED = 'error-controller-permission-denied';
+
     /**
      * {@inheritDoc}
      */

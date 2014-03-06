@@ -3,14 +3,14 @@
 ## Installation
 
 1. Clone this repository in your Apache web directory:
-   `$ git clone git@github.com:omeka/Omeka3.git`
+   * `$ git clone git@github.com:omeka/Omeka3.git`
 1. Change into the Omeka3 directory:
-   `$ cd Omeka3`
+   * `$ cd Omeka3`
 1. Install [Composer](http://getcomposer.org/): 
-   `$ curl -sS https://getcomposer.org/installer | php`
+   * `$ curl -sS https://getcomposer.org/installer | php`
 1. Install dependencies using Composer: 
-   `$ ./composer.phar install`
-1. Copy and rename the .htaccess, local config, and database config files: 
+   * `$ ./composer.phar install`
+1. Copy and rename the htaccess, local config, and database config files: 
    * `$ cp .htaccess.dist .htaccess`
    * `$ cp config/local.config.php.dist config/local.config.php`
    * `$ cp config/database.ini.dist config/database.ini`

@@ -8,12 +8,14 @@
    `$ cd Omeka3`
 1. Install [Composer](http://getcomposer.org/): 
    `$ curl -sS https://getcomposer.org/installer | php`
-1. Install dependencies: 
+1. Install dependencies using Composer: 
    `$ ./composer.phar install`
-1. Copy and rename the application config file: 
-   `$cp config/application.config.php.dist config/application.config.php`
-1. Open config/application.config.php and add your MySQL username, password, and 
-   database name.
+1. Copy and rename the .htaccess, local config, and database config files: 
+   * `$ cp .htaccess.dist .htaccess`
+   * `$ cp config/local.config.php.dist config/local.config.php`
+   * `$ cp config/database.ini.dist config/database.ini`
+1. Open `config/database.ini` and add your MySQL username, password, database
+   name, and host name.
 1. In your web browser, navigate to the Omeka3/install directory, where you can
    complete installation.
 

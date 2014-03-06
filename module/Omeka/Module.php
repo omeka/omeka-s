@@ -2,10 +2,7 @@
 namespace Omeka;
 
 use Omeka\Module\AbstractModule;
-use Omeka\Mvc\AuthorizationListener;
 use Omeka\View\Helper\Api;
-use Zend\ModuleManager\ModuleManager;
-use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 /**

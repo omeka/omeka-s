@@ -1,14 +1,13 @@
 <?php
 namespace Omeka\Mvc;
 
-use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\Service;
 use Zend\ServiceManager\ServiceManager;
 
 /**
  * Application class for invoking the Omeka application.
  */
-class Application extends ZendApplication
+class Application
 {
     const ERROR_CONTROLLER_PERMISSION_DENIED = 'error-controller-permission-denied';
 

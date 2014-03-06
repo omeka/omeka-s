@@ -18,15 +18,6 @@ class Module extends AbstractModule
         parent::onBootstrap($event);
 
         $serviceManager = $this->getServiceLocator();
-        $eventManager = $event->getApplication()->getEventManager();
-
-        // Enable the /:controller/:action route using __NAMESPACE__.
-        $moduleRouteListener = new ModuleRouteListener;
-        $moduleRouteListener->attach($eventManager);
-
-        // Perform the MVC authorization checks.
-        $authorizationListener = new AuthorizationListener;
-        $authorizationListener->attach($eventManager);
 
         // Inject the API manager into the Api view helper.
         $serviceManager->get('viewhelpermanager')

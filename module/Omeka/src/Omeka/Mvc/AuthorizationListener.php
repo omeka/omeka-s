@@ -17,9 +17,11 @@ class AuthorizationListener implements ListenerAggregateInterface
      */
     public function attach(EventManagerInterface $events)
     {
+        // A low priority is required to ensure that authorization happens last.
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'onRoute')
+            array($this, 'onRoute'),
+            -1000
         );
     }
 

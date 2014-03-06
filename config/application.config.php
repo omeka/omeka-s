@@ -20,7 +20,13 @@ return array(
         ),
         'invokables' => array(
             'Installation' => 'Omeka\Installation\Installation',
+            'ModuleRouteListener' => 'Zend\Mvc\ModuleRouteListener',
+            'AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
         ),
+    ),
+    'listeners' => array(
+        'ModuleRouteListener',
+        'AuthorizationListener',
     ),
     'connection' => $config,
 );

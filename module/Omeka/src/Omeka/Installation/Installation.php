@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Installation implements ServiceLocatorAwareInterface
 {
-    const CHECK_TABLE = 'resource';
+    const CHECK_TABLE = 'user';
 
     /**
      * @var ServiceLocatorInterface

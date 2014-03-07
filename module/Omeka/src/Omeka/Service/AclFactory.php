@@ -27,6 +27,12 @@ class AclFactory implements FactoryInterface
         $this->addResources($acl, $serviceLocator);
         $this->addRules($acl, $serviceLocator);
 
+        if (!$serviceLocator->get('Installation')->isInstalled()) {
+            // Allow all privileges during installation.
+            $acl->allow();
+            return $acl;
+        }
+
         // Trigger the acl event.
         $event = new Event('acl', $acl, array('services' => $serviceLocator));
         $serviceLocator->get('EventManager')->trigger($event);

@@ -91,7 +91,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecuteRequiresValidRequestResource()
     {
         $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->once())
+        $request->expects($this->exactly(2))
                 ->method('getResource')
                 ->will($this->returnValue('bar'));
         $this->manager->registerResource('foo', $this->validConfig['foo']);

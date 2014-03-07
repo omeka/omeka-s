@@ -131,6 +131,13 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
         try {
+            if (!$this->resourceIsRegistered($request->getResource())) {
+                throw new Exception\BadRequestException(sprintf(
+                    'The "%s" resource is not registered.', 
+                    $request->getResource()
+                ));
+            }
+
             if (null === $adapter) {
                 // Use the registered adapter if a custom one is not passed.
                 $adapterClass = $this->getAdapterClass($request->getResource());

@@ -1,25 +1,18 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Adapter\Entity\EntityAdapterInterface;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Stdlib\ClassCheck;
 use Zend\Permissions\Acl\Acl;
 use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Access control list factory.
  */
-class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
+class AclFactory implements FactoryInterface
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
-
     /**
      * Create the access control list.
      * 
@@ -28,12 +21,11 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->setServiceLocator($serviceLocator);
         $acl = new Acl;
 
-        $this->addRoles($acl);
-        $this->addResources($acl);
-        $this->addRules($acl);
+        $this->addRoles($acl, $serviceLocator);
+        $this->addResources($acl, $serviceLocator);
+        $this->addRules($acl, $serviceLocator);
 
         // Trigger the acl event.
         $event = new Event('acl', $acl, array('services' => $serviceLocator));
@@ -46,8 +38,9 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
      * Add ACL roles.
      *
      * @param Acl $acl
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    protected function addRoles(Acl $acl)
+    protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
         // Add ACL roles.
         $acl->addRole('guest')
@@ -56,7 +49,7 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
             ->addRole('global_admin');
 
         // Set the logged in user as the current_user role.
-        $auth = $this->getServiceLocator()->get('AuthenticationService');
+        $auth = $serviceLocator->get('AuthenticationService');
         if ($auth->hasIdentity()) {
             $currentUser = $auth->getIdentity();
             $acl->addRole($currentUser, $currentUser->getRole());
@@ -70,47 +63,44 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
      *
      * The following resources are added automatically:
      * 
-     * - Controller classes
      * - API adapter classes that implement ResourceInterface
      * - Entity classes that implement ResourceInterface
+     * - Controller classes
      *
      * @param Acl $acl
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    protected function addResources(Acl $acl)
+    protected function addResources(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        $config = $this->getServiceLocator()->get('Config');
-        $api = $this->getServiceLocator()->get('ApiManager');
-
-        // Add API resources as ACL resources.
-        foreach ($api->getResources() as $adapterClass) {
-
-            // Add API adapters as ACL resources. These resources are used to
-            // set rules for general access to API resources.
+        // Add API adapters as ACL resources. These resources are used to set
+        // rules for general access to API resources.
+        $apiResources = $serviceLocator->get('ApiManager')->getResources();
+        foreach ($apiResources as $adapterClass) {
             if (ClassCheck::isInterfaceOf(
                 'Zend\Permissions\Acl\Resource\ResourceInterface',
                 $adapterClass
             )) {
                 $acl->addResource($adapterClass);
-                $adapter = new $adapterClass;
-
-                // Add corresponding entities as ACL resources. These resources
-                // are used to set rules for access to specific entities.
-                if ($adapter instanceof EntityAdapterInterface
-                    && ClassCheck::isInterfaceOf(
-                        'Zend\Permissions\Acl\Resource\ResourceInterface',
-                        $adapter->getEntityClass()
-                )) {
-                    $acl->addResource($adapter->getEntityClass());
-                }
             }
         }
 
-        // Add controllers as ACL resources.
-        $controllers = array_merge(
-            array_keys($config['controllers']['invokables']),
-            isset($config['controllers']['factories'])
-                ? array_keys($config['controllers']['factories']) : array()
-        );
+        // Add Doctrine entities as ACL resources. These resources are used to
+        // set rules for access to specific entities.
+        $entities = $serviceLocator->get('EntityManager')->getConfiguration()
+            ->getMetadataDriverImpl()->getAllClassNames();
+        foreach ($entities as $entityClass) {
+            if (ClassCheck::isInterfaceOf(
+                'Zend\Permissions\Acl\Resource\ResourceInterface',
+                $entityClass
+            )) {
+                $acl->addResource($entityClass);
+            }
+        }
+
+        // Add controllers as ACL resources. These rules are used to set rules
+        // for access to controllers and their actions.
+        $controllers = array_keys($serviceLocator->get('ControllerLoader')
+            ->getCanonicalNames());
         foreach ($controllers as $controller) {
             $acl->addResource($controller);
         }
@@ -120,8 +110,9 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
      * Add ACL rules.
      *
      * @param Acl $acl
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    protected function addRules(Acl $acl)
+    protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
         // Global admins have access to all resources.
         $acl->allow('global_admin');
@@ -154,21 +145,5 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
             ApiRequest::UPDATE,
             ApiRequest::DELETE,
         ));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

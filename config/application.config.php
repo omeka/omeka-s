@@ -15,18 +15,32 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Connection' => 'Omeka\Service\ConnectionFactory',
+            'Connection'    => 'Omeka\Service\ConnectionFactory',
             'ActiveModules' => 'Omeka\Service\ActiveModulesFactory',
         ),
         'invokables' => array(
-            'Installation' => 'Omeka\Installation\Installation',
-            'ModuleRouteListener' => 'Zend\Mvc\ModuleRouteListener',
+            'Installation'          => 'Omeka\Installation\Installation',
+            'ModuleRouteListener'   => 'Zend\Mvc\ModuleRouteListener',
             'AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
         ),
     ),
     'listeners' => array(
         'ModuleRouteListener',
         'AuthorizationListener',
+    ),
+    'installation_manager' => array(
+        'tasks' => array(
+            'Omeka\Installation\Task\CheckDbConfigurationTask',
+            'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\RecordMigrationsTask',
+            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\CreateFirstUserTask',
+        ),
+    ),
+    'migration_manager' => array(
+        'path'      => OMEKA_PATH . '/data/migrations',
+        'namespace' => 'Omeka\Db\Migrations',
+        'entity'    => 'Omeka\Model\Entity\Migration',
     ),
     'connection' => $config,
 );

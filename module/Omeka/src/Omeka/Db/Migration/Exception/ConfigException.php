@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Installation\Exception;
+namespace Omeka\Db\Migration\Exception;
 
 class ConfigException extends \InvalidArgumentException implements ExceptionInterface
 {}

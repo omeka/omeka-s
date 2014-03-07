@@ -76,20 +76,6 @@ return array(
             'path' => OMEKA_PATH . '/data/logs/sql.log',
         ),
     ),
-    'installation_manager' => array(
-        'tasks' => array(
-            'Omeka\Installation\Task\CheckDbConfigurationTask',
-            'Omeka\Installation\Task\InstallSchemaTask',
-            'Omeka\Installation\Task\RecordMigrationsTask',
-            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
-            'Omeka\Installation\Task\CreateFirstUserTask',
-        ),
-    ),
-    'migration_manager' => array(
-        'path'      => OMEKA_PATH . '/data/migrations',
-        'namespace' => 'Omeka\Db\Migrations',
-        'entity'    => 'Omeka\Model\Entity\Migration',
-    ),
     'router' => array(
         'routes' => array(
             'site' => array(

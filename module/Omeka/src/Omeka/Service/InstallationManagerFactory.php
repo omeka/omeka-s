@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Exception;
+use Omeka\Installtion\Exception;
 use Omeka\Installation\Manager as InstallationManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -19,7 +19,7 @@ class InstallationManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $serviceLocator->get('ApplicationConfig');
         if (!isset($config['installation_manager']['tasks'])) {
             throw new Exception\ConfigException(
                 'The configuration has no registered installation tasks.'

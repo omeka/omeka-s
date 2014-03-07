@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Db\Migration\Exception;
 use Omeka\Db\Migration\Manager as MigrationManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -18,7 +19,12 @@ class MigrationManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $serviceLocator->get('ApplicationConfig');
+        if (!isset($config['migration_manager'])) {
+            throw new Exception\ConfigException(
+                'The migration configuration is missing.'
+            );
+        }
         return new MigrationManager($config['migration_manager']);
     }
 }

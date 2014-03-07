@@ -3,8 +3,8 @@ namespace Omeka\Service;
 
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
+use Omeka\Permissions\Acl;
 use Omeka\Stdlib\ClassCheck;
-use Zend\Permissions\Acl\Acl;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

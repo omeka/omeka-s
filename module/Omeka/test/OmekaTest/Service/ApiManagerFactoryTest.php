@@ -8,9 +8,7 @@ class ApiManagerFactoryTest extends \PHPUnit_Framework_TestCase
     protected $factory;
 
     protected $validConfig = array(
-        'api_manager' => array(
-            'resources' => array(),
-        ),
+        'api_resources' => array(),
     );
 
     public function setUp()
@@ -32,7 +30,7 @@ class ApiManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testRejectsInvalidConfig()
     {
         $invalidConfig = $this->validConfig;
-        unset($invalidConfig['api_manager']['resources']);
+        unset($invalidConfig['api_resources']);
         $apiManager = $this->factory->createService(
             $this->getMockServiceLocator($invalidConfig)
         );

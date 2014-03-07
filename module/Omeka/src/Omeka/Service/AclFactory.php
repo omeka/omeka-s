@@ -79,18 +79,19 @@ class AclFactory implements FactoryInterface, ServiceLocatorAwareInterface
     protected function addResources(Acl $acl)
     {
         $config = $this->getServiceLocator()->get('Config');
+        $api = $this->getServiceLocator()->get('ApiManager');
 
         // Add API resources as ACL resources.
-        foreach ($config['api_manager']['resources'] as $resourceConfig) {
+        foreach ($api->getResources() as $adapterClass) {
 
             // Add API adapters as ACL resources. These resources are used to
             // set rules for general access to API resources.
             if (ClassCheck::isInterfaceOf(
                 'Zend\Permissions\Acl\Resource\ResourceInterface',
-                $resourceConfig['adapter_class']
+                $adapterClass
             )) {
-                $acl->addResource($resourceConfig['adapter_class']);
-                $adapter = new $resourceConfig['adapter_class'];
+                $acl->addResource($adapterClass);
+                $adapter = new $adapterClass;
 
                 // Add corresponding entities as ACL resources. These resources
                 // are used to set rules for access to specific entities.

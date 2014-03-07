@@ -27,7 +27,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     protected $events;
 
     /**
-     * @var array Registered API resources and configuration.
+     * @var array Registered API resources and their adapters.
      */
     protected $resources = array();
 
@@ -131,17 +131,10 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     public function execute(Request $request, AdapterInterface $adapter = null)
     {
         try {
-            if (!$this->resourceIsRegistered($request->getResource())) {
-                throw new Exception\BadRequestException(sprintf(
-                    'The "%s" resource is not registered.', 
-                    $request->getResource()
-                ));
-            }
-
             if (null === $adapter) {
                 // Use the registered adapter if a custom one is not passed.
-                $config = $this->getResource($request->getResource());
-                $adapter = new $config['adapter_class'];
+                $adapterClass = $this->getAdapterClass($request->getResource());
+                $adapter = new $adapterClass;
             }
 
             // Set adapter dependencies.
@@ -318,34 +311,25 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      * Register an API resource.
      * 
      * @param string $resource
-     * @param array $config
+     * @param string $adapterClass
      */
-    public function registerResource($resource, array $config)
+    public function registerResource($resource, $adapterClass)
     {
-        if (!isset($config['adapter_class'])) {
-            throw new Exception\ConfigException(sprintf(
-                'An adapter class is not registered for the "%s" resource.', 
-                $resource
-            ));
-        }
-        if (!class_exists($config['adapter_class'])) {
+        if (!class_exists($adapterClass)) {
             throw new Exception\ConfigException(sprintf(
                 'The adapter class "%s" does not exist for the "%s" resource.', 
-                $config['adapter_class'], 
+                $adapterClass, 
                 $resource
             ));
         }
-        if (!ClassCheck::isInterfaceOf(
-            'Omeka\Api\Adapter\AdapterInterface',
-            $config['adapter_class'])
-        ) {
+        if (!ClassCheck::isInterfaceOf('Omeka\Api\Adapter\AdapterInterface', $adapterClass)) {
             throw new Exception\ConfigException(sprintf(
                 'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
-                $config['adapter_class'], 
+                $adapterClass, 
                 $resource
             ));
         }
-        $this->resources[$resource] = $config;
+        $this->resources[$resource] = $adapterClass;
     }
 
     /**
@@ -355,8 +339,8 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function registerResources(array $resources)
     {
-        foreach ($resources as $resource => $config) {
-            $this->registerResource($resource, $config);
+        foreach ($resources as $resource => $adapterClass) {
+            $this->registerResource($resource, $adapterClass);
         }
     }
 
@@ -371,12 +355,12 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     }
 
     /**
-     * Get registered API resource.
+     * Get registered API resource adapter class.
      * 
      * @param string $resource
-     * @return array
+     * @return string
      */
-    public function getResource($resource)
+    public function getAdapterClass($resource)
     {
         if (!$this->resourceIsRegistered($resource)) {
             throw new Exception\BadRequestException(sprintf(

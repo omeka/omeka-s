@@ -1,5 +1,15 @@
 <?php
 return array(
+    'api_resources' => array(
+        'users'            => 'Omeka\Api\Adapter\Entity\UserAdapter',
+        'vocabularies'     => 'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+        'resource_classes' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+        'properties'       => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
+        'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
+        'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
+        'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
+        'modules'          => 'Omeka\Api\Adapter\Entity\ModuleAdapter',
+    ),
     'service_manager' => array(
         'factories' => array(
             'AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
@@ -18,6 +28,67 @@ return array(
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'AuthenticationService'
         ),
+    ),
+    'controllers' => array(
+        'invokables' => array(
+            'Omeka\Controller\Api'             => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Install'         => 'Omeka\Controller\InstallController',
+            'Omeka\Controller\Login'           => 'Omeka\Controller\LoginController',
+            'Omeka\Controller\Migrate'         => 'Omeka\Controller\MigrateController',
+            'Omeka\Controller\Site\Index'      => 'Omeka\Controller\Site\IndexController',
+            'Omeka\Controller\Admin\Index'     => 'Omeka\Controller\Admin\IndexController',
+            'Omeka\Controller\Admin\Item'      => 'Omeka\Controller\Admin\ItemController',
+            'Omeka\Controller\Admin\User'      => 'Omeka\Controller\Admin\UserController',
+            'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
+        ),
+    ),
+    'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_path_stack'      => array(
+            OMEKA_PATH . '/module/Omeka/view',
+        ),
+        'strategies' => array(
+            'ViewApiJsonStrategy',
+        ),
+    ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'value' => 'Omeka\View\Helper\Value',
+        ),
+    ),
+    'entity_manager' => array(
+        'is_dev_mode' => false,
+        'mapping_classes_paths' => array(
+            OMEKA_PATH . '/module/Omeka/src/Omeka/Model/Entity',
+        ),
+    ),
+    'loggers' => array(
+        'application' => array(
+            'log'  => false,
+            'path' => OMEKA_PATH . '/data/logs/application.log',
+        ),
+        'sql' => array(
+            'log'  => false,
+            'path' => OMEKA_PATH . '/data/logs/sql.log',
+        ),
+    ),
+    'installation_manager' => array(
+        'tasks' => array(
+            'Omeka\Installation\Task\CheckDbConfigurationTask',
+            'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\RecordMigrationsTask',
+            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\CreateFirstUserTask',
+        ),
+    ),
+    'migration_manager' => array(
+        'path'      => OMEKA_PATH . '/data/migrations',
+        'namespace' => 'Omeka\Db\Migrations',
+        'entity'    => 'Omeka\Model\Entity\Migration',
     ),
     'router' => array(
         'routes' => array(
@@ -191,95 +262,6 @@ return array(
                      ),
                 ),
             ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'Omeka\Controller\Api' => 'Omeka\Controller\ApiController',
-            'Omeka\Controller\Install' => 'Omeka\Controller\InstallController',
-            'Omeka\Controller\Login' => 'Omeka\Controller\LoginController',
-            'Omeka\Controller\Migrate' => 'Omeka\Controller\MigrateController',
-            'Omeka\Controller\Site\Index' => 'Omeka\Controller\Site\IndexController',
-            'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
-            'Omeka\Controller\Admin\Item' => 'Omeka\Controller\Admin\ItemController',
-            'Omeka\Controller\Admin\User' => 'Omeka\Controller\Admin\UserController',
-            'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
-        ),
-    ),
-    'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_path_stack'      => array(
-            OMEKA_PATH . '/module/Omeka/view',
-        ),
-        'strategies' => array(
-            'ViewApiJsonStrategy',
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
-            'value' => 'Omeka\View\Helper\Value',
-        ),
-    ),
-    'api_manager' => array(
-        'resources' => array(
-            'users' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\UserAdapter',
-            ),
-            'vocabularies' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\VocabularyAdapter',
-            ),
-            'resource_classes' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-            ),
-            'properties' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
-            ),
-            'values' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ValueAdapter',
-            ),
-            'items' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ItemAdapter',
-            ),
-            'rdf_vocabulary' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
-            ),
-            'modules' => array(
-                'adapter_class' => 'Omeka\Api\Adapter\Entity\ModuleAdapter',
-            ),
-        ),
-    ),
-    'migration_manager' => array(
-        'path' => OMEKA_PATH . '/data/migrations',
-        'namespace' => 'Omeka\Db\Migrations',
-        'entity' => 'Omeka\Model\Entity\Migration',
-    ),
-    'loggers' => array(
-        'application' => array(
-            'log' => false,
-            'path' => OMEKA_PATH . '/data/logs/application.log',
-        ),
-        'sql' => array(
-            'log' => false,
-            'path' => OMEKA_PATH . '/data/logs/sql.log',
-        ),
-    ),
-    'installation_manager' => array(
-        'tasks' => array(
-            'Omeka\Installation\Task\CheckDbConfigurationTask',
-            'Omeka\Installation\Task\InstallSchemaTask',
-            'Omeka\Installation\Task\RecordMigrationsTask',
-            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
-            'Omeka\Installation\Task\CreateFirstUserTask',
-        ),
-    ),
-    'entity_manager' => array(
-        'is_dev_mode' => false,
-        'mapping_classes_paths' => array(
-            OMEKA_PATH . '/module/Omeka/src/Omeka/Model/Entity',
         ),
     ),
 );

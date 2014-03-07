@@ -13,11 +13,6 @@ class InstallController extends AbstractActionController
         $user = array();
 
         if ($this->getRequest()->isPost()) {
-
-            // Allow all privileges during installation.
-            $acl = $this->getServiceLocator()->get('Acl');
-            $acl->allow();
-
             // Perform the installation.
             $data = $this->getRequest()->getPost()->toArray();
             $installationManager = $this->getServiceLocator()->get('InstallationManager');

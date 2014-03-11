@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Abstract Omeka module.
  */
-class AbstractModule implements
+abstract class AbstractModule implements
     ConfigProviderInterface,
     ServiceLocatorAwareInterface,
     SharedListenerAggregateInterface

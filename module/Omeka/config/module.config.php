@@ -42,6 +42,11 @@ return array(
             'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'api' => 'Omeka\Mvc\Controller\Plugin\Api',
+        ),
+    ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

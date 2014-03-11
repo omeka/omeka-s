@@ -2,6 +2,7 @@
 namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
+use ReflectionClass;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -138,6 +139,31 @@ abstract class AbstractModule implements
                 },
                 $priority
             );
+    }
+
+    /**
+     * Register this module's namespace to the autoloader.
+     *
+     * {@inheritDoc}
+     */
+    public function getAutoloaderConfig()
+    {
+        $classInfo = new ReflectionClass($this);
+        $namespace = $classInfo->getNamespaceName();
+
+        // Omeka is already registered via Composer.
+        if ('Omeka' == $namespace) {
+            return;
+        }
+
+        $autoloadPath = sprintf('%1$s/module/%2$s/src/%2$s', OMEKA_PATH, $namespace);
+        return array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    $namespace => $autoloadPath,
+                ),
+            ),
+        );
     }
 
     /**

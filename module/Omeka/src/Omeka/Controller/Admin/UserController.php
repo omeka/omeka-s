@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Omeka\Api\ResponseFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -12,29 +11,27 @@ class UserController extends AbstractActionController
 
     public function addAction()
     {
-        $api = $this->getServiceLocator()->get('ApiManager');
-        $viewModel = new ViewModel();
+        $view = new ViewModel;
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost()->toArray();
-            $response = $api->create('users', $data);
+            $response = $this->api()->create('users', $this->params()->fromPost());
             if ($response->isError()) {
-                $viewModel->setVariable('errors', $response->getErrors());
+                $view->setVariable('errors', $response->getErrors());
+            } else {
+                $view->setVariable('user', $response->getContent());
             }
-            $user = $response->getContent();
-            $viewModel->setVariable('user', $user);
-            return $viewModel;
         }
+        return $view;
     }
 
     public function browseAction()
     {
-        $api = $this->getServiceLocator()->get('ApiManager');
-        $filter = new ResponseFilter();
-        $response = $api->search('users', array());
+        $view = new ViewModel;
+        $response = $this->api()->search('users', array());
         if ($response->isError()) {
-            print_r($response->getErrors());exit;
+            $view->setVariable('errors', $response->getErrors());
+        } else {
+            $view->setVariable('users', $response->getContent());
         }
-        $users = $response->getContent();
-        return new ViewModel(array('users'=>$users));
+        return $view;
     }
 }

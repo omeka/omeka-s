@@ -1,12 +1,26 @@
 <h1><?php echo count($users); ?> Users</h1>
-<p>Username, Name, Email, Created</p>
-<ul>
-<?php foreach($users as $user): ?>
-<li>
-<?php echo $user['username']?>,
-<?php echo $user['name']?>,
-<?php echo $user['email']?>,
-<?php echo $user['created']; ?>
-</li>
-<?php endforeach; ?>
-</ul>
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>name</th>
+            <th>email</th>
+            <th>role</th>
+            <th>created</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($users as $user): ?>
+        <tr>
+            <td><?php echo $user['id']?></td>
+            <td><?php echo $user['username']?></td>
+            <td><?php echo $user['name']?></td>
+            <td><?php echo $user['email']?></td>
+            <td><?php echo $user['role']?></td>
+            <td><?php echo $user['created']?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>

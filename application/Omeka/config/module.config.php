@@ -12,21 +12,21 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
-            'Acl'                   => 'Omeka\Service\AclFactory',
-            'ApiManager'            => 'Omeka\Service\ApiManagerFactory',
-            'EntityManager'         => 'Omeka\Service\EntityManagerFactory',
-            'InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
-            'Logger'                => 'Omeka\Service\LoggerFactory',
-            'MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
-            'ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
+            'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
+            'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
+            'Omeka\ApiManager'            => 'Omeka\Service\ApiManagerFactory',
+            'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
+            'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
+            'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
+            'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
 
         ),
         'invokables' => array(
-            'ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
+            'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
-            'Zend\Authentication\AuthenticationService' => 'AuthenticationService'
+            'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
     ),
     'controllers' => array(
@@ -57,7 +57,7 @@ return array(
             OMEKA_PATH . '/application/Omeka/view',
         ),
         'strategies' => array(
-            'ViewApiJsonStrategy',
+            'Omeka\ViewApiJsonStrategy',
         ),
     ),
     'view_helpers' => array(

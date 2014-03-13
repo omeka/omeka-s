@@ -12,6 +12,6 @@ class Api extends AbstractPlugin
      */
     public function __invoke()
     {
-        return $this->getController()->getServiceLocator()->get('ApiManager');
+        return $this->getController()->getServiceLocator()->get('Omeka\ApiManager');
     }
 }

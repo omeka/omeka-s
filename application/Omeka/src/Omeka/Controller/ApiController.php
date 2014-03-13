@@ -10,7 +10,7 @@ class ApiController extends AbstractRestfulController
 {
     public function get($id)
     {
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $request = new Request(
             Request::READ,
             $this->params()->fromRoute('resource')
@@ -22,7 +22,7 @@ class ApiController extends AbstractRestfulController
 
     public function getList()
     {
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $request = new Request(
             Request::SEARCH,
             $this->params()->fromRoute('resource')
@@ -34,7 +34,7 @@ class ApiController extends AbstractRestfulController
 
     public function create($data)
     {
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $request = new Request(
             Request::CREATE,
             $this->params()->fromRoute('resource')
@@ -46,7 +46,7 @@ class ApiController extends AbstractRestfulController
 
     public function update($id, $data)
     {
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $request = new Request(
             Request::UPDATE,
             $this->params()->fromRoute('resource')
@@ -59,7 +59,7 @@ class ApiController extends AbstractRestfulController
 
     public function delete($id)
     {
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $request = new Request(
             Request::DELETE,
             $this->params()->fromRoute('resource')

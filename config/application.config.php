@@ -16,18 +16,18 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Connection'    => 'Omeka\Service\ConnectionFactory',
-            'ActiveModules' => 'Omeka\Service\ActiveModulesFactory',
+            'Omeka\ActiveModules' => 'Omeka\Service\ActiveModulesFactory',
+            'Omeka\Connection'    => 'Omeka\Service\ConnectionFactory',
         ),
         'invokables' => array(
-            'Installation'          => 'Omeka\Installation\Installation',
-            'ModuleRouteListener'   => 'Zend\Mvc\ModuleRouteListener',
-            'AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
+            'ModuleRouteListener'         => 'Zend\Mvc\ModuleRouteListener',
+            'Omeka\AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
+            'Omeka\Installation'          => 'Omeka\Installation\Installation',
         ),
     ),
     'listeners' => array(
         'ModuleRouteListener',
-        'AuthorizationListener',
+        'Omeka\AuthorizationListener',
     ),
     'installation_manager' => array(
         'tasks' => array(

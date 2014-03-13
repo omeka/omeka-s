@@ -49,7 +49,7 @@ class AuthorizationListener implements ListenerAggregateInterface
         $controller = $routeMatch->getParam('controller');
         $action = $routeMatch->getParam('action');
 
-        $acl = $application->getServiceManager()->get('Acl');
+        $acl = $application->getServiceManager()->get('Omeka\Acl');
         if ($acl->isAllowed('current_user', $controller, $action)) {
             return;
         }

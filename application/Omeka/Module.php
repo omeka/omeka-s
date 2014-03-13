@@ -19,7 +19,7 @@ class Module extends AbstractModule
         // Inject the API manager into the Api view helper.
         $serviceManager->get('viewhelpermanager')
             ->setFactory('Api', function ($helperPluginManager) use ($serviceManager) {
-                return new Api($serviceManager->get('ApiManager'));
+                return new Api($serviceManager->get('Omeka\ApiManager'));
             });
     }
 

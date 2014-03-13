@@ -22,7 +22,7 @@ class Application
 
         // Merge modules that are defined in configuration and those flagged
         // active in the database. Set all modules before loading them.
-        $activeModules = $serviceManager->get('ActiveModules');
+        $activeModules = $serviceManager->get('Omeka\ActiveModules');
         $serviceManager
             ->get('ModuleManager')
             ->setModules(array_merge($configuration['modules'], $activeModules))

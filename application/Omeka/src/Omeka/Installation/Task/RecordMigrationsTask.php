@@ -14,8 +14,8 @@ class RecordMigrationsTask extends AbstractTask
     public function perform()
     {
         $sl = $this->getServiceLocator();
-        $migrator = $sl->get('MigrationManager');
-        $conn = $sl->get('Connection');
+        $migrator = $sl->get('Omeka\MigrationManager');
+        $conn = $sl->get('Omeka\Connection');
 
         $migrations = $migrator->getAvailableMigrations();
 

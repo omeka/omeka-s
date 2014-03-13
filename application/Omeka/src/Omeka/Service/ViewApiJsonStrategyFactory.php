@@ -22,7 +22,7 @@ class ViewApiJsonStrategyFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $jsonRenderer = $serviceLocator->get('ViewApiJsonRenderer');
+        $jsonRenderer = $serviceLocator->get('Omeka\ViewApiJsonRenderer');
         $jsonStrategy = new ApiJsonStrategy($jsonRenderer);
         return $jsonStrategy;
     }

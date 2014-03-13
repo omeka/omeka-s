@@ -275,9 +275,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $acl = $this->getMock('Zend\Permissions\Acl\Acl');
         $acl->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $serviceLocator = $this->mockBuilder->getServiceManager(array(
-            'EventManager' => $eventManager,
-            'Logger' => $logger,
-            'Acl' => $acl
+            'Omeka\EventManager' => $eventManager,
+            'Omeka\Logger' => $logger,
+            'Omeka\Acl' => $acl
         ));
         $this->manager->setServiceLocator($serviceLocator);
         $this->manager->setEventManager($eventManager);

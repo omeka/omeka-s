@@ -67,7 +67,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function upgrade()
     {
         $toPerform = $this->getMigrationsToPerform();
-        $em = $this->getServiceLocator()->get('EntityManager');
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $conn = $em->getConnection();
         $resolver = new TableResolver($em);
 
@@ -86,7 +86,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function recordMigration($version)
     {
-        $em = $this->getServiceLocator()->get('EntityManager');
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $conn = $em->getConnection();
         $tableName = $this->getTableName($em);
         $conn->insert($tableName, array('version' => $version));
@@ -132,7 +132,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function getCompletedMigrations()
     {
         $sl = $this->getServiceLocator();
-        $em = $sl->get('EntityManager');
+        $em = $sl->get('Omeka\EntityManager');
         $conn = $em->getConnection();
 
         $tableName = $this->getTableName($em);

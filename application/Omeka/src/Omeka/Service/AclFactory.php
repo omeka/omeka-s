@@ -27,7 +27,7 @@ class AclFactory implements FactoryInterface
         $this->addResources($acl, $serviceLocator);
         $this->addRules($acl, $serviceLocator);
 
-        if (!$serviceLocator->get('Installation')->isInstalled()) {
+        if (!$serviceLocator->get('Omeka\Installation')->isInstalled()) {
             // Allow all privileges during installation.
             $acl->allow();
             return $acl;
@@ -55,7 +55,7 @@ class AclFactory implements FactoryInterface
             ->addRole('global_admin');
 
         // Set the logged in user as the current_user role.
-        $auth = $serviceLocator->get('AuthenticationService');
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
         if ($auth->hasIdentity()) {
             $currentUser = $auth->getIdentity();
             $acl->addRole($currentUser, $currentUser->getRole());
@@ -80,7 +80,7 @@ class AclFactory implements FactoryInterface
     {
         // Add API adapters as ACL resources. These resources are used to set
         // rules for general access to API resources.
-        $apiResources = $serviceLocator->get('ApiManager')->getResources();
+        $apiResources = $serviceLocator->get('Omeka\ApiManager')->getResources();
         foreach ($apiResources as $adapterClass) {
             if (ClassCheck::isInterfaceOf(
                 'Zend\Permissions\Acl\Resource\ResourceInterface',
@@ -92,7 +92,7 @@ class AclFactory implements FactoryInterface
 
         // Add Doctrine entities as ACL resources. These resources are used to
         // set rules for access to specific entities.
-        $entities = $serviceLocator->get('EntityManager')->getConfiguration()
+        $entities = $serviceLocator->get('Omeka\EntityManager')->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entities as $entityClass) {
             if (ClassCheck::isInterfaceOf(

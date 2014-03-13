@@ -17,12 +17,12 @@ class ActiveModulesFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!$serviceLocator->get('Installation')->isInstalled()) {
+        if (!$serviceLocator->get('Omeka\Installation')->isInstalled()) {
             return array();
         }
 
         $config = $serviceLocator->get('ApplicationConfig');
-        $connection = $serviceLocator->get('Connection');
+        $connection = $serviceLocator->get('Omeka\Connection');
 
         $table = $config['connection']['table_prefix'] . 'module';
         $statement = $connection->prepare("SELECT id FROM $table WHERE is_active = 1");

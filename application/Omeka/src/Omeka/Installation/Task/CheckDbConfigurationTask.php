@@ -12,7 +12,7 @@ class CheckDbConfigurationTask extends AbstractTask
     public function perform()
     {
         try {
-            $this->getServiceLocator()->get('Connection')->connect();
+            $this->getServiceLocator()->get('Omeka\Connection')->connect();
         } catch (\Exception $e) {
             $this->addError($e->getMessage());
             return;

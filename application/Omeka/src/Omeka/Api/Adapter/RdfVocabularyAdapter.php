@@ -136,9 +136,9 @@ class RdfVocabularyAdapter extends AbstractAdapter
         }
 
         $response = new Response;
-        $manager = $this->getServiceLocator()->get('ApiManager');
+        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
 
-        $entityManager = $this->getServiceLocator()->get('EntityManager');
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->getConnection()->beginTransaction();
 
         // Create the vocabulary.

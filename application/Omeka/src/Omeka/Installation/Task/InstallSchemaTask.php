@@ -13,10 +13,10 @@ class InstallSchemaTask extends AbstractTask
      */
     public function perform()
     {
-        $conn = $this->getServiceLocator()->get('Connection');
+        $conn = $this->getServiceLocator()->get('Omeka\Connection');
         $config = $this->getServiceLocator()->get('ApplicationConfig');
         
-        if ($this->getServiceLocator()->get('Installation')->isInstalled()) {
+        if ($this->getServiceLocator()->get('Omeka\Installation')->isInstalled()) {
             $this->addError('Omeka is already installed.');
             return;
         }

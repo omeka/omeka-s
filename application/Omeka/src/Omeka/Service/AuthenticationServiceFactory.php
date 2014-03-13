@@ -21,7 +21,7 @@ class AuthenticationServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $em = $serviceLocator->get('EntityManager');
+        $em = $serviceLocator->get('Omeka\EntityManager');
         $repository = $em->getRepository('Omeka\Model\Entity\User');
 
         $storage = new DoctrineWrapper(new Session, $repository);

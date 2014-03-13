@@ -56,7 +56,7 @@ class EntityManagerFactory implements FactoryInterface
         $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
         $emConfig->setProxyDir($proxyDir);
 
-        $connection = $serviceLocator->get('Connection');
+        $connection = $serviceLocator->get('Omeka\Connection');
 
         if (isset($config['loggers']['sql']['log'])
             && $config['loggers']['sql']['log']

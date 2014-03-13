@@ -36,7 +36,7 @@ class AbstractEntityAdapterTest extends \PHPUnit_Framework_TestCase
         $queryExpr = $this->getMock('Doctrine\ORM\Query\Expr');
         $queryBuilder = $mockBuilder->getQueryBuilder();
         $entityManager = $mockBuilder->getEntityManager();
-        $serviceManager = $mockBuilder->getServiceManager(array('EntityManager' => $entityManager));
+        $serviceManager = $mockBuilder->getServiceManager(array('Omeka\EntityManager' => $entityManager));
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
 
         // EntityManager expectations

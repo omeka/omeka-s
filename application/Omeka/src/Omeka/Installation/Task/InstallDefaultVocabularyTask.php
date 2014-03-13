@@ -20,7 +20,7 @@ class InstallDefaultVocabularyTask extends AbstractTask
      */
     public function perform()
     {
-        $api = $this->getServiceLocator()->get('ApiManager');
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
         $response = $api->create('vocabularies', $this->vocabulary);
         if ($response->isError()) {
             $this->addErrorStore($response->getErrorStore());

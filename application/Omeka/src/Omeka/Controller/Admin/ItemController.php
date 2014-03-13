@@ -12,7 +12,7 @@ class ItemController extends AbstractActionController
 
     public function browseAction()
     {
-        $api = $this->getServiceLocator()->get('ApiManager');
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
         $filter = new ResponseFilter;
         $response = $api->search('items', array());
         $items = $response->getContent();
@@ -34,7 +34,7 @@ class ItemController extends AbstractActionController
 
     public function addAction()
     {
-        $api = $this->getServiceLocator()->get('ApiManager');
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
 
         // Handle the add item form.
         if ($this->getRequest()->isPost()) {

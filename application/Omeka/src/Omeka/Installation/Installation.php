@@ -18,7 +18,7 @@ class Installation implements ServiceLocatorAwareInterface
      */
     public function isInstalled()
     {
-        $connection = $this->getServiceLocator()->get('Connection');
+        $connection = $this->getServiceLocator()->get('Omeka\Connection');
         $config = $this->getServiceLocator()->get('ApplicationConfig');
         $tables = $connection->getSchemaManager()->listTableNames();
         $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;

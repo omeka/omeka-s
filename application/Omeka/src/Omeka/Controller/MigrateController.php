@@ -8,7 +8,7 @@ class MigrateController extends AbstractActionController
 {
     public function indexAction()
     {
-        $migrator = $this->getServiceLocator()->get('MigrationManager');
+        $migrator = $this->getServiceLocator()->get('Omeka\MigrationManager');
 
         if ($this->getRequest()->isPost()) {
             $migrator->upgrade();

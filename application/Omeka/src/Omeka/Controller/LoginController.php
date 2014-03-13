@@ -17,7 +17,7 @@ class LoginController extends AbstractActionController
             $username = $this->params()->fromPost('username');
             $password = $this->params()->fromPost('password');
 
-            $auth = $this->getServiceLocator()->get('AuthenticationService');
+            $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
             $adapter = $auth->getAdapter();
             $adapter->setIdentity($username);
             $adapter->setCredential($password);

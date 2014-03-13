@@ -28,7 +28,7 @@ class DbTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        self::getApplication()->getServiceManager()->get('EntityManager')
+        self::getApplication()->getServiceManager()->get('Omeka\EntityManager')
             ->getConnection()->beginTransaction();
     }
 
@@ -37,7 +37,7 @@ class DbTestCase extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        self::getApplication()->getServiceManager()->get('EntityManager')
+        self::getApplication()->getServiceManager()->get('Omeka\qEntityManager')
             ->getConnection()->rollback();
     }
 
@@ -68,7 +68,7 @@ class DbTestCase extends \PHPUnit_Framework_TestCase
     public static function dropSchema()
     {
         $connection = self::getApplication()->getServiceManager()
-            ->get('EntityManager')->getConnection();
+            ->get('Omeka\EntityManager')->getConnection();
         $connection->query('SET FOREIGN_KEY_CHECKS=0');
         foreach ($connection->getSchemaManager()->listTableNames() as $table) {
             $connection->executeUpdate(

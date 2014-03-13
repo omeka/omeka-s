@@ -99,7 +99,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->hydrate($data, $entity);
 
         // Verify that the current user has access to create this entity.
-        $acl = $this->getServiceLocator()->get('Acl');
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'create')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to create the %s resource.',
@@ -147,7 +147,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $this->hydrate($datum, $entity);
 
             // Verify that the current user has access to create this entity.
-            $acl = $this->getServiceLocator()->get('Acl');
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
             if (!$acl->isAllowed('current_user', $entity, 'create')) {
                 $response->setStatus(Response::ERROR_PERMISSION_DENIED);
                 $response->addError(Response::ERROR_PERMISSION_DENIED, sprintf(
@@ -180,7 +180,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         if ($response->isError()) {
             // Prevent subsequent flushes when an error has occurred.
             foreach ($entities as $entity) {
-                $this->getServiceLocator()->get('EntityManager')->detach($entity);
+                $this->getServiceLocator()->get('Omeka\EntityManager')->detach($entity);
             }
             return $response;
         }
@@ -208,7 +208,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             return $response;
         }
         // Verify that the current user has access to read this entity.
-        $acl = $this->getServiceLocator()->get('Acl');
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'read')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to read the %s resource.',
@@ -248,7 +248,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->hydrate($data, $entity);
 
         // Verify that the current user has access to update this entity.
-        $acl = $this->getServiceLocator()->get('Acl');
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'update')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to update the %s resource.',
@@ -298,7 +298,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Verify that the current user has access to delete this entity.
-        $acl = $this->getServiceLocator()->get('Acl');
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'delete')) {
             throw new Exception\PermissionDeniedException(sprintf(
                 'Permission denied for the current user to delete the %s resource.',
@@ -327,7 +327,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     protected function getEntityManager()
     {
-        return $this->getServiceLocator()->get('EntityManager');
+        return $this->getServiceLocator()->get('Omeka\EntityManager');
     }
 
     /**

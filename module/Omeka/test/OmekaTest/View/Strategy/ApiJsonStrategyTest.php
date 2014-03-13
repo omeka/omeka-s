@@ -89,6 +89,6 @@ class ApiJsonStrategyTest extends \PHPUnit_Framework_TestCase
 
         $headers = $this->event->getResponse()->getHeaders();
         $expectedContentType = 'application/json; charset=utf-8';
-        $this->assertEquals($expectedContentType, $headers->get('Content-Type')->value);
+        $this->assertEquals($expectedContentType, $headers->get('Content-Type')->getFieldValue());
     }
 }

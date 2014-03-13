@@ -54,7 +54,7 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_path_stack'      => array(
-            OMEKA_PATH . '/module/Omeka/view',
+            OMEKA_PATH . '/application/Omeka/view',
         ),
         'strategies' => array(
             'ViewApiJsonStrategy',
@@ -68,7 +68,7 @@ return array(
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/module/Omeka/src/Omeka/Model/Entity',
+            OMEKA_PATH . '/application/Omeka/src/Omeka/Model/Entity',
         ),
     ),
     'loggers' => array(

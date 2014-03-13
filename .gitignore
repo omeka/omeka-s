@@ -7,5 +7,5 @@ config/database.ini
 data/doctrine-proxies/
 data/logs/sql.log
 data/logs/application.log
-module/Omeka/test/config/database.ini
+application/Omeka/test/config/database.ini
 vendor/

@@ -15,11 +15,6 @@ class InstallSchemaTask extends AbstractTask
     {
         $conn = $this->getServiceLocator()->get('Omeka\Connection');
         $config = $this->getServiceLocator()->get('ApplicationConfig');
-        
-        if ($this->getServiceLocator()->get('Omeka\Installation')->isInstalled()) {
-            $this->addError('Omeka is already installed.');
-            return;
-        }
 
         $schemaPath = OMEKA_PATH . '/data/install/schema.sql';
         if (!is_readable($schemaPath)) {

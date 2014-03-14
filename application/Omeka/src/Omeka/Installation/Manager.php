@@ -11,6 +11,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Manager implements ServiceLocatorAwareInterface
 {
     /**
+     * Table against which to check for an Omeka installation
+     */
+    const CHECK_TABLE = 'user';
+
+    /**
      * @var ServiceLocatorInterface
      */
     protected $services;
@@ -26,6 +31,18 @@ class Manager implements ServiceLocatorAwareInterface
     protected $vars = array();
 
     /**
+     * Check whether Omeka is currently installed.
+     */
+    public function isInstalled()
+    {
+        $connection = $this->getServiceLocator()->get('Omeka\Connection');
+        $config = $this->getServiceLocator()->get('ApplicationConfig');
+        $tables = $connection->getSchemaManager()->listTableNames();
+        $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;
+        return in_array($checkTable, $tables);
+    }
+
+    /**
      * Install Omeka.
      *
      * @return Result
@@ -33,6 +50,12 @@ class Manager implements ServiceLocatorAwareInterface
     public function install()
     {
         $result = new Result;
+
+        if ($this->isInstalled()) {
+            $result->addMessage('Omeka is already installed.', Result::MESSAGE_TYPE_ERROR);
+            return $result;
+        }
+
         foreach ($this->getTasks() as $taskName) {
             $start = microtime(true);
             $task = new $taskName($result);

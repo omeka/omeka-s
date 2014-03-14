@@ -57,10 +57,22 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             $this->manager->getServiceLocator()
         );
     }
+
+    public function testIsInstalled()
+    {
+        $this->setInstallationState(true);
+        $this->assertTrue($this->manager->isInstalled());
+    }
+
+    public function testIsNotInstalled()
+    {
+        $this->setInstallationState(false);
+        $this->assertFalse($this->manager->isInstalled());
+    }
     
     public function testInstallSuccessfulTask()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $this->setInstallationState(false);
         $this->manager->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $this->manager->install();
         $this->assertInstanceOf('Omeka\Installation\Result', $result);
@@ -76,8 +88,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstallErrorTask()
     {
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->manager->setServiceLocator($serviceLocator);
+        $this->setInstallationState(false);
         $this->manager->registerTask('OmekaTest\Installation\ErrorTask');
         $result = $this->manager->install();
         $this->assertInstanceOf('Omeka\Installation\Result', $result);
@@ -90,6 +101,28 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 'error' => array('error_message'),
             )
         ), $result->getMessages());
+    }
+
+    protected function setInstallationState($installed)
+    {
+        $tablePrefix = 'omeka_';
+        $tableName = $installed ? Manager::CHECK_TABLE : 'bad_table_name';
+
+        $connection = $this->getMockBuilder('Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getSchemaManager', 'listTableNames'))
+            ->getMock();
+        $connection->expects($this->once())
+            ->method('getSchemaManager')
+            ->will($this->returnSelf());
+        $connection->expects($this->once())
+            ->method('listTableNames')
+            ->will($this->returnValue(array($tablePrefix . $tableName)));
+        $serviceManager = $this->mockBuilder->getServiceManager(array(
+            'Omeka\Connection' => $connection,
+            'ApplicationConfig' => array('connection' => array('table_prefix' => 'omeka_')),
+        ));
+        $this->manager->setServiceLocator($serviceManager);
     }
 }
 

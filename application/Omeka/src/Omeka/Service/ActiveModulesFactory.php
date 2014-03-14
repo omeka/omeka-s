@@ -17,7 +17,7 @@ class ActiveModulesFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!$serviceLocator->get('Omeka\Installation')->isInstalled()) {
+        if (!$serviceLocator->get('Omeka\InstallationManager')->isInstalled()) {
             return array();
         }
 

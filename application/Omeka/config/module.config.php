@@ -12,13 +12,11 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
             'Omeka\ApiManager'            => 'Omeka\Service\ApiManagerFactory',
+            'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
-            'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
-            'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
 
         ),

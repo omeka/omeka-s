@@ -34,6 +34,11 @@ class ModuleManagerFactory implements FactoryInterface
                 && !in_array($fileinfo->getBasename(), $appConfig['modules'])
             ) {
                 // Found a non-default module.
+
+                // @todo This is where we need check if the class in Module.php
+                // extends Omeka\Module\AbstractModule and set an INVALID_MODULE
+                // state or just skip over the plugin.
+
                 $iniFile = new \SplFileInfo($fileinfo->getPathname() . '/config/module.ini');
                 if ($iniFile->isReadable() && $iniFile->isFile()) {
                     // Found a module with config/module.ini in it.

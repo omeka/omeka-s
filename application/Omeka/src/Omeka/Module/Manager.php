@@ -1,7 +1,13 @@
 <?php
 namespace Omeka\Module;
 
-class Manager implements ServiceLocatorAwareInterface
+use Omeka\Event\Event;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterface
 {
     const STATE_ACTIVE        = 'active';
     const STATE_NOT_ACTIVE    = 'not_active';
@@ -42,6 +48,11 @@ class Manager implements ServiceLocatorAwareInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
 
     /**
      * Set a found module ID and its info (from config/module.ini)
@@ -186,7 +197,10 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $id The module ID
      */
     public function install($id)
-    {}
+    {
+        // Trigger the module.install event
+        $this->triggerModuleEvent($id, Event::EVENT_MODULE_INSTALL);
+    }
 
     /**
      * Uninstall a module
@@ -194,7 +208,10 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $id The module ID
      */
     public function uninstall($id)
-    {}
+    {
+        // Trigger the module.uninstall event
+        $this->triggerModuleEvent($id, Event::EVENT_MODULE_UNINSTALL);
+    }
 
     /**
      * Activate a module
@@ -202,7 +219,10 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $id The module ID
      */
     public function activate($id)
-    {}
+    {
+        // Trigger the module.activate event
+        $this->triggerModuleEvent($id, Event::EVENT_MODULE_ACTIVATE);
+    }
 
     /**
      * Deactivate a module
@@ -210,7 +230,10 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $id The module ID
      */
     public function deactivate($id)
-    {}
+    {
+        // Trigger the module.deactivate event
+        $this->triggerModuleEvent($id, Event::EVENT_MODULE_DEACTIVATE);
+    }
 
     /**
      * Upgrade a module
@@ -218,7 +241,28 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $id The module ID
      */
     public function upgrade($id)
-    {}
+    {
+        // Trigger the module.upgrade event
+        $this->triggerModuleEvent($id, Event::EVENT_MODULE_UPGRADE);
+    }
+
+    /**
+     * Trigger a module event
+     *
+     * @param string $id The module ID
+     * @param string $eventName The event name
+     */
+    protected function triggerModuleEvent($id, $eventName)
+    {
+        // @todo Need to make Omeka\Module\AbstractModule EventManagerAware and
+        // set the identifier to get_class($this).
+
+        $manager = $this->getServiceLocator()->get('ModuleManager');
+        $event = new Event($eventName, $manager->getModule($id), array(
+            'services' => $this->getServiceLocator(),
+        ));
+        $this->getEventManager()->trigger($event);
+    }
 
     /**
      * {@inheritDoc}
@@ -234,5 +278,22 @@ class Manager implements ServiceLocatorAwareInterface
     public function getServiceLocator()
     {
         return $this->services;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(get_class($this));
+        $this->events = $events;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEventManager()
+    {
+        return $this->events;
     }
 }

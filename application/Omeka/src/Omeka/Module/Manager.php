@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Module;
 
-class Manager
+class Manager implements ServiceLocatorAwareInterface
 {
     const STATE_ACTIVE        = 'active';
     const STATE_NOT_ACTIVE    = 'not_active';
@@ -37,6 +37,11 @@ class Manager
         // in this state do not have a corresponding found module.
         self::STATE_NOT_FOUND     => array(),
     );
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $services;
 
     /**
      * Set a found module ID and its info (from config/module.ini)
@@ -173,5 +178,61 @@ class Manager
     public function isValidState($state)
     {
         return in_array($state, $this->validStates)
+    }
+
+    /**
+     * Install a module
+     *
+     * @param string $id The module ID
+     */
+    public function install($id)
+    {}
+
+    /**
+     * Uninstall a module
+     *
+     * @param string $id The module ID
+     */
+    public function uninstall($id)
+    {}
+
+    /**
+     * Activate a module
+     *
+     * @param string $id The module ID
+     */
+    public function activate($id)
+    {}
+
+    /**
+     * Deactivate a module
+     *
+     * @param string $id The module ID
+     */
+    public function deactivate($id)
+    {}
+
+    /**
+     * Upgrade a module
+     *
+     * @param string $id The module ID
+     */
+    public function upgrade($id)
+    {}
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->services = $serviceLocator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceLocator()
+    {
+        return $this->services;
     }
 }

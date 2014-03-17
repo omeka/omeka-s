@@ -68,8 +68,8 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     /**
      * Get found module info
      *
-     * @param string $id The module ID
-     * @return array|null The module info
+     * @param string|null $id The module ID
+     * @return array The module info
      */
     public function getFound($id = null)
     {
@@ -125,15 +125,15 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     /**
      * Get all module IDs from a specific state
      *
-     * @param string $state The module state
+     * @param string|null $state The module state
      * @return array
      */
-    public function getFromState($state)
+    public function getState($state = null)
     {
-        if (!$this->isValidState($state)) {
+        if (null !== $state && !$this->isValidState($state)) {
             throw new \InvalidArgumentException(sprintf('Invalid module state: %s', $state));
         }
-        return $this->moduleStates[$state];
+        return null === $state ? $this->moduleStates : $this->moduleStates[$state];
     }
 
     /**
@@ -188,7 +188,7 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     public function isValidState($state)
     {
-        return in_array($state, $this->validStates)
+        return in_array($state, $this->validStates);
     }
 
     /**

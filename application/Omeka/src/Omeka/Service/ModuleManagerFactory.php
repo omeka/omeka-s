@@ -1,7 +1,10 @@
 <?php
 namespace Omeka\Service;
 
+use DirectoryIterator;
 use Omeka\Module\Manager as ModuleManager;
+use SplFileInfo;
+use Zend\Config\Reader\Ini as IniReader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -22,30 +25,52 @@ class ModuleManagerFactory implements FactoryInterface
             return array();
         }
 
-        $modules = new ModuleManager;
-        $appConfig = $serviceLocator->get('ApplicationConfig');
+        $modules    = new ModuleManager;
+        $iniReader  = new IniReader;
+        $appConfig  = $serviceLocator->get('ApplicationConfig');
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
-        $iniReader = new \Zend\Config\Reader\Ini;
-        foreach (new \DirectoryIterator(OMEKA_PATH . '/module') as $fileinfo) {
-            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+        foreach (new DirectoryIterator(OMEKA_PATH . '/module') as $dir) {
 
-                // @todo This is where we need check if the class in Module.php
-                // extends Omeka\Module\AbstractModule and set an INVALID_MODULE
-                // state or just skip over the plugin.
+            // Module must be a directory
+            if (!$dir->isDir() || $dir->isDot()) {
+                continue;
+            }
 
-                $iniFile = new \SplFileInfo($fileinfo->getPathname() . '/config/module.ini');
-                if ($iniFile->isReadable() && $iniFile->isFile()) {
-                    // Found a module with config/module.ini in it.
-                    $moduleInfo = $iniReader->fromFile($iniFile->getRealPath());
+            $modules->setModule($dir->getBasename());
 
-                    // @todo This is where we need validate the plugin's ini
-                    // configuration and either set an INVALID_INI state or
-                    // just skip over the plugin.
+            // Module directory must contain config/module.ini
+            $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
+            if (!$iniFile->isReadable() || !$iniFile->isFile()) {
+                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_INI);
+                continue;
+            }
 
-                    $modules->setFound($fileinfo->getBasename(), $moduleInfo);
-                }
+            $moduleIni = $iniReader->fromFile($iniFile->getRealPath());
+            $modules->setModuleIni($dir->getBasename(), $moduleIni);
+
+            // Module INI must be valid
+            if (!$modules->moduleIniIsValid($moduleIni)) {
+                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_INI);
+                continue;
+            }
+
+            // Module directory must contain Module.php
+            $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
+            if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
+                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_MODULE);
+                continue;
+            }
+
+            // Module class must extend Omeka\Module\AbstractModule
+            require_once $moduleFile->getRealPath();
+            $moduleClass = $dir->getBasename() . '\Module';
+            if (!class_exists($moduleClass)
+                || !is_subclass_of($moduleClass, 'Omeka\Module\AbstractModule')
+            ) {
+                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_MODULE);
+                continue;
             }
         }
 
@@ -54,29 +79,37 @@ class ModuleManagerFactory implements FactoryInterface
         $statement = $connection->prepare("SELECT * FROM $table");
         $statement->execute();
         foreach ($statement->fetchAll() as $module) {
-            if ($modules->isFound($module['id'])) {
 
-                // @todo This is where we need to compare filesystem version
-                // with database version and set an INSTALLED_NEEDS_UPDATE
-                // state instead of ACTIVE or NOT_ACTIVE.
+            if (!$modules->moduleExists($module['id'])) {
+                // Module installed but not in filesystem
+                $modules->setModule($module['id']);
+                $modules->setModuleDb($module['id'], $module);
+                $modules->setModuleState($module['id'], ModuleManager::STATE_NOT_FOUND);
+                continue;
+            }
 
-                if ($module['is_active']) {
-                    // Module found, installed, and active
-                    $modules->setToState($module['id'], ModuleManager::STATE_ACTIVE);
-                } else {
-                    // Module found, installed, and not active
-                    $modules->setToState($module['id'], ModuleManager::STATE_NOT_ACTIVE);
-                }
+            $modules->setModuleDb($module['id'], $module);
+
+            if ($modules->moduleHasState($module['id'])) {
+                continue;
+            }
+
+            // @todo This is where we need to compare filesystem version with
+            // database version and set an INSTALLED_NEEDS_UPGRADE state
+
+            if ($module['is_active']) {
+                // Module valid, installed, and active
+                $modules->setModuleState($module['id'], ModuleManager::STATE_ACTIVE);
             } else {
-                // Module found in the database but not in the filesystem
-                $modules->setToState($module['id'], ModuleManager::STATE_NOT_FOUND);
+                // Module valid, installed, and not active
+                $modules->setModuleState($module['id'], ModuleManager::STATE_NOT_ACTIVE);
             }
         }
 
-        foreach ($modules->getFound() as $id => $info) {
-            if (!$modules->isInState($id)) {
-                // Module found but not installed
-                $modules->setToState($id, ModuleManager::STATE_NOT_INSTALLED);
+        foreach ($modules->getModules() as $id => $info) {
+            if (!$modules->moduleHasState($id)) {
+                // Module in filesystem but not installed
+                $modules->setModuleState($id, ModuleManager::STATE_NOT_INSTALLED);
             }
         }
 

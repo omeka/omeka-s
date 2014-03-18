@@ -7,187 +7,132 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager implements ServiceLocatorAwareInterface
 {
-    const STATE_ACTIVE        = 'active';
-    const STATE_NOT_ACTIVE    = 'not_active';
-    const STATE_NOT_INSTALLED = 'not_installed';
-    const STATE_NOT_FOUND     = 'not_found';
+    const STATE_ACTIVE         = 'active';
+    const STATE_NOT_ACTIVE     = 'not_active';
+    const STATE_NOT_INSTALLED  = 'not_installed';
+    const STATE_NOT_FOUND      = 'not_found';
+    const STATE_INVALID_MODULE = 'invalid_module';
+    const STATE_INVALID_INI    = 'invalid_ini';
 
     /**
      * @var array Valid module states
      */
     protected $validStates = array(
+        // A module that is valid, installed, and active
         self::STATE_ACTIVE,
+        // A module that is valid, installed, and not active
         self::STATE_NOT_ACTIVE,
+        // A module that is in the filesystem but not in the database
         self::STATE_NOT_INSTALLED,
+        // A module that is in the database but not in the filesystem
         self::STATE_NOT_FOUND,
+        // A module with an invalid Module.php file
+        self::STATE_INVALID_MODULE,
+        // A module with an invalid config/module.ini file
+        self::STATE_INVALID_INI,
     );
 
     /**
-     * @var array All found module IDs and their info
+     * @var array
      */
-    protected $foundModules = array();
+    protected $modules = array();
 
     /**
-     * @var array Module IDs assigned to their current state
-     */
-    protected $moduleStates = array(
-        // Modules that are found, installed, and active
-        self::STATE_ACTIVE        => array(),
-        // Modules that are found, installed, and not active
-        self::STATE_NOT_ACTIVE    => array(),
-        // Modules that are in the filesystem but not in the database
-        self::STATE_NOT_INSTALLED => array(),
-        // Modules that are in the database but not in the filesystem. Modules
-        // in this state do not have a corresponding found module.
-        self::STATE_NOT_FOUND     => array(),
-    );
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
-
-    /**
-     * Set a found module ID and its info (from config/module.ini)
+     * Set a new module to the list
      *
-     * @param string $id The module ID
-     * @param array $info The module info
+     * @param string $id
      */
-    public function setFound($id, array $info)
+    public function setModule($id)
     {
-        $this->foundModules[$id] = $info;
+        $this->modules[$id] = array(
+            'state' => null,
+            'ini'   => null,
+            'db'    => null,
+        );
     }
 
     /**
-     * Get found module info
+     * Set a module's state
      *
-     * @param string|null $id The module ID
-     * @return array The module info
+     * @param string $id
+     * @param string $state
      */
-    public function getFound($id = null)
+    public function setModuleState($id, $state)
     {
-        if (null !== $id && !$this->isFound($id)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module ID: %s', $id));
-        }
-        return null === $id ? $this->foundModules : $this->foundModules[$id];
+        $this->modules[$id]['state'] = $state;
     }
 
     /**
-     * Completely remove a found module
+     * Set a module's INI
      *
-     * @param string $id The module ID
+     * @param string $id
+     * @param array $ini
      */
-    public function removeFound($id)
+    public function setModuleIni($id, array $ini)
     {
-        if (!$this->isFound($id)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module ID: %s', $id));
-        }
-        $this->removeFromState($id);
-        unset($this->foundModules[$id]);
+        $this->modules[$id]['ini'] = $ini;
     }
 
     /**
-     * Check whether the module is found
+     * Set a module's db row
      *
-     * @param string $id The module ID
+     * @param string $id
+     * @param array $row
+     */
+    public function setModuleDb($id, array $row)
+    {
+        $this->modules[$id]['db'] = $row;
+    }
+
+    /**
+     * Check whether a module exists
+     *
+     * @param string $id
      * @return bool
      */
-    public function isFound($id)
+    public function moduleExists($id)
     {
-        return isset($this->foundModules[$id]);
+        return array_key_exists($id, $this->modules);
     }
 
     /**
-     * Set the module state
+     * Check whether a module has state
      *
-     * @param string $id The module ID
-     * @param string $state The module state
+     * @param string $id
+     * @return bool
      */
-    public function setToState($id, $state)
+    public function moduleHasState($id)
     {
-        if (!$this->isFound($id)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module ID: %s', $id));
-        }
-        if (!$this->isValidState($state)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module state: %s', $state));
-        }
-        $this->removeFromState($id);
-        $this->moduleStates[$state][] = $id;
+        return (bool) $this->modules[$id]['state'];
     }
 
     /**
-     * Get all module IDs from a specific state
+     * Get all modules
      *
-     * @param string|null $state The module state
      * @return array
      */
-    public function getState($state = null)
+    public function getModules()
     {
-        if (null !== $state && !$this->isValidState($state)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module state: %s', $state));
-        }
-        return null === $state ? $this->moduleStates : $this->moduleStates[$state];
+        return $this->modules;
     }
 
     /**
-     * Remove the module from state
+     * Check whether the INI is valid
      *
-     * @param string $id The module ID
+     * @param array $ini
      */
-    public function removeFromState($id)
+    public function moduleIniIsValid(array $ini)
     {
-        if (!$this->isFound($id)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module ID: %s', $id));
+        if (!isset($ini['version'])) {
+            return false;
         }
-        // Iterate all states just to be sure
-        foreach ($this->validStates as $state) {
-            unset($this->moduleStates[$state][$id]);
-        }
-    }
-
-    /**
-     * Check whether the module is set to a state
-     *
-     * @param string $id The module ID
-     * @param string|null $state The module state
-     * @return bool
-     */
-    public function isInState($id, $state = null)
-    {
-        if (!$this->isFound($id)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module ID: %s', $id));
-        }
-        if (null !== $state && !$this->isValidState($state)) {
-            throw new \InvalidArgumentException(sprintf('Invalid module state: %s', $state));
-        }
-        // Check the specified state
-        if (null !== $state) {
-            return in_array($id, $this->moduleStates[$state]) ? true : false;
-        }
-        // Check all states
-        foreach ($this->moduleStates as $ids) {
-            if (in_array($id, $ids)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Check whether the state is valid
-     *
-     * @param string $state The module state
-     * @return bool
-     */
-    public function isValidState($state)
-    {
-        return in_array($state, $this->validStates);
+        return true;
     }
 
     /**
      * Install a module
      *
-     * @param string $id The module ID
+     * @param string $id
      */
     public function install($id)
     {
@@ -198,7 +143,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Uninstall a module
      *
-     * @param string $id The module ID
+     * @param string $id
      */
     public function uninstall($id)
     {
@@ -209,7 +154,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Activate a module
      *
-     * @param string $id The module ID
+     * @param string $id
      */
     public function activate($id)
     {
@@ -220,7 +165,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Deactivate a module
      *
-     * @param string $id The module ID
+     * @param string $id
      */
     public function deactivate($id)
     {
@@ -231,7 +176,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Upgrade a module
      *
-     * @param string $id The module ID
+     * @param string $id
      */
     public function upgrade($id)
     {
@@ -242,8 +187,8 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Trigger a module event
      *
-     * @param string $id The module ID
-     * @param string $eventName The event name
+     * @param string $id
+     * @param string $eventName
      */
     protected function triggerModuleEvent($id, $eventName)
     {

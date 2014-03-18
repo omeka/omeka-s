@@ -29,11 +29,7 @@ class ModuleManagerFactory implements FactoryInterface
         // Get all modules from the filesystem.
         $iniReader = new \Zend\Config\Reader\Ini;
         foreach (new \DirectoryIterator(OMEKA_PATH . '/module') as $fileinfo) {
-            if ($fileinfo->isDir()
-                && !$fileinfo->isDot()
-                && !in_array($fileinfo->getBasename(), $appConfig['modules'])
-            ) {
-                // Found a non-default module.
+            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 
                 // @todo This is where we need check if the class in Module.php
                 // extends Omeka\Module\AbstractModule and set an INVALID_MODULE

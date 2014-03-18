@@ -2,12 +2,10 @@
 namespace Omeka\Module;
 
 use Omeka\Event\Event;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterface
+class Manager implements ServiceLocatorAwareInterface
 {
     const STATE_ACTIVE        = 'active';
     const STATE_NOT_ACTIVE    = 'not_active';
@@ -48,11 +46,6 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      * @var ServiceLocatorInterface
      */
     protected $services;
-
-    /**
-     * @var EventManagerInterface
-     */
-    protected $events;
 
     /**
      * Set a found module ID and its info (from config/module.ini)
@@ -254,14 +247,11 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
      */
     protected function triggerModuleEvent($id, $eventName)
     {
-        // @todo Need to make Omeka\Module\AbstractModule EventManagerAware and
-        // set the identifier to get_class($this).
-
-        $manager = $this->getServiceLocator()->get('ModuleManager');
-        $event = new Event($eventName, $manager->getModule($id), array(
+        $event = new Event($eventName, $this, array(
             'services' => $this->getServiceLocator(),
         ));
-        $this->getEventManager()->trigger($event);
+        $this->getServiceLocator()->get('ModuleManager')
+            ->getModule($id)->getEventManager()->trigger($event);
     }
 
     /**
@@ -278,22 +268,5 @@ class Manager implements ServiceLocatorAwareInterface, EventManagerAwareInterfac
     public function getServiceLocator()
     {
         return $this->services;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventManager(EventManagerInterface $events)
-    {
-        $events->setIdentifiers(get_class($this));
-        $this->events = $events;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventManager()
-    {
-        return $this->events;
     }
 }

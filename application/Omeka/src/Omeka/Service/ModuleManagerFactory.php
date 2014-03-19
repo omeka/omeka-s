@@ -78,31 +78,36 @@ class ModuleManagerFactory implements FactoryInterface
         $table = $appConfig['connection']['table_prefix'] . 'module';
         $statement = $connection->prepare("SELECT * FROM $table");
         $statement->execute();
-        foreach ($statement->fetchAll() as $module) {
+        foreach ($statement->fetchAll() as $moduleRow) {
 
-            if (!$modules->moduleExists($module['id'])) {
+            if (!$modules->moduleExists($moduleRow['id'])) {
                 // Module installed but not in filesystem
-                $modules->setModule($module['id']);
-                $modules->setModuleDb($module['id'], $module);
-                $modules->setModuleState($module['id'], ModuleManager::STATE_NOT_FOUND);
+                $modules->setModule($moduleRow['id']);
+                $modules->setModuleDb($moduleRow['id'], $moduleRow);
+                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NOT_FOUND);
                 continue;
             }
 
-            $modules->setModuleDb($module['id'], $module);
+            $modules->setModuleDb($moduleRow['id'], $moduleRow);
 
-            if ($modules->moduleHasState($module['id'])) {
+            if ($modules->moduleHasState($moduleRow['id'])) {
+                // Module already has state.
                 continue;
             }
 
-            // @todo This is where we need to compare filesystem version with
-            // database version and set an INSTALLED_NEEDS_UPGRADE state
+            //~ $moduleIni = $modules->getModuleIni($moduleRow['id']);
+            //~ if (version_compare($moduleIni['version'], $moduleRow['version'], '>')) {
+                //~ // Module in filesystem is newer version than the installed one.
+                //~ $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NEEDS_UPGRADE);
+                //~ continue;
+            //~ }
 
-            if ($module['is_active']) {
+            if ($moduleRow['is_active']) {
                 // Module valid, installed, and active
-                $modules->setModuleState($module['id'], ModuleManager::STATE_ACTIVE);
+                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_ACTIVE);
             } else {
                 // Module valid, installed, and not active
-                $modules->setModuleState($module['id'], ModuleManager::STATE_NOT_ACTIVE);
+                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NOT_ACTIVE);
             }
         }
 

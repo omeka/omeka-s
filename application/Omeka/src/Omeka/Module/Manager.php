@@ -13,6 +13,7 @@ class Manager implements ServiceLocatorAwareInterface
     const STATE_NOT_FOUND      = 'not_found';
     const STATE_INVALID_MODULE = 'invalid_module';
     const STATE_INVALID_INI    = 'invalid_ini';
+    const STATE_NEEDS_UPGRADE  = 'needs_upgrade';
 
     /**
      * @var array Valid module states
@@ -30,6 +31,8 @@ class Manager implements ServiceLocatorAwareInterface
         self::STATE_INVALID_MODULE,
         // A module with an invalid config/module.ini file
         self::STATE_INVALID_INI,
+        // A module where the filesystem version is newer than the installed version
+        self::STATE_NEEDS_UPGRADE,
     );
 
     /**
@@ -114,6 +117,28 @@ class Manager implements ServiceLocatorAwareInterface
     public function getModules()
     {
         return $this->modules;
+    }
+
+    /**
+     * Get a module
+     *
+     * @param string $id
+     * @return array
+     */
+    public function getModule($id)
+    {
+        return $this->modules[$id];
+    }
+
+    /**
+     * Get a module's INI
+     *
+     * @param string $id
+     * @return array|null
+     */
+    public function getModuleIni($id)
+    {
+        return $this->modules[$id]['ini'];
     }
 
     /**

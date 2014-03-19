@@ -38,7 +38,7 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            $modules->setModule($dir->getBasename());
+            $modules->addModule($dir->getBasename());
 
             // Module directory must contain config/module.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
@@ -82,7 +82,7 @@ class ModuleManagerFactory implements FactoryInterface
 
             if (!$modules->moduleExists($moduleRow['id'])) {
                 // Module installed but not in filesystem
-                $modules->setModule($moduleRow['id']);
+                $modules->addModule($moduleRow['id']);
                 $modules->setModuleDb($moduleRow['id'], $moduleRow);
                 $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NOT_FOUND);
                 continue;

@@ -41,11 +41,11 @@ class Manager implements ServiceLocatorAwareInterface
     protected $modules = array();
 
     /**
-     * Set a new module to the list
+     * Add a new module to the list
      *
      * @param string $id
      */
-    public function setModule($id)
+    public function addModule($id)
     {
         $this->modules[$id] = array(
             'state' => null,

@@ -9,6 +9,7 @@ use Omeka\Api\Response;
 use Omeka\Test\MockBuilder;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -79,243 +80,92 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetsAndGetsEventManager()
+    public function testExecuteRequiresValidResource()
     {
-        $this->manager->setEventManager($this->getMock('Zend\EventManager\EventManager'));
-        $this->assertInstanceOf(
-            'Zend\EventManager\EventManager', 
-            $this->manager->getEventManager()
-        );
-    }
-
-    public function testExecuteRequiresValidRequestResource()
-    {
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->exactly(2))
-                ->method('getResource')
-                ->will($this->returnValue('bar'));
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
         $this->setServiceLocator();
+        $request = $this->getMock('Omeka\Api\Request');
         $response = $this->manager->execute($request);
-        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals($response->getStatus(), Response::ERROR_BAD_REQUEST);
     }
 
-    public function testExecuteRequiresValidRequestOperation()
+    public function testExecuteRequiresValidOperation()
     {
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->any())
-                ->method('getResource')
-                ->will($this->returnValue('foo'));
-        $request->expects($this->any())
-                ->method('getOperation')
-                ->will($this->returnValue('bar'));
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
         $this->setServiceLocator();
-        $response = $this->manager->execute($request, $adapter);
-        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
-    }
+        $this->manager->registerResources($this->validConfig);
 
-    public function testExecuteRequiresValidResponse()
-    {
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->any())
-                ->method('getResource')
-                ->will($this->returnValue('foo'));
-        $request->expects($this->any())
-                ->method('getOperation')
-                ->will($this->returnValue('delete'));
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->setServiceLocator();
-        $response = $this->manager->execute($request, $adapter);
-        $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
-    }
-
-    public function testExecuteReturnsExpectedResponseForSearch()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->assertExecuteReturnsExpectedResponse('foo', 'search');
-    }
-
-    public function testExecuteReturnsExpectedResponseForCreate()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->assertExecuteReturnsExpectedResponse('foo', 'create');
-    }
-
-    public function testExecuteReturnsExpectedResponseForRead()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->assertExecuteReturnsExpectedResponse('foo', 'read');
-    }
-
-    public function testExecuteReturnsExpectedResponseForUpdate()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->assertExecuteReturnsExpectedResponse('foo', 'update');
-    }
-
-    public function testExecuteReturnsExpectedResponseForDelete()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->assertExecuteReturnsExpectedResponse('foo', 'delete');
-    }
-
-    public function testBatchCreateRequiresValidRequestContent()
-    {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $this->setServiceLocator();
-        // Nopte that the request has no content. An array should be expected.
         $request = $this->getMock('Omeka\Api\Request');
         $request->expects($this->any())
             ->method('getResource')
             ->will($this->returnValue('foo'));
         $request->expects($this->any())
             ->method('getOperation')
-            ->will($this->returnValue('batch_create'));
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $response = $this->manager->execute($request, $adapter);
-        $this->assertTrue($response->isError());
-        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+            ->will($this->returnValue('invalid_operation'));
+
+        $response = $this->manager->execute($request);
+        $this->assertEquals($response->getStatus(), Response::ERROR_BAD_REQUEST);
     }
 
-    public function testExecuteReturnsExpectedResponseForBatchCreate()
+    public function testSearch()
     {
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
         $this->setServiceLocator();
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->any())
-            ->method('getResource')
-            ->will($this->returnValue('foo'));
-        $request->expects($this->any())
-            ->method('getOperation')
-            ->will($this->returnValue('batch_create'));
-        $request->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(array()));
-        $expectedResponse = $this->getMock('Omeka\Api\Response');
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $adapter->expects($this->once())
-                ->method('batchCreate')
-                ->will($this->returnValue($expectedResponse));
-        $actualResponse = $this->manager->execute($request, $adapter);
-        $this->assertSame($expectedResponse, $actualResponse);
+        $this->manager->registerResources($this->validConfig);
+        $response = $this->manager->search('foo');
+        $this->assertEquals($response->getStatus(), Response::SUCCESS);
     }
 
-    public function testSearchReturnsExpectedResponse()
+    public function testCreate()
     {
         $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->search('foo', 'data_in');
-        $this->assertEquals('search', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('data_in', $response->getRequest()->getContent());
+        $this->manager->registerResources($this->validConfig);
+        $response = $this->manager->create('foo');
+        $this->assertEquals($response->getStatus(), Response::SUCCESS);
     }
 
-    public function testCreateReturnsExpectedResponse()
+    public function testRead()
     {
         $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->create('foo', 'data_in');
-        $this->assertEquals('create', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('data_in', $response->getRequest()->getContent());
+        $this->manager->registerResources($this->validConfig);
+        $response = $this->manager->read('foo', 1);
+        $this->assertEquals($response->getStatus(), Response::SUCCESS);
     }
 
-    public function testBatchCreateReturnsExpectedResponse()
+    public function testUpdate()
     {
         $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->batchCreate('foo', array('data_in'));
-        $this->assertEquals('batch_create', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals(array('data_in'), $response->getRequest()->getContent());
+        $this->manager->registerResources($this->validConfig);
+        $response = $this->manager->update('foo', 1);
+        $this->assertEquals($response->getStatus(), Response::SUCCESS);
     }
 
-    public function testReadReturnsExpectedResponse()
+    public function testDelete()
     {
         $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->read('foo', 'id', 'data_in');
-        $this->assertEquals('read', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('id', $response->getRequest()->getId());
-        $this->assertEquals('data_in', $response->getRequest()->getContent());
-    }
-
-    public function testUpdateReturnsExpectedResponse()
-    {
-        $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->update('foo', 'id', 'data_in');
-        $this->assertEquals('update', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('id', $response->getRequest()->getId());
-        $this->assertEquals('data_in', $response->getRequest()->getContent());
-    }
-
-    public function testDeleteReturnsExpectedResponse()
-    {
-        $this->setServiceLocator();
-        $this->manager->registerResource('foo', $this->validConfig['foo']);
-        $response = $this->manager->delete('foo', 'id', 'data_in');
-        $this->assertEquals('delete', $response->getRequest()->getOperation());
-        $this->assertEquals('foo', $response->getRequest()->getResource());
-        $this->assertEquals('id', $response->getRequest()->getId());
-        $this->assertEquals('data_in', $response->getRequest()->getContent());
+        $this->manager->registerResources($this->validConfig);
+        $response = $this->manager->delete('foo', 1);
+        $this->assertEquals($response->getStatus(), Response::SUCCESS);
     }
 
     protected function setServiceLocator()
     {
-        $logger = $this->getMock('Zend\Log\Logger');
-        $logger->expects($this->any())->method('err');
-        $eventManager = $this->getMock('Zend\EventManager\EventManager');
-        $eventManager->expects($this->any())->method('setIdentifiers');
-        $acl = $this->getMock('Zend\Permissions\Acl\Acl');
-        $acl->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $serviceLocator = $this->mockBuilder->getServiceManager(array(
-            'Omeka\EventManager' => $eventManager,
-            'Omeka\Logger' => $logger,
-            'Omeka\Acl' => $acl
-        ));
-        $this->manager->setServiceLocator($serviceLocator);
-        $this->manager->setEventManager($eventManager);
-    }
+        $acl = $this->getMock('Omeka\Permissions\Acl');
+        $acl->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
 
-    protected function assertExecuteReturnsExpectedResponse($resource, $operation)
-    {
-        $this->setServiceLocator();
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->any())
-                ->method('getResource')
-                ->will($this->returnValue($resource));
-        $request->expects($this->any())
-                ->method('getOperation')
-                ->will($this->returnValue($operation));
-        $expectedResponse = $this->getMock('Omeka\Api\Response');
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        // Not all operations take an ID argument, but all take a data argument.
-        if (in_array($operation, array('search', 'create'))) {
-            $adapter->expects($this->once())
-                    ->method($operation)
-                    ->with($this->equalTo(null))
-                    ->will($this->returnValue($expectedResponse));
-        } else {
-            $adapter->expects($this->once())
-                    ->method($operation)
-                    ->with($this->equalTo(null), $this->equalTo(null))
-                    ->will($this->returnValue($expectedResponse));
-        }
-        $actualResponse = $this->manager->execute($request, $adapter);
-        $this->assertSame($expectedResponse, $actualResponse);
+        $serviceManager = $this->mockBuilder->getServiceManager(array(
+            'Omeka\Logger' => $this->getMock('Zend\Log\Logger'),
+            'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
+            'Omeka\Acl' => $acl,
+        ));
+        $this->manager->setServiceLocator($serviceManager);
     }
 }
 
 class TestAdapter implements
     AdapterInterface,
     ServiceLocatorAwareInterface,
-    EventManagerAwareInterface
+    EventManagerAwareInterface,
+    ResourceInterface
 {
     protected $request;
 
@@ -350,7 +200,7 @@ class TestAdapter implements
 
     public function delete($id, $data = null)
     {
-        return Response;
+        return new Response;
     }
 
     public function setRequest(Request $request)
@@ -375,11 +225,20 @@ class TestAdapter implements
 
     public function setEventManager(EventManagerInterface $events)
     {
+        $events->setIdentifiers(get_called_class());
         $this->events = $events;
     }
 
     public function getEventManager()
     {
+        if (null === $this->events) {
+            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
+        }
         return $this->events;
+    }
+
+    public function getResourceId()
+    {
+        return get_called_class();
     }
 }

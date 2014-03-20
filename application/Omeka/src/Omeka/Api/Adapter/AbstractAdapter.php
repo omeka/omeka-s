@@ -114,9 +114,7 @@ abstract class AbstractAdapter implements
     }
 
     /**
-     * Set the service locator.
-     * 
-     * @param ServiceLocatorInterface $serviceLocator
+     * {@inheritDoc}
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -124,9 +122,7 @@ abstract class AbstractAdapter implements
     }
 
     /**
-     * Get the service locator.
-     * 
-     * @return ServiceLocatorInterface
+     * {@inheritDoc}
      */
     public function getServiceLocator()
     {
@@ -134,23 +130,22 @@ abstract class AbstractAdapter implements
     }
     
     /**
-     * Set the event manager.
-     *
-     * @param EventManagerInterface $events
+     * {@inheritDoc}
      */
     public function setEventManager(EventManagerInterface $events)
     {
-        $events->setIdentifiers(get_class($this));
+        $events->setIdentifiers(get_called_class());
         $this->events = $events;
     }
 
     /**
-     * Get the event manager.
-     *
-     * @return EventManagerInterface
+     * {@inheritDoc}
      */
     public function getEventManager()
     {
+        if (null === $this->events) {
+            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
+        }
         return $this->events;
     }
 
@@ -159,6 +154,6 @@ abstract class AbstractAdapter implements
      */
     public function getResourceId()
     {
-        return get_class($this);
+        return get_called_class();
     }
 }

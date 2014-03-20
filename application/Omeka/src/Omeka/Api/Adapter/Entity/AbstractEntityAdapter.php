@@ -6,7 +6,6 @@ use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
-use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;

@@ -4,7 +4,6 @@ namespace Omeka\Api;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
 use Omeka\Event\Event;
-use Omeka\Stdlib\ClassCheck;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -308,19 +307,11 @@ class Manager implements ServiceLocatorAwareInterface
                 $resource
             ));
         }
-        $requiredInterfaces = array(
-            'Omeka\Api\Adapter\AdapterInterface',
-            'Zend\ServiceManager\ServiceLocatorAwareInterface',
-            'Zend\EventManager\EventManagerAwareInterface',
-            'Zend\Permissions\Acl\Resource\ResourceInterface',
-        );
-        foreach ($requiredInterfaces as $requiredInterface) {
-            if (!is_subclass_of($adapterClass, $requiredInterface)) {
-                throw new Exception\ConfigException(sprintf(
-                    'The adapter class "%s" does not implement %s for the "%s" resource.', 
-                    $adapterClass, $requiredInterface, $resource
-                ));
-            }
+        if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
+            throw new Exception\ConfigException(sprintf(
+                'The adapter class "%s" does not implement %s for the "%s" resource.', 
+                $adapterClass, $requiredInterface, $resource
+            ));
         }
         $this->resources[$resource] = $adapterClass;
     }

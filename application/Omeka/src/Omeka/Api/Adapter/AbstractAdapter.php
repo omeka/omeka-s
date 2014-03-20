@@ -3,20 +3,13 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Abstract API adapter.
  */
-abstract class AbstractAdapter implements
-    AdapterInterface,
-    ServiceLocatorAwareInterface,
-    EventManagerAwareInterface,
-    ResourceInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * @var Request

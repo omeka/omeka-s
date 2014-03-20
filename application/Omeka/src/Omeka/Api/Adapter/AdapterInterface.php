@@ -2,11 +2,17 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * API adapter interface.
  */
-interface AdapterInterface
+interface AdapterInterface extends
+    ServiceLocatorAwareInterface,
+    EventManagerAwareInterface,
+    ResourceInterface
 {
     /**
      * Search a set of resources.

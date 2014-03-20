@@ -119,6 +119,17 @@ class Manager implements ServiceLocatorAwareInterface
         return $this->modules;
     }
 
+    public function getModulesByState($state)
+    {
+        $modules = array();
+        foreach ($this->modules as $id => $module) {
+            if ($state == $module['state']) {
+                $modules[$id] = $module;
+            }
+        }
+        return $modules;
+    }
+
     /**
      * Get a module
      *

@@ -139,18 +139,21 @@ class Manager implements ServiceLocatorAwareInterface
                 ));
             }
 
-            // Trigger the execute.pre event.
-            $event = new Event(Event::EVENT_EXECUTE_PRE, $adapter, array(
+            // Trigger the api.execute.pre event.
+            $event = new Event(Event::API_EXECUTE_PRE, $adapter, array(
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
             ));
             $adapter->getEventManager()->trigger($event);
 
-            // Trigger the {operation}.pre event.
-            $event = new Event($request->getOperation() . '.pre', $adapter, array(
-                'services' => $this->getServiceLocator(),
-                'request' => $request,
-            ));
+            // Trigger the api.{operation}.pre event.
+            $event = new Event(
+                'api.' . $request->getOperation() . '.pre',
+                $adapter, array(
+                    'services' => $this->getServiceLocator(),
+                    'request' => $request,
+                )
+            );
             $adapter->getEventManager()->trigger($event);
 
             switch ($request->getOperation()) {
@@ -187,16 +190,20 @@ class Manager implements ServiceLocatorAwareInterface
                 ));
             }
 
-            // Trigger the {operation}.post event.
-            $event = new Event($request->getOperation() . '.post', $adapter, array(
-                'services' => $this->getServiceLocator(),
-                'request' => $request,
-                'response' => $response,
-            ));
+            // Trigger the api.{operation}.post event.
+            $event = new Event(
+                'api.' . $request->getOperation() . '.post',
+                $adapter,
+                array(
+                    'services' => $this->getServiceLocator(),
+                    'request' => $request,
+                    'response' => $response,
+                )
+            );
             $adapter->getEventManager()->trigger($event);
 
-            // Trigger the execute.post event.
-            $event = new Event(Event::EVENT_EXECUTE_POST, $adapter, array(
+            // Trigger the api.execute.post event.
+            $event = new Event(Event::API_EXECUTE_POST, $adapter, array(
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
                 'response' => $response,

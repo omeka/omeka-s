@@ -34,7 +34,7 @@ class AclFactory implements FactoryInterface
         }
 
         // Trigger the acl event.
-        $event = new Event('acl', $acl, array('services' => $serviceLocator));
+        $event = new Event(Event::ACL, $acl, array('services' => $serviceLocator));
         $serviceLocator->get('EventManager')->trigger($event);
 
         return $acl;

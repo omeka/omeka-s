@@ -162,7 +162,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function install($id)
     {
         // Trigger the module.install event
-        $this->triggerModuleEvent($id, Event::EVENT_MODULE_INSTALL);
+        $this->triggerModuleEvent($id, Event::MODULE_INSTALL);
     }
 
     /**
@@ -173,7 +173,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function uninstall($id)
     {
         // Trigger the module.uninstall event
-        $this->triggerModuleEvent($id, Event::EVENT_MODULE_UNINSTALL);
+        $this->triggerModuleEvent($id, Event::MODULE_UNINSTALL);
     }
 
     /**
@@ -184,7 +184,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function activate($id)
     {
         // Trigger the module.activate event
-        $this->triggerModuleEvent($id, Event::EVENT_MODULE_ACTIVATE);
+        $this->triggerModuleEvent($id, Event::MODULE_ACTIVATE);
     }
 
     /**
@@ -195,7 +195,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function deactivate($id)
     {
         // Trigger the module.deactivate event
-        $this->triggerModuleEvent($id, Event::EVENT_MODULE_DEACTIVATE);
+        $this->triggerModuleEvent($id, Event::MODULE_DEACTIVATE);
     }
 
     /**
@@ -206,7 +206,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function upgrade($id)
     {
         // Trigger the module.upgrade event
-        $this->triggerModuleEvent($id, Event::EVENT_MODULE_UPGRADE);
+        $this->triggerModuleEvent($id, Event::MODULE_UPGRADE);
     }
 
     /**

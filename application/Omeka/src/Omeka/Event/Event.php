@@ -9,30 +9,35 @@ use Zend\EventManager\Event as ZendEvent;
 class Event extends ZendEvent
 {
     /**#@+
-     * Events triggered by the Omeka\ApiManager service.
+     * Events triggered by Omeka modules.
      */
-    const EVENT_EXECUTE_PRE  = 'execute.pre';
-    const EVENT_EXECUTE_POST = 'execute.post';
-    /**#@-*/
+    const MODULE_INSTALL    = 'module.install';
+    const MODULE_UNINSTALL  = 'module.uninstall';
+    const MODULE_ACTIVATE   = 'module.activate';
+    const MODULE_DEACTIVATE = 'module.deactivate';
+    const MODULE_UPGRADE    = 'module.upgrade';
+     /**#@-*/
 
     /**#@+
-     * Events triggered by API adapters.
+     * Events triggered by all API adapters.
      *
-     * All classes that extend {@link Omeka\Api\Adapter\AbstractAdapter}
-     * trigger these events.
+     * All classes that extend {@link Omeka\Api\Adapter\AbstractAdapter} trigger
+     * these events.
      */
-    const EVENT_SEARCH_PRE        = 'search.pre';
-    const EVENT_SEARCH_POST       = 'search.post';
-    const EVENT_CREATE_PRE        = 'create.pre';
-    const EVENT_CREATE_POST       = 'create.post';
-    const EVENT_BATCH_CREATE_PRE  = 'batch_create.pre';
-    const EVENT_BATCH_CREATE_POST = 'batch_create.post';
-    const EVENT_READ_PRE          = 'read.pre';
-    const EVENT_READ_POST         = 'read.post';
-    const EVENT_UPDATE_PRE        = 'update.pre';
-    const EVENT_UPDATE_POST       = 'update.post';
-    const EVENT_DELETE_PRE        = 'delete.pre';
-    const EVENT_DELETE_POST       = 'delete.post';
+    const API_EXECUTE_PRE       = 'api.execute.pre';
+    const API_EXECUTE_POST      = 'api.execute.post';
+    const API_SEARCH_PRE        = 'api.search.pre';
+    const API_SEARCH_POST       = 'api.search.post';
+    const API_CREATE_PRE        = 'api.create.pre';
+    const API_CREATE_POST       = 'api.create.post';
+    const API_BATCH_CREATE_PRE  = 'api.batch_create.pre';
+    const API_BATCH_CREATE_POST = 'api.batch_create.post';
+    const API_READ_PRE          = 'api.read.pre';
+    const API_READ_POST         = 'api.read.post';
+    const API_UPDATE_PRE        = 'api.update.pre';
+    const API_UPDATE_POST       = 'api.update.post';
+    const API_DELETE_PRE        = 'api.delete.pre';
+    const API_DELETE_POST       = 'api.delete.post';
     /**#@-*/
 
     /**#@+
@@ -41,26 +46,13 @@ class Event extends ZendEvent
      * All classes that extend {@link Omeka\Api\Adapter\Entity\AbstractEntityAdapter}
      * trigger these events.
      */
-    const EVENT_SEARCH_QUERY        = 'search.query';
-    const EVENT_CREATE_VALIDATE_PRE = 'create.validate.pre';
-    const EVENT_READ_FIND_POST      = 'read.find.post';
-    const EVENT_UPDATE_VALIDATE_PRE = 'update.validate.pre';
-    const EVENT_DELETE_FIND_POST    = 'delete.find.post';
+    const API_SEARCH_QUERY        = 'api.search.query';
+    const API_CREATE_VALIDATE_PRE = 'api.create.validate.pre';
+    const API_READ_FIND_POST      = 'api.read.find.post';
+    const API_UPDATE_VALIDATE_PRE = 'api.update.validate.pre';
+    const API_DELETE_FIND_POST    = 'api.delete.find.post';
      /**#@-*/
 
-    /**#@+
-     * Events triggered by the Omeka\Acl service factory.
-     */
-    const EVENT_ACL = 'acl';
-     /**#@-*/
-
-    /**#@+
-     * Events triggered by the Omeka\ModuleManager service.
-     */
-    const EVENT_MODULE_INSTALL    = 'module.install';
-    const EVENT_MODULE_UNINSTALL  = 'module.uninstall';
-    const EVENT_MODULE_ACTIVATE   = 'module.activate';
-    const EVENT_MODULE_DEACTIVATE = 'module.deactivate';
-    const EVENT_MODULE_UPGRADE    = 'module.upgrade';
-     /**#@-*/
+    // ACL event
+    const ACL = 'acl';
 }

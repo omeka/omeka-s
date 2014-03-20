@@ -9,7 +9,7 @@ use Zend\EventManager\Event as ZendEvent;
 class Event extends ZendEvent
 {
     /**#@+
-     * Events triggered by the API manger.
+     * Events triggered by the Omeka\ApiManager service.
      */
     const EVENT_EXECUTE_PRE  = 'execute.pre';
     const EVENT_EXECUTE_POST = 'execute.post';
@@ -49,8 +49,18 @@ class Event extends ZendEvent
      /**#@-*/
 
     /**#@+
-     * Events triggered by the ACL service factory.
+     * Events triggered by the Omeka\Acl service factory.
      */
     const EVENT_ACL = 'acl';
+     /**#@-*/
+
+    /**#@+
+     * Events triggered by the Omeka\ModuleManager service.
+     */
+    const EVENT_MODULE_INSTALL    = 'module.install';
+    const EVENT_MODULE_UNINSTALL  = 'module.uninstall';
+    const EVENT_MODULE_ACTIVATE   = 'module.activate';
+    const EVENT_MODULE_DEACTIVATE = 'module.deactivate';
+    const EVENT_MODULE_UPGRADE    = 'module.upgrade';
      /**#@-*/
 }

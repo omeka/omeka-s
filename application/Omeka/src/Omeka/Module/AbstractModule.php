@@ -3,6 +3,8 @@ namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
 use ReflectionClass;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -16,7 +18,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractModule implements
     ConfigProviderInterface,
     ServiceLocatorAwareInterface,
-    SharedListenerAggregateInterface
+    SharedListenerAggregateInterface,
+    EventManagerAwareInterface
 {
     /**
      * @var array
@@ -27,6 +30,11 @@ abstract class AbstractModule implements
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
 
     /**
      * Bootstrap the module.
@@ -180,5 +188,25 @@ abstract class AbstractModule implements
     public function getServiceLocator()
     {
         return $this->services;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(get_called_class());
+        $this->events = $events;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEventManager()
+    {
+        if (null === $this->events) {
+            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
+        }
+        return $this->events;
     }
 }

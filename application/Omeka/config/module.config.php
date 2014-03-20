@@ -8,7 +8,7 @@ return array(
         'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
         'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
         'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
-        'modules'          => 'Omeka\Api\Adapter\Entity\ModuleAdapter',
+        'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
     ),
     'service_manager' => array(
         'factories' => array(

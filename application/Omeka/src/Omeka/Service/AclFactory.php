@@ -139,7 +139,7 @@ class AclFactory implements FactoryInterface
         ));
         $acl->deny('guest', array(
             'Omeka\Api\Adapter\Entity\UserAdapter',
-            'Omeka\Api\Adapter\Entity\ModuleAdapter',
+            'Omeka\Api\Adapter\ModuleAdapter',
         ), array(
             ApiRequest::SEARCH,
             ApiRequest::READ,

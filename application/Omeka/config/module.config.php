@@ -22,6 +22,7 @@ return array(
         ),
         'invokables' => array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
+            'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'

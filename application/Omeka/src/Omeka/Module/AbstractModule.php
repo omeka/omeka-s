@@ -6,7 +6,6 @@ use ReflectionClass;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\SharedEventManagerInterface;
-use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -18,14 +17,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractModule implements
     ConfigProviderInterface,
     ServiceLocatorAwareInterface,
-    SharedListenerAggregateInterface,
     EventManagerAwareInterface
 {
-    /**
-     * @var array
-     */
-    protected $listeners = array();
-
     /**
      * @var ServiceLocatorInterface
      */
@@ -39,14 +32,69 @@ abstract class AbstractModule implements
     /**
      * Bootstrap the module.
      *
-     * Be sure to call parent::onBootstrap($event) first when overriding this
-     * method.
+     * Call parent::onBootstrap($event) first when overriding this method.
+     *
+     * @param MvcEvent $event
      */
     public function onBootstrap(MvcEvent $event)
     {
         $this->setServiceLocator($event->getApplication()->getServiceManager());
-        $this->getServiceLocator()->get('SharedEventManager')->attachAggregate($this);
+        $this->attachListeners(
+            $this->getEventManager(),
+            $this->getServiceLocator()->get('SharedEventManager'),
+            $this->getServiceLocator()->get('Omeka\FilterManager')
+        );
     }
+
+    /**
+     * Attach module-specific event, shared event, and filter listeners.
+     *
+     * Attach listeners to the $eventManager for module-specific events.
+     *
+     * <code>
+     * $eventManager->attach(
+     *     'module_specific_event_name',
+     *     array($this, 'myEventCallback')
+     * );
+     * </code>
+     *
+     * Attach listeners to the $sharedEventManager for global events:
+     *
+     * <code>
+     * $sharedEventManager->attach(
+     *     'Omeka\Identifier',
+     *     'shared_event_name',
+     *     array($this, 'mySharedEventCallback')
+     * );
+     * </code>
+     *
+     * The event and shared event callbacks receive a
+     * {@link \Zend\EventManager\EventInterface} object as its only parameter.
+     *
+     * Attach listeners to the $filterManager for filters:
+     *
+     * <code>
+     * $filterManager->attach(
+     *     'Omeka\Identifier',
+     *     'filter_name',
+     *     array($this, 'myFilterCallback')
+     * );
+     * </code>
+     *
+     * The filter callback receives the argument to filter as the first
+     * parameter and a {@link \Zend\EventManager\EventInterface} object as the
+     * second. Callbacks should filter the argument and return it. This ignores
+     * events that aren't specifically declared as filter events.
+     *
+     * @param EventManagerInterface $eventManager
+     * @param SharedEventManagerInterface $sharedEventManager
+     * @param SharedEventManagerInterface $filterManager
+     */
+    public function attachListeners(
+        EventManagerInterface $eventManager,
+        SharedEventManagerInterface $sharedEventManager,
+        SharedEventManagerInterface $filterManager
+    ) {}
 
     /**
      * Return module-specific configuration.
@@ -57,101 +105,6 @@ abstract class AbstractModule implements
     {}
 
     /**
-     * Attach module-specific event and filter listeners.
-     *
-     * {@inheritDoc}
-     */
-    public function attachShared(SharedEventManagerInterface $events)
-    {}
-
-    /**
-     * {@inheritDoc}
-     */
-    public function detachShared(SharedEventManagerInterface $events)
-    {
-        foreach ($this->listeners as $index => $callback) {
-            if ($events->detach($callback)) {
-                unset($this->listeners[$index]);
-            }
-        }
-    }
-
-    /**
-     * Attach a module-specific event listener.
-     *
-     * Call this in {@link self::attachShared()}, as in this example:
-     *
-     * <code>
-     * $this->attach(
-     *     'Omeka\Identifier',
-     *     'event',
-     *     array($this, 'myCallback')
-     * );
-     * </code>
-     *
-     * The callback receives a {@link \Zend\EventManager\EventInterface} object
-     * as its only parameter.
-     *
-     * @see SharedEventManager::attach()
-     * @param string|array $id Identifier(s) for event emitting component(s)
-     * @param string $event
-     * @param callable $callback PHP Callback
-     * @param int $priority Priority at which listener should execute
-     * @return CallbackHandler|array
-     */
-    public function attach($id, $event, $callback, $priority = 1)
-    {
-        $this->listeners[] = $this->getServiceLocator()
-            ->get('SharedEventManager')->attach(
-                $id, $event, $callback, $priority
-            );
-    }
-
-    /**
-     * Attach a module-specific filter event listener.
-     *
-     * Call this in {@link self::attachShared()}, as in this example:
-     *
-     * <code>
-     * $this->attachFilter(
-     *     'Omeka\Identifier',
-     *     'filterEvent',
-     *     array($this, 'myFilterCallback')
-     * );
-     * </code>
-     *
-     * The callback receives the argument to filter as the first parameter and a
-     * {@link \Zend\EventManager\EventInterface} object as the second. Callbacks
-     * should filter the argument and return it. This ignores events that aren't
-     * specifically declared as filter events.
-     *
-     * @see SharedEventManager::attach()
-     * @param string|array $id
-     * @param string $event
-     * @param callable $callback
-     * @param int $priority
-     * @return CallbackHandler|array
-     */
-    public function attachFilter($id, $event, $callback, $priority = 1) {
-        $this->listeners[] = $this->getServiceLocator()
-            ->get('SharedEventManager')->attach(
-                $id, $event,
-                function($e) use ($callback) {
-                    if (!$e instanceof FilterEvent) {
-                        // Ignore non-filter events.
-                        return;
-                    }
-                    // Set the new argument as the response of the user-defined
-                    // callback.
-                    $e->setArg(call_user_func($callback, $e->getArg(), $e));
-                },
-                $priority
-            );
-    }
-
-    /**
-     * Register this module's namespace to the autoloader.
-     *
      * {@inheritDoc}
      */
     public function getAutoloaderConfig()

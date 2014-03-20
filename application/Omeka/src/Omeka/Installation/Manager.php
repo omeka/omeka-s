@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Installation;
 
-use Omeka\Stdlib\ClassCheck;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -92,7 +91,7 @@ class Manager implements ServiceLocatorAwareInterface
                 $task
             ));
         }
-        if (!ClassCheck::isInterfaceOf('Omeka\Installation\Task\TaskInterface', $task)) {
+        if (!is_subclass_of($task, 'Omeka\Installation\Task\TaskInterface')) {
             throw new Exception\ConfigException(sprintf(
                 'The "%s" installation task does not implement Omeka\Installation\Task\TaskInterface.', 
                 $task

@@ -4,7 +4,6 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
-use Omeka\Stdlib\ClassCheck;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -82,12 +81,7 @@ class AclFactory implements FactoryInterface
         // rules for general access to API resources.
         $apiResources = $serviceLocator->get('Omeka\ApiManager')->getResources();
         foreach ($apiResources as $adapterClass) {
-            if (ClassCheck::isInterfaceOf(
-                'Zend\Permissions\Acl\Resource\ResourceInterface',
-                $adapterClass
-            )) {
-                $acl->addResource($adapterClass);
-            }
+            $acl->addResource($adapterClass);
         }
 
         // Add Doctrine entities as ACL resources. These resources are used to
@@ -95,10 +89,7 @@ class AclFactory implements FactoryInterface
         $entities = $serviceLocator->get('Omeka\EntityManager')->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entities as $entityClass) {
-            if (ClassCheck::isInterfaceOf(
-                'Zend\Permissions\Acl\Resource\ResourceInterface',
-                $entityClass
-            )) {
+            if (is_subclass_of($entityClass, 'Zend\Permissions\Acl\Resource\ResourceInterface')) {
                 $acl->addResource($entityClass);
             }
         }

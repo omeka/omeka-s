@@ -309,8 +309,8 @@ class Manager implements ServiceLocatorAwareInterface
         }
         if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
             throw new Exception\ConfigException(sprintf(
-                'The adapter class "%s" does not implement %s for the "%s" resource.', 
-                $adapterClass, $requiredInterface, $resource
+                'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
+                $adapterClass, $resource
             ));
         }
         $this->resources[$resource] = $adapterClass;

@@ -161,11 +161,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestAdapter implements
-    AdapterInterface,
-    ServiceLocatorAwareInterface,
-    EventManagerAwareInterface,
-    ResourceInterface
+class TestAdapter implements AdapterInterface
 {
     protected $request;
 

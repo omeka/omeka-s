@@ -9,6 +9,7 @@ return array(
         'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
         'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
         'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
+        'options'          => 'Omeka\Api\Adapter\OptionAdapter',
     ),
     'service_manager' => array(
         'factories' => array(
@@ -18,11 +19,11 @@ return array(
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
-
         ),
         'invokables' => array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
+            'Omeka\Options'             => 'Omeka\Service\Options',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'

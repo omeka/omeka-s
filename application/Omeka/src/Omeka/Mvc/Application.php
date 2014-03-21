@@ -22,16 +22,20 @@ class Application
         $serviceManager = new ServiceManager(new Service\ServiceManagerConfig($smConfig));
         $serviceManager->setService('ApplicationConfig', $configuration);
 
-        // Merge modules that are defined in the application configuration with
-        // those that are flagged active in Omeka's module manager. Set all
-        // modules before loading them.
-        $activeModules = $serviceManager->get('Omeka\ModuleManager')
-            ->getModulesByState(ModuleManager::STATE_ACTIVE);
-        $serviceManager->get('ModuleManager')
-            ->setModules(array_merge(
+        $moduleManager = $serviceManager->get('ModuleManager');
+
+        if ($serviceManager->get('Omeka\InstallationManager')->isInstalled()) {
+            // If Omeka is installed, merge application modules with active user
+            // modules and set them all to be loaded.
+            $activeModules = $serviceManager->get('Omeka\ModuleManager')
+                ->getModulesByState(ModuleManager::STATE_ACTIVE);
+            $moduleManager->setModules(array_merge(
                 $configuration['modules'],
                 array_keys($activeModules)
-            ))->loadModules();
+            ));
+        }
+
+        $moduleManager->loadModules();
 
         $listenersFromAppConfig = isset($configuration['listeners'])
             ? $configuration['listeners'] : array();

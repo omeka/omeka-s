@@ -21,10 +21,6 @@ class ModuleManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!$serviceLocator->get('Omeka\InstallationManager')->isInstalled()) {
-            return array();
-        }
-
         $modules    = new ModuleManager;
         $iniReader  = new IniReader;
         $appConfig  = $serviceLocator->get('ApplicationConfig');

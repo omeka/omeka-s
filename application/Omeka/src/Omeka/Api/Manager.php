@@ -258,7 +258,7 @@ class Manager implements ServiceLocatorAwareInterface
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {
             $createRequest->setContent($content);
-            $createEvent = new Event(Event::EVENT_CREATE_PRE, $adapter, array(
+            $createEvent = new Event(Event::API_CREATE_PRE, $adapter, array(
                 'request' => $createRequest,
             ));
             $adapter->getEventManager()->trigger($createEvent);
@@ -275,7 +275,7 @@ class Manager implements ServiceLocatorAwareInterface
         // Trigger the create.post event for every created resource.
         foreach ($response->getContent() as $resource) {
             $createRequest->setContent($resource);
-            $createEvent = new Event(Event::EVENT_CREATE_POST, $adapter, array(
+            $createEvent = new Event(Event::API_CREATE_POST, $adapter, array(
                 'request' => $createRequest,
                 'response' => new Response($resource),
             ));

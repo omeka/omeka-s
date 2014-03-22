@@ -24,11 +24,13 @@ return array(
         'invokables' => array(
             'ModuleRouteListener'         => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
+            'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
         ),
     ),
     'listeners' => array(
         'ModuleRouteListener',
         'Omeka\AuthorizationListener',
+        'Omeka\InstallationRedirectListener'
     ),
     'installation_manager' => array(
         'tasks' => array(

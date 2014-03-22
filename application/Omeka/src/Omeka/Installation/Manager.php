@@ -30,15 +30,34 @@ class Manager implements ServiceLocatorAwareInterface
     protected $vars = array();
 
     /**
+     * @var bool
+     */
+    protected $isInstalled;
+
+    /**
      * Check whether Omeka is currently installed.
+     *
+     * The heuristic for determining an installed state is the existence of a
+     * critical table in the database.
+     *
+     * If Omeka is found to be installed, we assume it will continue to be
+     * installed for the duration of the process. Otherwise, we assume that
+     * Omeka continues to be uninstalled and check against the database each
+     * time this method is called.
+     *
+     * @return bool
      */
     public function isInstalled()
     {
+        if (true === $this->isInstalled) {
+            return true;
+        }
         $connection = $this->getServiceLocator()->get('Omeka\Connection');
         $config = $this->getServiceLocator()->get('ApplicationConfig');
         $tables = $connection->getSchemaManager()->listTableNames();
         $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;
-        return in_array($checkTable, $tables);
+        $this->isInstalled = in_array($checkTable, $tables);
+        return $this->isInstalled;
     }
 
     /**

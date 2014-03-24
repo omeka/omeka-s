@@ -13,7 +13,7 @@ class Option extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @Column(type="json_array")
      */
     protected $value;
 

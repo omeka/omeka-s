@@ -10,76 +10,172 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Options implements ServiceLocatorAwareInterface
 {
     /**
+     * @var array Options cache
+     */
+    protected $options;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * @var ServiceLocatorInterface
      */
     protected $services;
 
     /**
-     * Set an option.
+     * Set an option
      *
-     * Will overwrite an existing option with the same ID.
+     * This will overwrite an existing option with the same ID. A null value
+     * will delete an existing option.
      *
      * @param string $id
-     * @param string value
+     * @param string $value
      */
     public function set($id, $value)
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $option = $this->findEntity($id, $entityManager);
-        if (!$option instanceof Option) {
-            $option = new Option;
+        if (null === $value) {
+            // Null value deletes option
+            $this->delete($id);
+            return;
         }
-        $option->setId($id);
-        $option->setValue(Json::encode($value));
-        $entityManager->persist($option);
-        $entityManager->flush();
+
+        if (null === $this->options) {
+            // Cache options if not already cached
+            $this->cacheOptions();
+        }
+
+        if ($this->exists($id) && $value === $this->options[$id]) {
+            // An equal option already set, do nothing
+            return;
+        }
+
+        // Set option to cache
+        if (is_object($value)) {
+            // When fetching options from the database, Doctrine decodes from
+            // JSON, and converts objects to associative arrays. This simulates
+            // Doctrine's roundtrip format of an object and sets it as the
+            // cached value.
+            $this->options[$id] = json_decode(json_encode($value), true);
+        } else {
+            $this->options[$id] = $value;
+        }
+
+        // Set option to database
+        $option = $this->findOption($id);
+        if ($option instanceof Option) {
+            $option->setValue($value);
+        } else {
+            $option = new Option;
+            $option->setId($id);
+            $option->setValue($value);
+            $this->getEntityManager()->persist($option);
+        }
+        $this->getEntityManager()->flush();
     }
 
     /**
-     * Get an option.
+     * Get an option
      *
-     * Will return false if no option exists with the passed ID.
+     * Will return null if no option exists with the passed ID.
      *
      * @param string $id
      * @return mixed
      */
     public function get($id)
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $option = $this->findEntity($id, $entityManager);
-        if (!$option instanceof Option) {
-            return false;
+        if (null === $this->options) {
+            // Cache options if not already cached
+            $this->cacheOptions();
         }
-        return Json::decode($option->getValue(), Json::TYPE_ARRAY);
+
+        if (!$this->exists($id)) {
+            // Option does not exist, return null
+            return null;
+        }
+
+        return $this->options[$id];
     }
 
     /**
-     * Delete an option.
+     * Delete an option
      *
      * @param string $id
      */
     public function delete($id)
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $option = $this->findEntity($id, $entityManager);
+        if (null === $this->options) {
+            // Cache options if not already cached
+            $this->cacheOptions();
+        }
+
+        if (!$this->exists($id)) {
+            // Option does not exist, do nothing
+            return;
+        }
+
+        // Delete option from cache
+        unset($this->options[$id]);
+
+        // Delete option from database
+        $option = $this->findOption($id);
         if ($option instanceof Option) {
-            $entityManager->remove($option);
-            $entityManager->flush();
+            $this->getEntityManager()->remove($option);
+            $this->getEntityManager()->flush();
         }
     }
 
     /**
-     * Find an option entity.
+     * Check whether an option already exists
      *
      * @param string $id
-     * @param EntityManager $entityManager
-     * @return Object|null
+     * @return bool
      */
-    protected function findEntity($id, EntityManager $entityManager)
+    public function exists($id)
     {
-        return $entityManager
+        return array_key_exists($id, $this->options);
+    }
+
+    /**
+     * Cache options
+     */
+    protected function cacheOptions()
+    {
+        $rows = $this->getEntityManager()
+            ->getRepository('Omeka\Model\Entity\Option')
+            ->findAll();
+        $this->options = array();
+        foreach ($rows as $row) {
+            $this->options[$row->getId()] = $row->getValue();
+        }
+    }
+
+    /**
+     * Find an option entity
+     *
+     * @param string $id
+     * @return Option|null
+     */
+    protected function findOption($id)
+    {
+        return $this->getEntityManager()
             ->getRepository('Omeka\Model\Entity\Option')
             ->findOneById($id);
+    }
+
+    /**
+     * Get the entity manager
+     *
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        if (null === $this->entityManager) {
+            $this->entityManager = $this->getServiceLocator()
+                ->get('Omeka\EntityManager');
+        }
+        return $this->entityManager;
     }
 
     /**

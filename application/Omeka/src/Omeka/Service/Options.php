@@ -54,7 +54,7 @@ class Options implements ServiceLocatorAwareInterface
         // Set option to cache
         if (is_object($value)) {
             // When fetching options from the database, Doctrine decodes from
-            // JSON, and converts objects to associative arrays. This simulates
+            // JSON and converts objects to associative arrays. Below simulates
             // Doctrine's roundtrip format of an object and sets it as the
             // cached value.
             $this->options[$id] = json_decode(json_encode($value), true);

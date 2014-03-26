@@ -29,6 +29,18 @@ use Omeka\Module\Manager as ModuleManager;
                 case ModuleManager::STATE_NOT_INSTALLED:
                     echo '<button name="action" value="install">Install</button>';
                     break;
+                case ModuleManager::STATE_NEEDS_UPGRADE:
+                    echo '<button name="action" value="upgrade">Upgrade</button>';
+                    break;
+                case ModuleManager::STATE_INVALID_INI:
+                    echo 'invalid INI';
+                    break;
+                case ModuleManager::STATE_INVALID_MODULE:
+                    echo 'invalid module';
+                    break;
+                case ModuleManager::STATE_NOT_FOUND:
+                    echo 'module not found';
+                    break;
                 default:
                     break;
             }

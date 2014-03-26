@@ -91,12 +91,12 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            //~ $moduleIni = $modules->getModuleIni($moduleRow['id']);
-            //~ if (version_compare($moduleIni['version'], $moduleRow['version'], '>')) {
-                //~ // Module in filesystem is newer version than the installed one.
-                //~ $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NEEDS_UPGRADE);
-                //~ continue;
-            //~ }
+            $moduleIni = $modules->getModuleIni($moduleRow['id']);
+            if (version_compare($moduleIni['version'], $moduleRow['version'], '>')) {
+                // Module in filesystem is newer version than the installed one.
+                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NEEDS_UPGRADE);
+                continue;
+            }
 
             if ($moduleRow['is_active']) {
                 // Module valid, installed, and active

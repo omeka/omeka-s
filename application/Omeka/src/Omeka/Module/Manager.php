@@ -131,6 +131,12 @@ class Manager implements ServiceLocatorAwareInterface
         return $this->modules;
     }
 
+    /**
+     * Get all modules by state
+     *
+     * @param string $state
+     * @return array
+     */
     public function getModulesByState($state)
     {
         $modules = array();
@@ -182,6 +188,9 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function moduleIniIsValid(array $ini)
     {
+        if (!isset($ini['name'])) {
+            return false;
+        }
         if (!isset($ini['version'])) {
             return false;
         }
@@ -230,6 +239,7 @@ class Manager implements ServiceLocatorAwareInterface
         $module = new Module;
         $module->setId($id);
         $module->setIsActive(true);
+        $module->setVersion($this->modules[$id]['ini']['version']);
 
         $this->getEntityManager()->persist($module);
         $this->getEntityManager()->flush();
@@ -266,7 +276,7 @@ class Manager implements ServiceLocatorAwareInterface
         // Update the module entity
         $module = $this->findModule($id);
         if ($module instanceof Module) {
-            // @todo This is where we update the module entity
+            $module->setVersion($this->modules[$id]['ini']['version']);
             $this->getEntityManager()->flush();
         }
     }

@@ -17,6 +17,11 @@ class Module extends AbstractEntity
      */
     protected $isActive = false;
 
+    /**
+     * @Column
+     */
+    protected $version;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -35,5 +40,15 @@ class Module extends AbstractEntity
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    public function setVersion($version)
+    {
+        $this->version = $version;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
     }
 }

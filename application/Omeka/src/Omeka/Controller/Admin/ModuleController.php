@@ -10,7 +10,7 @@ class ModuleController extends AbstractActionController
     {
         $view = new ViewModel;
         $modules = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $view->setVariable('modules', $manager->getModules());
+        $view->setVariable('modules', $modules->getModules());
 
         if ($this->getRequest()->isPost()) {
             $id = $this->params()->fromPost('id');
@@ -29,6 +29,9 @@ class ModuleController extends AbstractActionController
                     break;
                 case 'deactivate':
                     $modules->deactivate($id);
+                    break;
+                case 'upgrade':
+                    $modules->upgrade($id);
                     break;
                 default:
                     break;

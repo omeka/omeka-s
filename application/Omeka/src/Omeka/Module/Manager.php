@@ -1,7 +1,9 @@
 <?php
 namespace Omeka\Module;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Event\Event;
+use Omeka\Model\Entity\Module;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -39,6 +41,16 @@ class Manager implements ServiceLocatorAwareInterface
      * @var array
      */
     protected $modules = array();
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $services;
 
     /**
      * Add a new module to the list
@@ -142,6 +154,17 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Get a module's state
+     *
+     * @param string $id
+     * @return string
+     */
+    public function getModuleState($id)
+    {
+        return $this->modules[$id]['state'];
+    }
+
+    /**
      * Get a module's INI
      *
      * @param string $id
@@ -166,36 +189,17 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Install a module
-     *
-     * @param string $id
-     */
-    public function install($id)
-    {
-        // Trigger the module.install event
-        $this->triggerModuleEvent($id, Event::MODULE_INSTALL);
-    }
-
-    /**
-     * Uninstall a module
-     *
-     * @param string $id
-     */
-    public function uninstall($id)
-    {
-        // Trigger the module.uninstall event
-        $this->triggerModuleEvent($id, Event::MODULE_UNINSTALL);
-    }
-
-    /**
      * Activate a module
      *
      * @param string $id
      */
     public function activate($id)
     {
-        // Trigger the module.activate event
-        $this->triggerModuleEvent($id, Event::MODULE_ACTIVATE);
+        $module = $this->findModule($id);
+        if ($module instanceof Module) {
+            $module->setIsActive(true);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**
@@ -205,8 +209,48 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function deactivate($id)
     {
-        // Trigger the module.deactivate event
-        $this->triggerModuleEvent($id, Event::MODULE_DEACTIVATE);
+        $module = $this->findModule($id);
+        if ($module instanceof Module) {
+            $module->setIsActive(false);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    /**
+     * Install a module
+     *
+     * @param string $id
+     */
+    public function install($id)
+    {
+        // Invoke the module's install method
+        $this->invokeModuleMethod($id, 'install');
+
+        // Persist the module entity
+        $module = new Module;
+        $module->setId($id);
+        $module->setIsActive(true);
+
+        $this->getEntityManager()->persist($module);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Uninstall a module
+     *
+     * @param string $id
+     */
+    public function uninstall($id)
+    {
+        // Invoke the module's uninstall method
+        $this->invokeModuleMethod($id, 'uninstall');
+
+        // Remove the module entity
+        $module = $this->findModule($id);
+        if ($module instanceof Module) {
+            $this->getEntityManager()->remove($module);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**
@@ -216,23 +260,59 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade($id)
     {
-        // Trigger the module.upgrade event
-        $this->triggerModuleEvent($id, Event::MODULE_UPGRADE);
+        // Invoke the module's upgrade method
+        $this->invokeModuleMethod($id, 'upgrade');
+
+        // Update the module entity
+        $module = $this->findModule($id);
+        if ($module instanceof Module) {
+            // @todo This is where we update the module entity
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**
-     * Trigger a module event
+     * Invoke a module method
+     *
+     * Instantiates the Module class and invokes the passed method, injecting
+     * the service manager. This is necessary because we need access to modules
+     * that are not loaded by Zend's module manager (i.e. not active).
      *
      * @param string $id
-     * @param string $eventName
+     * @param string $methodName
      */
-    protected function triggerModuleEvent($id, $eventName)
+    protected function invokeModuleMethod($id, $methodName)
     {
-        $event = new Event($eventName, $this, array(
-            'services' => $this->getServiceLocator(),
-        ));
-        $this->getServiceLocator()->get('ModuleManager')
-            ->getModule($id)->getEventManager()->trigger($event);
+        $moduleClass = "$id\Module";
+        $module = new $moduleClass;
+        $module->$methodName($this->getServiceLocator());
+    }
+
+    /**
+     * Find a module entity
+     *
+     * @param string $id
+     * @return Module|null
+     */
+    protected function findModule($id)
+    {
+        return $this->getEntityManager()
+            ->getRepository('Omeka\Model\Entity\Module')
+            ->findOneById($id);
+    }
+
+    /**
+     * Get the entity manager
+     *
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        if (null === $this->entityManager) {
+            $this->entityManager = $this->getServiceLocator()
+                ->get('Omeka\EntityManager');
+        }
+        return $this->entityManager;
     }
 
     /**

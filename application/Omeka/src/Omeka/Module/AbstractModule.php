@@ -40,25 +40,39 @@ abstract class AbstractModule implements
     {
         $this->setServiceLocator($event->getApplication()->getServiceManager());
         $this->attachListeners(
-            $this->getEventManager(),
             $this->getServiceLocator()->get('SharedEventManager'),
             $this->getServiceLocator()->get('Omeka\FilterManager')
         );
     }
 
     /**
-     * Attach module-specific event, shared event, and filter listeners.
+     * Install this module.
      *
-     * Attach listeners to the $eventManager for module-specific events.
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function install(ServiceLocatorInterface $serviceLocator)
+    {}
+
+    /**
+     * Uninstall this module.
      *
-     * <code>
-     * $eventManager->attach(
-     *     'module_specific_event_name',
-     *     array($this, 'myEventCallback')
-     * );
-     * </code>
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function uninstall(ServiceLocatorInterface $serviceLocator)
+    {}
+
+    /**
+     * Upgrade this module.
      *
-     * Attach listeners to the $sharedEventManager for global events:
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function upgrade(ServiceLocatorInterface $serviceLocator)
+    {}
+
+    /**
+     * Attach shared event and filter listeners.
+     *
+     * Attach listeners to the $sharedEventManager for shared events:
      *
      * <code>
      * $sharedEventManager->attach(
@@ -68,7 +82,7 @@ abstract class AbstractModule implements
      * );
      * </code>
      *
-     * The event and shared event callbacks receive a
+     * The shared event callbacks receive a
      * {@link \Zend\EventManager\EventInterface} object as its only parameter.
      *
      * Attach listeners to the $filterManager for filters:
@@ -86,12 +100,10 @@ abstract class AbstractModule implements
      * second. Callbacks should filter the argument and return it. This ignores
      * events that aren't specifically declared as filter events.
      *
-     * @param EventManagerInterface $eventManager
      * @param SharedEventManagerInterface $sharedEventManager
      * @param SharedEventManagerInterface $filterManager
      */
     public function attachListeners(
-        EventManagerInterface $eventManager,
         SharedEventManagerInterface $sharedEventManager,
         SharedEventManagerInterface $filterManager
     ) {}

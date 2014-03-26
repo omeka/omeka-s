@@ -1,0 +1,39 @@
+<?php
+use Omeka\Module\Manager as ModuleManager;
+?>
+<h1><?php echo count($modules); ?> Modules</h1>
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>version</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($modules as $id => $module): ?>
+        <tr>
+            <td><?php echo $id?></td>
+            <td><?php echo $module['ini']['version']?></td>
+            <td><form method="post">
+            <input type="hidden" name="id" value="<?php echo $id; ?>"><?php
+            switch ($module['state']) {
+                case ModuleManager::STATE_ACTIVE:
+                    echo '<button name="action" value="uninstall">Uninstall</button>';
+                    echo '<button name="action" value="deactivate">Deactivate</button>';
+                    break;
+                case ModuleManager::STATE_NOT_ACTIVE:
+                    echo '<button name="action" value="uninstall">Uninstall</button>';
+                    echo '<button name="action" value="activate">Activate</button>';
+                    break;
+                case ModuleManager::STATE_NOT_INSTALLED:
+                    echo '<button name="action" value="install">Install</button>';
+                    break;
+                default:
+                    break;
+            }
+            ?></form></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

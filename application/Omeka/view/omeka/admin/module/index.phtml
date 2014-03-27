@@ -30,7 +30,6 @@ use Omeka\Module\Manager as ModuleManager;
                     echo '<button name="action" value="activate">Activate</button>';
                     break;
                 case ModuleManager::STATE_NEEDS_UPGRADE:
-                    echo '<button name="action" value="uninstall">Uninstall</button>';
                     echo '<button name="action" value="upgrade">Upgrade</button>';
                     break;
                 case ModuleManager::STATE_INVALID_INI:

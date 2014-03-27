@@ -75,6 +75,11 @@ class Manager implements ServiceLocatorAwareInterface
     public function setModuleState($id, $state)
     {
         $this->moduleIsRegistered($id, true);
+        if (!in_array($state, $this->validStates)) {
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Attempting to set an invalid module state "%s"', $state
+            ));
+        }
         $this->modules[$id]['state'] = $state;
     }
 
@@ -233,11 +238,25 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->moduleIsRegistered($id, true);
 
+        // Only a deactivated module can be activated
+        if (self::STATE_NOT_ACTIVE !== $this->getModuleState($id)) {
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Module "%s" is marked as "%s" and cannot be activated',
+                $id, $this->getModuleState($id)
+            ));
+        }
+
         $module = $this->findModule($id);
         if ($module instanceof Module) {
             $module->setIsActive(true);
             $this->getEntityManager()->flush();
+        } else {
+            throw new Exception\ModuleNotInDatabaseException(sprintf(
+                'Module "%s" not in database during activation', $id
+            ));
         }
+
+        $this->setModuleState($id, self::STATE_ACTIVE);
     }
 
     /**
@@ -249,15 +268,29 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->moduleIsRegistered($id, true);
 
+        // Only an active module can be deactivated
+        if (self::STATE_ACTIVE !== $this->getModuleState($id)) {
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Module "%s" is marked as "%s" and cannot be deactivated',
+                $id, $this->getModuleState($id)
+            ));
+        }
+
         $module = $this->findModule($id);
         if ($module instanceof Module) {
             $module->setIsActive(false);
             $this->getEntityManager()->flush();
+        } else {
+            throw new Exception\ModuleNotInDatabaseException(sprintf(
+                'Module "%s" not in database during deactivation', $id
+            ));
         }
+
+        $this->setModuleState($id, self::STATE_NOT_ACTIVE);
     }
 
     /**
-     * Install a module
+     * Install and activate a module
      *
      * @param string $id
      */
@@ -265,9 +298,12 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->moduleIsRegistered($id, true);
 
+        // Only a not installed module can be installed
         if (self::STATE_NOT_INSTALLED !== $this->getModuleState($id)) {
-            // Only a not installed module can be installed
-            return;
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Module "%s" is marked as "%s" and cannot be installed',
+                $id, $this->getModuleState($id)
+            ));
         }
 
         // Invoke the module's install method
@@ -283,6 +319,8 @@ class Manager implements ServiceLocatorAwareInterface
 
         $this->getEntityManager()->persist($module);
         $this->getEntityManager()->flush();
+
+        $this->setModuleState($id, self::STATE_ACTIVE);
     }
 
     /**
@@ -294,12 +332,15 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->moduleIsRegistered($id, true);
 
+        // Only an installed and upgraded module can be uninstalled
         if (!in_array($this->getModuleState($id), array(
             self::STATE_ACTIVE,
             self::STATE_NOT_ACTIVE,
         ))) {
-            // Only an installed, upgraded module can be uninstalled
-            return;
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Module "%s" is marked as "%s" and cannot be uninstalled',
+                $id, $this->getModuleState($id)
+            ));
         }
 
         // Invoke the module's uninstall method
@@ -312,7 +353,13 @@ class Manager implements ServiceLocatorAwareInterface
         if ($module instanceof Module) {
             $this->getEntityManager()->remove($module);
             $this->getEntityManager()->flush();
+        } else {
+            throw new Exception\ModuleNotInDatabaseException(sprintf(
+                'Module "%s" not found in database during uninstallation', $id
+            ));
         }
+
+        $this->setModuleState($id, self::STATE_NOT_INSTALLED);
     }
 
     /**
@@ -324,9 +371,12 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $this->moduleIsRegistered($id, true);
 
+        // Only a module marked for upgrade can be upgraded
         if (self::STATE_NEEDS_UPGRADE !== $this->getModuleState($id)) {
-            // Only a module marked for upgrade can be upgraded
-            return;
+            throw new Exception\ModuleStateInvalidException(sprintf(
+                'Module "%s" is marked as "%s" and cannot be upgraded',
+                $id, $this->getModuleState($id)
+            ));
         }
 
         $oldVersion = $this->modules[$id]['db']['version'];
@@ -344,7 +394,14 @@ class Manager implements ServiceLocatorAwareInterface
         if ($module instanceof Module) {
             $module->setVersion($newVersion);
             $this->getEntityManager()->flush();
+        } else {
+            throw new Exception\ModuleNotInDatabaseException(sprintf(
+                'Module "%s" not found in database during upgrade', $id
+            ));
         }
+
+        $this->setModuleState($id, $this->modules[$id]['db']['is_active']
+            ? self::STATE_ACTIVE : self::STATE_NOT_ACTIVE);
     }
 
     /**

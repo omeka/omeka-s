@@ -10,7 +10,6 @@ class ModuleController extends AbstractActionController
     {
         $view = new ViewModel;
         $modules = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $view->setVariable('modules', $modules->getModules());
 
         if ($this->getRequest()->isPost()) {
             $id = $this->params()->fromPost('id');
@@ -36,12 +35,9 @@ class ModuleController extends AbstractActionController
                 default:
                     break;
             }
-            // Reload to update module states
-            $this->redirect()->toRoute(
-                'admin/default', array('controller' => 'module')
-            );
         }
 
+        $view->setVariable('modules', $modules->getModules());
         return $view;
     }
 }

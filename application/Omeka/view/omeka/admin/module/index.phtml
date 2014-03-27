@@ -5,7 +5,7 @@ use Omeka\Module\Manager as ModuleManager;
 <table>
     <thead>
         <tr>
-            <th>id</th>
+            <th>name</th>
             <th>version</th>
             <th></th>
         </tr>
@@ -13,11 +13,14 @@ use Omeka\Module\Manager as ModuleManager;
     <tbody>
         <?php foreach($modules as $id => $module): ?>
         <tr>
-            <td><?php echo $id?></td>
-            <td><?php echo $module['ini']['version']?></td>
+            <td><?php echo $module['ini']['name']; ?></td>
+            <td><?php echo $module['ini']['version']; ?></td>
             <td><form method="post">
             <input type="hidden" name="id" value="<?php echo $id; ?>"><?php
             switch ($module['state']) {
+                case ModuleManager::STATE_NOT_INSTALLED:
+                    echo '<button name="action" value="install">Install</button>';
+                    break;
                 case ModuleManager::STATE_ACTIVE:
                     echo '<button name="action" value="uninstall">Uninstall</button>';
                     echo '<button name="action" value="deactivate">Deactivate</button>';
@@ -26,10 +29,8 @@ use Omeka\Module\Manager as ModuleManager;
                     echo '<button name="action" value="uninstall">Uninstall</button>';
                     echo '<button name="action" value="activate">Activate</button>';
                     break;
-                case ModuleManager::STATE_NOT_INSTALLED:
-                    echo '<button name="action" value="install">Install</button>';
-                    break;
                 case ModuleManager::STATE_NEEDS_UPGRADE:
+                    echo '<button name="action" value="uninstall">Uninstall</button>';
                     echo '<button name="action" value="upgrade">Upgrade</button>';
                     break;
                 case ModuleManager::STATE_INVALID_INI:

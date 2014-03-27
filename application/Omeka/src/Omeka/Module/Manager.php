@@ -232,6 +232,11 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function install($id)
     {
+        if (self::STATE_NOT_INSTALLED !== $this->getModuleState($id)) {
+            // Only a not installed module can be installed
+            return;
+        }
+
         // Invoke the module's install method
         $this->getModuleObject($id)->install(
             $this->getServiceLocator()
@@ -254,6 +259,15 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function uninstall($id)
     {
+        if (!in_array($this->getModuleState($id), array(
+            self::STATE_ACTIVE,
+            self::STATE_NOT_ACTIVE,
+            self::STATE_NEEDS_UPGRADE,
+        ))) {
+            // Only an installed module can be uninstalled
+            return;
+        }
+
         // Invoke the module's uninstall method
         $this->getModuleObject($id)->uninstall(
             $this->getServiceLocator()
@@ -274,6 +288,11 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade($id)
     {
+        if (self::STATE_NEEDS_UPGRADE !== $this->getModuleState($id)) {
+            // Only a module marked for upgrade can be upgraded
+            return;
+        }
+
         $oldVersion = $this->modules[$id]['db']['version'];
         $newVersion = $this->modules[$id]['ini']['version'];
 

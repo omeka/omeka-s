@@ -233,7 +233,9 @@ class Manager implements ServiceLocatorAwareInterface
     public function install($id)
     {
         // Invoke the module's install method
-        $this->invokeModuleMethod($id, 'install');
+        $this->getModuleObject($id)->install(
+            $this->getServiceLocator()
+        );
 
         // Persist the module entity
         $module = new Module;
@@ -253,7 +255,9 @@ class Manager implements ServiceLocatorAwareInterface
     public function uninstall($id)
     {
         // Invoke the module's uninstall method
-        $this->invokeModuleMethod($id, 'uninstall');
+        $this->getModuleObject($id)->uninstall(
+            $this->getServiceLocator()
+        );
 
         // Remove the module entity
         $module = $this->findModule($id);
@@ -270,32 +274,37 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade($id)
     {
+        $oldVersion = $this->modules[$id]['db']['version'];
+        $newVersion = $this->modules[$id]['ini']['version'];
+
         // Invoke the module's upgrade method
-        $this->invokeModuleMethod($id, 'upgrade');
+        $this->getModuleObject($id)->upgrade(
+            $oldVersion,
+            $newVersion,
+            $this->getServiceLocator()
+        );
 
         // Update the module entity
         $module = $this->findModule($id);
         if ($module instanceof Module) {
-            $module->setVersion($this->modules[$id]['ini']['version']);
+            $module->setVersion($newVersion);
             $this->getEntityManager()->flush();
         }
     }
 
     /**
-     * Invoke a module method
+     * Get a module object
      *
-     * Instantiates the Module class and invokes the passed method, injecting
-     * the service manager. This is necessary because we need access to modules
-     * that are not loaded by Zend's module manager (i.e. not active).
+     * This is necessary because we need access to modules that are not loaded
+     * by Zend's module manager (i.e. not active).
      *
      * @param string $id
      * @param string $methodName
      */
-    protected function invokeModuleMethod($id, $methodName)
+    protected function getModuleObject($id)
     {
         $moduleClass = "$id\Module";
-        $module = new $moduleClass;
-        $module->$methodName($this->getServiceLocator());
+        return new $moduleClass;
     }
 
     /**

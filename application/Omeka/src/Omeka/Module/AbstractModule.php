@@ -64,10 +64,13 @@ abstract class AbstractModule implements
     /**
      * Upgrade this module.
      *
+     * @param string $oldVersion
+     * @param string $newVersion
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function upgrade(ServiceLocatorInterface $serviceLocator)
-    {}
+    public function upgrade($oldVersion, $newVersion,
+        ServiceLocatorInterface $serviceLocator
+    ) {}
 
     /**
      * Attach shared event and filter listeners.

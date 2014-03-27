@@ -262,9 +262,8 @@ class Manager implements ServiceLocatorAwareInterface
         if (!in_array($this->getModuleState($id), array(
             self::STATE_ACTIVE,
             self::STATE_NOT_ACTIVE,
-            self::STATE_NEEDS_UPGRADE,
         ))) {
-            // Only an installed module can be uninstalled
+            // Only an installed, upgraded module can be uninstalled
             return;
         }
 

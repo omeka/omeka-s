@@ -21,6 +21,7 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
+            'Omeka\DbHelper'            => 'Omeka\Db\Helper',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
             'Omeka\Options'             => 'Omeka\Service\Options',

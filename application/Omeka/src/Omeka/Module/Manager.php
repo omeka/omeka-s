@@ -38,7 +38,7 @@ class Manager implements ServiceLocatorAwareInterface
     );
 
     /**
-     * @var array
+     * @var array Registered modules
      */
     protected $modules = array();
 
@@ -53,11 +53,11 @@ class Manager implements ServiceLocatorAwareInterface
     protected $services;
 
     /**
-     * Add a new module to the list
+     * Register a new module
      *
      * @param string $id
      */
-    public function addModule($id)
+    public function registerModule($id)
     {
         $this->modules[$id] = array(
             'state' => null,
@@ -74,6 +74,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function setModuleState($id, $state)
     {
+        $this->moduleIsRegistered($id, true);
         $this->modules[$id]['state'] = $state;
     }
 
@@ -85,6 +86,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function setModuleIni($id, array $ini)
     {
+        $this->moduleIsRegistered($id, true);
         $this->modules[$id]['ini'] = $ini;
     }
 
@@ -96,18 +98,27 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function setModuleDb($id, array $row)
     {
+        $this->moduleIsRegistered($id, true);
         $this->modules[$id]['db'] = $row;
     }
 
     /**
-     * Check whether a module exists
+     * Check whether a module is registered
      *
+     * @throws Exception\ModuleNotRegisteredException
      * @param string $id
+     * @param bool $throwException Throw exception when not registered
      * @return bool
      */
-    public function moduleExists($id)
+    public function moduleIsRegistered($id, $throwException = false)
     {
-        return array_key_exists($id, $this->modules);
+        $isRegistered = array_key_exists($id, $this->modules);
+        if ($throwException && !$isRegistered) {
+            throw new Exception\ModuleNotRegisteredException(sprintf(
+                'Module "%s" is not registered', $id
+            ));
+        }
+        return $isRegistered;
     }
 
     /**
@@ -118,6 +129,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function moduleHasState($id)
     {
+        $this->moduleIsRegistered($id, true);
         return (bool) $this->modules[$id]['state'];
     }
 
@@ -156,6 +168,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getModule($id)
     {
+        $this->moduleIsRegistered($id, true);
         return $this->modules[$id];
     }
 
@@ -167,6 +180,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getModuleState($id)
     {
+        $this->moduleIsRegistered($id, true);
         return $this->modules[$id]['state'];
     }
 
@@ -178,7 +192,20 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getModuleIni($id)
     {
+        $this->moduleIsRegistered($id, true);
         return $this->modules[$id]['ini'];
+    }
+
+    /**
+     * Get a module's db row
+     *
+     * @param string $id
+     * @return array|null
+     */
+    public function getModuleDb($id)
+    {
+        $this->moduleIsRegistered($id, true);
+        return $this->modules[$id]['db'];
     }
 
     /**
@@ -204,6 +231,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function activate($id)
     {
+        $this->moduleIsRegistered($id, true);
+
         $module = $this->findModule($id);
         if ($module instanceof Module) {
             $module->setIsActive(true);
@@ -218,6 +247,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function deactivate($id)
     {
+        $this->moduleIsRegistered($id, true);
+
         $module = $this->findModule($id);
         if ($module instanceof Module) {
             $module->setIsActive(false);
@@ -232,6 +263,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function install($id)
     {
+        $this->moduleIsRegistered($id, true);
+
         if (self::STATE_NOT_INSTALLED !== $this->getModuleState($id)) {
             // Only a not installed module can be installed
             return;
@@ -259,6 +292,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function uninstall($id)
     {
+        $this->moduleIsRegistered($id, true);
+
         if (!in_array($this->getModuleState($id), array(
             self::STATE_ACTIVE,
             self::STATE_NOT_ACTIVE,
@@ -287,6 +322,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade($id)
     {
+        $this->moduleIsRegistered($id, true);
+
         if (self::STATE_NEEDS_UPGRADE !== $this->getModuleState($id)) {
             // Only a module marked for upgrade can be upgraded
             return;
@@ -321,6 +358,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function getModuleObject($id)
     {
+        $this->moduleIsRegistered($id, true);
         $moduleClass = "$id\Module";
         return new $moduleClass;
     }

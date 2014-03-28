@@ -31,37 +31,37 @@ class Helper implements ServiceLocatorAwareInterface
     protected $services;
 
     /**
-     * Execute SQL queries.
+     * Execute SQL statements.
      *
-     * Queries passes as a string will be exploded by semicolon and executed
-     * one at a time. Do not pass a string if your queries contain a semicolon
-     * that do not indicate an end of a SQL statement.
+     * Statements passed as a string will be exploded by semicolon and executed
+     * one at a time. Do not pass a string if your statements contain a
+     * semicolon that do not indicate an end of a SQL statement.
      *
      * This will replace the string set by self::TABLE_PREFIX_PLACEHOLDER with
-     * the configured table prefix. Make sure your queries do not contain the
+     * the configured table prefix. Make sure your statements do not contain the
      * placeholder string if it does not indicate a replacement.
      *
-     * @param string|array $queries
+     * @param string|array $statements
      */
-    public function executeQueries($queries)
+    public function execute($statements)
     {
-        if (is_string($queries)) {
-            $this->executeQueries(explode(';', $queries));
+        if (is_string($statements)) {
+            $this->execute(explode(';', $statements));
         }
-        if (!is_array($queries)) {
+        if (!is_array($statements)) {
             return;
         }
-        foreach ($queries as $query) {
-            $query = trim($query);
-            if ('' === $query) {
+        foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if ('' === $statement) {
                 continue;
             }
-            $prefixedQuery = str_replace(
+            $statement = str_replace(
                 self::TABLE_PREFIX_PLACEHOLDER,
                 $this->getTablePrefix(),
-                $query
+                $statement
             );
-            $this->getConnection()->executeQuery($prefixedQuery);
+            $this->getConnection()->exec($statement);
         }
     }
 

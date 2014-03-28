@@ -22,7 +22,7 @@ class InstallSchemaTask extends AbstractTask
         }
 
         try {
-            $dbHelper->executeQueries(file_get_contents($schemaPath));
+            $dbHelper->execute(file_get_contents($schemaPath));
         } catch (DBALException $e) {
             $this->addError($e->getMessage());
             return;

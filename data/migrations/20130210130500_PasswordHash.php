@@ -7,7 +7,7 @@ class PasswordHash extends AbstractMigration
 {
     public function up()
     {
-        $tableName = $this->getDbHelper()->getTableName('Omeka\Model\Entity\User');
+        $tableName = $this->getDbHelper()->getTableNameForEntity('Omeka\Model\Entity\User');
         $statement = "ALTER TABLE $tableName ADD password_hash VARCHAR(60) DEFAULT NULL";
         $this->getDbHelper()->execute($statement);
     }

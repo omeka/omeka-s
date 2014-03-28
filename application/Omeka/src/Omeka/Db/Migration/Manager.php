@@ -85,10 +85,9 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function recordMigration($version)
     {
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $conn = $em->getConnection();
-        $tableName = $this->getTableName($em);
-        $conn->insert($tableName, array('version' => $version));
+        $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
+        $tableName = $dbHelper->getTableNameForEntity($this->entity);
+        $dbHelper->getConnection()->insert($tableName, array('version' => $version));
     }
 
     /**
@@ -134,18 +133,14 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getCompletedMigrations()
     {
-        $sl = $this->getServiceLocator();
-        $em = $sl->get('Omeka\EntityManager');
-        $conn = $em->getConnection();
-
-        $tableName = $this->getTableName($em);
-        $completed = $conn->executeQuery("SELECT version FROM $tableName")
-            ->fetchAll(PDO::FETCH_COLUMN);
-
+        $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
+        $tableName = $dbHelper->getTableNameForEntity($this->entity);
+        $completed = $dbHelper->getConnection()->executeQuery(
+            "SELECT version FROM $tableName"
+        )->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
             $completed = array();
         }
-
         return $completed;
     }
 
@@ -189,16 +184,5 @@ class Manager implements ServiceLocatorAwareInterface
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Get the migration table name from the EntityManager.
-     *
-     * @param Doctrine\ORM\EntityManager
-     * @return string Table name
-     */
-    protected function getTableName($em)
-    {
-        return $em->getClassMetadata($this->entity)->getTableName();
     }
 }

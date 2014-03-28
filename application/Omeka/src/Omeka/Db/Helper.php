@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Db;
 
+use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -70,15 +71,30 @@ class Helper implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the table name for the given entity.
+     * Get the table name for the given entity
      *
-     * @param string $entityName Name of the Entity
-     * @return string Name of the underlying SQL table.
+     * The entity's metadata must already be loaded.
+     *
+     * @param string $entityName The entity's fully qualified namespace
+     * @return string The name of the underlying SQL table
      */
-    public function getTableName($entityName)
+    public function getTableNameForEntity($entityName)
     {
         return $this->getEntityManager()
             ->getClassMetadata($entityName)->getTableName();
+    }
+
+    /**
+     * Get the prefixed table name for the given base table
+     *
+     * Helpful if the corresponding entity's metadata is not already loaded.
+     *
+     * @param string $baseTable The base (unprefixed) table name
+     * @return string The name of the underlying SQL table
+     */
+    public function getTableNameForBaseTable($baseTable)
+    {
+        return $this->getTablePrefix() . $baseTable;
     }
 
     /**

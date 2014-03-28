@@ -2,14 +2,13 @@
 namespace Omeka\Db\Migrations;
 
 use Omeka\Db\Migration\AbstractMigration;
-use Omeka\Db\Migration\TableResolver;
-use Doctrine\DBAL\Connection;
 
 class OptionJsonValue extends AbstractMigration
 {
-    public function up(Connection $conn, TableResolver $resolver)
+    public function up()
     {
-        $tableName = $resolver->getTableName('Omeka\Model\Entity\Option');
-        $conn->exec("ALTER TABLE $tableName CHANGE value value LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)';");
+        $tableName = $this->getDbHelper()->getTableName('Omeka\Model\Entity\Option');
+        $statement = "ALTER TABLE $tableName CHANGE value value LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)'";
+        $this->getDbHelper()->execute($statement);
     }
 }

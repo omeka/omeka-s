@@ -74,7 +74,7 @@ class Manager implements ServiceLocatorAwareInterface
         foreach ($toPerform as $version => $migrationInfo) {
             $migration = $this->loadMigration(
                 $migrationInfo['path'], $migrationInfo['class']);
-            $migration->up($conn, $resolver);
+            $migration->up();
             $this->recordMigration($version);
         }
     }
@@ -103,11 +103,15 @@ class Manager implements ServiceLocatorAwareInterface
     {
         require $path;
 
-        if (!class_exists($class, false)) {
+        if (!class_exists($class, false)
+            || !is_subclass_of($class, 'Omeka\Db\Migration\MigrationInterface')
+        ) {
             throw new Exception\ClassNotFoundException('Migration file did not contain the expected class');
         }
 
-        return new $class;
+        $migration = new $class;
+        $migration->setServiceLocator($this->getServiceLocator());
+        return $class;
     }
 
     /**

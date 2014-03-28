@@ -2,14 +2,13 @@
 namespace Omeka\Db\Migrations;
 
 use Omeka\Db\Migration\AbstractMigration;
-use Omeka\Db\Migration\TableResolver;
-use Doctrine\DBAL\Connection;
 
 class ModuleVersion extends AbstractMigration
 {
-    public function up(Connection $conn, TableResolver $resolver)
+    public function up()
     {
-        $tableName = $resolver->getTableName('Omeka\Model\Entity\Module');
-        $conn->exec("ALTER TABLE $tableName ADD version VARCHAR(255) NOT NULL;");
+        $tableName = $this->getDbHelper()->getTableName('Omeka\Model\Entity\Module');
+        $statement = "ALTER TABLE $tableName ADD version VARCHAR(255) NOT NULL;";
+        $this->getDbHelper()->execute($statement);
     }
 }

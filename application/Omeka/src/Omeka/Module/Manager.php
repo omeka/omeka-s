@@ -407,8 +407,8 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Get a module object
      *
-     * This is necessary because we need access to modules that are not loaded
-     * by Zend's module manager (i.e. not active).
+     * Get from Zend's module manager if loaded (i.e. active), otherwise
+     * instantiate a new module object.
      *
      * @param string $id
      * @param string $methodName
@@ -416,6 +416,11 @@ class Manager implements ServiceLocatorAwareInterface
     protected function getModuleObject($id)
     {
         $this->moduleIsRegistered($id, true);
+        $module = $this->getServiceLocator()
+            ->get('ModuleManager')->getModule($id);
+        if (null !== $module) {
+            return $module;
+        }
         $moduleClass = "$id\Module";
         return new $moduleClass;
     }

@@ -17,8 +17,16 @@ class ModuleController extends AbstractActionController
             switch ($action) {
                 case 'install':
                     $modules->install($id);
-                    // @todo This is where we should redirect to module
-                    // configuration page (if any)
+                    $ini = $modules->getModuleIni($id);
+                    if (isset($ini['configurable']) && (bool) $ini['configurable']) {
+                        // Module marked as configurable. Redirect to configuration.
+                        $this->redirect()->toRoute(
+                            'admin/default',
+                            array('controller' => 'module', 'action' => 'configure'),
+                            array('query' => array('id' => $id))
+                        );
+                        return;
+                    }
                     break;
                 case 'uninstall':
                     $modules->uninstall($id);
@@ -35,9 +43,43 @@ class ModuleController extends AbstractActionController
                 default:
                     break;
             }
+            $this->redirect()->toRoute(
+                'admin/default',
+                array('controller' => 'module')
+            );
+            return;
         }
 
         $view->setVariable('modules', $modules->getModules());
+        return $view;
+    }
+
+    public function configureAction()
+    {
+        $view = new ViewModel;
+
+        // Get the module
+        $id = $this->params()->fromQuery('id');
+        $modules = $this->getServiceLocator()->get('ModuleManager');
+        $module = $modules->getModule($id);
+        if (null === $module) {
+            $this->redirect()->toRoute(
+                'admin/default',
+                array('controller' => 'module')
+            );
+            return;
+        }
+
+        if ($this->getRequest()->isPost()) {
+            $module->handleConfigForm($this);
+            $this->redirect()->toRoute(
+                'admin/default',
+                array('controller' => 'module')
+            );
+            return;
+        }
+
+        $view->setVariable('config_form', $module->getConfigForm($view));
         return $view;
     }
 }

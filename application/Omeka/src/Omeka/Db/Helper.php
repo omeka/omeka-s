@@ -33,6 +33,10 @@ class Helper implements ServiceLocatorAwareInterface
     /**
      * Execute SQL statements.
      *
+     * All statements should stand on their own. Do not parametrize them or
+     * interpolate user generated data. For those purposes, use executeQuery()
+     * in the Omeka\Connection service.
+     *
      * Statements passed as a string will be exploded by semicolon and executed
      * one at a time. Do not pass a string if your statements contain a
      * semicolon that do not indicate an end of a SQL statement.

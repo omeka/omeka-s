@@ -69,7 +69,6 @@ class Manager implements ServiceLocatorAwareInterface
         $toPerform = $this->getMigrationsToPerform();
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $conn = $em->getConnection();
-        $resolver = new TableResolver($em);
 
         foreach ($toPerform as $version => $migrationInfo) {
             $migration = $this->loadMigration(

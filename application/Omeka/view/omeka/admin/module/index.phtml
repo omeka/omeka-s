@@ -2,6 +2,9 @@
 use Omeka\Module\Manager as ModuleManager;
 ?>
 <h1><?php echo count($modules->getModules()); ?> Modules</h1>
+<?php if (isset($successMessages)): ?>
+<pre><?php print_r($successMessages); ?></pre>
+<?php endif; ?>
 <table>
     <thead>
         <tr>

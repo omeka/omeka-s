@@ -10,6 +10,7 @@ class ModuleController extends AbstractActionController
     {
         $view = new ViewModel;
         $modules = $this->getServiceLocator()->get('Omeka\ModuleManager');
+        $flashMessenger = $this->flashMessenger();
 
         if ($this->getRequest()->isPost()) {
             $id = $this->params()->fromPost('id');
@@ -17,6 +18,9 @@ class ModuleController extends AbstractActionController
             switch ($action) {
                 case 'install':
                     $modules->install($id);
+                    $flashMessenger->addSuccessMessage(
+                        'The module was successfully installed'
+                    );
                     if ($modules->moduleIsConfigurable($id)) {
                         return $this->redirect()->toRoute(
                             'admin/default',
@@ -27,15 +31,27 @@ class ModuleController extends AbstractActionController
                     break;
                 case 'uninstall':
                     $modules->uninstall($id);
+                    $flashMessenger->addSuccessMessage(
+                        'The module was successfully uninstalled'
+                    );
                     break;
                 case 'activate':
                     $modules->activate($id);
+                    $flashMessenger->addSuccessMessage(
+                        'The module was successfully activated'
+                    );
                     break;
                 case 'deactivate':
                     $modules->deactivate($id);
+                    $flashMessenger->addSuccessMessage(
+                        'The module was successfully deactivated'
+                    );
                     break;
                 case 'upgrade':
                     $modules->upgrade($id);
+                    $flashMessenger->addSuccessMessage(
+                        'The module was successfully upgraded'
+                    );
                     break;
                 case 'configure':
                     return $this->redirect()->toRoute(
@@ -49,6 +65,12 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->refresh();
         }
 
+        if ($flashMessenger->hasSuccessMessages()) {
+            $view->setVariable(
+                'successMessages',
+                $flashMessenger->getSuccessMessages()
+            );
+        }
         $view->setVariable('modules', $modules);
         return $view;
     }
@@ -56,6 +78,7 @@ class ModuleController extends AbstractActionController
     public function configureAction()
     {
         $view = new ViewModel;
+        $flashMessenger = $this->flashMessenger();
 
         // Get the module
         $id = $this->params()->fromQuery('id');
@@ -70,13 +93,22 @@ class ModuleController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $module->handleConfigForm($this);
+            $flashMessenger->addSuccessMessage(
+                'The module was successfully configured'
+            );
             return $this->redirect()->toRoute(
                 'admin/default',
                 array('controller' => 'module')
             );
         }
 
-        $view->setVariable('config_form', $module->getConfigForm($view));
+        if ($flashMessenger->hasSuccessMessages()) {
+            $view->setVariable(
+                'successMessages',
+                $flashMessenger->getSuccessMessages()
+            );
+        }
+        $view->setVariable('configForm', $module->getConfigForm($view));
         return $view;
     }
 }

@@ -1,4 +1,7 @@
+<?php if (isset($successMessages)): ?>
+<pre><?php print_r($successMessages); ?></pre>
+<?php endif; ?>
 <form method="post">
-<?php echo $config_form; ?>
+<?php echo $configForm; ?>
 <button name="submit">Submit</button>
 </form>

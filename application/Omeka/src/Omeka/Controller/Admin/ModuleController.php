@@ -17,15 +17,12 @@ class ModuleController extends AbstractActionController
             switch ($action) {
                 case 'install':
                     $modules->install($id);
-                    $ini = $modules->getModuleIni($id);
-                    if (isset($ini['configurable']) && (bool) $ini['configurable']) {
-                        // Module marked as configurable. Redirect to configuration.
-                        $this->redirect()->toRoute(
+                    if ($modules->moduleIsConfigurable($id)) {
+                        return $this->redirect()->toRoute(
                             'admin/default',
                             array('controller' => 'module', 'action' => 'configure'),
                             array('query' => array('id' => $id))
                         );
-                        return;
                     }
                     break;
                 case 'uninstall':
@@ -40,17 +37,19 @@ class ModuleController extends AbstractActionController
                 case 'upgrade':
                     $modules->upgrade($id);
                     break;
+                case 'configure':
+                    return $this->redirect()->toRoute(
+                        'admin/default',
+                        array('controller' => 'module', 'action' => 'configure'),
+                        array('query' => array('id' => $id))
+                    );
                 default:
                     break;
             }
-            $this->redirect()->toRoute(
-                'admin/default',
-                array('controller' => 'module')
-            );
-            return;
+            return $this->redirect()->refresh();
         }
 
-        $view->setVariable('modules', $modules->getModules());
+        $view->setVariable('modules', $modules);
         return $view;
     }
 
@@ -63,20 +62,18 @@ class ModuleController extends AbstractActionController
         $modules = $this->getServiceLocator()->get('ModuleManager');
         $module = $modules->getModule($id);
         if (null === $module) {
-            $this->redirect()->toRoute(
+            return $this->redirect()->toRoute(
                 'admin/default',
                 array('controller' => 'module')
             );
-            return;
         }
 
         if ($this->getRequest()->isPost()) {
             $module->handleConfigForm($this);
-            $this->redirect()->toRoute(
+            return $this->redirect()->toRoute(
                 'admin/default',
                 array('controller' => 'module')
             );
-            return;
         }
 
         $view->setVariable('config_form', $module->getConfigForm($view));

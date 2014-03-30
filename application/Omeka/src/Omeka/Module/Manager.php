@@ -139,6 +139,19 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Check whether a module is configurable
+     *
+     * @param string $id
+     * @return bool
+     */
+    public function moduleIsConfigurable($id)
+    {
+        $this->moduleIsRegistered($id, true);
+        $ini = $this->modules[$id]['ini'];
+        return isset($ini['configurable']) && (bool) $ini['configurable'];
+    }
+
+    /**
      * Get all modules
      *
      * @return array

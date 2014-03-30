@@ -1,7 +1,7 @@
 <?php
 use Omeka\Module\Manager as ModuleManager;
 ?>
-<h1><?php echo count($modules); ?> Modules</h1>
+<h1><?php echo count($modules->getModules()); ?> Modules</h1>
 <table>
     <thead>
         <tr>
@@ -11,7 +11,7 @@ use Omeka\Module\Manager as ModuleManager;
         </tr>
     </thead>
     <tbody>
-        <?php foreach($modules as $id => $module): ?>
+        <?php foreach($modules->getModules() as $id => $module): ?>
         <tr>
             <td><?php echo $module['ini']['name']; ?></td>
             <td><?php echo $module['ini']['version']; ?></td>
@@ -24,6 +24,9 @@ use Omeka\Module\Manager as ModuleManager;
                 case ModuleManager::STATE_ACTIVE:
                     echo '<button name="action" value="uninstall">Uninstall</button>';
                     echo '<button name="action" value="deactivate">Deactivate</button>';
+                    if ($modules->moduleIsConfigurable($id)) {
+                        echo '<button name="action" value="configure">Configure</button>';
+                    }
                     break;
                 case ModuleManager::STATE_NOT_ACTIVE:
                     echo '<button name="action" value="uninstall">Uninstall</button>';

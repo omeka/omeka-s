@@ -11,25 +11,49 @@ class LoginController extends AbstractActionController
 {
     public function indexAction()
     {
-        $model = array();
+        $view = new ViewModel;
+        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        $flashMessenger = $this->flashMessenger();
 
         if ($this->getRequest()->isPost()) {
-            $username = $this->params()->fromPost('username');
-            $password = $this->params()->fromPost('password');
 
-            $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-            $adapter = $auth->getAdapter();
-            $adapter->setIdentity($username);
-            $adapter->setCredential($password);
-
-            $result = $auth->authenticate();
-            if (!$result->isValid()) {
-                $model['messages'] = $result->getMessages();
+            switch ($this->params()->fromPost('action')) {
+                case 'login':
+                    $adapter = $auth->getAdapter();
+                    $adapter->setIdentity($this->params()->fromPost('username'));
+                    $adapter->setCredential($this->params()->fromPost('password'));
+                    $result = $auth->authenticate();
+                    if ($result->isValid()) {
+                        $flashMessenger->addSuccessMessage('Successfully logged in');
+                    } else {
+                        $flashMessenger->addErrorMessage('Username or password is invalid');
+                    }
+                    break;
+                case 'logout':
+                    $auth->clearIdentity();
+                    $flashMessenger->addSuccessMessage('Successfully logged out');
+                    break;
+                default:
+                    break;
             }
+            return $this->redirect()->refresh();
         }
 
-        $model['user'] = $this->identity();
+        if ($flashMessenger->hasErrorMessages()) {
+            $view->setVariable(
+                'errorMessages',
+                $flashMessenger->getErrorMessages()
+            );
+        }
+        if ($flashMessenger->hasSuccessMessages()) {
+            $view->setVariable(
+                'successMessages',
+                $flashMessenger->getSuccessMessages()
+            );
+        }
 
-        return new ViewModel($model);
+        $view->setVariable('auth', $auth);
+        $view->setVariable('user', $this->identity());
+        return $view;
     }
 }

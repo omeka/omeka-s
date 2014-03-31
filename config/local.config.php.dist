@@ -1,11 +1,2 @@
 <?php
-return array(
-    'loggers' => array(
-        'application' => array(
-            'log' => false,
-        ),
-        'sql' => array(
-            'log' => false,
-        ),
-    ),
-);
+return array();

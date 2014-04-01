@@ -73,6 +73,17 @@ return array(
             OMEKA_PATH . '/application/Omeka/src/Omeka/Model/Entity',
         ),
     ),
+    'translator' => array(
+        'locale' => null,
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'gettext',
+                'base_dir' => OMEKA_PATH . '/application/Omeka/language',
+                'pattern'  => '%s.mo',
+                'text_domain' => null,
+            ),
+        ),
+    ),
     'loggers' => array(
         'application' => array(
             'log'  => false,

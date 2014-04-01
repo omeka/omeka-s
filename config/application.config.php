@@ -41,10 +41,5 @@ return array(
             'Omeka\Installation\Task\CreateFirstUserTask',
         ),
     ),
-    'migration_manager' => array(
-        'path'      => OMEKA_PATH . '/data/migrations',
-        'namespace' => 'Omeka\Db\Migrations',
-        'entity'    => 'Omeka\Model\Entity\Migration',
-    ),
     'connection' => $config,
 );

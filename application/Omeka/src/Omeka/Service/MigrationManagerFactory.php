@@ -19,12 +19,11 @@ class MigrationManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('ApplicationConfig');
-        if (!isset($config['migration_manager'])) {
-            throw new Exception\ConfigException(
-                'The migration configuration is missing.'
-            );
-        }
-        return new MigrationManager($config['migration_manager']);
+        $config = array(
+            'path'      => OMEKA_PATH . '/data/migrations',
+            'namespace' => 'Omeka\Db\Migrations',
+            'entity'    => 'Omeka\Model\Entity\Migration',
+        );
+        return new MigrationManager($config);
     }
 }

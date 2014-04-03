@@ -122,6 +122,14 @@ class Manager implements ServiceLocatorAwareInterface
     public function execute(Request $request)
     {
         try {
+            // Validate the request.
+            if (!$request->isValidOperation($request->getOperation())) {
+                throw new Exception\BadRequestException(sprintf(
+                    'The API does not support the "%1$s" request operation.',
+                    $request->getOperation()
+                ));
+            }
+
             // Set the adapter and its dependencies.
             $adapterClass = $this->getAdapterClass($request->getResource());
             $adapter = new $adapterClass;
@@ -132,7 +140,7 @@ class Manager implements ServiceLocatorAwareInterface
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             if (!$acl->isAllowed('current_user', $adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
-                    'Permission denied for the current user to %s the %s resource.',
+                    'Permission denied for the current user to %1$s the %2$s resource.',
                     $request->getOperation(),
                     $adapter->getResourceId()
                 ));
@@ -176,16 +184,23 @@ class Manager implements ServiceLocatorAwareInterface
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
-                        'The API does not support the "%s" operation.',
+                        'The API does not support the "%1$s" request operation.',
                         $request->getOperation()
                     ));
             }
 
+            // Validate the response.
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
-                    'The "%s" operation for the "%s" resource adapter did not return an Omeka\Api\Response object.',
+                    'The "%1$s" operation for the "%2$s" resource adapter did not return an Omeka\Api\Response object.',
                     $request->getOperation(),
                     $request->getResource()
+                ));
+            }
+            if (!$response->isValidStatus($response->getStatus())) {
+                throw new Exception\BadResponseException(sprintf(
+                    'The API does not support the "%1$s" response status.',
+                    $response->getStatus()
                 ));
             }
 
@@ -302,15 +317,16 @@ class Manager implements ServiceLocatorAwareInterface
     {
         if (!class_exists($adapterClass)) {
             throw new Exception\ConfigException(sprintf(
-                'The adapter class "%s" does not exist for the "%s" resource.', 
+                'The adapter class "%1$s" does not exist for the "%2$s" resource.',
                 $adapterClass,
                 $resource
             ));
         }
         if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
             throw new Exception\ConfigException(sprintf(
-                'The adapter class "%s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%s" resource.', 
-                $adapterClass, $resource
+                'The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%2$s" resource.',
+                $adapterClass,
+                $resource
             ));
         }
         $this->resources[$resource] = $adapterClass;
@@ -348,7 +364,7 @@ class Manager implements ServiceLocatorAwareInterface
     {
         if (!$this->resourceIsRegistered($resource)) {
             throw new Exception\BadRequestException(sprintf(
-                'The "%s" resource is not registered.', 
+                'The "%1$s" resource is not registered.',
                 $resource
             ));
         }
@@ -367,9 +383,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Set the service locator.
-     * 
-     * @param ServiceLocatorInterface $serviceLocator
+     * {@inheritDoc}
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -377,9 +391,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the service locator.
-     * 
-     * @return ServiceLocatorInterface
+     * {@inheritDoc}
      */
     public function getServiceLocator()
     {

@@ -71,12 +71,6 @@ class Response extends ZendResponse
      */
     public function setStatus($status)
     {
-        if (!in_array($status, $this->validStatuses)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'The API does not support the "%s" response status.', 
-                $status
-            ));
-        }
         $this->setMetadata('status', $status);
     }
 
@@ -88,6 +82,16 @@ class Response extends ZendResponse
     public function getStatus()
     {
         return $this->getMetadata('status');
+    }
+
+    /**
+     * Check whether a response status is valid.
+     *
+     * @return bool
+     */
+    public function isValidStatus($status)
+    {
+        return in_array($status, $this->validStatuses);
     }
 
     /**

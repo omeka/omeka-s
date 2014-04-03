@@ -51,12 +51,6 @@ class Request extends ZendRequest
      */
     public function setOperation($operation)
     {
-        if (!in_array($operation, $this->validOperations)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'The API does not support the "%s" operation.', 
-                $operation
-            ));
-        }
         $this->setMetadata('operation', $operation);
     }
 
@@ -68,6 +62,16 @@ class Request extends ZendRequest
     public function getOperation()
     {
         return $this->getMetadata('operation');
+    }
+
+    /**
+     * Check whether a request operation is valid.
+     *
+     * @return bool
+     */
+    public function isValidOperation($operation)
+    {
+        return in_array($operation, $this->validOperations);
     }
 
     /**

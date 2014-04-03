@@ -39,14 +39,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException Omeka\Api\Exception\InvalidArgumentException
-     */
-    public function testRejectsInvalidOperation()
-    {
-        $this->request->setOperation('foo');
-    }
-
     public function testSetsAndGetsResource()
     {
         $this->request->setResource('foo');

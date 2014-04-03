@@ -47,14 +47,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException Omeka\Api\Exception\InvalidArgumentException
-     */
-    public function testRejectsInvalidStatus()
-    {
-        $this->response->setStatus('foo');
-    }
-
     public function testAddsAndGetsError()
     {
         $this->response->addError('foo', 'foo_message_one');

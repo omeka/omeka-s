@@ -63,14 +63,15 @@ class RdfVocabularyAdapter extends AbstractAdapter
      */
     public function search($data = null)
     {
+        $t = $this->getTranslator();
         if (!isset($data['strategy'])) {
             throw new Exception\BadRequestException(
-                'No import strategy was specified.'
+                $t->translate('No import strategy was specified.')
             );
         }
         if (!isset($data['vocabulary']['namespace_uri'])) {
             throw new Exception\BadRequestException(
-                'No vocabulary namespace URI was specified.'
+                $t->translate('No vocabulary namespace URI was specified.')
             );
         }
         if (!isset($data['format'])) {
@@ -117,14 +118,15 @@ class RdfVocabularyAdapter extends AbstractAdapter
      */
     public function create($data = null)
     {
+        $t = $this->getTranslator();
         if (!isset($data['vocabulary'])) {
             throw new Exception\BadRequestException(
-                'No vocabulary was specified.'
+                $t->translate('No vocabulary was specified.')
             );
         }
         if (!isset($data['strategy'])) {
             throw new Exception\BadRequestException(
-                'No import strategy was specified.'
+                $t->translate('No import strategy was specified.')
             );
         }
         if (!isset($data['format'])) {
@@ -250,13 +252,14 @@ class RdfVocabularyAdapter extends AbstractAdapter
      */
     protected function getGraph(array $data)
     {
+        $t = $this->getTranslator();
         switch ($data['strategy']) {
 
             // Import from a file in /data/vocabularies directory.
             case 'file':
                 if (!isset($data['file'])) {
                     throw new Exception\BadRequestException(
-                        'No file specified for the file import strategy.'
+                        $t->translate('No file specified for the file import strategy.')
                     );
                 }
                 $file = OMEKA_PATH
@@ -266,7 +269,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
                 // Make sure the provided file path matches the expected path.
                 if ($file != realpath($file) || !is_file($file)) {
                     throw new Exception\BadRequestException(
-                        'Invalid path to file.'
+                        $t->translate('Invalid path to file.')
                     );
                 }
                 $graph = new EasyRdf_Graph;
@@ -277,7 +280,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
             case 'url':
                 if (!isset($data['url'])) {
                     throw new Exception\BadRequestException(
-                        'No URL specified for the URL import strategy.'
+                        $t->translate('No URL specified for the URL import strategy.')
                     );
                 }
                 $graph = new EasyRdf_Graph;
@@ -286,7 +289,7 @@ class RdfVocabularyAdapter extends AbstractAdapter
 
             default:
                 throw new Exception\BadRequestException(
-                    'Unsupported import strategy.'
+                    $t->translate('Unsupported import strategy.')
                 );
         }
     }

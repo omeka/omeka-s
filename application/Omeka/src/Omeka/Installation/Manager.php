@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Installation;
 
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -13,6 +14,11 @@ class Manager implements ServiceLocatorAwareInterface
      * Table against which to check for an Omeka installation
      */
     const CHECK_TABLE = 'user';
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var ServiceLocatorInterface
@@ -70,24 +76,27 @@ class Manager implements ServiceLocatorAwareInterface
         $result = new Result;
 
         if ($this->isInstalled()) {
-            $result->addMessage('Omeka is already installed.', Result::MESSAGE_TYPE_ERROR);
+            $result->addMessage(
+                $this->getTranslator()->translate('Omeka is already installed.'),
+                Result::MESSAGE_TYPE_ERROR
+            );
             return $result;
         }
 
         foreach ($this->getTasks() as $taskName) {
             $start = microtime(true);
-            $task = new $taskName($result);
-            if ($task instanceof ServiceLocatorAwareInterface) {
-                $task->setServiceLocator($this->getServiceLocator());
-            }
+            $task = new $taskName($this->getServiceLocator(), $result);
+
             // Set task-specific variables.
             $vars = $this->getVars($taskName);
             if ($vars) {
                 $task->setVars($vars);
             }
+
             $task->perform();
             $end = microtime(true);
-            $result->addMessage(sprintf('time: %.2f', $end - $start)); 
+            $result->addMessage(sprintf('time: %.2f', $end - $start));
+
             // Tasks are dependent on previously run tasks. If there is an
             // error, stop installation immediately and return the result.
             if ($result->isError()) {
@@ -160,6 +169,19 @@ class Manager implements ServiceLocatorAwareInterface
     public function getVars($task)
     {
         return isset($this->vars[$task]) ? $this->vars[$task] : null;
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

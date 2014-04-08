@@ -3,6 +3,7 @@ namespace Omeka\Db\Migration;
 
 use GlobIterator;
 use PDO;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -25,6 +26,11 @@ class Manager implements ServiceLocatorAwareInterface
      * @var string
      */
     protected $entity;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var ServiceLocatorInterface
@@ -104,7 +110,9 @@ class Manager implements ServiceLocatorAwareInterface
         if (!class_exists($class, false)
             || !is_subclass_of($class, 'Omeka\Db\Migration\MigrationInterface')
         ) {
-            throw new Exception\ClassNotFoundException('Migration file did not contain the expected class');
+            throw new Exception\ClassNotFoundException(
+                $this->getTranslator()->translate('Migration file did not contain the expected class')
+            );
         }
 
         $migration = new $class;
@@ -168,6 +176,19 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         return $migrations;
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

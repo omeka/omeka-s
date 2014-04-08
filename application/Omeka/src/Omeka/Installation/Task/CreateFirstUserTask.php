@@ -35,6 +35,6 @@ class CreateFirstUserTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Create the first user';
+        return $this->getTranslator()->translate('Create the first user');
     }
 }

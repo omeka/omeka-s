@@ -91,6 +91,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function create($data = null)
     {
+        $t = $this->getTranslator();
         $response = new Response;
 
         $entityClass = $this->getEntityClass();
@@ -101,7 +102,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'create')) {
             throw new Exception\PermissionDeniedException(sprintf(
-                'Permission denied for the current user to create the %s resource.',
+                $t->translate('Permission denied for the current user to create the %1$s resource.'),
                 $entity->getResourceId()
             ));
         }
@@ -198,6 +199,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function read($id, $data = null)
     {
+        $t = $this->getTranslator();
         $response = new Response;
         try {
             $entity = $this->find($id);
@@ -210,7 +212,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'read')) {
             throw new Exception\PermissionDeniedException(sprintf(
-                'Permission denied for the current user to read the %s resource.',
+                $t->translate('Permission denied for the current user to read the %1$s resource.'),
                 $entity->getResourceId()
             ));
         }
@@ -236,6 +238,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function update($id, $data = null)
     {
+        $t = $this->getTranslator();
         $response = new Response;
         try {
             $entity = $this->find($id);
@@ -250,7 +253,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'update')) {
             throw new Exception\PermissionDeniedException(sprintf(
-                'Permission denied for the current user to update the %s resource.',
+                $t->translate('Permission denied for the current user to update the %1$s resource.'),
                 $entity->getResourceId()
             ));
         }
@@ -287,6 +290,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function delete($id, $data = null)
     {
+        $t = $this->getTranslator();
         $response = new Response;
         try {
             $entity = $this->find($id);
@@ -300,7 +304,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'delete')) {
             throw new Exception\PermissionDeniedException(sprintf(
-                'Permission denied for the current user to delete the %s resource.',
+                $t->translate('Permission denied for the current user to delete the %1$s resource.'),
                 $entity->getResourceId()
             ));
         }
@@ -347,10 +351,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     protected function find($id)
     {
+        $t = $this->getTranslator();
         $entity = $this->getRepository()->find($id);
         if (!$entity instanceof EntityInterface) {
             throw new ModelException\EntityNotFoundException(sprintf(
-                'An "%s" entity with ID "%s" was not found',
+                $t->translate('An "%1$s" entity with ID "%2$s" was not found'),
                 $this->getEntityClass(),
                 $id
             ));

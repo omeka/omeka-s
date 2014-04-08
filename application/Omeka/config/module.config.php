@@ -46,7 +46,8 @@ return array(
     ),
     'controller_plugins' => array(
         'invokables' => array(
-            'api' => 'Omeka\Mvc\Controller\Plugin\Api',
+            'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
+            'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
         ),
     ),
     'view_manager' => array(

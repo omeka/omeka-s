@@ -3,18 +3,24 @@ namespace Omeka\Installation\Task;
 
 use Omeka\Installation\Result;
 use Omeka\Stdlib\ErrorStore;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Abstract installation task.
  */
-abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterface
+abstract class AbstractTask implements TaskInterface
 {
     /**
      * @var Result
      */
     protected $result;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var ServiceLocatorInterface
@@ -29,12 +35,14 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     /**
      * Construct the task.
      *
+     * @param ServiceLocatorInterface $serviceLocator
      * @param Result $result
      */
-    public function __construct(Result $result)
+    public function __construct(ServiceLocatorInterface $serviceLocator, Result $result)
     {
+        $this->setServiceLocator($serviceLocator);
+        $this->setResult($result);
         $result->setCurrentTask(get_class($this), $this->getName());
-        $this->result = $result;
     }
 
     /**
@@ -82,6 +90,16 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     }
 
     /**
+     * Set the result object.
+     *
+     * @param Result $result
+     */
+    public function setResult(Result $result)
+    {
+        $this->result = $result;
+    }
+
+    /**
      * Get the result object.
      *
      * @return Result
@@ -110,6 +128,19 @@ abstract class AbstractTask implements TaskInterface, ServiceLocatorAwareInterfa
     public function getVar($key)
     {
         return isset($this->vars[$key]) ? $this->vars[$key] : null;
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

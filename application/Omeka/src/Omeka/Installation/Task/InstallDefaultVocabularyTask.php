@@ -26,7 +26,9 @@ class InstallDefaultVocabularyTask extends AbstractTask
             $this->addErrorStore($response->getErrorStore());
             return;
         }
-        $this->addInfo('Successfully installed the default Omeka vocabulary');
+        $this->addInfo(
+            $this->getTranslator()->translate('Successfully installed the default Omeka vocabulary')
+        );
     }
 
     /**
@@ -34,7 +36,7 @@ class InstallDefaultVocabularyTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Install the default Omeka vocabulary';
+        return $this->getTranslator()->translate('Install the default Omeka vocabulary');
     }
 
 }

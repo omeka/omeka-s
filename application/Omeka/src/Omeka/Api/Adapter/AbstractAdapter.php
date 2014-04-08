@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Zend\EventManager\EventManagerInterface;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -15,6 +16,11 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var Request
      */
     protected $request;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var ServiceLocatorInterface
@@ -31,9 +37,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function search($data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the search operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the search operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -41,9 +50,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function create($data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the create operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the create operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -51,9 +63,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function batchCreate($data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the batch create operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the batch create operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -61,9 +76,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function read($id, $data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the read operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the read operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -71,9 +89,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function update($id, $data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the update operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the update operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -81,9 +102,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function delete($id, $data = null)
     {
-        throw new Exception\RuntimeException(
-            'The adapter does not implement the delete operation.'
-        );
+        throw new Exception\RuntimeException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the delete operation.'
+            ),
+            get_called_class()
+        ));
     }
 
     /**
@@ -104,6 +128,19 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

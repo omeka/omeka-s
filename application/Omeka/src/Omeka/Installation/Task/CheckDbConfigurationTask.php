@@ -17,7 +17,9 @@ class CheckDbConfigurationTask extends AbstractTask
             $this->addError($e->getMessage());
             return;
         }
-        $this->addInfo('Database configuration is valid.');
+        $this->addInfo(
+            $this->getTranslator()->translate('Database configuration is valid.')
+        );
     }
 
     /**
@@ -25,6 +27,6 @@ class CheckDbConfigurationTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Check database configuration';
+        return $this->getTranslator()->translate('Check database configuration');
     }
 }

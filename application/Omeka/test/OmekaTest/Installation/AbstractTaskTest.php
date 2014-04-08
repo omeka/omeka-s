@@ -2,9 +2,21 @@
 namespace OmekaTest\Installation;
 
 use Omeka\Installation\Result;
+use Omeka\Test\MockBuilder;
 
 class AbstractTaskTest extends \PHPUnit_Framework_TestCase
 {
+    protected $serviceManager;
+
+    public function setUp()
+    {
+        $mockBuilder = new MockBuilder;
+        $serviceManager = $mockBuilder->getServiceManager(array(
+            'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+        ));
+        $this->serviceManager = $serviceManager;
+    }
+    
     public function testConstructorSetsResult()
     {
         $result = $this->getMock('Omeka\Installation\Result');
@@ -12,7 +24,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->method('setCurrentTask');
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
         $this->assertInstanceOf('Omeka\Installation\Result', $task->getResult());
     }
@@ -26,7 +38,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->method('setCurrentTask');
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
 
         $task->setVars($vars);
@@ -44,7 +56,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->with($message, Result::MESSAGE_TYPE_ERROR);
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
 
         $task->addError($message);
@@ -66,7 +78,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->with($message, Result::MESSAGE_TYPE_ERROR);
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
 
         $task->addErrorStore($errorStore);
@@ -82,7 +94,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->with($message, Result::MESSAGE_TYPE_WARNING);
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
 
         $task->addWarning($message);
@@ -98,7 +110,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
             ->with($message, Result::MESSAGE_TYPE_INFO);
         $task = $this->getMockForAbstractClass(
             'Omeka\Installation\Task\AbstractTask',
-            array($result)
+            array($this->serviceManager, $result)
         );
 
         $task->addInfo($message);

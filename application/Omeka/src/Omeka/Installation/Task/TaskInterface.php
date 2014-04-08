@@ -2,11 +2,12 @@
 namespace Omeka\Installation\Task;
 
 use Omeka\Installation\Result;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Installation task interface.
  */
-interface TaskInterface
+interface TaskInterface extends ServiceLocatorAwareInterface
 {
     /**
      * Perform the installation task.

@@ -13,11 +13,14 @@ class InstallSchemaTask extends AbstractTask
      */
     public function perform()
     {
+        $t = $this->getTranslator();
         $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
 
         $schemaPath = OMEKA_PATH . '/data/install/schema.sql';
         if (!is_readable($schemaPath)) {
-            $this->addError('Could not read the schema installation file.');
+            $this->addError(
+                $t->translate('Could not read the schema installation file.')
+            );
             return;
         }
 
@@ -28,7 +31,9 @@ class InstallSchemaTask extends AbstractTask
             return;
         }
 
-        $this->addInfo('Successfully installed the Omeka database.');
+        $this->addInfo(
+            $t->translate('Successfully installed the Omeka database.')
+        );
     }
 
     /**
@@ -36,6 +41,6 @@ class InstallSchemaTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Install the Omeka database';
+        return $this->getTranslator()->translate('Install the Omeka database');
     }
 }

@@ -1,8 +1,17 @@
 <?php
 namespace OmekaTest\Api;
 
+use Omeka\Test\MockBuilder;
+
 class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
 {
+    protected $adapter;
+
+    public function setUp()
+    {
+        $this->adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
+    }
+
     public function testSetsAndGetsRequest()
     {
         $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
@@ -39,8 +48,8 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchStubThrowsError()
     {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->search();
+        $this->setServiceLocator();
+        $this->adapter->search();
     }
 
     /**
@@ -48,8 +57,8 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateStubThrowsError()
     {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->create();
+        $this->setServiceLocator();
+        $this->adapter->create();
     }
 
     /**
@@ -57,8 +66,8 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadStubThrowsError()
     {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->read(1);
+        $this->setServiceLocator();
+        $this->adapter->read(1);
     }
 
     /**
@@ -66,8 +75,8 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateStubThrowsError()
     {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->update(1);
+        $this->setServiceLocator();
+        $this->adapter->update(1);
     }
 
     /**
@@ -75,7 +84,16 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteStubThrowsError()
     {
-        $adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->delete(1);
+        $this->setServiceLocator();
+        $this->adapter->delete(1);
+    }
+
+    protected function setServiceLocator()
+    {
+        $mockBuilder = new MockBuilder;
+        $serviceLocator = $mockBuilder->getServiceManager(array(
+            'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+        ));
+        $this->adapter->setServiceLocator($serviceLocator);
     }
 }

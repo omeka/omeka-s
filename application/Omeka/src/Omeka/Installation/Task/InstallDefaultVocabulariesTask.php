@@ -82,7 +82,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             }
             $this->getServiceLocator()->get('Omeka\EntityManager')->clear();
             $this->addInfo(sprintf(
-                'Successfully installed "%s"',
+                $this->getTranslator()->translate('Successfully installed "%s"'),
                 $vocabulary['vocabulary']['label']
             ));
         }
@@ -93,6 +93,6 @@ class InstallDefaultVocabulariesTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Install default RDF vocabularies';
+        return $this->getTranslator()->translate('Install default RDF vocabularies');
     }
 }

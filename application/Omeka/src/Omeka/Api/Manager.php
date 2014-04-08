@@ -5,6 +5,7 @@ use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
 use Omeka\Event\Event;
 use Zend\EventManager\EventManagerAwareInterface;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,6 +18,11 @@ class Manager implements ServiceLocatorAwareInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var array Registered API resources and their adapters.
@@ -122,10 +128,12 @@ class Manager implements ServiceLocatorAwareInterface
     public function execute(Request $request)
     {
         try {
+            $t = $this->getTranslator();
+
             // Validate the request.
             if (!$request->isValidOperation($request->getOperation())) {
                 throw new Exception\BadRequestException(sprintf(
-                    'The API does not support the "%1$s" request operation.',
+                    $t->translate('The API does not support the "%1$s" request operation.'),
                     $request->getOperation()
                 ));
             }
@@ -140,7 +148,7 @@ class Manager implements ServiceLocatorAwareInterface
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             if (!$acl->isAllowed('current_user', $adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
-                    'Permission denied for the current user to %1$s the %2$s resource.',
+                    $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
                     $request->getOperation(),
                     $adapter->getResourceId()
                 ));
@@ -184,7 +192,7 @@ class Manager implements ServiceLocatorAwareInterface
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
-                        'The API does not support the "%1$s" request operation.',
+                        $t->translate('The API does not support the "%1$s" request operation.'),
                         $request->getOperation()
                     ));
             }
@@ -192,14 +200,14 @@ class Manager implements ServiceLocatorAwareInterface
             // Validate the response.
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
-                    'The "%1$s" operation for the "%2$s" resource adapter did not return an Omeka\Api\Response object.',
+                    $t->translate('The "%1$s" operation for the "%2$s" resource adapter did not return an Omeka\Api\Response object.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));
             }
             if (!$response->isValidStatus($response->getStatus())) {
                 throw new Exception\BadResponseException(sprintf(
-                    'The API does not support the "%1$s" response status.',
+                    $t->translate('The API does not support the "%1$s" response status.'),
                     $response->getStatus()
                 ));
             }
@@ -260,8 +268,11 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
     {
+        $t = $this->getTranslator();
         if (!is_array($request->getContent())) {
-            throw new Exception\BadRequestException('Invalid batch operation request data.');
+            throw new Exception\BadRequestException(
+                $t->translate('Invalid batch operation request data.')
+            );
         }
 
         // Create a simulated request for individual create events.
@@ -315,16 +326,17 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerResource($resource, $adapterClass)
     {
+        $t = $this->getTranslator();
         if (!class_exists($adapterClass)) {
             throw new Exception\ConfigException(sprintf(
-                'The adapter class "%1$s" does not exist for the "%2$s" resource.',
+                $t->translate('The adapter class "%1$s" does not exist for the "%2$s" resource.'),
                 $adapterClass,
                 $resource
             ));
         }
         if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
             throw new Exception\ConfigException(sprintf(
-                'The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%2$s" resource.',
+                $t->translate('The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%2$s" resource.'),
                 $adapterClass,
                 $resource
             ));
@@ -362,9 +374,10 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getAdapterClass($resource)
     {
+        $t = $this->getTranslator();
         if (!$this->resourceIsRegistered($resource)) {
             throw new Exception\BadRequestException(sprintf(
-                'The "%1$s" resource is not registered.',
+                $t->translate('The "%1$s" resource is not registered.'),
                 $resource
             ));
         }
@@ -380,6 +393,19 @@ class Manager implements ServiceLocatorAwareInterface
     public function resourceIsRegistered($resource)
     {
         return array_key_exists($resource, $this->resources);
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

@@ -24,6 +24,7 @@ class ApiManagerFactory implements FactoryInterface
             throw new Exception\ConfigException('The configuration has no registered API resources.');
         }
         $apiManager = new ApiManager;
+        $apiManager->setServiceLocator($serviceLocator);
         $apiManager->registerResources($config['api_resources']);
         return $apiManager;
     }

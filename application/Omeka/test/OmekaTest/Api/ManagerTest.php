@@ -27,6 +27,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->manager = new Manager;
         $this->mockBuilder = new MockBuilder;
+        $this->setServiceLocator();
     }
 
     /**
@@ -73,7 +74,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetsAndGetsServiceLocator()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceLocatorInterface', 
             $this->manager->getServiceLocator()
@@ -82,7 +82,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteRequiresValidResource()
     {
-        $this->setServiceLocator();
         $request = $this->getMock('Omeka\Api\Request');
         $response = $this->manager->execute($request);
         $this->assertEquals($response->getStatus(), Response::ERROR_BAD_REQUEST);
@@ -90,7 +89,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteRequiresValidOperation()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
 
         $request = $this->getMock('Omeka\Api\Request');
@@ -107,7 +105,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSearch()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
         $response = $this->manager->search('foo');
         $this->assertEquals($response->getStatus(), Response::SUCCESS);
@@ -115,7 +112,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
         $response = $this->manager->create('foo');
         $this->assertEquals($response->getStatus(), Response::SUCCESS);
@@ -123,7 +119,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
         $response = $this->manager->read('foo', 1);
         $this->assertEquals($response->getStatus(), Response::SUCCESS);
@@ -131,7 +126,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdate()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
         $response = $this->manager->update('foo', 1);
         $this->assertEquals($response->getStatus(), Response::SUCCESS);
@@ -139,7 +133,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->setServiceLocator();
         $this->manager->registerResources($this->validConfig);
         $response = $this->manager->delete('foo', 1);
         $this->assertEquals($response->getStatus(), Response::SUCCESS);
@@ -156,6 +149,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             'Omeka\Logger' => $this->getMock('Zend\Log\Logger'),
             'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
             'Omeka\Acl' => $acl,
+            'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
         ));
         $this->manager->setServiceLocator($serviceManager);
     }

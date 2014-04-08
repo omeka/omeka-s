@@ -4,6 +4,7 @@ namespace Omeka\Module;
 use Doctrine\ORM\EntityManager;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\Module;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -48,6 +49,11 @@ class Manager implements ServiceLocatorAwareInterface
     protected $entityManager;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @var ServiceLocatorInterface
      */
     protected $services;
@@ -77,7 +83,7 @@ class Manager implements ServiceLocatorAwareInterface
         $this->moduleIsRegistered($id, true);
         if (!in_array($state, $this->validStates)) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Attempting to set an invalid module state "%s"', $state
+                $this->getTranslator()->translate('Attempting to set an invalid module state "%s"'), $state
             ));
         }
         $this->modules[$id]['state'] = $state;
@@ -120,7 +126,7 @@ class Manager implements ServiceLocatorAwareInterface
         $isRegistered = array_key_exists($id, $this->modules);
         if ($throwException && !$isRegistered) {
             throw new Exception\ModuleNotRegisteredException(sprintf(
-                'Module "%s" is not registered', $id
+                $this->getTranslator()->translate('Module "%s" is not registered'), $id
             ));
         }
         return $isRegistered;
@@ -249,12 +255,13 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function activate($id)
     {
+        $t = $this->getTranslator();
         $this->moduleIsRegistered($id, true);
 
         // Only a deactivated module can be activated
         if (self::STATE_NOT_ACTIVE !== $this->getModuleState($id)) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Module "%s" is marked as "%s" and cannot be activated',
+                $t->translate('Module "%s" is marked as "%s" and cannot be activated'),
                 $id, $this->getModuleState($id)
             ));
         }
@@ -265,7 +272,7 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                'Module "%s" not in database during activation', $id
+                $t->translate('Module "%s" not in database during activation'), $id
             ));
         }
 
@@ -279,12 +286,13 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function deactivate($id)
     {
+        $t = $this->getTranslator();
         $this->moduleIsRegistered($id, true);
 
         // Only an active module can be deactivated
         if (self::STATE_ACTIVE !== $this->getModuleState($id)) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Module "%s" is marked as "%s" and cannot be deactivated',
+                $t->translate('Module "%s" is marked as "%s" and cannot be deactivated'),
                 $id, $this->getModuleState($id)
             ));
         }
@@ -295,7 +303,7 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                'Module "%s" not in database during deactivation', $id
+                $t->translate('Module "%s" not in database during deactivation'), $id
             ));
         }
 
@@ -314,7 +322,7 @@ class Manager implements ServiceLocatorAwareInterface
         // Only a not installed module can be installed
         if (self::STATE_NOT_INSTALLED !== $this->getModuleState($id)) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Module "%s" is marked as "%s" and cannot be installed',
+                $this->getTranslator()->translate('Module "%s" is marked as "%s" and cannot be installed'),
                 $id, $this->getModuleState($id)
             ));
         }
@@ -343,6 +351,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function uninstall($id)
     {
+        $t = $this->getTranslator();
         $this->moduleIsRegistered($id, true);
 
         // Only an installed and upgraded module can be uninstalled
@@ -351,7 +360,7 @@ class Manager implements ServiceLocatorAwareInterface
             self::STATE_NOT_ACTIVE,
         ))) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Module "%s" is marked as "%s" and cannot be uninstalled',
+                $t->translate('Module "%s" is marked as "%s" and cannot be uninstalled'),
                 $id, $this->getModuleState($id)
             ));
         }
@@ -368,7 +377,7 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                'Module "%s" not found in database during uninstallation', $id
+                $t->translate('Module "%s" not found in database during uninstallation'), $id
             ));
         }
 
@@ -382,12 +391,13 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade($id)
     {
+        $t = $this->getTranslator();
         $this->moduleIsRegistered($id, true);
 
         // Only a module marked for upgrade can be upgraded
         if (self::STATE_NEEDS_UPGRADE !== $this->getModuleState($id)) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                'Module "%s" is marked as "%s" and cannot be upgraded',
+                $t->translate('Module "%s" is marked as "%s" and cannot be upgraded'),
                 $id, $this->getModuleState($id)
             ));
         }
@@ -409,7 +419,7 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                'Module "%s" not found in database during upgrade', $id
+                $t->translate('Module "%s" not found in database during upgrade'), $id
             ));
         }
 
@@ -463,6 +473,19 @@ class Manager implements ServiceLocatorAwareInterface
                 ->get('Omeka\EntityManager');
         }
         return $this->entityManager;
+    }
+
+    /**
+     * Get the translator service
+     *
+     * return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

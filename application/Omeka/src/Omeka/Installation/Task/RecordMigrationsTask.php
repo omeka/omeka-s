@@ -25,7 +25,9 @@ class RecordMigrationsTask extends AbstractTask
         }
         $conn->commit();
 
-        $this->addInfo('Successfully recorded all migrations.');
+        $this->addInfo(
+            $this->getTranslator()->translate('Successfully recorded all migrations.')
+        );
     }
 
     /**
@@ -33,6 +35,6 @@ class RecordMigrationsTask extends AbstractTask
      */
     public function getName()
     {
-        return 'Record initial migrations.';
+        return $this->getTranslator()->translate('Record initial migrations.');
     }
 }

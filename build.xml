@@ -30,12 +30,15 @@
     <target name="dedist"
         description="Copy .dist files to their proper locations.">
         <copy todir=".">
-            <filelist dir=".">
-                <file name=".htaccess.dist"/>
-                <file name="local.config.php.dist"/>
-                <file name="module/Omeka/test/test.config.php.dist"/>
-            </filelist>
-            <mapper type="glob" from="*.changeme" to="*"/>
+            <fileset dir=".">
+                <include name=".htaccess.dist"/>
+                <include name="config/*.dist"/>
+                <include name="application/Omeka/test/config/*.dist"/>
+                <present targetdir="." present="srconly">
+                    <mapper type="glob" from="*.dist" to="*"/>
+                </present>
+            </fileset>
+            <mapper type="glob" from="*.dist" to="*"/>
         </copy>
     </target>
     <target name="generate-proxies"
@@ -45,6 +48,6 @@
         </exec>
     </target>
     <target name="test" description="Run automated tests.">
-        <exec executable="phpunit" dir="module/Omeka/test" failonerror="true"/>
+        <exec executable="phpunit" dir="application/Omeka/test" failonerror="true"/>
     </target>
 </project>

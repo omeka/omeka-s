@@ -26,7 +26,7 @@ class AclFactory implements FactoryInterface
         $this->addResources($acl, $serviceLocator);
         $this->addRules($acl, $serviceLocator);
 
-        if (!$serviceLocator->get('Omeka\InstallationManager')->isInstalled()) {
+        if (!$serviceLocator->get('Omeka\InstallationStatus')->isInstalled()) {
             // Allow all privileges during installation.
             $acl->allow();
             return $acl;

@@ -25,6 +25,7 @@ return array(
             'ModuleRouteListener'         => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
             'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
+            'Omeka\InstallationStatus'    => 'Omeka\Installation\InstallationStatus',
         ),
     ),
     'listeners' => array(

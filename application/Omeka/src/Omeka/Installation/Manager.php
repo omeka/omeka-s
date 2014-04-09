@@ -79,15 +79,16 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerTask($task)
     {
+        $t = $this->getTranslator();
         if (!class_exists($task)) {
             throw new Exception\ConfigException(sprintf(
-                'The "%s" installation task does not exist.', 
+                $t->translate('The "%s" installation task does not exist.'),
                 $task
             ));
         }
         if (!is_subclass_of($task, 'Omeka\Installation\Task\TaskInterface')) {
             throw new Exception\ConfigException(sprintf(
-                'The "%s" installation task does not implement Omeka\Installation\Task\TaskInterface.', 
+                $t->translate('The "%s" installation task does not implement Omeka\Installation\Task\TaskInterface.'),
                 $task
             ));
         }

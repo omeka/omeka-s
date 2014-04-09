@@ -21,6 +21,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresValidClass()
     {
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+            array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
+        ));
         $this->manager->registerTask('Foo\Bar');
     }
 
@@ -29,11 +32,17 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresClassToImplementTaskInterface()
     {
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+            array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
+        ));
         $this->manager->registerTask('stdClass');
     }
 
     public function testRegisterTasksWorks()
     {
+        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+            array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
+        ));
         $tasks = array(
             'OmekaTest\Installation\SuccessTask',
             'OmekaTest\Installation\ErrorTask',
@@ -61,7 +70,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testInstallSuccessfulTask()
     {
         $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
-            array('Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus'))
+            array(
+                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+                'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')
+            )
         ));
         $this->manager->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $this->manager->install();
@@ -79,7 +91,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testInstallErrorTask()
     {
         $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
-            array('Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus'))
+            array(
+                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+                'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')
+            )
         ));
         $this->manager->registerTask('OmekaTest\Installation\ErrorTask');
         $result = $this->manager->install();

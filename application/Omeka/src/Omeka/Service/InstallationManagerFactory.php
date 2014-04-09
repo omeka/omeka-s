@@ -26,6 +26,7 @@ class InstallationManagerFactory implements FactoryInterface
             );
         }
         $installationManager = new InstallationManager;
+        $installationManager->setServiceLocator($serviceLocator);
         $installationManager->registerTasks($config['installation_manager']['tasks']);
         return $installationManager;
     }

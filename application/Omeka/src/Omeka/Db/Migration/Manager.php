@@ -73,8 +73,6 @@ class Manager implements ServiceLocatorAwareInterface
     public function upgrade()
     {
         $toPerform = $this->getMigrationsToPerform();
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $conn = $em->getConnection();
 
         foreach ($toPerform as $version => $migrationInfo) {
             $migration = $this->loadMigration(
@@ -105,7 +103,7 @@ class Manager implements ServiceLocatorAwareInterface
      */ 
     public function loadMigration($path, $class)
     {
-        require $path;
+        require_once $path;
 
         if (!class_exists($class, false)
             || !is_subclass_of($class, 'Omeka\Db\Migration\MigrationInterface')
@@ -117,7 +115,7 @@ class Manager implements ServiceLocatorAwareInterface
 
         $migration = new $class;
         $migration->setServiceLocator($this->getServiceLocator());
-        return $class;
+        return $migration;
     }
 
     /**

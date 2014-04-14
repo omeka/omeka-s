@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Installtion\Exception;
+use Omeka\Installation\Exception;
 use Omeka\Installation\Manager as InstallationManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

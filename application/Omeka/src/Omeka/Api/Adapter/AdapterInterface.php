@@ -70,6 +70,22 @@ interface AdapterInterface extends
     public function delete($id, $data = null);
 
     /**
+     * Get the URL to an API representation.
+     *
+     * @param mixed $resource
+     * @return null|string
+     */
+    public function getApiUrl($resource);
+
+    /**
+     * Get the URL to a web representation.
+     *
+     * @param mixed $resource
+     * @return null|string
+     */
+    public function getWebUrl($resource);
+
+    /**
      * Set the API request.
      *
      * @param Request $request

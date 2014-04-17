@@ -111,6 +111,22 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getApiUrl($entity)
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getWebUrl($entity)
+    {
+        return null;
+    }
+
+    /**
      * Set the API request.
      *
      * @param Request $request

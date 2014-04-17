@@ -324,6 +324,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getApiUrl($resource)
+    {
+        if (!$resource instanceof EntityInterface) {
+            throw new \Exception;
+        }
+        $config = $this->getServiceLocator()->get('Config');
+        $resourceName = array_search(get_called_class(), $config['api_resources']);
+        return "api/$resourceName/{$resource->getId()}";
+    }
+
+    /**
      * Get the entity manager.
      *
      * @return \Doctrine\ORM\EntityManager

@@ -13,11 +13,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -33,9 +28,9 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $events;
 
     /**
-     * Search operation stub.
+     * {@inheritDoc}
      */
-    public function search($data = null)
+    public function search(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -46,9 +41,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Create operation stub.
+     * {@inheritDoc}
      */
-    public function create($data = null)
+    public function create(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -59,9 +54,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Batch create operation stub.
+     * {@inheritDoc}
      */
-    public function batchCreate($data = null)
+    public function batchCreate(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -72,9 +67,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Read operation stub.
+     * {@inheritDoc}
      */
-    public function read($id, $data = null)
+    public function read(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -85,9 +80,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Update operation stub.
+     * {@inheritDoc}
      */
-    public function update($id, $data = null)
+    public function update(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -98,9 +93,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Delete operation stub.
+     * {@inheritDoc}
      */
-    public function delete($id, $data = null)
+    public function delete(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -124,26 +119,6 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getWebUrl($entity)
     {
         return null;
-    }
-
-    /**
-     * Set the API request.
-     *
-     * @param Request $request
-     */
-    public function setRequest(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
-     * Get the API request.
-     *
-     * @return Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
     }
 
     /**

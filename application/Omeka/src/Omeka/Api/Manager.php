@@ -138,11 +138,10 @@ class Manager implements ServiceLocatorAwareInterface
                 ));
             }
 
-            // Set the adapter and its dependencies.
-            $adapterClass = $this->getAdapterClass($request->getResource());
-            $adapter = new $adapterClass;
-            $adapter->setRequest($request);
-            $adapter->setServiceLocator($this->getServiceLocator());
+            // Get the adapter.
+            $adapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get($request->getResource());
 
             // Verify that the current user has general access to this resource.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -173,22 +172,22 @@ class Manager implements ServiceLocatorAwareInterface
 
             switch ($request->getOperation()) {
                 case Request::SEARCH:
-                    $response = $adapter->search($request->getContent());
+                    $response = $adapter->search($request);
                     break;
                 case Request::CREATE:
-                    $response = $adapter->create($request->getContent());
+                    $response = $adapter->create($request);
                     break;
                 case Request::BATCH_CREATE:
                     $response = $this->executeBatchCreate($request, $adapter);
                     break;
                 case Request::READ:
-                    $response = $adapter->read($request->getId(), $request->getContent());
+                    $response = $adapter->read($request);
                     break;
                 case Request::UPDATE:
-                    $response = $adapter->update($request->getId(), $request->getContent());
+                    $response = $adapter->update($request);
                     break;
                 case Request::DELETE:
-                    $response = $adapter->delete($request->getId(), $request->getContent());
+                    $response = $adapter->delete($request);
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
@@ -290,7 +289,7 @@ class Manager implements ServiceLocatorAwareInterface
             $adapter->getEventManager()->trigger($createEvent);
         }
 
-        $response = $adapter->batchCreate($request->getContent());
+        $response = $adapter->batchCreate($request);
 
         // Do not trigger create.post events if an error has occured or if the
         // response does not return valid content.
@@ -364,35 +363,6 @@ class Manager implements ServiceLocatorAwareInterface
     public function getResources()
     {
         return $this->resources;
-    }
-
-    /**
-     * Get registered API resource adapter class.
-     * 
-     * @param string $resource
-     * @return string
-     */
-    public function getAdapterClass($resource)
-    {
-        $t = $this->getTranslator();
-        if (!$this->resourceIsRegistered($resource)) {
-            throw new Exception\BadRequestException(sprintf(
-                $t->translate('The "%1$s" resource is not registered.'),
-                $resource
-            ));
-        }
-        return $this->resources[$resource];
-    }
-
-    /**
-     * Check that a resource is registered.
-     * 
-     * @param string $resource
-     * @return bool
-     */
-    public function resourceIsRegistered($resource)
-    {
-        return array_key_exists($resource, $this->resources);
     }
 
     /**

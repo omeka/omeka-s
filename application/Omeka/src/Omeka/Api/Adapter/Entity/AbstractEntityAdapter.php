@@ -6,6 +6,7 @@ use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
+use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
@@ -41,24 +42,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     abstract public function hydrate(array $data, $object);
 
     /**
-     * Search a set of entities.
-     *
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function search($data = null)
+    public function search(Request $request)
     {
         $entityClass = $this->getEntityClass();
 
         // Begin building the search query.
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
-        $this->buildQuery($data, $qb);
+        $this->buildQuery($request->getContent(), $qb);
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $this->getRequest(),
+            'request' => $request,
             'query_builder' => $qb,
         ));
         $this->getEventManager()->trigger($event);
@@ -71,8 +69,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $totalResults = $qbTotalResults->getQuery()->getSingleScalarResult();
 
         // Finish building the search query and get the results.
-        $this->setOrderBy($data, $qb);
-        $this->setLimitAndOffset($data, $qb);
+        $this->setOrderBy($request->getContent(), $qb);
+        $this->setLimitAndOffset($request->getContent(), $qb);
         $entities = array();
         foreach ($qb->getQuery()->iterate() as $row) {
             $entities[] = $this->extract($row[0]);
@@ -84,19 +82,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Create an entity.
-     *
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function create($data = null)
+    public function create(Request $request)
     {
         $t = $this->getTranslator();
         $response = new Response;
 
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
-        $this->hydrate($data, $entity);
+        $this->hydrate($request->getContent(), $entity);
 
         // Verify that the current user has access to create this entity.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -110,7 +105,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the create.validate.pre event.
         $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $this->getRequest(),
+            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -129,18 +124,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Batch create entities.
-     *
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function batchCreate($data = null)
+    public function batchCreate(Request $request)
     {
         $response = new Response;
 
         $entities = array();
         $entityRepresentations = array();
-        foreach ($data as $datum) {
+        foreach ($request->getContent() as $datum) {
 
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
@@ -160,7 +152,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             // Trigger the create.validate.pre event.
             $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
                 'services' => $this->getServiceLocator(),
-                'request' => $this->getRequest(),
+                'request' => $request,
                 'entity' => $entity,
             ));
             $this->getEventManager()->trigger($event);
@@ -191,18 +183,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Read an entity.
-     *
-     * @param mixed $id
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function read($id, $data = null)
+    public function read(Request $request)
     {
         $t = $this->getTranslator();
         $response = new Response;
         try {
-            $entity = $this->find($id);
+            $entity = $this->find($request->getId());
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
@@ -220,7 +208,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the read.find.post event.
         $event = new Event(Event::API_READ_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $this->getRequest(),
+            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -230,24 +218,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Update an entity.
-     *
-     * @param mixed $id
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function update($id, $data = null)
+    public function update(Request $request)
     {
         $t = $this->getTranslator();
         $response = new Response;
         try {
-            $entity = $this->find($id);
+            $entity = $this->find($request->getId());
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
             return $response;
         }
-        $this->hydrate($data, $entity);
+        $this->hydrate($request->getContent(), $entity);
 
         // Verify that the current user has access to update this entity.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -261,7 +245,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the update.validate.pre event.
         $event = new Event(Event::API_UPDATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $this->getRequest(),
+            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -282,18 +266,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Delete an entity.
-     *
-     * @param mixed $id
-     * @param null|array $data
-     * @return Response
+     * {@inheritDoc}
      */
-    public function delete($id, $data = null)
+    public function delete(Request $request)
     {
         $t = $this->getTranslator();
         $response = new Response;
         try {
-            $entity = $this->find($id);
+            $entity = $this->find($request->getId());
         } catch (ModelException\EntityNotFoundException $e) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
             $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
@@ -312,7 +292,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the delete.find.post event.
         $event = new Event(Event::API_DELETE_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $this->getRequest(),
+            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);

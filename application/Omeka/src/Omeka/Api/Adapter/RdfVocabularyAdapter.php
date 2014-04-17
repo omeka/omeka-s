@@ -58,11 +58,12 @@ class RdfVocabularyAdapter extends AbstractAdapter
      * - comment_property: (optional) The RDF property containing the preferred
      *   property comment (defaults to rdfs:comment)
      *
-     * @param array $data
+     * @param Request $request
      * @return Response
      */
-    public function search($data = null)
+    public function search(Request $request)
     {
+        $data = $request->getContent();
         $t = $this->getTranslator();
         if (!isset($data['strategy'])) {
             throw new Exception\BadRequestException(
@@ -113,11 +114,12 @@ class RdfVocabularyAdapter extends AbstractAdapter
      * - comment_property: (optional) The RDF property containing the preferred
      *   property comment (defaults to rdfs:comment)
      *
-     * @param array $data
+     * @param Request $request
      * @return Response
      */
-    public function create($data = null)
+    public function create(Request $request)
     {
+        $data = $request->getContent();
         $t = $this->getTranslator();
         if (!isset($data['vocabulary'])) {
             throw new Exception\BadRequestException(

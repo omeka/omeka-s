@@ -8,11 +8,11 @@ use Omeka\Api\Response;
  */
 class OptionAdapter extends AbstractAdapter
 {
-    public function read($id, $data = null)
+    public function read(Request $request)
     {
         $options = $this->getServiceLocator()->get('Omeka\Options');
         $response = new Response;
-        $response->setContent($manager->get($id));
+        $response->setContent($manager->get($request->getId()));
         return $response;
     }
 }

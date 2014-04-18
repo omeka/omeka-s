@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Site;
+use Omeka\Test\TestCase;
 
-class SiteTest extends \PHPUnit_Framework_TestCase
+class SiteTest extends TestCase
 {
     protected $site;
 

@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Module;
+use Omeka\Test\TestCase;
 
-class ModuleTest extends \PHPUnit_Framework_TestCase
+class ModuleTest extends TestCase
 {
     protected $module;
 

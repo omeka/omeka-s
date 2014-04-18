@@ -2,8 +2,9 @@
 namespace OmekaTest\Service;
 
 use Omeka\Service\LoggerFactory;
+use Omeka\Test\TestCase;
 
-class LoggerFactoryTest extends \PHPUnit_Framework_TestCase
+class LoggerFactoryTest extends TestCase
 {
     protected $factory;
 

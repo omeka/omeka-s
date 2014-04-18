@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\ItemSet;
+use Omeka\Test\TestCase;
 
-class ItemSetTest extends \PHPUnit_Framework_TestCase
+class ItemSetTest extends TestCase
 {
     protected $itemSet;
 

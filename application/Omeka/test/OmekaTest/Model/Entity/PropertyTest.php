@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Property;
+use Omeka\Test\TestCase;
 
-class PropertyTest extends \PHPUnit_Framework_TestCase
+class PropertyTest extends TestCase
 {
     protected $property;
 

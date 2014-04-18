@@ -1,7 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
-class AbstractEntityTest extends \PHPUnit_Framework_TestCase
+use Omeka\Test\TestCase;
+
+class AbstractEntityTest extends TestCase
 {
     public function testGetsResourceId()
     {

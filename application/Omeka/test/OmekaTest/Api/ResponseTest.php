@@ -3,8 +3,9 @@ namespace OmekaTest\Api;
 
 use Omeka\Api\Response;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Test\TestCase;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     protected $response;
 

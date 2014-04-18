@@ -2,16 +2,15 @@
 namespace OmekaTest\Installation;
 
 use Omeka\Installation\Result;
-use Omeka\Test\MockBuilder;
+use Omeka\Test\TestCase;
 
-class AbstractTaskTest extends \PHPUnit_Framework_TestCase
+class AbstractTaskTest extends TestCase
 {
     protected $serviceManager;
 
     public function setUp()
     {
-        $mockBuilder = new MockBuilder;
-        $serviceManager = $mockBuilder->getServiceManager(array(
+        $serviceManager = $this->getServiceManager(array(
             'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
         ));
         $this->serviceManager = $serviceManager;

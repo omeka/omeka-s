@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Option;
+use Omeka\Test\TestCase;
 
-class OptionTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends TestCase
 {
     protected $module;
 

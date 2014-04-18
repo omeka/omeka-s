@@ -2,8 +2,9 @@
 namespace OmekaTest\View\Helper;
 
 use Omeka\View\Helper\Api;
+use Omeka\Test\TestCase;
 
-class ApiTest extends \PHPUnit_Framework_TestCase
+class ApiTest extends TestCase
 {
     public function testSearch()
     {

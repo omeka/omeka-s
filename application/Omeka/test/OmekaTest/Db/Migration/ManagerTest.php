@@ -2,9 +2,9 @@
 namespace OmekaTest\Db\Migration;
 
 use Omeka\Db\Migration\Manager as MigrationManager;
-use Omeka\Test\MockBuilder;
+use Omeka\Test\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
     public $migrations = array(
         '1' => array(
@@ -130,8 +130,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($connection));
 
-        $mockBuilder = new MockBuilder;
-        $sm = $mockBuilder->getServiceManager(array(
+        $sm = $this->getServiceManager(array(
             'Omeka\DbHelper' => $dbHelper
         ));
 

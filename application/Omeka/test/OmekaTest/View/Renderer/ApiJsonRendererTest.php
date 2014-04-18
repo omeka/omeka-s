@@ -3,8 +3,9 @@ namespace OmekaTest\View\Renderer;
 
 use Omeka\View\Renderer\ApiJsonRenderer;
 use Zend\Json\Json;
+use Omeka\Test\TestCase;
 
-class ApiJsonRendererTest extends \PHPUnit_Framework_TestCase
+class ApiJsonRendererTest extends TestCase
 {
     public function testRendererUsesApiResponse()
     {

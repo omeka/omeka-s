@@ -2,8 +2,9 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\Request;
+use Omeka\Test\TestCase;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     protected $request;
     

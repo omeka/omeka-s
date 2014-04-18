@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Vocabulary;
+use Omeka\Test\TestCase;
 
-class VocabularyTest extends \PHPUnit_Framework_TestCase
+class VocabularyTest extends TestCase
 {
     protected $vocabulary;
 

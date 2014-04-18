@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Media;
+use Omeka\Test\TestCase;
 
-class MediaTest extends \PHPUnit_Framework_TestCase
+class MediaTest extends TestCase
 {
     protected $media;
 

@@ -2,8 +2,9 @@
 namespace Omeka\Stdlib;
 
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Test\TestCase;
 
-class ErrorStoreTest extends \PHPUnit_Framework_TestCase
+class ErrorStoreTest extends TestCase
 {
     public function setUp()
     {

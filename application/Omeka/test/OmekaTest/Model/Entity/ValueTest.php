@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Value;
+use Omeka\Test\TestCase;
 
-class ValueTest extends \PHPUnit_Framework_TestCase
+class ValueTest extends TestCase
 {
     protected $value;
 

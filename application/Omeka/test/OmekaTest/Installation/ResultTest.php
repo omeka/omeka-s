@@ -2,8 +2,9 @@
 namespace OmekaTest\Installation;
 
 use Omeka\Installation\Result;
+use Omeka\Test\TestCase;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends TestCase
 {
     public function setUp()
     {

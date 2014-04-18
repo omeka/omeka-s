@@ -2,8 +2,9 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\ResponseFilter;
+use Omeka\Test\TestCase;
 
-class ResponseFilterTest extends \PHPUnit_Framework_TestCase
+class ResponseFilterTest extends TestCase
 {
     public function testGet()
     {

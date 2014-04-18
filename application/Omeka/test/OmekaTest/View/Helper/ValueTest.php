@@ -2,8 +2,9 @@
 namespace OmekaTest\View\Helper;
 
 use Omeka\View\Helper\Value;
+use Omeka\Test\TestCase;
 
-class ValueTest extends \PHPUnit_Framework_TestCase
+class ValueTest extends TestCase
 {
     public function testSetsAndGetsResponseFilter()
     {

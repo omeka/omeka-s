@@ -4,16 +4,15 @@ namespace OmekaTest\Installation;
 use Omeka\Installation\Manager;
 use Omeka\Installation\Result;
 use Omeka\Installation\Task\AbstractTask;
-use Omeka\Test\MockBuilder;
+use Omeka\Test\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
     protected $manager;
 
     public function setUp()
     {
         $this->manager = new Manager;
-        $this->mockBuilder = new MockBuilder;
     }
 
     /**
@@ -21,7 +20,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresValidClass()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+        $this->manager->setServiceLocator($this->getServiceManager(
             array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
         ));
         $this->manager->registerTask('Foo\Bar');
@@ -32,7 +31,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegistrationRequiresClassToImplementTaskInterface()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+        $this->manager->setServiceLocator($this->getServiceManager(
             array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
         ));
         $this->manager->registerTask('stdClass');
@@ -40,7 +39,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterTasksWorks()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+        $this->manager->setServiceLocator($this->getServiceManager(
             array('MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'))
         ));
         $tasks = array(
@@ -60,7 +59,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testSetsAndGetsServiceLocator()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager());
+        $this->manager->setServiceLocator($this->getServiceManager());
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceLocatorInterface', 
             $this->manager->getServiceLocator()
@@ -69,7 +68,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testInstallSuccessfulTask()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+        $this->manager->setServiceLocator($this->getServiceManager(
             array(
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
                 'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')
@@ -90,7 +89,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstallErrorTask()
     {
-        $this->manager->setServiceLocator($this->mockBuilder->getServiceManager(
+        $this->manager->setServiceLocator($this->getServiceManager(
             array(
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
                 'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')

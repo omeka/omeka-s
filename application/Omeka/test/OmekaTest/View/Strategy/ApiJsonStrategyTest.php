@@ -6,8 +6,9 @@ use Omeka\View\Renderer\ApiJsonRenderer;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
 use Zend\View\ViewEvent;
+use Omeka\Test\TestCase;
 
-class ApiJsonStrategyTest extends \PHPUnit_Framework_TestCase
+class ApiJsonStrategyTest extends TestCase
 {
     public $renderer;
     public $strategy;

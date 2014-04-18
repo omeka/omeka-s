@@ -13,7 +13,7 @@ use Zend\Mvc\Application;
  * during tearDown. A fresh database should have been installed when
  * bootstrapping PHPUnit.
  */
-class DbTestCase extends \PHPUnit_Framework_TestCase
+class DbTestCase extends TestCase
 {
     /**
      * The test application.

@@ -2,8 +2,9 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\ResourceClass;
+use Omeka\Test\TestCase;
 
-class ResourceClassTest extends \PHPUnit_Framework_TestCase
+class ResourceClassTest extends TestCase
 {
     protected $resourceClass;
 

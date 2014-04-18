@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
+use Omeka\Api\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
@@ -17,18 +18,18 @@ interface AdapterInterface extends
     /**
      * Search a set of resources.
      *
-     * @param mixed $data
-     * @return mixed
+     * @param Request $request
+     * @return Response
      */
-    public function search($data = null);
+    public function search(Request $request);
 
     /**
      * Create a resource.
      *
-     * @param mixed $data
-     * @return mixed
+     * @param Request $request
+     * @return Response
      */
-    public function create($data = null);
+    public function create(Request $request);
 
     /**
      * Batch create resources.
@@ -37,49 +38,48 @@ interface AdapterInterface extends
      * resources as the response content so the create.pre and create.post
      * events can be triggered for every resource.
      *
-     * @param mixed $data
-     * @return mixed
+     * @param Request $request
+     * @return Response
      */
-    public function batchCreate($data = null);
+    public function batchCreate(Request $request);
 
     /**
      * Read a resource.
      *
-     * @param mixed $id
-     * @param mixed $data
-     * @return mixed
+     * @param Request $request
+     * @return Response
      */
-    public function read($id, $data = null);
+    public function read(Request $request);
 
     /**
      * Update a resource.
      *
-     * @param mixed $id
-     * @param mixed $data
-     * @return mixed
+     * @param Request $request
+     * @return Response
      */
-    public function update($id, $data = null);
+    public function update(Request $request);
 
     /**
      * Delete a resource.
      *
-     * @param mixed $id
-     * @param mixed $data
-     * @return mixed
-     */
-    public function delete($id, $data = null);
-
-    /**
-     * Set the API request.
-     *
      * @param Request $request
+     * @return Response
      */
-    public function setRequest(Request $request);
+    public function delete(Request $request);
 
     /**
-     * Get the API request.
+     * Get the URL to an API representation.
      *
-     * @return Request
+     * @param mixed $resource
+     * @return null|string
      */
-    public function getRequest();
+    public function getApiUrl($resource);
+
+    /**
+     * Get the URL to a web representation.
+     *
+     * @param mixed $resource
+     * @return null|string
+     */
+    public function getWebUrl($resource);
 }

@@ -25,11 +25,6 @@ class Manager implements ServiceLocatorAwareInterface
     protected $translator;
 
     /**
-     * @var array Registered API resources and their adapters.
-     */
-    protected $resources = array();
-
-    /**
      * Execute a search API request.
      *
      * @param string $resource
@@ -138,11 +133,10 @@ class Manager implements ServiceLocatorAwareInterface
                 ));
             }
 
-            // Set the adapter and its dependencies.
-            $adapterClass = $this->getAdapterClass($request->getResource());
-            $adapter = new $adapterClass;
-            $adapter->setRequest($request);
-            $adapter->setServiceLocator($this->getServiceLocator());
+            // Get the adapter.
+            $adapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get($request->getResource());
 
             // Verify that the current user has general access to this resource.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -173,22 +167,22 @@ class Manager implements ServiceLocatorAwareInterface
 
             switch ($request->getOperation()) {
                 case Request::SEARCH:
-                    $response = $adapter->search($request->getContent());
+                    $response = $adapter->search($request);
                     break;
                 case Request::CREATE:
-                    $response = $adapter->create($request->getContent());
+                    $response = $adapter->create($request);
                     break;
                 case Request::BATCH_CREATE:
                     $response = $this->executeBatchCreate($request, $adapter);
                     break;
                 case Request::READ:
-                    $response = $adapter->read($request->getId(), $request->getContent());
+                    $response = $adapter->read($request);
                     break;
                 case Request::UPDATE:
-                    $response = $adapter->update($request->getId(), $request->getContent());
+                    $response = $adapter->update($request);
                     break;
                 case Request::DELETE:
-                    $response = $adapter->delete($request->getId(), $request->getContent());
+                    $response = $adapter->delete($request);
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
@@ -290,7 +284,7 @@ class Manager implements ServiceLocatorAwareInterface
             $adapter->getEventManager()->trigger($createEvent);
         }
 
-        $response = $adapter->batchCreate($request->getContent());
+        $response = $adapter->batchCreate($request);
 
         // Do not trigger create.post events if an error has occured or if the
         // response does not return valid content.
@@ -309,90 +303,6 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         return $response;
-    }
-
-    /**
-     * Register an API resource.
-     *
-     * All API adapters must implement the following interfaces:
-     *
-     * - Omeka\Api\Adapter\AdapterInterface
-     * - Zend\ServiceManager\ServiceLocatorAwareInterface
-     * - Zend\EventManager\EventManagerAwareInterface
-     * - Zend\Permissions\Acl\Resource\ResourceInterface
-     * 
-     * @param string $resource
-     * @param string $adapterClass
-     */
-    public function registerResource($resource, $adapterClass)
-    {
-        $t = $this->getTranslator();
-        if (!class_exists($adapterClass)) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The adapter class "%1$s" does not exist for the "%2$s" resource.'),
-                $adapterClass,
-                $resource
-            ));
-        }
-        if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%2$s" resource.'),
-                $adapterClass,
-                $resource
-            ));
-        }
-        $this->resources[$resource] = $adapterClass;
-    }
-
-    /**
-     * Register API resources.
-     * 
-     * @param array $resources
-     */
-    public function registerResources(array $resources)
-    {
-        foreach ($resources as $resource => $adapterClass) {
-            $this->registerResource($resource, $adapterClass);
-        }
-    }
-
-    /**
-     * Get registered API resources.
-     * 
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->resources;
-    }
-
-    /**
-     * Get registered API resource adapter class.
-     * 
-     * @param string $resource
-     * @return string
-     */
-    public function getAdapterClass($resource)
-    {
-        $t = $this->getTranslator();
-        if (!$this->resourceIsRegistered($resource)) {
-            throw new Exception\BadRequestException(sprintf(
-                $t->translate('The "%1$s" resource is not registered.'),
-                $resource
-            ));
-        }
-        return $this->resources[$resource];
-    }
-
-    /**
-     * Check that a resource is registered.
-     * 
-     * @param string $resource
-     * @return bool
-     */
-    public function resourceIsRegistered($resource)
-    {
-        return array_key_exists($resource, $this->resources);
     }
 
     /**

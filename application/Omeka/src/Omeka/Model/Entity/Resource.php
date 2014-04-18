@@ -46,7 +46,7 @@ abstract class Resource extends AbstractEntity
     }
 
     /**
-     * Get the fully qualified class name of the entity API adapter.
+     * Get the resource name of the corresponding entity API adapter.
      *
      * This can be used when the entity is known but the corresponding adapter
      * is not. Primarily used when extracting children of this class (Item,
@@ -55,7 +55,7 @@ abstract class Resource extends AbstractEntity
      * @see \Omeka\Api\Adapter\Entity\AbstractEntityAdapter::extract()
      * @return string
      */
-    abstract public function getAdapterClass();
+    abstract public function getResourceName();
 
     public function getId()
     {

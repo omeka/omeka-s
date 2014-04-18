@@ -1,26 +1,29 @@
 <?php
 return array(
-    'api_resources' => array(
-        'users'            => 'Omeka\Api\Adapter\Entity\UserAdapter',
-        'vocabularies'     => 'Omeka\Api\Adapter\Entity\VocabularyAdapter',
-        'resource_classes' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-        'properties'       => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
-        'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
-        'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
-        'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
-        'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
-        'options'          => 'Omeka\Api\Adapter\OptionAdapter',
+    'api_adapters' => array(
+        'invokables' => array(
+            'users'            => 'Omeka\Api\Adapter\Entity\UserAdapter',
+            'vocabularies'     => 'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+            'resource_classes' => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+            'properties'       => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
+            'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
+            'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
+            'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
+            'options'          => 'Omeka\Api\Adapter\OptionAdapter',
+        ),
     ),
     'service_manager' => array(
         'factories' => array(
+            'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
-            'Omeka\ApiManager'            => 'Omeka\Service\ApiManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
+            'Omeka\ApiManager'          => 'Omeka\Api\Manager',
             'Omeka\DbHelper'            => 'Omeka\Db\Helper',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',

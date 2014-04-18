@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Api\Request;
 use Omeka\Api\Response;
 
 /**
@@ -8,7 +9,7 @@ use Omeka\Api\Response;
  */
 class ModuleAdapter extends AbstractAdapter
 {
-    public function search($data = null)
+    public function search(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
         $response = new Response;
@@ -16,11 +17,11 @@ class ModuleAdapter extends AbstractAdapter
         return $response;
     }
 
-    public function read($id, $data = null)
+    public function read(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
         $response = new Response;
-        $response->setContent($manager->getModule($id));
+        $response->setContent($manager->getModule($request->getId()));
         return $response;
     }
 }

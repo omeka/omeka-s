@@ -79,8 +79,8 @@ class AclFactory implements FactoryInterface
     {
         // Add API adapters as ACL resources. These resources are used to set
         // rules for general access to API resources.
-        $apiResources = $serviceLocator->get('Omeka\ApiManager')->getResources();
-        foreach ($apiResources as $adapterClass) {
+        $config = $serviceLocator->get('Config');
+        foreach ($config['api_adapters']['invokables'] as $adapterClass) {
             $acl->addResource($adapterClass);
         }
 

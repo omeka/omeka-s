@@ -2,7 +2,9 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Reference\ReferenceInterface;
 use Omeka\Api\Request;
+use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -12,11 +14,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    /**
-     * @var Request
-     */
-    protected $request;
-
     /**
      * @var TranslatorInterface
      */
@@ -33,9 +30,9 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $events;
 
     /**
-     * Search operation stub.
+     * {@inheritDoc}
      */
-    public function search($data = null)
+    public function search(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -46,9 +43,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Create operation stub.
+     * {@inheritDoc}
      */
-    public function create($data = null)
+    public function create(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -59,9 +56,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Batch create operation stub.
+     * {@inheritDoc}
      */
-    public function batchCreate($data = null)
+    public function batchCreate(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -72,9 +69,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Read operation stub.
+     * {@inheritDoc}
      */
-    public function read($id, $data = null)
+    public function read(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -85,9 +82,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Update operation stub.
+     * {@inheritDoc}
      */
-    public function update($id, $data = null)
+    public function update(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -98,9 +95,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Delete operation stub.
+     * {@inheritDoc}
      */
-    public function delete($id, $data = null)
+    public function delete(Request $request)
     {
         throw new Exception\RuntimeException(sprintf(
             $this->getTranslator()->translate(
@@ -111,23 +108,92 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Set the API request.
-     *
-     * @param Request $request
+     * {@inheritDoc}
      */
-    public function setRequest(Request $request)
+    public function getApiUrl($entity)
     {
-        $this->request = $request;
+        return null;
     }
 
     /**
-     * Get the API request.
-     *
-     * @return Request
+     * {@inheritDoc}
      */
-    public function getRequest()
+    public function getWebUrl($entity)
     {
-        return $this->request;
+        return null;
+    }
+
+    /**
+     * Get an adapter from the API adapter manager.
+     *
+     * @param string $resourceName
+     * @return AdapterInterface
+     */
+    public function getAdapter($resourceName)
+    {
+        return $this->getServiceLocator()
+            ->get('Omeka\ApiAdapterManager')
+            ->get($resourceName);
+    }
+
+    /**
+     * Get a reference to a resource.
+     *
+     * @see ReferenceInterface
+     * @param mixed $data The information from which to derive a representation
+     * of the resource.
+     * @param AdapterInterface $adapter The corresponding resource adapter.
+     * @param null|string $referenceClass The name of the reference class. If an
+     * Doctrine entity is passed as $data, an Entity reference is composed,
+     * otherwise, when null, a generic reference is composed.
+     * @return ReferenceInterface
+     */
+    public function getReference($data, AdapterInterface $adapter, $referenceClass = null)
+    {
+        $t = $this->getTranslator();
+
+        if (null === $data) {
+            // Do not attempt to compose a null reference
+            return null;
+        }
+
+        if (is_string($referenceClass)) {
+            // Validate the reference class.
+            if (!class_exists($referenceClass)) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    $t->translate('Resource reference class %s does not exist.'),
+                    $referenceClass
+                ));
+            }
+            if (!is_subclass_of($referenceClass, ReferenceInterface)) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    $t->translate('Invalid resource reference class %s.'),
+                    $referenceClass
+                ));
+            }
+        } elseif ($data instanceof EntityInterface) {
+            // An entity reference
+            $referenceClass = 'Omeka\Api\Reference\Entity';
+        } else {
+            // A generic reference
+            $referenceClass = 'Omeka\Api\Reference\Reference';
+        }
+
+        $reference = new $referenceClass;
+        $reference->setData($data);
+        $reference->setAdapter($adapter);
+        return $reference;
+    }
+
+    /**
+     * Get a JSON serializable instance of DateTime.
+     *
+     * @param \DateTime $dateTime
+     * @return DateTime
+     */
+    public function getDateTime(\DateTime $dateTime)
+    {
+        return new DateTime($dateTime);
     }
 
     /**

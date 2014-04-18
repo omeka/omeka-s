@@ -12,9 +12,9 @@ class ItemSet extends Resource
      */
     protected $id;
 
-    public function getAdapterClass()
+    public function getResourceName()
     {
-        return 'Omeka\Api\Adapter\Entity\ItemSetAdapter';
+        return 'item_sets';
     }
 
     public function getId()

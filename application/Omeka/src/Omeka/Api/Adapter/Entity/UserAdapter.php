@@ -37,12 +37,13 @@ class UserAdapter extends AbstractEntityAdapter
     public function extract($entity)
     {
         $extracted = array(
-            'id' => $entity->getId(),
+            '@id'      => $this->getApiUrl($entity),
+            'id'       => $entity->getId(),
             'username' => $entity->getUsername(),
-            'name' => $entity->getName(),
-            'email' => $entity->getEmail(),
-            'created' => $entity->getCreated(),
-            'role' => $entity->getRole(),
+            'name'     => $entity->getName(),
+            'email'    => $entity->getEmail(),
+            'created'  => $entity->getCreated(),
+            'role'     => $entity->getRole(),
         );
 
         if ($extracted['created'] instanceof DateTime) {

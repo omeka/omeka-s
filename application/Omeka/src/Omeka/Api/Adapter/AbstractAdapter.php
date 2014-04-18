@@ -139,15 +139,15 @@ abstract class AbstractAdapter implements AdapterInterface
      * Get a reference to a resource.
      *
      * @see ReferenceInterface
-     * @param string $resourceName The name of the resource
      * @param mixed $data The information from which to derive a representation
      * of the resource.
+     * @param AdapterInterface $adapter The corresponding resource adapter.
      * @param null|string $referenceClass The name of the reference class. If an
      * Doctrine entity is passed as $data, an Entity reference is composed,
      * otherwise, when null, a generic reference is composed.
      * @return ReferenceInterface
      */
-    public function getReference($resourceName, $data, $referenceClass = null)
+    public function getReference($data, AdapterInterface $adapter, $referenceClass = null)
     {
         $t = $this->getTranslator();
 
@@ -180,7 +180,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $reference = new $referenceClass;
         $reference->setData($data);
-        $reference->setAdapter($this->getAdapter($resourceName));
+        $reference->setAdapter($adapter);
         return $reference;
     }
 

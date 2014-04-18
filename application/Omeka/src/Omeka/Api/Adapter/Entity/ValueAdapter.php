@@ -59,38 +59,30 @@ class ValueAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        $owner = $this->extractEntity(
-            $entity->getOwner(),
-            new UserAdapter
-        );
-        $resourceAdapterClass = $entity->getResource()->getAdapterClass();
-        $resource = $this->extractEntity(
-            $entity->getResource(),
-            new $resourceAdapterClass
-        );
-        $property = $this->extractEntity(
-            $entity->getProperty(),
-            new PropertyAdapter
-        );
-        $valueResource = null;
-        if ($entity->getValueResource() instanceof Resource) {
-            $valueResourceAdapterClass = $entity->getValueResource()->getAdapterClass();
-            $valueResource = $this->extractEntity(
-                $entity->getValueResource(),
-                new $valueResourceAdapterClass
-            );
-        }
         return array(
-            'id' => $entity->getId(),
-            'owner' => $owner,
-            'resource' => $resource,
-            'property' => $property,
-            'type' => $entity->getType(),
-            'value' => $entity->getValue(),
-            'value_transformed' => $entity->getValueTransformed(),
-            'lang' => $entity->getLang(),
+            '@id'     => $this->getApiUrl($entity),
+            'id'      => $entity->getId(),
+            'type'    => $entity->getType(),
+            'lang'    => $entity->getLang(),
             'is_html' => $entity->getIsHtml(),
-            'value_resource' => $valueResource,
+            'value'   => $entity->getValue(),
+            'value_transformed' => $entity->getValueTransformed(),
+            'value_resource' => $this->getReference(
+                $entity->getValueResource(),
+                $this->getAdapter($entity->getValueResource()->getResourceName())
+            ),
+            'resource' => $this->getReference(
+                $entity->getResource(),
+                $this->getAdapter($entity->getResource()->getResourceName())
+            ),
+            'property' => $this->getReference(
+                $entity->getProperty(),
+                $this->getAdapter('properties')
+            ),
+            'owner' => $this->getReference(
+                $entity->getOwner(),
+                $this->getAdapter('users')
+            ),
         );
     }
 

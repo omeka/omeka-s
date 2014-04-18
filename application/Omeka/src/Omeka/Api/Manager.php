@@ -25,11 +25,6 @@ class Manager implements ServiceLocatorAwareInterface
     protected $translator;
 
     /**
-     * @var array Registered API resources and their adapters.
-     */
-    protected $resources = array();
-
-    /**
      * Execute a search API request.
      *
      * @param string $resource
@@ -308,61 +303,6 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         return $response;
-    }
-
-    /**
-     * Register an API resource.
-     *
-     * All API adapters must implement the following interfaces:
-     *
-     * - Omeka\Api\Adapter\AdapterInterface
-     * - Zend\ServiceManager\ServiceLocatorAwareInterface
-     * - Zend\EventManager\EventManagerAwareInterface
-     * - Zend\Permissions\Acl\Resource\ResourceInterface
-     * 
-     * @param string $resource
-     * @param string $adapterClass
-     */
-    public function registerResource($resource, $adapterClass)
-    {
-        $t = $this->getTranslator();
-        if (!class_exists($adapterClass)) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The adapter class "%1$s" does not exist for the "%2$s" resource.'),
-                $adapterClass,
-                $resource
-            ));
-        }
-        if (!is_subclass_of($adapterClass, 'Omeka\Api\Adapter\AdapterInterface')) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface for the "%2$s" resource.'),
-                $adapterClass,
-                $resource
-            ));
-        }
-        $this->resources[$resource] = $adapterClass;
-    }
-
-    /**
-     * Register API resources.
-     * 
-     * @param array $resources
-     */
-    public function registerResources(array $resources)
-    {
-        foreach ($resources as $resource => $adapterClass) {
-            $this->registerResource($resource, $adapterClass);
-        }
-    }
-
-    /**
-     * Get registered API resources.
-     * 
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->resources;
     }
 
     /**

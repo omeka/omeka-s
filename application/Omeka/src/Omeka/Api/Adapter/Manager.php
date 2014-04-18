@@ -9,6 +9,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Manager extends AbstractPluginManager
 {
     /**
+     * Do not replace strings during canonicalization.
+     *
+     * This prevents distinct yet similarly named resources (such as "foo_bar"
+     * and "foobar") from referencing the same adapter instance.
+     *
+     * {@inheritDoc}
+     */
+    protected $canonicalNamesReplacements = array();
+
+    /**
      * {@inheritDoc}
      */
     public function __construct(ConfigInterface $configuration = null)

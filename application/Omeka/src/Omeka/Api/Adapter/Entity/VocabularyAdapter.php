@@ -40,10 +40,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             'namespace_uri' => $entity->getNamespaceUri(),
             'label'         => $entity->getLabel(),
             'comment'       => $entity->getComment(),
-            'owner'         => $this->extractEntity(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'owner'         => $this->getReference('users', $entity->getOwner()),
         );
     }
 

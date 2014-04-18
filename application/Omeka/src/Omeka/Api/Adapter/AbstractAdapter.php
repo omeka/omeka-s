@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Reference\ReferenceInterface;
 use Omeka\Api\Request;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -132,6 +133,55 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->getServiceLocator()
             ->get('Omeka\ApiAdapterManager')
             ->get($resourceName);
+    }
+
+    /**
+     * Get a reference to a resource.
+     *
+     * @see ReferenceInterface
+     * @param string $resourceName The name of the resource
+     * @param mixed $data The information from which to derive a representation
+     * of the resource.
+     * @param null|string $referenceClass The name of the reference class. If an
+     * Doctrine entity is passed as $data, an Entity reference is composed,
+     * otherwise, when null, a generic reference is composed.
+     * @return ReferenceInterface
+     */
+    public function getReference($resourceName, $data, $referenceClass = null)
+    {
+        $t = $this->getTranslator();
+
+        if (null === $data) {
+            // Do not attempt to compose a null reference
+            return null;
+        }
+
+        if (is_string($referenceClass)) {
+            // Validate the reference class.
+            if (!class_exists($referenceClass)) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    $t->translate('Resource reference class %s does not exist.'),
+                    $referenceClass
+                ));
+            }
+            if (!is_subclass_of($referenceClass, ReferenceInterface)) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    $t->translate('Invalid resource reference class %s.'),
+                    $referenceClass
+                ));
+            }
+        } elseif ($data instanceof EntityInterface) {
+            // An entity reference
+            $referenceClass = 'Omeka\Api\Reference\Entity';
+        } else {
+            // A generic reference
+            $referenceClass = 'Omeka\Api\Reference\Reference';
+        }
+
+        $reference = new $referenceClass;
+        $reference->setData($data);
+        $reference->setAdapter($this->getAdapter($resourceName));
+        return $reference;
     }
 
     /**

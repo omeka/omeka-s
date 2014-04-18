@@ -47,14 +47,8 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             'local_name' => $entity->getLocalName(),
             'label'      => $entity->getLabel(),
             'comment'    => $entity->getComment(),
-            'vocabulary' => $this->extractEntity(
-                $entity->getVocabulary(),
-                $this->getAdapter('vocabularies')
-            ),
-            'owner'      => $this->extractEntity(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'vocabulary' => $this->getReference('vocabularies', $entity->getVocabulary()),
+            'owner'      => $this->getReference('users', $entity->getOwner()),
         );
     }
 

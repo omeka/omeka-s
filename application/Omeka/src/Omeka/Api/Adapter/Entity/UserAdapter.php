@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
-use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Model\Entity\EntityInterface;
@@ -36,21 +35,15 @@ class UserAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        $extracted = array(
+        return array(
             '@id'      => $this->getApiUrl($entity),
             'id'       => $entity->getId(),
             'username' => $entity->getUsername(),
             'name'     => $entity->getName(),
             'email'    => $entity->getEmail(),
-            'created'  => $entity->getCreated(),
+            'created'  => $this->getDateTime($entity->getCreated()),
             'role'     => $entity->getRole(),
         );
-
-        if ($extracted['created'] instanceof DateTime) {
-            $extracted['created'] = $extracted['created']->format('c');
-        }
-
-        return $extracted;
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

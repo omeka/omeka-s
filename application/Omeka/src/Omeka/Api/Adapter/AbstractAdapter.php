@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Reference\ReferenceInterface;
 use Omeka\Api\Request;
+use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -182,6 +183,17 @@ abstract class AbstractAdapter implements AdapterInterface
         $reference->setData($data);
         $reference->setAdapter($adapter);
         return $reference;
+    }
+
+    /**
+     * Get a JSON serializable instance of DateTime.
+     *
+     * @param \DateTime $dateTime
+     * @return DateTime
+     */
+    public function getDateTime(\DateTime $dateTime)
+    {
+        return new DateTime($dateTime);
     }
 
     /**

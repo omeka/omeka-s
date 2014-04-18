@@ -41,15 +41,20 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function extract($entity)
     {
         return array(
-            'id' => $entity->getId(),
-            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
+            '@id'        => $this->getApiUrl($entity),
+            '@type'      => 'http://www.w3.org/TR/rdf-schema/#ch_class',
+            'id'         => $entity->getId(),
+            'local_name' => $entity->getLocalName(),
+            'label'      => $entity->getLabel(),
+            'comment'    => $entity->getComment(),
             'vocabulary' => $this->extractEntity(
                 $entity->getVocabulary(),
-                new VocabularyAdapter
+                $this->getAdapter('vocabularies')
             ),
-            'local_name' => $entity->getLocalName(),
-            'label' => $entity->getLabel(),
-            'comment' => $entity->getComment(),
+            'owner'      => $this->extractEntity(
+                $entity->getOwner(),
+                $this->getAdapter('users')
+            ),
         );
     }
 

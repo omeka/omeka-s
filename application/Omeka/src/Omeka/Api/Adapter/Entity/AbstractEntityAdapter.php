@@ -309,11 +309,25 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function getApiUrl($resource)
     {
         if (!$resource instanceof EntityInterface) {
-            throw new \Exception;
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate(
+                    'The passed resource does not implement Omeka\Model\Entity\EntityInterface.'
+                )
+            );
         }
+
         $config = $this->getServiceLocator()->get('Config');
-        $resourceName = array_search(get_called_class(), $config['api_resources']);
-        return "api/$resourceName/{$resource->getId()}";
+        $resourceName = array_search(
+            get_called_class(),
+            $config['api_adapters']['invokables']
+        );
+
+        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
+        return $url(
+            'api/default',
+            array('resource' => $resourceName, 'id' => $resource->getId()),
+            array('force_canonical' => true)
+        );
     }
 
     /**

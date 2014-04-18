@@ -35,11 +35,15 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function extract($entity)
     {
         return array(
-            'id' => $entity->getId(),
-            'owner' => $this->extractEntity($entity->getOwner(), new UserAdapter),
+            '@id'           => $this->getApiUrl($entity),
+            'id'            => $entity->getId(),
             'namespace_uri' => $entity->getNamespaceUri(),
-            'label' => $entity->getLabel(),
-            'comment' => $entity->getComment(),
+            'label'         => $entity->getLabel(),
+            'comment'       => $entity->getComment(),
+            'owner'         => $this->extractEntity(
+                $entity->getOwner(),
+                $this->getAdapter('users')
+            ),
         );
     }
 

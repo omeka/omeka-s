@@ -122,6 +122,19 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * Get an adapter from the API adapter manager.
+     *
+     * @param string $resourceName
+     * @return AdapterInterface
+     */
+    public function getAdapter($resourceName)
+    {
+        return $this->getServiceLocator()
+            ->get('Omeka\ApiAdapterManager')
+            ->get($resourceName);
+    }
+
+    /**
      * Get the translator service
      *
      * return TranslatorInterface

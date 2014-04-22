@@ -2,8 +2,8 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Reference\ReferenceInterface;
 use Omeka\Api\Request;
+use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -165,7 +165,7 @@ abstract class AbstractAdapter implements AdapterInterface
                     $referenceClass
                 ));
             }
-            if (!is_subclass_of($referenceClass, ReferenceInterface)) {
+            if (!is_subclass_of($referenceClass, 'Omeka\Api\Reference\ReferenceInterface')) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     $t->translate('Invalid resource reference class %s.'),
                     $referenceClass

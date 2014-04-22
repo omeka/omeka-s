@@ -8,6 +8,7 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 /**
  * API manager service.
@@ -134,9 +135,16 @@ class Manager implements ServiceLocatorAwareInterface
             }
 
             // Get the adapter.
-            $adapter = $this->getServiceLocator()
-                ->get('Omeka\ApiAdapterManager')
-                ->get($request->getResource());
+            try {
+                $adapter = $this->getServiceLocator()
+                    ->get('Omeka\ApiAdapterManager')
+                    ->get($request->getResource());
+            } catch (ServiceNotFoundException $e) {
+                throw new Exception\BadRequestException(sprintf(
+                    $t->translate('The API does not support the "%1$s" resource.'),
+                    $request->getResource()
+                ));
+            }
 
             // Verify that the current user has general access to this resource.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');

@@ -129,9 +129,12 @@ class AbstractAdapterTest extends TestCase
         $this->assertEquals($data, $reference->toArray());
         $this->assertEquals($apiUrl, $reference->getApiUrl());
         $this->assertEquals($webUrl, $reference->getWebUrl());
-        $this->assertEquals(array(
-            '@id' => 'api_url',
-        ), $reference->jsonSerialize());
+        $this->assertEquals(
+            array(
+                '@id' => 'api_url',
+            ),
+            $reference->jsonSerialize()
+        );
     }
 
     public function testGetReferenceReturnsNullWhenDataIsNull()

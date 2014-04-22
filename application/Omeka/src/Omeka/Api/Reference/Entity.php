@@ -2,6 +2,7 @@
 namespace Omeka\Api\Reference;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Api\Exception;
 use Omeka\Model\Entity\EntityInterface;
 
 /**
@@ -15,7 +16,9 @@ class Entity extends Reference
     public function setData($data)
     {
         if (!$data instanceof EntityInterface) {
-            throw new \Exception;
+            throw new Exception\InvalidArgumentException(
+                'Data set to an Entity reference must implement Omeka\Model\Entity\EntityInterface.'
+            );
         }
         parent::setData($data);
     }

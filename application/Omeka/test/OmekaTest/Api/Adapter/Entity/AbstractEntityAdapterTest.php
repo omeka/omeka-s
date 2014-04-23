@@ -192,6 +192,180 @@ class AbstractEntityAdapterTest extends TestCase
         $this->assertEquals('success', $response->getStatus());
         $this->assertEquals(array('foo', 'bar'), $response->getContent());
     }
+
+    public function testRead()
+    {
+        $id = 100;
+
+        /** ServiceManager **/
+
+        // Service: MvcTranslator
+        $translator = $this->getMock('Zend\I18n\Translator\Translator');
+
+        // Service: Omeka\EntityManager
+        $entityRepostory = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $entityRepostory->expects($this->once())
+            ->method('find')
+            ->with($id)
+            ->will($this->returnValue(new TestEntity));
+
+        $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo(self::TEST_ENTITY_CLASS))
+            ->will($this->returnValue($entityRepostory));
+
+        // Service: Omeka\Acl
+        $acl = $this->getMock('Omeka\Permissions\Acl');
+        $acl->expects($this->once())
+            ->method('isAllowed')
+            ->with(
+                $this->equalTo('current_user'),
+                $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
+                $this->equalTo('read')
+            )
+            ->will($this->returnValue(true));
+
+        // Service: EventManager
+        $eventManager = $this->getMock('Zend\EventManager\EventManager');
+        $eventManager->expects($this->once())
+            ->method('trigger')
+            ->with($this->isInstanceOf('Omeka\Event\Event'));
+
+        $serviceManager = $this->getServiceManager(array(
+            'MvcTranslator' => $translator,
+            'Omeka\EntityManager' => $entityManager,
+            'Omeka\Acl' => $acl,
+            'EventManager' => $eventManager,
+        ));
+        $this->adapter->setServiceLocator($serviceManager);
+
+        /** Adapter **/
+
+        $this->adapter->expects($this->once())
+            ->method('getEntityClass')
+            ->will($this->returnValue(self::TEST_ENTITY_CLASS));
+        $this->adapter->expects($this->once())
+            ->method('extract')
+            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
+            ->will($this->returnValue(array('foo', 'bar')));
+
+        /** Request **/
+
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($id));
+
+        /** ASSERTIONS **/
+
+        $response = $this->adapter->read($request);
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals('success', $response->getStatus());
+        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+    }
+
+    public function testUpdate()
+    {
+        $id = 100;
+        $data = array('foo', 'bar');
+
+        /** ServiceManager **/
+
+        // Service: MvcTranslator
+        $translator = $this->getMock('Zend\I18n\Translator\Translator');
+
+        // UnitOfWork
+        $unitOfWork = $this->getMockBuilder('Doctrine\ORM\UnitOfWork')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $unitOfWork->expects($this->once())
+            ->method('getEntityState')
+            ->will($this->returnValue(UnitOfWork::STATE_MANAGED));
+
+        // Service: Omeka\EntityManager
+        $entityRepostory = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $entityRepostory->expects($this->once())
+            ->method('find')
+            ->with($id)
+            ->will($this->returnValue(new TestEntity));
+
+        $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo(self::TEST_ENTITY_CLASS))
+            ->will($this->returnValue($entityRepostory));
+        $entityManager->expects($this->once())
+            ->method('getUnitOfWork')
+            ->will($this->returnValue($unitOfWork));
+        $entityManager->expects($this->once())
+            ->method('flush');
+
+        // Service: Omeka\Acl
+        $acl = $this->getMock('Omeka\Permissions\Acl');
+        $acl->expects($this->once())
+            ->method('isAllowed')
+            ->with(
+                $this->equalTo('current_user'),
+                $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
+                $this->equalTo('update')
+            )
+            ->will($this->returnValue(true));
+
+        // Service: EventManager
+        $eventManager = $this->getMock('Zend\EventManager\EventManager');
+        $eventManager->expects($this->once())
+            ->method('trigger')
+            ->with($this->isInstanceOf('Omeka\Event\Event'));
+
+        $serviceManager = $this->getServiceManager(array(
+            'MvcTranslator' => $translator,
+            'Omeka\EntityManager' => $entityManager,
+            'Omeka\Acl' => $acl,
+            'EventManager' => $eventManager,
+        ));
+        $this->adapter->setServiceLocator($serviceManager);
+
+        /** Adapter **/
+
+        $this->adapter->expects($this->once())
+            ->method('getEntityClass')
+            ->will($this->returnValue(self::TEST_ENTITY_CLASS));
+        $this->adapter->expects($this->once())
+            ->method('hydrate')
+            ->with(
+                $data, $this->isInstanceOf('Omeka\Model\Entity\EntityInterface')
+            );
+        $this->adapter->expects($this->once())
+            ->method('extract')
+            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
+            ->will($this->returnValue(array('foo', 'bar')));
+
+        /** Request **/
+
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($id));
+        $request->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($data));
+
+        /** ASSERTIONS **/
+
+        $response = $this->adapter->update($request);
+        $this->assertInstanceOf('Omeka\Api\Response', $response);
+        $this->assertEquals('success', $response->getStatus());
+        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+    }
 }
 
 class TestEntity extends AbstractEntity

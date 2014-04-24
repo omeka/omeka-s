@@ -17,6 +17,11 @@ class InstallationStatus implements ServiceLocatorAwareInterface
     protected $isInstalled;
 
     /**
+     * @var bool
+     */
+    protected $isApiRequest;
+
+    /**
      * Check whether Omeka is currently installed.
      *
      * The heuristic for determining an installed state is the existence of a
@@ -40,6 +45,28 @@ class InstallationStatus implements ServiceLocatorAwareInterface
         $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;
         $this->isInstalled = in_array($checkTable, $tables);
         return $this->isInstalled;
+    }
+
+    /**
+     * Check whether the current HTTP request is an API request.
+     *
+     * The heuristic for determining an API request is a route match against the
+     * API controller.
+     *
+     * @return bool
+     */
+    public function isApiRequest()
+    {
+        if (null !== $this->isApiRequest) {
+            return $this->isApiRequest;
+        }
+        // Get the route match.
+        $router = $this->getServiceLocator()->get('Router');
+        $request = $this->getServiceLocator()->get('Request');
+        $routeMatch = $router->match($request);
+        $this->isApiRequest = 'Omeka\Controller\Api'
+            === $routeMatch->getParam('controller');
+        return $this->isApiRequest;
     }
 
     /**

@@ -22,14 +22,16 @@ return array(
             'Omeka\ModuleManager'       => 'Omeka\Service\ModuleManagerFactory',
         ),
         'invokables' => array(
-            'ModuleRouteListener'         => 'Zend\Mvc\ModuleRouteListener',
-            'Omeka\AuthorizationListener' => 'Omeka\Mvc\AuthorizationListener',
+            'ModuleRouteListener'                => 'Zend\Mvc\ModuleRouteListener',
+            'Omeka\ApiAuthenticationListener'    => 'Omeka\Mvc\ApiAuthenticationListener',
+            'Omeka\AuthorizationListener'        => 'Omeka\Mvc\AuthorizationListener',
             'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
-            'Omeka\InstallationStatus'    => 'Omeka\Installation\InstallationStatus',
+            'Omeka\Status'                       => 'Omeka\Mvc\Status',
         ),
     ),
     'listeners' => array(
         'ModuleRouteListener',
+        'Omeka\ApiAuthenticationListener',
         'Omeka\AuthorizationListener',
         'Omeka\InstallationRedirectListener'
     ),

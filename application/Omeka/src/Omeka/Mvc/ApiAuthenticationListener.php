@@ -5,7 +5,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Mvc\MvcEvent;
 
-class InstallationRedirectListener implements ListenerAggregateInterface
+class ApiAuthenticationListener implements ListenerAggregateInterface
 {
     /**
      * @var array
@@ -17,6 +17,7 @@ class InstallationRedirectListener implements ListenerAggregateInterface
      */
     public function attach(EventManagerInterface $events)
     {
+        // A low priority is required to ensure that authorization happens last.
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             array($this, 'onRoute')
@@ -36,27 +37,29 @@ class InstallationRedirectListener implements ListenerAggregateInterface
     }
 
     /**
-     * Redirect all requests to install route if Omeka is not installed.
+     * Authorize the current user against an API key.
      *
      * @param MvcEvent $event
      */
     public function onRoute(MvcEvent $event)
     {
-        $serviceLocator = $event->getApplication()->getServiceManager();
-        if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
-            // Omeka is installed
+        $status = $event->getApplication()->getServiceManager()
+            ->get('Omeka\Status');
+
+        if (!$status->isApiRequest()) {
+            // This is not an API request.
             return;
         }
-        $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
-        if ('install' == $matchedRouteName) {
-            // On the install route
+
+        $key = $event->getRequest()->getQuery('key');
+        if (null === $key) {
+            // No key to authenticate against.
             return;
         }
-        $url = $event->getRouter()->assemble(array(), array('name' => 'install'));
-        $response = $event->getResponse();
-        $response->getHeaders()->addHeaderLine('Location', $url);
-        $response->setStatusCode(302);
-        $response->sendHeaders();
-        exit;
+
+        $auth = $event->getApplication()->getServiceManager()
+            ->get('Omeka\AuthenticationService');
+        $adapter = $auth->getAdapter()->setCredential($key);
+        $auth->authenticate();
     }
 }

@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Installation;
+namespace Omeka\Mvc;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class InstallationStatus implements ServiceLocatorAwareInterface
+class Status implements ServiceLocatorAwareInterface
 {
     /**
      * Table against which to check for an Omeka installation
@@ -15,6 +15,11 @@ class InstallationStatus implements ServiceLocatorAwareInterface
      * @var bool
      */
     protected $isInstalled;
+
+    /**
+     * @var bool
+     */
+    protected $isApiRequest;
 
     /**
      * Check whether Omeka is currently installed.
@@ -40,6 +45,28 @@ class InstallationStatus implements ServiceLocatorAwareInterface
         $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;
         $this->isInstalled = in_array($checkTable, $tables);
         return $this->isInstalled;
+    }
+
+    /**
+     * Check whether the current HTTP request is an API request.
+     *
+     * The heuristic for determining an API request is a route match against the
+     * API controller.
+     *
+     * @return bool
+     */
+    public function isApiRequest()
+    {
+        if (null !== $this->isApiRequest) {
+            return $this->isApiRequest;
+        }
+        // Get the route match.
+        $router = $this->getServiceLocator()->get('Router');
+        $request = $this->getServiceLocator()->get('Request');
+        $routeMatch = $router->match($request);
+        $this->isApiRequest = 'Omeka\Controller\Api'
+            === $routeMatch->getParam('controller');
+        return $this->isApiRequest;
     }
 
     /**

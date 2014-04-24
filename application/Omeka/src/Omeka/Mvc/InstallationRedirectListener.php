@@ -43,7 +43,7 @@ class InstallationRedirectListener implements ListenerAggregateInterface
     public function onRoute(MvcEvent $event)
     {
         $serviceLocator = $event->getApplication()->getServiceManager();
-        if ($serviceLocator->get('Omeka\InstallationStatus')->isInstalled()) {
+        if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
             // Omeka is installed
             return;
         }

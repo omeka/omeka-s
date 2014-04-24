@@ -24,7 +24,7 @@ class AuthenticationServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $em = $serviceLocator->get('Omeka\EntityManager');
-        $status = $serviceLocator->get('Omeka\InstallationStatus');
+        $status = $serviceLocator->get('Omeka\Status');
         $userRepository = $em->getRepository('Omeka\Model\Entity\User');
 
         if ($status->isApiRequest()) {

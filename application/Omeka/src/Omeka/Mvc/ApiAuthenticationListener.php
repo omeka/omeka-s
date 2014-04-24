@@ -44,7 +44,7 @@ class ApiAuthenticationListener implements ListenerAggregateInterface
     public function onRoute(MvcEvent $event)
     {
         $status = $event->getApplication()->getServiceManager()
-            ->get('Omeka\InstallationStatus');
+            ->get('Omeka\Status');
 
         if (!$status->isApiRequest()) {
             // This is not an API request.

@@ -71,7 +71,7 @@ class ManagerTest extends TestCase
         $this->manager->setServiceLocator($this->getServiceManager(
             array(
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')
+                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
             )
         ));
         $this->manager->registerTask('OmekaTest\Installation\SuccessTask');
@@ -92,7 +92,7 @@ class ManagerTest extends TestCase
         $this->manager->setServiceLocator($this->getServiceManager(
             array(
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\InstallationStatus' => $this->getMock('Omeka\Installation\InstallationStatus')
+                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
             )
         ));
         $this->manager->registerTask('OmekaTest\Installation\ErrorTask');

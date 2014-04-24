@@ -39,7 +39,7 @@ class Manager implements ServiceLocatorAwareInterface
     {
         $result = new Result;
         $isInstalled = $this->getServiceLocator()
-            ->get('Omeka\InstallationStatus')->isInstalled();
+            ->get('Omeka\Status')->isInstalled();
 
         if ($isInstalled) {
             $result->addMessage(

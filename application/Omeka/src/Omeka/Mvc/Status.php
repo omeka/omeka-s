@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Installation;
+namespace Omeka\Mvc;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class InstallationStatus implements ServiceLocatorAwareInterface
+class Status implements ServiceLocatorAwareInterface
 {
     /**
      * Table against which to check for an Omeka installation

@@ -26,7 +26,7 @@ return array(
             'Omeka\ApiAuthenticationListener'    => 'Omeka\Mvc\ApiAuthenticationListener',
             'Omeka\AuthorizationListener'        => 'Omeka\Mvc\AuthorizationListener',
             'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
-            'Omeka\InstallationStatus'           => 'Omeka\Installation\InstallationStatus',
+            'Omeka\Status'                       => 'Omeka\Mvc\Status',
         ),
     ),
     'listeners' => array(

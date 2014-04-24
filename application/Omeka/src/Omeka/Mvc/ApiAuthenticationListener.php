@@ -37,7 +37,7 @@ class ApiAuthenticationListener implements ListenerAggregateInterface
     }
 
     /**
-     * Authorize the current user against the requested route.
+     * Authorize the current user against an API key.
      *
      * @param MvcEvent $event
      */
@@ -47,11 +47,13 @@ class ApiAuthenticationListener implements ListenerAggregateInterface
             ->get('Omeka\InstallationStatus');
 
         if (!$status->isApiRequest()) {
+            // This is not an API request.
             return;
         }
 
         $key = $event->getRequest()->getQuery('key');
         if (null === $key) {
+            // No key to authenticate against.
             return;
         }
 

@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
-class ItemAdapter extends AbstractEntityAdapter
+class ItemAdapter extends AbstractResourceAdapter
 {
     public function getEntityClass()
     {
@@ -31,7 +31,7 @@ class ItemAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        return array(
+        $item = array(
             '@id'   => $this->getApiUrl($entity),
             'id'    => $entity->getId(),
             'owner' => $this->getReference(
@@ -43,6 +43,7 @@ class ItemAdapter extends AbstractEntityAdapter
                 $this->getAdapter('resource_classes')
             ),
         );
+        return array_merge($item, $this->extractValues($entity));
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

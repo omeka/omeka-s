@@ -36,12 +36,18 @@ abstract class Resource extends AbstractEntity
     protected $resourceClass;
 
     /**
+     * @OneToMany(targetEntity="Value", mappedBy="resource")
+     */
+    protected $values;
+
+    /**
      * @OneToMany(targetEntity="SiteResource", mappedBy="resource")
      */
     protected $sites;
 
     public function __construct()
     {
+        $this->values = new ArrayCollection;
         $this->sites = new ArrayCollection;
     }
 
@@ -80,6 +86,11 @@ abstract class Resource extends AbstractEntity
     public function getResourceClass()
     {
         return $this->resourceClass;
+    }
+
+    public function getValues()
+    {
+        return $this->values;
     }
 
     public function getSites()

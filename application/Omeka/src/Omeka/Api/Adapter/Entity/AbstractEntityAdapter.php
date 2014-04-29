@@ -12,6 +12,7 @@ use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\DateTime;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
@@ -71,9 +72,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Finish building the search query and get the results.
         $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
-        $entities = array();
+        $entities = array(
+            '@context' => array(
+                'generated_at' => array(
+                    '@id' => 'http://www.w3.org/ns/prov#generatedAtTime',
+                    '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                ),
+            ),
+            '@id' => $this->getServiceLocator()->get('Request')->getUriString(),
+            'generated_at' => new DateTime,
+            '@graph' => array(),
+        );
         foreach ($qb->getQuery()->iterate() as $row) {
-            $entities[] = $this->extract($row[0]);
+            $entities['@graph'][] = $this->extract($row[0]);
         }
 
         $response = new Response($entities);

@@ -14,9 +14,6 @@ use Omeka\Model\Entity\Value;
  */
 abstract class AbstractResourceAdapter extends AbstractEntityAdapter
 {
-    const VALUE_TYPE_RESOURCE = 'http://omeka.org/omeka_s/ns#valueTypeResource';
-    const VALUE_TYPE_URI = 'http://omeka.org/omeka_s/ns#valueTypeUri';
-
     public function extractValues(Resource $resource)
     {
         $valueObjects = array();
@@ -27,13 +24,13 @@ abstract class AbstractResourceAdapter extends AbstractEntityAdapter
                 case Value::TYPE_RESOURCE:
                     $valueResource = $value->getValueResource();
                     $valueObject['@value'] = $this->getApiUrl($valueResource);
-                    $valueObject['@type'] = self::VALUE_TYPE_RESOURCE;
-                    $valueObject['resource_id'] = $valueResource->getId();
+                    $valueObject['@type'] = 'http://www.w3.org/2001/XMLSchema#anyURI';
+                    $valueObject['value_resource_id'] = $valueResource->getId();
                     $valueObject['value_id'] = $value->getId();
                     break;
                 case Value::TYPE_URI:
                     $valueObject['@value'] = $value->getValue();
-                    $valueObject['@type'] = self::VALUE_TYPE_URI;
+                    $valueObject['@type'] = 'http://www.w3.org/2001/XMLSchema#anyURI';
                     $valueObject['value_id'] = $value->getId();
                     break;
                 case Value::TYPE_LITERAL:

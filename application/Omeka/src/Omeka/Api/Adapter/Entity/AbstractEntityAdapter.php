@@ -72,19 +72,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Finish building the search query and get the results.
         $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
-        $entities = array(
-            '@context' => array(
-                'generated_at' => array(
-                    '@id' => 'http://www.w3.org/ns/prov#generatedAtTime',
-                    '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-                ),
-            ),
-            '@id' => $this->getServiceLocator()->get('Request')->getUriString(),
-            'generated_at' => new DateTime,
-            '@graph' => array(),
-        );
+        $entities = array();
         foreach ($qb->getQuery()->iterate() as $row) {
-            $entities['@graph'][] = $this->extract($row[0]);
+            $entities[] = $this->extract($row[0]);
         }
 
         $response = new Response($entities);

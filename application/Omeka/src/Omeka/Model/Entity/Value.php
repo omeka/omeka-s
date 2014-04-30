@@ -29,11 +29,6 @@ class Value extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     */
-    protected $owner;
-
-    /**
      * @ManyToOne(targetEntity="Resource")
      * @JoinColumn(nullable=false)
      */
@@ -78,16 +73,6 @@ class Value extends AbstractEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-    }
-
-    public function getOwner()
-    {
-        return $this->owner;
     }
 
     public function setResource($resource)

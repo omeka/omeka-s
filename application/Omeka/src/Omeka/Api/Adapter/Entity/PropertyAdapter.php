@@ -43,7 +43,6 @@ class PropertyAdapter extends AbstractEntityAdapter
     {
         return array(
             '@id'        => $this->getApiUrl($entity),
-            '@type'      => 'http://www.w3.org/TR/rdf-schema/#ch_property',
             'id'         => $entity->getId(),
             'local_name' => $entity->getLocalName(),
             'label'      => $entity->getLabel(),

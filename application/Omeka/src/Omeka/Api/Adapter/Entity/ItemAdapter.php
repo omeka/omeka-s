@@ -43,7 +43,8 @@ class ItemAdapter extends AbstractResourceAdapter
                 $this->getAdapter('resource_classes')
             ),
         );
-        return array_merge($item, $this->extractValues($entity));
+        $valueExtractor = new ValueExtractor($this);
+        return array_merge($item, $valueExtractor->extract($entity));
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

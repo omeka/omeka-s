@@ -189,13 +189,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $t = $this->getTranslator();
         $response = new Response;
-        try {
-            $entity = $this->find($request->getId());
-        } catch (ModelException\EntityNotFoundException $e) {
+
+        $entity = $this->getEntityManager()->find(
+            $this->getEntityClass(),
+            $request->getId()
+        );
+        if (null === $entity) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
+                $this->getEntityClass(),
+                $request->getId()
+            ));
             return $response;
         }
+
         // Verify that the current user has access to read this entity.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->isAllowed('current_user', $entity, 'read')) {
@@ -224,11 +232,18 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $t = $this->getTranslator();
         $response = new Response;
-        try {
-            $entity = $this->find($request->getId());
-        } catch (ModelException\EntityNotFoundException $e) {
+
+        $entity = $this->getEntityManager()->find(
+            $this->getEntityClass(),
+            $request->getId()
+        );
+        if (null === $entity) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
+                $this->getEntityClass(),
+                $request->getId()
+            ));
             return $response;
         }
         $this->hydrate($request->getContent(), $entity);
@@ -272,11 +287,18 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $t = $this->getTranslator();
         $response = new Response;
-        try {
-            $entity = $this->find($request->getId());
-        } catch (ModelException\EntityNotFoundException $e) {
+
+        $entity = $this->getEntityManager()->find(
+            $this->getEntityClass(),
+            $request->getId()
+        );
+        if (null === $entity) {
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
+                $this->getEntityClass(),
+                $request->getId()
+            ));
             return $response;
         }
 
@@ -338,36 +360,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected function getEntityManager()
     {
         return $this->getServiceLocator()->get('Omeka\EntityManager');
-    }
-
-    /**
-     * Get an entity repository.
-     *
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->getEntityManager()->getRepository($this->getEntityClass());
-    }
-
-    /**
-     * Find an entity by its identifier.
-     *
-     * @param int $id
-     * @return EntityInterface
-     */
-    protected function find($id)
-    {
-        $t = $this->getTranslator();
-        $entity = $this->getRepository()->find($id);
-        if (!$entity instanceof EntityInterface) {
-            throw new ModelException\EntityNotFoundException(sprintf(
-                $t->translate('An "%1$s" entity with ID "%2$s" was not found'),
-                $this->getEntityClass(),
-                $id
-            ));
-        }
-        return $entity;
     }
 
     /**

@@ -51,7 +51,7 @@ class Manager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
         if (!is_subclass_of($plugin, 'Omeka\Api\Adapter\AdapterInterface')) {
-            throw new Exception\ConfigException(sprintf(
+            throw new Exception\InvalidAdapterException(sprintf(
                 'The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface.',
                 get_class($plugin)
             ));

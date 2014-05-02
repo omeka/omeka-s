@@ -112,9 +112,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
-            $response->setStatus(Response::ERROR_VALIDATION);
-            $response->mergeErrors($errorStore);
-            return $response;
+            $validationException = new Exception\ValidationException;
+            $validationException->setErrorStore($errorStore);
+            throw $validationException;
         }
 
         $this->getEntityManager()->persist($entity);
@@ -195,13 +195,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $request->getId()
         );
         if (null === $entity) {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+            throw new Exception\NotFoundException(sprintf(
                 $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
                 $this->getEntityClass(),
                 $request->getId()
             ));
-            return $response;
         }
 
         // Verify that the current user has access to read this entity.
@@ -238,13 +236,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $request->getId()
         );
         if (null === $entity) {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+            throw new Exception\NotFoundException(sprintf(
                 $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
                 $this->getEntityClass(),
                 $request->getId()
             ));
-            return $response;
         }
         $this->hydrate($request->getContent(), $entity);
 
@@ -267,13 +263,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $errorStore = $this->validateEntity($entity);
         if ($errorStore->hasErrors()) {
-            $response->setStatus(Response::ERROR_VALIDATION);
-            $response->mergeErrors($errorStore);
             // Refresh the entity from the database, overriding any local
             // changes that have not yet been persisted
             $this->getEntityManager()->refresh($entity);
-            $response->setContent($this->extract($entity));
-            return $response;
+            $validationException = new Exception\ValidationException;
+            $validationException->setErrorStore($errorStore);
+            throw $validationException;
         }
         $this->getEntityManager()->flush();
         $response->setContent($this->extract($entity));
@@ -293,13 +288,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $request->getId()
         );
         if (null === $entity) {
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, sprintf(
+            throw new Exception\NotFoundException(sprintf(
                 $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
                 $this->getEntityClass(),
                 $request->getId()
             ));
-            return $response;
         }
 
         // Verify that the current user has access to delete this entity.

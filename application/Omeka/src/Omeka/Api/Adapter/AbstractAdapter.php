@@ -34,7 +34,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function search(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the search operation.'
             ),
@@ -47,7 +47,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function create(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the create operation.'
             ),
@@ -60,7 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function batchCreate(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the batch create operation.'
             ),
@@ -73,7 +73,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function read(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the read operation.'
             ),
@@ -86,7 +86,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function update(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the update operation.'
             ),
@@ -99,7 +99,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function delete(Request $request)
     {
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the delete operation.'
             ),

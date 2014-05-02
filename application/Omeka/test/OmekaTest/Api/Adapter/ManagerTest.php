@@ -33,7 +33,7 @@ class ManagerTest extends TestCase
 
     public function testValidatePluginRequiresAdapterInterface()
     {
-        $this->setExpectedException('Omeka\Api\Exception\ConfigException');
+        $this->setExpectedException('Omeka\Api\Exception\InvalidAdapterException');
         $this->manager->validatePlugin(new \stdClass);
     }
 }

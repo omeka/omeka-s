@@ -110,7 +110,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function getApiUrl($entity)
+    public function getApiUrl($data)
     {
         return null;
     }
@@ -118,7 +118,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function getWebUrl($entity)
+    public function getWebUrl($data)
     {
         return null;
     }

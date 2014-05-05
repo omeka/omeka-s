@@ -70,16 +70,16 @@ interface AdapterInterface extends
     /**
      * Get the URL to an API representation.
      *
-     * @param mixed $resource
+     * @param mixed $data Whatever data is needed to construct the API URL.
      * @return null|string
      */
-    public function getApiUrl($resource);
+    public function getApiUrl($data);
 
     /**
      * Get the URL to a web representation.
      *
-     * @param mixed $resource
+     * @param mixed $data Whatever data is needed to construct the web URL.
      * @return null|string
      */
-    public function getWebUrl($resource);
+    public function getWebUrl($data);
 }

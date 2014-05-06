@@ -12,6 +12,7 @@ use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\DateTime;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**

@@ -44,7 +44,7 @@ class Property extends AbstractEntity
     protected $vocabulary;
 
     /**
-     * @Column(nullable=true)
+     * @Column
      */
     protected $localName;
 

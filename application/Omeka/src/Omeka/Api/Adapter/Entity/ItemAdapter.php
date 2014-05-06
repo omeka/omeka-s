@@ -27,11 +27,13 @@ class ItemAdapter extends AbstractEntityAdapter
                 ->find($data['resource_class']['id']);
             $entity->setResourceClass($resourceClass);
         }
+        $valueHydrator = new ValueHydrator($this);
+        $valueHydrator->hydrate($data, $entity);
     }
 
     public function extract($entity)
     {
-        return array(
+        $item = array(
             '@id'   => $this->getApiUrl($entity),
             'id'    => $entity->getId(),
             'owner' => $this->getReference(
@@ -43,6 +45,8 @@ class ItemAdapter extends AbstractEntityAdapter
                 $this->getAdapter('resource_classes')
             ),
         );
+        $valueHydrator = new ValueHydrator($this);
+        return array_merge($item, $valueHydrator->extract($entity));
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

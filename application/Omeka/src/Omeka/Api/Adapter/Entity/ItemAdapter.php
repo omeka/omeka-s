@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
-class ItemAdapter extends AbstractResourceAdapter
+class ItemAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {
@@ -27,6 +27,8 @@ class ItemAdapter extends AbstractResourceAdapter
                 ->find($data['resource_class']['id']);
             $entity->setResourceClass($resourceClass);
         }
+        $valueHydrator = new ValueHydrator($this);
+        $valueHydrator->hydrate($data, $entity);
     }
 
     public function extract($entity)
@@ -43,8 +45,8 @@ class ItemAdapter extends AbstractResourceAdapter
                 $this->getAdapter('resource_classes')
             ),
         );
-        $valueExtractor = new ValueExtractor($this);
-        return array_merge($item, $valueExtractor->extract($entity));
+        $valueHydrator = new ValueHydrator($this);
+        return array_merge($item, $valueHydrator->extract($entity));
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

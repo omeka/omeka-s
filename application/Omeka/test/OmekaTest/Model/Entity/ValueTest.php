@@ -16,7 +16,6 @@ class ValueTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->value->getId());
-        $this->assertNull($this->value->getOwner());
         $this->assertNull($this->value->getResource());
         $this->assertNull($this->value->getProperty());
         $this->assertNull($this->value->getType());
@@ -29,7 +28,6 @@ class ValueTest extends TestCase
 
     public function testSetState()
     {
-        $this->value->setOwner('owner');
         $this->value->setResource('resource');
         $this->value->setProperty('property');
         $this->value->setType('type');
@@ -38,7 +36,6 @@ class ValueTest extends TestCase
         $this->value->setLang('lang');
         $this->value->setIsHtml(true);
         $this->value->setValueResource('value_resource');
-        $this->assertEquals('owner', $this->value->getOwner());
         $this->assertEquals('resource', $this->value->getResource());
         $this->assertEquals('property', $this->value->getProperty());
         $this->assertEquals('type', $this->value->getType());

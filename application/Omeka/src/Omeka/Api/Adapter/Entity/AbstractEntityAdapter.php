@@ -351,7 +351,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * @return \Doctrine\ORM\EntityManager
      */
-    protected function getEntityManager()
+    public function getEntityManager()
     {
         return $this->getServiceLocator()->get('Omeka\EntityManager');
     }

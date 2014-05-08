@@ -85,10 +85,10 @@ class ValueHydrator implements HydratorInterface
      *
      * - value_id & delete=true: remove the value
      * - value_id & @value: modify a literal
-     * - value_id & @id & value_resource_id: modify a resource value
+     * - value_id & value_resource_id: modify a resource value
      * - value_id & @id: modify a URI value
      * - property_id & @value: persist a literal
-     * - property_id & @id & value_resource_id: persist a resource value
+     * - property_id & value_resource_id: persist a resource value
      * - property_id & @id: persist a URI value
      *
      * A value object that contains none of the above combinations is ignored.
@@ -99,6 +99,7 @@ class ValueHydrator implements HydratorInterface
     public function hydrateValue(array $valueObject, Resource $resource)
     {
         if (isset($valueObject['value_id'])) {
+            // Modify an existing value
             $value = $this->adapter->getEntityManager()->getReference(
                 'Omeka\Model\Entity\Value',
                 $valueObject['value_id']
@@ -107,26 +108,23 @@ class ValueHydrator implements HydratorInterface
                 $this->remove($value);
             } elseif (array_key_exists('@value', $valueObject)) {
                 $this->modifyLiteral($valueObject, $value);
+            } elseif (array_key_exists('value_resource_id', $valueObject)) {
+                $this->modifyResource($valueObject, $value);
             } elseif (array_key_exists('@id', $valueObject)) {
-                if (isset($valueObject['value_resource_id'])) {
-                    $this->modifyResource($valueObject, $value);
-                } else {
-                    $this->modifyUri($valueObject, $value);
-                }
+                $this->modifyUri($valueObject, $value);
             }
         } elseif (isset($valueObject['property_id'])) {
+            // Persist a new value
             $property = $this->adapter->getEntityManager()->getReference(
                 'Omeka\Model\Entity\Property',
                 $valueObject['property_id']
             );
             if (array_key_exists('@value', $valueObject)) {
                 $this->persistLiteral($valueObject, $property, $resource);
+            } elseif (array_key_exists('value_resource_id', $valueObject)) {
+                $this->persistResource($valueObject, $property, $resource);
             } elseif (array_key_exists('@id', $valueObject)) {
-                if (isset($valueObject['value_resource_id'])) {
-                    $this->persistResource($valueObject, $property, $resource);
-                } else {
-                    $this->persistUri($valueObject, $property, $resource);
-                }
+                $this->persistUri($valueObject, $property, $resource);
             }
         }
     }
@@ -192,8 +190,8 @@ class ValueHydrator implements HydratorInterface
         } else {
             $value->setLang(null); // set default
         }
-        if (isset($valueObject['is_html'])) {
-            $value->setIsHtml($valueObject['is_html']);
+        if (isset($valueObject['is_html']) && true === $valueObject['is_html']) {
+            $value->setIsHtml(true);
         } else {
             $value->setIsHtml(false); // set default
         }

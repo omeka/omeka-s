@@ -120,6 +120,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
+
+        // Refresh the entity on the chance that it contains associations that
+        // have not been loaded.
+        $this->getEntityManager()->refresh($entity);
         $response->setContent($this->extract($entity));
         return $response;
     }

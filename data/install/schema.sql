@@ -52,7 +52,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) DEFAULT NULL,
-  `local_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `label` varchar(255) COLLATE utf8_bin NOT NULL,
   `comment` longtext COLLATE utf8_bin,
   PRIMARY KEY (`id`),
@@ -131,7 +131,6 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) DEFAULT NULL,
   `resource_id` int(11) NOT NULL,
   `property_id` int(11) NOT NULL,
   `value_resource_id` int(11) DEFAULT NULL,
@@ -141,13 +140,11 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_value` (
   `lang` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_html` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_1C8B768E7E3C61F9` (`owner_id`),
   KEY `IDX_1C8B768E89329D25` (`resource_id`),
   KEY `IDX_1C8B768E549213EC` (`property_id`),
   KEY `IDX_1C8B768E4BC72506` (`value_resource_id`),
   CONSTRAINT `FK_1C8B768E4BC72506` FOREIGN KEY (`value_resource_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource` (`id`),
   CONSTRAINT `FK_1C8B768E549213EC` FOREIGN KEY (`property_id`) REFERENCES `OMEKA_TABLE_PREFIX_property` (`id`),
-  CONSTRAINT `FK_1C8B768E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`),
   CONSTRAINT `FK_1C8B768E89329D25` FOREIGN KEY (`resource_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_vocabulary` (

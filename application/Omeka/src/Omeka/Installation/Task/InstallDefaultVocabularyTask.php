@@ -11,6 +11,7 @@ class InstallDefaultVocabularyTask extends AbstractTask
      */
     protected $vocabulary = array(
         'namespace_uri' => 'omeka',
+        'prefix'        => 'omeka',
         'label'         => 'Omeka',
         'comment'       => 'The default Omeka vocabulary containing custom classes and properties.',
     );

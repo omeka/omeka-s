@@ -151,10 +151,12 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_vocabulary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `namespace_uri` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `prefix` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `comment` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_2FC6BA369B267FDF` (`namespace_uri`),
+  UNIQUE KEY `UNIQ_2FC6BA3693B1868E` (`prefix`),
   KEY `IDX_2FC6BA367E3C61F9` (`owner_id`),
   CONSTRAINT `FK_2FC6BA367E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

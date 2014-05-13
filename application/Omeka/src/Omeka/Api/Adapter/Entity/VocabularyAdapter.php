@@ -24,6 +24,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($data['namespace_uri'])) {
             $entity->setNamespaceUri($data['namespace_uri']);
         }
+        if (isset($data['prefix'])) {
+            $entity->setPrefix($data['prefix']);
+        }
         if (isset($data['label'])) {
             $entity->setLabel($data['label']);
         }
@@ -38,6 +41,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             '@id'           => $this->getApiUrl($entity),
             'id'            => $entity->getId(),
             'namespace_uri' => $entity->getNamespaceUri(),
+            'prefix'        => $entity->getPrefix(),
             'label'         => $entity->getLabel(),
             'comment'       => $entity->getComment(),
             'owner' => $this->getReference(
@@ -56,6 +60,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($query['namespace_uri'])) {
             $this->andWhere($qb, 'namespaceUri', $query['namespace_uri']);
         }
+        if (isset($query['prefix'])) {
+            $this->andWhere($qb, 'prefix', $query['prefix']);
+        }
     }
 
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
@@ -67,6 +74,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (null === $entity->getNamespaceUri()) {
             $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
+        }
+        $validator = new IsUnique(array('prefix'), $this->getEntityManager());
+        if (!$validator->isValid($entity)) {
+            $errorStore->addValidatorMessages('prefix', $validator->getMessages());
+        }
+        if (null === $entity->getPrefix()) {
+            $errorStore->addError('prefix', 'The prefix field cannot be null.');
         }
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');

@@ -30,6 +30,11 @@ class Vocabulary extends AbstractEntity
     protected $namespaceUri;
 
     /**
+     * @Column(unique=true)
+     */
+    protected $prefix;
+
+    /**
      * @Column
      */
     protected $label;
@@ -88,6 +93,16 @@ class Vocabulary extends AbstractEntity
     public function getNamespaceUri()
     {
         return $this->namespaceUri;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 
     public function setLabel($label)

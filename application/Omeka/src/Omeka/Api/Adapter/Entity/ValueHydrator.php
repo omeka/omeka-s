@@ -59,20 +59,25 @@ class ValueHydrator implements HydratorInterface
         $context = array();
         $valueObjects = array();
         foreach ($resource->getValues() as $value) {
-            $valueObject = $this->extractValue($value);
 
             $property = $value->getProperty();
             $vocabulary = $property->getVocabulary();
 
-            $prefix = 'vocab' . $vocabulary->getId();
+            $prefix = $vocabulary->getPrefix();
             $suffix = $property->getLocalName();
             $term = "$prefix:$suffix";
+
             if (!array_key_exists($prefix, $context)) {
-                $context[$prefix] = $vocabulary->getNamespaceUri();
+                $context[$prefix] = array(
+                    '@id' => $vocabulary->getNamespaceUri(),
+                    'vocabulary_id' => $vocabulary->getId(),
+                    'vocabulary_label' => $vocabulary->getLabel(),
+                );
             }
 
-            $valueObjects[$term][] = $valueObject;
+            $valueObjects[$term][] = $this->extractValue($value, $property);
         }
+
         $valueObjects['@context'] = $context;
         return $valueObjects;
     }
@@ -135,8 +140,7 @@ class ValueHydrator implements HydratorInterface
      * @param Value $value
      * @return array JSON-LD value object
      */
-    public function extractValue(Value $value)
-    {
+    public function extractValue(Value $value, Property $property) {
         $valueObject = array();
         switch ($value->getType()) {
             case Value::TYPE_RESOURCE:
@@ -146,11 +150,9 @@ class ValueHydrator implements HydratorInterface
                 );
                 $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
                 $valueObject['value_resource_id'] = $valueResource->getId();
-                $valueObject['value_id'] = $value->getId();
                 break;
             case Value::TYPE_URI:
                 $valueObject['@id'] = $value->getValue();
-                $valueObject['value_id'] = $value->getId();
                 break;
             case Value::TYPE_LITERAL:
             default:
@@ -159,9 +161,11 @@ class ValueHydrator implements HydratorInterface
                     $valueObject['@language'] = $value->getLang();
                 }
                 $valueObject['is_html'] = $value->getIsHtml();
-                $valueObject['value_id'] = $value->getId();
                 break;
         }
+        $valueObject['value_id'] = $value->getId();
+        $valueObject['property_id'] = $property->getId();
+        $valueObject['property_label'] = $property->getLabel();
         return $valueObject;
     }
 

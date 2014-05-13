@@ -17,6 +17,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         array(
             'vocabulary' => array(
                 'namespace_uri' => 'http://purl.org/dc/terms/',
+                'prefix' => 'dcterms',
                 'label' => 'DCMI Metadata Terms',
                 'comment' => 'The Dublin Core metadata terms are a set of vocabulary terms which can be used to describe resources for the purposes of discovery.',
             ),
@@ -27,6 +28,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         array(
             'vocabulary' => array(
                 'namespace_uri' => 'http://purl.org/ontology/bibo/',
+                'prefix' => 'bibo',
                 'label' => 'Bibliographic Ontology (BIBO)',
                 'comment' => 'The Bibliographic Ontology (BIBO) is an ontology for the semantic Web to describe bibliographic things.',
             ),
@@ -37,6 +39,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         array(
             'vocabulary' => array(
                 'namespace_uri' => 'http://purl.org/dc/dcmitype/',
+                'prefix' => 'dcmitype',
                 'label' => 'DCMI Type Vocabulary',
                 'comment' => 'The DCMI Type Vocabulary provides a general, cross-domain list of approved terms that may be used as values for the Type element to identify the genre of a resource.',
             ),
@@ -47,6 +50,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         array(
             'vocabulary' => array(
                 'namespace_uri' => 'http://xmlns.com/foaf/0.1/',
+                'prefix' => 'foaf',
                 'label' => 'Friend of a Friend (FOAF) vocabulary',
                 'comment' => 'FOAF (an acronym of Friend of a friend) is a machine-readable ontology describing persons, their activities and their relations to other people and objects.',
             ),
@@ -57,6 +61,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         array(
             'vocabulary' => array(
                 'namespace_uri' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+                'prefix' => 'geo',
                 'label' => 'Basic Geo Vocabulary',
                 'comment' => 'This is a basic RDF vocabulary that provides the Semantic Web community with a namespace for representing lat(itude), long(itude) and other information about spatially-located things.',
             ),

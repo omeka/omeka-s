@@ -29,10 +29,10 @@ class Manager implements ServiceLocatorAwareInterface
      * Execute a search API request.
      *
      * @param string $resource
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function search($resource, $data = null)
+    public function search($resource, array $data = array())
     {
         $request = new Request(Request::SEARCH, $resource);
         $request->setContent($data);
@@ -43,10 +43,10 @@ class Manager implements ServiceLocatorAwareInterface
      * Execute a create API request.
      *
      * @param string $resource
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function create($resource, $data = null)
+    public function create($resource, array $data = array())
     {
         $request = new Request(Request::CREATE, $resource);
         $request->setContent($data);
@@ -57,10 +57,10 @@ class Manager implements ServiceLocatorAwareInterface
      * Execute a batch create API request.
      *
      * @param string $resource
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function batchCreate($resource, $data = null)
+    public function batchCreate($resource, array $data = array())
     {
         $request = new Request(Request::BATCH_CREATE, $resource);
         $request->setContent($data);
@@ -72,10 +72,10 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $resource
      * @param mixed $id
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function read($resource, $id, $data = null)
+    public function read($resource, $id, array $data = array())
     {
         $request = new Request(Request::READ, $resource);
         $request->setId($id);
@@ -88,10 +88,10 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $resource
      * @param mixed $id
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function update($resource, $id, $data = null)
+    public function update($resource, $id, array $data = array())
     {
         $request = new Request(Request::UPDATE, $resource);
         $request->setId($id);
@@ -104,10 +104,10 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $resource
      * @param mixed $id
-     * @param mixed $data
+     * @param array $data
      * @return Response
      */
-    public function delete($resource, $id, $data = null)
+    public function delete($resource, $id, array $data = array())
     {
         $request = new Request(Request::DELETE, $resource);
         $request->setId($id);
@@ -131,6 +131,12 @@ class Manager implements ServiceLocatorAwareInterface
                 throw new Exception\BadRequestException(sprintf(
                     $t->translate('The API does not support the "%1$s" request operation.'),
                     $request->getOperation()
+                ));
+            }
+            if (!is_array($request->getContent())) {
+                throw new Exception\BadRequestException(sprintf(
+                    $t->translate('The API request content must be a JSON object (for HTTP) or PHP array. "%1$s" given.'),
+                    gettype($request->getContent())
                 ));
             }
 

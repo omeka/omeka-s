@@ -26,17 +26,22 @@ class ApiTest extends TestCase
     public function testRead()
     {
         $resource = 'resource';
+        $id = 'test-id';
         $data = array('data');
         $expectedReturnValue = 'read_return_value';
 
         $apiManager = $this->getMock('Omeka\Api\Manager');
         $apiManager->expects($this->once())
             ->method('read')
-            ->with($this->equalTo($resource), $this->equalTo($data))
+            ->with(
+                $this->equalTo($resource),
+                $this->equalTo($id),
+                $this->equalTo($data)
+            )
             ->will($this->returnValue($expectedReturnValue));
 
         $apiHelper = new Api($apiManager);
-        $returnValue = $apiHelper->read($resource, $data);
+        $returnValue = $apiHelper->read($resource, $id, $data);
         $this->assertEquals($expectedReturnValue, $returnValue);
     }
 }

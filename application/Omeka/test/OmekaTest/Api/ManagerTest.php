@@ -20,17 +20,49 @@ class ManagerTest extends TestCase
         $this->manager = new Manager;
     }
 
-    public function testSCRUDMethods()
+    public function testSearch()
     {
-        foreach ($this->requestOperations as $operation) {
             $mockResponse = $this->getMockResponse(true);
-            $this->setServiceManager($operation, $mockResponse);
-
-            $response = $this->manager->$operation(self::TEST_RESOURCE, array());
-
+            $this->setServiceManager('search', $mockResponse);
+            $response = $this->manager->search(self::TEST_RESOURCE, array());
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
-        }
+    }
+
+    public function testCreate()
+    {
+            $mockResponse = $this->getMockResponse(true);
+            $this->setServiceManager('create', $mockResponse);
+            $response = $this->manager->create(self::TEST_RESOURCE, array());
+            $this->assertInstanceOf('Omeka\Api\Response', $response);
+            $this->assertNull($response->getErrors());
+    }
+
+    public function testRead()
+    {
+            $mockResponse = $this->getMockResponse(true);
+            $this->setServiceManager('read', $mockResponse);
+            $response = $this->manager->read(self::TEST_RESOURCE, 'test-id', array());
+            $this->assertInstanceOf('Omeka\Api\Response', $response);
+            $this->assertNull($response->getErrors());
+    }
+
+    public function testUpdate()
+    {
+            $mockResponse = $this->getMockResponse(true);
+            $this->setServiceManager('update', $mockResponse);
+            $response = $this->manager->update(self::TEST_RESOURCE, 'test-id', array());
+            $this->assertInstanceOf('Omeka\Api\Response', $response);
+            $this->assertNull($response->getErrors());
+    }
+
+    public function testDelete()
+    {
+            $mockResponse = $this->getMockResponse(true);
+            $this->setServiceManager('delete', $mockResponse);
+            $response = $this->manager->delete(self::TEST_RESOURCE, 'test-id', array());
+            $this->assertInstanceOf('Omeka\Api\Response', $response);
+            $this->assertNull($response->getErrors());
     }
 
     public function testExecute()
@@ -45,7 +77,6 @@ class ManagerTest extends TestCase
 
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
-            //print_r($response->getErrors());
         }
     }
 

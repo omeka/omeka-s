@@ -19,7 +19,7 @@ class RequestTest extends TestCase
 
     public function testInitialState()
     {
-        $this->assertEquals('', $this->request->getContent());
+        $this->assertEquals(array(), $this->request->getContent());
         $this->assertNull($this->request->getOperation());
         $this->assertNull($this->request->getResource());
         $this->assertNull($this->request->getId());

@@ -29,6 +29,11 @@ class Request extends ZendRequest
     );
 
     /**
+     * @var array
+     */
+    protected $content = array();
+
+    /**
      * Construct an API request.
      * 
      * @param null|int $operation

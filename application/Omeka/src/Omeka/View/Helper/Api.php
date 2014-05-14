@@ -31,7 +31,7 @@ class Api extends AbstractHelper
      * @param mixed $data
      * @return Response
      */
-    public function search($resource, $data = null)
+    public function search($resource, array $data = array())
     {
         return $this->apiManager->search($resource, $data);
     }
@@ -44,7 +44,7 @@ class Api extends AbstractHelper
      * @param mixed $data
      * @return Response
      */
-    public function read($resource, $id, $data = null)
+    public function read($resource, $id, array $data = array())
     {
         return $this->apiManager->read($resource, $id, $data);
     }

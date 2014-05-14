@@ -3,6 +3,7 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Response;
 use Omeka\View\Model\ApiJsonModel;
+use Zend\Json\Exception\RuntimeException as JsonRuntimeException;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 
@@ -71,37 +72,42 @@ class ApiController extends AbstractRestfulController
      */
     public function onDispatch(MvcEvent $event)
     {
+        $request = $this->getRequest();
+
         // Require application/json Content-Type for certain methods.
-        $method = strtolower($this->getRequest()->getMethod());
-        $contentType = $this->getRequest()->getHeader('Content-Type');
+        $method = strtolower($request->getMethod());
         if (in_array($method, array('post', 'put', 'patch'))
-            && 'application/json' !== $contentType->getMediaType()
+            && !$this->requestHasContentType($request, self::CONTENT_TYPE_JSON)
         ) {
-            $response = new Response;
-            $response->setStatus(Response::ERROR_BAD_REQUEST);
-            $response->addError(Response::ERROR_BAD_REQUEST, sprintf(
+            $errorMessage = sprintf(
                 'Invalid Content-Type header. Expecting "application/json", got "%s".',
-                $contentType->getMediaType()
-            ));
-            $return = new ApiJsonModel($response);
-            $event->setResult($return);
-            return $return;
+                $request->getHeader('Content-Type')->getMediaType()
+            );
+            return $this->getErrorResult($event, Response::ERROR_BAD_REQUEST, $errorMessage);
         }
 
         // Set pretty print.
-        $prettyPrint = $this->getRequest()->getQuery('pretty_print');
+        $prettyPrint = $request->getQuery('pretty_print');
         if (null !== $prettyPrint) {
             $this->setViewOption('pretty_print', true);
         }
 
-        // Set the JSON-P callback.
-        $callback = $this->getRequest()->getQuery('callback');
+        // Set the JSONP callback.
+        $callback = $request->getQuery('callback');
         if (null !== $callback) {
             $this->setViewOption('callback', $callback);
         }
 
-        // Finish dispatching the request.
-        parent::onDispatch($event);
+        try {
+            // Finish dispatching the request.
+            parent::onDispatch($event);
+        } catch (JsonRuntimeException $e) {
+            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
+            return $this->getErrorResult($event, Response::ERROR_BAD_REQUEST, $e->getMessage());
+        } catch (\Exception $e) {
+            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
+            return $this->getErrorResult($event, Response::ERROR_INTERNAL, $e->getMessage());
+        }
     }
 
     /**
@@ -123,5 +129,22 @@ class ApiController extends AbstractRestfulController
     public function getViewOptions()
     {
         return $this->viewOptions;
+    }
+
+    /**
+     * Set an error result to the MvcEvent and return the result.
+     *
+     * @param MvcEvent $event
+     * @param string $errorStatus
+     * @param string $errorMessage
+     */
+    protected function getErrorResult(MvcEvent $event, $errorStatus, $errorMessage)
+    {
+        $response = new Response;
+        $response->setStatus($errorStatus);
+        $response->addError($errorStatus, $errorMessage);
+        $result = new ApiJsonModel($response);
+        $event->setResult($result);
+        return $result;
     }
 }

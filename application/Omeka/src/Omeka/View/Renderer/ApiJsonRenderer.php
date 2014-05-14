@@ -27,7 +27,7 @@ class ApiJsonRenderer extends JsonRenderer
 
         $jsonpCallback = $model->getOption('callback');
         if (null !== $jsonpCallback) {
-            // Wrap the JSON in a JSON-P callback.
+            // Wrap the JSON in a JSONP callback.
             $this->setJsonpCallback($jsonpCallback);
         }
 

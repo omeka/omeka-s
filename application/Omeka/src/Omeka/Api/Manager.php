@@ -32,7 +32,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function search($resource, array $data = array())
+    public function search($resource, $data = array())
     {
         $request = new Request(Request::SEARCH, $resource);
         $request->setContent($data);
@@ -46,7 +46,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function create($resource, array $data = array())
+    public function create($resource, $data = array())
     {
         $request = new Request(Request::CREATE, $resource);
         $request->setContent($data);
@@ -60,7 +60,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function batchCreate($resource, array $data = array())
+    public function batchCreate($resource, $data = array())
     {
         $request = new Request(Request::BATCH_CREATE, $resource);
         $request->setContent($data);
@@ -75,7 +75,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function read($resource, $id, array $data = array())
+    public function read($resource, $id, $data = array())
     {
         $request = new Request(Request::READ, $resource);
         $request->setId($id);
@@ -91,7 +91,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function update($resource, $id, array $data = array())
+    public function update($resource, $id, $data = array())
     {
         $request = new Request(Request::UPDATE, $resource);
         $request->setId($id);
@@ -107,7 +107,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function delete($resource, $id, array $data = array())
+    public function delete($resource, $id, $data = array())
     {
         $request = new Request(Request::DELETE, $resource);
         $request->setId($id);

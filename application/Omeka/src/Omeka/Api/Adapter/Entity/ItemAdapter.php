@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Representation\Item as ItemRepresentation;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
@@ -33,20 +34,9 @@ class ItemAdapter extends AbstractEntityAdapter
 
     public function extract($entity)
     {
-        $item = array(
-            '@id'   => $this->getApiUrl($entity),
-            'id'    => $entity->getId(),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
-            'resource_class' => $this->getReference(
-                $entity->getResourceClass(),
-                $this->getAdapter('resource_classes')
-            ),
+        return new ItemRepresentation(
+            'items', $entity, $this->getServiceLocator()
         );
-        $valueHydrator = new ValueHydrator($this);
-        return array_merge($item, $valueHydrator->extract($entity));
     }
 
     public function buildQuery(array $query, QueryBuilder $qb)

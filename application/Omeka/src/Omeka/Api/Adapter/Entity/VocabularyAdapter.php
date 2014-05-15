@@ -44,10 +44,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             'prefix'        => $entity->getPrefix(),
             'label'         => $entity->getLabel(),
             'comment'       => $entity->getComment(),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'owner'         => $this->getReference('users', $entity->getOwner()),
         );
     }
 

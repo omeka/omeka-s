@@ -47,14 +47,8 @@ class PropertyAdapter extends AbstractEntityAdapter
             'local_name' => $entity->getLocalName(),
             'label'      => $entity->getLabel(),
             'comment'    => $entity->getComment(),
-            'vocabulary' => $this->getReference(
-                $entity->getVocabulary(),
-                $this->getAdapter('vocabularies')
-            ),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'vocabulary' => $this->getReference('vocabularies', $entity->getVocabulary()),
+            'owner'      => $this->getReference('users', $entity->getOwner()),
         );
     }
 

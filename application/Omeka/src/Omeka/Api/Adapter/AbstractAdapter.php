@@ -2,6 +2,8 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\Reference\Entity as EntityReference;
+use Omeka\Api\Representation\Reference\Reference;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
@@ -136,53 +138,28 @@ abstract class AbstractAdapter implements AdapterInterface
             ->get($resourceName);
     }
 
-    /**
-     * Get a reference to a resource.
-     *
-     * @see ReferenceInterface
-     * @param mixed $data The information from which to derive a representation
-     * of the resource.
-     * @param AdapterInterface $adapter The corresponding resource adapter.
-     * @param null|string $referenceClass The name of the reference class. If an
-     * Doctrine entity is passed as $data, an Entity reference is composed,
-     * otherwise, when null, a generic reference is composed.
-     * @return ReferenceInterface
-     */
-    public function getReference($data, AdapterInterface $adapter, $referenceClass = null)
-    {
-        $t = $this->getTranslator();
 
+    /**
+     * Get a reference representation.
+     *
+     * @param string $resourceName The name of the referenced API resource
+     * @param mixed $data The data from which to derive the reference
+     * @return RepresentationInterface
+     */
+    public function getReference($resourceName, $data)
+    {
+        // Do not attempt to compose a null reference.
         if (null === $data) {
-            // Do not attempt to compose a null reference
             return null;
         }
 
-        if (is_string($referenceClass)) {
-            // Validate the reference class.
-            if (!class_exists($referenceClass)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    $t->translate('Resource reference class %s does not exist.'),
-                    $referenceClass
-                ));
-            }
-            if (!is_subclass_of($referenceClass, 'Omeka\Api\Reference\ReferenceInterface')) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    $t->translate('Invalid resource reference class %s.'),
-                    $referenceClass
-                ));
-            }
-        } elseif ($data instanceof EntityInterface) {
+        if ($data instanceof EntityInterface) {
             // An entity reference
-            $referenceClass = 'Omeka\Api\Reference\Entity';
+            return new EntityReference($resourceName, $data, $this->getServiceLocator());
         } else {
             // A generic reference
-            $referenceClass = 'Omeka\Api\Reference\Reference';
+            return new Reference($resourceName, $data, $this->getServiceLocator());
         }
-
-        $reference = new $referenceClass;
-        $reference->setData($data);
-        $reference->setAdapter($adapter);
-        return $reference;
     }
 
     /**

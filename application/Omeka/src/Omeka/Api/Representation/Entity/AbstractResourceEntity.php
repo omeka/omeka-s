@@ -1,6 +1,7 @@
 <?php
-namespace Omeka\Api\Representation;
+namespace Omeka\Api\Representation\Entity;
 
+use Omeka\Api\Representation\Value as ValueRepresentation;
 use Omeka\Model\Entity\Resource as ResourceEntity;
 use Omeka\Model\Entity\Value as ValueEntity;
 use Omeka\Model\Entity\Vocabulary as VocabularyEntity;
@@ -90,7 +91,9 @@ abstract class AbstractResourceEntity extends EntityRepresentation
             $term = "$prefix:$suffix";
 
             $this->addVocabularyToContext($vocabulary);
-            $this->valueObjects[$term][] = new Value($value, $this->getServiceLocator());
+            $this->valueObjects[$term][] = new ValueRepresentation(
+                $value, $this->getServiceLocator()
+            );
         }
     }
 

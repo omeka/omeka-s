@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Representation;
+namespace Omeka\Api\Representation\Entity;
 
 class Item extends AbstractResourceEntity
 {

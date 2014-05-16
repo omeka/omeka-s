@@ -1,5 +1,7 @@
 <?php
-namespace Omeka\Api\Representation;
+namespace Omeka\Api\Representation\Entity;
+
+use Omeka\Api\Representation\ResourceRepresentation;
 
 class EntityRepresentation extends ResourceRepresentation
 {

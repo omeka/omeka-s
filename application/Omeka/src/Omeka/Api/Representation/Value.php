@@ -25,7 +25,7 @@ class Value extends NonResourceRepresentation
             $valueResourceAdapter = $this->getServiceLocator()
                 ->get('Omeka\ApiAdapterManager')
                 ->get($valueResource->getResourceName());
-            return $valueResourceAdapter->extract($valueResource);
+            return $valueResourceAdapter->extract($valueResource)->toArray();
         }
         return $this->jsonSerialize();
     }

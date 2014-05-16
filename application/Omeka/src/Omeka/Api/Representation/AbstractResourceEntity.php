@@ -15,7 +15,7 @@ abstract class AbstractResourceEntity extends EntityRepresentation
     /**
      * @var array
      */
-    protected $contextObject = array('@context' => array());
+    protected $contextObject = array();
 
     /**
      * Get all JSON-LD value objects of this resource.
@@ -107,10 +107,10 @@ abstract class AbstractResourceEntity extends EntityRepresentation
     protected function addVocabularyToContext(VocabularyEntity $vocabulary)
     {
         $prefix = $vocabulary->getPrefix();
-        if (array_key_exists($prefix, $this->contextObject['@context'])) {
+        if (array_key_exists($prefix, $this->contextObject)) {
             return;
         }
-        $this->contextObject['@context'][$prefix] = array(
+        $this->contextObject[$prefix] = array(
             '@id' => $vocabulary->getNamespaceUri(),
             'vocabulary_id' => $vocabulary->getId(),
             'vocabulary_label' => $vocabulary->getLabel(),
@@ -127,10 +127,7 @@ abstract class AbstractResourceEntity extends EntityRepresentation
     protected function getRepresentation(ResourceEntity $resource, array $representation)
     {
         $valueObjects = $this->getValueObjects();
-        return array_merge(
-            $this->getContextObject(),
-            $representation,
-            $valueObjects
-        );
+        $contextObject = array('@context' => $this->getContextObject());
+        return array_merge($contextObject, $representation, $valueObjects);
     }
 }

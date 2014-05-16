@@ -2,8 +2,8 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\Reference\Entity as EntityReference;
-use Omeka\Api\Representation\Reference\Reference;
+use Omeka\Api\Representation\EntityRepresentation;
+use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
@@ -155,10 +155,14 @@ abstract class AbstractAdapter implements AdapterInterface
 
         if ($data instanceof EntityInterface) {
             // An entity reference
-            return new EntityReference($resourceName, $data, $this->getServiceLocator());
+            return new EntityRepresentation(
+                $resourceName, $data, $this->getServiceLocator()
+            );
         } else {
             // A generic reference
-            return new Reference($resourceName, $data, $this->getServiceLocator());
+            return new ResourceRepresentation(
+                $resourceName, $data, $this->getServiceLocator()
+            );
         }
     }
 

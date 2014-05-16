@@ -9,11 +9,6 @@ abstract class AbstractRepresentation implements
     ServiceLocatorAwareInterface
 {
     /**
-     * @var string
-     */
-    private $resourceName;
-
-    /**
      * @var mixed
      */
     private $data;
@@ -24,38 +19,15 @@ abstract class AbstractRepresentation implements
     private $services;
 
     /**
-     * Construct the representation object.
+     * Return the data as the representation array.
      *
-     * @param string $resourceName The name of the represented resource
-     * @param mixed $data The data from which to derive the representation
-     * @param ServiceLocatorInterface $serviceLocator
-     */
-    public function __construct($resourceName, $data,
-        ServiceLocatorInterface $serviceLocator
-    ) {
-        $this->setResourceName($resourceName);
-        $this->setData($data);
-        $this->setServiceLocator($serviceLocator);
-    }
-
-    /**
-     * Set the resource name.
+     * Override this method if the data needs to be transformed.
      *
-     * @param $resourceName
+     * @return mixed
      */
-    public function setResourceName($resourceName)
+    public function toArray()
     {
-        $this->resourceName = $resourceName;
-    }
-
-    /**
-     * Get the resource name.
-     *
-     * @return string
-     */
-    public function getResourceName()
-    {
-        return $this->resourceName;
+        return $this->data;
     }
 
     /**

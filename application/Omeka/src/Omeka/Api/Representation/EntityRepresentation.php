@@ -1,9 +1,7 @@
 <?php
-namespace Omeka\Api\Representation\Reference;
+namespace Omeka\Api\Representation;
 
-use Omeka\Api\Representation\AbstractRepresentation;
-
-class Entity extends Reference
+class EntityRepresentation extends ResourceRepresentation
 {
     /**
      * {@inheritDoc}

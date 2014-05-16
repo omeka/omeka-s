@@ -1,10 +1,11 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Model\Entity\Resource;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Model\Entity\Resource as ResourceEntity;
+use Omeka\Model\Entity\Value as ValueEntity;
+use Omeka\Model\Entity\Vocabulary as VocabularyEntity;
 
-abstract class AbstractResource extends AbstractRepresentation
+abstract class AbstractResourceEntity extends EntityRepresentation
 {
     /**
      * @var array
@@ -23,13 +24,14 @@ abstract class AbstractResource extends AbstractRepresentation
      */
     public function getValueObjects()
     {
+        if (empty($this->valueObjects)) {
+            $this->setValueObjects();
+        }
         return $this->valueObjects;
     }
 
     /**
      * Set all JSON-LD value objects of this resource.
-     *
-     * @param Resource $resource
      */
     protected function setValueObjects()
     {
@@ -41,7 +43,7 @@ abstract class AbstractResource extends AbstractRepresentation
             $suffix = $property->getLocalName();
             $term = "$prefix:$suffix";
 
-            $this->addContext($vocabulary);
+            $this->addVocabularyToContext($vocabulary);
             $this->valueObjects[$term][] = new Value($value, $this->getServiceLocator());
         }
     }
@@ -54,9 +56,9 @@ abstract class AbstractResource extends AbstractRepresentation
     /**
      * Add a vocabulary term definition to the JSON-LD context object.
      *
-     * @param Vocabulary $vocabulary
+     * @param VocabularyEntity $vocabulary
      */
-    protected function addContext(Vocabulary $vocabulary)
+    protected function addVocabularyToContext(VocabularyEntity $vocabulary)
     {
         $prefix = $vocabulary->getPrefix();
         if (array_key_exists($prefix, $this->contextObject['@context'])) {
@@ -72,17 +74,17 @@ abstract class AbstractResource extends AbstractRepresentation
     /**
      * Get the merged JSON-LD representation of this resource.
      *
-     * @param Resource $resource The resource entity
+     * @param ResourceEntity $resource The resource entity
      * @param array $representation Data specific to this resource
      * @return array
      */
-    protected function getRepresentation(Resource $resource, array $representation)
+    protected function getRepresentation(ResourceEntity $resource, array $representation)
     {
-        $this->setValueObjects();
+        $valueObjects = $this->getValueObjects();
         return array_merge(
             $this->getContextObject(),
             $representation,
-            $this->getValueObjects()
+            $valueObjects
         );
     }
 }

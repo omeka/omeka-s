@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
-class Item extends AbstractResource
+class Item extends AbstractResourceEntity
 {
     public function toArray()
     {

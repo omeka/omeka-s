@@ -31,6 +31,52 @@ abstract class AbstractResourceEntity extends EntityRepresentation
     }
 
     /**
+     * Get the requested array representation of the value or values.
+     *
+     * @param string $term The vocabulary prefix and property local_name in the
+     * form: "prefix:local_name"
+     * @param array $options
+     *   - type: (default: "literal") the type of value
+     *   - default: (default: null) the default value if the value is not found
+     *   - all: (default: false) if true, return all values
+     * @return mixed
+     */
+    public function getValue($term, array $options = array())
+    {
+        if (!isset($options['type'])) {
+            $options['type'] = ValueEntity::TYPE_LITERAL;
+        }
+        if (!isset($options['default'])) {
+            $options['default'] = null;
+        }
+        if (!isset($options['all'])) {
+            $options['all'] = false;
+        }
+
+        $valueObjects = $this->getValueObjects();
+        if (!array_key_exists($term, $valueObjects)) {
+            return $options['default'];
+        }
+
+        $values = array();
+        foreach ($valueObjects[$term] as $valueObject) {
+            $value = $valueObject->toArray();
+            $valueType = $valueObject->getValueType();
+            if ($options['type'] == $valueType) {
+                $values[] = $value;
+            }
+            if (!$options['all']) {
+                break;
+            }
+        }
+
+        if (!$options['all'] && !empty($values)) {
+            $values = $values[0];
+        }
+        return $values;
+    }
+
+    /**
      * Set all JSON-LD value objects of this resource.
      */
     protected function setValueObjects()

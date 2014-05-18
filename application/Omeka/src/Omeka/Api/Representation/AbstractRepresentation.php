@@ -19,18 +19,6 @@ abstract class AbstractRepresentation implements
     private $services;
 
     /**
-     * Return the data as the representation array.
-     *
-     * Override this method if the data needs to be transformed.
-     *
-     * @return mixed
-     */
-    public function toArray()
-    {
-        return $this->data;
-    }
-
-    /**
      * Validate and set the data.
      *
      * @param mixed $data
@@ -42,10 +30,22 @@ abstract class AbstractRepresentation implements
     }
 
     /**
+     * Return the data as the array.
+     *
+     * Override this method if the data needs to be transformed.
+     *
+     * @return mixed
+     */
+    public function toArray()
+    {
+        return $this->data;
+    }
+
+    /**
      * Get the data.
      *
-     * Note that, to ensure encapsulation, the data is not externally
-     * accessable.
+     * Note that, to ensure encapsulation and prevent unwanted modifications,
+     * the data is not directly accessable outside this scope.
      *
      * @return mixed
      */
@@ -55,7 +55,7 @@ abstract class AbstractRepresentation implements
     }
 
     /**
-     * Validate the passed data.
+     * Validate the data.
      *
      * When the data needs to be validated, override this method and throw an
      * exception when the data is invalid for the representation.

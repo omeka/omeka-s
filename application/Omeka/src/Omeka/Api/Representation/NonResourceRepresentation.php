@@ -18,6 +18,8 @@ class NonResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Serialize as a simple JSON-LD object.
+     *
      * {@inheritDoc}
      */
     public function jsonSerialize()

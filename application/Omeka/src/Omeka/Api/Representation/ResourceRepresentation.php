@@ -26,6 +26,11 @@ class ResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Serialize as a simple JSON-LD object.
+     *
+     * Typically used for simple representations such as references. Override
+     * this method to compose a more complex JSON-LD object.
+     *
      * {@inheritDoc}
      */
     public function jsonSerialize()

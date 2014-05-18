@@ -6,16 +6,6 @@ use Omeka\model\Entity\Value as ValueEntity;
 class Value extends NonResourceRepresentation
 {
     /**
-     * Get the value type.
-     *
-     * @return string
-     */
-    public function getValueType()
-    {
-        return $this->getData()->getType();
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function toArray()
@@ -68,5 +58,15 @@ class Value extends NonResourceRepresentation
         $valueObject['property_label'] = $value->getProperty()->getLabel();
 
         return $valueObject;
+    }
+
+    /**
+     * Get the value type.
+     *
+     * @return string
+     */
+    public function getValueType()
+    {
+        return $this->getData()->getType();
     }
 }

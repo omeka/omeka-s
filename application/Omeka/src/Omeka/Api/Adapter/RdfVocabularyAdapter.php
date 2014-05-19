@@ -43,6 +43,14 @@ class RdfVocabularyAdapter extends AbstractAdapter
     );
 
     /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'rdf_vocabulary';
+    }
+
+    /**
      * Extract members (classes and properties) of the RDF vocabulary.
      *
      * Available keys:

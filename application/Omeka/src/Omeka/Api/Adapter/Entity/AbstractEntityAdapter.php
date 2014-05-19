@@ -72,12 +72,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Finish building the search query and get the results.
         $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
-        $entities = array();
+        $representations = array();
         foreach ($qb->getQuery()->iterate() as $row) {
-            $entities[] = $this->extract($row[0]);
+            $representations[] = $this->getRepresentation($row[0]->getId(), $row[0]);
         }
 
-        $response = new Response($entities);
+        $response = new Response($representations);
         $response->setTotalResults($totalResults);
         return $response;
     }
@@ -336,16 +336,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             );
         }
 
-        $config = $this->getServiceLocator()->get('Config');
-        $resourceName = array_search(
-            get_called_class(),
-            $config['api_adapters']['invokables']
-        );
-
         $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
         return $url(
             'api/default',
-            array('resource' => $resourceName, 'id' => $data->getId()),
+            array('resource' => $this->getResourceName(), 'id' => $data->getId()),
             array('force_canonical' => true)
         );
     }

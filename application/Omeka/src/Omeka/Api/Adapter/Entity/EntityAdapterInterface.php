@@ -11,7 +11,7 @@ use Omeka\Model\Entity\EntityInterface;
 interface EntityAdapterInterface
 {
     /**
-     * Get the fully qualified class name of the entity.
+     * Get the fully qualified name of the entity class.
      *
      * @return string
      */

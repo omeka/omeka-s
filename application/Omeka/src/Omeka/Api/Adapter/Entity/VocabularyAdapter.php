@@ -8,11 +8,25 @@ use Omeka\Validator\Db\IsUnique;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'vocabularies';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Vocabulary';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -35,6 +49,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function extract($entity)
     {
         return array(
@@ -48,6 +65,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner']['id'])) {
@@ -62,6 +82,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

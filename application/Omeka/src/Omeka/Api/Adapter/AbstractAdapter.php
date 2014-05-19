@@ -113,57 +113,25 @@ abstract class AbstractAdapter implements AdapterInterface
      * {@inheritDoc}
      */
     public function getApiUrl($data)
-    {
-        return null;
-    }
+    {}
 
     /**
      * {@inheritDoc}
      */
     public function getWebUrl($data)
-    {
-        return null;
-    }
+    {}
 
     /**
-     * Get an adapter from the API adapter manager.
+     * Compose a resource representation object.
      *
-     * @param string $resourceName
-     * @return AdapterInterface
-     */
-    public function getAdapter($resourceName)
-    {
-        return $this->getServiceLocator()
-            ->get('Omeka\ApiAdapterManager')
-            ->get($resourceName);
-    }
-
-
-    /**
-     * Get a reference representation.
-     *
-     * @param string $resourceName The name of the referenced API resource
-     * @param mixed $data The data from which to derive the reference
+     * @param string|int $id The unique identifier of the resource
+     * @param mixed $data Whatever data is needed to compose the representation.
+     * @param string $representationClass The 
      * @return RepresentationInterface
      */
-    public function getReference($resourceName, $data)
-    {
-        // Do not attempt to compose a null reference.
-        if (null === $data) {
-            return null;
-        }
-
-        if ($data instanceof EntityInterface) {
-            // An entity reference
-            return new EntityRepresentation(
-                $resourceName, $data, $this->getServiceLocator()
-            );
-        } else {
-            // A generic reference
-            return new ResourceRepresentation(
-                $resourceName, $data, $this->getServiceLocator()
-            );
-        }
+    public function getRepresentation($id, $data) {
+        $representationClass = $this->getRepresentationClass();
+        return new $representationClass($id, $data, $this);
     }
 
     /**

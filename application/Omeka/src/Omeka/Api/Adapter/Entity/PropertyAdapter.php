@@ -8,11 +8,25 @@ use Omeka\Validator\Db\IsUnique;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'properties';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Property';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -39,6 +53,9 @@ class PropertyAdapter extends AbstractEntityAdapter
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function extract($entity)
     {
         return array(
@@ -52,6 +69,9 @@ class PropertyAdapter extends AbstractEntityAdapter
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner']['id'])) {
@@ -71,6 +91,9 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

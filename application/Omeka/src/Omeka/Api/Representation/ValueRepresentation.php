@@ -1,17 +1,38 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\model\Entity\Value as ValueEntity;
+use Omeka\Model\Entity\Value as ValueEntity;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Value extends NonResourceRepresentation
+class ValueRepresentation implements RepresentationInterface
 {
+    /**
+     * Construct the value representation object.
+     *
+     * @param mixed $data The data from which to derive the representation
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function __construct($data, ServiceLocatorInterface $serviceLocator)
+    {
+        $this->setData($data);
+        $this->setServiceLocator($serviceLocator);
+    }
+
     /**
      * {@inheritDoc}
      */
-    public function toArray()
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getData()
     {
         if (ValueEntity::TYPE_RESOURCE == $this->getValueType()) {
-            $valueResource = $this->getData()->getValueResource();
+            $valueResource = $this->data->getValueResource();
             $valueResourceAdapter = $this->getServiceLocator()
                 ->get('Omeka\ApiAdapterManager')
                 ->get($valueResource->getResourceName());
@@ -27,14 +48,16 @@ class Value extends NonResourceRepresentation
      */
     public function jsonSerialize()
     {
-        $value = $this->getData();
+        $value = $this->data;
         $valueObject = array();
 
         switch ($this->getValueType()) {
 
             case ValueEntity::TYPE_RESOURCE:
                 $valueResource = $value->getValueResource();
-                $valueResourceAdapter = $this->getAdapter($valueResource->getResourceName());
+                $valueResourceAdapter = $this->getServiceLocator()
+                    ->get('Omeka\ApiAdapterManager')
+                    ->get($valueResource->getResourceName());
                 $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
                 $valueObject['value_resource_id'] = $valueResource->getId();
                 break;
@@ -67,6 +90,22 @@ class Value extends NonResourceRepresentation
      */
     public function getValueType()
     {
-        return $this->getData()->getType();
+        return $this->data->getType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->services = $serviceLocator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceLocator()
+    {
+        return $this->services;
     }
 }

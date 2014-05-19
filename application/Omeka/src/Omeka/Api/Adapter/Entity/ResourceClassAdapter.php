@@ -8,11 +8,25 @@ use Omeka\Validator\Db\IsUnique;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'resource_classes';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\ResourceClass';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -38,6 +52,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function extract($entity)
     {
         return array(
@@ -51,6 +68,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner']['id'])) {
@@ -67,6 +87,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

@@ -10,7 +10,6 @@ return array(
             'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             'rdf_vocabulary'   => 'Omeka\Api\Adapter\RdfVocabularyAdapter',
             'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
-            'options'          => 'Omeka\Api\Adapter\OptionAdapter',
         ),
     ),
     'service_manager' => array(

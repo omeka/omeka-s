@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
-use Omeka\Api\Representation\ResourceRepresentation;
+use Omeka\Api\Representation\AbstractRepresentation;
 
-class EntityRepresentation extends ResourceRepresentation
+class Representation extends AbstractRepresentation
 {
     /**
      * {@inheritDoc}
      */
-    public function toArray()
+    public function getData()
     {
         $adapter = $this->getAdapter($this->getResourceName());
         return $adapter->extract($this->getData())->toArray();

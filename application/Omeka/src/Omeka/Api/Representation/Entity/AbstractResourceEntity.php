@@ -1,12 +1,13 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
-use Omeka\Api\Representation\Value as ValueRepresentation;
+use Omeka\Api\Representation\AbstractRepresentation;
+use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Model\Entity\Resource as ResourceEntity;
 use Omeka\Model\Entity\Value as ValueEntity;
 use Omeka\Model\Entity\Vocabulary as VocabularyEntity;
 
-abstract class AbstractResourceEntity extends EntityRepresentation
+abstract class AbstractResourceEntity extends AbstractRepresentation
 {
     /**
      * @var array
@@ -82,7 +83,7 @@ abstract class AbstractResourceEntity extends EntityRepresentation
      */
     protected function setValueObjects()
     {
-        foreach ($this->getData()->getValues() as $value) {
+        foreach ($this->data->getValues() as $value) {
             $property = $value->getProperty();
             $vocabulary = $property->getVocabulary();
 

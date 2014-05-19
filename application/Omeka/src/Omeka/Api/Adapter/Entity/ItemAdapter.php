@@ -2,18 +2,39 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Representation\Entity\Item as ItemRepresentation;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'items';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\ItemRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Item';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -32,6 +53,9 @@ class ItemAdapter extends AbstractEntityAdapter
         $valueHydrator->hydrate($data, $entity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function extract($entity)
     {
         return new ItemRepresentation(
@@ -39,10 +63,16 @@ class ItemAdapter extends AbstractEntityAdapter
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {}

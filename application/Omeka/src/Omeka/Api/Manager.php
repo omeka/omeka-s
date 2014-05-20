@@ -307,6 +307,7 @@ class Manager implements ServiceLocatorAwareInterface
                     return false;
                 }
             }
+            return true;
         }
         return false;
     }

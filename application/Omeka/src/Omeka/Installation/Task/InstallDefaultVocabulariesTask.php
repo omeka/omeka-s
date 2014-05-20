@@ -76,16 +76,19 @@ class InstallDefaultVocabulariesTask extends AbstractTask
      */
     public function perform()
     {
-        $manager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $rdfImporter = $this->getServiceLocator()->get('Omeka\RdfImporter');
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+
         foreach ($this->vocabularies as $vocabulary) {
-            $request = new Request(Request::CREATE, 'rdf_vocabulary');
-            $request->setContent($vocabulary);
-            $response = $manager->execute($request);
-            if ($response->isError()) {
-                $this->addErrorStore($response->getErrorStore());
-                return;
-            }
-            $this->getServiceLocator()->get('Omeka\EntityManager')->clear();
+            $rdfImporter->import(
+                $vocabulary['strategy'],
+                $vocabulary['vocabulary'],
+                array(
+                    'file' => $vocabulary['file'],
+                    'format' => $vocabulary['format'],
+                )
+            );
+            $entityManager->clear();
             $this->addInfo(sprintf(
                 $this->getTranslator()->translate('Successfully installed "%s"'),
                 $vocabulary['vocabulary']['label']

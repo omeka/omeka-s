@@ -11,8 +11,10 @@ class CreateFirstUserTask extends AbstractTask
      */
     public function perform()
     {
-        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $response = $api->create('users', array(
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+
+        $response = $apiManager->create('users', array(
             'role'     => 'global_admin',
             'username' => $this->getVar('username'),
             'name'     => $this->getVar('name'),
@@ -22,12 +24,12 @@ class CreateFirstUserTask extends AbstractTask
             $this->addErrorStore($response->getErrorStore());
             return;
         }
+
         // Set the password.
-        $user = $response->getContent();
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $userEntity = $em->find('Omeka\Model\Entity\User', $user['id']);
+        $user = $response->getContent()->extract();
+        $userEntity = $entityManager->find('Omeka\Model\Entity\User', $user['id']);
         $userEntity->setPassword($this->getVar('password'));
-        $em->flush();
+        $entityManager->flush();
     }
 
     /**

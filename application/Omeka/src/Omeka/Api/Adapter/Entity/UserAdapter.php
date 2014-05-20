@@ -20,6 +20,14 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\UserRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\User';
@@ -45,22 +53,6 @@ class UserAdapter extends AbstractEntityAdapter
         if (isset($data['role'])) {
             $entity->setRole($data['role']);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extract($entity)
-    {
-        return array(
-            '@id'      => $this->getApiUrl($entity),
-            'id'       => $entity->getId(),
-            'username' => $entity->getUsername(),
-            'name'     => $entity->getName(),
-            'email'    => $entity->getEmail(),
-            'created'  => $this->getDateTime($entity->getCreated()),
-            'role'     => $entity->getRole(),
-        );
     }
 
     /**

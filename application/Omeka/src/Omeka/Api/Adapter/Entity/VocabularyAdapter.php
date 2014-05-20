@@ -19,6 +19,14 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\VocabularyRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Vocabulary';
@@ -47,22 +55,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extract($entity)
-    {
-        return array(
-            '@id'           => $this->getApiUrl($entity),
-            'id'            => $entity->getId(),
-            'namespace_uri' => $entity->getNamespaceUri(),
-            'prefix'        => $entity->getPrefix(),
-            'label'         => $entity->getLabel(),
-            'comment'       => $entity->getComment(),
-            'owner'         => $this->getReference('users', $entity->getOwner()),
-        );
     }
 
     /**

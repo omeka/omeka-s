@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Stdlib\DateTime;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 abstract class AbstractRepresentation implements RepresentationInterface
@@ -93,6 +94,17 @@ abstract class AbstractRepresentation implements RepresentationInterface
         }
 
         return new $representationClass($id, $data, $adapter);
+    }
+
+    /**
+     * Get a JSON serializable instance of DateTime.
+     *
+     * @param \DateTime $dateTime
+     * @return DateTime
+     */
+    public function getDateTime(\DateTime $dateTime)
+    {
+        return new DateTime($dateTime);
     }
 
     /**

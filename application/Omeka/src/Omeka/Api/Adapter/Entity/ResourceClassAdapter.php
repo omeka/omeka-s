@@ -19,6 +19,14 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\ResourceClassRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\ResourceClass';
@@ -50,22 +58,6 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extract($entity)
-    {
-        return array(
-            '@id'        => $this->getApiUrl($entity),
-            'id'         => $entity->getId(),
-            'local_name' => $entity->getLocalName(),
-            'label'      => $entity->getLabel(),
-            'comment'    => $entity->getComment(),
-            'vocabulary' => $this->getReference('vocabularies', $entity->getVocabulary()),
-            'owner' => $this->getReference('users', $entity->getOwner()),
-        );
     }
 
     /**

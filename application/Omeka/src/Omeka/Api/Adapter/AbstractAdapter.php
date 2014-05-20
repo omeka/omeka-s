@@ -6,7 +6,6 @@ use Omeka\Api\Representation\Entity\EntityRepresentation;
 use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
-use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -131,17 +130,6 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getRepresentation($id, $data) {
         $representationClass = $this->getRepresentationClass();
         return new $representationClass($id, $data, $this);
-    }
-
-    /**
-     * Get a JSON serializable instance of DateTime.
-     *
-     * @param \DateTime $dateTime
-     * @return DateTime
-     */
-    public function getDateTime(\DateTime $dateTime)
-    {
-        return new DateTime($dateTime);
     }
 
     /**

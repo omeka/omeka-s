@@ -12,6 +12,11 @@ class Migration extends AbstractEntity
      */
     protected $version;
 
+    public function getId()
+    {
+        return $this->version;
+    }
+
     public function getVersion()
     {
         return $this->version;

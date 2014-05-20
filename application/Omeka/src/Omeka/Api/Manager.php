@@ -3,6 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -208,15 +209,33 @@ class Manager implements ServiceLocatorAwareInterface
             // Validate the response.
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" resource adapter did not return an Omeka\Api\Response object.'),
+                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));
             }
             if (!$response->isValidStatus($response->getStatus())) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The API does not support the "%1$s" response status.'),
-                    $response->getStatus()
+                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response status.'),
+                    $request->getOperation(),
+                    $request->getResource()
+                ));
+            }
+            if (is_array($response->getContent())) {
+                foreach ($response->getContent() as $representation) {
+                    if (!$representation instanceof RepresentationInterface) {
+                        throw new Exception\BadResponseException(sprintf(
+                            $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
+                            $request->getOperation(),
+                            $request->getResource()
+                        ));
+                    }
+                }
+            } elseif (!$response->getContent() instanceof RepresentationInterface) {
+                throw new Exception\BadResponseException(sprintf(
+                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
+                    $request->getOperation(),
+                    $request->getResource()
                 ));
             }
 

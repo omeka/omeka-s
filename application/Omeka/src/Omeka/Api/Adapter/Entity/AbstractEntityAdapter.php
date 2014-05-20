@@ -19,17 +19,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * Abstract entity API adapter.
  */
 abstract class AbstractEntityAdapter extends AbstractAdapter implements
-    EntityAdapterInterface,
-    HydratorInterface
+    EntityAdapterInterface
 {
-    /**
-     * Extract properties from an entity.
-     *
-     * @param EntityInterface $entity
-     * @return array
-     */
-    abstract public function extract($entity);
-
     /**
      * Hydrate an entity with the provided array.
      *

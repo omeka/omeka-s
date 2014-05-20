@@ -7,19 +7,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractRepresentation implements RepresentationInterface
 {
     /**
-     * @var string|int
-     */
-    protected $id;
-
-    /**
      * @var mixed
      */
     protected $data;
-
-    /**
-     * @var AdapterInterface
-     */
-    protected $adapter;
 
     /**
      * @var ServiceLocatorInterface
@@ -27,38 +17,11 @@ abstract class AbstractRepresentation implements RepresentationInterface
     protected $services;
 
     /**
-     * Construct the resource representation object.
+     * Serialize the data to a JSON-LD compatible format.
      *
-     * @param string|int $id The unique identifier of this resource
-     * @param mixed $data The data from which to derive a representation
-     * @param ServiceLocatorInterface $adapter The corresponsing adapter
+     * @return array
      */
-    public function __construct($id, $data, AdapterInterface $adapter) {
-        $this->setId($id);
-        $this->setData($data);
-        $this->setAdapter($adapter);
-        $this->setServiceLocator($adapter->getServiceLocator());
-    }
-
-    /**
-     * Set the unique resource identifier.
-     *
-     * @param $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * Get the unique resource identifier.
-     *
-     * @return string|int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    abstract public function jsonSerialize();
 
     /**
      * {@inheritDoc}
@@ -67,6 +30,19 @@ abstract class AbstractRepresentation implements RepresentationInterface
     {
         $this->validateData($data);
         $this->data = $data;
+    }
+
+    /**
+     * Get the data.
+     *
+     * To ensure encapsulation and prevent unwanted modifications, the data is
+     * not directly accessible outside this scope.
+     *
+     * @return mixed
+     */
+    protected function getData()
+    {
+        return $this->data;
     }
 
     /**
@@ -81,40 +57,27 @@ abstract class AbstractRepresentation implements RepresentationInterface
     {}
 
     /**
-     * Set the corresponding adapter.
+     * Get an adapter by resource name.
      *
-     * @param AdapterInterface $adapter
-     */
-    public function setAdapter(AdapterInterface $adapter)
-    {
-        $this->adapter = $adapter;
-    }
-
-    /**
-     * Get the corresponding adapter or another adapter by resource name.
-     *
-     * @param null|string $resourceName
+     * @param string $resourceName
      * @return AdapterInterface
      */
-    public function getAdapter($resourceName = null)
+    public function getAdapter($resourceName)
     {
-        if (is_string($resourceName)) {
-            return $this->getServiceLocator()
-                ->get('Omeka\ApiAdapterManager')
-                ->get($resourceName);
-        }
-        return $this->adapter;
+        return $this->getServiceLocator()
+            ->get('Omeka\ApiAdapterManager')
+            ->get($resourceName);
     }
 
     /**
      * Get a reference representation.
      *
-     * @param string $resourceName The name of the referenced API resource
      * @param string|int $id The unique identifier of the referenced resource
      * @param mixed $data The data from which to derive the reference
+     * @param AdapterInterface $adapter The corresponding API adapter
      * @return RepresentationInterface
      */
-    public function getReference($id, $data, $adapter)
+    public function getReference($id, $data, AdapterInterface $adapter)
     {
         // Do not attempt to compose a null reference.
         if (null === $data) {

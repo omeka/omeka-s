@@ -26,12 +26,13 @@ interface RepresentationInterface extends
     public function setData($data);
 
     /**
-     * Get the data.
+     * Extract the data to a safe format.
      *
-     * To ensure encapsulation and prevent unwanted modifications, consider
-     * overriding this method and transforming the data to a safe format.
+     * To ensure encapsulation and prevent unwanted modifications, use this
+     * method to transform the data to a safe, passable format, typically an
+     * array.
      *
      * @return mixed
      */
-    public function getData();
+    public function extract();
 }

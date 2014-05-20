@@ -4,12 +4,12 @@ namespace Omeka\Api\Representation;
 use Omeka\Model\Entity\Value as ValueEntity;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ValueRepresentation implements RepresentationInterface
+class ValueRepresentation extends AbstractRepresentation
 {
     /**
      * Construct the value representation object.
      *
-     * @param mixed $data The data from which to derive the representation
+     * @param mixed $data
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct($data, ServiceLocatorInterface $serviceLocator)
@@ -21,21 +21,11 @@ class ValueRepresentation implements RepresentationInterface
     /**
      * {@inheritDoc}
      */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getData()
+    public function extract()
     {
         if (ValueEntity::TYPE_RESOURCE == $this->getValueType()) {
-            $valueResource = $this->data->getValueResource();
-            $valueResourceAdapter = $this->getServiceLocator()
-                ->get('Omeka\ApiAdapterManager')
-                ->get($valueResource->getResourceName());
+            $valueResource = $this->getData()->getValueResource();
+            $valueResourceAdapter = $this->getAdapter($valueResource->getResourceName());
             return $valueResourceAdapter->extract($valueResource)->toArray();
         }
         return $this->jsonSerialize();
@@ -48,7 +38,7 @@ class ValueRepresentation implements RepresentationInterface
      */
     public function jsonSerialize()
     {
-        $value = $this->data;
+        $value = $this->getData();
         $valueObject = array();
 
         switch ($this->getValueType()) {
@@ -90,22 +80,6 @@ class ValueRepresentation implements RepresentationInterface
      */
     public function getValueType()
     {
-        return $this->data->getType();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
+        return $this->getData()->getType();
     }
 }

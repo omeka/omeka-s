@@ -56,19 +56,8 @@ class ItemAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function extract($entity)
-    {
-        return new ItemRepresentation(
-            'items', $entity, $this->getServiceLocator()
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function buildQuery(array $query, QueryBuilder $qb)
-    {
-    }
+    {}
 
     /**
      * {@inheritDoc}

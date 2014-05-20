@@ -221,17 +221,7 @@ class Manager implements ServiceLocatorAwareInterface
                     $request->getResource()
                 ));
             }
-            if (is_array($response->getContent())) {
-                foreach ($response->getContent() as $representation) {
-                    if (!$representation instanceof RepresentationInterface) {
-                        throw new Exception\BadResponseException(sprintf(
-                            $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
-                            $request->getOperation(),
-                            $request->getResource()
-                        ));
-                    }
-                }
-            } elseif (!$response->getContent() instanceof RepresentationInterface) {
+            if (!$this->isValidResponseContent($response)) {
                 throw new Exception\BadResponseException(sprintf(
                     $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
                     $request->getOperation(),
@@ -294,6 +284,31 @@ class Manager implements ServiceLocatorAwareInterface
 
         $response->setRequest($request);
         return $response;
+    }
+
+    /**
+     * Check whether the response content is valid.
+     *
+     * A valid response content is a representation object or an array
+     * containing representation objects.
+     *
+     * @param Response $response
+     * @return bool
+     */
+    protected function isValidResponseContent(Response $response)
+    {
+        $content = $response->getContent();
+        if ($content instanceof RepresentationInterface) {
+            return true;
+        }
+        if (is_array($content)) {
+            foreach ($content as $representation) {
+                if (!$representation instanceof RepresentationInterface) {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /**

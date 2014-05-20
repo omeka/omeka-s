@@ -115,7 +115,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Refresh the entity on the chance that it contains associations that
         // have not been loaded.
         $this->getEntityManager()->refresh($entity);
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -127,7 +128,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $response = new Response;
 
         $entities = array();
-        $entityRepresentations = array();
+        $representations = array();
         foreach ($request->getContent() as $datum) {
 
             $entityClass = $this->getEntityClass();
@@ -162,7 +163,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
             $this->getEntityManager()->persist($entity);
             $entities[] = $entity;
-            $entityRepresentations[] = $this->extract($entity);
+            $representations[] = $this->getRepresentation($entity->getId(), $entity);
         }
 
         if ($response->isError()) {
@@ -174,7 +175,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         $this->getEntityManager()->flush();
-        $response->setContent($entityRepresentations);
+        $response->setContent($representations);
         return $response;
     }
 
@@ -215,7 +216,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ));
         $this->getEventManager()->trigger($event);
 
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -267,7 +269,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             throw $validationException;
         }
         $this->getEntityManager()->flush();
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -310,7 +313,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 

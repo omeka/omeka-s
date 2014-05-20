@@ -68,7 +68,7 @@ class Representation extends AbstractRepresentation
     public function getAdapter($resourceName = null)
     {
         if (is_string($resourceName)) {
-            return parent::getAdapter();
+            return parent::getAdapter($resourceName);
         }
         return $this->adapter;
     }

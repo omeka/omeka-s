@@ -18,11 +18,9 @@ class VocabularyRepresentation extends AbstractResourceEntity
             'prefix'        => $entity->getPrefix(),
             'label'         => $entity->getLabel(),
             'comment'       => $entity->getComment(),
-            //~ 'owner'      => $this->getReference(
-                //~ $entity->getOwner()->getId(),
-                //~ $entity->getOwner(),
-                //~ $this->getAdapter('users')
-            //~ ),
+            'owner'      => $this->getReference(
+                null, $entity->getOwner(), $this->getAdapter('users')
+            ),
         );
     }
 }

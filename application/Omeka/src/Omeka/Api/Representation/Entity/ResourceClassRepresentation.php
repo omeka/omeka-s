@@ -17,16 +17,12 @@ class ResourceClassRepresentation extends AbstractResourceEntity
             'local_name' => $entity->getLocalName(),
             'label'      => $entity->getLabel(),
             'comment'    => $entity->getComment(),
-            //~ 'vocabulary' => $this->getReference(
-                //~ $entity->getVocabulary()->getId(),
-                //~ $entity->getVocabulary(),
-                //~ $this->getAdapter('vocabularies')
-            //~ ),
-            //~ 'owner'      => $this->getReference(
-                //~ $entity->getOwner()->getId(),
-                //~ $entity->getOwner(),
-                //~ $this->getAdapter('users')
-            //~ ),
+            'vocabulary' => $this->getReference(
+                null, $entity->getVocabulary(), $this->getAdapter('vocabularies')
+            ),
+            'owner'      => $this->getReference(
+                null, $entity->getOwner(), $this->getAdapter('users')
+            ),
         );
     }
 }

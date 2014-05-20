@@ -14,16 +14,12 @@ class ItemRepresentation extends AbstractResourceEntity
         $item = array(
             '@id'   => $this->getAdapter()->getApiUrl($entity),
             'id'    => $entity->getId(),
-            //~ 'owner' => $this->getReference(
-                //~ $entity->getOwner()->getId(),
-                //~ $entity->getOwner(),
-                //~ $this->getAdapter('users')
-            //~ ),
-            //~ 'resource_class' => $this->getReference(
-                //~ $entity->getResourceClass()->getId(),
-                //~ $entity->getResourceClass(),
-                //~ $this->getAdapter('resource_classes')
-            //~ ),
+            'owner' => $this->getReference(
+                null, $entity->getOwner(), $this->getAdapter('users')
+            ),
+            'resource_class' => $this->getReference(
+                null, $entity->getResourceClass(), $this->getAdapter('resource_classes')
+            ),
         );
         return $this->getRepresentation($entity, $item);
     }

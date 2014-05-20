@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -87,10 +88,11 @@ abstract class AbstractRepresentation implements RepresentationInterface
 
         if ($data instanceof EntityInterface) {
             // An entity reference
-            $representationClass = 'Omeka\Api\Represenation\Entity\Representation';
+            $id = $data->getId();
+            $representationClass = 'Omeka\Api\Representation\Entity\Representation';
         } else {
             // A generic reference
-            $representationClass = 'Omeka\Api\Represenation\Representation';
+            $representationClass = 'Omeka\Api\Representation\Representation';
         }
 
         return new $representationClass($id, $data, $adapter);

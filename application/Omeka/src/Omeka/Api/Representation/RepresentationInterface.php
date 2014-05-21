@@ -7,10 +7,10 @@ use Zend\Stdlib\JsonSerializable;
 /**
  * The representation interface
  *
- * A representation wraps around and provides a standard interface to data. It
- * has two major functions: 1) it can be serialized into a JSON-LD object,
- * typically for API consumers; and 2) it can be passed around internally as a
- * rich data object.
+ * A representation wraps around and provides a standard interface to API data.
+ * It has two major functions:
+ *   - Serialize into a JSON-LD object, typically for API consumers
+ *   - Pass around internally as a rich data object
  */
 interface RepresentationInterface extends
     JsonSerializable,
@@ -29,8 +29,7 @@ interface RepresentationInterface extends
      * Extract the data to a safe format.
      *
      * To ensure encapsulation and prevent unwanted modifications, use this
-     * method to transform the data to a safe, passable format, typically an
-     * array.
+     * method to transform the data to a safe, passable format.
      *
      * @return mixed
      */

@@ -50,7 +50,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @return string|int
      */
-    protected function getId()
+    public function getId()
     {
         return $this->id;
     }

@@ -4,14 +4,25 @@ namespace Omeka\Api\Representation;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Abstract representation.
+ *
+ * Provides functionality for all representations.
+ */
 abstract class AbstractRepresentation implements RepresentationInterface
 {
     /**
      * @var mixed
      */
     protected $data;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
 
     /**
      * @var ServiceLocatorInterface
@@ -21,11 +32,16 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Serialize the data to a JSON-LD compatible format.
      *
+     * This method is provided by the JsonSerializable interface and is
+     * implemented here for documentation purposes only.
+     *
      * @return array
      */
     abstract public function jsonSerialize();
 
     /**
+     * Validate and set the data.
+     *
      * {@inheritDoc}
      */
     public function setData($data)
@@ -89,10 +105,10 @@ abstract class AbstractRepresentation implements RepresentationInterface
         if ($data instanceof EntityInterface) {
             // An entity reference
             $id = $data->getId();
-            $representationClass = 'Omeka\Api\Representation\Entity\Representation';
+            $representationClass = 'Omeka\Api\Representation\Entity\EntityReference';
         } else {
             // A generic reference
-            $representationClass = 'Omeka\Api\Representation\Representation';
+            $representationClass = 'Omeka\Api\Representation\ResourceReference';
         }
 
         return new $representationClass($id, $data, $adapter);
@@ -107,6 +123,19 @@ abstract class AbstractRepresentation implements RepresentationInterface
     public function getDateTime(\DateTime $dateTime)
     {
         return new DateTime($dateTime);
+    }
+
+    /**
+     * Get the translator service
+     *
+     * @return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if (!$this->translator instanceof TranslatorInterface) {
+            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        }
+        return $this->translator;
     }
 
     /**

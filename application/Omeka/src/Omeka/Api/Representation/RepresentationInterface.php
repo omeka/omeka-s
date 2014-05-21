@@ -9,6 +9,7 @@ use Zend\Stdlib\JsonSerializable;
  *
  * A representation wraps around and provides a standard interface to API data.
  * It has two major functions:
+ *
  *   - Serialize into a JSON-LD object, typically for API consumers
  *   - Pass around internally as a rich data object
  */

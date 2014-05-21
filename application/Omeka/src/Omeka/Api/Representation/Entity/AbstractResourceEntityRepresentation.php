@@ -2,11 +2,16 @@
 namespace Omeka\Api\Representation\Entity;
 
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\Model\Entity\Resource as ResourceEntity;
-use Omeka\Model\Entity\Value as ValueEntity;
-use Omeka\Model\Entity\Vocabulary as VocabularyEntity;
+use Omeka\Model\Entity\Resource;
+use Omeka\Model\Entity\Value;
+use Omeka\Model\Entity\Vocabulary;
 
-abstract class AbstractResourceEntity extends Representation
+/**
+ * Abstract resource entity representation.
+ *
+ * Provides functionality for entities that extend Omeka\Model\Entity\Resource.
+ */
+abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
      * @var array
@@ -17,6 +22,20 @@ abstract class AbstractResourceEntity extends Representation
      * @var array
      */
     protected $contextObject = array();
+
+    /**
+     * @var array
+     */
+    public function validateData($data)
+    {
+        if (!$data instanceof Resource) {
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate(sprintf(
+                    'Invalid data sent to %s.', get_called_class()
+                ))
+            );
+        }
+    }
 
     /**
      * Get all JSON-LD value objects of this resource.
@@ -45,7 +64,7 @@ abstract class AbstractResourceEntity extends Representation
     public function getValue($term, array $options = array())
     {
         if (!isset($options['type'])) {
-            $options['type'] = ValueEntity::TYPE_LITERAL;
+            $options['type'] = Value::TYPE_LITERAL;
         }
         if (!isset($options['default'])) {
             $options['default'] = null;
@@ -61,7 +80,7 @@ abstract class AbstractResourceEntity extends Representation
 
         $values = array();
         foreach ($valueObjects[$term] as $valueObject) {
-            $value = $valueObject->toArray();
+            $value = $valueObject->extract();
             $valueType = $valueObject->getValueType();
             if ($options['type'] == $valueType) {
                 $values[] = $value;
@@ -105,9 +124,9 @@ abstract class AbstractResourceEntity extends Representation
     /**
      * Add a vocabulary term definition to the JSON-LD context object.
      *
-     * @param VocabularyEntity $vocabulary
+     * @param Vocabulary $vocabulary
      */
-    protected function addVocabularyToContext(VocabularyEntity $vocabulary)
+    protected function addVocabularyToContext(Vocabulary $vocabulary)
     {
         $prefix = $vocabulary->getPrefix();
         if (array_key_exists($prefix, $this->contextObject)) {
@@ -123,11 +142,11 @@ abstract class AbstractResourceEntity extends Representation
     /**
      * Get the merged JSON-LD representation of this resource.
      *
-     * @param ResourceEntity $resource The resource entity
+     * @param Resource $resource The resource entity
      * @param array $representation Data specific to this resource
      * @return array
      */
-    protected function getRepresentation(ResourceEntity $resource, array $representation)
+    protected function getRepresentation(Resource $resource, array $representation)
     {
         $valueObjects = $this->getValueObjects();
         $contextObject = array('@context' => $this->getContextObject());

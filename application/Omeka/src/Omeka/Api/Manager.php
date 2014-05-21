@@ -367,7 +367,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Get the translator service
      *
-     * return TranslatorInterface
+     * @return TranslatorInterface
      */
     public function getTranslator()
     {

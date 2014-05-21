@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Model\Entity\Value as ValueEntity;
+use Omeka\Model\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ValueRepresentation extends AbstractRepresentation
@@ -14,8 +14,23 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __construct($data, ServiceLocatorInterface $serviceLocator)
     {
-        $this->setData($data);
+        // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
+        $this->setData($data);
+    }
+
+    /**
+     * @var array
+     */
+    public function validateData($data)
+    {
+        if (!$data instanceof Value) {
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate(sprintf(
+                    'Invalid data sent to %s.', get_called_class()
+                ))
+            );
+        }
     }
 
     /**
@@ -23,10 +38,14 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function extract()
     {
-        if (ValueEntity::TYPE_RESOURCE == $this->getValueType()) {
+        if (Value::TYPE_RESOURCE == $this->getValueType()) {
             $valueResource = $this->getData()->getValueResource();
-            $valueResourceAdapter = $this->getAdapter($valueResource->getResourceName());
-            return $valueResourceAdapter->extract($valueResource)->toArray();
+            $valueResourceAdapter = $this->getAdapter(
+                $valueResource->getResourceName()
+            );
+            return $valueResourceAdapter->getRepresentation(
+                $valueResource->getId(), $valueResource
+            )->extract();
         }
         return $this->jsonSerialize();
     }
@@ -43,20 +62,20 @@ class ValueRepresentation extends AbstractRepresentation
 
         switch ($this->getValueType()) {
 
-            case ValueEntity::TYPE_RESOURCE:
-                $valueResource = $value->getValueResource();
-                $valueResourceAdapter = $this->getServiceLocator()
-                    ->get('Omeka\ApiAdapterManager')
-                    ->get($valueResource->getResourceName());
+            case Value::TYPE_RESOURCE:
+                $valueResource = $this->getData()->getValueResource();
+                $valueResourceAdapter = $this->getAdapter(
+                    $valueResource->getResourceName()
+                );
                 $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
                 $valueObject['value_resource_id'] = $valueResource->getId();
                 break;
 
-            case ValueEntity::TYPE_URI:
+            case Value::TYPE_URI:
                 $valueObject['@id'] = $value->getValue();
                 break;
 
-            case ValueEntity::TYPE_LITERAL:
+            case Value::TYPE_LITERAL:
             default:
                 $valueObject['@value'] = $value->getValue();
                 if ($value->getLang()) {

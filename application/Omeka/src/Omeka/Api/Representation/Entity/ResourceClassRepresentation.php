@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
-class ResourceClassRepresentation extends AbstractResourceEntity
+class ResourceClassRepresentation extends AbstractEntityRepresentation
 {
     public function extract()
     {

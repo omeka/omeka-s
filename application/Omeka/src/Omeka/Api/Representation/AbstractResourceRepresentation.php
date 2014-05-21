@@ -3,7 +3,12 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
 
-class Representation extends AbstractRepresentation
+/**
+ * Abstract API resource representation.
+ *
+ * Provides functionality for representations of registered API resources.
+ */
+abstract class AbstractResourceRepresentation extends AbstractRepresentation
 {
     /**
      * @var string|int
@@ -23,10 +28,11 @@ class Representation extends AbstractRepresentation
      * @param ServiceLocatorInterface $adapter The corresponsing adapter
      */
     public function __construct($id, $data, AdapterInterface $adapter) {
+        // Set the service locator first.
+        $this->setServiceLocator($adapter->getServiceLocator());
         $this->setId($id);
         $this->setData($data);
         $this->setAdapter($adapter);
-        $this->setServiceLocator($adapter->getServiceLocator());
     }
 
     /**
@@ -71,29 +77,5 @@ class Representation extends AbstractRepresentation
             return parent::getAdapter($resourceName);
         }
         return $this->adapter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extract()
-    {
-        return $this->getData();
-    }
-
-    /**
-     * Serialize as a simple JSON-LD object.
-     *
-     * Typically used for simple representations, such as references. Override
-     * this method to compose a more complex JSON-LD object.
-     *
-     * {@inheritDoc}
-     */
-    public function jsonSerialize()
-    {
-        return array(
-            '@id' => $this->getAdapter()->getApiUrl($this->getData()),
-            'id'  => $this->getId(),
-        );
     }
 }

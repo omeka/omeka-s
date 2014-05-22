@@ -24,6 +24,24 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected $contextObject = array();
 
     /**
+     * Serialize the resource entity to a JSON-LD compatible format.
+     *
+     * @return array
+     */
+    abstract public function jsonSerializeResource();
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize()
+    {
+        $valueRepresentations = $this->getValueRepresentations();
+        $contextObject = array('@context' => $this->getContextObject());
+        $resource = $this->jsonSerializeResource();
+        return array_merge($contextObject, $resource, $valueRepresentations);
+    }
+
+    /**
      * @var array
      */
     public function validateData($data)
@@ -91,19 +109,5 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'vocabulary_id' => $vocabulary->getId(),
             'vocabulary_label' => $vocabulary->getLabel(),
         );
-    }
-
-    /**
-     * Get the merged JSON-LD representation of this resource.
-     *
-     * @param Resource $resource The resource entity
-     * @param array $representation Data specific to this resource
-     * @return array
-     */
-    protected function getRepresentation(Resource $resource, array $representation)
-    {
-        $valueRepresentations = $this->getValueRepresentations();
-        $contextObject = array('@context' => $this->getContextObject());
-        return array_merge($contextObject, $representation, $valueRepresentations);
     }
 }

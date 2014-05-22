@@ -3,19 +3,18 @@ namespace Omeka\Api\Representation\Entity;
 
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
-    public function jsonSerialize()
+    public function jsonSerializeResource()
     {
-        $entity = $this->getData();
-        $item = array(
-            '@id'   => $this->getAdapter()->getApiUrl($entity),
-            'id'    => $entity->getId(),
+        $item = $this->getData();
+        return array(
+            '@id'   => $this->getAdapter()->getApiUrl($item),
+            'id'    => $item->getId(),
             'owner' => $this->getReference(
-                null, $entity->getOwner(), $this->getAdapter('users')
+                null, $item->getOwner(), $this->getAdapter('users')
             ),
             'resource_class' => $this->getReference(
-                null, $entity->getResourceClass(), $this->getAdapter('resource_classes')
+                null, $item->getResourceClass(), $this->getAdapter('resource_classes')
             ),
         );
-        return $this->getRepresentation($entity, $item);
     }
 }

@@ -11,6 +11,15 @@ class ResourceReference extends AbstractResourceRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getRepresentation()
+    {
+        return $this->getAdapter()
+            ->getRepresentation($this->getId(), $this->getData());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function jsonSerialize()
     {
         return array(

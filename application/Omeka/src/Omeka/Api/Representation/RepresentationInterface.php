@@ -25,4 +25,11 @@ interface RepresentationInterface extends
      * @param mixed $data
      */
     public function setData($data);
+
+    /**
+     * Serialize the data to a JSON-LD compatible format.
+     *
+     * @return array
+     */
+    public function jsonSerialize();
 }

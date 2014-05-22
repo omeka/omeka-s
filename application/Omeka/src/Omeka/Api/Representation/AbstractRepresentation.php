@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Api\Representation\ResourceReference;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -28,16 +29,6 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
-
-    /**
-     * Serialize the data to a JSON-LD compatible format.
-     *
-     * This method is provided by the JsonSerializable interface and is
-     * implemented here for documentation purposes only.
-     *
-     * @return array
-     */
-    abstract public function jsonSerialize();
 
     /**
      * Validate and set the data.
@@ -103,15 +94,10 @@ abstract class AbstractRepresentation implements RepresentationInterface
         }
 
         if ($data instanceof EntityInterface) {
-            // An entity reference
             $id = $data->getId();
-            $representationClass = 'Omeka\Api\Representation\Entity\EntityReference';
-        } else {
-            // A generic reference
-            $representationClass = 'Omeka\Api\Representation\ResourceReference';
         }
 
-        return new $representationClass($id, $data, $adapter);
+        return new ResourceReference($id, $data, $adapter);
     }
 
     /**

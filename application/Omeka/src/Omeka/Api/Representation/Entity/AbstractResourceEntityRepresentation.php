@@ -16,7 +16,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * @var array
      */
-    protected $valueObjects = array();
+    protected $valueRepresentations = array();
 
     /**
      * @var array
@@ -38,68 +38,22 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get all JSON-LD value objects of this resource.
+     * Get all value representations of this resource.
      *
      * @return array
      */
-    public function getValueObjects()
+    public function getValueRepresentations()
     {
-        if (empty($this->valueObjects)) {
-            $this->setValueObjects();
+        if (empty($this->valueRepresentations)) {
+            $this->setValueRepresentations();
         }
-        return $this->valueObjects;
-    }
-
-    /**
-     * Get the requested array representation of the value or values.
-     *
-     * @param string $term The vocabulary prefix and property local_name in the
-     * form: "prefix:local_name"
-     * @param array $options
-     *   - type: (default: "literal") the type of value
-     *   - default: (default: null) the default value if the value is not found
-     *   - all: (default: false) if true, return all values
-     * @return mixed
-     */
-    public function getValue($term, array $options = array())
-    {
-        if (!isset($options['type'])) {
-            $options['type'] = Value::TYPE_LITERAL;
-        }
-        if (!isset($options['default'])) {
-            $options['default'] = null;
-        }
-        if (!isset($options['all'])) {
-            $options['all'] = false;
-        }
-
-        $valueObjects = $this->getValueObjects();
-        if (!array_key_exists($term, $valueObjects)) {
-            return $options['default'];
-        }
-
-        $values = array();
-        foreach ($valueObjects[$term] as $valueObject) {
-            $value = $valueObject->extract();
-            $valueType = $valueObject->getValueType();
-            if ($options['type'] == $valueType) {
-                $values[] = $value;
-            }
-            if (!$options['all']) {
-                break;
-            }
-        }
-
-        if (!$options['all'] && !empty($values)) {
-            $values = $values[0];
-        }
-        return $values;
+        return $this->valueRepresentations;
     }
 
     /**
      * Set all JSON-LD value objects of this resource.
      */
-    protected function setValueObjects()
+    protected function setValueRepresentations()
     {
         foreach ($this->getData()->getValues() as $value) {
             $property = $value->getProperty();
@@ -110,7 +64,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $term = "$prefix:$suffix";
 
             $this->addVocabularyToContext($vocabulary);
-            $this->valueObjects[$term][] = new ValueRepresentation(
+            $this->valueRepresentations[$term][] = new ValueRepresentation(
                 $value, $this->getServiceLocator()
             );
         }
@@ -148,8 +102,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     protected function getRepresentation(Resource $resource, array $representation)
     {
-        $valueObjects = $this->getValueObjects();
+        $valueRepresentations = $this->getValueRepresentations();
         $contextObject = array('@context' => $this->getContextObject());
-        return array_merge($contextObject, $representation, $valueObjects);
+        return array_merge($contextObject, $representation, $valueRepresentations);
     }
 }

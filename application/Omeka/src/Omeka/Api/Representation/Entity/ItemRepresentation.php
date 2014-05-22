@@ -3,11 +3,6 @@ namespace Omeka\Api\Representation\Entity;
 
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
-    public function extract()
-    {
-        return $this->jsonSerialize();
-    }
-
     public function jsonSerialize()
     {
         $entity = $this->getData();

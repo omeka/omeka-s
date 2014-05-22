@@ -11,11 +11,10 @@ class EntityReference extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function extract()
+    public function getRepresentation()
     {
         return $this->getAdapter()
-            ->getRepresentation($this->getId(), $this->getData())
-            ->extract();
+            ->getRepresentation($this->getId(), $this->getData());
     }
 
     /**

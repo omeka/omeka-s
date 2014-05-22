@@ -36,25 +36,6 @@ class ValueRepresentation extends AbstractRepresentation
     /**
      * {@inheritDoc}
      */
-    public function extract()
-    {
-        if (Value::TYPE_RESOURCE == $this->getValueType()) {
-            $valueResource = $this->getData()->getValueResource();
-            $valueResourceAdapter = $this->getAdapter(
-                $valueResource->getResourceName()
-            );
-            return $valueResourceAdapter->getRepresentation(
-                $valueResource->getId(), $valueResource
-            )->extract();
-        }
-        return $this->jsonSerialize();
-    }
-
-    /**
-     * Extract a single value entity.
-     *
-     * @return array JSON-LD value object
-     */
     public function jsonSerialize()
     {
         $value = $this->getData();

@@ -41,7 +41,7 @@ class ValueRepresentation extends AbstractRepresentation
         $value = $this->getData();
         $valueObject = array();
 
-        switch ($this->getValueType()) {
+        switch ($this->getType()) {
 
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->getData()->getValueResource();
@@ -78,8 +78,61 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getValueType()
+    public function getType()
     {
         return $this->getData()->getType();
+    }
+
+    /**
+     * Get the value itself.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->getData()->getValue();
+    }
+
+    /**
+     * Get the value language.
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->getData()->getLang();
+    }
+
+    /**
+     * Get the value HTML flag.
+     *
+     * @return string
+     */
+    public function getIsHtml()
+    {
+        return $this->getData()->getIsHtml();
+    }
+
+    /**
+     * Cast the value representation as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        switch ($this->getType()) {
+
+            case Value::TYPE_RESOURCE:
+                $valueResource = $this->getData()->getValueResource();
+                $valueResourceAdapter = $this->getAdapter(
+                    $valueResource->getResourceName()
+                );
+                return $valueResourceAdapter->getApiUrl($valueResource);
+
+            case Value::TYPE_URI:
+            case Value::TYPE_LITERAL:
+            default:
+                return $this->getData()->getValue();
+        }
     }
 }

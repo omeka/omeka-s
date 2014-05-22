@@ -110,4 +110,58 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'vocabulary_label' => $vocabulary->getLabel(),
         );
     }
+
+    /**
+     * Get a single value representation.
+     *
+     * @param string $term The prefix:local_part
+     * @param array $options
+     *   - default
+     *   - lang
+     * @return RepresentationInterface|mixed
+     */
+    public function getValue($term, array $options = array())
+    {
+        if (!isset($options['type'])) {
+            $options['type'] = 'all';
+        }
+        if (!isset($options['all'])) {
+            $options['all'] = false;
+        }
+        if (!isset($options['default'])) {
+            $options['default'] = null;
+        }
+        if (!isset($options['lang'])) {
+            $options['lang'] = null;
+        }
+
+        $representations = $this->getValueRepresentations();
+        if (!array_key_exists($term, $representations)) {
+            return $options['default'];
+        }
+
+        // Match only the representations that fit all the criteria.
+        $matchingRepresentations = array();
+        foreach ($representations[$term] as $representation) {
+            if ('all' !== $options['type']
+                && $representation->getType() !== $options['type']
+            ) {
+                continue;
+            }
+            if (null !== $options['lang']
+                && $representation->getLang() !== $options['lang']
+            ) {
+                continue;
+            }
+            $matchingRepresentations[] = $representation;
+        }
+
+        if (count($matchingRepresentations)) {
+            return $options['all']
+                ?  $matchingRepresentations
+                : $matchingRepresentations[0];
+        }
+
+        return $options['default'];
+    }
 }

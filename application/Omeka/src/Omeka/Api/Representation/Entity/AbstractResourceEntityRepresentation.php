@@ -112,18 +112,25 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get a single value representation.
+     * Get value representations.
      *
      * @param string $term The prefix:local_part
      * @param array $options
-     *   - default
-     *   - lang
+     * - type: (null) Get values of this type only. Valid types are "literal",
+     *   "uri", and "resource". Returns all types by default.
+     * - all: (false) If true, returns all values that match criteria. If false,
+     *   returns the first matching value.
+     * - default: (null) Default value if no values match criteria. Returns null
+     *   by default.
+     * - lang: (null) Get values of this language only. Returns values of all
+     *   languages by default.
      * @return RepresentationInterface|mixed
      */
     public function getValue($term, array $options = array())
     {
+        // Set defaults.
         if (!isset($options['type'])) {
-            $options['type'] = 'all';
+            $options['type'] = null;
         }
         if (!isset($options['all'])) {
             $options['all'] = false;
@@ -135,33 +142,31 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['lang'] = null;
         }
 
-        $representations = $this->getValueRepresentations();
-        if (!array_key_exists($term, $representations)) {
+        $valueReps = $this->getValueRepresentations();
+        if (!array_key_exists($term, $valueReps)) {
             return $options['default'];
         }
 
         // Match only the representations that fit all the criteria.
-        $matchingRepresentations = array();
-        foreach ($representations[$term] as $representation) {
-            if ('all' !== $options['type']
-                && $representation->getType() !== $options['type']
+        $matchingReps = array();
+        foreach ($valueReps[$term] as $valueRep) {
+            if (!is_null($options['type'])
+                && $valueRep->getType() !== $options['type']
             ) {
                 continue;
             }
-            if (null !== $options['lang']
-                && $representation->getLang() !== $options['lang']
+            if (!is_null($options['lang'])
+                && $valueRep->getLang() !== $options['lang']
             ) {
                 continue;
             }
-            $matchingRepresentations[] = $representation;
+            $matchingReps[] = $valueRep;
         }
 
-        if (count($matchingRepresentations)) {
-            return $options['all']
-                ?  $matchingRepresentations
-                : $matchingRepresentations[0];
+        if (!count($matchingReps)) {
+            return $options['default'];
         }
 
-        return $options['default'];
+        return $options['all'] ? $matchingReps : $matchingReps[0];
     }
 }

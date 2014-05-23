@@ -114,6 +114,23 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get the value type.
+     *
+     * @return string
+     */
+    public function getValueResource()
+    {
+        $valueResource = $this->getData()->getValueResource();
+        $valueResourceAdapter = $this->getAdapter(
+            $valueResource->getResourceName()
+        );
+        return $valueResourceAdapter->getRepresentation(
+            $valueResource->getId(),
+            $valueResource
+        );
+    }
+
+    /**
      * Cast the value representation as a string.
      *
      * @return string

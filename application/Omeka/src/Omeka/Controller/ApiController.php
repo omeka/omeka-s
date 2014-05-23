@@ -79,9 +79,10 @@ class ApiController extends AbstractRestfulController
         if (in_array($method, array('post', 'put', 'patch'))
             && !$this->requestHasContentType($request, self::CONTENT_TYPE_JSON)
         ) {
+            $contentType = $request->getHeader('Content-Type');
             $errorMessage = sprintf(
                 'Invalid Content-Type header. Expecting "application/json", got "%s".',
-                $request->getHeader('Content-Type')->getMediaType()
+                $contentType ? $contentType->getMediaType() : 'none'
             );
             return $this->getErrorResult($event, Response::ERROR_BAD_REQUEST, $errorMessage);
         }

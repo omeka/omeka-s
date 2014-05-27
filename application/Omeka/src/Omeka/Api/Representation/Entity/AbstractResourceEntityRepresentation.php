@@ -24,11 +24,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected $contextObject = array();
 
     /**
-     * Serialize the resource entity to a JSON-LD compatible format.
+     * Serialize the resource-specific data to a JSON-LD compatible format.
      *
      * @return array
      */
-    abstract public function jsonSerializeResource();
+    public function jsonSerializeResource()
+    {
+        return array();
+    }
 
     /**
      * {@inheritDoc}
@@ -36,9 +39,37 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function jsonSerialize()
     {
         $valueRepresentations = $this->getValueRepresentations();
-        $contextObject = array('@context' => $this->getContextObject());
-        $resource = $this->jsonSerializeResource();
-        return array_merge($contextObject, $resource, $valueRepresentations);
+
+        $nodeType = array();
+        if ($this->getData()->getResourceClass()) {
+            $resourceClass = $this->getData()->getResourceClass();
+            $vocabulary = $resourceClass->getVocabulary();
+            $prefix = $vocabulary->getPrefix();
+            $suffix = $resourceClass->getLocalName();
+            $this->addVocabularyToContext($vocabulary);
+            $nodeType['@type'] = "$prefix:$suffix";
+        }
+
+        return array_merge(
+            array('@context' => $this->contextObject),
+            $nodeType,
+            array(
+                '@id' => $this->getAdapter()->getApiUrl($this->getData()),
+                'id' => $this->getData()->getId(),
+            ),
+            $this->jsonSerializeResource(),
+            array('owner' => $this->getReference(
+                null,
+                $this->getData()->getOwner(),
+                $this->getAdapter('users')
+            )),
+            array('resource_class' => $this->getReference(
+                null,
+                $this->getData()->getResourceClass(),
+                $this->getAdapter('resource_classes')
+            )),
+            $valueRepresentations
+        );
     }
 
     /**
@@ -86,11 +117,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 $value, $this->getServiceLocator()
             );
         }
-    }
-
-    public function getContextObject()
-    {
-        return $this->contextObject;
     }
 
     /**

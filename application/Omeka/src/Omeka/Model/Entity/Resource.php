@@ -58,7 +58,6 @@ abstract class Resource extends AbstractEntity
      * is not. Primarily used when extracting children of this class (Item,
      * Media, ItemSet, etc.) to an array when the adapter is unknown.
      *
-     * @see \Omeka\Api\Adapter\Entity\AbstractEntityAdapter::extract()
      * @return string
      */
     abstract public function getResourceName();

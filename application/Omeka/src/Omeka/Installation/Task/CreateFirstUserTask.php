@@ -26,7 +26,7 @@ class CreateFirstUserTask extends AbstractTask
         }
 
         // Set the password.
-        $user = $response->getContent()->extract();
+        $user = $response->getContent()->jsonSerialize();
         $userEntity = $entityManager->find('Omeka\Model\Entity\User', $user['id']);
         $userEntity->setPassword($this->getVar('password'));
         $entityManager->flush();

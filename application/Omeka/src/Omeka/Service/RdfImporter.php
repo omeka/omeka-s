@@ -83,7 +83,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
 
         // Create the vocabulary.
         $responseVocabulary = $apiManager->create('vocabularies', $vocabulary);
-        $vocabulary = $responseVocabulary->getContent()->extract();
+        $vocabulary = $responseVocabulary->getContent()->jsonSerialize();
 
         // Get the RDF members.
         $members = $this->getMembers(

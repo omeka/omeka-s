@@ -39,6 +39,8 @@ class ApiAdapterManagerFactoryTest extends TestCase
 
 class TestAdapter implements AdapterInterface
 {
+    public function getResourceName(){}
+    public function getRepresentationClass(){}
     public function search(Request $request){}
     public function create(Request $request){}
     public function batchCreate(Request $request){}

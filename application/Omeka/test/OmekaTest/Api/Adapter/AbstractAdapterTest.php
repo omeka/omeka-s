@@ -98,29 +98,6 @@ class AbstractAdapterTest extends TestCase
         $this->assertNull($this->adapter->getWebUrl(array()));
     }
 
-    public function testGetAdapter()
-    {
-        $this->setServiceManager();
-        $this->assertEquals(
-            'return_test_adapter',
-            $this->adapter->getAdapter('test_adapter')
-        );
-    }
-
-    public function testGetDateTimeRequiresDateTime()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->getDateTime(new \stdClass);
-    }
-
-    public function testGetDateTimeReturnsStdlibDateTime()
-    {
-        $this->assertInstanceOf(
-            'Omeka\Stdlib\DateTime',
-            $this->adapter->getDateTime(new \DateTime)
-        );
-    }
-
     protected function setServiceManager()
     {
         // MvcTranslator

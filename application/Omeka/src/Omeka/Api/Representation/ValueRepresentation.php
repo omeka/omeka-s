@@ -20,6 +20,29 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Cast the value representation as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        switch ($this->getType()) {
+
+            case Value::TYPE_RESOURCE:
+                $valueResource = $this->getData()->getValueResource();
+                $valueResourceAdapter = $this->getAdapter(
+                    $valueResource->getResourceName()
+                );
+                return $valueResourceAdapter->getApiUrl($valueResource);
+
+            case Value::TYPE_URI:
+            case Value::TYPE_LITERAL:
+            default:
+                return $this->getData()->getValue();
+        }
+    }
+
+    /**
      * @var array
      */
     public function validateData($data)
@@ -114,7 +137,7 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
-     * Get the value type.
+     * Get the value resource.
      *
      * @return string
      */
@@ -128,28 +151,5 @@ class ValueRepresentation extends AbstractRepresentation
             $valueResource->getId(),
             $valueResource
         );
-    }
-
-    /**
-     * Cast the value representation as a string.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        switch ($this->getType()) {
-
-            case Value::TYPE_RESOURCE:
-                $valueResource = $this->getData()->getValueResource();
-                $valueResourceAdapter = $this->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                return $valueResourceAdapter->getApiUrl($valueResource);
-
-            case Value::TYPE_URI:
-            case Value::TYPE_LITERAL:
-            default:
-                return $this->getData()->getValue();
-        }
     }
 }

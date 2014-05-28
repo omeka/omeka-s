@@ -25,13 +25,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected $contextObject = array();
 
     /**
-     * Serialize the resource-specific data to a JSON-LD compatible format.
-     *
-     * @return array
+     * @var array
      */
-    public function jsonSerializeResource()
+    public function validateData($data)
     {
-        return array();
+        if (!$data instanceof Resource) {
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate(sprintf(
+                    'Invalid data sent to %s.', get_called_class()
+                ))
+            );
+        }
     }
 
     /**
@@ -74,17 +78,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * @var array
+     * Serialize the resource-specific data to a JSON-LD compatible format.
+     *
+     * @return array
      */
-    public function validateData($data)
+    public function jsonSerializeResource()
     {
-        if (!$data instanceof Resource) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        return array();
     }
 
     /**

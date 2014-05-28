@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
+use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Model\Entity\Resource;
 use Omeka\Model\Entity\Value;

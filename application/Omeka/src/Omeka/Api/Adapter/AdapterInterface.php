@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -15,6 +16,20 @@ interface AdapterInterface extends
     EventManagerAwareInterface,
     ResourceInterface
 {
+    /**
+     * Get the name of the corresponding API resource.
+     *
+     * @return string
+     */
+    public function getResourceName();
+
+    /**
+     * Get the fully qualified name of the corresponding representation class.
+     *
+     * @return string
+     */
+    public function getRepresentationClass();
+
     /**
      * Search a set of resources.
      *

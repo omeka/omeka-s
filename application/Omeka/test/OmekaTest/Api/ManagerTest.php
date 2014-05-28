@@ -221,6 +221,9 @@ class ManagerTest extends TestCase
 
     protected function getMockResponse($isValidStatus)
     {
+        $mockRepresentation = $this->getMock(
+            'Omeka\Api\Representation\RepresentationInterface'
+        );
         $mockResponse = $this->getMock('Omeka\Api\Response');
         $mockResponse->expects($this->any())
             ->method('isValidStatus')
@@ -229,6 +232,9 @@ class ManagerTest extends TestCase
         $mockResponse->expects($this->any())
             ->method('getStatus')
             ->will($this->returnValue('response_status'));
+        $mockResponse->expects($this->any())
+            ->method('getContent')
+            ->will($this->returnValue($mockRepresentation));
         $mockResponse->expects($this->any())
             ->method('setRequest')
             ->with($this->isInstanceOf('Omeka\Api\request'));

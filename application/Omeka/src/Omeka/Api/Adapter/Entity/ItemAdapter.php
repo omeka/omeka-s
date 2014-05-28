@@ -8,11 +8,33 @@ use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'items';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\ItemRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Item';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -31,28 +53,15 @@ class ItemAdapter extends AbstractEntityAdapter
         $valueHydrator->hydrate($data, $entity);
     }
 
-    public function extract($entity)
-    {
-        $item = array(
-            '@id'   => $this->getApiUrl($entity),
-            'id'    => $entity->getId(),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
-            'resource_class' => $this->getReference(
-                $entity->getResourceClass(),
-                $this->getAdapter('resource_classes')
-            ),
-        );
-        $valueHydrator = new ValueHydrator($this);
-        return array_merge($item, $valueHydrator->extract($entity));
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
-    {
-    }
+    {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {}

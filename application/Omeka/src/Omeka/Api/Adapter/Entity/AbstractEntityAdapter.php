@@ -19,17 +19,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * Abstract entity API adapter.
  */
 abstract class AbstractEntityAdapter extends AbstractAdapter implements
-    EntityAdapterInterface,
-    HydratorInterface
+    EntityAdapterInterface
 {
-    /**
-     * Extract properties from an entity.
-     *
-     * @param EntityInterface $entity
-     * @return array
-     */
-    abstract public function extract($entity);
-
     /**
      * Hydrate an entity with the provided array.
      *
@@ -72,12 +63,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Finish building the search query and get the results.
         $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
-        $entities = array();
+        $representations = array();
         foreach ($qb->getQuery()->iterate() as $row) {
-            $entities[] = $this->extract($row[0]);
+            $representations[] = $this->getRepresentation($row[0]->getId(), $row[0]);
         }
 
-        $response = new Response($entities);
+        $response = new Response($representations);
         $response->setTotalResults($totalResults);
         return $response;
     }
@@ -124,7 +115,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Refresh the entity on the chance that it contains associations that
         // have not been loaded.
         $this->getEntityManager()->refresh($entity);
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -136,7 +128,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $response = new Response;
 
         $entities = array();
-        $entityRepresentations = array();
+        $representations = array();
         foreach ($request->getContent() as $datum) {
 
             $entityClass = $this->getEntityClass();
@@ -171,7 +163,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
             $this->getEntityManager()->persist($entity);
             $entities[] = $entity;
-            $entityRepresentations[] = $this->extract($entity);
+            $representations[] = $this->getRepresentation($entity->getId(), $entity);
         }
 
         if ($response->isError()) {
@@ -183,7 +175,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         $this->getEntityManager()->flush();
-        $response->setContent($entityRepresentations);
+        $response->setContent($representations);
         return $response;
     }
 
@@ -224,7 +216,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ));
         $this->getEventManager()->trigger($event);
 
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -276,7 +269,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             throw $validationException;
         }
         $this->getEntityManager()->flush();
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -319,7 +313,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        $response->setContent($this->extract($entity));
+        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $response->setContent($representation);
         return $response;
     }
 
@@ -336,16 +331,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             );
         }
 
-        $config = $this->getServiceLocator()->get('Config');
-        $resourceName = array_search(
-            get_called_class(),
-            $config['api_adapters']['invokables']
-        );
-
         $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
         return $url(
             'api/default',
-            array('resource' => $resourceName, 'id' => $data->getId()),
+            array('resource' => $this->getResourceName(), 'id' => $data->getId()),
             array('force_canonical' => true)
         );
     }
@@ -385,23 +374,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             ->getUnitOfWork()
             ->getEntityState($entity);
         return UnitOfWork::STATE_MANAGED === $entityState;
-    }
-
-    /**
-     * Extract an entity using the provided adapter.
-     *
-     * Primarily used to extract inverse associations.
-     *
-     * @param null|EntityInterface $entity
-     * @param EntityAdapterInterface $adapter
-     * @return null|array
-     */
-    protected function extractEntity($entity, EntityAdapterInterface $adapter)
-    {
-        if (!$entity instanceof EntityInterface) {
-            return null;
-        }
-        return $adapter->extract($entity);
     }
 
     /**

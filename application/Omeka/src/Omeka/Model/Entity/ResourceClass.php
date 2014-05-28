@@ -55,7 +55,7 @@ class ResourceClass extends AbstractEntity
     protected $propertyOverrides;
 
     /**
-     * @Column(nullable=true)
+     * @Column
      */
     protected $localName;
 

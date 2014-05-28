@@ -4,9 +4,9 @@ namespace Omeka\Api\Adapter\Entity;
 use Omeka\Model\Entity\Property;
 use Omeka\Model\Entity\Resource;
 use Omeka\Model\Entity\Value;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Hydrator\HydrationInterface;
 
-class ValueHydrator implements HydratorInterface
+class ValueHydrator implements HydrationInterface
 {
     /**
      * @var AbstractEntityAdapter
@@ -46,40 +46,6 @@ class ValueHydrator implements HydratorInterface
                 $this->hydrateValue($valueObject, $resource);
             }
         }
-    }
-
-    /**
-     * Extract all values of a resource.
-     *
-     * @param Resource $resource
-     * @return array JSON-LD formatted
-     */
-    public function extract($resource)
-    {
-        $context = array();
-        $valueObjects = array();
-        foreach ($resource->getValues() as $value) {
-
-            $property = $value->getProperty();
-            $vocabulary = $property->getVocabulary();
-
-            $prefix = $vocabulary->getPrefix();
-            $suffix = $property->getLocalName();
-            $term = "$prefix:$suffix";
-
-            if (!array_key_exists($prefix, $context)) {
-                $context[$prefix] = array(
-                    '@id' => $vocabulary->getNamespaceUri(),
-                    'vocabulary_id' => $vocabulary->getId(),
-                    'vocabulary_label' => $vocabulary->getLabel(),
-                );
-            }
-
-            $valueObjects[$term][] = $this->extractValue($value, $property);
-        }
-
-        $valueObjects['@context'] = $context;
-        return $valueObjects;
     }
 
     /**
@@ -132,41 +98,6 @@ class ValueHydrator implements HydratorInterface
                 $this->persistUri($valueObject, $property, $resource);
             }
         }
-    }
-
-    /**
-     * Extract a single value entity.
-     *
-     * @param Value $value
-     * @return array JSON-LD value object
-     */
-    public function extractValue(Value $value, Property $property) {
-        $valueObject = array();
-        switch ($value->getType()) {
-            case Value::TYPE_RESOURCE:
-                $valueResource = $value->getValueResource();
-                $valueResourceAdapter = $this->adapter->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
-                $valueObject['value_resource_id'] = $valueResource->getId();
-                break;
-            case Value::TYPE_URI:
-                $valueObject['@id'] = $value->getValue();
-                break;
-            case Value::TYPE_LITERAL:
-            default:
-                $valueObject['@value'] = $value->getValue();
-                if ($value->getLang()) {
-                    $valueObject['@language'] = $value->getLang();
-                }
-                $valueObject['is_html'] = $value->getIsHtml();
-                break;
-        }
-        $valueObject['value_id'] = $value->getId();
-        $valueObject['property_id'] = $property->getId();
-        $valueObject['property_label'] = $property->getLabel();
-        return $valueObject;
     }
 
     /**

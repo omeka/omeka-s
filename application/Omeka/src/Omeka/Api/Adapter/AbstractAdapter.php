@@ -2,9 +2,10 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\Entity\EntityRepresentation;
+use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
-use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -111,89 +112,24 @@ abstract class AbstractAdapter implements AdapterInterface
      * {@inheritDoc}
      */
     public function getApiUrl($data)
-    {
-        return null;
-    }
+    {}
 
     /**
      * {@inheritDoc}
      */
     public function getWebUrl($data)
-    {
-        return null;
-    }
+    {}
 
     /**
-     * Get an adapter from the API adapter manager.
+     * Compose a resource representation object.
      *
-     * @param string $resourceName
-     * @return AdapterInterface
+     * @param string|int $id The unique identifier of the resource
+     * @param mixed $data Whatever data is needed to compose the representation.
+     * @return RepresentationInterface
      */
-    public function getAdapter($resourceName)
-    {
-        return $this->getServiceLocator()
-            ->get('Omeka\ApiAdapterManager')
-            ->get($resourceName);
-    }
-
-    /**
-     * Get a reference to a resource.
-     *
-     * @see ReferenceInterface
-     * @param mixed $data The information from which to derive a representation
-     * of the resource.
-     * @param AdapterInterface $adapter The corresponding resource adapter.
-     * @param null|string $referenceClass The name of the reference class. If an
-     * Doctrine entity is passed as $data, an Entity reference is composed,
-     * otherwise, when null, a generic reference is composed.
-     * @return ReferenceInterface
-     */
-    public function getReference($data, AdapterInterface $adapter, $referenceClass = null)
-    {
-        $t = $this->getTranslator();
-
-        if (null === $data) {
-            // Do not attempt to compose a null reference
-            return null;
-        }
-
-        if (is_string($referenceClass)) {
-            // Validate the reference class.
-            if (!class_exists($referenceClass)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    $t->translate('Resource reference class %s does not exist.'),
-                    $referenceClass
-                ));
-            }
-            if (!is_subclass_of($referenceClass, 'Omeka\Api\Reference\ReferenceInterface')) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    $t->translate('Invalid resource reference class %s.'),
-                    $referenceClass
-                ));
-            }
-        } elseif ($data instanceof EntityInterface) {
-            // An entity reference
-            $referenceClass = 'Omeka\Api\Reference\Entity';
-        } else {
-            // A generic reference
-            $referenceClass = 'Omeka\Api\Reference\Reference';
-        }
-
-        $reference = new $referenceClass;
-        $reference->setData($data);
-        $reference->setAdapter($adapter);
-        return $reference;
-    }
-
-    /**
-     * Get a JSON serializable instance of DateTime.
-     *
-     * @param \DateTime $dateTime
-     * @return DateTime
-     */
-    public function getDateTime(\DateTime $dateTime)
-    {
-        return new DateTime($dateTime);
+    public function getRepresentation($id, $data) {
+        $representationClass = $this->getRepresentationClass();
+        return new $representationClass($id, $data, $this);
     }
 
     /**

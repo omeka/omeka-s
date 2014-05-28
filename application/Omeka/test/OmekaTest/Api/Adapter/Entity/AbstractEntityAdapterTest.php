@@ -2,8 +2,10 @@
 namespace OmekaTest\Api\Adapter\Entity;
 
 use Doctrine\ORM\UnitOfWork;
+use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Test\TestCase;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AbstractEntityAdapterTest extends TestCase
 {
@@ -22,7 +24,10 @@ class AbstractEntityAdapterTest extends TestCase
     {
         $data = array('foo', 'bar');
         $totalResults = 100;
-        $iterateRows = array(array('foo'), array('bar'));
+        $iterateRows = array(
+            array($this->getMock('Omeka\Model\Entity\EntityInterface')),
+            array($this->getMock('Omeka\Model\Entity\EntityInterface')),
+        );
 
         /** ServiceManager **/
 
@@ -88,14 +93,8 @@ class AbstractEntityAdapterTest extends TestCase
                 $this->isInstanceOf('Doctrine\ORM\QueryBuilder')
             );
         $this->adapter->expects($this->exactly(2))
-            ->method('extract')
-            ->with($this->callback(function ($subject) use ($iterateRows) {
-                return in_array(
-                    $subject,
-                    array($iterateRows[0][0], $iterateRows[1][0])
-                );
-            }))
-            ->will($this->returnArgument(0));
+            ->method('getRepresentationClass')
+            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /** Request **/
 
@@ -110,7 +109,11 @@ class AbstractEntityAdapterTest extends TestCase
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertEquals('success', $response->getStatus());
         $this->assertEquals(100, $response->getTotalResults());
-        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+        $responseContent = $response->getContent();
+        $this->assertInstanceOf(
+            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            $responseContent[0]
+        );
     }
 
     public function testCreate()
@@ -174,9 +177,8 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
         $this->adapter->expects($this->once())
-            ->method('extract')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
-            ->will($this->returnValue(array('foo', 'bar')));
+            ->method('getRepresentationClass')
+            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /** Request **/
 
@@ -190,7 +192,10 @@ class AbstractEntityAdapterTest extends TestCase
         $response = $this->adapter->create($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertEquals('success', $response->getStatus());
-        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+        $this->assertInstanceOf(
+            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            $response->getContent()
+        );
     }
 
     public function testRead()
@@ -245,9 +250,8 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
         $this->adapter->expects($this->once())
-            ->method('extract')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
-            ->will($this->returnValue(array('foo', 'bar')));
+            ->method('getRepresentationClass')
+            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /** Request **/
 
@@ -261,7 +265,10 @@ class AbstractEntityAdapterTest extends TestCase
         $response = $this->adapter->read($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertEquals('success', $response->getStatus());
-        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+        $this->assertInstanceOf(
+            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            $response->getContent()
+        );
     }
 
     public function testUpdate()
@@ -335,9 +342,8 @@ class AbstractEntityAdapterTest extends TestCase
                 $data, $this->isInstanceOf('Omeka\Model\Entity\EntityInterface')
             );
         $this->adapter->expects($this->once())
-            ->method('extract')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
-            ->will($this->returnValue(array('foo', 'bar')));
+            ->method('getRepresentationClass')
+            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /** Request **/
 
@@ -354,7 +360,10 @@ class AbstractEntityAdapterTest extends TestCase
         $response = $this->adapter->update($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertEquals('success', $response->getStatus());
-        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+        $this->assertInstanceOf(
+            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            $response->getContent()
+        );
     }
 
     public function testDelete()
@@ -414,9 +423,8 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
         $this->adapter->expects($this->once())
-            ->method('extract')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'))
-            ->will($this->returnValue(array('foo', 'bar')));
+            ->method('getRepresentationClass')
+            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /** Request **/
 
@@ -430,11 +438,22 @@ class AbstractEntityAdapterTest extends TestCase
         $response = $this->adapter->delete($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertEquals('success', $response->getStatus());
-        $this->assertEquals(array('foo', 'bar'), $response->getContent());
+        $this->assertInstanceOf(
+            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            $response->getContent()
+        );
     }
 }
 
 class TestEntity extends AbstractEntity
 {
+    public function getId(){}
+}
 
+class TestRepresentation implements RepresentationInterface
+{
+    public function setData($data){}
+    public function jsonSerialize(){}
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator){}
+    public function getServiceLocator(){}
 }

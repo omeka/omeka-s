@@ -8,11 +8,33 @@ use Omeka\Validator\Db\IsUnique;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'vocabularies';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\VocabularyRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\Vocabulary';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -35,22 +57,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
     }
 
-    public function extract($entity)
-    {
-        return array(
-            '@id'           => $this->getApiUrl($entity),
-            'id'            => $entity->getId(),
-            'namespace_uri' => $entity->getNamespaceUri(),
-            'prefix'        => $entity->getPrefix(),
-            'label'         => $entity->getLabel(),
-            'comment'       => $entity->getComment(),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
-        );
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner']['id'])) {
@@ -65,6 +74,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

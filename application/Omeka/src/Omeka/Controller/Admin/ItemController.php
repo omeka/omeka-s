@@ -12,24 +12,15 @@ class ItemController extends AbstractActionController
 
     public function browseAction()
     {
+        $view = new ViewModel;
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $filter = new ResponseFilter;
-        $response = $api->search('items', array());
-        $items = $response->getContent();
-        foreach ($items as &$item) {
-            // Get the first dc:title value for the item.
-            $response = $api->search('values', array(
-                'resource' => array('id' => $item['id']),
-                'property' => array('id' => 1), // dc:title
-                'type' => 'literal',
-                'limit' => 1,
-            ));
-            $item['title'] = $filter->get($response, 'value', array(
-                'default' => '[no title]',
-                'one' => true,
-            ));
+        $response = $api->search('items');
+        if ($response->isError()) {
+            print_r($response->getErrors());
+            exit;
         }
-        return new ViewModel(array('items' => $items));
+        $view->setVariable('items', $response->getContent());
+        return $view;
     }
 
     public function addAction()

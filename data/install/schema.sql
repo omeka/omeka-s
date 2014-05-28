@@ -90,7 +90,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_resource_class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) DEFAULT NULL,
-  `local_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `label` varchar(255) COLLATE utf8_bin NOT NULL,
   `comment` longtext COLLATE utf8_bin,
   PRIMARY KEY (`id`),

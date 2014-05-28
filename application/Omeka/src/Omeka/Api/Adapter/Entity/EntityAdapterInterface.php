@@ -4,14 +4,15 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
+use Zend\Stdlib\Hydrator\HydrationInterface;
 
 /**
  * Entity API adapter interface.
  */
-interface EntityAdapterInterface
+interface EntityAdapterInterface extends HydrationInterface
 {
     /**
-     * Get the fully qualified class name of the entity.
+     * Get the fully qualified name of the entity class.
      *
      * @return string
      */

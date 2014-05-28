@@ -9,11 +9,33 @@ use Omeka\Validator\Db\IsUnique;
 
 class UserAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'users';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\UserRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\User';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['username'])) {
@@ -33,19 +55,9 @@ class UserAdapter extends AbstractEntityAdapter
         }
     }
 
-    public function extract($entity)
-    {
-        return array(
-            '@id'      => $this->getApiUrl($entity),
-            'id'       => $entity->getId(),
-            'username' => $entity->getUsername(),
-            'name'     => $entity->getName(),
-            'email'    => $entity->getEmail(),
-            'created'  => $this->getDateTime($entity->getCreated()),
-            'role'     => $entity->getRole(),
-        );
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['username'])) {
@@ -53,6 +65,9 @@ class UserAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

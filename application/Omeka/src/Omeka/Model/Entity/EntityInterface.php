@@ -17,4 +17,10 @@ namespace Omeka\Model\Entity;
  */
 interface EntityInterface
 {
+    /**
+     * Get the unique identifier.
+     *
+     * @return mixed
+     */
+    public function getId();
 }

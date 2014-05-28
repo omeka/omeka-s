@@ -1,11 +1,17 @@
 <h1>Browse Items</h1>
-<ul>
-<?php foreach ($items as $item): ?>
-<li>
-    <a href="<?php echo $this->url('admin/id', array(
-        'controller' => 'item',
-        'id' => $item['id']
-    )); ?>">Item <?php echo $item['id']; ?>: "<?php echo $item['title']; ?>"</a>
-</li>
-<?php endforeach; ?>
-</ul>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($items as $item): ?>
+        <tr>
+            <td><?php echo $item->getId(); ?></td>
+            <td><?php echo $item->getValue('dcterms:title', array('default' => '[no title]')); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

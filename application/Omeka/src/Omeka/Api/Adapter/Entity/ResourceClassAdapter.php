@@ -8,11 +8,33 @@ use Omeka\Validator\Db\IsUnique;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceName()
+    {
+        return 'resource_classes';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentationClass()
+    {
+        return 'Omeka\Api\Representation\Entity\ResourceClassRepresentation';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\ResourceClass';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, $entity)
     {
         if (isset($data['owner']['id'])) {
@@ -38,25 +60,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
     }
 
-    public function extract($entity)
-    {
-        return array(
-            '@id'        => $this->getApiUrl($entity),
-            'id'         => $entity->getId(),
-            'local_name' => $entity->getLocalName(),
-            'label'      => $entity->getLabel(),
-            'comment'    => $entity->getComment(),
-            'vocabulary' => $this->getReference(
-                $entity->getVocabulary(),
-                $this->getAdapter('vocabularies')
-            ),
-            'owner' => $this->getReference(
-                $entity->getOwner(),
-                $this->getAdapter('users')
-            ),
-        );
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner']['id'])) {
@@ -73,6 +79,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {

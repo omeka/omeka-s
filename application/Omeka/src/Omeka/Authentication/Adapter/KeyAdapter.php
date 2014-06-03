@@ -30,11 +30,16 @@ class KeyAdapter extends AbstractAdapter
      */
     public function authenticate()
     {
-        $key = $this->repository->find($this->credential);
+        $key = $this->repository->findOneBy(
+            array('identity' => $this->getIdentity())
+        );
         if (!$key) {
-            return new Result(
-                Result::FAILURE_CREDENTIAL_INVALID, null, array('Invalid key.')
-            );
+            return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
+                array('Key identity not found.'));
+        }
+        if (!$key->verifyCredential($this->getCredential())) {
+            return new Result(Result::FAILURE_CREDENTIAL_INVALID, null,
+                array('Invalid key credential.'));
         }
         return new Result(Result::SUCCESS, $key->getUser());
     }

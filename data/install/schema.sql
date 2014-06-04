@@ -14,8 +14,9 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_item_set` (
   CONSTRAINT `FK_76C49232BF396750` FOREIGN KEY (`id`) REFERENCES `OMEKA_TABLE_PREFIX_resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_key` (
-  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `credential_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D76D40D8A76ED395` (`user_id`),
   CONSTRAINT `FK_D76D40D8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)

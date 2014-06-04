@@ -51,15 +51,18 @@ class ApiAuthenticationListener implements ListenerAggregateInterface
             return;
         }
 
-        $key = $event->getRequest()->getQuery('key');
-        if (null === $key) {
-            // No key to authenticate against.
+        $identity = $event->getRequest()->getQuery('key_identity');
+        $credential = $event->getRequest()->getQuery('key_credential');
+
+        if (is_null($identity) || is_null($credential)) {
+            // No identity/credential key to authenticate against.
             return;
         }
 
         $auth = $event->getApplication()->getServiceManager()
             ->get('Omeka\AuthenticationService');
-        $adapter = $auth->getAdapter()->setCredential($key);
+        $auth->getAdapter()->setIdentity($identity);
+        $auth->getAdapter()->setCredential($credential);
         $auth->authenticate();
     }
 }

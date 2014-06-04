@@ -9,30 +9,56 @@ use Zend\Math\Rand;
  */
 class Key extends AbstractEntity
 {
+    /**
+     * The length of the key identity and credential.
+     *
+     * If this changes the identity annotation must change as well.
+     */
     const STRING_LENGTH = 32;
+
+    /**
+     * The allowed character list for the key identity and credential.
+     */
     const STRING_CHARLIST = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
     /**
+     * The key identity
+     *
      * @Id
+     * @Column(length=32)
+     */
+    protected $id;
+
+    /**
+     * The hashed key credential
+     *
      * @Column(length=60)
      */
     protected $credentialHash;
 
     /**
-     * @Column
-     */
-    protected $identity;
-
-    /**
+     * The associated user
+     *
      * @ManyToOne(targetEntity="User")
+     * @JoinColumn(nullable=false)
      */
     protected $user;
+
+    public function setId()
+    {
+        $this->id = $this->getString();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set the key credential, storing it hashed.
      *
-     * @return string The unencrypted key. This will be the only opportunity to
-     * obtain the unencrypted key.
+     * @return string The unencrypted credential. This will be the only
+     * opportunity to obtain the unencrypted credential.
      */
     public function setCredential()
     {
@@ -42,22 +68,15 @@ class Key extends AbstractEntity
         return $credential;
     }
 
-    public function getId()
-    {
-        return $this->credentialHash;
-    }
-
     /**
-     * Set the key identity.
+     * Verify a key credential.
+     *
+     * @param string The credential to verify
      */
-    public function setIdentity()
+    public function verifyCredential($credential)
     {
-        $this->identity = $this->getString();
-    }
-
-    public function getIdentity()
-    {
-        return $this->identity;
+        $bcrypt = new Bcrypt;
+        return $bcrypt->verify($credential, $this->credentialHash);
     }
 
     public function setUser($user)
@@ -68,20 +87,6 @@ class Key extends AbstractEntity
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Verify a key credential.
-     *
-     * @param string The credential to verify
-     */
-    public function verifyCredential($credential)
-    {
-        if (is_null($this->credentialHash)) {
-            return false;
-        }
-        $bcrypt = new Bcrypt;
-        return $bcrypt->verify($credential, $this->credentialHash);
     }
 
     protected function getString()

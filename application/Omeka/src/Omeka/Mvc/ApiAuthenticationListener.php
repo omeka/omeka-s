@@ -51,8 +51,8 @@ class ApiAuthenticationListener implements ListenerAggregateInterface
             return;
         }
 
-        $identity = $event->getRequest()->getQuery('identity');
-        $credential = $event->getRequest()->getQuery('credential');
+        $identity = $event->getRequest()->getQuery('key_identity');
+        $credential = $event->getRequest()->getQuery('key_credential');
 
         if (is_null($identity) || is_null($credential)) {
             // No identity/credential key to authenticate against.

@@ -17,6 +17,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_key` (
   `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
   `credential_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `last_ip` varbinary(16) DEFAULT NULL COMMENT '(DC2Type:ip_address)',
   PRIMARY KEY (`id`),
   KEY `IDX_D76D40D8A76ED395` (`user_id`),
   CONSTRAINT `FK_D76D40D8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)

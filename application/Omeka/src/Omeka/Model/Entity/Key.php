@@ -37,7 +37,7 @@ class Key extends AbstractEntity
     protected $credentialHash;
 
     /**
-     * @Column(type="ip_address")
+     * @Column(type="ip_address", nullable=true)
      */
     protected $lastIp;
 
@@ -82,6 +82,16 @@ class Key extends AbstractEntity
     {
         $bcrypt = new Bcrypt;
         return $bcrypt->verify($credential, $this->credentialHash);
+    }
+
+    public function setLastIp($lastIp)
+    {
+        $this->lastIp = $lastIp;
+    }
+
+    public function getLastIp()
+    {
+        return $this->lastIp;
     }
 
     public function setUser($user)

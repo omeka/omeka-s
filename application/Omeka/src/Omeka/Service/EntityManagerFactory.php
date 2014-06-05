@@ -80,7 +80,7 @@ class EntityManagerFactory implements FactoryInterface
             new ResourceDiscriminatorMap
         );
 
-        // Register the IP address Doctrine type.
+        // Register a custom mapping type for an IP address.
         Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
 
         return $em;

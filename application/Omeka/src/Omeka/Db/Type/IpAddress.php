@@ -4,6 +4,9 @@ namespace Omeka\Db\Type;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
+/**
+ * Custom mapping type for an IP address
+ */
 class IpAddress extends Type
 {
     const IP_ADDRESS = 'ip_address';
@@ -15,12 +18,12 @@ class IpAddress extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return inet_ntop($value);
+        return is_null($value) ? null : inet_ntop($value);
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return inet_pton($value);
+        return is_null($value) ? null : inet_pton($value);
     }
 
     public function getName()

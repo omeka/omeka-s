@@ -17,6 +17,7 @@ class KeyTest extends TestCase
     {
         $this->assertNull($this->key->getId());
         $this->assertNull($this->key->getUser());
+        $this->assertNull($this->key->getLastIp());
         $this->assertFalse($this->key->verifyCredential('foo'));
     }
 
@@ -34,5 +35,12 @@ class KeyTest extends TestCase
         $this->assertEquals(1, preg_match($pattern, $credential));
         $this->assertTrue($this->key->verifyCredential($credential));
         $this->assertFalse($this->key->verifyCredential('foo'));
+    }
+
+    public function testlastIp()
+    {
+        $ip = 'foo';
+        $this->key->setLastIp($ip);
+        $this->assertEquals($ip, $this->key->getLastIp());
     }
 }

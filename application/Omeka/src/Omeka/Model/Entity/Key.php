@@ -37,6 +37,11 @@ class Key extends AbstractEntity
     protected $credentialHash;
 
     /**
+     * @Column(type="ip_address")
+     */
+    protected $lastIp;
+
+    /**
      * The associated user
      *
      * @ManyToOne(targetEntity="User")

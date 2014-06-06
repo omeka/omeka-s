@@ -47,6 +47,18 @@ class User extends AbstractEntity implements RoleInterface
      */
     protected $role;
 
+
+    /**
+     * @PrePersist
+     */
+    public function prePersist()
+    {
+        if (null === $this->created) {
+            // Set created datetime if not already set.
+            $this->created = new DateTime;
+        }
+    }
+
     public function getId()
     {
         return $this->id;
@@ -87,10 +99,9 @@ class User extends AbstractEntity implements RoleInterface
         return $this->created;
     }
 
-    /** @PrePersist */
-    public function setCreated()
+    public function setCreated(DateTime $created)
     {
-        $this->created = new DateTime();
+        $this->created = $created;
     }
     
     /**

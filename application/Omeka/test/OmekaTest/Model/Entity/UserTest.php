@@ -1,6 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
+use DateTime;
 use Omeka\Model\Entity\User;
 use Omeka\Test\TestCase;
 
@@ -30,5 +31,18 @@ class UserTest extends TestCase
         $this->assertEquals('name', $this->user->getName());
         $this->user->setEmail('test@example.com');
         $this->assertEquals('test@example.com', $this->user->getEmail());
+    }
+
+    public function testCreated()
+    {
+        $dateTime = new DateTime;
+        $this->user->setCreated($dateTime);
+        $this->assertSame($dateTime, $this->user->getCreated());
+    }
+
+    public function testSetsCreatedOnPersist()
+    {
+        $this->user->prePersist();
+        $this->assertInstanceOf('DateTime', $this->user->getCreated());
     }
 }

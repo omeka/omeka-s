@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
@@ -78,6 +79,10 @@ class EntityManagerFactory implements FactoryInterface
             Events::loadClassMetadata,
             new ResourceDiscriminatorMap
         );
+
+        // Register a custom mapping type for an IP address.
+        Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
+
         return $em;
     }
 }

@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use DateTime;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
 
 /**
  * @Entity
+ * @HasLifecycleCallbacks
  */
 class Key extends AbstractEntity
 {
@@ -30,11 +32,31 @@ class Key extends AbstractEntity
     protected $id;
 
     /**
+     * @Column
+     */
+    protected $label;
+
+    /**
      * The hashed key credential
      *
      * @Column(length=60)
      */
     protected $credentialHash;
+
+    /**
+     * @Column(type="ip_address", nullable=true)
+     */
+    protected $lastIp;
+
+    /**
+     * @Column(type="datetime", nullable=true)
+     */
+    protected $lastAccessed;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
 
     /**
      * The associated user
@@ -44,6 +66,17 @@ class Key extends AbstractEntity
      */
     protected $user;
 
+    /**
+     * @PrePersist
+     */
+    public function prePersist()
+    {
+        if (null === $this->created) {
+            // Set created datetime if not already set.
+            $this->created = new DateTime;
+        }
+    }
+
     public function setId()
     {
         $this->id = $this->getString();
@@ -52,6 +85,16 @@ class Key extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     /**
@@ -77,6 +120,36 @@ class Key extends AbstractEntity
     {
         $bcrypt = new Bcrypt;
         return $bcrypt->verify($credential, $this->credentialHash);
+    }
+
+    public function setLastIp($lastIp)
+    {
+        $this->lastIp = $lastIp;
+    }
+
+    public function getLastIp()
+    {
+        return $this->lastIp;
+    }
+
+    public function setLastAccessed(DateTime $lastAccessed)
+    {
+        $this->lastAccessed = $lastAccessed;
+    }
+
+    public function getLastAccessed()
+    {
+        return $this->lastAccessed;
+    }
+
+    public function setCreated(DateTime $created)
+    {
+        $this->created = $created;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     public function setUser($user)

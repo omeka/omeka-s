@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Authentication\Adapter;
 
+use DateTime;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\Result;
@@ -20,9 +22,11 @@ class KeyAdapter extends AbstractAdapter
      *
      * @param EntityRepository $repository The Key repository.
      */
-    public function __construct(EntityRepository $repository)
-    {
+    public function __construct(EntityRepository $repository,
+        EntityManager $entityManager
+    ) {
         $this->setRepository($repository);
+        $this->setEntityManager($entityManager);
     }
 
     /**
@@ -31,14 +35,22 @@ class KeyAdapter extends AbstractAdapter
     public function authenticate()
     {
         $key = $this->repository->find($this->getIdentity());
+
         if (!$key) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
                 array('Key identity not found.'));
         }
+
         if (!$key->verifyCredential($this->getCredential())) {
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, null,
                 array('Invalid key credential.'));
         }
+
+        // Update the last IP address and datetime accessed.
+        $key->setLastIp($_SERVER['REMOTE_ADDR']);
+        $key->setLastAccessed(new DateTime);
+        $this->getEntityManager()->flush();
+
         return new Result(Result::SUCCESS, $key->getUser());
     }
 
@@ -60,5 +72,25 @@ class KeyAdapter extends AbstractAdapter
     public function getRepository()
     {
         return $this->repository;
+    }
+
+    /**
+     * Set the entity manager.
+     *
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * Get the entity manager.
+     *
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
     }
 }

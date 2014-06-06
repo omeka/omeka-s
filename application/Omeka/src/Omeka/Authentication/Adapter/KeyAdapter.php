@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Authentication\Adapter;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Zend\Authentication\Adapter\AbstractAdapter;
@@ -45,7 +46,9 @@ class KeyAdapter extends AbstractAdapter
                 array('Invalid key credential.'));
         }
 
+        // Update the last IP address and datetime accessed.
         $key->setLastIp($_SERVER['REMOTE_ADDR']);
+        $key->setLastAccessed(new DateTime);
         $this->getEntityManager()->flush();
 
         return new Result(Result::SUCCESS, $key->getUser());

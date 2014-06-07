@@ -2,6 +2,7 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Item;
+use Omeka\Model\Entity\ItemSet;
 use Omeka\Test\TestCase;
 
 class ItemTest extends TestCase
@@ -22,6 +23,10 @@ class ItemTest extends TestCase
             'Doctrine\Common\Collections\ArrayCollection',
             $this->item->getSites()
         );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->item->getItemSets()
+        );
     }
 
     public function testSetState()
@@ -30,5 +35,19 @@ class ItemTest extends TestCase
         $this->item->setResourceClass('resource_class');
         $this->assertEquals('owner', $this->item->getOwner());
         $this->assertEquals('resource_class', $this->item->getResourceClass());
+    }
+
+    public function testAddItemSet()
+    {
+        $itemSet = new ItemSet;
+        $this->item->addItemSet($itemSet);
+        $this->assertTrue($this->item->getItemSets()->contains($itemSet));
+    }
+
+    public function testRemoveItemSet()
+    {
+        $itemSet = new ItemSet;
+        $this->item->addItemSet($itemSet);
+        $this->assertTrue($this->item->removeItemSet($itemSet));
     }
 }

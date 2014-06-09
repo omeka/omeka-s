@@ -40,7 +40,7 @@ class ResourceClass extends AbstractEntity
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="Vocabulary")
+     * @ManyToOne(targetEntity="Vocabulary", inversedBy="resourceClasses")
      */
     protected $vocabulary;
 

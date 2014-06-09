@@ -29,13 +29,13 @@ class Value extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Resource")
+     * @ManyToOne(targetEntity="Resource", inversedBy="values")
      * @JoinColumn(nullable=false)
      */
     protected $resource;
 
     /**
-     * @ManyToOne(targetEntity="Property")
+     * @ManyToOne(targetEntity="Property", inversedBy="values")
      * @JoinColumn(nullable=false)
      */
     protected $property;

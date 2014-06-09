@@ -39,7 +39,7 @@ class Property extends AbstractEntity
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="Vocabulary")
+     * @ManyToOne(targetEntity="Vocabulary", inversedBy="properties")
      */
     protected $vocabulary;
 

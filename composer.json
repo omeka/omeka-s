@@ -1,4 +1,7 @@
 {
+    "name": "omeka/omeka-s",
+    "description": "The Omeka S collections management system. A local network of independently curated exhibits sharing a collaboratively built pool of items and their metadata.",
+    "license": "AGPL-3.0",
     "require": {
         "php": ">=5.3.23",
         "doctrine/orm": "~2.4",

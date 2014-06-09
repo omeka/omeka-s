@@ -16,7 +16,8 @@ class Item extends Resource
     protected $id;
 
     /**
-     * @ManyToMany(targetEntity="ItemSet")
+     * @ManyToMany(targetEntity="ItemSet", inversedBy="items")
+     * @JoinTable(name="item_item_set")
      */
     protected $itemSets;
 
@@ -45,18 +46,21 @@ class Item extends Resource
      *
      * @param ItemSet $itemSet
      */
-    public function addItemSet(ItemSet $itemSet)
+    public function addToItemSet(ItemSet $itemSet)
     {
+        $itemSet->getItems()->add($this);
         $this->getItemSets()->add($itemSet);
     }
 
     /**
      * Remove this item from an item set.
      *
+     * @param ItemSet $itemSet
      * @return bool
      */
-    public function removeItemSet(ItemSet $itemSet)
+    public function removeFromItemSet(ItemSet $itemSet)
     {
+        $itemSet->getItems()->removeElement($this);
         return $this->getItemSets()->removeElement($itemSet);
     }
 }

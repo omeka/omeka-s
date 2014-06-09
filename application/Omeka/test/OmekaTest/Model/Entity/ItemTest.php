@@ -37,17 +37,17 @@ class ItemTest extends TestCase
         $this->assertEquals('resource_class', $this->item->getResourceClass());
     }
 
-    public function testAddItemSet()
+    public function testAddToItemSet()
     {
         $itemSet = new ItemSet;
-        $this->item->addItemSet($itemSet);
+        $this->item->addToItemSet($itemSet);
         $this->assertTrue($this->item->getItemSets()->contains($itemSet));
     }
 
-    public function testRemoveItemSet()
+    public function testRemoveFromItemSet()
     {
         $itemSet = new ItemSet;
-        $this->item->addItemSet($itemSet);
-        $this->assertTrue($this->item->removeItemSet($itemSet));
+        $this->item->addToItemSet($itemSet);
+        $this->assertTrue($this->item->removeFromItemSet($itemSet));
     }
 }

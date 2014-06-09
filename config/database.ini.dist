@@ -1,8 +1,8 @@
-user         = ''
-password     = ''
-dbname       = ''
-host         = ''
-table_prefix = 'omeka_'
-;charset      = ''
-;port         = ''
-;unix_socket  = ''
+user         = 
+password     = 
+dbname       = 
+host         = 
+table_prefix = omeka_
+;charset      = 
+;port         = 
+;unix_socket  = 

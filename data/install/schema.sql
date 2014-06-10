@@ -82,7 +82,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property_override` (
   `property_id` int(11) NOT NULL,
   `alternate_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8_unicode_ci,
-  `visible` tinyint(1) NOT NULL,
+  `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_8BBC5FA1448CC1BD` (`resource_class_id`),
   KEY `IDX_8BBC5FA1549213EC` (`property_id`),

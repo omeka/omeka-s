@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Omeka\Model\Entity\Property;
+use Omeka\Model\Entity\PropertyOverrideSet;
+
 /**
  * @Entity
  */
@@ -14,10 +17,10 @@ class PropertyOverride extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrides")
+     * @ManyToOne(targetEntity="PropertyOverrideSet", inversedBy="propertyOverrides")
      * @JoinColumn(nullable=false)
      */
-    protected $resourceClass;
+    protected $propertyOverrideSet;
 
     /**
      * @ManyToOne(targetEntity="Property")
@@ -45,17 +48,17 @@ class PropertyOverride extends AbstractEntity
         return $this->id;
     }
 
-    public function setResourceClass($resourceClass)
+    public function setPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
     {
-        $this->resourceClass = $resourceClass;
+        $this->propertyOverrideSet = $propertyOverrideSet;
     }
 
-    public function getResourceClass()
+    public function getPropertyOverrideSet()
     {
-        return $this->resourceClass;
+        return $this->propertyOverrideSet;
     }
 
-    public function setProperty($property)
+    public function setProperty(Property $property)
     {
         $this->property = $property;
     }

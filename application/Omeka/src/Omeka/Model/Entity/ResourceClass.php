@@ -45,16 +45,6 @@ class ResourceClass extends AbstractEntity
     protected $vocabulary;
 
     /**
-     * @OneToMany(
-     *     targetEntity="PropertyOverride",
-     *     mappedBy="resourceClass",
-     *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
-     * )
-     */
-    protected $propertyOverrides;
-
-    /**
      * @Column
      */
     protected $localName;
@@ -97,11 +87,6 @@ class ResourceClass extends AbstractEntity
     public function getVocabulary()
     {
         return $this->vocabulary;
-    }
-
-    public function getPropertyOverrides()
-    {
-        return $this->propertyOverrides;
     }
 
     public function setLocalName($localName)

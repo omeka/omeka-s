@@ -14,10 +14,10 @@ class PropertyOverride extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrides")
+     * @ManyToOne(targetEntity="PropertyOverrideSet", inversedBy="propertyOverrides")
      * @JoinColumn(nullable=false)
      */
-    protected $resourceClass;
+    protected $propertyOverrideSet;
 
     /**
      * @ManyToOne(targetEntity="Property")

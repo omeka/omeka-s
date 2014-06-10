@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\PropertyOverride;
 use Omeka\Model\Entity\User;
@@ -45,6 +46,11 @@ class PropertyOverrideSet extends AbstractEntity
      * @OneToMany(targetEntity="PropertyOverride", mappedBy="propertyOverrideSet")
      */
     protected $propertyOverrides;
+
+    public function __construct()
+    {
+        $this->propertyOverrides = new ArrayCollection;
+    }
 
     public function getId()
     {

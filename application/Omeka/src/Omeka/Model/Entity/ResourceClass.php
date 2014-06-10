@@ -59,11 +59,6 @@ class ResourceClass extends AbstractEntity
      */
     protected $comment;
 
-    public function __construct()
-    {
-        $this->propertyOverrides = new ArrayCollection;
-    }
-
     public function getId()
     {
         return $this->id;

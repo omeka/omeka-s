@@ -18,10 +18,6 @@ class ResourceClassTest extends TestCase
         $this->assertNull($this->resourceClass->getId());
         $this->assertNull($this->resourceClass->getOwner());
         $this->assertNull($this->resourceClass->getVocabulary());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->resourceClass->getPropertyOverrides()
-        );
         $this->assertNull($this->resourceClass->getLocalName());
         $this->assertNull($this->resourceClass->getLabel());
         $this->assertNull($this->resourceClass->getComment());

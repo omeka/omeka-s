@@ -25,14 +25,20 @@ class PropertyOverride extends AbstractEntity
      */
     protected $property;
 
-    /** @Column(nullable=true) */
+    /**
+     * @Column(nullable=true)
+     */
     protected $alternateLabel;
 
-    /** @Column(type="text", nullable=true) */
+    /**
+     * @Column(type="text", nullable=true)
+     */
     protected $alternateComment;
 
-    /** @Column(type="boolean") */
-    protected $visible = false;
+    /**
+     * @Column(type="boolean")
+     */
+    protected $default = true;
 
     public function getId()
     {
@@ -79,13 +85,13 @@ class PropertyOverride extends AbstractEntity
         return $this->alternateComment;
     }
 
-    public function setVisible($visible)
+    public function setDefault($default)
     {
-        $this->visible = (bool) $visible;
+        $this->default = (bool) $default;
     }
 
-    public function isVisible()
+    public function isDefault()
     {
-        return $this->visible;
+        return $this->default;
     }
 }

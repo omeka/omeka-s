@@ -1,25 +1,25 @@
-# Omeka 3 (Multisite)
+# Omeka S (Multisite)
+
+The Omeka S collections management system. A local network of independently
+curated exhibits sharing a collaboratively built pool of items and their
+metadata. 
 
 ## Installation
 
 1. Clone this repository in your Apache web directory:
-   * `$ git clone git@github.com:omeka/Omeka3.git`
-1. Change into the Omeka3 directory:
-   * `$ cd Omeka3`
-1. Install [Composer](http://getcomposer.org/): 
-   * `$ curl -sS https://getcomposer.org/installer | php`
-1. Install dependencies using Composer: 
-   * `$ ./composer.phar install`
-1. Copy and rename the htaccess, local config, and database config files: 
-   * `$ cp .htaccess.dist .htaccess`
-   * `$ cp config/local.config.php.dist config/local.config.php`
-   * `$ cp config/database.ini.dist config/database.ini`
+   * `$ git clone git@github.com:omeka/omeka-s.git`
+1. Change into the Omeka S directory:
+   * `$ cd omeka-s`
+1. Install dependencies
+   * `$ ant install-deps`
+1. Prepare dist files: 
+   * `$ ant dedist`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name.
-1. In your web browser, navigate to the Omeka3/install directory, where you can
+1. In your web browser, navigate to the omeka-s/install directory, where you can
    complete installation.
 
-You can find Omeka-specific code under module/Omeka.
+You can find Omeka-specific code under application/Omeka.
 
 ## Libraries Used
 

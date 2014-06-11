@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Zend\Permissions\Acl\Resource\ResourceInterface;
+
 /**
  * Entity interface.
  *
@@ -15,7 +17,7 @@ namespace Omeka\Model\Entity;
  *
  * @link http://docs.doctrine-project.org/en/latest/reference/annotations-reference.html
  */
-interface EntityInterface
+interface EntityInterface extends ResourceInterface
 {
     /**
      * Get the unique identifier.

@@ -32,7 +32,7 @@ class PropertyOverrideSet extends AbstractEntity
     protected $label;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass")
+     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrideSets")
      * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
@@ -67,8 +67,9 @@ class PropertyOverrideSet extends AbstractEntity
         return $this->label;
     }
 
-    public function setResourceClass(ResourceClass $resourceClass)
+    public function setResourceClass(ResourceClass $resourceClass = null)
     {
+        $resourceClass->getPropertyOverrideSets()->add($this);
         $this->resourceClass = $resourceClass;
     }
 

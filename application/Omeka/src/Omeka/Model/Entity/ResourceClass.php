@@ -59,6 +59,20 @@ class ResourceClass extends AbstractEntity
      */
     protected $comment;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="PropertyOverrideSet",
+     *     mappedBy="resourceClass",
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $propertyOverrideSets;
+
+    public function __construct()
+    {
+        $this->propertyOverrideSets = new ArrayCollection;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -112,5 +126,33 @@ class ResourceClass extends AbstractEntity
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getPropertyOverrideSets()
+    {
+        return $this->propertyOverrideSets;
+    }
+
+    /**
+     * Add a property override set to this resource class.
+     *
+     * @param PropertyOverrideSet $propertyOverrideSet
+     */
+    public function addPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    {
+        $propertyOverrideSet->setResourceClass($this);
+        $this->getPropertyOverrideSets()->add($propertyOverrideSet);
+    }
+
+    /**
+     * Remove a property override set from this resource class.
+     *
+     * @param PropertyOverrideSet $propertyOverrideSet
+     * @return bool
+     */
+    public function removePropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    {
+        $propertyOverrideSet->setResourceClass(null);
+        return $this->getPropertyOverrideSets()->removeElement($propertyOverrideSet);
     }
 }

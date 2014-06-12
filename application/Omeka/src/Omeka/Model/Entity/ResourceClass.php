@@ -63,6 +63,7 @@ class ResourceClass extends AbstractEntity
      * @OneToMany(
      *     targetEntity="PropertyOverrideSet",
      *     mappedBy="resourceClass",
+     *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
      */

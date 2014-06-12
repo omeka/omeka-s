@@ -74,7 +74,7 @@ class ResourceClass extends AbstractEntity
         return $this->owner;
     }
 
-    public function setVocabulary(Vocabulary $vocabulary)
+    public function setVocabulary(Vocabulary $vocabulary = null)
     {
         $this->vocabulary = $vocabulary;
     }

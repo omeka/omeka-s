@@ -4,6 +4,9 @@ namespace Omeka\Service;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
+use Omeka\Model\Entity\Property;
+use Omeka\Model\Entity\ResourceClass;
+use Omeka\Model\Entity\Vocabulary;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -70,37 +73,44 @@ class RdfImporter implements ServiceLocatorAwareInterface
      * Import an RDF vocabulary, including its classes and properties.
      *
      * @param string $strategy The import strategy to use (e.g. "file", "url")
-     * @param string $vocabulary The vocabulary as supported by the vocabulary
-     * entity adapter.
+     * @param string $vocabularyArray The vocabulary as supported by the
+     * vocabulary entity adapter.
      * @param array $options See self::getMembers()
      */
-    public function import($strategy, array $vocabulary, array $options = array())
+    public function import($strategy, array $vocabularyArray, array $options = array())
     {
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->getConnection()->beginTransaction();
 
-        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
-
-        // Create the vocabulary.
-        $responseVocabulary = $apiManager->create('vocabularies', $vocabulary);
-        $vocabulary = $responseVocabulary->getContent()->jsonSerialize();
+        $vocabulary = new Vocabulary;
+        $vocabulary->setNamespaceUri($vocabularyArray['namespace_uri']);
+        $vocabulary->setPrefix($vocabularyArray['prefix']);
+        $vocabulary->setLabel($vocabularyArray['label']);
+        $vocabulary->setComment($vocabularyArray['comment']);
 
         // Get the RDF members.
         $members = $this->getMembers(
-            $strategy, $vocabulary['namespace_uri'], $options
+            $strategy, $vocabularyArray['namespace_uri'], $options
         );
 
-        // Add vocabulary data and batch create the classes.
-        array_walk($members['classes'], function (&$class) use ($vocabulary) {
-            $class['vocabulary'] = array('id' => $vocabulary['id']);
-        });
-        $responseClass = $apiManager->batchCreate('resource_classes', $members['classes']);
+        foreach ($members['classes'] as $memberClass) {
+            $resourceClass = new ResourceClass;
+            $resourceClass->setLocalName($memberClass['local_name']);
+            $resourceClass->setLabel($memberClass['label']);
+            $resourceClass->setComment($memberClass['comment']);
+            $vocabulary->addResourceClass($resourceClass);
+        }
 
-        // Add vocabulary data and batch create the properties.
-        array_walk($members['properties'], function (&$property) use ($vocabulary) {
-            $property['vocabulary'] = array('id' => $vocabulary['id']);
-        });
-        $responseProperty = $apiManager->batchCreate('properties', $members['properties']);
+        foreach ($members['properties'] as $memberProperty) {
+            $property = new Property;
+            $property->setLocalName($memberProperty['local_name']);
+            $property->setLabel($memberProperty['label']);
+            $property->setComment($memberProperty['comment']);
+            $vocabulary->addProperty($property);
+        }
+
+        $entityManager->persist($vocabulary);
+        $entityManager->flush();
 
         $entityManager->getConnection()->commit();
     }

@@ -79,19 +79,16 @@ class RdfImporter implements ServiceLocatorAwareInterface
      */
     public function import($strategy, array $vocabularyArray, array $options = array())
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $entityManager->getConnection()->beginTransaction();
+        // Get the RDF members.
+        $members = $this->getMembers(
+            $strategy, $vocabularyArray['namespace_uri'], $options
+        );
 
         $vocabulary = new Vocabulary;
         $vocabulary->setNamespaceUri($vocabularyArray['namespace_uri']);
         $vocabulary->setPrefix($vocabularyArray['prefix']);
         $vocabulary->setLabel($vocabularyArray['label']);
         $vocabulary->setComment($vocabularyArray['comment']);
-
-        // Get the RDF members.
-        $members = $this->getMembers(
-            $strategy, $vocabularyArray['namespace_uri'], $options
-        );
 
         foreach ($members['classes'] as $memberClass) {
             $resourceClass = new ResourceClass;
@@ -109,10 +106,9 @@ class RdfImporter implements ServiceLocatorAwareInterface
             $vocabulary->addProperty($property);
         }
 
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->persist($vocabulary);
         $entityManager->flush();
-
-        $entityManager->getConnection()->commit();
     }
 
     protected function getGraph($strategy, $namespaceUri, $options)

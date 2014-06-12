@@ -39,6 +39,7 @@ class PropertyOverrideSetTest extends TestCase
         $resourceClass = new ResourceClass;
         $this->propertyOverrideSet->setResourceClass($resourceClass);
         $this->assertSame($resourceClass, $this->propertyOverrideSet->getResourceClass());
+        $this->assertTrue($resourceClass->getPropertyOverrideSets()->contains($this->propertyOverrideSet));
     }
 
     public function testSetOwner()

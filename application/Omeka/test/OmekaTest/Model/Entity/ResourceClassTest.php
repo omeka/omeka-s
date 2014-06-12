@@ -1,6 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
+use Omeka\Model\Entity\PropertyOverrideSet;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
 use Omeka\Model\Entity\Vocabulary;
@@ -23,6 +24,10 @@ class ResourceClassTest extends TestCase
         $this->assertNull($this->resourceClass->getLocalName());
         $this->assertNull($this->resourceClass->getLabel());
         $this->assertNull($this->resourceClass->getComment());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->resourceClass->getPropertyOverrideSets()
+        );
     }
 
     public function testSetOwner()
@@ -58,5 +63,21 @@ class ResourceClassTest extends TestCase
         $comment = 'test-comment';
         $this->resourceClass->setComment($comment);
         $this->assertEquals($comment, $this->resourceClass->getComment());
+    }
+
+    public function testAddPropertyOverrideSet()
+    {
+        $propertyOverrideSet = new PropertyOverrideSet;
+        $this->resourceClass->addPropertyOverrideSet($propertyOverrideSet);
+        $this->assertSame($this->resourceClass, $propertyOverrideSet->getResourceClass());
+        $this->assertTrue($this->resourceClass->getPropertyOverrideSets()->contains($propertyOverrideSet));
+    }
+
+    public function testRemovePropertyOverrideSet()
+    {
+        $propertyOverrideSet = new PropertyOverrideSet;
+        $this->resourceClass->addPropertyOverrideSet($propertyOverrideSet);
+        $this->assertTrue($this->resourceClass->removePropertyOverrideSet($propertyOverrideSet));
+        $this->assertNull($propertyOverrideSet->getResourceClass());
     }
 }

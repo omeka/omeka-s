@@ -97,5 +97,6 @@ class VocabularyTest extends TestCase
         $property = new Property;
         $this->vocabulary->addProperty($property);
         $this->assertTrue($this->vocabulary->removeProperty($property));
+        $this->assertNull($property->getVocabulary());
     }
 }

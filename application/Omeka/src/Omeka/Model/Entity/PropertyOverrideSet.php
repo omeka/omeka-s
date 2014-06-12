@@ -69,7 +69,9 @@ class PropertyOverrideSet extends AbstractEntity
 
     public function setResourceClass(ResourceClass $resourceClass = null)
     {
-        $resourceClass->getPropertyOverrideSets()->add($this);
+        if ($resourceClass instanceof ResourceClass) {
+            $resourceClass->getPropertyOverrideSets()->add($this);
+        }
         $this->resourceClass = $resourceClass;
     }
 

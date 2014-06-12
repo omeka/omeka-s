@@ -78,7 +78,7 @@ class Property extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
     }
@@ -88,7 +88,7 @@ class Property extends AbstractEntity
         return $this->owner;
     }
 
-    public function setVocabulary($vocabulary)
+    public function setVocabulary(Vocabulary $vocabulary)
     {
         $this->vocabulary = $vocabulary;
     }
@@ -96,11 +96,6 @@ class Property extends AbstractEntity
     public function getVocabulary()
     {
         return $this->vocabulary;
-    }
-
-    public function getResourceClasses()
-    {
-        return $this->resourceClasses;
     }
 
     public function setLocalName($localName)

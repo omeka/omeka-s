@@ -2,6 +2,8 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\ResourceClass;
+use Omeka\Model\Entity\User;
+use Omeka\Model\Entity\Vocabulary;
 use Omeka\Test\TestCase;
 
 class ResourceClassTest extends TestCase
@@ -23,17 +25,38 @@ class ResourceClassTest extends TestCase
         $this->assertNull($this->resourceClass->getComment());
     }
 
-    public function testSetState()
+    public function testSetOwner()
     {
-        $this->resourceClass->setOwner('owner');
-        $this->resourceClass->setVocabulary('vocabulary');
-        $this->resourceClass->setLocalName('local_name');
-        $this->resourceClass->setLabel('label');
-        $this->resourceClass->setComment('comment');
-        $this->assertEquals('owner', $this->resourceClass->getOwner());
-        $this->assertEquals('vocabulary', $this->resourceClass->getVocabulary());
-        $this->assertEquals('local_name', $this->resourceClass->getLocalName());
-        $this->assertEquals('label', $this->resourceClass->getLabel());
-        $this->assertEquals('comment', $this->resourceClass->getComment());
+        $owner = new User;
+        $this->resourceClass->setOwner($owner);
+        $this->assertSame($owner, $this->resourceClass->getOwner());
+    }
+
+    public function testSetVocabulary()
+    {
+        $vocabulary = new Vocabulary;
+        $this->resourceClass->setVocabulary($vocabulary);
+        $this->assertSame($vocabulary, $this->resourceClass->getVocabulary());
+    }
+
+    public function testSetLocalName()
+    {
+        $localName = 'test-localName';
+        $this->resourceClass->setLocalName($localName);
+        $this->assertEquals($localName, $this->resourceClass->getLocalName());
+    }
+
+    public function testSetLabel()
+    {
+        $label = 'test-label';
+        $this->resourceClass->setLabel($label);
+        $this->assertEquals($label, $this->resourceClass->getLabel());
+    }
+
+    public function testSetComment()
+    {
+        $comment = 'test-comment';
+        $this->resourceClass->setComment($comment);
+        $this->assertEquals($comment, $this->resourceClass->getComment());
     }
 }

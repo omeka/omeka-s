@@ -16,9 +16,9 @@ class SiteTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->site->getId());
-    }
-
-    public function testSetState()
-    {
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->site->getSiteResources()
+        );
     }
 }

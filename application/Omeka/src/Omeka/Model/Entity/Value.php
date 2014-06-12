@@ -75,7 +75,7 @@ class Value extends AbstractEntity
         return $this->id;
     }
 
-    public function setResource($resource)
+    public function setResource(Resource $resource)
     {
         $this->resource = $resource;
     }
@@ -85,7 +85,7 @@ class Value extends AbstractEntity
         return $this->resource;
     }
 
-    public function setProperty($property)
+    public function setProperty(Property $property)
     {
         $this->property = $property;
     }
@@ -141,12 +141,12 @@ class Value extends AbstractEntity
         $this->isHtml = $isHtml ? (bool) $isHtml : false;
     }
 
-    public function getIsHtml()
+    public function isHtml()
     {
         return $this->isHtml;
     }
 
-    public function setValueResource($valueResource)
+    public function setValueResource(Resource $valueResource = null)
     {
         $this->valueResource = $valueResource;
     }

@@ -64,7 +64,7 @@ class ResourceClass extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
     }
@@ -74,7 +74,7 @@ class ResourceClass extends AbstractEntity
         return $this->owner;
     }
 
-    public function setVocabulary($vocabulary)
+    public function setVocabulary(Vocabulary $vocabulary)
     {
         $this->vocabulary = $vocabulary;
     }

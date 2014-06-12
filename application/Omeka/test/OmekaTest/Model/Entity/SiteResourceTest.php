@@ -1,7 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
+use Omeka\Model\Entity\Site;
 use Omeka\Model\Entity\SiteResource;
+use Omeka\Model\Entity\User;
 use Omeka\Test\TestCase;
 
 class SiteResourceTest extends TestCase
@@ -21,13 +23,24 @@ class SiteResourceTest extends TestCase
         $this->assertNull($this->siteResource->getResource());
     }
 
-    public function testSetState()
+    public function testSetAssigner()
     {
-        $this->siteResource->setAssigner('assigner');
-        $this->siteResource->setSite('site');
-        $this->siteResource->setResource('resource');
-        $this->assertEquals('assigner', $this->siteResource->getAssigner());
-        $this->assertEquals('site', $this->siteResource->getSite());
-        $this->assertEquals('resource', $this->siteResource->getResource());
+        $assigner = new User;
+        $this->siteResource->setAssigner($assigner);
+        $this->assertSame($assigner, $this->siteResource->getAssigner());
+    }
+
+    public function testSetSite()
+    {
+        $site = new Site;
+        $this->siteResource->setSite($site);
+        $this->assertSame($site, $this->siteResource->getSite());
+    }
+
+    public function testSetResource()
+    {
+        $resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
+        $this->siteResource->setResource($resource);
+        $this->assertSame($resource, $this->siteResource->getResource());
     }
 }

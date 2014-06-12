@@ -13,12 +13,6 @@ class Media extends Resource
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Item")
-     * @JoinColumn(nullable=false)
-     */
-    protected $item;
-
-    /**
      * @Column
      */
     protected $type;
@@ -29,9 +23,15 @@ class Media extends Resource
     protected $data;
 
     /**
+     * @ManyToOne(targetEntity="Item")
+     * @JoinColumn(nullable=false)
+     */
+    protected $item;
+
+    /**
      * @OneToOne(targetEntity="File")
      */
-    private $file;
+    protected $file;
 
     public function getResourceName()
     {
@@ -41,16 +41,6 @@ class Media extends Resource
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setItem($item)
-    {
-        $this->item = $item;
-    }
-
-    public function getItem()
-    {
-        return $this->item;
     }
 
     public function setType($type)
@@ -73,7 +63,17 @@ class Media extends Resource
         return $this->data;
     }
 
-    public function setFile($file)
+    public function setItem(Item $item)
+    {
+        $this->item = $item;
+    }
+
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    public function setFile(File $file)
     {
         $this->file = $file;
     }

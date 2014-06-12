@@ -2,7 +2,6 @@
 namespace Omeka\Model\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Omeka\Model\Entity\ItemSet;
 
 /**
  * @Entity

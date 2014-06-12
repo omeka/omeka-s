@@ -152,7 +152,7 @@ class Key extends AbstractEntity
         return $this->created;
     }
 
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }

@@ -21,19 +21,38 @@ class UserTest extends TestCase
         $this->assertNull($this->user->getName());
         $this->assertNull($this->user->getCreated());
         $this->assertNull($this->user->getEmail());
+        $this->assertNull($this->user->getRole());
     }
 
-    public function testSetState()
+    public function testSetUsername()
     {
-        $this->user->setUsername('username');
-        $this->assertEquals('username', $this->user->getUsername());
-        $this->user->setName('name');
-        $this->assertEquals('name', $this->user->getName());
-        $this->user->setEmail('test@example.com');
-        $this->assertEquals('test@example.com', $this->user->getEmail());
+        $username = 'test-username';
+        $this->user->setUsername($username);
+        $this->assertEquals($username, $this->user->getUsername());
     }
 
-    public function testCreated()
+    public function testSetName()
+    {
+        $name = 'test-name';
+        $this->user->setName($name);
+        $this->assertEquals($name, $this->user->getName());
+    }
+
+    public function testSetEmail()
+    {
+        $email = 'test-email';
+        $this->user->setEmail($email);
+        $this->assertEquals($email, $this->user->getEmail());
+    }
+
+    public function testSetRole()
+    {
+        $role = 'test-role';
+        $this->user->setRole($role);
+        $this->assertEquals($role, $this->user->getRole());
+    }
+
+    public function testSetCreated()
     {
         $dateTime = new DateTime;
         $this->user->setCreated($dateTime);

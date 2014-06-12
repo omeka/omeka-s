@@ -47,7 +47,6 @@ class User extends AbstractEntity implements RoleInterface
      */
     protected $role;
 
-
     /**
      * @PrePersist
      */

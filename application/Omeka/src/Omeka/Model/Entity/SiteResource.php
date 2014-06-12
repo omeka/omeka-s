@@ -35,7 +35,7 @@ class SiteResource extends AbstractEntity
         return $this->id;
     }
 
-    public function setAssigner($assigner)
+    public function setAssigner(User $assigner)
     {
         $this->assigner = $assigner;
     }
@@ -45,7 +45,7 @@ class SiteResource extends AbstractEntity
         return $this->assigner;
     }
 
-    public function setSite($site)
+    public function setSite(Site $site)
     {
         $this->site = $site;
     }
@@ -55,7 +55,7 @@ class SiteResource extends AbstractEntity
         return $this->site;
     }
 
-    public function setResource($resource)
+    public function setResource(Resource $resource)
     {
         $this->resource = $resource;
     }

@@ -37,7 +37,7 @@ class Module extends AbstractEntity
         $this->isActive = (bool) $isActive;
     }
 
-    public function getIsActive()
+    public function isActive()
     {
         return $this->isActive;
     }

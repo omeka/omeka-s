@@ -75,7 +75,7 @@ class Vocabulary extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
     }

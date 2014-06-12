@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  */
@@ -18,8 +20,18 @@ class Site extends AbstractEntity
      */
     protected $siteResources;
 
+    public function __construct()
+    {
+        $this->siteResources = new ArrayCollection;
+    }
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getSiteResources()
+    {
+        return $this->siteResources;
     }
 }

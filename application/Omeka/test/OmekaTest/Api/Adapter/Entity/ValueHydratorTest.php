@@ -233,7 +233,7 @@ class ValueHydratorTest extends TestCase
                 if ($nodeObject['term'][0]['@language'] !== $value->getLang()) {
                     return false;
                 }
-                if ($nodeObject['term'][0]['is_html'] !== $value->getIsHtml()) {
+                if ($nodeObject['term'][0]['is_html'] !== $value->isHtml()) {
                     return false;
                 }
                 return true;

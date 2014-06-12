@@ -2,7 +2,6 @@
 namespace Omeka\Model\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * A resource, representing the subject in an RDF triple.
@@ -10,7 +9,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * Note that the discriminator map is loaded dynamically.
  * 
  * @Entity
- * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  *
@@ -67,7 +65,7 @@ abstract class Resource extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
     }
@@ -77,7 +75,7 @@ abstract class Resource extends AbstractEntity
         return $this->owner;
     }
 
-    public function setResourceClass($resourceClass)
+    public function setResourceClass(ResourceClass $resourceClass)
     {
         $this->resourceClass = $resourceClass;
     }

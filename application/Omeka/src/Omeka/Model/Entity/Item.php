@@ -20,8 +20,14 @@ class Item extends Resource
      */
     protected $itemSets;
 
+    /**
+     * @OneToMany(targetEntity="SiteItem", mappedBy="item")
+     */
+    protected $sites;
+
     public function __construct() {
         parent::__construct();
+        $this->sites = new ArrayCollection;
         $this->itemSets = new ArrayCollection;
     }
 
@@ -61,5 +67,10 @@ class Item extends Resource
     {
         $itemSet->getItems()->removeElement($this);
         return $this->getItemSets()->removeElement($itemSet);
+    }
+
+    public function getSites()
+    {
+        return $this->sites;
     }
 }

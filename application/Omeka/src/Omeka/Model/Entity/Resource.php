@@ -43,15 +43,9 @@ abstract class Resource extends AbstractEntity
      */
     protected $values;
 
-    /**
-     * @OneToMany(targetEntity="SiteResource", mappedBy="resource")
-     */
-    protected $sites;
-
     public function __construct()
     {
         $this->values = new ArrayCollection;
-        $this->sites = new ArrayCollection;
     }
 
     /**
@@ -116,10 +110,5 @@ abstract class Resource extends AbstractEntity
     {
         $value->setResource(null);
         return $this->getValues()->removeElement($value);
-    }
-
-    public function getSites()
-    {
-        return $this->sites;
     }
 }

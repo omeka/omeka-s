@@ -16,13 +16,13 @@ class Site extends AbstractEntity
     protected $id;
 
     /**
-     * @OneToMany(targetEntity="SiteResource", mappedBy="site")
+     * @OneToMany(targetEntity="SiteItem", mappedBy="site")
      */
-    protected $siteResources;
+    protected $siteItems;
 
     public function __construct()
     {
-        $this->siteResources = new ArrayCollection;
+        $this->siteItems = new ArrayCollection;
     }
 
     public function getId()
@@ -30,8 +30,8 @@ class Site extends AbstractEntity
         return $this->id;
     }
 
-    public function getSiteResources()
+    public function getSiteItems()
     {
-        return $this->siteResources;
+        return $this->siteItems;
     }
 }

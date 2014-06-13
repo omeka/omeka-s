@@ -22,10 +22,6 @@ class ResourceTest extends TestCase
         $this->assertNull($this->resource->getResourceClass());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->resource->getSites()
-        );
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
             $this->resource->getValues()
         );
     }

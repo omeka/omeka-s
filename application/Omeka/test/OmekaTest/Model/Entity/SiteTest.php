@@ -18,7 +18,7 @@ class SiteTest extends TestCase
         $this->assertNull($this->site->getId());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->site->getSiteResources()
+            $this->site->getSiteItems()
         );
     }
 }

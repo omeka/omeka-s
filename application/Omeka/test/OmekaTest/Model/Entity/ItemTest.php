@@ -21,6 +21,10 @@ class ItemTest extends TestCase
             'Doctrine\Common\Collections\ArrayCollection',
             $this->item->getItemSets()
         );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->item->getSites()
+        );
     }
 
     public function testAddToItemSet()

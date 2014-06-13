@@ -48,8 +48,11 @@ class PropertyOverride extends AbstractEntity
         return $this->id;
     }
 
-    public function setPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    public function setPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet = null)
     {
+        if ($propertyOverrideSet instanceof PropertyOverrideSet) {
+            $propertyOverrideSet->getPropertyOverrides()->add($this);
+        }
         $this->propertyOverrideSet = $propertyOverrideSet;
     }
 

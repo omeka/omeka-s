@@ -1,6 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
+use Omeka\Model\Entity\PropertyOverride;
 use Omeka\Model\Entity\PropertyOverrideSet;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
@@ -47,5 +48,21 @@ class PropertyOverrideSetTest extends TestCase
         $owner = new User;
         $this->propertyOverrideSet->setOwner($owner);
         $this->assertSame($owner, $this->propertyOverrideSet->getOwner());
+    }
+
+    public function testAddPropertyOverride()
+    {
+        $propertyOverride = new PropertyOverride;
+        $this->propertyOverrideSet->addPropertyOverride($propertyOverride);
+        $this->assertSame($this->propertyOverrideSet, $propertyOverride->getPropertyOverrideSet());
+        $this->assertTrue($this->propertyOverrideSet->getPropertyOverrides()->contains($propertyOverride));
+    }
+
+    public function testRemovePropertyOverride()
+    {
+        $propertyOverride = new PropertyOverride;
+        $this->propertyOverrideSet->addPropertyOverride($propertyOverride);
+        $this->assertTrue($this->propertyOverrideSet->removePropertyOverride($propertyOverride));
+        $this->assertNull($propertyOverride->getPropertyOverrideSet());
     }
 }

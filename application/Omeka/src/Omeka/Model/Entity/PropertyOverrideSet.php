@@ -43,7 +43,12 @@ class PropertyOverrideSet extends AbstractEntity
     protected $owner;
 
     /**
-     * @OneToMany(targetEntity="PropertyOverride", mappedBy="propertyOverrideSet")
+     * @OneToMany(
+     *     targetEntity="PropertyOverride",
+     *     mappedBy="propertyOverrideSet",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     protected $propertyOverrides;
 
@@ -93,5 +98,28 @@ class PropertyOverrideSet extends AbstractEntity
     public function getPropertyOverrides()
     {
         return $this->propertyOverrides;
+    }
+
+    /**
+     * Add a property override to this set.
+     *
+     * @param PropertyOverride $propertyOverride
+     */
+    public function addPropertyOverride(PropertyOverride $propertyOverride)
+    {
+        $propertyOverride->setPropertyOverrideSet($this);
+        $this->getPropertyOverrides()->add($propertyOverride);
+    }
+
+    /**
+     * Remove a property override from this set.
+     *
+     * @param PropertyOverride $propertyOverride
+     * @return bool
+     */
+    public function removePropertyOverride(PropertyOverride $propertyOverride)
+    {
+        $propertyOverride->setPropertyOverrideSet(null);
+        return $this->getPropertyOverrides()->removeElement($propertyOverride);
     }
 }

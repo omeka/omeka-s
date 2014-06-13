@@ -34,7 +34,12 @@ abstract class Resource extends AbstractEntity
     protected $resourceClass;
 
     /**
-     * @OneToMany(targetEntity="Value", mappedBy="resource")
+     * @OneToMany(
+     *     targetEntity="Value",
+     *     mappedBy="resource",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     protected $values;
 
@@ -88,6 +93,29 @@ abstract class Resource extends AbstractEntity
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * Add a value to this resource.
+     *
+     * @param Value $value
+     */
+    public function addValue(Value $value)
+    {
+        $value->setResource($this);
+        $this->getValues()->add($value);
+    }
+
+    /**
+     * Remove a value from this resource.
+     *
+     * @param Value $value
+     * @return bool
+     */
+    public function removeValue(Value $value)
+    {
+        $value->setResource(null);
+        return $this->getValues()->removeElement($value);
     }
 
     public function getSites()

@@ -32,6 +32,7 @@ class ValueTest extends TestCase
         $resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
         $this->value->setResource($resource);
         $this->assertSame($resource, $this->value->getResource());
+        $this->assertTrue($resource->getValues()->contains($this->value));
     }
 
     public function testSetValueResource()

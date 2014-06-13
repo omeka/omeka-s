@@ -20,7 +20,12 @@ class ValueHydratorTest extends TestCase
                 array('getEntityManager', 'getAdapter', 'getApiUrl')
         );
         $this->resource = $this->getMock('Omeka\Model\Entity\Resource');
-    }
+        $this->resource->expects($this->any())
+            ->method('getValues')
+            ->will($this->returnValue(
+                $this->getMock('Doctrine\Common\Collections\ArrayCollection')
+            ));
+        }
 
     public function testHydrateRemoves()
     {

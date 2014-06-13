@@ -75,8 +75,11 @@ class Value extends AbstractEntity
         return $this->id;
     }
 
-    public function setResource(Resource $resource)
+    public function setResource(Resource $resource = null)
     {
+        if ($resource instanceof Resource) {
+            $resource->getValues()->add($this);
+        }
         $this->resource = $resource;
     }
 

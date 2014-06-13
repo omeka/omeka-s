@@ -3,6 +3,7 @@ namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
+use Omeka\Model\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ResourceTest extends TestCase
@@ -41,5 +42,21 @@ class ResourceTest extends TestCase
         $resourceClass = new ResourceClass;
         $this->resource->setResourceClass($resourceClass);
         $this->assertSame($resourceClass, $this->resource->getResourceClass());
+    }
+
+    public function testAddValue()
+    {
+        $value = new Value;
+        $this->resource->addValue($value);
+        $this->assertSame($this->resource, $value->getResource());
+        $this->assertTrue($this->resource->getValues()->contains($value));
+    }
+
+    public function testRemoveValue()
+    {
+        $value = new Value;
+        $this->resource->addValue($value);
+        $this->assertTrue($this->resource->removeValue($value));
+        $this->assertNull($value->getValue());
     }
 }

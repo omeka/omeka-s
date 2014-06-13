@@ -90,6 +90,9 @@ class Property extends AbstractEntity
 
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
+        if ($vocabulary instanceof Vocabulary) {
+            $vocabulary->getProperties()->add($this);
+        }
         $this->vocabulary = $vocabulary;
     }
 

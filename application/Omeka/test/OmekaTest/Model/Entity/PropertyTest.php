@@ -41,6 +41,7 @@ class PropertyTest extends TestCase
         $vocabulary = new Vocabulary;
         $this->property->setVocabulary($vocabulary);
         $this->assertSame($vocabulary, $this->property->getVocabulary());
+        $this->assertTrue($vocabulary->getProperties()->contains($this->property));
     }
 
     public function testSetLocalName()

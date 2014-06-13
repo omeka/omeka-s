@@ -91,6 +91,9 @@ class ResourceClass extends AbstractEntity
 
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
+        if ($vocabulary instanceof Vocabulary) {
+            $vocabulary->getResourceClasses()->add($this);
+        }
         $this->vocabulary = $vocabulary;
     }
 

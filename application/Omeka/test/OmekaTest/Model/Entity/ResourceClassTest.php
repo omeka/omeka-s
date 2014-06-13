@@ -42,6 +42,7 @@ class ResourceClassTest extends TestCase
         $vocabulary = new Vocabulary;
         $this->resourceClass->setVocabulary($vocabulary);
         $this->assertSame($vocabulary, $this->resourceClass->getVocabulary());
+        $this->assertTrue($vocabulary->getResourceClasses()->contains($this->resourceClass));
     }
 
     public function testSetLocalName()

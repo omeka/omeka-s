@@ -58,16 +58,6 @@ class Property extends AbstractEntity
      */
     protected $comment;
 
-    /**
-     * @OneToMany(
-     *     targetEntity="Value",
-     *     mappedBy="property",
-     *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
-     * )
-     */
-    protected $values;
-
     public function __construct()
     {
         $this->values = new ArrayCollection;
@@ -129,10 +119,5 @@ class Property extends AbstractEntity
     public function getComment()
     {
         return $this->comment;
-    }
-
-    public function getValues()
-    {
-        return $this->values;
     }
 }

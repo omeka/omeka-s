@@ -23,10 +23,6 @@ class PropertyTest extends TestCase
         $this->assertNull($this->property->getLocalName());
         $this->assertNull($this->property->getLabel());
         $this->assertNull($this->property->getComment());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->property->getValues()
-        );
     }
 
     public function testSetOwner()

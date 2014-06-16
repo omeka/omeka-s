@@ -19,7 +19,7 @@ class KeyTest extends TestCase
     {
         $this->assertNull($this->key->getId());
         $this->assertNull($this->key->getLabel());
-        $this->assertNull($this->key->getUser());
+        $this->assertNull($this->key->getOwner());
         $this->assertNull($this->key->getLastIp());
         $this->assertNull($this->key->getLastAccessed());
         $this->assertNull($this->key->getCreated());
@@ -76,10 +76,10 @@ class KeyTest extends TestCase
         $this->assertInstanceOf('DateTime', $this->key->getCreated());
     }
 
-    public function testSetUser()
+    public function testSetOwner()
     {
-        $user = new User;
-        $this->key->setUser($user);
-        $this->assertSame($user, $this->key->getUser());
+        $owner = new User;
+        $this->key->setOwner($owner);
+        $this->assertSame($owner, $this->key->getOwner());
     }
 }

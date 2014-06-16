@@ -16,6 +16,11 @@ class Site extends AbstractEntity
     protected $id;
 
     /**
+     * @ManyToOne(targetEntity="User")
+     */
+    protected $owner;
+
+    /**
      * @OneToMany(targetEntity="SiteItem", mappedBy="site")
      */
     protected $siteItems;
@@ -28,6 +33,16 @@ class Site extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
     }
 
     public function getSiteItems()

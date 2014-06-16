@@ -38,7 +38,7 @@ class PropertyOverrideSet extends AbstractEntity
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="propertyOverrideSets")
      */
     protected $owner;
 
@@ -85,7 +85,7 @@ class PropertyOverrideSet extends AbstractEntity
         return $this->resourceClass;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }

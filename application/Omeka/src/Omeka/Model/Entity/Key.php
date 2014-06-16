@@ -61,7 +61,7 @@ class Key extends AbstractEntity
     /**
      * The associated user
      *
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="keys")
      * @JoinColumn(nullable=false)
      */
     protected $owner;
@@ -152,7 +152,7 @@ class Key extends AbstractEntity
         return $this->created;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }

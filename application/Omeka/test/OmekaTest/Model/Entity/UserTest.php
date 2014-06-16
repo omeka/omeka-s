@@ -22,6 +22,30 @@ class UserTest extends TestCase
         $this->assertNull($this->user->getCreated());
         $this->assertNull($this->user->getEmail());
         $this->assertNull($this->user->getRole());
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getKeys()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getSites()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getVocabularies()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getResourceClasses()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getProperties()
+        );
+        $this->assertInstanceOf(
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->user->getPropertyOverrideSets()
+        );
     }
 
     public function testSetUsername()

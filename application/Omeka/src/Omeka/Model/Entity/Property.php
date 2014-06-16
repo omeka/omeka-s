@@ -34,7 +34,7 @@ class Property extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="properties")
      */
     protected $owner;
 
@@ -68,7 +68,7 @@ class Property extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }

@@ -16,7 +16,7 @@ class Site extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
     protected $owner;
 
@@ -35,7 +35,7 @@ class Site extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }

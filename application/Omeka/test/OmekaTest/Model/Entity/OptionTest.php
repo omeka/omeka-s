@@ -6,24 +6,30 @@ use Omeka\Test\TestCase;
 
 class OptionTest extends TestCase
 {
-    protected $module;
+    protected $option;
 
     public function setUp()
     {
-        $this->module = new Option;
+        $this->option = new Option;
     }
 
     public function testInitialState()
     {
-        $this->assertNull($this->module->getId());
-        $this->assertNull($this->module->getValue());
+        $this->assertNull($this->option->getId());
+        $this->assertNull($this->option->getValue());
     }
 
-    public function testSetState()
+    public function testSetId()
     {
-        $this->module->setId('test_id');
-        $this->module->setValue('test_value');
-        $this->assertEquals('test_id', $this->module->getId());
-        $this->assertEquals('test_value', $this->module->getValue());
+        $id = 'test-id';
+        $this->option->setId($id);
+        $this->assertEquals($id, $this->option->getId());
+    }
+
+    public function testSetValue()
+    {
+        $value = 'test-value';
+        $this->option->setValue($value);
+        $this->assertEquals($value, $this->option->getValue());
     }
 }

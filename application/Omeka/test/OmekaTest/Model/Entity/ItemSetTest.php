@@ -17,24 +17,10 @@ class ItemSetTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->itemSet->getId());
-        $this->assertNull($this->itemSet->getOwner());
-        $this->assertNull($this->itemSet->getResourceClass());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->itemSet->getSites()
-        );
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
             $this->itemSet->getItems()
         );
-    }
-
-    public function testSetState()
-    {
-        $this->itemSet->setOwner('owner');
-        $this->itemSet->setResourceClass('resource_class');
-        $this->assertEquals('owner', $this->itemSet->getOwner());
-        $this->assertEquals('resource_class', $this->itemSet->getResourceClass());
     }
 
     public function testAddItem()

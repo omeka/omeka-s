@@ -2,6 +2,7 @@
 namespace Omeka\Model\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
@@ -47,6 +48,50 @@ class User extends AbstractEntity implements RoleInterface
      */
     protected $role;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="Key",
+     *     mappedBy="owner",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $keys;
+
+    /**
+     * @OneToMany(targetEntity="Site", mappedBy="owner")
+     */
+    protected $sites;
+
+    /**
+     * @OneToMany(targetEntity="Vocabulary", mappedBy="owner")
+     */
+    protected $vocabularies;
+
+    /**
+     * @OneToMany(targetEntity="ResourceClass", mappedBy="owner")
+     */
+    protected $resourceClasses;
+
+    /**
+     * @OneToMany(targetEntity="Property", mappedBy="owner")
+     */
+    protected $properties;
+
+    /**
+     * @OneToMany(targetEntity="PropertyOverrideSet", mappedBy="owner")
+     */
+    protected $propertyOverrideSets;
+
+    public function __construct()
+    {
+        $this->keys = new ArrayCollection;
+        $this->sites = new ArrayCollection;
+        $this->vocabularies = new ArrayCollection;
+        $this->resourceClasses = new ArrayCollection;
+        $this->properties = new ArrayCollection;
+        $this->propertyOverrideSets = new ArrayCollection;
+    }
 
     /**
      * @PrePersist
@@ -141,6 +186,36 @@ class User extends AbstractEntity implements RoleInterface
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function getKeys()
+    {
+        return $this->keys;
+    }
+
+    public function getSites()
+    {
+        return $this->sites;
+    }
+
+    public function getVocabularies()
+    {
+        return $this->vocabularies;
+    }
+
+    public function getResourceClasses()
+    {
+        return $this->resourceClasses;
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    public function getPropertyOverrideSets()
+    {
+        return $this->propertyOverrideSets;
     }
 
     /**

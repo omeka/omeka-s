@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  */
@@ -14,12 +16,37 @@ class Site extends AbstractEntity
     protected $id;
 
     /**
-     * @OneToMany(targetEntity="SiteResource", mappedBy="site")
+     * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
-    protected $siteResources;
+    protected $owner;
+
+    /**
+     * @OneToMany(targetEntity="SiteItem", mappedBy="site")
+     */
+    protected $siteItems;
+
+    public function __construct()
+    {
+        $this->siteItems = new ArrayCollection;
+    }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function getSiteItems()
+    {
+        return $this->siteItems;
     }
 }

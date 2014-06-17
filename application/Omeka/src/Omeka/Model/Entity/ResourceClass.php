@@ -35,7 +35,7 @@ class ResourceClass extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="resourceClasses")
      */
     protected $owner;
 
@@ -59,12 +59,27 @@ class ResourceClass extends AbstractEntity
      */
     protected $comment;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="PropertyOverrideSet",
+     *     mappedBy="resourceClass",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $propertyOverrideSets;
+
+    public function __construct()
+    {
+        $this->propertyOverrideSets = new ArrayCollection;
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -74,8 +89,11 @@ class ResourceClass extends AbstractEntity
         return $this->owner;
     }
 
-    public function setVocabulary($vocabulary)
+    public function setVocabulary(Vocabulary $vocabulary = null)
     {
+        if ($vocabulary instanceof Vocabulary) {
+            $vocabulary->getResourceClasses()->add($this);
+        }
         $this->vocabulary = $vocabulary;
     }
 
@@ -112,5 +130,33 @@ class ResourceClass extends AbstractEntity
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getPropertyOverrideSets()
+    {
+        return $this->propertyOverrideSets;
+    }
+
+    /**
+     * Add a property override set to this resource class.
+     *
+     * @param PropertyOverrideSet $propertyOverrideSet
+     */
+    public function addPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    {
+        $propertyOverrideSet->setResourceClass($this);
+        $this->getPropertyOverrideSets()->add($propertyOverrideSet);
+    }
+
+    /**
+     * Remove a property override set from this resource class.
+     *
+     * @param PropertyOverrideSet $propertyOverrideSet
+     * @return bool
+     */
+    public function removePropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    {
+        $propertyOverrideSet->setResourceClass(null);
+        return $this->getPropertyOverrideSets()->removeElement($propertyOverrideSet);
     }
 }

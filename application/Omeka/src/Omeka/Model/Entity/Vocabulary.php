@@ -20,7 +20,7 @@ class Vocabulary extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="vocabularies")
      */
     protected $owner;
 
@@ -75,7 +75,7 @@ class Vocabulary extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner($owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -130,8 +130,55 @@ class Vocabulary extends AbstractEntity
         return $this->resourceClasses;
     }
 
+    /**
+     * Add a resource class to this vocabulary.
+     *
+     * @param ResourceClass $resourceClass
+     */
+    public function addResourceClass(ResourceClass $resourceClass)
+    {
+        $resourceClass->setVocabulary($this);
+        $this->getResourceClasses()->add($resourceClass);
+    }
+
+    /**
+     * Remove a resource class from this vocabulary.
+     *
+     * @param ResourceClass $resourceClass
+     * @return bool
+     */
+    public function removeResourceClass(ResourceClass $resourceClass)
+    {
+        $resourceClass->setVocabulary(null);
+        return $this->getResourceClasses()->removeElement($resourceClass);
+    }
+
     public function getProperties()
     {
         return $this->properties;
     }
+
+    /**
+     * Add a property to this vocabulary.
+     *
+     * @param Property $property
+     */
+    public function addProperty(Property $property)
+    {
+        $property->setVocabulary($this);
+        $this->getProperties()->add($property);
+    }
+
+    /**
+     * Remove a property from this vocabulary.
+     *
+     * @param Property $property
+     * @return bool
+     */
+    public function removeProperty(Property $property)
+    {
+        $property->setVocabulary(null);
+        return $this->getProperties()->removeElement($property);
+    }
+
 }

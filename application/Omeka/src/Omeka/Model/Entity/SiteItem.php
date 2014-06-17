@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class SiteResource extends AbstractEntity
+class SiteItem extends AbstractEntity
 {
     /**
      * @Id
@@ -19,23 +19,23 @@ class SiteResource extends AbstractEntity
     protected $assigner;
     
     /**
-     * @ManyToOne(targetEntity="Site", inversedBy="siteResources")
+     * @ManyToOne(targetEntity="Site", inversedBy="siteItems")
      * @JoinColumn(nullable=false)
      */
     protected $site;
     
     /**
-     * @ManyToOne(targetEntity="Resource", inversedBy="sites")
+     * @ManyToOne(targetEntity="Item", inversedBy="sites")
      * @JoinColumn(nullable=false)
      */
-    protected $resource;
+    protected $item;
     
     public function getId()
     {
         return $this->id;
     }
 
-    public function setAssigner($assigner)
+    public function setAssigner(User $assigner)
     {
         $this->assigner = $assigner;
     }
@@ -45,7 +45,7 @@ class SiteResource extends AbstractEntity
         return $this->assigner;
     }
 
-    public function setSite($site)
+    public function setSite(Site $site)
     {
         $this->site = $site;
     }
@@ -55,13 +55,13 @@ class SiteResource extends AbstractEntity
         return $this->site;
     }
 
-    public function setResource($resource)
+    public function setItem(Item $item)
     {
-        $this->resource = $resource;
+        $this->item = $item;
     }
 
-    public function getResource()
+    public function getItem()
     {
-        return $this->resource;
+        return $this->item;
     }
 }

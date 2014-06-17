@@ -16,14 +16,20 @@ class ModuleTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->module->getId());
-        $this->assertFalse($this->module->getIsActive());
+        $this->assertFalse($this->module->isActive());
+        $this->assertNull($this->module->getVersion());
     }
 
-    public function testSetState()
+    public function testSetIsActive()
     {
-        $this->module->setId('TestModule');
         $this->module->setIsActive(true);
-        $this->assertEquals('TestModule', $this->module->getId());
-        $this->assertEquals(true, $this->module->getIsActive());
+        $this->assertTrue($this->module->isActive());
+    }
+
+    public function testSetVersion()
+    {
+        $version = 'test-version';
+        $this->module->setVersion($version);
+        $this->assertEquals($version, $this->module->getVersion());
     }
 }

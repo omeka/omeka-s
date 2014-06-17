@@ -2,6 +2,8 @@
 namespace OmekaTest\Model;
 
 use Omeka\Model\Entity\Property;
+use Omeka\Model\Entity\User;
+use Omeka\Model\Entity\Vocabulary;
 use Omeka\Test\TestCase;
 
 class PropertyTest extends TestCase
@@ -21,23 +23,41 @@ class PropertyTest extends TestCase
         $this->assertNull($this->property->getLocalName());
         $this->assertNull($this->property->getLabel());
         $this->assertNull($this->property->getComment());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->property->getValues()
-        );
     }
 
-    public function testSetState()
+    public function testSetOwner()
     {
-        $this->property->setOwner('owner');
-        $this->property->setVocabulary('vocabulary');
-        $this->property->setLocalName('local_name');
-        $this->property->setLabel('label');
-        $this->property->setComment('comment');
-        $this->assertEquals('owner', $this->property->getOwner());
-        $this->assertEquals('vocabulary', $this->property->getVocabulary());
-        $this->assertEquals('local_name', $this->property->getLocalName());
-        $this->assertEquals('label', $this->property->getLabel());
-        $this->assertEquals('comment', $this->property->getComment());
+        $owner = new User;
+        $this->property->setOwner($owner);
+        $this->assertSame($owner, $this->property->getOwner());
+    }
+
+    public function testSetVocabulary()
+    {
+        $vocabulary = new Vocabulary;
+        $this->property->setVocabulary($vocabulary);
+        $this->assertSame($vocabulary, $this->property->getVocabulary());
+        $this->assertTrue($vocabulary->getProperties()->contains($this->property));
+    }
+
+    public function testSetLocalName()
+    {
+        $localName = 'test-localName';
+        $this->property->setLocalName($localName);
+        $this->assertEquals($localName, $this->property->getLocalName());
+    }
+
+    public function testSetLabel()
+    {
+        $label = 'test-label';
+        $this->property->setLabel($label);
+        $this->assertEquals($label, $this->property->getLabel());
+    }
+
+    public function testSetComment()
+    {
+        $comment = 'test-comment';
+        $this->property->setComment($comment);
+        $this->assertEquals($comment, $this->property->getComment());
     }
 }

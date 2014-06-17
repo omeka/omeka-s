@@ -30,6 +30,7 @@ class PropertyOverrideTest extends TestCase
         $propertyOverrideSet = new PropertyOverrideSet;
         $this->propertyOverride->setPropertyOverrideSet($propertyOverrideSet);
         $this->assertSame($propertyOverrideSet, $this->propertyOverride->getPropertyOverrideSet());
+        $this->assertTrue($propertyOverrideSet->getPropertyOverrides()->contains($this->propertyOverride));
     }
 
     public function testSetProperty()

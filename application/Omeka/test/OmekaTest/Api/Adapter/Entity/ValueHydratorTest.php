@@ -20,7 +20,12 @@ class ValueHydratorTest extends TestCase
                 array('getEntityManager', 'getAdapter', 'getApiUrl')
         );
         $this->resource = $this->getMock('Omeka\Model\Entity\Resource');
-    }
+        $this->resource->expects($this->any())
+            ->method('getValues')
+            ->will($this->returnValue(
+                $this->getMock('Doctrine\Common\Collections\ArrayCollection')
+            ));
+        }
 
     public function testHydrateRemoves()
     {
@@ -233,7 +238,7 @@ class ValueHydratorTest extends TestCase
                 if ($nodeObject['term'][0]['@language'] !== $value->getLang()) {
                     return false;
                 }
-                if ($nodeObject['term'][0]['is_html'] !== $value->getIsHtml()) {
+                if ($nodeObject['term'][0]['is_html'] !== $value->isHtml()) {
                     return false;
                 }
                 return true;

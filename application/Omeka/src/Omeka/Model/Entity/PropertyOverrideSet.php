@@ -32,18 +32,23 @@ class PropertyOverrideSet extends AbstractEntity
     protected $label;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass")
+     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrideSets")
      * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="propertyOverrideSets")
      */
     protected $owner;
 
     /**
-     * @OneToMany(targetEntity="PropertyOverride", mappedBy="propertyOverrideSet")
+     * @OneToMany(
+     *     targetEntity="PropertyOverride",
+     *     mappedBy="propertyOverrideSet",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     protected $propertyOverrides;
 
@@ -67,8 +72,11 @@ class PropertyOverrideSet extends AbstractEntity
         return $this->label;
     }
 
-    public function setResourceClass(ResourceClass $resourceClass)
+    public function setResourceClass(ResourceClass $resourceClass = null)
     {
+        if ($resourceClass instanceof ResourceClass) {
+            $resourceClass->getPropertyOverrideSets()->add($this);
+        }
         $this->resourceClass = $resourceClass;
     }
 
@@ -77,7 +85,7 @@ class PropertyOverrideSet extends AbstractEntity
         return $this->resourceClass;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -90,5 +98,28 @@ class PropertyOverrideSet extends AbstractEntity
     public function getPropertyOverrides()
     {
         return $this->propertyOverrides;
+    }
+
+    /**
+     * Add a property override to this set.
+     *
+     * @param PropertyOverride $propertyOverride
+     */
+    public function addPropertyOverride(PropertyOverride $propertyOverride)
+    {
+        $propertyOverride->setPropertyOverrideSet($this);
+        $this->getPropertyOverrides()->add($propertyOverride);
+    }
+
+    /**
+     * Remove a property override from this set.
+     *
+     * @param PropertyOverride $propertyOverride
+     * @return bool
+     */
+    public function removePropertyOverride(PropertyOverride $propertyOverride)
+    {
+        $propertyOverride->setPropertyOverrideSet(null);
+        return $this->getPropertyOverrides()->removeElement($propertyOverride);
     }
 }

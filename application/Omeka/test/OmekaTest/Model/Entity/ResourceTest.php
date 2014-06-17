@@ -1,7 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Resource;
+use Omeka\Model\Entity\ResourceClass;
+use Omeka\Model\Entity\User;
+use Omeka\Model\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ResourceTest extends TestCase
@@ -19,16 +21,38 @@ class ResourceTest extends TestCase
         $this->assertNull($this->resource->getOwner());
         $this->assertNull($this->resource->getResourceClass());
         $this->assertInstanceOf(
-            '\Doctrine\Common\Collections\ArrayCollection',
-            $this->resource->getSites()
+            'Doctrine\Common\Collections\ArrayCollection',
+            $this->resource->getValues()
         );
     }
 
-    public function testSetState()
+    public function testSetOwner()
     {
-        $this->resource->setOwner('owner');
-        $this->resource->setResourceClass('resource_class');
-        $this->assertEquals('owner', $this->resource->getOwner());
-        $this->assertEquals('resource_class', $this->resource->getResourceClass());
+        $owner = new User;
+        $this->resource->setOwner($owner);
+        $this->assertSame($owner, $this->resource->getOwner());
+    }
+
+    public function testSetResourceClass()
+    {
+        $resourceClass = new ResourceClass;
+        $this->resource->setResourceClass($resourceClass);
+        $this->assertSame($resourceClass, $this->resource->getResourceClass());
+    }
+
+    public function testAddValue()
+    {
+        $value = new Value;
+        $this->resource->addValue($value);
+        $this->assertSame($this->resource, $value->getResource());
+        $this->assertTrue($this->resource->getValues()->contains($value));
+    }
+
+    public function testRemoveValue()
+    {
+        $value = new Value;
+        $this->resource->addValue($value);
+        $this->assertTrue($this->resource->removeValue($value));
+        $this->assertNull($value->getValue());
     }
 }

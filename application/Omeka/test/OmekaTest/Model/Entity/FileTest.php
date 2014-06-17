@@ -17,8 +17,4 @@ class FileTest extends TestCase
     {
         $this->assertNull($this->file->getId());
     }
-
-    public function testSetState()
-    {
-    }
 }

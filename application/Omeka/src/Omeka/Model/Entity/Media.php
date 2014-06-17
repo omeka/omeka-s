@@ -28,7 +28,7 @@ class Media extends Resource
     protected $isPublic = false;
 
     /**
-     * @ManyToOne(targetEntity="Item")
+     * @ManyToOne(targetEntity="Item", inversedBy="media")
      * @JoinColumn(nullable=false)
      */
     protected $item;

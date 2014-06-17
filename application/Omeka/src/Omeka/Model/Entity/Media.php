@@ -23,6 +23,11 @@ class Media extends Resource
     protected $data;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = false;
+
+    /**
      * @ManyToOne(targetEntity="Item")
      * @JoinColumn(nullable=false)
      */
@@ -63,8 +68,21 @@ class Media extends Resource
         return $this->data;
     }
 
-    public function setItem(Item $item)
+    public function setIsPublic($isPublic)
     {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function isPublic()
+    {
+        return (bool) $this->isPublic;
+    }
+
+    public function setItem(Item $item = null)
+    {
+        if ($item instanceof Item) {
+            $item->getMedia()->add($this);
+        }
         $this->item = $item;
     }
 

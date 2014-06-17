@@ -5,6 +5,8 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_item` (
   `id` int(11) NOT NULL,
+  `is_public` tinyint(1) NOT NULL,
+  `is_shareable` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_3844995FBF396750` FOREIGN KEY (`id`) REFERENCES `OMEKA_TABLE_PREFIX_resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -40,6 +42,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_media` (
   `file_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci,
+  `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_6BD08FB693CB796C` (`file_id`),
   KEY `IDX_6BD08FB6126F525E` (`item_id`),

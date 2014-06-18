@@ -35,6 +35,7 @@ class ResourceClassTest extends TestCase
         $owner = new User;
         $this->resourceClass->setOwner($owner);
         $this->assertSame($owner, $this->resourceClass->getOwner());
+        $this->assertTrue($owner->getResourceClasses()->contains($this->resourceClass));
     }
 
     public function testSetVocabulary()
@@ -78,7 +79,8 @@ class ResourceClassTest extends TestCase
     {
         $propertyOverrideSet = new PropertyOverrideSet;
         $this->resourceClass->addPropertyOverrideSet($propertyOverrideSet);
-        $this->assertTrue($this->resourceClass->removePropertyOverrideSet($propertyOverrideSet));
+        $this->resourceClass->removePropertyOverrideSet($propertyOverrideSet);
+        $this->assertFalse($this->resourceClass->getPropertyOverrideSets()->contains($propertyOverrideSet));
         $this->assertNull($propertyOverrideSet->getResourceClass());
     }
 }

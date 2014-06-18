@@ -77,7 +77,7 @@ class Vocabulary extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->owner = $owner;
+        $this->synchronizeOneToMany($owner, 'owner', 'getVocabularies');
     }
 
     public function getOwner()
@@ -138,7 +138,6 @@ class Vocabulary extends AbstractEntity
     public function addResourceClass(ResourceClass $resourceClass)
     {
         $resourceClass->setVocabulary($this);
-        $this->getResourceClasses()->add($resourceClass);
     }
 
     /**
@@ -150,7 +149,6 @@ class Vocabulary extends AbstractEntity
     public function removeResourceClass(ResourceClass $resourceClass)
     {
         $resourceClass->setVocabulary(null);
-        return $this->getResourceClasses()->removeElement($resourceClass);
     }
 
     public function getProperties()
@@ -166,19 +164,16 @@ class Vocabulary extends AbstractEntity
     public function addProperty(Property $property)
     {
         $property->setVocabulary($this);
-        $this->getProperties()->add($property);
     }
 
     /**
      * Remove a property from this vocabulary.
      *
      * @param Property $property
-     * @return bool
      */
     public function removeProperty(Property $property)
     {
         $property->setVocabulary(null);
-        return $this->getProperties()->removeElement($property);
     }
 
 }

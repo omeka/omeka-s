@@ -80,10 +80,7 @@ class Media extends Resource
 
     public function setItem(Item $item = null)
     {
-        if ($item instanceof Item) {
-            $item->getMedia()->add($this);
-        }
-        $this->item = $item;
+        $this->synchronizeOneToMany($item, 'item', 'getMedia');
     }
 
     public function getItem()

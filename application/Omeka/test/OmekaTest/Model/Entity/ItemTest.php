@@ -26,7 +26,7 @@ class ItemTest extends TestCase
         );
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->item->getSites()
+            $this->item->getSiteItems()
         );
     }
 
@@ -54,7 +54,8 @@ class ItemTest extends TestCase
     {
         $media = new Media;
         $this->item->addMedia($media);
-        $this->assertTrue($this->item->removeMedia($media));
+        $this->item->removeMedia($media);
+        $this->assertFalse($this->item->getMedia()->contains($media));
         $this->assertNull($media->getItem());
     }
 

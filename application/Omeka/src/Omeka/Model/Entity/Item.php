@@ -37,7 +37,7 @@ class Item extends Resource
     /**
      * @OneToMany(targetEntity="SiteItem", mappedBy="item")
      */
-    protected $sites;
+    protected $siteItems;
 
     /**
      * @ManyToMany(targetEntity="ItemSet", inversedBy="items")
@@ -48,7 +48,7 @@ class Item extends Resource
     public function __construct() {
         parent::__construct();
         $this->media = new ArrayCollection;
-        $this->sites = new ArrayCollection;
+        $this->siteItems = new ArrayCollection;
         $this->itemSets = new ArrayCollection;
     }
 
@@ -95,24 +95,21 @@ class Item extends Resource
     public function addMedia(Media $media)
     {
         $media->setItem($this);
-        $this->getMedia()->add($media);
     }
 
     /**
      * Remove media from this item.
      *
      * @param Media $media
-     * return bool
      */
     public function removeMedia(Media $media)
     {
         $media->setItem(null);
-        return $this->getMedia()->removeElement($media);
     }
 
-    public function getSites()
+    public function getSiteItems()
     {
-        return $this->sites;
+        return $this->siteItems;
     }
 
     public function getItemSets()

@@ -154,7 +154,7 @@ class Key extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->owner = $owner;
+        $this->synchronizeOneToMany($owner, 'owner', 'getKeys');
     }
 
     public function getOwner()

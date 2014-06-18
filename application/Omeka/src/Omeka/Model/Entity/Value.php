@@ -78,10 +78,7 @@ class Value extends AbstractEntity
 
     public function setResource(Resource $resource = null)
     {
-        if ($resource instanceof Resource) {
-            $resource->getValues()->add($this);
-        }
-        $this->resource = $resource;
+        $this->synchronizeOneToMany($resource, 'resource', 'getValues');
     }
 
     public function getResource()

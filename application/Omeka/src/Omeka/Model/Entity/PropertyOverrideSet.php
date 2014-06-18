@@ -74,10 +74,8 @@ class PropertyOverrideSet extends AbstractEntity
 
     public function setResourceClass(ResourceClass $resourceClass = null)
     {
-        if ($resourceClass instanceof ResourceClass) {
-            $resourceClass->getPropertyOverrideSets()->add($this);
-        }
-        $this->resourceClass = $resourceClass;
+        $this->synchronizeOneToMany($resourceClass, 'resourceClass',
+            'getPropertyOverrideSets');
     }
 
     public function getResourceClass()
@@ -87,7 +85,7 @@ class PropertyOverrideSet extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->owner = $owner;
+        $this->synchronizeOneToMany($owner, 'owner', 'getPropertyOverrideSets');
     }
 
     public function getOwner()
@@ -108,7 +106,6 @@ class PropertyOverrideSet extends AbstractEntity
     public function addPropertyOverride(PropertyOverride $propertyOverride)
     {
         $propertyOverride->setPropertyOverrideSet($this);
-        $this->getPropertyOverrides()->add($propertyOverride);
     }
 
     /**
@@ -120,6 +117,5 @@ class PropertyOverrideSet extends AbstractEntity
     public function removePropertyOverride(PropertyOverride $propertyOverride)
     {
         $propertyOverride->setPropertyOverrideSet(null);
-        return $this->getPropertyOverrides()->removeElement($propertyOverride);
     }
 }

@@ -29,5 +29,6 @@ class SiteTest extends TestCase
         $owner = new User;
         $this->site->setOwner($owner);
         $this->assertSame($owner, $this->site->getOwner());
+        $this->assertTrue($owner->getSites()->contains($this->site));
     }
 }

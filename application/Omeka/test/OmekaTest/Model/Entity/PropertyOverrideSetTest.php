@@ -48,6 +48,7 @@ class PropertyOverrideSetTest extends TestCase
         $owner = new User;
         $this->propertyOverrideSet->setOwner($owner);
         $this->assertSame($owner, $this->propertyOverrideSet->getOwner());
+        $this->assertTrue($owner->getPropertyOverrideSets()->contains($this->propertyOverrideSet));
     }
 
     public function testAddPropertyOverride()
@@ -62,7 +63,8 @@ class PropertyOverrideSetTest extends TestCase
     {
         $propertyOverride = new PropertyOverride;
         $this->propertyOverrideSet->addPropertyOverride($propertyOverride);
-        $this->assertTrue($this->propertyOverrideSet->removePropertyOverride($propertyOverride));
+        $this->propertyOverrideSet->removePropertyOverride($propertyOverride);
+        $this->assertFalse($this->propertyOverrideSet->getPropertyOverrides()->contains($propertyOverride));
         $this->assertNull($propertyOverride->getPropertyOverrideSet());
     }
 }

@@ -30,6 +30,7 @@ class PropertyTest extends TestCase
         $owner = new User;
         $this->property->setOwner($owner);
         $this->assertSame($owner, $this->property->getOwner());
+        $this->assertTrue($owner->getProperties()->contains($this->property));
     }
 
     public function testSetVocabulary()

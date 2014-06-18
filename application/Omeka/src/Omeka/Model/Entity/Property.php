@@ -70,7 +70,7 @@ class Property extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->owner = $owner;
+        $this->synchronizeOneToMany($owner, 'owner', 'getProperties');
     }
 
     public function getOwner()
@@ -80,10 +80,7 @@ class Property extends AbstractEntity
 
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
-        if ($vocabulary instanceof Vocabulary) {
-            $vocabulary->getProperties()->add($this);
-        }
-        $this->vocabulary = $vocabulary;
+        $this->synchronizeOneToMany($vocabulary, 'vocabulary', 'getProperties');
     }
 
     public function getVocabulary()

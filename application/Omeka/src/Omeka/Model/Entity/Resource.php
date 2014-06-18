@@ -97,7 +97,6 @@ abstract class Resource extends AbstractEntity
     public function addValue(Value $value)
     {
         $value->setResource($this);
-        $this->getValues()->add($value);
     }
 
     /**
@@ -109,6 +108,5 @@ abstract class Resource extends AbstractEntity
     public function removeValue(Value $value)
     {
         $value->setResource(null);
-        return $this->getValues()->removeElement($value);
     }
 }

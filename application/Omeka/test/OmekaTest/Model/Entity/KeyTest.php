@@ -81,5 +81,6 @@ class KeyTest extends TestCase
         $owner = new User;
         $this->key->setOwner($owner);
         $this->assertSame($owner, $this->key->getOwner());
+        $this->assertTrue($owner->getKeys()->contains($this->key));
     }
 }

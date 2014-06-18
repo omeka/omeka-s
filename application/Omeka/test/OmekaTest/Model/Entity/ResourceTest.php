@@ -52,7 +52,8 @@ class ResourceTest extends TestCase
     {
         $value = new Value;
         $this->resource->addValue($value);
-        $this->assertTrue($this->resource->removeValue($value));
+        $this->resource->removeValue($value);
+        $this->assertFalse($this->resource->getValues()->contains($value));
         $this->assertNull($value->getValue());
     }
 }

@@ -45,9 +45,9 @@ class SiteItem extends AbstractEntity
         return $this->assigner;
     }
 
-    public function setSite(Site $site)
+    public function setSite(Site $site = null)
     {
-        $this->site = $site;
+        $this->synchronizeOneToMany($site, 'site', 'getSiteItems');
     }
 
     public function getSite()
@@ -55,9 +55,9 @@ class SiteItem extends AbstractEntity
         return $this->site;
     }
 
-    public function setItem(Item $item)
+    public function setItem(Item $item = null)
     {
-        $this->item = $item;
+        $this->synchronizeOneToMany($item, 'item', 'getSiteItems');
     }
 
     public function getItem()

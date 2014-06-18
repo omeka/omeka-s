@@ -81,7 +81,7 @@ class ResourceClass extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->owner = $owner;
+        $this->synchronizeOneToMany($owner, 'owner', 'getResourceClasses');
     }
 
     public function getOwner()
@@ -91,10 +91,7 @@ class ResourceClass extends AbstractEntity
 
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
-        if ($vocabulary instanceof Vocabulary) {
-            $vocabulary->getResourceClasses()->add($this);
-        }
-        $this->vocabulary = $vocabulary;
+        $this->synchronizeOneToMany($vocabulary, 'vocabulary', 'getResourceClasses');
     }
 
     public function getVocabulary()
@@ -145,7 +142,6 @@ class ResourceClass extends AbstractEntity
     public function addPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
     {
         $propertyOverrideSet->setResourceClass($this);
-        $this->getPropertyOverrideSets()->add($propertyOverrideSet);
     }
 
     /**
@@ -157,6 +153,5 @@ class ResourceClass extends AbstractEntity
     public function removePropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
     {
         $propertyOverrideSet->setResourceClass(null);
-        return $this->getPropertyOverrideSets()->removeElement($propertyOverrideSet);
     }
 }

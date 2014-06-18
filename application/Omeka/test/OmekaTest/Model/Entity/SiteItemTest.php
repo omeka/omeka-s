@@ -7,7 +7,7 @@ use Omeka\Model\Entity\SiteItem;
 use Omeka\Model\Entity\User;
 use Omeka\Test\TestCase;
 
-class SiteResourceTest extends TestCase
+class SiteItemTest extends TestCase
 {
     protected $siteItem;
 
@@ -36,6 +36,7 @@ class SiteResourceTest extends TestCase
         $site = new Site;
         $this->siteItem->setSite($site);
         $this->assertSame($site, $this->siteItem->getSite());
+        $this->assertTrue($site->getSiteItems()->contains($this->siteItem));
     }
 
     public function testSetItem()
@@ -43,5 +44,6 @@ class SiteResourceTest extends TestCase
         $item = new Item;
         $this->siteItem->setItem($item);
         $this->assertSame($item, $this->siteItem->getItem());
+        $this->assertTrue($item->getSiteItems()->contains($this->siteItem));
     }
 }

@@ -25,7 +25,7 @@ class SiteItem extends AbstractEntity
     protected $site;
     
     /**
-     * @ManyToOne(targetEntity="Item", inversedBy="sites")
+     * @ManyToOne(targetEntity="Item", inversedBy="siteItems")
      * @JoinColumn(nullable=false)
      */
     protected $item;

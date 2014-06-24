@@ -68,6 +68,7 @@ return array(
     'view_helpers' => array(
         'invokables' => array(
             'value' => 'Omeka\View\Helper\Value',
+            'htmlElement' => 'Omeka\View\Helper\HtmlElement',
         ),
     ),
     'entity_manager' => array(

@@ -71,6 +71,66 @@ return array(
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
         ),
     ),
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label'      => 'Items',
+                'class'      => 'icon-items',
+                'route'      => 'admin/default',
+                'controller' => 'item',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Item',
+            ),
+            array(
+                'label'      => 'Item Sets',
+                'class'      => 'icon-item-sets',
+                'route'      => 'admin/default',
+                'controller' => 'item-set',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\ItemSet',
+            ),
+            array(
+                'label'      => 'Vocabularies',
+                'class'      => 'icon-vocabularies',
+                'route'      => 'admin/default',
+                'controller' => 'vocabulary',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Vocabulary',
+            ),
+            array(
+                'label'      => 'Modules',
+                'class'      => 'icon-modules',
+                'route'      => 'admin/default',
+                'controller' => 'module',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Module',
+            ),
+            array(
+                'label'      => 'Users',
+                'class'      => 'icon-users',
+                'route'      => 'admin/default',
+                'controller' => 'user',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\User',
+            ),
+            array(
+                'label'      => 'Sites',
+                'class'      => 'icon-sites',
+                'route'      => 'admin/site',
+                'controller' => 'site',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Site',
+            ),
+            array(
+                'label'      => 'Settings',
+                'class'      => 'icon-settings',
+                'route'      => 'admin/default',
+                'controller' => 'setting',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Setting',
+            ),
+        ),
+    ),
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
@@ -118,7 +178,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:controller[/:action]]',
+                            'route' => '/[:controller[/:action][/]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -155,7 +215,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:controller[/:action]]',
+                            'route' => '/[:controller[/:action][/]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',

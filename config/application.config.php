@@ -20,6 +20,7 @@ return array(
             'Omeka\InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\MigrationManager'    => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ModuleManager'       => 'Omeka\Service\ModuleManagerFactory',
+            'Navigation'                => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'                => 'Zend\Mvc\ModuleRouteListener',

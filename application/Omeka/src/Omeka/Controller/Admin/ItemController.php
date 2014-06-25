@@ -8,7 +8,12 @@ use Zend\View\Model\ViewModel;
 class ItemController extends AbstractActionController
 {
     public function indexAction()
-    {}
+    {
+        return $this->redirect()->toRoute('admin/default', array(
+            'controller' => 'item',
+            'action' => 'browse',
+        ));
+    }
 
     public function browseAction()
     {

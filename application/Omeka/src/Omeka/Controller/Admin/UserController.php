@@ -7,7 +7,12 @@ use Zend\View\Model\ViewModel;
 class UserController extends AbstractActionController
 {
     public function indexAction()
-    {}
+    {
+        return $this->redirect()->toRoute('admin/default', array(
+            'controller' => 'user',
+            'action' => 'browse',
+        ));
+    }
 
     public function addAction()
     {

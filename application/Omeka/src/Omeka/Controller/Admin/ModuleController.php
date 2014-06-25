@@ -8,6 +8,14 @@ class ModuleController extends AbstractActionController
 {
     public function indexAction()
     {
+        return $this->redirect()->toRoute('admin/default', array(
+            'controller' => 'module',
+            'action' => 'browse',
+        ));
+    }
+
+    public function browseAction()
+    {
         $view = new ViewModel;
         $modules = $this->getServiceLocator()->get('Omeka\ModuleManager');
         $flashMessenger = $this->flashMessenger();
@@ -85,10 +93,10 @@ class ModuleController extends AbstractActionController
         $modules = $this->getServiceLocator()->get('ModuleManager');
         $module = $modules->getModule($id);
         if (null === $module) {
-            return $this->redirect()->toRoute(
-                'admin/default',
-                array('controller' => 'module')
-            );
+            return $this->redirect()->toRoute('admin/default', array(
+                'controller' => 'module',
+                'action' => 'browse',
+            ));
         }
 
         if ($this->getRequest()->isPost()) {
@@ -96,10 +104,10 @@ class ModuleController extends AbstractActionController
             $flashMessenger->addSuccessMessage(
                 'The module was successfully configured'
             );
-            return $this->redirect()->toRoute(
-                'admin/default',
-                array('controller' => 'module')
-            );
+            return $this->redirect()->toRoute('admin/default', array(
+                'controller' => 'module',
+                'action' => 'browse',
+            ));
         }
 
         if ($flashMessenger->hasSuccessMessages()) {

@@ -16,22 +16,6 @@
         <button>Advanced Options</button>
         <button type="submit">Search</button>
     </div>
-    <nav id="primary-nav">
-        <ul>
-            <li><a href="<?php echo $this->url('admin/default', array(
-                'controller' => 'item',
-                'action' => 'browse',
-            )); ?>" class="icon-items">Items</a></li>
-            <li><a href="#" class="icon-item-sets">Item Sets</a></li>
-            <li><a href="<?php echo $this->url('admin/default', array(
-                'controller' => 'vocabulary',
-                'action' => 'browse',
-            )); ?>" class="icon-vocabularies">Vocabularies</a></li>
-            <li><a href="#" class="icon-media">Media</a></li>
-            <li><a href="#" class="icon-modules">Modules</a></li>
-            <li><a href="#" class="icon-users">Users</a></li>
-            <li><a href="#" class="icon-sites">Sites</a></li>
-            <li><a href="#" class="icon-settings">Settings</a></li>
-        </ul>
+    <nav id="primary-nav"><?php echo $this->navigation('navigation'); ?></nav>
     </nav>
 </header>

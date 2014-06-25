@@ -27,6 +27,11 @@ class Module extends AbstractModule
             function ($helperPluginManager) use ($serviceManager) {
                 return new AssetUrl($serviceManager->get('Omeka\ModuleManager'));
             });
+
+        // Set the ACL to navigation.
+        $acl = $serviceManager->get('Omeka\Acl');
+        $navigation = $viewHelperManager->get('Navigation');
+        $navigation->setAcl($acl)->setRole('current_user');
     }
 
     public function getConfig()

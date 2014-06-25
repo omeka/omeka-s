@@ -64,6 +64,10 @@ class Status implements ServiceLocatorAwareInterface
         $router = $this->getServiceLocator()->get('Router');
         $request = $this->getServiceLocator()->get('Request');
         $routeMatch = $router->match($request);
+        if (null === $routeMatch) {
+            // No matching route; not an API request.
+            return false;
+        }
         $this->isApiRequest = 'Omeka\Controller\Api'
             === $routeMatch->getParam('controller');
         return $this->isApiRequest;

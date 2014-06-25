@@ -3,6 +3,7 @@ namespace Omeka;
 
 use Omeka\Module\AbstractModule;
 use Omeka\View\Helper\Api;
+use Omeka\View\Helper\AssetUrl;
 use Zend\Mvc\MvcEvent;
 
 /**
@@ -16,10 +17,15 @@ class Module extends AbstractModule
 
         $serviceManager = $this->getServiceLocator();
 
-        // Inject the API manager into the Api view helper.
-        $serviceManager->get('viewhelpermanager')
-            ->setFactory('Api', function ($helperPluginManager) use ($serviceManager) {
+        // Inject services into view helpers that need them.
+        $viewHelperManager = $serviceManager->get('ViewHelperManager');
+        $viewHelperManager->setFactory('Api',
+            function ($helperPluginManager) use ($serviceManager) {
                 return new Api($serviceManager->get('Omeka\ApiManager'));
+            });
+        $viewHelperManager->setFactory('AssetUrl',
+            function ($helperPluginManager) use ($serviceManager) {
+                return new AssetUrl($serviceManager->get('Omeka\ModuleManager'));
             });
     }
 

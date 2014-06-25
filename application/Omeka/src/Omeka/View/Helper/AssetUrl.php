@@ -1,0 +1,52 @@
+<?php
+namespace Omeka\View\Helper;
+
+use Omeka\Module\Manager as ModuleManager;
+use Zend\View\Helper\AbstractHtmlElement;
+
+class AssetUrl extends AbstractHtmlElement
+{
+    const OMEKA_ASSETS_PATH = '%s/application/Omeka/assets/%s';
+    const MODULE_ASSETS_PATH = '%s/module/%s/assets/%s';
+
+    /**
+     * @var ModuleManager
+     */
+    protected $moduleManager;
+
+    /**
+     * @var array Cached array of all active modules
+     */
+    protected $activeModules;
+
+    /**
+     * Construct the helper.
+     *
+     * @param ModuleManager $moduleManager
+     */
+    public function __construct(ModuleManager $moduleManager)
+    {
+        $this->moduleManager = $moduleManager;
+        $this->activeModules = $moduleManager->getModulesByState(ModuleManager::STATE_ACTIVE);
+    }
+
+    /**
+     * Return a path to an asset by module directory name.
+     *
+     * The module must be active. Does not check if the asset file exists.
+     *
+     * @param string $file
+     * @param string $module
+     * @return string|null
+     */
+    public function __invoke($file, $module)
+    {
+        $basePath = $this->getView()->basePath();
+        if ('Omeka' == $module) {
+            return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file);
+        }
+        if (array_key_exists($module, $this->activeModules)) {
+            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module, $file);
+        }
+    }
+}

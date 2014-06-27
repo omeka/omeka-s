@@ -70,11 +70,16 @@ class ModuleManagerFactory implements FactoryInterface
             }
         }
 
-        // Get all modules from the database.
-        $table = $appConfig['connection']['table_prefix'] . 'module';
-        $statement = $connection->prepare("SELECT * FROM $table");
-        $statement->execute();
-        foreach ($statement->fetchAll() as $moduleRow) {
+        // Get all modules from the database, if installed.
+        $dbModules = array();
+        if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
+            $table = $appConfig['connection']['table_prefix'] . 'module';
+            $statement = $connection->prepare("SELECT * FROM $table");
+            $statement->execute();
+            $dbModules = $statement->fetchAll();
+        }
+
+        foreach ($dbModules as $moduleRow) {
 
             if (!$modules->moduleIsRegistered($moduleRow['id'])) {
                 // Module installed but not in filesystem

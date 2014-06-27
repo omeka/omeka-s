@@ -24,16 +24,14 @@ class Application
 
         $moduleManager = $serviceManager->get('ModuleManager');
 
-        if ($serviceManager->get('Omeka\Status')->isInstalled()) {
-            // If Omeka is installed, merge application modules with active user
-            // modules and set them all to be loaded.
-            $activeModules = $serviceManager->get('Omeka\ModuleManager')
-                ->getModulesByState(ModuleManager::STATE_ACTIVE);
-            $moduleManager->setModules(array_merge(
-                $configuration['modules'],
-                array_keys($activeModules)
-            ));
-        }
+        // Merge application modules with active user modules and set them all
+        // to be loaded.
+        $activeModules = $serviceManager->get('Omeka\ModuleManager')
+            ->getModulesByState(ModuleManager::STATE_ACTIVE);
+        $moduleManager->setModules(array_merge(
+            $configuration['modules'],
+            array_keys($activeModules)
+        ));
 
         $moduleManager->loadModules();
 

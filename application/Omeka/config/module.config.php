@@ -24,16 +24,14 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
-            'ModuleRouteListener'                => 'Zend\Mvc\ModuleRouteListener',
-            'Omeka\ApiAuthenticationListener'    => 'Omeka\Mvc\ApiAuthenticationListener',
-            'Omeka\ApiManager'                   => 'Omeka\Api\Manager',
-            'Omeka\AuthorizationListener'        => 'Omeka\Mvc\AuthorizationListener',
-            'Omeka\DbHelper'                     => 'Omeka\Db\Helper',
-            'Omeka\FilterManager'                => 'Omeka\Event\FilterManager',
-            'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
-            'Omeka\Options'                      => 'Omeka\Service\Options',
-            'Omeka\RdfImporter'                  => 'Omeka\Service\RdfImporter',
-            'Omeka\ViewApiJsonRenderer'          => 'Omeka\View\Renderer\ApiJsonRenderer',
+            'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
+            'Omeka\ApiManager'          => 'Omeka\Api\Manager',
+            'Omeka\DbHelper'            => 'Omeka\Db\Helper',
+            'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
+            'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
+            'Omeka\Options'             => 'Omeka\Service\Options',
+            'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
+            'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
@@ -41,9 +39,7 @@ return array(
     ),
     'listeners' => array(
         'ModuleRouteListener',
-        'Omeka\ApiAuthenticationListener',
-        'Omeka\AuthorizationListener',
-        'Omeka\InstallationRedirectListener'
+        'Omeka\MvcListeners',
     ),
     'controllers' => array(
         'invokables' => array(

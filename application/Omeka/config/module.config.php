@@ -13,24 +13,37 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
+            'Navigation'                  => 'Zend\Navigation\Service\DefaultNavigationFactory',
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
+            'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
+            'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
-            'Omeka\ApiManager'          => 'Omeka\Api\Manager',
-            'Omeka\DbHelper'            => 'Omeka\Db\Helper',
-            'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
-            'Omeka\Options'             => 'Omeka\Service\Options',
-            'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
+            'ModuleRouteListener'                => 'Zend\Mvc\ModuleRouteListener',
+            'Omeka\ApiAuthenticationListener'    => 'Omeka\Mvc\ApiAuthenticationListener',
+            'Omeka\ApiManager'                   => 'Omeka\Api\Manager',
+            'Omeka\AuthorizationListener'        => 'Omeka\Mvc\AuthorizationListener',
+            'Omeka\DbHelper'                     => 'Omeka\Db\Helper',
+            'Omeka\FilterManager'                => 'Omeka\Event\FilterManager',
+            'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
+            'Omeka\Options'                      => 'Omeka\Service\Options',
+            'Omeka\RdfImporter'                  => 'Omeka\Service\RdfImporter',
+            'Omeka\ViewApiJsonRenderer'          => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
+    ),
+    'listeners' => array(
+        'ModuleRouteListener',
+        'Omeka\ApiAuthenticationListener',
+        'Omeka\AuthorizationListener',
+        'Omeka\InstallationRedirectListener'
     ),
     'controllers' => array(
         'invokables' => array(
@@ -135,6 +148,16 @@ return array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
             OMEKA_PATH . '/application/Omeka/src/Omeka/Model/Entity',
+        ),
+    ),
+    'installation_manager' => array(
+        'tasks' => array(
+            'Omeka\Installation\Task\CheckDbConfigurationTask',
+            'Omeka\Installation\Task\InstallSchemaTask',
+            'Omeka\Installation\Task\RecordMigrationsTask',
+            'Omeka\Installation\Task\InstallDefaultVocabularyTask',
+            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\CreateFirstUserTask',
         ),
     ),
     'translator' => array(

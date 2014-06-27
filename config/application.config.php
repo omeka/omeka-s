@@ -16,34 +16,11 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Omeka\Connection'          => 'Omeka\Service\ConnectionFactory',
-            'Omeka\InstallationManager' => 'Omeka\Service\InstallationManagerFactory',
-            'Omeka\MigrationManager'    => 'Omeka\Service\MigrationManagerFactory',
-            'Omeka\ModuleManager'       => 'Omeka\Service\ModuleManagerFactory',
-            'Navigation'                => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'Omeka\Connection'    => 'Omeka\Service\ConnectionFactory',
+            'Omeka\ModuleManager' => 'Omeka\Service\ModuleManagerFactory',
         ),
         'invokables' => array(
-            'ModuleRouteListener'                => 'Zend\Mvc\ModuleRouteListener',
-            'Omeka\ApiAuthenticationListener'    => 'Omeka\Mvc\ApiAuthenticationListener',
-            'Omeka\AuthorizationListener'        => 'Omeka\Mvc\AuthorizationListener',
-            'Omeka\InstallationRedirectListener' => 'Omeka\Mvc\InstallationRedirectListener',
-            'Omeka\Status'                       => 'Omeka\Mvc\Status',
-        ),
-    ),
-    'listeners' => array(
-        'ModuleRouteListener',
-        'Omeka\ApiAuthenticationListener',
-        'Omeka\AuthorizationListener',
-        'Omeka\InstallationRedirectListener'
-    ),
-    'installation_manager' => array(
-        'tasks' => array(
-            'Omeka\Installation\Task\CheckDbConfigurationTask',
-            'Omeka\Installation\Task\InstallSchemaTask',
-            'Omeka\Installation\Task\RecordMigrationsTask',
-            'Omeka\Installation\Task\InstallDefaultVocabularyTask',
-            'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
-            'Omeka\Installation\Task\CreateFirstUserTask',
+            'Omeka\Status' => 'Omeka\Mvc\Status',
         ),
     ),
     'connection' => $config,

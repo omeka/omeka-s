@@ -19,7 +19,7 @@ class InstallationManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('ApplicationConfig');
+        $config = $serviceLocator->get('Config');
         if (!isset($config['installation_manager']['tasks'])) {
             throw new Exception\ConfigException(
                 'The configuration has no registered installation tasks.'

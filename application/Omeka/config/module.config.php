@@ -74,6 +74,11 @@ return array(
             'Omeka\ViewApiJsonStrategy',
         ),
     ),
+    'view_route_layouts' => array(
+        'install' => 'layout/minimal',
+        'migrate' => 'layout/minimal',
+        'login'   => 'layout/minimal',
+    ),
     'view_helpers' => array(
         'invokables' => array(
             'value' => 'Omeka\View\Helper\Value',

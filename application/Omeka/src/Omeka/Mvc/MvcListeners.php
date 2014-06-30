@@ -25,6 +25,10 @@ class MvcListeners extends AbstractListenerAggregate
             array($this, 'authorizeUserAgainstRoute'),
             -1000
         );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_DISPATCH,
+            array($this, 'setLayoutForRoute')
+        );
     }
 
     /**
@@ -104,5 +108,22 @@ class MvcListeners extends AbstractListenerAggregate
         $event->setParam('exception', new Exception\PermissionDeniedException($errorMessage));
 
         $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+    }
+
+    /**
+     * Set the layout template according to route.
+     *
+     * @param MvcEvent $event
+     */
+    public function setLayoutForRoute(MvcEvent $event)
+    {
+        $serviceLocator = $event->getApplication()->getServiceManager();
+        $config = $serviceLocator->get('Config');
+        $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
+        if (!array_key_exists($matchedRouteName, $config['view_route_layouts'])) {
+            return;
+        }
+        $viewModel = $event->getViewModel();
+        $viewModel->setTemplate($config['view_route_layouts'][$matchedRouteName]);
     }
 }

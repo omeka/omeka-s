@@ -68,7 +68,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_option` (
 CREATE TABLE `OMEKA_TABLE_PREFIX_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
-  `vocabulary_id` int(11) DEFAULT NULL,
+  `vocabulary_id` int(11) NOT NULL,
   `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `label` varchar(255) COLLATE utf8_bin NOT NULL,
   `comment` longtext COLLATE utf8_bin,
@@ -107,7 +107,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property_override_set` (
 CREATE TABLE `OMEKA_TABLE_PREFIX_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
-  `resource_class_id` int(11) DEFAULT NULL,
+  `resource_class_id` int(11) NOT NULL,
   `resource_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_CB5438CA7E3C61F9` (`owner_id`),
@@ -118,7 +118,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_resource` (
 CREATE TABLE `OMEKA_TABLE_PREFIX_resource_class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
-  `vocabulary_id` int(11) DEFAULT NULL,
+  `vocabulary_id` int(11) NOT NULL,
   `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `label` varchar(255) COLLATE utf8_bin NOT NULL,
   `comment` longtext COLLATE utf8_bin,

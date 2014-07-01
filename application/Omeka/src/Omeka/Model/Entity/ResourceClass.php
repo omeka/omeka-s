@@ -41,6 +41,7 @@ class ResourceClass extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Vocabulary", inversedBy="resourceClasses")
+     * @JoinColumn(nullable=false)
      */
     protected $vocabulary;
 

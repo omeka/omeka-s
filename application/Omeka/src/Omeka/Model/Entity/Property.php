@@ -40,6 +40,7 @@ class Property extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Vocabulary", inversedBy="properties")
+     * @JoinColumn(nullable=false)
      */
     protected $vocabulary;
 

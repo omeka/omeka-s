@@ -35,6 +35,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all requests to install route if Omeka is not installed.
      *
      * @param MvcEvent $event
+     * @return Zend\Http\PhpEnvironment\Response
      */
     public function redirectToInstallation(MvcEvent $event)
     {
@@ -53,7 +54,7 @@ class MvcListeners extends AbstractListenerAggregate
         $response->getHeaders()->addHeaderLine('Location', $url);
         $response->setStatusCode(302);
         $response->sendHeaders();
-        exit;
+        return $response;
     }
 
     /**

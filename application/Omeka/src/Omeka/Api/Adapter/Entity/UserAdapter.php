@@ -5,7 +5,6 @@ use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Validator\Db\IsUnique;
 
 class UserAdapter extends AbstractEntityAdapter
 {
@@ -78,14 +77,6 @@ class UserAdapter extends AbstractEntityAdapter
         $name = $entity->getName();
         if (empty($name)) {
             $errorStore->addError('name', 'The name field cannot be null.');
-        }
-        $validator = new IsUnique(array('username'), $this->getEntityManager());
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('username', $validator->getMessages());
-        }
-        $validator = new IsUnique(array('email'), $this->getEntityManager());
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('email', $validator->getMessages());
         }
         $validator = new EmailAddress();
         if (!$validator->isValid($entity->getEmail())) {

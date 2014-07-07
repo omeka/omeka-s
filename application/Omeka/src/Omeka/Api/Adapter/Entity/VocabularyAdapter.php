@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Validator\Db\IsUnique;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
@@ -80,16 +79,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        $validator = new IsUnique(array('namespaceUri'), $this->getEntityManager());
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('namespace_uri', $validator->getMessages());
-        }
         if (null === $entity->getNamespaceUri()) {
             $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
-        }
-        $validator = new IsUnique(array('prefix'), $this->getEntityManager());
-        if (!$validator->isValid($entity)) {
-            $errorStore->addValidatorMessages('prefix', $validator->getMessages());
         }
         if (null === $entity->getPrefix()) {
             $errorStore->addError('prefix', 'The prefix field cannot be null.');

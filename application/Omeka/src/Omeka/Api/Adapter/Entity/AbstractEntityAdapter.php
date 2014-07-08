@@ -48,7 +48,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $request,
             'query_builder' => $qb,
         ));
         $this->getEventManager()->trigger($event);
@@ -97,7 +96,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the create.validate.pre event.
         $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -149,7 +147,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             // Trigger the create.validate.pre event.
             $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
                 'services' => $this->getServiceLocator(),
-                'request' => $request,
                 'entity' => $entity,
             ));
             $this->getEventManager()->trigger($event);
@@ -211,7 +208,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the read.find.post event.
         $event = new Event(Event::API_READ_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -254,7 +250,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the update.validate.pre event.
         $event = new Event(Event::API_UPDATE_VALIDATE_PRE, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);
@@ -306,7 +301,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the delete.find.post event.
         $event = new Event(Event::API_DELETE_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
-            'request' => $request,
             'entity' => $entity,
         ));
         $this->getEventManager()->trigger($event);

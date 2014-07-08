@@ -53,6 +53,17 @@ class Event extends ZendEvent
     const API_DELETE_FIND_POST    = 'api.delete.find.post';
      /**#@-*/
 
+    /**#@+
+     * Events triggered by Doctrine lifecycle events.
+     */
+    const ENTITY_REMOVE_PRE   = 'entity.remove.pre';
+    const ENTITY_REMOVE_POST  = 'entity.remove.post';
+    const ENTITY_PERSIST_PRE  = 'entity.persist.pre';
+    const ENTITY_PERSIST_POST = 'entity.persist.post';
+    const ENTITY_UPDATE_PRE   = 'entity.update.pre';
+    const ENTITY_UPDATE_POST  = 'entity.update.post';
+    /**#@-*/
+
     // ACL event
     const ACL = 'acl';
 }

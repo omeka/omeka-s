@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\TablePrefix;
+use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -79,6 +80,7 @@ class EntityManagerFactory implements FactoryInterface
             Events::loadClassMetadata,
             new ResourceDiscriminatorMap
         );
+        $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator));
 
         // Register a custom mapping type for an IP address.
         Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');

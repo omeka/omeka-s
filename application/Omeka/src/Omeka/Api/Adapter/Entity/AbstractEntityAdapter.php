@@ -128,7 +128,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $request->getId()
             ));
         }
-        $this->authorize(Request::READ, $entity);
+        $this->authorize($entity, Request::READ);
 
         // Trigger the read.find.post event.
         $event = new Event(Event::API_READ_FIND_POST, $this, array(
@@ -192,7 +192,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $request->getId()
             ));
         }
-        $this->authorize(Request::DELETE, $entity);
+        $this->authorize($entity, Request::DELETE);
 
         // Trigger the delete.find.post event.
         $event = new Event(Event::API_DELETE_FIND_POST, $this, array(
@@ -254,24 +254,26 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected function hydrateEntity($operation, array $data,
         EntityInterface $entity, ErrorStore $errorStore
     ) {
-        switch ($operation) {
-            case Request::CREATE:
-                $eventName = Event::API_CREATE_VALIDATE_PRE;
-                break;
-            case Request::UPDATE:
-                $eventName = Event::API_UPDATE_VALIDATE_PRE;
-                break;
-            default:
-                throw new \Exception('Invalid operation for hydration');
+        if (Request::CREATE == $operation) {
+            $eventName = Event::API_CREATE_VALIDATE_PRE;
+        } elseif (Request::UPDATE == $operation) {
+            $eventName = Event::API_UPDATE_VALIDATE_PRE;
+        } else {
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate('Invalid operation for hydration.')
+            );
         }
 
+        // Prior to hydration, check whether the current user has access to this
+        // entity in its original state.
+        $this->authorize($entity, $operation);
         $this->hydrate($data, $entity, $errorStore);
-        $this->authorize($operation, $entity);
 
         // Trigger the operation's validate.pre event.
         $event = new Event($eventName, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
+            'data' => $data,
         ));
         $this->getEventManager()->trigger($event);
 
@@ -290,17 +292,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Verify that the current user is authorized to perform the specified
-     * operation on an entity.
+     * Verify that the current user has access to the entity.
      *
      * @throws Exception\PermissionDeniedException
-     * @param string $operation
      * @param EntityInterface $entity
+     * @param string $privilege
      */
-    protected function authorize($operation, EntityInterface $entity)
+    protected function authorize(EntityInterface $entity, $privilege)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, $operation)) {
+        if (!$acl->isAllowed('current_user', $entity, $privilege)) {
             throw new Exception\PermissionDeniedException(sprintf(
                 $t->translate('Permission denied for the current user to %s the %s resource.'),
                 $operation, $entity->getResourceId()

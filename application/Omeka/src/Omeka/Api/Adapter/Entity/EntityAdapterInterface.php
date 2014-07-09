@@ -22,7 +22,8 @@ interface EntityAdapterInterface
      *
      * Do not modify or perform operations on the data when setting properties.
      * Validation should be done in self::validate(). Filtering should be done
-     * in the entity's mutator methods.
+     * in the entity's mutator methods. Authorize state changes of individual
+     * fields using self::authorize().
      *
      * @param array $data
      * @param EntityInterface $entity

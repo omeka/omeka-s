@@ -22,18 +22,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     EntityAdapterInterface
 {
     /**
-     * Hydrate an entity with the provided array.
-     *
-     * Do not modify or perform operations on the data when setting properties.
-     * Validation should be done in self::validate(). Filtering should be done
-     * in the entity's mutator methods.
-     *
-     * @param array $data
-     * @param EntityInterface $entity
-     */
-    abstract public function hydrate(array $data, $object);
-
-    /**
      * {@inheritDoc}
      */
     public function search(Request $request)
@@ -82,31 +70,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
-        $this->hydrate($request->getContent(), $entity);
-
-        // Verify that the current user has access to create this entity.
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, 'create')) {
-            throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to create the %1$s resource.'),
-                $entity->getResourceId()
-            ));
-        }
-
-        // Trigger the create.validate.pre event.
-        $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
-            'services' => $this->getServiceLocator(),
-            'entity' => $entity,
-        ));
-        $this->getEventManager()->trigger($event);
-
-        $errorStore = $this->validateEntity($entity);
-        if ($errorStore->hasErrors()) {
-            $validationException = new Exception\ValidationException;
-            $validationException->setErrorStore($errorStore);
-            throw $validationException;
-        }
-
+        $this->hydrateEntity(
+            Request::CREATE,
+            $request->getContent(),
+            $entity,
+            new ErrorStore
+        );
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
 
@@ -125,50 +94,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $response = new Response;
 
-        $entities = array();
+        $errorStore = new ErrorStore;
         $representations = array();
         foreach ($request->getContent() as $datum) {
-
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
-            $this->hydrate($datum, $entity);
-
-            // Verify that the current user has access to create this entity.
-            $acl = $this->getServiceLocator()->get('Omeka\Acl');
-            if (!$acl->isAllowed('current_user', $entity, 'create')) {
-                $response->setStatus(Response::ERROR_PERMISSION_DENIED);
-                $response->addError(Response::ERROR_PERMISSION_DENIED, sprintf(
-                    'Permission denied for the current user to create the %s resource.',
-                    $entity->getResourceId()
-                ));
-                continue;
-            }
-
-            // Trigger the create.validate.pre event.
-            $event = new Event(Event::API_CREATE_VALIDATE_PRE, $this, array(
-                'services' => $this->getServiceLocator(),
-                'entity' => $entity,
-            ));
-            $this->getEventManager()->trigger($event);
-
-            $errorStore = $this->validateEntity($entity);
-            if ($errorStore->hasErrors()) {
-                $response->setStatus(Response::ERROR_VALIDATION);
-                $response->mergeErrors($errorStore);
-                continue;
-            }
-
+            $this->hydrateEntity(Request::CREATE, $datum, $entity, $errorStore);
             $this->getEntityManager()->persist($entity);
-            $entities[] = $entity;
             $representations[] = $this->getRepresentation($entity->getId(), $entity);
-        }
-
-        if ($response->isError()) {
-            // Prevent subsequent flushes when an error has occurred.
-            foreach ($entities as $entity) {
-                $this->getServiceLocator()->get('Omeka\EntityManager')->detach($entity);
-            }
-            return $response;
         }
 
         $this->getEntityManager()->flush();
@@ -195,15 +128,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $request->getId()
             ));
         }
-
-        // Verify that the current user has access to read this entity.
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, 'read')) {
-            throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to read the %1$s resource.'),
-                $entity->getResourceId()
-            ));
-        }
+        $this->authorize(Request::READ, $entity);
 
         // Trigger the read.find.post event.
         $event = new Event(Event::API_READ_FIND_POST, $this, array(
@@ -236,33 +161,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $request->getId()
             ));
         }
-        $this->hydrate($request->getContent(), $entity);
-
-        // Verify that the current user has access to update this entity.
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, 'update')) {
-            throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to update the %1$s resource.'),
-                $entity->getResourceId()
-            ));
-        }
-
-        // Trigger the update.validate.pre event.
-        $event = new Event(Event::API_UPDATE_VALIDATE_PRE, $this, array(
-            'services' => $this->getServiceLocator(),
-            'entity' => $entity,
-        ));
-        $this->getEventManager()->trigger($event);
-
-        $errorStore = $this->validateEntity($entity);
-        if ($errorStore->hasErrors()) {
-            // Refresh the entity from the database, overriding any local
-            // changes that have not yet been persisted
-            $this->getEntityManager()->refresh($entity);
-            $validationException = new Exception\ValidationException;
-            $validationException->setErrorStore($errorStore);
-            throw $validationException;
-        }
+        $this->hydrateEntity(
+            Request::UPDATE,
+            $request->getContent(),
+            $entity,
+            new ErrorStore
+        );
         $this->getEntityManager()->flush();
         $representation = $this->getRepresentation($entity->getId(), $entity);
         $response->setContent($representation);
@@ -288,15 +192,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $request->getId()
             ));
         }
-
-        // Verify that the current user has access to delete this entity.
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, 'delete')) {
-            throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to delete the %1$s resource.'),
-                $entity->getResourceId()
-            ));
-        }
+        $this->authorize(Request::DELETE, $entity);
 
         // Trigger the delete.find.post event.
         $event = new Event(Event::API_DELETE_FIND_POST, $this, array(
@@ -344,16 +240,72 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Validate an entity.
+     * Hydrate an entity.
      *
+     * Encapsulates hydration, authorization, pre-validation API events, and
+     * validation procedures into one method.
+     *
+     * @throws Exception\ValidationException
+     * @param string $operation
+     * @param array $data
      * @param EntityInterface $entity
-     * @return ErrorStore
+     * @param ErrorStore $errorStore
      */
-    protected function validateEntity(EntityInterface $entity)
-    {
-        $errorStore = new ErrorStore;
+    protected function hydrateEntity($operation, array $data,
+        EntityInterface $entity, ErrorStore $errorStore
+    ) {
+        switch ($operation) {
+            case Request::CREATE:
+                $eventName = Event::API_CREATE_VALIDATE_PRE;
+                break;
+            case Request::UPDATE:
+                $eventName = Event::API_UPDATE_VALIDATE_PRE;
+                break;
+            default:
+                throw new \Exception('Invalid operation for hydration');
+        }
+
+        $this->hydrate($data, $entity, $errorStore);
+        $this->authorize($operation, $entity);
+
+        // Trigger the operation's validate.pre event.
+        $event = new Event($eventName, $this, array(
+            'services' => $this->getServiceLocator(),
+            'entity' => $entity,
+        ));
+        $this->getEventManager()->trigger($event);
+
+        // Validate the entity.
         $this->validate($entity, $errorStore, $this->entityIsPersistent($entity));
-        return $errorStore;
+        if ($errorStore->hasErrors()) {
+            if (Request::UPDATE == $operation) {
+                // Refresh the entity from the database, overriding any local
+                // changes that have not yet been persisted
+                $this->getEntityManager()->refresh($entity);
+            }
+            $validationException = new Exception\ValidationException;
+            $validationException->setErrorStore($errorStore);
+            throw $validationException;
+        }
+    }
+
+    /**
+     * Verify that the current user is authorized to perform the specified
+     * operation on an entity.
+     *
+     * @throws Exception\PermissionDeniedException
+     * @param string $operation
+     * @param EntityInterface $entity
+     */
+    protected function authorize($operation, EntityInterface $entity)
+    {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if (!$acl->isAllowed('current_user', $entity, $operation)) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                $t->translate('Permission denied for the current user to %s the %s resource.'),
+                $operation, $entity->getResourceId()
+            ));
+        }
     }
 
     /**

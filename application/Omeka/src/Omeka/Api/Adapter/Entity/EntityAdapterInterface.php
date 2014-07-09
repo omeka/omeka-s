@@ -4,12 +4,11 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Model\Entity\EntityInterface;
-use Zend\Stdlib\Hydrator\HydrationInterface;
 
 /**
  * Entity API adapter interface.
  */
-interface EntityAdapterInterface extends HydrationInterface
+interface EntityAdapterInterface
 {
     /**
      * Get the fully qualified name of the entity class.
@@ -17,6 +16,20 @@ interface EntityAdapterInterface extends HydrationInterface
      * @return string
      */
     public function getEntityClass();
+
+    /**
+     * Hydrate an entity with the provided array.
+     *
+     * Do not modify or perform operations on the data when setting properties.
+     * Validation should be done in self::validate(). Filtering should be done
+     * in the entity's mutator methods.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     */
+    public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore);
 
     /**
      * Build a conditional search query from an API request.

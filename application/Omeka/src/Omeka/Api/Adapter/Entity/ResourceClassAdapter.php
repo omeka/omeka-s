@@ -85,6 +85,10 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate local name.
+        if (null === $entity->getLocalName()) {
+            $errorStore->addError('local_name', 'The local_name field cannot be null.');
+        }
         // Validate label.
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');

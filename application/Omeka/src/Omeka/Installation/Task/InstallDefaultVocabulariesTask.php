@@ -94,7 +94,11 @@ class InstallDefaultVocabulariesTask extends AbstractTask
     public function perform()
     {
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $api->create('vocabularies', $this->rdfsVocabulary);
+        $response = $api->create('vocabularies', $this->rdfsVocabulary);
+        if ($response->isError()) {
+            $this->addErrorStore($response->getErrorStore());
+            return;
+        }
         $this->addInfo(sprintf(
             $this->getTranslator()->translate('Successfully installed "%s"'),
             $this->rdfsVocabulary['label']

@@ -61,17 +61,20 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 ->get('resource_classes');
             foreach ($data['classes'] as $classData) {
                 if (isset($classData['id'])) {
-                    // update
                     $resourceClass = $this->getEntityManager()->find(
                         'Omeka\Model\Entity\ResourceClass',
                         $classData['id']
                     );
+                    $resourceClassAdapter->hydrateEntity(
+                        'update', $classData, $resourceClass, $errorStore
+                    );
                 } else {
-                    // create
                     $resourceClass = new \Omeka\Model\Entity\ResourceClass;
+                    $resourceClassAdapter->hydrateEntity(
+                        'create', $classData, $resourceClass, $errorStore
+                    );
                     $entity->addResourceClass($resourceClass);
                 }
-                $resourceClassAdapter->hydrate($classData, $resourceClass);
             }
         }
     }

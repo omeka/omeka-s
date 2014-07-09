@@ -55,6 +55,25 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }
+        if (isset($data['classes']) && is_array($data['classes'])) {
+            $resourceClassAdapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get('resource_classes');
+            foreach ($data['classes'] as $classData) {
+                if (isset($classData['id'])) {
+                    // update
+                    $resourceClass = $this->getEntityManager()->find(
+                        'Omeka\Model\Entity\ResourceClass',
+                        $classData['id']
+                    );
+                } else {
+                    // create
+                    $resourceClass = new \Omeka\Model\Entity\ResourceClass;
+                    $entity->addResourceClass($resourceClass);
+                }
+                $resourceClassAdapter->hydrate($classData, $resourceClass);
+            }
+        }
     }
 
     /**

@@ -117,17 +117,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $t = $this->getTranslator();
         $response = new Response;
 
-        $entity = $this->getEntityManager()->find(
-            $this->getEntityClass(),
-            $request->getId()
-        );
-        if (null === $entity) {
-            throw new Exception\NotFoundException(sprintf(
-                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
-                $this->getEntityClass(),
-                $request->getId()
-            ));
-        }
+        $entity = $this->findEntity(array('id' => $request->getId()));
         $this->authorize($entity, Request::READ);
 
         // Trigger the read.find.post event.
@@ -150,17 +140,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $t = $this->getTranslator();
         $response = new Response;
 
-        $entity = $this->getEntityManager()->find(
-            $this->getEntityClass(),
-            $request->getId()
-        );
-        if (null === $entity) {
-            throw new Exception\NotFoundException(sprintf(
-                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
-                $this->getEntityClass(),
-                $request->getId()
-            ));
-        }
+        $entity = $this->findEntity(array('id' => $request->getId()));
         $this->hydrateEntity(
             Request::UPDATE,
             $request->getContent(),
@@ -181,17 +161,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $t = $this->getTranslator();
         $response = new Response;
 
-        $entity = $this->getEntityManager()->find(
-            $this->getEntityClass(),
-            $request->getId()
-        );
-        if (null === $entity) {
-            throw new Exception\NotFoundException(sprintf(
-                $t->translate('An "%1$s" entity with ID "%2$s" was not found.'),
-                $this->getEntityClass(),
-                $request->getId()
-            ));
-        }
+        $entity = $this->findEntity(array('id' => $request->getId()));
         $this->authorize($entity, Request::DELETE);
 
         // Trigger the delete.find.post event.
@@ -321,6 +291,28 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             ->getUnitOfWork()
             ->getEntityState($entity);
         return UnitOfWork::STATE_MANAGED === $entityState;
+    }
+
+    /**
+     * Find a single entity by a set of criteria.
+     *
+     * @throws Exception\NotFoundException
+     * @param array $criteria
+     * @return EntityInterface
+     */
+    protected function findEntity(array $criteria)
+    {
+        $entity = $this->getEntityManager()
+            ->getRepository($this->getEntityClass())
+            ->findOneBy($criteria);
+        if (null === $entity) {
+            throw new Exception\NotFoundException(sprintf(
+                $this->getTranslator()->translate('%s entity not found using criteria: %s.'),
+                $this->getEntityClass(),
+                json_encode($criteria)
+            ));
+        }
+        return $entity;
     }
 
     /**

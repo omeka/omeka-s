@@ -35,8 +35,9 @@ class ItemAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, $entity)
-    {
+    public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
         if (isset($data['owner']['id'])) {
             $owner = $this->getEntityManager()
                 ->getRepository('Omeka\Model\Entity\User')

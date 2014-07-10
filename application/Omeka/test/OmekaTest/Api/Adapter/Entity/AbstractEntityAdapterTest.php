@@ -208,16 +208,18 @@ class AbstractEntityAdapterTest extends TestCase
         $translator = $this->getMock('Zend\I18n\Translator\Translator');
 
         // Service: Omeka\EntityManager
+        $entityRepository = $this->getEntityRepository();
+        $entityRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(array('id' => $id)))
+            ->will($this->returnValue(new TestEntity));
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $entityManager->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo(
-                'OmekaTest\Api\Adapter\Entity\TestEntity'),
-                $this->equalTo($id)
-            )
-            ->will($this->returnValue(new TestEntity));
+            ->method('getRepository')
+            ->with($this->equalTo('OmekaTest\Api\Adapter\Entity\TestEntity'))
+            ->will($this->returnValue($entityRepository));
 
         // Service: Omeka\Acl
         $acl = $this->getMock('Omeka\Permissions\Acl');
@@ -290,16 +292,18 @@ class AbstractEntityAdapterTest extends TestCase
             ->will($this->returnValue(UnitOfWork::STATE_MANAGED));
 
         // Service: Omeka\EntityManager
+        $entityRepository = $this->getEntityRepository();
+        $entityRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(array('id' => $id)))
+            ->will($this->returnValue(new TestEntity));
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $entityManager->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo(
-                'OmekaTest\Api\Adapter\Entity\TestEntity'),
-                $this->equalTo($id)
-            )
-            ->will($this->returnValue(new TestEntity));
+            ->method('getRepository')
+            ->with($this->equalTo('OmekaTest\Api\Adapter\Entity\TestEntity'))
+            ->will($this->returnValue($entityRepository));
         $entityManager->expects($this->once())
             ->method('getUnitOfWork')
             ->will($this->returnValue($unitOfWork));
@@ -376,16 +380,18 @@ class AbstractEntityAdapterTest extends TestCase
         $translator = $this->getMock('Zend\I18n\Translator\Translator');
 
         // Service: Omeka\EntityManager
+        $entityRepository = $this->getEntityRepository();
+        $entityRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(array('id' => $id)))
+            ->will($this->returnValue(new TestEntity));
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $entityManager->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo(
-                'OmekaTest\Api\Adapter\Entity\TestEntity'),
-                $this->equalTo($id)
-            )
-            ->will($this->returnValue(new TestEntity));
+            ->method('getRepository')
+            ->with($this->equalTo('OmekaTest\Api\Adapter\Entity\TestEntity'))
+            ->will($this->returnValue($entityRepository));
         $entityManager->expects($this->once())
             ->method('remove')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));

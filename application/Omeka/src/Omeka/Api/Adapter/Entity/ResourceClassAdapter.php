@@ -34,8 +34,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, $entity)
-    {
+    public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
         if (isset($data['owner']['id'])) {
             $owner = $this->getEntityManager()
                 ->getRepository('Omeka\Model\Entity\User')
@@ -84,6 +85,10 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate local name.
+        if (null === $entity->getLocalName()) {
+            $errorStore->addError('local_name', 'The local_name field cannot be null.');
+        }
         // Validate label.
         if (null === $entity->getLabel()) {
             $errorStore->addError('label', 'The label field cannot be null.');

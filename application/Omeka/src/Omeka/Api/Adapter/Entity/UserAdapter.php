@@ -35,8 +35,9 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, $entity)
-    {
+    public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
         if (isset($data['username'])) {
             $entity->setUsername($data['username']);
         }

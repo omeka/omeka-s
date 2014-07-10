@@ -34,8 +34,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, $entity)
-    {
+    public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
         if (isset($data['owner']['id'])) {
             $owner = $this->getEntityManager()
                 ->getRepository('Omeka\Model\Entity\User')
@@ -53,6 +54,54 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
+        }
+        if (isset($data['classes']) && is_array($data['classes'])) {
+            $resourceClassAdapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get('resource_classes');
+            foreach ($data['classes'] as $classData) {
+                if (isset($classData['id'])) {
+                    $resourceClass = $resourceClassAdapter->findEntity(array(
+                        'id' => $classData['id'],
+                        // classes cannot be reassigned
+                        'vocabulary' => $entity->getId(),
+                    ));
+                    $resourceClassAdapter->hydrateEntity(
+                        'update', $classData, $resourceClass, $errorStore
+                    );
+                } else {
+                    $resourceClassEntityClass = $resourceClassAdapter->getEntityClass();
+                    $resourceClass = new $resourceClassEntityClass;
+                    $resourceClassAdapter->hydrateEntity(
+                        'create', $classData, $resourceClass, $errorStore
+                    );
+                    $entity->addResourceClass($resourceClass);
+                }
+            }
+        }
+        if (isset($data['properties']) && is_array($data['properties'])) {
+            $propertyAdapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get('properties');
+            foreach ($data['properties'] as $propertyData) {
+                if (isset($propertyData['id'])) {
+                    $property = $propertyAdapter->findEntity(array(
+                        'id' => $propertyData['id'],
+                        // properties cannot be reassigned
+                        'vocabulary' => $entity->getId(),
+                    ));
+                    $propertyAdapter->hydrateEntity(
+                        'update', $propertyData, $property, $errorStore
+                    );
+                } else {
+                    $propertyEntityClass = $propertyAdapter->getEntityClass();
+                    $property = new $propertyEntityClass;
+                    $propertyAdapter->hydrateEntity(
+                        'create', $propertyData, $property, $errorStore
+                    );
+                    $entity->addProperty($property);
+                }
+            }
         }
     }
 

@@ -9,6 +9,23 @@ use Omeka\Api\Request;
 class InstallDefaultVocabulariesTask extends AbstractTask
 {
     /**
+     * RDFS vocabulary
+     */
+    protected $rdfsVocabulary = array(
+        'namespace_uri' => 'http://www.w3.org/2000/01/rdf-schema#',
+        'prefix' => 'rdfs',
+        'label' => 'RDF Schema vocabulary (RDFS)',
+        'comment' => 'RDF Schema provides a data-modelling vocabulary for RDF data. RDF Schema is an extension of the basic RDF vocabulary.',
+        'classes' => array(
+            array(
+                'local_name' => 'Resource',
+                'label' => 'Resource',
+                'comment' => 'The class resource, everything.',
+            )
+        ),
+    );
+
+    /**
      * Default RDF vocabularies.
      *
      * @var array
@@ -76,11 +93,22 @@ class InstallDefaultVocabulariesTask extends AbstractTask
      */
     public function perform()
     {
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $response = $api->create('vocabularies', $this->rdfsVocabulary);
+        if ($response->isError()) {
+            $this->addErrorStore($response->getErrorStore());
+            return;
+        }
+        $this->addInfo(sprintf(
+            $this->getTranslator()->translate('Successfully installed "%s"'),
+            $this->rdfsVocabulary['label']
+        ));
+
         $rdfImporter = $this->getServiceLocator()->get('Omeka\RdfImporter');
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
-            $rdfImporter->import(
+            $response = $rdfImporter->import(
                 $vocabulary['strategy'],
                 $vocabulary['vocabulary'],
                 array(
@@ -88,6 +116,10 @@ class InstallDefaultVocabulariesTask extends AbstractTask
                     'format' => $vocabulary['format'],
                 )
             );
+            if ($response->isError()) {
+                $this->addErrorStore($response->getErrorStore());
+                return;
+            }
             $entityManager->clear();
             $this->addInfo(sprintf(
                 $this->getTranslator()->translate('Successfully installed "%s"'),

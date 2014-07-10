@@ -108,7 +108,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
-            $rdfImporter->import(
+            $response = $rdfImporter->import(
                 $vocabulary['strategy'],
                 $vocabulary['vocabulary'],
                 array(
@@ -116,6 +116,10 @@ class InstallDefaultVocabulariesTask extends AbstractTask
                     'format' => $vocabulary['format'],
                 )
             );
+            if ($response->isError()) {
+                $this->addErrorStore($response->getErrorStore());
+                return;
+            }
             $entityManager->clear();
             $this->addInfo(sprintf(
                 $this->getTranslator()->translate('Successfully installed "%s"'),

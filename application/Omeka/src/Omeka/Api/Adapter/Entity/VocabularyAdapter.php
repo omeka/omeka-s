@@ -63,6 +63,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 if (isset($classData['id'])) {
                     $resourceClass = $resourceClassAdapter->findEntity(array(
                         'id' => $classData['id'],
+                        // classes cannot be reassigned
                         'vocabulary' => $entity->getId(),
                     ));
                     $resourceClassAdapter->hydrateEntity(
@@ -75,6 +76,30 @@ class VocabularyAdapter extends AbstractEntityAdapter
                         'create', $classData, $resourceClass, $errorStore
                     );
                     $entity->addResourceClass($resourceClass);
+                }
+            }
+        }
+        if (isset($data['properties']) && is_array($data['properties'])) {
+            $propertyAdapter = $this->getServiceLocator()
+                ->get('Omeka\ApiAdapterManager')
+                ->get('properties');
+            foreach ($data['properties'] as $propertyData) {
+                if (isset($propertyData['id'])) {
+                    $property = $propertyAdapter->findEntity(array(
+                        'id' => $propertyData['id'],
+                        // properties cannot be reassigned
+                        'vocabulary' => $entity->getId(),
+                    ));
+                    $propertyAdapter->hydrateEntity(
+                        'update', $propertyData, $property, $errorStore
+                    );
+                } else {
+                    $propertyEntityClass = $propertyAdapter->getEntityClass();
+                    $property = new $propertyEntityClass;
+                    $propertyAdapter->hydrateEntity(
+                        'create', $propertyData, $property, $errorStore
+                    );
+                    $entity->addProperty($property);
                 }
             }
         }

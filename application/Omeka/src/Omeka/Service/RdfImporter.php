@@ -76,6 +76,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
      * @param string $vocabularyArray The vocabulary as supported by the
      * vocabulary entity adapter.
      * @param array $options See self::getMembers()
+     * @return Omeka\Api\Response
      */
     public function import($strategy, array $vocabularyArray, array $options = array())
     {
@@ -84,31 +85,11 @@ class RdfImporter implements ServiceLocatorAwareInterface
             $strategy, $vocabularyArray['namespace_uri'], $options
         );
 
-        $vocabulary = new Vocabulary;
-        $vocabulary->setNamespaceUri($vocabularyArray['namespace_uri']);
-        $vocabulary->setPrefix($vocabularyArray['prefix']);
-        $vocabulary->setLabel($vocabularyArray['label']);
-        $vocabulary->setComment($vocabularyArray['comment']);
+        $vocabularyArray['classes'] = $members['classes'];
+        $vocabularyArray['properties'] = $members['properties'];
 
-        foreach ($members['classes'] as $memberClass) {
-            $resourceClass = new ResourceClass;
-            $resourceClass->setLocalName($memberClass['local_name']);
-            $resourceClass->setLabel($memberClass['label']);
-            $resourceClass->setComment($memberClass['comment']);
-            $vocabulary->addResourceClass($resourceClass);
-        }
-
-        foreach ($members['properties'] as $memberProperty) {
-            $property = new Property;
-            $property->setLocalName($memberProperty['local_name']);
-            $property->setLabel($memberProperty['label']);
-            $property->setComment($memberProperty['comment']);
-            $vocabulary->addProperty($property);
-        }
-
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $entityManager->persist($vocabulary);
-        $entityManager->flush();
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        return $api->create('vocabularies', $vocabularyArray);
     }
 
     protected function getGraph($strategy, $namespaceUri, $options)

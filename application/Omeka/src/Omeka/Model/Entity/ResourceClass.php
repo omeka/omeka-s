@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Classes are logical groupings of resources that have specified ranges of 
  * descriptive properties.
  * 
- * @Entity
+ * @Entity(repositoryClass="Omeka\Model\Repository\ResourceClass")
  * @Table(
  *     options={"collate"="utf8_bin"},
  *     uniqueConstraints={

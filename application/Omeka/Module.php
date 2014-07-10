@@ -1,9 +1,11 @@
 <?php
 namespace Omeka;
 
+use Omeka\Event\Event;
 use Omeka\Module\AbstractModule;
 use Omeka\View\Helper\Api;
 use Omeka\View\Helper\AssetUrl;
+use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 
 /**
@@ -37,5 +39,34 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function attachListeners(
+        SharedEventManagerInterface $sharedEventManager,
+        SharedEventManagerInterface $filterManager
+    ) {
+        $sharedEventManager->attach(
+            'Omeka\Model\Entity\Resource',
+            Event::ENTITY_PERSIST_PRE,
+            array($this, 'setRdfsResourceAsDefault')
+        );
+    }
+
+    /**
+     * Set rdfs:Resource as the default resource class for all Omeka resources.
+     *
+     * @param $event
+     */
+    public function setRdfsResourceAsDefault($event)
+    {
+        $resourceEntity = $event->getTarget();
+        if (null === $resourceEntity->getResourceClass()) {
+            // get the rdfs:Resource class and set it to this resource
+            $rdfsResource = $this->getServiceLocator()
+                ->get('Omeka\EntityManager')
+                ->getRepository('Omeka\Model\Entity\ResourceClass')
+                ->getRdfsResource();
+            $resourceEntity->setResourceClass($rdfsResource);
+        }
     }
 }

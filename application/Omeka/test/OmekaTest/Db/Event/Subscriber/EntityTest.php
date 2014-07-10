@@ -30,7 +30,7 @@ class EntityTest extends TestCase
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->exactly(6))
             ->method('setIdentifiers')
-            ->with($this->equalTo('Omeka\Db\Event\Subscriber\Entity'));
+            ->with($this->equalTo(array('Omeka\Db\Event\Subscriber\Entity')));
         $eventManager->expects($this->exactly(6))
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));

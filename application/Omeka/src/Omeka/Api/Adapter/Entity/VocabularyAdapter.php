@@ -38,9 +38,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         if (isset($data['owner']['id'])) {
-            $owner = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\User')
-                ->find($data['owner']['id']);
+            $owner = $this->getAdapter('users')
+                ->findEntity($data['owner']['id']);
             $entity->setOwner($owner);
         }
         if (isset($data['namespace_uri'])) {
@@ -56,9 +55,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setComment($data['comment']);
         }
         if (isset($data['classes']) && is_array($data['classes'])) {
-            $resourceClassAdapter = $this->getServiceLocator()
-                ->get('Omeka\ApiAdapterManager')
-                ->get('resource_classes');
+            $resourceClassAdapter = $this->getAdapter('resource_classes');
             foreach ($data['classes'] as $classData) {
                 if (isset($classData['id'])) {
                     $resourceClass = $resourceClassAdapter->findEntity(array(
@@ -80,9 +77,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
         }
         if (isset($data['properties']) && is_array($data['properties'])) {
-            $propertyAdapter = $this->getServiceLocator()
-                ->get('Omeka\ApiAdapterManager')
-                ->get('properties');
+            $propertyAdapter = $this->getAdapter('properties');
             foreach ($data['properties'] as $propertyData) {
                 if (isset($propertyData['id'])) {
                     $property = $propertyAdapter->findEntity(array(

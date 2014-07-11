@@ -38,15 +38,13 @@ class PropertyAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         if (isset($data['owner']['id'])) {
-            $owner = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\User')
-                ->find($data['owner']['id']);
+            $owner = $this->getAdapter('users')
+                ->findEntity($data['owner']['id']);
             $entity->setOwner($owner);
         }
         if (isset($data['vocabulary']['id'])) {
-            $vocabulary = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\Vocabulary')
-                ->find($data['vocabulary']['id']);
+            $vocabulary = $this->getAdapter('vocabularies')
+                ->findEntity($data['vocabulary']['id']);
             $entity->setVocabulary($vocabulary);
         }
         if (isset($data['local_name'])) {

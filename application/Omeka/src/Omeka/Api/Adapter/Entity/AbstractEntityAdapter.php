@@ -294,22 +294,27 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Find a single entity by a set of criteria.
+     * Find a single entity by identifier or a set of criteria.
      *
      * @throws Exception\NotFoundException
-     * @param array $criteria
+     * @param mixed $criteria An ID or an array of criteria
      * @return EntityInterface
      */
-    protected function findEntity(array $criteria)
+    protected function findEntity($id)
     {
-        $entity = $this->getEntityManager()
-            ->getRepository($this->getEntityClass())
-            ->findOneBy($criteria);
+        if (is_array($id)) {
+            $entity = $this->getEntityManager()
+                ->getRepository($this->getEntityClass())
+                ->findOneBy($id);
+        } else {
+            $entity = $this->getEntityManager()
+                ->find($this->getEntityClass(), $id);
+        }
         if (null === $entity) {
             throw new Exception\NotFoundException(sprintf(
                 $this->getTranslator()->translate('%s entity not found using criteria: %s.'),
                 $this->getEntityClass(),
-                json_encode($criteria)
+                is_array($id) ? json_encode($id) : $id
             ));
         }
         return $entity;

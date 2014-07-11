@@ -39,15 +39,13 @@ class ItemAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         if (isset($data['owner']['id'])) {
-            $owner = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\User')
-                ->find($data['owner']['id']);
+            $owner = $this->getAdapter('users')
+                ->findEntity($data['owner']['id']);
             $entity->setOwner($owner);
         }
         if (isset($data['resource_class']['id'])) {
-            $resourceClass = $this->getEntityManager()
-                ->getRepository('Omeka\Model\Entity\ResourceClass')
-                ->find($data['resource_class']['id']);
+            $resourceClass = $this->getAdapter('resource_classes')
+                ->findEntity($data['resource_class']['id']);
             $entity->setResourceClass($resourceClass);
         }
         $valueHydrator = new ValueHydrator($this);

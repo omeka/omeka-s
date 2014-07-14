@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Authentication\Storage;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Zend\Authentication\Storage\StorageInterface;
 
@@ -40,7 +41,14 @@ class DoctrineWrapper implements StorageInterface
      */
     public function isEmpty()
     {
-        return $this->storage->isEmpty();
+        if ($this->storage->isEmpty()) {
+            return true;
+        }
+        if (null === $this->read()) {
+            // An identity may exist in a cookie but not in the database.
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -49,11 +57,14 @@ class DoctrineWrapper implements StorageInterface
     public function read()
     {
         $identity = $this->storage->read();
-
         if ($identity) {
-            return $this->repository->find($identity);
+            try {
+                return $this->repository->find($identity);
+            } catch (DBALException $e) {
+                // The user table does not exist.
+                return null;
+            }
         }
-
         return null;
     }
 

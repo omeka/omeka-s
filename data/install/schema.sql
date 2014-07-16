@@ -79,30 +79,30 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property` (
   CONSTRAINT `FK_FC37D002AD0E05F6` FOREIGN KEY (`vocabulary_id`) REFERENCES `OMEKA_TABLE_PREFIX_vocabulary` (`id`),
   CONSTRAINT `FK_FC37D0027E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-CREATE TABLE `OMEKA_TABLE_PREFIX_property_override` (
+CREATE TABLE `OMEKA_TABLE_PREFIX_property_assignment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `property_override_set_id` int(11) NOT NULL,
+  `property_assignment_set_id` int(11) NOT NULL,
   `property_id` int(11) NOT NULL,
   `alternate_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8_unicode_ci,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_8BBC5FA169428494` (`property_override_set_id`),
-  KEY `IDX_8BBC5FA1549213EC` (`property_id`),
-  CONSTRAINT `FK_8BBC5FA1549213EC` FOREIGN KEY (`property_id`) REFERENCES `OMEKA_TABLE_PREFIX_property` (`id`),
-  CONSTRAINT `FK_8BBC5FA169428494` FOREIGN KEY (`property_override_set_id`) REFERENCES `OMEKA_TABLE_PREFIX_property_override_set` (`id`)
+  KEY `IDX_B6672E54D1169F72` (`property_assignment_set_id`),
+  KEY `IDX_B6672E54549213EC` (`property_id`),
+  CONSTRAINT `FK_B6672E54549213EC` FOREIGN KEY (`property_id`) REFERENCES `OMEKA_TABLE_PREFIX_property` (`id`),
+  CONSTRAINT `FK_B6672E54D1169F72` FOREIGN KEY (`property_assignment_set_id`) REFERENCES `OMEKA_TABLE_PREFIX_property_assignment_set` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-CREATE TABLE `OMEKA_TABLE_PREFIX_property_override_set` (
+CREATE TABLE `OMEKA_TABLE_PREFIX_property_assignment_set` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `resource_class_id` int(11) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource_class_label` (`resource_class_id`,`label`),
-  KEY `IDX_B5290D7448CC1BD` (`resource_class_id`),
-  KEY `IDX_B5290D77E3C61F9` (`owner_id`),
-  CONSTRAINT `FK_B5290D77E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`),
-  CONSTRAINT `FK_B5290D7448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource_class` (`id`)
+  KEY `IDX_D57D24E0448CC1BD` (`resource_class_id`),
+  KEY `IDX_D57D24E07E3C61F9` (`owner_id`),
+  CONSTRAINT `FK_D57D24E07E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`),
+  CONSTRAINT `FK_D57D24E0448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource_class` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

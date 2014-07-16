@@ -3,7 +3,7 @@ namespace Omeka\Model\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\PropertyOverride;
+use Omeka\Model\Entity\PropertyAssignment;
 use Omeka\Model\Entity\User;
 
 /**
@@ -17,7 +17,7 @@ use Omeka\Model\Entity\User;
  *     }
  * )
  */
-class PropertyOverrideSet extends AbstractEntity
+class PropertyAssignmentSet extends AbstractEntity
 {
     /**
      * @Id
@@ -32,29 +32,29 @@ class PropertyOverrideSet extends AbstractEntity
     protected $label;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyOverrideSets")
+     * @ManyToOne(targetEntity="ResourceClass", inversedBy="propertyAssignmentSets")
      * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="propertyOverrideSets")
+     * @ManyToOne(targetEntity="User", inversedBy="propertyAssignmentSets")
      */
     protected $owner;
 
     /**
      * @OneToMany(
-     *     targetEntity="PropertyOverride",
-     *     mappedBy="propertyOverrideSet",
+     *     targetEntity="PropertyAssignment",
+     *     mappedBy="propertyAssignmentSet",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
      */
-    protected $propertyOverrides;
+    protected $propertyAssignments;
 
     public function __construct()
     {
-        $this->propertyOverrides = new ArrayCollection;
+        $this->propertyAssignments = new ArrayCollection;
     }
 
     public function getId()
@@ -75,7 +75,7 @@ class PropertyOverrideSet extends AbstractEntity
     public function setResourceClass(ResourceClass $resourceClass = null)
     {
         $this->synchronizeOneToMany($resourceClass, 'resourceClass',
-            'getPropertyOverrideSets');
+            'getPropertyAssignmentSets');
     }
 
     public function getResourceClass()
@@ -85,7 +85,7 @@ class PropertyOverrideSet extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getPropertyOverrideSets');
+        $this->synchronizeOneToMany($owner, 'owner', 'getPropertyAssignmentSets');
     }
 
     public function getOwner()
@@ -93,29 +93,29 @@ class PropertyOverrideSet extends AbstractEntity
         return $this->owner;
     }
 
-    public function getPropertyOverrides()
+    public function getPropertyAssignments()
     {
-        return $this->propertyOverrides;
+        return $this->propertyAssignments;
     }
 
     /**
-     * Add a property override to this set.
+     * Add a property assignment to this set.
      *
-     * @param PropertyOverride $propertyOverride
+     * @param PropertyAssignment $propertyAssignment
      */
-    public function addPropertyOverride(PropertyOverride $propertyOverride)
+    public function addPropertyAssignment(PropertyAssignment $propertyAssignment)
     {
-        $propertyOverride->setPropertyOverrideSet($this);
+        $propertyAssignment->setPropertyAssignmentSet($this);
     }
 
     /**
-     * Remove a property override from this set.
+     * Remove a property assignment from this set.
      *
-     * @param PropertyOverride $propertyOverride
+     * @param PropertyAssignment $propertyAssignment
      * @return bool
      */
-    public function removePropertyOverride(PropertyOverride $propertyOverride)
+    public function removePropertyAssignment(PropertyAssignment $propertyAssignment)
     {
-        $propertyOverride->setPropertyOverrideSet(null);
+        $propertyAssignment->setPropertyAssignmentSet(null);
     }
 }

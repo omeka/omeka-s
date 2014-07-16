@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\PropertyOverrideSet;
+use Omeka\Model\Entity\PropertyAssignmentSet;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
 use Omeka\Model\Entity\Vocabulary;
@@ -26,7 +26,7 @@ class ResourceClassTest extends TestCase
         $this->assertNull($this->resourceClass->getComment());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->resourceClass->getPropertyOverrideSets()
+            $this->resourceClass->getPropertyAssignmentSets()
         );
     }
 
@@ -67,20 +67,20 @@ class ResourceClassTest extends TestCase
         $this->assertEquals($comment, $this->resourceClass->getComment());
     }
 
-    public function testAddPropertyOverrideSet()
+    public function testAddPropertyAssignmentSet()
     {
-        $propertyOverrideSet = new PropertyOverrideSet;
-        $this->resourceClass->addPropertyOverrideSet($propertyOverrideSet);
-        $this->assertSame($this->resourceClass, $propertyOverrideSet->getResourceClass());
-        $this->assertTrue($this->resourceClass->getPropertyOverrideSets()->contains($propertyOverrideSet));
+        $propertyAssignmentSet = new PropertyAssignmentSet;
+        $this->resourceClass->addPropertyAssignmentSet($propertyAssignmentSet);
+        $this->assertSame($this->resourceClass, $propertyAssignmentSet->getResourceClass());
+        $this->assertTrue($this->resourceClass->getPropertyAssignmentSets()->contains($propertyAssignmentSet));
     }
 
-    public function testRemovePropertyOverrideSet()
+    public function testRemovePropertyAssignmentSet()
     {
-        $propertyOverrideSet = new PropertyOverrideSet;
-        $this->resourceClass->addPropertyOverrideSet($propertyOverrideSet);
-        $this->resourceClass->removePropertyOverrideSet($propertyOverrideSet);
-        $this->assertFalse($this->resourceClass->getPropertyOverrideSets()->contains($propertyOverrideSet));
-        $this->assertNull($propertyOverrideSet->getResourceClass());
+        $propertyAssignmentSet = new PropertyAssignmentSet;
+        $this->resourceClass->addPropertyAssignmentSet($propertyAssignmentSet);
+        $this->resourceClass->removePropertyAssignmentSet($propertyAssignmentSet);
+        $this->assertFalse($this->resourceClass->getPropertyAssignmentSets()->contains($propertyAssignmentSet));
+        $this->assertNull($propertyAssignmentSet->getResourceClass());
     }
 }

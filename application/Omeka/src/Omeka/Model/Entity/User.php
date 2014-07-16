@@ -79,9 +79,9 @@ class User extends AbstractEntity implements RoleInterface
     protected $properties;
 
     /**
-     * @OneToMany(targetEntity="PropertyOverrideSet", mappedBy="owner")
+     * @OneToMany(targetEntity="PropertyAssignmentSet", mappedBy="owner")
      */
-    protected $propertyOverrideSets;
+    protected $propertyAssignmentSets;
 
     public function __construct()
     {
@@ -90,7 +90,7 @@ class User extends AbstractEntity implements RoleInterface
         $this->vocabularies = new ArrayCollection;
         $this->resourceClasses = new ArrayCollection;
         $this->properties = new ArrayCollection;
-        $this->propertyOverrideSets = new ArrayCollection;
+        $this->propertyAssignmentSets = new ArrayCollection;
     }
 
     /**
@@ -213,9 +213,9 @@ class User extends AbstractEntity implements RoleInterface
         return $this->properties;
     }
 
-    public function getPropertyOverrideSets()
+    public function getPropertyAssignmentSets()
     {
-        return $this->propertyOverrideSets;
+        return $this->propertyAssignmentSets;
     }
 
     /**

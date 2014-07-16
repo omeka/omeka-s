@@ -62,17 +62,17 @@ class ResourceClass extends AbstractEntity
 
     /**
      * @OneToMany(
-     *     targetEntity="PropertyOverrideSet",
+     *     targetEntity="PropertyAssignmentSet",
      *     mappedBy="resourceClass",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
      */
-    protected $propertyOverrideSets;
+    protected $propertyAssignmentSets;
 
     public function __construct()
     {
-        $this->propertyOverrideSets = new ArrayCollection;
+        $this->propertyAssignmentSets = new ArrayCollection;
     }
 
     public function getId()
@@ -130,29 +130,29 @@ class ResourceClass extends AbstractEntity
         return $this->comment;
     }
 
-    public function getPropertyOverrideSets()
+    public function getPropertyAssignmentSets()
     {
-        return $this->propertyOverrideSets;
+        return $this->propertyAssignmentSets;
     }
 
     /**
-     * Add a property override set to this resource class.
+     * Add a property assignment set to this resource class.
      *
-     * @param PropertyOverrideSet $propertyOverrideSet
+     * @param PropertyAssignmentSet $propertyAssignmentSet
      */
-    public function addPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    public function addPropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet)
     {
-        $propertyOverrideSet->setResourceClass($this);
+        $propertyAssignmentSet->setResourceClass($this);
     }
 
     /**
-     * Remove a property override set from this resource class.
+     * Remove a property assignment set from this resource class.
      *
-     * @param PropertyOverrideSet $propertyOverrideSet
+     * @param PropertyAssignmentSet $propertyAssignmentSet
      * @return bool
      */
-    public function removePropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet)
+    public function removePropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet)
     {
-        $propertyOverrideSet->setResourceClass(null);
+        $propertyAssignmentSet->setResourceClass(null);
     }
 }

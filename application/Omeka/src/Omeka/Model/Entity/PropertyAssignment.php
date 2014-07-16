@@ -2,12 +2,12 @@
 namespace Omeka\Model\Entity;
 
 use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\PropertyOverrideSet;
+use Omeka\Model\Entity\PropertyAssignmentSet;
 
 /**
  * @Entity
  */
-class PropertyOverride extends AbstractEntity
+class PropertyAssignment extends AbstractEntity
 {
     /**
      * @Id
@@ -17,10 +17,10 @@ class PropertyOverride extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="PropertyOverrideSet", inversedBy="propertyOverrides")
+     * @ManyToOne(targetEntity="PropertyAssignmentSet", inversedBy="propertyAssignments")
      * @JoinColumn(nullable=false)
      */
-    protected $propertyOverrideSet;
+    protected $propertyAssignmentSet;
 
     /**
      * @ManyToOne(targetEntity="Property")
@@ -48,15 +48,15 @@ class PropertyOverride extends AbstractEntity
         return $this->id;
     }
 
-    public function setPropertyOverrideSet(PropertyOverrideSet $propertyOverrideSet = null)
+    public function setPropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet = null)
     {
-        $this->synchronizeOneToMany($propertyOverrideSet, 'propertyOverrideSet',
-            'getPropertyOverrides');
+        $this->synchronizeOneToMany($propertyAssignmentSet, 'propertyAssignmentSet',
+            'getPropertyAssignments');
     }
 
-    public function getPropertyOverrideSet()
+    public function getPropertyAssignmentSet()
     {
-        return $this->propertyOverrideSet;
+        return $this->propertyAssignmentSet;
     }
 
     public function setProperty(Property $property)

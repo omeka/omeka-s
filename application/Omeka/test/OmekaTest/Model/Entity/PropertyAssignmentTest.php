@@ -22,7 +22,6 @@ class PropertyAssignmentTest extends TestCase
         $this->assertNull($this->propertyAssignment->getProperty());
         $this->assertNull($this->propertyAssignment->getAlternateLabel());
         $this->assertNull($this->propertyAssignment->getAlternateComment());
-        $this->assertTrue($this->propertyAssignment->isDefault());
     }
 
     public function testSetPropertyAssignmentSet()
@@ -52,12 +51,5 @@ class PropertyAssignmentTest extends TestCase
         $alternateComment = 'test-alternateComment';
         $this->propertyAssignment->setAlternateComment($alternateComment);
         $this->assertEquals($alternateComment, $this->propertyAssignment->getAlternateComment());
-    }
-
-    public function setIsDefault()
-    {
-        $isDefault = false;
-        $this->propertyAssignment->setIsDefault($isDefault);
-        $this->assertFalse($this->propertyAssignment->isDefault());
     }
 }

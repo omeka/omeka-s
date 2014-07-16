@@ -85,7 +85,6 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property_assignment` (
   `property_id` int(11) NOT NULL,
   `alternate_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8_unicode_ci,
-  `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_B6672E54D1169F72` (`property_assignment_set_id`),
   KEY `IDX_B6672E54549213EC` (`property_id`),

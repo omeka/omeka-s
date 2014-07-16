@@ -38,11 +38,6 @@ class PropertyAssignment extends AbstractEntity
      */
     protected $alternateComment;
 
-    /**
-     * @Column(type="boolean")
-     */
-    protected $default = true;
-
     public function getId()
     {
         return $this->id;
@@ -87,15 +82,5 @@ class PropertyAssignment extends AbstractEntity
     public function getAlternateComment()
     {
         return $this->alternateComment;
-    }
-
-    public function setDefault($default)
-    {
-        $this->default = (bool) $default;
-    }
-
-    public function isDefault()
-    {
-        return $this->default;
     }
 }

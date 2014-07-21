@@ -85,7 +85,7 @@ class ValueRepresentation extends AbstractRepresentation
                 if ($value->getLang()) {
                     $valueObject['@language'] = $value->getLang();
                 }
-                $valueObject['is_html'] = $value->getIsHtml();
+                $valueObject['is_html'] = $value->isHtml();
                 break;
         }
 

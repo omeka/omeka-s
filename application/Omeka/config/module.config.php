@@ -83,6 +83,7 @@ return array(
         'invokables' => array(
             'value' => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
+            'media' => 'Omeka\View\Helper\Media',
         ),
     ),
     'media_types' => array(

@@ -86,6 +86,10 @@ class Media extends AbstractHelper
         if (!isset($media['id'])) {
             throw new \Exception('Media not found.');
         }
-        return $this->entityManager->find('Omeka\Model\Entity\Media', $media['id']);
+        $media = $this->entityManager->find('Omeka\Model\Entity\Media', $media['id']);
+        if (null === $media) {
+            throw new \Exception('Media not found.');
+        }
+        return $media;
     }
 }

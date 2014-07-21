@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter\Entity;
 
+use Omeka\Api\Exception;
 use Omeka\Model\Entity\Property;
 use Omeka\Model\Entity\Resource;
 use Omeka\Model\Entity\Value;
@@ -145,10 +146,16 @@ class ValueHydrator implements HydrationInterface
         $value->setValue(null); // set default
         $value->setLang(null); // set default
         $value->setIsHtml(false); // set default
-        $valueResource = $this->adapter->getEntityManager()->getReference(
+        $valueResource = $this->adapter->getEntityManager()->find(
             'Omeka\Model\Entity\Resource',
             $valueObject['value_resource_id']
         );
+        if (null === $valueResource) {
+            throw new Exception\NotFoundException(sprintf(
+                $this->adapter->getTranslator()->translate('Resource not found with id %s.'),
+                $valueObject['value_resource_id']
+            ));
+        }
         $value->setValueResource($valueResource);
     }
 
@@ -206,10 +213,16 @@ class ValueHydrator implements HydrationInterface
         $value->setResource($resource);
         $value->setProperty($property);
         $value->setType(Value::TYPE_RESOURCE);
-        $valueResource = $this->adapter->getEntityManager()->getReference(
+        $valueResource = $this->adapter->getEntityManager()->find(
             'Omeka\Model\Entity\Resource',
             $valueObject['value_resource_id']
         );
+        if (null === $valueResource) {
+            throw new Exception\NotFoundException(sprintf(
+                $this->adapter->getTranslator()->translate('Resource not found with id %s.'),
+                $valueObject['value_resource_id']
+            ));
+        }
         $value->setValueResource($valueResource);
 
         $this->adapter->getEntityManager()->persist($value);

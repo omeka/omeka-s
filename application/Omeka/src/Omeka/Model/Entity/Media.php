@@ -18,7 +18,7 @@ class Media extends Resource
     protected $type;
     
     /**
-     * @Column(type="text", nullable=true)
+     * @Column(type="json_array", nullable=true)
      */
     protected $data;
 

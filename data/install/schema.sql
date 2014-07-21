@@ -41,7 +41,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_media` (
   `item_id` int(11) NOT NULL,
   `file_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` longtext COLLATE utf8_unicode_ci,
+  `data` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:json_array)',
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_6BD08FB693CB796C` (`file_id`),

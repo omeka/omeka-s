@@ -85,6 +85,9 @@ return array(
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
         ),
     ),
+    'media_types' => array(
+        'youtube' => 'Omeka\View\Helper\MediaType\Youtube',
+    ),
     'navigation' => array(
         'default' => array(
             array(

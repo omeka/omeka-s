@@ -5,6 +5,7 @@ use Omeka\Event\Event;
 use Omeka\Module\AbstractModule;
 use Omeka\View\Helper\Api;
 use Omeka\View\Helper\AssetUrl;
+use Omeka\View\Helper\Media;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 
@@ -28,6 +29,12 @@ class Module extends AbstractModule
         $viewHelperManager->setFactory('AssetUrl',
             function ($helperPluginManager) use ($serviceManager) {
                 return new AssetUrl($serviceManager->get('Omeka\ModuleManager'));
+            });
+        $viewHelperManager->setFactory('Media',
+            function ($helperPluginManager) use ($serviceManager) {
+                $config = $serviceManager->get('Config');
+                $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+                return new Media($config['media_types'], $entityManager);
             });
 
         // Set the ACL to navigation.

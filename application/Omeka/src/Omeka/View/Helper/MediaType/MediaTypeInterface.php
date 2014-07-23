@@ -1,25 +1,25 @@
 <?php
 namespace Omeka\View\Helper\MediaType;
 
-use Omeka\Model\Entity\Media;
+use Omeka\Api\Representation\Entity\MediaRepresentation;
 
 interface MediaTypeInterface
 {
     /**
      * Return the HTML necessary to render an add/edit form.
      *
-     * @param array|null $options
-     * @param Media|null $media
+     * @param MediaRepresentation|null $media
+     * @param array $options
      * @return string
      */
-    public function form(array $options = array(), Media $media = null);
+    public function form(MediaRepresentation $media = null, array $options = array());
 
     /**
      * Return the HTML necessary to render the provided media.
      *
-     * @param Media $media
-     * @param array|null $options
+     * @param MediaRepresentation $media
+     * @param array $options
      * @return string
      */
-    public function render(Media $media, array $options = array());
+    public function render(MediaRepresentation $media, array $options = array());
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Doctrine\ORM\EntityManager;
+use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Zend\View\Helper\AbstractHelper;
 
 class Media extends AbstractHelper
@@ -12,49 +12,41 @@ class Media extends AbstractHelper
     protected $mediaTypes;
 
     /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    /**
      * Construct the helper.
      *
      * @param array $mediaTypes
-     * @param EntityManager $entityManager
      */
-    public function __construct(array $mediaTypes, EntityManager $entityManager)
+    public function __construct(array $mediaTypes)
     {
         $this->mediaTypes = $mediaTypes;
-        $this->entityManager = $entityManager;
     }
 
     /**
-     * Return the HTML necessary to render an add/edit form for the provided
-     * media type.
+     * Return the HTML necessary to render an add/edit form.
      *
-     * @param string $mediaType
+     * @param string|MediaRepresentation $mediaType
      * @param array $options Global options for the media type
-     * @param array|null $media If set, return an edit form
      * @return string
      */
-    public function form($mediaType, array $options = array(), array $media = null)
+    public function form($mediaType, array $options = array())
     {
-        if (is_array($media)) {
-            $media = $this->getMedia($media);
+        $media = null;
+        if ($mediaType instanceof MediaRepresentation) {
+            $media = $mediaType;
+            $mediaType = $media->getType();
         }
-        return $this->getMediaType($mediaType)->form($options, $media);
+        return $this->getMediaType($mediaType)->form($media, $options);
     }
 
     /**
      * Return the HTML necessary to render the provided media.
      *
-     * @param array $media
+     * @param MediaRepresentation $media
      * @param array $options Global options for the media type
      * @return string
      */
-    public function render(array $media, array $options = array())
+    public function render(MediaRepresentation $media, array $options = array())
     {
-        $media = $this->getMedia($media);
         return $this->getMediaType($media->getType())->render($media, $options);
     }
 
@@ -73,23 +65,5 @@ class Media extends AbstractHelper
             throw new \Exception('Media type class does not exist.');
         }
         return new $this->mediaTypes[$mediaType];
-    }
-
-    /**
-     * Get the Media entity.
-     *
-     * @param array $media
-     * @return Media
-     */
-    protected function getMedia(array $media)
-    {
-        if (!isset($media['id'])) {
-            throw new \Exception('Media not found.');
-        }
-        $media = $this->entityManager->find('Omeka\Model\Entity\Media', $media['id']);
-        if (null === $media) {
-            throw new \Exception('Media not found.');
-        }
-        return $media;
     }
 }

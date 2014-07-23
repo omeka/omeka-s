@@ -3,11 +3,11 @@ namespace Omeka\View\Helper\MediaType;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 
-class Youtube implements MediaTypeInterface
+class Img implements MediaTypeInterface
 {
     const WIDTH = 420;
     const HEIGHT = 315;
-    const ALLOWFULLSCREEN = true;
+    const ALT = '';
 
     /**
      * {@inheritDoc}
@@ -22,15 +22,12 @@ class Youtube implements MediaTypeInterface
     {
         $options = $this->sanitizeOptions($options);
         $data = $media->getData();
-        $embed = '<iframe'
+        $embed = '<img'
                . ' width="' . $options['width'] . '"'
                . ' height="' . $options['height'] . '"'
                . ' src="' . $data['src'] . '"'
-               . ' frameborder="0"';
-        if ($options['allowfullscreen']) {
-            $embed .= ' allowfullscreen';
-        }
-        $embed .= '></iframe>';
+               . ' alt="' . $data['alt'] . '"'
+               . ' />';
         return $embed;
     }
 
@@ -42,8 +39,8 @@ class Youtube implements MediaTypeInterface
         if (!isset($options['height'])) {
             $options['height'] = self::HEIGHT;
         }
-        if (!isset($options['allowfullscreen'])) {
-            $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
+        if (!isset($options['alt'])) {
+            $options['alt'] = self::ALT;
         }
         return $options
     }

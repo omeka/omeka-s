@@ -33,8 +33,7 @@ class Module extends AbstractModule
         $viewHelperManager->setFactory('Media',
             function ($helperPluginManager) use ($serviceManager) {
                 $config = $serviceManager->get('Config');
-                $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-                return new Media($config['media_types'], $entityManager);
+                return new Media($config['media_types']);
             });
 
         // Set the ACL to navigation.

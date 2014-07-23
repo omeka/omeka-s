@@ -81,12 +81,12 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
-            'value' => 'Omeka\View\Helper\Value',
+            'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
-            'media' => 'Omeka\View\Helper\Media',
         ),
     ),
     'media_types' => array(
+        'img'     => 'Omeka\View\Helper\MediaType\Img',
         'youtube' => 'Omeka\View\Helper\MediaType\Youtube',
     ),
     'navigation' => array(

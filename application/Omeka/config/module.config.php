@@ -8,6 +8,7 @@ return array(
             'properties'       => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
             'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
+            'media'            => 'Omeka\Api\Adapter\Entity\MediaAdapter',
             'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
         ),
     ),

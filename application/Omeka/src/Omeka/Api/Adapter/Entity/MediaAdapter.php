@@ -6,14 +6,14 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
-class ItemAdapter extends AbstractEntityAdapter
+class MediaAdapter extends AbstractEntityAdapter
 {
     /**
      * {@inheritDoc}
      */
     public function getResourceName()
     {
-        return 'items';
+        return 'media';
     }
 
     /**
@@ -21,7 +21,7 @@ class ItemAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\Entity\ItemRepresentation';
+        return 'Omeka\Api\Representation\Entity\MediaRepresentation';
     }
 
     /**
@@ -29,7 +29,7 @@ class ItemAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Item';
+        return 'Omeka\Model\Entity\Media';
     }
 
     /**
@@ -48,27 +48,11 @@ class ItemAdapter extends AbstractEntityAdapter
                 ->findEntity($data['resource_class']['id']);
             $entity->setResourceClass($resourceClass);
         }
-        if (isset($data['media']) && is_array($data['media'])) {
-            $mediaAdapter = $this->getAdapter('media');
-            foreach ($data['media'] as $mediaData) {
-                if (isset($mediaData['id'])) {
-                    $media = $mediaAdapter->findEntity(array(
-                        'id' => $mediaData['id'],
-                        // media cannot be reassigned
-                        'item' => $entity->getId(),
-                    ));
-                    $mediaAdapter->hydrateEntity(
-                        'update', $mediaData, $media, $errorStore
-                    );
-                } else {
-                    $mediaEntityClass = $mediaAdapter->getEntityClass();
-                    $media = new $mediaEntityClass;
-                    $mediaAdapter->hydrateEntity(
-                        'create', $mediaData, $media, $errorStore
-                    );
-                    $entity->addMedia($media);
-                }
-            }
+        if (isset($data['type'])) {
+            $entity->setType($data['type']);
+        }
+        if (isset($data['data'])) {
+            $entity->setData($data['data']);
         }
         $valueHydrator = new ValueHydrator($this);
         $valueHydrator->hydrate($data, $entity);

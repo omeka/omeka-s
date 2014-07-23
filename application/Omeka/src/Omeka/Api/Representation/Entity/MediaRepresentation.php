@@ -12,7 +12,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'type' => $this->getType(),
             'data' => $this->getMediaData(),
             'item' => $this->getReference(
-                null, $entity->getItem(), $this->getAdapter('items')
+                null, $this->getData()->getItem(), $this->getAdapter('items')
             ),
         );
     }

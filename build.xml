@@ -2,6 +2,8 @@
 <project name="Omeka" basedir=".">
     <property name="build.dir" location="build"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
+    <property name="composer.bin.path" location="vendor/bin"/>
+    <property name="phpunit.path" location="${composer.bin.path}/phpunit"/>
     <target name="build-dir">
         <mkdir dir="${build.dir}"/>
     </target>
@@ -48,6 +50,6 @@
         </exec>
     </target>
     <target name="test" description="Run automated tests.">
-        <exec executable="phpunit" dir="application/Omeka/test" failonerror="true"/>
+        <exec executable="${phpunit.path}" dir="application/Omeka/test" failonerror="true"/>
     </target>
 </project>

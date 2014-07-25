@@ -18,6 +18,20 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Return the HTML necessary to render this media.
+     *
+     * @return string
+     */
+    public function render(array $options = array())
+    {
+        $mediaHelper = $this->getAdapter()
+            ->getServiceLocator()
+            ->get('ViewHelperManager')
+            ->get('Media');
+        return $mediaHelper->render($this, $options);
+    }
+
+    /**
      * Get the media type
      *
      * @return string

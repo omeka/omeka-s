@@ -21,7 +21,7 @@ class Youtube implements MediaTypeInterface
     public function render(MediaRepresentation $media, array $options = array())
     {
         $options = $this->sanitizeOptions($options);
-        $data = $media->getData();
+        $data = $media->getMediaData();
         $embed = '<iframe'
                . ' width="' . $options['width'] . '"'
                . ' height="' . $options['height'] . '"'
@@ -45,6 +45,6 @@ class Youtube implements MediaTypeInterface
         if (!isset($options['allowfullscreen'])) {
             $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
         }
-        return $options
+        return $options;
     }
 }

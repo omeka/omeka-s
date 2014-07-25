@@ -42,6 +42,6 @@ class Img implements MediaTypeInterface
         if (!isset($options['alt'])) {
             $options['alt'] = self::ALT;
         }
-        return $options
+        return $options;
     }
 }

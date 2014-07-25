@@ -2,6 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
 
 class Media extends AbstractHelper
@@ -14,11 +16,12 @@ class Media extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param array $mediaTypes
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $mediaTypes)
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->mediaTypes = $mediaTypes;
+        $config = $serviceLocator->get('Config');
+        $this->mediaTypes = $config['media_types'];
     }
 
     /**
@@ -59,10 +62,10 @@ class Media extends AbstractHelper
     protected function getMediaType($mediaType)
     {
         if (!isset($this->mediaTypes[$mediaType])) {
-            throw new \Exception('Media type not registered.');
+            throw new Exception\InvalidArgumentException('Media type not registered.');
         }
         if (!class_exists($this->mediaTypes[$mediaType])) {
-            throw new \Exception('Media type class does not exist.');
+            throw new Exception\RuntimeException('Media type class does not exist.');
         }
         return new $this->mediaTypes[$mediaType];
     }

@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Module\Manager as ModuleManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHtmlElement;
 
 class AssetUrl extends AbstractHtmlElement
@@ -22,12 +23,13 @@ class AssetUrl extends AbstractHtmlElement
     /**
      * Construct the helper.
      *
-     * @param ModuleManager $moduleManager
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(ModuleManager $moduleManager)
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->moduleManager = $moduleManager;
-        $this->activeModules = $moduleManager->getModulesByState(ModuleManager::STATE_ACTIVE);
+        $this->moduleManager = $serviceLocator->get('Omeka\ModuleManager');
+        $this->activeModules = $this->moduleManager
+            ->getModulesByState(ModuleManager::STATE_ACTIVE);
     }
 
     /**

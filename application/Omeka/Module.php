@@ -20,20 +20,19 @@ class Module extends AbstractModule
 
         $serviceManager = $this->getServiceLocator();
 
-        // Inject services into view helpers that need them.
+        // Inject the service manager into view helpers that need it.
         $viewHelperManager = $serviceManager->get('ViewHelperManager');
         $viewHelperManager->setFactory('Api',
             function ($helperPluginManager) use ($serviceManager) {
-                return new Api($serviceManager->get('Omeka\ApiManager'));
+                return new Api($serviceManager);
             });
         $viewHelperManager->setFactory('AssetUrl',
             function ($helperPluginManager) use ($serviceManager) {
-                return new AssetUrl($serviceManager->get('Omeka\ModuleManager'));
+                return new AssetUrl($serviceManager);
             });
         $viewHelperManager->setFactory('Media',
             function ($helperPluginManager) use ($serviceManager) {
-                $config = $serviceManager->get('Config');
-                return new Media($config['media_types']);
+                return new Media($serviceManager);
             });
 
         // Set the ACL to navigation.

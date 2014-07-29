@@ -1,0 +1,15 @@
+body {
+    padding: 0;
+}
+
+header {
+    width: 100%;
+}
+
+header,
+#menu.active,
+#user.active,
+#search.active {
+    left: 0;
+    right: 0;
+}

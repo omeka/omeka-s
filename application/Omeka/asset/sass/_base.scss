@@ -1,0 +1,24 @@
+// Typography
+
+$base-font-size:        16px;
+$base-line-height:      24px;
+
+$susy: (
+    columns: 16,
+    gutters: 1/2,
+    math: fluid,
+    output: float,
+    gutter-position: inside,
+    global-box-sizing: border-box
+);
+
+// Colors
+
+$red: #FF0000;
+
+// Mixins
+
+@mixin calc($property, $expression) { 
+  #{$property}: -webkit-calc(#{$expression}); 
+  #{$property}: calc(#{$expression}); 
+} 

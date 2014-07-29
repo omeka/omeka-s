@@ -1,0 +1,113 @@
+body {
+    padding: 0 gutter(1);
+    height: intrinsic;
+}
+
+/* @group ---- Header ----- */
+
+header {
+    @include calc('width', '100% - ' + (2 * gutter(1)));
+    float: none;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: gutter(1);
+    padding: 0;
+    background-color: #e7e7e7;
+    right: gutter(1);
+    z-index: 1000;
+    
+    .button {
+        @include border-radius(0);
+        position: absolute;
+        top: 0;
+        z-index: 1001;
+    }
+    
+    .icon-menu.button {
+        left: 0;
+        border-right: 1px solid rgba(0,0,0,.08);
+        width: rhythm(1.5);
+    }
+    
+    .icon-search.button {
+        left: rhythm(1.5);
+    }
+    
+    .icon-user.button {
+        right: 0;
+    }
+}
+
+.logo {
+    line-height: 1.5 * $base-line-height;
+    padding: 0 gutter(1);
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+/* @end */
+
+div[role="main"] {
+    margin: rhythm(1.5) 0 0 0;
+    width: 100%;
+    @include calc('min-height', '100% - ' + rhythm(3));
+    position: relative;
+}
+
+#current-user,
+#menu,
+#save-sidebar,
+#page-actions,
+#search,
+footer {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    z-index: 1000;
+}
+
+#menu.active,
+#current-user.active,
+#search.active {
+    top: rhythm(1.5);
+    left: gutter(1);
+    bottom: 0;
+    right: gutter(1);
+    background-color: #fff;
+    width: intrinsic;
+    margin: 0;
+}
+
+/* @group ----- Navigation ----- */
+
+#menu {
+    text-align: left;
+}
+
+#menu a {
+    display: block;
+    padding: rhythm(.5) gutter(12);
+    border-color: rgba(0,0,0,.08);
+    @include trailing-border(1px, .5, $base-font-size, solid);
+    background-color: #fff;
+}
+
+#mobile-nav {
+    display: block;
+}
+
+#mobile-nav a.active {
+    background-color: darken($red, 20%);
+}
+
+/* @end */
+
+/* @group ----- Search ----- */
+
+#search-form {
+    margin: rhythm(2) gutter(4);
+}
+
+/* @end */

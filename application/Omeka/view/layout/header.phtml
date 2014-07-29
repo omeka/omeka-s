@@ -1,5 +1,10 @@
 <header>
     <div class="logo"><a href="<?php echo $this->url('admin'); ?>">Omeka S</a></div>
+    <div id="mobile-nav">
+        <a href="#" class="icon-menu button"><span class="screen-reader-text">Navigation Menu</span></a>
+        <a href="#" class="icon-search button"><span class="screen-reader-text">Search Site</span></a>
+        <a href="#" class="icon-user button"><span class="screen-reader-text">User Menu</span></a>
+    </div>
     <div id="current-user">
         <?php if ($this->identity()): ?>
         <p>Welcome, <a href="<?php echo $this->url('admin/id', array(
@@ -12,10 +17,12 @@
         <?php endif; ?>
     </div>
     <div id="search">
-        <input type="text" name="global-search">
-        <button>Advanced Options</button>
-        <button type="submit">Search</button>
+        <form id="search-form">
+            <input type="text" name="global-search">
+            <button>Advanced Options</button>
+            <button type="submit">Search</button>
+        </form>
     </div>
-    <nav id="primary-nav"><?php echo $this->navigation('navigation'); ?></nav>
+    <nav id="menu" role="navigation"><?php echo $this->navigation('navigation'); ?></nav>
     </nav>
 </header>

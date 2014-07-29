@@ -60,6 +60,7 @@ return array(
         'invokables' => array(
             'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
+            'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
         ),
     ),
     'view_manager' => array(
@@ -84,6 +85,7 @@ return array(
         'invokables' => array(
             'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
+            'messenger'   => 'Omeka\View\Helper\Messenger',
         ),
     ),
     'media_types' => array(

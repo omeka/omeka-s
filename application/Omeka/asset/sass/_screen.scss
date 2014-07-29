@@ -1,0 +1,1766 @@
+/* @group ----- Generic HTML elements ----- */
+
+* {
+    @include box-sizing(border-box);
+}
+
+em, i {
+    font-style: italic;
+}
+
+strong, b {
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: lighten($red, 20%);
+}
+
+a:visited {
+    color: desaturate($red, 20%);
+}
+
+a:active, 
+a:hover {
+    color: $red;
+}
+
+h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 2 * $base-font-size;
+    line-height: 2 * $base-line-height;
+    @include trailer(1, 2 * $base-font-size);
+}
+
+h2 {
+    font-size: 1.75 * $base-font-size;
+    line-height: 2 * $base-line-height;
+    @include trailer(1, 1.75 * $base-font-size);
+}
+
+h3 {
+    font-size: 1.5 * $base-font-size;
+    @include trailer(1, 1.5 * $base-font-size);
+}
+
+h4 {
+    font-size: 1.25 * $base-font-size;
+    @include trailer(1, 1.25 * $base-font-size);
+}
+
+p {
+    @include trailer();
+}
+
+ul {
+    padding-left: $base-line-height;
+    list-style: disc;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: #e7e7e7;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    padding: 0 gutter();
+}
+
+    /* @group ----- Tables ----- */
+    
+    th {
+        font-weight: bold;
+    }
+    
+    tr {
+        border-color: #d7d7d7;
+        @include leading-border(1px, 0, $base-font-size, solid);
+        
+        &:first-child, &:only-child {
+            border-color: transparent;
+        }
+    }
+    
+    thead + tbody tr:first-child {
+        border-color: #d7d7d7;
+    }
+    
+    /* @end */
+    
+    /* @group ----- Form elements ----- */
+    
+    input,
+    textarea,
+    button,
+    a.button,
+    .button {
+        font-family: "Source Sans Pro", sans-serif;
+        font-size: $base-font-size;
+        line-height: $base-line-height;
+        margin: 0;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        height: rhythm(1.5);
+        border-color: rgba(0,0,0,.15);
+        @include rhythm-borders(1px, 0, $base-font-size, solid);
+        padding: rhythm(.25) gutter();
+        margin: 0;
+    }
+    
+    ::-webkit-input-placeholder {
+       font-style: italic;
+    }
+    
+    :-moz-placeholder { /* Firefox 18- */
+       font-style: italic;
+    }
+    
+    ::-moz-placeholder {  /* Firefox 19+ */
+       font-style: italic;
+    }
+    
+    :-ms-input-placeholder {  
+       font-style: italic;
+    }
+    
+    textarea {
+        border-color: rgba(0,0,0,.15);
+        @include rhythm-borders(1px, 0, $base-font-size, solid);
+        margin: 0;
+        display: block;
+    }
+    
+    input[type="submit"],
+    button,
+    a.button,
+    .button {
+        min-height: rhythm(1.25);
+        background-color: lighten($red, 20%);
+        color: #fff;
+        @include border-radius(3px);
+        border: 0;
+        padding: rhythm(.25) 10px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        margin: 0 0 rhythm(.5) 0;
+        
+        &:hover {
+            background-color: $red;
+        }
+        
+        &:active {
+            background-color: $red; 
+        }
+    }
+    
+    .field {
+        float: left;
+        width: 100%;
+        background-color: #e7e7e7;
+        padding: rhythm(.25);
+        position: relative;
+        border-color: rgba(0,0,0,.08);
+        @include leading-border(1px, 0, $base-font-size, solid);
+        
+        &:first-child {
+            border-color: transparent;
+        }
+    }
+
+    select {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        height: 1.5 * $base-line-height;
+        line-height: 1.5 * $base-line-height;
+        font-size: $base-font-size;
+        @include border-radius(3px);
+    }
+    
+    input[type="checkbox"] ~ label.screen-reader-text {
+        top: 0;
+        left: 0;
+        text-indent: -9999px;
+        margin: 0;
+        width: rhythm(1.5);
+        right: 0;
+    }
+
+    input[type="checkbox"] ~ label.screen-reader-text:before {
+        float:none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+    }
+
+    input[type="checkbox"] ~ label.screen-reader-text:after {
+        position: static;
+        content: "";
+    }
+    
+    input[type="checkbox"] ~ label:before {
+        content: "";
+        display: block;
+        float: right;
+        background-color: rgba(0,0,0,.05);
+        height: 1.5 * $base-line-height;
+        width: 1.5 * $base-line-height;
+        margin: rhythm(-.25);
+        text-indent: 0;
+    }
+    
+    input:checked ~ label:before{
+        content: "\e616";
+        font-family: 'icomoon';
+        speak: none;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+        line-height: 1.5 * $base-line-height;
+    }
+
+    input[type="checkbox"]:checked ~ label:before {
+        background-color: rgba(0,0,0,.15);
+    }
+    
+    input[type="checkbox"]:checked ~ label {
+        background-color: transparent;
+    }
+    
+    input:checked ~ label:after {
+        background-color: transparent;
+    }
+    
+    input[type="checkbox"] {
+        position: absolute;
+        left: -9999px;
+    }
+    
+    input[type="checkbox"] ~ label {
+        display: inline-block;
+        @include calc('width', '100% + ' + rhythm(.5));
+        cursor: pointer;
+        z-index: 1;
+        margin: rhythm(-.25);
+        padding: rhythm(.25);
+        background-color: rgba(255,255,255,.5);
+    }
+    
+    fieldset {
+        @include trailer();
+    }
+    
+    /* @end */
+
+/* @end */
+
+/* @group ----- Reusable classes ----- */
+
+.error {
+    color: $red;
+    display: block;
+    width: 100%;
+    background-color: rgba(255,255,255,.5);
+    @include border-radius(3px);
+    padding: rhythm(.25) 10px;
+    @include leader(.25);
+}
+
+table .icon-sortable {
+    opacity: .4;
+    font-size: .75 * $base-font-size;
+    line-height: 100%;
+}
+
+/* @end */
+
+/* @group ----- Header ----- */
+
+header {
+    width: span(3 of 16);
+    text-align: left;
+    padding: rhythm(1.5) 0 rhythm();
+    float: left;
+}
+
+#current-user {
+    display: block;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    background-color: #333;
+    width: 100%;
+    left: 0;
+    color: #E7E7E7;
+    text-align: right;
+    padding: rhythm(.25) gutter();
+    z-index: 1000;
+}
+
+#current-user p {
+    margin: 0;
+    display: inline-block;
+    
+    &:not(:first-of-type):before {
+        content: "\2022";
+        display: inline-block;
+        margin: 0 .5em 0 .25em;
+    }
+}
+
+.logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    padding: rhythm(.25) gutter();
+}
+
+#search {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin: rhythm() 0;
+}
+
+#search input[type="text"] {
+    height: rhythm(1.5);
+    @include calc(width, "100% - " + rhythm(3));
+    float: left;
+}
+
+#search button {
+    width: rhythm(1.5);
+    text-indent: -9999px;
+    float: left;
+    margin: 0;
+    @include border-radius(0px);
+    position: relative;
+    height: rhythm(1.5);
+    
+    &:after {
+        content: "\e602";
+    }
+    
+    &:last-of-type {
+        border-left: 1px solid rgba(255,255,255,.2);
+        @include border-radius(0 3px 3px 0);
+        
+        &:after {
+            content: "\e614";
+        }
+    }
+    
+    &:after {
+        font-family: "icomoon";
+        text-indent: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1.5 * $base-line-height;
+        line-height: 1.5 * $base-line-height;
+        text-align: center;
+    }
+}
+
+/* @end */
+
+/* @group ----- Footer ----- */
+
+footer {
+    position: fixed;
+    left: gutter();
+    bottom: rhythm();
+    width: span(3 of 16);
+}
+
+/* @end */
+
+/* @group ----- Navigation ----- */
+
+nav ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+#menu > ul > li > a:before {
+    width: $base-font-size;
+    height: $base-font-size;
+    display: inline-block;
+    margin-right: .5em;
+    font-family: "icomoon";
+}
+
+#menu a {
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+nav.pagination form {
+    display: inline-block;
+    min-width: min-content;
+    margin-right: 1em;
+}
+
+nav.pagination form * {
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+}
+
+nav.pagination form input[type="text"] {
+    margin-right: .25em;
+}
+
+#mobile-nav {
+    display: none;
+}
+
+/* @end */
+
+/* @group ----- Wrappers ----- */
+
+div[role="main"] {
+    width: span(13 of 16);
+    margin-left: gutter() + span(3);
+    padding: rhythm(2.25) gutter() rhythm();
+    background-color: #fff;
+    min-height: 100%;
+}
+
+/* @end */
+
+/* @group ----- Browse views ----- */
+
+.browse table {
+    width: 100%;
+    @include trailer(.5);
+}
+
+.browse tr {
+    background-color: #f2f2f2;
+}
+
+.browse .record-name {
+    display: block;
+    float: left;
+}
+
+.browse td,
+.browse th {
+    padding: rhythm(.25) .5em;
+    max-width: 5em;
+    position: relative;
+    min-width: rhythm(1);
+}
+
+.browse td,
+.browse th,
+.browse table a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.browse table a {
+    width: 100%;
+}
+
+.browse td:nth-of-type(2),
+.browse th:nth-of-type(2) {
+    max-width: 30%;
+}
+
+.browse .add.button,
+.browse .batch-edit.button {
+    float: left;
+    margin-right: .25em;
+}
+
+.browse .pagination {
+    float: right;
+}
+
+.actions {
+    display: block;
+    float: right;
+    width: 7em;
+}
+
+.actions,
+.actions li {
+    display: inline-block;
+}
+
+.actions li {
+    margin-left: .25em;
+}
+
+.actions a {
+    opacity: .5;
+}
+
+.actions a:hover,
+.actions a:active {
+    opacity: 1;
+}
+
+.item-name {
+    max-width: 80%;
+}
+
+.item-name a {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* @end */
+
+/* @group ----- Add views ----- */
+
+.add div[role="main"],
+.import div[role="main"],
+.edit div[role="main"] {
+    padding-top: rhythm(4);
+}
+
+.section-nav {
+    position: fixed;
+    top: rhythm(1.625);
+    height: rhythm(1.75);
+    left: span(3 of 16) + gutter(10);
+    right: 0;
+    z-index: 100;
+    border-top: 1px solid #fff;
+    
+    &:before {
+        content: "";
+        height: rhythm(.125);
+        position: fixed;
+        top: rhythm(3.25);
+        left: span(3 of 16) + gutter(10);
+        right: 0;
+        z-index: 100;
+        background: #fff;
+        border-color: #e7e7e7;
+        @include trailing-border(1px, 0, $base-font-size, solid);
+    }
+    
+    a {
+        display: block;
+        float: left;
+        padding: rhythm(.125) 1em rhythm(.375);
+        position: relative;
+        z-index: 100;
+        background-color: #fff;
+        border-color: #e7e7e7;
+        border-left: 1px solid #e7e7e7;
+        border-right: 1px solid #e7e7e7;
+        @include h-borders(1px, 0, $base-font-size, solid);
+        margin-left: .25em;
+        text-align: center;
+    }
+    
+    li:first-of-type a {
+        margin-left: gutter(13);
+    }
+    
+    .active {
+        font-weight: bold;
+        border-bottom-color: #fff;
+    }
+}
+
+.section:not(a) {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+#page-actions,
+#save-sidebar {
+    background-color: #fff;
+    width: span(13 of 16) - gutter(10);
+    position: fixed;
+    padding: rhythm(.25) gutter() rhythm(.25) gutter();
+    z-index: 0;
+    top: rhythm(1.5);
+    height: rhythm(1.75);
+    right: 0;
+    text-align: right;
+    margin-bottom: 0;
+    border-color: #e7e7e7;
+    @include trailing-border(1px, 0, $base-font-size, solid);
+
+    input[type="submit"],
+    button,
+    .button {
+        display: inline-block;
+        height: rhythm(1.25);
+        padding: rhythm(.125) 1em;
+        line-height: $base-line-height;
+        min-height: 0;
+        vertical-align: top;
+    }
+}
+
+.modal #items-list {
+    width: 100%;
+}
+
+    /* @group ----- Metadata ----- */
+    
+    #add-item .remove.field {
+        background-color: lighten($red, 30%);
+        opacity: .6;
+    }
+    
+    .field.template {
+        display: none;
+    }
+    
+    .items.input-option span {
+        display: block;
+        background-color: rgba(255,255,255,.5);
+        padding: rhythm(.25) 10px;
+        width: 75%;
+        float: left;
+    }
+    
+    .items.input-option a.button {
+        margin: rhythm(.25, .85 * $base-font-size) 0 0;
+        padding: rhythm(.25) 10px;
+        min-height: intrinsic;
+        font-size: .85 * $base-font-size;
+        display: inline-block;
+        clear: left;
+    }
+    
+    .field-meta {
+        width: span(3 of 10);
+        float: left;
+        clear: left;
+        position: relative;
+        
+        label {
+            display: inline-block;
+            max-width: 80%;
+            line-height: 1.5 * $base-line-height;
+        }
+        
+        input {
+            width: 100%;
+        }
+        
+        button {
+            float: left;
+            margin: rhythm(.25) 0 0;
+        }
+        
+        .error {
+            float: left;
+        }
+        
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+    }
+    
+    .field a.remove.button,
+    .field a.add-value.button {
+        background-color: transparent;
+        color: $red;
+        padding: 0;
+        font-size: 1.5 * $base-font-size;
+        height: $base-line-height;
+        min-height: intrinsic;
+        margin: 0;
+    }
+    
+    .unset .value,
+    .unset .add-value,
+    .field a.remove.button,
+    .set-property,
+    .properties,
+    .browse-properties {
+        display: none;
+    }
+    
+    .unset .set-property,
+    .unset .properties,
+    .unset .browse-properties,
+    .new.field a.remove.button {
+        display: block;
+    }
+    
+    .unset {
+        .field-meta {
+            width: span(9 of 10);
+        } 
+    }
+    
+    .unset label,
+    .unset .inputs {
+        display: none;
+    }
+    
+    .property .set-property {
+        position: absolute;
+        top: -9999px;
+        right: -9999px;
+        margin: 0;
+        @include border-radius(0px);
+    }
+    
+    .property:hover .set-property {
+        top: 0;
+        right: 0;
+    }
+    
+    
+    .properties {
+        clear: both;
+         
+        &.show {
+            position: relative;
+            top: auto;
+            left: auto;
+        }
+        
+        .description {
+            display: inline-block;
+            
+            .icon-info {
+                display: inline-block;
+                margin: 0 0 0 1em;
+                opacity: .75;
+            }
+            
+            .icon-info + p {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+                width: 100%;
+                padding: rhythm(.25) 0;
+            }
+        }
+    }
+    
+    .properties .property:hover .description.show .icon-info + p {
+        top: rhythm(1.5);
+        left: 0;
+        padding-left: 2em;
+        background-color: #fff;
+        z-index: 1;
+    }
+    
+    
+    .properties > ul {
+        li {
+            float: left;
+            width: 100%;
+            position: relative;
+            @include border-radius(3px);
+    
+            &:hover {
+                background-color: rgba(0,0,0,.1);
+            }
+        }
+    
+        & > li {
+            font-weight: bold;
+            position: relative;
+            @include leader(.25);
+            padding: rhythm(.25) 10px;
+            background-color: rgba(0,0,0,.1);
+            cursor: pointer;
+            
+            &:last-of-type li:last-of-type {
+                @include trailer(0);
+            }
+            
+            &:after,
+            & > ul > li:after {
+                content: "\e613";
+                font-family: "icomoon";
+                position: absolute;
+                right: 10px;
+                top: rhythm(.25);
+            }
+            
+            & > ul > li {
+                padding: rhythm(.25) 0;
+            }
+            
+            & > ul > li:before {
+                content: "— ";
+            }
+    
+            & > ul > li:after {
+                right: 0;
+            }
+            
+            &.show:after {
+                content: "\e611" !important;
+            }
+        }
+        
+        & > li ul,
+        & > li ul ul {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        li.show > ul {
+            position: relative;
+            top: 0;
+            left: 0;
+            @include leader(.25);
+        }
+        
+        & > li li li {
+            font-weight: normal;
+            padding: rhythm(.25) 10px rhythm(.25) 2em;
+            position: relative;
+            @include border-radius(0px);
+        }
+    }
+    
+    .select-property {
+        text-indent: -9999px;
+        padding: 0;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0);
+        bottom: 0;
+        margin: 0 !important;
+        min-height: initial;
+        
+        &:hover {
+            background-color: transparent;
+        }
+    }
+    
+    .selected {
+        background-color: rgba(0,0,0,.1);
+        font-weight: bold !important;
+    }
+        
+    
+    .field-actions {
+        float: right;
+        width: 1.5 * $base-font-size;
+        text-align: right;
+    }
+
+    .field-actions button,
+    .field-actions a.button {
+        min-height: 0;
+    }
+    
+    .field-description {
+        float: right;
+        display: block;
+        margin-right: 10px;
+        line-height: 1.5 * $base-line-height;
+        height: 1.5 * $base-line-height;
+    }
+    
+    .field-description .icon-info {
+        &:hover + p {
+            top: rhythm(1.5);
+            left: inherit;
+            right: 10px;
+            background-color: #333;
+            color: #fff;
+            @include border-radius(3px);
+            z-index: 1;
+            max-width: 100%;
+            @include adjust-font-size-to(14px, 1, $base-font-size);
+            padding: rhythm(.25) 5px;
+        }
+    
+        &:hover + p:before {
+            content: "";
+            display: block;
+            height: 0;
+            width: 0;
+            position: absolute;
+            top: rhythm(-.25);
+            right: 3px;
+            font-size: $base-font-size;
+            border-left: rhythm(.25) solid transparent;
+            border-right: rhythm(.25) solid transparent;
+            border-bottom: rhythm(.5) solid #333;
+        }
+    }
+    
+    .field-description p:not(:first-of-type) {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .inputs {
+        width: span(6 of 10);
+        float: left;
+        position: relative;
+        
+        &:only-child {
+            width: 100%;
+        }
+        
+        select,
+        textarea,
+        input[type="text"],
+        input[type="password"] {
+            width: 75%;
+            min-height: rhythm(1.5);
+            padding: rhythm(.25);
+        }
+        
+        select {
+            margin: 0;
+        }
+    
+        .tab {
+            display: block;
+            float: left;
+            width: 1.5 * $base-line-height;;
+            background-color: lighten($red, 20%);
+            color: #fff;
+            line-height: 1.5 * $base-line-height;
+            height: 1.5 * $base-line-height;
+            padding: 0 4px;
+            border-right: 1px solid lighten(desaturate($red, 20%), 10%);
+            position: relative;
+            cursor: pointer;
+            
+            &:last-of-type {
+                border-right: 0;
+                @include border-radius(0 3px 3px 0);
+            }
+            
+            &:hover {
+                background-color: $red;
+            }
+            
+            &.active {
+                background-color: darken($red, 20%);
+                color: #fff;
+            }
+            
+            &:hover .screen-reader-text {
+                top: rhythm(1.5);
+                left: inherit;
+                right: 0;
+                background-color: #333;
+                color: #fff;
+                padding: 0 5px;
+                @include border-radius(3px);
+                white-space: nowrap;
+                z-index: 1;
+            }
+            
+            &:hover .screen-reader-text:before {
+                content: "";
+                display: block;
+                height: 0;
+                width: 0;
+                position: absolute;
+                top: rhythm(-.25);
+                right: .25 * $base-line-height;
+                font-size: $base-font-size;
+                border-left: rhythm(.25) solid transparent;
+                border-right: rhythm(.25) solid transparent;
+                border-bottom: rhythm(.5) solid #333;
+            }
+        }
+    }
+    
+    .value {
+        @include trailer();
+        position: relative;
+        
+        &:last-of-type {
+            @include trailer(0);
+            
+            .remove-value {
+                @include trailer(0);
+            }
+        }
+    }
+    
+    .remove-value {
+        display: none;
+        clear: both;
+        min-height: intrinsic;
+        height: $base-line-height;
+        padding: 0 10px;
+        font-size: .85 * $base-font-size;
+        @include leader(.25, .85 * $base-font-size);
+        
+        &.active {
+            display: block;
+        }
+    }
+    
+    .input-options {
+        position: absolute;
+        left: 75%;
+        top: 0;
+        text-align: center;
+    }
+    
+    .input-option {
+        display: none;
+    }
+    
+    .active.input-option {
+        display: block;
+    }
+    
+    /* @end */
+    
+    /* @group ----- Files ----- */
+    
+    .upload-zone {
+        background-color: rgba(0,0,0,.08);
+        padding: rhythm() gutter();
+        text-align: center;
+    }
+    
+    #item-files button {
+        margin: rhythm() 0 0;
+    }
+    
+    /* @end */
+
+/* @end */
+
+/* @group ----- Iconfont ----- */
+
+@font-face {
+    font-family: 'icomoon';
+    src:url('../fonts/icomoon.eot?-luw49f');
+    src:url('../fonts/icomoon.eot?#iefix-luw49f') format('embedded-opentype'),
+        url('../fonts/icomoon.woff?-luw49f') format('woff'),
+        url('../fonts/icomoon.ttf?-luw49f') format('truetype'),
+        url('../fonts/icomoon.svg?-luw49f#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+    content: "\e614";
+}
+
+.icon-remove:before,
+.icon-close:before {
+    content: "\e60e";
+}
+
+.icon-type:before {
+    content: "\e60c";
+}
+
+.icon-link:before {
+    content: "\e60d";
+}
+
+.icon-edit:before {
+    content: "\e600";
+}
+.icon-view:before {
+    content: "\e601";
+}
+.icon-ellipsis:before {
+    content: "\e602";
+}
+
+.icon-info:before {
+    content: "\e603";
+}
+
+.icon-items:before {
+    content: "\e604";
+}
+
+.icon-users:before {
+    content: "\e605";
+}
+
+.icon-settings:before {
+    content: "\e607";
+}
+
+.icon-vocabularies:before {
+    content: "\e608";
+}
+
+.icon-item-sets:before {
+    content: "\e609";
+}
+
+.icon-modules:before {
+    content: "\e606";
+}
+
+.icon-assets:before {
+    content: "\e60a";
+}
+
+.icon-sites:before {
+    content: "\e60b";
+}
+
+.icon-add:before {
+    content: "\e60f";
+}
+
+.icon-arrow-down:before {
+    content: "\e611";
+}
+
+.icon-arrow-up:before {
+    content: "\e612";
+}
+
+.icon-arrow-left:before {
+    content: "\e610";
+}
+
+.icon-arrow-right:before {
+    content: "\e613";
+}
+
+.icon-upload:before {
+    content: "\e615";
+}
+
+.icon-check:before {
+    content: "\e616";
+}
+
+.icon-sortable:before {
+    content: "\e617";
+}
+
+.icon-double-arrow-right:before {
+    content: "\e618";
+}
+
+.icon-double-arrow-left:before {
+    content: "\e619";
+}
+
+.icon-menu:before {
+    content: "\e61a";
+}
+
+.icon-user:before {
+    content: "\e61b";
+}
+
+.screen-reader-text {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+/* @end */
+
+/* @group ----- Select Item Modal ----- */
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: none;
+}
+
+.modal {
+    display: none;
+    background:#eee;
+    overflow:auto;
+    z-index:1001;
+    position:absolute;
+    width: 70%;
+    height: 80%;
+    @include border-radius(3px 3px 0 0);
+    
+    h1 {
+        margin-top: 0;
+        padding: rhythm(.25) 20px;
+        font-size: $base-font-size;
+        line-height: $base-line-height;
+        font-weight: bold;
+    }
+}
+
+.modal-header {
+    background-color: rgba(0,0,0,.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1002;
+    width: 100%;
+    height: rhythm(1.5);
+}
+
+.modal-search-nav {
+    position: absolute;
+    top: rhythm(1.5);
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    
+    & + .modal-content {
+        top: rhythm(3.5);
+    }
+    
+    .item-search {
+        background-color: #fff;
+        height: rhythm(2);
+        padding: rhythm(.5) 20px;
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+    
+    #item-list-search {
+        float: left;
+    }
+    
+    button.icon-search {
+        height: rhythm();
+        width: rhythm();
+        line-height: $base-line-height;
+        padding: 0 10px;
+        @include border-radius(0 3px 3px 0);
+        min-height: intrinsic;
+        position: absolute;
+        top: rhythm(.5);
+        left: 244px;
+        z-index: 1003;
+        text-indent: -9999px;
+        
+        &:before {
+            text-indent: 0px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            line-height: 24px;
+            width: 100%;
+        }
+    }
+
+    .item-search > input[type="text"] {
+        width: 14em;
+        height: rhythm();
+    }
+    
+    input.page-input {
+        height: rhythm();
+    }
+    
+    .more-options {
+        height: rhythm(2);
+        line-height: rhythm(1.5);
+        padding: rhythm(.25) 10px;
+        position: absolute;
+        top: 0;
+        left: rhythm(3) + 14em;
+        @include border-radius(0);
+        min-height: intrinsic;
+        background-color: #fff;
+        text-align: left;
+        color: lighten($red, 20%);
+        z-index: 1005;
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        
+        &:hover {
+            color: $red;
+            background-color: #fff;
+        }
+        
+        &.collapse {
+            border-color: transparent;
+        }
+    }
+    
+    .expand:after {
+        content: "\e613";
+        font-family: "icomoon";
+        margin-left: 3px;
+    } 
+    
+    .collapse:after {
+        content: "\e611";
+        font-family: "icomoon";
+        margin-left: 3px;
+    }
+    
+    .collapse + .search-options {
+        left: 0;
+        top: rhythm(2);
+        bottom: 0;
+    }
+
+    .search-options {
+        position: absolute;
+        left: -9999px;
+        width: 100%;
+        background-color: #fff;
+        padding: rhythm() 20px;
+        z-index: 1004;
+        
+        label {
+            display: inline-block;
+            width: span(2 of 10);
+        }
+        
+        label + * {
+            display: inline-block;
+            width: span(7 of 10);
+        }
+        
+        .field {
+            @include trailer(.25);
+        }
+    }
+    
+    .pagination {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: rhythm(2);
+        
+        li {
+            float: left;
+            height: rhythm(2);
+            padding: rhythm(.5) 10px;
+        }
+        
+        input {
+            width: 3em;
+            text-align: center;
+            color: #333;
+            margin: 0 3px;
+        }
+    }
+}
+
+.search-options {
+    clear: left;
+
+    &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        background-color: #000;
+        opacity: 0.3;
+        top: -3em;
+        left: 0;
+        right: 0;
+        height: 3em;
+        z-index: 1001;
+    }
+}
+
+.closeBtn {
+    font-size: 1.25 * $base-font-size;
+    line-height: $base-line-height;
+    padding: rhythm(.25) 10px;
+    float: right;
+}
+
+.modal-content {
+    position: absolute;
+    top: rhythm(1.5);
+    left: 0;
+    bottom: 0;
+    padding: rhythm(.5) 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    
+    .placeholder {
+        background-color: #666;
+        width: rhythm();
+        height: rhythm();
+        float: left;
+    }
+    
+    .placeholder,
+    .item-name {
+        margin-left: rhythm(.25);
+    }
+    
+    .item-name a {
+        width: auto;
+    }
+    
+    .item-name,
+    .directions {
+        display: inline-block;
+        vertical-align: top;
+    }
+    
+    .directions {
+        color: #969696;
+        margin-left: 1em;
+        font-style: italic;
+        text-indent: -9999px;
+    }
+    
+    .item {
+        padding: rhythm(.25) 0;
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        position: relative;
+        
+        
+        .select {
+            position: absolute;
+            top: 0;
+            right: -9999px;
+            @include border-radius(0px);
+            height: rhythm(1.5);
+        }
+        
+        &:hover, 
+        &.previewed {
+            background-color: rgba(255,255,255,.4);
+        }
+        
+        &:hover .select,
+        &.previewed .select {
+            right: 0px;
+        }
+        
+        &:hover .directions,
+        &.previewed .directions {
+            text-indent: 0px;
+        }
+        
+        &.previewed a {
+            font-weight: bold;
+        }
+    }
+    
+    .item-details {
+        position: absolute;
+        left: -9999px;
+        
+        h1 {
+            font-size: 2 * $base-font-size;
+            line-height: 2 * $base-line-height;
+            @include trailer(1, 2 * $base-font-size);
+            padding: 0;
+        }
+        
+        .element {
+            @include trailer();
+        }
+    }
+}
+
+.show-details .modal-content .item-details {
+    left: span(5 of 8);
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: span(3 of 8);
+    overflow-y: scroll;
+    background-color: #fff;
+    padding: rhythm(.5) 20px;
+}
+
+.show-details .modal-content .item-list {
+    width: span(5 of 8);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: rhythm(.5) 20px;
+}
+
+/* @end */
+
+/* @group ----- Add Vocabulary ----- */
+
+.vocabs .field .upload-input {
+    margin: rhythm(.25) 0 0;
+    position: relative;
+    overflow: hidden;
+    vertical-align: top;
+    display: block;
+    float: left;
+    clear: left;
+}
+
+.vocabs .field .upload-input input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    @include opacity(0);
+}
+
+.vocab-inputs {
+    width: span(10 of 13) - gutter(7);
+    
+    input[type=text],
+    textarea,
+    select {
+        @include calc('width', "100% - " + (3 * $base-line-height));
+    }
+    
+    .input-options {
+        @include calc('left', "100% - " + (3 * $base-line-height));
+    }
+}
+
+.vocabs .upload.input-option span {
+    display: block;
+    background-color: rgba(255,255,255,.5);
+    padding: rhythm(.25) 10px;
+    @include calc('width', "100% - " + (3 * $base-line-height));
+    float: left;
+}
+
+/* @end */
+
+/* @group ----- Imported Vocabulary ----- */
+
+.vocabulary ul {
+    padding-left: 0;
+    list-style: none;
+    overflow: hidden;
+}
+
+.vocabulary h2 {
+    margin-bottom: 0;
+}
+
+.vocabulary-contents > li {
+    font-weight: bold;
+    
+    &:first-of-type {
+        margin-right: gutter();
+    }
+    
+    li {
+        font-weight: normal;
+        display: inline;
+        
+        &:after {
+            content: ", "
+        }
+        
+        &:last-child:after {
+            content: "";
+        }
+    }
+}
+
+/* @end */
+
+/* @group ----- Show Vocabulary ----- */
+
+.vocabs h2 {
+    margin-bottom: 0;
+}
+
+.vocabs h3 {
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    @include trailer(0);
+    display: inline-block;
+    margin-right: .5em;
+}
+
+.vocabs .owner {
+    display: inline-block;
+
+    &:before {
+        content: "(";
+    }
+
+    &:after {
+        content: ")";
+    }
+}
+
+.vocabs .original-class,
+.vocabs .property-set {
+    background-color: rgba(0,0,0,.08);
+    padding: rhythm(.25);
+    @include trailer(.25);
+    overflow: hidden;
+    position: relative;
+
+    .collapse ~ .properties .property {
+        position: static;
+        left: auto
+    }
+    
+    .collapse ~ .properties .property {
+        @include leader(.25);
+    }
+    
+    .properties {
+        clear: left;
+        display: block;
+    }
+
+    .property {
+        display: inline-block;
+        padding: 0 rhythm(.25);
+        background-color: rgba(0,0,0,.08);
+        @include trailer(.25);
+        @include border-radius(3px);
+        cursor: default;
+        position: absolute;
+        left: -9999px;
+    }
+    
+    .description {
+        position: relative;
+        
+        p {
+            width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    
+    .field-actions {
+        width: 15%;
+    }
+}
+
+.vocabs .property-set {
+    margin-left: 2em;
+}
+
+.vocabs .section > h2:first-child {
+    position: absolute;
+    left: -9999px;
+}
+
+#vocab-properties .property {
+    background-color: rgba(0,0,0,.08);
+    @include trailer(.25);
+    padding: rhythm(.25);
+    overflow: hidden;
+}
+
+.vocabs .description p:only-child {
+    margin-bottom: 0;
+}
+
+.vocabs .description {
+    display: block;
+    height: $base-line-height;
+    overflow: hidden;
+    font-style: italic;
+}
+
+.vocabs.show .section-nav {
+    @include padding-leader();
+}
+
+/* @end */
+
+/* @group ----- Edit Property Set ----- */
+
+.property-sets .field:not(.unset) .field-meta label {
+    display: block;
+    line-height: 1.5 * $base-line-height;
+    height: 1.5 * $base-line-height;
+    @include trailer(.25);
+    
+    &:first-of-type {
+        font-weight: bold;
+        display: inline-block;
+    }
+}
+
+.property-sets .property-set-meta .field .field-meta label,
+.property-sets .property-set-meta .inputs input[type="text"] {
+    margin-bottom: 0;
+}
+
+.property-sets .inputs input[type="text"] {
+    width: 100%;
+    @include trailer(.25);
+}
+
+.property-sets .properties .inputs {
+    @include leader(1.75);
+}
+
+.property-sets .original-class {
+    background-color: rgba(0,0,0,.03);
+    padding: rhythm(.5);
+    @include trailer();
+    
+    h2 {
+        font-size: 1.5 * $base-font-size;
+        line-height: $base-line-height;
+        font-weight: bold;
+    }
+    
+    p:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* @end */

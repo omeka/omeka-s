@@ -1,7 +1,10 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * A resource, representing the subject in an RDF triple.
@@ -9,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Note that the discriminator map is loaded dynamically.
  * 
  * @Entity
+ * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  *
@@ -33,6 +37,16 @@ abstract class Resource extends AbstractEntity
      * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @Column(type="datetime", nullable=true)
+     */
+    protected $modified;
 
     /**
      * @OneToMany(
@@ -85,6 +99,26 @@ abstract class Resource extends AbstractEntity
         return $this->resourceClass;
     }
 
+    public function setCreated(DateTime $dateTime)
+    {
+        $this->created = $dateTime;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function setModified(DateTime $dateTime)
+    {
+        $this->modified = $dateTime;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
     public function getValues()
     {
         return $this->values;
@@ -109,5 +143,21 @@ abstract class Resource extends AbstractEntity
     public function removeValue(Value $value)
     {
         $value->setResource(null);
+    }
+
+    /**
+     * @PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->created = new DateTime('now');
+    }
+
+    /**
+     * @PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $this->modified = new DateTime('now');
     }
 }

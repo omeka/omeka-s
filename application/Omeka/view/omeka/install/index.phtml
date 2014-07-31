@@ -1,8 +1,29 @@
-<form  method="post">
-<label for='username'>Username</label> <input type='text' name='username' /><br>
-<label for='password'>Password</label> <input type='password' name='password' /><br>
-<label for='name'>Name</label> <input type='text' name='name' /><br>
-<label for='email'>Email</label> <input type='text' name='email' /><br>
-<button>Submit</button>
-</form>
-<pre><?php print_r($installation_messages); ?></pre>
+<?php var_dump($this->messenger()->get()); ?>
+<?php
+$form->prepare();
+$form->setAttribute('action', $this->url('install'));
+$form->setAttribute('method', 'post');
+echo $this->form()->openTag($form);
+?>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('username')); ?>
+</div>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('password')); ?>
+</div>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('password-confirm')); ?>
+</div>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('name')); ?>
+</div>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('email')); ?>
+</div>
+<div class="form-element">
+    <?php echo $this->formRow($form->get('email-confirm')); ?>
+</div>
+<?php
+echo $this->formElement($form->get('submit'));
+echo $this->form()->closeTag();
+?>

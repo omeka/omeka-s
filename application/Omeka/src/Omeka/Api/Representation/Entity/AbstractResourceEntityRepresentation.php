@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation\Entity;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\Entity\ResourceClassRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Model\Entity\Resource;
 use Omeka\Model\Entity\Value;
@@ -101,6 +102,37 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function jsonSerializeResource()
     {
         return array();
+    }
+
+    /**
+     * Get the resource class representation of this resource.
+     *
+     * @return ResourceClassRepresentation
+     */
+    public function getResourceClass()
+    {
+        return $this->getAdapter('resource_classes')
+            ->getRepresentation(null, $this->getData()->getResourceClass());
+    }
+
+    /**
+     * Get the date-time when this resource was created.
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return $this->getData()->getCreated();
+    }
+
+    /**
+     * Get the date-time when this resource was last modified.
+     *
+     * @return DateTime
+     */
+    public function getModified()
+    {
+        return $this->getData()->getModified();
     }
 
     /**

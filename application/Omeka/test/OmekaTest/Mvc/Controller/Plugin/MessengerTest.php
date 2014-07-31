@@ -15,12 +15,15 @@ class MessengerTest extends TestCase
         $messenger->add(Messenger::SUCCESS, 'test-success-two');
         $messenger->add(Messenger::WARNING, 'test-warning-one');
         $messenger->add(Messenger::WARNING, 'test-warning-two');
+        $messenger->add(Messenger::NOTICE, 'test-notice-one');
+        $messenger->add(Messenger::NOTICE, 'test-notice-two');
 
         $messages = $messenger->get();
         $this->assertEquals(array(
             0 => array('test-error-one', 'test-error-two'),
             1 => array('test-success-one', 'test-success-two'),
             2 => array('test-warning-one', 'test-warning-two'),
+            3 => array('test-notice-one', 'test-notice-two'),
         ), $messages);
 
         // Must clear to avoid message bleed-over in subsequent tests.
@@ -61,6 +64,19 @@ class MessengerTest extends TestCase
         $messages = $messenger->get();
         $this->assertEquals(array(
             Messenger::WARNING => array('test-warning'),
+        ), $messages);
+
+        $messenger->clear();
+    }
+
+    public function testAddNotice()
+    {
+        $messenger = new Messenger;
+        $messenger->addNotice('test-notice');
+
+        $messages = $messenger->get();
+        $this->assertEquals(array(
+            Messenger::NOTICE => array('test-notice'),
         ), $messages);
 
         $messenger->clear();

@@ -9,9 +9,10 @@ use Zend\Session\Container;
  */
 class Messenger extends AbstractPlugin
 {
-    const ERROR = 0;
+    const ERROR   = 0;
     const SUCCESS = 1;
     const WARNING = 2;
+    const NOTICE  = 3;
 
     /**
      * @var Container
@@ -23,7 +24,7 @@ class Messenger extends AbstractPlugin
      */
     public function __construct()
     {
-        $this->container = new Container('OmekaFlash');
+        $this->container = new Container('OmekaMessenger');
     }
 
     /**
@@ -68,6 +69,16 @@ class Messenger extends AbstractPlugin
     public function addWarning($message)
     {
         $this->add(self::WARNING, $message);
+    }
+
+    /**
+     * Add a notice message.
+     *
+     * @param string $message
+     */
+    public function addNotice($message)
+    {
+        $this->add(self::NOTICE, $message);
     }
 
     /**

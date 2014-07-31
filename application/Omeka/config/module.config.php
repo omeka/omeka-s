@@ -263,7 +263,7 @@ return array(
                                 'id'         => '\d+',
                             ),
                             'defaults' => array(
-                                'action' => 'edit',
+                                'action' => 'show',
                             ),
                         ),
                     ),
@@ -300,7 +300,7 @@ return array(
                                         'id'         => '\d+',
                                     ),
                                     'defaults' => array(
-                                        'action' => 'edit',
+                                        'action' => 'show',
                                     ),
                                 ),
                             ),

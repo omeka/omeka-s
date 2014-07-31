@@ -15,12 +15,12 @@ use Omeka\Model\Entity\Vocabulary;
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var array
+     * @var array All value representations of this resource.
      */
-    protected $valueRepresentations = array();
+    protected $values = array();
 
     /**
-     * @var array
+     * @var array The JSON-LD context.
      */
     protected $contextObject = array();
 
@@ -43,7 +43,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function jsonSerialize()
     {
-        $valueRepresentations = $this->getValueRepresentations();
+        $values = $this->getValues();
 
         $nodeType = array();
         if ($this->getData()->getResourceClass()) {
@@ -89,7 +89,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 $this->getAdapter('resource_classes')
             )),
             $dateTimes,
-            $valueRepresentations
+            $values
         );
     }
 
@@ -108,18 +108,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    public function getValueRepresentations()
+    public function getValues()
     {
-        if (empty($this->valueRepresentations)) {
-            $this->setValueRepresentations();
+        if (empty($this->values)) {
+            $this->setValues();
         }
-        return $this->valueRepresentations;
+        return $this->values;
     }
 
     /**
-     * Set all JSON-LD value objects of this resource.
+     * Set all value representations of this resource.
+     *
+     * Organizes the values by JSON-LD term (prefix:local_part) and builds the
+     * JSON-LD context.
      */
-    protected function setValueRepresentations()
+    protected function setValues()
     {
         foreach ($this->getData()->getValues() as $value) {
             $property = $value->getProperty();
@@ -130,14 +133,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $term = "$prefix:$suffix";
 
             $this->addVocabularyToContext($vocabulary);
-            $this->valueRepresentations[$term][] = new ValueRepresentation(
+            $this->values[$term][] = new ValueRepresentation(
                 $value, $this->getServiceLocator()
             );
         }
     }
 
     /**
-     * Add a vocabulary term definition to the JSON-LD context object.
+     * Add a vocabulary term definition to the JSON-LD context.
      *
      * @param Vocabulary $vocabulary
      */
@@ -185,31 +188,31 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['lang'] = null;
         }
 
-        $valueReps = $this->getValueRepresentations();
-        if (!array_key_exists($term, $valueReps)) {
+        $values = $this->getValues();
+        if (!array_key_exists($term, $values)) {
             return $options['default'];
         }
 
         // Match only the representations that fit all the criteria.
-        $matchingReps = array();
-        foreach ($valueReps[$term] as $valueRep) {
+        $matchingValues = array();
+        foreach ($values[$term] as $value) {
             if (!is_null($options['type'])
-                && $valueRep->getType() !== $options['type']
+                && $value->getType() !== $options['type']
             ) {
                 continue;
             }
             if (!is_null($options['lang'])
-                && $valueRep->getLang() !== $options['lang']
+                && $value->getLang() !== $options['lang']
             ) {
                 continue;
             }
-            $matchingReps[] = $valueRep;
+            $matchingValues[] = $value;
         }
 
-        if (!count($matchingReps)) {
+        if (!count($matchingValues)) {
             return $options['default'];
         }
 
-        return $options['all'] ? $matchingReps : $matchingReps[0];
+        return $options['all'] ? $matchingValues : $matchingValues[0];
     }
 }

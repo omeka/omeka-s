@@ -57,18 +57,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         // Set the created and modified date times.
-        $dateTimes = array();
+        $dateTimes = array('created' => null, 'modified' => null);
         $dateTimes['created'] = $this->getDateTime($this->getData()->getCreated());
-        $this->contextObject['created'] = array(
-            '@id' => 'http://purl.org/dc/terms/created',
-            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-        );
         if ($this->getData()->getModified()) {
             $dateTimes['modified'] = $this->getDateTime($this->getData()->getModified());
-            $this->contextObject['modified'] = array(
-                '@id' => 'http://purl.org/dc/terms/modified',
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            );
         }
 
         return array_merge(

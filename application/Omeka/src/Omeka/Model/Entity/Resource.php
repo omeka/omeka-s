@@ -34,7 +34,6 @@ abstract class Resource extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="ResourceClass")
-     * @JoinColumn(nullable=false)
      */
     protected $resourceClass;
 

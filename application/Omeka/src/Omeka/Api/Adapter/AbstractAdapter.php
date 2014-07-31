@@ -138,9 +138,15 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
-     * @return RepresentationInterface
+     * @return RepresentationInterface|null
      */
     public function getRepresentation($id, $data) {
+
+        // Do not attempt to compose a null representation.
+        if (null === $data) {
+            return null;
+        }
+
         $representationClass = $this->getRepresentationClass();
         return new $representationClass($id, $data, $this);
     }

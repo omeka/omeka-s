@@ -50,6 +50,7 @@ class HtmlElement extends AbstractHtmlElement
     public function setAttribute($key, $value)
     {
         $this->elements[$this->element][$key] = $value;
+        return $this;
     }
 
     /**
@@ -62,6 +63,7 @@ class HtmlElement extends AbstractHtmlElement
         foreach ($attributes as $key => $value) {
             $this->setAttribute($key, $value);
         }
+        return $this;
     }
 
     /**
@@ -72,6 +74,7 @@ class HtmlElement extends AbstractHtmlElement
     public function removeAttribute($key)
     {
         unset($this->elements[$this->element][$key]);
+        return $this;
     }
 
     /**
@@ -82,5 +85,6 @@ class HtmlElement extends AbstractHtmlElement
         if (isset($this->elements[$this->element])) {
             $this->elements[$this->element] = array();
         }
+        return $this;
     }
 }

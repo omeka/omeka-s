@@ -343,16 +343,34 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @end */
   /* @end */
   /* @group ----- Reusable classes ----- */
+  .flash {
+    padding: 0;
+    margin: 0;
+  }
+
   .error {
     color: red;
-    display: block;
-    width: 100%;
+  }
+
+  .success {
+    color: green;
+  }
+
+  .warning {
+    color: orange;
+  }
+
+  .error,
+  .warning,
+  .success {
     background-color: rgba(255, 255, 255, 0.5);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
     padding: 0.375em 10px;
     margin-top: 0.375em;
+    display: block;
+    width: 100%;
   }
 
   table .icon-sortable {
@@ -450,6 +468,25 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     text-align: center;
   }
 
+  div[role="main"] > h1:first-of-type {
+    background-color: #fff;
+    width: 79.58333%;
+    font-size: 24px;
+    position: fixed;
+    padding: 0 1.04167%;
+    z-index: 2;
+    top: 1.5em;
+    height: 2em;
+    right: 0;
+    margin-bottom: 0;
+    border-color: #e7e7e7;
+    border-bottom-width: 0.04167em;
+    border-bottom-style: solid;
+    padding-bottom: -0.04167em;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
   /* @end */
   /* @group ----- Footer ----- */
   footer {
@@ -503,7 +540,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   div[role="main"] {
     width: 81.25%;
     margin-left: 19.79167%;
-    padding: 3.375em 1.04167% 1.5em;
+    padding: 6em 1.04167% 1.5em;
     background-color: #fff;
     min-height: 100%;
   }
@@ -604,24 +641,27 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   .section-nav {
-    position: fixed;
-    top: 2.4375em;
-    height: 2.625em;
-    left: 20.41667%;
-    right: 0;
-    z-index: 100;
     border-top: 1px solid #fff;
+    height: 2.625em;
+    overflow: hidden;
+    *zoom: 1;
+    position: relative;
+    margin-bottom: 1.5em;
   }
   .section-nav:before {
     content: "";
     height: 0.1875em;
-    position: fixed;
-    top: 4.875em;
-    left: 20.41667%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 1px;
+    left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 0;
     background: #fff;
     border-color: #e7e7e7;
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: -0.0625em;
@@ -629,9 +669,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .section-nav a {
     display: block;
     float: left;
-    padding: 0.1875em 1em 0.5625em;
+    height: 2.25em;
+    line-height: 30px;
+    padding: 0.1875em 1em;
     position: relative;
-    z-index: 100;
+    z-index: 1;
     background-color: #fff;
     border-color: #e7e7e7;
     border-left: 1px solid #e7e7e7;
@@ -644,9 +686,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding-bottom: -0.0625em;
     margin-left: .25em;
     text-align: center;
-  }
-  .section-nav li:first-of-type a {
-    margin-left: 1.28205%;
   }
   .section-nav .active {
     font-weight: bold;
@@ -663,20 +702,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   #page-actions,
   #save-sidebar {
-    background-color: #fff;
     width: 79.58333%;
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
-    z-index: 0;
+    z-index: 2;
     top: 2.25em;
     height: 2.625em;
     right: 0;
     text-align: right;
     margin-bottom: 0;
-    border-color: #e7e7e7;
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: -0.0625em;
   }
   #page-actions input[type="submit"],
   #page-actions button,
@@ -685,9 +719,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   #save-sidebar button,
   #save-sidebar .button {
     display: inline-block;
-    height: 1.875em;
-    padding: 0.1875em 1em;
-    line-height: 24px;
+    height: 2.25em;
+    padding: 0.375em 1em;
     min-height: 0;
     vertical-align: top;
   }
@@ -1265,6 +1298,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-weight: bold;
   }
 
+  .modal-link.button {
+    clear: both;
+  }
+
   .modal-header {
     background-color: rgba(0, 0, 0, 0.2);
     position: absolute;
@@ -1747,6 +1784,98 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
   .property-sets .original-class p:last-child {
     margin-bottom: 0;
+  }
+
+  /* @end */
+  /* @group ----- Minimal Layout ----- */
+  body.minimal {
+    padding: 0;
+    margin: 3em 0;
+    width: 50%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+  }
+  body.minimal:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+  body.minimal header {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: static;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    float: none;
+    padding: 1.5em 0;
+    border-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: transparent;
+    border-width: 0.0625em;
+    border-style: solid;
+    padding: -0.0625em;
+    color: #fff;
+  }
+  body.minimal header:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+  body.minimal .logo {
+    position: static;
+    width: auto;
+    float: none;
+    padding: 0;
+    text-align: center;
+    font-size: 32px;
+    line-height: 48px;
+  }
+  body.minimal div[role="main"] {
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 3em 12.5%;
+    border-color: rgba(0, 0, 0, 0.15);
+    border-top-color: transparent;
+    border-width: 0.0625em;
+    border-style: solid;
+    padding: -0.0625em;
+  }
+  body.minimal div[role="main"] > .flash {
+    margin-bottom: 1.5em;
+  }
+  body.minimal div[role="main"] > .flash li {
+    margin: 0 0 0.375em;
+  }
+  body.minimal div[role="main"] > .flash .error {
+    background-color: #ffe5e5;
+  }
+  body.minimal div[role="main"] > .flash .success {
+    background-color: #ccffcc;
+  }
+  body.minimal div[role="main"] > .flash .warning {
+    background-color: #fff6e5;
+  }
+
+  /* @end */
+  /* @group ----- Install ----- */
+  .install label {
+    display: inline-block;
+    width: 33.33333%;
+  }
+  .install input {
+    width: -webkit-calc(66.66% - 3px);
+    width: calc(66.66% - 3px);
+  }
+  .install button[type="submit"] {
+    display: block;
+    margin: auto;
+    clear: both;
+  }
+  .install .field:last-of-type {
+    margin-bottom: 1.5em;
   }
 
   /* @end */

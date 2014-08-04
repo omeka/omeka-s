@@ -273,14 +273,32 @@ body {
 
 /* @group ----- Reusable classes ----- */
 
+.flash {
+    padding: 0;
+    margin: 0;
+}
+
 .error {
     color: $red;
-    display: block;
-    width: 100%;
+}
+
+.success {
+    color: green;
+}
+
+.warning {
+    color: orange;
+}
+
+.error,
+.warning,
+.success {
     background-color: rgba(255,255,255,.5);
     @include border-radius(3px);
     padding: rhythm(.25) 10px;
     @include leader(.25);
+    display: block;
+    width: 100%;
 }
 
 table .icon-sortable {
@@ -380,6 +398,23 @@ header {
     }
 }
 
+div[role="main"] > h1:first-of-type {
+    background-color: #fff;
+    width: span(13 of 16) - gutter(10);
+    font-size: 1.5 * $base-font-size;
+    position: fixed;
+    padding: 0 gutter();
+    z-index: 2;
+    top: rhythm(1.5, 1.5 * $base-font-size);
+    height: rhythm(2, 1.5 * $base-font-size);
+    right: 0;
+    margin-bottom: 0;
+    border-color: #e7e7e7;
+    @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 /* @end */
 
 /* @group ----- Footer ----- */
@@ -439,7 +474,7 @@ nav.pagination form input[type="text"] {
 div[role="main"] {
     width: span(13 of 16);
     margin-left: gutter() + span(3);
-    padding: rhythm(2.25) gutter() rhythm();
+    padding: rhythm(4) gutter() rhythm();
     background-color: #fff;
     min-height: 100%;
 }
@@ -543,33 +578,34 @@ div[role="main"] {
 }
 
 .section-nav {
-    position: fixed;
-    top: rhythm(1.625);
-    height: rhythm(1.75);
-    left: span(3 of 16) + gutter(10);
-    right: 0;
-    z-index: 100;
     border-top: 1px solid #fff;
+    height: rhythm(1.75);
+    @include clearfix;
+    position: relative;
+    @include trailer();
     
     &:before {
         content: "";
         height: rhythm(.125);
-        position: fixed;
-        top: rhythm(3.25);
-        left: span(3 of 16) + gutter(10);
+        background-color: #fff;
+        position: absolute;
+        bottom: 1px;
+        left: 0;
         right: 0;
-        z-index: 100;
+        z-index: 0;
         background: #fff;
         border-color: #e7e7e7;
-        @include trailing-border(1px, 0, $base-font-size, solid);
+        @include h-borders(1px, 0, $base-font-size, solid);
     }
     
     a {
         display: block;
         float: left;
-        padding: rhythm(.125) 1em rhythm(.375);
+        height: rhythm(1.5);
+        line-height: 1.25 * $base-line-height;
+        padding: rhythm(.125) 1em;
         position: relative;
-        z-index: 100;
+        z-index: 1;
         background-color: #fff;
         border-color: #e7e7e7;
         border-left: 1px solid #e7e7e7;
@@ -578,11 +614,7 @@ div[role="main"] {
         margin-left: .25em;
         text-align: center;
     }
-    
-    li:first-of-type a {
-        margin-left: gutter(13);
-    }
-    
+        
     .active {
         font-weight: bold;
         border-bottom-color: #fff;
@@ -599,26 +631,22 @@ div[role="main"] {
 
 #page-actions,
 #save-sidebar {
-    background-color: #fff;
     width: span(13 of 16) - gutter(10);
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
-    z-index: 0;
+    z-index: 2;
     top: rhythm(1.5);
     height: rhythm(1.75);
     right: 0;
     text-align: right;
     margin-bottom: 0;
-    border-color: #e7e7e7;
-    @include trailing-border(1px, 0, $base-font-size, solid);
 
     input[type="submit"],
     button,
     .button {
         display: inline-block;
-        height: rhythm(1.25);
-        padding: rhythm(.125) 1em;
-        line-height: $base-line-height;
+        height: rhythm(1.5);
+        padding: rhythm(.25) 1em;
         min-height: 0;
         vertical-align: top;
     }
@@ -1239,6 +1267,10 @@ div[role="main"] {
     }
 }
 
+.modal-link.button {
+    clear: both;
+}
+
 .modal-header {
     background-color: rgba(0,0,0,.2);
     position: absolute;
@@ -1760,6 +1792,97 @@ div[role="main"] {
     
     p:last-child {
         margin-bottom: 0;
+    }
+}
+
+/* @end */
+
+/* @group ----- Minimal Layout ----- */
+
+body.minimal {
+    padding: 0;
+    margin: rhythm(2) 0;
+    width: span(8);
+    @include container;
+    height: auto;
+
+    header {
+        background-color: rgba(0,0,0,.3);
+        position: static;
+        @include container;
+        width: auto;
+        float: none;
+        padding: rhythm() 0;
+        border-color: rgba(0,0,0,.15);
+        border-bottom-color: transparent;
+        @include rhythm-borders(1px, 0, $base-font-size, solid);
+        color: #fff;
+    }
+    
+    .logo {
+        position: static;
+        width: auto;
+        float: none;
+        padding: 0;
+        text-align: center;
+        font-size: 2 * $base-font-size;
+        line-height: 2 * $base-line-height;
+    }
+    
+    div[role="main"] {
+        width: 100%;
+        min-height: 0;
+        margin: 0;
+        padding: rhythm(2) span(1 of 8);
+        border-color: rgba(0,0,0,.15);
+        border-top-color: transparent;
+        @include rhythm-borders(1px, 0, $base-font-size, solid);
+        
+        & > .flash {
+            @include trailer();
+            
+            li {
+                margin: 0 0 rhythm(.25);
+            }
+
+            .error {
+                background-color: lighten($red, 45%);
+            }
+            
+            .success {
+                background-color: lighten(green, 65%);
+            }
+            
+            .warning {
+                background-color: lighten(orange, 45%);
+            }
+        }
+    }
+}
+
+/* @end */
+
+/* @group ----- Install ----- */
+
+.install {
+    
+    label {
+        display: inline-block;
+        width: span(3 of 9);
+    }
+    
+    input {
+          @include calc('width','66.66% - 3px');
+    }
+    
+    button[type="submit"] {
+        display: block;
+        margin: auto;
+        clear: both;
+    }
+    
+    .field:last-of-type {
+        @include trailer();
     }
 }
 

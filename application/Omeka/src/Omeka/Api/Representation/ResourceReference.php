@@ -24,7 +24,13 @@ class ResourceReference extends AbstractResourceRepresentation
     {
         return array(
             '@id' => $this->getAdapter()->getApiUrl($this->getData()),
-            'id'  => $this->getId(),
+            'o:id'  => $this->getId(),
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getJsonLd()
+    {}
 }

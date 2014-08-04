@@ -11,6 +11,11 @@ use Omeka\Api\Adapter\AdapterInterface;
 abstract class AbstractResourceRepresentation extends AbstractRepresentation
 {
     /**
+     * The Omeka application namespace IRI.
+     */
+    const OMEKA_IRI = 'http://omeka.org/vocabulary#';
+
+    /**
      * @var string|int
      */
     protected $id;
@@ -21,13 +26,21 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     protected $adapter;
 
     /**
+     * @var array The JSON-LD context.
+     */
+    protected $context = array(
+        'o' => self::OMEKA_IRI,
+    );
+
+    /**
      * Construct the resource representation object.
      *
      * @param string|int $id The unique identifier of this resource
      * @param mixed $data The data from which to derive a representation
      * @param ServiceLocatorInterface $adapter The corresponsing adapter
      */
-    public function __construct($id, $data, AdapterInterface $adapter) {
+    public function __construct($id, $data, AdapterInterface $adapter)
+    {
         // Set the service locator first.
         $this->setServiceLocator($adapter->getServiceLocator());
         $this->setId($id);
@@ -36,11 +49,43 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get an array representation of this resource using JSON-LD notation.
+     *
+     * @return array
+     */
+    abstract public function getJsonLd();
+
+    /**
+     * Compose the complete JSON-LD object.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $jsonLd = $this->getJsonLd();
+        return array_merge(
+            array('@context' => $this->context),
+            $jsonLd
+        );
+    }
+
+    /**
+     * Add a term definition to the JSON-LD context.
+     *
+     * @param string $term
+     * @param string|array $map The IRI or an array defining the term
+     */
+    protected function addTermDefinitionToContext($term, $map)
+    {
+        $this->context[$term] = $map;
+    }
+
+    /**
      * Set the unique resource identifier.
      *
      * @param $id
      */
-    public function setId($id)
+    protected function setId($id)
     {
         $this->id = $id;
     }
@@ -60,7 +105,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @param AdapterInterface $adapter
      */
-    public function setAdapter(AdapterInterface $adapter)
+    protected function setAdapter(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
     }
@@ -71,7 +116,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @param null|string $resourceName
      * @return AdapterInterface
      */
-    public function getAdapter($resourceName = null)
+    protected function getAdapter($resourceName = null)
     {
         if (is_string($resourceName)) {
             return parent::getAdapter($resourceName);

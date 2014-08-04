@@ -13,9 +13,9 @@ use Omeka\Model\Entity\EntityInterface;
 abstract class AbstractEntityRepresentation extends AbstractResourceRepresentation
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    public function validateData($data)
+    protected function validateData($data)
     {
         if (!$data instanceof EntityInterface) {
             throw new Exception\InvalidArgumentException(

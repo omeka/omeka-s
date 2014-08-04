@@ -6,13 +6,15 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function jsonSerializeResource()
+    public function getResourceJsonLd()
     {
         return array(
-            'type' => $this->getType(),
-            'data' => $this->getMediaData(),
-            'item' => $this->getReference(
-                null, $this->getData()->getItem(), $this->getAdapter('items')
+            'o:type' => $this->getType(),
+            'o:data' => $this->getMediaData(),
+            'o:item' => $this->getReference(
+                null,
+                $this->getData()->getItem(),
+                $this->getAdapter('items')
             ),
         );
     }

@@ -21,31 +21,18 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected $values = array();
 
     /**
-     * @var array The JSON-LD context.
+     * Get the internal members of this resource entity.
+     *
+     * @return array
      */
-    protected $contextObject = array();
-
-    /**
-     * @var array
-     */
-    public function validateData($data)
-    {
-        if (!$data instanceof Resource) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
-    }
+    abstract function getResourceJsonLd();
 
     /**
      * {@inheritDoc}
      */
-    public function jsonSerialize()
+    public function getJsonLd()
     {
-        $values = $this->getValues();
-
+        // Set the JSON-LD node type.
         $nodeType = array();
         if ($this->getData()->getResourceClass()) {
             $resourceClass = $this->getData()->getResourceClass();
@@ -56,44 +43,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $nodeType['@type'] = "$prefix:$suffix";
         }
 
-        // Set the created and modified date times.
-        $dateTimes = array('created' => null, 'modified' => null);
-        $dateTimes['created'] = $this->getDateTime($this->getData()->getCreated());
-        if ($this->getData()->getModified()) {
-            $dateTimes['modified'] = $this->getDateTime($this->getData()->getModified());
-        }
-
         return array_merge(
-            array('@context' => $this->contextObject),
+            array('@id' => $this->getAdapter()->getApiUrl($this->getData())),
             $nodeType,
             array(
-                '@id' => $this->getAdapter()->getApiUrl($this->getData()),
-                'id' => $this->getData()->getId(),
+                'o:id' => $this->getData()->getId(),
+                'o:owner' => $this->getReference(
+                    null,
+                    $this->getData()->getOwner(),
+                    $this->getAdapter('users')
+                ),
+                'o:resource_class' => $this->getReference(
+                    null,
+                    $this->getData()->getResourceClass(),
+                    $this->getAdapter('resource_classes')
+                ),
+                'o:created' => $this->getDateTime($this->getData()->getCreated()),
+                'o:modified' => $this->getData()->getModified()
+                    ? $this->getDateTime($this->getData()->getModified())
+                    : null
             ),
-            $this->jsonSerializeResource(),
-            array('owner' => $this->getReference(
-                null,
-                $this->getData()->getOwner(),
-                $this->getAdapter('users')
-            )),
-            array('resource_class' => $this->getReference(
-                null,
-                $this->getData()->getResourceClass(),
-                $this->getAdapter('resource_classes')
-            )),
-            $dateTimes,
-            $values
+            $this->getResourceJsonLd(),
+            $this->getValues()
         );
-    }
-
-    /**
-     * Serialize the resource-specific data to a JSON-LD compatible format.
-     *
-     * @return array
-     */
-    public function jsonSerializeResource()
-    {
-        return array();
     }
 
     /**
@@ -138,47 +110,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $this->setValues();
         }
         return $this->values;
-    }
-
-    /**
-     * Set all value representations of this resource.
-     *
-     * Organizes the values by JSON-LD term (prefix:local_part) and builds the
-     * JSON-LD context.
-     */
-    protected function setValues()
-    {
-        foreach ($this->getData()->getValues() as $value) {
-            $property = $value->getProperty();
-            $vocabulary = $property->getVocabulary();
-
-            $prefix = $vocabulary->getPrefix();
-            $suffix = $property->getLocalName();
-            $term = "$prefix:$suffix";
-
-            $this->addVocabularyToContext($vocabulary);
-            $this->values[$term][] = new ValueRepresentation(
-                $value, $this->getServiceLocator()
-            );
-        }
-    }
-
-    /**
-     * Add a vocabulary term definition to the JSON-LD context.
-     *
-     * @param Vocabulary $vocabulary
-     */
-    protected function addVocabularyToContext(Vocabulary $vocabulary)
-    {
-        $prefix = $vocabulary->getPrefix();
-        if (array_key_exists($prefix, $this->contextObject)) {
-            return;
-        }
-        $this->contextObject[$prefix] = array(
-            '@id' => $vocabulary->getNamespaceUri(),
-            'vocabulary_id' => $vocabulary->getId(),
-            'vocabulary_label' => $vocabulary->getLabel(),
-        );
     }
 
     /**
@@ -238,5 +169,56 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         return $options['all'] ? $matchingValues : $matchingValues[0];
+    }
+
+    /**
+     * Set all value representations of this resource.
+     *
+     * Organizes the values by JSON-LD term (prefix:local_part) and builds the
+     * JSON-LD context.
+     */
+    protected function setValues()
+    {
+        foreach ($this->getData()->getValues() as $value) {
+            $property = $value->getProperty();
+            $vocabulary = $property->getVocabulary();
+
+            $prefix = $vocabulary->getPrefix();
+            $suffix = $property->getLocalName();
+            $term = "$prefix:$suffix";
+
+            $this->addVocabularyToContext($vocabulary);
+            $this->values[$term][] = new ValueRepresentation(
+                $value, $this->getServiceLocator()
+            );
+        }
+    }
+
+    /**
+     * Add a vocabulary term definition to the JSON-LD context.
+     *
+     * @param Vocabulary $vocabulary
+     */
+    protected function addVocabularyToContext(Vocabulary $vocabulary)
+    {
+        $this->addTermDefinitionToContext($vocabulary->getPrefix(), array(
+            '@id' => $vocabulary->getNamespaceUri(),
+            'vocabulary_id' => $vocabulary->getId(),
+            'vocabulary_label' => $vocabulary->getLabel(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function validateData($data)
+    {
+        if (!$data instanceof Resource) {
+            throw new Exception\InvalidArgumentException(
+                $this->getTranslator()->translate(sprintf(
+                    'Invalid data sent to %s.', get_called_class()
+                ))
+            );
+        }
     }
 }

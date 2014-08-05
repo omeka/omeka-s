@@ -11,9 +11,14 @@ use Omeka\Api\Adapter\AdapterInterface;
 abstract class AbstractResourceRepresentation extends AbstractRepresentation
 {
     /**
-     * The Omeka application namespace IRI.
+     * The vocabulary IRI used to define Omeka application data.
      */
-    const OMEKA_IRI = 'http://omeka.org/vocabulary#';
+    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/vocabulary#';
+
+    /**
+     * The JSON-LD term that expands to the vocabulary IRI.
+     */
+    const OMEKA_VOCABULARY_TERM = 'o';
 
     /**
      * @var string|int
@@ -29,7 +34,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @var array The JSON-LD context.
      */
     protected $context = array(
-        'o' => self::OMEKA_IRI,
+        self::OMEKA_VOCABULARY_TERM => self::OMEKA_VOCABULARY_IRI,
     );
 
     /**

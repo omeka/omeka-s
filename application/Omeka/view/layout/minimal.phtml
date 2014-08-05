@@ -16,7 +16,7 @@ $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
         <?php echo $this->headStyle(); ?>
         <?php echo $this->headScript(); ?>
     </head>
-    <?php echo $this->htmlElement('body')->setAttribute('class', 'minimal'); ?>
+    <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
 
         <div role="main">
             <?php echo $this->content; ?>

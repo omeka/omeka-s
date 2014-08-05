@@ -53,6 +53,21 @@ class HtmlElement extends AbstractHtmlElement
         return $this;
     }
 
+    public function appendAttribute($key, $value)
+    {
+        if (isset($this->elements[$this->element][$key])) {
+            $current = $this->elements[$this->element][$key];
+            if (is_array($current)) {
+                $this->elements[$this->element][$key][] = $value;
+            } else {
+                $this->elements[$this->element][$key] = array($current, $value);
+            }
+        } else {
+    $this->elements[$this->element][$key] = $value;
+    }
+    return $this;
+    }
+
     /**
      * Set attributes to the current element
      *

@@ -33,7 +33,7 @@ class InstallController extends AbstractActionController
                 $this->messenger()->addError('There was an error during validation.');
             }
         }
-
+        
         $view->setVariable('form', $form);
         return $view;
     }

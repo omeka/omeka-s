@@ -43,6 +43,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $nodeType['@type'] = "$prefix:$suffix";
         }
 
+        // Set the date time value objects.
+        $dateTime = array(
+            'o:created' => array(
+                '@value' => $this->getDateTime($this->getData()->getCreated()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            ),
+            'o:modified' => null,
+        );
+        if ($this->getData()->getModified()) {
+            $dateTime['o:modified'] = array(
+               '@value' => $this->getDateTime($this->getData()->getModified()),
+               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            );
+        }
+
         return array_merge(
             array('@id' => $this->getAdapter()->getApiUrl($this->getData())),
             $nodeType,
@@ -58,11 +73,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                     $this->getData()->getResourceClass(),
                     $this->getAdapter('resource_classes')
                 ),
-                'o:created' => $this->getDateTime($this->getData()->getCreated()),
-                'o:modified' => $this->getData()->getModified()
-                    ? $this->getDateTime($this->getData()->getModified())
-                    : null
             ),
+            $dateTime,
             $this->getResourceJsonLd(),
             $this->getValues()
         );

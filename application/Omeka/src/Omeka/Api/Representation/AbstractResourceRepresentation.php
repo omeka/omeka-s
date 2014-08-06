@@ -38,6 +38,13 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     );
 
     /**
+     * Get an array representation of this resource using JSON-LD notation.
+     *
+     * @return array
+     */
+    abstract public function getJsonLd();
+
+    /**
      * Construct the resource representation object.
      *
      * @param string|int $id The unique identifier of this resource
@@ -54,11 +61,14 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
-     * Get an array representation of this resource using JSON-LD notation.
+     * Get the unique resource identifier.
      *
-     * @return array
+     * @return string|int
      */
-    abstract public function getJsonLd();
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Compose the complete JSON-LD object.
@@ -93,16 +103,6 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     protected function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * Get the unique resource identifier.
-     *
-     * @return string|int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

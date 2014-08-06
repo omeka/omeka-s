@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Api\Exception;
 use Omeka\Model\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -131,15 +132,15 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getIsHtml()
+    public function isHtml()
     {
-        return $this->getData()->getIsHtml();
+        return $this->getData()->isHtml();
     }
 
     /**
-     * Get the value resource.
+     * Get the value resource representation.
      *
-     * @return string
+     * @return null|Entity\AbstractResourceEntityRepresentation
      */
     public function getValueResource()
     {

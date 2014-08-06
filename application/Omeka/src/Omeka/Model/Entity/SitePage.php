@@ -41,6 +41,7 @@ class SitePage extends AbstractEntity
 
     /**
      * @OneToMany(targetEntity="SitePageBlock", mappedBy="page")
+     * @OrderBy({"position" = "ASC"})
      */
     protected $blocks;
 

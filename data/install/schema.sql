@@ -148,12 +148,12 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_site_block_attachment` (
   `item_id` int(11) NOT NULL,
   `media_id` int(11) DEFAULT NULL,
   `caption` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `order` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_81FB5321E9ED820C` (`block_id`),
   KEY `IDX_81FB5321126F525E` (`item_id`),
   KEY `IDX_81FB5321EA9FDD75` (`media_id`),
-  KEY `block_order` (`block_id`,`order`),
+  KEY `block_position` (`block_id`,`position`),
   CONSTRAINT `FK_81FB5321EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `OMEKA_TABLE_PREFIX_media` (`id`),
   CONSTRAINT `FK_81FB5321126F525E` FOREIGN KEY (`item_id`) REFERENCES `OMEKA_TABLE_PREFIX_item` (`id`),
   CONSTRAINT `FK_81FB5321E9ED820C` FOREIGN KEY (`block_id`) REFERENCES `OMEKA_TABLE_PREFIX_site_page_block` (`id`)
@@ -186,10 +186,10 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_site_page_block` (
   `page_id` int(11) NOT NULL,
   `layout` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
-  `order` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_18C7AF41C4663E4` (`page_id`),
-  KEY `page_order` (`page_id`,`order`),
+  KEY `page_position` (`page_id`,`position`),
   CONSTRAINT `FK_18C7AF41C4663E4` FOREIGN KEY (`page_id`) REFERENCES `OMEKA_TABLE_PREFIX_site_page` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_user` (

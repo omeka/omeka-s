@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(
  *     indexes={
  *         @Index(
- *             name="page_order",
- *             columns={"page_id", "order"}
+ *             name="page_position",
+ *             columns={"page_id", "position"}
  *         )
  *     }
  * )
@@ -36,7 +36,7 @@ class SitePageBlock extends AbstractEntity
     /**
      * @Column(type="integer")
      */
-    protected $order;
+    protected $position;
 
     /**
      * @ManyToOne(targetEntity="SitePage", inversedBy="blocks")
@@ -46,6 +46,7 @@ class SitePageBlock extends AbstractEntity
 
     /**
      * @OneToMany(targetEntity="SiteBlockAttachment", mappedBy="block")
+     * @OrderBy({"position" = "ASC"})
      */
     protected $attachments;
 
@@ -79,14 +80,14 @@ class SitePageBlock extends AbstractEntity
         return $this->data;
     }
 
-    public function setOrder($order)
+    public function setPosition($position)
     {
-        $this->order = $order;
+        $this->position = $position;
     }
 
-    public function getOrder()
+    public function getPosition()
     {
-        return $this->order;
+        return $this->position;
     }
 
     public function setPage(SitePage $page)

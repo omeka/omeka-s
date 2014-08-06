@@ -6,8 +6,8 @@ namespace Omeka\Model\Entity;
  * @Table(
  *     indexes={
  *         @Index(
- *             name="block_order",
- *             columns={"block_id", "order"}
+ *             name="block_position",
+ *             columns={"block_id", "position"}
  *         )
  *     }
  * )
@@ -46,7 +46,7 @@ class SiteBlockAttachment extends AbstractEntity
     /**
      * @Column(type="integer")
      */
-    protected $order;
+    protected $position;
 
     public function getId()
     {
@@ -63,14 +63,14 @@ class SiteBlockAttachment extends AbstractEntity
         return $this->caption;
     }
 
-    public function setOrder($order)
+    public function setPosition($position)
     {
-        $this->order = $order;
+        $this->position = $position;
     }
 
-    public function getOrder()
+    public function getPosition()
     {
-        return $this->order;
+        return $this->position;
     }
 
     public function setItem(Item $item)

@@ -38,20 +38,17 @@ class UserAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        if (isset($data['username'])) {
-            $entity->setUsername($data['username']);
+        if (isset($data['o:username'])) {
+            $entity->setUsername($data['o:username']);
         }
-
-        if (isset($data['name'])) {
-            $entity->setName($data['name']);
+        if (isset($data['o:name'])) {
+            $entity->setName($data['o:name']);
         }
-
-        if (isset($data['email'])) {
-            $entity->setEmail($data['email']);
+        if (isset($data['o:email'])) {
+            $entity->setEmail($data['o:email']);
         }
-
-        if (isset($data['role'])) {
-            $entity->setRole($data['role']);
+        if (isset($data['o:role'])) {
+            $entity->setRole($data['o:role']);
         }
     }
 

@@ -66,7 +66,7 @@ class ValueHydratorTest extends TestCase
                     '@value' => 'test-@value',
                     '@language' => 'test-@language',
                     'value_id' => 'test-value_id',
-                    'is_html' => true,
+                    'value_is_html' => true,
                 ),
             ),
         );
@@ -83,7 +83,7 @@ class ValueHydratorTest extends TestCase
             ->with($this->equalTo($nodeObject['term'][0]['@language']));
         $value->expects($this->once())
             ->method('setIsHtml')
-            ->with($this->equalTo($nodeObject['term'][0]['is_html']));
+            ->with($this->equalTo($nodeObject['term'][0]['value_is_html']));
         $value->expects($this->once())
             ->method('setValueResource')
             ->with($this->equalTo(null));
@@ -206,7 +206,7 @@ class ValueHydratorTest extends TestCase
                     '@value' => 'test-@value',
                     '@language' => 'test-@language',
                     'property_id' => 'test-property_id',
-                    'is_html' => true,
+                    'value_is_html' => true,
                 ),
             ),
         );
@@ -238,7 +238,7 @@ class ValueHydratorTest extends TestCase
                 if ($nodeObject['term'][0]['@language'] !== $value->getLang()) {
                     return false;
                 }
-                if ($nodeObject['term'][0]['is_html'] !== $value->isHtml()) {
+                if ($nodeObject['term'][0]['value_is_html'] !== $value->isHtml()) {
                     return false;
                 }
                 return true;

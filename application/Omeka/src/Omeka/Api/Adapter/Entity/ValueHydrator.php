@@ -126,7 +126,9 @@ class ValueHydrator implements HydrationInterface
         } else {
             $value->setLang(null); // set default
         }
-        if (isset($valueObject['is_html']) && true === $valueObject['is_html']) {
+        if (isset($valueObject['value_is_html'])
+            && true === $valueObject['value_is_html']
+        ) {
             $value->setIsHtml(true);
         } else {
             $value->setIsHtml(false); // set default
@@ -192,8 +194,8 @@ class ValueHydrator implements HydrationInterface
         if (isset($valueObject['@language'])) {
             $value->setLang($valueObject['@language']);
         }
-        if (isset($valueObject['is_html'])) {
-            $value->setIsHtml($valueObject['is_html']);
+        if (isset($valueObject['value_is_html'])) {
+            $value->setIsHtml($valueObject['value_is_html']);
         }
 
         $this->adapter->getEntityManager()->persist($value);

@@ -16,7 +16,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractRepresentation implements RepresentationInterface
 {
     /**
-     * @var mixed
+     * @var mixed The information from which to derive this representation.
      */
     protected $data;
 
@@ -33,9 +33,9 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Validate and set the data.
      *
-     * {@inheritDoc}
+     * @param mixed $data
      */
-    public function setData($data)
+    protected function setData($data)
     {
         $this->validateData($data);
         $this->data = $data;
@@ -62,7 +62,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      *
      * @param mixed $data
      */
-    public function validateData($data)
+    protected function validateData($data)
     {}
 
     /**
@@ -71,7 +71,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @param string $resourceName
      * @return AdapterInterface
      */
-    public function getAdapter($resourceName)
+    protected function getAdapter($resourceName)
     {
         return $this->getServiceLocator()
             ->get('Omeka\ApiAdapterManager')
@@ -86,7 +86,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @param AdapterInterface $adapter The corresponding API adapter
      * @return RepresentationInterface
      */
-    public function getReference($id, $data, AdapterInterface $adapter)
+    protected function getReference($id, $data, AdapterInterface $adapter)
     {
         // Do not attempt to compose a null reference.
         if (null === $data) {
@@ -106,7 +106,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @param \DateTime $dateTime
      * @return DateTime
      */
-    public function getDateTime(\DateTime $dateTime)
+    protected function getDateTime(\DateTime $dateTime)
     {
         return new DateTime($dateTime);
     }
@@ -116,7 +116,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      *
      * @return TranslatorInterface
      */
-    public function getTranslator()
+    protected function getTranslator()
     {
         if (!$this->translator instanceof TranslatorInterface) {
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');

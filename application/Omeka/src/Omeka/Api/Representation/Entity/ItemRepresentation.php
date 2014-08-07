@@ -6,7 +6,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function jsonSerializeResource()
+    public function getResourceJsonLd()
     {
         $mediaReferences = array();
         foreach ($this->getData()->getMedia() as $media) {
@@ -15,7 +15,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             );
         }
         return array(
-            'media' => $mediaReferences,
+            'o:media' => $mediaReferences,
         );
     }
 }

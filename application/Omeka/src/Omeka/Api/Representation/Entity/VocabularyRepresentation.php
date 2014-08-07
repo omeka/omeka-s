@@ -3,18 +3,20 @@ namespace Omeka\Api\Representation\Entity;
 
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
-    public function jsonSerialize()
+    public function getJsonLd()
     {
         $entity = $this->getData();
         return array(
-            '@id'           => $this->getAdapter()->getApiUrl($entity),
-            'id'            => $entity->getId(),
-            'namespace_uri' => $entity->getNamespaceUri(),
-            'prefix'        => $entity->getPrefix(),
-            'label'         => $entity->getLabel(),
-            'comment'       => $entity->getComment(),
-            'owner'      => $this->getReference(
-                null, $entity->getOwner(), $this->getAdapter('users')
+            '@id'                 => $this->getAdapter()->getApiUrl($entity),
+            'o:id'            => $entity->getId(),
+            'o:namespace_uri' => $entity->getNamespaceUri(),
+            'o:prefix'        => $entity->getPrefix(),
+            'o:label'         => $entity->getLabel(),
+            'o:comment'       => $entity->getComment(),
+            'o:owner'         => $this->getReference(
+                null,
+                $entity->getOwner(),
+                $this->getAdapter('users')
             ),
         );
     }

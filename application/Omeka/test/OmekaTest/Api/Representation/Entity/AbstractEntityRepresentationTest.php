@@ -1,32 +1,25 @@
 <?php
-namespace OmekaTest\Api\Representation;
+namespace OmekaTest\Api\Representation\Entity;
 
 use Omeka\Test\TestCase;
 
 class AbstractEntityRepresentationTest extends TestCase
 {
-    public function testValidates()
+    public function testValidateData()
     {
-        $this->setExpectedException('Omeka\Api\Exception\InvalidArgumentException');
-
-        $id = 'test-id';
-        $data = 'test-data';
-        $mockAdapter = $this->getMock(
-            'Omeka\Api\Adapter\AbstractAdapter'
-        );
-
-        $mockServiceManager = $this->getServiceManager(array(
-            'MvcTranslator' => $this->getMock(
-                'Zend\Mvc\I18n\Translator', array(), array(), '', false
-            ),
+        $serviceLocator = $this->getServiceManager(array(
+            'MvcTranslator' => $this->getMock('Zend\I18n\Translator\TranslatorInterface'),
         ));
-        $mockAdapter->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
 
-        $mockRep = $this->getMockForAbstractClass(
+        $adapter = $this->getMock('Omeka\Api\Adapter\Entity\AbstractEntityAdapter');
+        $adapter->expects($this->once())
+            ->method('getServiceLocator')
+            ->will($this->returnValue($serviceLocator));
+
+        $this->setExpectedException('Omeka\Api\Exception\InvalidArgumentException');
+        $abstractEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\Entity\AbstractEntityRepresentation',
-            array($id, $data, $mockAdapter), '', true, true, true, array()
+            array('id', 'invalid_data', $adapter)
         );
     }
 }

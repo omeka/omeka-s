@@ -1,77 +1,52 @@
 <?php
 namespace OmekaTest\Api\Representation;
 
+use Omeka\Api\Representation\AbstractResourceRepresentation;
 use Omeka\Test\TestCase;
+use ReflectionClass;
 
 class AbstractResourceRepresentationTest extends TestCase
 {
     public function testConstructor()
     {
-        $id = 'foo';
-        $data = 'bar';
-        $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-
-        $mockRep = $this->getMockForAbstractClass(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array(), '', false, true, true,
-            array('setServiceLocator', 'setId', 'setData', 'setAdapter')
-        );
-
-        $mockServiceManager = $this->getServiceManager();
-        $mockAdapter->expects($this->once())
+        $id = 'test_id';
+        $data = 'test_data';
+        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $adapter->expects($this->once())
             ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
-        $mockRep->expects($this->once())
-            ->method('setServiceLocator')
-            ->with($this->equalTo($mockServiceManager));
-        $mockRep->expects($this->once())
-            ->method('setId')
-            ->with($this->equalTo($id));
-        $mockRep->expects($this->once())
-            ->method('setData')
-            ->with($this->equalTo($data));
-        $mockRep->expects($this->once())
-            ->method('setAdapter')
-            ->with($this->equalTo($mockAdapter));
+            ->will($this->returnValue($this->getServiceManager()));
 
-        $mockRep->__construct($id, $data, $mockAdapter);
+        $abstractResourceRep = $this->getMockForAbstractClass(
+            'Omeka\Api\Representation\AbstractResourceRepresentation',
+            array($id, $data, $adapter)
+        );
+        $abstractResourceRep->expects($this->once())
+            ->method('getJsonLd')
+            ->will($this->returnValue(array('foo' => 'bar')));
+
+        // test getId()
+        $this->assertEquals($id,  $abstractResourceRep->getId());
+
+        // test jsonSerialize()
+        $this->assertEquals(array(
+            '@context' => array(
+                AbstractResourceRepresentation::OMEKA_VOCABULARY_TERM
+                => AbstractResourceRepresentation::OMEKA_VOCABULARY_IRI
+            ),
+            'foo' => 'bar',
+        ), $abstractResourceRep->jsonSerialize());
     }
 
-    public function testGetId()
+    public function testMethodsAreProtected()
     {
-        $id = 'foo';
-        $data = 'bar';
-        $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-
-        $mockServiceManager = $this->getServiceManager();
-        $mockAdapter->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
-
-        $mockRep = $this->getMockForAbstractClass(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array($id, $data, $mockAdapter), '', true, true, true, array()
+        $class = new ReflectionClass(
+            'Omeka\Api\Representation\AbstractResourceRepresentation'
         );
-
-        $this->assertEquals($id, $mockRep->getId());
-    }
-
-    public function testGetAdapter()
-    {
-        $id = 'foo';
-        $data = 'bar';
-        $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-
-        $mockServiceManager = $this->getServiceManager();
-        $mockAdapter->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
-
-        $mockRep = $this->getMockForAbstractClass(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array($id, $data, $mockAdapter), '', true, true, true, array()
+        $protectedMethods = array(
+            'addTermDefinitionToContext', 'setId', 'setAdapter', 'getAdapter',
         );
-
-        $this->assertEquals($mockAdapter, $mockRep->getAdapter());
+        foreach ($protectedMethods as $protectedMethod) {
+            $this->assertTrue($class->getMethod($protectedMethod)->isProtected());
+        }
     }
 }

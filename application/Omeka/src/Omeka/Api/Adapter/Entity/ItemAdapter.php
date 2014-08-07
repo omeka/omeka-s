@@ -38,36 +38,28 @@ class ItemAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        if (isset($data['owner']['id'])) {
+        if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
-                ->findEntity($data['owner']['id']);
+                ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
-        if (isset($data['resource_class']['id'])) {
+        if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')
-                ->findEntity($data['resource_class']['id']);
+                ->findEntity($data['o:resource_class']['o:id']);
             $entity->setResourceClass($resourceClass);
         }
-        if (isset($data['media']) && is_array($data['media'])) {
+        if (isset($data['o:media']) && is_array($data['o:media'])) {
             $mediaAdapter = $this->getAdapter('media');
-            foreach ($data['media'] as $mediaData) {
-                if (isset($mediaData['id'])) {
-                    $media = $mediaAdapter->findEntity(array(
-                        'id' => $mediaData['id'],
-                        // media cannot be reassigned
-                        'item' => $entity->getId(),
-                    ));
-                    $mediaAdapter->hydrateEntity(
-                        'update', $mediaData, $media, $errorStore
-                    );
-                } else {
-                    $mediaEntityClass = $mediaAdapter->getEntityClass();
-                    $media = new $mediaEntityClass;
-                    $mediaAdapter->hydrateEntity(
-                        'create', $mediaData, $media, $errorStore
-                    );
-                    $entity->addMedia($media);
+            foreach ($data['o:media'] as $mediaData) {
+                if (isset($mediaData['o:id'])) {
+                    continue; // do not process existing media
                 }
+                $mediaEntityClass = $mediaAdapter->getEntityClass();
+                $media = new $mediaEntityClass;
+                $mediaAdapter->hydrateEntity(
+                    'create', $mediaData, $media, $errorStore
+                );
+                $entity->addMedia($media);
             }
         }
         $valueHydrator = new ValueHydrator($this);

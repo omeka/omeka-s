@@ -38,21 +38,21 @@ class MediaAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        if (isset($data['owner']['id'])) {
+        if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
-                ->findEntity($data['owner']['id']);
+                ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
-        if (isset($data['resource_class']['id'])) {
+        if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')
-                ->findEntity($data['resource_class']['id']);
+                ->findEntity($data['o:resource_class']['o:id']);
             $entity->setResourceClass($resourceClass);
         }
-        if (isset($data['type'])) {
-            $entity->setType($data['type']);
+        if (isset($data['o:type'])) {
+            $entity->setType($data['o:type']);
         }
-        if (isset($data['data'])) {
-            $entity->setData($data['data']);
+        if (isset($data['o:data'])) {
+            $entity->setData($data['o:data']);
         }
         $valueHydrator = new ValueHydrator($this);
         $valueHydrator->hydrate($data, $entity);

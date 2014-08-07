@@ -7,28 +7,20 @@ use Zend\Stdlib\JsonSerializable;
 /**
  * The representation interface
  *
- * A representation wraps around and provides a standard interface to API data.
- * It has two major functions:
+ * A representation wraps around and provides a standard interface to data. It
+ * has two primary functions:
  *
  *   - Serialize into a JSON-LD object
- *   - Pass around internally as a rich data object
+ *   - Pass around internally as a rich, read-only data object
  */
 interface RepresentationInterface extends
     JsonSerializable,
     ServiceLocatorAwareInterface
 {
     /**
-     * Set the data.
-     *
-     * The data is the information from which to derive a representation.
-     *
-     * @param mixed $data
-     */
-    public function setData($data);
-
-    /**
      * Serialize the data to a JSON-LD compatible format.
      *
+     * @link http://www.w3.org/TR/json-ld/
      * @return array
      */
     public function jsonSerialize();

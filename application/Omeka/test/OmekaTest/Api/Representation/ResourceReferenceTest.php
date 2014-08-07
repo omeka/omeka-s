@@ -6,46 +6,54 @@ use Omeka\Test\TestCase;
 
 class ResourceReferenceTest extends TestCase
 {
+    protected $id;
+    protected $data;
+    protected $adapter;
+
+    public function setUp()
+    {
+        $this->id = 'test_id';
+        $this->data = 'test_data';
+        $this->adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
+        $this->adapter->expects($this->once())
+            ->method('getServiceLocator')
+            ->will($this->returnValue($this->getServiceManager()));
+    }
+
     public function testGetRepresentation()
     {
-        $id = 'test-id';
-        $data = 'test-data';
-        $mockAdapter = $this->getMock(
-            'Omeka\Api\Adapter\AbstractAdapter'
-        );
-
-        $mockServiceManager = $this->getServiceManager();
-        $mockAdapter->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
-        $mockAdapter->expects($this->once())
+        $this->adapter->expects($this->once())
             ->method('getRepresentation')
-            ->with($this->equalTo($id), $this->equalTo($data));
+            ->with($this->equalTo($this->id), $this->equalTo($this->data));
 
-        $reference = new ResourceReference($id, $data, $mockAdapter);
-        $reference->getRepresentation();
+        $resourceReference = new ResourceReference(
+            $this->id, $this->data, $this->adapter
+        );
+        $representation = $resourceReference->getRepresentation();
     }
 
     public function testJsonSerialize()
     {
-        $id = 'test-id';
-        $data = 'test-data';
-        $mockAdapter = $this->getMock(
-            'Omeka\Api\Adapter\AbstractAdapter'
-        );
-
-        $mockServiceManager = $this->getServiceManager();
-        $mockAdapter->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($mockServiceManager));
-        $mockAdapter->expects($this->once())
+        $jsonLdId = 'test_@id';
+        $this->adapter->expects($this->once())
             ->method('getApiUrl')
-            ->with($this->equalTo($data));
+            ->with($this->equalTo($this->data))
+            ->will($this->returnValue($jsonLdId));
 
-        $reference = new ResourceReference($id, $data, $mockAdapter);
-        $this->assertEquals(
-            array('@id' => null, 'id' => $id),
-            $reference->jsonSerialize()
+        $resourceReference = new ResourceReference(
+            $this->id, $this->data, $this->adapter
         );
+        $this->assertEquals(array(
+            '@id' => $jsonLdId,
+            'o:id' => $this->id,
+        ), $resourceReference->jsonSerialize());
+    }
+
+    public function testGetJsonLd()
+    {
+        $resourceReference = new ResourceReference(
+            $this->id, $this->data, $this->adapter
+        );
+        $this->assertNull($resourceReference->getJsonLd());
     }
 }

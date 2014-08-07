@@ -192,6 +192,20 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_site_page_block` (
   KEY `page_position` (`page_id`,`position`),
   CONSTRAINT `FK_18C7AF41C4663E4` FOREIGN KEY (`page_id`) REFERENCES `OMEKA_TABLE_PREFIX_site_page` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_site_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `admin` tinyint(1) NOT NULL,
+  `attach` tinyint(1) NOT NULL,
+  `edit` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `site_user` (`site_id`,`user_id`),
+  KEY `IDX_1D14551FF6BD1646` (`site_id`),
+  KEY `IDX_1D14551FA76ED395` (`user_id`),
+  CONSTRAINT `FK_1D14551FA76ED395` FOREIGN KEY (`user_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_1D14551FF6BD1646` FOREIGN KEY (`site_id`) REFERENCES `OMEKA_TABLE_PREFIX_site` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,

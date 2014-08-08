@@ -133,9 +133,30 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_resource_class` (
 CREATE TABLE `OMEKA_TABLE_PREFIX_site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `theme` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `navigation` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_4E1CB5A5989D9B62` (`slug`),
   KEY `IDX_4E1CB5A57E3C61F9` (`owner_id`),
   CONSTRAINT `FK_4E1CB5A57E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_site_block_attachment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `caption` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `position` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_81FB5321E9ED820C` (`block_id`),
+  KEY `IDX_81FB5321126F525E` (`item_id`),
+  KEY `IDX_81FB5321EA9FDD75` (`media_id`),
+  KEY `block_position` (`block_id`,`position`),
+  CONSTRAINT `FK_81FB5321EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `OMEKA_TABLE_PREFIX_media` (`id`),
+  CONSTRAINT `FK_81FB5321126F525E` FOREIGN KEY (`item_id`) REFERENCES `OMEKA_TABLE_PREFIX_item` (`id`),
+  CONSTRAINT `FK_81FB5321E9ED820C` FOREIGN KEY (`block_id`) REFERENCES `OMEKA_TABLE_PREFIX_site_page_block` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_site_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -149,6 +170,41 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_site_item` (
   CONSTRAINT `FK_AB93C3D4126F525E` FOREIGN KEY (`item_id`) REFERENCES `OMEKA_TABLE_PREFIX_item` (`id`),
   CONSTRAINT `FK_AB93C3D494221246` FOREIGN KEY (`assigner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`),
   CONSTRAINT `FK_AB93C3D4F6BD1646` FOREIGN KEY (`site_id`) REFERENCES `OMEKA_TABLE_PREFIX_site` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_site_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `site_slug` (`site_id`,`slug`),
+  KEY `IDX_A08250EAF6BD1646` (`site_id`),
+  CONSTRAINT `FK_A08250EAF6BD1646` FOREIGN KEY (`site_id`) REFERENCES `OMEKA_TABLE_PREFIX_site` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_site_page_block` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL,
+  `layout` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
+  `data` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  `position` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_18C7AF41C4663E4` (`page_id`),
+  KEY `page_position` (`page_id`,`position`),
+  CONSTRAINT `FK_18C7AF41C4663E4` FOREIGN KEY (`page_id`) REFERENCES `OMEKA_TABLE_PREFIX_site_page` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_site_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `admin` tinyint(1) NOT NULL,
+  `attach` tinyint(1) NOT NULL,
+  `edit` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `site_user` (`site_id`,`user_id`),
+  KEY `IDX_1D14551FF6BD1646` (`site_id`),
+  KEY `IDX_1D14551FA76ED395` (`user_id`),
+  CONSTRAINT `FK_1D14551FA76ED395` FOREIGN KEY (`user_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_1D14551FF6BD1646` FOREIGN KEY (`site_id`) REFERENCES `OMEKA_TABLE_PREFIX_site` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

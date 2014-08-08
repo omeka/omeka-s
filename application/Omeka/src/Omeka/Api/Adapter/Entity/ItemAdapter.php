@@ -50,11 +50,11 @@ class ItemAdapter extends AbstractEntityAdapter
         }
         if (isset($data['o:media']) && is_array($data['o:media'])) {
             $mediaAdapter = $this->getAdapter('media');
+            $mediaEntityClass = $mediaAdapter->getEntityClass();
             foreach ($data['o:media'] as $mediaData) {
                 if (isset($mediaData['o:id'])) {
                     continue; // do not process existing media
                 }
-                $mediaEntityClass = $mediaAdapter->getEntityClass();
                 $media = new $mediaEntityClass;
                 $mediaAdapter->hydrateEntity(
                     'create', $mediaData, $media, $errorStore

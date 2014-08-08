@@ -56,11 +56,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($data['o:classes']) && is_array($data['o:classes'])) {
             $resourceClassAdapter = $this->getAdapter('resource_classes');
+            $resourceClassEntityClass = $resourceClassAdapter->getEntityClass();
             foreach ($data['o:classes'] as $classData) {
                 if (isset($classData['o:id'])) {
                     continue; // do not process existing classes
                 }
-                $resourceClassEntityClass = $resourceClassAdapter->getEntityClass();
                 $resourceClass = new $resourceClassEntityClass;
                 $resourceClassAdapter->hydrateEntity(
                     'create', $classData, $resourceClass, $errorStore
@@ -70,11 +70,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($data['o:properties']) && is_array($data['o:properties'])) {
             $propertyAdapter = $this->getAdapter('properties');
+            $propertyEntityClass = $propertyAdapter->getEntityClass();
             foreach ($data['o:properties'] as $propertyData) {
                 if (isset($propertyData['o:id'])) {
                     continue; // do not process existing properties
                 }
-                $propertyEntityClass = $propertyAdapter->getEntityClass();
                 $property = new $propertyEntityClass;
                 $propertyAdapter->hydrateEntity(
                     'create', $propertyData, $property, $errorStore

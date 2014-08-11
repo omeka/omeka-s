@@ -1,1 +1,26 @@
-<?php echo $this->content; ?>
+<?php
+$this->headMeta()->setCharset('utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headTitle('Omeka S');
+$this->headLink()->appendStylesheet('//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic');
+$this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
+$this->headScript()->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js');
+$this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
+?>
+<?php echo $this->doctype(); ?>
+<?php echo $this->htmlElement('html')->setAttribute('lang', 'en'); ?>
+    <head>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headStyle(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
+
+        <div role="main">
+            <?php echo $this->content; ?>
+        </div>
+
+    </body>
+</html>

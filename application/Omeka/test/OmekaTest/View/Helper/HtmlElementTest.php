@@ -39,6 +39,13 @@ class HtmlElementTest extends TestCase
 
         $this->assertEquals('<test-element baz="bat">', $return);
 
+        $htmlElement($element)->appendAttribute('baz', 'foo');
+        ob_start();
+        echo $htmlElement($element);
+        $return = ob_get_clean();
+
+        $this->assertEquals('<test-element baz="bat foo">', $return);
+
         $htmlElement($element)->removeAttributes();
         ob_start();
         echo $htmlElement($element);

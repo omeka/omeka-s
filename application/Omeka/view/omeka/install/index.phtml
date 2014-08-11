@@ -1,28 +1,29 @@
+<?php $this -> htmlElement('body')->appendAttribute('class', 'install'); ?>
+
 <?php var_dump($this->messenger()->get()); ?>
 <?php
 $form->prepare();
 $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
+$formLabel = $this->plugin('formLabel');
 echo $this->form()->openTag($form);
 ?>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('username')); ?>
+
+<?php $form_elements = array('username', 'password', 'password-confirm', 'name', 'email', 'email-confirm'); ?>
+
+<?php foreach ($form_elements as $form_element): ?>
+<div class="field">
+    <?php 
+        $name = $form->get($form_element);
+        echo $formLabel->openTag() . $name->getOption('label');
+        echo $formLabel->closeTag();
+        echo $this->formInput($name);
+        echo $this->formElementErrors($name);        
+     ?>
+    
 </div>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('password')); ?>
-</div>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('password-confirm')); ?>
-</div>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('name')); ?>
-</div>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('email')); ?>
-</div>
-<div class="form-element">
-    <?php echo $this->formRow($form->get('email-confirm')); ?>
-</div>
+<?php endforeach; ?>
+
 <?php
 echo $this->formElement($form->get('submit'));
 echo $this->form()->closeTag();

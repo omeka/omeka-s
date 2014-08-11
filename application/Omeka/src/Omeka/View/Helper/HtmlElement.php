@@ -72,8 +72,8 @@ class HtmlElement extends AbstractHtmlElement
                 $this->elements[$this->element][$key] = array($current, $value);
             }
         } else {
-                $this->elements[$this->element][$key] = $value;
-            }
+            $this->elements[$this->element][$key] = $value;
+        }
         return $this;
     }
 

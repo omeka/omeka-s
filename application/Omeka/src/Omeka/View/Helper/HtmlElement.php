@@ -46,6 +46,7 @@ class HtmlElement extends AbstractHtmlElement
      *
      * @param string $key
      * @param string $value
+     * @return self
      */
     public function setAttribute($key, $value)
     {
@@ -53,6 +54,14 @@ class HtmlElement extends AbstractHtmlElement
         return $this;
     }
 
+
+    /**
+     * Append an attribute to an element
+     * 
+     * @param  strink $key
+     * @param  string $value
+     * @return self
+     */
     public function appendAttribute($key, $value)
     {
         if (isset($this->elements[$this->element][$key])) {
@@ -63,15 +72,16 @@ class HtmlElement extends AbstractHtmlElement
                 $this->elements[$this->element][$key] = array($current, $value);
             }
         } else {
-    $this->elements[$this->element][$key] = $value;
-    }
-    return $this;
+                $this->elements[$this->element][$key] = $value;
+            }
+        return $this;
     }
 
     /**
      * Set attributes to the current element
      *
      * @param array $attributes
+     * @return self
      */
     public function setAttributes(array $attributes)
     {
@@ -85,6 +95,7 @@ class HtmlElement extends AbstractHtmlElement
      * Remove an attribute from the current element
      *
      * @param string $key
+     * @return self
      */
     public function removeAttribute($key)
     {
@@ -94,6 +105,8 @@ class HtmlElement extends AbstractHtmlElement
 
     /**
      * Remove all attributes from the current element
+     * 
+     * @return self
      */
     public function removeAttributes()
     {

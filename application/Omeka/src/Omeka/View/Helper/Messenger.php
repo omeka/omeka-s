@@ -21,4 +21,42 @@ class Messenger extends AbstractHelper
         $messengerPlugin->clear();
         return $messages;
     }
+
+    /**
+     * Render the messages.
+     *
+     * @return string
+     */
+    public function __invoke()
+    {
+        $allMessages = $this->get();
+        if (!$allMessages) {
+            return;
+        }
+
+        $output = '<ul class="messages">';
+        foreach ($allMessages as $type => $messages) {
+            switch ($type) {
+                case MessengerPlugin::ERROR;
+                    $class = 'error';
+                    break;
+                case MessengerPlugin::SUCCESS;
+                    $class = 'success';
+                    break;
+                case MessengerPlugin::WARNING;
+                    $class = 'warning';
+                    break;
+                case MessengerPlugin::NOTICE;
+                default:
+                    $class = 'notice';
+            }
+            foreach ($messages as $message) {
+                $output .= "<li class=\"$class\">";
+                $output .= htmlspecialchars($message);
+                $output .= '</li>';
+            }
+        }
+        $output .= '</ul>';
+        return $output;
+    }
 }

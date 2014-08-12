@@ -19,6 +19,7 @@ $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
     <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
 
         <div role="main">
+            <?php echo $this->messenger(); ?>
             <?php echo $this->content; ?>
         </div>
 

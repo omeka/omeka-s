@@ -18,6 +18,10 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
+            array($this, 'redirectToLogin')
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
             array($this, 'authenticateApiKey')
         );
         $this->listeners[] = $events->attach(
@@ -55,6 +59,36 @@ class MvcListeners extends AbstractListenerAggregate
         $response->setStatusCode(302);
         $response->sendHeaders();
         return $response;
+    }
+
+    /**
+     * Redirect all admin requests to install route if user not logged in.
+     *
+     * @param MvcEvent $event
+     * @return Zend\Http\PhpEnvironment\Response
+     */
+    public function redirectToLogin(MvcEvent $event)
+    {
+        $serviceLocator = $event->getApplication()->getServiceManager();
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+
+        if ($auth->hasIdentity()) {
+            // User is logged in.
+            return;
+        }
+
+        $routeParams = $event->getRouteMatch()->getParams();
+        if (isset($routeParams['__NAMESPACE__'])
+            && 'Omeka\Controller\Admin' == $routeParams['__NAMESPACE__']
+        ) {
+            // Admin request.
+            $url = $event->getRouter()->assemble(array(), array('name' => 'login'));
+            $response = $event->getResponse();
+            $response->getHeaders()->addHeaderLine('Location', $url);
+            $response->setStatusCode(302);
+            $response->sendHeaders();
+            return $response;
+        }
     }
 
     /**

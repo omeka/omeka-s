@@ -82,11 +82,10 @@ class RdfImporter implements ServiceLocatorAwareInterface
     {
         // Get the RDF members.
         $members = $this->getMembers(
-            $strategy, $vocabularyArray['namespace_uri'], $options
+            $strategy, $vocabularyArray['o:namespace_uri'], $options
         );
 
-        $vocabularyArray['classes'] = $members['classes'];
-        $vocabularyArray['properties'] = $members['properties'];
+        $vocabularyArray = array_merge($vocabularyArray, $members);
 
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
         return $api->create('vocabularies', $vocabularyArray);
@@ -137,8 +136,8 @@ class RdfImporter implements ServiceLocatorAwareInterface
         array $options
     ) {
         $members = array(
-            'classes' => array(),
-            'properties' => array(),
+            'o:classes' => array(),
+            'o:properties' => array(),
         );
         // Iterate through all resources of the graph instead of selectively by 
         // rdf:type becuase a resource may have more than one type, causing
@@ -154,18 +153,18 @@ class RdfImporter implements ServiceLocatorAwareInterface
             }
             // Get the vocabulary's classes.
             if (in_array($resource->type(), $this->classTypes)) {
-                $members['classes'][] = array(
-                    'local_name' => $resource->localName(),
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $options['comment_property']),
+                $members['o:classes'][] = array(
+                    'o:local_name' => $resource->localName(),
+                    'o:label' => $this->getLabel($resource, $resource->localName()),
+                    'o:comment' => $this->getComment($resource, $options['comment_property']),
                 );
             }
             // Get the vocabulary's properties.
             if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['properties'][] = array(
-                    'local_name' => $resource->localName(),
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $options['comment_property']),
+                $members['o:properties'][] = array(
+                    'o:local_name' => $resource->localName(),
+                    'o:label' => $this->getLabel($resource, $resource->localName()),
+                    'o:comment' => $this->getComment($resource, $options['comment_property']),
                 );
             }
         }

@@ -15,10 +15,10 @@ class CreateFirstUserTask extends AbstractTask
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
 
         $response = $apiManager->create('users', array(
-            'role'     => 'global_admin',
-            'username' => $this->getVar('username'),
-            'name'     => $this->getVar('name'),
-            'email'    => $this->getVar('email'),
+            'o:role'     => 'global_admin',
+            'o:username' => $this->getVar('username'),
+            'o:name'     => $this->getVar('name'),
+            'o:email'    => $this->getVar('email'),
         ));
         if ($response->isError()) {
             $this->addErrorStore($response->getErrorStore());
@@ -27,7 +27,7 @@ class CreateFirstUserTask extends AbstractTask
 
         // Set the password.
         $user = $response->getContent()->jsonSerialize();
-        $userEntity = $entityManager->find('Omeka\Model\Entity\User', $user['id']);
+        $userEntity = $entityManager->find('Omeka\Model\Entity\User', $user['o:id']);
         $userEntity->setPassword($this->getVar('password'));
         $entityManager->flush();
     }

@@ -31,28 +31,28 @@ class Messenger extends AbstractHelper
     {
         $allMessages = $this->get();
         if (!$allMessages) {
-            return;
+            return '';
         }
 
         $output = '<ul class="messages">';
         foreach ($allMessages as $type => $messages) {
             switch ($type) {
-                case MessengerPlugin::ERROR;
+                case MessengerPlugin::ERROR:
                     $class = 'error';
                     break;
-                case MessengerPlugin::SUCCESS;
+                case MessengerPlugin::SUCCESS:
                     $class = 'success';
                     break;
-                case MessengerPlugin::WARNING;
+                case MessengerPlugin::WARNING:
                     $class = 'warning';
                     break;
-                case MessengerPlugin::NOTICE;
+                case MessengerPlugin::NOTICE:
                 default:
                     $class = 'notice';
             }
             foreach ($messages as $message) {
                 $output .= "<li class=\"$class\">";
-                $output .= htmlspecialchars($message);
+                $output .= $this->getView()->escapeHtml($message);
                 $output .= '</li>';
             }
         }

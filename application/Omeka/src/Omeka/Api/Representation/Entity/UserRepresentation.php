@@ -3,7 +3,7 @@ namespace Omeka\Api\Representation\Entity;
 
 class UserRepresentation extends AbstractEntityRepresentation
 {
-    public function jsonSerialize()
+    public function getJsonLd()
     {
         $entity = $this->getData();
         return array(

@@ -2,7 +2,6 @@
 namespace Omeka\Form;
 
 use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
 
 class InstallationForm extends Form
 {

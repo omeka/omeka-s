@@ -358,7 +358,18 @@ return array(
                     'spec' => '/login',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Login',
-                        'action' => 'index',
+                        'action' => 'login',
+                     ),
+                ),
+            ),
+            'logout' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/logout(/.*)?',
+                    'spec' => '/logout',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'logout',
                      ),
                 ),
             ),

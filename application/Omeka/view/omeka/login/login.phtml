@@ -1,0 +1,29 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'login');
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+echo $this->form()->openTag($form);
+?>
+<div class="field">
+    <?php 
+    $username = $form->get('username');
+    echo $formLabel->openTag() . $username->getOption('label');
+    echo $formLabel->closeTag();
+    echo $this->formInput($username);
+    echo $this->formElementErrors($username);
+    ?>
+</div>
+<div class="field">
+    <?php 
+    $password = $form->get('password');
+    echo $formLabel->openTag() . $password->getOption('label');
+    echo $formLabel->closeTag();
+    echo $this->formInput($password);
+    echo $this->formElementErrors($password);
+    ?>
+</div>
+<?php
+echo $this->formElement($form->get('submit'));
+echo $this->form()->closeTag();
+?>
+

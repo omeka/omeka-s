@@ -11,7 +11,7 @@
             'controller' => 'user',
             'id' => $this->identity()->getId(),
         )); ?>"><?php echo $this->identity()->getName() ?></a></p>
-        <p><a href="#">Logout</a></p>
+        <p><a href="<?php echo $this->url('logout'); ?>">Logout</a></p>
         <?php else: ?>
         <p>not logged in</p>
         <?php endif; ?>

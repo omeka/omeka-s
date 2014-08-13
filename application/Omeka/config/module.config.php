@@ -85,7 +85,7 @@ return array(
         'invokables' => array(
             'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
-            'messenger'   => 'Omeka\View\Helper\Messenger',
+            'messages'    => 'Omeka\View\Helper\Messages',
         ),
     ),
     'media_types' => array(

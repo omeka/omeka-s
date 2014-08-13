@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Mvc\Controller\Plugin\Messenger as MessengerPlugin;
+use Omeka\Mvc\Controller\Plugin\Messenger;
 use Zend\View\Helper\AbstractHelper;
 
 /**
  * Helper to proxy the messenger controller plugin.
  */
-class Messenger extends AbstractHelper
+class Messages extends AbstractHelper
 {
     /**
      * Get all messages and clear them from the session.
@@ -16,9 +16,9 @@ class Messenger extends AbstractHelper
      */
     public function get()
     {
-        $messengerPlugin = new MessengerPlugin;
-        $messages = $messengerPlugin->get();
-        $messengerPlugin->clear();
+        $messenger = new Messenger;
+        $messages = $messenger->get();
+        $messenger->clear();
         return $messages;
     }
 
@@ -37,16 +37,16 @@ class Messenger extends AbstractHelper
         $output = '<ul class="messages">';
         foreach ($allMessages as $type => $messages) {
             switch ($type) {
-                case MessengerPlugin::ERROR:
+                case Messenger::ERROR:
                     $class = 'error';
                     break;
-                case MessengerPlugin::SUCCESS:
+                case Messenger::SUCCESS:
                     $class = 'success';
                     break;
-                case MessengerPlugin::WARNING:
+                case Messenger::WARNING:
                     $class = 'warning';
                     break;
-                case MessengerPlugin::NOTICE:
+                case Messenger::NOTICE:
                 default:
                     $class = 'notice';
             }

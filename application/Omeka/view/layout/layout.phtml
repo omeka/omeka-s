@@ -20,7 +20,7 @@ $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
     <?php echo $this->htmlElement('body'); ?>
         <?php echo $this->partial('layout/header'); ?>
         <div role="main">
-            <?php echo $this->messenger(); ?>
+            <?php echo $this->messages(); ?>
             <?php echo $this->content; ?>
         </div>
         <?php echo $this->partial('layout/footer'); ?>

@@ -40,7 +40,7 @@ class Item extends Resource
     protected $siteItems;
 
     /**
-     * @ManyToMany(targetEntity="ItemSet", inversedBy="items")
+     * @ManyToMany(targetEntity="ItemSet", inversedBy="items", indexBy="id")
      * @JoinTable(name="item_item_set")
      */
     protected $itemSets;

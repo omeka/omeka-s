@@ -9,13 +9,21 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     public function getResourceJsonLd()
     {
         $mediaReferences = array();
-        foreach ($this->getData()->getMedia() as $media) {
+        $itemSetReferences = array();
+        $item = $this->getData();
+        foreach ($item->getMedia() as $media) {
             $mediaReferences[] =  $this->getReference(
                 null, $media, $this->getAdapter('media')
             );
         }
+        foreach ($item->getItemSets() as $itemSet) {
+            $itemSetReferences[] = $this->getReference(
+                null, $itemSet, $this->getAdapter('item_sets')
+            );
+        }
         return array(
             'o:media' => $mediaReferences,
+            'o:item_set' => $itemSetReferences,
         );
     }
 }

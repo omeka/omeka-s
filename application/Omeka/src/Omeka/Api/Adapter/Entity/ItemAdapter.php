@@ -62,6 +62,32 @@ class ItemAdapter extends AbstractEntityAdapter
                 $entity->addMedia($media);
             }
         }
+        if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
+            $setAdapter = $this->getAdapter('item_sets');
+            $setEntityClass = $setAdapter->getEntityClass();
+            $sets = $entity->getItemSets();
+            $setsToAdd = array();
+            $setsToRemove = clone $sets;
+            foreach ($data['o:item_set'] as $itemSetData) {
+                if (!isset($itemSetData['o:id'])) {
+                    continue; // skip any sets with no ID
+                }
+                $setId = $itemSetData['o:id'];
+                if (isset($sets[$setId])) {
+                    $setsToRemove->remove($id);
+                    continue;
+                } else {
+                    $setsToAdd[] = $setId;
+                }
+            }
+            foreach ($setsToAdd as $setId) {
+                $newSet = $setAdapter->findEntity($setId);
+                $sets->add($newSet);
+            }
+            foreach ($setsToRemove as $setId => $set) {
+                $sets->remove($setId);
+            }
+        }
         $valueHydrator = new ValueHydrator($this);
         $valueHydrator->hydrate($data, $entity);
     }

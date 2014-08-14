@@ -9,6 +9,7 @@ return array(
             'values'           => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             'items'            => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             'media'            => 'Omeka\Api\Adapter\Entity\MediaAdapter',
+            'item_sets'        => 'Omeka\Api\Adapter\Entity\ItemSetAdapter',
             'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
         ),
     ),

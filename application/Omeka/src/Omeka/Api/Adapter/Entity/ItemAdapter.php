@@ -64,7 +64,6 @@ class ItemAdapter extends AbstractEntityAdapter
         }
         if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
             $setAdapter = $this->getAdapter('item_sets');
-            $setEntityClass = $setAdapter->getEntityClass();
             $sets = $entity->getItemSets();
             $setsToAdd = array();
             $setsToRemove = clone $sets;
@@ -75,7 +74,6 @@ class ItemAdapter extends AbstractEntityAdapter
                 $setId = $itemSetData['o:id'];
                 if (isset($sets[$setId])) {
                     $setsToRemove->remove($id);
-                    continue;
                 } else {
                     $setsToAdd[] = $setId;
                 }

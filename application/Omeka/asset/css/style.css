@@ -296,8 +296,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   input:checked ~ label:before {
-    content: "\e616";
-    font-family: 'icomoon';
+    content: "\f00c";
+    font-family: 'FontAwesome';
     speak: none;
     font-weight: normal;
     font-variant: normal;
@@ -343,7 +343,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @end */
   /* @end */
   /* @group ----- Reusable classes ----- */
-  .flash {
+  div[role="main"] > .messages {
+    margin-bottom: 0.75em;
+  }
+  div[role="main"] > .messages li {
+    margin: 0 0 0.375em;
+  }
+  div[role="main"] > .messages .error {
+    background-color: #ffe5e5;
+  }
+  div[role="main"] > .messages .success {
+    background-color: #ccffcc;
+  }
+  div[role="main"] > .messages .warning {
+    background-color: #fff6e5;
+  }
+
+  .messages {
     padding: 0;
     margin: 0;
   }
@@ -386,6 +402,29 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     text-align: left;
     padding: 2.25em 0 1.5em;
     float: left;
+  }
+
+  .skip {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .skip:focus {
+    position: absolute;
+    top: 0;
+    left: 45%;
+    width: 10%;
+    z-index: 1002;
+    text-align: center;
+    background-color: #fff;
+    padding: 0.375em;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0;
+    border-radius: 0 0 3px 3px;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-width: 0.0625em;
+    border-style: solid;
+    padding: -0.0625em;
   }
 
   #current-user {
@@ -446,7 +485,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     height: 2.25em;
   }
   #search button:after {
-    content: "\e602";
+    content: "\f141";
   }
   #search button:last-of-type {
     border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -455,10 +494,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-radius: 0 3px 3px 0;
   }
   #search button:last-of-type:after {
-    content: "\e614";
+    content: "\f002";
   }
   #search button:after {
-    font-family: "icomoon";
+    font-family: "FontAwesome";
     text-indent: 0;
     position: absolute;
     top: 0;
@@ -508,7 +547,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     height: 16px;
     display: inline-block;
     margin-right: .5em;
-    font-family: "icomoon";
+    font-family: "FontAwesome";
   }
 
   #menu a {
@@ -543,6 +582,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: 6em 1.04167% 1.5em;
     background-color: #fff;
     min-height: 100%;
+    overflow: hidden;
   }
 
   /* @end */
@@ -559,14 +599,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .browse .record-name {
     display: block;
     float: left;
+    max-width: -webkit-calc(100% - 5.5em);
+    max-width: calc(100% - 5.5em);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .browse td,
   .browse th {
     padding: 0.375em 0.5em;
-    max-width: 5em;
     position: relative;
-    min-width: 1.5em;
   }
 
   .browse td,
@@ -575,15 +617,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 0;
   }
 
-  .browse table a {
-    width: 100%;
+  .browse td:first-of-type,
+  .browse th:first-of-type {
+    min-width: 2.25em;
+    width: 2.25em;
   }
 
   .browse td:nth-of-type(2),
   .browse th:nth-of-type(2) {
-    max-width: 30%;
+    width: 60%;
   }
 
   .browse .add.button,
@@ -599,7 +644,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .actions {
     display: block;
     float: right;
-    width: 7em;
   }
 
   .actions,
@@ -743,7 +787,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     display: block;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 0.375em 10px;
-    width: 75%;
+    width: 100%;
     float: left;
   }
 
@@ -787,10 +831,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: transparent;
     color: red;
     padding: 0;
-    font-size: 24px;
-    height: 24px;
     min-height: intrinsic;
     margin: 0;
+  }
+  .field a.remove.button:before,
+  .field a.add-value.button:before {
+    vertical-align: top;
   }
 
   .unset .value,
@@ -888,8 +934,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-bottom: 0em;
   }
   .properties > ul > li:after, .properties > ul > li > ul > li:after {
-    content: "\e613";
-    font-family: "icomoon";
+    content: "\f0da";
+    font-family: "FontAwesome";
     position: absolute;
     right: 10px;
     top: 0.375em;
@@ -904,7 +950,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     right: 0;
   }
   .properties > ul > li.show:after {
-    content: "\e611" !important;
+    content: "\f0d7" !important;
   }
   .properties > ul > li ul, .properties > ul > li ul ul {
     position: absolute;
@@ -1013,7 +1059,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .inputs textarea,
   .inputs input[type="text"],
   .inputs input[type="password"] {
-    width: 75%;
+    width: 100%;
     min-height: 2.25em;
     padding: 0.375em;
   }
@@ -1035,9 +1081,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
   .inputs .tab:last-of-type {
     border-right: 0;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0;
-    border-radius: 0 3px 3px 0;
   }
   .inputs .tab:hover {
     background-color: red;
@@ -1098,10 +1141,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   .input-options {
-    position: absolute;
-    left: 75%;
-    top: 0;
     text-align: center;
+    width: 100%;
+    float: left;
+    background-color: rgba(0, 0, 0, 0.15);
   }
 
   .input-option {
@@ -1116,8 +1159,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @group ----- Files ----- */
   .upload-zone {
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 1.5em 1.04167%;
+    padding: 3em 1.04167% 1.5em 1.04167%;
     text-align: center;
+  }
+  .upload-zone p {
+    margin-bottom: 0em;
   }
 
   #item-files button {
@@ -1127,15 +1173,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @end */
   /* @end */
   /* @group ----- Iconfont ----- */
-  @font-face {
-    font-family: 'icomoon';
-    src: url("../fonts/icomoon.eot?-luw49f");
-    src: url("../fonts/icomoon.eot?#iefix-luw49f") format("embedded-opentype"), url("../fonts/icomoon.woff?-luw49f") format("woff"), url("../fonts/icomoon.ttf?-luw49f") format("truetype"), url("../fonts/icomoon.svg?-luw49f#icomoon") format("svg");
-    font-weight: normal;
-    font-style: normal;
-  }
-  [class^="icon-"]:before, [class*=" icon-"]:before {
-    font-family: 'icomoon';
+  [class^="fa-"]:before, [class*=" fa-"]:before {
+    font-family: 'FontAwesome';
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1147,117 +1186,44 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .icon-search:before {
-    content: "\e614";
+  .fa-menu:before {
+    content: "\f0c9";
   }
 
-  .icon-remove:before,
-  .icon-close:before {
-    content: "\e60e";
+  .fa-current-user:before {
+    content: "\f007";
   }
 
-  .icon-type:before {
-    content: "\e60c";
+  .fa-items:before {
+    content: "\f1b3";
   }
 
-  .icon-link:before {
-    content: "\e60d";
+  .fa-text:before {
+    content: "\f11c";
   }
 
-  .icon-edit:before {
-    content: "\e600";
+  .fa-items:before {
+    content: "\f1b3";
   }
 
-  .icon-view:before {
-    content: "\e601";
+  .fa-item-set:before {
+    content: "\f187";
   }
 
-  .icon-ellipsis:before {
-    content: "\e602";
+  .fa-vocab:before {
+    content: "\f02d";
   }
 
-  .icon-info:before {
-    content: "\e603";
+  .fa-module:before {
+    content: "\f0fe";
   }
 
-  .icon-items:before {
-    content: "\e604";
+  .fa-site:before {
+    content: "\f108";
   }
 
-  .icon-users:before {
-    content: "\e605";
-  }
-
-  .icon-settings:before {
-    content: "\e607";
-  }
-
-  .icon-vocabularies:before {
-    content: "\e608";
-  }
-
-  .icon-item-sets:before {
-    content: "\e609";
-  }
-
-  .icon-modules:before {
-    content: "\e606";
-  }
-
-  .icon-assets:before {
-    content: "\e60a";
-  }
-
-  .icon-sites:before {
-    content: "\e60b";
-  }
-
-  .icon-add:before {
-    content: "\e60f";
-  }
-
-  .icon-arrow-down:before {
-    content: "\e611";
-  }
-
-  .icon-arrow-up:before {
-    content: "\e612";
-  }
-
-  .icon-arrow-left:before {
-    content: "\e610";
-  }
-
-  .icon-arrow-right:before {
-    content: "\e613";
-  }
-
-  .icon-upload:before {
-    content: "\e615";
-  }
-
-  .icon-check:before {
-    content: "\e616";
-  }
-
-  .icon-sortable:before {
-    content: "\e617";
-  }
-
-  .icon-double-arrow-right:before {
-    content: "\e618";
-  }
-
-  .icon-double-arrow-left:before {
-    content: "\e619";
-  }
-
-  .icon-menu:before {
-    content: "\e61a";
-  }
-
-  .icon-user:before {
-    content: "\e61b";
+  .fa-settings:before {
+    content: "\f085";
   }
 
   .screen-reader-text {
@@ -1297,9 +1263,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     line-height: 24px;
     font-weight: bold;
   }
+  .modal.small {
+    width: 30%;
+    height: 40%;
+  }
 
   .modal-link.button {
-    clear: both;
+    float: left;
   }
 
   .modal-header {
@@ -1334,7 +1304,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .modal-search-nav #item-list-search {
     float: left;
   }
-  .modal-search-nav button.icon-search {
+  .modal-search-nav button.fa-search {
     height: 1.5em;
     width: 1.5em;
     line-height: 24px;
@@ -1349,7 +1319,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     z-index: 1003;
     text-indent: -9999px;
   }
-  .modal-search-nav button.icon-search:before {
+  .modal-search-nav button.fa-search:before {
     text-indent: 0px;
     position: absolute;
     left: 0;
@@ -1392,13 +1362,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-color: transparent;
   }
   .modal-search-nav .expand:after {
-    content: "\e613";
-    font-family: "icomoon";
+    content: "\f0da";
+    font-family: "FontAwesome";
     margin-left: 3px;
   }
   .modal-search-nav .collapse:after {
-    content: "\e611";
-    font-family: "icomoon";
+    content: "\f0d7";
+    font-family: "FontAwesome";
     margin-left: 3px;
   }
   .modal-search-nav .collapse + .search-options {
@@ -1422,25 +1392,31 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     display: inline-block;
     width: 70%;
   }
-  .modal-search-nav .search-options .field {
-    margin-bottom: 0.375em;
-  }
   .modal-search-nav .pagination {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 20px;
     height: 3em;
   }
   .modal-search-nav .pagination li {
     float: left;
     height: 3em;
-    padding: 0.75em 10px;
+    padding: 0.75em 1px;
+  }
+  .modal-search-nav .pagination li:first-of-type {
+    padding-right: 10px;
   }
   .modal-search-nav .pagination input {
     width: 3em;
     text-align: center;
     color: #333;
     margin: 0 3px;
+  }
+  .modal-search-nav .pagination a.button {
+    height: 24px;
+    width: 24px;
+    padding: 0 5px;
+    min-height: 0;
   }
 
   .search-options {
@@ -1457,6 +1433,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     right: 0;
     height: 3em;
     z-index: 1001;
+  }
+  .search-options .field:last-of-type {
+    margin-bottom: 1.5em;
   }
 
   .closeBtn {
@@ -1839,24 +1818,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: 3em 12.5%;
     border-color: rgba(0, 0, 0, 0.15);
     border-top-color: transparent;
+    overflow: hidden;
     border-width: 0.0625em;
     border-style: solid;
     padding: -0.0625em;
-  }
-  body.minimal div[role="main"] > .flash {
-    margin-bottom: 1.5em;
-  }
-  body.minimal div[role="main"] > .flash li {
-    margin: 0 0 0.375em;
-  }
-  body.minimal div[role="main"] > .flash .error {
-    background-color: #ffe5e5;
-  }
-  body.minimal div[role="main"] > .flash .success {
-    background-color: #ccffcc;
-  }
-  body.minimal div[role="main"] > .flash .warning {
-    background-color: #fff6e5;
   }
 
   /* @end */
@@ -1882,22 +1847,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 @media screen and (max-width: 980px) {
   body {
-    padding: 0 16.66667%;
+    padding: 0 8.33333%;
     height: intrinsic;
   }
 
   /* @group ---- Header ----- */
   header {
-    width: -webkit-calc(100% - 33.33333%);
-    width: calc(100% - 33.33333%);
+    width: -webkit-calc(100% - 16.66667%);
+    width: calc(100% - 16.66667%);
     float: none;
     text-align: center;
     position: fixed;
     top: 0;
-    left: 16.66667%;
+    left: 8.33333%;
     padding: 0;
-    background-color: #e7e7e7;
-    right: 16.66667%;
+    right: 8.33333%;
     z-index: 1000;
   }
   header .button {
@@ -1908,15 +1872,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     top: 0;
     z-index: 1001;
   }
-  header .icon-menu.button {
+  header .fa-menu.button {
     left: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.08);
     width: 2.25em;
   }
-  header .icon-search.button {
+  header .fa-search.button {
     left: 2.25em;
   }
-  header .icon-user.button {
+  header .fa-current-user.button {
     right: 0;
   }
 
@@ -1926,6 +1890,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     width: 100%;
     text-align: center;
     display: block;
+    background-color: #e7e7e7;
   }
 
   /* @end */
@@ -1935,6 +1900,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     min-height: -webkit-calc(100% - 4.5em);
     min-height: calc(100% - 4.5em);
     position: relative;
+    padding-top: 3.75em;
+  }
+  div[role="main"] > h1:first-of-type {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   #current-user,
@@ -1953,9 +1928,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   #current-user.active,
   #search.active {
     top: 2.25em;
-    left: 16.66667%;
+    left: 8.33333%;
     bottom: 0;
-    right: 16.66667%;
+    right: 8.33333%;
     background-color: #fff;
     width: intrinsic;
     margin: 0;

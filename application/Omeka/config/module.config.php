@@ -98,7 +98,7 @@ return array(
         'default' => array(
             array(
                 'label'      => 'Items',
-                'class'      => 'icon-items',
+                'class'      => 'fa-items',
                 'route'      => 'admin/default',
                 'controller' => 'item',
                 'action'     => 'browse',
@@ -106,7 +106,7 @@ return array(
             ),
             array(
                 'label'      => 'Item Sets',
-                'class'      => 'icon-item-sets',
+                'class'      => 'fa-item-set',
                 'route'      => 'admin/default',
                 'controller' => 'item-set',
                 'action'     => 'browse',
@@ -114,7 +114,7 @@ return array(
             ),
             array(
                 'label'      => 'Vocabularies',
-                'class'      => 'icon-vocabularies',
+                'class'      => 'fa-vocab',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
                 'action'     => 'browse',
@@ -122,7 +122,7 @@ return array(
             ),
             array(
                 'label'      => 'Modules',
-                'class'      => 'icon-modules',
+                'class'      => 'fa-module',
                 'route'      => 'admin/default',
                 'controller' => 'module',
                 'action'     => 'browse',
@@ -130,7 +130,7 @@ return array(
             ),
             array(
                 'label'      => 'Users',
-                'class'      => 'icon-users',
+                'class'      => 'fa-users',
                 'route'      => 'admin/default',
                 'controller' => 'user',
                 'action'     => 'browse',
@@ -138,7 +138,7 @@ return array(
             ),
             array(
                 'label'      => 'Sites',
-                'class'      => 'icon-sites',
+                'class'      => 'fa-site',
                 'route'      => 'admin/site',
                 'controller' => 'site',
                 'action'     => 'browse',
@@ -146,7 +146,7 @@ return array(
             ),
             array(
                 'label'      => 'Settings',
-                'class'      => 'icon-settings',
+                'class'      => 'fa-settings',
                 'route'      => 'admin/default',
                 'controller' => 'setting',
                 'action'     => 'browse',

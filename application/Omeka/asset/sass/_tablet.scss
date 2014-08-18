@@ -1,20 +1,19 @@
 body {
-    padding: 0 gutter(1);
+    padding: 0 gutter(2);
     height: intrinsic;
 }
 
 /* @group ---- Header ----- */
 
 header {
-    @include calc('width', '100% - ' + (2 * gutter(1)));
+    @include calc('width', '100% - ' + (2 * gutter(2)));
     float: none;
     text-align: center;
     position: fixed;
     top: 0;
-    left: gutter(1);
+    left: gutter(2);
     padding: 0;
-    background-color: #e7e7e7;
-    right: gutter(1);
+    right: gutter(2);
     z-index: 1000;
     
     .button {
@@ -24,17 +23,17 @@ header {
         z-index: 1001;
     }
     
-    .icon-menu.button {
+    .fa-menu.button {
         left: 0;
         border-right: 1px solid rgba(0,0,0,.08);
         width: rhythm(1.5);
     }
     
-    .icon-search.button {
+    .fa-search.button {
         left: rhythm(1.5);
     }
     
-    .icon-user.button {
+    .fa-current-user.button {
         right: 0;
     }
 }
@@ -45,6 +44,7 @@ header {
     width: 100%;
     text-align: center;
     display: block;
+    background-color: #e7e7e7;
 }
 
 /* @end */
@@ -54,6 +54,17 @@ div[role="main"] {
     width: 100%;
     @include calc('min-height', '100% - ' + rhythm(3));
     position: relative;
+    padding-top: rhythm(2.5);
+    
+    & > h1:first-of-type {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 #current-user,
@@ -72,9 +83,9 @@ footer {
 #current-user.active,
 #search.active {
     top: rhythm(1.5);
-    left: gutter(1);
+    left: gutter(2);
     bottom: 0;
-    right: gutter(1);
+    right: gutter(2);
     background-color: #fff;
     width: intrinsic;
     margin: 0;

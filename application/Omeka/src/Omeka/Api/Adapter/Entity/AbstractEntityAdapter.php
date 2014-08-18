@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
@@ -40,23 +41,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ));
         $this->getEventManager()->trigger($event);
 
-        // Get total results.
-        $qbTotalResults = clone $qb;
-        $qbTotalResults->select(
-            $qbTotalResults->expr()->count("$entityClass.id")
-        );
-        $totalResults = $qbTotalResults->getQuery()->getSingleScalarResult();
-
-        // Finish building the search query and get the results.
+        // Finish building the search query and get the representations.
         $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
+        $paginator = new Paginator($qb);
         $representations = array();
-        foreach ($qb->getQuery()->iterate() as $row) {
-            $representations[] = $this->getRepresentation($row[0]->getId(), $row[0]);
+        foreach ($paginator as $entity) {
+            $representations[] = $this->getRepresentation($entity->getId(), $entity);
         }
 
         $response = new Response($representations);
-        $response->setTotalResults($totalResults);
+        $response->setTotalResults($paginator->count());
         return $response;
     }
 

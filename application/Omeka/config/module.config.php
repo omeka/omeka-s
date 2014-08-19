@@ -63,6 +63,7 @@ return array(
             'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
+            'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
         ),
     ),
     'view_manager' => array(

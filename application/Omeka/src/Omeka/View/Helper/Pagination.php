@@ -17,19 +17,25 @@ class Pagination extends AbstractHelper
     protected $options;
 
     /**
+     * The total record count
+     *
      * @var int
      */
     protected $totalCount = 0;
 
     /**
-     * @var int
-     */
-    protected $perPage = 25;
-
-    /**
+     * The current page number
+     *
      * @var int
      */
     protected $page = 1;
+
+    /**
+     * The number of records per page
+     *
+     * @var int
+     */
+    protected $perPage = 25;
 
     /**
      * Construct the helper.
@@ -48,17 +54,19 @@ class Pagination extends AbstractHelper
     /**
      * Configure the pagination.
      *
-     * @param int $totalCount The total count
-     * @param int $page The current page
-     * @param int $perPage The count per page
+     * @param int|null $totalCount The total record count
+     * @param int|null $page The current page number
+     * @param int|null $perPage The number of records per page
      * @return self
      */
     public function __invoke($totalCount = null, $page = null, $perPage = null)
     {
         if (null !== $totalCount) {
+            // Cast to a zero or positive integer
             $this->totalCount = abs((int) $totalCount);
         }
         if (null !== $page) {
+            // Cast to a non-zero positive integer
             $page = abs((int) $page);
             if (1 > $page) {
                 $page = 1;
@@ -66,27 +74,38 @@ class Pagination extends AbstractHelper
             $this->page = $page;
         }
         if (null !== $perPage) {
-            $this->perPage = abs((int) $perPage);
+            // Cast to a non-zero positive integer
+            $perPage = abs((int) $perPage);
+            if (1 > $perPage) {
+                $perPage = 1;
+            }
+            $this->perPage = $perPage;
         }
         return $this;
     }
 
     /**
-     * Render the pagination.
+     * Render the pagination markup.
      *
      * @return string
      */
     public function __toString()
     {
+        // Page count
         $pageCount = ceil($this->totalCount / $this->perPage);
 
-        // previous page number
+        // Page cannot be more than page count
+        if ($this->page > $pageCount) {
+            $this->page = $pageCount;
+        }
+
+        // Previous page number
         $previous = null;
         if ($this->page - 1 > 0) {
             $previous = $this->page - 1;
         }
 
-        // next page number
+        // Pext page number
         $next = null;
         if ($this->page + 1 <= $pageCount) {
             $next = $this->page + 1;
@@ -95,7 +114,7 @@ class Pagination extends AbstractHelper
         $output = '
         <nav class="pagination" role="navigation">
             <form>
-                <input type="text" name="page-input-top" id="page-input-top" value="' . $this->page . '" size="4">
+                <input type="text" name="page" id="page-input-top" value="' . $this->page . '" size="4">
                 <span class="page-count">of ' . $pageCount . '</span>
             </form>';
         if ($this->page != 1) {

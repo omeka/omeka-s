@@ -150,16 +150,8 @@ class Pagination extends AbstractHelper
      */
     protected function getUrl($page)
     {
-        return $this->getView()->url(
-            null,
-            array(),
-            array(
-                'query' => array_merge(
-                    $this->request->getQuery()->toArray(),
-                    array('page' => (int) $page)
-                )
-            ),
-            true
-        );
+        $query = $this->request->getQuery()->toArray();
+        $query['page'] = (int) $page;
+        return $this->getView()->url(null, array(), array('query' => $query), true);
     }
 }

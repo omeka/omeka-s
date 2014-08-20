@@ -105,7 +105,7 @@ class Pagination extends AbstractHelper
     public function __toString()
     {
         // Page count
-        $pageCount = ceil($this->totalCount / $this->perPage);
+        $pageCount = (int) ceil($this->totalCount / $this->perPage);
 
         // Current page number cannot be more than page count
         if ($this->currentPage > $pageCount) {

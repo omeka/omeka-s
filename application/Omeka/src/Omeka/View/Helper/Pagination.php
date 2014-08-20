@@ -62,21 +62,22 @@ class Pagination extends AbstractHelper
     public function __invoke($totalCount = null, $page = null, $perPage = null)
     {
         if (null !== $totalCount) {
-            // Cast to a zero or positive integer
-            $this->totalCount = abs((int) $totalCount);
+            $totalCount = (int) $totalCount;
+            if ($totalCount < 0) {
+                $totalCount = 0;
+            }
+            $this->totalCount = $totalCount;
         }
         if (null !== $page) {
-            // Cast to a non-zero positive integer
-            $page = abs((int) $page);
-            if (1 > $page) {
+            $page = (int) $page;
+            if ($page < 1) {
                 $page = 1;
             }
             $this->page = $page;
         }
         if (null !== $perPage) {
-            // Cast to a non-zero positive integer
-            $perPage = abs((int) $perPage);
-            if (1 > $perPage) {
+            $perPage = (int) $perPage;
+            if ($perPage < 1) {
                 $perPage = 1;
             }
             $this->perPage = $perPage;
@@ -105,32 +106,25 @@ class Pagination extends AbstractHelper
             $previous = $this->page - 1;
         }
 
-        // Pext page number
+        // Next page number
         $next = null;
         if ($this->page + 1 <= $pageCount) {
             $next = $this->page + 1;
         }
 
-        $output = '
-        <nav class="pagination" role="navigation">
-            <form>
-                <input type="text" name="page" id="page-input-top" value="' . $this->page . '" size="4">
-                <span class="page-count">of ' . $pageCount . '</span>
-            </form>';
-        if ($this->page != 1) {
-            $output .= '<a href="' . $this->getUrl(1) . '" class="first fa-angle-double-left button"><span class="screen-reader-text">First</span></a> ';
-        }
-        if ($this->page != 1) {
-            $output .= '<a href="' . $this->getUrl($previous) . '" class="previous fa-angle-left button"><span class="screen-reader-text">Previous</span></a> ';
-        }
-        if ($this->page < $pageCount) {
-            $output .= '<a href="' . $this->getUrl($next) . '" class="next fa-angle-right button"><span class="screen-reader-text">Next</span></a> ';
-        }
-        if ($this->page < $pageCount) {
-            $output .= '<a href="' . $this->getUrl($pageCount) . '" class="last fa-angle-double-right button"><span class="screen-reader-text">Last</span></a>';
-        }
-        $output .= '</nav>';
-        return $output;
+        return $this->getView()->partial(
+            'common/pagination',
+            array(
+                'pageCount'       => $pageCount,
+                'currentPage'     => $this->page,
+                'previousPage'    => $previous,
+                'nextPage'        => $next,
+                'firstPageUrl'    => $this->getUrl(1),
+                'previousPageUrl' => $this->getUrl($previous),
+                'nextPageUrl'     => $this->getUrl($next),
+                'lastPageUrl'     => $this->getUrl($pageCount),
+            )
+        );
     }
 
     /**

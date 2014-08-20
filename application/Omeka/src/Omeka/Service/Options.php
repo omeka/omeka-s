@@ -83,7 +83,7 @@ class Options implements ServiceLocatorAwareInterface
      * @param string $id
      * @return mixed
      */
-    public function get($id)
+    public function get($id, $default = null)
     {
         if (null === $this->options) {
             // Cache options if not already cached
@@ -91,8 +91,8 @@ class Options implements ServiceLocatorAwareInterface
         }
 
         if (!$this->exists($id)) {
-            // Option does not exist, return null
-            return null;
+            // Option does not exist, return default
+            return $default;
         }
 
         return $this->options[$id];

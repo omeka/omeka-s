@@ -1,17 +1,1 @@
-<h1>Browse Items</h1>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($items as $item): ?>
-        <tr>
-            <td><?php echo $item->getId(); ?></td>
-            <td><?php echo $item->getValue('dcterms:title', array('default' => '[no title]')); ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+<?php echo $this->pagination(); ?>

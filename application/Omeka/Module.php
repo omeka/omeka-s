@@ -6,6 +6,7 @@ use Omeka\Module\AbstractModule;
 use Omeka\View\Helper\Api;
 use Omeka\View\Helper\AssetUrl;
 use Omeka\View\Helper\Media;
+use Omeka\View\Helper\Pagination;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 
@@ -33,6 +34,10 @@ class Module extends AbstractModule
         $viewHelperManager->setFactory('Media',
             function ($helperPluginManager) use ($serviceManager) {
                 return new Media($serviceManager);
+            });
+        $viewHelperManager->setFactory('Pagination',
+            function ($helperPluginManager) use ($serviceManager) {
+                return new Pagination($serviceManager);
             });
 
         // Set the ACL to navigation.

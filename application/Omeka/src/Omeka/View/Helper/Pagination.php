@@ -28,7 +28,7 @@ class Pagination extends AbstractHelper
      *
      * @var int
      */
-    protected $page = 1;
+    protected $currentPage = 1;
 
     /**
      * The number of records per page
@@ -36,6 +36,13 @@ class Pagination extends AbstractHelper
      * @var int
      */
     protected $perPage = 25;
+
+    /**
+     * Name of view script, or a view model
+     *
+     * @var string|\Zend\View\Model\ModelInterface
+     */
+    protected $name = 'common/pagination';
 
     /**
      * Construct the helper.
@@ -55,12 +62,14 @@ class Pagination extends AbstractHelper
      * Configure the pagination.
      *
      * @param int|null $totalCount The total record count
-     * @param int|null $page The current page number
+     * @param int|null $currentPage The current page number
      * @param int|null $perPage The number of records per page
+     * @param string|null $name Name of view script, or a view model
      * @return self
      */
-    public function __invoke($totalCount = null, $page = null, $perPage = null)
-    {
+    public function __invoke($totalCount = null, $currentPage = null,
+        $perPage = null, $name = null
+    ) {
         if (null !== $totalCount) {
             $totalCount = (int) $totalCount;
             if ($totalCount < 0) {
@@ -68,12 +77,12 @@ class Pagination extends AbstractHelper
             }
             $this->totalCount = $totalCount;
         }
-        if (null !== $page) {
-            $page = (int) $page;
-            if ($page < 1) {
-                $page = 1;
+        if (null !== $currentPage) {
+            $currentPage = (int) $currentPage;
+            if ($currentPage < 1) {
+                $currentPage = 1;
             }
-            $this->page = $page;
+            $this->currentPage = $currentPage;
         }
         if (null !== $perPage) {
             $perPage = (int) $perPage;
@@ -81,6 +90,9 @@ class Pagination extends AbstractHelper
                 $perPage = 1;
             }
             $this->perPage = $perPage;
+        }
+        if (null !== $name) {
+            $this->name = $name;
         }
         return $this;
     }
@@ -95,33 +107,36 @@ class Pagination extends AbstractHelper
         // Page count
         $pageCount = ceil($this->totalCount / $this->perPage);
 
-        // Page cannot be more than page count
-        if ($this->page > $pageCount) {
-            $this->page = $pageCount;
+        // Current page number cannot be more than page count
+        if ($this->currentPage > $pageCount) {
+            $this->currentPage = $pageCount;
         }
 
         // Previous page number
-        $previous = null;
-        if ($this->page - 1 > 0) {
-            $previous = $this->page - 1;
+        $previousPage = null;
+        if ($this->currentPage - 1 > 0) {
+            $previousPage = $this->currentPage - 1;
         }
 
         // Next page number
-        $next = null;
-        if ($this->page + 1 <= $pageCount) {
-            $next = $this->page + 1;
+        $nextPage = null;
+        if ($this->currentPage + 1 <= $pageCount) {
+            $nextPage = $this->currentPage + 1;
         }
 
         return $this->getView()->partial(
-            'common/pagination',
+            $this->name,
             array(
+                'totalCount'      => $this->totalCount,
+                'perPage'         => $this->perPage,
+                'currentPage'     => $this->currentPage,
+                'previousPage'    => $previousPage,
+                'nextPage'        => $nextPage,
                 'pageCount'       => $pageCount,
-                'currentPage'     => $this->page,
-                'previousPage'    => $previous,
-                'nextPage'        => $next,
+                'query'           => $this->request->getQuery()->toArray(),
                 'firstPageUrl'    => $this->getUrl(1),
-                'previousPageUrl' => $this->getUrl($previous),
-                'nextPageUrl'     => $this->getUrl($next),
+                'previousPageUrl' => $this->getUrl($previousPage),
+                'nextPageUrl'     => $this->getUrl($nextPage),
                 'lastPageUrl'     => $this->getUrl($pageCount),
             )
         );
@@ -135,8 +150,8 @@ class Pagination extends AbstractHelper
      */
     protected function getUrl($page)
     {
-        $url = $this->getView()->url(
-            'admin/default',
+        return $this->getView()->url(
+            null,
             array(),
             array(
                 'query' => array_merge(
@@ -146,6 +161,5 @@ class Pagination extends AbstractHelper
             ),
             true
         );
-        return $this->getView()->escapeHtmlAttr($url);
     }
 }

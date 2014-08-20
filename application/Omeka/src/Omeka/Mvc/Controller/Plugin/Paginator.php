@@ -5,12 +5,13 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 class Paginator extends AbstractPlugin
 {
-    public function __invoke($totalCount, $page, $perPage = null)
-    {
+    public function __invoke($totalCount, $currentPage, $perPage = null,
+        $name = null
+    ) {
         $pagination = $this->getController()
             ->getServiceLocator()
             ->get('ViewHelperManager')
             ->get('pagination');
-        $pagination($totalCount, $page, $perPage);
+        $pagination($totalCount, $currentPage, $perPage, $name);
     }
 }

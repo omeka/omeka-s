@@ -18,13 +18,11 @@ class ItemController extends AbstractActionController
     public function browseAction()
     {
         $view = new ViewModel;
-        $response = $this->api()->search('items', array('limit' => 2));
+        $page = $this->params()->fromQuery('page', 1);
+        $response = $this->api()->search('items', array('page' => $page));
         $items = $response->getContent();
 
-        $this->paginator(
-            $response->getTotalResults(),
-            $this->params()->fromQuery('page', 1)
-        );
+        $this->paginator($response->getTotalResults(), $page);
 
         $view->setVariable('items', $items);
         return $view;

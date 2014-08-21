@@ -12,30 +12,9 @@ class Pagination extends AbstractHelper
     protected $request;
 
     /**
-     * @var \Omeka\Service\Options
+     * @var \Omeka\Service\Pagination
      */
-    protected $options;
-
-    /**
-     * The total record count
-     *
-     * @var int
-     */
-    protected $totalCount = 0;
-
-    /**
-     * The current page number
-     *
-     * @var int
-     */
-    protected $currentPage = 1;
-
-    /**
-     * The number of records per page
-     *
-     * @var int
-     */
-    protected $perPage = 25;
+    protected $pagination;
 
     /**
      * Name of view script, or a view model
@@ -52,10 +31,7 @@ class Pagination extends AbstractHelper
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->request = $serviceLocator->get('Request');
-        $this->options = $serviceLocator->get('Omeka\Options');
-        $this->perPage = $this->options->get(
-            'pagination_per_page', $this->perPage
-        );
+        $this->pagination = $serviceLocator->get('Omeka\Pagination');
     }
 
     /**
@@ -71,25 +47,13 @@ class Pagination extends AbstractHelper
         $perPage = null, $name = null
     ) {
         if (null !== $totalCount) {
-            $totalCount = (int) $totalCount;
-            if ($totalCount < 0) {
-                $totalCount = 0;
-            }
-            $this->totalCount = $totalCount;
+            $this->getPagination()->setTotalCount($totalCount);
         }
         if (null !== $currentPage) {
-            $currentPage = (int) $currentPage;
-            if ($currentPage < 1) {
-                $currentPage = 1;
-            }
-            $this->currentPage = $currentPage;
+            $this->getPagination()->setCurrentPage($currentPage);
         }
         if (null !== $perPage) {
-            $perPage = (int) $perPage;
-            if ($perPage < 1) {
-                $perPage = 1;
-            }
-            $this->perPage = $perPage;
+            $this->getPagination()->setPerPage($perPage);
         }
         if (null !== $name) {
             $this->name = $name;
@@ -104,42 +68,37 @@ class Pagination extends AbstractHelper
      */
     public function __toString()
     {
+        $pagination = $this->getPagination();
+
         // Page count
-        $pageCount = (int) ceil($this->totalCount / $this->perPage);
+        $pageCount = $pagination->getPageCount();
 
         // Current page number cannot be more than page count
-        if ($this->currentPage > $pageCount) {
-            $this->currentPage = $pageCount;
-        }
-
-        // Previous page number
-        $previousPage = null;
-        if ($this->currentPage - 1 > 0) {
-            $previousPage = $this->currentPage - 1;
-        }
-
-        // Next page number
-        $nextPage = null;
-        if ($this->currentPage + 1 <= $pageCount) {
-            $nextPage = $this->currentPage + 1;
+        if ($pagination->getCurrentPage() > $pageCount) {
+            $pagination->setCurrentPage($pageCount);
         }
 
         return $this->getView()->partial(
             $this->name,
             array(
-                'totalCount'      => $this->totalCount,
-                'perPage'         => $this->perPage,
-                'currentPage'     => $this->currentPage,
-                'previousPage'    => $previousPage,
-                'nextPage'        => $nextPage,
+                'totalCount'      => $pagination->getTotalCount(),
+                'perPage'         => $pagination->getPerPage(),
+                'currentPage'     => $pagination->getCurrentPage(),
+                'previousPage'    => $pagination->getPreviousPage(),
+                'nextPage'        => $pagination->getNextPage(),
                 'pageCount'       => $pageCount,
                 'query'           => $this->request->getQuery()->toArray(),
                 'firstPageUrl'    => $this->getUrl(1),
-                'previousPageUrl' => $this->getUrl($previousPage),
-                'nextPageUrl'     => $this->getUrl($nextPage),
+                'previousPageUrl' => $this->getUrl($pagination->getPreviousPage()),
+                'nextPageUrl'     => $this->getUrl($pagination->getNextPage()),
                 'lastPageUrl'     => $this->getUrl($pageCount),
             )
         );
+    }
+
+    protected function getPagination()
+    {
+        return $this->pagination;
     }
 
     /**

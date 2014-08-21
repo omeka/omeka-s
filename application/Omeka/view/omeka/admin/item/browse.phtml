@@ -1,1 +1,60 @@
+<?php $this->htmlElement('body')->appendAttribute('class', 'items browse'); ?>
+<h1>Items</h1>
+
+<div id="page-actions">
+    <a href="<?php echo $this->url(null, array('action' => 'add'), true); ?>" class="button">Add new item</a>
+</div>
+
 <?php echo $this->pagination(); ?>
+
+<a href="batch-edit" class="batch-edit button">Batch edit selected</a>
+
+<table id="items-list">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all">Select all</label></th>
+            <th>Title <a href="#" class="fa-caret-down"><span class="screen-reader-text">Sort by name</span></a></th>
+            <th>Class <a href="#" class="fa-caret-down"><span class="screen-reader-text">Sort by type</span></a></th>
+            <th>Date Added <a href="#" class="fa-caret-up"><span class="screen-reader-text">Sort by date added (descending)</span></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($items as $item): ?>
+        <?php
+        $title = $item->getValue(
+            'dcterms:title',
+            array(
+                'type' => 'literal',
+                'default' => '[untitled]'
+            )
+        );
+        $class = $item->getResourceClass();
+        $classLabel = $class ? $class->getLabel() : '';
+        ?>
+        <tr>
+            <td><input type="checkbox" id="row-1"><label class="screen-reader-text" for="row-1">Select row</label></td>
+            <td>
+                <span class="record-name"><a href="#"><?php echo $title; ?></a></span>
+                <ul class="actions">
+                    <li><a href="#" class="fa-pencil"><span class="screen-reader-text">Edit</span></a></li>
+                    <li><a href="#" class="fa-ellipsis-h"><span class="screen-reader-text">Details</span></a></li>
+                    <li><a href="#" class="fa-trash-o"><span class="screen-reader-text">Delete</span></a></li>
+                </ul>
+            </td>
+            <td><?php echo $classLabel; ?></td>
+            <td><?php echo $item->getCreated()->format('M j, Y'); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="overlay"></div>
+
+<div class="modal">
+    <div class="modal-header">
+        <a href="#" class="closeBtn fa-times"><span class="screen-reader-text">Close Me</span></a>
+        <h1></h1>
+    </div>
+    <div class="modal-content">
+    </div>
+</div>

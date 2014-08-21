@@ -139,7 +139,7 @@ class Pagination implements ServiceLocatorAwareInterface
      */
     public function getPageCount()
     {
-        return $pageCount = (int) ceil($this->totalCount / $this->perPage);
+        return (int) ceil($this->totalCount / $this->perPage);
     }
 
     /**

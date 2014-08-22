@@ -32,7 +32,7 @@ return array(
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Options'             => 'Omeka\Service\Options',
-            'Omeka\Pagination'          => 'Omeka\Service\Pagination',
+            'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
@@ -40,7 +40,7 @@ return array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
         'shared' => array(
-            'Omeka\Pagination' => false,
+            'Omeka\Paginator' => false,
         ),
     ),
     'listeners' => array(

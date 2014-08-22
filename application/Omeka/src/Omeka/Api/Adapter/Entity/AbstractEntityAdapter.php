@@ -345,13 +345,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected function setLimitAndOffset(array $query, QueryBuilder $qb)
     {
         if (isset($query['page'])) {
-            $pagination = $this->getServiceLocator()->get('Omeka\Pagination');
-            $pagination->setCurrentPage($query['page']);
+            $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
+            $paginator->setCurrentPage($query['page']);
             if (isset($query['per_page'])) {
-                $pagination->setPerPage($query['per_page']);
+                $paginator->setPerPage($query['per_page']);
             }
-            $qb->setMaxResults($pagination->getPerPage());
-            $qb->setFirstResult($pagination->getOffset());
+            $qb->setMaxResults($paginator->getPerPage());
+            $qb->setFirstResult($paginator->getOffset());
             return;
         }
         if (isset($query['limit'])) {

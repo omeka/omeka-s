@@ -30,39 +30,39 @@ class PaginationTest extends TestCase
             ->will($this->returnValue($query));
 
         // Omeka\Pagination
-        $pagination = $this->getMock('Omeka\Service\Pagination');
-        $pagination->expects($this->any())
+        $paginator = $this->getMock('Omeka\Service\Paginator');
+        $paginator->expects($this->any())
             ->method('setTotalCount')
             ->with($this->equalTo($totalCount));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('setCurrentPage')
             ->with($this->equalTo($currentPage));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('setPerPage')
             ->with($this->equalTo($perPage));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getPageCount')
             ->will($this->returnValue($pageCount));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getTotalCount')
             ->will($this->returnValue($totalCount));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getPerPage')
             ->will($this->returnValue($perPage));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getCurrentPage')
             ->will($this->returnValue($currentPage));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getPreviousPage')
             ->will($this->returnValue($previousPage));
-        $pagination->expects($this->any())
+        $paginator->expects($this->any())
             ->method('getNextPage')
             ->will($this->returnValue($nextPage));
 
         // ServiceManager
         $serviceManager = $this->getServiceManager(array(
             'Request' => $request,
-            'Omeka\Pagination' => $pagination,
+            'Omeka\Paginator' => $paginator,
         ));
 
         // View

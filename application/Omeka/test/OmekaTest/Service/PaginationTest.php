@@ -1,10 +1,10 @@
 <?php
 namespace OmekaTest\Service;
 
-use Omeka\Service\Pagination;
+use Omeka\Service\Paginator;
 use Omeka\Test\TestCase;
 
-class PaginationTest extends TestCase
+class PaginatorTest extends TestCase
 {
     public function testSetServiceLocator()
     {
@@ -19,87 +19,87 @@ class PaginationTest extends TestCase
             'Omeka\Options' => $options,
         ));
 
-        $pagination = new Pagination;
-        $pagination->setServiceLocator($serviceManager);
-        $this->assertEquals($perPage, $pagination->getPerPage());
-        $this->assertSame($serviceManager, $pagination->getServiceLocator());
+        $paginator = new Paginator;
+        $paginator->setServiceLocator($serviceManager);
+        $this->assertEquals($perPage, $paginator->getPerPage());
+        $this->assertSame($serviceManager, $paginator->getServiceLocator());
     }
 
     public function testSetCurrentPage()
     {
-        $pagination = new Pagination;
+        $paginator = new Paginator;
 
-        $return = $pagination->setCurrentPage(10);
-        $this->assertSame($pagination, $return);
-        $this->assertEquals(10, $pagination->getCurrentPage());
+        $return = $paginator->setCurrentPage(10);
+        $this->assertSame($paginator, $return);
+        $this->assertEquals(10, $paginator->getCurrentPage());
 
-        $pagination->setCurrentPage(0);
-        $this->assertEquals(1, $pagination->getCurrentPage());
+        $paginator->setCurrentPage(0);
+        $this->assertEquals(1, $paginator->getCurrentPage());
     }
 
     public function testSetPerPage()
     {
-        $pagination = new Pagination;
+        $paginator = new Paginator;
 
-        $return = $pagination->setPerPage(10);
-        $this->assertSame($pagination, $return);
-        $this->assertEquals(10, $pagination->getPerPage());
+        $return = $paginator->setPerPage(10);
+        $this->assertSame($paginator, $return);
+        $this->assertEquals(10, $paginator->getPerPage());
 
-        $pagination->setPerPage(0);
-        $this->assertEquals(1, $pagination->getPerPage());
+        $paginator->setPerPage(0);
+        $this->assertEquals(1, $paginator->getPerPage());
     }
 
     public function testSetTotalCount()
     {
-        $pagination = new Pagination;
+        $paginator = new Paginator;
 
-        $return = $pagination->setTotalCount(10);
-        $this->assertSame($pagination, $return);
-        $this->assertEquals(10, $pagination->getTotalCount());
+        $return = $paginator->setTotalCount(10);
+        $this->assertSame($paginator, $return);
+        $this->assertEquals(10, $paginator->getTotalCount());
 
-        $pagination->setTotalCount(-1);
-        $this->assertEquals(0, $pagination->getTotalCount());
+        $paginator->setTotalCount(-1);
+        $this->assertEquals(0, $paginator->getTotalCount());
     }
 
     public function testGetOffset()
     {
-        $pagination = new Pagination;
-        $pagination->setPerPage(10)
+        $paginator = new Paginator;
+        $paginator->setPerPage(10)
             ->setCurrentPage(5);
-        $this->assertEquals(40, $pagination->getOffset());
+        $this->assertEquals(40, $paginator->getOffset());
     }
 
     public function testGetPageCount()
     {
-        $pagination = new Pagination;
-        $pagination->setPerPage(10)
+        $paginator = new Paginator;
+        $paginator->setPerPage(10)
             ->setTotalCount(50);
-        $this->assertEquals(5, $pagination->getPageCount());
+        $this->assertEquals(5, $paginator->getPageCount());
     }
 
     public function testGetPreviousPage()
     {
-        $pagination = new Pagination;
+        $paginator = new Paginator;
 
-        $pagination->setCurrentPage(5);
-        $this->assertEquals(4, $pagination->getPreviousPage());
+        $paginator->setCurrentPage(5);
+        $this->assertEquals(4, $paginator->getPreviousPage());
 
-        $pagination->setCurrentPage(1);
-        $this->assertNull($pagination->getPreviousPage());
+        $paginator->setCurrentPage(1);
+        $this->assertNull($paginator->getPreviousPage());
     }
 
     public function testGetNextPage()
     {
-        $pagination = new Pagination;
+        $paginator = new Paginator;
 
-        $pagination->setCurrentPage(1)
+        $paginator->setCurrentPage(1)
             ->setTotalCount(50)
             ->setPerPage(10);
-        $this->assertEquals(2, $pagination->getNextPage());
+        $this->assertEquals(2, $paginator->getNextPage());
 
-        $pagination->setCurrentPage(5)
+        $paginator->setCurrentPage(5)
             ->setTotalCount(50)
             ->setPerPage(10);
-        $this->assertNull($pagination->getNextPage());
+        $this->assertNull($paginator->getNextPage());
     }
 }

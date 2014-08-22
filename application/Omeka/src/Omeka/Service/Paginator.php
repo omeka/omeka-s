@@ -4,7 +4,10 @@ namespace Omeka\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Pagination implements ServiceLocatorAwareInterface
+/**
+ * Class for performing pagination calculations.
+ */
+class Paginator implements ServiceLocatorAwareInterface
 {
     /**
      * The default current page.

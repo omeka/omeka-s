@@ -32,11 +32,15 @@ return array(
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Options'             => 'Omeka\Service\Options',
+            'Omeka\Pagination'          => 'Omeka\Service\Pagination',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
+        ),
+        'shared' => array(
+            'Omeka\Pagination' => false,
         ),
     ),
     'listeners' => array(
@@ -170,6 +174,7 @@ return array(
             'Omeka\Installation\Task\InstallDefaultVocabularyTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
+            'Omeka\Installation\Task\AddDefaultOptionsTask',
         ),
     ),
     'translator' => array(

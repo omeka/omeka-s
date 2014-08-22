@@ -2,7 +2,7 @@
 <h1>Items</h1>
 
 <div id="page-actions">
-    <a href="<?php echo $this->url(null, array('action' => 'add'), true); ?>" class="button">Add new item</a>
+    <a href="<?php echo $this->escapeHtmlAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button">Add new item</a>
 </div>
 
 <?php echo $this->pagination(); ?>
@@ -34,15 +34,15 @@
         <tr>
             <td><input type="checkbox" id="row-1"><label class="screen-reader-text" for="row-1">Select row</label></td>
             <td>
-                <span class="record-name"><a href="#"><?php echo $title; ?></a></span>
+                <span class="record-name"><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('id' => $item->getId()), true)); ?>"><?php echo $this->escapeHtml($title); ?></a></span>
                 <ul class="actions">
-                    <li><a href="#" class="fa-pencil"><span class="screen-reader-text">Edit</span></a></li>
+                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url(null, array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="fa-pencil"><span class="screen-reader-text">Edit</span></a></li>
                     <li><a href="#" class="fa-ellipsis-h"><span class="screen-reader-text">Details</span></a></li>
                     <li><a href="#" class="fa-trash-o"><span class="screen-reader-text">Delete</span></a></li>
                 </ul>
             </td>
-            <td><?php echo $classLabel; ?></td>
-            <td><?php echo $item->getCreated()->format('M j, Y'); ?></td>
+            <td><?php echo $this->escapeHtml($classLabel); ?></td>
+            <td><?php echo $this->escapeHtml($item->getCreated()->format('M j, Y')); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

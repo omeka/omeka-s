@@ -8,11 +8,14 @@ class PaginationTest extends TestCase
 {
     public function testToString()
     {
-        $totalCount = 1000;
-        $currentPage = 50;
-        $perPage = 10;
-        $name = 'name';
-        $query = array('foo' => 'bar');
+        $totalCount   = 1000;
+        $currentPage  = 50;
+        $perPage      = 10;
+        $pageCount    = 100;
+        $previousPage = 49;
+        $nextPage     = 51;
+        $name         = 'name';
+        $query        = array('foo' => 'bar');
 
         // Request
         $request = $this->getMock(
@@ -26,17 +29,40 @@ class PaginationTest extends TestCase
             ->method('toArray')
             ->will($this->returnValue($query));
 
-        // Omeka\Options
-        $options = $this->getMock('Omeka\Service\Options');
-        $options->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('pagination_per_page'), $this->equalTo(25))
+        // Omeka\Pagination
+        $pagination = $this->getMock('Omeka\Service\Pagination');
+        $pagination->expects($this->any())
+            ->method('setTotalCount')
+            ->with($this->equalTo($totalCount));
+        $pagination->expects($this->any())
+            ->method('setCurrentPage')
+            ->with($this->equalTo($currentPage));
+        $pagination->expects($this->any())
+            ->method('setPerPage')
+            ->with($this->equalTo($perPage));
+        $pagination->expects($this->any())
+            ->method('getPageCount')
+            ->will($this->returnValue($pageCount));
+        $pagination->expects($this->any())
+            ->method('getTotalCount')
+            ->will($this->returnValue($totalCount));
+        $pagination->expects($this->any())
+            ->method('getPerPage')
             ->will($this->returnValue($perPage));
+        $pagination->expects($this->any())
+            ->method('getCurrentPage')
+            ->will($this->returnValue($currentPage));
+        $pagination->expects($this->any())
+            ->method('getPreviousPage')
+            ->will($this->returnValue($previousPage));
+        $pagination->expects($this->any())
+            ->method('getNextPage')
+            ->will($this->returnValue($nextPage));
 
         // ServiceManager
         $serviceManager = $this->getServiceManager(array(
             'Request' => $request,
-            'Omeka\Options' => $options,
+            'Omeka\Pagination' => $pagination,
         ));
 
         // View
@@ -51,13 +77,13 @@ class PaginationTest extends TestCase
             ->with(
                 $this->equalTo($name),
                 $this->equalTo(array(
-                    'totalCount'      => 1000,
-                    'perPage'         => 10,
-                    'currentPage'     => 50,
-                    'previousPage'    => 49,
-                    'nextPage'        => 51,
-                    'pageCount'       => 100,
-                    'query'           => array('foo' => 'bar'),
+                    'totalCount'      => $totalCount,
+                    'perPage'         => $perPage,
+                    'currentPage'     => $currentPage,
+                    'previousPage'    => $previousPage,
+                    'nextPage'        => $nextPage,
+                    'pageCount'       => $pageCount,
+                    'query'           => $query,
                     'firstPageUrl'    => null,
                     'previousPageUrl' => null,
                     'nextPageUrl'     => null,

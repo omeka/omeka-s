@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Form\UserForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -37,6 +38,47 @@ class UserController extends AbstractActionController
         } else {
             $view->setVariable('users', $response->getContent());
         }
+        return $view;
+    }
+
+    public function showAction()
+    {
+        $view = new ViewModel;
+        $form = new UserForm;
+
+        $id = $this->params('id');
+
+        $readResponse = $this->api()->read('users', $id);
+        if ($readResponse->isError()) {
+            $view->setVariable('errors', $response->getErrors());
+            return;
+        }
+        $user = $readResponse->getContent();
+        $data = $user->jsonSerialize();
+        $form->setData(array(
+            'username' => $data['o:username'],
+            'name' => $data['o:name'],
+            'email' => $data['o:email']
+        ));
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $data = array(
+                    'o:username' => $formData['username'],
+                    'o:name' => $formData['name'],
+                    'o:email' => $formData['email'],
+                );
+                $response = $this->api()->update('users', $id, $data);
+                $this->messenger()->addSuccess('User updated.');
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view->setVariable('user', $user);
+        $view->setVariable('form', $form);
         return $view;
     }
 }

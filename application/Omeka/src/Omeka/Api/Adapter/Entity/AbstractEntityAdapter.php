@@ -366,14 +366,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Add a simple where clause to query a field.
      *
      * @param QueryBuilder $qb
-     * @param string $whereField The field to query
+     * @param string $whereProperty The property to query
      * @param string $whereValue The value to query
      */
-    protected function andWhere(QueryBuilder $qb, $whereField, $whereValue)
+    protected function andWhere(QueryBuilder $qb, $whereProperty, $whereValue)
     {
         $qb->andWhere($qb->expr()->eq(
-            $this->getEntityClass() . ".$whereField", ":$whereField"
-        ))->setParameter($whereField, $whereValue);
+            $this->getEntityClass() . ".$whereProperty", ":$whereProperty"
+        ))->setParameter($whereProperty, $whereValue);
     }
 
     /**
@@ -381,46 +381,45 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * association.
      *
      * @param QueryBuilder $qb
-     * @param EntityAdapterInterface $targetEntityAdapter
-     * @param string $targetEntityField The target entity field on the root
-     * entity declaring the many-to-one association
-     * @param string $whereField The target entity field to query
+     * @param string $joinClass The class to join
+     * @param string $joinProperty The property in the root entity declaring the
+     * many-to-one association
+     * @param string $whereProperty The property in the joined class to query
      * @param string $whereValue The value to query
      */
-    protected function joinWhere(QueryBuilder $qb,
-        EntityAdapterInterface $targetEntityAdapter, $targetEntityField,
-        $whereField, $whereValue
+    protected function joinWhere(QueryBuilder $qb, $joinClass,
+        $joinProperty, $whereProperty, $whereValue
     ) {
-        $rootEntityClass = $this->getEntityClass();
-        $targetEntityClass = $targetEntityAdapter->getEntityClass();
-        $alias = "{$targetEntityField}_{$whereField}";
+        $join = $this->getEntityClass() . '.' . $joinProperty;
+        $alias = $joinProperty . '_' . $whereProperty;
 
-        // Get all joined entities from the query builder and check whether the
-        // target entity is already joined. A duplicate joined entity would
-        // raise an error when making the query.
-        $joinEntityClasses = array();
-        $joins = $qb->getDQLPart('join');
-        if (isset($joins[$rootEntityClass])) {
-            foreach ($joins[$rootEntityClass] as $join) {
-                $joinEntityClasses[] = $join->getJoin();
+        if (!$this->hasJoin($qb, $join)) {
+            $qb->innerJoin($join, $joinClass);
+        }
+
+        $qb->andWhere($qb->expr()->eq(
+            "$joinClass.$whereProperty", ":$alias"
+        ))->setParameter($alias, $whereValue);
+    }
+
+    /**
+     * Check whether the query builder already has a join condition.
+     *
+     * @param QueryBuilder $qb
+     * @param string The join to check against
+     * @return bool
+     */
+    protected function hasJoin(QueryBuilder $qb, $join)
+    {
+        $joinParts = $qb->getDQLPart('join');
+        if (!$joinParts) {
+            return false;
+        }
+        foreach (current($joinParts) as $joinPart) {
+            if ($join === $joinPart->getJoin()) {
+                return true;
             }
         }
-
-        if (!in_array($targetEntityClass, $joinEntityClasses)) {
-            $qb->addSelect($targetEntityClass)
-                ->innerJoin(
-                    $targetEntityClass,
-                    $targetEntityClass,
-                    Expr\Join::WITH,
-                    $qb->expr()->eq(
-                        "$rootEntityClass.$targetEntityField",
-                        "$targetEntityClass.id"
-                    )
-                );
-        }
-        $qb->andWhere($qb->expr()->eq(
-            "$targetEntityClass.$whereField",
-            ":$alias")
-        )->setParameter($alias, $whereValue);
+        return false;
     }
 }

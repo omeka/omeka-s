@@ -65,16 +65,16 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner_id'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\User', 'owner',
-                'id', $query['owner_id']);
+            $this->join($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\User',
+                'owner', 'id', $query['owner_id']);
         }
         if (isset($query['vocabulary_namespace_uri'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\Vocabulary', 'vocabulary',
-                'namespaceUri', $query['vocabulary_namespace_uri']);
+            $this->join($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
+                'vocabulary', 'namespaceUri', $query['vocabulary_namespace_uri']);
         }
         if (isset($query['vocabulary_id'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\Vocabulary', 'vocabulary',
-                'id', $query['vocabulary_id']);
+            $this->join($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
+                'vocabulary', 'id', $query['vocabulary_id']);
         }
         if (isset($query['local_name'])) {
             $this->andWhere($qb, 'localName', $query['local_name']);

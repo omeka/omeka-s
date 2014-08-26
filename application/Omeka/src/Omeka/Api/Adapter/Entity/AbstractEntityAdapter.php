@@ -3,7 +3,6 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
@@ -22,6 +21,13 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 abstract class AbstractEntityAdapter extends AbstractAdapter implements
     EntityAdapterInterface
 {
+    /**
+     * An index for query builder aliases to ensure uniqueness.
+     *
+     * @var int
+     */
+    protected $aliasIndex = 0;
+
     /**
      * {@inheritDoc}
      */
@@ -371,35 +377,55 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     protected function andWhere(QueryBuilder $qb, $whereProperty, $whereValue)
     {
+        $alias = $this->getAlias($whereProperty);
         $qb->andWhere($qb->expr()->eq(
-            $this->getEntityClass() . ".$whereProperty", ":$whereProperty"
-        ))->setParameter($whereProperty, $whereValue);
+            $this->getEntityClass() . ".$whereProperty", ":$alias"
+        ))->setParameter($alias, $whereValue);
     }
 
     /**
-     * Add a simple where clause (using inner join) to a query for a many-to-one
-     * association.
+     * Add a join condition (and optionally a where condition) to the query builder.
      *
      * @param QueryBuilder $qb
-     * @param string $joinClass The class to join
-     * @param string $joinProperty The property in the root entity declaring the
-     * many-to-one association
-     * @param string $whereProperty The property in the joined class to query
-     * @param string $whereValue The value to query
+     * @param string $joinFrom The fully qualified entity class name to join from
+     * @param string $joinTo The fully qualified entity class name to join to
+     * @param string $joinProperty The property in $joinFrom declaring the association
+     * @param string|null The property in $joinTo to query
+     * @param string|null The value to query
      */
-    protected function joinWhere(QueryBuilder $qb, $joinClass,
-        $joinProperty, $whereProperty, $whereValue
+    public function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty,
+        $whereProperty = null, $whereValue = null
     ) {
-        $join = $this->getEntityClass() . '.' . $joinProperty;
-        $alias = $joinProperty . '_' . $whereProperty;
+        $join = "$joinFrom.$joinProperty";
 
         if (!$this->hasJoin($qb, $join)) {
-            $qb->innerJoin($join, $joinClass);
+            $qb->innerJoin($join, $joinTo);
         }
 
-        $qb->andWhere($qb->expr()->eq(
-            "$joinClass.$whereProperty", ":$alias"
-        ))->setParameter($alias, $whereValue);
+        if (null !== $whereProperty) {
+            $alias = $this->getAlias($whereProperty, $joinProperty);
+            $qb->andWhere($qb->expr()->eq(
+                "$joinTo.$whereProperty", ":$alias"
+            ))->setParameter($alias, $whereValue);
+        }
+    }
+
+    /**
+     * Get a unique alias for a query builder where condition.
+     *
+     * @param string $whereProperty
+     * @param string|null $joinProperty
+     * @return string
+     */
+    public function getAlias($whereProperty, $joinProperty = null)
+    {
+        $alias = 'omeka_';
+        if ($joinProperty) {
+            $alias .=  $joinProperty . '_';
+        }
+        $alias .= $whereProperty . '_' . $this->aliasIndex;
+        $this->aliasIndex++;
+        return $alias;
     }
 
     /**

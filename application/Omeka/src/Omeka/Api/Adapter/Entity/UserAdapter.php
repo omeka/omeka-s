@@ -58,7 +58,7 @@ class UserAdapter extends AbstractEntityAdapter
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['username'])) {
-            $this->andWhere($qb, 'username', $query['username']);
+            $this->where($qb, 'username', $query['username']);
         }
     }
 

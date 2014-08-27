@@ -375,7 +375,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string $whereProperty The property to query
      * @param string $whereValue The value to query
      */
-    protected function andWhere(QueryBuilder $qb, $whereProperty, $whereValue)
+    protected function where(QueryBuilder $qb, $whereProperty, $whereValue)
     {
         $alias = $this->getAlias($whereProperty);
         $qb->andWhere($qb->expr()->eq(
@@ -384,30 +384,39 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Add a join condition (and optionally a where condition) to the query builder.
+     * Add a join condition to the query builder.
      *
      * @param QueryBuilder $qb
      * @param string $joinFrom The fully qualified entity class name to join from
      * @param string $joinTo The fully qualified entity class name to join to
      * @param string $joinProperty The property in $joinFrom declaring the association
-     * @param string|null The property in $joinTo to query
-     * @param string|null The value to query
      */
-    public function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty,
-        $whereProperty = null, $whereValue = null
-    ) {
+    public function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty)
+    {
         $join = "$joinFrom.$joinProperty";
-
         if (!$this->hasJoin($qb, $join)) {
             $qb->innerJoin($join, $joinTo);
         }
+    }
 
-        if (null !== $whereProperty) {
-            $alias = $this->getAlias($whereProperty, $joinProperty);
-            $qb->andWhere($qb->expr()->eq(
-                "$joinTo.$whereProperty", ":$alias"
-            ))->setParameter($alias, $whereValue);
-        }
+    /**
+     * Add join and where conditions to the query builder.
+     *
+     * @param QueryBuilder $qb
+     * @param string $joinFrom The fully qualified entity class name to join from
+     * @param string $joinTo The fully qualified entity class name to join to
+     * @param string $joinProperty The property in $joinFrom declaring the association
+     * @param string $whereProperty The property in $joinTo to query
+     * @param string $whereValue The value to query
+     */
+    public function joinWhere(QueryBuilder $qb, $joinFrom, $joinTo,
+        $joinProperty, $whereProperty, $whereValue
+    ) {
+        $this->join($qb, $joinFrom, $joinTo, $joinProperty);
+        $alias = $this->getAlias($whereProperty, $joinProperty);
+        $qb->andWhere($qb->expr()->eq(
+            "$joinTo.$whereProperty", ":$alias"
+        ))->setParameter($alias, $whereValue);
     }
 
     /**

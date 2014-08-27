@@ -90,14 +90,14 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function buildQuery(array $query, QueryBuilder $qb)
     {
         if (isset($query['owner_id'])) {
-            $this->join($qb, 'Omeka\Model\Entity\Vocabulary', 'Omeka\Model\Entity\User',
+            $this->joinWhere($qb, 'Omeka\Model\Entity\Vocabulary', 'Omeka\Model\Entity\User',
                 'owner', 'id', $query['owner_id']);
         }
         if (isset($query['namespace_uri'])) {
-            $this->andWhere($qb, 'namespaceUri', $query['namespace_uri']);
+            $this->where($qb, 'namespaceUri', $query['namespace_uri']);
         }
         if (isset($query['prefix'])) {
-            $this->andWhere($qb, 'prefix', $query['prefix']);
+            $this->where($qb, 'prefix', $query['prefix']);
         }
     }
 

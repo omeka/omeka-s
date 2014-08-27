@@ -191,7 +191,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 )
             );
         }
-
         $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
         return $url(
             'api/default',
@@ -391,7 +390,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string $joinTo The fully qualified entity class name to join to
      * @param string $joinProperty The property in $joinFrom declaring the association
      */
-    public function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty)
+    protected function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty)
     {
         $join = "$joinFrom.$joinProperty";
         if (!$this->hasJoin($qb, $join)) {
@@ -409,7 +408,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string $whereProperty The property in $joinTo to query
      * @param string $whereValue The value to query
      */
-    public function joinWhere(QueryBuilder $qb, $joinFrom, $joinTo,
+    protected function joinWhere(QueryBuilder $qb, $joinFrom, $joinTo,
         $joinProperty, $whereProperty, $whereValue
     ) {
         $this->join($qb, $joinFrom, $joinTo, $joinProperty);
@@ -426,7 +425,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string|null $joinProperty
      * @return string
      */
-    public function getAlias($whereProperty, $joinProperty = null)
+    protected function getAlias($whereProperty, $joinProperty = null)
     {
         $alias = 'omeka_';
         if ($joinProperty) {

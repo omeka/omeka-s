@@ -45,13 +45,11 @@ class UserController extends AbstractActionController
     {
         $view = new ViewModel;
         $form = new UserForm;
-
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
-        if ($readResponse->isError()) {
-            $view->setVariable('errors', $response->getErrors());
-            return;
+        if ($this->apiError($readResponse, $view)) {
+            return $view;
         }
         $user = $readResponse->getContent();
         $data = $user->jsonSerialize();
@@ -71,7 +69,9 @@ class UserController extends AbstractActionController
                     'o:email' => $formData['email'],
                 );
                 $response = $this->api()->update('users', $id, $data);
-                $this->messenger()->addSuccess('User updated.');
+                if (!$this->apiError($response, $view)) {
+                    $this->messenger()->addSuccess('User updated.');
+                }
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

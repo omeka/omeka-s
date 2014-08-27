@@ -40,10 +40,10 @@ interface EntityAdapterInterface
      * automatically.
      *
      * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
+     * @param QueryBuilder $qb
      * @param array $query
-     * @param QueryBuilder $queryBuilder
      */
-    public function buildQuery(array $query, QueryBuilder $queryBuilder);
+    public function buildQuery(QueryBuilder $qb, array $query);
 
     /**
      * Validate an entity.

@@ -55,7 +55,7 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function buildQuery(array $query, QueryBuilder $qb)
+    public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['username'])) {
             $this->where($qb, 'username', $query['username']);

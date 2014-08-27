@@ -55,7 +55,7 @@ class ItemSetAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function buildQuery(array $query, QueryBuilder $qb)
+    public function buildQuery(QueryBuilder $qb, array $query)
     {}
 
     /**

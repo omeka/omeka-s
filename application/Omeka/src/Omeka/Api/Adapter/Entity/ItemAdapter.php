@@ -93,7 +93,7 @@ class ItemAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function buildQuery(array $query, QueryBuilder $qb)
+    public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['resource_class_label'])) {
             $this->joinWhere($qb, 'Omeka\Model\Entity\Item', 'Omeka\Model\Entity\ResourceClass',

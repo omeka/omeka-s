@@ -96,9 +96,63 @@ class ItemAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['resource_class_label'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\Item', 'Omeka\Model\Entity\ResourceClass',
-                'resourceClass', 'label', $query['resource_class_label']);
+            $placeholder = $this->getPlaceholder();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\Item.resourceClass',
+                'Omeka\Model\Entity\ResourceClass'
+            )->andWhere($qb->expr()->eq(
+                'Omeka\Model\Entity\ResourceClass.label',
+                ":$placeholder"
+            ))->setParameter(
+                $placeholder,
+                $query['resource_class_label']
+            );
         }
+        if (isset($query['dcterms:title'])) {
+            $titlePlaceholder = $this->getPlaceholder();
+            $dctermsPlaceholder = $this->getPlaceholder();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\Item.values',
+                'Omeka\Model\Entity\Value'
+            );
+            $qb->innerJoin(
+                'Omeka\Model\Entity\Value.property',
+                'Omeka\Model\Entity\Property'
+            );
+            $qb->innerJoin(
+                'Omeka\Model\Entity\Property.vocabulary',
+                'Omeka\Model\Entity\Vocabulary'
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\Value.value", ":$titlePlaceholder"
+            ))->setParameter($titlePlaceholder, $query['dcterms:title']);
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\Vocabulary.prefix", ":$dctermsPlaceholder"
+            ))->setParameter($dctermsPlaceholder, 'dcterms');
+        }
+        if (isset($query['sort_by'])) {
+            $property = $this->getPropertyByTerm($query['sort_by']);
+            if ($property) {
+                $qb->leftJoin(
+                    'Omeka\Model\Entity\Item.values',
+                    'omeka_order_values',
+                    'WITH',
+                    $qb->expr()->eq(
+                        'omeka_order_values.property',
+                        $property->getId()
+                    )
+                );
+                $qb->orderBy('omeka_order_values.value', $query['sort_order']);
+            } elseif ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    'Omeka\Model\Entity\Item.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            }
+        }
+        var_dump($qb->getDQL());
+        var_dump($qb->getQuery()->getSQL());
+        exit;
     }
 
     /**

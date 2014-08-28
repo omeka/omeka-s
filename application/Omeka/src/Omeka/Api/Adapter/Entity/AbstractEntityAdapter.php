@@ -26,7 +26,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * @var int
      */
-    protected $aliasIndex = 0;
+    protected $placeholderIndex = 0;
 
     /**
      * {@inheritDoc}
@@ -48,7 +48,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->setOrderBy($request->getContent(), $qb);
         $this->setLimitAndOffset($request->getContent(), $qb);
         $paginator = new Paginator($qb);
         $representations = array();
@@ -321,26 +320,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Set an order by condition to the query builder.
-     *
-     * @param array $query
-     * @param QueryBuilder $qb
-     */
-    protected function setOrderBy(array $query, QueryBuilder $qb)
-    {
-        if (!isset($query['sort_by'])) {
-            return;
-        }
-        $sortBy = $query['sort_by'];
-        $sortOrder = null;
-        if (isset($query['sort_order'])
-            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
-            $sortOrder = strtoupper($query['sort_order']);
-        }
-        $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
-    }
-
-    /**
      * Set limit (max results) and offset (first result) conditions to the
      * query builder.
      *
@@ -367,93 +346,27 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
     }
 
-    /**
-     * Add a simple where clause to query a field.
-     *
-     * @param QueryBuilder $qb
-     * @param string $whereProperty The property to query
-     * @param string $whereValue The value to query
-     */
-    protected function where(QueryBuilder $qb, $whereProperty, $whereValue)
+    public function getPlaceholder($prefix = 'omeka_')
     {
-        $alias = $this->getAlias($whereProperty);
-        $qb->andWhere($qb->expr()->eq(
-            $this->getEntityClass() . ".$whereProperty", ":$alias"
-        ))->setParameter($alias, $whereValue);
+        $placeholder = $prefix . $this->placeholderIndex;
+        $this->placeholderIndex++;
+        return $placeholder;
     }
 
-    /**
-     * Add a join condition to the query builder.
-     *
-     * @param QueryBuilder $qb
-     * @param string $joinFrom The fully qualified entity class name to join from
-     * @param string $joinTo The fully qualified entity class name to join to
-     * @param string $joinProperty The property in $joinFrom declaring the association
-     */
-    protected function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty)
+    public function getPropertyByTerm($term)
     {
-        $join = "$joinFrom.$joinProperty";
-        if (!$this->hasJoin($qb, $join)) {
-            $qb->innerJoin($join, $joinTo);
+        if (!preg_match('/[a-z0-9-_]+:[a-z0-9-_]+/i', $term)) {
+            return null;
         }
-    }
-
-    /**
-     * Add join and where conditions to the query builder.
-     *
-     * @param QueryBuilder $qb
-     * @param string $joinFrom The fully qualified entity class name to join from
-     * @param string $joinTo The fully qualified entity class name to join to
-     * @param string $joinProperty The property in $joinFrom declaring the association
-     * @param string $whereProperty The property in $joinTo to query
-     * @param string $whereValue The value to query
-     */
-    protected function joinWhere(QueryBuilder $qb, $joinFrom, $joinTo,
-        $joinProperty, $whereProperty, $whereValue
-    ) {
-        $this->join($qb, $joinFrom, $joinTo, $joinProperty);
-        $alias = $this->getAlias($whereProperty, $joinProperty);
-        $qb->andWhere($qb->expr()->eq(
-            "$joinTo.$whereProperty", ":$alias"
-        ))->setParameter($alias, $whereValue);
-    }
-
-    /**
-     * Get a unique alias for a query builder where condition.
-     *
-     * @param string $whereProperty
-     * @param string|null $joinProperty
-     * @return string
-     */
-    protected function getAlias($whereProperty, $joinProperty = null)
-    {
-        $alias = 'omeka_';
-        if ($joinProperty) {
-            $alias .=  $joinProperty . '_';
-        }
-        $alias .= $whereProperty . '_' . $this->aliasIndex;
-        $this->aliasIndex++;
-        return $alias;
-    }
-
-    /**
-     * Check whether the query builder already has a join condition.
-     *
-     * @param QueryBuilder $qb
-     * @param string The join to check against
-     * @return bool
-     */
-    protected function hasJoin(QueryBuilder $qb, $join)
-    {
-        $joinParts = $qb->getDQLPart('join');
-        if (!$joinParts) {
-            return false;
-        }
-        foreach (current($joinParts) as $joinPart) {
-            if ($join === $joinPart->getJoin()) {
-                return true;
-            }
-        }
-        return false;
+        list($prefix, $localName) = explode(':', $term);
+        $dql = 'SELECT p FROM Omeka\Model\Entity\Property p
+        JOIN p.vocabulary v WHERE p.localName = :localName
+        AND v.prefix = :prefix';
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameters(array(
+                'localName' => $localName,
+                'prefix' => $prefix
+            ))->getOneOrNullResult();
     }
 }

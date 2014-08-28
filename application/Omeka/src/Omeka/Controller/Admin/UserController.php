@@ -44,6 +44,18 @@ class UserController extends AbstractActionController
     public function showAction()
     {
         $view = new ViewModel;
+        $id = $this->params('id');
+
+        $response = $this->api()->read('users', $id);
+        if (!$this->apiError($response)) {
+            $view->setVariable('user', $response->getContent());
+        }
+        return $view;
+    }
+
+    public function editAction()
+    {
+        $view = new ViewModel;
         $form = new UserForm;
         $id = $this->params('id');
 

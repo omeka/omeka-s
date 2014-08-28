@@ -1,23 +1,19 @@
-<h1>Edit User &ldquo;<?php echo $user->getUsername(); ?>&rdquo;</h1>
-<?php
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formInput = $this->plugin('formInput');
-$formErrors = $this->plugin('formElementErrors');
-$formElements = array('username', 'name', 'email', 'password', 'password-confirm');
-?>
-
-<form  method="post">
-<?php foreach ($formElements as $elementName): ?>
-<div class="field">
-    <?php
-    $element = $form->get($elementName);
-    echo $formLabel($element);
-    echo $formInput($element);
-    echo $formErrors($element);
-    ?>
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<h1>User &ldquo;<?php echo $escape($user->getUsername()); ?>&rdquo;</h1>
+<div id="page-actions">
+    <a class="button" href="<?php echo $this->url(null, array('action' => 'edit'), array(), true); ?>">Edit User</a>
 </div>
-<?php endforeach; ?>
-<button>Submit</button>
-</form>
-<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>
+<table>
+<tr>
+<th>Name</th>
+<td><?php echo $escape($user->getName()); ?></td>
+</tr>
+<tr>
+<th>Email</th>
+<td><?php echo $escape($user->getEmail()); ?></td>
+</tr>
+<tr>
+<th>Role</th>
+<td><?php echo $escape($user->getRole()); ?></td>
+</tr>
+</table>

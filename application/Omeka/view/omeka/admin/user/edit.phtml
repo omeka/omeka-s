@@ -1,0 +1,23 @@
+<h1>Edit User &ldquo;<?php echo $user->getUsername(); ?>&rdquo;</h1>
+<?php
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formInput = $this->plugin('formInput');
+$formErrors = $this->plugin('formElementErrors');
+$formElements = array('username', 'name', 'email', 'password', 'password-confirm');
+?>
+
+<form  method="post">
+<?php foreach ($formElements as $elementName): ?>
+<div class="field">
+    <?php
+    $element = $form->get($elementName);
+    echo $formLabel($element);
+    echo $formInput($element);
+    echo $formErrors($element);
+    ?>
+</div>
+<?php endforeach; ?>
+<button>Submit</button>
+</form>
+<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>

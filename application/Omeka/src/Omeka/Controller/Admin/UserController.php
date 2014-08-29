@@ -60,8 +60,8 @@ class UserController extends AbstractActionController
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse, $view)) {
-            return $view;
+        if ($this->apiError($readResponse)) {
+            return;
         }
         $user = $readResponse->getContent();
         $data = $user->jsonSerialize();
@@ -72,7 +72,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $response = $this->api()->update('users', $id, $formData);
-                if (!$this->apiError($response, $view)) {
+                if (!$this->apiError($response)) {
                     $this->messenger()->addSuccess('User updated.');
                 }
             } else {

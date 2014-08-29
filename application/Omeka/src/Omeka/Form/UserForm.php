@@ -14,9 +14,9 @@ class UserForm extends Form
             'type' => 'Text',
             'options' => array(
                 'label' => 'Username',
-                'id' => 'username'
             ),
             'attributes' => array(
+                'id' => 'username',
                 'required' => true,
             ),
         ));
@@ -25,9 +25,9 @@ class UserForm extends Form
             'type' => 'Text',
             'options' => array(
                 'label' => 'Name',
-                'id' => 'name'
             ),
             'attributes' => array(
+                'id' => 'name',
                 'required' => true,
             ),
         ));
@@ -36,9 +36,9 @@ class UserForm extends Form
             'type' => 'Email',
             'options' => array(
                 'label' => 'Email',
-                'id' => 'email'
             ),
             'attributes' => array(
+                'id' => 'email',
                 'required' => true,
             ),
         ));
@@ -47,7 +47,9 @@ class UserForm extends Form
             'type' => 'Password',
             'options' => array(
                 'label' => 'Password',
-                'id' => 'password'
+            ),
+            'attributes' => array(
+                'id' => 'password',
             ),
         ));
         $this->add(array(
@@ -55,7 +57,9 @@ class UserForm extends Form
             'type' => 'Password',
             'options' => array(
                 'label' => 'Confirm Password',
-                'id' => 'password-confirm'
+            ),
+            'attributes' => array(
+                'id' => 'password-confirm',
             ),
         ));
         $inputFilter = $this->getInputFilter();

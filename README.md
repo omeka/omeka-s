@@ -1,6 +1,6 @@
 # Omeka S (Multisite)
 
-The Omeka S collections management system. A local network of independently
+The Omeka S web publication system for universities, galleries, libraries, archives, and museums. A local network of independently
 curated exhibits sharing a collaboratively built pool of items and their
 metadata. 
 

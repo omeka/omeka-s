@@ -4,14 +4,12 @@ $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formInput = $this->plugin('formInput');
 $formErrors = $this->plugin('formElementErrors');
-$formElements = array('username', 'name', 'email', 'password', 'password-confirm');
 ?>
 
 <form  method="post">
-<?php foreach ($formElements as $elementName): ?>
+<?php foreach ($form->getElements() as $element): ?>
 <div class="field">
     <?php
-    $element = $form->get($elementName);
     echo $formLabel($element);
     echo $formInput($element);
     echo $formErrors($element);

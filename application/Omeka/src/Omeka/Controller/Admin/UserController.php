@@ -65,22 +65,13 @@ class UserController extends AbstractActionController
         }
         $user = $readResponse->getContent();
         $data = $user->jsonSerialize();
-        $form->setData(array(
-            'username' => $data['o:username'],
-            'name' => $data['o:name'],
-            'email' => $data['o:email']
-        ));
+        $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $data = array(
-                    'o:username' => $formData['username'],
-                    'o:name' => $formData['name'],
-                    'o:email' => $formData['email'],
-                );
-                $response = $this->api()->update('users', $id, $data);
+                $response = $this->api()->update('users', $id, $formData);
                 if (!$this->apiError($response, $view)) {
                     $this->messenger()->addSuccess('User updated.');
                 }

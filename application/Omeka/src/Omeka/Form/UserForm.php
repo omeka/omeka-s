@@ -10,30 +10,33 @@ class UserForm extends Form
         parent::__construct('user');
 
         $this->add(array(
-            'name' => 'username',
+            'name' => 'o:username',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Username',
+                'id' => 'username'
             ),
             'attributes' => array(
                 'required' => true,
             ),
         ));
         $this->add(array(
-            'name' => 'name',
+            'name' => 'o:name',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Name',
+                'id' => 'name'
             ),
             'attributes' => array(
                 'required' => true,
             ),
         ));
         $this->add(array(
-            'name' => 'email',
+            'name' => 'o:email',
             'type' => 'Email',
             'options' => array(
                 'label' => 'Email',
+                'id' => 'email'
             ),
             'attributes' => array(
                 'required' => true,
@@ -44,6 +47,7 @@ class UserForm extends Form
             'type' => 'Password',
             'options' => array(
                 'label' => 'Password',
+                'id' => 'password'
             ),
         ));
         $this->add(array(
@@ -51,11 +55,12 @@ class UserForm extends Form
             'type' => 'Password',
             'options' => array(
                 'label' => 'Confirm Password',
+                'id' => 'password-confirm'
             ),
         ));
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
-            'name' => 'username',
+            'name' => 'o:username',
             'required' => true,
             'validators' => array(
                 array(

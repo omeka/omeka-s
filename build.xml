@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Omeka" basedir=".">
+<project name="Omeka" basedir="." default="init">
     <property name="build.dir" location="build"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
-    <property name="composer.bin.path" location="vendor/bin"/>
+    <property name="composer.vendor.path" location="vendor"/>
+    <property name="composer.bin.path" location="${composer.vendor.path}/bin"/>
     <property name="phpunit.path" location="${composer.bin.path}/phpunit"/>
     <target name="build-dir">
         <mkdir dir="${build.dir}"/>
@@ -10,10 +11,12 @@
     <target name="check-composer">
         <available property="composer.installed" file="${composer.path}"/>
     </target>
-    <target name="get-composer" depends="build-dir,check-composer" unless="composer.installed"
-        description="Install a local copy of composer.">
+    <target name="get-composer"
+            depends="build-dir,check-composer"
+            unless="composer.installed">
         <get src="https://getcomposer.org/installer"
-            dest="${build.dir}/composer-installer"/>
+             dest="${build.dir}/composer-installer"
+        />
         <exec executable="php" dir="${build.dir}" failonerror="true">
             <arg file="${build.dir}/composer-installer"/>
         </exec>
@@ -24,15 +27,16 @@
             <arg value="self-update"/>
         </exec>
     </target>
-    <target name="install-deps" depends="get-composer,update-composer"
-        description="Install dependencies.">
+    <target name="install-deps"
+            depends="get-composer,update-composer"
+            description="Install dependencies.">
         <exec executable="php" failonerror="true">
             <arg file="${composer.path}"/>
             <arg value="install"/>
         </exec>
     </target>
     <target name="dedist"
-        description="Copy .dist files to their proper locations.">
+            description="Copy .dist files to their proper locations.">
         <copy todir=".">
             <fileset dir=".">
                 <include name=".htaccess.dist"/>
@@ -46,12 +50,24 @@
         </copy>
     </target>
     <target name="generate-proxies"
-        description="Generate Doctrine proxies.">
+            description="Generate Doctrine proxies.">
         <exec executable="./vendor/bin/doctrine" failonerror="true">
             <arg value="orm:generate-proxies"/>
         </exec>
     </target>
     <target name="test" description="Run automated tests.">
-        <exec executable="${phpunit.path}" dir="application/Omeka/test" failonerror="true"/>
+        <exec executable="${phpunit.path}"
+              dir="application/Omeka/test"
+              failonerror="true"
+        />
+    </target>
+    <target name="init"
+            description="Set up this Omeka install."
+            depends="dedist,install-deps,generate-proxies"
+    />
+    <target name="clean"
+            description="Remove build files and external dependencies.">
+        <delete dir="${build.dir}" quiet="true"/>
+        <delete dir="${composer.vendor.path}" quiet="true"/>
     </target>
 </project>

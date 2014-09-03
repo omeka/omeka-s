@@ -1,1 +1,57 @@
-<p>admin/item/add</p>
+<?php
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+$formErrors = $this->plugin('formElementErrors');
+$inputOptions = '<div class="input-options">
+                        <a link="#" class="tab active fa-text"><span class="screen-reader-text">Text</span></a>
+                        <a link="#" class="tab fa-items"><span class="screen-reader-text">Omeka Item</span></a>
+                        <a link="#" class="tab fa-link"><span class="screen-reader-text">External Resource</span></a>
+                 </div>';
+?>
+<h1><?php echo $this->translate('Add Item'); ?></h1>
+
+<?php 
+if (isset($errors)) {
+    print_r($errors);
+}
+
+?>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="resource-values section active">Values</a></li>
+        <li><a href="#" class="item-media section">Media</a></li>
+        <li><a href="#" class="item-visibility section">Visibility</a></li>
+    </ul>
+</nav>
+
+<form method='post' id='add-item'>
+    <fieldset>
+        <?php foreach ($form->getElements() as $element): ?>
+        
+        <div class="resource-values field">
+            <div class='field-meta'>
+            <?php echo $formLabel($element); ?>
+                <div class='field-description'>
+                    <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
+                </div>
+            </div>
+            <div class='inputs'>
+            <?php 
+                echo $formElement($element);
+            ?>
+            </div>
+
+            <?php
+            echo $formErrors($element);
+            ?>
+        </div>
+        <?php endforeach; ?>
+    </fieldset>
+    
+    <fieldset id="save-sidebar">
+        <input type="submit" name="add-item-submit" value="Create Item" />
+        <a href="#" class="cancel button">Cancel</a>
+    </fieldset>    
+</form>

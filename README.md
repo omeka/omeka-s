@@ -10,10 +10,8 @@ metadata.
    * `$ git clone git@github.com:omeka/omeka-s.git`
 1. Change into the Omeka S directory:
    * `$ cd omeka-s`
-1. Install dependencies
-   * `$ ant install-deps`
-1. Prepare dist files: 
-   * `$ ant dedist`
+1. Perform first-time setup:
+   * `$ ant init`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name.
 1. In your web browser, navigate to the omeka-s/install directory, where you can

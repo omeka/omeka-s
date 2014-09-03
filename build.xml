@@ -10,21 +10,23 @@
     <target name="check-composer">
         <available property="composer.installed" file="${composer.path}"/>
     </target>
-    <target name="get-composer" depends="build-dir"
+    <target name="get-composer" depends="build-dir,check-composer" unless="composer.installed"
         description="Install a local copy of composer.">
         <get src="https://getcomposer.org/installer"
             dest="${build.dir}/composer-installer"/>
-        <exec executable="php" dir="${build.dir}">
+        <exec executable="php" dir="${build.dir}" failonerror="true">
             <arg file="${build.dir}/composer-installer"/>
         </exec>
     </target>
-    <target name="check-get-composer" depends="check-composer"
-        unless="composer.installed">
-        <antcall target="get-composer"/>
+    <target name="update-composer" if="composer.installed">
+        <exec executable="php" failonerror="true">
+            <arg file="${composer.path}"/>
+            <arg value="self-update"/>
+        </exec>
     </target>
-    <target name="install-deps" depends="check-get-composer"
+    <target name="install-deps" depends="get-composer,update-composer"
         description="Install dependencies.">
-        <exec executable="php">
+        <exec executable="php" failonerror="true">
             <arg file="${composer.path}"/>
             <arg value="install"/>
         </exec>
@@ -45,7 +47,7 @@
     </target>
     <target name="generate-proxies"
         description="Generate Doctrine proxies.">
-        <exec executable="./vendor/bin/doctrine">
+        <exec executable="./vendor/bin/doctrine" failonerror="true">
             <arg value="orm:generate-proxies"/>
         </exec>
     </target>

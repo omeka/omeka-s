@@ -38,7 +38,6 @@ class ItemAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        print_r($data);
         if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
                 ->findEntity($data['o:owner']['o:id']);

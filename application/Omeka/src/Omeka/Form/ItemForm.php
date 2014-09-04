@@ -5,7 +5,6 @@ use Zend\Form\Form;
 
 class ItemForm extends Form
 {
-    protected $serviceLocator;
     
     public function __construct($resourceClassPairs, $ownerId)
     {

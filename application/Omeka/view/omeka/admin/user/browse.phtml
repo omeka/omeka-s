@@ -1,24 +1,51 @@
-<h1><?php echo count($users); ?> Users</h1>
-<table>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'users browse');
+$escape = $this->plugin('escapeHtml');
+$attrEscape = $this->plugin('escapeHtmlAttr');
+$url = $this->plugin('url');
+?>
+<h1>Users</h1>
+
+<div id="page-actions">
+<a href="#" class="button">Add new user</a>
+</div>
+
+<table id="items-list">
     <thead>
         <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>name</th>
-            <th>email</th>
-            <th>role</th>
-            <th>created</th>
+            <th></th>
+            <th>Name</th>
+            <th>Date Added</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach($users as $user): ?>
+        <?php
+        $showUrl = $attrEscape($url('admin/id', array(
+            'controller' => 'user',
+            'id' => $user->getId()
+        )));
+        $editUrl = $attrEscape($url('admin/id', array(
+            'controller' => 'user',
+            'action' => 'edit',
+            'id' => $user->getId()
+        )));
+        ?>
         <tr>
-            <td><?php echo $user['id']?></td>
-            <td><?php echo $user['username']?></td>
-            <td><?php echo $user['name']?></td>
-            <td><?php echo $user['email']?></td>
-            <td><?php echo $user['role']?></td>
-            <td><?php echo $user['created']?></td>
+            <td></td>
+            <td>
+                <span class="record-name">
+                    <a href="<?php echo $showUrl; ?>">
+                        <?php echo $escape($user->getUsername());?>
+                        (<?php echo $escape($user->getName()); ?>)
+                    </a>
+                </span>
+                <ul class="actions">
+                    <li><a href="<?php echo $editUrl; ?>" class="fa-pencil"><span class="screen-reader-text">Edit</span></a></li>
+                    <li><a href="#" class="fa-ellipsis-h"><span class="screen-reader-text">Details</span></a></li>
+                </ul>
+            </td>
+            <td><?php echo $user->getCreated()->format('M j, Y');?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

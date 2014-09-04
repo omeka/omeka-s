@@ -63,7 +63,7 @@
     </target>
     <target name="init"
             description="Set up this Omeka install."
-            depends="dedist,install-deps,generate-proxies"
+            depends="dedist,install-deps"
     />
     <target name="clean"
             description="Remove build files and external dependencies.">

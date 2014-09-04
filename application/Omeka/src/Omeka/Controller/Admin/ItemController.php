@@ -32,9 +32,16 @@ class ItemController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
-        $form = new ItemForm;
+        $response = $this->api()->search('resource_classes');
+        $resourceClasses = $response->getContent();
+        $resourceClassPairs = array();
+        foreach ($resourceClasses as $resourceClass) {
+            $resourceClassPairs[$resourceClass->getId()] = $resourceClass->getLabel();
+        }
+
+        $form = new ItemForm($resourceClassPairs);
         $view->setVariable('form', $form);
-        
+
         if ($this->getRequest()->isPost()) {
             $response = $this->api()->create('items', $this->params()->fromPost());
             if ($response->isError()) {

@@ -10,12 +10,10 @@ $inputOptions = '<div class="input-options">
                  </div>';
 ?>
 <h1><?php echo $this->translate('Add Item'); ?></h1>
-
 <?php 
 if (isset($errors)) {
-    print_r($errors);
+ //   print_r($errors);
 }
-
 ?>
 
 <nav class="section-nav">
@@ -29,7 +27,7 @@ if (isset($errors)) {
 <form method='post' id='add-item'>
     <fieldset>
         <?php foreach ($form->getElements() as $element): ?>
-        
+        <?php if ($element->getLabel()): ?>
         <div class="resource-values field">
             <div class='field-meta'>
             <?php echo $formLabel($element); ?>
@@ -37,6 +35,7 @@ if (isset($errors)) {
                     <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
                 </div>
             </div>
+        
             <div class='inputs'>
             <?php 
                 echo $formElement($element);
@@ -47,7 +46,11 @@ if (isset($errors)) {
             echo $formErrors($element);
             ?>
         </div>
+        <?php else: ?>
+        <?php echo $formElement($element); ?>
+        <?php endif; ?>
         <?php endforeach; ?>
+        
     </fieldset>
     
     <fieldset id="save-sidebar">

@@ -38,8 +38,12 @@ class ItemController extends AbstractActionController
         foreach ($resourceClasses as $resourceClass) {
             $resourceClassPairs[$resourceClass->getId()] = $resourceClass->getLabel();
         }
+        
+        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        $currentUser = $auth->getIdentity();
+        $ownerId = $currentUser->getId();
 
-        $form = new ItemForm($resourceClassPairs);
+        $form = new ItemForm($resourceClassPairs, $ownerId);
         $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {

@@ -1,21 +1,23 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\ResourceValuesCollection;
 use Zend\Form\Form;
+
 
 class ItemForm extends Form
 {
     
-    public function __construct($resourceClassPairs, $ownerId)
+    public function __construct($name = null, $options = null)
     {
-        parent::__construct('item');
+        parent::__construct($name, $options);
         
         $this->add(array(
                 'name' => 'o:resource_class[o:id]',
                 'type' => 'Select',
                 'options' => array(
                     'label' => 'Class',
-                    'value_options' => $resourceClassPairs,
+                    'value_options' => $this->getResourceClassPairs(),
                 )
         ));
 
@@ -50,14 +52,22 @@ class ItemForm extends Form
                     'value' => '4'
                 )
         ));
-        
         $this->add(array(
-                'name' => 'o:owner[o:id]',
-                'type' => 'Hidden',
-                'attributes' => array(
-                        'value' => $ownerId
-                )
-                
+                'name' => 'csrf',
+                'type' => 'Csrf'
         ));
+    }
+    
+    protected function getResourceClassPairs()
+    {
+        return $this->options['resource_class_pairs'];
+    }
+        
+    protected function getEntity()
+    {
+        if (isset($this->options['entity'])) {
+            return $this->options['entity'];
+        }
+        return false;
     }
 }

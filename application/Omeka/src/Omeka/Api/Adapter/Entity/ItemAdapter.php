@@ -42,6 +42,10 @@ class ItemAdapter extends AbstractEntityAdapter
             $owner = $this->getAdapter('users')
                 ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
+        } else {
+            $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+            $currentUser = $auth->getIdentity();
+            $entity->setOwner($currentUser);
         }
         if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')

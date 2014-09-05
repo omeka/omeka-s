@@ -3,48 +3,36 @@ namespace Omeka\Form;
 
 use Zend\Form\Form;
 
-class UserForm extends Form
+class UserPasswordForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('user');
-
+        parent::__construct('user-password');
         $this->add(array(
-            'name' => 'o:username',
-            'type' => 'Text',
+            'name' => 'password',
+            'type' => 'Password',
             'options' => array(
-                'label' => 'Username',
+                'label' => 'Password',
             ),
             'attributes' => array(
-                'id' => 'username',
+                'id' => 'password',
                 'required' => true,
             ),
         ));
         $this->add(array(
-            'name' => 'o:name',
-            'type' => 'Text',
+            'name' => 'password-confirm',
+            'type' => 'Password',
             'options' => array(
-                'label' => 'Name',
+                'label' => 'Confirm Password',
             ),
             'attributes' => array(
-                'id' => 'name',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
-            'name' => 'o:email',
-            'type' => 'Email',
-            'options' => array(
-                'label' => 'Email',
-            ),
-            'attributes' => array(
-                'id' => 'email',
+                'id' => 'password-confirm',
                 'required' => true,
             ),
         ));
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
-            'name' => 'o:username',
+            'name' => 'password',
             'required' => true,
             'validators' => array(
                 array(
@@ -53,10 +41,16 @@ class UserForm extends Form
                         'min' => 6,
                     ),
                 ),
+            ),
+        ));
+        $inputFilter->add(array(
+            'name' => 'password-confirm',
+            'required' => true,
+            'validators' => array(
                 array(
-                    'name' => 'Regex',
+                    'name' => 'Identical',
                     'options' => array(
-                        'pattern' => '/^\S+$/', // no whitespace
+                        'token' => 'password',
                     ),
                 ),
             ),

@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\UserForm;
+use Omeka\Form\UserPasswordForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -74,7 +75,39 @@ class UserController extends AbstractActionController
                 $response = $this->api()->update('users', $id, $formData);
                 if (!$this->apiError($response)) {
                     $this->messenger()->addSuccess('User updated.');
+                    return $this->redirect()->refresh();
                 }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view->setVariable('user', $user);
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function changePasswordAction()
+    {
+        $view = new ViewModel;
+        $form = new UserPasswordForm;
+        $id = $this->params('id');
+
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $user = $em->find('Omeka\Model\Entity\User', $id);
+        if (!$user) {
+            $this->getResponse()->setStatusCode(404);
+            return $view;
+        }
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $values = $form->getData();
+                $user->setPassword($values['password']);
+                $em->flush();
+                $this->messenger()->addSuccess('Password changed.');
+                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

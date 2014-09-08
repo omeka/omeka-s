@@ -36,4 +36,9 @@ class UserRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getRole();
     }
+
+    public function getCreated()
+    {
+        return $this->getData()->getCreated();
+    }
 }

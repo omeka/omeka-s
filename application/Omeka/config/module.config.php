@@ -65,6 +65,7 @@ return array(
     'controller_plugins' => array(
         'invokables' => array(
             'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
+            'apiError'  => 'Omeka\Mvc\Controller\Plugin\ApiError',
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',

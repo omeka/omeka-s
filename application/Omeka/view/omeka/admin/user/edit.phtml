@@ -1,0 +1,21 @@
+<h1>Edit User &ldquo;<?php echo $user->getUsername(); ?>&rdquo;</h1>
+<?php
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formInput = $this->plugin('formInput');
+$formErrors = $this->plugin('formElementErrors');
+?>
+
+<form  method="post">
+<?php foreach ($form->getElements() as $element): ?>
+<div class="field">
+    <?php
+    echo $formLabel($element);
+    echo $formInput($element);
+    echo $formErrors($element);
+    ?>
+</div>
+<?php endforeach; ?>
+<button>Submit</button>
+</form>
+<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>

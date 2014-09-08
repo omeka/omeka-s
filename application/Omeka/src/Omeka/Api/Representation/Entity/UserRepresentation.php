@@ -16,4 +16,29 @@ class UserRepresentation extends AbstractEntityRepresentation
             'o:role'     => $entity->getRole(),
         );
     }
+
+    public function getUsername()
+    {
+        return $this->getData()->getUsername();
+    }
+
+    public function getName()
+    {
+        return $this->getData()->getName();
+    }
+
+    public function getEmail()
+    {
+        return $this->getData()->getEmail();
+    }
+
+    public function getRole()
+    {
+        return $this->getData()->getRole();
+    }
+
+    public function getCreated()
+    {
+        return $this->getData()->getCreated();
+    }
 }

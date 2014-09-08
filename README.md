@@ -1,6 +1,6 @@
 # Omeka S (Multisite)
 
-The Omeka S collections management system. A local network of independently
+The Omeka S web publication system for universities, galleries, libraries, archives, and museums. A local network of independently
 curated exhibits sharing a collaboratively built pool of items and their
 metadata. 
 
@@ -10,12 +10,12 @@ metadata.
    * `$ git clone git@github.com:omeka/omeka-s.git`
 1. Change into the Omeka S directory:
    * `$ cd omeka-s`
-1. Install dependencies
-   * `$ ant install-deps`
-1. Prepare dist files: 
-   * `$ ant dedist`
+1. Perform first-time setup:
+   * `$ ant init`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name.
+1. Generate proxy files needed by Doctrine (one time only)
+   * `$ ant generate-proxies`
 1. In your web browser, navigate to the omeka-s/install directory, where you can
    complete installation.
 

@@ -1,0 +1,19 @@
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<h1>User &ldquo;<?php echo $escape($user->getUsername()); ?>&rdquo;</h1>
+<div id="page-actions">
+    <a class="button" href="<?php echo $this->url(null, array('action' => 'edit'), array(), true); ?>">Edit User</a>
+</div>
+<table>
+<tr>
+<th>Name</th>
+<td><?php echo $escape($user->getName()); ?></td>
+</tr>
+<tr>
+<th>Email</th>
+<td><?php echo $escape($user->getEmail()); ?></td>
+</tr>
+<tr>
+<th>Role</th>
+<td><?php echo $escape($user->getRole()); ?></td>
+</tr>
+</table>

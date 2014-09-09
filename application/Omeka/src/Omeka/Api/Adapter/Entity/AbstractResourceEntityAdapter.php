@@ -2,10 +2,29 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Model\Entity\EntityInterface;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
-    protected function buildValueQuery(QueryBuilder $qb, array $query)
+    /**
+     * Hydrate this resource's values.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     */
+    protected function hydrateValues(array $data, EntityInterface $entity)
+    {
+        $valueHydrator = new ValueHydrator($this);
+        $valueHydrator->hydrate($data, $entity);
+    }
+
+    /**
+     * Build the values portion of the query.
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    protected function buildValuesQuery(QueryBuilder $qb, array $query)
     {
         if (!isset($query['value'])) {
             return;
@@ -45,6 +64,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
     }
 
+    /**
+     * Get a property entity by JSON-LD term.
+     *
+     * @param string $term
+     * @return EntityInterface
+     */
     protected function getPropertyByTerm($term)
     {
         list($prefix, $localName) = explode(':', $term);
@@ -59,6 +84,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ))->getOneOrNullResult();
     }
 
+    /**
+     * Determine whether a string is a valid JSON-LD term.
+     *
+     * @param string $term
+     * @return bool
+     */
     protected function isTerm($term)
     {
         if (preg_match('/[a-z0-9-_]+:[a-z0-9-_]+/i', $term)) {

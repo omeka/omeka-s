@@ -38,16 +38,20 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $this->hydrateValues($data, $entity);
+
         if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
                 ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
+
         if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')
                 ->findEntity($data['o:resource_class']['o:id']);
             $entity->setResourceClass($resourceClass);
         }
+
         if (isset($data['o:media']) && is_array($data['o:media'])) {
             $mediaAdapter = $this->getAdapter('media');
             $mediaEntityClass = $mediaAdapter->getEntityClass();
@@ -62,6 +66,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $entity->addMedia($media);
             }
         }
+
         if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
             $setAdapter = $this->getAdapter('item_sets');
             $sets = $entity->getItemSets();
@@ -86,8 +91,6 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $sets->remove($setId);
             }
         }
-        $valueHydrator = new ValueHydrator($this);
-        $valueHydrator->hydrate($data, $entity);
     }
 
     /**
@@ -95,7 +98,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        $this->buildValueQuery($qb, $query);
+        $this->buildValuesQuery($qb, $query);
 
         if (isset($query['resource_class_label'])) {
             $placeholder = $this->getPlaceholder();

@@ -38,31 +38,36 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $this->hydrateValues($data, $entity);
+
         if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
                 ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
+
         if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')
                 ->findEntity($data['o:resource_class']['o:id']);
             $entity->setResourceClass($resourceClass);
         }
+
         if (isset($data['o:type'])) {
             $entity->setType($data['o:type']);
         }
+
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);
         }
-        $valueHydrator = new ValueHydrator($this);
-        $valueHydrator->hydrate($data, $entity);
     }
 
     /**
      * {@inheritDoc}
      */
     public function buildQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+        $this->buildValuesQuery($qb, $query);
+    }
 
     /**
      * {@inheritDoc}

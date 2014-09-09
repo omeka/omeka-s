@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
-class MediaAdapter extends AbstractEntityAdapter
+class MediaAdapter extends AbstractResourceEntityAdapter
 {
     /**
      * {@inheritDoc}

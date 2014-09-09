@@ -352,21 +352,4 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->placeholderIndex++;
         return $placeholder;
     }
-
-    public function getPropertyByTerm($term)
-    {
-        if (!preg_match('/[a-z0-9-_]+:[a-z0-9-_]+/i', $term)) {
-            return null;
-        }
-        list($prefix, $localName) = explode(':', $term);
-        $dql = 'SELECT p FROM Omeka\Model\Entity\Property p
-        JOIN p.vocabulary v WHERE p.localName = :localName
-        AND v.prefix = :prefix';
-        return $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameters(array(
-                'localName' => $localName,
-                'prefix' => $prefix
-            ))->getOneOrNullResult();
-    }
 }

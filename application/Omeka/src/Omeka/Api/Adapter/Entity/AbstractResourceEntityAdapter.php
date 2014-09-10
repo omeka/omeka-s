@@ -29,36 +29,49 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         if (!isset($query['value'])) {
             return;
         }
+        $i = 0;
         if (isset($query['value']['equals']) && is_array($query['value']['equals'])) {
             foreach ($query['value']['equals'] as $term => $values) {
                 if (!is_array($values) || !$this->isTerm($term)) {
                     continue;
                 }
-                $i = 0;
                 foreach ($values as $value) {
                     $valuesAlias     = "omeka_search_values_$i";
                     $propertyAlias   = "omeka_search_property_$i";
                     $vocabularyAlias = "omeka_search_vocabulary_$i";
-                    $i++;
 
-                    $qb->innerJoin($this->getEntityClass() . '.values', $valuesAlias);
-                    $qb->innerJoin("$valuesAlias.property", $propertyAlias);
-                    $qb->innerJoin("$propertyAlias.vocabulary", $vocabularyAlias);
-
-                    list($prefix, $localName) = explode(':', $term);
                     $valuePlaceholder      = $this->getPlaceholder();
                     $vocabularyPlaceholder = $this->getPlaceholder();
                     $propertyPlaceholder   = $this->getPlaceholder();
 
-                    $qb->andWhere($qb->expr()->eq(
-                        "$vocabularyAlias.prefix", ":$vocabularyPlaceholder"
-                    ))->setParameter($vocabularyPlaceholder, $prefix);
-                    $qb->andWhere($qb->expr()->eq(
-                        "$propertyAlias.localName", ":$propertyPlaceholder"
-                    ))->setParameter($propertyPlaceholder, $localName);
+                    $qb->innerJoin(
+                        $this->getEntityClass() . '.values', $valuesAlias
+                    );
+                    $qb->innerJoin(
+                        "$valuesAlias.property", $propertyAlias, 'WITH',
+                        $qb->expr()->eq(
+                            "$propertyAlias.localName", ":$propertyPlaceholder"
+                        )
+                    );
+                    $qb->innerJoin(
+                        "$propertyAlias.vocabulary", $vocabularyAlias, 'WITH',
+                        $qb->expr()->eq(
+                            "$vocabularyAlias.prefix", ":$vocabularyPlaceholder"
+                        )
+                    );
+
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value", ":$valuePlaceholder"
-                    ))->setParameter($valuePlaceholder, $value);
+                    ));
+
+                    list($prefix, $localName) = explode(':', $term);
+                    $qb->setParameters(array(
+                        $vocabularyPlaceholder => $prefix,
+                        $propertyPlaceholder   => $localName,
+                        $valuePlaceholder      => $value
+                    ));
+
+                    $i++;
                 }
             }
         }

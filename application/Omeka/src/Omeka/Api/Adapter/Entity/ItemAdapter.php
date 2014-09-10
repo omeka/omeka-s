@@ -137,6 +137,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
 
         //~ var_dump($qb->getDQL());
         //~ var_dump($qb->getQuery()->getSQL());
+        //~ var_dump($qb->getParameters());
         //~ exit;
     }
 

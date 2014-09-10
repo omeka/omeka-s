@@ -30,49 +30,96 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             return;
         }
 
-        $valuesAlias  = $this->getToken();
-        $qb->innerJoin(
-            $this->getEntityClass() . '.values', $valuesAlias
-        );
-
+        // Is equal
         if (isset($query['value']['equal']) && is_array($query['value']['equal'])) {
-            foreach ($query['value']['equal'] as $term => $values) {
-                if (!is_array($values) || !$this->isTerm($term)) {
+            foreach ($query['value']['equal'] as $propertyId => $values) {
+                if (!is_array($values)) {
                     continue;
                 }
                 foreach ($values as $value) {
-                    $propertyAlias         = $this->getToken();
-                    $vocabularyAlias       = $this->getToken();
-                    $valuePlaceholder      = $this->getToken();
-                    $vocabularyPlaceholder = $this->getToken();
-                    $propertyPlaceholder   = $this->getToken();
-
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
                     $qb->innerJoin(
-                        "$valuesAlias.property",
-                        $propertyAlias,
-                        'WITH',
+                        $this->getEntityClass() . '.values', $valuesAlias, 'WITH',
                         $qb->expr()->eq(
-                            "$propertyAlias.localName", ":$propertyPlaceholder"
-                        )
-                    );
-                    $qb->innerJoin(
-                        "$propertyAlias.vocabulary",
-                        $vocabularyAlias,
-                        'WITH',
-                        $qb->expr()->eq(
-                            "$vocabularyAlias.prefix", ":$vocabularyPlaceholder"
+                            "$valuesAlias.property", (int) $propertyId
                         )
                     );
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value", ":$valuePlaceholder"
                     ));
+                    $qb->setParameter($valuePlaceholder, $value);
+                }
+            }
+        }
 
-                    list($prefix, $localName) = explode(':', $term);
-                    $qb->setParameters(array(
-                        $vocabularyPlaceholder => $prefix,
-                        $propertyPlaceholder   => $localName,
-                        $valuePlaceholder      => $value
+        // Is not equal
+        if (isset($query['value']['nequal']) && is_array($query['value']['nequal'])) {
+            foreach ($query['value']['nequal'] as $propertyId => $values) {
+                if (!is_array($values)) {
+                    continue;
+                }
+                foreach ($values as $value) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->leftJoin(
+                        $this->getEntityClass() . '.values', $valuesAlias, 'WITH',
+                        $qb->expr()->andX(
+                            $qb->expr()->eq("$valuesAlias.value", ":$valuePlaceholder"),
+                            $qb->expr()->eq("$valuesAlias.property", (int) $propertyId)
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->isNull(
+                        "$valuesAlias.value"
                     ));
+                    $qb->setParameter($valuePlaceholder, $value);
+                }
+            }
+        }
+
+        // Contains
+        if (isset($query['value']['contain']) && is_array($query['value']['contain'])) {
+            foreach ($query['value']['contain'] as $propertyId => $values) {
+                if (!is_array($values)) {
+                    continue;
+                }
+                foreach ($values as $value) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->innerJoin(
+                        $this->getEntityClass() . '.values', $valuesAlias, 'WITH',
+                        $qb->expr()->eq(
+                            "$valuesAlias.property", (int) $propertyId
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->like(
+                        "$valuesAlias.value", ":$valuePlaceholder"
+                    ));
+                    $qb->setParameter($valuePlaceholder, "%$value%");
+                }
+            }
+        }
+
+        // Does not contain
+        if (isset($query['value']['ncontain']) && is_array($query['value']['ncontain'])) {
+            foreach ($query['value']['ncontain'] as $propertyId => $values) {
+                if (!is_array($values)) {
+                    continue;
+                }
+                foreach ($values as $value) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->leftJoin(
+                        $this->getEntityClass() . '.values', $valuesAlias, 'WITH',
+                        $qb->expr()->andX(
+                            $qb->expr()->like("$valuesAlias.value", ":$valuePlaceholder"),
+                            $qb->expr()->eq("$valuesAlias.property", (int) $propertyId)
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->isNull(
+                        "$valuesAlias.value"
+                    ));
+                    $qb->setParameter($valuePlaceholder, "%$value%");
                 }
             }
         }

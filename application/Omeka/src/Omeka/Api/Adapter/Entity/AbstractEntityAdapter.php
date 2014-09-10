@@ -22,11 +22,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     EntityAdapterInterface
 {
     /**
-     * An index for query builder aliases to ensure uniqueness.
+     * A unique token index for query builder aliases and placeholders.
      *
      * @var int
      */
-    protected $placeholderIndex = 0;
+    protected $index = 0;
 
     /**
      * {@inheritDoc}
@@ -346,10 +346,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
     }
 
-    public function getPlaceholder($prefix = 'omeka_')
+    /**
+     * Get a unique token for query builder aliases and placeholders.
+     *
+     * @param string $prefix
+     * @return string
+     */
+    protected function getToken($prefix = 'omeka_')
     {
-        $placeholder = $prefix . $this->placeholderIndex;
-        $this->placeholderIndex++;
-        return $placeholder;
+        $token = $prefix . $this->index;
+        $this->index++;
+        return $token;
     }
 }

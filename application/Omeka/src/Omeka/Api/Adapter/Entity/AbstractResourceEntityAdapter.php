@@ -29,37 +29,40 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         if (!isset($query['value'])) {
             return;
         }
-        $i = 0;
-        if (isset($query['value']['equals']) && is_array($query['value']['equals'])) {
-            foreach ($query['value']['equals'] as $term => $values) {
+
+        $valuesAlias  = $this->getToken();
+        $qb->innerJoin(
+            $this->getEntityClass() . '.values', $valuesAlias
+        );
+
+        if (isset($query['value']['equal']) && is_array($query['value']['equal'])) {
+            foreach ($query['value']['equal'] as $term => $values) {
                 if (!is_array($values) || !$this->isTerm($term)) {
                     continue;
                 }
                 foreach ($values as $value) {
-                    $valuesAlias     = "omeka_search_values_$i";
-                    $propertyAlias   = "omeka_search_property_$i";
-                    $vocabularyAlias = "omeka_search_vocabulary_$i";
-
-                    $valuePlaceholder      = $this->getPlaceholder();
-                    $vocabularyPlaceholder = $this->getPlaceholder();
-                    $propertyPlaceholder   = $this->getPlaceholder();
+                    $propertyAlias         = $this->getToken();
+                    $vocabularyAlias       = $this->getToken();
+                    $valuePlaceholder      = $this->getToken();
+                    $vocabularyPlaceholder = $this->getToken();
+                    $propertyPlaceholder   = $this->getToken();
 
                     $qb->innerJoin(
-                        $this->getEntityClass() . '.values', $valuesAlias
-                    );
-                    $qb->innerJoin(
-                        "$valuesAlias.property", $propertyAlias, 'WITH',
+                        "$valuesAlias.property",
+                        $propertyAlias,
+                        'WITH',
                         $qb->expr()->eq(
                             "$propertyAlias.localName", ":$propertyPlaceholder"
                         )
                     );
                     $qb->innerJoin(
-                        "$propertyAlias.vocabulary", $vocabularyAlias, 'WITH',
+                        "$propertyAlias.vocabulary",
+                        $vocabularyAlias,
+                        'WITH',
                         $qb->expr()->eq(
                             "$vocabularyAlias.prefix", ":$vocabularyPlaceholder"
                         )
                     );
-
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value", ":$valuePlaceholder"
                     ));
@@ -70,8 +73,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $propertyPlaceholder   => $localName,
                         $valuePlaceholder      => $value
                     ));
-
-                    $i++;
                 }
             }
         }

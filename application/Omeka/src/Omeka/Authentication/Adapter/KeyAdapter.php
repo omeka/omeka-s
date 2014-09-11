@@ -51,7 +51,7 @@ class KeyAdapter extends AbstractAdapter
         $key->setLastAccessed(new DateTime);
         $this->getEntityManager()->flush();
 
-        return new Result(Result::SUCCESS, $key->getUser());
+        return new Result(Result::SUCCESS, $key->getOwner());
     }
 
     /**

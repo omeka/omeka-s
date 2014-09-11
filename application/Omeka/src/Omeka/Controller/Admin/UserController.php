@@ -2,7 +2,9 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\UserForm;
+use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
+use Omeka\Model\Entity\Key;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -94,11 +96,12 @@ class UserController extends AbstractActionController
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $user = $em->find('Omeka\Model\Entity\User', $id);
-        if (!$user) {
-            $this->getResponse()->setStatusCode(404);
-            return $view;
+        $readResponse = $this->api()->read('users', $id);
+        if ($this->apiError($readResponse)) {
+            return;
         }
+        $userRepresentation = $readResponse->getContent();
+        $user = $userRepresentation->getEntity();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
@@ -113,7 +116,47 @@ class UserController extends AbstractActionController
             }
         }
 
-        $view->setVariable('user', $user);
+        $view->setVariable('user', $userRepresentation);
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function editKeysAction()
+    {
+        $view = new ViewModel;
+        $form = new UserKeyForm;
+        $id = $this->params('id');
+
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $readResponse = $this->api()->read('users', $id);
+        if ($this->apiError($readResponse)) {
+            return;
+        }
+        $userRepresentation = $readResponse->getContent();
+        $user = $userRepresentation->getEntity();
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $values = $form->getData();
+                $label = $values['new-key-label'];
+                $key = new Key;
+                $key->setId();
+                $key->setLabel($label);
+                $key->setOwner($user);
+                $id = $key->getId();
+                $credential = $key->setCredential();
+                $em->persist($key);
+                $em->flush();
+                $this->messenger()->addSuccess('Key created.');
+                $this->messenger()->addSuccess("ID: $id, Credential: $credential");
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view->setVariable('user', $userRepresentation);
+        $view->setVariable('keys', $user->getKeys());
         $view->setVariable('form', $form);
         return $view;
     }

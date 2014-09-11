@@ -21,7 +21,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     /**
      * Build the values portion of the query.
      *
-     * 
+     * ?value[{propertyId}][{queryType}][]=foo
      *
      * @param QueryBuilder $qb
      * @param array $query

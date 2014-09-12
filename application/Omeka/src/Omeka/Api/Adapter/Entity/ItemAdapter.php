@@ -113,32 +113,6 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $query['resource_class_label']
             );
         }
-
-        //~ if (isset($query['sort_by'])) {
-            //~ $property = $this->getPropertyByTerm($query['sort_by']);
-            //~ if ($property) {
-                //~ $qb->leftJoin(
-                    //~ 'Omeka\Model\Entity\Item.values',
-                    //~ 'omeka_order_values',
-                    //~ 'WITH',
-                    //~ $qb->expr()->eq(
-                        //~ 'omeka_order_values.property',
-                        //~ $property->getId()
-                    //~ )
-                //~ );
-                //~ $qb->orderBy('omeka_order_values.value', $query['sort_order']);
-            //~ } elseif ('resource_class_label' == $query['sort_by']) {
-                //~ $qb ->leftJoin(
-                    //~ 'Omeka\Model\Entity\Item.resourceClass',
-                    //~ 'omeka_order'
-                //~ )->orderBy('omeka_order.label', $query['sort_order']);
-            //~ }
-        //~ }
-
-        //~ var_dump($qb->getDQL());
-        //~ var_dump($qb->getQuery()->getSQL());
-        //~ var_dump($qb->getParameters());
-        //~ exit;
     }
 
     /**

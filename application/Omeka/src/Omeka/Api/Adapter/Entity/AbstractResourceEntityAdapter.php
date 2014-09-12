@@ -22,12 +22,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * Builds queries on value.
      *
      * There are several query types:
-     *   + value[empty][]={propertyId}: value is empty
-     *   + value[nempty][]={propertyId}: value is not empty
-     *   + value[{propertyId}][equal][]={value}: has exact value
-     *   + value[{propertyId}][nequal][]={value}: does not have exact value
-     *   + value[{propertyId}][contain][]={value}: contains value
-     *   + value[{propertyId}][ncontain][]={value}: does not contain value
+     *   + value[empty][]={propertyId}:             has no value for property
+     *   + value[nempty][]={propertyId}:            has any value for property
+     *   + value[equal][]={value}:                  has exact value
+     *   + value[nequal][]={value}:                 has no exact value
+     *   + value[contain][]={value}:                contains value
+     *   + value[ncontain][]={value}:               does not contain value
+     *   + value[{propertyId}][equal][]={value}:    has exact value for property
+     *   + value[{propertyId}][nequal][]={value}:   has no exact value for property
+     *   + value[{propertyId}][contain][]={value}:  contains value for property
+     *   + value[{propertyId}][ncontain][]={value}: does not contain value for property
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -40,8 +44,58 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $valuesJoin = $this->getEntityClass() . '.values';
         foreach ($query['value'] as $propertyId => $queryTypes) {
             foreach ($queryTypes as $queryType => $values) {
-                // Is empty
-                if ('empty' == $propertyId) {
+                // equal
+                if ('equal' == $propertyId) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->innerJoin($valuesJoin, $valuesAlias);
+                    $qb->andWhere($qb->expr()->eq(
+                        "$valuesAlias.value",
+                        ":$valuePlaceholder"
+                    ));
+                    $qb->setParameter($valuePlaceholder, $values);
+                // nequal
+                } elseif ('nequal' == $propertyId) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->leftJoin(
+                        $valuesJoin, $valuesAlias, 'WITH',
+                        $qb->expr()->eq(
+                            "$valuesAlias.value",
+                            ":$valuePlaceholder"
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->isNull(
+                        "$valuesAlias.value"
+                    ));
+                    $qb->setParameter($valuePlaceholder, $values);
+                // contain
+                } elseif ('contain' == $propertyId) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->innerJoin($valuesJoin, $valuesAlias);
+                    $qb->andWhere($qb->expr()->like(
+                        "$valuesAlias.value",
+                        ":$valuePlaceholder"
+                    ));
+                    $qb->setParameter($valuePlaceholder, "%$values%");
+                // ncontain
+                } elseif ('ncontain' == $propertyId) {
+                    $valuesAlias = $this->getToken();
+                    $valuePlaceholder = $this->getToken();
+                    $qb->leftJoin(
+                        $valuesJoin, $valuesAlias, 'WITH',
+                        $qb->expr()->like(
+                            "$valuesAlias.value",
+                            ":$valuePlaceholder"
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->isNull(
+                        "$valuesAlias.value"
+                    ));
+                    $qb->setParameter($valuePlaceholder, "%$values%");
+                // empty
+                } elseif ('empty' == $propertyId) {
                     $valuesAlias = $this->getToken();
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
@@ -53,7 +107,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.property"
                     ));
-                // Is not empty
+                // nempty
                 } elseif ('nempty' == $propertyId) {
                     $valuesAlias = $this->getToken();
                     $qb->innerJoin(
@@ -67,7 +121,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     foreach ($values as $value) {
                         $valuesAlias = $this->getToken();
                         $valuePlaceholder = $this->getToken();
-                        // Is equal
+                        // equal
                         if ('equal' == $queryType) {
                             $qb->innerJoin(
                                 $valuesJoin, $valuesAlias, 'WITH',
@@ -81,7 +135,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                                 ":$valuePlaceholder"
                             ));
                             $qb->setParameter($valuePlaceholder, $value);
-                        // Is not equal
+                        // nequal
                         } elseif ('nequal' == $queryType) {
                             $qb->leftJoin(
                                 $valuesJoin, $valuesAlias, 'WITH',
@@ -100,7 +154,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                                 "$valuesAlias.value"
                             ));
                             $qb->setParameter($valuePlaceholder, $value);
-                        // Contains
+                        // contain
                         } elseif ('contain' == $queryType) {
                             $qb->innerJoin(
                                 $valuesJoin, $valuesAlias, 'WITH',
@@ -114,7 +168,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                                 ":$valuePlaceholder"
                             ));
                             $qb->setParameter($valuePlaceholder, "%$value%");
-                        // Does not contain
+                        // ncontain
                         } elseif ('ncontain' == $queryType) {
                             $qb->leftJoin(
                                 $valuesJoin, $valuesAlias, 'WITH',

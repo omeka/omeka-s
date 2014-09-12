@@ -6,7 +6,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
-class ItemAdapter extends AbstractEntityAdapter
+class ItemAdapter extends AbstractResourceEntityAdapter
 {
     /**
      * {@inheritDoc}
@@ -38,16 +38,20 @@ class ItemAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $this->hydrateValues($data, $entity);
+
         if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')
                 ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
+
         if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')
                 ->findEntity($data['o:resource_class']['o:id']);
             $entity->setResourceClass($resourceClass);
         }
+
         if (isset($data['o:media']) && is_array($data['o:media'])) {
             $mediaAdapter = $this->getAdapter('media');
             $mediaEntityClass = $mediaAdapter->getEntityClass();
@@ -62,6 +66,7 @@ class ItemAdapter extends AbstractEntityAdapter
                 $entity->addMedia($media);
             }
         }
+
         if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
             $setAdapter = $this->getAdapter('item_sets');
             $sets = $entity->getItemSets();
@@ -86,8 +91,6 @@ class ItemAdapter extends AbstractEntityAdapter
                 $sets->remove($setId);
             }
         }
-        $valueHydrator = new ValueHydrator($this);
-        $valueHydrator->hydrate($data, $entity);
     }
 
     /**
@@ -95,9 +98,20 @@ class ItemAdapter extends AbstractEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        parent::buildQuery($qb, $query);
+
         if (isset($query['resource_class_label'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\Item', 'Omeka\Model\Entity\ResourceClass',
-                'resourceClass', 'label', $query['resource_class_label']);
+            $placeholder = $this->getPlaceholder();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\Item.resourceClass',
+                'Omeka\Model\Entity\ResourceClass'
+            )->andWhere($qb->expr()->eq(
+                'Omeka\Model\Entity\ResourceClass.label',
+                ":$placeholder"
+            ))->setParameter(
+                $placeholder,
+                $query['resource_class_label']
+            );
         }
     }
 

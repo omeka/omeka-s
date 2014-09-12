@@ -43,6 +43,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
         $valuesJoin = $this->getEntityClass() . '.values';
         foreach ($query['value'] as $propertyId => $queryTypes) {
+            if (!is_array($queryTypes)) {
+                continue;
+            }
             foreach ($queryTypes as $queryType => $values) {
                 // equal
                 if ('equal' == $propertyId) {

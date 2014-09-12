@@ -58,7 +58,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        $this->buildValuesQuery($qb, $query);
+        parent::buildQuery($qb, $query);
     }
 
     /**

@@ -7,6 +7,16 @@ use Omeka\Model\Entity\EntityInterface;
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
     /**
+     * {@inheritDoc}
+     */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        $this->buildValueQuery($qb, $query);
+        $this->buildPropertyQuery($qb, $query);
+        $this->buildHasPropertyQuery($qb, $query);
+    }
+
+    /**
      * Hydrate this resource's values.
      *
      * @param array $data
@@ -19,48 +29,38 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
-     * Builds queries on value.
+     * Build query on value.
      *
-     * There are several query types:
-     *   + value[empty][]={propertyId}:             has no value for property
-     *   + value[nempty][]={propertyId}:            has any value for property
-     *   + value[equal][]={value}:                  has exact value
-     *   + value[nequal][]={value}:                 has no exact value
-     *   + value[contain][]={value}:                contains value
-     *   + value[ncontain][]={value}:               does not contain value
-     *   + value[{propertyId}][equal][]={value}:    has exact value for property
-     *   + value[{propertyId}][nequal][]={value}:   has no exact value for property
-     *   + value[{propertyId}][contain][]={value}:  contains value for property
-     *   + value[{propertyId}][ncontain][]={value}: does not contain value for property
+     * Query types:
+     *   + value[eq][]={value}:  has exact value
+     *   + value[neq][]={value}: does not have exact value
+     *   + value[in][]={value}:  contains value
+     *   + value[nin][]={value}: does not contain value
      *
      * @param QueryBuilder $qb
      * @param array $query
      */
-    protected function buildValuesQuery(QueryBuilder $qb, array $query)
+    protected function buildValueQuery(QueryBuilder $qb, array $query)
     {
         if (!isset($query['value']) || !is_array($query['value'])) {
             return;
         }
         $valuesJoin = $this->getEntityClass() . '.values';
-        foreach ($query['value'] as $propertyId => $queryTypes) {
-            if (!is_array($queryTypes)) {
+        foreach ($query['value'] as $queryType => $values) {
+            if (!is_array($values)) {
                 continue;
             }
-            foreach ($queryTypes as $queryType => $values) {
-                // equal
-                if ('equal' == $propertyId) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+            foreach ($values as $value) {
+                $valuesAlias = $this->getToken();
+                $valuePlaceholder = $this->getToken();
+                if ('eq' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value",
                         ":$valuePlaceholder"
                     ));
-                    $qb->setParameter($valuePlaceholder, $values);
-                // nequal
-                } elseif ('nequal' == $propertyId) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+                    $qb->setParameter($valuePlaceholder, $value);
+                } elseif ('neq' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->eq(
@@ -71,21 +71,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, $values);
-                // contain
-                } elseif ('contain' == $propertyId) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+                    $qb->setParameter($valuePlaceholder, $value);
+                } elseif ('in' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->like(
                         "$valuesAlias.value",
                         ":$valuePlaceholder"
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$values%");
-                // ncontain
-                } elseif ('ncontain' == $propertyId) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+                    $qb->setParameter($valuePlaceholder, "%$value%");
+                } elseif ('nin' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->like(
@@ -96,103 +90,147 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$values%");
-                // empty
-                } elseif ('empty' == $propertyId) {
+                    $qb->setParameter($valuePlaceholder, "%$value%");
+                }
+            }
+        }
+    }
+
+    /**
+     * Build query by property.
+     *
+     * Query types:
+     *   + property[{pid}][eq][]={value}:  has exact value by property
+     *   + property[{pid}][neq][]={value}: does not have exact value by property
+     *   + property[{pid}][in][]={value}:  contains value by property
+     *   + property[{pid}][nin][]={value}: does not contain value by property
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    protected function buildPropertyQuery(QueryBuilder $qb, array $query)
+    {
+        if (!isset($query['property']) || !is_array($query['property'])) {
+            return;
+        }
+        $valuesJoin = $this->getEntityClass() . '.values';
+        foreach ($query['property'] as $propertyId => $queryTypes) {
+            if (!is_array($queryTypes)) {
+                continue;
+            }
+            foreach ($queryTypes as $queryType => $values) {
+                if (!is_array($values)) {
+                    continue;
+                }
+                foreach ($values as $value) {
                     $valuesAlias = $this->getToken();
-                    $qb->leftJoin(
-                        $valuesJoin, $valuesAlias, 'WITH',
-                        $qb->expr()->eq(
-                            "$valuesAlias.property",
-                            (int) $values
-                        )
-                    );
-                    $qb->andWhere($qb->expr()->isNull(
-                        "$valuesAlias.property"
-                    ));
-                // nempty
-                } elseif ('nempty' == $propertyId) {
-                    $valuesAlias = $this->getToken();
-                    $qb->innerJoin(
-                        $valuesJoin, $valuesAlias, 'WITH',
-                        $qb->expr()->eq(
-                            "$valuesAlias.property",
-                            (int) $values
-                        )
-                    );
-                } elseif (is_array($values)) {
-                    foreach ($values as $value) {
-                        $valuesAlias = $this->getToken();
-                        $valuePlaceholder = $this->getToken();
-                        // equal
-                        if ('equal' == $queryType) {
-                            $qb->innerJoin(
-                                $valuesJoin, $valuesAlias, 'WITH',
+                    $valuePlaceholder = $this->getToken();
+                    if ('eq' == $queryType) {
+                        $qb->innerJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->eq(
+                                "$valuesAlias.property",
+                                (int) $propertyId
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->eq(
+                            "$valuesAlias.value",
+                            ":$valuePlaceholder"
+                        ));
+                        $qb->setParameter($valuePlaceholder, $value);
+                    } elseif ('neq' == $queryType) {
+                        $qb->leftJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->andX(
+                                $qb->expr()->eq(
+                                    "$valuesAlias.value",
+                                    ":$valuePlaceholder"
+                                ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
                                     (int) $propertyId
                                 )
-                            );
-                            $qb->andWhere($qb->expr()->eq(
-                                "$valuesAlias.value",
-                                ":$valuePlaceholder"
-                            ));
-                            $qb->setParameter($valuePlaceholder, $value);
-                        // nequal
-                        } elseif ('nequal' == $queryType) {
-                            $qb->leftJoin(
-                                $valuesJoin, $valuesAlias, 'WITH',
-                                $qb->expr()->andX(
-                                    $qb->expr()->eq(
-                                        "$valuesAlias.value",
-                                        ":$valuePlaceholder"
-                                    ),
-                                    $qb->expr()->eq(
-                                        "$valuesAlias.property",
-                                        (int) $propertyId
-                                    )
-                                )
-                            );
-                            $qb->andWhere($qb->expr()->isNull(
-                                "$valuesAlias.value"
-                            ));
-                            $qb->setParameter($valuePlaceholder, $value);
-                        // contain
-                        } elseif ('contain' == $queryType) {
-                            $qb->innerJoin(
-                                $valuesJoin, $valuesAlias, 'WITH',
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->isNull(
+                            "$valuesAlias.value"
+                        ));
+                        $qb->setParameter($valuePlaceholder, $value);
+                    } elseif ('in' == $queryType) {
+                        $qb->innerJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->eq(
+                                "$valuesAlias.property",
+                                (int) $propertyId
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->like(
+                            "$valuesAlias.value",
+                            ":$valuePlaceholder"
+                        ));
+                        $qb->setParameter($valuePlaceholder, "%$value%");
+                    } elseif ('nin' == $queryType) {
+                        $qb->leftJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->andX(
+                                $qb->expr()->like(
+                                    "$valuesAlias.value",
+                                    ":$valuePlaceholder"
+                                ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
                                     (int) $propertyId
                                 )
-                            );
-                            $qb->andWhere($qb->expr()->like(
-                                "$valuesAlias.value",
-                                ":$valuePlaceholder"
-                            ));
-                            $qb->setParameter($valuePlaceholder, "%$value%");
-                        // ncontain
-                        } elseif ('ncontain' == $queryType) {
-                            $qb->leftJoin(
-                                $valuesJoin, $valuesAlias, 'WITH',
-                                $qb->expr()->andX(
-                                    $qb->expr()->like(
-                                        "$valuesAlias.value",
-                                        ":$valuePlaceholder"
-                                    ),
-                                    $qb->expr()->eq(
-                                        "$valuesAlias.property",
-                                        (int) $propertyId
-                                    )
-                                )
-                            );
-                            $qb->andWhere($qb->expr()->isNull(
-                                "$valuesAlias.value"
-                            ));
-                            $qb->setParameter($valuePlaceholder, "%$value%");
-                        }
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->isNull(
+                            "$valuesAlias.value"
+                        ));
+                        $qb->setParameter($valuePlaceholder, "%$value%");
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Build query by has property.
+     *
+     * Query types:
+     *   + has_property[{pid}]=1: has any value for property
+     *   + has_property[{pid}]=0: has no value for property
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    protected function buildHasPropertyQuery(QueryBuilder $qb, array $query)
+    {
+        if (!isset($query['has_property']) || !is_array($query['has_property'])) {
+            return;
+        }
+        $valuesJoin = $this->getEntityClass() . '.values';
+        foreach ($query['has_property'] as $propertyId => $hasProperty) {
+            if ((bool) $hasProperty) {
+                $valuesAlias = $this->getToken();
+                $qb->innerJoin(
+                    $valuesJoin, $valuesAlias, 'WITH',
+                    $qb->expr()->eq(
+                        "$valuesAlias.property",
+                        (int) $propertyId
+                    )
+                );
+            } else {
+                $valuesAlias = $this->getToken();
+                $qb->leftJoin(
+                    $valuesJoin, $valuesAlias, 'WITH',
+                    $qb->expr()->eq(
+                        "$valuesAlias.property",
+                        (int) $propertyId
+                    )
+                );
+                $qb->andWhere($qb->expr()->isNull(
+                    "$valuesAlias.property"
+                ));
             }
         }
     }

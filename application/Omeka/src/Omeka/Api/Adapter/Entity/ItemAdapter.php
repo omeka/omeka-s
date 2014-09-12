@@ -98,7 +98,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        $this->buildValuesQuery($qb, $query);
+        parent::buildQuery($qb, $query);
 
         if (isset($query['resource_class_label'])) {
             $placeholder = $this->getPlaceholder();

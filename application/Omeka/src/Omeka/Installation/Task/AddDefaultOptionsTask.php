@@ -1,12 +1,12 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Service\Pagination;
+use Omeka\Service\Paginator;
 
 class AddDefaultOptionsTask extends AbstractTask
 {
     protected $defaultOptions = array(
-        'pagination_per_page' => Pagination::PER_PAGE,
+        'pagination_per_page' => Paginator::PER_PAGE,
     );
 
     public function perform()

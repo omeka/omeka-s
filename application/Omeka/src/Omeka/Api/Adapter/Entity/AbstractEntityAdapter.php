@@ -29,6 +29,54 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected $index = 0;
 
     /**
+     * Get the fully qualified name of the entity class.
+     *
+     * @return string
+     */
+    abstract public function getEntityClass();
+
+    /**
+     * Hydrate an entity with the provided array.
+     *
+     * Do not modify or perform operations on the data when setting properties.
+     * Validation should be done in self::validate(). Filtering should be done
+     * in the entity's mutator methods. Authorize state changes of individual
+     * fields using self::authorize().
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     */
+    abstract public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore);
+
+    /**
+     * Build a conditional search query from an API request.
+     *
+     * Modify the passed $queryBuilder object according to the passed $query.
+     * The sort_by, sort_order, limit, and offset parameters are included
+     * separately.
+     *
+     * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    abstract public function buildQuery(QueryBuilder $qb, array $query);
+
+    /**
+     * Validate an entity.
+     *
+     * Set validation errors to the passed $errorStore object. If an error is
+     * present the entity will not be persisted or updated.
+     *
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     * @param bool $isPersistent
+     */
+    abstract public function validate(EntityInterface $entity,
+        ErrorStore $errorStore, $isPersistent);
+
+    /**
      * {@inheritDoc}
      */
     public function search(Request $request)

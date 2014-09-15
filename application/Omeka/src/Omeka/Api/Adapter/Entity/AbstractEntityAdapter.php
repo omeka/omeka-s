@@ -61,7 +61,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Build a conditional search query from an API request.
      *
      * Modify the passed $queryBuilder object according to the passed $query.
-     * The sort_by, sort_order, limit, and offset parameters are included
+     * The sort_by, sort_order, page, limit, and offset parameters are included
      * separately.
      *
      * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
@@ -72,13 +72,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {}
 
     /**
-     * Set limit (max results) and offset (first result) conditions to the
+     * Set sort_by and sort_order conditions to the query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $qb
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {}
+
+    /**
+     * Set page, limit (max results) and offset (first result) conditions to the
      * query builder.
      *
      * @param array $query
      * @param QueryBuilder $qb
      */
-    protected function setLimitAndOffset(QueryBuilder $qb, array $query)
+    public function limitQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['page'])) {
             $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
@@ -118,7 +127,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->setLimitAndOffset($qb, $request->getContent());
+        $this->sortQuery($qb, $request->getContent());
+        $this->limitQuery($qb, $request->getContent());
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {

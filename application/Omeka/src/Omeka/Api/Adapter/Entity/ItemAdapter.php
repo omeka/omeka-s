@@ -114,11 +114,4 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             );
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validate(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
-    ) {}
 }

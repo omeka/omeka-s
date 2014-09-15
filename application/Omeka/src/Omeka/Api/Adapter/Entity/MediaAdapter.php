@@ -60,19 +60,4 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $entity->setData($data['o:data']);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildQuery(QueryBuilder $qb, array $query)
-    {
-        parent::buildQuery($qb, $query);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validate(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
-    ) {}
 }

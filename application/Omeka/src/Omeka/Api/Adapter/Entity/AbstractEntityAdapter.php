@@ -29,13 +29,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected $index = 0;
 
     /**
-     * Get the fully qualified name of the entity class.
-     *
-     * @return string
-     */
-    abstract public function getEntityClass();
-
-    /**
      * Hydrate an entity with the provided array.
      *
      * Do not modify or perform operations on the data when setting properties.
@@ -51,6 +44,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ErrorStore $errorStore);
 
     /**
+     * Validate an entity.
+     *
+     * Set validation errors to the passed $errorStore object. If an error is
+     * present the entity will not be persisted or updated.
+     *
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     * @param bool $isPersistent
+     */
+    public function validate(EntityInterface $entity,
+        ErrorStore $errorStore, $isPersistent
+    ) {}
+
+    /**
      * Build a conditional search query from an API request.
      *
      * Modify the passed $queryBuilder object according to the passed $query.
@@ -61,20 +68,35 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param QueryBuilder $qb
      * @param array $query
      */
-    abstract public function buildQuery(QueryBuilder $qb, array $query);
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {}
 
     /**
-     * Validate an entity.
+     * Set limit (max results) and offset (first result) conditions to the
+     * query builder.
      *
-     * Set validation errors to the passed $errorStore object. If an error is
-     * present the entity will not be persisted or updated.
-     *
-     * @param EntityInterface $entity
-     * @param ErrorStore $errorStore
-     * @param bool $isPersistent
+     * @param array $query
+     * @param QueryBuilder $qb
      */
-    abstract public function validate(EntityInterface $entity,
-        ErrorStore $errorStore, $isPersistent);
+    protected function setLimitAndOffset(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['page'])) {
+            $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
+            $paginator->setCurrentPage($query['page']);
+            if (isset($query['per_page'])) {
+                $paginator->setPerPage($query['per_page']);
+            }
+            $qb->setMaxResults($paginator->getPerPage());
+            $qb->setFirstResult($paginator->getOffset());
+            return;
+        }
+        if (isset($query['limit'])) {
+            $qb->setMaxResults($query['limit']);
+        }
+        if (isset($query['offset'])) {
+            $qb->setFirstResult($query['offset']);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -365,33 +387,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             ));
         }
         return $entity;
-    }
-
-    /**
-     * Set limit (max results) and offset (first result) conditions to the
-     * query builder.
-     *
-     * @param array $query
-     * @param QueryBuilder $qb
-     */
-    protected function setLimitAndOffset(QueryBuilder $qb, array $query)
-    {
-        if (isset($query['page'])) {
-            $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
-            $paginator->setCurrentPage($query['page']);
-            if (isset($query['per_page'])) {
-                $paginator->setPerPage($query['per_page']);
-            }
-            $qb->setMaxResults($paginator->getPerPage());
-            $qb->setFirstResult($paginator->getOffset());
-            return;
-        }
-        if (isset($query['limit'])) {
-            $qb->setMaxResults($query['limit']);
-        }
-        if (isset($query['offset'])) {
-            $qb->setFirstResult($query['offset']);
-        }
     }
 
     /**

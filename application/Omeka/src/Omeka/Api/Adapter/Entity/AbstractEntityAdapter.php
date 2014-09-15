@@ -48,7 +48,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->setLimitAndOffset($request->getContent(), $qb);
+        $this->setLimitAndOffset($qb, $request->getContent());
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {
@@ -326,7 +326,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param array $query
      * @param QueryBuilder $qb
      */
-    protected function setLimitAndOffset(array $query, QueryBuilder $qb)
+    protected function setLimitAndOffset(QueryBuilder $qb, array $query)
     {
         if (isset($query['page'])) {
             $paginator = $this->getServiceLocator()->get('Omeka\Paginator');

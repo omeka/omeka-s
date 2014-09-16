@@ -436,6 +436,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $prefix = 'omeka_'
     ) {
         $placeholder = $prefix . $this->index;
+        $this->index++;
         $qb->setParameter($placeholder, $value);
         return ":$placeholder";
     }

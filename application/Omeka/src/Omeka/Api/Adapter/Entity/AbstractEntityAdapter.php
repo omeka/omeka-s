@@ -29,6 +29,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected $index = 0;
 
     /**
+     * Entity fields on which to sort search results.
+     *
+     * The keys are the value of "sort_by" query. The values are the
+     * corresponding entity fields on which to sort.
+     *
+     * @see self::sortQuery()
+     * @var array
+     */
+    protected $sortFields = array();
+
+    /**
      * Hydrate an entity with the provided array.
      *
      * Do not modify or perform operations on the data when setting properties.
@@ -78,7 +89,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param QueryBuilder $qb
      */
     public function sortQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+        if (isset($query['sort_by'])
+            && array_key_exists($query['sort_by'], $this->sortFields)
+        ) {
+            $sortBy = $this->sortFields[$query['sort_by']];
+            $sortOrder = null;
+            if (isset($query['sort_order'])
+                && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
+                $sortOrder = strtoupper($query['sort_order']);
+            }
+            $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
+        }
+    }
 
     /**
      * Set page, limit (max results) and offset (first result) conditions to the

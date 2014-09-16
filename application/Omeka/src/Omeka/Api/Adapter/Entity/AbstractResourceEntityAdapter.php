@@ -17,6 +17,35 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        parent::sortQuery($qb, $query);
+
+        if (isset($query['sort_by'])) {
+            $property = $this->getPropertyByTerm($query['sort_by']);
+            if ($property) {
+                $qb->leftJoin(
+                    $this->getEntityClass() . '.values',
+                    'omeka_order_values',
+                    'WITH',
+                    $qb->expr()->eq(
+                        'omeka_order_values.property',
+                        $property->getId()
+                    )
+                );
+                $qb->orderBy('omeka_order_values.value', $query['sort_order']);
+            } elseif ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    $this->getEntityClass() . '.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            }
+        }
+    }
+
+    /**
      * Hydrate this resource's values.
      *
      * @param array $data
@@ -243,6 +272,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     protected function getPropertyByTerm($term)
     {
+        if (!$this->isTerm($term)) {
+            return null;
+        }
         list($prefix, $localName) = explode(':', $term);
         $dql = 'SELECT p FROM Omeka\Model\Entity\Property p
         JOIN p.vocabulary v WHERE p.localName = :localName

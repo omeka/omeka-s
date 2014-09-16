@@ -21,8 +21,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
-        parent::sortQuery($qb, $query);
-
         if (isset($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
             if ($property) {
@@ -41,6 +39,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $this->getEntityClass() . '.resourceClass',
                     'omeka_order'
                 )->orderBy('omeka_order.label', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
             }
         }
     }

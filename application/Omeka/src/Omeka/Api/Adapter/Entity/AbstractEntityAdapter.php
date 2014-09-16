@@ -424,15 +424,32 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Get a unique token for query builder aliases and placeholders.
+     * Create a unique named parameter for the query builder and bind a value to
+     * it.
      *
-     * @param string $prefix
-     * @return string
+     * @param QueryBuilder $qb
+     * @param mixed $value The value to bind
+     * @param string $prefix The placeholder prefix
+     * @return string The placeholder
      */
-    protected function getToken($prefix = 'omeka_')
+    public function createNamedParameter(QueryBuilder $qb, $value,
+        $prefix = 'omeka_'
+    ) {
+        $placeholder = $prefix . $this->index;
+        $qb->setParameter($placeholder, $value);
+        return ":$placeholder";
+    }
+
+    /**
+     * Create a unique alias for the query builder.
+     *
+     * @param string $prefix The alias prefix
+     * @return string The alias
+     */
+    public function createAlias($prefix = 'omeka_')
     {
-        $token = $prefix . $this->index;
+        $alias = $prefix . $this->index;
         $this->index++;
-        return $token;
+        return $alias;
     }
 }

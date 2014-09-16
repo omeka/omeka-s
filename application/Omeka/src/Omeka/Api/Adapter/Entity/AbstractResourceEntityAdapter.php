@@ -80,46 +80,41 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 continue;
             }
             foreach ($values as $value) {
-                $valuesAlias = $this->getToken();
-                $valuePlaceholder = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 if ('eq' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value",
-                        ":$valuePlaceholder"
+                        $this->createNamedParameter($qb, $value)
                     ));
-                    $qb->setParameter($valuePlaceholder, $value);
                 } elseif ('neq' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->eq(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, $value)
                         )
                     );
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, $value);
                 } elseif ('in' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->like(
                         "$valuesAlias.value",
-                        ":$valuePlaceholder"
+                        $this->createNamedParameter($qb, "%$value%")
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$value%");
                 } elseif ('nin' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->like(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, "%$value%")
                         )
                     );
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$value%");
                 }
             }
         }
@@ -152,8 +147,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     continue;
                 }
                 foreach ($values as $value) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+                    $valuesAlias = $this->createAlias();
                     if ('eq' == $queryType) {
                         $qb->innerJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
@@ -164,16 +158,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         );
                         $qb->andWhere($qb->expr()->eq(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, $value)
                         ));
-                        $qb->setParameter($valuePlaceholder, $value);
                     } elseif ('neq' == $queryType) {
                         $qb->leftJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
                             $qb->expr()->andX(
                                 $qb->expr()->eq(
                                     "$valuesAlias.value",
-                                    ":$valuePlaceholder"
+                                    $this->createNamedParameter($qb, $value)
                                 ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
@@ -184,7 +177,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $qb->andWhere($qb->expr()->isNull(
                             "$valuesAlias.value"
                         ));
-                        $qb->setParameter($valuePlaceholder, $value);
                     } elseif ('in' == $queryType) {
                         $qb->innerJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
@@ -195,16 +187,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         );
                         $qb->andWhere($qb->expr()->like(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, "%$value%")
                         ));
-                        $qb->setParameter($valuePlaceholder, "%$value%");
                     } elseif ('nin' == $queryType) {
                         $qb->leftJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
                             $qb->expr()->andX(
                                 $qb->expr()->like(
                                     "$valuesAlias.value",
-                                    ":$valuePlaceholder"
+                                    $this->createNamedParameter($qb, "%$value%")
                                 ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
@@ -215,7 +206,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $qb->andWhere($qb->expr()->isNull(
                             "$valuesAlias.value"
                         ));
-                        $qb->setParameter($valuePlaceholder, "%$value%");
                     }
                 }
             }
@@ -240,7 +230,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $valuesJoin = $this->getEntityClass() . '.values';
         foreach ($query['has_property'] as $propertyId => $hasProperty) {
             if ((bool) $hasProperty) {
-                $valuesAlias = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 $qb->innerJoin(
                     $valuesJoin, $valuesAlias, 'WITH',
                     $qb->expr()->eq(
@@ -249,7 +239,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     )
                 );
             } else {
-                $valuesAlias = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 $qb->leftJoin(
                     $valuesJoin, $valuesAlias, 'WITH',
                     $qb->expr()->eq(

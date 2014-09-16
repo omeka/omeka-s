@@ -295,9 +295,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     protected function isTerm($term)
     {
-        if (preg_match('/[a-z0-9-_]+:[a-z0-9-_]+/i', $term)) {
-            return true;
-        }
-        return false;
+        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
     }
 }

@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\ResourceValuesCollection;
+use Omeka\Api\Representation\Entity\PropertyRepresentation;
 use Zend\Form\Form;
 
 
@@ -13,45 +14,21 @@ class ItemForm extends Form
         parent::__construct($name, $options);
         
         $this->add(array(
-                'name' => 'o:resource_class[o:id]',
-                'type' => 'Select',
+                'name'    => 'o:resource_class[o:id]',
+                'type'    => 'Select',
                 'options' => array(
                     'label' => 'Class',
                     'value_options' => $this->getResourceClassPairs(),
                 )
         ));
 
-        $this->add(array(
-                'name' => 'dcterms:title[0][@value]',
-                'type' => 'Text',
-                'options' => array(
-                    'label' => 'Title'
-                )
-        ));
+        $this->addPropertyInput($this->getDctermsTitle());
+        $this->addPropertyInput($this->getDctermsDescription());
 
-        $this->add(array(
-                'name' => 'dcterms:title[0][property_id]',
-                'type' => 'Hidden',
-                'attributes' => array(
-                    'value' => '1'
-                )
-        ));
+        foreach ($this->getProperties() as $property) {
+            $this->addPropertyInput($property);
+        }
 
-        $this->add(array(
-                'name' => 'dcterms:description[0][@value]',
-                'type' => 'Text',
-                'options' => array(
-                    'label' => 'Description'
-                )
-        ));
-
-        $this->add(array(
-                'name' => 'dcterms:description[0][property_id]',
-                'type' => 'Hidden',
-                'attributes' => array(
-                    'value' => '4'
-                )
-        ));
         $this->add(array(
                 'name' => 'csrf',
                 'type' => 'Csrf'
@@ -61,6 +38,45 @@ class ItemForm extends Form
     protected function getResourceClassPairs()
     {
         return $this->options['resource_class_pairs'];
+    }
+    
+    protected function getProperties()
+    {
+        return $this->options['properties'];
+    }
+    
+    protected function getDctermsTitle()
+    {
+        return $this->options['dcterms_title'];
+    }
+    
+    protected function getDctermsDescription()
+    {
+        return $this->options['dcterms_description'];
+    }
+    
+    /**
+     * Boilerplate to add a text property input
+     * @param Omeka\Api\Representation\Entity\PropertyRepresentation $property
+     */
+    protected function addPropertyInput(PropertyRepresentation $property)
+    {
+        $qName = $property->getVocabulary()->getPrefix() . ':' . $property->getLocalName();
+        $this->add(array(
+                'name'    => $qName . '[0][@value]',
+                'type'    => 'Text',
+                'options' => array(
+                    'label' => $property->getLabel()
+                )
+        ));
+
+        $this->add(array(
+                'name'       => $qName . '[0][property_id]',
+                'type'       => 'Hidden',
+                'attributes' => array(
+                    'value' => $property->getId()
+                )
+        ));
     }
         
     protected function getEntity()

@@ -38,9 +38,21 @@ class ItemController extends AbstractActionController
         foreach ($resourceClasses as $resourceClass) {
             $resourceClassPairs[$resourceClass->getId()] = $resourceClass->getLabel();
         }
-
+        $response = $this->api()->search('properties');
+        $properties = $response->getContent();
+        $dctermsTitles = $this->api()
+                              ->search('properties', array('vocabulary_prefix' => 'dcterms', 
+                                                           'local_name' => 'title'))
+                              ->getContent();
+        $dctermsDescriptions = $this->api()
+                              ->search('properties', array('vocabulary_prefix' => 'dcterms', 
+                                                           'local_name' => 'description'))
+                              ->getContent();
         $options = array(
                 'resource_class_pairs' => $resourceClassPairs,
+                'properties'           => $properties,
+                'dcterms_title'        => $dctermsTitles[0],
+                'dcterms_description'  => $dctermsDescriptions[0]
                 );
         $form = new ItemForm('items', $options);
         $view->setVariable('form', $form);
@@ -55,7 +67,7 @@ class ItemController extends AbstractActionController
         }
         return $view;
     }
-
+    
     public function editAction()
     {}
 }

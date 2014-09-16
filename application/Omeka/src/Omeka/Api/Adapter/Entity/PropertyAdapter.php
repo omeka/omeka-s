@@ -76,6 +76,10 @@ class PropertyAdapter extends AbstractEntityAdapter
             $this->joinWhere($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
                 'vocabulary', 'id', $query['vocabulary_id']);
         }
+        if (isset($query['vocabulary_prefix'])) {
+            $this->joinWhere($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
+                'vocabulary', 'prefix', $query['vocabulary_prefix']);
+        }
         if (isset($query['local_name'])) {
             $this->where($qb, 'localName', $query['local_name']);
         }

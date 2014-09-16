@@ -20,4 +20,9 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
             ),
         );
     }
+    
+    public function getPrefix()
+    {
+        return $this->getData()->getPrefix();
+    }
 }

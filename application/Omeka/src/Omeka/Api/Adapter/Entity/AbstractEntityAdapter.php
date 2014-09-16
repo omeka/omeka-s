@@ -96,7 +96,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $sortBy = $this->sortFields[$query['sort_by']];
             $sortOrder = null;
             if (isset($query['sort_order'])
-                && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
+                && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
+            ) {
                 $sortOrder = strtoupper($query['sort_order']);
             }
             $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);

@@ -1,0 +1,14 @@
+<?php
+if ('sorted-asc' == $class) {
+    $title = 'Switch to descending order';
+} elseif ('sorted-desc' == $class) {
+    $title = 'Switch to ascending order';
+} else {
+    $title = "Sort by $label";
+}
+?>
+<a href="<?php echo $this->escapeHtmlAttr($url); ?>"
+    class="<?php echo $this->escapeHtmlAttr($class); ?>"
+    title="<?php echo $this->escapeHtmlAttr($title); ?>">
+    <?php echo $this->escapeHtml($label); ?>
+</a>

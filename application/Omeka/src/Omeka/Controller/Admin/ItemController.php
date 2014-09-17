@@ -19,7 +19,7 @@ class ItemController extends AbstractActionController
     {
         $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
-        $response = $this->api()->search('items', array('page' => $page));
+        $response = $this->api()->search('items', $this->params()->fromQuery());
         $items = $response->getContent();
 
         $this->paginator($response->getTotalResults(), $page);

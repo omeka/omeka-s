@@ -94,13 +94,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             && array_key_exists($query['sort_by'], $this->sortFields)
         ) {
             $sortBy = $this->sortFields[$query['sort_by']];
-            $sortOrder = null;
-            if (isset($query['sort_order'])
-                && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
-            ) {
-                $sortOrder = strtoupper($query['sort_order']);
-            }
-            $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
+            $qb->orderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
         }
     }
 
@@ -137,11 +131,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function search(Request $request)
     {
         $entityClass = $this->getEntityClass();
+        $query = $request->getContent();
+
+        // Set the sort order
+        if (isset($query['sort_order'])
+            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
+        ) {
+            $query['sort_order'] = strtoupper($query['sort_order']);
+        } else {
+            $query['sort_order'] = 'ASC';
+        }
 
         // Begin building the search query.
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
-        $this->buildQuery($qb, $request->getContent());
+        $this->buildQuery($qb, $query);
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
@@ -151,8 +155,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->sortQuery($qb, $request->getContent());
-        $this->limitQuery($qb, $request->getContent());
+        $this->sortQuery($qb, $query);
+        $this->limitQuery($qb, $query);
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {

@@ -94,6 +94,7 @@ return array(
             'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
             'messages'    => 'Omeka\View\Helper\Messages',
+            'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),
     'media_types' => array(

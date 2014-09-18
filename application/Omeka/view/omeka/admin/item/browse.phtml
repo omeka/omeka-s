@@ -27,9 +27,9 @@
                     <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->getId()), true)); ?>"><?php echo $this->escapeHtml($item->getDisplayTitle('[untitled]')); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="fa-pencil"><span class="screen-reader-text">Edit</span></a></li>
-                    <li><a href="#" class="fa-ellipsis-h"><span class="screen-reader-text">Details</span></a></li>
-                    <li><a href="#" class="fa-trash-o"><span class="screen-reader-text">Delete</span></a></li>
+                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="o-icon-edit"><span class="screen-reader-text">Edit</span></a></li>
+                    <li><a href="#" class="o-icon-more"><span class="screen-reader-text">Details</span></a></li>
+                    <li><a href="#" class="o-icon-delete"><span class="screen-reader-text">Delete</span></a></li>
                 </ul>
             </td>
             <td><?php echo $this->escapeHtml($item->getDisplayResourceClassLabel()); ?></td>
@@ -43,7 +43,7 @@
 
 <div class="modal">
     <div class="modal-header">
-        <a href="#" class="closeBtn fa-times"><span class="screen-reader-text">Close Me</span></a>
+        <a href="#" class="closeBtn o-icon-close"><span class="screen-reader-text">Close Me</span></a>
         <h1></h1>
     </div>
     <div class="modal-content">

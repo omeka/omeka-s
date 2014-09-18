@@ -85,7 +85,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   a:active,
   a:hover {
-    color: red;
+    color: #FF0000;
   }
 
   h3, h4, h5, h6 {
@@ -159,9 +159,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @group ----- Form elements ----- */
   input,
   textarea,
-  button,
-  a.button,
-  .button {
+  button {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     line-height: 24px;
@@ -169,7 +167,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   input[type="text"],
-  input[type="password"] {
+  input[type="password"],
+  input[type="email"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
     height: 2.25em;
     border-color: rgba(0, 0, 0, 0.15);
     border-width: 0.0625em;
@@ -227,13 +231,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   button:hover,
   a.button:hover,
   .button:hover {
-    background-color: red;
+    background-color: #FF0000;
   }
   input[type="submit"]:active,
   button:active,
   a.button:active,
   .button:active {
-    background-color: red;
+    background-color: #FF0000;
   }
 
   .field {
@@ -365,7 +369,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   .error {
-    color: red;
+    color: #FF0000;
   }
 
   .success {
@@ -609,6 +613,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .browse th {
     padding: 0.375em 0.5em;
     position: relative;
+    vertical-align: top;
   }
 
   .browse td,
@@ -617,7 +622,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 0;
   }
 
   .browse td:first-of-type,
@@ -626,9 +630,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     width: 2.25em;
   }
 
-  .browse td:nth-of-type(2),
-  .browse th:nth-of-type(2) {
-    width: 60%;
+  .browse td:first-of-type:not(:only-of-type),
+  .browse th:first-of-type:not(:only-of-type) {
+    background-color: #d2d2d2;
+    /* For multiline cells. */
   }
 
   .browse .add.button,
@@ -676,12 +681,72 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     white-space: nowrap;
   }
 
+  th a[class^="sort"] {
+    display: block;
+    width: 100%;
+  }
+
+  th a[class="sorted-asc"],
+  th a[class="sorted-desc"] {
+    border-color: #d2d2d2;
+    padding: 0 .5em;
+    border-bottom-width: 0.1875em;
+    border-bottom-style: solid;
+    padding-bottom: 0.1875em;
+    margin: 0 0 -0.375em -0.5em;
+    width: -webkit-calc(100% + 1em);
+    width: calc(100% + 1em);
+  }
+
+  [class*="sort"]:after,
+  [class*="sort"]:before {
+    position: absolute;
+    font-size: 12px;
+    right: .5em;
+    top: 0.9375em;
+  }
+
+  [class*="sort"]:hover:after {
+    color: #FF0000;
+  }
+
+  .sortable:after,
+  [class*="sort"]:before {
+    content: "\f0dc";
+    color: #999;
+  }
+
+  .sorted-asc:hover:after,
+  .sorted-desc:after {
+    content: "\f0dd";
+  }
+
+  .sortable:hover:after,
+  .sorted-desc:hover:after,
+  .sorted-asc:after {
+    content: "\f0de";
+  }
+
+  [class*="sort"]:before {
+    z-index: 1;
+  }
+
+  [class*="sort"]:after {
+    z-index: 2;
+  }
+
   /* @end */
   /* @group ----- Add views ----- */
   .add div[role="main"],
   .import div[role="main"],
   .edit div[role="main"] {
     padding-top: 6em;
+  }
+
+  .add legend,
+  .edit legend {
+    position: absolute;
+    left: -9999px;
   }
 
   .section-nav {
@@ -773,6 +838,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     width: 100%;
   }
 
+  .add-property.button {
+    margin-top: 1.5em;
+  }
+
   /* @group ----- Metadata ----- */
   #add-item .remove.field {
     background-color: #ff9999;
@@ -829,7 +898,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .field a.remove.button,
   .field a.add-value.button {
     background-color: transparent;
-    color: red;
+    color: #FF0000;
     padding: 0;
     min-height: intrinsic;
     margin: 0;
@@ -841,6 +910,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .unset .value,
   .unset .add-value,
+  .unset.new.field a.remove.button,
   .field a.remove.button,
   .set-property,
   .properties,
@@ -1038,7 +1108,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333333;
+    border-bottom: 0.75em solid #333;
   }
 
   .field-description p:not(:first-of-type) {
@@ -1058,7 +1128,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .inputs select,
   .inputs textarea,
   .inputs input[type="text"],
-  .inputs input[type="password"] {
+  .inputs input[type="password"],
+  .inputs input[type="email"] {
     width: 100%;
     min-height: 2.25em;
     padding: 0.375em;
@@ -1083,7 +1154,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-right: 0;
   }
   .inputs .tab:hover {
-    background-color: red;
+    background-color: #FF0000;
   }
   .inputs .tab.active {
     background-color: #990000;
@@ -1113,7 +1184,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333333;
+    border-bottom: 0.75em solid #333;
   }
 
   .value {
@@ -1173,7 +1244,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @end */
   /* @end */
   /* @group ----- Iconfont ----- */
-  [class^="fa-"]:before, [class*=" fa-"]:before {
+  .external.button:after {
     font-family: 'FontAwesome';
     speak: none;
     font-style: normal;
@@ -1181,55 +1252,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-    /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  .fa-menu:before {
-    content: "\f0c9";
-  }
-
-  .fa-current-user:before {
-    content: "\f007";
-  }
-
-  .fa-items:before {
-    content: "\f1b3";
-  }
-
-  .fa-text:before {
-    content: "\f11c";
-  }
-
-  .fa-items:before {
-    content: "\f1b3";
-  }
-
-  .fa-item-set:before {
-    content: "\f187";
-  }
-
-  .fa-vocab:before {
-    content: "\f02d";
-  }
-
-  .fa-module:before {
-    content: "\f0fe";
-  }
-
-  .fa-site:before {
-    content: "\f108";
-  }
-
-  .fa-settings:before {
-    content: "\f085";
-  }
-
-  .screen-reader-text {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
+    content: "\f08e";
+    margin-left: .5em;
   }
 
   /* @end */
@@ -1304,7 +1330,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .modal-search-nav #item-list-search {
     float: left;
   }
-  .modal-search-nav button.fa-search {
+  .modal-search-nav button.o-icon-search {
     height: 1.5em;
     width: 1.5em;
     line-height: 24px;
@@ -1319,7 +1345,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     z-index: 1003;
     text-indent: -9999px;
   }
-  .modal-search-nav button.fa-search:before {
+  .modal-search-nav button.o-icon-search:before {
     text-indent: 0px;
     position: absolute;
     left: 0;
@@ -1355,7 +1381,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding-bottom: 0.3125em;
   }
   .modal-search-nav .more-options:hover {
-    color: red;
+    color: #FF0000;
     background-color: #fff;
   }
   .modal-search-nav .more-options.collapse {
@@ -1566,27 +1592,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     opacity: 0;
   }
 
-  .vocab-inputs {
-    width: 74.54212%;
-  }
-  .vocab-inputs input[type=text],
-  .vocab-inputs textarea,
-  .vocab-inputs select {
-    width: -webkit-calc(100% - 72px);
-    width: calc(100% - 72px);
-  }
-  .vocab-inputs .input-options {
-    left: -webkit-calc(100% - 72px);
-    left: calc(100% - 72px);
-  }
-
   .vocabs .upload.input-option span {
     display: block;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 0.375em 10px;
-    width: -webkit-calc(100% - 72px);
-    width: calc(100% - 72px);
     float: left;
+    width: 100%;
   }
 
   /* @end */
@@ -1828,11 +1839,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /* @group ----- Install ----- */
   .install label {
     display: inline-block;
+    padding: 0.375em 0;
     width: 33.33333%;
   }
   .install input {
-    width: -webkit-calc(66.66% - 3px);
-    width: calc(66.66% - 3px);
+    width: -webkit-calc(66.66% - 6px);
+    width: calc(66.66% - 6px);
+    vertical-align: top;
   }
   .install button[type="submit"] {
     display: block;
@@ -1851,7 +1864,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     height: intrinsic;
   }
 
-  /* @group ---- Header ----- */
+  /* @group ----- Header ----- */
   header {
     width: -webkit-calc(100% - 16.66667%);
     width: calc(100% - 16.66667%);
@@ -1893,29 +1906,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: #e7e7e7;
   }
 
-  /* @end */
-  div[role="main"] {
-    margin: 2.25em 0 0 0;
-    width: 100%;
-    min-height: -webkit-calc(100% - 4.5em);
-    min-height: calc(100% - 4.5em);
-    position: relative;
-    padding-top: 3.75em;
-  }
-  div[role="main"] > h1:first-of-type {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   #current-user,
   #menu,
   #save-sidebar,
-  #page-actions,
   #search,
   footer {
     position: fixed;
@@ -1936,6 +1929,27 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin: 0;
   }
 
+  /* @end */
+  /* @group ----- Global content ----- */
+  div[role="main"] {
+    margin: 2.25em 0 0 0;
+    width: 100%;
+    min-height: -webkit-calc(100% - 4.5em);
+    min-height: calc(100% - 4.5em);
+    position: relative;
+    padding-top: 3.75em;
+  }
+  div[role="main"] > h1:first-of-type {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* @end */
   /* @group ----- Navigation ----- */
   #menu {
     text-align: left;
@@ -1959,10 +1973,205 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: #990000;
   }
 
+  #page-actions {
+    position: static;
+    text-align: left;
+    padding: 0;
+    width: 100%;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
+    height: auto;
+    margin-bottom: 0.75em;
+  }
+
+  .pagination {
+    width: 100%;
+  }
+
   /* @end */
   /* @group ----- Search ----- */
   #search-form {
     margin: 3em 4.16667%;
+  }
+
+  /* @end */
+  /* @group ----- Browse views ----- */
+  .batch-edit.button {
+    margin: 0;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .browse table {
+    position: relative;
+  }
+
+  .browse .batch-edit + .mobile-container:before {
+    content: "";
+    height: 2.25em;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+    position: absolute;
+    margin-top: -2.25em;
+    left: 1.04167%;
+    right: 1.04167%;
+    z-index: 0;
+  }
+
+  .mobile-container td:nth-of-type(2),
+  .mobile-container th:nth-of-type(2) {
+    width: 100%;
+  }
+
+  .mobile-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .mobile-container table {
+    width: min-intrinsic;
+    margin-bottom: 0;
+    position: static;
+  }
+
+  .mobile-container th,
+  .mobile-container td {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .mobile-container th:first-of-type,
+  .mobile-container td:first-of-type,
+  .mobile-container th:nth-of-type(2),
+  .mobile-container td:nth-of-type(2) {
+    position: relative;
+    left: auto;
+  }
+
+  .modal.small {
+    width: 80%;
+    min-height: 40%;
+  }
+
+  /* @end */
+  /* @group ----- Add/Edit views ----- */
+  .add fieldset,
+  .edit fieldset {
+    margin-bottom: 0;
+  }
+
+  .add legend,
+  .edit legend {
+    position: relative;
+    left: auto;
+    font-size: 24px;
+    background-color: #ff6666;
+    display: block;
+    width: 100%;
+    padding: 0.5em 0.375em;
+    color: #fff;
+    cursor: pointer;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
+  }
+
+  .add legend:after,
+  .edit legend:after {
+    content: "\f0da";
+    font-family: "FontAwesome";
+    position: absolute;
+    right: 0.375em;
+    top: 0.5em;
+  }
+
+  .add .active legend:after,
+  .edit .active legend:after {
+    content: "\f0d7";
+  }
+
+  .add .section,
+  .edit .section,
+  .add .active.section > *:not(legend),
+  .edit .active.section > *:not(legend) {
+    display: block;
+  }
+
+  .add .section > *:not(legend),
+  .edit .section > *:not(legend),
+  .add .section .field.template,
+  .edit .section .field.template {
+    display: none;
+  }
+
+  .add .active.section > .button,
+  .edit .active.section > .button {
+    display: inline-block;
+  }
+
+  .section-nav {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .field-meta,
+  .inputs {
+    width: 100%;
+  }
+
+  .field-actions {
+    position: absolute;
+    top: 0.5625em;
+    right: 1.66667%;
+    z-index: 1;
+    width: 50%;
+  }
+  .field-actions a {
+    float: right;
+    display: block;
+  }
+  .field-actions a.button {
+    margin-left: .5em !important;
+  }
+
+  .field-meta label,
+  .field-description p {
+    line-height: 24px;
+    margin-bottom: 0.375em;
+  }
+
+  .field-meta label {
+    font-weight: bold;
+  }
+
+  .field-description {
+    height: 24px;
+    float: none;
+    display: inline-block;
+    margin-left: .25em;
+    position: absolute;
+  }
+
+  .unset .field-meta {
+    width: 100%;
+  }
+
+  /* @end */
+  /* @group ----- Minimalist views ----- */
+  body.minimal {
+    width: 75%;
+  }
+  body.minimal .logo {
+    background-color: transparent;
+  }
+  body.minimal div[role="main"] > .messages {
+    margin-bottom: 1.5em;
   }
 
   /* @end */
@@ -1978,11 +2187,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   header,
   #menu.active,
-  #user.active,
+  #current-user.active,
   #search.active {
     left: 0;
     right: 0;
   }
-}
 
-/*# sourceMappingURL=style.css.map */
+  body.minimal {
+    width: 100%;
+    margin: 0;
+  }
+  body.minimal div[role="main"] {
+    padding: 1.5em 6.25%;
+  }
+}

@@ -134,7 +134,7 @@ class MvcListeners extends AbstractListenerAggregate
         $action = $routeMatch->getParam('action');
 
         $acl = $application->getServiceManager()->get('Omeka\Acl');
-        if ($acl->isAllowed('current_user', $controller, $action)) {
+        if ($acl->userIsAllowed($controller, $action)) {
             return;
         }
 

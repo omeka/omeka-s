@@ -5,6 +5,8 @@
     <property name="composer.vendor.path" location="vendor"/>
     <property name="composer.bin.path" location="${composer.vendor.path}/bin"/>
     <property name="phpunit.path" location="${composer.bin.path}/phpunit"/>
+    <property name="phpunit.log.path" location="${build.dir}/test-results.xml"/>
+    <property name="phpunit.coverage.html.path" location="${build.dir}/test-coverage/html"/>
     <target name="build-dir">
         <mkdir dir="${build.dir}"/>
     </target>
@@ -35,6 +37,14 @@
             <arg value="install"/>
         </exec>
     </target>
+    <target name="update-deps"
+            depends="get-composer,update-composer"
+            description="Update locked dependencies.">
+        <exec executable="php" failonerror="true">
+            <arg file="${composer.path}"/>
+            <arg value="update"/>
+        </exec>
+    </target>
     <target name="dedist"
             description="Copy .dist files to their proper locations.">
         <copy todir=".">
@@ -56,10 +66,20 @@
         </exec>
     </target>
     <target name="test" description="Run automated tests.">
+        <condition property="phpunit.coverage.arg"
+                   value="--coverage-html ${phpunit.coverage.html.path}"
+                   else="">
+            <isset property="test.coverage"/>
+        </condition>
         <exec executable="${phpunit.path}"
               dir="application/Omeka/test"
-              failonerror="true"
-        />
+              failonerror="true">
+            <arg value="-d"/>
+            <arg value="date.timezone=America/New_York"/>
+            <arg value="--log-junit"/>
+            <arg file="${build.dir}/test-results.xml"/>
+            <arg line="${phpunit.coverage.arg}"/>
+        </exec>
     </target>
     <target name="init"
             description="Set up this Omeka install."

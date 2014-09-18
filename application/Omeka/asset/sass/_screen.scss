@@ -102,9 +102,7 @@ body {
     
     input,
     textarea,
-    button,
-    a.button,
-    .button {
+    button {
         font-family: "Source Sans Pro", sans-serif;
         font-size: $base-font-size;
         line-height: $base-line-height;
@@ -112,7 +110,10 @@ body {
     }
     
     input[type="text"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="email"] {
+        @include appearance(none);
+        @include border-radius(0px);
         height: rhythm(1.5);
         border-color: rgba(0,0,0,.15);
         @include rhythm-borders(1px, 0, $base-font-size, solid);
@@ -545,6 +546,7 @@ div[role="main"] {
 .browse th {
     padding: rhythm(.25) .5em;
     position: relative;
+    vertical-align: top;
 }
 
 .browse td,
@@ -553,7 +555,6 @@ div[role="main"] {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 0;
 }
 
 .browse td:first-of-type,
@@ -562,9 +563,9 @@ div[role="main"] {
     width: rhythm(1.5);
 }
 
-.browse td:nth-of-type(2),
-.browse th:nth-of-type(2) {
-    width: 60%;
+.browse td:first-of-type:not(:only-of-type),
+.browse th:first-of-type:not(:only-of-type) {
+    background-color: #d2d2d2; /* For multiline cells. */
 }
 
 .browse .add.button,
@@ -611,6 +612,58 @@ div[role="main"] {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+th a[class^="sort"] {
+    display: block;
+    width: 100%;
+}
+
+th a[class="sorted-asc"],
+th a[class="sorted-desc"] {
+    border-color: #d2d2d2;
+    padding: 0 .5em;
+    @include trailing-border(3px, .25, $base-font-size, solid);
+    margin: 0 0 rhythm(-.25) -.5em;
+    @include calc('width', '100% + 1em');
+}
+
+[class*="sort"]:after,
+[class*="sort"]:before {
+    position: absolute;
+    font-size: .75 * $base-font-size;
+    right: .5em;
+    top: rhythm(.625);
+}
+
+[class*="sort"]:hover:after {
+    color: $red;
+}
+
+.sortable:after,
+[class*="sort"]:before {
+    content: "\f0dc";
+    color: #999;
+}
+
+.sorted-asc:hover:after,
+.sorted-desc:after {
+    content: "\f0dd";
+}
+
+.sortable:hover:after,
+.sorted-desc:hover:after,
+.sorted-asc:after {
+    content: "\f0de";
+}
+
+[class*="sort"]:before {
+    z-index: 1;
+}
+
+[class*="sort"]:after {
+    z-index: 2;
+}
+
 /* @end */
 
 /* @group ----- Add views ----- */
@@ -619,6 +672,12 @@ div[role="main"] {
 .import div[role="main"],
 .edit div[role="main"] {
     padding-top: rhythm(4);
+}
+
+.add legend,
+.edit legend {
+    position: absolute;
+    left: -9999px;
 }
 
 .section-nav {
@@ -700,6 +759,10 @@ div[role="main"] {
     width: 100%;
 }
 
+.add-property.button {
+    @include leader();
+}
+
     /* @group ----- Metadata ----- */
     
     #add-item .remove.field {
@@ -774,6 +837,7 @@ div[role="main"] {
     
     .unset .value,
     .unset .add-value,
+    .unset.new.field a.remove.button,
     .field a.remove.button,
     .set-property,
     .properties,
@@ -1011,7 +1075,8 @@ div[role="main"] {
         select,
         textarea,
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="email"] {
             width: 100%;
             min-height: rhythm(1.5);
             padding: rhythm(.25);
@@ -1141,8 +1206,7 @@ div[role="main"] {
 
 /* @group ----- Iconfont ----- */
 
-
-[class^="fa-"]:before, [class*=" fa-"]:before {
+.external.button:after {
     font-family: 'FontAwesome';
     speak: none;
     font-style: normal;
@@ -1150,56 +1214,10 @@ div[role="main"] {
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-
-    /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.fa-menu:before {
-    content: "\f0c9";
-}
-
-.fa-current-user:before {
-    content: "\f007";
-} 
-
-.fa-items:before {
-    content: "\f1b3";
-}
-
-.fa-text:before {
-    content: "\f11c";
-}
-
-.fa-items:before {
-    content: "\f1b3";
-}
-
-.fa-item-set:before {
-    content: "\f187";
-}
-
-.fa-vocab:before {
-    content: "\f02d";
-}
-
-.fa-module:before {
-    content: "\f0fe";
-}
-
-.fa-site:before {
-    content: "\f108";
-}
-
-.fa-settings:before {
-    content: "\f085";
-}
-
-.screen-reader-text {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
+    content: "\f08e";
+    margin-left: .5em;
 }
 
 /* @end */
@@ -1277,7 +1295,7 @@ div[role="main"] {
         float: left;
     }
     
-    button.fa-search {
+    button.o-icon-search {
         height: rhythm();
         width: rhythm();
         line-height: $base-line-height;
@@ -1548,7 +1566,6 @@ div[role="main"] {
 /* @end */
 
 /* @group ----- Add Vocabulary ----- */
-
 .vocabs .field .upload-input {
     margin: rhythm(.25) 0 0;
     position: relative;
@@ -1568,26 +1585,12 @@ div[role="main"] {
     @include opacity(0);
 }
 
-.vocab-inputs {
-    width: span(10 of 13) - gutter(7);
-    
-    input[type=text],
-    textarea,
-    select {
-        @include calc('width', "100% - " + (3 * $base-line-height));
-    }
-    
-    .input-options {
-        @include calc('left', "100% - " + (3 * $base-line-height));
-    }
-}
-
 .vocabs .upload.input-option span {
     display: block;
     background-color: rgba(255,255,255,.5);
     padding: rhythm(.25) 10px;
-    @include calc('width', "100% - " + (3 * $base-line-height));
     float: left;
+    width: 100%;
 }
 
 /* @end */
@@ -1830,14 +1833,15 @@ body.minimal {
 /* @group ----- Install ----- */
 
 .install {
-    
     label {
         display: inline-block;
+        padding: rhythm(.25) 0;
         width: span(3 of 9);
     }
     
     input {
-          @include calc('width','66.66% - 3px');
+          @include calc('width','66.66% - 6px');
+          vertical-align: top;
     }
     
     button[type="submit"] {

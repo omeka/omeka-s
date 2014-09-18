@@ -9,7 +9,7 @@
         "easyrdf/easyrdf": "~0.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "~4.2"
     },
     "autoload": {
         "psr-0": {"": "application/Omeka/src"}

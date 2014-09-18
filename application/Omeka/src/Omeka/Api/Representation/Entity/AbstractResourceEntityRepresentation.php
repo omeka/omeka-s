@@ -184,17 +184,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get the display title of this resource.
+     * Get the display title for this resource.
      *
-     * @param string $default
-     * @return RepresentationInterface
+     * @param string|null $default
+     * @return RepresentationInterface|null
      */
-    public function getDisplayTitle($default)
+    public function getDisplayTitle($default = null)
     {
         return $this->getValue('dcterms:title', array(
             'type' => 'literal',
             'default' => $default,
         ));
+    }
+
+    /**
+     * Get the display resource class label for this resource.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function getDisplayResourceClassLabel($default = null)
+    {
+        $resourceClass = $this->getResourceClass();
+        return $resourceClass ? $resourceClass->getLabel() : $default;
     }
 
     /**

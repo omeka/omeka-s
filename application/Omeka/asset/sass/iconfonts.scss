@@ -1,0 +1,114 @@
+@import "font-awesome/font-awesome";
+
+[class*="o-icon-"]:before,
+[class*="sort"]:after,
+[class*="sort"]:before {
+    @extend .#{$fa-css-prefix};
+}
+
+.o-icon-menu {
+    @extend .fa-bars;
+}
+
+.o-icon-current-user {
+    @extend .fa-user;
+} 
+
+.o-icon-items {
+    @extend .fa-cubes;
+}
+
+.o-icon-text {
+    @extend .fa-keyboard-o;
+}
+
+.o-icon-item-set {
+    @extend .fa-archive;
+}
+
+.o-icon-vocab {
+    @extend .fa-book;
+}
+
+.o-icon-module {
+    @extend .fa-plus-square;
+}
+
+.o-icon-assets {
+    @extend .fa-image;
+}
+
+.o-icon-site {
+    @extend .fa-laptop;
+}
+
+.o-icon-settings {
+    @extend .fa-gears;
+}
+
+.o-icon-users {
+    @extend .fa-users;
+}
+
+.o-icon-first {
+    @extend .fa-angle-double-left;
+}
+
+.o-icon-last {
+    @extend .fa-angle-double-right;
+}
+
+.o-icon-prev {
+    @extend .fa-angle-left;
+}
+
+.o-icon-next {
+    @extend .fa-angle-right;
+}
+
+.o-icon-close {
+    @extend .fa-times;
+}
+
+.o-icon-delete {
+    @extend .fa-trash-o;
+}
+
+.o-icon-edit {
+    @extend .fa-pencil;
+}
+
+.o-icon-more {
+    @extend .fa-ellipsis-h;
+}
+
+.o-icon-add {
+    @extend .fa-plus;
+}
+
+.o-icon-upload {
+    @extend .fa-upload;
+}
+
+.o-icon-link {
+    @extend .fa-link;
+}
+
+.o-icon-flickr {
+    @extend .fa-flickr;
+}
+
+.o-icon-youtube {
+    @extend .fa-youtube;
+}
+
+.o-icon-view {
+    @extend .fa-eye;
+}
+
+.screen-reader-text {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+

@@ -8,8 +8,17 @@ header {
 
 header,
 #menu.active,
-#user.active,
+#current-user.active,
 #search.active {
     left: 0;
     right: 0;
+}
+
+body.minimal {
+    width: 100%;
+    margin: 0;
+    
+    div[role="main"] {
+        padding: rhythm() span(1 of 16);
+    }
 }

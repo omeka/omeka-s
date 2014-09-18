@@ -66,6 +66,8 @@
         <exec executable="${phpunit.path}"
               dir="application/Omeka/test"
               failonerror="true">
+            <arg value="-d"/>
+            <arg value="date.timezone=America/New_York"/>
             <arg value="--log-junit"/>
             <arg file="${build.dir}/test-results.xml"/>
             <arg line="${phpunit.coverage.arg}"/>

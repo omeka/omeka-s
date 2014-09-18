@@ -184,6 +184,20 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the display title of this resource.
+     *
+     * @param string $default
+     * @return RepresentationInterface
+     */
+    public function getDisplayTitle($default)
+    {
+        return $this->getValue('dcterms:title', array(
+            'type' => 'literal',
+            'default' => $default,
+        ));
+    }
+
+    /**
      * Set all value representations of this resource.
      *
      * Organizes the values by JSON-LD term (prefix:local_part) and builds the

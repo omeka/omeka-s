@@ -7,6 +7,7 @@ use Omeka\View\Helper\Api;
 use Omeka\View\Helper\AssetUrl;
 use Omeka\View\Helper\Media;
 use Omeka\View\Helper\Pagination;
+use Zend\EventManager\Event as BaseEvent;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 
@@ -43,7 +44,7 @@ class Module extends AbstractModule
         // Set the ACL to navigation.
         $acl = $serviceManager->get('Omeka\Acl');
         $navigation = $viewHelperManager->get('Navigation');
-        $navigation->setAcl($acl)->setRole('current_user');
+        $navigation->setAcl($acl);
     }
 
     public function getConfig()
@@ -54,5 +55,28 @@ class Module extends AbstractModule
     public function attachListeners(
         SharedEventManagerInterface $sharedEventManager,
         SharedEventManagerInterface $filterManager
-    ) {}
+    ) {
+        $sharedEventManager->attach('Zend\View\Helper\Navigation\AbstractHelper',
+            'isAllowed', function (BaseEvent $event) {
+                $accepted = true;
+                $params   = $event->getParams();
+                $acl      = $params['acl'];
+                $page     = $params['page'];
+
+                if (!$acl) {
+                    return $accepted;
+                }
+
+                $resource  = $page->getResource();
+                $privilege = $page->getPrivilege();
+
+                if ($resource || $privilege) {
+                    $accepted = $acl->hasResource($resource)
+                                && $acl->userIsAllowed($resource, $privilege);
+                }
+
+                $event->stopPropagation();
+                return $accepted;
+        });
+    }
 }

@@ -6,6 +6,8 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 
 class Acl extends ZendAcl
 {
+    const DEFAULT_USER_ROLE = 'guest';
+
     /**
      * @var AuthenticationServiceInterface
      */
@@ -30,9 +32,12 @@ class Acl extends ZendAcl
     public function userIsAllowed($resource = null, $privilege = null)
     {
         $auth = $this->auth;
-        $role = $auth->getIdentity();
+        $role = null;
+        if ($auth) {
+            $role = $auth->getIdentity();
+        }
         if (!$role) {
-            $role = 'guest';
+            $role = self::DEFAULT_USER_ROLE;
         }
         return $this->isAllowed($role, $resource, $privilege);
     }

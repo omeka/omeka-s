@@ -37,6 +37,14 @@
             <arg value="install"/>
         </exec>
     </target>
+    <target name="update-deps"
+            depends="get-composer,update-composer"
+            description="Update locked dependencies.">
+        <exec executable="php" failonerror="true">
+            <arg file="${composer.path}"/>
+            <arg value="update"/>
+        </exec>
+    </target>
     <target name="dedist"
             description="Copy .dist files to their proper locations.">
         <copy todir=".">

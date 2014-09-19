@@ -101,6 +101,6 @@ class i18n extends AbstractHelper
                 break;
         }
 
-        return $date->format(implode(' ', array($dateFormat, $timeFormat)));
+        return $date->format(trim("$dateFormat $timeFormat"));
     }
 }

@@ -5,6 +5,7 @@ use Omeka\Event\Event;
 use Omeka\Module\AbstractModule;
 use Omeka\View\Helper\Api;
 use Omeka\View\Helper\AssetUrl;
+use Omeka\View\Helper\I18n;
 use Omeka\View\Helper\Media;
 use Omeka\View\Helper\Pagination;
 use Zend\EventManager\Event as BaseEvent;
@@ -39,6 +40,10 @@ class Module extends AbstractModule
         $viewHelperManager->setFactory('Pagination',
             function ($helperPluginManager) use ($serviceManager) {
                 return new Pagination($serviceManager);
+            });
+        $viewHelperManager->setFactory('I18n',
+            function ($helperPluginManager) use ($serviceManager) {
+                return new I18n($serviceManager);
             });
 
         // Set the ACL to navigation.

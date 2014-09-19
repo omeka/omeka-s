@@ -39,8 +39,8 @@ class i18n extends AbstractHelper
      *     corresponding constants in IntlDateFormatter.
      * @param string $timeType Use local DATE_FORMAT_* constants, not their
      *     corresponding constants in IntlDateFormatter.
-     * @param string $locale Optional locale to use when formatting or parsing.
-     *     Ignored when intl extension is not loaded.
+     * @param string|null $locale Optional locale to use when formatting or
+     *     parsing. Ignored when intl extension is not loaded.
      * @param string|null $pattern Optional pattern to use when formatting or
      *     parsing. Possible patterns are documented at
      *     {@link http://userguide.icu-project.org/formatparse/datetime}.

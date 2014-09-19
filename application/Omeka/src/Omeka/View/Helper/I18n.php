@@ -1,16 +1,17 @@
 <?php
 namespace Omeka\View\Helper;
 
+use DateTime;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class i18n extends AbstractHelper
 {
-    const DATE_FORMAT_NONE = 'none';
-    const DATE_FORMAT_FULL = 'full';
-    const DATE_FORMAT_LONG = 'long';
+    const DATE_FORMAT_NONE   = 'none';
+    const DATE_FORMAT_FULL   = 'full';
+    const DATE_FORMAT_LONG   = 'long';
     const DATE_FORMAT_MEDIUM = 'medium';
-    const DATE_FORMAT_SHORT = 'short';
+    const DATE_FORMAT_SHORT  = 'short';
 
     /**
      * @var \Zend\View\HelperPluginManager
@@ -30,10 +31,19 @@ class i18n extends AbstractHelper
     /**
      * Format a date.
      *
+     * If PHP's intl extension is not loaded, fall back on default date
+     * formatting.
+     *
      * @see \Zend\I18n\View\Helper\DateFormat
+     * @param DateTime $date
+     * @param int $dateType Use self::DATE_FORMAT_* constants
+     * @param int $timeType Use self::DATE_FORMAT_* constants
+     * @param string $locale Ignored when intl not loaded
+     * @param string|null $pattern Ignored when intl not loaded
+     * @return string
      */
     public function dateFormat(
-        $date,
+        DateTime $date,
         $dateType = self::DATE_FORMAT_MEDIUM,
         $timeType = self::DATE_FORMAT_NONE,
         $locale = null,

@@ -6,6 +6,12 @@ use Zend\View\Helper\AbstractHelper;
 
 class i18n extends AbstractHelper
 {
+    const DATE_FORMAT_NONE = 'none';
+    const DATE_FORMAT_FULL = 'full';
+    const DATE_FORMAT_LONG = 'long';
+    const DATE_FORMAT_MEDIUM = 'medium';
+    const DATE_FORMAT_SHORT = 'short';
+
     /**
      * @var \Zend\View\HelperPluginManager
      */
@@ -21,14 +27,80 @@ class i18n extends AbstractHelper
         $this->viewHelperManager = $serviceLocator->get('ViewHelperManager');
     }
 
-    public function dateFormat($date, $dateType = null, $timeType = null,
-        $locale = null, $pattern = null
+    /**
+     * Format a date.
+     *
+     * @see \Zend\I18n\View\Helper\DateFormat
+     */
+    public function dateFormat(
+        $date,
+        $dateType = self::DATE_FORMAT_MEDIUM,
+        $timeType = self::DATE_FORMAT_NONE,
+        $locale = null,
+        $pattern = null
     ) {
         if (extension_loaded('intl')) {
-            $this->viewHelperManager->get('dateFormat')->__invoke(
-                $date, $dateType, $timeType, $locale, $pattern
+
+            // Map local constants to those in IntlDateFormatter.
+            $constMap = array(
+                self:: DATE_FORMAT_NONE   => \IntlDateFormatter::NONE,
+                self:: DATE_FORMAT_FULL   => \IntlDateFormatter::FULL,
+                self:: DATE_FORMAT_LONG   => \IntlDateFormatter::LONG,
+                self:: DATE_FORMAT_MEDIUM => \IntlDateFormatter::MEDIUM,
+                self:: DATE_FORMAT_SHORT  => \IntlDateFormatter::SHORT,
             );
+            $dateType = array_key_exists($dateType, $constMap)
+                ? $constMap[$dateType]
+                : \IntlDateFormatter::MEDIUM;
+            $timeType = array_key_exists($timeType, $constMap)
+                ? $constMap[$timeType]
+                : \IntlDateFormatter::NONE;
+
+            // Proxy to Zend's dateFormat helper.
+            $dateFormat = $this->viewHelperManager->get('dateFormat');
+            return $dateFormat($date, $dateType, $timeType, $locale, $pattern);
         }
-        return $date->format('M j, Y');
+
+        // Set the date format.
+        $dateFormat = '';
+        switch ($dateType) {
+            case self::DATE_FORMAT_NONE:
+                break;
+            case self::DATE_FORMAT_FULL:
+                $dateFormat .= 'l, F j, Y';
+                break;
+            case self::DATE_FORMAT_LONG:
+                $dateFormat .= 'F j, Y';
+                break;
+            case self::DATE_FORMAT_SHORT:
+                $dateFormat .= 'n/j/y';
+                break;
+            case self::DATE_FORMAT_MEDIUM:
+            default:
+                $dateFormat .= 'M j, Y';
+                break;
+        }
+
+        // Set the time format.
+        $timeFormat = '';
+        switch ($timeType) {
+            case self::DATE_FORMAT_FULL:
+                $timeFormat .= 'g:i:sa T';
+                break;
+            case self::DATE_FORMAT_LONG:
+                $timeFormat .= 'g:i:sa';
+                break;
+            case self::DATE_FORMAT_MEDIUM:
+                $timeFormat .= 'g:ia';
+                break;
+            case self::DATE_FORMAT_SHORT:
+                $timeFormat .= 'g:ia';
+                break;
+            case self::DATE_FORMAT_NONE:
+            default:
+                break;
+        }
+
+        return $date->format(implode(' ', array($dateFormat, $timeFormat)));
     }
 }

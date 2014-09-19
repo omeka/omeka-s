@@ -33,7 +33,7 @@
                 </ul>
             </td>
             <td><?php echo $this->escapeHtml($item->getDisplayResourceClassLabel()); ?></td>
-            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->getCreated(), 0, 0, 'en_US')); ?></td>
+            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->getCreated(), null, null, 'en_US')); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -31,15 +31,20 @@ class i18n extends AbstractHelper
     /**
      * Format a date.
      *
-     * If PHP's intl extension is not loaded, fall back on default date
-     * formatting.
+     * If PHP's intl extension is not loaded, this helper will fall back on a
+     * predefined date and time format.
      *
-     * @see \Zend\I18n\View\Helper\DateFormat
      * @param DateTime $date
-     * @param int $dateType Use self::DATE_FORMAT_* constants
-     * @param int $timeType Use self::DATE_FORMAT_* constants
-     * @param string $locale Ignored when intl not loaded
-     * @param string|null $pattern Ignored when intl not loaded
+     * @param string $dateType Use local DATE_FORMAT_* constants, not their
+     *     corresponding constants in IntlDateFormatter.
+     * @param string $timeType Use local DATE_FORMAT_* constants, not their
+     *     corresponding constants in IntlDateFormatter.
+     * @param string $locale Optional locale to use when formatting or parsing.
+     *     Ignored when intl extension is not loaded.
+     * @param string|null $pattern Optional pattern to use when formatting or
+     *     parsing. Possible patterns are documented at
+     *     {@link http://userguide.icu-project.org/formatparse/datetime}.
+     *     Ignored when intl extension is not loaded.
      * @return string
      */
     public function dateFormat(

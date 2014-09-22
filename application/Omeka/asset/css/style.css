@@ -233,11 +233,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .button:hover {
     background-color: #FF0000;
   }
-  input[type="submit"]:active,
+  input[type="submit"]:active, input[type="submit"].active,
   button:active,
+  button.active,
   a.button:active,
-  .button:active {
+  a.button.active,
+  .button:active,
+  .button.active {
     background-color: #FF0000;
+  }
+  input[type="submit"].inactive,
+  button.inactive,
+  a.button.inactive,
+  .button.inactive {
+    background-color: #d2d2d2;
+    cursor: default;
   }
 
   .field {

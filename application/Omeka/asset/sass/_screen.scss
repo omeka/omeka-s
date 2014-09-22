@@ -163,8 +163,13 @@ body {
             background-color: $red;
         }
         
-        &:active {
+        &:active, &.active {
             background-color: $red; 
+        }
+        
+        &.inactive {
+            background-color: #d2d2d2;
+            cursor: default;
         }
     }
     

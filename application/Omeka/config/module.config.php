@@ -23,6 +23,7 @@ return array(
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
+            'Omeka\Navigation\User'       => 'Omeka\Service\UserNavigationFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
@@ -158,6 +159,26 @@ return array(
                 'controller' => 'setting',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Setting',
+            ),
+        ),
+        'user' => array(
+            array(
+                'label'         => 'User Information',
+                'route'         => 'admin/id',
+                'action'        => 'edit',
+                'useRouteMatch' => true,
+            ),
+            array(
+                'label'         => 'Password',
+                'route'         => 'admin/id',
+                'action'        => 'change-password',
+                'useRouteMatch' => true,
+            ),
+            array(
+                'label'         => 'API Keys',
+                'route'         => 'admin/id',
+                'action'        => 'edit-keys',
+                'useRouteMatch' => true,
             ),
         ),
     ),

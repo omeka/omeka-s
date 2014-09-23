@@ -14,11 +14,13 @@ $formErrors = $this->plugin('formElementErrors');
 <form  method="post">
 <?php foreach ($form->getElements() as $element): ?>
 <div class="field">
-    <?php
-    echo $formLabel($element);
-    echo $formInput($element);
-    echo $formErrors($element);
-    ?>
+    <div class="field-meta">
+        <?php echo $formLabel($element); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $formInput($element); ?>
+    </div>
+    <?php echo $formErrors($element); ?>
 </div>
 <?php endforeach; ?>
 <button>Submit</button>

@@ -17,8 +17,9 @@
         <?php endif; ?>
     </div>
     <div id="search">
-        <form id="search-form">
-            <input type="text" name="global-search">
+        <form action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" id="search-form">
+            <?php $searchValue = isset($_GET['value']['in'][0]) ? $_GET['value']['in'][0] : ''; ?>
+            <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>">
             <button>Advanced Options</button>
             <button type="submit">Search</button>
         </form>

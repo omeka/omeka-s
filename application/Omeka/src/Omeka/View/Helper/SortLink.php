@@ -17,9 +17,10 @@ class SortLink extends AbstractHelper
      *
      * @param string $label
      * @param string $sortBy
+     * @param string|null $name Name of view script, or a view model
      * @return string
      */
-    public function __invoke($label, $sortBy)
+    public function __invoke($label, $sortBy, $name = null)
     {
         if (!isset($_GET['sort_order'])) {
             $_GET['sort_order'] = null;
@@ -33,6 +34,9 @@ class SortLink extends AbstractHelper
         } else {
             $sortOrder = 'asc';
             $class = 'sortable';
+        }
+        if (null !== $name) {
+            $this->name = $name;
         }
 
         $url = $this->getView()->url(

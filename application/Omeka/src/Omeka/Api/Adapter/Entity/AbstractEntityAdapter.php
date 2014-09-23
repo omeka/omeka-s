@@ -22,11 +22,90 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     EntityAdapterInterface
 {
     /**
-     * An index for query builder aliases to ensure uniqueness.
+     * A unique token index for query builder aliases and placeholders.
      *
      * @var int
      */
-    protected $aliasIndex = 0;
+    protected $index = 0;
+
+    /**
+     * Hydrate an entity with the provided array.
+     *
+     * Do not modify or perform operations on the data when setting properties.
+     * Validation should be done in self::validate(). Filtering should be done
+     * in the entity's mutator methods. Authorize state changes of individual
+     * fields using self::authorize().
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     */
+    abstract public function hydrate(array $data, EntityInterface $entity,
+        ErrorStore $errorStore);
+
+    /**
+     * Validate an entity.
+     *
+     * Set validation errors to the passed $errorStore object. If an error is
+     * present the entity will not be persisted or updated.
+     *
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     * @param bool $isPersistent
+     */
+    public function validate(EntityInterface $entity,
+        ErrorStore $errorStore, $isPersistent
+    ) {}
+
+    /**
+     * Build a conditional search query from an API request.
+     *
+     * Modify the passed $queryBuilder object according to the passed $query.
+     * The sort_by, sort_order, page, limit, and offset parameters are included
+     * separately.
+     *
+     * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {}
+
+    /**
+     * Set sort_by and sort_order conditions to the query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $qb
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {}
+
+    /**
+     * Set page, limit (max results) and offset (first result) conditions to the
+     * query builder.
+     *
+     * @param array $query
+     * @param QueryBuilder $qb
+     */
+    public function limitQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['page'])) {
+            $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
+            $paginator->setCurrentPage($query['page']);
+            if (isset($query['per_page'])) {
+                $paginator->setPerPage($query['per_page']);
+            }
+            $qb->setMaxResults($paginator->getPerPage());
+            $qb->setFirstResult($paginator->getOffset());
+            return;
+        }
+        if (isset($query['limit'])) {
+            $qb->setMaxResults($query['limit']);
+        }
+        if (isset($query['offset'])) {
+            $qb->setFirstResult($query['offset']);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -48,8 +127,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->setOrderBy($request->getContent(), $qb);
-        $this->setLimitAndOffset($request->getContent(), $qb);
+        $this->sortQuery($qb, $request->getContent());
+        $this->limitQuery($qb, $request->getContent());
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {
@@ -321,139 +400,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Set an order by condition to the query builder.
+     * Get a unique token for query builder aliases and placeholders.
      *
-     * @param array $query
-     * @param QueryBuilder $qb
-     */
-    protected function setOrderBy(array $query, QueryBuilder $qb)
-    {
-        if (!isset($query['sort_by'])) {
-            return;
-        }
-        $sortBy = $query['sort_by'];
-        $sortOrder = null;
-        if (isset($query['sort_order'])
-            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))) {
-            $sortOrder = strtoupper($query['sort_order']);
-        }
-        $qb->orderBy($this->getEntityClass() . ".$sortBy", $sortOrder);
-    }
-
-    /**
-     * Set limit (max results) and offset (first result) conditions to the
-     * query builder.
-     *
-     * @param array $query
-     * @param QueryBuilder $qb
-     */
-    protected function setLimitAndOffset(array $query, QueryBuilder $qb)
-    {
-        if (isset($query['page'])) {
-            $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
-            $paginator->setCurrentPage($query['page']);
-            if (isset($query['per_page'])) {
-                $paginator->setPerPage($query['per_page']);
-            }
-            $qb->setMaxResults($paginator->getPerPage());
-            $qb->setFirstResult($paginator->getOffset());
-            return;
-        }
-        if (isset($query['limit'])) {
-            $qb->setMaxResults($query['limit']);
-        }
-        if (isset($query['offset'])) {
-            $qb->setFirstResult($query['offset']);
-        }
-    }
-
-    /**
-     * Add a simple where clause to query a field.
-     *
-     * @param QueryBuilder $qb
-     * @param string $whereProperty The property to query
-     * @param string $whereValue The value to query
-     */
-    protected function where(QueryBuilder $qb, $whereProperty, $whereValue)
-    {
-        $alias = $this->getAlias($whereProperty);
-        $qb->andWhere($qb->expr()->eq(
-            $this->getEntityClass() . ".$whereProperty", ":$alias"
-        ))->setParameter($alias, $whereValue);
-    }
-
-    /**
-     * Add a join condition to the query builder.
-     *
-     * @param QueryBuilder $qb
-     * @param string $joinFrom The fully qualified entity class name to join from
-     * @param string $joinTo The fully qualified entity class name to join to
-     * @param string $joinProperty The property in $joinFrom declaring the association
-     */
-    protected function join(QueryBuilder $qb, $joinFrom, $joinTo, $joinProperty)
-    {
-        $join = "$joinFrom.$joinProperty";
-        if (!$this->hasJoin($qb, $join)) {
-            $qb->innerJoin($join, $joinTo);
-        }
-    }
-
-    /**
-     * Add join and where conditions to the query builder.
-     *
-     * @param QueryBuilder $qb
-     * @param string $joinFrom The fully qualified entity class name to join from
-     * @param string $joinTo The fully qualified entity class name to join to
-     * @param string $joinProperty The property in $joinFrom declaring the association
-     * @param string $whereProperty The property in $joinTo to query
-     * @param string $whereValue The value to query
-     */
-    protected function joinWhere(QueryBuilder $qb, $joinFrom, $joinTo,
-        $joinProperty, $whereProperty, $whereValue
-    ) {
-        $this->join($qb, $joinFrom, $joinTo, $joinProperty);
-        $alias = $this->getAlias($whereProperty, $joinProperty);
-        $qb->andWhere($qb->expr()->eq(
-            "$joinTo.$whereProperty", ":$alias"
-        ))->setParameter($alias, $whereValue);
-    }
-
-    /**
-     * Get a unique alias for a query builder where condition.
-     *
-     * @param string $whereProperty
-     * @param string|null $joinProperty
+     * @param string $prefix
      * @return string
      */
-    protected function getAlias($whereProperty, $joinProperty = null)
+    protected function getToken($prefix = 'omeka_')
     {
-        $alias = 'omeka_';
-        if ($joinProperty) {
-            $alias .=  $joinProperty . '_';
-        }
-        $alias .= $whereProperty . '_' . $this->aliasIndex;
-        $this->aliasIndex++;
-        return $alias;
-    }
-
-    /**
-     * Check whether the query builder already has a join condition.
-     *
-     * @param QueryBuilder $qb
-     * @param string The join to check against
-     * @return bool
-     */
-    protected function hasJoin(QueryBuilder $qb, $join)
-    {
-        $joinParts = $qb->getDQLPart('join');
-        if (!$joinParts) {
-            return false;
-        }
-        foreach (current($joinParts) as $joinPart) {
-            if ($join === $joinPart->getJoin()) {
-                return true;
-            }
-        }
-        return false;
+        $token = $prefix . $this->index;
+        $this->index++;
+        return $token;
     }
 }

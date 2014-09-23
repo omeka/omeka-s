@@ -21,15 +21,15 @@
     <tbody>
         <?php foreach ($items as $item): ?>
         <tr>
-            <td><input type="checkbox" id="row-1"><label class="screen-reader-text" for="row-1">Select row</label></td>
+            <td><input type="checkbox" id="row-<?php echo $item->getId(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->getId(); ?>">Select row</label></td>
             <td>
                 <span class="record-name">
                     <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->getId()), true)); ?>"><?php echo $this->escapeHtml($item->getDisplayTitle('[untitled]')); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="o-icon-edit"><span class="screen-reader-text">Edit</span></a></li>
-                    <li><a href="#" class="o-icon-more"><span class="screen-reader-text">Details</span></a></li>
-                    <li><a href="#" class="o-icon-delete"><span class="screen-reader-text">Delete</span></a></li>
+                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
+                    <li><a href="#" class="o-icon-more" aria-label="Details" title="Details"></a></li>
+                    <li><a href="#" class="o-icon-delete" aria-label="Delete" title="Delete"></a></li>
                 </ul>
             </td>
             <td><?php echo $this->escapeHtml($item->getDisplayResourceClassLabel()); ?></td>
@@ -43,7 +43,7 @@
 
 <div class="modal">
     <div class="modal-header">
-        <a href="#" class="closeBtn o-icon-close"><span class="screen-reader-text">Close Me</span></a>
+        <a href="#" class="closeBtn o-icon-close" aria-label="Close me"></a>
         <h1></h1>
     </div>
     <div class="modal-content">

@@ -1,4 +1,9 @@
 <h1>Edit User &ldquo;<?php echo $user->getUsername(); ?>&rdquo;</h1>
+
+<nav class="section-nav">
+    <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
+</nav>
+
 <?php
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
@@ -18,4 +23,3 @@ $formErrors = $this->plugin('formElementErrors');
 <?php endforeach; ?>
 <button>Submit</button>
 </form>
-<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>

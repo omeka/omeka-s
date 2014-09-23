@@ -22,6 +22,9 @@ class SortLink extends AbstractHelper
      */
     public function __invoke($label, $sortBy, $name = null)
     {
+        if (!isset($_GET['sort_by'])) {
+            $_GET['sort_by'] = null;
+        }
         if (!isset($_GET['sort_order'])) {
             $_GET['sort_order'] = null;
         }

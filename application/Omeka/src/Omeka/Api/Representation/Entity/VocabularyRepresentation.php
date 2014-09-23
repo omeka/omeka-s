@@ -25,4 +25,9 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getPrefix();
     }
+    
+    public function getLabel()
+    {
+        return $this->getData()->getLabel();
+    }
 }

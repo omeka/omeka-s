@@ -24,17 +24,22 @@ class PropertyRepresentation extends AbstractEntityRepresentation
             ),
         );
     }
-    
+
     public function getLocalName()
     {
         return $this->getData()->getLocalName();
     }
-    
+
     public function getLabel()
     {
         return $this->getData()->getLabel();
     }
-    
+
+    public function getComment() 
+    {
+        return $this->getData()->getComment();
+    }
+
     public function getVocabulary()
     {
         return $this->getData()->getVocabulary();

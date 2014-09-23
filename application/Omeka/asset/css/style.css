@@ -588,6 +588,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     display: none;
   }
 
+  .mobile-container {
+    position: relative;
+  }
+
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
@@ -638,6 +642,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .browse th:first-of-type {
     min-width: 2.25em;
     width: 2.25em;
+  }
+
+  .browse td:nth-of-type(2),
+  .browse th:nth-of-type(2) {
+    width: 40%;
   }
 
   .browse td:first-of-type:not(:only-of-type),
@@ -743,6 +752,36 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   [class*="sort"]:after {
     z-index: 2;
+  }
+
+  #more,
+  #delete {
+    position: absolute;
+    top: 3em;
+    left: 200%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: 0.75em 1.04167%;
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    width: -webkit-calc(60% - 2.25em);
+    width: calc(60% - 2.25em);
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+  }
+  #more.active,
+  #delete.active {
+    left: -webkit-calc(40% + 2.25em);
+    left: calc(40% + 2.25em);
+  }
+  #more .o-icon-close,
+  #delete .o-icon-close {
+    position: absolute;
+    right: 1.04167%;
+    top: 0.75em;
   }
 
   /* @end */
@@ -2066,6 +2105,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .modal.small {
     width: 80%;
     min-height: 40%;
+  }
+
+  #more,
+  #delete {
+    position: fixed;
+    top: 2.25em;
+    z-index: 100;
+    width: 100%;
+  }
+  #more.active,
+  #delete.active {
+    left: 0;
   }
 
   /* @end */

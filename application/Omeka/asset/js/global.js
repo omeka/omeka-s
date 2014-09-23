@@ -18,4 +18,18 @@ $(document).ready(function () {
             nav_object.addClass('active');
         }
     });
+    if ($('body').hasClass('browse')) {
+        $('.o-icon-more').click( function(e) {
+            e.preventDefault();
+            $('#more').toggleClass('active');
+        });
+        $('.o-icon-delete').click( function(e) {
+            e.preventDefault();
+            $('#delete').toggleClass('active');
+        });
+        $('.sidebar .o-icon-close').click( function(e) {
+            e.preventDefault();
+            $(this).parents('.sidebar').removeClass('active');
+        });
+    }
 });

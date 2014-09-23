@@ -201,6 +201,18 @@ div[role="main"] {
     min-height: 40%;
 }
 
+#more,
+#delete {
+    position: fixed;
+    top: rhythm(1.5);
+    z-index: 100;
+    width: 100%;
+
+    &.active {
+        left: 0;
+    }
+}
+
 /* @end */
 
 /* @group ----- Add/Edit views ----- */

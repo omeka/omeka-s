@@ -513,6 +513,10 @@ nav.pagination form input[type="text"] {
     display: none;
 }
 
+.mobile-container {
+    position: relative;
+}
+
 /* @end */
 
 /* @group ----- Wrappers ----- */
@@ -566,6 +570,11 @@ div[role="main"] {
 .browse th:first-of-type {
     min-width: rhythm(1.5);
     width: rhythm(1.5);
+}
+
+.browse td:nth-of-type(2),
+.browse th:nth-of-type(2) {
+    width: 40%;
 }
 
 .browse td:first-of-type:not(:only-of-type),
@@ -667,6 +676,31 @@ th a[class="sorted-desc"] {
 
 [class*="sort"]:after {
     z-index: 2;
+}
+
+#more,
+#delete {
+    position: absolute;
+    top: rhythm(2);
+    left: 200%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: rhythm(.5) gutter();
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    @include calc('width', '60% - 2.25em');
+    @include transition-duration(.5s);
+    
+    &.active {
+        @include calc('left', '40% + 2.25em');
+    }
+    
+    .o-icon-close {
+        position: absolute;
+        right: gutter();
+        top: rhythm(.5);
+    }
 }
 
 /* @end */

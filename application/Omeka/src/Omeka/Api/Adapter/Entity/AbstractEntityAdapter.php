@@ -457,4 +457,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->index++;
         return $alias;
     }
+
+    /**
+     * Determine whether a string is a valid JSON-LD term.
+     *
+     * @param string $term
+     * @return bool
+     */
+    protected function isTerm($term)
+    {
+        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
+    }
 }

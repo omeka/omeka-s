@@ -14,6 +14,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $this->buildValueQuery($qb, $query);
         $this->buildPropertyQuery($qb, $query);
         $this->buildHasPropertyQuery($qb, $query);
+
+        if (isset($query['resource_class_label'])) {
+            $resourceClassAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.resourceClass',
+                $resourceClassAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$resourceClassAlias.label",
+                $this->createNamedParameter($qb, $query['resource_class_label']))
+            );
+        }
     }
 
     /**
@@ -275,16 +287,5 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 'localName' => $localName,
                 'prefix' => $prefix
             ))->getOneOrNullResult();
-    }
-
-    /**
-     * Determine whether a string is a valid JSON-LD term.
-     *
-     * @param string $term
-     * @return bool
-     */
-    protected function isTerm($term)
-    {
-        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
     }
 }

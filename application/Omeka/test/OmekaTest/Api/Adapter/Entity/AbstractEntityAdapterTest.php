@@ -56,9 +56,8 @@ class AbstractEntityAdapterTest extends TestCase
         // Service: Omeka\Acl
         $acl = $this->getMock('Omeka\Permissions\Acl');
         $acl->expects($this->once())
-            ->method('isAllowed')
+            ->method('userIsAllowed')
             ->with(
-                $this->equalTo('current_user'),
                 $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
                 $this->equalTo('create')
             )
@@ -131,9 +130,8 @@ class AbstractEntityAdapterTest extends TestCase
         // Service: Omeka\Acl
         $acl = $this->getMock('Omeka\Permissions\Acl');
         $acl->expects($this->once())
-            ->method('isAllowed')
+            ->method('userIsAllowed')
             ->with(
-                $this->equalTo('current_user'),
                 $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
                 $this->equalTo('read')
             )
@@ -220,9 +218,8 @@ class AbstractEntityAdapterTest extends TestCase
         // Service: Omeka\Acl
         $acl = $this->getMock('Omeka\Permissions\Acl');
         $acl->expects($this->once())
-            ->method('isAllowed')
+            ->method('userIsAllowed')
             ->with(
-                $this->equalTo('current_user'),
                 $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
                 $this->equalTo('update')
             )
@@ -308,9 +305,8 @@ class AbstractEntityAdapterTest extends TestCase
         // Service: Omeka\Acl
         $acl = $this->getMock('Omeka\Permissions\Acl');
         $acl->expects($this->once())
-            ->method('isAllowed')
+            ->method('userIsAllowed')
             ->with(
-                $this->equalTo('current_user'),
                 $this->isInstanceOf('OmekaTest\Api\Adapter\Entity\TestEntity'),
                 $this->equalTo('delete')
             )

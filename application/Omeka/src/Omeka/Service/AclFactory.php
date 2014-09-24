@@ -22,6 +22,9 @@ class AclFactory implements FactoryInterface
     {
         $acl = new Acl;
 
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        $acl->setAuthenticationService($auth);
+
         $this->addRoles($acl, $serviceLocator);
         $this->addResources($acl, $serviceLocator);
         $this->addRules($acl, $serviceLocator);
@@ -52,15 +55,6 @@ class AclFactory implements FactoryInterface
             ->addRole('item_creator', 'guest')
             ->addRole('site_admin')
             ->addRole('global_admin');
-
-        // Set the logged in user as the current_user role.
-        $auth = $serviceLocator->get('Omeka\AuthenticationService');
-        if ($auth->hasIdentity()) {
-            $currentUser = $auth->getIdentity();
-            $acl->addRole($currentUser, $currentUser->getRole());
-        } else {
-            $acl->addRole('current_user', 'guest');
-        }
     }
 
     /**

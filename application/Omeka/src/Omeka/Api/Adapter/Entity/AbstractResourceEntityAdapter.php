@@ -17,6 +17,35 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['sort_by'])) {
+            $property = $this->getPropertyByTerm($query['sort_by']);
+            if ($property) {
+                $qb->leftJoin(
+                    $this->getEntityClass() . '.values',
+                    'omeka_order_values',
+                    'WITH',
+                    $qb->expr()->eq(
+                        'omeka_order_values.property',
+                        $property->getId()
+                    )
+                );
+                $qb->orderBy('omeka_order_values.value', $query['sort_order']);
+            } elseif ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    $this->getEntityClass() . '.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+    }
+
+    /**
      * Hydrate this resource's values.
      *
      * @param array $data
@@ -51,46 +80,41 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 continue;
             }
             foreach ($values as $value) {
-                $valuesAlias = $this->getToken();
-                $valuePlaceholder = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 if ('eq' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->eq(
                         "$valuesAlias.value",
-                        ":$valuePlaceholder"
+                        $this->createNamedParameter($qb, $value)
                     ));
-                    $qb->setParameter($valuePlaceholder, $value);
                 } elseif ('neq' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->eq(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, $value)
                         )
                     );
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, $value);
                 } elseif ('in' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
                     $qb->andWhere($qb->expr()->like(
                         "$valuesAlias.value",
-                        ":$valuePlaceholder"
+                        $this->createNamedParameter($qb, "%$value%")
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$value%");
                 } elseif ('nin' == $queryType) {
                     $qb->leftJoin(
                         $valuesJoin, $valuesAlias, 'WITH',
                         $qb->expr()->like(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, "%$value%")
                         )
                     );
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
-                    $qb->setParameter($valuePlaceholder, "%$value%");
                 }
             }
         }
@@ -123,8 +147,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     continue;
                 }
                 foreach ($values as $value) {
-                    $valuesAlias = $this->getToken();
-                    $valuePlaceholder = $this->getToken();
+                    $valuesAlias = $this->createAlias();
                     if ('eq' == $queryType) {
                         $qb->innerJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
@@ -135,16 +158,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         );
                         $qb->andWhere($qb->expr()->eq(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, $value)
                         ));
-                        $qb->setParameter($valuePlaceholder, $value);
                     } elseif ('neq' == $queryType) {
                         $qb->leftJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
                             $qb->expr()->andX(
                                 $qb->expr()->eq(
                                     "$valuesAlias.value",
-                                    ":$valuePlaceholder"
+                                    $this->createNamedParameter($qb, $value)
                                 ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
@@ -155,7 +177,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $qb->andWhere($qb->expr()->isNull(
                             "$valuesAlias.value"
                         ));
-                        $qb->setParameter($valuePlaceholder, $value);
                     } elseif ('in' == $queryType) {
                         $qb->innerJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
@@ -166,16 +187,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         );
                         $qb->andWhere($qb->expr()->like(
                             "$valuesAlias.value",
-                            ":$valuePlaceholder"
+                            $this->createNamedParameter($qb, "%$value%")
                         ));
-                        $qb->setParameter($valuePlaceholder, "%$value%");
                     } elseif ('nin' == $queryType) {
                         $qb->leftJoin(
                             $valuesJoin, $valuesAlias, 'WITH',
                             $qb->expr()->andX(
                                 $qb->expr()->like(
                                     "$valuesAlias.value",
-                                    ":$valuePlaceholder"
+                                    $this->createNamedParameter($qb, "%$value%")
                                 ),
                                 $qb->expr()->eq(
                                     "$valuesAlias.property",
@@ -186,7 +206,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $qb->andWhere($qb->expr()->isNull(
                             "$valuesAlias.value"
                         ));
-                        $qb->setParameter($valuePlaceholder, "%$value%");
                     }
                 }
             }
@@ -211,7 +230,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $valuesJoin = $this->getEntityClass() . '.values';
         foreach ($query['has_property'] as $propertyId => $hasProperty) {
             if ((bool) $hasProperty) {
-                $valuesAlias = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 $qb->innerJoin(
                     $valuesJoin, $valuesAlias, 'WITH',
                     $qb->expr()->eq(
@@ -220,7 +239,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     )
                 );
             } else {
-                $valuesAlias = $this->getToken();
+                $valuesAlias = $this->createAlias();
                 $qb->leftJoin(
                     $valuesJoin, $valuesAlias, 'WITH',
                     $qb->expr()->eq(
@@ -243,6 +262,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     protected function getPropertyByTerm($term)
     {
+        if (!$this->isTerm($term)) {
+            return null;
+        }
         list($prefix, $localName) = explode(':', $term);
         $dql = 'SELECT p FROM Omeka\Model\Entity\Property p
         JOIN p.vocabulary v WHERE p.localName = :localName
@@ -263,9 +285,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     protected function isTerm($term)
     {
-        if (preg_match('/[a-z0-9-_]+:[a-z0-9-_]+/i', $term)) {
-            return true;
-        }
-        return false;
+        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
     }
 }

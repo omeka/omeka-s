@@ -11,6 +11,17 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = array(
+        'id'           => 'id',
+        'is_public'    => 'isPublic',
+        'is_shareable' => 'isShareable',
+        'created'      => 'created',
+        'modified'     => 'modified',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'items';

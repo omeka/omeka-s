@@ -155,7 +155,7 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Verify that the current user has general access to this resource.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
-            if (!$acl->isAllowed('current_user', $adapter, $request->getOperation())) {
+            if (!$acl->userIsAllowed($adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
                     $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
                     $request->getOperation(),

@@ -10,6 +10,16 @@ class PropertyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = array(
+        'id'         => 'id',
+        'local_name' => 'localName',
+        'label'      => 'label',
+        'comment'    => 'comment',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'properties';

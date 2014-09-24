@@ -23,6 +23,7 @@ return array(
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
+            'Omeka\Navigation\User'       => 'Omeka\Service\UserNavigationFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
@@ -94,6 +95,7 @@ return array(
             'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
             'messages'    => 'Omeka\View\Helper\Messages',
+            'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),
     'media_types' => array(
@@ -104,7 +106,7 @@ return array(
         'default' => array(
             array(
                 'label'      => 'Items',
-                'class'      => 'fa-items',
+                'class'      => 'o-icon-items',
                 'route'      => 'admin/default',
                 'controller' => 'item',
                 'action'     => 'browse',
@@ -112,7 +114,7 @@ return array(
             ),
             array(
                 'label'      => 'Item Sets',
-                'class'      => 'fa-item-set',
+                'class'      => 'o-icon-item-set',
                 'route'      => 'admin/default',
                 'controller' => 'item-set',
                 'action'     => 'browse',
@@ -120,7 +122,7 @@ return array(
             ),
             array(
                 'label'      => 'Vocabularies',
-                'class'      => 'fa-vocab',
+                'class'      => 'o-icon-vocab',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
                 'action'     => 'browse',
@@ -128,7 +130,7 @@ return array(
             ),
             array(
                 'label'      => 'Modules',
-                'class'      => 'fa-module',
+                'class'      => 'o-icon-module',
                 'route'      => 'admin/default',
                 'controller' => 'module',
                 'action'     => 'browse',
@@ -136,7 +138,7 @@ return array(
             ),
             array(
                 'label'      => 'Users',
-                'class'      => 'fa-users',
+                'class'      => 'o-icon-users',
                 'route'      => 'admin/default',
                 'controller' => 'user',
                 'action'     => 'browse',
@@ -144,7 +146,7 @@ return array(
             ),
             array(
                 'label'      => 'Sites',
-                'class'      => 'fa-site',
+                'class'      => 'o-icon-site',
                 'route'      => 'admin/site',
                 'controller' => 'site',
                 'action'     => 'browse',
@@ -152,11 +154,31 @@ return array(
             ),
             array(
                 'label'      => 'Settings',
-                'class'      => 'fa-settings',
+                'class'      => 'o-icon-settings',
                 'route'      => 'admin/default',
                 'controller' => 'setting',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Setting',
+            ),
+        ),
+        'user' => array(
+            array(
+                'label'         => 'User Information',
+                'route'         => 'admin/id',
+                'action'        => 'edit',
+                'useRouteMatch' => true,
+            ),
+            array(
+                'label'         => 'Password',
+                'route'         => 'admin/id',
+                'action'        => 'change-password',
+                'useRouteMatch' => true,
+            ),
+            array(
+                'label'         => 'API Keys',
+                'route'         => 'admin/id',
+                'action'        => 'edit-keys',
+                'useRouteMatch' => true,
             ),
         ),
     ),

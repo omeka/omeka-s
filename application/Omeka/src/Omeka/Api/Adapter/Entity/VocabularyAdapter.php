@@ -10,6 +10,17 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = array(
+        'id'            => 'id',
+        'namespace_uri' => 'namespaceUri',
+        'prefix'        => 'prefix',
+        'label'         => 'label',
+        'comment'       => 'comment',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'vocabularies';

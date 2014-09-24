@@ -11,6 +11,18 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = array(
+        'id'        => 'id',
+        'type'      => 'type',
+        'data'      => 'data',
+        'is_public' => 'isPublic',
+        'created'   => 'created',
+        'modified'  => 'modified',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'media';

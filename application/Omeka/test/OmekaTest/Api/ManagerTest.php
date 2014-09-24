@@ -202,9 +202,8 @@ class ManagerTest extends TestCase
         // Omeka\Acl
         $mockAcl = $this->getMock('Omeka\Permissions\Acl');
         $mockAcl->expects($this->any())
-            ->method('isAllowed')
+            ->method('userIsAllowed')
             ->with(
-                $this->equalTo('current_user'),
                 $this->equalTo($mockAdapter),
                 $this->equalTo($requestOperation)
             )

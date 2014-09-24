@@ -11,6 +11,18 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = array(
+        'id'        => 'id',
+        'user_name' => 'userName',
+        'email'     => 'email',
+        'name'      => 'name',
+        'created'   => 'created',
+        'role'      => 'role',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'users';

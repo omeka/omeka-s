@@ -61,7 +61,7 @@ class Key extends AbstractEntity
     /**
      * The associated user
      *
-     * @ManyToOne(targetEntity="User", inversedBy="keys")
+     * @ManyToOne(targetEntity="User", inversedBy="keys", fetch="EAGER")
      * @JoinColumn(nullable=false)
      */
     protected $owner;

@@ -29,6 +29,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected $index = 0;
 
     /**
+     * Entity fields on which to sort search results.
+     *
+     * The keys are the value of "sort_by" query. The values are the
+     * corresponding entity fields on which to sort.
+     *
+     * @see self::sortQuery()
+     * @var array
+     */
+    protected $sortFields = array();
+
+    /**
      * Hydrate an entity with the provided array.
      *
      * Do not modify or perform operations on the data when setting properties.
@@ -78,7 +89,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param QueryBuilder $qb
      */
     public function sortQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+        if (isset($query['sort_by'])
+            && array_key_exists($query['sort_by'], $this->sortFields)
+        ) {
+            $sortBy = $this->sortFields[$query['sort_by']];
+            $qb->orderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+        }
+    }
 
     /**
      * Set page, limit (max results) and offset (first result) conditions to the
@@ -113,11 +131,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function search(Request $request)
     {
         $entityClass = $this->getEntityClass();
+        $query = $request->getContent();
+
+        // Set the sort order
+        if (isset($query['sort_order'])
+            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
+        ) {
+            $query['sort_order'] = strtoupper($query['sort_order']);
+        } else {
+            $query['sort_order'] = 'ASC';
+        }
 
         // Begin building the search query.
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
-        $this->buildQuery($qb, $request->getContent());
+        $this->buildQuery($qb, $query);
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
@@ -127,8 +155,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
 
         // Finish building the search query and get the representations.
-        $this->sortQuery($qb, $request->getContent());
-        $this->limitQuery($qb, $request->getContent());
+        $this->sortQuery($qb, $query);
+        $this->limitQuery($qb, $query);
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {
@@ -350,7 +378,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected function authorize(EntityInterface $entity, $privilege)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->isAllowed('current_user', $entity, $privilege)) {
+        if (!$acl->userIsAllowed($entity, $privilege)) {
             throw new Exception\PermissionDeniedException(sprintf(
                 $t->translate('Permission denied for the current user to %s the %s resource.'),
                 $operation, $entity->getResourceId()
@@ -400,15 +428,33 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Get a unique token for query builder aliases and placeholders.
+     * Create a unique named parameter for the query builder and bind a value to
+     * it.
      *
-     * @param string $prefix
-     * @return string
+     * @param QueryBuilder $qb
+     * @param mixed $value The value to bind
+     * @param string $prefix The placeholder prefix
+     * @return string The placeholder
      */
-    protected function getToken($prefix = 'omeka_')
-    {
-        $token = $prefix . $this->index;
+    public function createNamedParameter(QueryBuilder $qb, $value,
+        $prefix = 'omeka_'
+    ) {
+        $placeholder = $prefix . $this->index;
         $this->index++;
-        return $token;
+        $qb->setParameter($placeholder, $value);
+        return ":$placeholder";
+    }
+
+    /**
+     * Create a unique alias for the query builder.
+     *
+     * @param string $prefix The alias prefix
+     * @return string The alias
+     */
+    public function createAlias($prefix = 'omeka_')
+    {
+        $alias = $prefix . $this->index;
+        $this->index++;
+        return $alias;
     }
 }

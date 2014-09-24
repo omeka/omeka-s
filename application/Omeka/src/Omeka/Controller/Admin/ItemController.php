@@ -42,6 +42,7 @@ class ItemController extends AbstractActionController
         }
         $response = $this->api()->search('properties');
         $properties = $response->getContent();
+
         $dctermsTitles = $this->api()
                               ->search('properties', array('vocabulary_prefix' => 'dcterms', 
                                                            'local_name' => 'title'))
@@ -102,7 +103,7 @@ class ItemController extends AbstractActionController
                 'attributes' => array(
                     'value' => $property->getId()
                 )
-        ));        
+        ));
         $view->setVariable('form', $form);
         return $view;
     }

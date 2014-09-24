@@ -1,4 +1,5 @@
 <?php
+$this->htmlElement('body')->appendAttribute('class', 'add item');
 $this->headScript()->appendFile($this->assetUrl('js/item-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
@@ -66,7 +67,7 @@ if (isset($errors)) {
     <div class='field-meta'>
         <div class='properties'>
             <ul>
-                <li class='all-vocabs show'>
+                <li class='all-vocabs'>
                     Vocabularies <span class='count'><?php echo count($vocabularies); ?></span>
                     <ul>
                         <?php foreach ($vocabularies as $label => $vocabulary) : ?>

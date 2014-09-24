@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
 class PropertyAdapter extends AbstractEntityAdapter
@@ -74,6 +75,8 @@ class PropertyAdapter extends AbstractEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        parent::buildQuery($qb, $query);
+        
         if (isset($query['owner_id'])) {
             $this->joinWhere($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\User',
                 'owner', 'id', $query['owner_id']);
@@ -86,13 +89,23 @@ class PropertyAdapter extends AbstractEntityAdapter
             $this->joinWhere($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
                 'vocabulary', 'id', $query['vocabulary_id']);
         }
+
         if (isset($query['vocabulary_prefix'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\Property', 'Omeka\Model\Entity\Vocabulary',
-                'vocabulary', 'prefix', $query['vocabulary_prefix']);
+            $qb->innerJoin(
+                    'Omeka\Model\Entity\Property.vocabulary',
+                    'Omeka\Model\Entity\Vocabulary'
+                    )->andWhere($qb->expr()->eq(
+                            'Omeka\Model\Entity\Vocabulary.prefix',
+                            $this->createNamedParameter($qb, $query['vocabulary_prefix'])
+            ));
         }
         if (isset($query['local_name'])) {
-            $this->where($qb, 'localName', $query['local_name']);
+            $qb->andWhere($qb->expr()->eq(
+                    'Omeka\Model\Entity\Property.localName',
+                    $this->createNamedParameter($qb, $query['local_name'])
+            ));
         }
+
     }
 
     /**

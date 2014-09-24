@@ -601,6 +601,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
   }
 
   /* @end */
@@ -737,7 +741,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .sorted-asc:hover:after,
   .sorted-desc:after {
-    content: "\f0dd";
+    content: a "";
   }
 
   .sortable:hover:after,
@@ -754,34 +758,33 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     z-index: 2;
   }
 
-  #more,
-  #delete {
-    position: absolute;
-    top: 3em;
-    left: 200%;
+  .sidebar {
+    position: fixed;
+    top: 5.25em;
+    left: 100%;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
     padding: 0.75em 1.04167%;
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
-    width: -webkit-calc(60% - 2.25em);
-    width: calc(60% - 2.25em);
+    width: 24.47917%;
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  #more.active,
-  #delete.active {
-    left: -webkit-calc(40% + 2.25em);
-    left: calc(40% + 2.25em);
+  .sidebar.active {
+    left: 75.52083%;
   }
-  #more .o-icon-close,
-  #delete .o-icon-close {
+  .sidebar .o-icon-close {
     position: absolute;
     right: 1.04167%;
     top: 0.75em;
+  }
+
+  div[role="main"].with-sidebar {
+    width: 56.25%;
   }
 
   /* @end */

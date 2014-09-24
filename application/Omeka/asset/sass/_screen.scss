@@ -528,6 +528,7 @@ div[role="main"] {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+    @include transition-duration(.5s);
 }
 
 /* @end */
@@ -661,7 +662,7 @@ th a[class="sorted-desc"] {
 
 .sorted-asc:hover:after,
 .sorted-desc:after {
-    content: "\f0dd";
+    content: a"\f0dd";
 }
 
 .sortable:hover:after,
@@ -678,22 +679,21 @@ th a[class="sorted-desc"] {
     z-index: 2;
 }
 
-#more,
-#delete {
-    position: absolute;
-    top: rhythm(2);
-    left: 200%;
+.sidebar {
+    position: fixed;
+    top: rhythm(3.5);
+    left: 100%;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
     padding: rhythm(.5) gutter();
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
-    @include calc('width', '60% - 2.25em');
+    width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
     
     &.active {
-        @include calc('left', '40% + 2.25em');
+        left: span(12 of 16) + gutter(32);
     }
     
     .o-icon-close {
@@ -701,6 +701,11 @@ th a[class="sorted-desc"] {
         right: gutter();
         top: rhythm(.5);
     }
+}
+
+
+div[role="main"].with-sidebar {
+    width: span(9 of 16);
 }
 
 /* @end */

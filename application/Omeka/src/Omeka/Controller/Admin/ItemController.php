@@ -44,12 +44,10 @@ class ItemController extends AbstractActionController
         $properties = $response->getContent();
 
         $dctermsTitles = $this->api()
-                              ->search('properties', array('vocabulary_prefix' => 'dcterms', 
-                                                           'local_name' => 'title'))
+                              ->search('properties', array('term' => 'dcterms:title'))
                               ->getContent();
         $dctermsDescriptions = $this->api()
-                              ->search('properties', array('vocabulary_prefix' => 'dcterms', 
-                                                           'local_name' => 'description'))
+                              ->search('properties', array('term' => 'dcterms:description'))
                               ->getContent();
         $options = array(
                 'resource_class_pairs' => $resourceClassPairs,
@@ -83,9 +81,8 @@ class ItemController extends AbstractActionController
         $view = new ViewModel();
         $view->setTerminal(true);
         $propertyId = $this->params()->fromQuery('id');
-        $response = $this->api()->search('properties', array('id' => $propertyId));
-        $properties = $response->getContent();
-        $property = $properties[0];
+        $response = $this->api()->read('properties', $propertyId);
+        $property = $response->getContent();
         $form = new Form;
         //the following duplicates ItemForm->addPropertyInput
         $qName = $property->getVocabulary()->getPrefix() . ':' . $property->getLocalName();

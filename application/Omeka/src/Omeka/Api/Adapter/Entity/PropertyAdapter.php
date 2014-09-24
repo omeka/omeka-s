@@ -75,8 +75,6 @@ class PropertyAdapter extends AbstractEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        parent::buildQuery($qb, $query);
-        
         if (isset($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(

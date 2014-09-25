@@ -36,7 +36,7 @@ class Media extends AbstractHelper
         $media = null;
         if ($mediaType instanceof MediaRepresentation) {
             $media = $mediaType;
-            $mediaType = $media->getType();
+            $mediaType = $media->type();
         }
         return $this->getMediaType($mediaType)->form($media, $options);
     }
@@ -50,7 +50,7 @@ class Media extends AbstractHelper
      */
     public function render(MediaRepresentation $media, array $options = array())
     {
-        return $this->getMediaType($media->getType())->render($media, $options);
+        return $this->getMediaType($media->type())->render($media, $options);
     }
 
     /**

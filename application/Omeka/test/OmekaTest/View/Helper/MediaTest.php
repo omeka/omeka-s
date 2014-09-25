@@ -33,7 +33,7 @@ class MediaTest extends TestCase
     public function testForm()
     {
         $this->mediaRepresentation->expects($this->once())
-            ->method('getType')
+            ->method('type')
             ->will($this->returnValue('test'));
         $this->media = new Media($this->serviceManager);
         $form = $this->media->form($this->mediaRepresentation, $this->options);
@@ -43,7 +43,7 @@ class MediaTest extends TestCase
     public function testRender()
     {
         $this->mediaRepresentation->expects($this->once())
-            ->method('getType')
+            ->method('type')
             ->will($this->returnValue('test'));
         $this->media = new Media($this->serviceManager);
         $render = $this->media->render($this->mediaRepresentation, $this->options);

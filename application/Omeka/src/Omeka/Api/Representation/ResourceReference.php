@@ -23,7 +23,7 @@ class ResourceReference extends AbstractResourceRepresentation
     public function jsonSerialize()
     {
         return array(
-            '@id' => $this->getAdapter()->getApiUrl($this->getData()),
+            '@id' => $this->apiUrl(),
             'o:id'  => $this->getId(),
         );
     }

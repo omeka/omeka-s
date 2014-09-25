@@ -12,10 +12,18 @@ class ValueRepresentationTest extends TestCase
         $resourceName = 'test_resource-name';
         $resourceApiUrl = 'test_api-url';
 
+        $resourceRep = $this->getMock(
+            'Omeka\Api\Representation\AbstractResourceRepresentation',
+            array('apiUrl', 'getJsonLd'), array(), 'FooRepresentation', false
+        );
+        $resourceRep->expects($this->once())
+            ->method('apiUrl')
+            ->will($this->returnValue($resourceApiUrl));
+
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
-            ->method('getApiUrl')
-            ->will($this->returnValue($resourceApiUrl));
+            ->method('getRepresentation')
+            ->will($this->returnValue($resourceRep));
 
         $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
         $apiAdapterManager->expects($this->once())
@@ -96,10 +104,23 @@ class ValueRepresentationTest extends TestCase
         $propertyId          = 'test-property_id';
         $propertyLabel       = 'test-property_label';
 
+        $resourceRep = $this->getMock(
+            'Omeka\Api\Representation\AbstractResourceRepresentation',
+            array('apiUrl', 'getJsonLd', 'getId'), array(), '',
+            false
+        );
+        $resourceRep->expects($this->once())
+            ->method('apiUrl')
+            ->will($this->returnValue($valueResourceApiUrl));
+        $resourceRep->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($valueResourceId));
+
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
-            ->method('getApiUrl')
-            ->will($this->returnValue($valueResourceApiUrl));
+            ->method('getRepresentation')
+            ->with($valueResourceId)
+            ->will($this->returnValue($resourceRep));
 
         $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
         $apiAdapterManager->expects($this->once())

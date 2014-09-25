@@ -47,8 +47,6 @@ class TestAdapter implements AdapterInterface
     public function read(Request $request){}
     public function update(Request $request){}
     public function delete(Request $request){}
-    public function getApiUrl($resource){}
-    public function getWebUrl($resource){}
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator){}
     public function getServiceLocator(){}
     public function setEventManager(EventManagerInterface $events){}

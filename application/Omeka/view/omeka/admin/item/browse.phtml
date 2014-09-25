@@ -24,7 +24,7 @@
             <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>">Select row</label></td>
             <td>
                 <span class="record-name">
-                    <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo $this->escapeHtml($item->getDisplayTitle('[untitled]')); ?></a>
+                    <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo $this->escapeHtml($item->displayTitle('[untitled]')); ?></a>
                 </span>
                 <ul class="actions">
                     <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->id()), true)); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
@@ -32,8 +32,8 @@
                     <li><a href="#" class="o-icon-delete" aria-label="Delete" title="Delete"></a></li>
                 </ul>
             </td>
-            <td><?php echo $this->escapeHtml($item->getDisplayResourceClassLabel()); ?></td>
-            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->getCreated())); ?></td>
+            <td><?php echo $this->escapeHtml($item->displayResourceClassLabel()); ?></td>
+            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->created())); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -9,8 +9,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function getResourceJsonLd()
     {
         return array(
-            'o:type' => $this->getType(),
-            'o:data' => $this->getMediaData(),
+            'o:type' => $this->type(),
+            'o:data' => $this->mediaData(),
             'o:item' => $this->getReference(
                 null,
                 $this->getData()->getItem(),
@@ -38,7 +38,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      *
      * @return string
      */
-    public function getType()
+    public function type()
     {
         return $this->getData()->getType();
     }
@@ -50,7 +50,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      *
      * @return mixed
      */
-    public function getMediaData()
+    public function mediaData()
     {
         return $this->getData()->getData();
     }

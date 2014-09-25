@@ -36,8 +36,8 @@ $url = $this->plugin('url');
             <td>
                 <span class="record-name">
                     <a href="<?php echo $showUrl; ?>">
-                        <?php echo $escape($user->getUsername());?>
-                        (<?php echo $escape($user->getName()); ?>)
+                        <?php echo $escape($user->username());?>
+                        (<?php echo $escape($user->name()); ?>)
                     </a>
                 </span>
                 <ul class="actions">
@@ -45,7 +45,7 @@ $url = $this->plugin('url');
                     <li><a href="#" class="o-icon-more"><span class="screen-reader-text">Details</span></a></li>
                 </ul>
             </td>
-            <td><?php echo $user->getCreated()->format('M j, Y');?></td>
+            <td><?php echo $user->created()->format('M j, Y');?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

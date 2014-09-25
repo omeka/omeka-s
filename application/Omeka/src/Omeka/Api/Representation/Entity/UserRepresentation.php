@@ -17,27 +17,27 @@ class UserRepresentation extends AbstractEntityRepresentation
         );
     }
 
-    public function getUsername()
+    public function username()
     {
         return $this->getData()->getUsername();
     }
 
-    public function getName()
+    public function name()
     {
         return $this->getData()->getName();
     }
 
-    public function getEmail()
+    public function email()
     {
         return $this->getData()->getEmail();
     }
 
-    public function getRole()
+    public function role()
     {
         return $this->getData()->getRole();
     }
 
-    public function getCreated()
+    public function created()
     {
         return $this->getData()->getCreated();
     }

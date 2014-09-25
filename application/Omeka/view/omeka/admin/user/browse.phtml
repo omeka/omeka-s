@@ -23,12 +23,12 @@ $url = $this->plugin('url');
         <?php
         $showUrl = $attrEscape($url('admin/id', array(
             'controller' => 'user',
-            'id' => $user->getId()
+            'id' => $user->id()
         )));
         $editUrl = $attrEscape($url('admin/id', array(
             'controller' => 'user',
             'action' => 'edit',
-            'id' => $user->getId()
+            'id' => $user->id()
         )));
         ?>
         <tr>

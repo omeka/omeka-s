@@ -152,7 +152,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             'Omeka\Api\Representation\Entity\AbstractResourceEntityRepresentation',
             array($resourceId, $resource, $adapter)
         );
-        $this->assertNull($abstractResourceEntityRep->getResourceClass());
+        $this->assertNull($abstractResourceEntityRep->resourceClass());
     }
 
     public function testGetCreated()
@@ -176,7 +176,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             'Omeka\Api\Representation\Entity\AbstractResourceEntityRepresentation',
             array($resourceId, $resource, $adapter)
         );
-        $this->assertEquals($resourceCreated, $abstractResourceEntityRep->getCreated());
+        $this->assertEquals($resourceCreated, $abstractResourceEntityRep->created());
     }
 
     public function testGetModified()
@@ -200,6 +200,6 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             'Omeka\Api\Representation\Entity\AbstractResourceEntityRepresentation',
             array($resourceId, $resource, $adapter)
         );
-        $this->assertEquals($resourceModified, $abstractResourceEntityRep->getModified());
+        $this->assertEquals($resourceModified, $abstractResourceEntityRep->modified());
     }
 }

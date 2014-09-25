@@ -26,7 +26,7 @@ class ResourceClassRepresentation extends AbstractEntityRepresentation
         );
     }
 
-    public function getLabel()
+    public function label()
     {
         return $this->getData()->getLabel();
     }

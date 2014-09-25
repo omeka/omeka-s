@@ -257,7 +257,7 @@ class ValueRepresentationTest extends TestCase
             ->will($this->returnValue($valueType));
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertEquals($valueType, $valueRep->getType());
+        $this->assertEquals($valueType, $valueRep->type());
     }
 
     public function testGetValue()
@@ -271,7 +271,7 @@ class ValueRepresentationTest extends TestCase
             ->will($this->returnValue($valueValue));
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertEquals($valueValue, $valueRep->getValue());
+        $this->assertEquals($valueValue, $valueRep->value());
     }
 
     public function testGetLang()
@@ -285,7 +285,7 @@ class ValueRepresentationTest extends TestCase
             ->will($this->returnValue($valueLang));
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertEquals($valueLang, $valueRep->getLang());
+        $this->assertEquals($valueLang, $valueRep->lang());
     }
 
     public function testIsHtml()

@@ -76,7 +76,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ),
             $dateTime,
             $this->getResourceJsonLd(),
-            $this->getValues()
+            $this->values()
         );
     }
 
@@ -85,7 +85,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return ResourceClassRepresentation
      */
-    public function getResourceClass()
+    public function resourceClass()
     {
         return $this->getAdapter('resource_classes')
             ->getRepresentation(null, $this->getData()->getResourceClass());
@@ -96,7 +96,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return DateTime
      */
-    public function getCreated()
+    public function created()
     {
         return $this->getData()->getCreated();
     }
@@ -106,7 +106,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return DateTime
      */
-    public function getModified()
+    public function modified()
     {
         return $this->getData()->getModified();
     }
@@ -116,7 +116,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    public function getValues()
+    public function values()
     {
         if (empty($this->values)) {
             $this->setValues();
@@ -139,7 +139,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *   languages by default.
      * @return RepresentationInterface|mixed
      */
-    public function getValue($term, array $options = array())
+    public function value($term, array $options = array())
     {
         // Set defaults.
         if (!isset($options['type'])) {
@@ -155,7 +155,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['lang'] = null;
         }
 
-        $values = $this->getValues();
+        $values = $this->values();
         if (!array_key_exists($term, $values)) {
             return $options['default'];
         }
@@ -164,12 +164,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $matchingValues = array();
         foreach ($values[$term] as $value) {
             if (!is_null($options['type'])
-                && $value->getType() !== $options['type']
+                && $value->type() !== $options['type']
             ) {
                 continue;
             }
             if (!is_null($options['lang'])
-                && $value->getLang() !== $options['lang']
+                && $value->lang() !== $options['lang']
             ) {
                 continue;
             }
@@ -189,9 +189,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string|null $default
      * @return RepresentationInterface|null
      */
-    public function getDisplayTitle($default = null)
+    public function displayTitle($default = null)
     {
-        return $this->getValue('dcterms:title', array(
+        return $this->value('dcterms:title', array(
             'type' => 'literal',
             'default' => $default,
         ));
@@ -203,10 +203,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string|null $default
      * @return string|null
      */
-    public function getDisplayResourceClassLabel($default = null)
+    public function displayResourceClassLabel($default = null)
     {
-        $resourceClass = $this->getResourceClass();
-        return $resourceClass ? $resourceClass->getLabel() : $default;
+        $resourceClass = $this->resourceClass();
+        return $resourceClass ? $resourceClass->label() : $default;
     }
 
     /**

@@ -90,7 +90,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['sort_by'])
+        if (is_string($query['sort_by'])
             && array_key_exists($query['sort_by'], $this->sortFields)
         ) {
             $sortBy = $this->sortFields[$query['sort_by']];
@@ -107,20 +107,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function limitQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['page'])) {
+        if (is_numeric($query['page'])) {
             $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
             $paginator->setCurrentPage($query['page']);
-            if (isset($query['per_page'])) {
+            if (is_numeric($query['per_page'])) {
                 $paginator->setPerPage($query['per_page']);
             }
             $qb->setMaxResults($paginator->getPerPage());
             $qb->setFirstResult($paginator->getOffset());
             return;
         }
-        if (isset($query['limit'])) {
+        if (is_numeric($query['limit'])) {
             $qb->setMaxResults($query['limit']);
         }
-        if (isset($query['offset'])) {
+        if (is_numeric($query['offset'])) {
             $qb->setFirstResult($query['offset']);
         }
     }
@@ -133,7 +133,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entityClass = $this->getEntityClass();
         $query = $request->getContent();
 
-        // Set the sort order
+        // Set default query parameters
+        if (!isset($query['page'])) {
+            $query['page'] = null;
+        }
+        if (!isset($query['per_page'])) {
+            $query['per_page'] = null;
+        }
+        if (!isset($query['limit'])) {
+            $query['limit'] = null;
+        }
+        if (!isset($query['offset'])) {
+            $query['offset'] = null;
+        }
+        if (!isset($query['sort_by'])) {
+            $query['sort_by'] = null;
+        }
         if (isset($query['sort_order'])
             && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
         ) {

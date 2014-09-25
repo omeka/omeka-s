@@ -33,7 +33,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['sort_by'])) {
+        if (is_string($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
             if ($property) {
                 $qb->leftJoin(

@@ -174,19 +174,9 @@
             e.preventDefault();
             e.stopPropagation();
             var propertyId = $(this).parents('.property').data('property-id');
-            console.log(propertyId);
-            $.get('ajax-property-element', {id : propertyId }, insertProperty);
-            
-            /*
-            var this_field = $(this).parents('.field');
-            var field_name = cleanText($(this).parent()) + " (" + cleanText($(this).parents('.vocabulary')) + ")";
-            var field_label = $('<label>' + field_name + '</label>');
-            var field_desc = $(this).siblings('.description');
-            field_desc.attr('class', 'field-description');
-            $(this).parents('.properties').before(field_desc);
-            this_field.find('input[placeholder="Property name"]').replaceWith(field_label);
-            this_field.removeClass('unset');
-            */
+            $.get('ajax-property-element', {id : propertyId }, function(html, status, jqxhr) {
+                $(html).insertBefore($('div.resource-values.field').last());
+            });
         });
         
         // Make new value inputs whenever "add value" button clicked.
@@ -258,10 +248,6 @@
         });
     });
 
-    var insertProperty = function(html, status, jqxhr) {
-        $(html).insertBefore($('div.resource-values.field').last());
-    };
-    
     // Duplicates the new field template, and makes it visible by removing the "template" class.
     var makeNewField = function(section,prop,desc) {
         var field_section = '#' + section;

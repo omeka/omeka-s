@@ -1,14 +1,14 @@
 (function($) {
 
     $(document).ready( function() {
-        
+
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
             $('#main').attr('tabindex', -1).on('blur focusout', function() {
                 $(this).removeAttr('tabindex');
             }).focus();
         });
-        
+
         // Mobile navigation
         $('#mobile-nav .button').click(function(e) {
             e.preventDefault();
@@ -31,46 +31,7 @@
 
         // Variables
         var add_edit_items = $('body');
-        var import_vocabs = $('body.import.vocabs');
 
-        // Setup tables' select all checkboxes.
-        $('label[for="select-all"]').click(function(e) {
-            e.preventDefault();
-            var select_all = $(this).siblings('input[type="checkbox"]');
-            var checkboxes = $(this).parents('table').find('td input[type="checkbox"]');
-            var checked = 0;
-            checkboxes.each(function() {
-                if($(this).prop('checked') == true) {
-                    checked = checked + 1;
-                }
-            });
-            if (checked < checkboxes.length) {
-                select_all.prop('checked', 'checked');
-                checkboxes.each(function() {
-                    $(this).prop('checked','checked');
-                });
-            } else {
-                select_all.attr('checked', false);
-                checkboxes.each(function() {
-                    $(this).removeAttr('checked');
-                    $(this).attr('checked', false);
-                });
-            }
-        });
-
-        if ($('body').hasClass('browse')) {
-            attachModal('.fa-trash-o');
-        }
-
-        $('body.browse .fa-trash-o').click(function(e) {
-            e.preventDefault();
-            $.get('../common/delete-confirm.php', function(data) {
-                $('.modal-content').html(data);
-                $('.modal').attr('id', 'delete-confirm').attr('class', 'small modal');
-                $('.modal-header h1').replaceWith($('.modal-content h1'));
-            });
-        });
-        
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
             e.preventDefault();
@@ -86,8 +47,8 @@
                 tab.addClass('active');
                 $('#' + section_id).addClass('active');
             }
-        });        
-        
+        });
+
         // Set classes for expandable/collapsible content.
         $(document).on('click', 'a.expand, a.collapse', function(e) {
             e.preventDefault();
@@ -96,36 +57,12 @@
                 $(this).parent().toggleClass('collapse').toggleClass('expand');
             }
         });
-        
-        // In the 'Select Item' modal, toggle item details.
-        $(document).on('click', '.modal-content .item a', function(e) {
-            e.preventDefault();
-            if ($(this).parents('.previewed').length > 0) {
-                $('.previewed').removeClass('previewed');
-                $('.modal').toggleClass('show-details');
-            } else {
-                if ($('.previewed').length > 0) {
-                    $('.previewed').removeClass('previewed');
-                    $(this).parents('.modal .item').addClass('previewed');
-                } else {
-                    $(this).parents('.modal .item').addClass('previewed');
-                    $('.modal').addClass('show-details');
-                }
-            }
-        });
-        
-        // Carry over any entered value from simple items search to advanced items search.
-        add_edit_items.on('click', '.more-options', function(e) {
-            e.preventDefault();
-            var keywords = $('#item-list-search').val();
-            $('input[name="advanced-keyword"').val(keywords);
-        });
-        
+
         // Show property descriptions when clicking "more-info" icon.
         add_edit_items.on('click', '.property .icon-info', function() {
             $(this).parents('.description').toggleClass('show');
         });
-        
+
         // Mark existing properties for deletion and straight up remove new properties.
         add_edit_items.on('click', '.remove.button', function(e) {
             e.preventDefault();
@@ -136,20 +73,13 @@
                 current_field.toggleClass('remove');
             }
         });
-        
+
         // Make new property field whenever "add property" button clicked.
         $(document).on('click', '.add-property', function(e) {
             e.preventDefault();
             makeNewField('resource-values');
         });
-        
-        
-        // Show RDF property sets to choose from.
-        add_edit_items.on('click', '.browse-properties', function(e) {
-            e.preventDefault();
-            $(this).siblings('.properties').toggleClass('show');
-        });
-        
+
         // Show properties
         add_edit_items.on('click', '.properties li', function(e) {
             e.stopPropagation();
@@ -215,31 +145,6 @@
                 tab.addClass('active');
                 tab.parent().siblings(current_class).addClass('active');
             }
-        });
-        
-        // Load prechosen fields.
-        $('select[name="item-type"]').change(function() {
-            var item_type = $(this).find('option:selected').text().toLowerCase();
-            $.getJSON('RDF.json',function(data) {
-                $('#add-item .field:not(.new)').each(function() {
-                    if (!$(this).hasClass('keep') && !$(this).hasClass('item-class')) {
-                        $(this).remove();
-                    }
-                });
-                if (data[item_type]) {
-                    $.each(data[item_type][0], function(key,value) {
-                        if ($('label:contains(' + key + ')').length == 0) {
-                            makeNewField('item-values',key,value);
-                        }
-                    });
-                }
-            })
-            .fail(function() {
-              console.log( "error" );
-            })
-            .always(function() {
-              console.log( "complete" );
-            });
         });
         
         // Keep new fields that have been changed.

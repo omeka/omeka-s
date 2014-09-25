@@ -103,26 +103,4 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildQuery(QueryBuilder $qb, array $query)
-    {
-        parent::buildQuery($qb, $query);
-
-        if (isset($query['resource_class_label'])) {
-            $placeholder = $this->getPlaceholder();
-            $qb->innerJoin(
-                'Omeka\Model\Entity\Item.resourceClass',
-                'Omeka\Model\Entity\ResourceClass'
-            )->andWhere($qb->expr()->eq(
-                'Omeka\Model\Entity\ResourceClass.label',
-                ":$placeholder"
-            ))->setParameter(
-                $placeholder,
-                $query['resource_class_label']
-            );
-        }
-    }
 }

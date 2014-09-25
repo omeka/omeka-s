@@ -27,7 +27,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        switch ($this->getType()) {
+        switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->getData()->getValueResource();
@@ -65,7 +65,7 @@ class ValueRepresentation extends AbstractRepresentation
         $value = $this->getData();
         $valueObject = array();
 
-        switch ($this->getType()) {
+        switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->getData()->getValueResource();
@@ -102,7 +102,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getType()
+    public function type()
     {
         return $this->getData()->getType();
     }
@@ -112,7 +112,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getValue()
+    public function value()
     {
         return $this->getData()->getValue();
     }
@@ -122,7 +122,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getLang()
+    public function lang()
     {
         return $this->getData()->getLang();
     }

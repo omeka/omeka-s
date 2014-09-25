@@ -74,16 +74,70 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\ResourceClass', 'Omeka\Model\Entity\User',
-                'owner', 'id', $query['owner_id']);
-        }
-        if (isset($query['vocabulary_namespace_uri'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\ResourceClass', 'Omeka\Model\Entity\Vocabulary',
-                'vocabulary', 'namespaceUri', $query['vocabulary_namespace_uri']);
+            $userAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\ResourceClass.owner',
+                $userAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$userAlias.id",
+                $this->createNamedParameter($qb, $query['owner_id']))
+            );
         }
         if (isset($query['vocabulary_id'])) {
-            $this->joinWhere($qb, 'Omeka\Model\Entity\ResourceClass', 'Omeka\Model\Entity\Vocabulary',
-                'vocabulary', 'id', $query['vocabulary_id']);
+            $vocabularyAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                $vocabularyAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$vocabularyAlias.id",
+                $this->createNamedParameter($qb, $query['vocabulary_id']))
+            );
+        }
+        if (isset($query['vocabulary_namespace_uri'])) {
+            $vocabularyAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                $vocabularyAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$vocabularyAlias.namespace_uri",
+                $this->createNamedParameter($qb, $query['vocabulary_namespace_uri']))
+            );
+        }
+        if (isset($query['vocabulary_prefix'])) {
+            $vocabularyAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                $vocabularyAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$vocabularyAlias.prefix",
+                $this->createNamedParameter($qb, $query['vocabulary_prefix']))
+            );
+        }
+        if (isset($query['local_name'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\ResourceClass.localName",
+                $this->createNamedParameter($qb, $query['local_name']))
+            );
+        }
+        if (isset($query['term']) && $this->isTerm($query['term'])) {
+            list($prefix, $localName) = explode(':', $query['term']);
+            $vocabularyAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                $vocabularyAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$vocabularyAlias.prefix",
+                $this->createNamedParameter($qb, $prefix))
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\ResourceClass.localName",
+                $this->createNamedParameter($qb, $localName))
+            );
         }
     }
 

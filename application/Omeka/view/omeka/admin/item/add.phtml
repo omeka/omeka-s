@@ -27,33 +27,66 @@ if (isset($errors)) {
 </nav>
 
 <form method='post' id='add-item'>
-    <fieldset>
-        <div class='resource-values field'>
-            <?php foreach ($form->getElements() as $element): ?>
-            <?php if ($element->getLabel()): ?>
-            <div class="resource-values field">
-                <div class='field-meta'>
-                <?php echo $formLabel($element); ?>
-                    <div class='field-description'>
-                        <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
-                    </div>
+    <fieldset id='resource-values' class='section active'>
+        <?php foreach ($form->getElements() as $element): ?>
+        <?php if ($element->getLabel()): ?>
+        <div class="resource-values field">
+            <div class='field-meta'>
+            <?php echo $formLabel($element); ?>
+                <div class='field-description'>
+                    <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
                 </div>
-    
-                <div class='inputs'>
-                <?php 
-                    echo $formElement($element);
-                ?>
-                </div>
-    
-                <?php
-                echo $formErrors($element);
-                ?>
             </div>
-            <?php else: ?>
-            <!-- Display the hidden input for the property id -->
-            <?php echo $formElement($element); ?>
-            <?php endif; ?>
-            <?php endforeach; ?>
+
+            <div class='inputs'>
+            <?php 
+                echo $formElement($element);
+            ?>
+            </div>
+
+            <?php
+            echo $formErrors($element);
+            ?>
+        </div>
+        <?php else: ?>
+        <!-- Display the hidden input for the property id -->
+        <?php echo $formElement($element); ?>
+        <?php endif; ?>
+        <?php endforeach; ?>
+
+        <div class='new resource-values field unset'>
+            <div class='field-meta'>
+                <div class='properties'>
+                    <ul>
+                        <li class='all-vocabs'>
+                            Vocabularies <span class='count'><?php echo count($vocabularies); ?></span>
+                            <ul>
+                                <?php foreach ($vocabularies as $label => $vocabulary) : ?>
+                                <li class='vocabulary show'>
+                                    <?php echo $label; ?>
+                                    <ul>
+                                        <?php foreach ($vocabulary as $propertyInfo) : ?>
+                                        <li class='property' data-property-id='<?php echo $propertyInfo["id"]?>'>
+                                            <?php echo $propertyInfo['label']; ?>
+                                            <div class='description'>
+                                                <p class='icon-info'>
+                                                    <span class='screen-reader-text'>More Info</span>
+                                                </p>
+                                                <p>
+                                                <?php echo $propertyInfo['comment']; ?>
+                                                </p>
+                                            </div>
+                                            <button class='set-property'>Set Property</button>
+                                        </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </fieldset>
 
@@ -63,37 +96,3 @@ if (isset($errors)) {
     </fieldset>
 </form>
 
-<div class='new resource-values field unset'>
-    <div class='field-meta'>
-        <div class='properties'>
-            <ul>
-                <li class='all-vocabs'>
-                    Vocabularies <span class='count'><?php echo count($vocabularies); ?></span>
-                    <ul>
-                        <?php foreach ($vocabularies as $label => $vocabulary) : ?>
-                        <li class='vocabulary show'>
-                            <?php echo $label; ?>
-                            <ul>
-                                <?php foreach ($vocabulary as $propertyInfo) : ?>
-                                <li class='property' data-property-id='<?php echo $propertyInfo["id"]?>'>
-                                    <?php echo $propertyInfo['label']; ?>
-                                    <div class='description'>
-                                        <p class='icon-info'>
-                                            <span class='screen-reader-text'>More Info</span>
-                                        </p>
-                                        <p>
-                                        <?php echo $propertyInfo['comment']; ?>
-                                        </p>
-                                    </div>
-                                    <button class='set-property'>Set Property</button>
-                                </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>

@@ -1,0 +1,26 @@
+<?php 
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+?>
+<?php foreach ($form->getElements() as $element): ?>
+<?php if ($element->getLabel()): ?>
+<div class="resource-values field">
+    <div class='field-meta'>
+    <?php echo $formLabel($element); ?>
+        <div class='field-description'>
+            <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
+        </div>
+    </div>
+
+    <div class='inputs'>
+    <?php 
+        echo $formElement($element);
+    ?>
+    </div>
+</div>
+<?php else: ?>
+<!-- Display the hidden input for the property id -->
+<?php echo $formElement($element); ?>
+<?php endif; ?>
+<?php endforeach; ?>

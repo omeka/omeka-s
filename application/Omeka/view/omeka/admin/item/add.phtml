@@ -5,11 +5,7 @@ $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 $formErrors = $this->plugin('formElementErrors');
-$inputOptions = '<div class="input-options">
-                        <a link="#" class="tab active fa-text"><span class="screen-reader-text">Text</span></a>
-                        <a link="#" class="tab fa-items"><span class="screen-reader-text">Omeka Item</span></a>
-                        <a link="#" class="tab fa-link"><span class="screen-reader-text">External Resource</span></a>
-                 </div>';
+
 ?>
 <h1><?php echo $this->translate('Add Item'); ?></h1>
 <?php 
@@ -31,17 +27,29 @@ if (isset($errors)) {
         <?php foreach ($form->getElements() as $element): ?>
         <?php if ($element->getLabel()): ?>
         <div class="resource-values field">
+            <div class="field-actions">
+                <a href="#" class="add-value button o-icon-plus"><span class="screen-reader-text">Add Value</span></a>
+            </div>
             <div class='field-meta'>
             <?php echo $formLabel($element); ?>
                 <div class='field-description'>
-                    <p class="fa-info-circle"><span class="screen-reader-text">More Info</span></p>
+                    <p class="o-icon-info-circle"><span class="screen-reader-text">More Info</span></p>
                 </div>
             </div>
 
             <div class='inputs'>
-            <?php 
-                echo $formElement($element);
-            ?>
+                <div class='value'>
+                    <?php if ($element->getLabel() != 'Class'): ?>
+                    <div class="input-options">
+                            <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
+                            <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
+                            <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
+                     </div>
+                     <?php endif; ?>
+                    <?php 
+                        echo $formElement($element);
+                    ?>
+                </div>
             </div>
 
             <?php

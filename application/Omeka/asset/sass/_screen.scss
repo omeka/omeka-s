@@ -679,7 +679,7 @@ th a[class="sorted-desc"] {
     z-index: 2;
 }
 
-.sidebar {
+#sidebar {
     position: fixed;
     top: rhythm(3.5);
     left: 100%;
@@ -692,11 +692,11 @@ th a[class="sorted-desc"] {
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
     
-    &.active {
+    #content.sidebar-open & {
         left: span(12 of 16) + gutter(32);
     }
     
-    .o-icon-close {
+    #sidebar-close {
         position: absolute;
         right: gutter();
         top: rhythm(.5);
@@ -704,7 +704,7 @@ th a[class="sorted-desc"] {
 }
 
 
-div[role="main"].with-sidebar {
+#content.sidebar-open {
     width: span(9 of 16);
 }
 

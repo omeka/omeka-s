@@ -758,7 +758,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     z-index: 2;
   }
 
-  .sidebar {
+  #sidebar {
     position: fixed;
     top: 5.25em;
     left: 100%;
@@ -774,16 +774,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  .sidebar.active {
+  #content.sidebar-open #sidebar {
     left: 75.52083%;
   }
-  .sidebar .o-icon-close {
+  #sidebar #sidebar-close {
     position: absolute;
     right: 1.04167%;
     top: 0.75em;
   }
 
-  div[role="main"].with-sidebar {
+  #content.sidebar-open {
     width: 56.25%;
   }
 

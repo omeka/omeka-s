@@ -201,14 +201,13 @@ div[role="main"] {
     min-height: 40%;
 }
 
-#more,
-#delete {
+#sidebar {
     position: fixed;
     top: rhythm(1.5);
     z-index: 100;
     width: 100%;
 
-    &.active {
+    #content.sidebar-open & {
         left: 0;
     }
 }

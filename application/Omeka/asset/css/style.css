@@ -2110,15 +2110,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     min-height: 40%;
   }
 
-  #more,
-  #delete {
+  #sidebar {
     position: fixed;
     top: 2.25em;
     z-index: 100;
     width: 100%;
   }
-  #more.active,
-  #delete.active {
+  #content.sidebar-open #sidebar {
     left: 0;
   }
 

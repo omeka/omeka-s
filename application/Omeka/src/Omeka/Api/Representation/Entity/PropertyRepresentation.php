@@ -25,4 +25,9 @@ class PropertyRepresentation extends AbstractEntityRepresentation
             ),
         );
     }
+
+    public function label()
+    {
+        return $this->getData()->getLabel();
+    }
 }

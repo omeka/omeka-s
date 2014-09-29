@@ -20,4 +20,9 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
             ),
         );
     }
+
+    public function label()
+    {
+        return $this->getData()->getLabel();
+    }
 }

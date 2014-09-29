@@ -7,8 +7,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            '@id'                 => $this->getAdapter()->getApiUrl($entity),
-            'o:id'            => $entity->getId(),
             'o:namespace_uri' => $entity->getNamespaceUri(),
             'o:prefix'        => $entity->getPrefix(),
             'o:label'         => $entity->getLabel(),

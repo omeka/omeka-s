@@ -67,9 +67,6 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $resource->expects($this->once())
             ->method('getValues')
             ->will($this->returnValue(array($value)));
-        $resource->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($resourceId));
 
         $childAdapter = $this->getMock('Omeka\Api\Adapter\Entity\AbstractEntityAdapter');
 
@@ -90,9 +87,6 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($serviceLocator));
-        $adapter->expects($this->once())
-            ->method('getApiUrl')
-            ->will($this->returnValue($resourceApiUrl));
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\Entity\AbstractResourceEntityRepresentation',
@@ -103,9 +97,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             ->will($this->returnValue($resourceJsonLd));
 
         $jsonLd = $abstractResourceEntityRep->getJsonLd();
-        $this->assertEquals($resourceApiUrl, $jsonLd['@id']);
         $this->assertEquals("$vocabularyPrefix:$resourceClassLocalName", $jsonLd['@type']);
-        $this->assertEquals($resourceId, $jsonLd['o:id']);
         $this->assertInstanceOf('Omeka\Api\Representation\ResourceReference', $jsonLd['o:owner']);
         $this->assertInstanceOf('Omeka\Stdlib\DateTime', $jsonLd['o:created']['@value']);
         $this->assertEquals('http://www.w3.org/2001/XMLSchema#dateTime', $jsonLd['o:created']['@type']);

@@ -7,8 +7,6 @@ class PropertyRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            '@id'          => $this->getAdapter()->getApiUrl($entity),
-            'o:id'         => $entity->getId(),
             'o:local_name' => $entity->getLocalName(),
             'o:label'      => $entity->getLabel(),
             'o:comment'    => $entity->getComment(),

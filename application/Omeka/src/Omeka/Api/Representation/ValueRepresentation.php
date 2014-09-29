@@ -30,11 +30,8 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $valueResource = $this->getData()->getValueResource();
-                $valueResourceAdapter = $this->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                return $valueResourceAdapter->getApiUrl($valueResource);
+                $valueResource = $this->getValueResource();
+                return $valueResource->apiUrl();
 
             case Value::TYPE_URI:
             case Value::TYPE_LITERAL:
@@ -68,12 +65,9 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $valueResource = $this->getData()->getValueResource();
-                $valueResourceAdapter = $this->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
-                $valueObject['value_resource_id'] = $valueResource->getId();
+                $valueResource = $this->getValueResource();
+                $valueObject['@id'] = $valueResource->apiUrl();
+                $valueObject['value_resource_id'] = $valueResource->id();
                 break;
 
             case Value::TYPE_URI:

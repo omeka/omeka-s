@@ -79,7 +79,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     {
         $jsonLd = $this->getJsonLd();
         return array_merge(
-            array('@context' => $this->context),
+            array(
+                '@context' => $this->context,
+                '@id' => $this->apiUrl(),
+                'o:id' => $this->id(),
+            ),
             $jsonLd
         );
     }
@@ -127,5 +131,18 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
             return parent::getAdapter($resourceName);
         }
         return $this->adapter;
+    }
+
+    public function apiUrl()
+    {
+        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
+        return $url(
+            'api/default',
+            array(
+                'resource' => $this->getAdapter()->getResourceName(),
+                'id' => $this->id()
+            ),
+            array('force_canonical' => true)
+        );
     }
 }

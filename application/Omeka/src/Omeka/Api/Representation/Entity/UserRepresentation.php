@@ -7,8 +7,6 @@ class UserRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            '@id'            => $this->getAdapter()->getApiUrl($entity),
-            'o:id'       => $entity->getId(),
             'o:username' => $entity->getUsername(),
             'o:name'     => $entity->getName(),
             'o:email'    => $entity->getEmail(),

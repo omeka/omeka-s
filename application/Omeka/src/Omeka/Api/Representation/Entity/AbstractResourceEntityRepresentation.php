@@ -88,10 +88,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         return array_merge(
-            array('@id' => $this->getAdapter()->getApiUrl($this->getData())),
             $nodeType,
             array(
-                'o:id' => $this->getData()->getId(),
                 'o:owner' => $this->getReference(
                     null,
                     $this->getData()->getOwner(),

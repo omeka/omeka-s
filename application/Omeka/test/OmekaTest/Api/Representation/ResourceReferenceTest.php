@@ -35,14 +35,16 @@ class ResourceReferenceTest extends TestCase
     public function testJsonSerialize()
     {
         $jsonLdId = 'test_@id';
-        $this->adapter->expects($this->once())
-            ->method('getApiUrl')
-            ->with($this->equalTo($this->data))
+
+        $resourceReference = $this->getMock(
+            'Omeka\Api\Representation\ResourceReference',
+            array('apiUrl'),
+            array($this->id, $this->data, $this->adapter)
+        );
+        $resourceReference->expects($this->once())
+            ->method('apiUrl')
             ->will($this->returnValue($jsonLdId));
 
-        $resourceReference = new ResourceReference(
-            $this->id, $this->data, $this->adapter
-        );
         $this->assertEquals(array(
             '@id' => $jsonLdId,
             'o:id' => $this->id,

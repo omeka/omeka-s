@@ -109,18 +109,6 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getApiUrl($data)
-    {}
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getWebUrl($data)
-    {}
-
-    /**
      * Get an adapter by resource name.
      *
      * @param string $resourceName

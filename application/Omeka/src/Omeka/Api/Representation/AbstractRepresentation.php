@@ -7,6 +7,7 @@ use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\HelperPluginManager;
 
 /**
  * Abstract representation.
@@ -24,6 +25,11 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @var TranslatorInterface
      */
     protected $translator;
+
+    /**
+     * @var HelperPluginManager
+     */
+    protected $viewHelperManager;
 
     /**
      * @var ServiceLocatorInterface
@@ -122,6 +128,21 @@ abstract class AbstractRepresentation implements RepresentationInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
+    }
+
+    /**
+     * Get a view helper from the manager.
+     *
+     * @param string $name
+     * @return TranslatorInterface
+     */
+    protected function getViewHelper($name)
+    {
+        if (!$this->viewHelperManager instanceof HelperPluginManager) {
+            $this->viewHelperManager = $this->getServiceLocator()
+                ->get('ViewHelperManager');
+        }
+        return $this->viewHelperManager->get($name);
     }
 
     /**

@@ -53,20 +53,7 @@ class ValueRepresentationTest extends TestCase
     }
 
     public function testToStringUri()
-    {
-        $uri = 'test_uri';
-
-        $value = $this->getMock('Omeka\Model\Entity\Value');
-        $value->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(Value::TYPE_URI));
-        $value->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue($uri));
-
-        $valueRep = new ValueRepresentation($value, $this->getServiceManager());
-        $this->assertEquals($uri, $valueRep->__toString());
-    }
+    {}
 
     public function testToStringLiteral()
     {

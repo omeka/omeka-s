@@ -1,6 +1,6 @@
-<h2><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo $this->escapeHtml($item->displayTitle('[untitled]')); ?></a></h2>
+<h2><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a></h2>
 
-<div><?php echo $this->escapeHtml($item->displayDescription()); ?></div>
+<div><?php echo $item->displayDescription(); ?></div>
 
 <?php foreach ($item->values() as $prefix => $vocabulary): ?>
     <h3><?php echo $vocabulary['vocabulary']->label(); ?></h3>

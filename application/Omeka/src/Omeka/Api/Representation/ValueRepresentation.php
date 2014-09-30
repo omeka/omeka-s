@@ -34,6 +34,11 @@ class ValueRepresentation extends AbstractRepresentation
                 return $valueResource->apiUrl();
 
             case Value::TYPE_URI:
+                $escapeHtml = $this->getViewHelper('escapeHtml');
+                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
+                $uri = $this->getData()->getValue();
+                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uri) . '</a>';
+
             case Value::TYPE_LITERAL:
             default:
                 return $this->getData()->getValue();

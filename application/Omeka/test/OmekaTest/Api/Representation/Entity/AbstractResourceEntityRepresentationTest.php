@@ -32,7 +32,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             ->will($this->returnValue($resourceClassLocalName));
 
         $valueVocabulary = $this->getMock('Omeka\Model\Entity\Vocabulary');
-        $valueVocabulary->expects($this->exactly(2))
+        $valueVocabulary->expects($this->once())
             ->method('getPrefix')
             ->will($this->returnValue($valueVocabularyPrefix));
 
@@ -71,7 +71,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $childAdapter = $this->getMock('Omeka\Api\Adapter\Entity\AbstractEntityAdapter');
 
         $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
-        $apiAdapterManager->expects($this->exactly(2))
+        $apiAdapterManager->expects($this->exactly(4))
             ->method('get')
             ->will($this->returnValue($childAdapter));
 

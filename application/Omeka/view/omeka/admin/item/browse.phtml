@@ -34,8 +34,8 @@
                         aria-label="Details"
                         title="Details"></a></li>
                     <li><a href="#"
-                        data-delete-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'delete', 'id' => $item->id()), true)); ?>"
                         data-show-details-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show-details', 'id' => $item->id()), true)); ?>"
+                        data-delete-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'delete', 'id' => $item->id()), true)); ?>"
                         class="o-icon-delete sidebar-delete"
                         aria-label="Delete"
                         title="Delete"></a></li>
@@ -47,8 +47,16 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
 <div id="sidebar">
     <a href="#" id="sidebar-close" class="o-icon-close" aria-label="Close details panel" title="Close"></a>
+    <div id="sidebar-delete-content">
+        <h2>Delete Item</h2>
+        <p>Are you sure you would like to delete this item?</p>
+        <form method="post">
+            <button>Confirm Delete</button>
+        </form>
+    </div>
     <div id="sidebar-content"></div>
 </div>
 

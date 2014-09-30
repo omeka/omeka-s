@@ -201,6 +201,17 @@ div[role="main"] {
     min-height: 40%;
 }
 
+#sidebar {
+    position: fixed;
+    top: rhythm(1.5);
+    z-index: 100;
+    width: 100%;
+
+    #content.sidebar-open & {
+        left: 0;
+    }
+}
+
 /* @end */
 
 /* @group ----- Add/Edit views ----- */

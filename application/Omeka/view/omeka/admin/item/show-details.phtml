@@ -1,0 +1,13 @@
+<h2><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a></h2>
+
+<div><?php echo $item->displayDescription(); ?></div>
+
+<?php foreach ($item->values() as $prefix => $vocabulary): ?>
+    <h3><?php echo $vocabulary['vocabulary']->label(); ?></h3>
+    <?php foreach ($vocabulary['properties'] as $localName => $property): ?>
+        <h4><?php echo $property['property']->label(); ?></h4>
+        <?php foreach ($property['values'] as $value): ?>
+            <div><?php echo $value; ?></div>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+<?php endforeach; ?>

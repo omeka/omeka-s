@@ -588,6 +588,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     display: none;
   }
 
+  .mobile-container {
+    position: relative;
+  }
+
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
@@ -597,6 +601,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
   }
 
   /* @end */
@@ -638,6 +646,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .browse th:first-of-type {
     min-width: 2.25em;
     width: 2.25em;
+  }
+
+  .browse td:nth-of-type(2),
+  .browse th:nth-of-type(2) {
+    width: 40%;
   }
 
   .browse td:first-of-type:not(:only-of-type),
@@ -728,7 +741,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .sorted-asc:hover:after,
   .sorted-desc:after {
-    content: "\f0dd";
+    content: a "";
   }
 
   .sortable:hover:after,
@@ -743,6 +756,35 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   [class*="sort"]:after {
     z-index: 2;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 5.25em;
+    left: 100%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: 0.75em 1.04167%;
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    width: 24.47917%;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+  }
+  #content.sidebar-open #sidebar {
+    left: 75.52083%;
+  }
+  #sidebar #sidebar-close {
+    position: absolute;
+    right: 1.04167%;
+    top: 0.75em;
+  }
+
+  #content.sidebar-open {
+    width: 56.25%;
   }
 
   /* @end */
@@ -2066,6 +2108,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .modal.small {
     width: 80%;
     min-height: 40%;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 2.25em;
+    z-index: 100;
+    width: 100%;
+  }
+  #content.sidebar-open #sidebar {
+    left: 0;
   }
 
   /* @end */

@@ -140,7 +140,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function apiUrl()
     {
-        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
+        $url = $this->getViewHelper('Url');
         return $url(
             'api/default',
             array(
@@ -164,7 +164,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
             return null;
         }
 
-        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
+        $url = $this->getViewHelper('Url');
         return $url(
             'admin/id',
             array(

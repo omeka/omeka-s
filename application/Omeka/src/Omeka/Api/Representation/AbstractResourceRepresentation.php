@@ -133,6 +133,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         return $this->adapter;
     }
 
+    /**
+     * Get the URL to the represented resource in the API
+     *
+     * @return string
+     */
     public function apiUrl()
     {
         $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
@@ -144,5 +149,39 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
             ),
             array('force_canonical' => true)
         );
+    }
+
+    /**
+     * Get a web URL to the represented resource
+     *
+     * @uses self::getControllerName()
+     * @param string $action
+     * @return string|null
+     */
+    public function url($action = null)
+    {
+        if (!($controller = $this->getControllerName())) {
+            return null;
+        }
+
+        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
+        return $url(
+            'admin/id',
+            array(
+                'controller' => $controller,
+                'action' => $action,
+                'id' => $this->id(),
+            )
+        );
+    }
+
+    /**
+     * Get the name for the controller that handles this kind of resource.
+     *
+     * @return string|null
+     */
+    protected function getControllerName()
+    {
+        return null;
     }
 }

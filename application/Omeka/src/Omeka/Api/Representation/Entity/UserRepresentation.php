@@ -3,6 +3,14 @@ namespace Omeka\Api\Representation\Entity;
 
 class UserRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerName()
+    {
+        return 'user';
+    }
+
     public function getJsonLd()
     {
         $entity = $this->getData();

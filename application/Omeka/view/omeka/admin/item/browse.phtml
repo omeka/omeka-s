@@ -24,18 +24,18 @@
             <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>">Select row</label></td>
             <td>
                 <span class="record-name">
-                    <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a>
+                    <a href="<?php echo $this->escapeHtmlAttr($item->url()); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->id()), true)); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
+                    <li><a href="<?php echo $this->escapeHtmlAttr($item->url('edit')); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show-details', 'id' => $item->id()), true)); ?>"
+                        data-show-details-action="<?php echo $this->escapeHtmlAttr($item->url('show-details')); ?>"
                         class="o-icon-more sidebar-details"
                         aria-label="Details"
                         title="Details"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show-details', 'id' => $item->id()), true)); ?>"
-                        data-delete-action="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'delete', 'id' => $item->id()), true)); ?>"
+                        data-show-details-action="<?php echo $this->escapeHtmlAttr($item->url('show-details')); ?>"
+                        data-delete-action="<?php echo $this->escapeHtmlAttr($item->url('delete')); ?>"
                         class="o-icon-delete sidebar-delete"
                         aria-label="Delete"
                         title="Delete"></a></li>

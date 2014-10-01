@@ -1,4 +1,4 @@
-<h2><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->id()), true)); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a></h2>
+<h2><a href="<?php echo $this->escapeHtmlAttr($item->url()); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a></h2>
 
 <div><?php echo $item->displayDescription(); ?></div>
 

@@ -1,7 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $escape = $this->plugin('escapeHtml');
-$attrEscape = $this->plugin('escapeHtmlAttr');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 $url = $this->plugin('url');
 ?>
 <h1>Users</h1>
@@ -20,28 +20,17 @@ $url = $this->plugin('url');
     </thead>
     <tbody>
         <?php foreach($users as $user): ?>
-        <?php
-        $showUrl = $attrEscape($url('admin/id', array(
-            'controller' => 'user',
-            'id' => $user->id()
-        )));
-        $editUrl = $attrEscape($url('admin/id', array(
-            'controller' => 'user',
-            'action' => 'edit',
-            'id' => $user->id()
-        )));
-        ?>
         <tr>
             <td></td>
             <td>
                 <span class="record-name">
-                    <a href="<?php echo $showUrl; ?>">
+                    <a href="<?php echo $escapeAttr($user->url()); ?>">
                         <?php echo $escape($user->username());?>
                         (<?php echo $escape($user->name()); ?>)
                     </a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $editUrl; ?>" class="o-icon-edit"><span class="screen-reader-text">Edit</span></a></li>
+                    <li><a href="<?php echo $escapeAttr($user->url('edit')); ?>" class="o-icon-edit"><span class="screen-reader-text">Edit</span></a></li>
                     <li><a href="#" class="o-icon-more"><span class="screen-reader-text">Details</span></a></li>
                 </ul>
             </td>
@@ -50,4 +39,3 @@ $url = $this->plugin('url');
         <?php endforeach; ?>
     </tbody>
 </table>
-<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>

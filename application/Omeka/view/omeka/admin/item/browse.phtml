@@ -1,8 +1,12 @@
-<?php $this->htmlElement('body')->appendAttribute('class', 'items browse'); ?>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'items browse');
+$esacpe = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
 <h1>Items</h1>
 
 <div id="page-actions">
-    <a href="<?php echo $this->escapeHtmlAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button">Add new item</a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button">Add new item</a>
 </div>
 
 <?php echo $this->pagination(); ?>
@@ -24,25 +28,28 @@
             <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>">Select row</label></td>
             <td>
                 <span class="record-name">
-                    <a href="<?php echo $this->escapeHtmlAttr($item->url()); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a>
+                    <a href="<?php echo $escapeAttr($item->url()); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $this->escapeHtmlAttr($item->url('edit')); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
+                    <li><a href="<?php echo $escapeAttr($item->url('edit')); ?>"
+                        class="o-icon-edit"
+                        aria-label="Edit"
+                        title="Edit"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $this->escapeHtmlAttr($item->url('show-details')); ?>"
+                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
                         class="o-icon-more sidebar-details"
                         aria-label="Details"
                         title="Details"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $this->escapeHtmlAttr($item->url('show-details')); ?>"
-                        data-delete-action="<?php echo $this->escapeHtmlAttr($item->url('delete')); ?>"
+                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-delete-action="<?php echo $escapeAttr($item->url('delete')); ?>"
                         class="o-icon-delete sidebar-delete"
                         aria-label="Delete"
                         title="Delete"></a></li>
                 </ul>
             </td>
-            <td><?php echo $this->escapeHtml($item->displayResourceClassLabel()); ?></td>
-            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->created())); ?></td>
+            <td><?php echo $esacpe($item->displayResourceClassLabel()); ?></td>
+            <td><?php echo $esacpe($this->i18n()->dateFormat($item->created())); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -14,7 +14,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
     protected $vocabularies = array(
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://purl.org/dc/terms/',
+                'o:namespace_uri' => 'http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=terms',
                 'o:prefix' => 'dcterms',
                 'o:label' => 'DCMI Metadata Terms',
                 'o:comment' => 'The Dublin Core metadata terms are a set of vocabulary terms which can be used to describe resources for the purposes of discovery.',
@@ -25,7 +25,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         ),
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://purl.org/ontology/bibo/',
+                'o:namespace_uri' => 'http://bibliontology.com/',
                 'o:prefix' => 'bibo',
                 'o:label' => 'Bibliographic Ontology (BIBO)',
                 'o:comment' => 'The Bibliographic Ontology (BIBO) is an ontology for the semantic Web to describe bibliographic things.',
@@ -36,7 +36,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         ),
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://purl.org/dc/dcmitype/',
+                'o:namespace_uri' => 'http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=dcmitype',
                 'o:prefix' => 'dcmitype',
                 'o:label' => 'DCMI Type Vocabulary',
                 'o:comment' => 'The DCMI Type Vocabulary provides a general, cross-domain list of approved terms that may be used as values for the Type element to identify the genre of a resource.',
@@ -47,7 +47,7 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         ),
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://xmlns.com/foaf/0.1/',
+                'o:namespace_uri' => 'http://xmlns.com/foaf/spec/',
                 'o:prefix' => 'foaf',
                 'o:label' => 'Friend of a Friend (FOAF) vocabulary',
                 'o:comment' => 'FOAF (an acronym of Friend of a friend) is a machine-readable ontology describing persons, their activities and their relations to other people and objects.',

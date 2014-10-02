@@ -6,6 +6,7 @@
 
         $('.sidebar-details').click(function(e){
             e.preventDefault();
+            $('#sidebar-content').empty();
             $('#sidebar-delete-content').hide();
             $('#content').addClass('sidebar-open');
             $.ajax({
@@ -18,6 +19,7 @@
 
         $('.sidebar-delete').click(function(e){
             e.preventDefault();
+            $('#sidebar-content').empty();
             $('#sidebar-delete-content').show();
             $('#sidebar-delete-content form').attr(
                 'action', $(this).data('delete-action')

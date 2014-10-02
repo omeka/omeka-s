@@ -22,10 +22,11 @@ class ItemController extends AbstractActionController
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('items', $query);
+        if ($this->apiError($response)) {
+            return;
+        }
         $this->paginator($response->getTotalResults(), $page);
-
-        $items = $response->getContent();
-        $view->setVariable('items', $items);
+        $view->setVariable('items', $response->getContent());
         return $view;
     }
 
@@ -33,11 +34,9 @@ class ItemController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
-
         $response = $this->api()->read(
             'items', array('id' => $this->params('id'))
         );
-
         $view->setVariable('item', $response->getContent());
         return $view;
     }

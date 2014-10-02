@@ -13,10 +13,11 @@ class UserAdapter extends AbstractEntityAdapter
      */
     protected $sortFields = array(
         'id'        => 'id',
-        'user_name' => 'userName',
+        'username'  => 'username',
         'email'     => 'email',
         'name'      => 'name',
         'created'   => 'created',
+        'modified'  => 'modified',
         'role'      => 'role',
     );
 

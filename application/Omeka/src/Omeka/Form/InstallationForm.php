@@ -16,6 +16,7 @@ class InstallationForm extends Form
                 'label' => 'Username',
             ),
             'attributes' => array(
+                'id' => 'username',
                 'required' => true,
             ),
         ));
@@ -26,6 +27,7 @@ class InstallationForm extends Form
                 'label' => 'Password',
             ),
             'attributes' => array(
+                'id' => 'password',
                 'required' => true,
             ),
         ));
@@ -36,6 +38,7 @@ class InstallationForm extends Form
                 'label' => 'Confirm Password',
             ),
             'attributes' => array(
+                'id' => 'password-confirm',
                 'required' => true,
             ),
         ));
@@ -46,6 +49,7 @@ class InstallationForm extends Form
                 'label' => 'Name',
             ),
             'attributes' => array(
+                'id' => 'name',
                 'required' => true,
             ),
         ));
@@ -56,6 +60,7 @@ class InstallationForm extends Form
                 'label' => 'Email',
             ),
             'attributes' => array(
+                'id' => 'email',
                 'required' => true,
             ),
         ));
@@ -66,14 +71,8 @@ class InstallationForm extends Form
                 'label' => 'Confirm Email',
             ),
             'attributes' => array(
+                'id' => 'email-confirm',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
-            'name' => 'submit',
-            'type'  => 'Submit',
-            'attributes' => array(
-                'value' => 'Install',
             ),
         ));
 
@@ -82,12 +81,6 @@ class InstallationForm extends Form
             'name' => 'username',
             'required' => true,
             'validators' => array(
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 6,
-                    ),
-                ),
                 array(
                     'name' => 'Regex',
                     'options' => array(

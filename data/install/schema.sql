@@ -212,6 +212,7 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_user` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
   `password_hash` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),

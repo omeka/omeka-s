@@ -83,9 +83,21 @@ class UserTest extends TestCase
         $this->assertSame($dateTime, $this->user->getCreated());
     }
 
-    public function testSetsCreatedOnPersist()
+    public function testPrePersist()
     {
-        $this->user->prePersist();
+        $lifecycleEventArgs = $this->getMockBuilder('Doctrine\ORM\Event\LifecycleEventArgs')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->user->prePersist($lifecycleEventArgs);
         $this->assertInstanceOf('DateTime', $this->user->getCreated());
+    }
+
+    public function testPreUpdate()
+    {
+        $preUpdateEventArgs = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->user->preUpdate($preUpdateEventArgs);
+        $this->assertInstanceOf('DateTime', $this->user->getModified());
     }
 }

@@ -1,22 +1,22 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
-$esacpe = $this->plugin('escapeHtml');
+$escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo $this->translate('Items'); ?></h1>
+<h1><?php echo $escape($this->translate('Items')); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $this->translate('Add new item'); ?></a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new item')); ?></a>
 </div>
 
 <?php echo $this->pagination(); ?>
 
-<a href="batch-edit" class="batch-edit button"><?php echo $this->translate('Batch edit selected'); ?></a>
+<a href="batch-edit" class="batch-edit button"><?php echo $escape($this->translate('Batch edit selected')); ?></a>
 
-<table id="items-list">
+<table>
     <thead>
         <tr>
-            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all"><?php echo $this->translate('Select all'); ?></label></th>
+            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all"><?php echo $escape($this->translate('Select all')); ?></label></th>
             <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
@@ -25,10 +25,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <tbody>
         <?php foreach ($items as $item): ?>
         <tr>
-            <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>"><?php echo $this->translate('Select row'); ?></label></td>
+            <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>"><?php echo $escape($this->translate('Select row')); ?></label></td>
             <td>
-                <span class="record-name">
-                    <a href="<?php echo $escapeAttr($item->url()); ?>"><?php echo strip_tags($item->displayTitle('[untitled]')); ?></a>
+                <span class="resource-name">
+                    <a href="<?php echo $escapeAttr($item->url()); ?>"><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></a>
                 </span>
                 <ul class="actions">
                     <li><a href="<?php echo $escapeAttr($item->url('edit')); ?>"
@@ -48,8 +48,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                 </ul>
             </td>
-            <td><?php echo $esacpe($item->displayResourceClassLabel()); ?></td>
-            <td><?php echo $esacpe($this->i18n()->dateFormat($item->created())); ?></td>
+            <td><?php echo $escape($item->displayResourceClassLabel()); ?></td>
+            <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -62,10 +62,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-delete-content">
-        <h2><?php echo $this->translate('Delete Item'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this item?'); ?></p>
+        <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
         <form method="post">
-            <button><?php echo $this->translate('Confirm Delete'); ?></button>
+            <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
         </form>
     </div>
     <div id="sidebar-content"></div>

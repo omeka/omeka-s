@@ -35,10 +35,14 @@ class UserController extends AbstractActionController
     public function browseAction()
     {
         $view = new ViewModel;
-        $response = $this->api()->search('users', array());
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('users', $query);
         if ($this->apiError($response) === false) {
             $view->setVariable('users', $response->getContent());
         }
+        $this->paginator($response->getTotalResults(), $page);
+        $view->setVariable('users', $response->getContent());
         return $view;
     }
 
@@ -46,11 +50,22 @@ class UserController extends AbstractActionController
     {
         $view = new ViewModel;
         $id = $this->params('id');
-
         $response = $this->api()->read('users', $id);
         if ($this->apiError($response) === false) {
             $view->setVariable('user', $response->getContent());
         }
+        $view->setVariable('user', $response->getContent());
+        return $view;
+    }
+
+    public function showDetailsAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $response = $this->api()->read(
+            'users', array('id' => $this->params('id'))
+        );
+        $view->setVariable('user', $response->getContent());
         return $view;
     }
 

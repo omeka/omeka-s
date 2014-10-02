@@ -52,4 +52,9 @@ class UserRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData();
     }
+
+    public function displayRole()
+    {
+        return ucfirst(str_replace('_', ' ', $this->getData()->getRole()));
+    }
 }

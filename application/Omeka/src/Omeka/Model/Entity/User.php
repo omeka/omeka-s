@@ -3,11 +3,14 @@ namespace Omeka\Model\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
- * @Entity @HasLifecycleCallbacks
+ * @Entity
+ * @HasLifecycleCallbacks
  */
 class User extends AbstractEntity implements RoleInterface
 {
@@ -37,6 +40,11 @@ class User extends AbstractEntity implements RoleInterface
      * @Column(type="datetime")
      */
     protected $created;
+
+    /**
+     * @Column(type="datetime", nullable=true)
+     */
+    protected $modified;
 
     /**
      * @Column(type="string", length=60, nullable=true)
@@ -93,17 +101,6 @@ class User extends AbstractEntity implements RoleInterface
         $this->propertyAssignmentSets = new ArrayCollection;
     }
 
-    /**
-     * @PrePersist
-     */
-    public function prePersist()
-    {
-        if (null === $this->created) {
-            // Set created datetime if not already set.
-            $this->created = new DateTime;
-        }
-    }
-
     public function getId()
     {
         return $this->id;
@@ -149,6 +146,16 @@ class User extends AbstractEntity implements RoleInterface
         $this->created = $created;
     }
     
+    public function setModified(DateTime $dateTime)
+    {
+        $this->modified = $dateTime;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
     /**
      * Update the user's password, storing it hashed.
      *
@@ -216,6 +223,22 @@ class User extends AbstractEntity implements RoleInterface
     public function getPropertyAssignmentSets()
     {
         return $this->propertyAssignmentSets;
+    }
+
+    /**
+     * @PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->created = new DateTime('now');
+    }
+
+    /**
+     * @PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $this->modified = new DateTime('now');
     }
 
     /**

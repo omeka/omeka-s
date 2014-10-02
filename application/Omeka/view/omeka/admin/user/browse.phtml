@@ -2,40 +2,69 @@
 $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
-$url = $this->plugin('url');
 ?>
-<h1>Users</h1>
+<h1><?php echo $escape($this->translate('Users')); ?></h1>
 
 <div id="page-actions">
-<a href="#" class="button">Add new user</a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new user')); ?></a>
 </div>
 
-<table id="items-list">
+<?php echo $this->pagination(); ?>
+
+<table>
     <thead>
         <tr>
             <th></th>
-            <th>Name</th>
-            <th>Date Added</th>
+            <th><?php echo $this->sortLink($this->translate('Username'), 'username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Role'), 'role'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach($users as $user): ?>
+        <?php foreach ($users as $user): ?>
         <tr>
             <td></td>
             <td>
-                <span class="record-name">
-                    <a href="<?php echo $escapeAttr($user->url()); ?>">
-                        <?php echo $escape($user->username());?>
-                        (<?php echo $escape($user->name()); ?>)
-                    </a>
+                <span class="resource-name">
+                    <a href="<?php echo $escapeAttr($user->url()); ?>"><?php echo $escape($user->username());?> (<?php echo $escape($user->name()); ?>)</a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $escapeAttr($user->url('edit')); ?>" class="o-icon-edit"><span class="screen-reader-text">Edit</span></a></li>
-                    <li><a href="#" class="o-icon-more"><span class="screen-reader-text">Details</span></a></li>
+                    <li><a href="<?php echo $escapeAttr($user->url('edit')); ?>"
+                        class="o-icon-edit"
+                        aria-label="<?php echo $escapeAttr($this->translate('Edit')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Edit')); ?>"></a></li>
+                    <li><a href="#"
+                        data-show-details-action="<?php echo $escapeAttr($user->url('show-details')); ?>"
+                        class="o-icon-more sidebar-details"
+                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                    <li><a href="#"
+                        data-show-details-action="<?php echo $escapeAttr($user->url('show-details')); ?>"
+                        data-delete-action="<?php echo $escapeAttr($user->url('delete')); ?>"
+                        class="o-icon-delete sidebar-delete"
+                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                 </ul>
             </td>
-            <td><?php echo $user->created()->format('M j, Y');?></td>
+            <td><?php echo $escape($this->translate($user->displayRole())); ?></td>
+            <td><?php echo $escape($this->i18n()->dateFormat($user->created())); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<div id="sidebar">
+    <a href="#"
+        id="sidebar-close"
+        class="o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-delete-content">
+        <h2><?php echo $escape($this->translate('Delete User')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this user?')); ?></p>
+        <form method="post">
+            <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
+        </form>
+    </div>
+    <div id="sidebar-content"></div>
+</div>

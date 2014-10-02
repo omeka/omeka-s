@@ -40,9 +40,9 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75 * $base-font-size;
-    line-height: 2 * $base-line-height;
-    @include trailer(1, 1.75 * $base-font-size);
+    font-size: 1.875 * $base-font-size;
+    line-height: 1.5 * $base-line-height;
+    @include trailer(1.125, 1.875 * $base-font-size);
 }
 
 h3 {
@@ -700,6 +700,42 @@ th a[class="sorted-desc"] {
         position: absolute;
         right: gutter();
         top: rhythm(.5);
+    }
+        
+    h4 {
+        @include trailer(.5);
+    }
+    
+    .o-description,
+    .vocabulary,
+    .property {
+        @include trailer();
+    }
+    
+    .value {
+        @include trailer(.25);
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        
+        *:last-child {
+            @include trailer(0);
+        }
+        
+        &:last-child {
+            border-color: transparent;
+            @include trailer();
+        }
+    }
+}
+
+#sidebar-delete-content {
+    background-color: #ccc;
+    @include bleed-x(gutter(1));
+    @include bleed-y(rhythm());
+    @include trailer();
+    
+    button {
+        @include trailer(0);
     }
 }
 

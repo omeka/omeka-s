@@ -85,7 +85,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   a:active,
   a:hover {
-    color: #FF0000;
+    color: red;
   }
 
   h3, h4, h5, h6 {
@@ -99,9 +99,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   h2 {
-    font-size: 28px;
-    line-height: 48px;
-    margin-bottom: 0.85714em;
+    font-size: 30px;
+    line-height: 36px;
+    margin-bottom: 0.9em;
   }
 
   h3 {
@@ -231,7 +231,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   button:hover,
   a.button:hover,
   .button:hover {
-    background-color: #FF0000;
+    background-color: red;
   }
   input[type="submit"]:active, input[type="submit"].active,
   button:active,
@@ -240,7 +240,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   a.button.active,
   .button:active,
   .button.active {
-    background-color: #FF0000;
+    background-color: red;
   }
   input[type="submit"].inactive,
   button.inactive,
@@ -379,7 +379,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   .error {
-    color: #FF0000;
+    color: red;
   }
 
   .success {
@@ -730,7 +730,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   [class*="sort"]:hover:after {
-    color: #FF0000;
+    color: red;
   }
 
   .sortable:after,
@@ -781,6 +781,50 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     position: absolute;
     right: 1.04167%;
     top: 0.75em;
+  }
+  #sidebar h4 {
+    margin-bottom: 0.75em;
+  }
+  #sidebar .o-description,
+  #sidebar .vocabulary,
+  #sidebar .property {
+    margin-bottom: 1.5em;
+  }
+  #sidebar .value {
+    margin-bottom: 0.375em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+  #sidebar .value *:last-child {
+    margin-bottom: 0em;
+  }
+  #sidebar .value:last-child {
+    border-color: transparent;
+    margin-bottom: 1.5em;
+  }
+
+  #sidebar-delete-content {
+    background-color: #ccc;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    padding-right: 17.70833%;
+    padding-left: 17.70833%;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -1.5em;
+    margin-bottom: -1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  #sidebar-delete-content button {
+    margin-bottom: 0em;
   }
 
   #content.sidebar-open {
@@ -950,7 +994,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .field a.remove.button,
   .field a.add-value.button {
     background-color: transparent;
-    color: #FF0000;
+    color: red;
     padding: 0;
     min-height: intrinsic;
     margin: 0;
@@ -1160,7 +1204,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333;
+    border-bottom: 0.75em solid #333333;
   }
 
   .field-description p:not(:first-of-type) {
@@ -1206,7 +1250,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-right: 0;
   }
   .inputs .tab:hover {
-    background-color: #FF0000;
+    background-color: red;
   }
   .inputs .tab.active {
     background-color: #990000;
@@ -1236,7 +1280,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333;
+    border-bottom: 0.75em solid #333333;
   }
 
   .value {
@@ -1433,7 +1477,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding-bottom: 0.3125em;
   }
   .modal-search-nav .more-options:hover {
-    color: #FF0000;
+    color: red;
     background-color: #fff;
   }
   .modal-search-nav .more-options.collapse {
@@ -1839,7 +1883,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-right: auto;
     height: auto;
   }
-  body.minimal:after {
+  body.minimal::after {
     content: " ";
     display: block;
     clear: both;
@@ -1860,7 +1904,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: -0.0625em;
     color: #fff;
   }
-  body.minimal header:after {
+  body.minimal header::after {
     content: " ";
     display: block;
     clear: both;

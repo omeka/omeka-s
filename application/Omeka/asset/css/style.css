@@ -1935,25 +1935,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-style: solid;
     padding: -0.0625em;
   }
-
-  /* @end */
-  /* @group ----- Install ----- */
-  .install label {
-    display: inline-block;
-    padding: 0.375em 0;
-    width: 33.33333%;
+  body.minimal .inputs {
+    width: 70%;
   }
-  .install input {
+  body.minimal input {
     width: -webkit-calc(66.66% - 6px);
     width: calc(66.66% - 6px);
     vertical-align: top;
   }
-  .install button[type="submit"] {
+  body.minimal .inputs *:only-child {
+    width: 100%;
+  }
+  body.minimal button[type="submit"] {
     display: block;
     margin: auto;
     clear: both;
   }
-  .install .field:last-of-type {
+  body.minimal .field:last-of-type {
     margin-bottom: 1.5em;
   }
 

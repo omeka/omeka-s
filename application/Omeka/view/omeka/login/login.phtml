@@ -5,22 +5,34 @@ $formLabel = $this->plugin('formLabel');
 echo $this->form()->openTag($form);
 ?>
 <div class="field">
+    <div class="field-meta">
     <?php 
     $username = $form->get('username');
     echo $formLabel->openTag() . $username->getOption('label');
     echo $formLabel->closeTag();
+    ?>
+    </div>
+    <div class="inputs">
+    <?php 
     echo $this->formInput($username);
     echo $this->formElementErrors($username);
     ?>
+    </div>
 </div>
 <div class="field">
+    <div class="field-meta">
     <?php 
     $password = $form->get('password');
     echo $formLabel->openTag() . $password->getOption('label');
     echo $formLabel->closeTag();
+    ?>
+    </div>
+    <div class="inputs">
+    <?php 
     echo $this->formInput($password);
     echo $this->formElementErrors($password);
     ?>
+    </div>
 </div>
 <?php
 echo $this->formElement($form->get('submit'));

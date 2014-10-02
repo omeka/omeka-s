@@ -1912,22 +1912,18 @@ body.minimal {
         overflow: hidden;
         @include rhythm-borders(1px, 0, $base-font-size, solid);
     }
-}
-
-/* @end */
-
-/* @group ----- Install ----- */
-
-.install {
-    label {
-        display: inline-block;
-        padding: rhythm(.25) 0;
-        width: span(3 of 9);
-    }
     
+    .inputs {
+        width: span(7 of 10);
+    }
+
     input {
           @include calc('width','66.66% - 6px');
           vertical-align: top;
+    }
+    
+    .inputs *:only-child {
+        width: 100%;
     }
     
     button[type="submit"] {

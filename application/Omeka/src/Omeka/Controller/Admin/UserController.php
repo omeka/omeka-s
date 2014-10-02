@@ -36,9 +36,7 @@ class UserController extends AbstractActionController
     {
         $view = new ViewModel;
         $response = $this->api()->search('users', array());
-        if ($response->isError()) {
-            $view->setVariable('errors', $response->getErrors());
-        } else {
+        if ($this->apiError($response) === false) {
             $view->setVariable('users', $response->getContent());
         }
         return $view;
@@ -50,7 +48,7 @@ class UserController extends AbstractActionController
         $id = $this->params('id');
 
         $response = $this->api()->read('users', $id);
-        if (!$this->apiError($response)) {
+        if ($this->apiError($response) === false) {
             $view->setVariable('user', $response->getContent());
         }
         return $view;
@@ -63,7 +61,7 @@ class UserController extends AbstractActionController
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($this->apiError($readResponse) !== false) {
             return;
         }
         $user = $readResponse->getContent();
@@ -75,9 +73,13 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $response = $this->api()->update('users', $id, $formData);
-                if (!$this->apiError($response)) {
+
+                $status = $this->apiError($response);
+                if ($status === false) {
                     $this->messenger()->addSuccess('User updated.');
                     return $this->redirect()->refresh();
+                } else if (is_array($status)) {
+                    $form->setMessages($status);
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');
@@ -97,7 +99,7 @@ class UserController extends AbstractActionController
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($this->apiError($readResponse) !== false) {
             return;
         }
         $userRepresentation = $readResponse->getContent();
@@ -129,7 +131,7 @@ class UserController extends AbstractActionController
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($this->apiError($readResponse) !== false) {
             return;
         }
         $userRepresentation = $readResponse->getContent();

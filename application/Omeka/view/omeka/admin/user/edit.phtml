@@ -20,7 +20,7 @@ $formErrors = $this->plugin('formElementErrors');
     <div class="inputs">
         <?php echo $formInput($element); ?>
     </div>
-    <?php echo $formErrors($element); ?>
+    <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>
 <?php endforeach; ?>
 <button>Submit</button>

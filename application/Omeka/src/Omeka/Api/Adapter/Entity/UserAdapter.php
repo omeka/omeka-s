@@ -85,15 +85,19 @@ class UserAdapter extends AbstractEntityAdapter
     ) {
         $username = $entity->getUsername();
         if (empty($username)) {
-            $errorStore->addError('username', 'The username field cannot be null.');
+            $errorStore->addError('o:username', 'The username field cannot be empty.');
         }
+        if (preg_match('/\s/u', $username)) {
+            $errorStore->addError('o:username', 'A username cannot contain whitespace.');
+        }
+
         $name = $entity->getName();
         if (empty($name)) {
-            $errorStore->addError('name', 'The name field cannot be null.');
+            $errorStore->addError('o:name', 'The name field cannot be null.');
         }
         $validator = new EmailAddress();
         if (!$validator->isValid($entity->getEmail())) {
-            $errorStore->addValidatorMessages('email', $validator->getMessages());
+            $errorStore->addValidatorMessages('o:email', $validator->getMessages());
         }
     }
 }

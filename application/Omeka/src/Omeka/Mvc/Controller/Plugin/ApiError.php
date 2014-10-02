@@ -9,7 +9,8 @@ class ApiError extends AbstractPlugin
     /**
      * Detect API response errors and set up the response to account for them.
      *
-     * @return boolean
+     * @return boolean|array False if no error. If there are validation error
+     *  messages, they are returned as an array.
      */
     public function __invoke(Response $response)
     {
@@ -28,13 +29,8 @@ class ApiError extends AbstractPlugin
                 $httpResponse->setStatusCode(403);
                 break;
             case Response::ERROR_VALIDATION:
-                $messenger = $controller->messenger();
-                foreach ($response->getErrors() as $field => $messages) {
-                    foreach ($messages as $message) {
-                        $messenger->addError(ucfirst($field) . ': ' . $message);
-                    }
-                }
-                break;
+                $controller->messenger()->addError('There was an error during validation');
+                return $response->getErrors();
             default:
                 $httpResponse->setStatusCode(500);
         }

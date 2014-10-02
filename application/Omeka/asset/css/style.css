@@ -741,7 +741,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .sorted-asc:hover:after,
   .sorted-desc:after {
-    content: a "";
+    content: "\f0dd";
   }
 
   .sortable:hover:after,

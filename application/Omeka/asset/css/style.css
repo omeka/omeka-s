@@ -376,6 +376,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .messages {
     padding: 0;
     margin: 0;
+    clear: both;
+  }
+  .messages li {
+    background-color: rgba(255, 255, 255, 0.5);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 0.375em 10px;
+    margin-top: 0.375em;
+    display: block;
+    width: 100%;
+  }
+
+  .field .messages {
+    float: left;
+    width: 100%;
+    color: red;
   }
 
   .error {
@@ -388,19 +405,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .warning {
     color: orange;
-  }
-
-  .error,
-  .warning,
-  .success {
-    background-color: rgba(255, 255, 255, 0.5);
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    padding: 0.375em 10px;
-    margin-top: 0.375em;
-    display: block;
-    width: 100%;
   }
 
   table .icon-sortable {
@@ -768,6 +772,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: 0.75em 1.04167%;
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
+    overflow-x: hidden;
     width: 24.47917%;
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
@@ -892,7 +897,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-left: .25em;
     text-align: center;
   }
-  .section-nav .active {
+  .section-nav .active a {
     font-weight: bold;
     border-bottom-color: #fff;
   }

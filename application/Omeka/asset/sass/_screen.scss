@@ -302,6 +302,22 @@ div[role="main"] > .messages {
 .messages {
     padding: 0;
     margin: 0;
+    clear: both;
+
+    li {
+        background-color: rgba(255,255,255,.5);
+        @include border-radius(3px);
+        padding: rhythm(.25) 10px;
+        @include leader(.25);
+        display: block;
+        width: 100%;
+    }
+}
+
+.field .messages {
+    float: left;
+    width: 100%;
+    color: $red;
 }
 
 .error {
@@ -314,17 +330,6 @@ div[role="main"] > .messages {
 
 .warning {
     color: orange;
-}
-
-.error,
-.warning,
-.success {
-    background-color: rgba(255,255,255,.5);
-    @include border-radius(3px);
-    padding: rhythm(.25) 10px;
-    @include leader(.25);
-    display: block;
-    width: 100%;
 }
 
 table .icon-sortable {
@@ -689,6 +694,7 @@ th a[class="sorted-desc"] {
     padding: rhythm(.5) gutter();
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
+    overflow-x: hidden;
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
     
@@ -798,7 +804,7 @@ th a[class="sorted-desc"] {
         text-align: center;
     }
         
-    .active {
+    .active a {
         font-weight: bold;
         border-bottom-color: #fff;
     }

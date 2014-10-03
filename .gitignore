@@ -9,3 +9,4 @@ data/logs/application.log
 application/Omeka/test/config/database.ini
 vendor/
 .sass-cache
+.DS_Store

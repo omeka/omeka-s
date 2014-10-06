@@ -216,6 +216,31 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the display markup for all values of this resource.
+     *
+     * Options:
+     *
+     * + hideVocabulary: Whether to hide vocabulary labels. Default: false
+     * + viewName: Name of view script, or a view model. Default
+     *   "common/resource-values"
+     *
+     * @param array $options
+     * @return string
+     */
+    public function displayValues(array $options = array())
+    {
+        if (!isset($options['hideVocabulary'])) {
+            $options['hideVocabulary'] = false;
+        }
+        if (!isset($options['viewName'])) {
+            $options['viewName'] = 'common/resource-values';
+        }
+        $partial = $this->getViewHelper('partial');
+        $options['values'] = $this->values();
+        return $partial($options['viewName'], $options);
+    }
+
+    /**
      * Get the display title for this resource.
      *
      * @param string|null $default

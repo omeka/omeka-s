@@ -34,6 +34,16 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
+    public function showAction()
+    {
+        $view = new ViewModel;
+        $id = $this->params('id');
+        $response = $this->api()->read('items', $id);
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
+        }
+        $view->setVariable('item', $response->getContent());
         return $view;
     }
 

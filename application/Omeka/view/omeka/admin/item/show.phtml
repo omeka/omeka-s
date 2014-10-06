@@ -1,0 +1,10 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'items show');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></h1>
+<div id="page-actions">
+    <a href="<?php echo $escapeAttr($item->url('edit')); ?>" class="button"><?php echo $escape($this->translate('Edit item')); ?></a>
+</div>
+<?php echo $item->displayValues(); ?>

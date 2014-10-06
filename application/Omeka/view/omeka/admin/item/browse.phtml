@@ -9,6 +9,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new item')); ?></a>
 </div>
 
+<?php if (count($items) > 0): ?>
+
 <?php echo $this->pagination(); ?>
 
 <a href="batch-edit" class="batch-edit button"><?php echo $escape($this->translate('Batch edit selected')); ?></a>
@@ -70,3 +72,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div id="sidebar-content"></div>
 </div>
+
+<?php else: ?>
+
+<div class="no-resources">
+
+    <p><?php echo $escape($this->translate('Omeka could not find any items.')); ?></p>
+    
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first item')); ?></a>
+
+</div>
+
+<?php endif; ?>

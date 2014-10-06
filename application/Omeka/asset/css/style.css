@@ -836,6 +836,38 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     width: 56.25%;
   }
 
+  .no-resources {
+    text-align: center;
+    position: relative;
+    margin-top: 6em;
+  }
+  .no-resources:before {
+    font-family: "FontAwesome";
+    font-size: 96px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: .08;
+  }
+  .no-resources p {
+    font-size: 24px;
+    line-height: 48px;
+    margin-top: 2em;
+  }
+
+  .items .no-resources:before {
+    content: "\f1b3";
+  }
+
+  .modules .no-resources:before {
+    content: "\f0fe";
+  }
+
+  .vocabularies .no-resources:before {
+    content: "\f02d";
+  }
+
   /* @end */
   /* @group ----- Add views ----- */
   .add div[role="main"],

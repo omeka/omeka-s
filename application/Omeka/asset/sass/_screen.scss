@@ -1,3 +1,5 @@
+@import "font-awesome/variables";
+
 /* @group ----- Generic HTML elements ----- */
 
 * {
@@ -748,6 +750,41 @@ th a[class="sorted-desc"] {
 
 #content.sidebar-open {
     width: span(9 of 16);
+}
+
+.no-resources {
+    text-align: center;
+    position: relative;
+    @include leader(4);
+    
+    &:before {
+        font-family: "FontAwesome";
+        font-size: 6 * $base-font-size;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: .08;
+    }
+    
+    p {
+        font-size: 1.5 * $base-font-size;
+        line-height: 2 * $base-line-height;
+        @include leader(2, 1.5 * $base-font-size);
+        
+    }
+}
+
+.items .no-resources:before {
+    content: $fa-var-cubes;
+}
+
+.modules .no-resources:before {
+    content: $fa-var-plus-square;
+}
+
+.vocabularies .no-resources:before {
+    content: $fa-var-book;
 }
 
 /* @end */

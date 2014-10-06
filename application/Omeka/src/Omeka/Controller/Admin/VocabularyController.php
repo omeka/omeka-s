@@ -19,8 +19,9 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $id = $this->params('id');
         $response = $this->api()->read('vocabularies', $id);
-        if ($this->apiError($response) === false) {
-            $view->setVariable('vocabulary', $response->getContent());
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
         }
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
@@ -33,8 +34,9 @@ class VocabularyController extends AbstractActionController
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('vocabularies', $query);
-        if ($this->apiError($response) === false) {
-            $view->setVariable('vocabularies', $response->getContent());
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
         }
         $view->setVariable('vocabularies', $response->getContent());
         return $view;
@@ -47,6 +49,10 @@ class VocabularyController extends AbstractActionController
         $response = $this->api()->read(
             'vocabularies', array('id' => $this->params('id'))
         );
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
+        }
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }

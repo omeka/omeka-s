@@ -22,7 +22,8 @@ class ItemController extends AbstractActionController
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('items', $query);
-        if ($this->apiError($response)) {
+        if ($response->isError()) {
+            $this->apiError($response);
             return;
         }
         $this->paginator($response->getTotalResults(), $page);
@@ -37,6 +38,10 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read(
             'items', array('id' => $this->params('id'))
         );
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
+        }
         $view->setVariable('item', $response->getContent());
         return $view;
     }
@@ -47,7 +52,8 @@ class ItemController extends AbstractActionController
             $response = $this->api()->delete(
                 'items', array('id' => $this->params('id'))
             );
-            if ($this->apiError($response)) {
+            if ($response->isError()) {
+                $this->apiError($response);
                 return;
             }
             $this->messenger()->addSuccess('Item successfully deleted');

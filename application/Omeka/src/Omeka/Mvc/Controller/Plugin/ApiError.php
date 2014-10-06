@@ -15,7 +15,7 @@ class ApiError extends AbstractPlugin
     public function __invoke(Response $response)
     {
         if (!$response->isError()) {
-            return false;
+            return null;
         }
 
         $controller = $this->getController();
@@ -35,6 +35,6 @@ class ApiError extends AbstractPlugin
                 $httpResponse->setStatusCode(500);
         }
                 
-        return true;
+        return null;
     }
 }

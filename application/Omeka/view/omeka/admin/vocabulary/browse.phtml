@@ -1,1 +1,67 @@
-<h1>Browse Vocabularies</h1>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies browse');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1>Vocabularies</h1>
+<div id="page-actions">
+    <a href="#" class="button">Import new vocabulary</a>
+</div>
+<?php if (count($vocabularies) > 0): ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($vocabularies as $vocabulary): ?>
+            <tr>
+                <td>
+                    <a href="<?php echo $escapeAttr($vocabulary->url('show')); ?>"><span class="resource-name"><?php echo $escape($vocabulary->label()); ?></span></a>
+                    <ul class="actions">
+                        <li><a href="#"
+                            data-show-details-action="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
+                            class="o-icon-more sidebar-details"
+                            aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                            title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a>
+                        </li>
+                        <li><a href="#"
+                            data-show-details-action="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
+                            data-delete-action="<?php echo $escapeAttr($vocabulary->url('delete')); ?>"
+                            class="o-icon-delete sidebar-delete"
+                            aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                            title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <div id="sidebar">
+        <a href="#"
+            id="sidebar-close"
+            class="o-icon-close"
+            aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+            title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        <div id="sidebar-delete-content">
+            <h2><?php echo $escape($this->translate('Delete Vocabulary')); ?></h2>
+            <p><?php echo $escape($this->translate('Are you sure you would like to delete this vocabulary?')); ?></p>
+            <form method="post">
+                <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
+            </form>
+        </div>
+        <div id="sidebar-content"></div>
+    </div>
+
+<?php else: ?>
+<div class="no-resources">
+
+    <p>Omeka could not find any vocabularies.</p>
+    
+    <a href="#" class="button">Import a vocabulary</a>
+
+</div>
+<?php endif; ?>

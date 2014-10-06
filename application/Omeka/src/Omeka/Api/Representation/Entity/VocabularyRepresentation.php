@@ -3,6 +3,11 @@ namespace Omeka\Api\Representation\Entity;
 
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
+    public function getControllerName()
+    {
+        return 'vocabulary';
+    }
+
     public function getJsonLd()
     {
         $entity = $this->getData();
@@ -22,5 +27,10 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     public function label()
     {
         return $this->getData()->getLabel();
+    }
+    
+    public function comment()
+    {
+        return $this->getData()->getComment();
     }
 }

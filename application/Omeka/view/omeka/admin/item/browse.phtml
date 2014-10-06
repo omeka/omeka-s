@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
+$deleteForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -66,9 +67,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div id="sidebar-delete-content">
         <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
         <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
-        <form method="post">
-            <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
-        </form>
+        <?php echo $this->form()->openTag($deleteForm); ?>
+        <?php echo $this->formElement($deleteForm->get('submit')); ?>
+        <?php echo $this->formElement($deleteForm->get('csrf')); ?>
+        <?php echo $this->form()->closeTag(); ?>
     </div>
     <div id="sidebar-content"></div>
 </div>

@@ -8,49 +8,7 @@ use Omeka\Test\TestCase;
 class ValueRepresentationTest extends TestCase
 {
     public function testToStringResource()
-    {
-        $resourceName = 'test_resource-name';
-        $resourceApiUrl = 'test_api-url';
-
-        $resourceRep = $this->getMock(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array('apiUrl', 'getJsonLd'), array(), 'FooRepresentation', false
-        );
-        $resourceRep->expects($this->once())
-            ->method('apiUrl')
-            ->will($this->returnValue($resourceApiUrl));
-
-        $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
-        $adapter->expects($this->once())
-            ->method('getRepresentation')
-            ->will($this->returnValue($resourceRep));
-
-        $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
-        $apiAdapterManager->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($resourceName))
-            ->will($this->returnValue($adapter));
-
-        $serviceLocator = $this->getServiceManager(array(
-            'Omeka\ApiAdapterManager' => $apiAdapterManager,
-        ));
-
-        $resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
-        $resource->expects($this->once())
-            ->method('getResourceName')
-            ->will($this->returnValue($resourceName));
-
-        $value = $this->getMock('Omeka\Model\Entity\Value');
-        $value->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(Value::TYPE_RESOURCE));
-        $value->expects($this->once())
-            ->method('getValueResource')
-            ->will($this->returnValue($resource));
-
-        $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertEquals($resourceApiUrl, $valueRep->__toString());
-    }
+    {}
 
     public function testToStringUri()
     {}

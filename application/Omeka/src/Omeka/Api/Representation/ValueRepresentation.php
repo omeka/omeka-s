@@ -30,8 +30,12 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
+                $escapeHtml = $this->getViewHelper('escapeHtml');
+                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
                 $valueResource = $this->getValueResource();
-                return $valueResource->apiUrl();
+                $uri = $valueResource->url();
+                $displayTitle = $valueResource->displayTitle('[untitled]');
+                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($displayTitle) . '</a>';
 
             case Value::TYPE_URI:
                 $escapeHtml = $this->getViewHelper('escapeHtml');

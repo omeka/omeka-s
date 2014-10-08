@@ -244,11 +244,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the display title for this resource.
      *
      * @param string|null $default
-     * @return RepresentationInterface|null
+     * @return string|null
      */
     public function displayTitle($default = null)
     {
-        return $this->value('dcterms:title', array(
+        return (string) $this->value('dcterms:title', array(
             'type' => 'literal',
             'default' => $default,
         ));
@@ -258,11 +258,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the display description for this resource.
      *
      * @param string|null $default
-     * @return RepresentationInterface|null
+     * @return string|null
      */
     public function displayDescription($default = null)
     {
-        return $this->value('dcterms:description', array(
+        return (string) $this->value('dcterms:description', array(
             'type' => 'literal',
             'default' => $default,
         ));

@@ -56,17 +56,6 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             'file' => 'foaf.rdf',
             'format' => 'rdfxml',
         ),
-        array(
-            'vocabulary' => array(
-                'o:namespace_uri' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
-                'o:prefix' => 'geo',
-                'o:label' => 'Geo',
-                'o:comment' => 'Basic spatial metadata (Basic Geo Vocabulary)',
-            ),
-            'strategy' => 'file',
-            'file' => 'geo.rdf',
-            'format' => 'rdfxml',
-        ),
     );
     
     /**

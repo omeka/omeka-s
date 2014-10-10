@@ -1,4 +1,4 @@
-<h1>Edit User &ldquo;<?php echo $user->getUsername(); ?>&rdquo;</h1>
+<h1>Edit User &ldquo;<?php echo $user->username(); ?>&rdquo;</h1>
 
 <nav class="section-nav">
     <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
@@ -20,7 +20,7 @@ $formErrors = $this->plugin('formElementErrors');
     <div class="inputs">
         <?php echo $formInput($element); ?>
     </div>
-    <?php echo $formErrors($element); ?>
+    <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>
 <?php endforeach; ?>
 <button>Submit</button>

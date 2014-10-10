@@ -88,16 +88,6 @@ class AbstractAdapterTest extends TestCase
         $this->adapter->delete($this->getMock('Omeka\Api\Request'));
     }
 
-    public function testGetApiUrlReturnsNull()
-    {
-        $this->assertNull($this->adapter->getApiUrl(array()));
-    }
-
-    public function testGetWebUrlReturnsNull()
-    {
-        $this->assertNull($this->adapter->getWebUrl(array()));
-    }
-
     protected function setServiceManager()
     {
         // MvcTranslator

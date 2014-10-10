@@ -42,24 +42,5 @@ class UserForm extends Form
                 'required' => true,
             ),
         ));
-        $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
-            'name' => 'o:username',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 6,
-                    ),
-                ),
-                array(
-                    'name' => 'Regex',
-                    'options' => array(
-                        'pattern' => '/^\S+$/', // no whitespace
-                    ),
-                ),
-            ),
-        ));
     }
 }

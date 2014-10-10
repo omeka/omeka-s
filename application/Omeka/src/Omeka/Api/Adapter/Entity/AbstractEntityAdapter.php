@@ -302,26 +302,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getApiUrl($data)
-    {
-        if (!$data instanceof EntityInterface) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(
-                    'The passed resource does not implement Omeka\Model\Entity\EntityInterface.'
-                )
-            );
-        }
-        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('Url');
-        return $url(
-            'api/default',
-            array('resource' => $this->getResourceName(), 'id' => $data->getId()),
-            array('force_canonical' => true)
-        );
-    }
-
-    /**
      * Get the entity manager.
      *
      * @return \Doctrine\ORM\EntityManager
@@ -479,7 +459,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string $term
      * @return bool
      */
-    protected function isTerm($term)
+    public function isTerm($term)
     {
         return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
     }

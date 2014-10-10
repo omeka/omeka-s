@@ -13,7 +13,7 @@ class InstallDefaultVocabularyTask extends AbstractTask
         'o:namespace_uri' => 'omeka',
         'o:prefix'        => 'omeka',
         'o:label'         => 'Omeka',
-        'o:comment'       => 'The default Omeka vocabulary containing custom classes and properties.',
+        'o:comment'       => 'Custom classes and properties',
     );
 
     /**

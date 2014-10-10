@@ -85,7 +85,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   a:active,
   a:hover {
-    color: #FF0000;
+    color: red;
   }
 
   h3, h4, h5, h6 {
@@ -99,9 +99,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   h2 {
-    font-size: 28px;
-    line-height: 48px;
-    margin-bottom: 0.85714em;
+    font-size: 30px;
+    line-height: 36px;
+    margin-bottom: 0.9em;
   }
 
   h3 {
@@ -231,7 +231,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   button:hover,
   a.button:hover,
   .button:hover {
-    background-color: #FF0000;
+    background-color: red;
   }
   input[type="submit"]:active, input[type="submit"].active,
   button:active,
@@ -240,7 +240,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   a.button.active,
   .button:active,
   .button.active {
-    background-color: #FF0000;
+    background-color: red;
   }
   input[type="submit"].inactive,
   button.inactive,
@@ -376,23 +376,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .messages {
     padding: 0;
     margin: 0;
+    clear: both;
   }
-
-  .error {
-    color: #FF0000;
-  }
-
-  .success {
-    color: green;
-  }
-
-  .warning {
-    color: orange;
-  }
-
-  .error,
-  .warning,
-  .success {
+  .messages li {
     background-color: rgba(255, 255, 255, 0.5);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -401,6 +387,24 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-top: 0.375em;
     display: block;
     width: 100%;
+  }
+
+  .field .messages {
+    float: left;
+    width: 100%;
+    color: red;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .success {
+    color: green;
+  }
+
+  .warning {
+    color: orange;
   }
 
   table .icon-sortable {
@@ -588,6 +592,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     display: none;
   }
 
+  .mobile-container {
+    position: relative;
+  }
+
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
@@ -597,6 +605,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
   }
 
   /* @end */
@@ -638,6 +650,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .browse th:first-of-type {
     min-width: 2.25em;
     width: 2.25em;
+  }
+
+  .browse td:nth-of-type(2),
+  .browse th:nth-of-type(2) {
+    width: 40%;
   }
 
   .browse td:first-of-type:not(:only-of-type),
@@ -717,7 +734,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   [class*="sort"]:hover:after {
-    color: #FF0000;
+    color: red;
   }
 
   .sortable:after,
@@ -743,6 +760,112 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   [class*="sort"]:after {
     z-index: 2;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 5.25em;
+    left: 100%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: 0.75em 1.04167%;
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 24.47917%;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+  }
+  #content.sidebar-open #sidebar {
+    left: 75.52083%;
+  }
+  #sidebar #sidebar-close {
+    position: absolute;
+    right: 1.04167%;
+    top: 0.75em;
+  }
+  #sidebar h4 {
+    margin-bottom: 0.75em;
+  }
+  #sidebar .o-description,
+  #sidebar .vocabulary,
+  #sidebar .property {
+    margin-bottom: 1.5em;
+  }
+  #sidebar .value {
+    margin-bottom: 0.375em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+  #sidebar .value *:last-child {
+    margin-bottom: 0em;
+  }
+  #sidebar .value:last-child {
+    border-color: transparent;
+    margin-bottom: 1.5em;
+  }
+
+  #sidebar-delete-content {
+    background-color: #ccc;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    padding-right: 17.70833%;
+    padding-left: 17.70833%;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -1.5em;
+    margin-bottom: -1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  #sidebar-delete-content button {
+    margin-bottom: 0em;
+  }
+
+  #content.sidebar-open {
+    width: 56.25%;
+  }
+
+  .no-resources {
+    text-align: center;
+    position: relative;
+    margin-top: 6em;
+  }
+  .no-resources:before {
+    font-family: "FontAwesome";
+    font-size: 96px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: .08;
+  }
+  .no-resources p {
+    font-size: 24px;
+    line-height: 48px;
+    margin-top: 2em;
+  }
+
+  .items .no-resources:before {
+    content: "\f1b3";
+  }
+
+  .modules .no-resources:before {
+    content: "\f0fe";
+  }
+
+  .vocabularies .no-resources:before {
+    content: "\f02d";
   }
 
   /* @end */
@@ -806,7 +929,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-left: .25em;
     text-align: center;
   }
-  .section-nav .active {
+  .section-nav .active a {
     font-weight: bold;
     border-bottom-color: #fff;
   }
@@ -908,7 +1031,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .field a.remove.button,
   .field a.add-value.button {
     background-color: transparent;
-    color: #FF0000;
+    color: red;
     padding: 0;
     min-height: intrinsic;
     margin: 0;
@@ -1118,7 +1241,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333;
+    border-bottom: 0.75em solid #333333;
   }
 
   .field-description p:not(:first-of-type) {
@@ -1164,7 +1287,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-right: 0;
   }
   .inputs .tab:hover {
-    background-color: #FF0000;
+    background-color: red;
   }
   .inputs .tab.active {
     background-color: #990000;
@@ -1194,7 +1317,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333;
+    border-bottom: 0.75em solid #333333;
   }
 
   .value {
@@ -1391,7 +1514,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding-bottom: 0.3125em;
   }
   .modal-search-nav .more-options:hover {
-    color: #FF0000;
+    color: red;
     background-color: #fff;
   }
   .modal-search-nav .more-options.collapse {
@@ -1797,7 +1920,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-right: auto;
     height: auto;
   }
-  body.minimal:after {
+  body.minimal::after {
     content: " ";
     display: block;
     clear: both;
@@ -1818,7 +1941,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: -0.0625em;
     color: #fff;
   }
-  body.minimal header:after {
+  body.minimal header::after {
     content: " ";
     display: block;
     clear: both;
@@ -1844,25 +1967,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-style: solid;
     padding: -0.0625em;
   }
-
-  /* @end */
-  /* @group ----- Install ----- */
-  .install label {
-    display: inline-block;
-    padding: 0.375em 0;
-    width: 33.33333%;
+  body.minimal .inputs {
+    width: 70%;
   }
-  .install input {
+  body.minimal input {
     width: -webkit-calc(66.66% - 6px);
     width: calc(66.66% - 6px);
     vertical-align: top;
   }
-  .install button[type="submit"] {
+  body.minimal .inputs *:only-child {
+    width: 100%;
+  }
+  body.minimal button[type="submit"] {
     display: block;
     margin: auto;
     clear: both;
   }
-  .install .field:last-of-type {
+  body.minimal .field:last-of-type {
     margin-bottom: 1.5em;
   }
 
@@ -2066,6 +2187,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .modal.small {
     width: 80%;
     min-height: 40%;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 2.25em;
+    z-index: 100;
+    width: 100%;
+  }
+  #content.sidebar-open #sidebar {
+    left: 0;
   }
 
   /* @end */

@@ -35,12 +35,15 @@ class UserController extends AbstractActionController
     public function browseAction()
     {
         $view = new ViewModel;
-        $response = $this->api()->search('users', array());
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('users', $query);
         if ($response->isError()) {
-            $view->setVariable('errors', $response->getErrors());
-        } else {
-            $view->setVariable('users', $response->getContent());
+            $this->apiError($response);
+            return;
         }
+        $this->paginator($response->getTotalResults(), $page);
+        $view->setVariable('users', $response->getContent());
         return $view;
     }
 
@@ -48,11 +51,27 @@ class UserController extends AbstractActionController
     {
         $view = new ViewModel;
         $id = $this->params('id');
-
         $response = $this->api()->read('users', $id);
-        if (!$this->apiError($response)) {
-            $view->setVariable('user', $response->getContent());
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
         }
+        $view->setVariable('user', $response->getContent());
+        return $view;
+    }
+
+    public function showDetailsAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $response = $this->api()->read(
+            'users', array('id' => $this->params('id'))
+        );
+        if ($response->isError()) {
+            $this->apiError($response);
+            return;
+        }
+        $view->setVariable('user', $response->getContent());
         return $view;
     }
 
@@ -63,7 +82,8 @@ class UserController extends AbstractActionController
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($readResponse->isError()) {
+            $this->apiError($readResponse);
             return;
         }
         $user = $readResponse->getContent();
@@ -75,7 +95,12 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $response = $this->api()->update('users', $id, $formData);
-                if (!$this->apiError($response)) {
+                if ($response->isError()) {
+                    $messages = $this->apiError($response);
+                    if ($messages) {
+                        $form->setMessages($messages);
+                    }
+                } else {
                     $this->messenger()->addSuccess('User updated.');
                     return $this->redirect()->refresh();
                 }
@@ -97,7 +122,8 @@ class UserController extends AbstractActionController
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($readResponse->isError()) {
+            $this->apiError($readResponse);
             return;
         }
         $userRepresentation = $readResponse->getContent();
@@ -129,7 +155,8 @@ class UserController extends AbstractActionController
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
-        if ($this->apiError($readResponse)) {
+        if ($readResponse->isError()) {
+            $this->apiError($readResponse);
             return;
         }
         $userRepresentation = $readResponse->getContent();

@@ -1,0 +1,15 @@
+<?php foreach ($values as $prefix => $vocabulary): ?>
+<div class="vocabulary">
+    <?php if (!$hideVocabulary): ?>
+    <h3><?php echo $vocabulary['vocabulary']->label(); ?></h3>
+    <?php endif; ?>
+    <?php foreach ($vocabulary['properties'] as $localName => $property): ?>
+        <div class="property">
+        <h4><?php echo $property['property']->label(); ?></h4>
+        <?php foreach ($property['values'] as $value): ?>
+            <div class="value"><?php echo $value; ?></div>
+        <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+<?php endforeach; ?>

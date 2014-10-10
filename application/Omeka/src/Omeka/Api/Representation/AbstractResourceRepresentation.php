@@ -13,7 +13,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     /**
      * The vocabulary IRI used to define Omeka application data.
      */
-    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/vocabulary#';
+    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/s/vocabulary#';
 
     /**
      * The JSON-LD term that expands to the vocabulary IRI.
@@ -65,7 +65,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @return string|int
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
@@ -79,7 +79,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     {
         $jsonLd = $this->getJsonLd();
         return array_merge(
-            array('@context' => $this->context),
+            array(
+                '@context' => $this->context,
+                '@id' => $this->apiUrl(),
+                'o:id' => $this->id(),
+            ),
             $jsonLd
         );
     }
@@ -127,5 +131,57 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
             return parent::getAdapter($resourceName);
         }
         return $this->adapter;
+    }
+
+    /**
+     * Get the URL to the represented resource in the API
+     *
+     * @return string
+     */
+    public function apiUrl()
+    {
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'api/default',
+            array(
+                'resource' => $this->getAdapter()->getResourceName(),
+                'id' => $this->id()
+            ),
+            array('force_canonical' => true)
+        );
+    }
+
+    /**
+     * Get a web URL to the represented resource
+     *
+     * @uses self::getControllerName()
+     * @param string $action
+     * @return string|null
+     */
+    public function url($action = null)
+    {
+        if (!($controller = $this->getControllerName())) {
+            return null;
+        }
+
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'admin/id',
+            array(
+                'controller' => $controller,
+                'action' => $action,
+                'id' => $this->id(),
+            )
+        );
+    }
+
+    /**
+     * Get the name for the controller that handles this kind of resource.
+     *
+     * @return string|null
+     */
+    protected function getControllerName()
+    {
+        return null;
     }
 }

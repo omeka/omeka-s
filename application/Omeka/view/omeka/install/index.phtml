@@ -1,28 +1,24 @@
 <?php $this -> htmlElement('body')->appendAttribute('class', 'install'); ?>
 <?php
 $form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formInput = $this->plugin('formInput');
+$formErrors = $this->plugin('formElementErrors');
 $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
-$formLabel = $this->plugin('formLabel');
 echo $this->form()->openTag($form);
 ?>
 
-<?php $form_elements = array('username', 'password', 'password-confirm', 'name', 'email', 'email-confirm'); ?>
-
-<?php foreach ($form_elements as $form_element): ?>
+<?php foreach ($form->getElements() as $element): ?>
 <div class="field">
-    <?php 
-        $name = $form->get($form_element);
-        echo $formLabel->openTag() . $name->getOption('label');
-        echo $formLabel->closeTag();
-        echo $this->formInput($name);
-        echo $this->formElementErrors($name);        
-     ?>
-    
+<?php 
+    echo $formLabel($element);
+    echo $formInput($element);
+    echo $formErrors($element, array('class' => 'messages'));
+ ?>
 </div>
 <?php endforeach; ?>
-
+<button>Install</button>
 <?php
-echo $this->formElement($form->get('submit'));
 echo $this->form()->closeTag();
 ?>

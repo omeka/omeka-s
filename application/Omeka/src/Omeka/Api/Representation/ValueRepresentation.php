@@ -27,16 +27,22 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        switch ($this->getType()) {
+        switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $valueResource = $this->getData()->getValueResource();
-                $valueResourceAdapter = $this->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                return $valueResourceAdapter->getApiUrl($valueResource);
+                $escapeHtml = $this->getViewHelper('escapeHtml');
+                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
+                $valueResource = $this->getValueResource();
+                $uri = $valueResource->url();
+                $displayTitle = $valueResource->displayTitle('[untitled]');
+                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($displayTitle) . '</a>';
 
             case Value::TYPE_URI:
+                $escapeHtml = $this->getViewHelper('escapeHtml');
+                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
+                $uri = $this->getData()->getValue();
+                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uri) . '</a>';
+
             case Value::TYPE_LITERAL:
             default:
                 return $this->getData()->getValue();
@@ -65,15 +71,12 @@ class ValueRepresentation extends AbstractRepresentation
         $value = $this->getData();
         $valueObject = array();
 
-        switch ($this->getType()) {
+        switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $valueResource = $this->getData()->getValueResource();
-                $valueResourceAdapter = $this->getAdapter(
-                    $valueResource->getResourceName()
-                );
-                $valueObject['@id'] = $valueResourceAdapter->getApiUrl($valueResource);
-                $valueObject['value_resource_id'] = $valueResource->getId();
+                $valueResource = $this->getValueResource();
+                $valueObject['@id'] = $valueResource->apiUrl();
+                $valueObject['value_resource_id'] = $valueResource->id();
                 break;
 
             case Value::TYPE_URI:
@@ -102,7 +105,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getType()
+    public function type()
     {
         return $this->getData()->getType();
     }
@@ -112,7 +115,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getValue()
+    public function value()
     {
         return $this->getData()->getValue();
     }
@@ -122,7 +125,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function getLang()
+    public function lang()
     {
         return $this->getData()->getLang();
     }

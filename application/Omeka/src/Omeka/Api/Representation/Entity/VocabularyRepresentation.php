@@ -3,12 +3,15 @@ namespace Omeka\Api\Representation\Entity;
 
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
+    public function getControllerName()
+    {
+        return 'vocabulary';
+    }
+
     public function getJsonLd()
     {
         $entity = $this->getData();
         return array(
-            '@id'                 => $this->getAdapter()->getApiUrl($entity),
-            'o:id'            => $entity->getId(),
             'o:namespace_uri' => $entity->getNamespaceUri(),
             'o:prefix'        => $entity->getPrefix(),
             'o:label'         => $entity->getLabel(),
@@ -20,14 +23,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
             ),
         );
     }
-    
-    public function getPrefix()
+
+    public function prefix()
     {
         return $this->getData()->getPrefix();
     }
-    
-    public function getLabel()
+
+    public function comment()
     {
-        return $this->getData()->getLabel();
+        return $this->getData()->getComment();
     }
 }

@@ -16,7 +16,26 @@ use Omeka\Model\Entity\Vocabulary;
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var array All value representations of this resource.
+     * All value representations of this resource.
+     *
+     * <code>
+     * array(
+     *     {vocabularyPrefix} => array(
+     *         'vocabulary' => {vocabularyRepresentation},
+     *         'properties' => array(
+     *             {propertyLocalName} => array(
+     *                 'property' => {propertyRepresentation},
+     *                 'values' => array(
+     *                     {valueRepresentation},
+     *                     {valueRepresentation},
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     * )
+     * </code>
+     *
+     * @var array
      */
     protected $values = array();
 
@@ -58,11 +77,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             );
         }
 
+        // Set the values as JSON-LD value objects.
+        $values = array();
+        foreach ($this->values() as $prefix => $vocabulary) {
+            foreach ($vocabulary['properties'] as $localName => $property) {
+                foreach ($property['values'] as $value) {
+                    $values["$prefix:$localName"][] = $value;
+                }
+            }
+        }
+
         return array_merge(
-            array('@id' => $this->getAdapter()->getApiUrl($this->getData())),
             $nodeType,
             array(
-                'o:id' => $this->getData()->getId(),
                 'o:owner' => $this->getReference(
                     null,
                     $this->getData()->getOwner(),
@@ -76,7 +103,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ),
             $dateTime,
             $this->getResourceJsonLd(),
-            $this->getValues()
+            $values
         );
     }
 
@@ -85,7 +112,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return ResourceClassRepresentation
      */
-    public function getResourceClass()
+    public function resourceClass()
     {
         return $this->getAdapter('resource_classes')
             ->getRepresentation(null, $this->getData()->getResourceClass());
@@ -96,7 +123,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return DateTime
      */
-    public function getCreated()
+    public function created()
     {
         return $this->getData()->getCreated();
     }
@@ -106,7 +133,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return DateTime
      */
-    public function getModified()
+    public function modified()
     {
         return $this->getData()->getModified();
     }
@@ -116,7 +143,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    public function getValues()
+    public function values()
     {
         if (empty($this->values)) {
             $this->setValues();
@@ -139,7 +166,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *   languages by default.
      * @return RepresentationInterface|mixed
      */
-    public function getValue($term, array $options = array())
+    public function value($term, array $options = array())
     {
         // Set defaults.
         if (!isset($options['type'])) {
@@ -155,21 +182,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['lang'] = null;
         }
 
-        $values = $this->getValues();
-        if (!array_key_exists($term, $values)) {
+        if (!$this->getAdapter()->isTerm($term)) {
+            return $options['default'];
+        }
+
+        $values = $this->values();
+        list($prefix, $localName) = explode(':', $term);
+        if (!isset($values[$prefix]['properties'][$localName])) {
             return $options['default'];
         }
 
         // Match only the representations that fit all the criteria.
         $matchingValues = array();
-        foreach ($values[$term] as $value) {
+        foreach ($values[$prefix]['properties'][$localName]['values'] as $value) {
             if (!is_null($options['type'])
-                && $value->getType() !== $options['type']
+                && $value->type() !== $options['type']
             ) {
                 continue;
             }
             if (!is_null($options['lang'])
-                && $value->getLang() !== $options['lang']
+                && $value->lang() !== $options['lang']
             ) {
                 continue;
             }
@@ -184,14 +216,53 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the display markup for all values of this resource.
+     *
+     * Options:
+     *
+     * + hideVocabulary: Whether to hide vocabulary labels. Default: false
+     * + viewName: Name of view script, or a view model. Default
+     *   "common/resource-values"
+     *
+     * @param array $options
+     * @return string
+     */
+    public function displayValues(array $options = array())
+    {
+        if (!isset($options['hideVocabulary'])) {
+            $options['hideVocabulary'] = false;
+        }
+        if (!isset($options['viewName'])) {
+            $options['viewName'] = 'common/resource-values';
+        }
+        $partial = $this->getViewHelper('partial');
+        $options['values'] = $this->values();
+        return $partial($options['viewName'], $options);
+    }
+
+    /**
      * Get the display title for this resource.
      *
      * @param string|null $default
-     * @return RepresentationInterface|null
+     * @return string|null
      */
-    public function getDisplayTitle($default = null)
+    public function displayTitle($default = null)
     {
-        return $this->getValue('dcterms:title', array(
+        return (string) $this->value('dcterms:title', array(
+            'type' => 'literal',
+            'default' => $default,
+        ));
+    }
+
+    /**
+     * Get the display description for this resource.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function displayDescription($default = null)
+    {
+        return (string) $this->value('dcterms:description', array(
             'type' => 'literal',
             'default' => $default,
         ));
@@ -203,10 +274,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string|null $default
      * @return string|null
      */
-    public function getDisplayResourceClassLabel($default = null)
+    public function displayResourceClassLabel($default = null)
     {
-        $resourceClass = $this->getResourceClass();
-        return $resourceClass ? $resourceClass->getLabel() : $default;
+        $resourceClass = $this->resourceClass();
+        return $resourceClass ? $resourceClass->label() : $default;
     }
 
     /**
@@ -220,15 +291,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         foreach ($this->getData()->getValues() as $value) {
             $property = $value->getProperty();
             $vocabulary = $property->getVocabulary();
-
+            $localName = $property->getLocalName();
             $prefix = $vocabulary->getPrefix();
-            $suffix = $property->getLocalName();
-            $term = "$prefix:$suffix";
 
-            $this->addVocabularyToContext($vocabulary);
-            $this->values[$term][] = new ValueRepresentation(
-                $value, $this->getServiceLocator()
-            );
+            if (!isset($this->values[$prefix])) {
+                $this->values[$prefix] = array(
+                    'vocabulary' => $this->getAdapter('vocabularies')
+                        ->getRepresentation(null, $vocabulary),
+                    'properties' => array(),
+                );
+            }
+
+            if (!isset($this->values[$prefix]['properties'][$localName])) {
+                $this->values[$prefix]['properties'][$localName] = array(
+                    'property' => $this->getAdapter('properties')
+                        ->getRepresentation(null, $property),
+                    'values' => array(),
+                );
+            }
+
+            $this->values[$prefix]['properties'][$localName]['values'][]
+                = new ValueRepresentation($value, $this->getServiceLocator());
         }
     }
 

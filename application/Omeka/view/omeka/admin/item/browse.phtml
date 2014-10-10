@@ -1,51 +1,85 @@
-<?php $this->htmlElement('body')->appendAttribute('class', 'items browse'); ?>
-<h1>Items</h1>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'items browse');
+$deleteForm->prepare();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $escape($this->translate('Items')); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $this->escapeHtmlAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button">Add new item</a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new item')); ?></a>
 </div>
+
+<?php if (count($items) > 0): ?>
 
 <?php echo $this->pagination(); ?>
 
-<a href="batch-edit" class="batch-edit button"><?php echo $this->translate('Batch edit selected'); ?></a>
+<a href="batch-edit" class="batch-edit button"><?php echo $escape($this->translate('Batch edit selected')); ?></a>
 
-<table id="items-list">
+<table>
     <thead>
         <tr>
-            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all">Select all</label></th>
-            <th><?php echo $this->sortLink('Title', 'dcterms:title'); ?></th>
-            <th><?php echo $this->sortLink('Class', 'resource_class_label'); ?></th>
-            <th><?php echo $this->sortLink('Date Created', 'created'); ?></th>
+            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all"><?php echo $escape($this->translate('Select all')); ?></label></th>
+            <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($items as $item): ?>
         <tr>
-            <td><input type="checkbox" id="row-<?php echo $item->getId(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->getId(); ?>">Select row</label></td>
+            <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>"><?php echo $escape($this->translate('Select row')); ?></label></td>
             <td>
-                <span class="record-name">
-                    <a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'show', 'id' => $item->getId()), true)); ?>"><?php echo $this->escapeHtml($item->getDisplayTitle('[untitled]')); ?></a>
+                <span class="resource-name">
+                    <a href="<?php echo $escapeAttr($item->url()); ?>"><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $this->escapeHtmlAttr($this->url('admin/id', array('action' => 'edit', 'id' => $item->getId()), true)); ?>" class="o-icon-edit" aria-label="Edit" title="Edit"></a></li>
-                    <li><a href="#" class="o-icon-more" aria-label="Details" title="Details"></a></li>
-                    <li><a href="#" class="o-icon-delete" aria-label="Delete" title="Delete"></a></li>
+                    <li><a href="<?php echo $escapeAttr($item->url('edit')); ?>"
+                        class="o-icon-edit"
+                        aria-label="<?php echo $escapeAttr($this->translate('Edit')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Edit')); ?>"></a></li>
+                    <li><a href="#"
+                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-delete-action="<?php echo $escapeAttr($item->url('delete')); ?>"
+                        class="o-icon-delete sidebar-delete"
+                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <li><a href="#"
+                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        class="o-icon-more sidebar-details"
+                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
-            <td><?php echo $this->escapeHtml($item->getDisplayResourceClassLabel()); ?></td>
-            <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($item->getCreated())); ?></td>
+            <td><?php echo $escape($item->displayResourceClassLabel()); ?></td>
+            <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 
-<div class="overlay"></div>
-
-<div class="modal">
-    <div class="modal-header">
-        <a href="#" class="closeBtn o-icon-close" aria-label="Close me"></a>
-        <h1></h1>
+<div id="sidebar">
+    <a href="#"
+        id="sidebar-close"
+        class="o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-delete-content">
+        <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
+        <?php echo $this->form()->openTag($deleteForm); ?>
+        <?php echo $this->formElement($deleteForm->get('submit')); ?>
+        <?php echo $this->formElement($deleteForm->get('csrf')); ?>
+        <?php echo $this->form()->closeTag(); ?>
     </div>
-    <div class="modal-content">
-    </div>
+    <div id="sidebar-content"></div>
 </div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any items.')); ?></p>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first item')); ?></a>
+</div>
+
+<?php endif; ?>

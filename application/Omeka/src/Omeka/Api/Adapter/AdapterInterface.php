@@ -81,20 +81,4 @@ interface AdapterInterface extends
      * @return Response
      */
     public function delete(Request $request);
-
-    /**
-     * Get the URL to an API representation.
-     *
-     * @param mixed $data Whatever data is needed to construct the API URL.
-     * @return null|string
-     */
-    public function getApiUrl($data);
-
-    /**
-     * Get the URL to a web representation.
-     *
-     * @param mixed $data Whatever data is needed to construct the web URL.
-     * @return null|string
-     */
-    public function getWebUrl($data);
 }

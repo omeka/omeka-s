@@ -1,3 +1,5 @@
+@import "font-awesome/variables";
+
 /* @group ----- Generic HTML elements ----- */
 
 * {
@@ -40,9 +42,9 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75 * $base-font-size;
-    line-height: 2 * $base-line-height;
-    @include trailer(1, 1.75 * $base-font-size);
+    font-size: 1.875 * $base-font-size;
+    line-height: 1.5 * $base-line-height;
+    @include trailer(1.125, 1.875 * $base-font-size);
 }
 
 h3 {
@@ -302,6 +304,22 @@ div[role="main"] > .messages {
 .messages {
     padding: 0;
     margin: 0;
+    clear: both;
+
+    li {
+        background-color: rgba(255,255,255,.5);
+        @include border-radius(3px);
+        padding: rhythm(.25) 10px;
+        @include leader(.25);
+        display: block;
+        width: 100%;
+    }
+}
+
+.field .messages {
+    float: left;
+    width: 100%;
+    color: $red;
 }
 
 .error {
@@ -314,17 +332,6 @@ div[role="main"] > .messages {
 
 .warning {
     color: orange;
-}
-
-.error,
-.warning,
-.success {
-    background-color: rgba(255,255,255,.5);
-    @include border-radius(3px);
-    padding: rhythm(.25) 10px;
-    @include leader(.25);
-    display: block;
-    width: 100%;
 }
 
 table .icon-sortable {
@@ -513,6 +520,10 @@ nav.pagination form input[type="text"] {
     display: none;
 }
 
+.mobile-container {
+    position: relative;
+}
+
 /* @end */
 
 /* @group ----- Wrappers ----- */
@@ -524,6 +535,7 @@ div[role="main"] {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+    @include transition-duration(.5s);
 }
 
 /* @end */
@@ -566,6 +578,11 @@ div[role="main"] {
 .browse th:first-of-type {
     min-width: rhythm(1.5);
     width: rhythm(1.5);
+}
+
+.browse td:nth-of-type(2),
+.browse th:nth-of-type(2) {
+    width: 40%;
 }
 
 .browse td:first-of-type:not(:only-of-type),
@@ -669,6 +686,107 @@ th a[class="sorted-desc"] {
     z-index: 2;
 }
 
+#sidebar {
+    position: fixed;
+    top: rhythm(3.5);
+    left: 100%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: rhythm(.5) gutter();
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: span(4 of 16) - gutter(32);
+    @include transition-duration(.5s);
+    
+    #content.sidebar-open & {
+        left: span(12 of 16) + gutter(32);
+    }
+    
+    #sidebar-close {
+        position: absolute;
+        right: gutter();
+        top: rhythm(.5);
+    }
+        
+    h4 {
+        @include trailer(.5);
+    }
+    
+    .o-description,
+    .vocabulary,
+    .property {
+        @include trailer();
+    }
+    
+    .value {
+        @include trailer(.25);
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        
+        *:last-child {
+            @include trailer(0);
+        }
+        
+        &:last-child {
+            border-color: transparent;
+            @include trailer();
+        }
+    }
+}
+
+#sidebar-delete-content {
+    background-color: #ccc;
+    @include bleed-x(gutter(1));
+    @include bleed-y(rhythm());
+    @include trailer();
+    
+    button {
+        @include trailer(0);
+    }
+}
+
+
+#content.sidebar-open {
+    width: span(9 of 16);
+}
+
+.no-resources {
+    text-align: center;
+    position: relative;
+    @include leader(4);
+    
+    &:before {
+        font-family: "FontAwesome";
+        font-size: 6 * $base-font-size;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: .08;
+    }
+    
+    p {
+        font-size: 1.5 * $base-font-size;
+        line-height: 2 * $base-line-height;
+        @include leader(2, 1.5 * $base-font-size);
+        
+    }
+}
+
+.items .no-resources:before {
+    content: $fa-var-cubes;
+}
+
+.modules .no-resources:before {
+    content: $fa-var-plus-square;
+}
+
+.vocabularies .no-resources:before {
+    content: $fa-var-book;
+}
+
 /* @end */
 
 /* @group ----- Add views ----- */
@@ -723,7 +841,7 @@ th a[class="sorted-desc"] {
         text-align: center;
     }
         
-    .active {
+    .active a {
         font-weight: bold;
         border-bottom-color: #fff;
     }
@@ -1831,22 +1949,18 @@ body.minimal {
         overflow: hidden;
         @include rhythm-borders(1px, 0, $base-font-size, solid);
     }
-}
-
-/* @end */
-
-/* @group ----- Install ----- */
-
-.install {
-    label {
-        display: inline-block;
-        padding: rhythm(.25) 0;
-        width: span(3 of 9);
-    }
     
+    .inputs {
+        width: span(7 of 10);
+    }
+
     input {
           @include calc('width','66.66% - 6px');
           vertical-align: top;
+    }
+    
+    .inputs *:only-child {
+        width: 100%;
     }
     
     button[type="submit"] {

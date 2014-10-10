@@ -17,7 +17,7 @@ class ValueHydratorTest extends TestCase
         $this->adapter = $this->getMockForAbstractClass(
             'Omeka\Api\Adapter\Entity\AbstractEntityAdapter',
                 array(), '', true, true, true,
-                array('getEntityManager', 'getAdapter', 'getApiUrl')
+                array('getEntityManager', 'getAdapter')
         );
         $this->resource = $this->getMock('Omeka\Model\Entity\Resource');
         $this->resource->expects($this->any())

@@ -1,21 +1,44 @@
-$(document).ready(function () {
-    // Mobile navigation
-    $('#mobile-nav .button').click(function (e) {
-        e.preventDefault();
-        var button_class = $(this).attr('class');
-        var nav_id = button_class.replace(/button/, '');
-        var nav_object = $('#' + nav_id.replace(/icon-/, ''));
-        if ($('header .active').length > 0) {
-            if (!($(this).hasClass('active'))) {
-                $('header .active').removeClass('active');
-                $(this).addClass('active');
-                nav_object.addClass('active');
-            } else {
-                $('header .active').removeClass('active');
-            }
-        } else {
-            $(this).addClass('active');
-            nav_object.addClass('active');
-        }
+(function($, window, document) {
+
+    $(function() {
+
+        // Code that depends on the DOM.
+
+        $('.sidebar-details').click(function(e){
+            e.preventDefault();
+            $('#sidebar-content').empty();
+            $('#sidebar-delete-content').hide();
+            $('#content').addClass('sidebar-open');
+            $.ajax({
+                'url': $(this).data('show-details-action'),
+                'type': 'get'
+            }).done(function(data) {
+                $('#sidebar-content').html(data);
+            });
+        });
+
+        $('.sidebar-delete').click(function(e){
+            e.preventDefault();
+            $('#sidebar-content').empty();
+            $('#sidebar-delete-content').show();
+            $('#sidebar-delete-content form').attr(
+                'action', $(this).data('delete-action')
+            );
+            $('#content').addClass('sidebar-open');
+            $.ajax({
+                'url': $(this).data('show-details-action'),
+                'type': 'get'
+            }).done(function(data) {
+                $('#sidebar-content').html(data);
+            });
+        });
+
+        $('#sidebar-close').click(function(e) {
+            e.preventDefault();
+            $('#content').removeClass('sidebar-open');
+        });
     });
-});
+
+    // Code that doesn't depend on the DOM.
+
+}(window.jQuery, window, document));

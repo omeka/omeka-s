@@ -7,8 +7,6 @@ class PropertyRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            '@id'          => $this->getAdapter()->getApiUrl($entity),
-            'o:id'         => $entity->getId(),
             'o:local_name' => $entity->getLocalName(),
             'o:label'      => $entity->getLabel(),
             'o:comment'    => $entity->getComment(),
@@ -26,23 +24,23 @@ class PropertyRepresentation extends AbstractEntityRepresentation
         );
     }
 
-    public function getLocalName()
+    public function localName()
     {
         return $this->getData()->getLocalName();
     }
 
-    public function getLabel()
-    {
-        return $this->getData()->getLabel();
-    }
-
-    public function getComment() 
+    public function comment() 
     {
         return $this->getData()->getComment();
     }
 
-    public function getVocabulary()
+    public function vocabulary()
     {
         return $this->getData()->getVocabulary();
+    }
+
+    public function label()
+    {
+        return $this->getData()->getLabel();
     }
 }

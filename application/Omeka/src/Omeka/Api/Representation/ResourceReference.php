@@ -14,7 +14,7 @@ class ResourceReference extends AbstractResourceRepresentation
     public function getRepresentation()
     {
         return $this->getAdapter()
-            ->getRepresentation($this->getId(), $this->getData());
+            ->getRepresentation($this->id(), $this->getData());
     }
 
     /**
@@ -23,8 +23,8 @@ class ResourceReference extends AbstractResourceRepresentation
     public function jsonSerialize()
     {
         return array(
-            '@id' => $this->getAdapter()->getApiUrl($this->getData()),
-            'o:id'  => $this->getId(),
+            '@id' => $this->apiUrl(),
+            'o:id'  => $this->id(),
         );
     }
 

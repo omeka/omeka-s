@@ -95,7 +95,7 @@ class ItemController extends AbstractActionController
         $resourceClasses = $response->getContent();
         $resourceClassPairs = array();
         foreach ($resourceClasses as $resourceClass) {
-            $resourceClassPairs[$resourceClass->getId()] = $resourceClass->getLabel();
+            $resourceClassPairs[$resourceClass->id()] = $resourceClass->label();
         }
         $response = $this->api()->search('properties');
         $properties = $response->getContent();
@@ -142,12 +142,12 @@ class ItemController extends AbstractActionController
         $property = $response->getContent();
         $form = new Form;
         //the following duplicates ItemForm->addPropertyInput
-        $qName = $property->getVocabulary()->getPrefix() . ':' . $property->getLocalName();
+        $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $form->add(array(
                 'name'    => $qName . '[0][@value]',
                 'type'    => 'Text',
                 'options' => array(
-                    'label' => $property->getLabel()
+                    'label' => $property->label()
                 )
         ));
 
@@ -155,7 +155,7 @@ class ItemController extends AbstractActionController
                 'name'       => $qName . '[0][property_id]',
                 'type'       => 'Hidden',
                 'attributes' => array(
-                    'value' => $property->getId()
+                    'value' => $property->id()
                 )
         ));
         $view->setVariable('form', $form);
@@ -172,14 +172,14 @@ class ItemController extends AbstractActionController
         $vocabularies = $response->getContent();
         foreach ($vocabularies as $vocabulary) {
             $properties = $this->api()->search('properties', 
-                array('vocabulary_prefix' => $vocabulary->getPrefix()))->getContent();
-            $label = $vocabulary->getLabel();
+                array('vocabulary_prefix' => $vocabulary->prefix()))->getContent();
+            $label = $vocabulary->label();
             $vocabulariesArray[$label] = array();
             foreach ($properties as $property) {
                 $vocabulariesArray[$label][] = array(
-                        'id'          => $property->getId(), 
-                        'label'       => $property->getLabel(),
-                        'comment' => $property->getComment()
+                        'id'          => $property->id(), 
+                        'label'       => $property->label(),
+                        'comment' => $property->comment()
                         );
             }
         }

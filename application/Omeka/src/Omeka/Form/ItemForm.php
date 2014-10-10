@@ -56,12 +56,12 @@ class ItemForm extends Form
      */
     public function addPropertyInput(PropertyRepresentation $property)
     {
-        $qName = $property->getVocabulary()->getPrefix() . ':' . $property->getLocalName();
+        $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $this->add(array(
                 'name'    => $qName . '[0][@value]',
                 'type'    => 'Text',
                 'options' => array(
-                    'label' => $property->getLabel()
+                    'label' => $property->label()
                 )
         ));
 
@@ -69,7 +69,7 @@ class ItemForm extends Form
                 'name'       => $qName . '[0][property_id]',
                 'type'       => 'Hidden',
                 'attributes' => array(
-                    'value' => $property->getId()
+                    'value' => $property->id()
                 )
         ));
     }

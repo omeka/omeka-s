@@ -33,4 +33,9 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getComment();
     }
+    
+    public function label()
+    {
+        return $this->getData()->getLabel();
+    }
 }

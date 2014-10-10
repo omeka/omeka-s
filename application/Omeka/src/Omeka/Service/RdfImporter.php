@@ -105,6 +105,9 @@ class RdfImporter implements ServiceLocatorAwareInterface
                 if ($file != realpath($file) || !is_file($file)) {
                     throw new \Exception('Invalid path to file.');
                 }
+                if (!is_readable($file)) {
+                    throw new \Exception('File not readable.');
+                }
                 $graph = new EasyRdf_Graph;
                 $graph->parseFile($file, $options['format'], $namespaceUri);
                 return $graph;

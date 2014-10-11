@@ -55,12 +55,12 @@ class ItemForm extends Form
     {
         $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $this->add(array(
-            'name'    => $qName . "[0][@value]",
-            'type'    => 'Text',
-            'options' => array(
+            'name'       => $qName . "[0][@value]",
+            'type'       => 'Text',
+            'attributes' => array('data-qname' => $qName),
+            'options'    => array(
                 'label' => $property->label()
-            ),
-            'attributes' => array('data-qname' => $qName)
+            )
         ));
 
         $this->add(array(

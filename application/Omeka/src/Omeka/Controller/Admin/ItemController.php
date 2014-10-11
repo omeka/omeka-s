@@ -84,7 +84,7 @@ class ItemController extends AbstractActionController
         }
         return $this->redirect()->toRoute('admin/default', array(
             'controller' => 'item',
-            'action' => 'browse',
+            'action'     => 'browse',
         ));
     }
 
@@ -175,10 +175,10 @@ class ItemController extends AbstractActionController
             $vocabulariesArray[$label] = array();
             foreach ($properties as $property) {
                 $vocabulariesArray[$label][] = array(
-                        'id'          => $property->id(), 
-                        'label'       => $property->label(),
-                        'comment' => $property->comment()
-                        );
+                    'id'      => $property->id(), 
+                    'label'   => $property->label(),
+                    'comment' => $property->comment()
+                    );
             }
         }
         return $vocabulariesArray;

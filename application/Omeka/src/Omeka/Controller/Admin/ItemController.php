@@ -97,8 +97,6 @@ class ItemController extends AbstractActionController
         foreach ($resourceClasses as $resourceClass) {
             $resourceClassPairs[$resourceClass->id()] = $resourceClass->label();
         }
-        $response = $this->api()->search('properties');
-        $properties = $response->getContent();
 
         $dctermsTitles = $this->api()
                               ->search('properties', array('term' => 'dcterms:title'))
@@ -107,11 +105,10 @@ class ItemController extends AbstractActionController
                               ->search('properties', array('term' => 'dcterms:description'))
                               ->getContent();
         $options = array(
-                'resource_class_pairs' => $resourceClassPairs,
-                'properties'           => $properties,
-                'dcterms_title'        => $dctermsTitles[0],
-                'dcterms_description'  => $dctermsDescriptions[0]
-                );
+            'resource_class_pairs' => $resourceClassPairs,
+            'dcterms_title'        => $dctermsTitles[0],
+            'dcterms_description'  => $dctermsDescriptions[0]
+            );
         $form = new ItemForm('items', $options);
         $view->setVariable('form', $form);
 
@@ -141,27 +138,28 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('properties', $propertyId);
         $property = $response->getContent();
         $form = new Form;
-        //the following duplicates ItemForm->addPropertyInput
+        //the following duplicates much of ItemForm->addPropertyInput
+        // difference is the __index__ that gets replaced in js
         $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $form->add(array(
-                'name'    => $qName . '[0][@value]',
-                'type'    => 'Text',
-                'options' => array(
-                    'label' => $property->label()
-                )
+            'name'    => $qName . '[__index__][@value]',
+            'type'    => 'Text',
+            'options' => array(
+                'label' => $property->label()
+            )
         ));
 
         $form->add(array(
-                'name'       => $qName . '[0][property_id]',
-                'type'       => 'Hidden',
-                'attributes' => array(
-                    'value' => $property->id()
-                )
+            'name'       => $qName . '[__index__][property_id]',
+            'type'       => 'Hidden',
+            'attributes' => array(
+                'value' => $property->id()
+            )
         ));
         $view->setVariable('form', $form);
         return $view;
     }
-    
+
     public function editAction()
     {}
 

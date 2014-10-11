@@ -5,28 +5,25 @@ use Omeka\Form\ResourceValuesCollection;
 use Omeka\Api\Representation\Entity\PropertyRepresentation;
 use Zend\Form\Form;
 
-
 class ItemForm extends Form
 {
-    
     public function __construct($name = null, $options = null)
     {
         parent::__construct($name, $options);
-        
         $this->add(array(
-                'name'    => 'o:resource_class[o:id]',
-                'type'    => 'Select',
-                'options' => array(
-                    'label' => 'Class',
-                    'value_options' => $this->getResourceClassPairs(),
-                )
+            'name'    => 'o:resource_class[o:id]',
+            'type'    => 'Select',
+            'options' => array(
+                'label' => 'Class',
+                'value_options' => $this->getResourceClassPairs(),
+            )
         ));
 
         $this->addPropertyInput($this->getDctermsTitle());
         $this->addPropertyInput($this->getDctermsDescription());
         $this->add(array(
-                'name' => 'csrf',
-                'type' => 'Csrf'
+            'name' => 'csrf',
+            'type' => 'Csrf'
         ));
     }
     
@@ -58,19 +55,21 @@ class ItemForm extends Form
     {
         $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $this->add(array(
-                'name'    => $qName . '[0][@value]',
-                'type'    => 'Text',
-                'options' => array(
-                    'label' => $property->label()
-                )
+            'name'    => $qName . "[0][@value]",
+            'type'    => 'Text',
+            'options' => array(
+                'label' => $property->label()
+            ),
+            'attributes' => array('data-qname' => $qName)
         ));
 
         $this->add(array(
-                'name'       => $qName . '[0][property_id]',
-                'type'       => 'Hidden',
-                'attributes' => array(
-                    'value' => $property->id()
-                )
+            'name'       => $qName . "[0][property_id]",
+            'type'       => 'Hidden',
+            'attributes' => array(
+                'value'      => $property->id(),
+                'data-qname' => $qName
+            )
         ));
     }
 

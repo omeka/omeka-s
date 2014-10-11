@@ -26,27 +26,27 @@ class ItemForm extends Form
             'type' => 'Csrf'
         ));
     }
-    
+
     protected function getResourceClassPairs()
     {
         return $this->options['resource_class_pairs'];
     }
-    
+
     protected function getProperties()
     {
         return $this->options['properties'];
     }
-    
+
     protected function getDctermsTitle()
     {
         return $this->options['dcterms_title'];
     }
-    
+
     protected function getDctermsDescription()
     {
         return $this->options['dcterms_description'];
     }
-    
+
     /**
      * Boilerplate to add a text property input
      * @param Omeka\Api\Representation\Entity\PropertyRepresentation $property

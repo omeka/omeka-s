@@ -148,9 +148,22 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        // Validate label
-        if (null === $entity->getLabel()) {
-            $errorStore->addError('label', 'The label field cannot be null.');
+        if (null === $entity->getVocabulary()) {
+            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
+        }
+        if (empty($entity->getLocalName())) {
+            $errorStore->addError('o:local_name', 'The local name cannot be empty.');
+        }
+        if (empty($entity->getLabel())) {
+            $errorStore->addError('o:label', 'The label cannot be empty.');
+        }
+
+        $criteria = array(
+            'vocabulary' => $entity->getVocabulary(),
+            'localName' => $entity->getLocalName(),
+        );
+        if (!$this->isUnique($entity, $criteria)) {
+            $errorStore->addError('o:local_name', 'The local name is already taken.');
         }
     }
 }

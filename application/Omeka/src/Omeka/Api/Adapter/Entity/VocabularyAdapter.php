@@ -131,14 +131,20 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (null === $entity->getNamespaceUri()) {
-            $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
+        if (empty($entity->getNamespaceUri())) {
+            $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
         }
-        if (null === $entity->getPrefix()) {
-            $errorStore->addError('prefix', 'The prefix field cannot be null.');
+        if (empty($entity->getPrefix())) {
+            $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
         }
-        if (null === $entity->getLabel()) {
-            $errorStore->addError('label', 'The label field cannot be null.');
+        if (empty($entity->getLabel())) {
+            $errorStore->addError('o:label', 'The label cannot be empty.');
+        }
+        if (!$this->isUnique($entity, array('namespaceUri' => $entity->getNamespaceUri()))) {
+            $errorStore->addError('o:namespace_uri', 'The namespace URI is already taken.');
+        }
+        if (!$this->isUnique($entity, array('prefix' => $entity->getPrefix()))) {
+            $errorStore->addError('o:prefix', 'The prefix is already taken.');
         }
     }
 }

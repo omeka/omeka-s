@@ -1,32 +1,20 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Installation\Manager;
+
 /**
  * Check database configuration task.
  */
-class CheckDbConfigurationTask extends AbstractTask
+class CheckDbConfigurationTask implements TaskInterface
 {
-    /**
-     * Check whether the database configuration is valid.
-     */
-    public function perform()
+    public function perform(Manager $manager)
     {
         try {
-            $this->getServiceLocator()->get('Omeka\Connection')->connect();
+            $manager->getServiceLocator()->get('Omeka\Connection')->connect();
         } catch (\Exception $e) {
-            $this->addError($e->getMessage());
+            $manager->addError($e->getMessage());
             return;
         }
-        $this->addInfo(
-            $this->getTranslator()->translate('Database configuration is valid.')
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getTranslator()->translate('Check database configuration');
     }
 }

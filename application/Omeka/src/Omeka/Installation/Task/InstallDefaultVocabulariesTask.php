@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Installation\Manager;
+
 /**
  * Install default RDF vocabularies.
  */
-class InstallDefaultVocabulariesTask extends AbstractTask
+class InstallDefaultVocabulariesTask implements TaskInterface
 {
     /**
      * Default RDF vocabularies.
@@ -57,14 +59,11 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             'format' => 'rdfxml',
         ),
     );
-    
-    /**
-     * Install default RDF vocabularies.
-     */
-    public function perform()
+
+    public function perform(Manager $manager)
     {
-        $rdfImporter = $this->getServiceLocator()->get('Omeka\RdfImporter');
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $rdfImporter = $manager->getServiceLocator()->get('Omeka\RdfImporter');
+        $entityManager = $manager->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
             $response = $rdfImporter->import(
@@ -76,22 +75,10 @@ class InstallDefaultVocabulariesTask extends AbstractTask
                 )
             );
             if ($response->isError()) {
-                $this->addErrorStore($response->getErrorStore());
+                $manager->addErrorStore($response->getErrorStore());
                 return;
             }
             $entityManager->clear();
-            $this->addInfo(sprintf(
-                $this->getTranslator()->translate('Successfully installed "%s"'),
-                $vocabulary['vocabulary']['o:label']
-            ));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getTranslator()->translate('Install default RDF vocabularies');
     }
 }

@@ -2,20 +2,17 @@
 namespace Omeka\Installation\Task;
 
 use Doctrine\DBAL\DBALException;
+use Omeka\Installation\Manager;
 
 /**
  * Task to initialize the migrations table with all existing migrations.
  */
-class RecordMigrationsTask extends AbstractTask
+class RecordMigrationsTask implements TaskInterface
 {
-    /**
-     * Record all migrations.
-     */
-    public function perform()
+    public function perform(Manager $manager)
     {
-        $sl = $this->getServiceLocator();
-        $migrator = $sl->get('Omeka\MigrationManager');
-        $conn = $sl->get('Omeka\Connection');
+        $migrator = $manager->getServiceLocator()->get('Omeka\MigrationManager');
+        $conn = $manager->getServiceLocator()->get('Omeka\Connection');
 
         $migrations = $migrator->getAvailableMigrations();
 
@@ -24,17 +21,5 @@ class RecordMigrationsTask extends AbstractTask
             $migrator->recordMigration($version);
         }
         $conn->commit();
-
-        $this->addInfo(
-            $this->getTranslator()->translate('Successfully recorded all migrations.')
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getTranslator()->translate('Record initial migrations.');
     }
 }

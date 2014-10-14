@@ -126,40 +126,6 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
-    /**
-     * Create new form inputs for ajaxing into the item form
-     * @see ItemForm
-     */
-    public function ajaxPropertyElementAction()
-    {
-        $view = new ViewModel();
-        $view->setTerminal(true);
-        $propertyId = $this->params()->fromQuery('id');
-        $response = $this->api()->read('properties', $propertyId);
-        $property = $response->getContent();
-        $form = new Form;
-        //the following duplicates much of ItemForm->addPropertyInput
-        // difference is the __index__ that gets replaced in js
-        $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
-        $form->add(array(
-            'name'    => $qName . '[__index__][@value]',
-            'type'    => 'Text',
-            'options' => array(
-                'label' => $property->label()
-            )
-        ));
-
-        $form->add(array(
-            'name'       => $qName . '[__index__][property_id]',
-            'type'       => 'Hidden',
-            'attributes' => array(
-                'value' => $property->id()
-            )
-        ));
-        $view->setVariable('form', $form);
-        return $view;
-    }
-
     public function editAction()
     {}
 
@@ -169,6 +135,7 @@ class ItemController extends AbstractActionController
         $response = $this->api()->search('vocabularies');
         $vocabularies = $response->getContent();
         foreach ($vocabularies as $vocabulary) {
+            $prefix = $vocabulary->prefix();
             $properties = $this->api()->search('properties', 
                 array('vocabulary_prefix' => $vocabulary->prefix()))->getContent();
             $label = $vocabulary->label();
@@ -177,7 +144,8 @@ class ItemController extends AbstractActionController
                 $vocabulariesArray[$label][] = array(
                     'id'      => $property->id(), 
                     'label'   => $property->label(),
-                    'comment' => $property->comment()
+                    'comment' => $property->comment(),
+                    'qname'   => $prefix . ':' . $property->localName()
                     );
             }
         }

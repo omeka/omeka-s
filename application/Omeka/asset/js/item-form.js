@@ -14,7 +14,7 @@
             e.preventDefault();
             var button_class = $(this).attr('class');
             var nav_id = button_class.replace(/button/, '');
-            var nav_object = $('#' + nav_id.replace(/fa-/, ''));
+            var nav_object = $('#' + nav_id.replace(/o-icon-/, ''));
             if ($('header .active').length > 0) {
                 if (!($(this).hasClass('active'))) {
                     $('header .active').removeClass('active');
@@ -87,7 +87,7 @@
                 $(this).toggleClass('show');
             }
         });
-        
+
         // Select property
         add_edit_items.on('click', '.select-property', function(e) {
             e.preventDefault();
@@ -98,17 +98,28 @@
             }
             $(this).parent().addClass('selected');
         });
-        
+
         // Set property
         add_edit_items.on('click', '.set-property', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var propertyId = $(this).parents('.property').data('property-id');
-            $.get('ajax-property-element', {id : propertyId }, function(html, status, jqxhr) {
-                $(html).insertBefore($('div.resource-values.field').last());
-            });
+            var this_field = $(this).parents('.field');
+            var propertyLi = $(this).closest('.property');
+            var qName = propertyLi.data('property-qname');
+            var propertyId = propertyLi.data('property-id');
+            var count = $('input.input-id[data-property-qname = "' + qName + '"]').length;
+            $('.input-value', this_field).attr('name', qName + "[" + count + "][@value]");
+            $('.input-id', this_field).val(propertyId).attr('name', qName + "[" + count + "][property_id]");
+            $('.input-id', this_field).attr('data-property-qname', qName);
+            var field_name = cleanText($(this).parent()) + " (" + cleanText($(this).parents('.vocabulary')) + ")";
+            var field_label = $('<label>' + field_name + '</label>');
+            var field_desc = $(this).siblings('.description');
+            field_desc.attr('class', 'field-description');
+            $(this).parents('.properties').before(field_desc);
+            this_field.find('input[placeholder="Property name"]').replaceWith(field_label);
+            this_field.removeClass('unset');
         });
-        
+
         // Make new value inputs whenever "add value" button clicked.
         add_edit_items.on('click', '.add-value', function(e) {
             e.preventDefault();

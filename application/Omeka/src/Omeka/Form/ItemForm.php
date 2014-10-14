@@ -21,6 +21,7 @@ class ItemForm extends Form
 
         $this->addPropertyInput($this->getDctermsTitle());
         $this->addPropertyInput($this->getDctermsDescription());
+
         $this->add(array(
             'name' => 'csrf',
             'type' => 'Csrf'
@@ -56,8 +57,11 @@ class ItemForm extends Form
         $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
         $this->add(array(
             'name'       => $qName . "[0][@value]",
-            'type'       => 'Text',
-            'attributes' => array('data-qname' => $qName),
+            'type'       => 'Textarea',
+            'attributes' => array(
+                'data-property-qname' => $qName,
+                'class'      => 'input-value'
+                ),
             'options'    => array(
                 'label' => $property->label()
             )
@@ -67,8 +71,9 @@ class ItemForm extends Form
             'name'       => $qName . "[0][property_id]",
             'type'       => 'Hidden',
             'attributes' => array(
-                'value'      => $property->id(),
-                'data-qname' => $qName
+                'value'               => $property->id(),
+                'data-property-qname' => $qName,
+                'class'               => 'input-id'
             )
         ));
     }

@@ -1,6 +1,8 @@
 (function($) {
 
     $(document).ready( function() {
+        //have an initial property input available to use
+        makeNewField('resource-values');
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {

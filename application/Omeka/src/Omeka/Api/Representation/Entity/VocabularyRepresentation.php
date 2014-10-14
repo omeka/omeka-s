@@ -33,4 +33,36 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getComment();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function properties()
+    {
+        $propertyEntities = $this->getData()->getProperties();
+        $propertyAdapter = $this->getAdapter('properties');
+        foreach ($propertyEntities as $propertyEntity) {
+            $properties[] = $propertyAdapter->getRepresentation(
+            $propertyEntity->getId(), 
+            $propertyEntity
+            );
+        }
+        return $properties;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+     public function resourceClasses()
+     {
+        $classEntities = $this->getData()->getResourceClasses();
+        $classAdapter = $this->getAdapter('resource_classes');
+        foreach ($classEntities as $classEntity) {
+            $resourceClasses[] = $classAdapter->getRepresentation(
+                $classEntity->getId(),
+                $classEntity
+                );
+        }
+        return $resourceClasses;
+     }
 }

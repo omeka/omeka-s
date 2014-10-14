@@ -37,6 +37,23 @@
             e.preventDefault();
             $('#content').removeClass('sidebar-open');
         });
+
+        // Switch between section tabs.
+        $('a.section, .section legend').click(function(e) {
+            e.preventDefault();
+            var tab = $(this);
+            if (!tab.hasClass('active')) {
+                $('.section.active, legend.active').removeClass('active');
+                if (tab.is('legend')) {
+                    var section_class = tab.parents('.section').attr('id');
+                } else {
+                    var section_class = tab.attr('class');
+                }
+                var section_id = section_class.replace(/section/, '');
+                tab.addClass('active');
+                $('#' + section_id).addClass('active');
+            }
+        });
     });
 
     // Code that doesn't depend on the DOM.

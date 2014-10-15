@@ -148,9 +148,6 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (null === $entity->getVocabulary()) {
-            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
-        }
         if (empty($entity->getLocalName())) {
             $errorStore->addError('o:local_name', 'The local name cannot be empty.');
         }

@@ -73,10 +73,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                     continue; // do not process existing classes
                 }
                 $resourceClass = new $resourceClassEntityClass;
+                $resourceClass->setVocabulary($entity);
                 $resourceClassAdapter->hydrateEntity(
                     'create', $classData, $resourceClass, $errorStore
                 );
-                $entity->addResourceClass($resourceClass);
             }
         }
         if (isset($data['o:properties']) && is_array($data['o:properties'])) {
@@ -87,10 +87,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                     continue; // do not process existing properties
                 }
                 $property = new $propertyEntityClass;
+                $property->setVocabulary($entity);
                 $propertyAdapter->hydrateEntity(
                     'create', $propertyData, $property, $errorStore
                 );
-                $entity->addProperty($property);
             }
         }
     }

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
@@ -153,13 +154,18 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (empty($entity->getLabel())) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
-
-        $criteria = array(
-            'vocabulary' => $entity->getVocabulary(),
-            'localName' => $entity->getLocalName(),
-        );
-        if (!$this->isUnique($entity, $criteria)) {
-            $errorStore->addError('o:local_name', 'The local name is already taken.');
+        if ($entity->getVocabulary() instanceof Vocabulary) {
+            if ($entity->getVocabulary()->getId()) {
+                $criteria = array(
+                    'vocabulary' => $entity->getVocabulary(),
+                    'localName' => $entity->getLocalName(),
+                );
+                if (!$this->isUnique($entity, $criteria)) {
+                    $errorStore->addError('o:local_name', 'The local name is already taken.');
+                }
+            }
+        } else {
+            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
     }
 }

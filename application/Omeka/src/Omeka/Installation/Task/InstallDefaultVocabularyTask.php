@@ -21,7 +21,7 @@ class InstallDefaultVocabularyTask implements TaskInterface
     public function perform(Manager $manager)
     {
         $api = $manager->getServiceLocator()->get('Omeka\ApiManager');
-        $response = $api->create('vocabularies', $manager->vocabulary);
+        $response = $api->create('vocabularies', $this->vocabulary);
         if ($response->isError()) {
             $manager->addErrorStore($response->getErrorStore());
             return;

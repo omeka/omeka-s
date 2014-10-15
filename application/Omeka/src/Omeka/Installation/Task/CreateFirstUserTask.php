@@ -13,7 +13,7 @@ class CreateFirstUserTask implements TaskInterface
         $apiManager = $manager->getServiceLocator()->get('Omeka\ApiManager');
         $entityManager = $manager->getServiceLocator()->get('Omeka\EntityManager');
 
-        $vars = $manager->getVars('Omeka\Installation\Manager\CreateFirstUserTask');
+        $vars = $manager->getVars('Omeka\Installation\Task\CreateFirstUserTask');
         $response = $apiManager->create('users', array(
             'o:role'     => 'global_admin',
             'o:username' => $vars['username'],

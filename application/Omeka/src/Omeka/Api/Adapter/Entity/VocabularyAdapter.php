@@ -131,20 +131,34 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (empty($entity->getNamespaceUri())) {
+        // Validate namespace URI
+        $namespaceUri = $entity->getNamespaceUri();
+        if (empty($namespaceUri)) {
             $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
         }
-        if (empty($entity->getPrefix())) {
+        if (!$this->isUnique($entity, array('namespaceUri' => $namespaceUri))) {
+            $errorStore->addError('o:namespace_uri', sprintf(
+                'The namespace URI "%s" is already taken.',
+                $namespaceUri
+            ));
+        }
+
+        // Validate prefix
+        $prefix = $entity->getPrefix();
+        if (empty($prefix)) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
         }
-        if (empty($entity->getLabel())) {
+        if (!$this->isUnique($entity, array('prefix' => $prefix))) {
+            $errorStore->addError('o:prefix', sprintf(
+                'The prefix "%s" is already taken.',
+                $prefix
+            ));
+        }
+
+        // Validate label
+        $label = $entity->getLabel();
+        if (empty($label)) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
-        }
-        if (!$this->isUnique($entity, array('namespaceUri' => $entity->getNamespaceUri()))) {
-            $errorStore->addError('o:namespace_uri', 'The namespace URI is already taken.');
-        }
-        if (!$this->isUnique($entity, array('prefix' => $entity->getPrefix()))) {
-            $errorStore->addError('o:prefix', 'The prefix is already taken.');
         }
 
         // Check for uniqueness of resource class local names.

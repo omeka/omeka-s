@@ -146,5 +146,31 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (!$this->isUnique($entity, array('prefix' => $entity->getPrefix()))) {
             $errorStore->addError('o:prefix', 'The prefix is already taken.');
         }
+
+        // Check for uniqueness of resource class local names.
+        $uniqueLocalNames = array();
+        foreach ($entity->getResourceClasses() as $resourceClass) {
+            if (in_array($resourceClass->getLocalName(), $uniqueLocalNames)) {
+                $errorStore->addError('o:resource_class', sprintf(
+                    'The local name "%s" is already taken.',
+                    $resourceClass->getLocalName()
+                ));
+            } else {
+                $uniqueLocalNames[] = $resourceClass->getLocalName();
+            }
+        }
+
+        // Check for uniqueness of property local names.
+        $uniqueLocalNames = array();
+        foreach ($entity->getProperties() as $property) {
+            if (in_array($property->getLocalName(), $uniqueLocalNames)) {
+                $errorStore->addError('o:resource_class', sprintf(
+                    'The local name "%s" is already taken.',
+                    $property->getLocalName()
+                ));
+            } else {
+                $uniqueLocalNames[] = $property->getLocalName();
+            }
+        }
     }
 }

@@ -58,7 +58,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Validate an entity.
      *
      * Set validation errors to the passed $errorStore object. If an error is
-     * present the entity will not be persisted or updated.
+     * present the entity will not be persisted or updated. The entiity must be
+     * in a completed state prior to being validated.
      *
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore

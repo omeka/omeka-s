@@ -157,12 +157,16 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
         if ($entity->getVocabulary() instanceof Vocabulary) {
             if ($entity->getVocabulary()->getId()) {
+                // Vocabulary is persistent. Check for unique local name.
                 $criteria = array(
                     'vocabulary' => $entity->getVocabulary(),
                     'localName' => $entity->getLocalName(),
                 );
                 if (!$this->isUnique($entity, $criteria)) {
-                    $errorStore->addError('o:local_name', 'The local name is already taken.');
+                    $errorStore->addError('o:local_name', sprintf(
+                        'The local name "%s" is already taken.',
+                        $entity->getLocalName()
+                    ));
                 }
             }
         } else {

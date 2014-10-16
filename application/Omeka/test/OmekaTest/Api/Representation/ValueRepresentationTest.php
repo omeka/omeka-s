@@ -308,6 +308,85 @@ class ValueRepresentationTest extends TestCase
             ->will($this->returnValue($valueResource));
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertNull($valueRep->getValueResource());
+        $this->assertNull($valueRep->valueResource());
+    }
+
+    public function testGetResource()
+    {
+        $resourceName = 'test-value_resource_name';
+        $resourceId = 'test-value_resource_id';
+
+        $resource = $this->getMockForAbstractClass(
+            'Omeka\Model\Entity\Resource',
+            array(), '', true, true, true, array('getId'), false
+        );
+        $resource->expects($this->once())
+            ->method('getResourceName')
+            ->will($this->returnValue($resourceName));
+        $resource->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($resourceId));
+
+        $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
+        $adapter->expects($this->once())
+            ->method('getRepresentation')
+            ->with(
+                $this->equalTo($resourceId),
+                $this->identicalTo($resource)
+            );
+
+        $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
+        $apiAdapterManager->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo($resourceName))
+            ->will($this->returnValue($adapter));
+
+        $serviceLocator = $this->getServiceManager(array(
+            'Omeka\ApiAdapterManager' => $apiAdapterManager,
+        ));
+
+        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue($resource));
+
+        $valueRep = new ValueRepresentation($value, $serviceLocator);
+        $this->assertNull($valueRep->resource());
+    }
+
+    public function testGetProperty()
+    {
+        $propertyId = 'test-property_id';
+
+        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($propertyId));
+
+        $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
+        $adapter->expects($this->once())
+            ->method('getRepresentation')
+            ->with(
+                $this->equalTo($propertyId),
+                $this->identicalTo($property)
+            );
+
+        $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
+        $apiAdapterManager->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('properties'))
+            ->will($this->returnValue($adapter));
+
+        $serviceLocator = $this->getServiceManager(array(
+            'Omeka\ApiAdapterManager' => $apiAdapterManager,
+        ));
+
+        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value->expects($this->once())
+            ->method('getProperty')
+            ->will($this->returnValue($property));
+
+        $valueRep = new ValueRepresentation($value, $serviceLocator);
+        $this->assertNull($valueRep->property());
     }
 }

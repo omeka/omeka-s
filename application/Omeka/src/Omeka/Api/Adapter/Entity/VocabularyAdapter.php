@@ -73,10 +73,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                     continue; // do not process existing classes
                 }
                 $resourceClass = new $resourceClassEntityClass;
+                $resourceClass->setVocabulary($entity);
                 $resourceClassAdapter->hydrateEntity(
                     'create', $classData, $resourceClass, $errorStore
                 );
-                $entity->addResourceClass($resourceClass);
             }
         }
         if (isset($data['o:properties']) && is_array($data['o:properties'])) {
@@ -87,10 +87,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                     continue; // do not process existing properties
                 }
                 $property = new $propertyEntityClass;
+                $property->setVocabulary($entity);
                 $propertyAdapter->hydrateEntity(
                     'create', $propertyData, $property, $errorStore
                 );
-                $entity->addProperty($property);
             }
         }
     }
@@ -131,14 +131,60 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        if (null === $entity->getNamespaceUri()) {
-            $errorStore->addError('namespace_uri', 'The namespace_uri field cannot be null.');
+        // Validate namespace URI
+        $namespaceUri = $entity->getNamespaceUri();
+        if (empty($namespaceUri)) {
+            $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
         }
-        if (null === $entity->getPrefix()) {
-            $errorStore->addError('prefix', 'The prefix field cannot be null.');
+        if (!$this->isUnique($entity, array('namespaceUri' => $namespaceUri))) {
+            $errorStore->addError('o:namespace_uri', sprintf(
+                'The namespace URI "%s" is already taken.',
+                $namespaceUri
+            ));
         }
-        if (null === $entity->getLabel()) {
-            $errorStore->addError('label', 'The label field cannot be null.');
+
+        // Validate prefix
+        $prefix = $entity->getPrefix();
+        if (empty($prefix)) {
+            $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
+        }
+        if (!$this->isUnique($entity, array('prefix' => $prefix))) {
+            $errorStore->addError('o:prefix', sprintf(
+                'The prefix "%s" is already taken.',
+                $prefix
+            ));
+        }
+
+        // Validate label
+        $label = $entity->getLabel();
+        if (empty($label)) {
+            $errorStore->addError('o:label', 'The label cannot be empty.');
+        }
+
+        // Check for uniqueness of resource class local names.
+        $uniqueLocalNames = array();
+        foreach ($entity->getResourceClasses() as $resourceClass) {
+            if (in_array($resourceClass->getLocalName(), $uniqueLocalNames)) {
+                $errorStore->addError('o:resource_class', sprintf(
+                    'The local name "%s" is already taken.',
+                    $resourceClass->getLocalName()
+                ));
+            } else {
+                $uniqueLocalNames[] = $resourceClass->getLocalName();
+            }
+        }
+
+        // Check for uniqueness of property local names.
+        $uniqueLocalNames = array();
+        foreach ($entity->getProperties() as $property) {
+            if (in_array($property->getLocalName(), $uniqueLocalNames)) {
+                $errorStore->addError('o:resource_class', sprintf(
+                    'The local name "%s" is already taken.',
+                    $property->getLocalName()
+                ));
+            } else {
+                $uniqueLocalNames[] = $property->getLocalName();
+            }
         }
     }
 }

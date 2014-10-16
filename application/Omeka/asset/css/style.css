@@ -929,7 +929,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-left: .25em;
     text-align: center;
   }
-  .section-nav .active a {
+  .section-nav a.active {
     font-weight: bold;
     border-bottom-color: #fff;
   }
@@ -1862,6 +1862,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     height: 24px;
     overflow: hidden;
     font-style: italic;
+  }
+  .vocabs .description:empty {
+    height: 0;
   }
 
   .vocabs.show .section-nav {

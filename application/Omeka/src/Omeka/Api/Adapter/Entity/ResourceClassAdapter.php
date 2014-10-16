@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
@@ -147,13 +148,35 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
-        // Validate local name.
-        if (null === $entity->getLocalName()) {
-            $errorStore->addError('local_name', 'The local_name field cannot be null.');
+        // Validate local name
+        $localName = $entity->getLocalName();
+        if (empty($localName)) {
+            $errorStore->addError('o:local_name', 'The local name cannot be empty.');
         }
-        // Validate label.
-        if (null === $entity->getLabel()) {
-            $errorStore->addError('label', 'The label field cannot be null.');
+
+        // Validate label
+        $label = $entity->getLabel();
+        if (empty($label)) {
+            $errorStore->addError('o:label', 'The label cannot be empty.');
+        }
+
+        // Validate vocabulary
+        if ($entity->getVocabulary() instanceof Vocabulary) {
+            if ($entity->getVocabulary()->getId()) {
+                // Vocabulary is persistent. Check for unique local name.
+                $criteria = array(
+                    'vocabulary' => $entity->getVocabulary(),
+                    'localName' => $entity->getLocalName(),
+                );
+                if (!$this->isUnique($entity, $criteria)) {
+                    $errorStore->addError('o:local_name', sprintf(
+                        'The local name "%s" is already taken.',
+                        $entity->getLocalName()
+                    ));
+                }
+            }
+        } else {
+            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
     }
 }

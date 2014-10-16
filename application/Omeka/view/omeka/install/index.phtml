@@ -11,14 +11,14 @@ echo $this->form()->openTag($form);
 
 <?php foreach ($form->getElements() as $element): ?>
 <div class="field">
-<?php 
-    echo $formLabel($element);
-    echo $formInput($element);
-    echo $formErrors($element, array('class' => 'messages'));
- ?>
+    <div class="field-meta">
+        <?php echo $formLabel($element); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $formInput($element); ?>
+    </div>
+    <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>
 <?php endforeach; ?>
 <button>Install</button>
-<?php
-echo $this->form()->closeTag();
-?>
+<?php echo $this->form()->closeTag(); ?>

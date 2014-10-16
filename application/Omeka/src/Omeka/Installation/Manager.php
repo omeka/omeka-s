@@ -50,7 +50,6 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         foreach ($this->getTasks() as $taskName) {
-            $start = microtime(true);
             $task = new $taskName($this->getServiceLocator(), $result);
 
             // Set task-specific variables.
@@ -58,10 +57,11 @@ class Manager implements ServiceLocatorAwareInterface
             if ($vars) {
                 $task->setVars($vars);
             }
-
-            $task->perform();
-            $end = microtime(true);
-            $result->addMessage(sprintf('time: %.2f', $end - $start));
+            try {
+                $task->perform();
+            } catch (\Exception $e) {
+                $task->addError($e->getMessage());
+            }
 
             // Tasks are dependent on previously run tasks. If there is an
             // error, stop installation immediately and return the result.

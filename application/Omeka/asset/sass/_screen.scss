@@ -839,11 +839,11 @@ th a[class="sorted-desc"] {
         @include h-borders(1px, 0, $base-font-size, solid);
         margin-left: .25em;
         text-align: center;
-    }
         
-    .active a {
-        font-weight: bold;
-        border-bottom-color: #fff;
+        &.active {
+            font-weight: bold;
+            border-bottom-color: #fff;
+        }
     }
 }
 
@@ -1853,6 +1853,10 @@ th a[class="sorted-desc"] {
     height: $base-line-height;
     overflow: hidden;
     font-style: italic;
+    
+    &:empty {
+        height: 0;
+    }
 }
 
 .vocabs.show .section-nav {

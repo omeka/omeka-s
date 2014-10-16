@@ -84,21 +84,38 @@ class UserAdapter extends AbstractEntityAdapter
     public function validate(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
+        // Validate username
         $username = $entity->getUsername();
         if (empty($username)) {
-            $errorStore->addError('o:username', 'The username field cannot be empty.');
+            $errorStore->addError('o:username', 'The username cannot be empty.');
         }
         if (preg_match('/\s/u', $username)) {
             $errorStore->addError('o:username', 'A username cannot contain whitespace.');
         }
+        if (!$this->isUnique($entity, array('username' => $username))) {
+            $errorStore->addError('o:username', sprintf(
+                'The username "%s" is already taken.',
+                $username
+            ));
+        }
 
+        // Validate name
         $name = $entity->getName();
         if (empty($name)) {
-            $errorStore->addError('o:name', 'The name field cannot be null.');
+            $errorStore->addError('o:name', 'The name cannot be empty.');
         }
+
+        // Validate email
         $validator = new EmailAddress();
-        if (!$validator->isValid($entity->getEmail())) {
+        $email = $entity->getEmail();
+        if (!$validator->isValid($email)) {
             $errorStore->addValidatorMessages('o:email', $validator->getMessages());
+        }
+        if (!$this->isUnique($entity, array('email' => $email))) {
+            $errorStore->addError('o:email', sprintf(
+                'The email "%s" is already taken.',
+                $email
+            ));
         }
     }
 }

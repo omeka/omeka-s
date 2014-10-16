@@ -1,4 +1,36 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
-<?php $escapeAttr = $this->plugin('escapeHtmlAttr'); ?>
+<?php 
+$this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
+$escape = $this->plugin('escapeHtml'); 
+$escapeAttr = $this->plugin('escapeHtmlAttr'); 
+$properties = $vocabulary->properties();
+$resourceClasses = $vocabulary->resourceClasses();
+?>
 <h1><?php echo $escape($vocabulary->label()); ?></h1>
 <p><?php echo $escape($vocabulary->comment()); ?></p>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="vocab-properties active section"><?php echo $escape('Properties'); ?></a></li>
+        <li><a href="#" class="vocab-classes section"><?php echo $escape('Classes'); ?></a></li>
+    </ul>
+</nav>
+
+<div id="vocab-properties" class="active section">
+<?php foreach($properties as $property): ?>
+    <div class="property">
+        <h3><?php echo $property->label(); ?></h3>
+        <div class="description"><?php echo $property->comment(); ?></div>
+    </div>
+<?php endforeach; ?>
+</div>
+
+<div id="vocab-classes" class="section">
+<?php foreach($resourceClasses as $resourceClass): ?>
+    <div class="class">
+        <div class="original-class">
+            <h3 class="title"><?php echo $resourceClass->label(); ?></h3>
+            <div class="description"><?php echo $resourceClass->comment(); ?></div>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>

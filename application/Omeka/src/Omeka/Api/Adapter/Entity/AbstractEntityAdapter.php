@@ -58,7 +58,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Validate an entity.
      *
      * Set validation errors to the passed $errorStore object. If an error is
-     * present the entity will not be persisted or updated.
+     * present the entity will not be persisted or updated. The entiity must be
+     * in a completed state prior to being validated.
      *
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
@@ -399,7 +400,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Find a single entity by identifier or a set of criteria.
      *
      * @throws Exception\NotFoundException
-     * @param mixed $criteria An ID or an array of criteria
+     * @param mixed $id An ID or an array of criteria (keys are fields to check,
+     * values are strings to check against)
      * @return EntityInterface
      */
     protected function findEntity($id)
@@ -462,5 +464,36 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function isTerm($term)
     {
         return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
+    }
+
+    /**
+     * Check for uniqueness by a set of criteria.
+     *
+     * @param EntityInterface $entity
+     * @param array $criteria Keys are fields to check, values are strings to
+     * check against. An entity may be passed as a value.
+     * @return bool
+     */
+    public function isUnique(EntityInterface $entity, array $criteria)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('e.id')
+            ->from($this->getEntityClass(), 'e');
+
+        // Exclude the passed entity from the query if it is persistent.
+        if ($entity->getId()) {
+            $qb->andWhere($qb->expr()->neq(
+                'e.id',
+                $this->createNamedParameter($qb, $entity->getId())
+            ));
+        }
+
+        foreach ($criteria as $field => $value) {
+            $qb->andWhere($qb->expr()->eq(
+                "e.$field",
+                $this->createNamedParameter($qb, $value)
+            ));
+        }
+        return null === $qb->getQuery()->getOneOrNullResult();
     }
 }

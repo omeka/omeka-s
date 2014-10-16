@@ -32,9 +32,11 @@ class InstallController extends AbstractActionController
                     $this->messenger()->addSuccess('Installation successful.');
                     return $this->redirect()->toRoute('login');
                 } else {
-                    // Error during installation. Log installation messages.
-                    $this->messenger()->addError('There was an error during installation.');
-                    $this->getServiceLocator()->get('Omeka\Logger')->err($result->getMessages());
+                    // Error during installation.
+                    $this->messenger()->addError('There were errors during installation.');
+                    foreach ($manager->getErrors() as $error) {
+                        $this->messenger()->addError($error);
+                    }
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation.');

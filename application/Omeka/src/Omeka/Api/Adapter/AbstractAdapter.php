@@ -135,6 +135,10 @@ abstract class AbstractAdapter implements AdapterInterface
             return null;
         }
 
+        if ($data instanceof EntityInterface) {
+            $id = $data->getId();
+        }
+
         $representationClass = $this->getRepresentationClass();
         return new $representationClass($id, $data, $this);
     }

@@ -176,6 +176,20 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get an HTML link to a resource.
+     *
+     * @param string $text
+     * @param string $action
+     * @return string
+     */
+    public function link($text, $action = null)
+    {
+        $escapeHtml = $this->getViewHelper('escapeHtml');
+        $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
+        return '<a href="' . $escapeHtmlAttr($this->url($action)) . '">' . $escapeHtml($text) . '</a>';
+    }
+
+    /**
      * Get the name for the controller that handles this kind of resource.
      *
      * @return string|null

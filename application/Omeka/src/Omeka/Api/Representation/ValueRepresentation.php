@@ -30,12 +30,8 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $escapeHtml = $this->getViewHelper('escapeHtml');
-                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
                 $valueResource = $this->valueResource();
-                $uri = $valueResource->url();
-                $displayTitle = $valueResource->displayTitle('[untitled]');
-                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($displayTitle) . '</a>';
+                return $valueResource->link($valueResource->displayTitle('[untitled]'));
 
             case Value::TYPE_URI:
                 $escapeHtml = $this->getViewHelper('escapeHtml');
@@ -110,8 +106,9 @@ class ValueRepresentation extends AbstractRepresentation
     public function resource()
     {
         $resource = $this->getData()->getResource();
-        $resourceAdapter = $this->getAdapter($resource->getResourceName());
-        return $resourceAdapter->getRepresentation($resource->getId(), $resource);
+        return $this->getAdapter($resource->getResourceName())
+            ->getRepresentation(null, $resource);
+
     }
 
     /**
@@ -123,9 +120,8 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function property()
     {
-        $property = $this->getData()->getProperty();
-        $propertyAdapter = $this->getAdapter('properties');
-        return $propertyAdapter->getRepresentation($property->getId(), $property);
+        return $this->getAdapter('properties')
+            ->getRepresentation(null, $this->getData()->getProperty());
     }
 
     /**

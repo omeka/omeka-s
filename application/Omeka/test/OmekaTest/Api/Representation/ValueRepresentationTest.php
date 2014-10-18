@@ -323,15 +323,12 @@ class ValueRepresentationTest extends TestCase
         $resource->expects($this->once())
             ->method('getResourceName')
             ->will($this->returnValue($resourceName));
-        $resource->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($resourceId));
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->equalTo($resourceId),
+                $this->isNull(),
                 $this->identicalTo($resource)
             );
 
@@ -359,15 +356,12 @@ class ValueRepresentationTest extends TestCase
         $propertyId = 'test-property_id';
 
         $property = $this->getMock('Omeka\Model\Entity\Property');
-        $property->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($propertyId));
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->equalTo($propertyId),
+                $this->isNull(),
                 $this->identicalTo($property)
             );
 

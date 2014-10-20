@@ -40,7 +40,7 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Tasks are dependent on previously run tasks. If there is an
             // error, stop installation immediately and return false.
-            if (!empty($this->getErrors())) {
+            if ($this->getErrors()) {
                 return false;
             }
         }

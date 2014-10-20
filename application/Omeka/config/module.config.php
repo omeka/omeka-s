@@ -353,7 +353,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:resource[/:id]]',
+                            'route' => '[/:resource[/:id]][/]',
                             'constraints' => array(
                                 'resource' => '[a-zA-Z0-9_-]+',
                             ),

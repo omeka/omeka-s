@@ -23,23 +23,6 @@ class Manager implements ServiceLocatorAwareInterface
     protected $errors = array();
 
     /**
-     * Construct the installation manager.
-     *
-     * @param ServiceLocatorInterface $services
-     */
-    public function __construct(ServiceLocatorInterface $services)
-    {
-        $this->services = $services;
-        $config = $services->get('Config');
-        if (!isset($config['installation_manager']['tasks'])) {
-            throw new Exception\ConfigException(
-                'The configuration has no registered installation tasks.'
-            );
-        }
-        $this->registerTasks($config['installation_manager']['tasks']);
-    }
-
-    /**
      * Install Omeka.
      *
      * @return bool Whether the installation was successful.

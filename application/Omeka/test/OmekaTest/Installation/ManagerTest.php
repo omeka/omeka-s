@@ -2,8 +2,7 @@
 namespace OmekaTest\Installation;
 
 use Omeka\Installation\Manager;
-use Omeka\Installation\Result;
-use Omeka\Installation\Task\AbstractTask;
+use Omeka\Installation\Task\TaskInterface;
 use Omeka\Test\TestCase;
 
 class ManagerTest extends TestCase
@@ -76,15 +75,8 @@ class ManagerTest extends TestCase
         ));
         $this->manager->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $this->manager->install();
-        $this->assertInstanceOf('Omeka\Installation\Result', $result);
-        $this->assertFalse($result->isError());
-        $this->assertEquals(array(
-            'OmekaTest\Installation\SuccessTask' => array(
-                'task_name' => 'success_task',
-                'info' => array('info_message'),
-                'warning' => array('warning_message'),
-            )
-        ), $result->getMessages());
+        $this->assertTrue($result);
+        $this->assertEquals(array(), $this->manager->getErrors());
     }
 
     public function testInstallErrorTask()
@@ -97,44 +89,22 @@ class ManagerTest extends TestCase
         ));
         $this->manager->registerTask('OmekaTest\Installation\ErrorTask');
         $result = $this->manager->install();
-        $this->assertInstanceOf('Omeka\Installation\Result', $result);
-        $this->assertTrue($result->isError());
-        $this->assertEquals(array(
-            'OmekaTest\Installation\ErrorTask' => array(
-                'task_name' => 'error_task',
-                'info' => array('info_message'),
-                'warning' => array('warning_message'),
-                'error' => array('error_message'),
-            )
-        ), $result->getMessages());
+        $this->assertFalse($result);
+        $this->assertEquals(array('error_message'), $this->manager->getErrors());
     }
 }
 
-class SuccessTask extends AbstractTask
+class SuccessTask implements TaskInterface
 {
-    public function perform()
+    public function perform(Manager $manager)
     {
-        $this->addInfo('info_message');
-        $this->addWarning('warning_message');
-    }
-
-    public function getName()
-    {
-        return 'success_task';
     }
 }
 
-class ErrorTask extends AbstractTask
+class ErrorTask implements TaskInterface
 {
-    public function perform()
+    public function perform(Manager $manager)
     {
-        $this->addInfo('info_message');
-        $this->addWarning('warning_message');
-        $this->addError('error_message');
-    }
-
-    public function getName()
-    {
-        return 'error_task';
+        $manager->addError('error_message');
     }
 }

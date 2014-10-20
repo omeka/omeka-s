@@ -17,7 +17,7 @@ class InstallController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $manager = new InstallationManager($this->getServiceLocator());
+                $manager = $this->getServiceLocator()->get('Omeka\InstallationManager');
                 $manager->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
                     array(

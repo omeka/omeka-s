@@ -20,6 +20,7 @@ return array(
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\Navigation\User'       => 'Omeka\Service\UserNavigationFactory',

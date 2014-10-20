@@ -5,7 +5,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h1><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></h1>
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($item->url('edit')); ?>" class="button"><?php echo $escape($this->translate('Edit item')); ?></a>
+    <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
 </div>
 <?php echo $item->displayValues(); ?>
 <?php echo $item->displaySubjectResources(); ?>

@@ -26,24 +26,25 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <td></td>
             <td>
                 <span class="resource-name">
-                    <a href="<?php echo $escapeAttr($user->url()); ?>"><?php echo $escape($user->username());?> (<?php echo $escape($user->name()); ?>)</a>
+                    <?php echo $user->link($user->username() . ' (' . $user->name() . ')'); ?>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $escapeAttr($user->url('edit')); ?>"
-                        class="o-icon-edit"
-                        aria-label="<?php echo $escapeAttr($this->translate('Edit')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Edit')); ?>"></a></li>
-                    <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($user->url('show-details')); ?>"
-                        class="o-icon-more sidebar-details"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                    <li><?php echo $user->link('', 'edit', array(
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    )) ?></li>
                     <li><a href="#"
                         data-show-details-action="<?php echo $escapeAttr($user->url('show-details')); ?>"
                         data-delete-action="<?php echo $escapeAttr($user->url('delete')); ?>"
                         class="o-icon-delete sidebar-delete"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <li><a href="#"
+                        data-show-details-action="<?php echo $escapeAttr($user->url('show-details')); ?>"
+                        class="o-icon-more sidebar-details"
+                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($user->displayRole())); ?></td>

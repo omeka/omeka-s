@@ -1,0 +1,9 @@
+<ul>
+    <?php foreach ($values as $value): ?>
+    <?php
+    $subjectResource = $value->resource();
+    $predicateProperty = $value->property();
+    ?>
+    <li><?php echo $subjectResource->link(strip_tags($subjectResource->displayTitle('[untitled]'))) . ' : ' . $predicateProperty->label() . ' : this'; ?></li>
+    <?php endforeach; ?>
+</ul>

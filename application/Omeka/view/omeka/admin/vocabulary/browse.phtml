@@ -17,7 +17,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <?php foreach ($vocabularies as $vocabulary): ?>
         <tr>
             <td>
-                <a href="<?php echo $escapeAttr($vocabulary->url('show')); ?>"><span class="resource-name"><?php echo $escape($vocabulary->label()); ?></span></a>
+                <span class="resource-name">
+                    <?php echo $vocabulary->link($vocabulary->label()); ?>
+                </span>
                 <ul class="actions">
                     <li><a href="#"
                         data-show-details-action="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"

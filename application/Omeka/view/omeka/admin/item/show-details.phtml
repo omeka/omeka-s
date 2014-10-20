@@ -1,3 +1,3 @@
-<h2 class="o-title"><a href="<?php echo $this->escapeHtmlAttr($item->url()); ?>"><?php echo $this->escapeHtml(strip_tags($item->displayTitle('[untitled]'))); ?></a></h2>
+<h2 class="o-title"><?php echo $item->link(strip_tags($item->displayTitle('[untitled]'))); ?></h2>
 <div class="o-description"><?php echo $item->displayDescription(); ?></div>
 <?php echo $item->displayValues(); ?>

@@ -1,13 +1,23 @@
-<form  method="post">
-<label for='username'>Username</label> <input type='text' name='username' /><br>
-<label for='name'>Name</label> <input type='text' name='name' /><br>
-<label for='email'>Email</label> <input type='text' name='email' /><br>
-<label for='role'>Role</label> <select name="role"><br>
-    <option value="global_admin">Global Administrator</option>
-    <option value="site_admin">Site Administrator</option>
-    <option value="item_creator">Item Creator</option>
-</select><br>
+<h1>Add User</h1>
+
+<?php
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+$formErrors = $this->plugin('formElementErrors');
+?>
+
+<form method="post">
+<?php foreach ($form->getElements() as $element): ?>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $formLabel($element); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $formElement($element); ?>
+    </div>
+    <?php echo $formErrors($element, array('class' => 'messages')); ?>
+</div>
+<?php endforeach; ?>
 <button>Submit</button>
 </form>
-<pre><?php if (isset($errors)) {print_r($errors);} ?></pre>
-<pre><?php if (isset($user)) {print_r($user);} ?></pre>

@@ -5,7 +5,7 @@ use Zend\Form\Form;
 
 class UserForm extends Form
 {
-    public function __construct()
+    public function __construct($includeRole = false)
     {
         parent::__construct('user');
 
@@ -42,5 +42,22 @@ class UserForm extends Form
                 'required' => true,
             ),
         ));
+
+        if ($includeRole) {
+            $this->add(array(
+                'name' => 'o:role',
+                'type' => 'select',
+                'options' => array(
+                    'label' => 'Role',
+                    'value_options' => array(
+                        'global_admin' => 'Global Admin',
+                    ),
+                ),
+                'attributes' => array(
+                    'id' => 'role',
+                    'required' => true,
+                ),
+            ));
+        }
     }
 }

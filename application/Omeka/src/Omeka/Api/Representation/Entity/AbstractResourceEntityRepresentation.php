@@ -216,6 +216,25 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get subject resource value representations.
+     *
+     * @return array
+     */
+    public function subjectResourceValues()
+    {
+        $subjectResourceValues = $this->getAdapter()
+            ->getSubjectResourceValues($this->getData());
+        $valueRepresentations = array();
+        foreach ($subjectResourceValues as $subjectResourceValue) {
+            $valueRepresentations[] = new ValueRepresentation(
+                $subjectResourceValue,
+                $this->getServiceLocator()
+            );
+        }
+        return $valueRepresentations;
+    }
+
+    /**
      * Get the display markup for all values of this resource.
      *
      * Options:
@@ -237,6 +256,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
         $partial = $this->getViewHelper('partial');
         $options['values'] = $this->values();
+        return $partial($options['viewName'], $options);
+    }
+
+    /**
+     * Get the display markup for all subject resources of this resource.
+     *
+     * Options:
+     *
+     * + viewName: Name of view script, or a view model. Default
+     *   "common/subject-resources"
+     *
+     * @param array $options
+     * @return string
+     */
+    public function displaySubjectResources(array $options = array())
+    {
+        if (!isset($options['viewName'])) {
+            $options['viewName'] = 'common/subject-resources';
+        }
+        $partial = $this->getViewHelper('partial');
+        $options['values'] = $this->subjectResourceValues();
         return $partial($options['viewName'], $options);
     }
 

@@ -27,17 +27,6 @@ class InstallDefaultVocabulariesTask implements TaskInterface
         ),
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://purl.org/ontology/bibo/',
-                'o:prefix' => 'bibo',
-                'o:label' => 'Bibliographic Ontology',
-                'o:comment' => 'Bibliographic metadata (BIBO)',
-            ),
-            'strategy' => 'file',
-            'file' => 'bibo.rdf',
-            'format' => 'rdfxml',
-        ),
-        array(
-            'vocabulary' => array(
                 'o:namespace_uri' => 'http://purl.org/dc/dcmitype/',
                 'o:prefix' => 'dcmitype',
                 'o:label' => 'Dublin Core Type',
@@ -45,6 +34,17 @@ class InstallDefaultVocabulariesTask implements TaskInterface
             ),
             'strategy' => 'file',
             'file' => 'dctype.rdf',
+            'format' => 'rdfxml',
+        ),
+        array(
+            'vocabulary' => array(
+                'o:namespace_uri' => 'http://purl.org/ontology/bibo/',
+                'o:prefix' => 'bibo',
+                'o:label' => 'Bibliographic Ontology',
+                'o:comment' => 'Bibliographic metadata (BIBO)',
+            ),
+            'strategy' => 'file',
+            'file' => 'bibo.rdf',
             'format' => 'rdfxml',
         ),
         array(

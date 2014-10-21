@@ -5,7 +5,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h1>Vocabularies</h1>
 <div id="page-actions">
-    <a href="#" class="button">Import new vocabulary</a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'import'), true)); ?>" class="button">Import new vocabulary</a>
 </div>
 <table>
     <thead>

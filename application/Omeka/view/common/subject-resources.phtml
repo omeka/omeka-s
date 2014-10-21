@@ -1,9 +1,22 @@
+<?php 
+$escape = $this->plugin('escapeHtml'); 
+?>
+<?php if (count($values) > 0): ?>
 <ul>
     <?php foreach ($values as $value): ?>
     <?php
     $subjectResource = $value->resource();
     $predicateProperty = $value->property();
+    $subjectResourceType = $subjectResource->getControllerName();
     ?>
-    <li><?php echo $subjectResource->link(strip_tags($subjectResource->displayTitle('[untitled]'))) . ' : ' . $predicateProperty->label() . ' : this'; ?></li>
+    <li class="<?php echo $subjectResourceType; ?>">
+        <span class="property"><?php echo strip_tags($predicateProperty->label()); ?></span>
+        for
+        <?php echo $subjectResource->link($subjectResource->displayTitle('[untitled]')); ?>
+    </li>
     <?php endforeach; ?>
 </ul>
+<?php else: ?>
+<?php echo $escape('This item has no linked resources.'); ?>
+<?php endif; ?>
+

@@ -181,7 +181,7 @@ body {
         background-color: #e7e7e7;
         padding: rhythm(.25);
         position: relative;
-        border-color: rgba(0,0,0,.08);
+        border-color: $gray-on-white;
         @include leading-border(1px, 0, $base-font-size, solid);
         
         &:first-child {
@@ -367,7 +367,7 @@ header {
     background-color: #fff;
     padding: rhythm(.25);
     @include border-radius(0 0 3px 3px);
-    border-color: rgba(0,0,0,.08);
+    border-color: $gray-on-white;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
@@ -722,7 +722,7 @@ th a[class="sorted-desc"] {
     
     .value {
         @include trailer(.25);
-        border-color: rgba(0,0,0,.08);
+        border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
         
         *:last-child {
@@ -1310,7 +1310,7 @@ th a[class="sorted-desc"] {
     /* @group ----- Files ----- */
     
     .upload-zone {
-        background-color: rgba(0,0,0,.08);
+        background-color: $gray-on-white;
         padding: rhythm(2) gutter() rhythm() gutter();
         text-align: center;
         
@@ -1410,7 +1410,7 @@ th a[class="sorted-desc"] {
         background-color: #fff;
         height: rhythm(2);
         padding: rhythm(.5) 20px;
-        border-color: rgba(0,0,0,.08);
+        border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
     
@@ -1463,7 +1463,7 @@ th a[class="sorted-desc"] {
         text-align: left;
         color: lighten($red, 20%);
         z-index: 1005;
-        border-color: rgba(0,0,0,.08);
+        border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
         
         &:hover {
@@ -1614,7 +1614,7 @@ th a[class="sorted-desc"] {
     
     .item {
         padding: rhythm(.25) 0;
-        border-color: rgba(0,0,0,.08);
+        border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
         position: relative;
         
@@ -1753,115 +1753,183 @@ th a[class="sorted-desc"] {
 
 /* @end */
 
-/* @group ----- Show Vocabulary ----- */
 
-.vocabs h2 {
-    margin-bottom: 0;
-}
+/* @group ----- Show Views ----- */
 
-.vocabs h3 {
-    font-size: $base-font-size;
-    line-height: $base-line-height;
-    @include trailer(0);
-    display: inline-block;
-    margin-right: .5em;
-}
+.show .property {
+    @include trailer();
 
-.vocabs .owner {
-    display: inline-block;
-
-    &:before {
-        content: "(";
-    }
-
-    &:after {
-        content: ")";
-    }
-}
-
-.vocabs .original-class,
-.vocabs .property-set {
-    background-color: rgba(0,0,0,.08);
-    padding: rhythm(.25);
-    @include trailer(.25);
-    overflow: hidden;
-    position: relative;
-
-    .collapse ~ .properties .property {
-        position: static;
-        left: auto
+    h4 {
+        background-color: $gray-on-white;
+        @include trailer(0);
+        margin-right: .5em;
+        padding: rhythm(.25);
     }
     
-    .collapse ~ .properties .property {
-        @include leader(.25);
+    .value {
+        padding: rhythm(.25);
+        @include trailer(0);
+        
+        &:not(:last-child) {
+            border-color: $gray-on-white;
+            @include trailing-border(1px, .25, $base-font-size, solid);
+        }
     }
-    
-    .properties {
-        clear: left;
-        display: block;
-    }
+}
 
-    .property {
+    /* @group ----- Show Item ----- */
+    
+    #item-metadata .value a:after {
+        font-family: "FontAwesome";
         display: inline-block;
-        padding: 0 rhythm(.25);
-        background-color: rgba(0,0,0,.08);
+        margin-left: .5em;
+        
+    }
+    
+    #item-metadata .value.uri a:after {
+        content: $fa-var-external-link-square;
+    }
+    
+    #item-metadata .value.item a:after {
+        content: $fa-var-cubes;
+    }
+    
+    #item-linked ul {
+        padding-left: 0;
+        list-style-type: none;
+    }
+    
+    #item-linked li {
+        background-color: $gray-on-white;
+        padding: rhythm(.25);
         @include trailer(.25);
-        @include border-radius(3px);
-        cursor: default;
+        
+        &.item:before {
+            content: $fa-var-cubes;
+            font-family: "FontAwesome";
+            margin-right: .5em;
+            display: inline-block;
+        }
+    }
+    
+    #item-linked a {
+        font-weight: bold;
+    }
+    
+    /* @end */
+    
+    /* @group ----- Show Vocabulary ----- */
+
+    .vocabs h2 {
+        margin-bottom: 0;
+    }
+    
+    .vocabs h3 {
+        font-size: $base-font-size;
+        line-height: $base-line-height;
+        @include trailer(0);
+        display: inline-block;
+        margin-right: .5em;
+    }
+    
+    .vocabs .owner {
+        display: inline-block;
+    
+        &:before {
+            content: "(";
+        }
+    
+        &:after {
+            content: ")";
+        }
+    }
+    
+    .vocabs .original-class,
+    .vocabs .property-set {
+        background-color: $gray-on-white;
+        padding: rhythm(.25);
+        @include trailer(.25);
+        overflow: hidden;
+        position: relative;
+    
+        .collapse ~ .properties .property {
+            position: static;
+            left: auto
+        }
+        
+        .collapse ~ .properties .property {
+            @include leader(.25);
+        }
+        
+        .properties {
+            clear: left;
+            display: block;
+        }
+    
+        .property {
+            display: inline-block;
+            padding: 0 rhythm(.25);
+            background-color: $gray-on-white;
+            @include trailer(.25);
+            @include border-radius(3px);
+            cursor: default;
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .description {
+            position: relative;
+            
+            p {
+                width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        
+        .field-actions {
+            width: 15%;
+        }
+    }
+    
+    .vocabs .property-set {
+        margin-left: 2em;
+    }
+    
+    .vocabs .section > h2:first-child {
         position: absolute;
         left: -9999px;
     }
     
-    .description {
-        position: relative;
+    #vocab-properties .property {
+        background-color: $gray-on-white;
+        @include trailer(.25);
+        padding: rhythm(.25);
+        overflow: hidden;
+    }
+    
+    .vocabs .description p:only-child {
+        margin-bottom: 0;
+    }
+    
+    .vocabs .description {
+        display: block;
+        height: $base-line-height;
+        overflow: hidden;
+        font-style: italic;
         
-        p {
-            width: 90%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        &:empty {
+            height: 0;
         }
     }
     
-    .field-actions {
-        width: 15%;
+    .vocabs.show .section-nav {
+        @include padding-leader();
     }
-}
-
-.vocabs .property-set {
-    margin-left: 2em;
-}
-
-.vocabs .section > h2:first-child {
-    position: absolute;
-    left: -9999px;
-}
-
-#vocab-properties .property {
-    background-color: rgba(0,0,0,.08);
-    @include trailer(.25);
-    padding: rhythm(.25);
-    overflow: hidden;
-}
-
-.vocabs .description p:only-child {
-    margin-bottom: 0;
-}
-
-.vocabs .description {
-    display: block;
-    height: $base-line-height;
-    overflow: hidden;
-    font-style: italic;
     
-    &:empty {
-        height: 0;
-    }
-}
+    /* @end */
 
-.vocabs.show .section-nav {
-    @include padding-leader();
-}
 
 /* @end */
 

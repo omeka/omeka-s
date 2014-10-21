@@ -7,7 +7,13 @@
         <div class="property">
         <h4><?php echo $property['property']->label(); ?></h4>
         <?php foreach ($property['values'] as $value): ?>
-            <div class="value"><?php echo $value; ?></div>
+            <?php 
+                $valueType = $value->type(); 
+                if ($valueType == 'resource') {
+                    $valueType = $value->resource()->getControllerName();
+                }
+            ?>
+            <div class="value <?php echo $valueType; ?>"><?php echo $value; ?></div>
         <?php endforeach; ?>
         </div>
     <?php endforeach; ?>

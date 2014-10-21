@@ -85,7 +85,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   a:active,
   a:hover {
-    color: red;
+    color: #FF0000;
   }
 
   h3, h4, h5, h6 {
@@ -231,7 +231,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   button:hover,
   a.button:hover,
   .button:hover {
-    background-color: red;
+    background-color: #FF0000;
   }
   input[type="submit"]:active, input[type="submit"].active,
   button:active,
@@ -240,7 +240,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   a.button.active,
   .button:active,
   .button.active {
-    background-color: red;
+    background-color: #FF0000;
   }
   input[type="submit"].inactive,
   button.inactive,
@@ -392,11 +392,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .field .messages {
     float: left;
     width: 100%;
-    color: red;
+    color: #FF0000;
   }
 
   .error {
-    color: red;
+    color: #FF0000;
   }
 
   .success {
@@ -734,7 +734,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   [class*="sort"]:hover:after {
-    color: red;
+    color: #FF0000;
   }
 
   .sortable:after,
@@ -857,15 +857,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   .items .no-resources:before {
-    content: "\f1b3";
+    content: "";
   }
 
   .modules .no-resources:before {
-    content: "\f0fe";
+    content: "";
   }
 
   .vocabularies .no-resources:before {
-    content: "\f02d";
+    content: "";
   }
 
   /* @end */
@@ -1031,7 +1031,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .field a.remove.button,
   .field a.add-value.button {
     background-color: transparent;
-    color: red;
+    color: #FF0000;
     padding: 0;
     min-height: intrinsic;
     margin: 0;
@@ -1241,7 +1241,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333333;
+    border-bottom: 0.75em solid #333;
   }
 
   .field-description p:not(:first-of-type) {
@@ -1287,7 +1287,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     border-right: 0;
   }
   .inputs .tab:hover {
-    background-color: red;
+    background-color: #FF0000;
   }
   .inputs .tab.active {
     background-color: #990000;
@@ -1317,7 +1317,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
-    border-bottom: 0.75em solid #333333;
+    border-bottom: 0.75em solid #333;
   }
 
   .value {
@@ -1514,7 +1514,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding-bottom: 0.3125em;
   }
   .modal-search-nav .more-options:hover {
-    color: red;
+    color: #FF0000;
     background-color: #fff;
   }
   .modal-search-nav .more-options.collapse {
@@ -1763,6 +1763,64 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   /* @end */
+  /* @group ----- Show Views ----- */
+  .show .property {
+    margin-bottom: 1.5em;
+  }
+  .show .property h4 {
+    background-color: rgba(0, 0, 0, 0.08);
+    margin-bottom: 0em;
+    margin-right: .5em;
+    padding: 0.375em;
+  }
+  .show .property .value {
+    padding: 0.375em;
+    margin-bottom: 0em;
+  }
+  .show .property .value:not(:last-child) {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
+  /* @group ----- Show Item ----- */
+  #item-metadata .value a:after {
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin-left: .5em;
+  }
+
+  #item-metadata .value.uri a:after {
+    content: "";
+  }
+
+  #item-metadata .value.item a:after {
+    content: "";
+  }
+
+  #item-linked ul {
+    padding-left: 0;
+    list-style-type: none;
+  }
+
+  #item-linked li {
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em;
+    margin-bottom: 0.375em;
+  }
+  #item-linked li.item:before {
+    content: "";
+    font-family: "FontAwesome";
+    margin-right: .5em;
+    display: inline-block;
+  }
+
+  #item-linked a {
+    font-weight: bold;
+  }
+
+  /* @end */
   /* @group ----- Show Vocabulary ----- */
   .vocabs h2 {
     margin-bottom: 0;
@@ -1872,6 +1930,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 
   /* @end */
+  /* @end */
   /* @group ----- Edit Property Set ----- */
   .property-sets .field:not(.unset) .field-meta label {
     display: block;
@@ -1923,7 +1982,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     margin-right: auto;
     height: auto;
   }
-  body.minimal::after {
+  body.minimal:after {
     content: " ";
     display: block;
     clear: both;
@@ -1944,7 +2003,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: -0.0625em;
     color: #fff;
   }
-  body.minimal header::after {
+  body.minimal header:after {
     content: " ";
     display: block;
     clear: both;

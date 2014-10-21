@@ -7,5 +7,18 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div id="page-actions">
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
 </div>
-<?php echo $item->displayValues(); ?>
-<?php echo $item->displaySubjectResources(); ?>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="item-metadata active section"><?php echo $escape('Metadata'); ?></a></li>
+        <li><a href="#" class="item-linked section"><?php echo $escape('Linked Resources'); ?></a></li>
+    </ul>
+</nav>
+
+<div id="item-metadata" class="active section">
+    <?php echo $item->displayValues(); ?>
+</div>
+
+<div id="item-linked" class="section">
+    <?php echo $item->displaySubjectResources(); ?>
+</div>

@@ -544,7 +544,7 @@
   content: "";
 }
 
-.fa-info-circle:before {
+.fa-info-circle:before, .o-icon-info:before {
   content: "";
 }
 

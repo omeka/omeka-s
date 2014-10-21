@@ -1012,13 +1012,13 @@ th a[class="sorted-desc"] {
         .description {
             display: inline-block;
             
-            .icon-info {
+            .o-icon-info {
                 display: inline-block;
                 margin: 0 0 0 1em;
                 opacity: .75;
             }
             
-            .icon-info + p {
+            .o-icon-info + p {
                 position: absolute;
                 top: -9999px;
                 left: -9999px;
@@ -1028,7 +1028,7 @@ th a[class="sorted-desc"] {
         }
     }
     
-    .properties .property:hover .description.show .icon-info + p {
+    .properties .property:hover .description.show .o-icon-info + p {
         top: rhythm(1.5);
         left: 0;
         padding-left: 2em;
@@ -1151,7 +1151,7 @@ th a[class="sorted-desc"] {
         height: 1.5 * $base-line-height;
     }
     
-    .field-description .icon-info {
+    .field-description .o-icon-info {
         &:hover + p {
             top: rhythm(1.5);
             left: inherit;

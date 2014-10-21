@@ -1093,12 +1093,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   .properties .description {
     display: inline-block;
   }
-  .properties .description .icon-info {
+  .properties .description .o-icon-info {
     display: inline-block;
     margin: 0 0 0 1em;
     opacity: .75;
   }
-  .properties .description .icon-info + p {
+  .properties .description .o-icon-info + p {
     position: absolute;
     top: -9999px;
     left: -9999px;
@@ -1106,7 +1106,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: 0.375em 0;
   }
 
-  .properties .property:hover .description.show .icon-info + p {
+  .properties .property:hover .description.show .o-icon-info + p {
     top: 2.25em;
     left: 0;
     padding-left: 2em;
@@ -1215,7 +1215,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     height: 36px;
   }
 
-  .field-description .icon-info:hover + p {
+  .field-description .o-icon-info:hover + p {
     top: 2.25em;
     left: inherit;
     right: 10px;
@@ -1230,7 +1230,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     line-height: 1.71429em;
     padding: 0.375em 5px;
   }
-  .field-description .icon-info:hover + p:before {
+  .field-description .o-icon-info:hover + p:before {
     content: "";
     display: block;
     height: 0;

@@ -24,6 +24,16 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         );
     }
 
+    public function prefix()
+    {
+        return $this->getData()->getPrefix();
+    }
+
+    public function namespaceUri()
+    {
+        return $this->getData()->getNamespaceUri();
+    }
+
     public function label()
     {
         return $this->getData()->getLabel();

@@ -24,6 +24,12 @@ class PropertyRepresentation extends AbstractEntityRepresentation
         );
     }
 
+    public function vocabulary()
+    {
+        return $this->getAdapter('vocabularies')
+            ->getRepresentation(null, $this->getData()->getVocabulary());
+    }
+
     public function label()
     {
         return $this->getData()->getLabel();

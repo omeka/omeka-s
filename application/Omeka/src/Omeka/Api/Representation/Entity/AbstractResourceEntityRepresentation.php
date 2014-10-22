@@ -53,11 +53,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         // Set the JSON-LD node type.
         $nodeType = array();
-        if ($this->getData()->getResourceClass()) {
-            $resourceClass = $this->getData()->getResourceClass();
-            $vocabulary = $resourceClass->getVocabulary();
-            $prefix = $vocabulary->getPrefix();
-            $suffix = $resourceClass->getLocalName();
+        $resourceClass = $this->resourceClass();
+        if ($resourceClass) {
+            $vocabulary = $resourceClass->vocabulary();
+            $prefix = $vocabulary->prefix();
+            $suffix = $resourceClass->localName();
             $this->addVocabularyToContext($vocabulary);
             $nodeType['@type'] = "$prefix:$suffix";
         }
@@ -80,6 +80,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // Set the values as JSON-LD value objects.
         $values = array();
         foreach ($this->values() as $prefix => $vocabulary) {
+            $this->addVocabularyToContext($vocabulary['vocabulary']);
             foreach ($vocabulary['properties'] as $localName => $property) {
                 foreach ($property['values'] as $value) {
                     $values["$prefix:$localName"][] = $value;
@@ -358,14 +359,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Add a vocabulary term definition to the JSON-LD context.
      *
-     * @param Vocabulary $vocabulary
+     * @param VocabularyRepresentation $vocabulary
      */
-    protected function addVocabularyToContext(Vocabulary $vocabulary)
+    protected function addVocabularyToContext(VocabularyRepresentation $vocabulary)
     {
-        $this->addTermDefinitionToContext($vocabulary->getPrefix(), array(
-            '@id' => $vocabulary->getNamespaceUri(),
-            'vocabulary_id' => $vocabulary->getId(),
-            'vocabulary_label' => $vocabulary->getLabel(),
+        $this->addTermDefinitionToContext($vocabulary->prefix(), array(
+            '@id' => $vocabulary->namespaceUri(),
+            'vocabulary_id' => $vocabulary->id(),
+            'vocabulary_label' => $vocabulary->label(),
         ));
     }
 

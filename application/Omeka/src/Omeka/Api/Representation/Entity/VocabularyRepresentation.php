@@ -31,7 +31,18 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
 
     public function namespaceUri()
     {
-        return $this->getData()->getNamespaceUri();
+        $namespaceUri = $this->getData()->getNamespaceUri();
+        if ('omeka' == $namespaceUri) {
+            // If this is the custom vocabulary, dynamically mint the namespace
+            // for this Omeka instance.
+            $url = $this->getViewHelper('url');
+            $namespaceUri = $url(
+                'instance_namespace',
+                array(),
+                array('force_canonical' => true)
+            ) . '#';
+        }
+        return $namespaceUri;
     }
 
     public function label()

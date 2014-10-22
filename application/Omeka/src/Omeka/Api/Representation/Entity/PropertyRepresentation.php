@@ -30,6 +30,11 @@ class PropertyRepresentation extends AbstractEntityRepresentation
             ->getRepresentation(null, $this->getData()->getVocabulary());
     }
 
+    public function localName()
+    {
+        return $this->getData()->getLocalName();
+    }
+
     public function label()
     {
         return $this->getData()->getLabel();

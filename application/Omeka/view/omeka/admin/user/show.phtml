@@ -1,20 +1,34 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
-<?php $escapeAttr = $this->plugin('escapeHtmlAttr'); ?>
-<h1>User &ldquo;<?php echo $escape($user->username()); ?>&rdquo;</h1>
+<?php 
+    $this->htmlElement('body')->appendAttribute('class', 'users show');
+    $escape = $this->plugin('escapeHtml');
+    $escapeAttr = $this->plugin('escapeHtmlAttr'); 
+?>
+<h1><?php echo $escape('User'); ?>: &ldquo;<?php echo $escape($user->username()); ?>&rdquo;</h1>
 <div id="page-actions">
     <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>">Edit User</a>
 </div>
-<table>
-<tr>
-<th>Name</th>
-<td><?php echo $escape($user->name()); ?></td>
-</tr>
-<tr>
-<th>Email</th>
-<td><?php echo $escape($user->email()); ?></td>
-</tr>
-<tr>
-<th>Role</th>
-<td><?php echo $escape($user->role()); ?></td>
-</tr>
-</table>
+
+<div class="field">
+    <div class="field-meta">
+        <?php echo $escape('Name'); ?>
+    </div>
+    <div class="value">
+        <?php echo $escape($user->name()); ?>
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $escape('Email'); ?>
+    </div>
+    <div class="value">
+        <?php echo $escape($user->email()); ?>
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $escape('Role'); ?>
+    </div>
+    <div class="value">
+        <?php echo $escape($user->role()); ?>
+    </div>
+</div>

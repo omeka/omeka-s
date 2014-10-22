@@ -933,6 +933,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     font-weight: bold;
     border-bottom-color: #fff;
   }
+  .section-nav .active a {
+    border-bottom-color: #fff;
+  }
 
   .section:not(a) {
     display: none;
@@ -1927,6 +1930,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
   .vocabs.show .section-nav {
     padding-top: 1.5em;
+  }
+
+  /* @end */
+  /* @group ----- Show User ----- */
+  .users.show .field-meta {
+    font-weight: bold;
+    width: 15%;
+  }
+
+  .users.show #page-actions + .field {
+    border-top-color: transparent;
+  }
+
+  .users.show .field {
+    background-color: transparent;
   }
 
   /* @end */

@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items show');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></h1>
+<h1><?php echo $escape('Item'); ?>: &ldquo;<?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?>&rdquo;</h1>
 <div id="page-actions">
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
 </div>

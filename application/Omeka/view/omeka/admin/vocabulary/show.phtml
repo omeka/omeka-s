@@ -5,7 +5,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 $properties = $vocabulary->properties();
 $resourceClasses = $vocabulary->resourceClasses();
 ?>
-<h1><?php echo $escape($vocabulary->label()); ?></h1>
+<h1><?php echo $escape('Vocabulary'); ?>: &ldquo;<?php echo $escape($vocabulary->label()); ?>&rdquo;</h1>
 <p><?php echo $escape($vocabulary->comment()); ?></p>
 
 <nav class="section-nav">

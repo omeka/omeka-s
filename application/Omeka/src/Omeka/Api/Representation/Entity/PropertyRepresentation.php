@@ -29,11 +29,6 @@ class PropertyRepresentation extends AbstractEntityRepresentation
         return $this->getData()->getLocalName();
     }
 
-    public function comment() 
-    {
-        return $this->getData()->getComment();
-    }
-
     public function vocabulary()
     {
         return $this->getData()->getVocabulary();

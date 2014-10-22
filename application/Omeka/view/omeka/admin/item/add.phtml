@@ -26,10 +26,12 @@ if (isset($errors)) {
     <fieldset id='resource-values' class='section active'>
         <?php foreach ($form->getElements() as $name => $element): ?>
         <?php if ($element->getLabel()): ?>
-        <div class="resource-values field">
+        <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>'>
+            <?php if ($name != 'o:resource_class[o:id]'): ?>
             <div class="field-actions">
-                <a href="#" class="add-value button o-icon-plus"><span class="screen-reader-text">Add Value</span></a>
+                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
             </div>
+            <?php endif; ?>
             <div class='field-meta'>
             <?php echo $formLabel($element); ?>
                 <div class='field-description'>
@@ -46,7 +48,7 @@ if (isset($errors)) {
                             <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
                      </div>
                      <?php endif; ?>
-                     <div class="active type input-option">
+                     <div class="active type input-option text">
                      <?php echo $formElement($element); ?>
                      <?php if ($name != 'o:resource_class[o:id]'): ?>
                      <select class="value-language">
@@ -71,7 +73,7 @@ if (isset($errors)) {
         <div class='new resource-values field template'>
             <div class="field-actions">
                 <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
-                <a href="#" class="add-value button o-icon-plus"><span class="screen-reader-text">Add Value</span></a>
+                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
             </div>
             <div class='field-meta'>
                 <input type="text" title="new-property-name" placeholder="Property name">
@@ -113,7 +115,7 @@ if (isset($errors)) {
                         <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
                         <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
                      </div>
-                     <div class="active type input-option">
+                     <div class="active type input-option text">
                         <!-- input for the property value -->
                         <textarea name="" class="input-value"></textarea>
                         <input type='hidden' class="input-id" name="" value="" />

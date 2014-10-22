@@ -105,33 +105,34 @@
         add_edit_items.on('click', '.set-property', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var this_field = $(this).parents('.field');
             var propertyLi = $(this).closest('.property');
             var qName = propertyLi.data('property-qname');
-            var propertyId = propertyLi.data('property-id');
             var count = $('input.input-id[data-property-qname = "' + qName + '"]').length;
-            $('.input-value', this_field).attr('name', qName + "[" + count + "][@value]");
-            $('.input-id', this_field).val(propertyId).attr('name', qName + "[" + count + "][property_id]");
-            $('.input-id', this_field).attr('data-property-qname', qName);
-            var field_name = cleanText($(this).parent()) + " (" + cleanText($(this).parents('.vocabulary')) + ")";
-            var field_label = $('<label>' + field_name + '</label>');
-            var field_desc = $(this).siblings('.description');
-            field_desc.attr('class', 'field-description');
-            $(this).parents('.properties').before(field_desc);
-            this_field.find('input[placeholder="Property name"]').replaceWith(field_label);
-            this_field.removeClass('unset');
+            // If property has already been set, add a new value
+            if (count > 0) {
+                alert('use the existing one');
+                makeNewValue(qName);
+            } else {
+                var this_field = $(this).parents('.field');
+                var propertyId = propertyLi.data('property-id');
+                $('.input-value', this_field).attr('name', qName + "[" + count + "][@value]");
+                $('.input-id', this_field).val(propertyId).attr('name', qName + "[" + count + "][property_id]");
+                $('.input-id', this_field).attr('data-property-qname', qName);
+                var field_name = cleanText($(this).parent()) + " (" + cleanText($(this).parents('.vocabulary')) + ")";
+                var field_label = $('<label>' + field_name + '</label>');
+                var field_desc = $(this).siblings('.description');
+                field_desc.attr('class', 'field-description');
+                $(this).parents('.properties').before(field_desc);
+                this_field.find('input[placeholder="Property name"]').replaceWith(field_label);
+                this_field.removeClass('unset');
+            }
         });
 
         // Make new value inputs whenever "add value" button clicked.
         add_edit_items.on('click', '.add-value', function(e) {
             e.preventDefault();
-            var value_section = '.' + $(this).parents('.section').attr('id');
-            var new_value = $(value_section + '.field.template .value ').first().clone();
-            $(this).parents('.field').find('.value').last().after(new_value);
-            var value_count = $(this).parents('.field').find('.value').length;
-            if (value_count == 2) {
-                $(this).parents('.field').find('.remove-value').first().addClass('active');
-            }
+            var qname = $(this).parents('.resource-values.field').data('property-qname');
+            makeNewValue(qname);
         });
         
         // Remove value.
@@ -154,7 +155,7 @@
             if (!$(this).hasClass('active')) {
                 tab.siblings('.tab.active').removeClass('active');
                 tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
-                var current_class = '.' + tab.attr('class').split(" fa-")[1];
+                var current_class = '.' + tab.attr('class').split(" o-icon-")[1];
                 tab.addClass('active');
                 tab.parent().siblings(current_class).addClass('active');
             }
@@ -166,6 +167,17 @@
         });
     });
 
+    var makeNewValue = function(qname) {
+        var values_wrapper = $('div.resource-values.field[data-property-qname="' + qname + '"]');
+        var new_value = $('.resource-values.field.template .value ').first().clone();
+        var value_count = values_wrapper.find('.value').length;
+        values_wrapper.find('.value').last().after(new_value);
+        $('textarea', new_value).attr('name', qname + "[" + value_count + "][@value]");
+        if (value_count == 2) {
+            values_wrapper.find('.remove-value').first().addClass('active');
+        }
+    };
+    
     // Duplicates the new field template, and makes it visible by removing the "template" class.
     var makeNewField = function(section,prop,desc) {
         var field_section = '#' + section;

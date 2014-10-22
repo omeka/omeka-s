@@ -208,6 +208,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     padding: -0.0625em;
     margin: 0;
     display: block;
+    clear: both;
   }
 
   input[type="submit"],

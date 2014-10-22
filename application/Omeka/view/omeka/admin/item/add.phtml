@@ -26,7 +26,7 @@ if (isset($errors)) {
     <fieldset id='resource-values' class='section active'>
         <?php foreach ($form->getElements() as $name => $element): ?>
         <?php if ($element->getLabel()): ?>
-        <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>'>
+        <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>' data-property-id='<?php echo $element->getAttribute('data-property-id'); ?>'>
             <?php if ($name != 'o:resource_class[o:id]'): ?>
             <div class="field-actions">
                 <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>

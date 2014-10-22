@@ -79,7 +79,7 @@
         // Make new property field whenever "add property" button clicked.
         $(document).on('click', '.add-property', function(e) {
             e.preventDefault();
-            makeNewField('resource-values');
+            makeNewField();
         });
 
         // Show properties
@@ -110,7 +110,6 @@
             var count = $('input.input-id[data-property-qname = "' + qName + '"]').length;
             // If property has already been set, add a new value
             if (count > 0) {
-                alert('use the existing one');
                 makeNewValue(qName);
             } else {
                 var this_field = $(this).parents('.field');
@@ -131,8 +130,8 @@
         // Make new value inputs whenever "add value" button clicked.
         add_edit_items.on('click', '.add-value', function(e) {
             e.preventDefault();
-            var qname = $(this).parents('.resource-values.field').data('property-qname');
-            makeNewValue(qname);
+            var wrapper = $(this).parents('.resource-values.field');
+            makeNewValue(wrapper.data('property-qname'));
         });
         
         // Remove value.
@@ -167,12 +166,19 @@
         });
     });
 
-    var makeNewValue = function(qname) {
-        var values_wrapper = $('div.resource-values.field[data-property-qname="' + qname + '"]');
+    var makeNewValue = function(qName) {
+        var values_wrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
         var new_value = $('.resource-values.field.template .value ').first().clone();
         var value_count = values_wrapper.find('.value').length;
         values_wrapper.find('.value').last().after(new_value);
-        $('textarea', new_value).attr('name', qname + "[" + value_count + "][@value]");
+        var propertyId = values_wrapper.data('property-id');
+        $('.input-id', new_value).val(propertyId).attr('name', qName + "[" + value_count + "][property_id]");
+        $('.input-id', new_value).attr('data-property-qname', qName);
+        $('textarea', new_value).attr('name', qName + "[" + value_count + "][@value]");
+        $('html, body').animate({
+            scrollTop: (values_wrapper.offset().top -100)
+        },200);
+        $('textarea', new_value).focus();
         if (value_count == 2) {
             values_wrapper.find('.remove-value').first().addClass('active');
         }

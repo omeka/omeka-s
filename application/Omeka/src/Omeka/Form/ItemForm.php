@@ -60,7 +60,8 @@ class ItemForm extends Form
             'type'       => 'Textarea',
             'attributes' => array(
                 'data-property-qname' => $qName,
-                'class'      => 'input-value'
+                'data-property-id'    => $property->id(),
+                'class'               => 'input-value'
                 ),
             'options'    => array(
                 'label' => $property->label()

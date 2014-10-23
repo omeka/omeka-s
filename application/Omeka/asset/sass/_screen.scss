@@ -200,79 +200,6 @@ body {
         @include border-radius(3px);
     }
     
-    input[type="checkbox"] ~ label.screen-reader-text {
-        top: 0;
-        left: 0;
-        text-indent: -9999px;
-        margin: 0;
-        width: rhythm(1.5);
-        right: 0;
-    }
-
-    input[type="checkbox"] ~ label.screen-reader-text:before {
-        float:none;
-        position: absolute;
-        left: 0;
-        top: 0;
-        margin: 0;
-    }
-
-    input[type="checkbox"] ~ label.screen-reader-text:after {
-        position: static;
-        content: "";
-    }
-    
-    input[type="checkbox"] ~ label:before {
-        content: "";
-        display: block;
-        float: right;
-        background-color: rgba(0,0,0,.05);
-        height: 1.5 * $base-line-height;
-        width: 1.5 * $base-line-height;
-        margin: rhythm(-.25);
-        text-indent: 0;
-    }
-    
-    input:checked ~ label:before{
-        content: "\f00c";
-        font-family: 'FontAwesome';
-        speak: none;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        text-align: center;
-        line-height: 1.5 * $base-line-height;
-    }
-
-    input[type="checkbox"]:checked ~ label:before {
-        background-color: rgba(0,0,0,.15);
-    }
-    
-    input[type="checkbox"]:checked ~ label {
-        background-color: transparent;
-    }
-    
-    input:checked ~ label:after {
-        background-color: transparent;
-    }
-    
-    input[type="checkbox"] {
-        position: absolute;
-        left: -9999px;
-    }
-    
-    input[type="checkbox"] ~ label {
-        display: inline-block;
-        @include calc('width', '100% + ' + rhythm(.5));
-        cursor: pointer;
-        z-index: 1;
-        margin: rhythm(-.25);
-        padding: rhythm(.25);
-        background-color: rgba(255,255,255,.5);
-    }
-    
     fieldset {
         @include trailer();
     }
@@ -590,7 +517,8 @@ div[role="main"] {
 
 .browse td:first-of-type:not(:only-of-type),
 .browse th:first-of-type:not(:only-of-type) {
-    background-color: #d2d2d2; /* For multiline cells. */
+    background-color: $gray-on-white; /* For multiline cells. */
+    text-align: center;
 }
 
 .browse .add.button,

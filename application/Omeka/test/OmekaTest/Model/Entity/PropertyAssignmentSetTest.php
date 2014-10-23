@@ -20,7 +20,6 @@ class PropertyAssignmentSetTest extends TestCase
     {
         $this->assertNull($this->propertyAssignmentSet->getId());
         $this->assertNull($this->propertyAssignmentSet->getLabel());
-        $this->assertNull($this->propertyAssignmentSet->getResourceClass());
         $this->assertNull($this->propertyAssignmentSet->getOwner());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
@@ -33,14 +32,6 @@ class PropertyAssignmentSetTest extends TestCase
         $label = 'test-label';
         $this->propertyAssignmentSet->setLabel($label);
         $this->assertEquals($label, $this->propertyAssignmentSet->getLabel());
-    }
-
-    public function testSetResourceClass()
-    {
-        $resourceClass = new ResourceClass;
-        $this->propertyAssignmentSet->setResourceClass($resourceClass);
-        $this->assertSame($resourceClass, $this->propertyAssignmentSet->getResourceClass());
-        $this->assertTrue($resourceClass->getPropertyAssignmentSets()->contains($this->propertyAssignmentSet));
     }
 
     public function testSetOwner()

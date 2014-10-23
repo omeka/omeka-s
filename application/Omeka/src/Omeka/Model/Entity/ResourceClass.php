@@ -60,21 +60,6 @@ class ResourceClass extends AbstractEntity
      */
     protected $comment;
 
-    /**
-     * @OneToMany(
-     *     targetEntity="PropertyAssignmentSet",
-     *     mappedBy="resourceClass",
-     *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
-     * )
-     */
-    protected $propertyAssignmentSets;
-
-    public function __construct()
-    {
-        $this->propertyAssignmentSets = new ArrayCollection;
-    }
-
     public function getId()
     {
         return $this->id;
@@ -128,31 +113,5 @@ class ResourceClass extends AbstractEntity
     public function getComment()
     {
         return $this->comment;
-    }
-
-    public function getPropertyAssignmentSets()
-    {
-        return $this->propertyAssignmentSets;
-    }
-
-    /**
-     * Add a property assignment set to this resource class.
-     *
-     * @param PropertyAssignmentSet $propertyAssignmentSet
-     */
-    public function addPropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet)
-    {
-        $propertyAssignmentSet->setResourceClass($this);
-    }
-
-    /**
-     * Remove a property assignment set from this resource class.
-     *
-     * @param PropertyAssignmentSet $propertyAssignmentSet
-     * @return bool
-     */
-    public function removePropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet)
-    {
-        $propertyAssignmentSet->setResourceClass(null);
     }
 }

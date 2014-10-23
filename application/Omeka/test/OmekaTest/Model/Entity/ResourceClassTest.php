@@ -24,10 +24,6 @@ class ResourceClassTest extends TestCase
         $this->assertNull($this->resourceClass->getLocalName());
         $this->assertNull($this->resourceClass->getLabel());
         $this->assertNull($this->resourceClass->getComment());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->resourceClass->getPropertyAssignmentSets()
-        );
     }
 
     public function testSetOwner()
@@ -65,22 +61,5 @@ class ResourceClassTest extends TestCase
         $comment = 'test-comment';
         $this->resourceClass->setComment($comment);
         $this->assertEquals($comment, $this->resourceClass->getComment());
-    }
-
-    public function testAddPropertyAssignmentSet()
-    {
-        $propertyAssignmentSet = new PropertyAssignmentSet;
-        $this->resourceClass->addPropertyAssignmentSet($propertyAssignmentSet);
-        $this->assertSame($this->resourceClass, $propertyAssignmentSet->getResourceClass());
-        $this->assertTrue($this->resourceClass->getPropertyAssignmentSets()->contains($propertyAssignmentSet));
-    }
-
-    public function testRemovePropertyAssignmentSet()
-    {
-        $propertyAssignmentSet = new PropertyAssignmentSet;
-        $this->resourceClass->addPropertyAssignmentSet($propertyAssignmentSet);
-        $this->resourceClass->removePropertyAssignmentSet($propertyAssignmentSet);
-        $this->assertFalse($this->resourceClass->getPropertyAssignmentSets()->contains($propertyAssignmentSet));
-        $this->assertNull($propertyAssignmentSet->getResourceClass());
     }
 }

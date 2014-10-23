@@ -54,7 +54,7 @@ class ItemForm extends Form
      */
     public function addPropertyInput(PropertyRepresentation $property)
     {
-        $qName = $property->vocabulary()->getPrefix() . ':' . $property->localName();
+        $qName = $property->vocabulary()->prefix() . ':' . $property->localName();
         $this->add(array(
             'name'       => $qName . "[0][@value]",
             'type'       => 'Textarea',

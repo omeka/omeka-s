@@ -14,25 +14,25 @@
         // Mobile navigation
         $('#mobile-nav .button').click(function(e) {
             e.preventDefault();
-            var button_class = $(this).attr('class');
-            var nav_id = button_class.replace(/button/, '');
-            var nav_object = $('#' + nav_id.replace(/o-icon-/, ''));
+            var buttonClass = $(this).attr('class');
+            var navId = buttonClass.replace(/button/, '');
+            var navObject = $('#' + navId.replace(/o-icon-/, ''));
             if ($('header .active').length > 0) {
                 if (!($(this).hasClass('active'))) {
                     $('header .active').removeClass('active');
                     $(this).addClass('active');
-                    nav_object.addClass('active');
+                    navObject.addClass('active');
                 } else {
                     $('header .active').removeClass('active');
                 }
             } else {
                 $(this).addClass('active');
-                nav_object.addClass('active');
+                navObject.addClass('active');
             }
         });
 
         // Variables
-        var add_edit_items = $('body');
+        var addEditItems = $('body');
 
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
@@ -41,13 +41,13 @@
             if (!tab.hasClass('active')) {
                 $('.section.active, legend.active').removeClass('active');
                 if (tab.is('legend')) {
-                    var section_class = tab.parents('.section').attr('id');
+                    var sectionClass = tab.parents('.section').attr('id');
                 } else {
-                    var section_class = tab.attr('class');
+                    var sectionClass = tab.attr('class');
                 }
-                var section_id = section_class.replace(/section/, '');
+                var sectionId = sectionClass.replace(/section/, '');
                 tab.addClass('active');
-                $('#' + section_id).addClass('active');
+                $('#' + sectionId).addClass('active');
             }
         });
 
@@ -61,18 +61,18 @@
         });
 
         // Show property descriptions when clicking "more-info" icon.
-        add_edit_items.on('click', '.property .icon-info', function() {
+        addEditItems.on('click', '.property .icon-info', function() {
             $(this).parents('.description').toggleClass('show');
         });
 
         // Mark existing properties for deletion and straight up remove new properties.
-        add_edit_items.on('click', '.remove.button', function(e) {
+        addEditItems.on('click', '.remove.button', function(e) {
             e.preventDefault();
-            var current_field = $(this).parents('.field');
-            if (current_field.hasClass('new')) {
-                current_field.remove();
+            var currentField = $(this).parents('.field');
+            if (currentField.hasClass('new')) {
+                currentField.remove();
             } else {
-                current_field.toggleClass('remove');
+                currentField.toggleClass('remove');
             }
         });
 
@@ -83,7 +83,7 @@
         });
 
         // Show properties
-        add_edit_items.on('click', '.properties li', function(e) {
+        addEditItems.on('click', '.properties li', function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');
@@ -91,18 +91,18 @@
         });
 
         // Select property
-        add_edit_items.on('click', '.select-property', function(e) {
+        addEditItems.on('click', '.select-property', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var selected_property = $(this).parents('.properties').find('.selected').first();
-            if (selected_property.length > 0) {
-                selected_property.removeClass('selected');
+            var selectedProperty = $(this).parents('.properties').find('.selected').first();
+            if (selectedProperty.length > 0) {
+                selectedProperty.removeClass('selected');
             }
             $(this).parent().addClass('selected');
         });
 
         // Set property
-        add_edit_items.on('click', '.set-property', function(e) {
+        addEditItems.on('click', '.set-property', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var propertyLi = $(this).closest('.property');
@@ -112,38 +112,38 @@
             if (count > 0) {
                 makeNewValue(qName);
             } else {
-                var this_field = $(this).parents('.field');
+                var field = $(this).parents('.field');
                 var propertyId = propertyLi.data('property-id');
-                $('.input-value', this_field).attr('name', qName + "[" + count + "][@value]");
-                $('.input-id', this_field).val(propertyId).attr('name', qName + "[" + count + "][property_id]");
-                $('.input-id', this_field).attr('data-property-qname', qName);
-                var field_name = cleanText($(this).parent()) + " (" + cleanText($(this).parents('.vocabulary')) + ")";
-                var field_label = $('<label>' + field_name + '</label>');
-                var field_desc = $(this).siblings('.description');
-                field_desc.attr('class', 'field-description');
-                $(this).parents('.properties').before(field_desc);
-                this_field.find('input[placeholder="Property name"]').replaceWith(field_label);
-                this_field.removeClass('unset');
+                $('.input-value', field).attr('name', qName + '[' + count + '][@value]');
+                $('.input-id', field).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
+                $('.input-id', field).attr('data-property-qname', qName);
+                var fieldName = cleanText($(this).parent()) + ' (' + cleanText($(this).parents('.vocabulary')) + ')';
+                var fieldLabel = $('<label>' + fieldName + '</label>');
+                var fieldDesc = $(this).siblings('.description');
+                fieldDesc.attr('class', 'field-description');
+                $(this).parents('.properties').before(fieldDesc);
+                field.find('input[placeholder="Property name"]').replaceWith(fieldLabel);
+                field.removeClass('unset');
             }
         });
 
         // Make new value inputs whenever "add value" button clicked.
-        add_edit_items.on('click', '.add-value', function(e) {
+        addEditItems.on('click', '.add-value', function(e) {
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
             makeNewValue(wrapper.data('property-qname'));
         });
         
         // Remove value.
-        add_edit_items.on('click', '.remove-value', function(e) {
+        addEditItems.on('click', '.remove-value', function(e) {
             e.preventDefault();
-            var this_value = $(this).parents('.value');
-            var value_count = $(this).parents('.field').find('.value').length;
-            if (value_count > 1) {
-                if (value_count == 2) {
+            var value = $(this).parents('.value');
+            var count = $(this).parents('.field').find('.value').length;
+            if (count > 1) {
+                if (count == 2) {
                     $(this).parents('.field').find('.remove-value').last().removeClass('active');
                 }
-                this_value.remove();
+                value.remove();
             }
         });
         
@@ -154,9 +154,9 @@
             if (!$(this).hasClass('active')) {
                 tab.siblings('.tab.active').removeClass('active');
                 tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
-                var current_class = '.' + tab.attr('class').split(" o-icon-")[1];
+                var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
                 tab.addClass('active');
-                tab.parent().siblings(current_class).addClass('active');
+                tab.parent().siblings(currentClass).addClass('active');
             }
         });
         
@@ -167,49 +167,49 @@
     });
 
     var makeNewValue = function(qName) {
-        var values_wrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
-        var new_value = $('.resource-values.field.template .value ').first().clone();
-        var value_count = values_wrapper.find('.value').length;
-        values_wrapper.find('.value').last().after(new_value);
-        var propertyId = values_wrapper.data('property-id');
-        $('.input-id', new_value).val(propertyId).attr('name', qName + "[" + value_count + "][property_id]");
-        $('.input-id', new_value).attr('data-property-qname', qName);
-        $('textarea', new_value).attr('name', qName + "[" + value_count + "][@value]");
+        var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
+        var newValue = $('.resource-values.field.template .value ').first().clone();
+        var count = valuesWrapper.find('.value').length;
+        valuesWrapper.find('.value').last().after(newValue);
+        var propertyId = valuesWrapper.data('property-id');
+        $('.input-id', newValue).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
+        $('.input-id', newValue).attr('data-property-qname', qName);
+        $('textarea', newValue).attr('name', qName + '[' + count + '][@value]');
         $('html, body').animate({
-            scrollTop: (values_wrapper.offset().top -100)
+            scrollTop: (valuesWrapper.offset().top -100)
         },200);
-        $('textarea', new_value).focus();
-        if (value_count == 2) {
-            values_wrapper.find('.remove-value').first().addClass('active');
+        $('textarea', newValue).focus();
+        if (count == 2) {
+            valuesWrapper.find('.remove-value').first().addClass('active');
         }
     };
     
     // Duplicates the new field template, and makes it visible by removing the "template" class.
     var makeNewField = function(section,prop,desc) {
-        var field_section = '#' + section;
-        var new_field = $(field_section + ' .field.template').clone();
-        new_field.removeClass('template');
-        new_field.find('.remove-value').removeClass('active');
+        var fieldSection = '#' + section;
+        var newField = $(fieldSection + ' .field.template').clone();
+        newField.removeClass('template');
+        newField.find('.remove-value').removeClass('active');
         if (prop) {
-            property_name = prop.toLowerCase();
-            property_name = property_name.replace(/ /g, "-");
-            new_field_label = $('<label for="' + property_name + '">' + prop + '</label>');
-            new_field.find('[title="new-property-name"]').remove();
-            new_field.find('.field-meta').prepend(new_field_label);
-            new_field.removeClass('new');
+            propertyName = prop.toLowerCase();
+            propertyName = propertyName.replace(/ /g, '-');
+            newField_label = $('<label for="' + propertyName + '">' + prop + '</label>');
+            newField.find('[title="new-property-name"]').remove();
+            newField.find('.field-meta').prepend(newField_label);
+            newField.removeClass('new');
         } else {
-            new_field.addClass('unset');
+            newField.addClass('unset');
         }
         if (desc) {
-            var description_field = $('.field-description').first().clone();
-            new_field.find('.field-meta label').after(description_field);
-            new_field.find('.icon-info + p').text(desc);
+            var descriptionField = $('.field-description').first().clone();
+            newField.find('.field-meta label').after(descriptionField);
+            newField.find('.icon-info + p').text(desc);
         }
         if (prop) {
-            $('.new.field').first().before(new_field);
+            $('.new.field').first().before(newField);
         } else {
-            //$('.field.template').before(new_field);
-            $(field_section).find('.template').before(new_field);
+            //$('.field.template').before(newField);
+            $(fieldSection).find('.template').before(newField);
         }
         var modalLink = $('.modal-link');
         if (modalLink.length > 0) {
@@ -238,10 +238,10 @@
     };
     
     var cleanText = function(text) {
-        new_text = text.clone();
-        new_text.children().remove();
-        new_text = new_text.text().replace(/^\s+|\s+$/g,'');
-        return new_text;
+        newText = text.clone();
+        newText.children().remove();
+        newText = newText.text().replace(/^\s+|\s+$/g,'');
+        return newText;
     };
     
 })(jQuery);

@@ -61,7 +61,8 @@ class User extends AbstractEntity implements RoleInterface
      *     targetEntity="Key",
      *     mappedBy="owner",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove"},
+     *     indexBy="id"
      * )
      */
     protected $keys;

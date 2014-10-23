@@ -3,6 +3,8 @@ $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 $formErrors = $this->plugin('formElementErrors');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h1>Edit API Keys for &ldquo;<?php echo $user->username(); ?>&rdquo;</h1>
 
@@ -16,15 +18,45 @@ $formErrors = $this->plugin('formElementErrors');
     <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
 </nav>
 
-<?php foreach ($form->getElements() as $element): ?>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $formLabel($element); ?>
+<?php if ($keys): ?>
+<div role="group" aria-labelledby="keys-existing-heading">
+    <h2 id="keys-existing-heading">Keys</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Label</th>
+                <th>ID</th>
+                <th>Delete?</th>
+            </tr>
+        </thead>
+        <?php foreach ($keys as $id => $label): ?>
+        <tr>
+            <td><?php echo $escape($label); ?></td>
+            <td><code><?php echo $escape($id); ?></code></td>
+            <td>
+                <input type="checkbox"
+                       name="delete[]"
+                       value="<?php echo $escapeAttr($id); ?>"
+                       aria-label="Mark key &ldquo;<?php echo $escapeAttr($label); ?>&rdquo; for deletion">
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+</div>
+<?php endif; ?>
+
+<div role="group" aria-labelledby="keys-add-heading">
+    <h2 id="keys-add-heading">Add a New Key</h2>
+    <?php foreach ($form->getElements() as $element): ?>
+    <div class="field">
+        <div class="field-meta">
+            <?php echo $formLabel($element); ?>
+        </div>
+        <div class="inputs">
+            <?php echo $formElement($element); ?>
+        </div>
+        <?php echo $formErrors($element, array('class' => 'messages')); ?>
     </div>
-    <div class="inputs">
-        <?php echo $formElement($element); ?>
-    </div>
-    <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>
 <?php endforeach; ?>
 <?php echo $this->form()->closeTag(); ?>

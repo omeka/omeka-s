@@ -117,5 +117,11 @@ class UserAdapter extends AbstractEntityAdapter
                 $email
             ));
         }
+
+        // Validate role
+        $role = $entity->getRole();
+        if (empty($role)) {
+            $errorStore->addError('o:role', 'Users must have a role.');
+        }
     }
 }

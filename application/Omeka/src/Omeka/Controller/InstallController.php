@@ -2,6 +2,7 @@
 namespace Omeka\Controller;
 
 use Omeka\Form\InstallationForm;
+use Omeka\Installation\Manager as InstallationManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -13,49 +14,36 @@ class InstallController extends AbstractActionController
         $form = new InstallationForm;
 
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost();
-            $form->setData($data);
+            $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                // Form is valid. Begin installation.
-                $validatedData = $form->getData();
-                $result = $this->install($validatedData);
-                if ($result->isError()) {
-                    // Error during installation. Log installation messages.
-                    $this->messenger()->addError('There was an error during installation.');
-                    $this->getServiceLocator()->get('Omeka\Logger')->err($result->getMessages());
-                } else {
+                $data = $form->getData();
+                $manager = $this->getServiceLocator()->get('Omeka\InstallationManager');
+                $manager->registerVars(
+                    'Omeka\Installation\Task\CreateFirstUserTask',
+                    array(
+                        'username' => $data['username'],
+                        'password' => $data['password'],
+                        'name'     => $data['name'],
+                        'email'    => $data['email']
+                    )
+                );
+                if ($manager->install()) {
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful.');
                     return $this->redirect()->toRoute('login');
+                } else {
+                    // Error during installation.
+                    $this->messenger()->addError('There were errors during installation.');
+                    foreach ($manager->getErrors() as $error) {
+                        $this->messenger()->addError($error);
+                    }
                 }
             } else {
-                // Form is invalid.
                 $this->messenger()->addError('There was an error during validation.');
             }
         }
-        
+
         $view->setVariable('form', $form);
         return $view;
-    }
-
-    /**
-     * Install Omeka.
-     *
-     * @param array $data
-     * @return \Omeka\Installation\Result
-     */
-    protected function install(array $data)
-    {
-        $manager = $this->getServiceLocator()->get('Omeka\InstallationManager');
-        $manager->registerVars(
-            'Omeka\Installation\Task\CreateFirstUserTask',
-            array(
-                'username' => $data['username'],
-                'password' => $data['password'],
-                'name'     => $data['name'],
-                'email'    => $data['email']
-            )
-        );
-        return $manager->install();
     }
 }

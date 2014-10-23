@@ -1,20 +1,12 @@
 <?php
 namespace Omeka\Installation;
 
-use Zend\I18n\Translator\TranslatorInterface;
+use Omeka\Stdlib\ErrorStore;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-/**
- * Installation manager service.
- */
 class Manager implements ServiceLocatorAwareInterface
 {
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
     /**
      * @var ServiceLocatorInterface
      */
@@ -23,53 +15,38 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * @var array Registered installation tasks.
      */
-    protected $tasks = array();
+    protected $tasks;
 
     /**
-     * @var array Registered task variables.
+     * @var array Error messages
      */
-    protected $vars = array();
+    protected $errors = array();
 
     /**
      * Install Omeka.
      *
-     * @return Result
+     * @return bool Whether the installation was successful.
      */
     public function install()
     {
-        $result = new Result;
-        $isInstalled = $this->getServiceLocator()
-            ->get('Omeka\Status')->isInstalled();
-
-        if ($isInstalled) {
-            $result->addMessage(
-                $this->getTranslator()->translate('Omeka is already installed.'),
-                Result::MESSAGE_TYPE_ERROR
-            );
-            return $result;
-        }
-
         foreach ($this->getTasks() as $taskName) {
-            $task = new $taskName($this->getServiceLocator(), $result);
 
-            // Set task-specific variables.
-            $vars = $this->getVars($taskName);
-            if ($vars) {
-                $task->setVars($vars);
-            }
             try {
-                $task->perform();
+                $task = new $taskName;
+                $task->perform($this);
             } catch (\Exception $e) {
-                $task->addError($e->getMessage());
+                $this->addError($e->getMessage());
             }
 
             // Tasks are dependent on previously run tasks. If there is an
-            // error, stop installation immediately and return the result.
-            if ($result->isError()) {
-                return $result;
+            // error, stop installation immediately and return false.
+            if ($this->getErrors()) {
+                return false;
             }
         }
-        return $result;
+
+        // Installation successful.
+        return true;
     }
 
     /**
@@ -79,18 +56,15 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerTask($task)
     {
-        $t = $this->getTranslator();
         if (!class_exists($task)) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The "%s" installation task does not exist.'),
-                $task
-            ));
+            throw new Exception\ConfigException(
+                sprintf('The "%s" installation task does not exist.', $task)
+            );
         }
         if (!is_subclass_of($task, 'Omeka\Installation\Task\TaskInterface')) {
-            throw new Exception\ConfigException(sprintf(
-                $t->translate('The "%s" installation task does not implement Omeka\Installation\Task\TaskInterface.'),
-                $task
-            ));
+            throw new Exception\ConfigException(
+                sprintf('The "%s" task is not a valid installation task.', $task)
+            );
         }
         $this->tasks[] = $task;
     }
@@ -139,16 +113,37 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the translator service
+     * Add errors derived from an ErrorStore.
      *
-     * return TranslatorInterface
+     * @param ErrorStore $errorStore
      */
-    public function getTranslator()
+    public function addErrorStore(ErrorStore $errorStore)
     {
-        if (!$this->translator instanceof TranslatorInterface) {
-            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+        foreach ($errorStore->getErrors() as $error) {
+            foreach ($error as $message) {
+                $this->addError($message);
+            }
         }
-        return $this->translator;
+    }
+
+    /**
+     * Add an error message.
+     *
+     * @param string $message
+     */
+    public function addError($message)
+    {
+        $this->errors[] = $message;
+    }
+
+    /**
+     * Get all error messages.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**

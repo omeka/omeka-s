@@ -3,8 +3,22 @@ $this->htmlElement('body')->appendAttribute('class', 'items show');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?></h1>
+<h1><?php echo $escape('Item'); ?>: &ldquo;<?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?>&rdquo;</h1>
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($item->url('edit')); ?>" class="button"><?php echo $escape($this->translate('Edit item')); ?></a>
+    <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
 </div>
-<?php echo $item->displayValues(); ?>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="item-metadata active section"><?php echo $escape('Metadata'); ?></a></li>
+        <li><a href="#" class="item-linked section"><?php echo $escape('Linked Resources'); ?></a></li>
+    </ul>
+</nav>
+
+<div id="item-metadata" class="active section">
+    <?php echo $item->displayValues(); ?>
+</div>
+
+<div id="item-linked" class="section">
+    <?php echo $item->displaySubjectResources(); ?>
+</div>

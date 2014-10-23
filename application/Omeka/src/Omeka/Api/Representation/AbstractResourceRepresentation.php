@@ -176,6 +176,27 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get an HTML link to a resource.
+     *
+     * @param string $text The text to be linked
+     * @param string $action
+     * @param array $attributes HTML attributes, key and value
+     * @return string
+     */
+    public function link($text, $action = null, $attributes = array())
+    {
+        $escapeHtml = $this->getViewHelper('escapeHtml');
+        $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
+
+        $attributes['href'] = $this->url($action);
+        $attributeStr = '';
+        foreach ($attributes as $key => $value) {
+            $attributeStr .= ' ' . $key . '="' . $escapeHtmlAttr($value) . '"';
+        }
+        return "<a$attributeStr>" . $escapeHtml($text) . '</a>';
+    }
+
+    /**
      * Get the name for the controller that handles this kind of resource.
      *
      * @return string|null

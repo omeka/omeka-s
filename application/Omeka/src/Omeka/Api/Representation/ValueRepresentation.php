@@ -30,12 +30,8 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $escapeHtml = $this->getViewHelper('escapeHtml');
-                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
-                $valueResource = $this->getValueResource();
-                $uri = $valueResource->url();
-                $displayTitle = $valueResource->displayTitle('[untitled]');
-                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($displayTitle) . '</a>';
+                $valueResource = $this->valueResource();
+                return $valueResource->link($valueResource->displayTitle('[untitled]'));
 
             case Value::TYPE_URI:
                 $escapeHtml = $this->getViewHelper('escapeHtml');
@@ -74,7 +70,7 @@ class ValueRepresentation extends AbstractRepresentation
         switch ($this->type()) {
 
             case Value::TYPE_RESOURCE:
-                $valueResource = $this->getValueResource();
+                $valueResource = $this->valueResource();
                 $valueObject['@id'] = $valueResource->apiUrl();
                 $valueObject['value_resource_id'] = $valueResource->id();
                 break;
@@ -101,6 +97,34 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get the resource representation.
+     *
+     * This is the subject of the RDF triple represented by this value.
+     *
+     * @return Entity\AbstractResourceEntityRepresentation
+     */
+    public function resource()
+    {
+        $resource = $this->getData()->getResource();
+        return $this->getAdapter($resource->getResourceName())
+            ->getRepresentation(null, $resource);
+
+    }
+
+    /**
+     * Get the property representation.
+     *
+     * This is the predicate of the RDF triple represented by this value.
+     *
+     * @return Entity\PropertyRepresentation
+     */
+    public function property()
+    {
+        return $this->getAdapter('properties')
+            ->getRepresentation(null, $this->getData()->getProperty());
+    }
+
+    /**
      * Get the value type.
      *
      * @return string
@@ -112,6 +136,8 @@ class ValueRepresentation extends AbstractRepresentation
 
     /**
      * Get the value itself.
+     *
+     * This is the object of the RDF triple represented by this value.
      *
      * @return string
      */
@@ -143,9 +169,11 @@ class ValueRepresentation extends AbstractRepresentation
     /**
      * Get the value resource representation.
      *
+     * This is the object of the RDF triple represented by this value.
+     *
      * @return null|Entity\AbstractResourceEntityRepresentation
      */
-    public function getValueResource()
+    public function valueResource()
     {
         $valueResource = $this->getData()->getValueResource();
         $valueResourceAdapter = $this->getAdapter(

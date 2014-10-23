@@ -1,27 +1,30 @@
+<?php
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+$formErrors = $this->plugin('formElementErrors');
+?>
 <h1>Edit API Keys for &ldquo;<?php echo $user->username(); ?>&rdquo;</h1>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <button>Submit</button>
+</div>
 
 <nav class="section-nav">
     <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
 </nav>
 
-<?php
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formInput = $this->plugin('formInput');
-$formErrors = $this->plugin('formElementErrors');
-?>
-
-<form  method="post">
 <?php foreach ($form->getElements() as $element): ?>
 <div class="field">
     <div class="field-meta">
         <?php echo $formLabel($element); ?>
     </div>
     <div class="inputs">
-        <?php echo $formInput($element); ?>
+        <?php echo $formElement($element); ?>
     </div>
-    <?php echo $formErrors($element); ?>
+    <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>
 <?php endforeach; ?>
-<button>Submit</button>
-</form>
+<?php echo $this->form()->closeTag(); ?>

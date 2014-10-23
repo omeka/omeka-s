@@ -1,19 +1,16 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Installation\Manager;
+
 /**
  * Task to clear identity from the session.
  */
-class ClearSessionTask extends AbstractTask
+class ClearSessionTask implements TaskInterface
 {
-    public function perform()
+    public function perform(Manager $manager)
     {
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        $auth = $manager->getServiceLocator()->get('Omeka\AuthenticationService');
         $auth->getStorage()->clear();
-    }
-
-    public function getName()
-    {
-        return $this->getTranslator()->translate('Clear identity from the session.');
     }
 }

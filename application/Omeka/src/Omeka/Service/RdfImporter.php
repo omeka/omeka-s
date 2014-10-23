@@ -100,7 +100,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
                 if (!isset($options['file'])) {
                     throw new \Exception('No file specified for the file import strategy.');
                 }
-                $file = OMEKA_PATH . "/data/vocabularies/{$options['file']}";
+                $file = $options['file'];
                 // Make sure the provided file path matches the expected path.
                 if ($file != realpath($file) || !is_file($file)) {
                     throw new \Exception('Invalid path to file.');

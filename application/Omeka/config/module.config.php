@@ -54,6 +54,7 @@ return array(
             'Omeka\Controller\Install'         => 'Omeka\Controller\InstallController',
             'Omeka\Controller\Login'           => 'Omeka\Controller\LoginController',
             'Omeka\Controller\Migrate'         => 'Omeka\Controller\MigrateController',
+            'Omeka\Controller\Omeka'           => 'Omeka\Controller\OmekaController',
             'Omeka\Controller\Site\Index'      => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index'     => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\Item'      => 'Omeka\Controller\Admin\ItemController',
@@ -353,7 +354,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:resource[/:id]]',
+                            'route' => '[/:resource[/:id]][/]',
                             'constraints' => array(
                                 'resource' => '[a-zA-Z0-9_-]+',
                             ),
@@ -403,6 +404,16 @@ return array(
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'logout',
                      ),
+                ),
+            ),
+            'instance_namespace' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/omeka',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Omeka',
+                        'action' => 'index',
+                    ),
                 ),
             ),
         ),

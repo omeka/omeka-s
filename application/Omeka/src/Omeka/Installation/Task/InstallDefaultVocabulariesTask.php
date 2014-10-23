@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Installation\Manager;
+
 /**
  * Install default RDF vocabularies.
  */
-class InstallDefaultVocabulariesTask extends AbstractTask
+class InstallDefaultVocabulariesTask implements TaskInterface
 {
     /**
      * Default RDF vocabularies.
@@ -25,17 +27,6 @@ class InstallDefaultVocabulariesTask extends AbstractTask
         ),
         array(
             'vocabulary' => array(
-                'o:namespace_uri' => 'http://purl.org/ontology/bibo/',
-                'o:prefix' => 'bibo',
-                'o:label' => 'Bibliographic Ontology',
-                'o:comment' => 'Bibliographic metadata (BIBO)',
-            ),
-            'strategy' => 'file',
-            'file' => 'bibo.rdf',
-            'format' => 'rdfxml',
-        ),
-        array(
-            'vocabulary' => array(
                 'o:namespace_uri' => 'http://purl.org/dc/dcmitype/',
                 'o:prefix' => 'dcmitype',
                 'o:label' => 'Dublin Core Type',
@@ -43,6 +34,17 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             ),
             'strategy' => 'file',
             'file' => 'dctype.rdf',
+            'format' => 'rdfxml',
+        ),
+        array(
+            'vocabulary' => array(
+                'o:namespace_uri' => 'http://purl.org/ontology/bibo/',
+                'o:prefix' => 'bibo',
+                'o:label' => 'Bibliographic Ontology',
+                'o:comment' => 'Bibliographic metadata (BIBO)',
+            ),
+            'strategy' => 'file',
+            'file' => 'bibo.rdf',
             'format' => 'rdfxml',
         ),
         array(
@@ -57,41 +59,26 @@ class InstallDefaultVocabulariesTask extends AbstractTask
             'format' => 'rdfxml',
         ),
     );
-    
-    /**
-     * Install default RDF vocabularies.
-     */
-    public function perform()
+
+    public function perform(Manager $manager)
     {
-        $rdfImporter = $this->getServiceLocator()->get('Omeka\RdfImporter');
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $rdfImporter = $manager->getServiceLocator()->get('Omeka\RdfImporter');
+        $entityManager = $manager->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
             $response = $rdfImporter->import(
                 $vocabulary['strategy'],
                 $vocabulary['vocabulary'],
                 array(
-                    'file' => $vocabulary['file'],
+                    'file' => OMEKA_PATH . "/data/vocabularies/{$vocabulary['file']}",
                     'format' => $vocabulary['format'],
                 )
             );
             if ($response->isError()) {
-                $this->addErrorStore($response->getErrorStore());
+                $manager->addErrorStore($response->getErrorStore());
                 return;
             }
             $entityManager->clear();
-            $this->addInfo(sprintf(
-                $this->getTranslator()->translate('Successfully installed "%s"'),
-                $vocabulary['vocabulary']['o:label']
-            ));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getTranslator()->translate('Install default RDF vocabularies');
     }
 }

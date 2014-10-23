@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Resource;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
@@ -287,5 +288,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 'localName' => $localName,
                 'prefix' => $prefix
             ))->getOneOrNullResult();
+    }
+
+    /**
+     * Get subject resource values of the provided object resource.
+     *
+     * @param Resource $resource
+     * @return array
+     */
+    public function getSubjectResourceValues(Resource $resource)
+    {
+        return $this->getEntityManager()
+            ->getRepository('Omeka\Model\Entity\Value')
+            ->findBy(array('valueResource' => $resource));
     }
 }

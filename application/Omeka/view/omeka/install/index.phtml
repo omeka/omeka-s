@@ -2,7 +2,7 @@
 <?php
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
-$formInput = $this->plugin('formInput');
+$formElement = $this->plugin('formElement');
 $formErrors = $this->plugin('formElementErrors');
 $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
@@ -15,7 +15,7 @@ echo $this->form()->openTag($form);
         <?php echo $formLabel($element); ?>
     </div>
     <div class="inputs">
-        <?php echo $formInput($element); ?>
+        <?php echo $formElement($element); ?>
     </div>
     <?php echo $formErrors($element, array('class' => 'messages')); ?>
 </div>

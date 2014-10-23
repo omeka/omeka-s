@@ -21,14 +21,28 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
+        $form = new UserForm(true);
+
         if ($this->getRequest()->isPost()) {
-            $response = $this->api()->create('users', $this->params()->fromPost());
-            if ($response->isError()) {
-                $view->setVariable('errors', $response->getErrors());
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $response = $this->api()->create('users', $formData);
+                if ($response->isError()) {
+                    $messages = $this->apiError($response);
+                    if ($messages) {
+                        $form->setMessages($messages);
+                    }
+                } else {
+                    $this->messenger()->addSuccess('User created.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
             } else {
-                $view->setVariable('user', $response->getContent());
+                $this->messenger()->addError('There was an error during validation');
             }
         }
+
+        $view->setVariable('form', $form);
         return $view;
     }
 

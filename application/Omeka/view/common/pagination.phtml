@@ -1,3 +1,4 @@
+<?php if ($pageCount > 1): ?>
 <nav class="pagination" role="navigation">
     <form>
         <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4">
@@ -28,3 +29,4 @@
     <span class="last o-icon-last button inactive"></span>
     <?php endif; ?>
 </nav>
+<?php endif; ?>

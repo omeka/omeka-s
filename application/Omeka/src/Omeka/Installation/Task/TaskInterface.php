@@ -1,23 +1,13 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Result;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Omeka\Installation\Manager;
 
-/**
- * Installation task interface.
- */
-interface TaskInterface extends ServiceLocatorAwareInterface
+interface TaskInterface
 {
     /**
      * Perform the installation task.
      */
-    public function perform();
-
-    /**
-     * Get the human-readable name of the task.
-     *
-     * @return string
-     */
-    public function getName();
+    public function perform(Manager $manager);
 }
+

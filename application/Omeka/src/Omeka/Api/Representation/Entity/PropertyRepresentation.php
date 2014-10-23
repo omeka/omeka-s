@@ -24,14 +24,15 @@ class PropertyRepresentation extends AbstractEntityRepresentation
         );
     }
 
+    public function vocabulary()
+    {
+        return $this->getAdapter('vocabularies')
+            ->getRepresentation(null, $this->getData()->getVocabulary());
+    }
+
     public function localName()
     {
         return $this->getData()->getLocalName();
-    }
-
-    public function vocabulary()
-    {
-        return $this->getData()->getVocabulary();
     }
 
     public function label()

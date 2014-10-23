@@ -35,25 +35,29 @@ class OmekaController extends AbstractActionController
             $resource->set('rdfs:comment', $resourceClass->comment());
         }
 
-        // Negotiate content, serialize, and render.
+        $request = $this->getRequest();
         $response = $this->getResponse();
-        switch ($this->request->getHeader('Accept')->getFieldValue()) {
-            case 'text/turtle':
+
+        // Set default format and content type.
+        $format = 'rdfxml';
+        $contentType = 'application/xml';
+
+        // Set the format and content type according to Accept headers, if any.
+        foreach ($request->getHeader('Accept')->getPrioritized() as $accept) {
+            if ('text/turtle' == $accept->getTypeString()) {
                 $format = 'turtle';
                 $contentType = 'text/turtle';
                 break;
-            case 'application/n-triples':
+            } elseif ('application/n-triples' == $accept->getTypeString()) {
                 $format = 'ntriples';
                 $contentType = 'application/n-triples';
                 break;
-            case 'application/rdf+xml':
-                $format = 'rdfxml';
+            } elseif ('application/rdf+xml' == $accept->getTypeString()) {
                 $contentType = 'application/rdf+xml';
                 break;
-            default:
-                $format = 'rdfxml';
-                $contentType = 'application/xml';
+            }
         }
+
         $response->setContent($graph->serialise($format));
         $response->getHeaders()->addHeaderLine('Content-Type', $contentType);
         return $response;

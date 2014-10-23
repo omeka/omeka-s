@@ -38,6 +38,7 @@ h3, h4, h5, h6 {
 h1 {
     font-size: 2 * $base-font-size;
     line-height: 2 * $base-line-height;
+    margin: 0;
     @include trailer(1, 2 * $base-font-size);
 }
 
@@ -83,6 +84,7 @@ body {
     
     th {
         font-weight: bold;
+        text-align: left;
     }
     
     tr {
@@ -486,6 +488,7 @@ footer {
 nav ul {
     padding-left: 0;
     list-style: none;
+    margin: 0;
 }
 
 #menu > ul > li > a:before {
@@ -601,6 +604,7 @@ div[role="main"] {
 }
 
 .actions {
+    margin: 0;
     display: block;
     float: right;
 }
@@ -1760,7 +1764,7 @@ th a[class="sorted-desc"] {
 
 /* @group ----- Show Views ----- */
 
-.show .property {
+body.show .property {
     @include trailer();
 
     h4 {

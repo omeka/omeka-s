@@ -61,7 +61,7 @@
         });
 
         // Show property descriptions when clicking "more-info" icon.
-        addEditItems.on('click', '.property .icon-info', function() {
+        addEditItems.on('click', '.property .o-icon-info', function() {
             $(this).parents('.description').toggleClass('show');
         });
 
@@ -203,7 +203,7 @@
         if (desc) {
             var descriptionField = $('.field-description').first().clone();
             newField.find('.field-meta label').after(descriptionField);
-            newField.find('.icon-info + p').text(desc);
+            newField.find('.o-icon-info + p').text(desc);
         }
         if (prop) {
             $('.new.field').first().before(newField);

@@ -35,7 +35,7 @@ if (isset($errors)) {
             <div class='field-meta'>
             <?php echo $formLabel($element); ?>
                 <div class='field-description'>
-                    <p class="o-icon-info-circle"><span class="screen-reader-text">More Info</span></p>
+                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@ if (isset($errors)) {
                      </select>
                      <?php endif; ?>
                      </div>
-
+                     <button class="remove-value">Remove value</button>
                 </div>
             </div>
 
@@ -90,7 +90,7 @@ if (isset($errors)) {
                                         <li class='property' data-property-id='<?php echo $propertyInfo["id"]; ?>' data-property-qname='<?php echo $propertyInfo["qname"]; ?>'>
                                             <?php echo $propertyInfo['label']; ?>
                                             <div class='description'>
-                                                <p class='icon-info'>
+                                                <p class='o-icon-info'>
                                                     <span class='screen-reader-text'>More Info</span>
                                                 </p>
                                                 <p>

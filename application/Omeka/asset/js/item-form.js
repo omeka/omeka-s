@@ -179,8 +179,9 @@
             scrollTop: (valuesWrapper.offset().top -100)
         },200);
         $('textarea', newValue).focus();
-        if (count == 2) {
-            valuesWrapper.find('.remove-value').first().addClass('active');
+        // elements are counted before the newest is added
+        if (count > 0) {
+            valuesWrapper.find('.remove-value').addClass('active');
         }
     };
     
@@ -193,9 +194,9 @@
         if (prop) {
             propertyName = prop.toLowerCase();
             propertyName = propertyName.replace(/ /g, '-');
-            newField_label = $('<label for="' + propertyName + '">' + prop + '</label>');
+            newFieldLable = $('<label for="' + propertyName + '">' + prop + '</label>');
             newField.find('[title="new-property-name"]').remove();
-            newField.find('.field-meta').prepend(newField_label);
+            newField.find('.field-meta').prepend(newFieldLable);
             newField.removeClass('new');
         } else {
             newField.addClass('unset');

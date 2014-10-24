@@ -480,19 +480,30 @@ th {
   }
 
   /* @group ----- Tables ----- */
+  table {
+    width: 100%;
+  }
+
   th {
     font-weight: bold;
     text-align: left;
   }
 
-  tr {
+  th,
+  td {
+    padding: 0.75em 1.04167%;
     border-color: #d7d7d7;
     border-top-width: 0.0625em;
     border-top-style: solid;
-    padding-top: -0.0625em;
+    padding-top: 0.6875em;
   }
-  tr:first-child, tr:only-child {
-    border-color: transparent;
+
+  tbody tr:last-of-type td,
+  tbody tr:last-of-type th {
+    border-color: #d7d7d7;
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
   }
 
   thead + tbody tr:first-child {
@@ -885,7 +896,6 @@ th {
   /* @end */
   /* @group ----- Browse views ----- */
   .browse table {
-    width: 100%;
     margin-bottom: 0.75em;
   }
 

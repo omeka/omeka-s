@@ -82,18 +82,26 @@ body {
 
     /* @group ----- Tables ----- */
     
+    table {
+        width: 100%;
+    }
+    
     th {
         font-weight: bold;
         text-align: left;
     }
     
-    tr {
+    th,
+    td {
+        padding: rhythm(.5) gutter();
         border-color: #d7d7d7;
-        @include leading-border(1px, 0, $base-font-size, solid);
-        
-        &:first-child, &:only-child {
-            border-color: transparent;
-        }
+        @include leading-border(1px, .5, $base-font-size, solid);
+    }
+    
+    tbody tr:last-of-type td,
+    tbody tr:last-of-type th {
+        border-color: #d7d7d7;
+        @include trailing-border(1px, .5, $base-font-size, solid);
     }
     
     thead + tbody tr:first-child {
@@ -473,7 +481,6 @@ div[role="main"] {
 /* @group ----- Browse views ----- */
 
 .browse table {
-    width: 100%;
     @include trailer(.5);
 }
 

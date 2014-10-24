@@ -217,20 +217,40 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get subject resource value representations.
+     * Get value representations where this resource is the RDF object.
      *
      * @return array
      */
-    public function subjectResourceValues()
+    public function subjectValues()
     {
         $subjectResourceValues = $this->getAdapter()
-            ->getSubjectResourceValues($this->getData());
+            ->getSubjectValues($this->getData());
         $valueRepresentations = array();
         foreach ($subjectResourceValues as $subjectResourceValue) {
             $valueRepresentations[] = new ValueRepresentation(
                 $subjectResourceValue,
                 $this->getServiceLocator()
             );
+        }
+        return $valueRepresentations;
+    }
+
+    /**
+     * Get value representations where this resource is the RDF subject.
+     *
+     * @return array
+     */
+    public function objectValues()
+    {
+        $valueRepresentations = array();
+        foreach ($this->values() as $vocabulary) {
+            foreach ($vocabulary['properties'] as $property) {
+                foreach ($property['values'] as $value) {
+                    if ('resource' == $value->type()) {
+                        $valueRepresentations[] = $value;
+                    }
+                }
+            }
         }
         return $valueRepresentations;
     }
@@ -261,23 +281,25 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get the display markup for all subject resources of this resource.
+     * Get the display markup for all values where this resource is the RDF
+     * subject or object.
      *
      * Options:
      *
      * + viewName: Name of view script, or a view model. Default
-     *   "common/subject-resources"
+     *   "common/linked-resources"
      *
      * @param array $options
      * @return string
      */
-    public function displaySubjectResources(array $options = array())
+    public function displayLinkedResources(array $options = array())
     {
         if (!isset($options['viewName'])) {
-            $options['viewName'] = 'common/subject-resources';
+            $options['viewName'] = 'common/linked-resources';
         }
         $partial = $this->getViewHelper('partial');
-        $options['values'] = $this->subjectResourceValues();
+        $options['subjectValues'] = $this->subjectValues();
+        $options['objectValues'] = $this->objectValues();
         return $partial($options['viewName'], $options);
     }
 

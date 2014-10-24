@@ -291,12 +291,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
-     * Get subject resource values of the provided object resource.
+     * Get values where the provided resource is the RDF object.
      *
      * @param Resource $resource
      * @return array
      */
-    public function getSubjectResourceValues(Resource $resource)
+    public function getSubjectValues(Resource $resource)
     {
         return $this->getEntityManager()
             ->getRepository('Omeka\Model\Entity\Value')

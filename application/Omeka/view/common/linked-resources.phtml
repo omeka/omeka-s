@@ -1,0 +1,34 @@
+<table>
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Predicate</th>
+            <th>Object</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($objectValues as $value): ?>
+        <?php
+        $resource = $value->valueResource();
+        $property = $value->property();
+        ?>
+        <tr>
+            <td>This</td>
+            <td><?php echo $property->label(); ?></td>
+            <td><?php echo $resource->link($resource->displayTitle('[untitled]')); ?></td>
+        </tr>
+        <?php endforeach; ?>
+
+        <?php foreach ($subjectValues as $value): ?>
+        <?php
+        $resource = $value->resource();
+        $property = $value->property();
+        ?>
+        <tr>
+            <td><?php echo $resource->link($resource->displayTitle('[untitled]')); ?></td>
+            <td><?php echo $property->label(); ?></td>
+            <td>This</td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

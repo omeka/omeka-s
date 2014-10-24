@@ -109,6 +109,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the resource name of the corresponding entity API adapter.
+     *
+     * @return string
+     */
+    public function resourceName()
+    {
+        return $this->getData()->getResourceName();
+    }
+
+    /**
      * Get the resource class representation of this resource.
      *
      * @return ResourceClassRepresentation

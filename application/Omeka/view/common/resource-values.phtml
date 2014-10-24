@@ -1,19 +1,21 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
 <?php foreach ($values as $prefix => $vocabulary): ?>
 <div class="vocabulary">
     <?php if (!$hideVocabulary): ?>
-    <h3><?php echo $vocabulary['vocabulary']->label(); ?></h3>
+    <h3><?php echo $escape($vocabulary['vocabulary']->label()); ?></h3>
     <?php endif; ?>
     <?php foreach ($vocabulary['properties'] as $localName => $property): ?>
         <div class="property">
-        <h4><?php echo $property['property']->label(); ?></h4>
+        <h4><?php echo $escape($property['property']->label()); ?></h4>
         <?php foreach ($property['values'] as $value): ?>
-            <?php 
-                $valueType = $value->type(); 
-                if ($valueType == 'resource') {
-                    $valueType = $value->resource()->getControllerName();
-                }
-            ?>
-            <div class="value <?php echo $valueType; ?>"><?php echo $value; ?></div>
+            <?php if ('resource' == $value->type()): ?>
+            <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>
+            <?php else: ?>
+            <div class="value"><?php echo $value; ?></div>
+            <?php endif; ?>
         <?php endforeach; ?>
         </div>
     <?php endforeach; ?>

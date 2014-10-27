@@ -430,6 +430,10 @@ th {
     color: #FF0000;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+
   h3, h4, h5, h6 {
     font-weight: bold;
   }
@@ -437,7 +441,6 @@ th {
   h1 {
     font-size: 32px;
     line-height: 48px;
-    margin: 0;
     margin-bottom: 0.75em;
   }
 
@@ -919,40 +922,17 @@ th {
     vertical-align: top;
   }
 
-  .browse td,
-  .browse th,
-  .browse table a {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .browse td:first-of-type,
-  .browse th:first-of-type {
-    min-width: 2.25em;
-    width: 2.25em;
-  }
-
-  .browse td:nth-of-type(2),
-  .browse th:nth-of-type(2) {
-    width: 40%;
-  }
-
-  .browse td:first-of-type:not(:only-of-type),
-  .browse th:first-of-type:not(:only-of-type) {
-    background-color: rgba(0, 0, 0, 0.08);
-    /* For multiline cells. */
-    text-align: center;
+  .browse tr:last-of-type td,
+  .browse tr:last-of-type th {
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
   }
 
   .browse .add.button,
   .browse .batch-edit.button {
     float: left;
     margin-right: .25em;
-  }
-
-  .browse .pagination {
-    float: right;
   }
 
   .actions {
@@ -1147,7 +1127,7 @@ th {
     content: "";
   }
 
-  .vocabularies .no-resources:before {
+  .vocabs .no-resources:before {
     content: "";
   }
 
@@ -1168,8 +1148,6 @@ th {
   .section-nav {
     border-top: 1px solid #fff;
     height: 2.625em;
-    overflow: hidden;
-    *zoom: 1;
     position: relative;
     margin-bottom: 1.5em;
   }
@@ -1217,6 +1195,7 @@ th {
     border-bottom-color: #fff;
   }
   .section-nav .active a {
+    font-weight: bold;
     border-bottom-color: #fff;
   }
 
@@ -1383,6 +1362,7 @@ th {
     display: inline-block;
     margin: 0 0 0 1em;
     opacity: .75;
+    margin: 0;
   }
   .properties .description .o-icon-info + p {
     position: absolute;
@@ -2130,7 +2110,7 @@ th {
     content: ")";
   }
 
-  .vocabs .original-class,
+  .vocabs .class,
   .vocabs .property-set {
     background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
@@ -2138,21 +2118,21 @@ th {
     overflow: hidden;
     position: relative;
   }
-  .vocabs .original-class .collapse ~ .properties .property,
+  .vocabs .class .collapse ~ .properties .property,
   .vocabs .property-set .collapse ~ .properties .property {
     position: static;
     left: auto;
   }
-  .vocabs .original-class .collapse ~ .properties .property,
+  .vocabs .class .collapse ~ .properties .property,
   .vocabs .property-set .collapse ~ .properties .property {
     margin-top: 0.375em;
   }
-  .vocabs .original-class .properties,
+  .vocabs .class .properties,
   .vocabs .property-set .properties {
     clear: left;
     display: block;
   }
-  .vocabs .original-class .property,
+  .vocabs .class .property,
   .vocabs .property-set .property {
     display: inline-block;
     padding: 0 0.375em;
@@ -2165,18 +2145,18 @@ th {
     position: absolute;
     left: -9999px;
   }
-  .vocabs .original-class .description,
+  .vocabs .class .description,
   .vocabs .property-set .description {
     position: relative;
   }
-  .vocabs .original-class .description p,
+  .vocabs .class .description p,
   .vocabs .property-set .description p {
     width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .vocabs .original-class .field-actions,
+  .vocabs .class .field-actions,
   .vocabs .property-set .field-actions {
     width: 15%;
   }

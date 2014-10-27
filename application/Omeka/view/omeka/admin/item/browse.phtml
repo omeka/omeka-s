@@ -14,12 +14,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php echo $this->pagination(); ?>
 
-<a href="batch-edit" class="batch-edit button"><?php echo $escape($this->translate('Batch edit selected')); ?></a>
-
 <table>
     <thead>
         <tr>
-            <th><input type="checkbox" id="select-all"><label class="screen-reader-text" for="select-all"><?php echo $escape($this->translate('Select all')); ?></label></th>
             <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
@@ -28,7 +25,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <tbody>
         <?php foreach ($items as $item): ?>
         <tr>
-            <td><input type="checkbox" id="row-<?php echo $item->id(); ?>"><label class="screen-reader-text" for="row-<?php echo $item->id(); ?>"><?php echo $escape($this->translate('Select row')); ?></label></td>
             <td>
                 <span class="resource-name">
                     <?php echo $item->link(strip_tags($item->displayTitle('[untitled]'))); ?>

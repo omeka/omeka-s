@@ -8,6 +8,12 @@ $resourceClasses = $vocabulary->resourceClasses();
 <h1><?php echo $escape('Vocabulary'); ?>: &ldquo;<?php echo $escape($vocabulary->label()); ?>&rdquo;</h1>
 <p><?php echo $escape($vocabulary->comment()); ?></p>
 
+<?php if ($vocabulary->label() == 'Omeka'): ?>
+<div id="page-actions">
+    <a href="edit" class="button"><?php echo $this->translate('Edit vocabulary'); ?></a>
+</div>
+<?php endif; ?>
+
 <nav class="section-nav">
     <ul>
         <li><a href="#" class="vocab-properties active section"><?php echo $escape('Properties'); ?></a></li>
@@ -27,10 +33,8 @@ $resourceClasses = $vocabulary->resourceClasses();
 <div id="vocab-classes" class="section">
 <?php foreach($resourceClasses as $resourceClass): ?>
     <div class="class">
-        <div class="original-class">
-            <h3 class="title"><?php echo $resourceClass->label(); ?></h3>
-            <div class="description"><?php echo $resourceClass->comment(); ?></div>
-        </div>
+        <h3 class="title"><?php echo $resourceClass->label(); ?></h3>
+        <div class="description"><?php echo $resourceClass->comment(); ?></div>
     </div>
 <?php endforeach; ?>
 </div>

@@ -43,7 +43,8 @@ ALTER TABLE $resourceTemplateProperty
     ADD CONSTRAINT FK_876084E116131EA FOREIGN KEY (resource_template_id) REFERENCES $resourceTemplate (id),
     ADD CONSTRAINT FK_876084E1549213EC FOREIGN KEY (property_id) REFERENCES $property (id);
 
-ALTER TABLE $resource DROP FOREIGN KEY FK_CB5438CAD1169F72,
+ALTER TABLE $resource
+    DROP FOREIGN KEY FK_CB5438CAD1169F72,
     DROP INDEX IDX_CB5438CAD1169F72,
     CHANGE property_assignment_set_id resource_template_id INT DEFAULT NULL,
     ADD CONSTRAINT FK_CB5438CA16131EA FOREIGN KEY (resource_template_id) REFERENCES $resourceTemplate (id),

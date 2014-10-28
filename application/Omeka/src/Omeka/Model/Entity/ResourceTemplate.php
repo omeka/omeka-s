@@ -2,13 +2,13 @@
 namespace Omeka\Model\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Omeka\Model\Entity\PropertyAssignment;
+use Omeka\Model\Entity\ResourceTemplateProperty;
 use Omeka\Model\Entity\User;
 
 /**
  * @Entity
  */
-class PropertyAssignmentSet extends AbstractEntity
+class ResourceTemplate extends AbstractEntity
 {
     /**
      * @Id
@@ -23,23 +23,23 @@ class PropertyAssignmentSet extends AbstractEntity
     protected $label;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="propertyAssignmentSets")
+     * @ManyToOne(targetEntity="User", inversedBy="resourceTemplates")
      */
     protected $owner;
 
     /**
      * @OneToMany(
-     *     targetEntity="PropertyAssignment",
-     *     mappedBy="propertyAssignmentSet",
+     *     targetEntity="ResourceTemplateProperty",
+     *     mappedBy="resourceTemplate",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
      */
-    protected $propertyAssignments;
+    protected $resourceTemplateProperties;
 
     public function __construct()
     {
-        $this->propertyAssignments = new ArrayCollection;
+        $this->resourceTemplateProperties = new ArrayCollection;
     }
 
     public function getId()
@@ -59,7 +59,7 @@ class PropertyAssignmentSet extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getPropertyAssignmentSets');
+        $this->synchronizeOneToMany($owner, 'owner', 'getResourceTemplates');
     }
 
     public function getOwner()
@@ -67,29 +67,29 @@ class PropertyAssignmentSet extends AbstractEntity
         return $this->owner;
     }
 
-    public function getPropertyAssignments()
+    public function getResourceTemplateProperties()
     {
-        return $this->propertyAssignments;
+        return $this->resourceTemplateProperties;
     }
 
     /**
      * Add a property assignment to this set.
      *
-     * @param PropertyAssignment $propertyAssignment
+     * @param ResourceTemplateProperty $resourceTemplateProperty
      */
-    public function addPropertyAssignment(PropertyAssignment $propertyAssignment)
+    public function addResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
     {
-        $propertyAssignment->setPropertyAssignmentSet($this);
+        $resourceTemplateProperty->setResourceTemplate($this);
     }
 
     /**
      * Remove a property assignment from this set.
      *
-     * @param PropertyAssignment $propertyAssignment
+     * @param ResourceTemplateProperty $resourceTemplateProperty
      * @return bool
      */
-    public function removePropertyAssignment(PropertyAssignment $propertyAssignment)
+    public function removeResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
     {
-        $propertyAssignment->setPropertyAssignmentSet(null);
+        $resourceTemplateProperty->setResourceTemplate(null);
     }
 }

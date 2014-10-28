@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\PropertyAssignmentSet;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
 use Omeka\Model\Entity\Vocabulary;

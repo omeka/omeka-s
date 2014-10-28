@@ -44,7 +44,7 @@ class UserTest extends TestCase
         );
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->user->getPropertyAssignmentSets()
+            $this->user->getResourceTemplates()
         );
     }
 

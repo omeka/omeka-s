@@ -30,7 +30,7 @@ class OmekaController extends AbstractActionController
         }
         foreach ($omekaVocabulary->resourceClasses() as $resourceClass) {
             $resource = $graph->resource($namespaceUri . $resourceClass->localName());
-            $resource->set('rdf:type', $graph->resource(self::PROPERTY_URI));
+            $resource->set('rdf:type', $graph->resource(self::CLASS_URI));
             $resource->set('rdfs:label', $resourceClass->label());
             $resource->set('rdfs:comment', $resourceClass->comment());
         }

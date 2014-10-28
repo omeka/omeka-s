@@ -1,0 +1,37 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+?>
+<table>
+    <thead>
+        <tr>
+            <th><?php echo $escape($this->translate('Subject')); ?></th>
+            <th><?php echo $escape($this->translate('Predicate')); ?></th>
+            <th><?php echo $escape($this->translate('Object')); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($objectValues as $value): ?>
+        <?php
+        $resource = $value->valueResource();
+        $property = $value->property();
+        ?>
+        <tr>
+            <td><?php echo $escape($this->translate('This')); ?></td>
+            <td><?php echo $escape($property->label()); ?></td>
+            <td><?php echo $resource->link(strip_tags($resource->displayTitle('[untitled]'))); ?></td>
+        </tr>
+        <?php endforeach; ?>
+
+        <?php foreach ($subjectValues as $value): ?>
+        <?php
+        $resource = $value->resource();
+        $property = $value->property();
+        ?>
+        <tr>
+            <td><?php echo $resource->link(strip_tags($resource->displayTitle('[untitled]'))); ?></td>
+            <td><?php echo $escape($property->label()); ?></td>
+            <td><?php echo $escape($this->translate('This')); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

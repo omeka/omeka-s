@@ -480,19 +480,30 @@ th {
   }
 
   /* @group ----- Tables ----- */
+  table {
+    width: 100%;
+  }
+
   th {
     font-weight: bold;
     text-align: left;
   }
 
-  tr {
+  th,
+  td {
+    padding: 0.75em 1.04167%;
     border-color: #d7d7d7;
     border-top-width: 0.0625em;
     border-top-style: solid;
-    padding-top: -0.0625em;
+    padding-top: 0.6875em;
   }
-  tr:first-child, tr:only-child {
-    border-color: transparent;
+
+  tbody tr:last-of-type td,
+  tbody tr:last-of-type th {
+    border-color: #d7d7d7;
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
   }
 
   thead + tbody tr:first-child {
@@ -619,80 +630,6 @@ th {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-  }
-
-  input[type="checkbox"] ~ label.screen-reader-text {
-    top: 0;
-    left: 0;
-    text-indent: -9999px;
-    margin: 0;
-    width: 2.25em;
-    right: 0;
-  }
-
-  input[type="checkbox"] ~ label.screen-reader-text:before {
-    float: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0;
-  }
-
-  input[type="checkbox"] ~ label.screen-reader-text:after {
-    position: static;
-    content: "";
-  }
-
-  input[type="checkbox"] ~ label:before {
-    content: "";
-    display: block;
-    float: right;
-    background-color: rgba(0, 0, 0, 0.05);
-    height: 36px;
-    width: 36px;
-    margin: -0.375em;
-    text-indent: 0;
-  }
-
-  input:checked ~ label:before {
-    content: "\f00c";
-    font-family: 'FontAwesome';
-    speak: none;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    text-align: center;
-    line-height: 36px;
-  }
-
-  input[type="checkbox"]:checked ~ label:before {
-    background-color: rgba(0, 0, 0, 0.15);
-  }
-
-  input[type="checkbox"]:checked ~ label {
-    background-color: transparent;
-  }
-
-  input:checked ~ label:after {
-    background-color: transparent;
-  }
-
-  input[type="checkbox"] {
-    position: absolute;
-    left: -9999px;
-  }
-
-  input[type="checkbox"] ~ label {
-    display: inline-block;
-    width: -webkit-calc(100% + 0.75em);
-    width: calc(100% + 0.75em);
-    cursor: pointer;
-    z-index: 1;
-    margin: -0.375em;
-    padding: 0.375em;
-    background-color: rgba(255, 255, 255, 0.5);
   }
 
   fieldset {
@@ -960,7 +897,6 @@ th {
   /* @end */
   /* @group ----- Browse views ----- */
   .browse table {
-    width: 100%;
     margin-bottom: 0.75em;
   }
 
@@ -1005,8 +941,9 @@ th {
 
   .browse td:first-of-type:not(:only-of-type),
   .browse th:first-of-type:not(:only-of-type) {
-    background-color: #d2d2d2;
+    background-color: rgba(0, 0, 0, 0.08);
     /* For multiline cells. */
+    text-align: center;
   }
 
   .browse .add.button,

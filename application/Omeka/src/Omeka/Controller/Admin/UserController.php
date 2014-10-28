@@ -175,30 +175,56 @@ class UserController extends AbstractActionController
         }
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
+        $keys = $user->getKeys();
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
             if ($form->isValid()) {
-                $values = $form->getData();
-                $label = $values['new-key-label'];
-                $key = new Key;
-                $key->setId();
-                $key->setLabel($label);
-                $key->setOwner($user);
-                $id = $key->getId();
-                $credential = $key->setCredential();
-                $em->persist($key);
+                $formData = $form->getData();
+                $this->addKey($em, $user, $formData['new-key-label']);
+
+                // Remove any keys marked for deletion
+                if (!empty($postData['delete']) && is_array($postData['delete'])) {
+                    foreach ($postData['delete'] as $deleteId) {
+                        $keys->remove($deleteId);
+                    }
+                    $this->messenger()->addSuccess("Deleted key(s).");
+                }
                 $em->flush();
-                $this->messenger()->addSuccess('Key created.');
-                $this->messenger()->addSuccess("ID: $id, Credential: $credential");
+                return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }
         }
 
+        // Only expose key IDs and values to the view
+        $viewKeys = array();
+        foreach ($keys as $id => $key) {
+            $viewKeys[$id] = $key->getLabel();
+        }
+
         $view->setVariable('user', $userRepresentation);
-        $view->setVariable('keys', $user->getKeys());
+        $view->setVariable('keys', $viewKeys);
         $view->setVariable('form', $form);
         return $view;
+    }
+
+    private function addKey($em, $user, $label)
+    {
+        if (empty($label)) {
+            return;
+        }
+
+        $key = new Key;
+        $key->setId();
+        $key->setLabel($label);
+        $key->setOwner($user);
+        $id = $key->getId();
+        $credential = $key->setCredential();
+        $em->persist($key);
+
+        $this->messenger()->addSuccess('Key created.');
+        $this->messenger()->addSuccess("ID: $id, Credential: $credential");
     }
 }

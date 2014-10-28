@@ -2,6 +2,7 @@
 namespace OmekaTest\Model;
 
 use DateTime;
+use Omeka\Model\Entity\PropertyAssignmentSet;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
 use Omeka\Model\Entity\Value;
@@ -21,6 +22,7 @@ class ResourceTest extends TestCase
         $this->assertNull($this->resource->getId());
         $this->assertNull($this->resource->getOwner());
         $this->assertNull($this->resource->getResourceClass());
+        $this->assertNull($this->resource->getPropertyAssignmentSet());
         $this->assertNull($this->resource->getCreated());
         $this->assertNull($this->resource->getModified());
         $this->assertInstanceOf(
@@ -41,6 +43,13 @@ class ResourceTest extends TestCase
         $resourceClass = new ResourceClass;
         $this->resource->setResourceClass($resourceClass);
         $this->assertSame($resourceClass, $this->resource->getResourceClass());
+    }
+
+    public function testSetPropertyAssignmentSet()
+    {
+        $propertyAssignmentSet = new PropertyAssignmentSet;
+        $this->resource->setPropertyAssignmentSet($propertyAssignmentSet);
+        $this->assertSame($propertyAssignmentSet, $this->resource->getPropertyAssignmentSet());
     }
 
     public function testSetCreated()

@@ -38,6 +38,11 @@ abstract class Resource extends AbstractEntity
     protected $resourceClass;
 
     /**
+     * @ManyToOne(targetEntity="PropertyAssignmentSet")
+     */
+    protected $propertyAssignmentSet;
+
+    /**
      * @Column(type="datetime")
      */
     protected $created;
@@ -96,6 +101,16 @@ abstract class Resource extends AbstractEntity
     public function getResourceClass()
     {
         return $this->resourceClass;
+    }
+
+    public function setPropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet)
+    {
+        $this->propertyAssignmentSet = $propertyAssignmentSet;
+    }
+
+    public function getPropertyAssignmentSet()
+    {
+        return $this->propertyAssignmentSet;
     }
 
     public function setCreated(DateTime $dateTime)

@@ -93,26 +93,25 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_property_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_property_assignment_set` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `resource_class_id` int(11) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `resource_class_label` (`resource_class_id`,`label`),
-  KEY `IDX_D57D24E0448CC1BD` (`resource_class_id`),
   KEY `IDX_D57D24E07E3C61F9` (`owner_id`),
-  CONSTRAINT `FK_D57D24E07E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`),
-  CONSTRAINT `FK_D57D24E0448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource_class` (`id`)
+  CONSTRAINT `FK_D57D24E07E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `resource_class_id` int(11) DEFAULT NULL,
+  `property_assignment_set_id` int(11) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   `resource_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_CB5438CA7E3C61F9` (`owner_id`),
   KEY `IDX_CB5438CA448CC1BD` (`resource_class_id`),
+  KEY `IDX_CB5438CAD1169F72` (`property_assignment_set_id`),
+  CONSTRAINT `FK_CB5438CAD1169F72` FOREIGN KEY (`property_assignment_set_id`) REFERENCES `OMEKA_TABLE_PREFIX_property_assignment_set` (`id`),
   CONSTRAINT `FK_CB5438CA448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource_class` (`id`),
   CONSTRAINT `FK_CB5438CA7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

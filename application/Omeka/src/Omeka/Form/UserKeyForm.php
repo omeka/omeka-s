@@ -21,6 +21,7 @@ class UserKeyForm extends Form
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
             'name' => 'new-key-label',
+            'required' => false,
             'validators' => array(
                 array(
                     'name' => 'StringLength',

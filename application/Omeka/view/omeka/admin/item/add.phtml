@@ -51,9 +51,9 @@ if (isset($errors)) {
                      <div class="active type input-option text">
                      <?php echo $formElement($element); ?>
                      <?php if ($name != 'o:resource_class[o:id]'): ?>
-                     <select class="value-language">
-                     <option value="en">English</option>
-                     </select>
+                     <?php $languageInputName = str_replace('@value', '@language', $name);  ?>
+                     <label for='<?php echo $languageInputName; ?>'>Language</label>
+                     <input class='value-language' type='text' name='<?php echo $languageInputName; ?>' />
                      <?php endif; ?>
                      </div>
                      <button class="remove-value">Remove value</button>
@@ -119,9 +119,8 @@ if (isset($errors)) {
                         <!-- input for the property value -->
                         <textarea name="" class="input-value"></textarea>
                         <input type='hidden' class="input-id" name="" value="" />
-                         <select class="value-language">
-                             <option value="en">English</option>
-                         </select>
+                        <label for=''>Language</label>
+                        <input class='value-language' type='text' name='' />
                      </div>
                      <button class="remove-value">Remove value</button>
                 </div>

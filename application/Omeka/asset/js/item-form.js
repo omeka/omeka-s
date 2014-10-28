@@ -172,9 +172,13 @@
         var count = valuesWrapper.find('.value').length;
         valuesWrapper.find('.value').last().after(newValue);
         var propertyId = valuesWrapper.data('property-id');
+        var languageElementName = qName + '[' + count + '][@language]';
         $('.input-id', newValue).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
         $('.input-id', newValue).attr('data-property-qname', qName);
         $('textarea', newValue).attr('name', qName + '[' + count + '][@value]');
+        $('label.value-language', newValue).attr('for', languageElementName);
+        $('input.value-language', newValue).attr('name', languageElementName);
+        
         $('html, body').animate({
             scrollTop: (valuesWrapper.offset().top -100)
         },200);
@@ -194,9 +198,9 @@
         if (prop) {
             propertyName = prop.toLowerCase();
             propertyName = propertyName.replace(/ /g, '-');
-            newFieldLable = $('<label for="' + propertyName + '">' + prop + '</label>');
+            newFieldLabel = $('<label for="' + propertyName + '">' + prop + '</label>');
             newField.find('[title="new-property-name"]').remove();
-            newField.find('.field-meta').prepend(newFieldLable);
+            newField.find('.field-meta').prepend(newFieldLabel);
             newField.removeClass('new');
         } else {
             newField.addClass('unset');

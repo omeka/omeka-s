@@ -52,7 +52,7 @@ if (isset($errors)) {
                      <?php echo $formElement($element); ?>
                      <?php if ($name != 'o:resource_class[o:id]'): ?>
                      <?php $languageInputName = str_replace('@value', '@language', $name);  ?>
-                     <label for='<?php echo $languageInputName; ?>'>Language</label>
+                     <label class='value-language' for='<?php echo $languageInputName; ?>'>Language</label>
                      <input class='value-language' type='text' name='<?php echo $languageInputName; ?>' />
                      <?php endif; ?>
                      </div>
@@ -119,7 +119,7 @@ if (isset($errors)) {
                         <!-- input for the property value -->
                         <textarea name="" class="input-value"></textarea>
                         <input type='hidden' class="input-id" name="" value="" />
-                        <label for=''>Language</label>
+                        <label class='value-language' for=''>Language</label>
                         <input class='value-language' type='text' name='' />
                      </div>
                      <button class="remove-value">Remove value</button>

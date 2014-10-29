@@ -115,6 +115,8 @@
                 var field = $(this).parents('.field');
                 var propertyId = propertyLi.data('property-id');
                 $('.input-value', field).attr('name', qName + '[' + count + '][@value]');
+                $('input.value-language', field).attr('name', qName + '[' + count + '][@language]');
+                $('label.value-language', field).attr('for', qName + '[' + count + '][@language]');
                 $('.input-id', field).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
                 $('.input-id', field).attr('data-property-qname', qName);
                 var fieldName = cleanText($(this).parent()) + ' (' + cleanText($(this).parents('.vocabulary')) + ')';
@@ -195,12 +197,14 @@
         var newField = $(fieldSection + ' .field.template').clone();
         newField.removeClass('template');
         newField.find('.remove-value').removeClass('active');
+
         if (prop) {
             propertyName = prop.toLowerCase();
             propertyName = propertyName.replace(/ /g, '-');
             newFieldLabel = $('<label for="' + propertyName + '">' + prop + '</label>');
             newField.find('[title="new-property-name"]').remove();
             newField.find('.field-meta').prepend(newFieldLabel);
+            
             newField.removeClass('new');
         } else {
             newField.addClass('unset');
@@ -212,10 +216,13 @@
         }
         if (prop) {
             $('.new.field').first().before(newField);
+            console.log(newField);
+            $('label.value-language', newField).attr('for', 'what');
         } else {
             //$('.field.template').before(newField);
             $(fieldSection).find('.template').before(newField);
         }
+        
         var modalLink = $('.modal-link');
         if (modalLink.length > 0) {
             attachModal(modalLink);

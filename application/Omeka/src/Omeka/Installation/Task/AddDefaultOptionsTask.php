@@ -2,11 +2,13 @@
 namespace Omeka\Installation\Task;
 
 use Omeka\Installation\Manager;
+use Omeka\Module;
 use Omeka\Service\Paginator;
 
 class AddDefaultOptionsTask implements TaskInterface
 {
     protected $defaultOptions = array(
+        'version' => Module::VERSION,
         'pagination_per_page' => Paginator::PER_PAGE,
     );
 

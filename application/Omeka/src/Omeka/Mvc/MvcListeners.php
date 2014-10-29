@@ -18,6 +18,10 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
+            array($this, 'redirectToMigration')
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
             array($this, 'redirectToLogin')
         );
         $this->listeners[] = $events->attach(
@@ -62,6 +66,62 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
+     * Redirect admin requests to migrate route if Omeka needs migrations.
+     *
+     * @param MvcEvent $event
+     * @return Zend\Http\PhpEnvironment\Response
+     */
+    public function redirectToMigration(MvcEvent $event)
+    {
+        $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
+        if ('install' == $matchedRouteName) {
+            // On the install route, do not migrate.
+            return;
+        }
+
+        $serviceLocator = $event->getApplication()->getServiceManager();
+        $options = $serviceLocator->get('Omeka\Options');
+
+        $installedVersion = $options->get('version');
+        $codeVersion = \Omeka\Module::VERSION;
+
+        if (version_compare($installedVersion, $codeVersion, '=')) {
+            // The versions are the same.
+            return;
+        }
+
+        $migrationManager = $event->getApplication()
+            ->getServiceManager()
+            ->get('Omeka\MigrationManager');
+        $migrationsToPerform = $migrationManager->getMigrationsToPerform();
+
+        if (!$migrationsToPerform) {
+            // There are no migrations to perform.
+            $options->set('version', $codeVersion);
+            return;
+        }
+
+        $routeMatch = $event->getRouteMatch();
+        $matchedRouteName = $routeMatch->getMatchedRouteName();
+        if ('migrate' == $matchedRouteName || 'maintenance' == $matchedRouteName) {
+            // Already on the migrate or maintenance route.
+            return;
+        }
+
+        if ('Omeka\Controller\Admin' == $routeMatch->getParam('__NAMESPACE__')) {
+            $url = $event->getRouter()->assemble(array(), array('name' => 'migrate'));
+        } else {
+            $url = $event->getRouter()->assemble(array(), array('name' => 'maintenance'));
+        }
+
+        $response = $event->getResponse();
+        $response->getHeaders()->addHeaderLine('Location', $url);
+        $response->setStatusCode(302);
+        $response->sendHeaders();
+        return $response;
+    }
+
+    /**
      * Redirect all admin requests to install route if user not logged in.
      *
      * @param MvcEvent $event
@@ -77,11 +137,9 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $routeParams = $event->getRouteMatch()->getParams();
-        if (isset($routeParams['__NAMESPACE__'])
-            && 'Omeka\Controller\Admin' == $routeParams['__NAMESPACE__']
-        ) {
-            // Admin request.
+        $routeMatch = $event->getRouteMatch();
+        if ('Omeka\Controller\Admin' == $routeMatch->getParam('__NAMESPACE__')) {
+            // This is an admin request.
             $url = $event->getRouter()->assemble(array(), array('name' => 'login'));
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);

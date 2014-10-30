@@ -66,45 +66,41 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Redirect admin requests to migrate route if Omeka needs migrations.
+     * Redirect requests if Omeka needs database migrations.
+     *
+     * Updates the installed version when the code version is out of sync and
+     * there are no migrations to perform. When there are migrations to perform,
+     * redirects to a migrate page in the admin route, and to a maintenance page
+     * on all other routes.
      *
      * @param MvcEvent $event
      * @return Zend\Http\PhpEnvironment\Response
      */
     public function redirectToMigration(MvcEvent $event)
     {
-        $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
+        $routeMatch = $event->getRouteMatch();
+        $matchedRouteName = $routeMatch->getMatchedRouteName();
+
         if ('install' == $matchedRouteName) {
-            // On the install route, do not migrate.
+            // No need to continue when installing the software.
             return;
         }
 
         $serviceLocator = $event->getApplication()->getServiceManager();
-        $options = $serviceLocator->get('Omeka\Options');
+        $status = $serviceLocator->get('Omeka\Status');
 
-        $installedVersion = $options->get('version');
-        $codeVersion = \Omeka\Module::VERSION;
-
-        if (version_compare($installedVersion, $codeVersion, '=')) {
-            // The versions are the same.
+        if (!$status->needsVersionUpdate()) {
+            // No need to continue when the version is up to date.
             return;
         }
-
-        $migrationManager = $event->getApplication()
-            ->getServiceManager()
-            ->get('Omeka\MigrationManager');
-        $migrationsToPerform = $migrationManager->getMigrationsToPerform();
-
-        if (!$migrationsToPerform) {
-            // There are no migrations to perform.
-            $options->set('version', $codeVersion);
+        if (!$status->needsMigration()) {
+            // There are no migrations. Update the installed version and return.
+            $serviceLocator->get('Omeka\Options')
+                ->set('version', $status->getVersion());
             return;
         }
-
-        $routeMatch = $event->getRouteMatch();
-        $matchedRouteName = $routeMatch->getMatchedRouteName();
         if ('migrate' == $matchedRouteName || 'maintenance' == $matchedRouteName) {
-            // Already on the migrate or maintenance route.
+            // Already on the migrate or maintenance route. Do not redirect.
             return;
         }
 
@@ -113,7 +109,6 @@ class MvcListeners extends AbstractListenerAggregate
         } else {
             $url = $event->getRouter()->assemble(array(), array('name' => 'maintenance'));
         }
-
         $response = $event->getResponse();
         $response->getHeaders()->addHeaderLine('Location', $url);
         $response->setStatusCode(302);

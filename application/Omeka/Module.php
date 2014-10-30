@@ -17,6 +17,11 @@ use Zend\Mvc\MvcEvent;
  */
 class Module extends AbstractModule
 {
+    /**
+     * This Omeka version.
+     */
+    const VERSION = '0.1.0';
+
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);

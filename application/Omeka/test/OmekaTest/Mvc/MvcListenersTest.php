@@ -17,12 +17,16 @@ class MvcListenersTest extends TestCase
     public function testAttach()
     {
         $events = $this->getMock('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->exactly(5))
+        $events->expects($this->exactly(6))
             ->method('attach')
             ->withConsecutive(
                 array(
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
                     $this->equalTo(array($this->mvcListeners, 'redirectToInstallation'))
+                ),
+                array(
+                    $this->equalTo(MvcEvent::EVENT_ROUTE),
+                    $this->equalTo(array($this->mvcListeners, 'redirectToMigration'))
                 ),
                 array(
                     $this->equalTo(MvcEvent::EVENT_ROUTE),

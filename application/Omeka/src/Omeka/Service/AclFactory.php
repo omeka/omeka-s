@@ -117,6 +117,12 @@ class AclFactory implements FactoryInterface
         // Everyone has access to login.
         $acl->allow(null, 'Omeka\Controller\Login');
 
+        // Everyone has access to maintenance.
+        $acl->allow(null, 'Omeka\Controller\Maintenance');
+
+        // Everyone has access to migrate.
+        $acl->allow(null, 'Omeka\Controller\Migrate');
+
         // Everyone has access to the custom vocabulary RDF.
         $acl->allow(null, 'Omeka\Controller\Omeka');
 

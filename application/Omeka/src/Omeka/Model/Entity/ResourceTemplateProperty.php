@@ -2,12 +2,12 @@
 namespace Omeka\Model\Entity;
 
 use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\PropertyAssignmentSet;
+use Omeka\Model\Entity\ResourceTemplate;
 
 /**
  * @Entity
  */
-class PropertyAssignment extends AbstractEntity
+class ResourceTemplateProperty extends AbstractEntity
 {
     /**
      * @Id
@@ -17,10 +17,10 @@ class PropertyAssignment extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="PropertyAssignmentSet", inversedBy="propertyAssignments")
+     * @ManyToOne(targetEntity="ResourceTemplate", inversedBy="resourceTemplateProperties")
      * @JoinColumn(nullable=false)
      */
-    protected $propertyAssignmentSet;
+    protected $resourceTemplate;
 
     /**
      * @ManyToOne(targetEntity="Property")
@@ -43,15 +43,15 @@ class PropertyAssignment extends AbstractEntity
         return $this->id;
     }
 
-    public function setPropertyAssignmentSet(PropertyAssignmentSet $propertyAssignmentSet = null)
+    public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
     {
-        $this->synchronizeOneToMany($propertyAssignmentSet, 'propertyAssignmentSet',
-            'getPropertyAssignments');
+        $this->synchronizeOneToMany($resourceTemplate, 'resourceTemplate',
+            'getResourceTemplateProperties');
     }
 
-    public function getPropertyAssignmentSet()
+    public function getResourceTemplate()
     {
-        return $this->propertyAssignmentSet;
+        return $this->resourceTemplate;
     }
 
     public function setProperty(Property $property)

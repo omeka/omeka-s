@@ -88,9 +88,9 @@ class User extends AbstractEntity implements RoleInterface
     protected $properties;
 
     /**
-     * @OneToMany(targetEntity="PropertyAssignmentSet", mappedBy="owner")
+     * @OneToMany(targetEntity="ResourceTemplate", mappedBy="owner")
      */
-    protected $propertyAssignmentSets;
+    protected $resourceTemplates;
 
     public function __construct()
     {
@@ -99,7 +99,7 @@ class User extends AbstractEntity implements RoleInterface
         $this->vocabularies = new ArrayCollection;
         $this->resourceClasses = new ArrayCollection;
         $this->properties = new ArrayCollection;
-        $this->propertyAssignmentSets = new ArrayCollection;
+        $this->resourceTemplates = new ArrayCollection;
     }
 
     public function getId()
@@ -221,9 +221,9 @@ class User extends AbstractEntity implements RoleInterface
         return $this->properties;
     }
 
-    public function getPropertyAssignmentSets()
+    public function getResourceTemplates()
     {
-        return $this->propertyAssignmentSets;
+        return $this->resourceTemplates;
     }
 
     /**

@@ -53,6 +53,7 @@ return array(
             'Omeka\Controller\Api'             => 'Omeka\Controller\ApiController',
             'Omeka\Controller\Install'         => 'Omeka\Controller\InstallController',
             'Omeka\Controller\Login'           => 'Omeka\Controller\LoginController',
+            'Omeka\Controller\Maintenance'     => 'Omeka\Controller\MaintenanceController',
             'Omeka\Controller\Migrate'         => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Omeka'           => 'Omeka\Controller\OmekaController',
             'Omeka\Controller\Site\Index'      => 'Omeka\Controller\Site\IndexController',
@@ -90,6 +91,7 @@ return array(
         'install' => 'layout/minimal',
         'migrate' => 'layout/minimal',
         'login'   => 'layout/minimal',
+        'maintenance' => 'layout/minimal',
     ),
     'view_helpers' => array(
         'invokables' => array(
@@ -380,6 +382,17 @@ return array(
                     'spec' => '/migrate',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Migrate',
+                        'action' => 'index',
+                     ),
+                ),
+            ),
+            'maintenance' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/maintenance(/.*)?',
+                    'spec' => '/maintenance',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Maintenance',
                         'action' => 'index',
                      ),
                 ),

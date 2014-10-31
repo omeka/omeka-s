@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc;
 
+use Omeka\Module as OmekaModule;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -71,6 +72,58 @@ class Status implements ServiceLocatorAwareInterface
         $this->isApiRequest = 'Omeka\Controller\Api'
             === $routeMatch->getParam('controller');
         return $this->isApiRequest;
+    }
+
+    /**
+     * Check whether Omeka needs a version update.
+     *
+     * An update is needed when the code version is more recent than the
+     * installed version.
+     *
+     * @return bool
+     */
+    public function needsVersionUpdate()
+    {
+        if (version_compare($this->getVersion(), $this->getInstalledVersion(), '=')) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check whether Omeka needs a database migration.
+     *
+     * A migration is needed when there are un-performed migrations.
+     *
+     * @return bool
+     */
+    public function needsMigration()
+    {
+        $migrationManager = $this->getServiceLocator()->get('Omeka\MigrationManager');
+        if ($migrationManager->getMigrationsToPerform()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the Omeka code version.
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return OmekaModule::VERSION;
+    }
+
+    /**
+     * Get the Omeka installed version.
+     *
+     * @return string
+     */
+    public function getInstalledVersion()
+    {
+        return $this->getServiceLocator()->get('Omeka\Options')->get('version');
     }
 
     /**

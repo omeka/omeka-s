@@ -23,17 +23,17 @@ header {
         z-index: 1001;
     }
     
-    .fa-menu.button {
+    .o-icon-menu.button {
         left: 0;
         border-right: 1px solid rgba(0,0,0,.08);
         width: rhythm(1.5);
     }
     
-    .fa-search.button {
+    .o-icon-search.button {
         left: rhythm(1.5);
     }
     
-    .fa-current-user.button {
+    .o-icon-user.button {
         right: 0;
     }
 }

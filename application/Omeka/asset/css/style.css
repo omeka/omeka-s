@@ -2359,15 +2359,15 @@ th {
     top: 0;
     z-index: 1001;
   }
-  header .fa-menu.button {
+  header .o-icon-menu.button {
     left: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.08);
     width: 2.25em;
   }
-  header .fa-search.button {
+  header .o-icon-search.button {
     left: 2.25em;
   }
-  header .fa-current-user.button {
+  header .o-icon-user.button {
     right: 0;
   }
 

@@ -419,7 +419,7 @@ return array(
                      ),
                 ),
             ),
-            'instance_namespace' => array(
+            'custom_vocabulary' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/omeka',

@@ -10,7 +10,7 @@ $resourceClasses = $vocabulary->resourceClasses();
 
 <?php if ($vocabulary->label() == 'Omeka'): ?>
 <div id="page-actions">
-    <a href="edit" class="button"><?php echo $this->translate('Edit vocabulary'); ?></a>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $this->translate('Edit vocabulary'); ?></a>
 </div>
 <?php endif; ?>
 

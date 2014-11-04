@@ -1,0 +1,78 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'vocabs custom');
+$deleteForm->prepare();
+$properties = $vocabulary->properties();
+$classes = $vocabulary->resourceClasses();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $this->translate('Edit Omeka Vocabulary'); ?></h1>
+
+<nav class="section-nav with-subnav">
+    <ul>
+        <li>
+            <a href="#" class="vocab-properties section active">
+                <?php echo $this->translate('Properties'); ?>
+                (<?php echo count($properties); ?>)
+            </a>
+        </li>
+        <li>
+            <a href="#" class="vocab-classes section">
+                <?php echo $this->translate('Classes'); ?>
+                (<?php echo count($classes); ?>)
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="vocab-properties" class="active section">
+<?php if (count($properties) > 0): ?>
+    <?php foreach ($properties as $property): ?>
+        <div class="property">
+            <ul class="actions">
+                <li><a href="#" class="o-icon-delete"                        
+                      aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                      title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a>
+                </li>
+            </ul>
+            <div class="field-meta">
+                <div class="property-name"><?php echo $property->label(); ?></div>
+            </div>
+            <div class="inputs">
+                <div class="description"><?php echo $property->comment(); ?></div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+<?php else: ?>
+
+    <div class="no-resources">
+        <p><?php echo $this->translate('Omeka could not find any custom properties.'); ?></p>
+        
+        <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first custom property')); ?></a>
+    </div>
+
+<?php endif; ?>
+</div>
+
+<div id="vocab-classes" class="section">
+<?php if (count($classes) > 0): ?>
+    <?php foreach ($classes as $class): ?>
+        <div class="class">
+            <ul class="actions">
+                <li><a href="#" class="o-icon-delete"><span class="screen-reader-text"><?php echo $this->translate('Delete'); ?></span></a></li>
+            </ul>
+            <h3><?php echo $class->label(); ?></h3>
+            <div class="description"><?php echo $class->comment(); ?></div>
+        </div>
+    <?php endforeach; ?>
+
+<?php else: ?>
+
+    <div class="no-resources">
+        <p><?php echo $this->translate('Omeka could not find any custom classes.'); ?></p>
+        
+        <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first custom class')); ?></a>
+    </div>
+
+<?php endif; ?></div>

@@ -14,7 +14,7 @@ class InstallDefaultVocabularyTask implements TaskInterface
     protected $vocabulary = array(
         'o:namespace_uri' => 'omeka',
         'o:prefix'        => 'omeka',
-        'o:label'         => 'Omeka',
+        'o:label'         => 'Custom Vocabulary',
         'o:comment'       => 'Custom classes and properties',
     );
 

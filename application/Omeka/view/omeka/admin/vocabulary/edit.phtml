@@ -1,1 +1,48 @@
+<?php
+$form->prepare();
+$escape = $this->plugin('escapeHtml');
+?>
 
+<h1><?php echo $escape($this->translate(sprintf('Edit Vocabulary "%s"', $vocabulary->label()))); ?></h1>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <?php echo $vocabulary->link(
+        $this->translate('Show Vocabulary'),
+        'show',
+        array('class' => 'button')
+    ); ?>
+    <button><?php echo $escape($this->translate('Submit')); ?></button>
+</div>
+
+<div class="field">
+    <?php $labelElement = $form->get('o:label'); ?>
+    <div class="field-meta">
+        <?php echo $this->formLabel($labelElement); ?>
+        <div class="field-description">
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('A human-readable title of the vocabulary.')); ?></p>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formElement($labelElement); ?>
+    </div>
+    <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
+</div>
+<div class="field">
+    <?php $commentElement = $form->get('o:comment'); ?>
+    <div class="field-meta">
+        <?php echo $this->formLabel($commentElement); ?>
+        <div class="field-description">
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('A human-readable description of the vocabulary.')); ?></p>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formElement($commentElement); ?>
+    </div>
+    <?php echo $this->formElementErrors($commentElement, array('class' => 'messages')); ?>
+</div>
+
+<?php echo $this->form()->closeTag(); ?>

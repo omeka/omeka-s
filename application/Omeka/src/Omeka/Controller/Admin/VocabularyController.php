@@ -1,6 +1,7 @@
 <?php 
 namespace Omeka\Controller\Admin;
 
+use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -101,6 +102,40 @@ class VocabularyController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
+        $form = new VocabularyForm;
+        $id = $this->params('id');
+
+        $readResponse = $this->api()->read('vocabularies', $id);
+        if ($readResponse->isError()) {
+            $this->apiError($readResponse);
+            return;
+        }
+        $vocabulary = $readResponse->getContent();
+        $data = $vocabulary->jsonSerialize();
+        $form->setData($data);
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $response = $this->api()->update('vocabularies', $id, $formData);
+                if ($response->isError()) {
+                    $messages = $this->apiError($response);
+                    if ($messages) {
+                        $form->setMessages($messages);
+                    }
+                } else {
+                    $this->messenger()->addSuccess('Vocabulary updated.');
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view->setVariable('vocabulary', $vocabulary);
+        $view->setVariable('form', $form);
         return $view;
     }
 

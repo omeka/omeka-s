@@ -101,9 +101,12 @@ class VocabularyController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
-        $response = $this->api()->read('vocabularies', 1);
-        $view->setVariable('deleteForm', $deleteForm);
-        $view->setVariable('vocabulary', $response->getContent());
+        return $view;
+    }
+
+    public function editCustomVocabularyAction()
+    {
+        $view = new ViewModel;
         return $view;
     }
     

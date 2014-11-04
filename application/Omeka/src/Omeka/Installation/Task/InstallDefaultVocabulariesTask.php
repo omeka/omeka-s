@@ -28,7 +28,7 @@ class InstallDefaultVocabulariesTask implements TaskInterface
         array(
             'vocabulary' => array(
                 'o:namespace_uri' => 'http://purl.org/dc/dcmitype/',
-                'o:prefix' => 'dcmitype',
+                'o:prefix' => 'dctype',
                 'o:label' => 'Dublin Core Type',
                 'o:comment' => 'Basic resource types (DCMI Type Vocabulary)',
             ),

@@ -97,4 +97,10 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('form', $form);
         return $view;
     }
+    
+    public function addResourceTemplateAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
 }

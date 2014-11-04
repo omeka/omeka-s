@@ -10,7 +10,7 @@ $resourceClasses = $vocabulary->resourceClasses();
 
 <?php if ($vocabulary->prefix() == 'omeka'): ?>
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $this->translate('Edit vocabulary'); ?></a>
+    <a href="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'vocabulary', 'action' => 'edit-custom'))); ?>" class="button"><?php echo $this->translate('Customize'); ?></a>
 </div>
 <?php endif; ?>
 

@@ -104,7 +104,7 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
-    public function editCustomVocabularyAction()
+    public function editCustomAction()
     {
         $view = new ViewModel;
         return $view;

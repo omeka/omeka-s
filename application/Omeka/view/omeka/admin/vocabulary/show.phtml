@@ -8,7 +8,7 @@ $resourceClasses = $vocabulary->resourceClasses();
 <h1><?php echo $escape('Vocabulary'); ?>: &ldquo;<?php echo $escape($vocabulary->label()); ?>&rdquo;</h1>
 <p><?php echo $escape($vocabulary->comment()); ?></p>
 
-<?php if ($vocabulary->label() == 'Omeka'): ?>
+<?php if ($vocabulary->prefix() == 'omeka'): ?>
 <div id="page-actions">
     <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $this->translate('Edit vocabulary'); ?></a>
 </div>

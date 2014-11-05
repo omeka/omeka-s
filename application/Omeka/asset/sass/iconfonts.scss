@@ -10,7 +10,11 @@
     @extend .fa-bars;
 }
 
-.o-icon-current-user {
+.o-icon-search {
+    @extend .fa-search;
+}
+
+.o-icon-user {
     @extend .fa-user;
 } 
 

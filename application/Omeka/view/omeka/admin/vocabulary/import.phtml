@@ -1,14 +1,15 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'vocabs import');
 $form->prepare();
+$escape = $this->plugin('escapeHtml');
 ?>
 
-<h1>Import Vocabulary</h1>
+<h1><?php echo $escape($this->translate('Import Vocabulary')); ?></h1>
 
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
-    <button>Submit</button>
+    <button><?php echo $escape($this->translate('Submit')); ?></button>
 </div>
 
 <div class="field">
@@ -24,8 +25,8 @@ $form->prepare();
     <div class="field-meta">
         <?php echo $this->formLabel($prefixElement); ?>
         <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-            <p>A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.</p>
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.')); ?></p>
         </div>
     </div>
     <div class="inputs">
@@ -38,8 +39,8 @@ $form->prepare();
     <div class="field-meta">
         <?php echo $this->formLabel($namespaceUriElement); ?>
         <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-            <p>The unique namespace URI used by the vocabulary to identify local member classes and properties.</p>
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('The unique namespace URI used by the vocabulary to identify local member classes and properties.')); ?></p>
         </div>
     </div>
     <div class="inputs">
@@ -52,8 +53,8 @@ $form->prepare();
     <div class="field-meta">
         <?php echo $this->formLabel($labelElement); ?>
         <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-            <p>A human-readable title of the vocabulary.</p>
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('A human-readable title of the vocabulary.')); ?></p>
         </div>
     </div>
     <div class="inputs">
@@ -66,8 +67,8 @@ $form->prepare();
     <div class="field-meta">
         <?php echo $this->formLabel($commentElement); ?>
         <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-            <p>A human-readable description of the vocabulary.</p>
+            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+            <p><?php echo $escape($this->translate('A human-readable description of the vocabulary.')); ?></p>
         </div>
     </div>
     <div class="inputs">

@@ -3,10 +3,11 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1>Vocabularies</h1>
+<h1><?php echo $this->translate('Vocabularies'); ?></h1>
 <div id="page-actions">
     <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'import'), true)); ?>" class="button">Import new vocabulary</a>
 </div>
+
 <table>
     <thead>
         <tr>
@@ -21,6 +22,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php echo $vocabulary->link($vocabulary->label()); ?>
                 </span>
                 <ul class="actions">
+                    <?php if (!in_array($vocabulary->prefix(), array('omeka', 'dcterms', 'dctype'))): ?>
+                    <li><?php echo $vocabulary->link('', 'edit', array(
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    )); ?></li>
+                    <?php endif; ?>
                     <li><a href="#"
                         data-show-details-action="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
                         class="o-icon-more sidebar-details"

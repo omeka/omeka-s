@@ -202,7 +202,7 @@
   content: "";
 }
 
-.fa-search:before {
+.fa-search:before, .o-icon-search:before {
   content: "";
 }
 
@@ -222,7 +222,7 @@
   content: "";
 }
 
-.fa-user:before, .o-icon-current-user:before {
+.fa-user:before, .o-icon-user:before {
   content: "";
 }
 

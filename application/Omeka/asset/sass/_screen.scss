@@ -31,6 +31,10 @@ a:hover {
     color: $red;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
 h3, h4, h5, h6 {
     font-weight: bold;
 }
@@ -38,7 +42,6 @@ h3, h4, h5, h6 {
 h1 {
     font-size: 2 * $base-font-size;
     line-height: 2 * $base-line-height;
-    margin: 0;
     @include trailer(1, 2 * $base-font-size);
 }
 
@@ -503,39 +506,15 @@ div[role="main"] {
     vertical-align: top;
 }
 
-.browse td,
-.browse th,
-.browse table a {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.browse td:first-of-type,
-.browse th:first-of-type {
-    min-width: rhythm(1.5);
-    width: rhythm(1.5);
-}
-
-.browse td:nth-of-type(2),
-.browse th:nth-of-type(2) {
-    width: 40%;
-}
-
-.browse td:first-of-type:not(:only-of-type),
-.browse th:first-of-type:not(:only-of-type) {
-    background-color: $gray-on-white; /* For multiline cells. */
-    text-align: center;
+.browse tr:last-of-type td,
+.browse tr:last-of-type th {
+    @include trailing-border(1px, .25, $base-font-size, solid);
 }
 
 .browse .add.button,
 .browse .batch-edit.button {
     float: left;
     margin-right: .25em;
-}
-
-.browse .pagination {
-    float: right;
 }
 
 .actions {
@@ -722,7 +701,7 @@ th a[class="sorted-desc"] {
     content: $fa-var-plus-square;
 }
 
-.vocabularies .no-resources:before {
+.vocabs .no-resources:before {
     content: $fa-var-book;
 }
 
@@ -745,7 +724,6 @@ th a[class="sorted-desc"] {
 .section-nav {
     border-top: 1px solid #fff;
     height: rhythm(1.75);
-    @include clearfix;
     position: relative;
     @include trailer();
     
@@ -786,6 +764,7 @@ th a[class="sorted-desc"] {
     }
     
     .active a {
+        font-weight: bold;
         border-bottom-color: #fff;
     }
 }
@@ -959,6 +938,7 @@ th a[class="sorted-desc"] {
                 display: inline-block;
                 margin: 0 0 0 1em;
                 opacity: .75;
+                margin: 0;
             }
             
             .o-icon-info + p {
@@ -1787,7 +1767,7 @@ body.show .property {
         }
     }
     
-    .vocabs .original-class,
+    .vocabs .class,
     .vocabs .property-set {
         background-color: $gray-on-white;
         padding: rhythm(.25);

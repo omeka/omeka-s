@@ -20,7 +20,7 @@ class MigrateController extends AbstractActionController
                 ->upgrade();
             $options = $this->getServiceLocator()
                 ->get('Omeka\Options')
-                ->set('version', $codeVersion);
+                ->set('version', $status->getVersion());
             $this->messenger()->addSuccess("Migration successful");
             return $this->redirect()->toRoute('admin');
         }

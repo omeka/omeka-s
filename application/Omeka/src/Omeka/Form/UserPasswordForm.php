@@ -1,18 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class UserPasswordForm extends Form
+class UserPasswordForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('user-password');
+        return 'user-password';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
+
         $this->add(array(
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
-                'label' => 'Password',
+                'label' => $translator->translate('Password'),
             ),
             'attributes' => array(
                 'id' => 'password',
@@ -23,13 +27,14 @@ class UserPasswordForm extends Form
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => array(
-                'label' => 'Confirm Password',
+                'label' => $translator->translate('Confirm Password'),
             ),
             'attributes' => array(
                 'id' => 'password-confirm',
                 'required' => true,
             ),
         ));
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
             'name' => 'password',

@@ -30,7 +30,7 @@ class ItemController extends AbstractActionController
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('items', $response->getContent());
-        $view->setVariable('deleteForm', new DeleteForm);
+        $view->setVariable('deleteForm', new DeleteForm($this->getServiceLocator()));
         return $view;
     }
 
@@ -65,7 +65,7 @@ class ItemController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new DeleteForm;
+            $form = new DeleteForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete(

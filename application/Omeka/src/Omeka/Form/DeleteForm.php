@@ -1,19 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class DeleteForm extends Form
+class DeleteForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('delete');
+        return 'delete';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'type' => 'submit',
             'name' => 'submit',
             'attributes' => array(
-                'value' => 'Confirm Delete',
+                'value' => $translator->translate('Confirm Delete'),
             ),
         ));
 

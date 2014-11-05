@@ -9,6 +9,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
 {
     /**
+     * Form options. Set default options in concrete implementations.
+     *
+     * @var array
+     */
+    protected $options = array();
+
+    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -22,11 +29,14 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
      * Construct the object.
      *
      * @param ServiceLocatorInterface $serviceLocator
+     * @param array $options
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
-    {
+    public function __construct(ServiceLocatorInterface $serviceLocator,
+        array $options = array()
+    ) {
         $this->setServiceLocator($serviceLocator);
         parent::__construct($this->getFormName());
+        $this->options = array_merge($this->options, $options);
         $this->buildForm();
     }
 
@@ -41,6 +51,17 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
      * Build this form's elements, input filters, etc.
      */
     abstract public function buildForm();
+
+    /**
+     * Get an option
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getOption($key)
+    {
+        return isset($this->options[$key]) ? $this->options[$key] : null;
+    }
 
     /**
      * Get the translator service

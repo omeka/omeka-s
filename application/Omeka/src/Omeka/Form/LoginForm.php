@@ -1,19 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class LoginForm extends Form
+class LoginForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('login');
+        return 'login';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'name' => 'username',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Username',
+                'label' => $translator->translate('Username'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -23,7 +26,7 @@ class LoginForm extends Form
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
-                'label' => 'Password',
+                'label' => $translator->translate('Password'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -33,7 +36,7 @@ class LoginForm extends Form
             'name' => 'submit',
             'type'  => 'Submit',
             'attributes' => array(
-                'value' => 'Log in',
+                'value' => $translator->translate('Log in'),
             ),
         ));
 

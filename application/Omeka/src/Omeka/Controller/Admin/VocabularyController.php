@@ -62,7 +62,7 @@ class VocabularyController extends AbstractActionController
     public function importAction()
     {
         $view = new ViewModel;
-        $form = new VocabularyImportForm;
+        $form = new VocabularyImportForm($this->getServiceLocator());
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -102,7 +102,7 @@ class VocabularyController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
-        $form = new VocabularyForm;
+        $form = new VocabularyForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('vocabularies', $id);

@@ -1,19 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class InstallationForm extends Form
+class InstallationForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('installation');
+        return 'installation';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'name' => 'username',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Username',
+                'label' => $translator->translate('Username'),
             ),
             'attributes' => array(
                 'id' => 'username',
@@ -24,7 +27,7 @@ class InstallationForm extends Form
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
-                'label' => 'Password',
+                'label' => $translator->translate('Password'),
             ),
             'attributes' => array(
                 'id' => 'password',
@@ -35,7 +38,7 @@ class InstallationForm extends Form
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => array(
-                'label' => 'Confirm Password',
+                'label' => $translator->translate('Confirm Password'),
             ),
             'attributes' => array(
                 'id' => 'password-confirm',
@@ -46,7 +49,7 @@ class InstallationForm extends Form
             'name' => 'name',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Name',
+                'label' => $translator->translate('Name'),
             ),
             'attributes' => array(
                 'id' => 'name',
@@ -57,7 +60,7 @@ class InstallationForm extends Form
             'name' => 'email',
             'type' => 'Email',
             'options' => array(
-                'label' => 'Email',
+                'label' => $translator->translate('Email'),
             ),
             'attributes' => array(
                 'id' => 'email',
@@ -68,7 +71,7 @@ class InstallationForm extends Form
             'name' => 'email-confirm',
             'type' => 'Email',
             'options' => array(
-                'label' => 'Confirm Email',
+                'label' => $translator->translate('Confirm Email'),
             ),
             'attributes' => array(
                 'id' => 'email-confirm',

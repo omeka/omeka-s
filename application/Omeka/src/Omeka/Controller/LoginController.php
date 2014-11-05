@@ -15,7 +15,7 @@ class LoginController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $form = new LoginForm;
+        $form = new LoginForm($this->getServiceLocator());
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();

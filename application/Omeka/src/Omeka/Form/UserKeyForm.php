@@ -1,23 +1,28 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class UserKeyForm extends Form
+class UserKeyForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('user-key');
+        return 'user-key';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
+
         $this->add(array(
             'name' => 'new-key-label',
             'type' => 'Text',
             'options' => array(
-                'label' => 'New Key Label',
+                'label' => $translator->translate('New Key Label'),
             ),
             'attributes' => array(
                 'id' => 'new-key-label',
             ),
         ));
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
             'name' => 'new-key-label',

@@ -1,19 +1,24 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class UserForm extends Form
+class UserForm extends AbstractForm
 {
-    public function __construct($includeRole = false)
+    protected $options = array('includeRole' => false);
+
+    public function getFormName()
     {
-        parent::__construct('user');
+        return 'user';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'name' => 'o:username',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Username',
+                'label' => $translator->translate('Username'),
             ),
             'attributes' => array(
                 'id' => 'username',
@@ -24,7 +29,7 @@ class UserForm extends Form
             'name' => 'o:name',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Name',
+                'label' => $translator->translate('Name'),
             ),
             'attributes' => array(
                 'id' => 'name',
@@ -35,7 +40,7 @@ class UserForm extends Form
             'name' => 'o:email',
             'type' => 'Email',
             'options' => array(
-                'label' => 'Email',
+                'label' => $translator->translate('Email'),
             ),
             'attributes' => array(
                 'id' => 'email',
@@ -43,7 +48,7 @@ class UserForm extends Form
             ),
         ));
 
-        if ($includeRole) {
+        if ($this->getOption('includeRole')) {
             $this->add(array(
                 'name' => 'o:role',
                 'type' => 'select',

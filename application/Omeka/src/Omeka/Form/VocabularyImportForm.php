@@ -1,19 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class VocabularyImportForm extends Form
+class VocabularyImportForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('import-vocabs');
+        return 'import-vocabs';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'name' => 'file',
             'type' => 'file',
             'options' => array(
-                'label' => 'Vocabulary File',
+                'label' => $translator->translate('Vocabulary File'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -24,7 +27,7 @@ class VocabularyImportForm extends Form
             'name' => 'o:prefix',
             'type' => 'text',
             'options' => array(
-                'label' => 'Prefix',
+                'label' => $translator->translate('Prefix'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -35,7 +38,7 @@ class VocabularyImportForm extends Form
             'name' => 'o:namespace_uri',
             'type' => 'text',
             'options' => array(
-                'label' => 'Namespace URI',
+                'label' => $translator->translate('Namespace URI'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -46,7 +49,7 @@ class VocabularyImportForm extends Form
             'name' => 'o:label',
             'type' => 'text',
             'options' => array(
-                'label' => 'Label',
+                'label' => $translator->translate('Label'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -57,7 +60,7 @@ class VocabularyImportForm extends Form
             'name' => 'o:comment',
             'type' => 'textarea',
             'options' => array(
-                'label' => 'Comment',
+                'label' => $translator->translate('Comment'),
             ),
         ));
     }

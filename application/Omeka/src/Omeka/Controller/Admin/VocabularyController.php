@@ -62,7 +62,7 @@ class VocabularyController extends AbstractActionController
     public function importAction()
     {
         $view = new ViewModel;
-        $form = new VocabularyImportForm;
+        $form = new VocabularyImportForm($this->getServiceLocator());
 
         $request = $this->getRequest();
         if ($request->isPost()) {

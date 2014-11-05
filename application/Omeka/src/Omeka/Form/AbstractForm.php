@@ -26,7 +26,7 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->setServiceLocator($serviceLocator);
-        parent::__construct($this->getName());
+        parent::__construct($this->getFormName());
         $this->buildForm();
     }
 

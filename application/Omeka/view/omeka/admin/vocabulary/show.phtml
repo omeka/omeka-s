@@ -17,6 +17,8 @@ $classes = $vocabulary->resourceClasses();
 </div>
 
 <p><?php echo $escape($vocabulary->comment()); ?></p>
+<p><strong><?php echo $escape($this->translate('Prefix:')); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>
+<strong><?php echo $escape($this->translate('Namespace URI:')); ?></strong> <?php echo $escape($vocabulary->namespaceUri()); ?></p>
 
 <nav class="section-nav">
     <ul>

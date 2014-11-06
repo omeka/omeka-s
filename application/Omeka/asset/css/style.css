@@ -1025,7 +1025,7 @@ th {
     z-index: 2;
   }
 
-  #sidebar {
+  .sidebar {
     position: fixed;
     top: 5.25em;
     left: 100%;
@@ -1042,38 +1042,39 @@ th {
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  #content.sidebar-open #sidebar {
+  .sidebar.active {
     left: 75.52083%;
   }
-  #sidebar #sidebar-close {
+  .sidebar .sidebar-close {
     position: absolute;
     right: 1.04167%;
     top: 0.75em;
   }
-  #sidebar h4 {
+  .sidebar h4 {
     margin-bottom: 0.75em;
   }
-  #sidebar .o-description,
-  #sidebar .vocabulary,
-  #sidebar .property {
+  .sidebar .o-description,
+  .sidebar .vocabulary,
+  .sidebar .property {
     margin-bottom: 1.5em;
   }
-  #sidebar .value {
+  .sidebar .value {
     margin-bottom: 0.375em;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
   }
-  #sidebar .value *:last-child {
+  .sidebar .value *:last-child {
     margin-bottom: 0em;
   }
-  #sidebar .value:last-child {
+  .sidebar .value:last-child {
     border-color: transparent;
     margin-bottom: 1.5em;
   }
 
   #sidebar-delete-content {
+    display: block;
     background-color: #ccc;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;

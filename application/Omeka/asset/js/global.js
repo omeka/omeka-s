@@ -6,37 +6,47 @@
 
         $('.sidebar-details').click(function(e){
             e.preventDefault();
-            $('#sidebar-content').empty();
+            $('#content > .sidebar > .sidebar-content').empty();
+            openSidebar($('#content > .sidebar'));
             $('#sidebar-delete-content').hide();
-            $('#content').addClass('sidebar-open');
             $.ajax({
                 'url': $(this).data('show-details-action'),
                 'type': 'get'
             }).done(function(data) {
-                $('#sidebar-content').html(data);
+                $('#content > .sidebar > .sidebar-content').html(data);
             });
         });
 
         $('.sidebar-delete').click(function(e){
             e.preventDefault();
-            $('#sidebar-content').empty();
+            $('#content > .sidebar > .sidebar-content').empty();
+            openSidebar($('#content > .sidebar'));
             $('#sidebar-delete-content').show();
             $('#sidebar-delete-content form').attr(
                 'action', $(this).data('delete-action')
             );
-            $('#content').addClass('sidebar-open');
             $.ajax({
                 'url': $(this).data('show-details-action'),
                 'type': 'get'
             }).done(function(data) {
-                $('#sidebar-content').html(data);
+                $('#content > .sidebar > .sidebar-content').html(data);
             });
         });
 
-        $('#sidebar-close').click(function(e) {
+        $('.sidebar-close').click(function(e) {
             e.preventDefault();
-            $('#content').removeClass('sidebar-open');
+            $(this).parent('.active').removeClass('active');
+            if ($('.active.sidebar').length < 1) {
+                $('#content').removeClass('sidebar-open');
+            }
         });
+        
+        var openSidebar = function(element) {
+            element.addClass('active');
+            if (!$('#content').hasClass('sidebar-open')) {
+                $('#content').addClass('sidebar-open');
+            }
+        }
 
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {

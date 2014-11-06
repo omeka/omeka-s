@@ -604,7 +604,7 @@ th a[class="sorted-desc"] {
     z-index: 2;
 }
 
-#sidebar {
+.sidebar {
     position: fixed;
     top: rhythm(3.5);
     left: 100%;
@@ -618,11 +618,11 @@ th a[class="sorted-desc"] {
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
     
-    #content.sidebar-open & {
+    &.active {
         left: span(12 of 16) + gutter(32);
     }
     
-    #sidebar-close {
+    .sidebar-close {
         position: absolute;
         right: gutter();
         top: rhythm(.5);
@@ -655,6 +655,7 @@ th a[class="sorted-desc"] {
 }
 
 #sidebar-delete-content {
+    display: block;
     background-color: #ccc;
     @include bleed-x(gutter(1));
     @include bleed-y(rhythm());
@@ -664,7 +665,6 @@ th a[class="sorted-desc"] {
         @include trailer(0);
     }
 }
-
 
 #content.sidebar-open {
     width: span(9 of 16);

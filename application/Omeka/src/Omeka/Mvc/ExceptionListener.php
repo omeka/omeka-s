@@ -47,7 +47,8 @@ class ExceptionListener extends AbstractListenerAggregate
         $exception = $e->getParam('exception');
 
         if ($exception instanceof ApiException\PermissionDeniedException
-            || $exception instanceof MvcException\PermissionDeniedException) {
+            || $exception instanceof MvcException\PermissionDeniedException
+        ) {
             $template = 'error/403';
             $status = 403;
         } else if ($exception instanceof ApiException\NotFoundException) {

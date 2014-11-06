@@ -30,8 +30,8 @@ return array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\ApiManager'          => 'Omeka\Api\Manager',
             'Omeka\DbHelper'            => 'Omeka\Db\Helper',
-            'Omeka\ExceptionListener'   => 'Omeka\Mvc\ExceptionListener',
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
+            'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Options'             => 'Omeka\Service\Options',
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
@@ -47,7 +47,7 @@ return array(
     ),
     'listeners' => array(
         'ModuleRouteListener',
-        'Omeka\ExceptionListener',
+        'Omeka\MvcExceptionListener',
         'Omeka\MvcListeners',
     ),
     'controllers' => array(

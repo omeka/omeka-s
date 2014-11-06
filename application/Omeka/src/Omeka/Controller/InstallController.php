@@ -11,7 +11,7 @@ class InstallController extends AbstractActionController
     public function indexAction()
     {
         $view = new ViewModel;
-        $form = new InstallationForm;
+        $form = new InstallationForm($this->getServiceLocator());
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());

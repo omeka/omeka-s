@@ -1,19 +1,22 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-
-class VocabularyForm extends Form
+class VocabularyForm extends AbstractForm
 {
-    public function __construct()
+    public function getFormName()
     {
-        parent::__construct('vocabulary');
+        return 'vocabulary';
+    }
+
+    public function buildForm()
+    {
+        $translator = $this->getTranslator();
 
         $this->add(array(
             'name' => 'o:label',
             'type' => 'text',
             'options' => array(
-                'label' => 'Label',
+                'label' => $translator->translate('Label'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -24,7 +27,7 @@ class VocabularyForm extends Form
             'name' => 'o:comment',
             'type' => 'textarea',
             'options' => array(
-                'label' => 'Comment',
+                'label' => $translator->translate('Comment'),
             ),
         ));
     }

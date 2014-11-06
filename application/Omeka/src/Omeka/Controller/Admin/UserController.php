@@ -21,7 +21,7 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
-        $form = new UserForm(true);
+        $form = new UserForm($this->getServiceLocator(), array('includeRole' => true));
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
@@ -92,7 +92,7 @@ class UserController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
-        $form = new UserForm;
+        $form = new UserForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
@@ -131,7 +131,7 @@ class UserController extends AbstractActionController
     public function changePasswordAction()
     {
         $view = new ViewModel;
-        $form = new UserPasswordForm;
+        $form = new UserPasswordForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
@@ -164,7 +164,7 @@ class UserController extends AbstractActionController
     public function editKeysAction()
     {
         $view = new ViewModel;
-        $form = new UserKeyForm;
+        $form = new UserKeyForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');

@@ -9,7 +9,7 @@ class ApiError extends AbstractPlugin
     /**
      * Detect API response errors and set up the response to account for them.
      *
-     * @return boolean|array False if no error. If there are validation error
+     * @return null|array Null if no error. If there are validation error
      *  messages, they are returned as an array.
      */
     public function __invoke(Response $response)
@@ -21,20 +21,16 @@ class ApiError extends AbstractPlugin
         $controller = $this->getController();
         $httpResponse = $controller->getResponse();
 
-        switch ($response->getStatus()) {
-            case Response::ERROR_NOT_FOUND:
-                $httpResponse->setStatusCode(404);
-                break;
-            case Response::ERROR_PERMISSION_DENIED:
-                $httpResponse->setStatusCode(403);
-                break;
-            case Response::ERROR_VALIDATION:
-                $controller->messenger()->addError('There was an error during validation');
-                return $response->getErrors();
-            default:
-                $httpResponse->setStatusCode(500);
+        if ($response->getStatus() === Response::ERROR_VALIDATION) {
+            $controller->messenger()->addError('There was an error during validation');
+            return $response->getErrors();
         }
-                
+
+        // Rethrow any non-validation exception
+        if (($e = $response->getException())) {
+            throw $e;
+        }
+
         return null;
     }
 }

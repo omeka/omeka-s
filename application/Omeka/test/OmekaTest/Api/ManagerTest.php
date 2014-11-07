@@ -2,6 +2,7 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\Request;
+use Omeka\Api\Response;
 use Omeka\Api\Manager;
 use Omeka\Test\TestCase;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
@@ -100,7 +101,8 @@ class ManagerTest extends TestCase
         $mockRequest = $this->getMockRequest(Request::SEARCH, false);
         $response = $this->manager->execute($mockRequest);
 
-        $this->assertArrayHasKey('error_bad_request', $response->getErrors());
+        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+        $this->assertNotNull($response->getException());
     }
 
     public function testExecuteRequiresValidResource()
@@ -111,7 +113,8 @@ class ManagerTest extends TestCase
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
 
-        $this->assertArrayHasKey('error_bad_request', $response->getErrors());
+        $this->assertEquals(Response::ERROR_BAD_REQUEST, $response->getStatus());
+        $this->assertNotNull($response->getException());
     }
 
     public function testExecuteRequiresAccess()
@@ -122,7 +125,8 @@ class ManagerTest extends TestCase
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
 
-        $this->assertArrayHasKey('error_permission_denied', $response->getErrors());
+        $this->assertEquals(Response::ERROR_PERMISSION_DENIED, $response->getStatus());
+        $this->assertNotNull($response->getException());
     }
 
     public function testExecuteRequiresValidResponse()
@@ -133,7 +137,8 @@ class ManagerTest extends TestCase
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
 
-        $this->assertArrayHasKey('error_bad_response', $response->getErrors());
+        $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
+        $this->assertNotNull($response->getException());
     }
 
     public function testExecuteRequiresValidResponseStatus()
@@ -144,7 +149,8 @@ class ManagerTest extends TestCase
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
 
-        $this->assertArrayHasKey('error_bad_response', $response->getErrors());
+        $this->assertEquals(Response::ERROR_BAD_RESPONSE, $response->getStatus());
+        $this->assertNotNull($response->getException());
     }
 
     protected function setServiceManager($requestOperation, $mockResponse,

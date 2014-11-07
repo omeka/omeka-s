@@ -16,7 +16,11 @@ class ApiJsonRenderer extends JsonRenderer
     {
         $apiResponse = $model->getApiResponse();
         if ($apiResponse->isError()) {
-            $payload = array('errors' => $apiResponse->getErrors());
+            $errors = $apiResponse->getErrors();
+            if (($e = $apiResponse->getException())) {
+                $errors[$apiResponse->getStatus()] = $e->getMessage();
+            }
+            $payload = array('errors' => $errors);
         } else {
             $payload = $apiResponse->getContent();
         }

@@ -23,11 +23,6 @@ class Manager implements ServiceLocatorAwareInterface
     protected $namespace;
 
     /**
-     * @var string
-     */
-    protected $entity;
-
-    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -61,10 +56,6 @@ class Manager implements ServiceLocatorAwareInterface
         if (array_key_exists('namespace', $config)) {
             $this->namespace = $config['namespace'];
         }
-
-        if (array_key_exists('entity', $config)) {
-            $this->entity = $config['entity'];
-        }
     }
 
     /**
@@ -90,8 +81,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function recordMigration($version)
     {
         $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
-        $tableName = $dbHelper->getTableNameForEntity($this->entity);
-        $dbHelper->getConnection()->insert($tableName, array('version' => $version));
+        $dbHelper->getConnection()->insert('migration', array('version' => $version));
     }
 
     /**
@@ -140,9 +130,8 @@ class Manager implements ServiceLocatorAwareInterface
     public function getCompletedMigrations()
     {
         $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
-        $tableName = $dbHelper->getTableNameForEntity($this->entity);
         $completed = $dbHelper->getConnection()->executeQuery(
-            "SELECT version FROM $tableName"
+            "SELECT version FROM migration"
         )->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
             $completed = array();

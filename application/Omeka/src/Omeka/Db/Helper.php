@@ -9,13 +9,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Helper implements ServiceLocatorAwareInterface
 {
-    const TABLE_PREFIX_PLACEHOLDER = 'OMEKA_TABLE_PREFIX_';
-
-    /**
-     * @var string
-     */
-    protected $tablePrefix;
-
     /**
      * @var Connection
      */
@@ -42,10 +35,6 @@ class Helper implements ServiceLocatorAwareInterface
      * one at a time. Do not pass a string if your statements contain a
      * semicolon that do not indicate an end of a SQL statement.
      *
-     * This will replace the string set by self::TABLE_PREFIX_PLACEHOLDER with
-     * the configured table prefix. Make sure your statements do not contain the
-     * placeholder string if it does not indicate a replacement.
-     *
      * @param string|array $statements
      */
     public function execute($statements)
@@ -61,40 +50,8 @@ class Helper implements ServiceLocatorAwareInterface
             if ('' === $statement) {
                 continue;
             }
-            $statement = str_replace(
-                self::TABLE_PREFIX_PLACEHOLDER,
-                $this->getTablePrefix(),
-                $statement
-            );
             $this->getConnection()->exec($statement);
         }
-    }
-
-    /**
-     * Get the table name for the given entity
-     *
-     * The entity's metadata must already be loaded.
-     *
-     * @param string $entityName The entity's fully qualified namespace
-     * @return string The name of the underlying SQL table
-     */
-    public function getTableNameForEntity($entityName)
-    {
-        return $this->getEntityManager()
-            ->getClassMetadata($entityName)->getTableName();
-    }
-
-    /**
-     * Get the prefixed table name for the given base table
-     *
-     * Helpful if the corresponding entity's metadata is not already loaded.
-     *
-     * @param string $baseTable The base (unprefixed) table name
-     * @return string The name of the underlying SQL table
-     */
-    public function getTableNameForBaseTable($baseTable)
-    {
-        return $this->getTablePrefix() . $baseTable;
     }
 
     /**
@@ -108,20 +65,6 @@ class Helper implements ServiceLocatorAwareInterface
     {
         return $this->getEntityManager()
             ->getClassMetadata($entityName)->getColumnName($fieldName);
-    }
-
-    /**
-     * Get the configured table prefix.
-     *
-     * @return string
-     */
-    public function getTablePrefix()
-    {
-        if (null === $this->tablePrefix) {
-            $appConfig = $this->getServiceLocator()->get('ApplicationConfig');
-            $this->tablePrefix = $appConfig['connection']['table_prefix'];
-        }
-        return $this->tablePrefix;
     }
 
     /**

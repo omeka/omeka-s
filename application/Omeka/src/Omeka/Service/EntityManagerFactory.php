@@ -7,7 +7,6 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
-use Omeka\Db\Event\Listener\TablePrefix;
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
@@ -18,7 +17,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class EntityManagerFactory implements FactoryInterface
 {
-    const TABLE_PREFIX = 'omeka_';
     const IS_DEV_MODE = false;
 
     /**
@@ -36,11 +34,6 @@ class EntityManagerFactory implements FactoryInterface
             throw new \RuntimeException('No entity manager configuration given.');
         }
 
-        if (isset($appConfig['connection']['table_prefix'])) {
-            $tablePrefix = $appConfig['connection']['table_prefix'];
-        } else {
-            $tablePrefix = self::TABLE_PREFIX;
-        }
         if (isset($config['entity_manager']['is_dev_mode'])) {
             $isDevMode = (bool) $config['entity_manager']['is_dev_mode'];
         } else {
@@ -72,10 +65,6 @@ class EntityManagerFactory implements FactoryInterface
         }
 
         $em = EntityManager::create($connection, $emConfig);
-        $em->getEventManager()->addEventListener(
-            Events::loadClassMetadata,
-            new TablePrefix($tablePrefix)
-        );
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new ResourceDiscriminatorMap

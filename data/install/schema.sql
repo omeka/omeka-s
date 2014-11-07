@@ -60,11 +60,6 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_module` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-CREATE TABLE `OMEKA_TABLE_PREFIX_option` (
-  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
@@ -128,6 +123,11 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_resource_template_property` (
   KEY `IDX_876084E1549213EC` (`property_id`),
   CONSTRAINT `FK_876084E1549213EC` FOREIGN KEY (`property_id`) REFERENCES `OMEKA_TABLE_PREFIX_property` (`id`),
   CONSTRAINT `FK_876084E116131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `OMEKA_TABLE_PREFIX_resource_template` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `OMEKA_TABLE_PREFIX_setting` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

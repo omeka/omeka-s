@@ -33,7 +33,7 @@ return array(
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
             'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
-            'Omeka\Options'             => 'Omeka\Service\Options',
+            'Omeka\Settings'            => 'Omeka\Service\Settings',
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
@@ -202,7 +202,7 @@ return array(
             'Omeka\Installation\Task\InstallDefaultVocabularyTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
-            'Omeka\Installation\Task\AddDefaultOptionsTask',
+            'Omeka\Installation\Task\AddDefaultSettingsTask',
         ),
     ),
     'translator' => array(

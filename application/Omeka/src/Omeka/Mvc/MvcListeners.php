@@ -95,7 +95,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
         if (!$status->needsMigration()) {
             // There are no migrations. Update the installed version and return.
-            $serviceLocator->get('Omeka\Options')
+            $serviceLocator->get('Omeka\Settings')
                 ->set('version', $status->getVersion());
             return;
         }

@@ -123,7 +123,7 @@ class Status implements ServiceLocatorAwareInterface
      */
     public function getInstalledVersion()
     {
-        return $this->getServiceLocator()->get('Omeka\Options')->get('version');
+        return $this->getServiceLocator()->get('Omeka\Settings')->get('version');
     }
 
     /**

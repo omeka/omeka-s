@@ -7,7 +7,7 @@ class AddVersion extends AbstractMigration
 {
     public function up()
     {
-        $options = $this->getServiceLocator()->get('Omeka\Options');
-        $options->set('version', '0.1.0');
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+        $settings->set('version', '0.1.0');
     }
 }

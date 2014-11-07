@@ -15,11 +15,8 @@ class MigrateController extends AbstractActionController
         }
         if ($this->getRequest()->isPost()) {
             // Perform migrations and update the installed version.
-            $migrator = $this->getServiceLocator()
-                ->get('Omeka\MigrationManager')
-                ->upgrade();
-            $options = $this->getServiceLocator()
-                ->get('Omeka\Options')
+            $this->getServiceLocator()->get('Omeka\MigrationManager')->upgrade();
+            $this->getServiceLocator()->get('Omeka\Settings')
                 ->set('version', $status->getVersion());
             $this->messenger()->addSuccess("Migration successful");
             return $this->redirect()->toRoute('admin');

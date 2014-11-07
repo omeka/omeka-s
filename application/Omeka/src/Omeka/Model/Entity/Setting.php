@@ -4,7 +4,7 @@ namespace Omeka\Model\Entity;
 /**
  * @Entity
  */
-class Option extends AbstractEntity
+class Setting extends AbstractEntity
 {
     /**
      * @Id

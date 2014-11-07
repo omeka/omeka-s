@@ -185,8 +185,8 @@ class Paginator implements ServiceLocatorAwareInterface
         $this->services = $serviceLocator;
 
         // Set the default number of records per page.
-        $options = $this->getServiceLocator()->get('Omeka\Options');
-        $this->setPerPage($options->get('pagination_per_page', self::PER_PAGE));
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+        $this->setPerPage($settings->get('pagination_per_page', self::PER_PAGE));
     }
 
     /**

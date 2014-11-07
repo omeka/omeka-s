@@ -2,7 +2,6 @@
 namespace Omeka\Db\Migration;
 
 use Doctrine\DBAL\Connection;
-use Omeka\Db\Helper as DbHelper;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -13,11 +12,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractMigration implements MigrationInterface
 {
-    /**
-     * @var DbHelper
-     */
-    protected $dbHelper;
-
     /**
      * @var TranslatorInterface
      */
@@ -38,20 +32,6 @@ abstract class AbstractMigration implements MigrationInterface
         throw new Exception\DowngradeUnsupportedException(
             $this->getTranslator()->translate('This migration cannot be downgraded.')
         );
-    }
-
-    /**
-     * Get the db helper
-     *
-     * @return DbHelper
-     */
-    protected function getDbHelper()
-    {
-        if (null === $this->dbHelper) {
-            $this->dbHelper = $this->getServiceLocator()
-                ->get('Omeka\DbHelper');
-        }
-        return $this->dbHelper;
     }
 
     /**

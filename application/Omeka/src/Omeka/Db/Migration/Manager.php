@@ -80,8 +80,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function recordMigration($version)
     {
-        $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
-        $dbHelper->getConnection()->insert('migration', array('version' => $version));
+        $this->getServiceLocator()->get('Omeka\Connection')
+            ->insert('migration', array('version' => $version));
     }
 
     /**
@@ -129,10 +129,9 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getCompletedMigrations()
     {
-        $dbHelper = $this->getServiceLocator()->get('Omeka\DbHelper');
-        $completed = $dbHelper->getConnection()->executeQuery(
-            "SELECT version FROM migration"
-        )->fetchAll(PDO::FETCH_COLUMN);
+        $this->getServiceLocator()->get('Omeka\Connection')
+            ->getConnection()->executeQuery("SELECT version FROM migration")
+            ->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
             $completed = array();
         }

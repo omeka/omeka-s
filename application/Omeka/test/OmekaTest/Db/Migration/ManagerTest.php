@@ -122,13 +122,8 @@ class ManagerTest extends TestCase
                 $this->equalTo(array('version' => $version))
             );
 
-        $dbHelper = $this->getMock('Omeka\Db\Helper');
-        $dbHelper->expects($this->once())
-            ->method('getConnection')
-            ->will($this->returnValue($connection));
-
         $sm = $this->getServiceManager(array(
-            'Omeka\DbHelper' => $dbHelper
+            'Omeka\Connection' => $connection
         ));
 
         $manager = new MigrationManager(array('entity' => 'Entity'));

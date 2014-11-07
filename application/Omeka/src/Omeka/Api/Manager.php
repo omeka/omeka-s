@@ -254,12 +254,12 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_PERMISSION_DENIED);
-            $response->addError(Response::ERROR_PERMISSION_DENIED, $e->getMessage());
+            $response->setException($e);
         } catch (Exception\NotFoundException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->addError(Response::ERROR_NOT_FOUND, $e->getMessage());
+            $response->setException($e);
         } catch (Exception\ValidationException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
@@ -269,17 +269,17 @@ class Manager implements ServiceLocatorAwareInterface
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_REQUEST);
-            $response->addError(Response::ERROR_BAD_REQUEST, $e->getMessage());
+            $response->setException($e);
         } catch (Exception\BadResponseException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_BAD_RESPONSE);
-            $response->addError(Response::ERROR_BAD_RESPONSE, $e->getMessage());
+            $response->setException($e);
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_INTERNAL);
-            $response->addError(Response::ERROR_INTERNAL, $e->getMessage());
+            $response->setException($e);
         }
 
         $response->setRequest($request);

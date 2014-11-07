@@ -31,6 +31,7 @@ return array(
             'Omeka\ApiManager'          => 'Omeka\Api\Manager',
             'Omeka\DbHelper'            => 'Omeka\Db\Helper',
             'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
+            'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Options'             => 'Omeka\Service\Options',
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
@@ -46,6 +47,7 @@ return array(
     ),
     'listeners' => array(
         'ModuleRouteListener',
+        'Omeka\MvcExceptionListener',
         'Omeka\MvcListeners',
     ),
     'controllers' => array(

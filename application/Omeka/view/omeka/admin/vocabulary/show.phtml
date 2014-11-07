@@ -3,46 +3,52 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 $escape = $this->plugin('escapeHtml'); 
 $escapeAttr = $this->plugin('escapeHtmlAttr'); 
 $properties = $vocabulary->properties();
-$resourceClasses = $vocabulary->resourceClasses();
+$classes = $vocabulary->resourceClasses();
 ?>
 <h1><?php echo $escape($this->translate(sprintf('Vocabulary "%s"', $vocabulary->label()))); ?></h1>
 
 <div id="page-actions">
     <?php if (!in_array($vocabulary->prefix(), array('omeka', 'dcterms', 'dctype'))): ?>
-    <?php echo $vocabulary->link(
-        $this->translate('Edit Vocabulary'),
-        'edit',
-        array('class' => 'button')
-    ); ?>
+    <?php echo $vocabulary->link($this->translate('Edit Vocabulary'), 'edit', array('class' => 'button')); ?>
     <?php endif; ?>
-    <?php if ($vocabulary->prefix() == 'omeka'): ?>
+    <?php if ('omeka' == $vocabulary->prefix()): ?>
     <a href="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'vocabulary', 'action' => 'edit-custom'))); ?>" class="button"><?php echo $this->translate('Customize Vocabulary'); ?></a>
     <?php endif; ?>
 </div>
 
 <p><?php echo $escape($vocabulary->comment()); ?></p>
+<p><strong><?php echo $escape($this->translate('Prefix:')); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>
+<strong><?php echo $escape($this->translate('Namespace URI:')); ?></strong> <?php echo $escape($vocabulary->namespaceUri()); ?></p>
 
 <nav class="section-nav">
     <ul>
-        <li><a href="#" class="vocab-properties active section"><?php echo $escape('Properties'); ?></a></li>
-        <li><a href="#" class="vocab-classes section"><?php echo $escape('Classes'); ?></a></li>
+        <li><a href="#" class="vocab-properties active section"><?php echo $escape($this->translate('Properties')); ?></a></li>
+        <li><a href="#" class="vocab-classes section"><?php echo $escape($this->translate('Classes')); ?></a></li>
     </ul>
 </nav>
 
 <div id="vocab-properties" class="active section">
-<?php foreach($properties as $property): ?>
+    <?php if ($properties): ?>
+    <?php foreach($properties as $property): ?>
     <div class="property">
         <h3><?php echo $property->label(); ?></h3>
         <div class="description"><?php echo $property->comment(); ?></div>
     </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+    <?php else: ?>
+    <p><?php echo $escape($this->translate('This vocabulary has no properties.')); ?></p>
+    <?php endif; ?>
 </div>
 
 <div id="vocab-classes" class="section">
-<?php foreach($resourceClasses as $resourceClass): ?>
+    <?php if ($classes): ?>
+    <?php foreach($classes as $class): ?>
     <div class="class">
-        <h3 class="title"><?php echo $resourceClass->label(); ?></h3>
-        <div class="description"><?php echo $resourceClass->comment(); ?></div>
+        <h3 class="title"><?php echo $class->label(); ?></h3>
+        <div class="description"><?php echo $class->comment(); ?></div>
     </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+    <?php else: ?>
+    <p><?php echo $escape($this->translate('This vocabulary has no classes.')); ?></p>
+    <?php endif; ?>
 </div>

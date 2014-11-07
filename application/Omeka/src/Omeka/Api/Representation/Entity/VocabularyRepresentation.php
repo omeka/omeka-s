@@ -24,6 +24,19 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         );
     }
 
+    /**
+     * Check whether this vocabulary is permanent (cannot be deleted).
+     *
+     * The custom vocabulary, Dublin Core, and Dublin Core Type vocabularies are
+     * integral parts of the software and should not be deleted.
+     *
+     * @return bool
+     */
+    public function isPermanent()
+    {
+        return in_array($this->prefix(), array('omeka', 'dcterms', 'dctype'));
+    }
+
     public function prefix()
     {
         return $this->getData()->getPrefix();

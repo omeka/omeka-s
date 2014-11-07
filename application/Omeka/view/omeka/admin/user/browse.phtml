@@ -52,10 +52,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </tbody>
 </table>
 
-<div id="sidebar">
+<div class="sidebar">
     <a href="#"
-        id="sidebar-close"
-        class="o-icon-close"
+        class="sidebar-close o-icon-close"
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-delete-content">
@@ -65,5 +64,5 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
         </form>
     </div>
-    <div id="sidebar-content"></div>
+    <div class="sidebar-content"></div>
 </div>

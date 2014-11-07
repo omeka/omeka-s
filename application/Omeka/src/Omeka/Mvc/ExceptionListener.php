@@ -7,7 +7,7 @@ use Omeka\Mvc\Exception as MvcException;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Response;
-use Zend\Mvc\Application;
+use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
@@ -40,7 +40,7 @@ class ExceptionListener extends AbstractListenerAggregate
         }
 
         // Only handle exceptions.
-        if ($e->getError() !== Application::ERROR_EXCEPTION) {
+        if ($e->getError() !== ZendApplication::ERROR_EXCEPTION) {
             return;
         }
 

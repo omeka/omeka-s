@@ -56,6 +56,10 @@ if (isset($errors)) {
                      <input class='value-language' type='text' name='<?php echo $languageInputName; ?>' />
                      <?php endif; ?>
                      </div>
+                     <div class="items input-option">
+                        <span class="default">No item selected</span>
+                        <a href="#resource-select" class="button">Select Omeka Resource</a>
+                    </div>
                      <button class="remove-value">Remove value</button>
                 </div>
             </div>
@@ -135,3 +139,60 @@ if (isset($errors)) {
     </fieldset>
 </form>
 
+<div id="sidebar" class='sidebar'>
+    <a href="#" class="closeBtn o-icon-close"><span class="screen-reader-text">Close Me</span></a>
+    <h1>Select Resource</h1>
+    <div class="search-nav">
+        <div class="resource-search">
+            <input type="text" id="resource-list-search">
+            <button type="submit" class="o-icon-search">Search</button>
+        </div>
+        <nav class="pagination">
+            <h2 class="screen-reader-text">Pagination</h2>
+            <ul>
+                <li>Page <input type="text" class="page-input" value="1"> of 4</li>
+                <li><a href="#" class="first o-icon-first button"><span class="screen-reader-text">First</span></a></li>
+                <li><a href="#" class="previous o-icon-prev button"><span class="screen-reader-text">Previous</span></a></li>
+                <li><a href="#" class="next o-icon-next button"><span class="screen-reader-text">Next</span></a></li>
+                <li><a href="#" class="last o-icon-last button"><span class="screen-reader-text">Last</span></a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="resource-list">
+        <div class="item">
+            <div class="placeholder"></div>
+            <span class="resource-name"><a href="#">Rocket Row</a></span>
+            <button class="select">Select</button>
+        </div>
+    </div>
+    <div id="resource-details" class="sidebar">
+        <a href="#" class="closeBtn o-icon-close"><span class="screen-reader-text">Close Me</span></a>
+        <h1>Rocket Row</h1>
+        <aside>
+            <div class="images">
+                <a href="http://mallhistory.org/files/original/1391b4714c0a0b209a501ccef1712389.jpg"><div class="image"></div></a>
+            </div>
+            <div id="resource-citation" class="element">
+                <h3>Citation</h3>
+                <div class="element-text">&#8220;Rocket Row,&#8221; <em>Histories of the National Mall</em>, accessed May 19, 2014, http://mallhistory.org/items/show/484.</div>
+            </div>
+            <div id="resource-output-formats" class="element">
+                <h3>Output Formats</h3>
+                <div class="element-text">            
+                    <ul id="output-format-list">
+                        <li><a href="/items/show/484?output=atom">atom</a></li>
+                        <li><a href="/items/show/484?output=dcmes-xml">dcmes-xml</a></li>
+                        <li><a href="/items/show/484?output=json">json</a></li>
+                        <li><a href="/items/show/484?output=omeka-json">omeka-json</a></li>
+                        <li><a href="/items/show/484?output=omeka-xml">omeka-xml</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <div class="element-set">
+        </div>
+        <div id="select-item">
+            <a href="#" class="button">Select Resource</a>
+        </div>
+    </div>
+</div>

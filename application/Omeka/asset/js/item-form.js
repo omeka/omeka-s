@@ -149,6 +149,51 @@
             }
         });
         
+        
+        // Attach sidebar triggers
+        $('.o-icon-more').click(function(e) {
+            e.preventDefault();
+            openSidebar($('.sidebar'));
+            $('#delete').hide();
+            $('#more').show();
+        });
+
+        $('.o-icon-delete').click(function(e) {
+            e.preventDefault();
+            openSidebar($('.sidebar'));
+            $('#more').hide();
+            $('#delete').show();
+        });
+        
+        $('.sidebar-close').click(function(e) {
+            e.preventDefault();
+            $(this).parent('.active').removeClass('active');
+            if ($('.active.sidebar').length < 1) {
+                $('#content').removeClass('sidebar-open');
+            }
+        });
+        
+        if ($('body').hasClass('add')) {
+            $('body').on('click','[href="#resource-select"]', function(e) {
+                e.preventDefault();
+                openSidebar($('#content > .sidebar'));
+            });
+            $('body').on('click','.resource-name a', function(e) {
+                e.preventDefault();
+                openSidebar($('.sidebar .sidebar'));
+            });
+        }
+
+
+        $('body.browse .fa-trash-o').click(function(e) {
+            e.preventDefault();
+            $.get('../common/delete-confirm.php', function(data) {
+                $('.modal-content').html(data);
+                $('.modal').attr('id', 'delete-confirm').attr('class', 'small modal');
+                $('.modal-header h1').replaceWith($('.modal-content h1'));
+            });
+        });
+        
         // Switch between the different value options.
         $(document).on('click', '.tab', function(e) {
             var tab = $(this);
@@ -248,7 +293,15 @@
             close:'.closeBtn'
         });
     };
+
     
+    var openSidebar = function(element) {
+        element.addClass('active');
+        if (!$('#content').hasClass('sidebar-open')) {
+            $('#content').addClass('sidebar-open');
+        }
+    }
+
     var cleanText = function(text) {
         newText = text.clone();
         newText.children().remove();

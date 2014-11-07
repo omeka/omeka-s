@@ -1,4 +1,16 @@
 SET FOREIGN_KEY_CHECKS = 0;
+CREATE TABLE `OMEKA_TABLE_PREFIX_api_key` (
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `owner_id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `credential_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `last_ip` varbinary(16) DEFAULT NULL COMMENT '(DC2Type:ip_address)',
+  `last_accessed` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_BEEA79C7E3C61F9` (`owner_id`),
+  CONSTRAINT `FK_BEEA79C7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
@@ -23,18 +35,6 @@ CREATE TABLE `OMEKA_TABLE_PREFIX_item_set` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_76C49232BF396750` FOREIGN KEY (`id`) REFERENCES `OMEKA_TABLE_PREFIX_resource` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-CREATE TABLE `OMEKA_TABLE_PREFIX_key` (
-  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `owner_id` int(11) NOT NULL,
-  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `credential_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `last_ip` varbinary(16) DEFAULT NULL COMMENT '(DC2Type:ip_address)',
-  `last_accessed` datetime DEFAULT NULL,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_D76D40D87E3C61F9` (`owner_id`),
-  CONSTRAINT `FK_D76D40D87E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `OMEKA_TABLE_PREFIX_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `OMEKA_TABLE_PREFIX_media` (
   `id` int(11) NOT NULL,

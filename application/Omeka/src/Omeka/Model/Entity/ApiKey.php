@@ -9,7 +9,7 @@ use Zend\Math\Rand;
  * @Entity
  * @HasLifecycleCallbacks
  */
-class Key extends AbstractEntity
+class ApiKey extends AbstractEntity
 {
     /**
      * The length of the key identity and credential.

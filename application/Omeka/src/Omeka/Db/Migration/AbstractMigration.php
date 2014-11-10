@@ -13,6 +13,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractMigration implements MigrationInterface
 {
     /**
+     * @var Connection
+     */
+    protected $connection;
+
+    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -32,6 +37,19 @@ abstract class AbstractMigration implements MigrationInterface
         throw new Exception\DowngradeUnsupportedException(
             $this->getTranslator()->translate('This migration cannot be downgraded.')
         );
+    }
+
+    /**
+     * Get the DBAL connection.
+     *
+     * @return Connection
+     */
+    public function getConnection()
+    {
+        if (!$this->connection instanceof Connection) {
+            $this->connection = $this->getServiceLocator()->get('Omeka\Connection');
+        }
+        return $this->translator;
     }
 
     /**

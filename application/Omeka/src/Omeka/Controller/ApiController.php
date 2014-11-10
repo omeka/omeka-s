@@ -3,7 +3,6 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Response;
 use Omeka\View\Model\ApiJsonModel;
-use Zend\Json\Exception\RuntimeException as JsonRuntimeException;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 
@@ -84,7 +83,9 @@ class ApiController extends AbstractRestfulController
                 'Invalid Content-Type header. Expecting "application/json", got "%s".',
                 $contentType ? $contentType->getMediaType() : 'none'
             );
-            return $this->getErrorResult($event, Response::ERROR_BAD_REQUEST, $errorMessage);
+
+            // Cause a 415 Unsupported Media Type response
+            return $this->getErrorResult($event, $errorMessage, 415);
         }
 
         // Set pretty print.
@@ -102,12 +103,9 @@ class ApiController extends AbstractRestfulController
         try {
             // Finish dispatching the request.
             parent::onDispatch($event);
-        } catch (JsonRuntimeException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            return $this->getErrorResult($event, Response::ERROR_BAD_REQUEST, $e->getMessage());
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            return $this->getErrorResult($event, Response::ERROR_INTERNAL, $e->getMessage());
+            return $this->getErrorResult($event, $e);
         }
     }
 
@@ -136,15 +134,29 @@ class ApiController extends AbstractRestfulController
      * Set an error result to the MvcEvent and return the result.
      *
      * @param MvcEvent $event
-     * @param string $errorStatus
-     * @param string $errorMessage
+     * @param string|Exception $error
+     * @param integer $httpStatusCode Optional status code to explicitly set.
+     *  If not set, the status code will be inferred from the exception type
+     *  or set to 500 by default.
      */
-    protected function getErrorResult(MvcEvent $event, $errorStatus, $errorMessage)
+    protected function getErrorResult(MvcEvent $event, $error, $httpStatusCode = null)
     {
         $response = new Response;
-        $response->setStatus($errorStatus);
-        $response->addError($errorStatus, $errorMessage);
-        $result = new ApiJsonModel($response);
+        $response->setStatus(Response::ERROR);
+
+        if ($error instanceof \Exception) {
+            $response->setException($error);
+        } else {
+            $response->addError(Response::ERROR, $error);
+        }
+
+        if ($httpStatusCode) {
+            $options = array('status_code' => $httpStatusCode);
+        } else {
+            $options = array();
+        }
+
+        $result = new ApiJsonModel($response, $options);
         $event->setResult($result);
         return $result;
     }

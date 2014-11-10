@@ -250,35 +250,15 @@ class Manager implements ServiceLocatorAwareInterface
             $adapter->getEventManager()->trigger($event);
 
         // Always return a Response object, regardless of exception.
-        } catch (Exception\PermissionDeniedException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_PERMISSION_DENIED);
-            $response->setException($e);
-        } catch (Exception\NotFoundException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_NOT_FOUND);
-            $response->setException($e);
         } catch (Exception\ValidationException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->mergeErrors($e->getErrorStore());
-        } catch (Exception\BadRequestException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_BAD_REQUEST);
-            $response->setException($e);
-        } catch (Exception\BadResponseException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_BAD_RESPONSE);
-            $response->setException($e);
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
-            $response->setStatus(Response::ERROR_INTERNAL);
+            $response->setStatus(Response::ERROR);
             $response->setException($e);
         }
 

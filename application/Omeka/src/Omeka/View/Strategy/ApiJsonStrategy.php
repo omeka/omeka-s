@@ -2,15 +2,16 @@
 
 namespace Omeka\View\Strategy;
 
+use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Response;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
+use Zend\Json\Exception as JsonException;
 use Zend\View\Strategy\JsonStrategy;
 use Zend\View\ViewEvent;
 
 /**
  * View strategy for returning JSON from the API.
- *
  */
 class ApiJsonStrategy extends JsonStrategy
 {
@@ -54,8 +55,15 @@ class ApiJsonStrategy extends JsonStrategy
         }
 
         parent::injectResponse($e);
-        $apiResponse = $e->getModel()->getApiResponse();
-        $e->getResponse()->setStatusCode($this->getResponseStatusCode($apiResponse));
+
+        $model = $e->getModel();
+        $apiResponse = $model->getApiResponse();
+
+        $statusCode = $model->getOption('status_code');
+        if ($statusCode === null) {
+            $statusCode = $this->getResponseStatusCode($apiResponse);
+        }
+        $e->getResponse()->setStatusCode($statusCode);
     }
 
     /**
@@ -74,13 +82,28 @@ class ApiJsonStrategy extends JsonStrategy
                 return 200; // OK
             case Response::ERROR_VALIDATION:
                 return 422; // Unprocessable Entity
-            case Response::ERROR_NOT_FOUND:
-                return 404; // Not Found
-            case Response::ERROR_PERMISSION_DENIED:
-                return 403; // Forbidden
-            case Response::ERROR_INTERNAL:
+            case Response::ERROR:
             default:
-                return 500; // Internal Server Error
+                return $this->getStatusCodeForException($response->getException());
+        }
+    }
+
+    /**
+     * Get a status code based on the type of an exception (or lack thereof).
+     *
+     * @param \Exception|null $exception
+     * @return integer
+     */
+    protected function getStatusCodeForException(\Exception $exception = null)
+    {
+        if ($exception instanceof JsonException\RuntimeException) {
+            return 400; // Bad Request
+        } else if ($exception instanceof ApiException\PermissionDeniedException) {
+            return 403; // Forbidden
+        } else if ($exception instanceof ApiException\NotFoundException) {
+            return 404; // Not Found
+        } else {
+            return 500; // Internal Server Error
         }
     }
 }

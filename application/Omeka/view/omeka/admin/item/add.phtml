@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'add item');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/item-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
@@ -158,38 +159,25 @@ if (isset($errors)) {
             </ul>
         </nav>
     </div>
+    
     <div class="resource-list">
+    <!-- non-real filler until the search form is complete -->
+    <!-- here to let me work on the javascript and ajax for showing resource details -->
+        <?php foreach ($items as $item):?>
         <div class="item">
             <div class="placeholder"></div>
-            <span class="resource-name"><a href="#">Rocket Row</a></span>
+            <span class="resource-name">
+                <a href="#"
+                data-resource-id="<?php echo $item->id(); ?>" 
+                data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"><?php echo $item->displayTitle('[untitled]'); ?></a></span>
             <button class="select">Select</button>
         </div>
+        <?php endforeach; ?>
+    <!-- end filler -->
     </div>
     <div id="resource-details" class="sidebar">
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
-        <h1>Rocket Row</h1>
-        <aside>
-            <div class="images">
-                <a href="http://mallhistory.org/files/original/1391b4714c0a0b209a501ccef1712389.jpg"><div class="image"></div></a>
-            </div>
-            <div id="resource-citation" class="element">
-                <h3>Citation</h3>
-                <div class="element-text">&#8220;Rocket Row,&#8221; <em>Histories of the National Mall</em>, accessed May 19, 2014, http://mallhistory.org/items/show/484.</div>
-            </div>
-            <div id="resource-output-formats" class="element">
-                <h3>Output Formats</h3>
-                <div class="element-text">            
-                    <ul id="output-format-list">
-                        <li><a href="/items/show/484?output=atom">atom</a></li>
-                        <li><a href="/items/show/484?output=dcmes-xml">dcmes-xml</a></li>
-                        <li><a href="/items/show/484?output=json">json</a></li>
-                        <li><a href="/items/show/484?output=omeka-json">omeka-json</a></li>
-                        <li><a href="/items/show/484?output=omeka-xml">omeka-xml</a></li>
-                    </ul>
-                </div>
-            </div>
-        </aside>
-        <div class="element-set">
+        <div id="resource-details-content">
         </div>
         <div id="select-item">
             <a href="#" class="button">Select Resource</a>

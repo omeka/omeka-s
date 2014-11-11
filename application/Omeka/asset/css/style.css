@@ -2687,3 +2687,298 @@ th {
     padding: 1.5em 6.25%;
   }
 }
+
+/* copied from wireframes -- to be deleted when wireframes css is merged in */
+  /* @group ----- Select Item Sidebar ----- */
+  /* line 1207, ../sass/_screen.scss */
+  .search-nav {
+    width: 100%;
+  }
+  /* line 1210, ../sass/_screen.scss */
+  .search-nav .resource-search {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5em;
+  }
+  /* line 1217, ../sass/_screen.scss */
+  .search-nav #resource-list-search {
+    float: left;
+  }
+  /* line 1221, ../sass/_screen.scss */
+  .search-nav button.o-icon-search {
+    height: 2.25em;
+    width: 2.25em;
+    line-height: 24px;
+    padding: 0 10px;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-radius: 0;
+    border-radius: 0 3px 3px 0;
+    min-height: intrinsic;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-indent: -9999px;
+  }
+  /* line 1233, ../sass/_screen.scss */
+  .search-nav button.o-icon-search:before {
+    text-indent: 0px;
+    position: absolute;
+    left: 0;
+    top: 0.375em;
+    line-height: 24px;
+    width: 100%;
+  }
+  /* line 1243, ../sass/_screen.scdublin core typesss */
+  .search-nav .resource-search > input[type="text"] {
+    width: -webkit-calc(100% - 2.25em);
+    width: calc(100% - 2.25em);
+  }
+  /* line 1247, ../sass/_screen.scss */
+  .search-nav .more-options {
+    line-height: 2.25em;
+    padding: 0.375em 10px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    min-height: 0;
+    text-align: left;
+    color: #ff6666;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+  /* line 1257, ../sass/_screen.scss */
+  .search-nav .more-options:hover {
+    color: #FF0000;
+    background-color: #fff;
+  }
+  /* line 1262, ../sass/_screen.scss */
+  .search-nav .more-options.collapse {
+    border-color: transparent;
+  }
+  /* line 1267, ../sass/_screen.scss */
+  .search-nav .expand:after {
+    content: "\f0da";
+    font-family: "FontAwesome";
+    margin-left: 3px;
+  }
+  /* line 1273, ../sass/_screen.scss */
+  .search-nav .collapse:after {
+    content: "\f0d7";
+    font-family: "FontAwesome";
+    margin-left: 3px;
+  }
+  /* line 1279, ../sass/_screen.scss */
+  .search-nav .collapse + .search-options {
+    left: 0;
+    top: 3em;
+    bottom: 0;
+  }
+  /* line 1285, ../sass/_screen.scss */
+  .search-nav .search-options {
+    position: absolute;
+    left: -9999px;
+    width: 100%;
+    background-color: #fff;
+    padding: 1.5em 20px;
+    z-index: 1004;
+  }
+  /* line 1293, ../sass/_screen.scss */
+  .search-nav .search-options label {
+    display: inline-block;
+    width: 20%;
+  }
+  /* line 1298, ../sass/_screen.scss */
+  .search-nav .search-options label + * {
+    display: inline-block;
+    width: 70%;
+  }
+  /* line 1304, ../sass/_screen.scss */
+  .search-nav .pagination {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+    overflow: hidden;
+  }
+  /* line 1309, ../sass/_screen.scss */
+  .search-nav .pagination li {
+    float: left;
+  }
+  /* line 1313, ../sass/_screen.scss */
+  .search-nav .pagination li:first-of-type {
+    padding-right: 10px;
+  }
+  /* line 1317, ../sass/_screen.scss */
+  .search-nav .pagination input {
+    width: 3em;
+    text-align: center;
+    color: #333;
+    margin: 0 3px;
+  }
+  /* line 1324, ../sass/_screen.scss */
+  .search-nav .pagination a.button {
+    margin-right: 5px;
+  }
+
+  /* line 1330, ../sass/_screen.scss */
+  .search-options {
+    clear: left;
+  }
+  /* line 1333, ../sass/_screen.scss */
+  .search-options:before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.3;
+    top: -3em;
+    left: 0;
+    right: 0;
+    height: 3em;
+    z-index: 1001;
+  }
+  /* line 1346, ../sass/_screen.scss */
+  .search-options .field:last-of-type {
+    margin-bottom: 1.5em;
+  }
+
+  /* line 1351, ../sass/_screen.scss */
+  .resource-list {
+    width: 100%;
+  }
+  /* line 1355, ../sass/_screen.scss */
+  .resource-list .placeholder {
+    background-color: #666;
+    width: 2.25em;
+    height: 2.25em;
+    float: left;
+    margin-left: 0.375em;
+  }
+  /* line 1363, ../sass/_screen.scss */
+  .resource-list .placeholder.no-image {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  /* line 1367, ../sass/_screen.scss */
+  .resource-list .placeholder.no-image:after {
+    content: "";
+    font-family: "FontAwesome";
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    line-height: 2.25em;
+    color: #d2d2d2;
+  }
+  /* line 1378, ../sass/_screen.scss */
+  .resource-list .resource-name a {
+    width: auto;
+  }
+  /* line 1382, ../sass/_screen.scss */
+  .resource-list .resource-name {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0.375em 0 0 0.75em;
+  }
+  /* line 1388, ../sass/_screen.scss */
+  .resource-list .item {
+    padding: 0.375em 0;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+    position: relative;
+    width: 100%;
+    float: left;
+  }
+  /* line 1396, ../sass/_screen.scss */
+  .resource-list .item .select {
+    position: absolute;
+    top: 0.375em;
+    right: -9999px;
+    text-indent: -9999px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    height: 2.25em;
+    background-color: transparent;
+    color: #FF0000;
+    width: 2.25em;
+  }
+  /* line 1407, ../sass/_screen.scss */
+  .resource-list .item .select:after {
+    content: "\f00c";
+    font-family: 'FontAwesome';
+    text-indent: 0;
+    position: absolute;
+    top: 0.375em;
+    right: 0.75em;
+  }
+  /* line 1417, ../sass/_screen.scss */
+  .resource-list .item:hover, .resource-list .item.previewed {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  /* line 1422, ../sass/_screen.scss */
+  .resource-list .item:hover .select, .resource-list .item.previewed .select {
+    right: 0px;
+  }
+  /* line 1427, ../sass/_screen.scss */
+  .resource-list .item:hover .directions, .resource-list .item.previewed .directions {
+    text-indent: 0px;
+  }
+  /* line 1432, ../sass/_screen.scss */
+  .resource-list .item.previewed a {
+    font-weight: bold;
+  }
+
+  /* line 1438, ../sass/_screen.scss */
+  #resource-details {
+    background-color: #fff;
+    overflow-y: scroll;
+    padding-bottom: 3.375em;
+  }
+  /* line 1443, ../sass/_screen.scss */
+  #resource-details h1 {
+    font-size: 32px;
+    line-height: 48px;
+    margin-bottom: 0.75em;
+    padding: 0;
+  }
+  /* line 1450, ../sass/_screen.scss */
+  #resource-details .element {
+    margin-bottom: 1.5em;
+  }
+
+  /* line 1456, ../sass/_screen.scss */
+  #select-item {
+    position: fixed;
+    width: 24.47917%;
+    bottom: 0;
+    right: 0;
+    left: 100%;
+    height: 3em;
+    background-color: #fff;
+    padding: 0.375em 1.04167%;
+    border-color: #d2d2d2;
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: 0.3125em;
+    border-left: 1px solid #d2d2d2;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+  }
+  /* line 1470, ../sass/_screen.scss */
+  #select-item .button {
+    width: 100%;
+  }
+
+  /* line 1475, ../sass/_screen.scss */
+  #resource-details.active #select-item {
+    left: 75.52083%;
+  }
+
+  /* @end */

@@ -172,7 +172,7 @@
                 $('#content').removeClass('sidebar-open');
             }
         });
-        
+
         if ($('body').hasClass('add')) {
             $('body').on('click','[href="#resource-select"]', function(e) {
                 e.preventDefault();
@@ -180,6 +180,14 @@
             });
             $('body').on('click','.resource-name a', function(e) {
                 e.preventDefault();
+                $.ajax({
+                    'url': $(this).data('show-details-action'),
+                    'data': {'link-title' : 0},
+                    'type': 'get'
+                }).done(function(data) {
+                    $('#resource-details-content').html(data);
+                    $('$resource-details').data('resource_id', $(this).data('resource-id'));
+                });
                 openSidebar($('.sidebar .sidebar'));
             });
         }
@@ -300,7 +308,7 @@
         if (!$('#content').hasClass('sidebar-open')) {
             $('#content').addClass('sidebar-open');
         }
-    }
+    };
 
     var cleanText = function(text) {
         newText = text.clone();

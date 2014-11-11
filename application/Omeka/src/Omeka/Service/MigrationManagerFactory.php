@@ -22,7 +22,6 @@ class MigrationManagerFactory implements FactoryInterface
         $config = array(
             'path'      => OMEKA_PATH . '/data/migrations',
             'namespace' => 'Omeka\Db\Migrations',
-            'entity'    => 'Omeka\Model\Entity\Migration',
         );
         return new MigrationManager($config);
     }

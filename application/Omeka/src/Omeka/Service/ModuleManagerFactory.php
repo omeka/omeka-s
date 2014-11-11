@@ -23,7 +23,6 @@ class ModuleManagerFactory implements FactoryInterface
     {
         $modules    = new ModuleManager;
         $iniReader  = new IniReader;
-        $appConfig  = $serviceLocator->get('ApplicationConfig');
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
@@ -73,8 +72,7 @@ class ModuleManagerFactory implements FactoryInterface
         // Get all modules from the database, if installed.
         $dbModules = array();
         if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
-            $table = $appConfig['connection']['table_prefix'] . 'module';
-            $statement = $connection->prepare("SELECT * FROM $table");
+            $statement = $connection->prepare("SELECT * FROM module");
             $statement->execute();
             $dbModules = $statement->fetchAll();
         }

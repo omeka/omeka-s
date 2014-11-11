@@ -16,7 +16,6 @@ vendor/doctrine/orm/bin/doctrine orm:schema-tool:create
 printf 'SET FOREIGN_KEY_CHECKS = 0;\n' > schema.sql.tmp
 mysqldump --compact --user $USERNAME --password $DBNAME >> schema.sql.tmp
 printf 'SET FOREIGN_KEY_CHECKS = 1;' >> schema.sql.tmp
-sed -i 's/omeka_/OMEKA_TABLE_PREFIX_/g' schema.sql.tmp # find/replace database prefix
 awk '!/\*\/;$/' schema.sql.tmp > data/install/schema.sql # remove comments
 
 # Clean up.

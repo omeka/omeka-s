@@ -2,17 +2,17 @@
 namespace OmekaTest\Model;
 
 use DateTime;
-use Omeka\Model\Entity\Key;
+use Omeka\Model\Entity\ApiKey;
 use Omeka\Model\Entity\User;
 use Omeka\Test\TestCase;
 
-class KeyTest extends TestCase
+class ApiKeyTest extends TestCase
 {
     protected $key;
 
     public function setUp()
     {
-        $this->key = new Key;
+        $this->key = new ApiKey;
     }
 
     public function testInitialState()
@@ -29,7 +29,7 @@ class KeyTest extends TestCase
     public function testSetId()
     {
         $this->key->setId();
-        $pattern = '/^[' . Key::STRING_CHARLIST . ']{' . Key::STRING_LENGTH . '}$/';
+        $pattern = '/^[' . ApiKey::STRING_CHARLIST . ']{' . ApiKey::STRING_LENGTH . '}$/';
         $this->assertEquals(1, preg_match($pattern, $this->key->getId()));
     }
 
@@ -43,7 +43,7 @@ class KeyTest extends TestCase
     public function testSetCredential()
     {
         $credential = $this->key->setCredential();
-        $pattern = '/^[' . Key::STRING_CHARLIST . ']{' . Key::STRING_LENGTH . '}$/';
+        $pattern = '/^[' . ApiKey::STRING_CHARLIST . ']{' . ApiKey::STRING_LENGTH . '}$/';
         $this->assertEquals(1, preg_match($pattern, $credential));
         $this->assertTrue($this->key->verifyCredential($credential));
         $this->assertFalse($this->key->verifyCredential('foo'));

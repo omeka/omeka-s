@@ -58,7 +58,7 @@ class User extends AbstractEntity implements RoleInterface
 
     /**
      * @OneToMany(
-     *     targetEntity="Key",
+     *     targetEntity="ApiKey",
      *     mappedBy="owner",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"},

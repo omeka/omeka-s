@@ -111,7 +111,7 @@ class ManagerTest extends TestCase
     public function testRecordMigration()
     {
         $version = '1';
-        $tableName = 'omeka_entity';
+        $tableName = 'migration';
 
         $connection = $this->getMock('Doctrine\DBAL\Connection',
             array(), array(), '', false);
@@ -122,16 +122,8 @@ class ManagerTest extends TestCase
                 $this->equalTo(array('version' => $version))
             );
 
-        $dbHelper = $this->getMock('Omeka\Db\Helper');
-        $dbHelper->expects($this->once())
-            ->method('getTableNameForEntity')
-            ->will($this->returnValue($tableName));
-        $dbHelper->expects($this->once())
-            ->method('getConnection')
-            ->will($this->returnValue($connection));
-
         $sm = $this->getServiceManager(array(
-            'Omeka\DbHelper' => $dbHelper
+            'Omeka\Connection' => $connection
         ));
 
         $manager = new MigrationManager(array('entity' => 'Entity'));

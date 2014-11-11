@@ -4,7 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\UserForm;
 use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
-use Omeka\Model\Entity\Key;
+use Omeka\Model\Entity\ApiKey;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -216,7 +216,7 @@ class UserController extends AbstractActionController
             return;
         }
 
-        $key = new Key;
+        $key = new ApiKey;
         $key->setId();
         $key->setLabel($label);
         $key->setOwner($user);

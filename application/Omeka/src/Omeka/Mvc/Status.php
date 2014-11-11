@@ -40,11 +40,9 @@ class Status implements ServiceLocatorAwareInterface
         if (true === $this->isInstalled) {
             return true;
         }
-        $connection = $this->getServiceLocator()->get('Omeka\Connection');
-        $config = $this->getServiceLocator()->get('ApplicationConfig');
-        $tables = $connection->getSchemaManager()->listTableNames();
-        $checkTable = $config['connection']['table_prefix'] . self::CHECK_TABLE;
-        $this->isInstalled = in_array($checkTable, $tables);
+        $tables = $this->getServiceLocator()->get('Omeka\Connection')
+            ->getSchemaManager()->listTableNames();
+        $this->isInstalled = in_array(self::CHECK_TABLE, $tables);
         return $this->isInstalled;
     }
 

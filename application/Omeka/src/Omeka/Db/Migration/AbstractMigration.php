@@ -2,7 +2,6 @@
 namespace Omeka\Db\Migration;
 
 use Doctrine\DBAL\Connection;
-use Omeka\Db\Helper as DbHelper;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -14,9 +13,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractMigration implements MigrationInterface
 {
     /**
-     * @var DbHelper
+     * @var Connection
      */
-    protected $dbHelper;
+    protected $connection;
 
     /**
      * @var TranslatorInterface
@@ -41,17 +40,16 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Get the db helper
+     * Get the DBAL connection.
      *
-     * @return DbHelper
+     * @return Connection
      */
-    protected function getDbHelper()
+    public function getConnection()
     {
-        if (null === $this->dbHelper) {
-            $this->dbHelper = $this->getServiceLocator()
-                ->get('Omeka\DbHelper');
+        if (!$this->connection instanceof Connection) {
+            $this->connection = $this->getServiceLocator()->get('Omeka\Connection');
         }
-        return $this->dbHelper;
+        return $this->translator;
     }
 
     /**

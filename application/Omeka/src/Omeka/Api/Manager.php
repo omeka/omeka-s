@@ -5,7 +5,6 @@ use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

@@ -15,8 +15,10 @@ class AbstractEntityAdapterTest extends TestCase
 
     public function setUp()
     {
-        $this->adapter = $this->getMockForAbstractClass(
-            'Omeka\Api\Adapter\Entity\AbstractEntityAdapter'
+        $this->adapter = $this->getMock(
+            'Omeka\Api\Adapter\Entity\AbstractEntityAdapter',
+            array('hydrate', 'getResourceName', 'getRepresentationClass',
+                'getEntityClass', 'getEventManager')
         );
     }
 
@@ -63,7 +65,6 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        // Service: EventManager
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->once())
             ->method('trigger')
@@ -73,12 +74,13 @@ class AbstractEntityAdapterTest extends TestCase
             'Omeka\EntityManager' => $entityManager,
             'MvcTranslator' => $translator,
             'Omeka\Acl' => $acl,
-            'EventManager' => $eventManager,
         ));
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-
+        $this->adapter->expects($this->once())
+             ->method('getEventManager')
+             ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
@@ -137,7 +139,6 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        // Service: EventManager
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->once())
             ->method('trigger')
@@ -147,12 +148,13 @@ class AbstractEntityAdapterTest extends TestCase
             'MvcTranslator' => $translator,
             'Omeka\EntityManager' => $entityManager,
             'Omeka\Acl' => $acl,
-            'EventManager' => $eventManager,
         ));
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-
+        $this->adapter->expects($this->once())
+             ->method('getEventManager')
+             ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
@@ -225,7 +227,6 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        // Service: EventManager
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->once())
             ->method('trigger')
@@ -235,12 +236,13 @@ class AbstractEntityAdapterTest extends TestCase
             'MvcTranslator' => $translator,
             'Omeka\EntityManager' => $entityManager,
             'Omeka\Acl' => $acl,
-            'EventManager' => $eventManager,
         ));
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-
+        $this->adapter->expects($this->once())
+             ->method('getEventManager')
+             ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
@@ -312,7 +314,6 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        // Service: EventManager
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->once())
             ->method('trigger')
@@ -322,12 +323,13 @@ class AbstractEntityAdapterTest extends TestCase
             'MvcTranslator' => $translator,
             'Omeka\EntityManager' => $entityManager,
             'Omeka\Acl' => $acl,
-            'EventManager' => $eventManager,
         ));
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-
+        $this->adapter->expects($this->once())
+             ->method('getEventManager')
+             ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));

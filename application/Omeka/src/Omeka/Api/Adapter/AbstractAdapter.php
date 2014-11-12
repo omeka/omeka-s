@@ -6,7 +6,7 @@ use Omeka\Api\Representation\Entity\EntityRepresentation;
 use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
-use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -15,17 +15,12 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    use ServiceLocatorAwareTrait;
+    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
 
     /**
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var EventManagerInterface
-     */
-    protected $events;
 
     /**
      * {@inheritDoc}
@@ -151,26 +146,6 @@ abstract class AbstractAdapter implements AdapterInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventManager(EventManagerInterface $events)
-    {
-        $events->setIdentifiers(get_called_class());
-        $this->events = $events;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventManager()
-    {
-        if (null === $this->events) {
-            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
-        }
-        return $this->events;
     }
 
     /**

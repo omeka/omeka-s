@@ -91,7 +91,7 @@ class ValueHydrator implements HydrationInterface
                 'Omeka\Model\Entity\Property',
                 $valueObject['property_id']
             );
-            if (array_key_exists('@value', $valueObject)) {
+            if (array_key_exists('@value', $valueObject) && ! empty($valueObject['@value'])) {
                 $this->persistLiteral($valueObject, $property, $resource);
             } elseif (array_key_exists('value_resource_id', $valueObject)) {
                 $this->persistResource($valueObject, $property, $resource);

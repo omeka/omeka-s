@@ -1,4 +1,4 @@
-<form id="advanced-search" method="post" action="http://localhost/omeka-s/admin/item/browse">
+<form id="advanced-search" method="get" action="http://localhost/omeka-s/admin/item/browse">
 
     <div class="resource-type field">
         <div class="field-meta">
@@ -19,13 +19,13 @@
         </div>
         <div class="inputs">
             <div class="value">
-                <select class="value-query-type">
+                <select class="query-type">
                     <option value="eq">has exact value</option>
                     <option value="neq">does not have exact value</option>
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text" class="value-query-query">
+                <input type="text" class="query-query">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
@@ -41,16 +41,17 @@
         <div class="inputs">
             <div class="value">
                 <?php
-                $propertySelect->setName('properties');
+                $propertySelect->setName('properties')
+                    ->setAttribute('class', 'query-property');
                 echo $this->formSelect($propertySelect);
                 ?>
-                <select>
+                <select class="query-type">
                     <option value="eq">has exact value</option>
                     <option value="neq">does not have exact value</option>
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text">
+                <input type="text" class="query-query">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
@@ -84,24 +85,54 @@
 </form>
 
 <script>
-$('.add-value').click(function(event) {
+// remove all property select names
+$('.query-property').attr('name', null);
+
+$('#value-queries .add-value').click(function(event) {
     var clone = $('#value-queries .value').first().clone();
-    clone.find('.value-query-type').val('eq');
-    clone.find('.value-query-query').val(null);
+    clone.find('.query-type').val('eq');
+    clone.find('.query-query').val(null);
     clone.appendTo('#value-queries .inputs');
+});
+
+$('#property-queries .add-value').click(function(event) {
+    var clone = $('#property-queries .value').first().clone();
+    clone.find('.query-type').val('eq');
+    clone.find('.query-property').val(null);
+    clone.find('.query-query').val(null);
+    clone.appendTo('#property-queries .inputs');
 });
 
 $('#advanced-search').submit(function(event) {
     event.preventDefault();
-    var submitQuery = {};
     $('#value-queries .value').each(function(index) {
-        var query = $(this).find('.value-query-query');
+        var query = $(this).find('.query-query');
         if (!$.trim(query.val())) {
-            return; // do not add an empty query
+            return; // do not process an empty query
         }
-        var type = $(this).find('.value-query-type');
-        submitQuery['value[' + type.val() + '][' + index + ']'] = query.val();
+        var type = $(this).find('.query-type');
+        $('<input>').attr('type', 'hidden')
+            .attr('name', 'value[' + type.val() + '][]')
+            .val(query.val())
+            .appendTo('#advanced-search');
     });
-    window.location.href = $('#advanced-search').attr('action') + '?' + $.param(submitQuery);
+
+    $('#property-queries .value').each(function(index) {
+        var query = $(this).find('.query-query');
+        if (!$.trim(query.val())) {
+            return; // do not process an empty query
+        }
+        var property = $(this).find('.query-property');
+        if (!$.isNumeric(property.val())) {
+            return; // do not process invalid property
+        }
+        var type = $(this).find('.query-type');
+        $('<input>').attr('type', 'hidden')
+            .attr('name', 'property[' + property.val() + '][' + type.val() + '][]')
+            .val(query.val())
+            .appendTo('#advanced-search');
+    });
+
+    console.log($(this).serializeArray());
 });
 </script>

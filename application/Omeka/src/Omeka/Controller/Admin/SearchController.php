@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Zend\Form\Element\Select;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -55,15 +56,28 @@ class SearchController extends AbstractActionController
             $this->apiError($response);
             return;
         }
-        $selectArray = array();
+
+        // Build the property select object.
+        $valueOptions = array();
         foreach ($response->getContent() as $vocabulary) {
+            $options = array();
             foreach ($vocabulary->properties() as $property) {
-                $selectArray[$vocabulary->label()][$property->id()] = $property->label();
+                $options[$property->id()] = $property->label();
             }
+            if (!$options) {
+                continue;
+            }
+            $valueOptions[] = array(
+                'label' => $vocabulary->label(),
+                'options' => $options,
+            );
         }
+        $propertySelect = new Select;
+        $propertySelect->setValueOptions($valueOptions);
+        $propertySelect->setEmptyOption('Select Property');
 
         $view = new ViewModel;
-        $view->setVariable('selectArray', $selectArray);
+        $view->setVariable('propertySelect', $propertySelect);
         return $view;
     }
 }

@@ -3,11 +3,6 @@ namespace Omeka\Form;
 
 class LoginForm extends AbstractForm
 {
-    public function getFormName()
-    {
-        return 'login';
-    }
-
     public function buildForm()
     {
         $translator = $this->getTranslator();

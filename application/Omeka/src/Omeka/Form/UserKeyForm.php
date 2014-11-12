@@ -3,11 +3,6 @@ namespace Omeka\Form;
 
 class UserKeyForm extends AbstractForm
 {
-    public function getFormName()
-    {
-        return 'user-key';
-    }
-
     public function buildForm()
     {
         $translator = $this->getTranslator();

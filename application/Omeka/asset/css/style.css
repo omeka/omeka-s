@@ -2260,19 +2260,19 @@ th {
     display: inline-block;
   }
 
-  .all-properties select,
-  .all-properties input[type="text"],
+  #value-queries select,
+  #value-queries input[type="text"],
   .class-names select,
   .class-names input[type="text"],
-  .have-have-not select,
-  .have-have-not input[type="text"] {
+  #has-property-queries select,
+  #has-property-queries input[type="text"] {
     width: 49%;
     margin-right: -webkit-calc(1% - 4px);
     margin-right: calc(1% - 4px);
   }
 
-  .specific-properties select,
-  .specific-properties input[type="text"] {
+  #property-queries select,
+  #property-queries input[type="text"] {
     width: 32.33%;
     margin-right: -webkit-calc(1% - 4px);
     margin-right: calc(1% - 4px);

@@ -1,4 +1,4 @@
-<form id="advanced-search-form" method="post">
+<form id="advanced-search" method="post" action="http://localhost/omeka-s/admin/item/browse">
 
     <div class="resource-type field">
         <div class="field-meta">
@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="all-properties field">
+    <div id="value-queries" class="field">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -19,19 +19,19 @@
         </div>
         <div class="inputs">
             <div class="value">
-                <select name="value[type][0]">
+                <select class="value-query-type">
                     <option value="eq">has exact value</option>
                     <option value="neq">does not have exact value</option>
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text" name="value[query][0]">
+                <input type="text" class="value-query-query">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
     </div>
 
-    <div class="specific-properties field">
+    <div id="property-queries" class="field">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -41,22 +41,22 @@
         <div class="inputs">
             <div class="value">
                 <?php
-                $propertySelect->setName('property[id][0]');
+                $propertySelect->setName('properties');
                 echo $this->formSelect($propertySelect);
                 ?>
-                <select name="property[type][0]">
+                <select>
                     <option value="eq">has exact value</option>
                     <option value="neq">does not have exact value</option>
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text" name="property[query][0]">
+                <input type="text">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
     </div>
 
-    <div class="have-have-not field">
+    <div id="has-property-queries" class="field">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -65,12 +65,12 @@
         </div>
         <div class="inputs">
             <div class="value">
-                <select name="has_property[type][0]">
+                <select>
                     <option value="1">has property</option>
                     <option value="0">does not have property</option>
                 </select>
                 <?php
-                $propertySelect->setName('has_property[id][0]');
+                $propertySelect->setName('properties');
                 echo $this->formSelect($propertySelect);
                 ?>
             </div>
@@ -82,3 +82,26 @@
     </div>
 
 </form>
+
+<script>
+$('.add-value').click(function(event) {
+    var clone = $('#value-queries .value').first().clone();
+    clone.find('.value-query-type').val('eq');
+    clone.find('.value-query-query').val(null);
+    clone.appendTo('#value-queries .inputs');
+});
+
+$('#advanced-search').submit(function(event) {
+    event.preventDefault();
+    var submitQuery = {};
+    $('#value-queries .value').each(function(index) {
+        var query = $(this).find('.value-query-query');
+        if (!$.trim(query.val())) {
+            return; // do not add an empty query
+        }
+        var type = $(this).find('.value-query-type');
+        submitQuery['value[' + type.val() + '][' + index + ']'] = query.val();
+    });
+    window.location.href = $('#advanced-search').attr('action') + '?' + $.param(submitQuery);
+});
+</script>

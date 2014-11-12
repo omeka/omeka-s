@@ -1,8 +1,6 @@
 (function($) {
 
     $(document).ready( function() {
-        //have an initial property input available to use
-        //makeNewField('resource-values');
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
@@ -76,12 +74,6 @@
             }
         });
 
-        // Make new property field whenever "add property" button clicked.
-        $(document).on('click', '.add-property', function(e) {
-            e.preventDefault();
-            makeNewField();
-        });
-
         // Show properties
         addEditItems.on('click', '.properties li', function(e) {
             e.stopPropagation();
@@ -112,20 +104,9 @@
             if (count > 0) {
                 makeNewValue(qName);
             } else {
-                var field = $(this).parents('.field');
-                var propertyId = propertyLi.data('property-id');
-                $('.input-value', field).attr('name', qName + '[' + count + '][@value]');
-                $('input.value-language', field).attr('name', qName + '[' + count + '][@language]');
-                $('label.value-language', field).attr('for', qName + '[' + count + '][@language]');
-                $('.input-id', field).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
-                $('.input-id', field).attr('data-property-qname', qName);
-                var fieldName = cleanText($(this).parent()) + ' (' + cleanText($(this).parents('.vocabulary')) + ')';
-                var fieldLabel = $('<label>' + fieldName + '</label>');
-                var fieldDesc = $(this).siblings('.description');
-                fieldDesc.attr('class', 'field-description');
-                $(this).parents('.properties').before(fieldDesc);
-                field.find('input[placeholder="Property name"]').replaceWith(fieldLabel);
-                field.removeClass('unset');
+                makeNewField(propertyLi);
+                makeNewValue(qName);
+
             }
         });
 
@@ -230,9 +211,10 @@
 
     var makeNewValue = function(qName) {
         var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
-        var newValue = $('.resource-values.field.template .value ').first().clone();
+        var newValue = $('.value.template ').clone();
+        newValue.removeClass('template');
         var count = valuesWrapper.find('input.value').length;
-        valuesWrapper.find('.value').last().after(newValue);
+        $('.inputs', valuesWrapper).append(newValue);
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
         $('.input-id', newValue).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
@@ -251,61 +233,20 @@
         }
     };
     
-    // Duplicates the new field template, and makes it visible by removing the "template" class.
-    var makeNewField = function(section,prop,desc) {
-        var fieldSection = '#' + section;
-        var newField = $(fieldSection + ' .field.template').clone();
-        newField.removeClass('template');
-        newField.find('.remove-value').removeClass('active');
-
-        if (prop) {
-            propertyName = prop.toLowerCase();
-            propertyName = propertyName.replace(/ /g, '-');
-            newFieldLabel = $('<label for="' + propertyName + '">' + prop + '</label>');
-            newField.find('[title="new-property-name"]').remove();
-            newField.find('.field-meta').prepend(newFieldLabel);
-            
-            newField.removeClass('new');
-        } else {
-            newField.addClass('unset');
-        }
-        if (desc) {
-            var descriptionField = $('.field-description').first().clone();
-            newField.find('.field-meta label').after(descriptionField);
-            newField.find('.o-icon-info + p').text(desc);
-        }
-        if (prop) {
-            $('.new.field').first().before(newField);
-            $('label.value-language', newField).attr('for', 'what');
-        } else {
-            //$('.field.template').before(newField);
-            $(fieldSection).find('.template').before(newField);
-        }
-        
-        var modalLink = $('.modal-link');
-        if (modalLink.length > 0) {
-            attachModal(modalLink);
-        }
-    };
-    
-    var attachModal = function(modalLink) {
-        var modal = $(modalLink);
-        modal.modal({
-            trigger: modalLink,
-            olay:'div.overlay',
-            modals:'div.modal',
-            animationEffect: 'fadein',
-            animationSpeed: 400,
-            moveModalSpeed: 'fast',
-            background: '000000',
-            opacity: 0.8,
-            openOnLoad: false,
-            docClose: true,
-            closeByEscape: true,
-            moveOnScroll: true,
-            resizeWindow: true,
-            close:'.closeBtn'
-        });
+    var makeNewField = function(propertyLi) {
+        var qName = propertyLi.data('property-qname');
+        var propertyId = propertyLi.data('property-id');
+        var field = $('.resource-values.field.template').clone();
+        field.removeClass('template');
+        var fieldName = $('span.property-label', propertyLi).html() + ' (' + cleanText(propertyLi.parents('.vocabulary')) + ')';
+        $('label', field).text(fieldName);
+        var fieldDesc = $('.description p', propertyLi).last();
+        $('.field-description', field).append(fieldDesc);
+        $('.new.resource-values.field').before(field);
+        field.data('property-qname', qName);
+        field.data('property-id', propertyId);
+        field.attr('data-property-qname', qName);
+        field.attr('data-property-id', propertyId);
     };
 
     var selectResource = function() {

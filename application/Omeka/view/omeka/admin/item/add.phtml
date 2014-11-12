@@ -84,7 +84,7 @@ if (isset($errors)) {
         <?php endif; ?>
         <?php endforeach; ?>
         
-        <div class='new resource-values field template'>
+        <div class='new resource-values field unset'>
             <div class="field-actions">
                 <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
                 <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
@@ -102,7 +102,7 @@ if (isset($errors)) {
                                     <ul>
                                         <?php foreach ($vocabulary as $propertyInfo) : ?>
                                         <li class='property' data-property-id='<?php echo $propertyInfo["id"]; ?>' data-property-qname='<?php echo $propertyInfo["qname"]; ?>'>
-                                            <?php echo $propertyInfo['label']; ?>
+                                            <span class='property-label'><?php echo $propertyInfo['label']; ?></span>
                                             <div class='description'>
                                                 <p class='o-icon-info'>
                                                     <span class='screen-reader-text'>More Info</span>
@@ -122,25 +122,7 @@ if (isset($errors)) {
                     </ul>
                 </div>
             </div>
-            <div class="inputs">
-                <div class="value">
-                    <div class="input-options">
-                        <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
-                        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
-                        <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
-                     </div>
-                     <div class="active type input-option text">
-                        <!-- input for the property value -->
-                        <textarea name="" class="input-value"></textarea>
-                        <input type='hidden' class="input-id" name="" value="" />
-                        <label class='value-language' for=''>Language</label>
-                        <input class='value-language' type='text' name='' />
-                     </div>
-                     <button class="remove-value">Remove value</button>
-                </div>
-            </div>
         </div>
-        <a href="#" class="add-property button">Add property</a>
     </fieldset>
 
     <fieldset id="save-sidebar">
@@ -192,4 +174,49 @@ if (isset($errors)) {
             <a href="#" class="button">Select Resource</a>
         </div>
     </div>
+</div>
+
+
+<!-- Templates -->
+<div class="resource-values field template">
+    <div class="field-actions">
+        <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
+    </div>
+    <div class='field-meta'>
+        <label></label>
+        <div class='field-description'>
+            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+        </div>
+    </div>
+    <div class='inputs'>
+    </div>
+</div>
+
+<div class="value template">
+    <div class="input-options">
+        <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
+        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
+        <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
+     </div>
+     <div class="active type input-option text">
+        <!-- input for the property value -->
+        <textarea name="" class="input-value"></textarea>
+        <input type='hidden' class="input-id" name="" value="" />
+        <label class='value-language' for=''>Language</label>
+        <input class='value-language' type='text' name='' />
+     </div>
+     <div class="items input-option">
+        <span class="default">No item selected</span>
+    
+        <ul class="selected-resources">
+            <li class="selected-resource template">
+            <span class="o-title"></span>
+            <input type="hidden" class="value" />
+            <input type="hidden" class="property" />
+            </li>
+        </ul>
+         
+        <a href="#resource-select" class="button">Select Omeka Resource</a>
+    </div>     
+     <button class="remove-value">Remove value</button>
 </div>

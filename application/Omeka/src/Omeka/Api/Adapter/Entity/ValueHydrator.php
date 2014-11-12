@@ -85,7 +85,7 @@ class ValueHydrator implements HydrationInterface
             } elseif (array_key_exists('@id', $valueObject)) {
                 $this->modifyUri($valueObject, $value);
             }
-        } elseif (isset($valueObject['property_id']) && ! empty($valueObject['@value'])) {
+        } elseif (isset($valueObject['property_id'])) {
             // Persist a new value
             $property = $this->adapter->getEntityManager()->getReference(
                 'Omeka\Model\Entity\Property',

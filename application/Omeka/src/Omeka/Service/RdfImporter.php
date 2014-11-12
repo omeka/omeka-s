@@ -8,10 +8,11 @@ use Omeka\Model\Entity\Property;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\Vocabulary;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class RdfImporter implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
     /**
      * Class types to import.
      * 
@@ -215,21 +216,5 @@ class RdfImporter implements ServiceLocatorAwareInterface
         if ($comment instanceof EasyRdf_Literal) {
             return $comment->getValue();
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

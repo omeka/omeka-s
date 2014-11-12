@@ -3,10 +3,12 @@ namespace Omeka\Mvc;
 
 use Omeka\Module as OmekaModule;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Status implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * Table against which to check for an Omeka installation
      */
@@ -122,21 +124,5 @@ class Status implements ServiceLocatorAwareInterface
     public function getInstalledVersion()
     {
         return $this->getServiceLocator()->get('Omeka\Settings')->get('version');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

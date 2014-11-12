@@ -3,12 +3,7 @@ namespace Omeka\Form;
 
 class UserForm extends AbstractForm
 {
-    protected $options = array('includeRole' => false);
-
-    public function getFormName()
-    {
-        return 'user';
-    }
+    protected $options = array('include_role' => false);
 
     public function buildForm()
     {
@@ -48,7 +43,7 @@ class UserForm extends AbstractForm
             ),
         ));
 
-        if ($this->getOption('includeRole')) {
+        if ($this->getOption('include_role')) {
             $this->add(array(
                 'name' => 'o:role',
                 'type' => 'select',

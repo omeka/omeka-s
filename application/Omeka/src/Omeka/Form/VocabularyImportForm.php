@@ -3,11 +3,6 @@ namespace Omeka\Form;
 
 class VocabularyImportForm extends AbstractForm
 {
-    public function getFormName()
-    {
-        return 'import-vocabs';
-    }
-
     public function buildForm()
     {
         $translator = $this->getTranslator();

@@ -21,7 +21,7 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
-        $form = new UserForm($this->getServiceLocator(), array('includeRole' => true));
+        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => true));
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());

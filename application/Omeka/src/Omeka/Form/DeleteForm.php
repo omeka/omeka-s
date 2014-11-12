@@ -3,11 +3,6 @@ namespace Omeka\Form;
 
 class DeleteForm extends AbstractForm
 {
-    public function getFormName()
-    {
-        return 'delete';
-    }
-
     public function buildForm()
     {
         $translator = $this->getTranslator();

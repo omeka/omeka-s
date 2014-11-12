@@ -8,22 +8,19 @@ use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Abstract API adapter.
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
 
     /**
      * @var EventManagerInterface
@@ -156,22 +153,6 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
-    }
-    
     /**
      * {@inheritDoc}
      */

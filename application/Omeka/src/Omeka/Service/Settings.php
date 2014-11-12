@@ -5,10 +5,12 @@ use Doctrine\ORM\EntityManager;
 use Omeka\Model\Entity\Setting;
 use Zend\Json\Json;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Settings implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var array Settings cache
      */
@@ -18,11 +20,6 @@ class Settings implements ServiceLocatorAwareInterface
      * @var EntityManager
      */
     protected $entityManager;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
 
     /**
      * Set a setting
@@ -176,21 +173,5 @@ class Settings implements ServiceLocatorAwareInterface
                 ->get('Omeka\EntityManager');
         }
         return $this->entityManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

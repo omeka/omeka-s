@@ -10,7 +10,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -21,10 +21,7 @@ abstract class AbstractModule implements
     ServiceLocatorAwareInterface,
     EventManagerAwareInterface
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
+    use ServiceLocatorAwareTrait;
 
     /**
      * @var EventManagerInterface
@@ -159,22 +156,6 @@ abstract class AbstractModule implements
                 ),
             ),
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 
     /**

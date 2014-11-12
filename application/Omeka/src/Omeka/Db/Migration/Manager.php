@@ -5,13 +5,15 @@ use GlobIterator;
 use PDO;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Migration manager.
  */
 class Manager implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var string
      */
@@ -26,11 +28,6 @@ class Manager implements ServiceLocatorAwareInterface
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $serviceLocator;
 
     /**
      * Create the migration manager, passing configuration.
@@ -175,21 +172,5 @@ class Manager implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
     }
 }

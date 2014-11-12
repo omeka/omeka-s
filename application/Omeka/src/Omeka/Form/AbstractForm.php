@@ -4,19 +4,17 @@ namespace Omeka\Form;
 use Zend\Form\Form;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
 
     /**
      * Construct the object.
@@ -49,21 +47,5 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

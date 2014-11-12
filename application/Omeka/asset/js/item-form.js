@@ -2,7 +2,7 @@
 
     $(document).ready( function() {
         //have an initial property input available to use
-        makeNewField('resource-values');
+        //makeNewField('resource-values');
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
@@ -172,21 +172,28 @@
                 $('#content').removeClass('sidebar-open');
             }
         });
+        
+        $('#select-item a').click(function(e) {
+            e.preventDefault();
+            selectResource();
+        });
 
         if ($('body').hasClass('add')) {
             $('body').on('click','[href="#resource-select"]', function(e) {
                 e.preventDefault();
+                var qName = $(this).parents('.resource-values').data('property-qname');
+                $('#resource-details').data('property-qname', qName);
                 openSidebar($('#content > .sidebar'));
             });
             $('body').on('click','.resource-name a', function(e) {
                 e.preventDefault();
+                $('#resource-details').data('resource-id', $(this).data('resource-id'));
                 $.ajax({
                     'url': $(this).data('show-details-action'),
                     'data': {'link-title' : 0},
                     'type': 'get'
                 }).done(function(data) {
                     $('#resource-details-content').html(data);
-                    $('$resource-details').data('resource_id', $(this).data('resource-id'));
                 });
                 openSidebar($('.sidebar .sidebar'));
             });
@@ -224,7 +231,7 @@
     var makeNewValue = function(qName) {
         var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
         var newValue = $('.resource-values.field.template .value ').first().clone();
-        var count = valuesWrapper.find('.value').length;
+        var count = valuesWrapper.find('input.value').length;
         valuesWrapper.find('.value').last().after(newValue);
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
@@ -269,7 +276,6 @@
         }
         if (prop) {
             $('.new.field').first().before(newField);
-            console.log(newField);
             $('label.value-language', newField).attr('for', 'what');
         } else {
             //$('.field.template').before(newField);
@@ -302,6 +308,29 @@
         });
     };
 
+    var selectResource = function() {
+        var resource = $('#resource-details');
+        var propertyQname = resource.data('property-qname');
+        var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
+        var count = valuesWrapper.find('input.value').length;
+        var ul = jQuery("div[data-property-qname = '" + propertyQname + "'] ul.selected-resources");
+        var newResource = $("li.selected-resource.template", ul).clone();
+        newResource.removeClass('template');
+        $('span', newResource).html($('.o-title', resource).html());
+        var valueInput = $('input.value', newResource); 
+        valueInput.attr('name', propertyQname + '[' + count + '][value_resource_id]');
+        valueInput.val(resource.data('resource-id'));
+        var propertyInput = $('input.property', newResource);
+        propertyInput.attr('name', propertyQname + '[' + count + '][property_id]');
+        propertyInput.val(valuesWrapper.data('property-id'));
+        ul.append(newResource);
+        if ($('li', ul).length == 1) {
+            ul.siblings('span').show();
+        } else {
+            ul.siblings('span').hide();
+        }
+        
+    };
     
     var openSidebar = function(element) {
         element.addClass('active');
@@ -318,3 +347,38 @@
     };
     
 })(jQuery);
+
+
+var json = {
+    "@context": {
+        "o": "http://omeka.org/s/vocabulary#",
+        "bibo": {
+            "@id": "http://purl.org/ontology/bibo/",
+            "vocabulary_id": 4,
+            "vocabulary_label": "Bibliographic Ontology"
+        },
+        "dcterms": {
+            "@id": "http://purl.org/dc/terms/",
+            "vocabulary_id": 2,
+            "vocabulary_label": "Dublin Core"
+        }
+    },
+
+    "o:resource_class": {
+        "@id": "http://localhost/Omeka3/api/resource_classes/39/",
+        "o:id": 39
+    },
+
+    "dcterms:title": [
+        {
+            "@value": "The Cat",
+            "property_id": 1
+        }
+    ],
+    "dcterms:description": [
+        {
+            "@value": "aakkcphphphththththt!!!!",
+            "property_id": 4
+        }
+    ]
+}

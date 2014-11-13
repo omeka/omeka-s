@@ -2992,4 +2992,10 @@ fieldset {
     padding: 0;
 }
 
+#save-sidebar {
+    border: none;
+}
+
+/* end PMJ added styles */
+
   /* @end */

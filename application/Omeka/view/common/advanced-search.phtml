@@ -40,11 +40,7 @@
         </div>
         <div class="inputs">
             <div class="value">
-                <?php
-                $propertySelect->setName('properties')
-                    ->setAttribute('class', 'query-property');
-                echo $this->formSelect($propertySelect);
-                ?>
+                <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
                 <select class="query-type">
                     <option value="eq">has exact value</option>
                     <option value="neq">does not have exact value</option>
@@ -70,11 +66,7 @@
                     <option value="1">has property</option>
                     <option value="0">does not have property</option>
                 </select>
-                <?php
-                $propertySelect->setName('properties')
-                    ->setAttribute('class', 'query-property');
-                echo $this->formSelect($propertySelect);
-                ?>
+                <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
             </div>
         </div>
     </div>

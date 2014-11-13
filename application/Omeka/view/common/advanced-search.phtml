@@ -25,7 +25,7 @@
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text" class="query-query">
+                <input type="text" class="query-text">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     <option value="in">contains value</option>
                     <option value="nin">does not contain value</option>
                 </select>
-                <input type="text" class="query-query">
+                <input type="text" class="query-text">
                 <button class="remove-value button">Remove value</button>
             </div>
         </div>
@@ -91,7 +91,7 @@ $('.query-property').attr('name', null);
 $('#value-queries .add-value').click(function(event) {
     var clone = $('#value-queries .value').first().clone();
     clone.find('.query-type').val('eq');
-    clone.find('.query-query').val(null);
+    clone.find('.query-text').val(null);
     clone.appendTo('#value-queries .inputs');
 });
 
@@ -99,14 +99,16 @@ $('#property-queries .add-value').click(function(event) {
     var clone = $('#property-queries .value').first().clone();
     clone.find('.query-type').val('eq');
     clone.find('.query-property').val(null);
-    clone.find('.query-query').val(null);
+    clone.find('.query-text').val(null);
     clone.appendTo('#property-queries .inputs');
 });
 
 $('#advanced-search').submit(function(event) {
+
     event.preventDefault();
+
     $('#value-queries .value').each(function(index) {
-        var query = $(this).find('.query-query');
+        var query = $(this).find('.query-text');
         if (!$.trim(query.val())) {
             return; // do not process an empty query
         }
@@ -118,7 +120,7 @@ $('#advanced-search').submit(function(event) {
     });
 
     $('#property-queries .value').each(function(index) {
-        var query = $(this).find('.query-query');
+        var query = $(this).find('.query-text');
         if (!$.trim(query.val())) {
             return; // do not process an empty query
         }

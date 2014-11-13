@@ -62,7 +62,6 @@ return array(
             'Omeka\Controller\Admin\Item'      => 'Omeka\Controller\Admin\ItemController',
             'Omeka\Controller\Admin\User'      => 'Omeka\Controller\Admin\UserController',
             'Omeka\Controller\Admin\Module'    => 'Omeka\Controller\Admin\ModuleController',
-            'Omeka\Controller\Admin\Search'    => 'Omeka\Controller\Admin\SearchController',
             'Omeka\Controller\Admin\Vocabulary' => 'Omeka\Controller\Admin\VocabularyController',
             'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
         ),

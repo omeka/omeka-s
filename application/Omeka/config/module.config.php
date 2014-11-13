@@ -99,6 +99,7 @@ return array(
             'value'       => 'Omeka\View\Helper\Value',
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
             'messages'    => 'Omeka\View\Helper\Messages',
+            'propertySelect' => 'Omeka\View\Helper\PropertySelect',
             'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),

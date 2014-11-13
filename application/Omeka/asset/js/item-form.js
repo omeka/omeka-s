@@ -289,37 +289,3 @@
     
 })(jQuery);
 
-
-var json = {
-    "@context": {
-        "o": "http://omeka.org/s/vocabulary#",
-        "bibo": {
-            "@id": "http://purl.org/ontology/bibo/",
-            "vocabulary_id": 4,
-            "vocabulary_label": "Bibliographic Ontology"
-        },
-        "dcterms": {
-            "@id": "http://purl.org/dc/terms/",
-            "vocabulary_id": 2,
-            "vocabulary_label": "Dublin Core"
-        }
-    },
-
-    "o:resource_class": {
-        "@id": "http://localhost/Omeka3/api/resource_classes/39/",
-        "o:id": 39
-    },
-
-    "dcterms:title": [
-        {
-            "@value": "The Cat",
-            "property_id": 1
-        }
-    ],
-    "dcterms:description": [
-        {
-            "@value": "aakkcphphphththththt!!!!",
-            "property_id": 4
-        }
-    ]
-}

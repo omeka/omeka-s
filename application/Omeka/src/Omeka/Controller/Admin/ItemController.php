@@ -16,6 +16,15 @@ class ItemController extends AbstractActionController
         ));
     }
 
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        $view->setVariable('action', $this->url()->fromRoute(
+            'admin/default', array('action' => 'browse'), true
+        ));
+        return $view;
+    }
+
     public function browseAction()
     {
         $view = new ViewModel;

@@ -1,14 +1,4 @@
-<form id="advanced-search" method="get" action="http://localhost/omeka-s/admin/item/browse">
-
-    <div class="resource-type field">
-        <div class="field-meta">
-            <legend>Filter by resource type</legend>
-        </div>
-        <div class="inputs">
-            <label><input type="radio" name="resource-type" value="item" checked> Item</label>
-            <label><input type="radio" name="resource-type" value="media"> Media</label>
-        </div>
-    </div>
+<form id="advanced-search" method="get" action="<?php echo $this->escapeHtmlAttr($action); ?>">
 
     <div id="value-queries" class="field">
         <ul class="actions">
@@ -105,8 +95,6 @@ $('#has-property-queries .add-value').click(function(event) {
 
 $('#advanced-search').submit(function(event) {
 
-    event.preventDefault();
-
     $('#value-queries .value').each(function(index) {
         var text = $(this).find('.query-text');
         if (!$.trim(text.val())) {
@@ -146,7 +134,5 @@ $('#advanced-search').submit(function(event) {
             .val(type.val())
             .appendTo('#advanced-search');
     });
-
-    console.log($(this).serializeArray());
 });
 </script>

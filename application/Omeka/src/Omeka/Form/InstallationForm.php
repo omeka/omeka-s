@@ -3,11 +3,6 @@ namespace Omeka\Form;
 
 class InstallationForm extends AbstractForm
 {
-    public function getFormName()
-    {
-        return 'installation';
-    }
-
     public function buildForm()
     {
         $translator = $this->getTranslator();

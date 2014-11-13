@@ -6,29 +6,21 @@ use Omeka\Api\Representation\Entity\EntityRepresentation;
 use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
-use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Abstract API adapter.
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
+
     /**
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
-
-    /**
-     * @var EventManagerInterface
-     */
-    protected $events;
 
     /**
      * {@inheritDoc}
@@ -154,42 +146,6 @@ abstract class AbstractAdapter implements AdapterInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventManager(EventManagerInterface $events)
-    {
-        $events->setIdentifiers(get_called_class());
-        $this->events = $events;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventManager()
-    {
-        if (null === $this->events) {
-            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
-        }
-        return $this->events;
     }
 
     /**

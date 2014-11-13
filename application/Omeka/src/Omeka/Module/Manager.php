@@ -6,10 +6,12 @@ use Omeka\Event\Event;
 use Omeka\Model\Entity\Module;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Manager implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     const STATE_ACTIVE         = 'active';
     const STATE_NOT_ACTIVE     = 'not_active';
     const STATE_NOT_INSTALLED  = 'not_installed';
@@ -52,11 +54,6 @@ class Manager implements ServiceLocatorAwareInterface
      * @var TranslatorInterface
      */
     protected $translator;
-
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
 
     /**
      * Register a new module
@@ -486,21 +483,5 @@ class Manager implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

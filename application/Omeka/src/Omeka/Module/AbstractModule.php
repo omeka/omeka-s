@@ -4,13 +4,13 @@ namespace Omeka\Module;
 use Omeka\Event\FilterEvent;
 use ReflectionClass;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -21,15 +21,7 @@ abstract class AbstractModule implements
     ServiceLocatorAwareInterface,
     EventManagerAwareInterface
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
-
-    /**
-     * @var EventManagerInterface
-     */
-    protected $events;
+    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
 
     /**
      * Bootstrap the module.
@@ -159,41 +151,5 @@ abstract class AbstractModule implements
                 ),
             ),
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventManager(EventManagerInterface $events)
-    {
-        $events->setIdentifiers(get_called_class());
-        $this->events = $events;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventManager()
-    {
-        if (null === $this->events) {
-            $this->setEventManager($this->getServiceLocator()->get('EventManager'));
-        }
-        return $this->events;
     }
 }

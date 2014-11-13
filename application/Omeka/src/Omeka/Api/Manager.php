@@ -5,10 +5,9 @@ use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 /**
@@ -16,10 +15,7 @@ use Zend\ServiceManager\Exception\ServiceNotFoundException;
  */
 class Manager implements ServiceLocatorAwareInterface
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
+    use ServiceLocatorAwareTrait;
 
     /**
      * @var TranslatorInterface
@@ -375,21 +371,5 @@ class Manager implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

@@ -2688,7 +2688,7 @@ th {
   }
 }
 
-/* copied from wireframes -- to be deleted when wireframes css is merged in */
+/* PMJ copied from wireframes -- to be deleted when wireframes css is merged in */
   /* @group ----- Select Item Sidebar ----- */
   /* line 1207, ../sass/_screen.scss */
   .search-nav {
@@ -2980,5 +2980,16 @@ th {
   #resource-details.active #select-item {
     left: 75.52083%;
   }
+
+/* PMJ end copy from wireframes */
+
+/* PMJ added styles */
+.value.template {
+    display: none;
+}
+
+fieldset {
+    padding: 0;
+}
 
   /* @end */

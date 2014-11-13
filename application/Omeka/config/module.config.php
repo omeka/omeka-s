@@ -100,6 +100,7 @@ return array(
             'htmlElement' => 'Omeka\View\Helper\HtmlElement',
             'messages'    => 'Omeka\View\Helper\Messages',
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
+            'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
             'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),

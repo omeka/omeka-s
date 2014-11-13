@@ -1,5 +1,14 @@
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtmlAttr($action); ?>">
 
+    <div class="field">
+        <div class="field-meta">
+            <legend>Search by class</legend>
+        </div>
+        <div class="inputs">
+            <?php echo $this->resourceClassSelect('resource_class_id'); ?>
+        </div>
+    </div>
+
     <div id="value-queries" class="field">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>

@@ -7,7 +7,7 @@ return array(
     ),
     'module_listener_options' => array(
         'module_paths' => array(
-            OMEKA_PATH . '/application',
+            'Omeka' => OMEKA_PATH . '/application',
             OMEKA_PATH . '/module',
         ),
         'config_glob_paths' => array(

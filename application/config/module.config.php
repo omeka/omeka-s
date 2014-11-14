@@ -82,7 +82,7 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_path_stack'      => array(
-            OMEKA_PATH . '/application/Omeka/view',
+            OMEKA_PATH . '/application/view',
         ),
         'strategies' => array(
             'Omeka\ViewApiJsonStrategy',
@@ -191,7 +191,7 @@ return array(
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/application/Omeka/src/Model/Entity',
+            OMEKA_PATH . '/application/src/Model/Entity',
         ),
     ),
     'installation_manager' => array(
@@ -211,7 +211,7 @@ return array(
         'translation_file_patterns' => array(
             array(
                 'type'     => 'gettext',
-                'base_dir' => OMEKA_PATH . '/application/Omeka/language',
+                'base_dir' => OMEKA_PATH . '/application/language',
                 'pattern'  => '%s.mo',
                 'text_domain' => null,
             ),

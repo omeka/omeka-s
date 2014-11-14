@@ -7,7 +7,7 @@ use Zend\View\Helper\AbstractHtmlElement;
 
 class AssetUrl extends AbstractHtmlElement
 {
-    const OMEKA_ASSETS_PATH = '%s/application/Omeka/asset/%s';
+    const OMEKA_ASSETS_PATH = '%s/application/asset/%s';
     const MODULE_ASSETS_PATH = '%s/module/%s/asset/%s';
 
     /**

@@ -1,5 +1,5 @@
 <?php
-require '../../../bootstrap.php';
+require '../../bootstrap.php';
 
 //make sure error reporting is on for testing
 error_reporting(E_ALL);

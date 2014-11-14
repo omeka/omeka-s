@@ -55,7 +55,7 @@ class DbTestCase extends TestCase
         $config = require OMEKA_PATH . '/config/application.config.php';
         $reader = new \Zend\Config\Reader\Ini;
         $testConfig = array(
-            'connection' => $reader->fromFile(OMEKA_PATH . '/application/Omeka/test/config/database.ini')
+            'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini')
         );
         $config = array_merge($config, $testConfig);
         self::$application = Application::init($config);

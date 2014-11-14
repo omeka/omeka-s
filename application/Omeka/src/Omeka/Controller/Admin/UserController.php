@@ -29,10 +29,7 @@ class UserController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api()->create('users', $formData);
                 if ($response->isError()) {
-                    $messages = $this->apiError($response);
-                    if ($messages) {
-                        $form->setMessages($messages);
-                    }
+                    $form->setMessages($this->apiError($response));
                 } else {
                     $this->messenger()->addSuccess('User created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
@@ -110,10 +107,7 @@ class UserController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api()->update('users', $id, $formData);
                 if ($response->isError()) {
-                    $messages = $this->apiError($response);
-                    if ($messages) {
-                        $form->setMessages($messages);
-                    }
+                    $form->setMessages($this->apiError($response));
                 } else {
                     $this->messenger()->addSuccess('User updated.');
                     return $this->redirect()->refresh();

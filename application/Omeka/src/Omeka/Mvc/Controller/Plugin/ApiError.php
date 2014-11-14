@@ -9,13 +9,12 @@ class ApiError extends AbstractPlugin
     /**
      * Detect API response errors and set up the response to account for them.
      *
-     * @return null|array Null if no error. If there are validation error
-     *  messages, they are returned as an array.
+     * @return array An array of validation error messages, or an empty array.
      */
     public function __invoke(Response $response)
     {
         if (!$response->isError()) {
-            return null;
+            return array();
         }
 
         $controller = $this->getController();
@@ -31,6 +30,6 @@ class ApiError extends AbstractPlugin
             throw $e;
         }
 
-        return null;
+        return array();
     }
 }

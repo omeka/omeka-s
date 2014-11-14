@@ -79,10 +79,7 @@ class VocabularyController extends AbstractActionController
                         'file', $data, array('file' => $data['file']['tmp_name'])
                     );
                     if ($response->isError()) {
-                        $messages = $this->apiError($response);
-                        if ($messages) {
-                            $form->setMessages($messages);
-                        }
+                        $form->setMessages($this->apiError($response));
                     } else {
                         $this->messenger()->addSuccess('The vocabulary was successfully imported.');
                         return $this->redirect()->toUrl($response->getContent()->url());
@@ -121,10 +118,7 @@ class VocabularyController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api()->update('vocabularies', $id, $formData);
                 if ($response->isError()) {
-                    $messages = $this->apiError($response);
-                    if ($messages) {
-                        $form->setMessages($messages);
-                    }
+                    $form->setMessages($this->apiError($response));
                 } else {
                     $this->messenger()->addSuccess('Vocabulary updated.');
                     return $this->redirect()->refresh();

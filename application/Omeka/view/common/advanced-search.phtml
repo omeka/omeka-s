@@ -66,6 +66,7 @@
                     <option value="0">does not have property</option>
                 </select>
                 <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
+                <button class="remove-value button">Remove value</button>
             </div>
         </div>
     </div>
@@ -77,39 +78,60 @@
 </form>
 
 <script>
-// remove all names from query form elements
+// Remove all names from query form elements.
 $('.query-type, .query-text, .query-property').attr('name', null);
 
+// Remove individual values.
+$('#advanced-search').on('click', '.remove-value', function(event) {
+    event.preventDefault();
+    var values = $(this).parents('.inputs').children('.value');
+    $(this).parent('.value').remove();
+    if (2 == values.length) {
+        // Hide remove button when there is only one value.
+        values.children('.remove-value').hide();
+    }
+});
+
 $('#value-queries .add-value').click(function(event) {
-    var clone = $('#value-queries .value').first().clone();
-    clone.find('.query-type').val('eq');
-    clone.find('.query-text').val(null);
+    var first = $('#value-queries .value').first();
+    var clone = first.clone();
+    clone.children('.query-type').val('eq');
+    clone.children('.query-text').val(null);
     clone.appendTo('#value-queries .inputs');
+    clone.children('.remove-value').show();
+    first.children('.remove-value').show();
 });
 
 $('#property-queries .add-value').click(function(event) {
-    var clone = $('#property-queries .value').first().clone();
-    clone.find('.query-type').val('eq');
-    clone.find('.query-property').val(null);
-    clone.find('.query-text').val(null);
+    var first = $('#property-queries .value').first();
+    var clone = first.clone();
+    clone.children('.query-type').val('eq');
+    clone.children('.query-property').val(null);
+    clone.children('.query-text').val(null);
     clone.appendTo('#property-queries .inputs');
+    clone.children('.remove-value').show();
+    first.children('.remove-value').show();
 });
 
 $('#has-property-queries .add-value').click(function(event) {
-    var clone = $('#has-property-queries .value').first().clone();
-    clone.find('.query-type').val('1');
-    clone.find('.query-property').val(null);
+    var first = $('#has-property-queries .value').first();
+    var clone = first.clone();
+    clone.children('.query-type').val('1');
+    clone.children('.query-property').val(null);
     clone.appendTo('#has-property-queries .inputs');
+    clone.children('.remove-value').show();
+    first.children('.remove-value').show();
 });
 
+// Bypass regular form handling for value, property, and has property queries.
 $('#advanced-search').submit(function(event) {
 
     $('#value-queries .value').each(function(index) {
-        var text = $(this).find('.query-text');
+        var text = $(this).children('.query-text');
         if (!$.trim(text.val())) {
             return; // do not process an empty query
         }
-        var type = $(this).find('.query-type');
+        var type = $(this).children('.query-type');
         $('<input>').attr('type', 'hidden')
             .attr('name', 'value[' + type.val() + '][]')
             .val(text.val())
@@ -117,15 +139,15 @@ $('#advanced-search').submit(function(event) {
     });
 
     $('#property-queries .value').each(function(index) {
-        var text = $(this).find('.query-text');
+        var text = $(this).children('.query-text');
         if (!$.trim(text.val())) {
             return; // do not process an empty query
         }
-        var property = $(this).find('.query-property');
+        var property = $(this).children('.query-property');
         if (!$.isNumeric(property.val())) {
             return; // do not process an invalid property
         }
-        var type = $(this).find('.query-type');
+        var type = $(this).children('.query-type');
         $('<input>').attr('type', 'hidden')
             .attr('name', 'property[' + property.val() + '][' + type.val() + '][]')
             .val(text.val())
@@ -133,11 +155,11 @@ $('#advanced-search').submit(function(event) {
     });
 
     $('#has-property-queries .value').each(function(index) {
-        var property = $(this).find('.query-property');
+        var property = $(this).children('.query-property');
         if (!$.isNumeric(property.val())) {
             return; // do not process an invalid property
         }
-        var type = $(this).find('.query-type');
+        var type = $(this).children('.query-type');
         $('<input>').attr('type', 'hidden')
             .attr('name', 'has_property[' + property.val() + ']')
             .val(type.val())

@@ -37,6 +37,18 @@ class ApiJsonStrategyTest extends TestCase
         $this->assertSame($this->renderer, $this->strategy->selectRenderer($this->event));
     }
 
+    public function testStrategyDoesNothingForOtherModels()
+    {
+        $model = $this->getMock('Zend\View\Model\JsonModel');
+        $model->expects($this->never())
+              ->method('getOption');
+
+        $this->event->setModel($model);
+
+        $this->assertNull($this->strategy->selectRenderer($this->event));
+        $this->strategy->injectResponse($this->event);
+    }
+
     public function statusProvider()
     {
         return array(
@@ -76,6 +88,34 @@ class ApiJsonStrategyTest extends TestCase
         $this->event->setRenderer($this->renderer);
         $this->strategy->injectResponse($this->event);
         $this->assertEquals($httpStatus, $this->event->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @dataProvider statusProvider
+     */
+    public function testStrategyRespectsModelStatus($apiStatus, $apiContent, $apiException, $httpStatus)
+    {
+        $apiResponse = $this->getMock('Omeka\Api\Response');
+        $apiResponse->expects($this->never())
+                    ->method('getStatus');
+        $apiResponse->expects($this->never())
+                    ->method('getContent');
+        $apiResponse->expects($this->never())
+                    ->method('getException');
+
+        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue($apiResponse));
+        $model->expects($this->once())
+              ->method('getOption')
+              ->with('status_code')
+              ->will($this->returnValue(100));
+
+        $this->event->setModel($model);
+        $this->event->setRenderer($this->renderer);
+        $this->strategy->injectResponse($this->event);
+        $this->assertEquals(100, $this->event->getResponse()->getStatusCode());
     }
 
     public function testStrategySetsContentType()

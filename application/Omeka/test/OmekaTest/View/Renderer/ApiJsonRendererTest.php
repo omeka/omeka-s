@@ -39,4 +39,33 @@ class ApiJsonRendererTest extends TestCase
         $renderer = new ApiJsonRenderer;
         $this->assertEquals(null, $renderer->render($model));
     }
+
+    public function testRendererShowsErrors()
+    {
+        $errors = array('foo' => 'bar');
+
+        $response = $this->getMock('Omeka\Api\Response');
+        $response->expects($this->once())
+                 ->method('isError')
+                 ->will($this->returnValue(true));
+        $response->expects($this->once())
+                 ->method('getStatus')
+                 ->will($this->returnValue('status'));
+        $response->expects($this->once())
+                 ->method('getErrors')
+                 ->will($this->returnValue($errors));
+        $response->expects($this->once())
+                 ->method('getException')
+                 ->will($this->returnValue(new \Exception('exception message')));
+
+        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue($response));
+
+        $renderer = new ApiJsonRenderer;
+
+        $errors['status'] = 'exception message';
+        $this->assertEquals(Json::encode(array('errors' => $errors)), $renderer->render($model));
+    }
 }

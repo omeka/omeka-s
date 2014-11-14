@@ -191,7 +191,7 @@ return array(
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/application/Omeka/src/Omeka/Model/Entity',
+            OMEKA_PATH . '/application/Omeka/src/Model/Entity',
         ),
     ),
     'installation_manager' => array(

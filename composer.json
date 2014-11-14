@@ -12,6 +12,6 @@
         "phpunit/phpunit": "~4.2"
     },
     "autoload": {
-        "psr-0": {"": "application/Omeka/src"}
+        "psr-4": {"Omeka\\": "application/Omeka/src"}
     }
 }

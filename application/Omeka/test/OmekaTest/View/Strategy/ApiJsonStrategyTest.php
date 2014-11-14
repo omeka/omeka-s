@@ -1,10 +1,12 @@
 <?php
 namespace OmekaTest\View\Strategy;
 
+use Omeka\Api\Exception;
 use Omeka\Api\Response as ApiResponse;
 use Omeka\View\Renderer\ApiJsonRenderer;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
+use Zend\Json\Exception as JsonException;
 use Zend\View\ViewEvent;
 use Omeka\Test\TestCase;
 
@@ -38,20 +40,21 @@ class ApiJsonStrategyTest extends TestCase
     public function statusProvider()
     {
         return array(
-            array(ApiResponse::SUCCESS, 'bar', 200),
-            array(ApiResponse::SUCCESS, null, 204),
-            array(ApiResponse::ERROR_VALIDATION, 'bar', 422),
-            array(ApiResponse::ERROR_NOT_FOUND, 'bar', 404),
-            array(ApiResponse::ERROR_PERMISSION_DENIED, 'bar', 403),
-            array(ApiResponse::ERROR_INTERNAL, 'bar', 500),
-            array('foo', 'bar', 500)
+            array(ApiResponse::SUCCESS, 'bar', null, 200),
+            array(ApiResponse::SUCCESS, null, null, 204),
+            array(ApiResponse::ERROR_VALIDATION, 'bar', null, 422),
+            array(ApiResponse::ERROR, 'bar', new Exception\NotFoundException, 404),
+            array(ApiResponse::ERROR, 'bar', new Exception\PermissionDeniedException, 403),
+            array(ApiResponse::ERROR, 'bar', new \Exception, 500),
+            array(ApiResponse::ERROR, 'bar', new JsonException\RuntimeException, 400),
+            array('foo', 'bar', null, 500)
         );
     }
 
     /**
      * @dataProvider statusProvider
      */
-    public function testStrategySetsStatus($apiStatus, $apiContent, $httpStatus)
+    public function testStrategySetsStatus($apiStatus, $apiContent, $apiException, $httpStatus)
     {
         $apiResponse = $this->getMock('Omeka\Api\Response');
         $apiResponse->expects($this->once())
@@ -60,6 +63,9 @@ class ApiJsonStrategyTest extends TestCase
         $apiResponse->expects($this->any())
                     ->method('getContent')
                     ->will($this->returnValue($apiContent));
+        $apiResponse->expects($this->any())
+                    ->method('getException')
+                    ->will($this->returnValue($apiException));
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())

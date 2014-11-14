@@ -80,11 +80,9 @@ class ResponseTest extends TestCase
 
     public function testIsErrorWorks()
     {
-        $this->response->setStatus('error_internal');
+        $this->response->setStatus('error');
         $this->assertTrue($this->response->isError());
         $this->response->setStatus('error_validation');
-        $this->assertTrue($this->response->isError());
-        $this->response->setStatus('error_not_found');
         $this->assertTrue($this->response->isError());
         $this->response->setStatus('success');
         $this->assertFalse($this->response->isError());

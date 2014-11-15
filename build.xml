@@ -91,4 +91,48 @@
         <delete dir="${build.dir}" quiet="true"/>
         <delete dir="${composer.vendor.path}" quiet="true"/>
     </target>
+    <!--
+    Doctrine's schema-tools creates unoptimized schema SQL that takes an
+    inordinate time to install. Thankfully, mysqldump creates more highly
+    optimized SQL. That, along with toggling off foreign key checks, greatly
+    reduces installation time.
+    -->
+    <target name="create-schema"
+            description="Create optimized schema SQL for installation.">
+        <exec executable="./vendor/bin/doctrine" failonerror="true">
+            <arg value="--force"/>
+            <arg value="orm:schema-tool:drop"/>
+        </exec>
+        <exec executable="./vendor/bin/doctrine" failonerror="true">
+            <arg value="orm:schema-tool:create"/>
+        </exec>
+        <exec executable="printf" output="schema.sql.tmp"
+              append="true" failonerror="true">
+            <arg value="SET FOREIGN_KEY_CHECKS = 0;\n"/>
+        </exec>
+        <exec executable="mysqldump" output="schema.sql.tmp"
+              append="true" failonerror="true">
+            <arg value="--compact"/>
+            <arg value="--user"/>
+            <arg value="root"/>
+            <arg value="--password"/>
+            <arg value="omeka-s"/>
+        </exec>
+        <exec executable="printf" output="schema.sql.tmp"
+              append="true" failonerror="true">
+            <arg value="SET FOREIGN_KEY_CHECKS = 1;"/>
+        </exec>
+        <exec executable="awk" output="data/install/schema.sql"
+              failonerror="true">
+            <arg value="!/\*\/;$/"/>
+            <arg value="schema.sql.tmp"/>
+        </exec>
+        <exec executable="rm" failonerror="true">
+            <arg value="schema.sql.tmp"/>
+        </exec>
+        <exec executable="./vendor/bin/doctrine" failonerror="true">
+            <arg value="--force"/>
+            <arg value="orm:schema-tool:drop"/>
+        </exec>
+    </target>
 </project>

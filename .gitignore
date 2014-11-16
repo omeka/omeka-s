@@ -1,6 +1,5 @@
 .htaccess
 build/
-build_schema.sh
 config/local.config.php
 config/database.ini
 data/doctrine-proxies/

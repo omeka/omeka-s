@@ -32,10 +32,6 @@ class ItemController extends AbstractActionController
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('items', $query);
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('items', $response->getContent());
@@ -48,10 +44,6 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('item', $response->getContent());
         return $view;
     }
@@ -63,10 +55,6 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read(
             'items', array('id' => $this->params('id'))
         );
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('item', $response->getContent());
         return $view;
     }

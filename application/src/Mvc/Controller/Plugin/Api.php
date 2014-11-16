@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
+use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Response;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
@@ -9,6 +10,11 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  */
 class Api extends AbstractPlugin
 {
+    /**
+     * @var ApiManager
+     */
+    protected $apiManager;
+
     /**
      * Execute a search API request.
      *
@@ -117,7 +123,7 @@ class Api extends AbstractPlugin
     }
 
     /**
-     * Detect API response errors and account for them.
+     * Detect and account for API response errors.
      *
      * @throws mixed
      * @return Response
@@ -128,16 +134,24 @@ class Api extends AbstractPlugin
             // Rethrow exceptions
             throw $e;
         }
-
         if ($response->getStatus() === Response::ERROR_VALIDATION) {
             $this->getController()->messenger()
                 ->addError('There was an error during validation');
         }
     }
 
+    /**
+     * Get the API manager.
+     *
+     * @return ApiManager
+     */
     protected function getApiManager()
     {
-        return $this->getController()->getServiceLocator()
-            ->get('Omeka\ApiManager');
+        if (!$this->apiManager instanceof ApiManager) {
+            $this->apiManager = $this->getController()
+                ->getServiceLocator()
+                ->get('Omeka\ApiManager');
+        }
+        return $this->apiManager;
     }
 }

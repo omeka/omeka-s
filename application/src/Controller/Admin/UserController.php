@@ -72,10 +72,6 @@ class UserController extends AbstractActionController
         $response = $this->api()->read(
             'users', array('id' => $this->params('id'))
         );
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('user', $response->getContent());
         return $view;
     }

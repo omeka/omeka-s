@@ -19,7 +19,7 @@ metadata.
 1. In your web browser, navigate to the omeka-s/install directory, where you can
    complete installation.
 
-You can find Omeka-specific code under application/Omeka.
+You can find Omeka-specific code under application/.
 
 ## Libraries Used
 

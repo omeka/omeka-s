@@ -52,7 +52,7 @@
                 <include name=".htaccess.dist"/>
                 <include name="config/*.dist"/>
                 <include name="data/logs/*.dist"/>
-                <include name="application/Omeka/test/config/*.dist"/>
+                <include name="application/test/config/*.dist"/>
                 <present targetdir="." present="srconly">
                     <mapper type="glob" from="*.dist" to="*"/>
                 </present>
@@ -73,7 +73,7 @@
             <isset property="test.coverage"/>
         </condition>
         <exec executable="${phpunit.path}"
-              dir="application/Omeka/test"
+              dir="application/test"
               failonerror="true">
             <arg value="-d"/>
             <arg value="date.timezone=America/New_York"/>

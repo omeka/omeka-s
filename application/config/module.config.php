@@ -95,12 +95,13 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
-            'value'       => 'Omeka\View\Helper\Value',
-            'htmlElement' => 'Omeka\View\Helper\HtmlElement',
-            'messages'    => 'Omeka\View\Helper\Messages',
+            'value'          => 'Omeka\View\Helper\Value',
+            'htmlElement'    => 'Omeka\View\Helper\HtmlElement',
+            'messages'       => 'Omeka\View\Helper\Messages',
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
+            'sortLink'       => 'Omeka\View\Helper\SortLink',
+            'formElements'   => 'Omeka\View\Helper\FormElements',
             'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
-            'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),
     'media_types' => array(

@@ -1,17 +1,9 @@
-<?php
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formElement = $this->plugin('formElement');
-$formErrors = $this->plugin('formElementErrors');
-$escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
-?>
-<h1>Edit API Keys for &ldquo;<?php echo $user->username(); ?>&rdquo;</h1>
-
+<?php $form->prepare(); ?>
+<h1><?php echo $this->escapeHtml($this->translate(sprintf('Edit API Keys for “%s”', $user->username()))); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
-    <button>Submit</button>
+    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
 </div>
 
 <nav class="section-nav">
@@ -19,44 +11,30 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </nav>
 
 <?php if ($keys): ?>
-<div role="group" aria-labelledby="keys-existing-heading">
-    <h2 id="keys-existing-heading">Keys</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Label</th>
-                <th>ID</th>
-                <th>Delete?</th>
-            </tr>
-        </thead>
-        <?php foreach ($keys as $id => $label): ?>
+<h2 id="keys-existing-heading"><?php echo $this->escapeHtml($this->translate('Keys')); ?></h2>
+<table>
+    <thead>
         <tr>
-            <td><?php echo $escape($label); ?></td>
-            <td><code><?php echo $escape($id); ?></code></td>
-            <td>
-                <input type="checkbox"
-                       name="delete[]"
-                       value="<?php echo $escapeAttr($id); ?>"
-                       aria-label="Mark key &ldquo;<?php echo $escapeAttr($label); ?>&rdquo; for deletion">
-            </td>
+            <th>Label</th>
+            <th>ID</th>
+            <th>Delete?</th>
         </tr>
-        <?php endforeach; ?>
-    </table>
-</div>
+    </thead>
+    <?php foreach ($keys as $id => $label): ?>
+    <tr>
+        <td><?php echo $this->escapeHtml($label); ?></td>
+        <td><code><?php echo $this->escapeHtml($id); ?></code></td>
+        <td>
+            <input type="checkbox"
+                name="delete[]"
+                value="<?php echo $this->escapeHtmlAttr($id); ?>"
+                aria-label="Mark key &ldquo;<?php echo $this->escapeHtmlAttr($label); ?>&rdquo; for deletion">
+        </td>
+    </tr>
+    <?php endforeach; ?>
+</table>
 <?php endif; ?>
 
-<div role="group" aria-labelledby="keys-add-heading">
-    <h2 id="keys-add-heading">Add a New Key</h2>
-    <?php foreach ($form->getElements() as $element): ?>
-    <div class="field">
-        <div class="field-meta">
-            <?php echo $formLabel($element); ?>
-        </div>
-        <div class="inputs">
-            <?php echo $formElement($element); ?>
-        </div>
-        <?php echo $formErrors($element, array('class' => 'messages')); ?>
-    </div>
-</div>
-<?php endforeach; ?>
+<h2 id="keys-add-heading"><?php echo $this->escapeHtml($this->translate('Add a New Key')); ?></h2>
+<?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

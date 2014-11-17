@@ -1,79 +1,8 @@
-<?php
-$this->htmlElement('body')->appendAttribute('class', 'vocabs import');
-$form->prepare();
-$escape = $this->plugin('escapeHtml');
-?>
-
-<h1><?php echo $escape($this->translate('Import Vocabulary')); ?></h1>
-
+<?php $form->prepare(); ?>
+<h1><?php echo $this->escapeHtml($this->translate('Import Vocabulary')); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
-
 <div id="page-actions">
-    <button><?php echo $escape($this->translate('Submit')); ?></button>
+    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
 </div>
-
-<div class="field">
-    <?php $fileElement = $form->get('file'); ?>
-    <div class="field-meta"><?php echo $this->formLabel($fileElement); ?></div>
-    <div class="inputs">
-        <?php echo $this->formFile($fileElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($fileElement, array('class' => 'messages')); ?>
-</div>
-<div class="field">
-    <?php $prefixElement = $form->get('o:prefix'); ?>
-    <div class="field-meta">
-        <?php echo $this->formLabel($prefixElement); ?>
-        <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
-            <p><?php echo $escape($this->translate('A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.')); ?></p>
-        </div>
-    </div>
-    <div class="inputs">
-        <?php echo $this->formElement($prefixElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($prefixElement, array('class' => 'messages')); ?>
-</div>
-<div class="field">
-    <?php $namespaceUriElement = $form->get('o:namespace_uri'); ?>
-    <div class="field-meta">
-        <?php echo $this->formLabel($namespaceUriElement); ?>
-        <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
-            <p><?php echo $escape($this->translate('The unique namespace URI used by the vocabulary to identify local member classes and properties.')); ?></p>
-        </div>
-    </div>
-    <div class="inputs">
-        <?php echo $this->formElement($namespaceUriElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($namespaceUriElement, array('class' => 'messages')); ?>
-</div>
-<div class="field">
-    <?php $labelElement = $form->get('o:label'); ?>
-    <div class="field-meta">
-        <?php echo $this->formLabel($labelElement); ?>
-        <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
-            <p><?php echo $escape($this->translate('A human-readable title of the vocabulary.')); ?></p>
-        </div>
-    </div>
-    <div class="inputs">
-        <?php echo $this->formElement($labelElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
-</div>
-<div class="field">
-    <?php $commentElement = $form->get('o:comment'); ?>
-    <div class="field-meta">
-        <?php echo $this->formLabel($commentElement); ?>
-        <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
-            <p><?php echo $escape($this->translate('A human-readable description of the vocabulary.')); ?></p>
-        </div>
-    </div>
-    <div class="inputs">
-        <?php echo $this->formElement($commentElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($commentElement, array('class' => 'messages')); ?>
-</div>
+<?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

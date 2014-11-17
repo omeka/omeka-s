@@ -23,6 +23,7 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'text',
             'options' => array(
                 'label' => $translator->translate('Prefix'),
+                'info' => $translator->translate('A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -34,6 +35,7 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'text',
             'options' => array(
                 'label' => $translator->translate('Namespace URI'),
+                'info' => $translator->translate('The unique namespace URI used by the vocabulary to identify local member classes and properties.'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -45,6 +47,7 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'text',
             'options' => array(
                 'label' => $translator->translate('Label'),
+                'info' => $translator->translate('A human-readable title of the vocabulary.'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -56,7 +59,13 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'textarea',
             'options' => array(
                 'label' => $translator->translate('Comment'),
+                'info' => $translator->translate('A human-readable description of the vocabulary.'),
             ),
+        ));
+
+        $this->add(array(
+            'type' => 'csrf',
+            'name' => 'csrf',
         ));
     }
 }

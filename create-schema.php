@@ -10,28 +10,23 @@
 
 require 'bootstrap.php';
 
-$config = require OMEKA_PATH . '/config/application.config.php';
-$reader = new \Zend\Config\Reader\Ini;
-$testConfig = array(
-    'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini')
-);
-$config = array_merge($config, $testConfig);
-
 // Initialize the Omeka application using the test database.
-$application = Omeka\Mvc\Application::init($config);
+$config = require OMEKA_PATH . '/config/application.config.php';
+$testConfig = array('connection' => parse_ini_file(
+    OMEKA_PATH . '/application/test/config/database.ini'
+));
+$application = Omeka\Mvc\Application::init(array_merge($config, $testConfig));
 $entityManager = $application->getServiceManager()->get('Omeka\EntityManager');
-$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
-$metadata = $entityManager->getMetadataFactory()->getAllMetadata();
 
-// Drop existing tables and create the schema.
-$schemaTool->dropSchema($metadata);
-$schemaTool->createSchema($metadata);
+// Create new tables.
+dropTables($entityManager->getConnection());
+$schemaTool = new Doctrine\ORM\Tools\SchemaTool($entityManager);
+$schemaTool->createSchema($entityManager->getMetadataFactory()->getAllMetadata());
 
 // Build the schema SQL.
 $user = escapeshellarg($testConfig['connection']['user']);
 $password = escapeshellarg($testConfig['connection']['password']);
 $dbname = escapeshellarg($testConfig['connection']['dbname']);
-
 $schemaSql = 'SET FOREIGN_KEY_CHECKS = 0;' . PHP_EOL;
 $schemaSql .= shell_exec("mysqldump --compact --user $user --password=$password $dbname");
 $schemaSql .= 'SET FOREIGN_KEY_CHECKS = 1;' . PHP_EOL;
@@ -39,4 +34,18 @@ $schemaSql = preg_replace('/\/\*.+\*\/;\n/', '', $schemaSql);
 file_put_contents('data/install/schema.sql', $schemaSql);
 
 // Clean up.
-$schemaTool->dropSchema($metadata);
+dropTables($entityManager->getConnection());
+
+/**
+ * Drop all existing tables, even those not defined in the schema.
+ *
+ * @param Doctrine\DBAL\Connection $connection
+ */
+function dropTables(Doctrine\DBAL\Connection $connection)
+{
+    $connection->query('SET FOREIGN_KEY_CHECKS=0');
+    foreach ($connection->getSchemaManager()->listTableNames() as $table) {
+        $connection->getSchemaManager()->dropTable($table);
+    }
+    $connection->query('SET FOREIGN_KEY_CHECKS=1');
+}

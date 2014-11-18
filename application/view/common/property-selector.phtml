@@ -13,7 +13,7 @@
                         <li class='vocabulary'><?php echo $vocabulary->label(); ?>
                             <ul>
                                 <?php foreach ($vocabulary->properties() as $property): ?>
-                                <li class='property' data-property-id='<?php echo $property->id(); ?>' data-property-qname='<?php echo $property->vocabulary()->prefix() . ':' . $property->localName(); ?>'>
+                                <li class='property' data-property-id='<?php echo $property->id(); ?>' data-property-qname='<?php echo $property->term(); ?>'>
                                     <span class='property-label'><?php echo $property->label(); ?></span>
                                     <div class='description'>
                                         <p class='o-icon-info'>

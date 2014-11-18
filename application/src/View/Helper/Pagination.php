@@ -7,6 +7,11 @@ use Zend\View\Helper\AbstractHelper;
 class Pagination extends AbstractHelper
 {
     /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/pagination';
+
+    /**
      * @var \Zend\Http\PhpEnvironment\Request
      */
     protected $request;
@@ -21,7 +26,7 @@ class Pagination extends AbstractHelper
      *
      * @var string|\Zend\View\Model\ModelInterface
      */
-    protected $name = 'common/pagination';
+    protected $partialName;
 
     /**
      * Construct the helper.
@@ -40,11 +45,11 @@ class Pagination extends AbstractHelper
      * @param int|null $totalCount The total record count
      * @param int|null $currentPage The current page number
      * @param int|null $perPage The number of records per page
-     * @param string|null $name Name of view script, or a view model
+     * @param string|null $partialName Name of view script, or a view model
      * @return self
      */
     public function __invoke($totalCount = null, $currentPage = null,
-        $perPage = null, $name = null
+        $perPage = null, $partialName = null
     ) {
         if (null !== $totalCount) {
             $this->getPaginator()->setTotalCount($totalCount);
@@ -55,9 +60,7 @@ class Pagination extends AbstractHelper
         if (null !== $perPage) {
             $this->getPaginator()->setPerPage($perPage);
         }
-        if (null !== $name) {
-            $this->name = $name;
-        }
+        $this->partialName = $partialName ?: self::PARTIAL_NAME;
         return $this;
     }
 
@@ -79,7 +82,7 @@ class Pagination extends AbstractHelper
         }
 
         return $this->getView()->partial(
-            $this->name,
+            $this->partialName,
             array(
                 'totalCount'      => $paginator->getTotalCount(),
                 'perPage'         => $paginator->getPerPage(),

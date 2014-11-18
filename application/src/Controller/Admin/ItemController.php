@@ -126,10 +126,10 @@ class ItemController extends AbstractActionController
         $vocabularies = $this->getVocabularies();
         $view->setVariable('vocabularies', $vocabularies);
 
-        /* temporary hack to have some items in the sidebar */
+        /* PMJ temporary hack to have some items in the sidebar */
         $items = $this->api()->search('items')->getContent();
         $view->setVariable('items', $items);
-        /* end hack */
+        /* end PMJ hack */
         if ($this->getRequest()->isPost()) {
             $response = $this->api()->create('items', $this->params()->fromPost());
             if ($response->isError()) {

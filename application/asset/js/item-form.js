@@ -106,7 +106,6 @@
             } else {
                 makeNewField(propertyLi);
                 makeNewValue(qName);
-
             }
         });
 
@@ -116,7 +115,7 @@
             var wrapper = $(this).parents('.resource-values.field');
             makeNewValue(wrapper.data('property-qname'));
         });
-        
+
         // Remove value.
         addEditItems.on('click', '.remove-value', function(e) {
             e.preventDefault();
@@ -129,8 +128,7 @@
                 value.remove();
             }
         });
-        
-        
+
         // Attach sidebar triggers
         $('.o-icon-more').click(function(e) {
             e.preventDefault();
@@ -145,7 +143,7 @@
             $('#more').hide();
             $('#delete').show();
         });
-        
+
         $('.sidebar-close').click(function(e) {
             e.preventDefault();
             $(this).parent('.active').removeClass('active');
@@ -153,7 +151,7 @@
                 $('#content').removeClass('sidebar-open');
             }
         });
-        
+
         $('#select-item a').click(function(e) {
             e.preventDefault();
             selectResource();
@@ -180,7 +178,6 @@
             });
         }
 
-
         $('body.browse .fa-trash-o').click(function(e) {
             e.preventDefault();
             $.get('../common/delete-confirm.php', function(data) {
@@ -189,7 +186,7 @@
                 $('.modal-header h1').replaceWith($('.modal-content h1'));
             });
         });
-        
+
         // Switch between the different value options.
         $(document).on('click', '.tab', function(e) {
             var tab = $(this);
@@ -202,7 +199,7 @@
                 tab.parent().siblings(currentClass).addClass('active');
             }
         });
-        
+
         // Keep new fields that have been changed.
         $(document).on('change', '.items .field input', function() {
             $(this).parents('.field').addClass('keep');
@@ -270,9 +267,8 @@
         } else {
             ul.siblings('span').hide();
         }
-        
     };
-    
+
     var openSidebar = function(element) {
         element.addClass('active');
         if (!$('#content').hasClass('sidebar-open')) {
@@ -286,6 +282,6 @@
         newText = newText.text().replace(/^\s+|\s+$/g,'');
         return newText;
     };
-    
+
 })(jQuery);
 

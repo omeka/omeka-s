@@ -1,0 +1,37 @@
+<div class='new resource-values field unset'>
+    <div class="field-actions">
+        <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
+        <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
+    </div>
+    <div class='field-meta'>
+        <input type="text" title="new-property-name" placeholder="Property name">
+        <div class='properties'>
+            <ul>
+                <li class='all-vocabs'>Vocabularies (<span class='count'><?php echo count($vocabularies); ?></span>)
+                    <ul>
+                        <?php foreach ($vocabularies as $vocabulary): ?>
+                        <li class='vocabulary'><?php echo $vocabulary->label(); ?>
+                            <ul>
+                                <?php foreach ($vocabulary->properties() as $property): ?>
+                                <li class='property' data-property-id='<?php echo $property->id(); ?>' data-property-qname='<?php echo $property->vocabulary()->prefix() . ':' . $property->localName(); ?>'>
+                                    <span class='property-label'><?php echo $property->label(); ?></span>
+                                    <div class='description'>
+                                        <p class='o-icon-info'>
+                                            <span class='screen-reader-text'>More Info</span>
+                                        </p>
+                                        <p>
+                                        <?php echo $property->comment(); ?>
+                                        </p>
+                                    </div>
+                                    <button class='set-property'>Set Property</button>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

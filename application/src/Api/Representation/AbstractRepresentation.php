@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ResourceReference;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\HelperPluginManager;
 
 /**
@@ -16,6 +16,8 @@ use Zend\View\HelperPluginManager;
  */
 abstract class AbstractRepresentation implements RepresentationInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var mixed The information from which to derive this representation.
      */
@@ -143,21 +145,5 @@ abstract class AbstractRepresentation implements RepresentationInterface
                 ->get('ViewHelperManager');
         }
         return $this->viewHelperManager->get($name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

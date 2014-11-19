@@ -23,7 +23,6 @@ return array(
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
-            'Omeka\Navigation\User'       => 'Omeka\Service\UserNavigationFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
         ),
         'invokables' => array(
@@ -110,7 +109,7 @@ return array(
         'youtube' => 'Omeka\View\Helper\MediaType\Youtube',
     ),
     'navigation' => array(
-        'default' => array(
+        'admin' => array(
             array(
                 'label'      => 'Items',
                 'class'      => 'o-icon-items',

@@ -5,7 +5,7 @@
     <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
 </div>
 <nav class="section-nav">
-    <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
+    <?php echo $this->nav('user')->menu(); ?>
 </nav>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

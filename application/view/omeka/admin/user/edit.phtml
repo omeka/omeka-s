@@ -1,30 +1,11 @@
-<?php
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formElement = $this->plugin('formElement');
-$formErrors = $this->plugin('formElementErrors');
-?>
-<h1>Edit User &ldquo;<?php echo $user->username(); ?>&rdquo;</h1>
-
+<?php $form->prepare(); ?>
+<h1><?php echo $this->escapeHtml($this->translate(sprintf('Edit User “%s”', $user->username()))); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
-
 <div id="page-actions">
-    <button>Submit</button>
+    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
 </div>
-
 <nav class="section-nav">
     <?php echo $this->navigation('Omeka\Navigation\User')->menu(); ?>
 </nav>
-
-<?php foreach ($form->getElements() as $element): ?>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $formLabel($element); ?>
-    </div>
-    <div class="inputs">
-        <?php echo $formElement($element); ?>
-    </div>
-    <?php echo $formErrors($element, array('class' => 'messages')); ?>
-</div>
-<?php endforeach; ?>
+<?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

@@ -21,10 +21,6 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $id = $this->params('id');
         $response = $this->api()->read('vocabularies', $id);
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }
@@ -36,10 +32,6 @@ class VocabularyController extends AbstractActionController
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('vocabularies', $query);
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('vocabularies', $response->getContent());
         return $view;
     }
@@ -51,10 +43,6 @@ class VocabularyController extends AbstractActionController
         $response = $this->api()->read(
             'vocabularies', array('id' => $this->params('id'))
         );
-        if ($response->isError()) {
-            $this->apiError($response);
-            return;
-        }
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }
@@ -79,7 +67,7 @@ class VocabularyController extends AbstractActionController
                         'file', $data, array('file' => $data['file']['tmp_name'])
                     );
                     if ($response->isError()) {
-                        $form->setMessages($this->apiError($response));
+                        $form->setMessages($response->getErrors());
                     } else {
                         $this->messenger()->addSuccess('The vocabulary was successfully imported.');
                         return $this->redirect()->toUrl($response->getContent()->url());
@@ -103,10 +91,6 @@ class VocabularyController extends AbstractActionController
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('vocabularies', $id);
-        if ($readResponse->isError()) {
-            $this->apiError($readResponse);
-            return;
-        }
         $vocabulary = $readResponse->getContent();
         $data = $vocabulary->jsonSerialize();
         $form->setData($data);
@@ -118,7 +102,7 @@ class VocabularyController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api()->update('vocabularies', $id, $formData);
                 if ($response->isError()) {
-                    $form->setMessages($this->apiError($response));
+                    $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Vocabulary updated.');
                     return $this->redirect()->refresh();

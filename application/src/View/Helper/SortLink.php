@@ -6,21 +6,19 @@ use Zend\View\Helper\AbstractHelper;
 class SortLink extends AbstractHelper
 {
     /**
-     * Name of view script, or a view model
-     *
-     * @var string|\Zend\View\Model\ModelInterface
+     * The default partial view script.
      */
-    protected $name = 'common/sort-link';
+    const PARTIAL_NAME = 'common/sort-link';
 
     /**
      * Render a sortable link.
      *
      * @param string $label
      * @param string $sortBy
-     * @param string|null $name Name of view script, or a view model
+     * @param string|null $partialName Name of view script, or a view model
      * @return string
      */
-    public function __invoke($label, $sortBy, $name = null)
+    public function __invoke($label, $sortBy, $partialName = null)
     {
         if (!isset($_GET['sort_by'])) {
             $_GET['sort_by'] = null;
@@ -38,9 +36,7 @@ class SortLink extends AbstractHelper
             $sortOrder = 'asc';
             $class = 'sortable';
         }
-        if (null !== $name) {
-            $this->name = $name;
-        }
+        $partialName = $partialName ?: self::PARTIAL_NAME;
 
         $url = $this->getView()->url(
             null, array(), array(
@@ -53,7 +49,7 @@ class SortLink extends AbstractHelper
         );
 
         return $this->getView()->partial(
-            $this->name,
+            $partialName,
             array(
                 'label'     => $label,
                 'url'       => $url,

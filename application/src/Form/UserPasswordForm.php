@@ -29,6 +29,10 @@ class UserPasswordForm extends AbstractForm
                 'required' => true,
             ),
         ));
+        $this->add(array(
+            'type' => 'csrf',
+            'name' => 'csrf',
+        ));
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(

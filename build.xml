@@ -91,4 +91,10 @@
         <delete dir="${build.dir}" quiet="true"/>
         <delete dir="${composer.vendor.path}" quiet="true"/>
     </target>
+    <target name="create-schema"
+            description="Create optimized schema SQL for installation.">
+        <exec executable="php" failonerror="true">
+            <arg file="create-schema.php"/>
+        </exec>
+    </target>
 </project>

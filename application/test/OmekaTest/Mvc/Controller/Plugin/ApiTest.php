@@ -14,7 +14,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('search')
-            ->with($this->equalTo($resource), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,
@@ -36,7 +37,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo($resource), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,
@@ -58,7 +60,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('batchCreate')
-            ->with($this->equalTo($resource), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,
@@ -81,7 +84,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('read')
-            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,
@@ -104,7 +108,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('update')
-            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,
@@ -127,7 +132,8 @@ class ApiTest extends TestCase
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
             ->method('delete')
-            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data));
+            ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
+            ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
         $mockServiceManager = $this->getServiceManager(array(
             'Omeka\ApiManager' => $mockApiManager,

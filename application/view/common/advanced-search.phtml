@@ -92,8 +92,9 @@ $('#advanced-search').on('click', '.remove-value', function(event) {
     }
 });
 
-$('#value-queries .add-value').click(function(event) {
-    var first = $('#value-queries .value').first();
+$('#value-queries').find('.add-value').click(function(event) {
+    event.preventDefault();
+    var first = $('#value-queries').find('.value').first();
     var clone = first.clone();
     clone.children('.query-type').val('eq');
     clone.children('.query-text').val(null);
@@ -102,8 +103,9 @@ $('#value-queries .add-value').click(function(event) {
     first.children('.remove-value').show();
 });
 
-$('#property-queries .add-value').click(function(event) {
-    var first = $('#property-queries .value').first();
+$('#property-queries').find('.add-value').click(function(event) {
+    event.preventDefault();
+    var first = $('#property-queries').find('.value').first();
     var clone = first.clone();
     clone.children('.query-type').val('eq');
     clone.children('.query-property').val(null);
@@ -113,8 +115,9 @@ $('#property-queries .add-value').click(function(event) {
     first.children('.remove-value').show();
 });
 
-$('#has-property-queries .add-value').click(function(event) {
-    var first = $('#has-property-queries .value').first();
+$('#has-property-queries').find('.add-value').click(function(event) {
+    event.preventDefault();
+    var first = $('#has-property-queries').find('.value').first();
     var clone = first.clone();
     clone.children('.query-type').val('1');
     clone.children('.query-property').val(null);
@@ -126,7 +129,7 @@ $('#has-property-queries .add-value').click(function(event) {
 // Bypass regular form handling for value, property, and has property queries.
 $('#advanced-search').submit(function(event) {
 
-    $('#value-queries .value').each(function(index) {
+    $('#value-queries').find('.value').each(function(index) {
         var text = $(this).children('.query-text');
         if (!$.trim(text.val())) {
             return; // do not process an empty query
@@ -138,7 +141,7 @@ $('#advanced-search').submit(function(event) {
             .appendTo('#advanced-search');
     });
 
-    $('#property-queries .value').each(function(index) {
+    $('#property-queries').find('.value').each(function(index) {
         var text = $(this).children('.query-text');
         if (!$.trim(text.val())) {
             return; // do not process an empty query
@@ -154,7 +157,7 @@ $('#advanced-search').submit(function(event) {
             .appendTo('#advanced-search');
     });
 
-    $('#has-property-queries .value').each(function(index) {
+    $('#has-property-queries').find('.value').each(function(index) {
         var property = $(this).children('.query-property');
         if (!$.isNumeric(property.val())) {
             return; // do not process an invalid property

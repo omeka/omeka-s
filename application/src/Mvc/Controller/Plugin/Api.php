@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
+use Omeka\Api\Manager as ApiManager;
+use Omeka\Api\Response;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
@@ -8,6 +10,11 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  */
 class Api extends AbstractPlugin
 {
+    /**
+     * @var ApiManager
+     */
+    protected $apiManager;
+
     /**
      * Execute a search API request.
      *
@@ -17,10 +24,9 @@ class Api extends AbstractPlugin
      */
     public function search($resource, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->search($resource, $data);
+        $response = $this->getApiManager()->search($resource, $data);
+        $this->detectError($response);
+        return $response;
     }
 
     /**
@@ -52,10 +58,9 @@ class Api extends AbstractPlugin
      */
     public function create($resource, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->create($resource, $data);
+        $response = $this->getApiManager()->create($resource, $data);
+        $this->detectError($response);
+        return $response;
     }
 
     /**
@@ -67,10 +72,9 @@ class Api extends AbstractPlugin
      */
     public function batchCreate($resource, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->batchCreate($resource, $data);
+        $response = $this->getApiManager()->batchCreate($resource, $data);
+        $this->detectError($response);
+        return $response;
     }
 
     /**
@@ -83,10 +87,9 @@ class Api extends AbstractPlugin
      */
     public function read($resource, $id, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->read($resource, $id, $data);
+        $response = $this->getApiManager()->read($resource, $id, $data);
+        $this->detectError($response);
+        return $response;
     }
 
     /**
@@ -99,10 +102,9 @@ class Api extends AbstractPlugin
      */
     public function update($resource, $id, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->update($resource, $id, $data);
+        $response = $this->getApiManager()->update($resource, $id, $data);
+        $this->detectError($response);
+        return $response;
     }
 
     /**
@@ -115,9 +117,41 @@ class Api extends AbstractPlugin
      */
     public function delete($resource, $id, $data = array())
     {
-        return $this->getController()
-            ->getServiceLocator()
-            ->get('Omeka\ApiManager')
-            ->delete($resource, $id, $data);
+        $response = $this->getApiManager()->delete($resource, $id, $data);
+        $this->detectError($response);
+        return $response;
+    }
+
+    /**
+     * Detect and account for API response errors.
+     *
+     * @throws mixed
+     * @return Response
+     */
+    protected function detectError(Response $response)
+    {
+        if ($e = $response->getException()) {
+            // Rethrow exceptions
+            throw $e;
+        }
+        if ($response->getStatus() === Response::ERROR_VALIDATION) {
+            $this->getController()->messenger()
+                ->addError('There was an error during validation');
+        }
+    }
+
+    /**
+     * Get the API manager.
+     *
+     * @return ApiManager
+     */
+    protected function getApiManager()
+    {
+        if (!$this->apiManager instanceof ApiManager) {
+            $this->apiManager = $this->getController()
+                ->getServiceLocator()
+                ->get('Omeka\ApiManager');
+        }
+        return $this->apiManager;
     }
 }

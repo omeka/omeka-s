@@ -3,22 +3,37 @@ namespace Omeka\Api\Representation\Entity;
 
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * @var array Cache of property representation members
+     */
+    protected $properties = array();
+
+    /**
+     * @var array Cache of resource class representation members
+     */
+    protected $resourceClasses = array();
+
+    /**
+     * {@inheritDoc}
+     */
     public function getControllerName()
     {
         return 'vocabulary';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getJsonLd()
     {
-        $entity = $this->getData();
         return array(
-            'o:namespace_uri' => $entity->getNamespaceUri(),
-            'o:prefix'        => $entity->getPrefix(),
-            'o:label'         => $entity->getLabel(),
-            'o:comment'       => $entity->getComment(),
+            'o:namespace_uri' => $this->namespaceUri(),
+            'o:prefix'        => $this->prefix(),
+            'o:label'         => $this->label(),
+            'o:comment'       => $this->comment(),
             'o:owner'         => $this->getReference(
                 null,
-                $entity->getOwner(),
+                $this->getData()->getOwner(),
                 $this->getAdapter('users')
             ),
         );
@@ -37,11 +52,21 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         return in_array($this->prefix(), array('omeka', 'dcterms', 'dctype'));
     }
 
+    /**
+     * Return the vocabulary prefix.
+     *
+     * @return string
+     */
     public function prefix()
     {
         return $this->getData()->getPrefix();
     }
 
+    /**
+     * Return the vocabulary namespace URI.
+     *
+     * @return string
+     */
     public function namespaceUri()
     {
         if ('omeka' == $this->prefix()) {
@@ -68,29 +93,39 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * {@inheritDoc}
+     * Return property members.
+     *
+     * @return array
      */
+
     public function properties()
     {
-        $properties = array();
-        $propertyAdapter = $this->getAdapter('properties');
-        foreach ($this->getData()->getProperties() as $propertyEntity) {
-            $properties[] = $propertyAdapter->getRepresentation(
-                null, $propertyEntity
-            );
+        if (empty($this->properties)) {
+            $this->properties = array();
+            $propertyAdapter = $this->getAdapter('properties');
+            foreach ($this->getData()->getProperties() as $propertyEntity) {
+                $this->properties[] = $propertyAdapter
+                    ->getRepresentation(null, $propertyEntity);
+            }
         }
-        return $properties;
+        return $this->properties;
     }
-    
+
+    /**
+     * Return resource class members.
+     *
+     * @return array
+     */
      public function resourceClasses()
      {
-        $resourceClasses = array();
-        $resourceClassAdapter = $this->getAdapter('resource_classes');
-        foreach ($this->getData()->getResourceClasses() as $resourceClass) {
-            $resourceClasses[] = $resourceClassAdapter->getRepresentation(
-                null, $resourceClass
-            );
+        if (empty($this->resourceClasses)) {
+            $this->resourceClasses = array();
+            $resourceClassAdapter = $this->getAdapter('resource_classes');
+            foreach ($this->getData()->getResourceClasses() as $resourceClass) {
+                $this->resourceClasses[] = $resourceClassAdapter
+                    ->getRepresentation(null, $resourceClass);
+            }
         }
-        return $resourceClasses;
+        return $this->resourceClasses;
      }
 }

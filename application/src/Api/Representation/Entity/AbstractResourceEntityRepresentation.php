@@ -55,11 +55,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $nodeType = array();
         $resourceClass = $this->resourceClass();
         if ($resourceClass) {
-            $vocabulary = $resourceClass->vocabulary();
-            $prefix = $vocabulary->prefix();
-            $suffix = $resourceClass->localName();
-            $this->addVocabularyToContext($vocabulary);
-            $nodeType['@type'] = "$prefix:$suffix";
+            $this->addVocabularyToContext($resourceClass->vocabulary());
+            $nodeType['@type'] = $resourceClass->term();
         }
 
         // Set the date time value objects.
@@ -79,11 +76,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         // Set the values as JSON-LD value objects.
         $values = array();
-        foreach ($this->values() as $prefix => $vocabulary) {
+        foreach ($this->values() as $vocabulary) {
             $this->addVocabularyToContext($vocabulary['vocabulary']);
-            foreach ($vocabulary['properties'] as $localName => $property) {
+            foreach ($vocabulary['properties'] as $property) {
                 foreach ($property['values'] as $value) {
-                    $values["$prefix:$localName"][] = $value;
+                    $values[$property['property']->term()][] = $value;
                 }
             }
         }

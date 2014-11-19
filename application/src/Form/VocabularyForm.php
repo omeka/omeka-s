@@ -12,6 +12,7 @@ class VocabularyForm extends AbstractForm
             'type' => 'text',
             'options' => array(
                 'label' => $translator->translate('Label'),
+                'info' => $translator->translate('A human-readable title of the vocabulary.'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -23,7 +24,13 @@ class VocabularyForm extends AbstractForm
             'type' => 'textarea',
             'options' => array(
                 'label' => $translator->translate('Comment'),
+                'info' => $translator->translate('A human-readable description of the vocabulary.'),
             ),
+        ));
+
+        $this->add(array(
+            'type' => 'csrf',
+            'name' => 'csrf',
         ));
     }
 }

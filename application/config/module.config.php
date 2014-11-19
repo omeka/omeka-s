@@ -69,7 +69,6 @@ return array(
     'controller_plugins' => array(
         'invokables' => array(
             'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
-            'apiError'  => 'Omeka\Mvc\Controller\Plugin\ApiError',
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
@@ -96,12 +95,13 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
-            'value'       => 'Omeka\View\Helper\Value',
-            'htmlElement' => 'Omeka\View\Helper\HtmlElement',
-            'messages'    => 'Omeka\View\Helper\Messages',
+            'value'          => 'Omeka\View\Helper\Value',
+            'htmlElement'    => 'Omeka\View\Helper\HtmlElement',
+            'messages'       => 'Omeka\View\Helper\Messages',
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
+            'sortLink'       => 'Omeka\View\Helper\SortLink',
+            'formElements'   => 'Omeka\View\Helper\FormElements',
             'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
-            'sortLink'    => 'Omeka\View\Helper\SortLink',
         ),
     ),
     'media_types' => array(

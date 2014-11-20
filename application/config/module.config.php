@@ -195,9 +195,8 @@ return array(
             ),
             array(
                 'label'         => 'Custom Vocabulary',
-                'route'         => 'admin/id',
-                'action'        => 'show',
-                'params'        => array('id' => 1),
+                'route'         => 'admin/default',
+                'action'        => 'show-custom',
                 'useRouteMatch' => true,
             ),
         ),

@@ -13,7 +13,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th><?php echo $this->sortLink($this->translate('Label'), 'label'); ?></th>
         </tr>
     </thead>
     <tbody>

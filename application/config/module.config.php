@@ -186,6 +186,21 @@ return array(
                 'useRouteMatch' => true,
             ),
         ),
+        'vocabulary' => array(
+            array(
+                'label'         => 'Vocabularies',
+                'route'         => 'admin/default',
+                'action'        => 'browse',
+                'useRouteMatch' => true,
+            ),
+            array(
+                'label'         => 'Custom Vocabulary',
+                'route'         => 'admin/id',
+                'action'        => 'show',
+                'params'        => array('id' => 1),
+                'useRouteMatch' => true,
+            ),
+        ),
     ),
     'entity_manager' => array(
         'is_dev_mode' => false,

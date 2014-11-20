@@ -29,9 +29,9 @@ class VocabularyController extends AbstractActionController
     public function browseAction()
     {
         $view = new ViewModel;
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array('page' => $page);
-        $response = $this->api()->search('vocabularies', $query);
+        $response = $this->api()->search(
+            'vocabularies', $this->params()->fromQuery()
+        );
         $view->setVariable('vocabularies', $response->getContent());
         return $view;
     }

@@ -5,7 +5,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 $properties = $vocabulary->properties();
 $classes = $vocabulary->resourceClasses();
 ?>
+<?php if ('omeka' == $vocabulary->prefix()): ?>
+<h1><?php echo $escape($this->translate('Custom Vocabulary')); ?></h1>
+<?php else: ?>
 <h1><?php echo $escape($this->translate(sprintf('Vocabulary "%s"', $vocabulary->label()))); ?></h1>
+<?php endif; ?>
 
 <div id="page-actions">
     <?php if (!in_array($vocabulary->prefix(), array('omeka', 'dcterms', 'dctype'))): ?>
@@ -15,6 +19,10 @@ $classes = $vocabulary->resourceClasses();
     <a href="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'vocabulary', 'action' => 'edit-custom'))); ?>" class="button"><?php echo $this->translate('Customize Vocabulary'); ?></a>
     <?php endif; ?>
 </div>
+
+<nav class="section-nav">
+    <?php echo $this->nav('vocabulary')->menu(); ?>
+</nav>
 
 <p><?php echo $escape($vocabulary->comment()); ?></p>
 <p><strong><?php echo $escape($this->translate('Prefix:')); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>

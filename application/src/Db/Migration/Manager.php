@@ -126,8 +126,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getCompletedMigrations()
     {
-        $this->getServiceLocator()->get('Omeka\Connection')
-            ->getConnection()->executeQuery("SELECT version FROM migration")
+        $completed = $this->getServiceLocator()->get('Omeka\Connection')
+            ->executeQuery("SELECT version FROM migration")
             ->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
             $completed = array();

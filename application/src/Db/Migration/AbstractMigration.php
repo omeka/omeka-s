@@ -49,7 +49,7 @@ abstract class AbstractMigration implements MigrationInterface
         if (!$this->connection instanceof Connection) {
             $this->connection = $this->getServiceLocator()->get('Omeka\Connection');
         }
-        return $this->translator;
+        return $this->connection;
     }
 
     /**

@@ -55,7 +55,6 @@ return array(
             'Omeka\Controller\Login'           => 'Omeka\Controller\LoginController',
             'Omeka\Controller\Maintenance'     => 'Omeka\Controller\MaintenanceController',
             'Omeka\Controller\Migrate'         => 'Omeka\Controller\MigrateController',
-            'Omeka\Controller\Omeka'           => 'Omeka\Controller\OmekaController',
             'Omeka\Controller\Site\Index'      => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Admin\Index'     => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\Item'      => 'Omeka\Controller\Admin\ItemController',
@@ -187,6 +186,14 @@ return array(
                 'useRouteMatch' => true,
             ),
         ),
+        'vocabulary' => array(
+            array(
+                'label'         => 'Vocabularies',
+                'route'         => 'admin/default',
+                'action'        => 'browse',
+                'useRouteMatch' => true,
+            ),
+        ),
     ),
     'entity_manager' => array(
         'is_dev_mode' => false,
@@ -200,7 +207,6 @@ return array(
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',
-            'Omeka\Installation\Task\InstallDefaultVocabularyTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
             'Omeka\Installation\Task\AddDefaultSettingsTask',
@@ -420,16 +426,6 @@ return array(
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'logout',
                      ),
-                ),
-            ),
-            'custom_vocabulary' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/omeka',
-                    'defaults' => array(
-                        'controller' => 'Omeka\Controller\Omeka',
-                        'action' => 'index',
-                    ),
                 ),
             ),
         ),

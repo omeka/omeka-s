@@ -123,9 +123,6 @@ class AclFactory implements FactoryInterface
         // Everyone has access to migrate.
         $acl->allow(null, 'Omeka\Controller\Migrate');
 
-        // Everyone has access to the custom vocabulary RDF.
-        $acl->allow(null, 'Omeka\Controller\Omeka');
-
         // Add guest rules.
         $acl->allow('guest', null, array(
             ApiRequest::SEARCH,

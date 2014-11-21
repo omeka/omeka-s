@@ -42,14 +42,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     /**
      * Check whether this vocabulary is permanent (cannot be deleted).
      *
-     * The custom vocabulary, Dublin Core, and Dublin Core Type vocabularies are
-     * integral parts of the software and should not be deleted.
+     * Dublin Core and Dublin Core Type vocabularies are integral parts of the
+     * software and should not be deleted.
      *
      * @return bool
      */
     public function isPermanent()
     {
-        return in_array($this->prefix(), array('omeka', 'dcterms', 'dctype'));
+        return in_array($this->prefix(), array('dcterms', 'dctype'));
     }
 
     /**
@@ -69,16 +69,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function namespaceUri()
     {
-        if ('omeka' == $this->prefix()) {
-            // If this is the custom vocabulary, dynamically mint the namespace
-            // for this Omeka instance.
-            $url = $this->getViewHelper('url');
-            return $url(
-                'custom_vocabulary',
-                array(),
-                array('force_canonical' => true)
-            ) . '#';
-        }
         return $this->getData()->getNamespaceUri();
     }
 

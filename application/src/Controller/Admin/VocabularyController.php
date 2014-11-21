@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
+use Omeka\Mvc\Exception\PermissionDeniedException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -25,13 +26,15 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
-
     public function browseAction()
     {
         $view = new ViewModel;
+
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('vocabularies', $query);
+
+        $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('vocabularies', $response->getContent());
         return $view;
     }
@@ -92,6 +95,11 @@ class VocabularyController extends AbstractActionController
 
         $readResponse = $this->api()->read('vocabularies', $id);
         $vocabulary = $readResponse->getContent();
+
+        if ($vocabulary->isPermanent()) {
+            throw new PermissionDeniedException('Cannot edit a permanent vocabulary');
+        }
+
         $data = $vocabulary->jsonSerialize();
         $form->setData($data);
 

@@ -3,15 +3,23 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+
 <h1><?php echo $this->translate('Vocabularies'); ?></h1>
+
 <div id="page-actions">
     <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'import'), true)); ?>" class="button">Import new vocabulary</a>
 </div>
 
+<nav class="section-nav">
+    <?php echo $this->nav('vocabulary')->menu(); ?>
+</nav>
+
+<?php echo $this->pagination(); ?>
+
 <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th><?php echo $this->sortLink($this->translate('Label'), 'label'); ?></th>
         </tr>
     </thead>
     <tbody>

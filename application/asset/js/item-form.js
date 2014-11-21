@@ -59,7 +59,7 @@
         });
 
         // Show property descriptions when clicking "more-info" icon.
-        addEditItems.on('click', '.property .o-icon-info', function() {
+        addEditItems.on('click', '.o-icon-info', function() {
             $(this).parents('.description').toggleClass('show');
         });
 
@@ -75,7 +75,7 @@
         });
 
         // Show properties
-        addEditItems.on('click', '.properties li', function(e) {
+        addEditItems.on('click', '.property-selector li', function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');

@@ -3005,6 +3005,188 @@ th {
   #resource-details.active #select-item {
     left: 75.52083%;
   }
+  
+  /* line 206, ../sass/_screen.scss */
+  .property-selector,
+  .field {
+    float: left;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+  }
+  /* line 216, ../sass/_screen.scss */
+  .property-selector:first-child,
+  .field:first-child {
+    border-color: transparent;
+  }
+  /* line 216, ../sass/_screen.scss */
+  .property-selector:first-child,
+  .field:first-child {
+    border-color: transparent;
+  }
+
+  /* line 249, ../sass/_screen.scss */
+  .property-selector input[type="text"],
+  .property-selector > ul {
+    width: 90%;
+  }
+  
+  /* line 881, ../sass/_screen.scss */
+  .property-selector button,
+  .property .set-property {
+    position: absolute;
+    top: -9999px;
+    right: -9999px;
+    margin: 0;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+  }
+  
+  /* line 890, ../sass/_screen.scss */
+  .property-selector .property:hover button,
+  .property:hover .set-property {
+    top: 0;
+    right: 0;
+  }
+
+  /* line 907, ../sass/_screen.scss */
+  .property-selector .property:hover .description.show .o-icon-info + p {
+    top: 2.25em;
+    left: 0;
+    padding-left: 2em;
+    background-color: #fff;
+    z-index: 1;
+  }
+
+  /* line 915, ../sass/_screen.scss */
+  .property-selector ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  /* line 919, ../sass/_screen.scss */
+  .property-selector ul .description {
+    display: inline-block;
+  }
+  
+  /* line 922, ../sass/_screen.scss */
+  .property-selector ul .description .o-icon-info {
+    display: inline-block;
+    margin: 0 0 0 1em;
+    opacity: .75;
+  }
+  
+  /* line 928, ../sass/_screen.scss */
+  .property-selector ul .description .o-icon-info + p {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 100%;
+    padding: 0.375em 0;
+  }
+  
+  /* line 938, ../sass/_screen.scss */
+  .property-selector > ul,
+  .properties > ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  /* line 943, ../sass/_screen.scss */
+  .property-selector > ul li,
+  .properties > ul li {
+    float: left;
+    width: 100%;
+    position: relative;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+  }
+  
+  /* line 949, ../sass/_screen.scss */
+  .property-selector > ul li:hover,
+  .properties > ul li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  /* line 954, ../sass/_screen.scss */
+  .property-selector > ul > li,
+  .properties > ul > li {
+    font-weight: bold;
+    position: relative;
+    margin-top: 0.375em;
+    padding: 0.375em 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  /* line 962, ../sass/_screen.scss */
+  .property-selector > ul > li:last-of-type li:last-of-type,
+  .properties > ul > li:last-of-type li:last-of-type {
+    margin-bottom: 0em;
+  }
+  /* line 966, ../sass/_screen.scss */
+  .property-selector > ul > li:after, .property-selector > ul > li > ul > li:after,
+  .properties > ul > li:after,
+  .properties > ul > li > ul > li:after {
+    content: "\f0da";
+    font-family: "FontAwesome";
+    position: absolute;
+    right: 10px;
+    top: 0.375em;
+  }
+  /* line 975, ../sass/_screen.scss */
+  .property-selector > ul > li > ul > li,
+  .properties > ul > li > ul > li {
+    padding: 0.375em 0;
+  }
+  /* line 979, ../sass/_screen.scss */
+  .property-selector > ul > li > ul > li:before,
+  .properties > ul > li > ul > li:before {
+    content: "— ";
+  }
+  /* line 983, ../sass/_screen.scss */
+  .property-selector > ul > li > ul > li:after,
+  .properties > ul > li > ul > li:after {
+    right: 0;
+  }
+  /* line 987, ../sass/_screen.scss */
+  .property-selector > ul > li.show:after,
+  .properties > ul > li.show:after {
+    content: "\f0d7" !important;
+  }
+  /* line 992, ../sass/_screen.scss */
+  .property-selector > ul > li ul, .property-selector > ul > li ul ul,
+  .properties > ul > li ul,
+  .properties > ul > li ul ul {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /* line 999, ../sass/_screen.scss */
+  .property-selector > ul li.show > ul,
+  .properties > ul li.show > ul {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-top: 0.375em;
+  }
+  /* line 1006, ../sass/_screen.scss */
+  .property-selector > ul > .property,
+  .properties > ul > .property {
+    font-weight: normal;
+    padding: 0.375em 10px 0.375em 2em;
+    position: relative;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+  }
+
+  
 
 /* PMJ end copy from wireframes */
 

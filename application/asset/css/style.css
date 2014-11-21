@@ -3203,6 +3203,10 @@ fieldset {
     border: none;
 }
 
+.properties {
+    display: inherit;
+}
+
 /* end PMJ added styles */
 
   /* @end */

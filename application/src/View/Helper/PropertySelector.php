@@ -8,6 +8,7 @@ class PropertySelector extends AbstractHelper
     public function __invoke()
     {
         $response = $this->getView()->api()->search('vocabularies');
+        
         if ($response->isError()) {
             return;
         }

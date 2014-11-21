@@ -111,9 +111,6 @@ class ItemController extends AbstractActionController
         $form = new ItemForm('items', $options);
         $view->setVariable('form', $form);
 
-        $vocabularies = $this->getVocabularies();
-        $view->setVariable('vocabularies', $vocabularies);
-
         /* PMJ temporary hack to have some items in the sidebar */
         $items = $this->api()->search('items')->getContent();
         $view->setVariable('items', $items);

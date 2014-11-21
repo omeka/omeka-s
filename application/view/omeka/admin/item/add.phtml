@@ -59,7 +59,7 @@ if (isset($errors)) {
                      </div>
                      <div class="items input-option">
                         <span class="default">No item selected</span>
-                    
+
                         <ul class="selected-resources">
                             <li class="selected-resource template">
                             <span class="o-title"></span>
@@ -67,7 +67,7 @@ if (isset($errors)) {
                             <input type="hidden" class="property" />
                             </li>
                         </ul>
-                         
+
                         <a href="#resource-select" class="button">Select Omeka Resource</a>
                     </div>
                      <button class="remove-value">Remove value</button>
@@ -83,7 +83,7 @@ if (isset($errors)) {
         <?php echo $formElement($element); ?>
         <?php endif; ?>
         <?php endforeach; ?>
-        
+
         <div class='new resource-values field unset'>
             <div class="field-actions">
                 <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
@@ -92,6 +92,8 @@ if (isset($errors)) {
 
         </div>
     </fieldset>
+<?php echo $this->propertySelector(); ?>
+    <!-- 
     <div class='property-selector'>
         <input type="text" title="new-property-name" placeholder="Property name">
         <ul>
@@ -123,6 +125,7 @@ if (isset($errors)) {
             </li>
         </ul>
     </div>
+     -->
     <fieldset id="save-sidebar">
         <input type="submit" name="add-item-submit" value="Create Item" />
         <a href="#" class="cancel button">Cancel</a>
@@ -213,8 +216,8 @@ if (isset($errors)) {
             <input type="hidden" class="property" />
             </li>
         </ul>
-         
+
         <a href="#resource-select" class="button">Select Omeka Resource</a>
-    </div>     
+    </div>
      <button class="remove-value">Remove value</button>
 </div>

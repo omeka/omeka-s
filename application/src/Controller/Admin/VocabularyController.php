@@ -30,10 +30,7 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
 
         $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page' => $page,
-            'no_custom' => true,
-        );
+        $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('vocabularies', $query);
 
         $this->paginator($response->getTotalResults(), $page);
@@ -119,17 +116,6 @@ class VocabularyController extends AbstractActionController
 
         $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function showCustomAction()
-    {
-        $view = new ViewModel;
-        $response = $this->api()->searchOne(
-            'vocabularies', array('prefix' => 'omeka')
-        );
-        $view->setVariable('vocabulary', $response->getContent());
-        $view->setTemplate('omeka/admin/vocabulary/show.phtml');
         return $view;
     }
 

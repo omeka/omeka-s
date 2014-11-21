@@ -123,12 +123,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['prefix']))
             );
         }
-        if (isset($query['no_custom'])) {
-            $qb->andWhere($qb->expr()->neq(
-                "Omeka\Model\Entity\Vocabulary.prefix",
-                $this->createNamedParameter($qb, 'omeka'))
-            );
-        }
     }
 
     /**

@@ -193,12 +193,6 @@ return array(
                 'action'        => 'browse',
                 'useRouteMatch' => true,
             ),
-            array(
-                'label'         => 'Custom Vocabulary',
-                'route'         => 'admin/default',
-                'action'        => 'show-custom',
-                'useRouteMatch' => true,
-            ),
         ),
     ),
     'entity_manager' => array(

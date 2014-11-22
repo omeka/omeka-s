@@ -108,7 +108,7 @@ class ItemController extends AbstractActionController
             'resource_class_pairs' => $resourceClassPairs,
             'properties'           => $properties
             );
-        $form = new ItemForm('items', $options);
+        $form = new ItemForm($this->getServiceLocator(), 'items', $options);
         $view->setVariable('form', $form);
 
         /* PMJ temporary hack to have some items in the sidebar */

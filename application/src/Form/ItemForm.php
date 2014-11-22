@@ -3,13 +3,11 @@ namespace Omeka\Form;
 
 use Omeka\Form\ResourceValuesCollection;
 use Omeka\Api\Representation\Entity\PropertyRepresentation;
-use Zend\Form\Form;
 
-class ItemForm extends Form
+class ItemForm extends AbstractForm
 {
-    public function __construct($name = null, $options = null)
+    public function buildForm()
     {
-        parent::__construct($name, $options);
         $this->add(array(
             'name'    => 'o:resource_class[o:id]',
             'type'    => 'Select',
@@ -68,14 +66,6 @@ class ItemForm extends Form
                 'class'               => 'input-id'
             )
         ));
-    }
-
-    protected function getEntity()
-    {
-        if (isset($this->options['entity'])) {
-            return $this->options['entity'];
-        }
-        return false;
     }
 }
 

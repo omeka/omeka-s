@@ -19,8 +19,9 @@ class ItemForm extends Form
             )
         ));
 
-        $this->addPropertyInput($this->getDctermsTitle());
-        $this->addPropertyInput($this->getDctermsDescription());
+        foreach( $this->getProperties() as $property) {
+            $this->addPropertyInputs($property);
+        }
 
         $this->add(array(
             'name' => 'csrf',
@@ -38,23 +39,13 @@ class ItemForm extends Form
         return $this->options['properties'];
     }
 
-    protected function getDctermsTitle()
-    {
-        return $this->options['dcterms_title'];
-    }
-
-    protected function getDctermsDescription()
-    {
-        return $this->options['dcterms_description'];
-    }
-
     /**
      * Boilerplate to add a text property input
      * @param Omeka\Api\Representation\Entity\PropertyRepresentation $property
      */
-    public function addPropertyInput(PropertyRepresentation $property)
+    protected function addPropertyInputs(PropertyRepresentation $property)
     {
-        $qName = $property->vocabulary()->prefix() . ':' . $property->localName();
+        $qName = $property->term();
         $this->add(array(
             'name'       => $qName . "[0][@value]",
             'type'       => 'Textarea',

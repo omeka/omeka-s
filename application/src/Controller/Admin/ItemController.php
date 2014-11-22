@@ -103,10 +103,10 @@ class ItemController extends AbstractActionController
         $dctermsDescriptions = $this->api()
                               ->search('properties', array('term' => 'dcterms:description'))
                               ->getContent();
+        $properties = array($dctermsTitles[0], $dctermsDescriptions[0]);
         $options = array(
             'resource_class_pairs' => $resourceClassPairs,
-            'dcterms_title'        => $dctermsTitles[0],
-            'dcterms_description'  => $dctermsDescriptions[0]
+            'properties'           => $properties
             );
         $form = new ItemForm('items', $options);
         $view->setVariable('form', $form);
@@ -128,27 +128,4 @@ class ItemController extends AbstractActionController
 
     public function editAction()
     {}
-
-    protected function getVocabularies()
-    {
-        $vocabulariesArray = array();
-        $response = $this->api()->search('vocabularies');
-        $vocabularies = $response->getContent();
-        foreach ($vocabularies as $vocabulary) {
-            $prefix = $vocabulary->prefix();
-            $properties = $this->api()->search('properties', 
-                array('vocabulary_prefix' => $vocabulary->prefix()))->getContent();
-            $label = $vocabulary->label();
-            $vocabulariesArray[$label] = array();
-            foreach ($properties as $property) {
-                $vocabulariesArray[$label][] = array(
-                    'id'      => $property->id(), 
-                    'label'   => $property->label(),
-                    'comment' => $property->comment(),
-                    'qname'   => $prefix . ':' . $property->localName()
-                    );
-            }
-        }
-        return $vocabulariesArray;
-    }
 }

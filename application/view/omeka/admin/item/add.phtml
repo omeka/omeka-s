@@ -92,40 +92,8 @@ if (isset($errors)) {
 
         </div>
     </fieldset>
-<?php echo $this->propertySelector(); ?>
-    <!-- 
-    <div class='property-selector'>
-        <input type="text" title="new-property-name" placeholder="Property name">
-        <ul>
-            <li class='show'>
-                Vocabularies (<span class='count'><?php echo count($vocabularies); ?></span>)
-                <ul>
-                    <?php foreach ($vocabularies as $label => $vocabulary) : ?>
-                    <li class='vocabulary'>
-                        <?php echo $label; ?>
-                        <ul>
-                            <?php foreach ($vocabulary as $propertyInfo) : ?>
-                            <li class='property' data-property-id='<?php echo $propertyInfo["id"]; ?>' data-property-qname='<?php echo $propertyInfo["qname"]; ?>'>
-                                <span class='property-label'><?php echo $propertyInfo['label']; ?></span>
-                                <div class='description'>
-                                    <p class='o-icon-info'>
-                                        <span class='screen-reader-text'>More Info</span>
-                                    </p>
-                                    <p>
-                                    <?php echo $propertyInfo['comment']; ?>
-                                    </p>
-                                </div>
-                                <button class='set-property-button'>Set Property</button>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </li>
-        </ul>
-    </div>
-     -->
+    <?php echo $this->propertySelector(); ?>
+
     <fieldset id="save-sidebar">
         <input type="submit" name="add-item-submit" value="Create Item" />
         <a href="#" class="cancel button">Cancel</a>

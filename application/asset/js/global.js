@@ -1,52 +1,74 @@
+var Omeka = {
+    getSidebarHandler : function(e) {
+        e.preventDefault();
+        var clickTarget = $(e.target);
+        var sidebar = $('#content > .sidebar');
+        var sidebarContent = $('#content > .sidebar > .sidebar-content');
+        var sidebarDeleteContent = $('#sidebar-delete-content');
+        sidebarContent.empty();
+        var url = clickTarget.data('show-details-action');
+
+        var openSidebar = function(sidebar) {
+            sidebar.addClass('active');
+            if (!$('#content').hasClass('sidebar-open')) {
+                $('#content').addClass('sidebar-open');
+            }
+        };
+
+        var close = function() {
+            sidebar.removeClass('active');
+            if ($('.active.sidebar').length < 1) {
+                $('#content').removeClass('sidebar-open');
+            }
+        };
+
+        var ajaxOpen = function() {
+            if (clickTarget.hasClass('sidebar-details')) {
+                sidebarDeleteContent.hide();
+            }
+            if (clickTarget.hasClass('sidebar-delete')) {
+                sidebarDeleteContent.show();
+                $('#sidebar-delete-content form').attr(
+                    'action', clickTarget.data('delete-action')
+                );
+            }            
+            openSidebar(sidebar);
+            
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                sidebarContent.html(data);
+            });
+        };
+
+        if (clickTarget.hasClass('sidebar-close')) {
+            return close;
+        } else {
+            return ajaxOpen;    
+        }
+    }
+};
+
 (function($, window, document) {
 
     $(function() {
 
         // Code that depends on the DOM.
-
-        $('.sidebar-details').click(function(e){
-            e.preventDefault();
-            $('#content > .sidebar > .sidebar-content').empty();
-            openSidebar($('#content > .sidebar'));
-            $('#sidebar-delete-content').hide();
-            $.ajax({
-                'url': $(this).data('show-details-action'),
-                'type': 'get'
-            }).done(function(data) {
-                $('#content > .sidebar > .sidebar-content').html(data);
-            });
+        $('.sidebar-details').click(function(e) {
+            var handler = Omeka.getSidebarHandler(e);
+            handler();
         });
 
-        $('.sidebar-delete').click(function(e){
-            e.preventDefault();
-            $('#content > .sidebar > .sidebar-content').empty();
-            openSidebar($('#content > .sidebar'));
-            $('#sidebar-delete-content').show();
-            $('#sidebar-delete-content form').attr(
-                'action', $(this).data('delete-action')
-            );
-            $.ajax({
-                'url': $(this).data('show-details-action'),
-                'type': 'get'
-            }).done(function(data) {
-                $('#content > .sidebar > .sidebar-content').html(data);
-            });
+        $('.sidebar-delete').click(function(e) {
+            var handler = Omeka.getSidebarHandler(e);
+            handler();
         });
 
         $('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            $(this).parent('.active').removeClass('active');
-            if ($('.active.sidebar').length < 1) {
-                $('#content').removeClass('sidebar-open');
-            }
+            var handler = Omeka.getSidebarHandler(e);
+            handler();
         });
-        
-        var openSidebar = function(element) {
-            element.addClass('active');
-            if (!$('#content').hasClass('sidebar-open')) {
-                $('#content').addClass('sidebar-open');
-            }
-        }
 
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {

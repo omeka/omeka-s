@@ -1,8 +1,5 @@
 var Omeka = {
     getSidebarHandler : function(e) {
-        //first, clear everything out for reuse
-        e.preventDefault();
-        sidebarContent.empty();
         //set data from the clicked sidebar element action for use later in this scope
         var clickTarget = $(e.target);
         var sidebar = $('#content > .sidebar');
@@ -10,6 +7,10 @@ var Omeka = {
         var sidebarDeleteContent = $('#sidebar-delete-content');
         var url = clickTarget.data('show-details-action');
 
+        //clear everything out for reuse
+        e.preventDefault();
+        sidebarContent.empty();
+        
         // internal function to open the sidebar
         var openSidebar = function(sidebar) {
             sidebar.addClass('active');

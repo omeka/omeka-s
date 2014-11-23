@@ -23,7 +23,8 @@ var Omeka = {
 
         // close the sidebar
         var close = function() {
-            sidebar.removeClass('active');
+            clickTarget.removeClass('active');
+            clickTarget.parent('.active').removeClass('active');
             if ($('.active.sidebar').length < 1) {
                 $('#content').removeClass('sidebar-open');
             }

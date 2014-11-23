@@ -31,9 +31,9 @@ var Omeka = {
                 $('#sidebar-delete-content form').attr(
                     'action', clickTarget.data('delete-action')
                 );
-            }            
+            }
             openSidebar(sidebar);
-            
+
             $.ajax({
                 'url': url,
                 'type': 'get'
@@ -45,7 +45,7 @@ var Omeka = {
         if (clickTarget.hasClass('sidebar-close')) {
             return close;
         } else {
-            return ajaxOpen;    
+            return ajaxOpen;
         }
     }
 };

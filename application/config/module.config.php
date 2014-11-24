@@ -237,7 +237,7 @@ return array(
             'site' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/:site-slug',
+                    'route' => '/s/:site-slug',
                     'constraints' => array(
                         'site-slug'  => '[a-zA-Z0-9_-]+',
                     ),

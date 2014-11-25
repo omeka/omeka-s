@@ -14,7 +14,7 @@ var Omeka = {
         sidebarDeleteContent.hide();
         return sidebar;
     },
-    
+
     closeSidebar : function(context) {
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');
@@ -31,7 +31,7 @@ var Omeka = {
     setSidebarDelete : function(context, sidebar) {
         // TODO: I suspect that this HTML should be pulled in via a partial like the content?
         // TODO: Maybe break the sidebar into .sidebar-actions and .sidebar-content?
-        var url = context.data('delete-url');
+        var url = context.data('delete-action');
         sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
         var sidebarDeleteContent = $('#sidebar-delete-content');
@@ -41,11 +41,9 @@ var Omeka = {
     },
     
     populateSidebarContent : function(context, sidebar) {
-        //var context = $(this);
         var url = context.data('sidebar-content-url');
         sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
-        //url = 'no';
         $.ajax({
             'url': url,
             'type': 'get'
@@ -65,13 +63,12 @@ var Omeka = {
         // Code that depends on the DOM.
 
         // Sidebar handling
-        //$('.sidebar-details').click(Omeka.openSidebar);
-        $('.sidebar-details').click(function() {
+        $('.sidebar-details').click(function(e) {
             var context = $(this);
             var sidebar = Omeka.openSidebar(context);
             Omeka.populateSidebarContent(context, sidebar);
-            
         });
+
         $('.sidebar-delete').click(function(e) {
             var context = $(this);
             var sidebar = Omeka.openSidebar(context);

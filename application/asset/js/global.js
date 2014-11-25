@@ -1,62 +1,59 @@
 var Omeka = {
-    getSidebarHandler : function(e) {
-        //first, clear everything out for reuse
-        e.preventDefault();
-        sidebarContent.empty();
-        //set data from the clicked sidebar element action for use later in this scope
-        var clickTarget = $(e.target);
-        var sidebar = $('#content > .sidebar');
-        var sidebarContent = $('#content > .sidebar > .sidebar-content');
-        var sidebarDeleteContent = $('#sidebar-delete-content');
-        var url = clickTarget.data('show-details-action');
-
-        // internal function to open the sidebar
-        var openSidebar = function(sidebar) {
-            sidebar.addClass('active');
-            if (!$('#content').hasClass('sidebar-open')) {
-                $('#content').addClass('sidebar-open');
-            }
-        };
-
-        /* Distinct functions for different actions. Reuse where you can */
-
-        // close the sidebar
-        var close = function() {
-            sidebar.removeClass('active');
-            if ($('.active.sidebar').length < 1) {
-                $('#content').removeClass('sidebar-open');
-            }
-        };
-
-        // generic function to open the sidebar and populate it with AJAXed in HTML
-        var ajaxOpen = function() {
-            if (clickTarget.hasClass('sidebar-details')) {
-                sidebarDeleteContent.hide();
-            }
-            if (clickTarget.hasClass('sidebar-delete')) {
-                sidebarDeleteContent.show();
-                $('#sidebar-delete-content form').attr(
-                    'action', clickTarget.data('delete-action')
-                );
-            }
-            openSidebar(sidebar);
-
-            $.ajax({
-                'url': url,
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-            });
-        };
-
-        /* Branch around which handler to return */
-
-        if (clickTarget.hasClass('sidebar-close')) {
-            return close;
+    openSidebar : function(context) {
+        //if already inside top sidebar, open the inner sidebar
+        if (context.parents('.sidebar').length == 0) {
+            var sidebar = $('#content > .sidebar');
         } else {
-            return ajaxOpen;
+            var sidebar = $('.sidebar > .sidebar');
         }
+        sidebar.addClass('active');
+        if (!$('#content').hasClass('sidebar-open')) {
+            $('#content').addClass('sidebar-open');
+        }
+        var sidebarDeleteContent = $('#sidebar-delete-content');
+        sidebarDeleteContent.hide();
+        return sidebar;
+    },
+
+    closeSidebar : function(context) {
+        if (context.parents('.sidebar').length == 0) {
+            var sidebar = $('#content > .sidebar');
+        } else {
+            var sidebar = $('.sidebar > .sidebar');
+        }
+        context.removeClass('active');
+        context.parent('.active').removeClass('active');
+        if ($('.active.sidebar').length < 1) {
+            $('#content').removeClass('sidebar-open');
+        }
+    },
+    
+    setSidebarDelete : function(context, sidebar) {
+        // TODO: I suspect that this HTML should be pulled in via a partial like the content?
+        // TODO: Maybe break the sidebar into .sidebar-actions and .sidebar-content?
+        var url = context.data('delete-action');
+        sidebarContent = sidebar.find('.sidebar-content');
+        sidebarContent.empty();
+        var sidebarDeleteContent = $('#sidebar-delete-content');
+        sidebarDeleteContent.show();
+        $('#sidebar-delete-content form').attr(
+            'action', url);
+    },
+    
+    populateSidebarContent : function(context, sidebar) {
+        var url = context.data('sidebar-content-url');
+        sidebarContent = sidebar.find('.sidebar-content');
+        sidebarContent.empty();
+        $.ajax({
+            'url': url,
+            'type': 'get'
+        }).done(function(data) {
+            sidebarContent.html(data);
+        }).error(function() {
+            sidebarContent.html("<p>Something went wrong</p>");
+        });
     }
+
 };
 
 (function($, window, document) {
@@ -66,20 +63,21 @@ var Omeka = {
         // Code that depends on the DOM.
 
         // Sidebar handling
-
         $('.sidebar-details').click(function(e) {
-            var handler = Omeka.getSidebarHandler(e);
-            handler();
+            var context = $(this);
+            var sidebar = Omeka.openSidebar(context);
+            Omeka.populateSidebarContent(context, sidebar);
         });
 
         $('.sidebar-delete').click(function(e) {
-            var handler = Omeka.getSidebarHandler(e);
-            handler();
+            var context = $(this);
+            var sidebar = Omeka.openSidebar(context);
+            Omeka.setSidebarDelete(context, sidebar);
         });
 
         $('.sidebar-close').click(function(e) {
-            var handler = Omeka.getSidebarHandler(e);
-            handler();
+            var context = $(this);
+            Omeka.closeSidebar(context);
         });
 
         // End Sidebar handling

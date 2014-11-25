@@ -36,13 +36,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         'title' => $this->translate('Edit'),
                     )); ?></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
                         data-delete-action="<?php echo $escapeAttr($item->url('delete')); ?>"
                         class="o-icon-delete sidebar-delete"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
                         class="o-icon-more sidebar-details"
                         aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>

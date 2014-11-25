@@ -1,10 +1,16 @@
 <?php
 use Omeka\Module\Manager as ModuleManager;
+$this->htmlElement('body')->appendAttribute('class', 'modules browse');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo count($modules->getModules()); ?> Modules</h1>
+<h1>Modules</h1>
+
 <?php if (isset($successMessages)): ?>
 <pre><?php print_r($successMessages); ?></pre>
 <?php endif; ?>
+
+<?php if (count($modules->getModules()) > 0): ?> 
 <table>
     <thead>
         <tr>
@@ -55,3 +61,11 @@ use Omeka\Module\Manager as ModuleManager;
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any modules.')); ?></p>
+</div>
+
+<?php endif; ?>

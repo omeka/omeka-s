@@ -10,10 +10,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'import'), true)); ?>" class="button">Import new vocabulary</a>
 </div>
 
-<nav class="section-nav">
-    <?php echo $this->nav('vocabulary')->menu(); ?>
-</nav>
-
 <?php echo $this->pagination(); ?>
 
 <table>

@@ -441,18 +441,6 @@ nav ul {
     margin: 0;
 }
 
-#menu > ul > li > a:before {
-    width: $base-font-size;
-    height: $base-font-size;
-    display: inline-block;
-    margin-right: .5em;
-    font-family: "FontAwesome";
-}
-
-#menu a {
-    font-family: "Source Sans Pro", sans-serif;
-}
-
 nav.pagination form {
     display: inline-block;
     min-width: min-content;
@@ -476,6 +464,63 @@ nav.pagination form input[type="text"] {
 .mobile-container {
     position: relative;
 }
+
+    /* @group ----- Top-level navigation ----- */
+    
+    #menu .navigation > li:not(:first-of-type) {
+        @include leader(.25);
+    }
+    
+    #menu .navigation > li:not(:last-of-type) {
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+    
+    #menu .navigation li li {
+        display: none;
+    }
+    
+    #menu .navigation li.active li {
+        display: block;
+        margin-left: rhythm();
+    }
+    
+    #menu .navigation li.active {
+        font-weight: bold;
+        
+        a:before,        
+        li:not(.active) {
+            font-weight: normal;
+        }
+    }
+    
+    #menu a:before {
+        font-family: "FontAwesome";
+        display: inline-block;
+        width: rhythm();
+    }
+    
+    #menu .resources:before {
+        content: $fa-var-cubes;
+    }
+    
+    #menu .ontology:before {
+        content: $fa-var-book;
+    }
+    
+    #menu .users:before {
+        content: $fa-var-users;
+    }
+    
+    #menu .modules:before {
+        content: $fa-var-plus-square;
+    }
+    
+    #menu li li a:before {
+        content: $fa-var-caret-right;
+    }
+    
+    /* @end */
 
 /* @end */
 

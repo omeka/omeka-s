@@ -113,6 +113,7 @@ return array(
                 'route'      => 'admin/default',
                 'controller' => 'item',
                 'resource'   => 'Omeka\Controller\Admin\Item',
+                'class'      => 'resources',
                 'pages' => array(
                     array(
                         'label'      => 'Item Sets',
@@ -163,6 +164,7 @@ return array(
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
                 'resource'   => 'Omeka\Controller\Admin\Vocabulary',
+                'class'      => 'ontology',
                 'pages'      => array(
                     array(
                         'label'      => 'Vocabularies',
@@ -200,6 +202,7 @@ return array(
                 'controller' => 'user',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\User',
+                'class'      => 'users',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -214,6 +217,7 @@ return array(
                 'controller' => 'module',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Module',
+                'class'      => 'modules',
             ),
             array(
                 'label'      => 'Sites',

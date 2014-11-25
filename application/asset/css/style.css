@@ -858,18 +858,6 @@ th {
     margin: 0;
   }
 
-  #menu > ul > li > a:before {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    margin-right: .5em;
-    font-family: "FontAwesome";
-  }
-
-  #menu a {
-    font-family: "Source Sans Pro", sans-serif;
-  }
-
   nav.pagination form {
     display: inline-block;
     min-width: min-content;
@@ -894,6 +882,62 @@ th {
     position: relative;
   }
 
+  /* @group ----- Top-level navigation ----- */
+  #menu .navigation > li:not(:first-of-type) {
+    margin-top: 0.375em;
+  }
+
+  #menu .navigation > li:not(:last-of-type) {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
+  #menu .navigation li li {
+    display: none;
+  }
+
+  #menu .navigation li.active li {
+    display: block;
+    margin-left: 1.5em;
+  }
+
+  #menu .navigation li.active {
+    font-weight: bold;
+  }
+  #menu .navigation li.active a:before,
+  #menu .navigation li.active li:not(.active) {
+    font-weight: normal;
+  }
+
+  #menu a:before {
+    font-family: "FontAwesome";
+    display: inline-block;
+    width: 1.5em;
+  }
+
+  #menu .resources:before {
+    content: "";
+  }
+
+  #menu .ontology:before {
+    content: "";
+  }
+
+  #menu .users:before {
+    content: "";
+  }
+
+  #menu .modules:before {
+    content: "";
+  }
+
+  #menu li li a:before {
+    content: "";
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {

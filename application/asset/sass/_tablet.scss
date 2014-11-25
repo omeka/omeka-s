@@ -116,6 +116,26 @@ div[role="main"] {
     background-color: darken($red, 20%);
 }
 
+#current-user {
+    text-align: center;
+}
+
+#current-user p {
+    display: block;
+    margin: rhythm(.5) 0;
+    background-color: lighten($red, 15%);
+    padding: rhythm(.25) 0;
+    @include border-radius(3px);
+    
+    &:last-of-type:before {
+        content: "";
+    }
+    
+    a {
+        color: lighten($red, 45%);
+    }
+}
+
 #page-actions {
     position: static;
     text-align: left;
@@ -128,6 +148,7 @@ div[role="main"] {
 }
 
 .pagination {
+    float: none;
     width: 100%;
 }
 

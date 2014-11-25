@@ -11,7 +11,14 @@ var Omeka = {
             $('#content').addClass('sidebar-open');
         }
         var sidebarDeleteContent = $('#sidebar-delete-content');
-        sidebarDeleteContent.hide();
+        if (context.hasClass('sidebar-delete')) {
+            sidebarDeleteContent.show();
+            $('#sidebar-delete-content form').attr(
+                'action', context.data('delete-action'));
+        } else {
+            sidebarDeleteContent.hide();
+        }
+        this.populateSidebarContent(context, sidebar);
         return sidebar;
     },
 
@@ -27,19 +34,7 @@ var Omeka = {
             $('#content').removeClass('sidebar-open');
         }
     },
-    
-    setSidebarDelete : function(context, sidebar) {
-        // TODO: I suspect that this HTML should be pulled in via a partial like the content?
-        // TODO: Maybe break the sidebar into .sidebar-actions and .sidebar-content?
-        var url = context.data('delete-action');
-        sidebarContent = sidebar.find('.sidebar-content');
-        sidebarContent.empty();
-        var sidebarDeleteContent = $('#sidebar-delete-content');
-        sidebarDeleteContent.show();
-        $('#sidebar-delete-content form').attr(
-            'action', url);
-    },
-    
+
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
         sidebarContent = sidebar.find('.sidebar-content');
@@ -65,14 +60,12 @@ var Omeka = {
         // Sidebar handling
         $('.sidebar-details').click(function(e) {
             var context = $(this);
-            var sidebar = Omeka.openSidebar(context);
-            Omeka.populateSidebarContent(context, sidebar);
+            Omeka.openSidebar(context);
         });
-
+        
         $('.sidebar-delete').click(function(e) {
             var context = $(this);
-            var sidebar = Omeka.openSidebar(context);
-            Omeka.setSidebarDelete(context, sidebar);
+            Omeka.openSidebar(context);
         });
 
         $('.sidebar-close').click(function(e) {
@@ -99,7 +92,5 @@ var Omeka = {
             }
         });
     });
-
-    // Code that doesn't depend on the DOM.
 
 }(window.jQuery, window, document));

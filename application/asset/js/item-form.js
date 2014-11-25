@@ -3,6 +3,7 @@
     $(document).ready( function() {
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
+     // TODO: check with Kim/develop code if this should be in globals.js
         $('.skip').click(function(e) {
             $('#main').attr('tabindex', -1).on('blur focusout', function() {
                 $(this).removeAttr('tabindex');
@@ -10,6 +11,7 @@
         });
 
         // Mobile navigation
+     // TODO: check with Kim/develop code if this should be in globals.js
         $('#mobile-nav .button').click(function(e) {
             e.preventDefault();
             var buttonClass = $(this).attr('class');
@@ -32,24 +34,8 @@
         // Variables
         var addEditItems = $('body');
 
-        // Switch between section tabs.
-        $('a.section, .section legend').click(function(e) {
-            e.preventDefault();
-            var tab = $(this);
-            if (!tab.hasClass('active')) {
-                $('.section.active, legend.active').removeClass('active');
-                if (tab.is('legend')) {
-                    var sectionClass = tab.parents('.section').attr('id');
-                } else {
-                    var sectionClass = tab.attr('class');
-                }
-                var sectionId = sectionClass.replace(/section/, '');
-                tab.addClass('active');
-                $('#' + sectionId).addClass('active');
-            }
-        });
-
         // Set classes for expandable/collapsible content.
+        // TODO: check with Kim/develop code if this should be in globals.js
         $(document).on('click', 'a.expand, a.collapse', function(e) {
             e.preventDefault();
             $(this).toggleClass('collapse').toggleClass('expand');
@@ -59,6 +45,7 @@
         });
 
         // Show property descriptions when clicking "more-info" icon.
+     // TODO: check with Kim/develop code if this should be in globals.js
         addEditItems.on('click', '.o-icon-info', function() {
             $(this).parents('.description').toggleClass('show');
         });
@@ -130,53 +117,33 @@
         });
 
         // Attach sidebar triggers
-        $('.o-icon-more').click(function(e) {
-            e.preventDefault();
-            openSidebar($('.sidebar'));
-            $('#delete').hide();
-            $('#more').show();
-        });
-
-        $('.o-icon-delete').click(function(e) {
-            e.preventDefault();
-            openSidebar($('.sidebar'));
-            $('#more').hide();
-            $('#delete').show();
-        });
-
-        $('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            $(this).parent('.active').removeClass('active');
-            if ($('.active.sidebar').length < 1) {
-                $('#content').removeClass('sidebar-open');
-            }
-        });
 
         $('#select-item a').click(function(e) {
             e.preventDefault();
             selectResource();
         });
 
-        if ($('body').hasClass('add')) {
-            $('body').on('click','[href="#resource-select"]', function(e) {
-                e.preventDefault();
-                var qName = $(this).parents('.resource-values').data('property-qname');
-                $('#resource-details').data('property-qname', qName);
-                openSidebar($('#content > .sidebar'));
+        $('.button.resource-select').on('click', function(e) {
+            e.preventDefault();
+            var context = $(this);
+            var qName = context.parents('.resource-values').data('property-qname');
+            $('#resource-details').data('property-qname', qName);
+            Omeka.openSidebar(context);
+        });
+        
+        $('.resource-name a').on('click', function(e) {
+            e.preventDefault();
+            var context = $(this);
+            $('#resource-details').data('resource-id', $(this).data('resource-id'));
+            $.ajax({
+                'url': context.data('show-details-action'),
+                'data': {'link-title' : 0},
+                'type': 'get'
+            }).done(function(data) {
+                $('#resource-details-content').html(data);
             });
-            $('body').on('click','.resource-name a', function(e) {
-                e.preventDefault();
-                $('#resource-details').data('resource-id', $(this).data('resource-id'));
-                $.ajax({
-                    'url': $(this).data('show-details-action'),
-                    'data': {'link-title' : 0},
-                    'type': 'get'
-                }).done(function(data) {
-                    $('#resource-details-content').html(data);
-                });
-                openSidebar($('.sidebar .sidebar'));
-            });
-        }
+            Omeka.openSidebar(context);
+        });
 
         $('body.browse .fa-trash-o').click(function(e) {
             e.preventDefault();

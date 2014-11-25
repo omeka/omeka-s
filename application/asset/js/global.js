@@ -39,14 +39,16 @@ var Omeka = {
         var url = context.data('sidebar-content-url');
         sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
-        $.ajax({
-            'url': url,
-            'type': 'get'
-        }).done(function(data) {
-            sidebarContent.html(data);
-        }).error(function() {
-            sidebarContent.html("<p>Something went wrong</p>");
-        });
+        if (typeof url != 'undefined') {
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                sidebarContent.html(data);
+            }).error(function() {
+                sidebarContent.html("<p>Something went wrong</p>");
+            });
+        }
     }
 
 };
@@ -59,16 +61,19 @@ var Omeka = {
 
         // Sidebar handling
         $('.sidebar-details').click(function(e) {
+            e.preventDefault();
             var context = $(this);
             Omeka.openSidebar(context);
         });
         
         $('.sidebar-delete').click(function(e) {
+            e.preventDefault();
             var context = $(this);
             Omeka.openSidebar(context);
         });
 
         $('.sidebar-close').click(function(e) {
+            e.preventDefault();
             var context = $(this);
             Omeka.closeSidebar(context);
         });

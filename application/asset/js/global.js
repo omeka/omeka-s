@@ -37,6 +37,11 @@ var Omeka = {
 
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
+        //TODO: temporary branching until conventions are established
+        if (typeof url == 'undefined') {
+            url = context.data('show-details-action');
+        }
+        
         sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
         $.ajax({

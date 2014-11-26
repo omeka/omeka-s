@@ -4,6 +4,8 @@ namespace Omeka\Mvc;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
+use Zend\Permissions\Acl\Exception\InvalidArgumentException as AclInvalidArgumentException;
+use Zend\View\Model\ViewModel;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -181,21 +183,29 @@ class MvcListeners extends AbstractListenerAggregate
      */
     public function authorizeUserAgainstRoute(MvcEvent $event)
     {
-        $application = $event->getApplication();
         $routeMatch = $event->getRouteMatch();
         $controller = $routeMatch->getParam('controller');
         $action = $routeMatch->getParam('action');
+        $acl = $event->getApplication()->getServiceManager()->get('Omeka\Acl');
 
-        $acl = $application->getServiceManager()->get('Omeka\Acl');
-        if ($acl->userIsAllowed($controller, $action)) {
-            return;
+        try {
+            if (!$acl->userIsAllowed($controller, $action)) {
+                // User not allowed is 403 Forbidden.
+                $response = $event->getResponse();
+                $response->setStatusCode(403);
+
+                $model = new ViewModel;
+                $model->setTemplate('error/403');
+
+                $event->setResponse($response);
+                $event->getViewModel()->addChild($model);
+                $event->setError(Application::ERROR_ROUTER_PERMISSION_DENIED);
+            }
+        } catch (AclInvalidArgumentException $e) {
+            // ACL resource not found is 404 Not Found, automatically set during
+            // MvcEvent::EVENT_DISPATCH_ERROR.
+            $event->setParam('exception', $e);
         }
-
-        $event->setError(Application::ERROR_CONTROLLER_PERMISSION_DENIED);
-        $errorMessage = sprintf('Permission denied to access %s:%s', $controller, $action);
-        $event->setParam('exception', new Exception\PermissionDeniedException($errorMessage));
-
-        $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
     }
 
     /**

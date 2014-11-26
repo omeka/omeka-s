@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Application
 {
-    const ERROR_CONTROLLER_PERMISSION_DENIED = 'error-controller-permission-denied';
+    const ERROR_ROUTER_PERMISSION_DENIED = 'error-router-permission-denied';
 
     /**
      * {@inheritDoc}

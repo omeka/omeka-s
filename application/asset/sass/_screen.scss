@@ -188,6 +188,7 @@ body {
         }
     }
     
+    .property-selector,
     .field {
         float: left;
         width: 100%;
@@ -208,11 +209,22 @@ body {
         height: 1.5 * $base-line-height;
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
+        margin: 0;
         @include border-radius(3px);
+        vertical-align: top;
     }
     
+    label input {
+        margin-right: .5em;
+    }
+        
     fieldset {
         @include trailer();
+    }
+    
+    .property-selector input[type="text"],
+    .property-selector > ul {
+        width: 90%;
     }
     
     /* @end */
@@ -367,7 +379,7 @@ header {
     height: rhythm(1.5);
     
     &:after {
-        content: "\f141";
+        content: $fa-var-ellipsis-h;
     }
     
     &:last-of-type {
@@ -375,7 +387,7 @@ header {
         @include border-radius(0 3px 3px 0);
         
         &:after {
-            content: "\f002";
+            content: $fa-var-search;
         }
     }
     
@@ -429,18 +441,6 @@ nav ul {
     margin: 0;
 }
 
-#menu > ul > li > a:before {
-    width: $base-font-size;
-    height: $base-font-size;
-    display: inline-block;
-    margin-right: .5em;
-    font-family: "FontAwesome";
-}
-
-#menu a {
-    font-family: "Source Sans Pro", sans-serif;
-}
-
 nav.pagination form {
     display: inline-block;
     min-width: min-content;
@@ -464,6 +464,63 @@ nav.pagination form input[type="text"] {
 .mobile-container {
     position: relative;
 }
+
+    /* @group ----- Top-level navigation ----- */
+    
+    #menu .navigation > li:not(:first-of-type) {
+        @include leader(.25);
+    }
+    
+    #menu .navigation > li:not(:last-of-type) {
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+    
+    #menu .navigation li li {
+        display: none;
+    }
+    
+    #menu .navigation li.active li {
+        display: block;
+        margin-left: rhythm();
+    }
+    
+    #menu .navigation li.active {
+        font-weight: bold;
+        
+        a:before,        
+        li:not(.active) {
+            font-weight: normal;
+        }
+    }
+    
+    #menu a:before {
+        font-family: "FontAwesome";
+        display: inline-block;
+        width: rhythm();
+    }
+    
+    #menu .resources:before {
+        content: $fa-var-cubes;
+    }
+    
+    #menu .ontology:before {
+        content: $fa-var-book;
+    }
+    
+    #menu .users:before {
+        content: $fa-var-users;
+    }
+    
+    #menu .modules:before {
+        content: $fa-var-plus-square;
+    }
+    
+    #menu li li a:before {
+        content: $fa-var-caret-right;
+    }
+    
+    /* @end */
 
 /* @end */
 
@@ -491,7 +548,7 @@ div[role="main"] {
     background-color: #f2f2f2;
 }
 
-.browse .record-name {
+.browse .resource-name {
     display: block;
     float: left;
     @include calc('max-width', '100% - 5.5em');
@@ -541,11 +598,11 @@ div[role="main"] {
     opacity: 1;
 }
 
-.item-name {
+.resource-name {
     max-width: 80%;
 }
 
-.item-name a {
+.resource-name a {
     width: 100%;
     display: block;
     overflow: hidden;
@@ -581,19 +638,19 @@ th a[class="sorted-desc"] {
 
 .sortable:after,
 [class*="sort"]:before {
-    content: "\f0dc";
+    content: $fa-var-sort;
     color: #999;
 }
 
 .sorted-asc:hover:after,
 .sorted-desc:after {
-    content: "\f0dd";
+    content: $fa-var-sort-desc;
 }
 
 .sortable:hover:after,
 .sorted-desc:hover:after,
 .sorted-asc:after {
-    content: "\f0de";
+    content: $fa-var-sort-asc;
 }
 
 [class*="sort"]:before {
@@ -622,7 +679,7 @@ th a[class="sorted-desc"] {
         left: span(12 of 16) + gutter(32);
     }
     
-    .sidebar-close {
+    .o-icon-close {
         position: absolute;
         right: gutter();
         top: rhythm(.5);
@@ -632,7 +689,6 @@ th a[class="sorted-desc"] {
         @include trailer(.5);
     }
     
-    .o-description,
     .vocabulary,
     .property {
         @include trailer();
@@ -800,10 +856,6 @@ th a[class="sorted-desc"] {
     }
 }
 
-.modal #items-list {
-    width: 100%;
-}
-
 .add-property.button {
     @include leader();
 }
@@ -908,6 +960,7 @@ th a[class="sorted-desc"] {
         display: none;
     }
     
+    .property-selector button,
     .property .set-property {
         position: absolute;
         top: -9999px;
@@ -916,6 +969,7 @@ th a[class="sorted-desc"] {
         @include border-radius(0px);
     }
     
+    .property-selector .property:hover button,
     .property:hover .set-property {
         top: 0;
         right: 0;
@@ -951,7 +1005,7 @@ th a[class="sorted-desc"] {
         }
     }
     
-    .properties .property:hover .description.show .o-icon-info + p {
+    .property-selector .property:hover .description.show .o-icon-info + p {
         top: rhythm(1.5);
         left: 0;
         padding-left: 2em;
@@ -959,8 +1013,34 @@ th a[class="sorted-desc"] {
         z-index: 1;
     }
     
+    .property-selector ul {
+        list-style: none;
+        padding-left: 0;
+
+        .description {
+            display: inline-block;
+            
+            .o-icon-info {
+                display: inline-block;
+                margin: 0 0 0 1em;
+                opacity: .75;
+            }
+            
+            .o-icon-info + p {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+                width: 100%;
+                padding: rhythm(.25) 0;
+            }
+        }
+    }
     
+    .property-selector > ul,
     .properties > ul {
+        list-style: none;
+        padding-left: 0;
+        
         li {
             float: left;
             width: 100%;
@@ -1024,7 +1104,7 @@ th a[class="sorted-desc"] {
             @include leader(.25);
         }
         
-        & > li li li {
+        & > .property {
             font-weight: normal;
             padding: rhythm(.25) 10px rhythm(.25) 2em;
             position: relative;
@@ -1075,6 +1155,10 @@ th a[class="sorted-desc"] {
     }
     
     .field-description .o-icon-info {
+        margin: 0;
+    }
+
+    .field-description .o-icon-info {
         &:hover + p {
             top: rhythm(1.5);
             left: inherit;
@@ -1117,6 +1201,10 @@ th a[class="sorted-desc"] {
         &:only-child {
             width: 100%;
         }
+                
+        label {
+            margin-right: 1em;
+        }
         
         select,
         textarea,
@@ -1126,10 +1214,17 @@ th a[class="sorted-desc"] {
             width: 100%;
             min-height: rhythm(1.5);
             padding: rhythm(.25);
+            margin: rhythm(.25) 0;
         }
         
         select {
             margin: 0;
+        }
+
+        .button,
+        button,
+        input[type="submit"] {
+            margin: rhythm(.25) 0;
         }
     
         .tab {
@@ -1202,7 +1297,7 @@ th a[class="sorted-desc"] {
     .remove-value {
         display: none;
         clear: both;
-        min-height: intrinsic;
+        min-height: 0;
         height: $base-line-height;
         padding: 0 10px;
         font-size: .85 * $base-font-size;
@@ -1242,7 +1337,7 @@ th a[class="sorted-desc"] {
         }
     }
     
-    #item-files button {
+    #resource-files button {
         margin: rhythm() 0 0;
     }
     
@@ -1262,131 +1357,62 @@ th a[class="sorted-desc"] {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\f08e";
+    content: $fa-var-external-link;
     margin-left: .5em;
 }
 
 /* @end */
 
-/* @group ----- Select Item Modal ----- */
+/* @group ----- Select Item Sidebar ----- */
 
-.overlay {
+.search-nav {
     width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    display: none;
-}
-
-.modal {
-    display: none;
-    background:#eee;
-    overflow:auto;
-    z-index:1001;
-    position:absolute;
-    width: 70%;
-    height: 80%;
-    @include border-radius(3px 3px 0 0);
     
-    h1 {
-        margin-top: 0;
-        padding: rhythm(.25) 20px;
-        font-size: $base-font-size;
-        line-height: $base-line-height;
-        font-weight: bold;
+    .resource-search {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        @include trailer();
     }
     
-    &.small {
-        width: 30%;
-        height: 40%;
-    }
-}
-
-.modal-link.button {
-    float: left;
-}
-
-.modal-header {
-    background-color: rgba(0,0,0,.2);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1002;
-    width: 100%;
-    height: rhythm(1.5);
-}
-
-.modal-search-nav {
-    position: absolute;
-    top: rhythm(1.5);
-    left: 0;
-    width: 100%;
-    bottom: 0;
-    
-    & + .modal-content {
-        top: rhythm(3.5);
-    }
-    
-    .item-search {
-        background-color: #fff;
-        height: rhythm(2);
-        padding: rhythm(.5) 20px;
-        border-color: $gray-on-white;
-        @include trailing-border(1px, .25, $base-font-size, solid);
-    }
-    
-    #item-list-search {
+    #resource-list-search {
         float: left;
     }
     
     button.o-icon-search {
-        height: rhythm();
-        width: rhythm();
+        height: rhythm(1.5);
+        width: rhythm(1.5);
         line-height: $base-line-height;
         padding: 0 10px;
         @include border-radius(0 3px 3px 0);
         min-height: intrinsic;
         position: absolute;
-        top: rhythm(.5);
-        left: 244px;
-        z-index: 1003;
+        top: 0;
+        right: 0;
         text-indent: -9999px;
         
         &:before {
             text-indent: 0px;
             position: absolute;
             left: 0;
-            top: 0;
+            top: rhythm(.25);
             line-height: 24px;
             width: 100%;
         }
     }
 
-    .item-search > input[type="text"] {
-        width: 14em;
-        height: rhythm();
-    }
-    
-    input.page-input {
-        height: rhythm();
+    .resource-search > input[type="text"] {
+        @include calc('width', '100% - ' + rhythm(1.5));
     }
     
     .more-options {
-        height: rhythm(2);
         line-height: rhythm(1.5);
         padding: rhythm(.25) 10px;
-        position: absolute;
-        top: 0;
-        left: rhythm(3) + 14em;
         @include border-radius(0);
-        min-height: intrinsic;
-        background-color: #fff;
+        min-height: 0;
         text-align: left;
         color: lighten($red, 20%);
-        z-index: 1005;
-        border-color: $gray-on-white;
+        border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);
         
         &:hover {
@@ -1437,15 +1463,12 @@ th a[class="sorted-desc"] {
     }
     
     .pagination {
-        position: absolute;
-        top: 0;
-        right: 20px;
-        height: rhythm(2);
+        border-color: rgba(0,0,0,.08);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        overflow: hidden;
         
         li {
             float: left;
-            height: rhythm(2);
-            padding: rhythm(.5) 1px;
         }
         
         li:first-of-type {
@@ -1460,10 +1483,7 @@ th a[class="sorted-desc"] {
         }
         
         a.button {
-            height: $base-line-height;
-            width: $base-line-height;
-            padding: 0 5px;
-            min-height: 0;
+            margin-right: 5px;
         }
     }
 }
@@ -1489,70 +1509,75 @@ th a[class="sorted-desc"] {
     }
 }
 
-.closeBtn {
-    font-size: 1.25 * $base-font-size;
-    line-height: $base-line-height;
-    padding: rhythm(.25) 10px;
-    float: right;
-}
-
-.modal-content {
-    position: absolute;
-    top: rhythm(1.5);
-    left: 0;
-    bottom: 0;
-    padding: rhythm(.5) 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
+.resource-list {
     width: 100%;
+    
     
     .placeholder {
         background-color: #666;
-        width: rhythm();
-        height: rhythm();
+        width: rhythm(1.5);
+        height: rhythm(1.5);
         float: left;
-    }
-    
-    .placeholder,
-    .item-name {
         margin-left: rhythm(.25);
     }
     
-    .item-name a {
+    .placeholder.no-image {
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,.08);
+        
+        &:after {
+            content: $fa-var-cubes;
+            font-family: "FontAwesome";
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            line-height: rhythm(1.5);
+            color: #d2d2d2;
+        }
+    }
+    
+    .resource-name a {
         width: auto;
     }
     
-    .item-name,
-    .directions {
+    .resource-name {
         display: inline-block;
         vertical-align: top;
-    }
-    
-    .directions {
-        color: #969696;
-        margin-left: 1em;
-        font-style: italic;
-        text-indent: -9999px;
+        margin: rhythm(.25) 0 0 rhythm(.5);
     }
     
     .item {
         padding: rhythm(.25) 0;
-        border-color: $gray-on-white;
+        border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);
         position: relative;
-        
+        width: 100%;
+        float: left;
         
         .select {
             position: absolute;
-            top: 0;
+            top: rhythm(.25);
             right: -9999px;
+            text-indent: -9999px;
             @include border-radius(0px);
             height: rhythm(1.5);
+            background-color: transparent;
+            color: $red;
+            width: rhythm(1.5);
+            
+            &:after {
+                content: "\f00c";
+                font-family: 'FontAwesome';
+                text-indent: 0;
+                position: absolute;
+                top: rhythm(.25);
+                right: rhythm(.5);
+            }
         }
         
         &:hover, 
         &.previewed {
-            background-color: rgba(255,255,255,.4);
+            background-color: rgba(255,255,255,.8);
         }
         
         &:hover .select,
@@ -1569,49 +1594,52 @@ th a[class="sorted-desc"] {
             font-weight: bold;
         }
     }
+}
+
+#resource-details {
+    background-color: #fff;
+    overflow-y: scroll;
+    @include padding-trailer(2.25);
     
-    .item-details {
-        position: absolute;
-        left: -9999px;
-        
-        h1 {
-            font-size: 2 * $base-font-size;
-            line-height: 2 * $base-line-height;
-            @include trailer(1, 2 * $base-font-size);
-            padding: 0;
-        }
-        
-        .element {
-            @include trailer();
-        }
+    h1 {
+        font-size: 2 * $base-font-size;
+        line-height: 2 * $base-line-height;
+        @include trailer(1, 2 * $base-font-size);
+        padding: 0;
+    }
+    
+    .element {
+        @include trailer();
     }
 }
 
-.show-details .modal-content .item-details {
-    left: span(5 of 8);
-    right: 0;
+
+#select-item {
+    position: fixed;
+    width: span(4 of 16) - gutter(32);
     bottom: 0;
-    top: 0;
-    width: span(3 of 8);
-    overflow-y: scroll;
+    right: 0;
+    left: 100%;
+    height: rhythm(2);
     background-color: #fff;
-    padding: rhythm(.5) 20px;
+    padding: rhythm(.25) gutter();
+    border-color: #d2d2d2;
+    @include leading-border(1px, .25, $base-font-size, solid);
+    border-left: 1px solid #d2d2d2;
+    @include transition-duration(.5s);
+    
+    .button {
+        width: 100%;
+    }
 }
 
-.show-details .modal-content .item-list {
-    width: span(5 of 8);
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: rhythm(.5) 20px;
+#resource-details.active #select-item {
+    left: span(12 of 16) + gutter(32);
 }
 
 /* @end */
 
-/* @group ----- Add Vocabulary ----- */
+/* @group ----- Import Vocabulary ----- */
 .vocabs .field .upload-input {
     margin: rhythm(.25) 0 0;
     position: relative;
@@ -1675,7 +1703,6 @@ th a[class="sorted-desc"] {
 }
 
 /* @end */
-
 
 /* @group ----- Show Views ----- */
 
@@ -1872,48 +1899,59 @@ body.show .property {
 
 /* @end */
 
-/* @group ----- Edit Property Set ----- */
+/* @group ----- Edit Resource Template ----- */
 
-.property-sets .field:not(.unset) .field-meta label {
-    display: block;
-    line-height: 1.5 * $base-line-height;
-    height: 1.5 * $base-line-height;
-    @include trailer(.25);
-    
-    &:first-of-type {
-        font-weight: bold;
-        display: inline-block;
-    }
+.resource-template .properties ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
 }
 
-.property-sets .property-set-meta .field .field-meta label,
-.property-sets .property-set-meta .inputs input[type="text"] {
-    margin-bottom: 0;
-}
-
-.property-sets .inputs input[type="text"] {
+.resource-template table {
     width: 100%;
-    @include trailer(.25);
+    background-color: rgba(0,0,0,.08);
 }
 
-.property-sets .properties .inputs {
-    @include leader(1.75);
+.resource-template th,
+.resource-template td {
+    padding: rhythm(.25);
+    vertical-align: top;
 }
 
-.property-sets .original-class {
-    background-color: rgba(0,0,0,.03);
-    padding: rhythm(.5);
-    @include trailer();
-    
-    h2 {
-        font-size: 1.5 * $base-font-size;
-        line-height: $base-line-height;
-        font-weight: bold;
-    }
-    
-    p:last-child {
-        margin-bottom: 0;
-    }
+.resource-template textarea {
+    height: 1.5 * $base-line-height;
+    padding: rhythm(.25);
+    width: 100%;
+}
+
+.resource-template th:first-of-type,
+.resource-template td:first-of-type, {
+    width: span(2 of 10);
+    padding-right: rhythm();
+}
+
+.resource-template th:nth-of-type(2) {
+    width: span(2 of 10);
+}
+
+.resource-template th:nth-of-type(3) {
+    width: span(4 of 10);
+}
+
+.resource-template .local-name {
+    font-style: italic;
+}
+
+/* @end */
+
+/* @group ----- Browse Modules ----- */
+
+#modules.installed tbody tr:not(.installed),
+#modules.uninstalled tbody tr:not(.uninstalled),
+#modules.needs-upgrade tbody tr:not(.needs-upgrade),
+#modules.active tbody tr:not(.active),
+#modules.deactivated tbody tr:not(.deactivated) {
+    display: none;
 }
 
 /* @end */

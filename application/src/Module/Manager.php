@@ -206,7 +206,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get a module's INI
+     * Get a module's INI, the entire array or by key
      *
      * @param string $id
      * @param null|string $key

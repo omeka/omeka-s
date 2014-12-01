@@ -209,11 +209,17 @@ class Manager implements ServiceLocatorAwareInterface
      * Get a module's INI
      *
      * @param string $id
-     * @return array|null
+     * @param null|string $key
+     * @return array|string|null
      */
-    public function getModuleIni($id)
+    public function getModuleIni($id, $key = null)
     {
         $this->moduleIsRegistered($id, true);
+        if ($key) {
+            return isset($this->modules[$id]['ini'][$key])
+                ? $this->modules[$id]['ini'][$key]
+                : null;
+        }
         return $this->modules[$id]['ini'];
     }
 

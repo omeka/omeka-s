@@ -143,7 +143,7 @@ abstract class AbstractModule implements
             return;
         }
 
-        $autoloadPath = sprintf('%1$s/module/%2$s/src/%2$s', OMEKA_PATH, $namespace);
+        $autoloadPath = sprintf('%1$s/module/%2$s/src', OMEKA_PATH, $namespace);
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(

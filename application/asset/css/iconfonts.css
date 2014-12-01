@@ -572,7 +572,7 @@
   content: "";
 }
 
-.fa-arrow-up:before {
+.fa-arrow-up:before, .o-icon-upgrade:before {
   content: "";
 }
 
@@ -732,7 +732,7 @@
   content: "";
 }
 
-.fa-sign-out:before {
+.fa-sign-out:before, .o-icon-uninstall:before {
   content: "";
 }
 
@@ -748,7 +748,7 @@
   content: "";
 }
 
-.fa-sign-in:before {
+.fa-sign-in:before, .o-icon-install:before {
   content: "";
 }
 
@@ -860,7 +860,7 @@
   content: "";
 }
 
-.fa-wrench:before {
+.fa-wrench:before, .o-icon-configure:before {
   content: "";
 }
 
@@ -978,19 +978,19 @@
   content: "";
 }
 
-.fa-caret-down:before {
+.fa-caret-down:before, .o-icon-down:before {
   content: "";
 }
 
-.fa-caret-up:before {
+.fa-caret-up:before, .o-icon-up:before {
   content: "";
 }
 
-.fa-caret-left:before {
+.fa-caret-left:before, .o-icon-left:before {
   content: "";
 }
 
-.fa-caret-right:before {
+.fa-caret-right:before, .o-icon-right:before {
   content: "";
 }
 
@@ -1021,7 +1021,7 @@
   content: "";
 }
 
-.fa-rotate-left:before,
+.fa-rotate-left:before, .o-icon-revert:before,
 .fa-undo:before {
   content: "";
 }
@@ -2147,11 +2147,11 @@
   content: "";
 }
 
-.fa-toggle-off:before {
+.fa-toggle-off:before, .o-icon-deactivate:before {
   content: "";
 }
 
-.fa-toggle-on:before {
+.fa-toggle-on:before, .o-icon-activate:before {
   content: "";
 }
 

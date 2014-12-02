@@ -105,4 +105,21 @@ class Module
     {
         return (bool) $this->getIni('configurable');
     }
+
+    /**
+     * Get the name of this module.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        if ($name = $this->getIni('name')) {
+            return $name;
+        }
+        if ($name = $this->getDb('id')) {
+            return $name;
+        }
+        // Could not find a name.
+        return null;
+    }
 }

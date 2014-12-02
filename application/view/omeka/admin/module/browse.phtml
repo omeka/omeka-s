@@ -1,62 +1,93 @@
 <?php
-use Omeka\Module\Manager as ModuleManager;
+use Omeka\Module\Manager as Module;
+
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+
 <h1>Modules</h1>
 
-<?php if (isset($successMessages)): ?>
-<pre><?php print_r($successMessages); ?></pre>
-<?php endif; ?>
+<form method="get" class="state-filter">
+    <select name="state">
+        <option value="">All</option>
+        <?php foreach ($states as $value => $option): ?>
+        <option value="<?php echo $escapeAttr($value); ?>"<?php if ($value == $state): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+        <?php endforeach; ?>
+    </select>
+</form>
+<script>
+$(".state-filter select").change(function() {
+    $(this).closest('form').submit();
+});
+</script>
 
-<?php if (count($modules->getModules()) > 0): ?> 
-<table>
+<?php if ($modules): ?> 
+<table id="modules">
     <thead>
-        <tr>
-            <th>name</th>
-            <th>version</th>
-            <th></th>
-        </tr>
+        <th>Name</th>
+        <th>Status</th>
     </thead>
     <tbody>
-        <?php foreach($modules->getModules() as $id => $module): ?>
+        <?php foreach ($modules as $id => $module): ?>
         <tr>
-            <td><?php echo $module['ini']['name']; ?></td>
-            <td><?php echo $module['ini']['version']; ?></td>
-            <td><form method="post">
-            <input type="hidden" name="id" value="<?php echo $id; ?>"><?php
-            switch ($module['state']) {
-                case ModuleManager::STATE_NOT_INSTALLED:
-                    echo '<button name="action" value="install">Install</button>';
-                    break;
-                case ModuleManager::STATE_ACTIVE:
-                    echo '<button name="action" value="uninstall">Uninstall</button>';
-                    echo '<button name="action" value="deactivate">Deactivate</button>';
-                    if ($modules->moduleIsConfigurable($id)) {
-                        echo '<button name="action" value="configure">Configure</button>';
-                    }
-                    break;
-                case ModuleManager::STATE_NOT_ACTIVE:
-                    echo '<button name="action" value="uninstall">Uninstall</button>';
-                    echo '<button name="action" value="activate">Activate</button>';
-                    break;
-                case ModuleManager::STATE_NEEDS_UPGRADE:
-                    echo '<button name="action" value="upgrade">Upgrade</button>';
-                    break;
-                case ModuleManager::STATE_INVALID_INI:
-                    echo 'invalid INI';
-                    break;
-                case ModuleManager::STATE_INVALID_MODULE:
-                    echo 'invalid module';
-                    break;
-                case ModuleManager::STATE_NOT_FOUND:
-                    echo 'module not found';
-                    break;
-                default:
-                    break;
-            }
-            ?></form></td>
+        <?php if ('not_found' == $module->getState()): ?>
+            <td>
+                <span class="module-name"><?php echo $this->hyperlink($module->getName(), $module->getIni('module_link')); ?></span>
+                version <span class="module-version"><?php echo $module->getIni('version'); ?></span>
+                <?php if ($author = $module->getIni('author')): ?>
+                by <span class="module-author"><?php echo $this->hyperlink($author, $module->getIni('author_link')); ?></span>
+                <?php endif; ?>
+                <ul class="actions">
+                    <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
+                </ul>
+            </td>
+            <td>Not Found</td>
+        <?php elseif ('not_installed' == $module->getState()): ?>
+            <td>
+                <span class="module-name"><?php echo $this->hyperlink($module->getName(), $module->getIni('module_link')); ?></span>
+                version <span class="module-version"><?php echo $module->getIni('version'); ?></span>
+                <?php if ($author = $module->getIni('author')): ?>
+                by <span class="module-author"><?php echo $this->hyperlink($author, $module->getIni('author_link')); ?></span>
+                <?php endif; ?>
+                <ul class="actions">
+                    <li><a href="#" class="o-icon-install" title="Install" aria-label="Install module"></a></a></li>
+                    <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
+                </ul>
+            </td>
+            <td>Not Installed</td>
+        <?php elseif ('active' == $module->getState()): ?>
+            <td>
+                <span class="module-name"><?php echo $this->hyperlink($module->getName(), $module->getIni('module_link')); ?></span>
+                version <span class="module-version"><?php echo $module->getIni('version'); ?></span>
+                <?php if ($author = $module->getIni('author')): ?>
+                by <span class="module-author"><?php echo $this->hyperlink($author, $module->getIni('author_link')); ?></span>
+                <?php endif; ?>
+                <ul class="actions">
+                    <?php if ($module->isConfigurable()): ?>
+                    <li><a href="#" class="o-icon-configure" title="Configure" aria-label="Configure module"></a></li>
+                    <?php endif; ?>
+                    <li><a href="#" class="o-icon-deactivate" title="Deactivate" aria-label="Deactivate module"></a></li>
+                    <li><a href="#" class="o-icon-uninstall" title="Uninstall" aria-label="Uninstall module"></a></li>
+                    <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
+                </ul>
+            </td>
+            <td>Active</td>
+        <?php elseif ('not_active' == $module->getState()): ?>
+            <td>
+                <span class="module-name"><?php echo $this->hyperlink($module->getName(), $module->getIni('module_link')); ?></span>
+                version <span class="module-version"><?php echo $module->getIni('version'); ?></span>
+                <?php if ($author = $module->getIni('author')): ?>
+                by <span class="module-author"><?php echo $this->hyperlink($author, $module->getIni('author_link')); ?></span>
+                <?php endif; ?>
+                <ul class="actions">
+                    <li><a href="#" class="o-icon-activate" title="Activate" aria-label="Activate module"></a></li>
+                    <li><a href="#" class="o-icon-uninstall" title="Uninstall" aria-label="Uninstall module"></a></li>
+                    <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
+                </ul>
+            </td>
+            <td>Not Active</td>
+        <?php endif; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

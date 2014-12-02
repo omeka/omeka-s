@@ -17,69 +17,33 @@ class ModuleController extends AbstractActionController
     public function browseAction()
     {
         $view = new ViewModel;
-        $modules = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $flashMessenger = $this->flashMessenger();
+        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
 
-        if ($this->getRequest()->isPost()) {
-            $id = $this->params()->fromPost('id');
-            $action = $this->params()->fromPost('action');
-            switch ($action) {
-                case 'install':
-                    $modules->install($id);
-                    $flashMessenger->addSuccessMessage(
-                        'The module was successfully installed'
-                    );
-                    if ($modules->moduleIsConfigurable($id)) {
-                        return $this->redirect()->toRoute(
-                            'admin/default',
-                            array('controller' => 'module', 'action' => 'configure'),
-                            array('query' => array('id' => $id))
-                        );
-                    }
-                    break;
-                case 'uninstall':
-                    $modules->uninstall($id);
-                    $flashMessenger->addSuccessMessage(
-                        'The module was successfully uninstalled'
-                    );
-                    break;
-                case 'activate':
-                    $modules->activate($id);
-                    $flashMessenger->addSuccessMessage(
-                        'The module was successfully activated'
-                    );
-                    break;
-                case 'deactivate':
-                    $modules->deactivate($id);
-                    $flashMessenger->addSuccessMessage(
-                        'The module was successfully deactivated'
-                    );
-                    break;
-                case 'upgrade':
-                    $modules->upgrade($id);
-                    $flashMessenger->addSuccessMessage(
-                        'The module was successfully upgraded'
-                    );
-                    break;
-                case 'configure':
-                    return $this->redirect()->toRoute(
-                        'admin/default',
-                        array('controller' => 'module', 'action' => 'configure'),
-                        array('query' => array('id' => $id))
-                    );
-                default:
-                    break;
-            }
-            return $this->redirect()->refresh();
+        // Filter modules by state.
+        $state = $this->params()->fromQuery('state');
+        if ($state) {
+            $modules = $manager->getModulesByState($state);
+        } else {
+            $modules = $manager->getModules();
         }
 
-        if ($flashMessenger->hasSuccessMessages()) {
-            $view->setVariable(
-                'successMessages',
-                $flashMessenger->getSuccessMessages()
-            );
-        }
+        // Order modules by name.
+        uasort($modules, function($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
+        $view->setVariable('manager', $manager);
         $view->setVariable('modules', $modules);
+        $view->setVariable('state', $state);
+        $view->setVariable('states', array(
+            'active'         => 'Active',
+            'not_active'     => 'Not Active',
+            'not_installed'  => 'Not Installed',
+            'not_found'      => 'Not Found',
+            'invalid_module' => 'Invalid Module',
+            'invalid_ini'    => 'Invalid Ini',
+            'needs_upgrade'  => 'Needs Upgrade',
+        ));
         return $view;
     }
 

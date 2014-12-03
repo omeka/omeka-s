@@ -29,6 +29,16 @@ class Module
     }
 
     /**
+     * Get the module identifier.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set the module state.
      *
      * @param string $state

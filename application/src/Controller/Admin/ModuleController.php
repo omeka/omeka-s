@@ -19,7 +19,43 @@ class ModuleController extends AbstractActionController
         $view = new ViewModel;
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
 
-        // Filter modules by state.
+        // Handle state changes.
+        $action = $this->params()->fromQuery('action');
+        $id = $this->params()->fromQuery('id');
+        if ($action && $module = $manager->getModule($id)) {
+            if ('install' == $action) {
+                $manager->install($module);
+                $this->messenger()->addSuccess('The module was successfully installed');
+                if ($module->isConfigurable()) {
+                    return $this->redirect()->toRoute(
+                        'admin/default',
+                        array('controller' => 'module', 'action' => 'configure'),
+                        array('query' => array('id' => $module->getId()))
+                    );
+                }
+            } elseif ('uninstall' == $action) {
+                $manager->uninstall($module);
+                $this->messenger()->addSuccess('The module was successfully uninstalled');
+            } elseif ('configure' == $action) {
+                return $this->redirect()->toRoute(
+                    'admin/default',
+                    array('controller' => 'module', 'action' => 'configure'),
+                    array('query' => array('id' => $module->getId()))
+                );
+            } elseif ('activate' == $action) {
+                $manager->activate($module);
+                $this->messenger()->addSuccess('The module was successfully activated');
+            } elseif ('deactivate' == $action) {
+                $manager->deactivate($module);
+                $this->messenger()->addSuccess('The module was successfully deactivated');
+            } elseif ('upgrade' == $action) {
+                $manager->upgrade($module);
+                $this->messenger()->addSuccess('The module was successfully upgraded');
+            }
+            return $this->redirect()->refresh();
+        }
+
+        // Get modules, filtering modules by state.
         $state = $this->params()->fromQuery('state');
         if ($state) {
             $modules = $manager->getModulesByState($state);

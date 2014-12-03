@@ -37,30 +37,54 @@ $(".state-filter select").change(function() {
                 <?php endif; ?>
 
                 <ul class="actions">
-                    <!-- install control -->
                     <?php if ('not_installed' == $module->getState()): ?>
-                    <li><a href="#" class="o-icon-install" title="Install" aria-label="Install module"></a></a></li>
+                    <!-- install control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'install')), true),
+                        array('class' => 'o-icon-install', 'title' => 'Install', 'aria-label' => 'Install module')
+                    ); ?></li>
                     <?php endif; ?>
-                    <!-- configure control -->
+
                     <?php if ('active' == $module->getState() && $module->isConfigurable()): ?>
-                    <li><a href="#" class="o-icon-configure" title="Configure" aria-label="Configure module"></a></li>
+                    <!-- configure control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'configure')), true),
+                        array('class' => 'o-icon-configure', 'title' => 'Configure', 'aria-label' => 'Configure module')
+                    ); ?></li>
                     <?php endif; ?>
-                    <!-- deactivate control -->
+
                     <?php if ('active' == $module->getState()): ?>
-                    <li><a href="#" class="o-icon-deactivate" title="Deactivate" aria-label="Deactivate module"></a></li>
+                    <!-- deactivate control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'deactivate')), true),
+                        array('class' => 'o-icon-deactivate', 'title' => 'Deactivate', 'aria-label' => 'Deactivate module')
+                    ); ?></li>
                     <?php endif; ?>
-                    <!-- activate control -->
+
                     <?php if ('not_active' == $module->getState()): ?>
-                    <li><a href="#" class="o-icon-activate" title="Activate" aria-label="Activate module"></a></li>
+                    <!-- activate control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'activate')), true),
+                        array('class' => 'o-icon-activate', 'title' => 'Activate', 'aria-label' => 'Activate module')
+                    ); ?></li>
                     <?php endif; ?>
-                    <!-- uninstall control -->
+
                     <?php if (in_array($module->getState(), array('active', 'not_active'))): ?>
-                    <li><a href="#" class="o-icon-uninstall" title="Uninstall" aria-label="Uninstall module"></a></li>
+                    <!-- uninstall control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'uninstall')), true),
+                        array('class' => 'o-icon-uninstall', 'title' => 'Uninstall', 'aria-label' => 'Uninstall module')
+                    ); ?></li>
                     <?php endif; ?>
-                    <!-- upgrade control -->
+
                     <?php if ('needs_upgrade' == $module->getState()): ?>
-                    <li><a href="#" class="o-icon-upgrade" title="Upgrade" aria-label="Upgrade module"></a></li>
+                    <!-- upgrade control -->
+                    <li><?php echo $this->hyperlink('',
+                        $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'upgrade')), true),
+                        array('class' => 'o-icon-upgrade', 'title' => 'Upgrade', 'aria-label' => 'Upgrade module')
+                    ); ?></li>
                     <?php endif; ?>
+
                     <!-- more control -->
                     <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
                 </ul>

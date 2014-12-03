@@ -335,12 +335,12 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function getModuleObject(Module $module)
     {
-        $module = $this->getServiceLocator()
+        $moduleObject = $this->getServiceLocator()
             ->get('ModuleManager')->getModule($module->getId());
-        if (null !== $module) {
-            return $module;
+        if (null !== $moduleObject) {
+            return $moduleObject;
         }
-        $moduleClass = "$id\Module";
+        $moduleClass = $module->getId() . "\Module";
         return new $moduleClass;
     }
 

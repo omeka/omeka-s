@@ -32,17 +32,16 @@ class ModuleController extends AbstractActionController
             return strcmp($a->getName(), $b->getName());
         });
 
-        $view->setVariable('manager', $manager);
         $view->setVariable('modules', $modules);
         $view->setVariable('state', $state);
         $view->setVariable('states', array(
             'active'         => 'Active',
             'not_active'     => 'Not Active',
             'not_installed'  => 'Not Installed',
+            'needs_upgrade'  => 'Needs Upgrade',
             'not_found'      => 'Not Found',
             'invalid_module' => 'Invalid Module',
             'invalid_ini'    => 'Invalid Ini',
-            'needs_upgrade'  => 'Needs Upgrade',
         ));
         return $view;
     }

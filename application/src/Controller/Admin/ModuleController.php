@@ -25,7 +25,7 @@ class ModuleController extends AbstractActionController
         if ($action && $module = $manager->getModule($id)) {
             if ('install' == $action) {
                 $manager->install($module);
-                $this->messenger()->addSuccess('The module was successfully installed');
+                $this->messenger()->addSuccess($this->translate('The module was successfully installed'));
                 if ($module->isConfigurable()) {
                     return $this->redirect()->toRoute(
                         'admin/default',
@@ -35,7 +35,7 @@ class ModuleController extends AbstractActionController
                 }
             } elseif ('uninstall' == $action) {
                 $manager->uninstall($module);
-                $this->messenger()->addSuccess('The module was successfully uninstalled');
+                $this->messenger()->addSuccess($this->translate('The module was successfully uninstalled'));
             } elseif ('configure' == $action) {
                 return $this->redirect()->toRoute(
                     'admin/default',
@@ -44,13 +44,13 @@ class ModuleController extends AbstractActionController
                 );
             } elseif ('activate' == $action) {
                 $manager->activate($module);
-                $this->messenger()->addSuccess('The module was successfully activated');
+                $this->messenger()->addSuccess($this->translate('The module was successfully activated'));
             } elseif ('deactivate' == $action) {
                 $manager->deactivate($module);
-                $this->messenger()->addSuccess('The module was successfully deactivated');
+                $this->messenger()->addSuccess($this->translate('The module was successfully deactivated'));
             } elseif ('upgrade' == $action) {
                 $manager->upgrade($module);
-                $this->messenger()->addSuccess('The module was successfully upgraded');
+                $this->messenger()->addSuccess($this->translate('The module was successfully upgraded'));
             }
             return $this->redirect()->refresh();
         }
@@ -71,13 +71,13 @@ class ModuleController extends AbstractActionController
         $view->setVariable('modules', $modules);
         $view->setVariable('state', $state);
         $view->setVariable('states', array(
-            'active'         => 'Active',
-            'not_active'     => 'Not Active',
-            'not_installed'  => 'Not Installed',
-            'needs_upgrade'  => 'Needs Upgrade',
-            'not_found'      => 'Not Found',
-            'invalid_module' => 'Invalid Module',
-            'invalid_ini'    => 'Invalid Ini',
+            'active'         => $this->translate('Active'),
+            'not_active'     => $this->translate('Not Active'),
+            'not_installed'  => $this->translate('Not Installed'),
+            'needs_upgrade'  => $this->translate('Needs Upgrade'),
+            'not_found'      => $this->translate('Not Found'),
+            'invalid_module' => $this->translate('Invalid Module'),
+            'invalid_ini'    => $this->translate('Invalid Ini'),
         ));
         return $view;
     }
@@ -101,7 +101,7 @@ class ModuleController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $module->handleConfigForm($this);
-            $this->messenger()->addSuccess('The module was successfully configured');
+            $this->messenger()->addSuccess($this->translate('The module was successfully configured'));
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'module',
                 'action' => 'browse',

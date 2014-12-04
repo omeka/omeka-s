@@ -4,11 +4,11 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1>Modules</h1>
+<h1><?php echo $escape($this->translate('Modules')); ?></h1>
 
 <form method="get" class="state-filter">
     <select name="state">
-        <option value="">All Modules</option>
+        <option value=""><?php echo $escape($this->translate('All Modules')); ?></option>
         <?php foreach ($states as $value => $option): ?>
         <option value="<?php echo $escapeAttr($value); ?>"<?php if ($value == $state): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
         <?php endforeach; ?>
@@ -23,17 +23,17 @@ $(".state-filter select").change(function() {
 <?php if ($modules): ?> 
 <table id="modules">
     <thead>
-        <th>Module</th>
-        <th>Status</th>
+        <th><?php echo $escape($this->translate('Module')); ?></th>
+        <th><?php echo $escape($this->translate('Status')); ?></th>
     </thead>
     <tbody>
         <?php foreach ($modules as $id => $module): ?>
         <tr>
             <td>
                 <span class="module-name"><?php echo $this->hyperlink($module->getName(), $module->getIni('module_link')); ?></span>
-                version <span class="module-version"><?php echo $module->getIni('version'); ?></span>
+                <span class="module-version"><?php echo $this->translate(sprintf('version %s', $module->getIni('version') ?: $module->getDb('version'))); ?></span>
                 <?php if ($author = $module->getIni('author')): ?>
-                by <span class="module-author"><?php echo $this->hyperlink($author, $module->getIni('author_link')); ?></span>
+                <span class="module-author"><?php echo $this->translate(sprintf('by %s', $this->hyperlink($author, $module->getIni('author_link')))); ?></span>
                 <?php endif; ?>
 
                 <ul class="actions">
@@ -41,7 +41,7 @@ $(".state-filter select").change(function() {
                     <!-- install control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'install')), true),
-                        array('class' => 'o-icon-install', 'title' => 'Install', 'aria-label' => 'Install module')
+                        array('class' => 'o-icon-install', 'title' => $this->translate('Install'), 'aria-label' => $this->translate('Install module'))
                     ); ?></li>
                     <?php endif; ?>
 
@@ -49,7 +49,7 @@ $(".state-filter select").change(function() {
                     <!-- configure control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'configure')), true),
-                        array('class' => 'o-icon-configure', 'title' => 'Configure', 'aria-label' => 'Configure module')
+                        array('class' => 'o-icon-configure', 'title' => $this->translate('Configure'), 'aria-label' => $this->translate('Configure module'))
                     ); ?></li>
                     <?php endif; ?>
 
@@ -57,7 +57,7 @@ $(".state-filter select").change(function() {
                     <!-- deactivate control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'deactivate')), true),
-                        array('class' => 'o-icon-deactivate', 'title' => 'Deactivate', 'aria-label' => 'Deactivate module')
+                        array('class' => 'o-icon-deactivate', 'title' => $this->translate('Deactivate'), 'aria-label' => $this->translate('Deactivate module'))
                     ); ?></li>
                     <?php endif; ?>
 
@@ -65,7 +65,7 @@ $(".state-filter select").change(function() {
                     <!-- activate control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'activate')), true),
-                        array('class' => 'o-icon-activate', 'title' => 'Activate', 'aria-label' => 'Activate module')
+                        array('class' => 'o-icon-activate', 'title' => $this->translate('Activate'), 'aria-label' => $this->translate('Activate module'))
                     ); ?></li>
                     <?php endif; ?>
 
@@ -73,7 +73,7 @@ $(".state-filter select").change(function() {
                     <!-- uninstall control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'uninstall')), true),
-                        array('class' => 'o-icon-uninstall', 'title' => 'Uninstall', 'aria-label' => 'Uninstall module')
+                        array('class' => 'o-icon-uninstall', 'title' => $this->translate('Uninstall'), 'aria-label' => $this->translate('Uninstall module'))
                     ); ?></li>
                     <?php endif; ?>
 
@@ -81,7 +81,7 @@ $(".state-filter select").change(function() {
                     <!-- upgrade control -->
                     <li><?php echo $this->hyperlink('',
                         $this->url(null, array(), array('query' => array('id' => $module->getId(), 'action' => 'upgrade')), true),
-                        array('class' => 'o-icon-upgrade', 'title' => 'Upgrade', 'aria-label' => 'Upgrade module')
+                        array('class' => 'o-icon-upgrade', 'title' => $this->translate('Upgrade'), 'aria-label' => $this->translate('Upgrade module'))
                     ); ?></li>
                     <?php endif; ?>
 

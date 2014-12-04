@@ -19,7 +19,25 @@ class ModuleController extends AbstractActionController
         $view = new ViewModel;
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
 
-        // Handle state changes.
+        // Handle bulk state changes (activate and deactivate only)
+        if ($this->getRequest()->isPost()) {
+            if ($ids = $this->params()->fromPost('activate')) {
+                foreach ($ids as $id) {
+                    $module = $manager->getModule($id);
+                    $manager->activate($module);
+                }
+                $this->messenger()->addSuccess($this->translate('The selected modules were successfully activated'));
+            } elseif ($ids = $this->params()->fromPost('deactivate')) {
+                foreach ($ids as $id) {
+                    $module = $manager->getModule($id);
+                    $manager->deactivate($module);
+                }
+                $this->messenger()->addSuccess($this->translate('The selected modules were successfully deactivated'));
+            }
+            return $this->redirect()->refresh();
+        }
+
+        // Handle individual state changes.
         $action = $this->params()->fromQuery('action');
         $id = $this->params()->fromQuery('id');
         if ($action && $module = $manager->getModule($id)) {

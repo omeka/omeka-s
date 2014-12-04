@@ -85,13 +85,14 @@ class ModuleController extends AbstractActionController
     public function configureAction()
     {
         $view = new ViewModel;
-        $flashMessenger = $this->flashMessenger();
 
         // Get the module
         $id = $this->params()->fromQuery('id');
-        $modules = $this->getServiceLocator()->get('ModuleManager');
-        $module = $modules->getModule($id);
+        $module = $this->getServiceLocator()
+            ->get('ModuleManager')->getModule($id);
+
         if (null === $module) {
+            // Do not attempt to configure an unloaded module.
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'module',
                 'action' => 'browse',
@@ -100,21 +101,15 @@ class ModuleController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $module->handleConfigForm($this);
-            $flashMessenger->addSuccessMessage(
-                'The module was successfully configured'
-            );
+            $this->messenger()->addSuccess('The module was successfully configured');
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'module',
                 'action' => 'browse',
             ));
         }
 
-        if ($flashMessenger->hasSuccessMessages()) {
-            $view->setVariable(
-                'successMessages',
-                $flashMessenger->getSuccessMessages()
-            );
-        }
+        $view->setVariable('module', $this->getServiceLocator()
+            ->get('Omeka\ModuleManager')->getModule($id));
         $view->setVariable('configForm', $module->getConfigForm($view));
         return $view;
     }

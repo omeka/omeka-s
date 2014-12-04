@@ -110,8 +110,51 @@
     @extend .fa-eye;
 }
 
+.o-icon-activate {
+    @extend .fa-toggle-on;
+}
+.o-icon-deactivate {
+    @extend .fa-toggle-off;
+}
+
+.o-icon-configure {
+    @extend .fa-wrench;
+}
+
+.o-icon-uninstall {
+    @extend .fa-sign-out;
+}
+
+.o-icon-install {
+    @extend .fa-sign-in;
+}
+
+.o-icon-upgrade {
+    @extend .fa-arrow-up;
+}
+
 .o-icon-info {
     @extend .fa-info-circle;
+}
+
+.o-icon-revert {
+    @extend .fa-rotate-left;
+}
+
+.o-icon-up {
+    @extend .fa-caret-up;
+}
+
+.o-icon-down {
+    @extend .fa-caret-down;
+}
+
+.o-icon-right {
+    @extend .fa-caret-right;
+}
+
+.o-icon-left {
+    @extend .fa-caret-left;
 }
 
 .screen-reader-text {

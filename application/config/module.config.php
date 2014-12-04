@@ -95,6 +95,7 @@ return array(
         'invokables' => array(
             'value'          => 'Omeka\View\Helper\Value',
             'htmlElement'    => 'Omeka\View\Helper\HtmlElement',
+            'hyperlink'      => 'Omeka\View\Helper\Hyperlink',
             'messages'       => 'Omeka\View\Helper\Messages',
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
             'sortLink'       => 'Omeka\View\Helper\SortLink',
@@ -110,48 +111,118 @@ return array(
     'navigation' => array(
         'admin' => array(
             array(
-                'label'      => 'Items',
-                'class'      => 'o-icon-items',
+                'label'      => 'Resources',
                 'route'      => 'admin/default',
                 'controller' => 'item',
-                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Item',
+                'class'      => 'resources',
+                'pages' => array(
+                    array(
+                        'label'      => 'Item Sets',
+                        'route'      => 'admin/default',
+                        'controller' => 'item-set',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'item-set',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label'      => 'Items',
+                        'route'      => 'admin/default',
+                        'controller' => 'item',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\Item',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'item',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label'      => 'Media',
+                        'route'      => 'admin/default',
+                        'controller' => 'media',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\Media',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'media',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             array(
-                'label'      => 'Item Sets',
-                'class'      => 'o-icon-item-set',
-                'route'      => 'admin/default',
-                'controller' => 'item-set',
-                'action'     => 'browse',
-                'resource'   => 'Omeka\Controller\Admin\ItemSet',
-            ),
-            array(
-                'label'      => 'Vocabularies',
-                'class'      => 'o-icon-vocab',
+                'label'      => 'Ontology',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
-                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Vocabulary',
-            ),
-            array(
-                'label'      => 'Modules',
-                'class'      => 'o-icon-module',
-                'route'      => 'admin/default',
-                'controller' => 'module',
-                'action'     => 'browse',
-                'resource'   => 'Omeka\Controller\Admin\Module',
+                'class'      => 'ontology',
+                'pages'      => array(
+                    array(
+                        'label'      => 'Vocabularies',
+                        'route'      => 'admin/default',
+                        'controller' => 'vocabulary',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\Vocabulary',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'vocabulary',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label'      => 'Import Vocabulary',
+                        'route'      => 'admin/default',
+                        'controller' => 'vocabulary',
+                        'action'     => 'import',
+                        'resource'   => 'Omeka\Controller\Admin\Vocabulary',
+                    ),
+                    array(
+                        'label'      => 'Resource Templates',
+                        'route'      => 'admin/default',
+                        'controller' => 'resource-template',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
+                    ),
+                ),
             ),
             array(
                 'label'      => 'Users',
-                'class'      => 'o-icon-users',
                 'route'      => 'admin/default',
                 'controller' => 'user',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\User',
+                'class'      => 'users',
+                'pages' => array(
+                    array(
+                        'route'      => 'admin/id',
+                        'controller' => 'user',
+                        'visible'    => false,
+                    ),
+                ),
+            ),
+            array(
+                'label'      => 'Modules',
+                'route'      => 'admin/default',
+                'controller' => 'module',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\Module',
+                'class'      => 'modules',
             ),
             array(
                 'label'      => 'Sites',
-                'class'      => 'o-icon-site',
                 'route'      => 'admin/site',
                 'controller' => 'site',
                 'action'     => 'browse',
@@ -159,12 +230,12 @@ return array(
             ),
             array(
                 'label'      => 'Settings',
-                'class'      => 'o-icon-settings',
                 'route'      => 'admin/default',
                 'controller' => 'setting',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Setting',
             ),
+
         ),
         'user' => array(
             array(
@@ -183,14 +254,6 @@ return array(
                 'label'         => 'API Keys',
                 'route'         => 'admin/id',
                 'action'        => 'edit-keys',
-                'useRouteMatch' => true,
-            ),
-        ),
-        'vocabulary' => array(
-            array(
-                'label'         => 'Vocabularies',
-                'route'         => 'admin/default',
-                'action'        => 'browse',
                 'useRouteMatch' => true,
             ),
         ),
@@ -238,7 +301,7 @@ return array(
             'site' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/:site-slug',
+                    'route' => '/s/:site-slug',
                     'constraints' => array(
                         'site-slug'  => '[a-zA-Z0-9_-]+',
                     ),

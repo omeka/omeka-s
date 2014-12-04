@@ -34,8 +34,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     )); ?></li>
                     <?php endif; ?>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
-                        class="o-icon-more sidebar-details"
+                        data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a>
                     </li>

@@ -10,13 +10,13 @@ var Omeka = {
         if (!$('#content').hasClass('sidebar-open')) {
             $('#content').addClass('sidebar-open');
         }
-        var sidebarDeleteContent = $('#sidebar-delete-content');
-        if (context.hasClass('sidebar-delete')) {
-            sidebarDeleteContent.show();
-            $('#sidebar-delete-content form').attr(
-                'action', context.data('delete-action'));
+        var sidebarConfirm = $('#sidebar-confirm');
+        if (context.hasClass('sidebar-confirm')) {
+            sidebarConfirm.show();
+            $('#sidebar-confirm form').attr(
+                'action', context.data('sidebar-confirm-url'));
         } else {
-            sidebarDeleteContent.hide();
+            sidebarConfirm.hide();
         }
         this.populateSidebarContent(context, sidebar);
         return sidebar;
@@ -37,11 +37,6 @@ var Omeka = {
 
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
-        //TODO: temporary branching until conventions are established
-        if (typeof url == 'undefined') {
-            url = context.data('show-details-action');
-        }
-        
         sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
         $.ajax({
@@ -63,13 +58,7 @@ var Omeka = {
         // Code that depends on the DOM.
 
         // Sidebar handling
-        $('.sidebar-details').click(function(e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.openSidebar(context);
-        });
-        
-        $('.sidebar-delete').click(function(e) {
+        $('.sidebar-content, .sidebar-confirm').click(function(e) {
             e.preventDefault();
             var context = $(this);
             Omeka.openSidebar(context);
@@ -82,7 +71,7 @@ var Omeka = {
         });
 
         // End Sidebar handling
-        
+
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
             e.preventDefault();

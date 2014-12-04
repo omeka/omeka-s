@@ -80,6 +80,7 @@ abstract class AbstractModule implements
      * Handle this module's configuration form.
      *
      * @param AbstractController $controller
+     * @return bool False if there was an error during handling
      */
     public function handleConfigForm(AbstractController $controller)
     {}

@@ -100,12 +100,14 @@ class ModuleController extends AbstractActionController
         }
 
         if ($this->getRequest()->isPost()) {
-            $module->handleConfigForm($this);
-            $this->messenger()->addSuccess($this->translate('The module was successfully configured'));
-            return $this->redirect()->toRoute('admin/default', array(
-                'controller' => 'module',
-                'action' => 'browse',
-            ));
+            if (false !== $module->handleConfigForm($this)) {
+                $this->messenger()->addSuccess($this->translate('The module was successfully configured'));
+                return $this->redirect()->toRoute('admin/default', array(
+                    'controller' => 'module',
+                    'action' => 'browse',
+                ));
+            }
+            $this->messenger()->addError($this->translate('There was a problem during configuration'));
         }
 
         $view->setVariable('module', $this->getServiceLocator()

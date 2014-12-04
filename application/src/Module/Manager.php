@@ -3,7 +3,7 @@ namespace Omeka\Module;
 
 use Doctrine\ORM\EntityManager;
 use Omeka\Event\Event;
-use Omeka\Model\Entity\Module;
+use Omeka\Model\Entity\Module as ModuleEntity;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -59,183 +59,24 @@ class Manager implements ServiceLocatorAwareInterface
      * Register a new module
      *
      * @param string $id
+     * @return Module
      */
     public function registerModule($id)
     {
-        $this->modules[$id] = array(
-            'state' => null,
-            'ini'   => null,
-            'db'    => null,
-        );
+        $module = new Module($id);
+        $this->modules[$id] = $module;
+        return $module;
     }
 
     /**
-     * Set a module's state
+     * Check whether the module INI is valid
      *
-     * @param string $id
-     * @param string $state
-     */
-    public function setModuleState($id, $state)
-    {
-        $this->moduleIsRegistered($id, true);
-        if (!in_array($state, $this->validStates)) {
-            throw new Exception\ModuleStateInvalidException(sprintf(
-                $this->getTranslator()->translate('Attempting to set an invalid module state "%s"'), $state
-            ));
-        }
-        $this->modules[$id]['state'] = $state;
-    }
-
-    /**
-     * Set a module's INI
-     *
-     * @param string $id
-     * @param array $ini
-     */
-    public function setModuleIni($id, array $ini)
-    {
-        $this->moduleIsRegistered($id, true);
-        $this->modules[$id]['ini'] = $ini;
-    }
-
-    /**
-     * Set a module's db row
-     *
-     * @param string $id
-     * @param array $row
-     */
-    public function setModuleDb($id, array $row)
-    {
-        $this->moduleIsRegistered($id, true);
-        $this->modules[$id]['db'] = $row;
-    }
-
-    /**
-     * Check whether a module is registered
-     *
-     * @throws Exception\ModuleNotRegisteredException
-     * @param string $id
-     * @param bool $throwException Throw exception when not registered
+     * @param Module $module
      * @return bool
      */
-    public function moduleIsRegistered($id, $throwException = false)
+    public function iniIsValid(Module $module)
     {
-        $isRegistered = array_key_exists($id, $this->modules);
-        if ($throwException && !$isRegistered) {
-            throw new Exception\ModuleNotRegisteredException(sprintf(
-                $this->getTranslator()->translate('Module "%s" is not registered'), $id
-            ));
-        }
-        return $isRegistered;
-    }
-
-    /**
-     * Check whether a module has state
-     *
-     * @param string $id
-     * @return bool
-     */
-    public function moduleHasState($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        return (bool) $this->modules[$id]['state'];
-    }
-
-    /**
-     * Check whether a module is configurable
-     *
-     * @param string $id
-     * @return bool
-     */
-    public function moduleIsConfigurable($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        $ini = $this->modules[$id]['ini'];
-        return isset($ini['configurable']) && (bool) $ini['configurable'];
-    }
-
-    /**
-     * Get all modules
-     *
-     * @return array
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Get all modules by state
-     *
-     * @param string $state
-     * @return array
-     */
-    public function getModulesByState($state)
-    {
-        $modules = array();
-        foreach ($this->modules as $id => $module) {
-            if ($state == $module['state']) {
-                $modules[$id] = $module;
-            }
-        }
-        return $modules;
-    }
-
-    /**
-     * Get a module
-     *
-     * @param string $id
-     * @return array
-     */
-    public function getModule($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        return $this->modules[$id];
-    }
-
-    /**
-     * Get a module's state
-     *
-     * @param string $id
-     * @return string
-     */
-    public function getModuleState($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        return $this->modules[$id]['state'];
-    }
-
-    /**
-     * Get a module's INI
-     *
-     * @param string $id
-     * @return array|null
-     */
-    public function getModuleIni($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        return $this->modules[$id]['ini'];
-    }
-
-    /**
-     * Get a module's db row
-     *
-     * @param string $id
-     * @return array|null
-     */
-    public function getModuleDb($id)
-    {
-        $this->moduleIsRegistered($id, true);
-        return $this->modules[$id]['db'];
-    }
-
-    /**
-     * Check whether the INI is valid
-     *
-     * @param array $ini
-     */
-    public function moduleIniIsValid(array $ini)
-    {
+        $ini = $module->getIni();
         if (!isset($ini['name'])) {
             return false;
         }
@@ -246,182 +87,242 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Activate a module
+     * Check whether a module is registered
      *
      * @param string $id
+     * @return bool
      */
-    public function activate($id)
+    public function isRegistered($id)
+    {
+        return array_key_exists($id, $this->modules);
+    }
+
+    /**
+     * Get a registered module
+     *
+     * @param string $id
+     * @return Module|false Returns false when id is invalid
+     */
+    public function getModule($id)
+    {
+        return $this->isRegistered($id) ? $this->modules[$id] : false;
+    }
+
+    /**
+     * Get all registered modules
+     *
+     * @return array
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Get all registered modules by state
+     *
+     * @param string $state
+     * @return array
+     */
+    public function getModulesByState($state)
+    {
+        $modules = array();
+        foreach ($this->modules as $id => $module) {
+            if ($state == $module->getState()) {
+                $modules[$id] = $module;
+            }
+        }
+        return $modules;
+    }
+
+    /**
+     * Activate a module
+     *
+     * @param Module $module
+     */
+    public function activate(Module $module)
     {
         $t = $this->getTranslator();
-        $this->moduleIsRegistered($id, true);
 
         // Only a deactivated module can be activated
-        if (self::STATE_NOT_ACTIVE !== $this->getModuleState($id)) {
+        if (self::STATE_NOT_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be activated'),
-                $id, $this->getModuleState($id)
+                $id, $module->getState()
             ));
         }
 
-        $module = $this->findModule($id);
-        if ($module instanceof Module) {
-            $module->setIsActive(true);
+        $entity = $this->getModuleEntity($module);
+        if ($entity instanceof ModuleEntity) {
+            $entity->setIsActive(true);
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                $t->translate('Module "%s" not in database during activation'), $id
+                $t->translate('Module "%s" not in database during activation'),
+                $module->getId()
             ));
         }
 
-        $this->setModuleState($id, self::STATE_ACTIVE);
+        $module->setState(self::STATE_ACTIVE);
     }
 
     /**
      * Deactivate a module
      *
-     * @param string $id
+     * @param Module $module
      */
-    public function deactivate($id)
+    public function deactivate(Module $module)
     {
         $t = $this->getTranslator();
-        $this->moduleIsRegistered($id, true);
 
         // Only an active module can be deactivated
-        if (self::STATE_ACTIVE !== $this->getModuleState($id)) {
+        if (self::STATE_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be deactivated'),
-                $id, $this->getModuleState($id)
+                $id, $module->getState()
             ));
         }
 
-        $module = $this->findModule($id);
-        if ($module instanceof Module) {
-            $module->setIsActive(false);
+        $entity = $this->getModuleEntity($module);
+        if ($entity instanceof ModuleEntity) {
+            $entity->setIsActive(false);
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                $t->translate('Module "%s" not in database during deactivation'), $id
+                $t->translate('Module "%s" not in database during deactivation'),
+                $module->getId()
             ));
         }
 
-        $this->setModuleState($id, self::STATE_NOT_ACTIVE);
+        $module->setState(self::STATE_NOT_ACTIVE);
     }
 
     /**
      * Install and activate a module
      *
-     * @param string $id
+     * @param Module $module
      */
-    public function install($id)
+    public function install(Module $module)
     {
-        $this->moduleIsRegistered($id, true);
-
         // Only a not installed module can be installed
-        if (self::STATE_NOT_INSTALLED !== $this->getModuleState($id)) {
+        if (self::STATE_NOT_INSTALLED !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $this->getTranslator()->translate('Module "%s" is marked as "%s" and cannot be installed'),
-                $id, $this->getModuleState($id)
+                $id, $module->getState()
             ));
         }
 
         // Invoke the module's install method
-        $this->getModuleObject($id)->install(
+        $this->getModuleObject($module)->install(
             $this->getServiceLocator()
         );
 
         // Persist the module entity
-        $module = new Module;
-        $module->setId($id);
-        $module->setIsActive(true);
-        $module->setVersion($this->modules[$id]['ini']['version']);
+        $entity = new ModuleEntity;
+        $entity->setId($module->getId());
+        $entity->setIsActive(true);
+        $entity->setVersion($module->getIni('version'));
 
-        $this->getEntityManager()->persist($module);
+        $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
 
-        $this->setModuleState($id, self::STATE_ACTIVE);
+        $module->setState(self::STATE_ACTIVE);
     }
 
     /**
      * Uninstall a module
      *
-     * @param string $id
+     * @param Module $module
      */
-    public function uninstall($id)
+    public function uninstall(Module $module)
     {
         $t = $this->getTranslator();
-        $this->moduleIsRegistered($id, true);
 
         // Only an installed and upgraded module can be uninstalled
-        if (!in_array($this->getModuleState($id), array(
+        if (!in_array($module->getState(), array(
             self::STATE_ACTIVE,
             self::STATE_NOT_ACTIVE,
         ))) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be uninstalled'),
-                $id, $this->getModuleState($id)
+                $id, $module->getState()
             ));
         }
 
         // Invoke the module's uninstall method
-        $this->getModuleObject($id)->uninstall(
+        $this->getModuleObject($module)->uninstall(
             $this->getServiceLocator()
         );
 
         // Remove the module entity
-        $module = $this->findModule($id);
-        if ($module instanceof Module) {
-            $this->getEntityManager()->remove($module);
+        $entity = $this->getModuleEntity($module);
+        if ($entity instanceof ModuleEntity) {
+            $this->getEntityManager()->remove($entity);
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                $t->translate('Module "%s" not found in database during uninstallation'), $id
+                $t->translate('Module "%s" not found in database during uninstallation'),
+                $module->getId()
             ));
         }
 
-        $this->setModuleState($id, self::STATE_NOT_INSTALLED);
+        $module->setState(self::STATE_NOT_INSTALLED);
     }
 
     /**
      * Upgrade a module
      *
-     * @param string $id
+     * @param Module $module
      */
-    public function upgrade($id)
+    public function upgrade(Module $module)
     {
         $t = $this->getTranslator();
-        $this->moduleIsRegistered($id, true);
 
         // Only a module marked for upgrade can be upgraded
-        if (self::STATE_NEEDS_UPGRADE !== $this->getModuleState($id)) {
+        if (self::STATE_NEEDS_UPGRADE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be upgraded'),
-                $id, $this->getModuleState($id)
+                $id, $module->getState()
             ));
         }
 
-        $oldVersion = $this->modules[$id]['db']['version'];
-        $newVersion = $this->modules[$id]['ini']['version'];
+        $oldVersion = $module->getDb('version');
+        $newVersion = $module->getIni('version');
 
         // Invoke the module's upgrade method
-        $this->getModuleObject($id)->upgrade(
+        $this->getModuleObject($module)->upgrade(
             $oldVersion,
             $newVersion,
             $this->getServiceLocator()
         );
 
         // Update the module entity
-        $module = $this->findModule($id);
-        if ($module instanceof Module) {
-            $module->setVersion($newVersion);
+        $entity = $this->getModuleEntity($module);
+        if ($entity instanceof ModuleEntity) {
+            $entity->setVersion($newVersion);
             $this->getEntityManager()->flush();
         } else {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
-                $t->translate('Module "%s" not found in database during upgrade'), $id
+                $t->translate('Module "%s" not found in database during upgrade'),
+                $module->getId()
             ));
         }
 
-        $this->setModuleState($id, $this->modules[$id]['db']['is_active']
+        $module->setState($module->getDb('is_active')
             ? self::STATE_ACTIVE : self::STATE_NOT_ACTIVE);
+    }
+
+    /**
+     * Get a module entity
+     *
+     * @param Module $module
+     * @return ModuleEntity|null
+     */
+    protected function getModuleEntity(Module $module)
+    {
+        return $this->getEntityManager()
+            ->getRepository('Omeka\Model\Entity\Module')
+            ->findOneById($module->getId());
     }
 
     /**
@@ -430,32 +331,17 @@ class Manager implements ServiceLocatorAwareInterface
      * Get from Zend's module manager if loaded (i.e. active), otherwise
      * instantiate a new module object.
      *
-     * @param string $id
-     * @param string $methodName
+     * @param Module $module
      */
-    protected function getModuleObject($id)
+    protected function getModuleObject(Module $module)
     {
-        $this->moduleIsRegistered($id, true);
         $module = $this->getServiceLocator()
-            ->get('ModuleManager')->getModule($id);
+            ->get('ModuleManager')->getModule($module->getId());
         if (null !== $module) {
             return $module;
         }
         $moduleClass = "$id\Module";
         return new $moduleClass;
-    }
-
-    /**
-     * Find a module entity
-     *
-     * @param string $id
-     * @return Module|null
-     */
-    protected function findModule($id)
-    {
-        return $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Module')
-            ->findOneById($id);
     }
 
     /**

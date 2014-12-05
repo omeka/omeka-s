@@ -9,8 +9,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <form method="get" class="state-filter">
     <select name="state">
         <option value=""><?php echo $escape($this->translate('All Modules')); ?></option>
-        <?php foreach ($states as $value => $option): ?>
-        <option value="<?php echo $escapeAttr($value); ?>"<?php if ($value == $state): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+        <?php foreach ($filterStates as $value => $option): ?>
+        <option value="<?php echo $escapeAttr($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
         <?php endforeach; ?>
     </select>
 </form>
@@ -25,16 +25,16 @@ $(".state-filter select").change(function() {
 <form method="post">
 
 <div id="page-actions">
-    <?php if ('active' == $state): ?>
+    <?php if ('active' == $filterState): ?>
     <button><?php echo $this->escapeHtml($this->translate('Deactivate Selected')); ?></button>
-    <?php elseif ('not_active' == $state): ?>
+    <?php elseif ('not_active' == $filterState): ?>
     <button><?php echo $this->escapeHtml($this->translate('Activate Selected')); ?></button>
     <?php endif; ?>
 </div>
 
 <table id="modules">
     <thead>
-        <?php if ('active' == $state || 'not_active' == $state): ?>
+        <?php if ('active' == $filterState || 'not_active' == $filterState): ?>
         <td></td>
         <?php endif; ?>
         <th><?php echo $escape($this->translate('Module')); ?></th>
@@ -43,9 +43,9 @@ $(".state-filter select").change(function() {
     <tbody>
         <?php foreach ($modules as $id => $module): ?>
         <tr>
-            <?php if ('active' == $state): ?>
+            <?php if ('active' == $filterState): ?>
             <td><input type="checkbox" id="<?php echo $escapeAttr('row-' . $id); ?>" name="deactivate[]" value="<?php echo $escapeAttr($id); ?>"><label class="screen-reader-text" for="<?php echo $escapeAttr('row-' . $id); ?>">Select row</label></td>
-            <?php elseif ('not_active' == $state): ?>
+            <?php elseif ('not_active' == $filterState): ?>
             <td><input type="checkbox" id="<?php echo $escapeAttr('row-' . $id); ?>" name="activate[]" value="<?php echo $escapeAttr($id); ?>"><label class="screen-reader-text" for="<?php echo $escapeAttr('row-' . $id); ?>">Select row</label></td>
             <?php endif; ?>
             <td>

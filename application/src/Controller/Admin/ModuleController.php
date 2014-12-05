@@ -75,7 +75,13 @@ class ModuleController extends AbstractActionController
 
         // Get modules, filtering modules by state.
         $state = $this->params()->fromQuery('state');
-        if ($state) {
+        if ('error' == $state) {
+            $modules = array_merge(
+                $manager->getModulesByState('not_found'),
+                $manager->getModulesByState('invalid_module'),
+                $manager->getModulesByState('invalid_ini')
+            );
+        } elseif ($state) {
             $modules = $manager->getModulesByState($state);
         } else {
             $modules = $manager->getModules();
@@ -87,7 +93,14 @@ class ModuleController extends AbstractActionController
         });
 
         $view->setVariable('modules', $modules);
-        $view->setVariable('state', $state);
+        $view->setVariable('filterState', $state);
+        $view->setVariable('filterStates', array(
+            'active'        => $this->translate('Active'),
+            'not_active'    => $this->translate('Not Active'),
+            'not_installed' => $this->translate('Not Installed'),
+            'needs_upgrade' => $this->translate('Needs Upgrade'),
+            'error'         => $this->translate('Error'),
+        ));
         $view->setVariable('states', array(
             'active'         => $this->translate('Active'),
             'not_active'     => $this->translate('Not Active'),

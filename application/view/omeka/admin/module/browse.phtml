@@ -56,8 +56,6 @@ $(".state-filter select").change(function() {
                 <?php endif; ?>
                 <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
                 <span class="module-version"><?php echo $this->translate(sprintf('version %s', $versionIni ?: $versionDb)); ?></span>
-                <?php else: ?>
-                [version not found]
                 <?php endif; ?>
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author"><?php echo $this->translate(sprintf('by %s', $this->hyperlink($author, $module->getIni('author_link')))); ?></span>

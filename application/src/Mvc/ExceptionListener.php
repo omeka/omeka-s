@@ -51,7 +51,8 @@ class ExceptionListener extends AbstractListenerAggregate
         ) {
             $template = 'error/403';
             $status = 403;
-        } else if ($exception instanceof ApiException\NotFoundException) {
+        } else if ($exception instanceof ApiException\NotFoundException
+            || $exception instanceof MvcException\NotFoundException) {
             $template = 'error/404';
             $status = 404;
         } else {

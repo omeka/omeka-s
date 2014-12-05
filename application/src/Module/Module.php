@@ -129,6 +129,9 @@ class Module
         if ($name = $this->getDb('id')) {
             return $name;
         }
+        if ($name = $this->getId()) {
+            return $name;
+        }
         // Could not find a name.
         return null;
     }

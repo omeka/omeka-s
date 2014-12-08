@@ -585,17 +585,43 @@ div[role="main"] {
     display: inline-block;
 }
 
-.actions li {
-    margin-left: .25em;
+.actions a,
+.actions a:before,
+.actions button,
+.actions button:before {
+    width: $base-line-height;
+    height: $base-line-height;
+    line-height: $base-line-height;
+    vertical-align: top;
+    text-align: center;
 }
 
-.actions a {
+.actions a,
+.actions button {
     opacity: .5;
 }
 
 .actions a:hover,
-.actions a:active {
+.actions a:active,
+.actions button:hover {
     opacity: 1;
+}
+
+.actions button {
+    background-color: transparent;
+    color: lighten($red, 20%);
+    margin: 0;
+    text-indent: -9999px;
+    position: relative;
+    padding: 0;
+    min-height: 0;
+    
+    &:before {
+        text-indent: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .resource-name {
@@ -1952,6 +1978,10 @@ body.show .property {
 #modules.active tbody tr:not(.active),
 #modules.deactivated tbody tr:not(.deactivated) {
     display: none;
+}
+
+.state-filter select {
+    @include trailer(.5);
 }
 
 /* @end */

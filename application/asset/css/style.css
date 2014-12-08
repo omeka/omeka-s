@@ -1129,7 +1129,7 @@ th {
     margin-bottom: 1.5em;
   }
 
-  #sidebar-delete-content {
+  #sidebar-confirm {
     display: block;
     background-color: #ccc;
     -moz-box-sizing: content-box;
@@ -1148,7 +1148,7 @@ th {
     padding-bottom: 1.5em;
     margin-bottom: 1.5em;
   }
-  #sidebar-delete-content button {
+  #sidebar-confirm button {
     margin-bottom: 0em;
   }
 

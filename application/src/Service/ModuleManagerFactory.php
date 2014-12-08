@@ -21,8 +21,8 @@ class ModuleManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $modules    = new ModuleManager;
-        $iniReader  = new IniReader;
+        $manager = new ModuleManager;
+        $iniReader = new IniReader;
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
@@ -33,28 +33,27 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            $modules->registerModule($dir->getBasename());
+            $module = $manager->registerModule($dir->getBasename());
 
             // Module directory must contain config/module.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
             if (!$iniFile->isReadable() || !$iniFile->isFile()) {
-                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_INI);
+                $module->setState(ModuleManager::STATE_INVALID_INI);
                 continue;
             }
 
-            $moduleIni = $iniReader->fromFile($iniFile->getRealPath());
-            $modules->setModuleIni($dir->getBasename(), $moduleIni);
+            $module->setIni($iniReader->fromFile($iniFile->getRealPath()));
 
             // Module INI must be valid
-            if (!$modules->moduleIniIsValid($moduleIni)) {
-                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_INI);
+            if (!$manager->iniIsValid($module)) {
+                $module->setState(ModuleManager::STATE_INVALID_INI);
                 continue;
             }
 
             // Module directory must contain Module.php
             $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
             if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
-                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_MODULE);
+                $module->setState(ModuleManager::STATE_INVALID_MODULE);
                 continue;
             }
 
@@ -64,7 +63,7 @@ class ModuleManagerFactory implements FactoryInterface
             if (!class_exists($moduleClass)
                 || !is_subclass_of($moduleClass, 'Omeka\Module\AbstractModule')
             ) {
-                $modules->setModuleState($dir->getBasename(), ModuleManager::STATE_INVALID_MODULE);
+                $module->setState(ModuleManager::STATE_INVALID_MODULE);
                 continue;
             }
         }
@@ -79,44 +78,45 @@ class ModuleManagerFactory implements FactoryInterface
 
         foreach ($dbModules as $moduleRow) {
 
-            if (!$modules->moduleIsRegistered($moduleRow['id'])) {
+            if (!$manager->isRegistered($moduleRow['id'])) {
                 // Module installed but not in filesystem
-                $modules->registerModule($moduleRow['id']);
-                $modules->setModuleDb($moduleRow['id'], $moduleRow);
-                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NOT_FOUND);
+                $module = $manager->registerModule($moduleRow['id']);
+                $module->setDb($moduleRow);
+                $module->setState(ModuleManager::STATE_NOT_FOUND);
                 continue;
             }
 
-            $modules->setModuleDb($moduleRow['id'], $moduleRow);
+            $module = $manager->getModule($moduleRow['id']);
+            $module->setDb($moduleRow);
 
-            if ($modules->moduleHasState($moduleRow['id'])) {
+            if ($module->getState()) {
                 // Module already has state.
                 continue;
             }
 
-            $moduleIni = $modules->getModuleIni($moduleRow['id']);
+            $moduleIni = $module->getIni();
             if (version_compare($moduleIni['version'], $moduleRow['version'], '>')) {
                 // Module in filesystem is newer version than the installed one.
-                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NEEDS_UPGRADE);
+                $module->setState(ModuleManager::STATE_NEEDS_UPGRADE);
                 continue;
             }
 
             if ($moduleRow['is_active']) {
                 // Module valid, installed, and active
-                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_ACTIVE);
+                $module->setState(ModuleManager::STATE_ACTIVE);
             } else {
                 // Module valid, installed, and not active
-                $modules->setModuleState($moduleRow['id'], ModuleManager::STATE_NOT_ACTIVE);
+                $module->setState(ModuleManager::STATE_NOT_ACTIVE);
             }
         }
 
-        foreach ($modules->getModules() as $id => $info) {
-            if (!$modules->moduleHasState($id)) {
+        foreach ($manager->getModules() as $id => $module) {
+            if (!$module->getState()) {
                 // Module in filesystem but not installed
-                $modules->setModuleState($id, ModuleManager::STATE_NOT_INSTALLED);
+                $module->setState(ModuleManager::STATE_NOT_INSTALLED);
             }
         }
 
-        return $modules;
+        return $manager;
     }
 }

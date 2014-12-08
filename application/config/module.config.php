@@ -97,6 +97,7 @@ return array(
         'invokables' => array(
             'value'          => 'Omeka\View\Helper\Value',
             'htmlElement'    => 'Omeka\View\Helper\HtmlElement',
+            'hyperlink'      => 'Omeka\View\Helper\Hyperlink',
             'messages'       => 'Omeka\View\Helper\Messages',
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
             'sortLink'       => 'Omeka\View\Helper\SortLink',
@@ -217,7 +218,6 @@ return array(
                 'label'      => 'Modules',
                 'route'      => 'admin/default',
                 'controller' => 'module',
-                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Module',
                 'class'      => 'modules',
             ),

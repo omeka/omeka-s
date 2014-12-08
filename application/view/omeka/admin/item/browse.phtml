@@ -36,14 +36,14 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         'title' => $this->translate('Edit'),
                     )); ?></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
-                        data-delete-action="<?php echo $escapeAttr($item->url('delete')); ?>"
-                        class="o-icon-delete sidebar-delete"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escapeAttr($item->url('delete')); ?>"
+                        class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                     <li><a href="#"
-                        data-show-details-action="<?php echo $escapeAttr($item->url('show-details')); ?>"
-                        class="o-icon-more sidebar-details"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                 </ul>
@@ -60,7 +60,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
-    <div id="sidebar-delete-content">
+    <div id="sidebar-confirm">
         <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
         <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
         <?php echo $this->form()->openTag($deleteForm); ?>

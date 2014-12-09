@@ -217,7 +217,6 @@ return array(
                 'label'      => 'Modules',
                 'route'      => 'admin/default',
                 'controller' => 'module',
-                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Module',
                 'class'      => 'modules',
             ),

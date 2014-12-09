@@ -29,6 +29,16 @@ class Module
     }
 
     /**
+     * Get the module identifier.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set the module state.
      *
      * @param string $state
@@ -104,5 +114,25 @@ class Module
     public function isConfigurable()
     {
         return (bool) $this->getIni('configurable');
+    }
+
+    /**
+     * Get the name of this module.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        if ($name = $this->getIni('name')) {
+            return $name;
+        }
+        if ($name = $this->getDb('id')) {
+            return $name;
+        }
+        if ($name = $this->getId()) {
+            return $name;
+        }
+        // Could not find a name.
+        return null;
     }
 }

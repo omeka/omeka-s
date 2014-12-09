@@ -11,6 +11,7 @@ use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -79,6 +80,7 @@ abstract class AbstractModule implements
      * Handle this module's configuration form.
      *
      * @param AbstractController $controller
+     * @return bool False if there was an error during handling
      */
     public function handleConfigForm(AbstractController $controller)
     {}

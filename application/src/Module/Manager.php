@@ -148,7 +148,7 @@ class Manager implements ServiceLocatorAwareInterface
         if (self::STATE_NOT_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be activated'),
-                $id, $module->getState()
+                $module->getId(), $module->getState()
             ));
         }
 
@@ -179,7 +179,7 @@ class Manager implements ServiceLocatorAwareInterface
         if (self::STATE_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be deactivated'),
-                $id, $module->getState()
+                $module->getId(), $module->getState()
             ));
         }
 
@@ -208,7 +208,7 @@ class Manager implements ServiceLocatorAwareInterface
         if (self::STATE_NOT_INSTALLED !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $this->getTranslator()->translate('Module "%s" is marked as "%s" and cannot be installed'),
-                $id, $module->getState()
+                $module->getId(), $module->getState()
             ));
         }
 
@@ -245,7 +245,7 @@ class Manager implements ServiceLocatorAwareInterface
         ))) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be uninstalled'),
-                $id, $module->getState()
+                $module->getId(), $module->getState()
             ));
         }
 
@@ -282,7 +282,7 @@ class Manager implements ServiceLocatorAwareInterface
         if (self::STATE_NEEDS_UPGRADE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be upgraded'),
-                $id, $module->getState()
+                $module->getId(), $module->getState()
             ));
         }
 
@@ -335,12 +335,12 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function getModuleObject(Module $module)
     {
-        $module = $this->getServiceLocator()
+        $moduleObject = $this->getServiceLocator()
             ->get('ModuleManager')->getModule($module->getId());
-        if (null !== $module) {
-            return $module;
+        if (null !== $moduleObject) {
+            return $moduleObject;
         }
-        $moduleClass = "$id\Module";
+        $moduleClass = $module->getId() . "\Module";
         return new $moduleClass;
     }
 

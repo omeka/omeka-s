@@ -17,6 +17,11 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     protected $translator;
 
     /**
+     * @var HelperPluginManager
+     */
+    protected $viewHelperManager;
+
+    /**
      * Construct the object.
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -47,5 +52,20 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
+    }
+
+    /**
+     * Get a view helper from the manager.
+     *
+     * @param string $name
+     * @return TranslatorInterface
+     */
+    protected function getViewHelper($name)
+    {
+        if (!$this->viewHelperManager instanceof HelperPluginManager) {
+            $this->viewHelperManager = $this->getServiceLocator()
+                ->get('ViewHelperManager');
+        }
+        return $this->viewHelperManager->get($name);
     }
 }

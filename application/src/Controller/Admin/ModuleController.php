@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ModuleStateChangeForm;
+use Omeka\Form\ModuleUninstallForm;
 use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -60,6 +61,7 @@ class ModuleController extends AbstractActionController
                 array('module_action' => $action, 'module_id' => $id)
             );
         });
+        $view->setVariable('uninstallForm', new ModuleUninstallForm($this->getServiceLocator()));
         return $view;
     }
 
@@ -71,7 +73,7 @@ class ModuleController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
-        $id = $this->params()->fromPost('id');
+        $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
             array('module_action' => 'install', 'module_id' => $id)
         );
@@ -103,7 +105,7 @@ class ModuleController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
-        $id = $this->params()->fromPost('id');
+        $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
             array('module_action' => 'uninstall', 'module_id' => $id)
         );
@@ -129,7 +131,7 @@ class ModuleController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
-        $id = $this->params()->fromPost('id');
+        $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
             array('module_action' => 'activate', 'module_id' => $id)
         );
@@ -155,7 +157,7 @@ class ModuleController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
-        $id = $this->params()->fromPost('id');
+        $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
             array('module_action' => 'deactivate', 'module_id' => $id)
         );
@@ -181,7 +183,7 @@ class ModuleController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
-        $id = $this->params()->fromPost('id');
+        $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
             array('module_action' => 'upgrade', 'module_id' => $id)
         );
@@ -229,6 +231,21 @@ class ModuleController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('module', $module);
         $view->setVariable('configForm', $moduleObject->getConfigForm($view));
+        return $view;
+    }
+
+    public function showDetailsAction()
+    {
+        $id = $this->params()->fromQuery('id');
+        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
+        $module = $manager->getModule($id);
+        if (!$module) {
+            throw new Exception\NotFoundException;
+        }
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('module', $module);
         return $view;
     }
 }

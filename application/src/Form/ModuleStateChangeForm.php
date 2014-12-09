@@ -14,25 +14,18 @@ class ModuleStateChangeForm extends AbstractForm
             case 'install':
                 $action = $url(
                     'admin/default',
-                    array('controller' => 'module', 'action' => 'install')
+                    array('controller' => 'module', 'action' => 'install'),
+                    array('query' => array('id' => $this->getOption('module_id')))
                 );
                 $label = $translator->translate('Install');
                 $title = $translator->translate('Install');
                 $class = 'o-icon-install';
                 break;
-            case 'uninstall':
-                $action = $url(
-                    'admin/default',
-                    array('controller' => 'module', 'action' => 'uninstall')
-                );
-                $label = $translator->translate('Uninstall');
-                $title = $translator->translate('Uninstall');
-                $class = 'o-icon-uninstall';
-                break;
             case 'activate':
                 $action = $url(
                     'admin/default',
-                    array('controller' => 'module', 'action' => 'activate')
+                    array('controller' => 'module', 'action' => 'activate'),
+                    array('query' => array('id' => $this->getOption('module_id')))
                 );
                 $label = $translator->translate('Activate');
                 $title = $translator->translate('Activate');
@@ -41,7 +34,8 @@ class ModuleStateChangeForm extends AbstractForm
             case 'deactivate':
                 $action = $url(
                     'admin/default',
-                    array('controller' => 'module', 'action' => 'deactivate')
+                    array('controller' => 'module', 'action' => 'deactivate'),
+                    array('query' => array('id' => $this->getOption('module_id')))
                 );
                 $label = $translator->translate('Deactivate');
                 $title = $translator->translate('Deactivate');
@@ -50,7 +44,8 @@ class ModuleStateChangeForm extends AbstractForm
             case 'upgrade':
                 $action = $url(
                     'admin/default',
-                    array('controller' => 'module', 'action' => 'upgrade')
+                    array('controller' => 'module', 'action' => 'upgrade'),
+                    array('query' => array('id' => $this->getOption('module_id')))
                 );
                 $label = $translator->translate('Upgrade');
                 $title = $translator->translate('Upgrade');
@@ -70,7 +65,6 @@ class ModuleStateChangeForm extends AbstractForm
             ),
             'attributes' => array(
                 'type' => 'submit',
-                'value' => $this->getOption('module_id'),
                 'title' => $title,
                 'class' => $class,
             ),

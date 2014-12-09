@@ -17,32 +17,14 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php if ($modules): ?>
 
-<div id="page-actions">
-    <?php if ('active' == $filterState): ?>
-    <form id="bulk-action-form" method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'deactivate'), true)); ?>">
-        <button><?php echo $this->escapeHtml($this->translate('Deactivate Selected')); ?></button>
-    </form>
-    <?php elseif ('not_active' == $filterState): ?>
-    <form id="bulk-action-form" method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'activate'), true)); ?>">
-        <button><?php echo $this->escapeHtml($this->translate('Activate Selected')); ?></button>
-    </form>
-    <?php endif; ?>
-</div>
-
 <table id="modules">
     <thead>
-        <?php if ('active' == $filterState || 'not_active' == $filterState): ?>
-        <td></td>
-        <?php endif; ?>
         <th><?php echo $escape($this->translate('Module')); ?></th>
         <th><?php echo $escape($this->translate('Status')); ?></th>
     </thead>
     <tbody>
         <?php foreach ($modules as $id => $module): ?>
         <tr>
-            <?php if ('active' == $filterState || 'not_active' == $filterState): ?>
-            <td><input type="checkbox" id="<?php echo $escapeAttr('row-' . $id); ?>" name="ids[]" value="<?php echo $escapeAttr($id); ?>"><label class="screen-reader-text" for="<?php echo $escapeAttr('row-' . $id); ?>">Select row</label></td>
-            <?php endif; ?>
             <td>
                 <?php if ($name = $module->getName()): ?>
                 <span class="module-name"><?php echo $this->hyperlink($name, $module->getIni('module_link')); ?></span>
@@ -57,50 +39,65 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <?php endif; ?>
 
                 <ul class="actions">
-                    <?php if ('not_installed' == $module->getState()): ?>
-                    <!-- install control -->
-                    <li><form method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'install'), true)); ?>">
-                        <button class="o-icon-install" name="id" title="<?php echo $escapeAttr($this->translate('Install')); ?>" value="<?php echo $escapeAttr($module->getId()); ?>"><?php echo $escape($this->translate('Install')); ?></button>
-                    </form></li>
-                    <?php endif; ?>
 
-                    <?php if ('active' == $module->getState() && $module->isConfigurable()): ?>
-                    <!-- configure control -->
-                    <li><?php echo $this->hyperlink('',
-                        $this->url(null, array('action' => 'configure'), array('query' => array('id' => $module->getId())), true),
-                        array('class' => 'o-icon-configure', 'title' => $this->translate('Configure'), 'aria-label' => $this->translate('Configure'))
-                    ); ?></li>
-                    <?php endif; ?>
+                    <?php
+                    // configure control
+                    if ('active' == $module->getState() && $module->isConfigurable()) {
+                        echo '<li>' . $this->hyperlink('',
+                            $this->url(
+                                null,
+                                array('action' => 'configure'),
+                                array('query' => array('id' => $module->getId())
+                            ), true),
+                            array(
+                                'class' => 'o-icon-configure',
+                                'title' => $this->translate('Configure'),
+                                'aria-label' => $this->translate('Configure')
+                            )
+                        ) . '</li>';
+                    }
+                    ?>
 
-                    <?php if ('active' == $module->getState()): ?>
-                    <!-- deactivate control -->
-                    <li><form method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'deactivate'), true)); ?>">
-                        <button class="o-icon-deactivate" name="id" title="<?php echo $escapeAttr($this->translate('Deactivate')); ?>" value="<?php echo $escapeAttr($module->getId()); ?>"><?php echo $escape($this->translate('Deactivate')); ?></button>
-                    </form></li>
-                    <?php endif; ?>
+                    <?php
+                    // activate control
+                    if ('not_active' == $module->getState()) {
+                        $form = $stateChangeForm('activate', $module->getId());
+                        echo '<li>' . $this->form($form) . '</li>';
+                    }
+                    ?>
 
-                    <?php if ('not_active' == $module->getState()): ?>
-                    <!-- activate control -->
-                    <li><form method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'activate'), true)); ?>">
-                        <button class="o-icon-activate" name="id" title="<?php echo $escapeAttr($this->translate('Activate')); ?>" value="<?php echo $escapeAttr($module->getId()); ?>"><?php echo $escape($this->translate('Activate')); ?></button>
-                    </form></li>
-                    <?php endif; ?>
+                    <?php
+                    // deactivate control
+                    if ('active' == $module->getState()) {
+                        $form = $stateChangeForm('deactivate', $module->getId());
+                        echo '<li>' . $this->form($form) . '</li>';
+                    }
+                    ?>
 
-                    <?php if (in_array($module->getState(), array('active', 'not_active'))): ?>
-                    <!-- uninstall control -->
-                    <li><form method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'uninstall'), true)); ?>">
-                        <button class="o-icon-uninstall" name="id" title="<?php echo $escapeAttr($this->translate('Uninstall')); ?>" value="<?php echo $escapeAttr($module->getId()); ?>"><?php echo $escape($this->translate('Uninstall')); ?></button>
-                    </form></li>
-                    <?php endif; ?>
+                    <?php
+                    // install control
+                    if ('not_installed' == $module->getState()) {
+                        $form = $stateChangeForm('install', $module->getId());
+                        echo '<li>' . $this->form($form) . '</li>';
+                    }
+                    ?>
 
-                    <?php if ('needs_upgrade' == $module->getState()): ?>
-                    <!-- upgrade control -->
-                    <li><form method="post" action="<?php echo $escapeAttr($this->url(null, array('action' => 'upgrade'), true)); ?>">
-                        <button class="o-icon-upgrade" name="id" title="<?php echo $escapeAttr($this->translate('Upgrade')); ?>" value="<?php echo $escapeAttr($module->getId()); ?>"><?php echo $escape($this->translate('Upgrade')); ?></button>
-                    </form></li>
-                    <?php endif; ?>
+                    <?php
+                    // uninstall control
+                    if (in_array($module->getState(), array('active', 'not_active'))) {
+                        $form = $stateChangeForm('uninstall', $module->getId());
+                        echo '<li>' . $this->form($form) . '</li>';
+                    }
+                    ?>
 
-                    <!-- more control -->
+                    <?php
+                    // upgrade control
+                    if ('needs_upgrade' == $module->getState()) {
+                        $form = $stateChangeForm('upgrade', $module->getId());
+                        echo '<li>' . $this->form($form) . '</li>';
+                    }
+                    ?>
+
                     <li><a href="#" class="o-icon-more" title="More details" aria-label="More details"></a></li>
                 </ul>
             </td>
@@ -121,12 +118,5 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <script>
 $(".state-filter select").change(function() {
     $(this).closest('form').submit();
-});
-
-$('#bulk-action-form').submit(function(event) {
-    var form = $(this);
-    $('#modules input:checked').each(function(index) {
-        form.append($(this).attr('type', 'hidden'));
-    });
 });
 </script>

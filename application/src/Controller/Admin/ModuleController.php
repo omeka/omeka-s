@@ -106,9 +106,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
-            array('module_action' => 'uninstall', 'module_id' => $id)
-        );
+        $form = new ModuleUninstallForm($this->getServiceLocator());
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;

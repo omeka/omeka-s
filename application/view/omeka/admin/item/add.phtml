@@ -2,6 +2,7 @@
 $this->htmlElement('body')->appendAttribute('class', 'add item');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/item-form.js', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/item-form.css', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
@@ -160,7 +161,10 @@ if (isset($errors)) {
             </li>
         </ul>
 
-        <a href="#resource-select" class="button resource-select">Select Omeka Resource</a>
+        <a href="#resource-select" 
+           class="button resource-select"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+           >Select Omeka Resource</a>
     </div>
      <button class="remove-value">Remove value</button>
 </div>

@@ -81,7 +81,7 @@
         });
 
         // Set property
-        addEditItems.on('click', '.set-property', function(e) {
+        addEditItems.on('click', '.set-property-button', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var propertyLi = $(this).closest('.property');
@@ -219,7 +219,7 @@
 
     var makeNewValue = function(qName) {
         var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
-        var newValue = $('.value.template ').clone();
+        var newValue = $('.value.template ').clone(true);
         newValue.removeClass('template');
         var count = valuesWrapper.find('input.value').length;
         $('.inputs', valuesWrapper).append(newValue);

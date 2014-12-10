@@ -1,8 +1,7 @@
 <div class='property-selector'>
     <input type="text" title="new-property-name" placeholder="Property name">
-    <div class='properties'>
         <ul>
-            <li class='all-vocabs'>Vocabularies (<span class='count'><?php echo count($vocabularies); ?></span>)
+            <li class=''>Vocabularies (<span class='count'><?php echo count($vocabularies); ?></span>)
                 <ul>
                     <?php foreach ($vocabularies as $vocabulary): ?>
                     <li class='vocabulary'><?php echo $vocabulary->label(); ?>
@@ -27,5 +26,4 @@
                 </ul>
             </li>
         </ul>
-    </div>
 </div>

@@ -643,7 +643,9 @@ th {
   }
 
   fieldset {
-    margin-bottom: 1.5em;
+    margin: 0 0 1.5em;
+    border: 0;
+    padding: 0;
   }
 
   .property-selector input[type="text"],

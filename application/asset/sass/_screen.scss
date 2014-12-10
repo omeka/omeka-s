@@ -219,7 +219,9 @@ body {
     }
         
     fieldset {
-        @include trailer();
+        margin: 0 0 rhythm();
+        border: 0;
+        padding: 0;
     }
     
     .property-selector input[type="text"],

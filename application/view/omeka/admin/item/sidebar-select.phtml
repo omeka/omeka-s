@@ -1,0 +1,41 @@
+<?php 
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+
+<h1>Select Resource</h1>
+<div class="search-nav">
+    <div class="resource-search">
+        <input type="text" id="resource-list-search">
+        <button type="submit" class="o-icon-search">Search</button>
+    </div>
+    
+    <nav class="pagination">
+        <h2 class="screen-reader-text">Pagination</h2>
+        <ul>
+            <li>Page <input type="text" class="page-input" value="1"> of 4</li>
+            <li><a href="#" class="first o-icon-first button"><span class="screen-reader-text">First</span></a></li>
+            <li><a href="#" class="previous o-icon-prev button"><span class="screen-reader-text">Previous</span></a></li>
+            <li><a href="#" class="next o-icon-next button"><span class="screen-reader-text">Next</span></a></li>
+            <li><a href="#" class="last o-icon-last button"><span class="screen-reader-text">Last</span></a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="resource-list">
+
+<!-- here to let me work on the javascript and ajax for showing resource details -->
+    <?php foreach ($items as $item):?>
+    <div class="item">
+        <div class="placeholder"></div>
+        <span class="resource-name">
+            <a href="#"
+            class="sidebar-content"
+            data-resource-id="<?php echo $item->id(); ?>"
+            data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"><?php echo $item->displayTitle('[untitled]'); ?></a></span>
+        <button class="select">Select</button>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+

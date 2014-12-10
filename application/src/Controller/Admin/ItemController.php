@@ -62,6 +62,20 @@ class ItemController extends AbstractActionController
         $view->setVariable('item', $response->getContent());
         return $view;
     }
+    
+    public function sidebarSelectAction()
+    {
+        $view = new ViewModel;
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('items', $query);
+
+        $this->paginator($response->getTotalResults(), $page);
+        $view->setVariable('items', $response->getContent());
+        
+        $view->setTerminal(true);
+        return $view;
+    }
 
     public function deleteAction()
     {

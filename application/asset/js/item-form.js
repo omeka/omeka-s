@@ -118,16 +118,45 @@
 
         // Attach sidebar triggers
 
+        $(document).bind('o:sidebar-content-loaded', function() {
+            var sidebar = $('#content > .sidebar');
+            Omeka.attachSidebarHandlers(sidebar);
+            $('div.resource-list a.sidebar-content').on('click', function() {
+                var resourceId = $(this).data('resource-id');
+                $('#select-item a').data('resource-id', resourceId);
+            });
+        });
+        
         $('#select-item a').click(function(e) {
             e.preventDefault();
-            selectResource();
+            var title = $('#resource-details .o-title').html();
+            var resourceId = $(this).data('resource-id');
+            var propertyQname = $(this).data('property-qname');
+            var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
+            var count = valuesWrapper.find('input.value').length;
+            var ul = jQuery("div[data-property-qname = '" + propertyQname + "'] ul.selected-resources");
+            var newResource = $("li.selected-resource.template", ul).clone();
+            newResource.removeClass('template');
+            newResource.find('span.o-title').html(title);
+            var valueInput = $('input.value', newResource); 
+            valueInput.attr('name', propertyQname + '[' + count + '][value_resource_id]');
+            valueInput.val(resourceId);
+            var propertyInput = $('input.property', newResource);
+            propertyInput.attr('name', propertyQname + '[' + count + '][property_id]');
+            propertyInput.val(valuesWrapper.data('property-id'));
+            ul.append(newResource);
+            if ($('li', ul).length == 1) {
+                ul.siblings('span').show();
+            } else {
+                ul.siblings('span').hide();
+            }
         });
 
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
             var qName = context.parents('.resource-values').data('property-qname');
-            $('#resource-details').data('property-qname', qName);
+            $('#select-item a').data('property-qname', qName);
             Omeka.openSidebar(context);
         });
         
@@ -214,33 +243,7 @@
     };
 
     var selectResource = function() {
-        var resource = $('#resource-details');
-        var propertyQname = resource.data('property-qname');
-        var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
-        var count = valuesWrapper.find('input.value').length;
-        var ul = jQuery("div[data-property-qname = '" + propertyQname + "'] ul.selected-resources");
-        var newResource = $("li.selected-resource.template", ul).clone();
-        newResource.removeClass('template');
-        $('span', newResource).html($('.o-title', resource).html());
-        var valueInput = $('input.value', newResource); 
-        valueInput.attr('name', propertyQname + '[' + count + '][value_resource_id]');
-        valueInput.val(resource.data('resource-id'));
-        var propertyInput = $('input.property', newResource);
-        propertyInput.attr('name', propertyQname + '[' + count + '][property_id]');
-        propertyInput.val(valuesWrapper.data('property-id'));
-        ul.append(newResource);
-        if ($('li', ul).length == 1) {
-            ul.siblings('span').show();
-        } else {
-            ul.siblings('span').hide();
-        }
-    };
 
-    var openSidebar = function(element) {
-        element.addClass('active');
-        if (!$('#content').hasClass('sidebar-open')) {
-            $('#content').addClass('sidebar-open');
-        }
     };
 
     var cleanText = function(text) {

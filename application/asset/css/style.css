@@ -513,6 +513,40 @@ th {
     border-color: #d7d7d7;
   }
 
+  .browse table,
+  .edit table,
+  .add table {
+    margin-bottom: 0.75em;
+  }
+
+  .browse tr,
+  .edit tr,
+  .add tr {
+    background-color: #f2f2f2;
+  }
+
+  .browse td,
+  .browse th,
+  .edit td,
+  .edit th,
+  .add td,
+  .add th {
+    padding: 0.375em 0.5em;
+    position: relative;
+    vertical-align: top;
+  }
+
+  .browse tr:last-of-type td,
+  .browse tr:last-of-type th,
+  .edit tr:last-of-type td,
+  .edit tr:last-of-type th,
+  .add tr:last-of-type td,
+  .add tr:last-of-type th {
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
   /* @end */
   /* @group ----- Form elements ----- */
   input,
@@ -957,14 +991,6 @@ th {
 
   /* @end */
   /* @group ----- Browse views ----- */
-  .browse table {
-    margin-bottom: 0.75em;
-  }
-
-  .browse tr {
-    background-color: #f2f2f2;
-  }
-
   .browse .resource-name {
     display: block;
     float: left;
@@ -972,20 +998,6 @@ th {
     max-width: calc(100% - 5.5em);
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .browse td,
-  .browse th {
-    padding: 0.375em 0.5em;
-    position: relative;
-    vertical-align: top;
-  }
-
-  .browse tr:last-of-type td,
-  .browse tr:last-of-type th {
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.3125em;
   }
 
   .browse .add.button,

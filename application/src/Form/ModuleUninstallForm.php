@@ -14,10 +14,5 @@ class ModuleUninstallForm extends AbstractForm
                 'value' => $translator->translate('Confirm Uninstall'),
             ),
         ));
-
-        $this->add(array(
-            'type' => 'csrf',
-            'name' => 'csrf',
-        ));
     }
 }

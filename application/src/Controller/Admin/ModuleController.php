@@ -57,11 +57,13 @@ class ModuleController extends AbstractActionController
             'invalid_ini'    => $this->translate('Invalid Ini'),
         ));
         $view->setVariable('stateChangeForm', function ($action, $id) {
-            return new ModuleStateChangeForm($this->getServiceLocator(), null,
+            return new ModuleStateChangeForm($this->getServiceLocator(), $action,
                 array('module_action' => $action, 'module_id' => $id)
             );
         });
-        $view->setVariable('uninstallForm', new ModuleUninstallForm($this->getServiceLocator()));
+        $view->setVariable('uninstallForm', new ModuleUninstallForm(
+            $this->getServiceLocator(), 'uninstall'
+        ));
         return $view;
     }
 
@@ -74,7 +76,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
+        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'install',
             array('module_action' => 'install', 'module_id' => $id)
         );
         $form->setData($this->getRequest()->getPost());
@@ -106,7 +108,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleUninstallForm($this->getServiceLocator());
+        $form = new ModuleUninstallForm($this->getServiceLocator(), 'uninstall');
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -130,7 +132,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
+        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'activate',
             array('module_action' => 'activate', 'module_id' => $id)
         );
         $form->setData($this->getRequest()->getPost());
@@ -156,7 +158,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
+        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'deactivate',
             array('module_action' => 'deactivate', 'module_id' => $id)
         );
         $form->setData($this->getRequest()->getPost());
@@ -182,7 +184,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), null,
+        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'upgrade',
             array('module_action' => 'upgrade', 'module_id' => $id)
         );
         $form->setData($this->getRequest()->getPost());

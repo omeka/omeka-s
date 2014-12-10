@@ -69,10 +69,5 @@ class ModuleStateChangeForm extends AbstractForm
                 'class' => $class,
             ),
         ));
-
-        $this->add(array(
-            'type' => 'csrf',
-            'name' => 'csrf',
-        ));
     }
 }

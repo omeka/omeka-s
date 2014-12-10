@@ -63,10 +63,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div id="sidebar-confirm">
         <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
         <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
-        <?php echo $this->form()->openTag($deleteForm); ?>
-        <?php echo $this->formElement($deleteForm->get('submit')); ?>
-        <?php echo $this->formElement($deleteForm->get('csrf')); ?>
-        <?php echo $this->form()->closeTag(); ?>
+        <?php echo $this->form($deleteForm); ?>
     </div>
     <div class="sidebar-content"></div>
 </div>

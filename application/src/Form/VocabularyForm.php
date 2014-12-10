@@ -27,10 +27,5 @@ class VocabularyForm extends AbstractForm
                 'info' => $translator->translate('A human-readable description of the vocabulary.'),
             ),
         ));
-
-        $this->add(array(
-            'type' => 'csrf',
-            'name' => 'csrf',
-        ));
     }
 }

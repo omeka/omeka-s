@@ -14,10 +14,5 @@ class DeleteForm extends AbstractForm
                 'value' => $translator->translate('Confirm Delete'),
             ),
         ));
-
-        $this->add(array(
-            'type' => 'csrf',
-            'name' => 'csrf',
-        ));
     }
 }

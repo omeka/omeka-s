@@ -44,33 +44,35 @@ var Omeka = {
             'type': 'get'
         }).done(function(data) {
             sidebarContent.html(data);
+            $(document).trigger('o:sidebar-content-loaded');
         }).error(function() {
             sidebarContent.html("<p>Something went wrong</p>");
         });
-    }
+    },
 
+    attachSidebarHandlers : function(context) {
+        if (typeof context == 'undefined') {
+            context = $('body');
+        }
+        context.find('a.sidebar-content, a.sidebar-confirm').click(function(e) {
+            e.preventDefault();
+            var context = $(this);
+            Omeka.openSidebar(context);
+        });
+
+        context.find('.sidebar-close').click(function(e) {
+            e.preventDefault();
+            var context = $(this);
+            Omeka.closeSidebar(context);
+        });
+    }
 };
 
 (function($, window, document) {
 
     $(function() {
 
-        // Code that depends on the DOM.
-
-        // Sidebar handling
-        $('.sidebar-content, .sidebar-confirm').click(function(e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.openSidebar(context);
-        });
-
-        $('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.closeSidebar(context);
-        });
-
-        // End Sidebar handling
+        Omeka.attachSidebarHandlers();
 
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {

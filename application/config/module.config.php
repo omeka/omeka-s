@@ -196,6 +196,18 @@ return array(
                         'controller' => 'resource-template',
                         'action'     => 'browse',
                         'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
+                        'pages'      => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'resource-template',
+                                'visible'    => false,
+                            ),
+                            array(
+                                'route'      => 'admin/default',
+                                'controller' => 'resource-template',
+                                'visible'    => false,
+                            ),
+                        ),
                     ),
                 ),
             ),

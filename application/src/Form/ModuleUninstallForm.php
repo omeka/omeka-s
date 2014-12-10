@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form;
 
-class DeleteForm extends AbstractForm
+class ModuleUninstallForm extends AbstractForm
 {
     public function buildForm()
     {
@@ -11,7 +11,7 @@ class DeleteForm extends AbstractForm
             'type' => 'submit',
             'name' => 'submit',
             'attributes' => array(
-                'value' => $translator->translate('Confirm Delete'),
+                'value' => $translator->translate('Confirm Uninstall'),
             ),
         ));
     }

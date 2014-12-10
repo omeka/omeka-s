@@ -72,7 +72,12 @@ class ItemController extends AbstractActionController
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('items', $response->getContent());
-        
+        if (isset($query['value'])) {
+            $searchValue = $query['value']['in'][0];
+        } else {
+            $searchValue = '';
+        }
+        $view->setVariable('searchValue', $searchValue);
         $view->setTerminal(true);
         return $view;
     }

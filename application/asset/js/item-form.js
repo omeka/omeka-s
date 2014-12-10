@@ -125,8 +125,23 @@
                 var resourceId = $(this).data('resource-id');
                 $('#select-item a').data('resource-id', resourceId);
             });
+
+            $('#sidebar-resource-search .o-icon-search').on('click', function() {
+                var searchValue = $('#resource-list-search').val();
+                console.log(searchValue);
+                $.ajax({
+                    'url': $(this).data('search-url'),
+                    'data': {'value[in][]': searchValue},
+                    'type': 'get'
+                }).done(function(data) {
+                    sidebarContent.html(data);
+                    $(document).trigger('o:sidebar-content-loaded');
+                }).error(function() {
+                    sidebarContent.html("<p>Something went wrong</p>");
+                });
+            });
         });
-        
+
         $('#select-item a').click(function(e) {
             e.preventDefault();
             var title = $('#resource-details .o-title').html();
@@ -240,10 +255,6 @@
         field.data('property-id', propertyId);
         field.attr('data-property-qname', qName);
         field.attr('data-property-id', propertyId);
-    };
-
-    var selectResource = function() {
-
     };
 
     var cleanText = function(text) {

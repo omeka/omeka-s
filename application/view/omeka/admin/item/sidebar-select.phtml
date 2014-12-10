@@ -2,24 +2,15 @@
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-
 <h1>Select Resource</h1>
 <div class="search-nav">
-    <div class="resource-search">
-        <input type="text" id="resource-list-search">
-        <button type="submit" class="o-icon-search">Search</button>
+    <div id="sidebar-resource-search" class="resource-search">
+        <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
+        <button 
+        data-search-url="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'))); ?>" 
+        type="submit" class="o-icon-search">Search</button>
     </div>
-    
-    <nav class="pagination">
-        <h2 class="screen-reader-text">Pagination</h2>
-        <ul>
-            <li>Page <input type="text" class="page-input" value="1"> of 4</li>
-            <li><a href="#" class="first o-icon-first button"><span class="screen-reader-text">First</span></a></li>
-            <li><a href="#" class="previous o-icon-prev button"><span class="screen-reader-text">Previous</span></a></li>
-            <li><a href="#" class="next o-icon-next button"><span class="screen-reader-text">Next</span></a></li>
-            <li><a href="#" class="last o-icon-last button"><span class="screen-reader-text">Last</span></a></li>
-        </ul>
-    </nav>
+<?php echo $this->pagination(); ?>
 </div>
 
 <div class="resource-list">

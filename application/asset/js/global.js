@@ -111,7 +111,7 @@ var Omeka = {
         });
 
         // Show property descriptions when clicking "more-info" icon. yes
-        addEditItems.on('click', '.o-icon-info', function() {
+        $('.o-icon-info').on('click', function() {
             $(this).parents('.description').toggleClass('show');
         });
 

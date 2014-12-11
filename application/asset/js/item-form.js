@@ -2,13 +2,8 @@
 
     $(document).ready( function() {
 
-
-
-        // Variables
-        var addEditItems = $('body');
-
         // Mark existing properties for deletion and straight up remove new properties.
-        addEditItems.on('click', '.remove.button', function(e) {
+        $('.remove.button').on('click', function(e) {
             e.preventDefault();
             var currentField = $(this).parents('.field');
             if (currentField.hasClass('new')) {
@@ -19,7 +14,7 @@
         });
 
         // Show properties
-        addEditItems.on('click', '.property-selector li', function(e) {
+        $('.property-selector li').on('click', function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');
@@ -27,7 +22,7 @@
         });
 
         // Select property
-        addEditItems.on('click', '.select-property', function(e) {
+        $('.select-property').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var selectedProperty = $(this).parents('.properties').find('.selected').first();
@@ -38,7 +33,7 @@
         });
 
         // Set property
-        addEditItems.on('click', '.set-property-button', function(e) {
+        $('.set-property-button').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var propertyLi = $(this).closest('.property');
@@ -54,14 +49,14 @@
         });
 
         // Make new value inputs whenever "add value" button clicked.
-        addEditItems.on('click', '.add-value', function(e) {
+        $('.add-value').on('click', function(e) {
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
             makeNewValue(wrapper.data('property-qname'));
         });
 
         // Remove value.
-        addEditItems.on('click', '.remove-value', function(e) {
+        $('.remove-value').on('click', function(e) {
             e.preventDefault();
             var value = $(this).parents('.value');
             var count = $(this).parents('.field').find('.value').length;

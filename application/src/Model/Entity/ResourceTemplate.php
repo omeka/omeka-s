@@ -32,7 +32,8 @@ class ResourceTemplate extends AbstractEntity
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove"},
+     *     indexBy="id"
      * )
      */
     protected $resourceTemplateProperties;

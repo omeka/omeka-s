@@ -16,6 +16,19 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      */
     public function getJsonLd()
     {
+        $resTemProps = array();
+        foreach ($this->getData()->getResourceTemplateProperties() as $resTemProp) {
+            $resTemProps[] = array(
+                'o:property' => $this->getReference(
+                    null,
+                    $resTemProp->getProperty(),
+                    $this->getAdapter('properties')
+                ),
+                'o:alternate_label' => $resTemProp->getAlternateLabel(),
+                'o:alternate_comment' => $resTemProp->getAlternateComment(),
+            );
+        }
+
         return array(
             'o:label' => $this->label(),
             'o:owner' => $this->getReference(
@@ -23,6 +36,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
                 $this->getData()->getOwner(),
                 $this->getAdapter('users')
             ),
+            'o:resource_template_property' => $resTemProps,
         );
     }
 

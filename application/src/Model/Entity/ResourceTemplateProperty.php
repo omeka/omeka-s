@@ -6,6 +6,13 @@ use Omeka\Model\Entity\ResourceTemplate;
 
 /**
  * @Entity
+ * @Table(
+ *     uniqueConstraints={
+ *         @UniqueConstraint(
+ *             columns={"resource_template_id", "property_id"}
+ *         )
+ *     }
+ * )
  */
 class ResourceTemplateProperty extends AbstractEntity
 {

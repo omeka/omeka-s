@@ -2,53 +2,10 @@
 
     $(document).ready( function() {
 
-        // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
-     // TODO: check with Kim/develop code if this should be in globals.js
-        $('.skip').click(function(e) {
-            $('#main').attr('tabindex', -1).on('blur focusout', function() {
-                $(this).removeAttr('tabindex');
-            }).focus();
-        });
 
-        // Mobile navigation
-     // TODO: check with Kim/develop code if this should be in globals.js
-        $('#mobile-nav .button').click(function(e) {
-            e.preventDefault();
-            var buttonClass = $(this).attr('class');
-            var navId = buttonClass.replace(/button/, '');
-            var navObject = $('#' + navId.replace(/o-icon-/, ''));
-            if ($('header .active').length > 0) {
-                if (!($(this).hasClass('active'))) {
-                    $('header .active').removeClass('active');
-                    $(this).addClass('active');
-                    navObject.addClass('active');
-                } else {
-                    $('header .active').removeClass('active');
-                }
-            } else {
-                $(this).addClass('active');
-                navObject.addClass('active');
-            }
-        });
 
         // Variables
         var addEditItems = $('body');
-
-        // Set classes for expandable/collapsible content.
-        // TODO: check with Kim/develop code if this should be in globals.js
-        $(document).on('click', 'a.expand, a.collapse', function(e) {
-            e.preventDefault();
-            $(this).toggleClass('collapse').toggleClass('expand');
-            if ($('.expand-collapse-parent').length > 0) {
-                $(this).parent().toggleClass('collapse').toggleClass('expand');
-            }
-        });
-
-        // Show property descriptions when clicking "more-info" icon.
-     // TODO: check with Kim/develop code if this should be in globals.js
-        addEditItems.on('click', '.o-icon-info', function() {
-            $(this).parents('.description').toggleClass('show');
-        });
 
         // Mark existing properties for deletion and straight up remove new properties.
         addEditItems.on('click', '.remove.button', function(e) {

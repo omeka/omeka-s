@@ -74,6 +74,47 @@ var Omeka = {
 
         Omeka.attachSidebarHandlers();
 
+        // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
+        $('.skip').click(function(e) {
+            $('#main').attr('tabindex', -1).on('blur focusout', function() {
+                $(this).removeAttr('tabindex');
+            }).focus();
+        });
+
+        // Mobile navigation
+        $('#mobile-nav .button').click(function(e) {
+            e.preventDefault();
+            var buttonClass = $(this).attr('class');
+            var navId = buttonClass.replace(/button/, '');
+            var navObject = $('#' + navId.replace(/o-icon-/, ''));
+            if ($('header .active').length > 0) {
+                if (!($(this).hasClass('active'))) {
+                    $('header .active').removeClass('active');
+                    $(this).addClass('active');
+                    navObject.addClass('active');
+                } else {
+                    $('header .active').removeClass('active');
+                }
+            } else {
+                $(this).addClass('active');
+                navObject.addClass('active');
+            }
+        });
+
+        // Set classes for expandable/collapsible content.
+        $(document).on('click', 'a.expand, a.collapse', function(e) {
+            e.preventDefault();
+            $(this).toggleClass('collapse').toggleClass('expand');
+            if ($('.expand-collapse-parent').length > 0) {
+                $(this).parent().toggleClass('collapse').toggleClass('expand');
+            }
+        });
+
+        // Show property descriptions when clicking "more-info" icon. yes
+        addEditItems.on('click', '.o-icon-info', function() {
+            $(this).parents('.description').toggleClass('show');
+        });
+
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
             e.preventDefault();

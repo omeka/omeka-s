@@ -111,6 +111,39 @@ body {
         border-color: #d7d7d7;
     }
     
+    .browse table,
+    .edit table,
+    .add table {
+        @include trailer(.5);
+    }
+    
+    .browse tr,
+    .edit tr,
+    .add tr {
+        background-color: #f2f2f2;
+    }
+    
+    .browse td,
+    .browse th,
+    .edit td,
+    .edit th,
+    .add td,
+    .add th {
+        padding: rhythm(.25) .5em;
+        position: relative;
+        vertical-align: top;
+    }
+    
+    .browse tr:last-of-type td,
+    .browse tr:last-of-type th,
+    .edit tr:last-of-type td,
+    .edit tr:last-of-type th,
+    .add tr:last-of-type td,
+    .add tr:last-of-type th,
+     {
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+    
     /* @end */
     
     /* @group ----- Form elements ----- */
@@ -219,7 +252,9 @@ body {
     }
         
     fieldset {
-        @include trailer();
+        margin: 0 0 rhythm();
+        border: 0;
+        padding: 0;
     }
     
     .property-selector input[type="text"],
@@ -540,32 +575,12 @@ div[role="main"] {
 
 /* @group ----- Browse views ----- */
 
-.browse table {
-    @include trailer(.5);
-}
-
-.browse tr {
-    background-color: #f2f2f2;
-}
-
 .browse .resource-name {
     display: block;
     float: left;
     @include calc('max-width', '100% - 5.5em');
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.browse td,
-.browse th {
-    padding: rhythm(.25) .5em;
-    position: relative;
-    vertical-align: top;
-}
-
-.browse tr:last-of-type td,
-.browse tr:last-of-type th {
-    @include trailing-border(1px, .25, $base-font-size, solid);
 }
 
 .browse .add.button,

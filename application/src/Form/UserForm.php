@@ -42,10 +42,6 @@ class UserForm extends AbstractForm
                 'required' => true,
             ),
         ));
-        $this->add(array(
-            'type' => 'csrf',
-            'name' => 'csrf',
-        ));
 
         if ($this->getOption('include_role')) {
             $this->add(array(

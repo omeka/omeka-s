@@ -17,10 +17,15 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     protected $translator;
 
     /**
+     * @var HelperPluginManager
+     */
+    protected $viewHelperManager;
+
+    /**
      * Construct the object.
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param string $name Optional name for the form
+     * @param string $name Optional name for the form (and CSRF name)
      * @param array $options Optional options for the form
      */
     public function __construct(ServiceLocatorInterface $serviceLocator,
@@ -29,6 +34,17 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
         $this->setServiceLocator($serviceLocator);
         parent::__construct($name, array_merge($this->options, $options));
         $this->buildForm();
+
+        // All forms should have CSRF protection.
+        $this->add(array(
+            'type' => 'csrf',
+            'name' => $name ? $name . '_csrf' : 'csrf',
+            'options' => array(
+                'csrf_options' => array(
+                    'timeout' => 3600,
+                ),
+            ),
+        ));
     }
 
     /**
@@ -47,5 +63,20 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
+    }
+
+    /**
+     * Get a view helper from the manager.
+     *
+     * @param string $name
+     * @return TranslatorInterface
+     */
+    protected function getViewHelper($name)
+    {
+        if (!$this->viewHelperManager instanceof HelperPluginManager) {
+            $this->viewHelperManager = $this->getServiceLocator()
+                ->get('ViewHelperManager');
+        }
+        return $this->viewHelperManager->get($name);
     }
 }

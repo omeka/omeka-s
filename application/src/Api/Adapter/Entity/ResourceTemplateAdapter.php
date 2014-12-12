@@ -88,13 +88,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
                 } else {
                     // It is not assigned. Add a new resource template property.
+                    // No need to explicitly add it to the collection since it
+                    // is added implicitly when setting the resource template.
                     $property = $propertyAdapter->findEntity($resTemPropData['o:property']['o:id']);
                     $resTemProp = new ResourceTemplateProperty;
                     $resTemProp->setResourceTemplate($entity);
                     $resTemProp->setProperty($property);
                     $resTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
                     $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
-                    $resTemProps->add($resTemProp);
                 }
                 $resTemPropsToRetain[] = $resTemProp;
             }

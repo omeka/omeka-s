@@ -119,6 +119,16 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['vocabulary_prefix']))
             );
         }
+
+        if (isset($query['vocabulary_prefix'])) {
+            $qb->innerJoin(
+                    'Omeka\Model\Entity\Property.vocabulary',
+                    'Omeka\Model\Entity\Vocabulary'
+                    )->andWhere($qb->expr()->eq(
+                            'Omeka\Model\Entity\Vocabulary.prefix',
+                            $this->createNamedParameter($qb, $query['vocabulary_prefix'])
+            ));
+        }
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(
                 "Omeka\Model\Entity\Property.localName",

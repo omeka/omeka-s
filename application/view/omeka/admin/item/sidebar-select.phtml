@@ -1,0 +1,32 @@
+<?php 
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+<h1>Select Resource</h1>
+<div class="search-nav">
+    <div id="sidebar-resource-search" class="resource-search">
+        <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
+        <button 
+        data-search-url="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'))); ?>" 
+        type="submit" class="o-icon-search">Search</button>
+    </div>
+<?php echo $this->pagination(); ?>
+</div>
+
+<div class="resource-list">
+
+<!-- here to let me work on the javascript and ajax for showing resource details -->
+    <?php foreach ($items as $item):?>
+    <div class="item">
+        <div class="placeholder"></div>
+        <span class="resource-name">
+            <a href="#"
+            class="sidebar-content"
+            data-resource-id="<?php echo $item->id(); ?>"
+            data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"><?php echo $item->displayTitle('[untitled]'); ?></a></span>
+        <button class="select">Select</button>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+

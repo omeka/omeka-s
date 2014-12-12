@@ -37,41 +37,96 @@ var Omeka = {
 
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
-        sidebarContent = sidebar.find('.sidebar-content');
+        var sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
         $.ajax({
             'url': url,
             'type': 'get'
         }).done(function(data) {
             sidebarContent.html(data);
+            $(document).trigger('o:sidebar-content-loaded');
         }).error(function() {
             sidebarContent.html("<p>Something went wrong</p>");
         });
+    },
+    
+    cleanText : function(text) {
+        newText = text.clone();
+        newText.children().remove();
+        newText = newText.text().replace(/^\s+|\s+$/g,'');
+        return newText;
     }
-
 };
 
 (function($, window, document) {
 
     $(function() {
 
-        // Code that depends on the DOM.
-
-        // Sidebar handling
-        $('.sidebar-content, .sidebar-confirm').click(function(e) {
+        // Attach sidebar triggers
+        $('#sidebar').on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
             e.preventDefault();
-            var context = $(this);
-            Omeka.openSidebar(context);
+            Omeka.openSidebar($(this));
         });
 
-        $('.sidebar-close').click(function(e) {
+        $('#sidebar').find('.sidebar-close').click(function(e) {
             e.preventDefault();
-            var context = $(this);
-            Omeka.closeSidebar(context);
+            Omeka.closeSidebar($(this));
+        });
+        
+        // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
+        $('.skip').click(function(e) {
+            $('#main').attr('tabindex', -1).on('blur focusout', function() {
+                $(this).removeAttr('tabindex');
+            }).focus();
         });
 
-        // End Sidebar handling
+        // Mobile navigation
+        $('#mobile-nav .button').click(function(e) {
+            e.preventDefault();
+            var buttonClass = $(this).attr('class');
+            var navId = buttonClass.replace(/button/, '');
+            var navObject = $('#' + navId.replace(/o-icon-/, ''));
+            if ($('header .active').length > 0) {
+                if (!($(this).hasClass('active'))) {
+                    $('header .active').removeClass('active');
+                    $(this).addClass('active');
+                    navObject.addClass('active');
+                } else {
+                    $('header .active').removeClass('active');
+                }
+            } else {
+                $(this).addClass('active');
+                navObject.addClass('active');
+            }
+        });
 
+        // Set classes for expandable/collapsible content.
+        $(document).on('click', 'a.expand, a.collapse', function(e) {
+            e.preventDefault();
+            $(this).toggleClass('collapse').toggleClass('expand');
+            if ($('.expand-collapse-parent').length > 0) {
+                $(this).parent().toggleClass('collapse').toggleClass('expand');
+            }
+        });
+
+        // Show property descriptions when clicking "more-info" icon.
+        $('.o-icon-info').on('click', function() {
+            $(this).parents('.description').toggleClass('show');
+        });
+
+        // Switch between the different value options.
+        $(document).on('click', '.tab', function(e) {
+            var tab = $(this);
+            e.preventDefault();
+            if (!$(this).hasClass('active')) {
+                tab.siblings('.tab.active').removeClass('active');
+                tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
+                var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
+                tab.addClass('active');
+                tab.parent().siblings(currentClass).addClass('active');
+            }
+        });
+        
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
             e.preventDefault();
@@ -86,6 +141,14 @@ var Omeka = {
                 var section_id = section_class.replace(/section/, '');
                 tab.addClass('active');
                 $('#' + section_id).addClass('active');
+            }
+        });
+        
+        // Property selector toggle children
+        $('.property-selector li').on('click', function(e) {
+            e.stopPropagation();
+            if ($(this).children('li')) {
+                $(this).toggleClass('show');
             }
         });
     });

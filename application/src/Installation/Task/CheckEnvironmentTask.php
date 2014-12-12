@@ -19,7 +19,7 @@ class CheckEnvironmentTask implements TaskInterface
     {
         if (version_compare(PHP_VERSION, self::PHP_MINIMUM_VERSION, '<')) {
             $manager->addError(sprintf(
-                'The installed PHP version (%1$s) is too low. Omeka requiresat least version %2$s',
+                'The installed PHP version (%1$s) is too low. Omeka requires at least version %2$s',
                 PHP_VERSION,
                 self::PHP_MINIMUM_VERSION
             ));

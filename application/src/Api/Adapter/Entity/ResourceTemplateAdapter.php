@@ -67,9 +67,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 return null;
             };
 
+            $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
-            $resTemPropsToAdd = array();
-            $resTemPropsToRemove = clone $resTemProps;
+            $resTemPropsToRetain = array();
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
 
                 if (!isset($resTemPropData['o:property']['o:id'])) {
@@ -84,31 +84,27 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 );
                 if ($resTemProp) {
                     // It is already assigned. Modify the existing entity.
-                    $resTemPropsToRemove->remove($resTemProp->getId());
                     $resTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
                     $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
                 } else {
-                    // It is not assigned. Set data to be added.
-                    $resTemPropsToAdd[] = $resTemPropData;
+                    // It is not assigned. Add a new resource template property.
+                    $property = $propertyAdapter->findEntity($resTemPropData['o:property']['o:id']);
+                    $resTemProp = new ResourceTemplateProperty;
+                    $resTemProp->setResourceTemplate($entity);
+                    $resTemProp->setProperty($property);
+                    $resTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
+                    $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
+                    $resTemProps->add($resTemProp);
                 }
-            }
-
-            // Add a new resource template property.
-            $propertyAdapter = $this->getAdapter('properties');
-            foreach ($resTemPropsToAdd as $resTemPropData) {
-                $property = $propertyAdapter->findEntity($resTemPropData['o:property']['o:id']);
-                $newResTemProp = new ResourceTemplateProperty;
-                $newResTemProp->setResourceTemplate($entity);
-                $newResTemProp->setProperty($property);
-                $newResTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
-                $newResTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
-                $resTemProps->add($newResTemProp);
+                $resTemPropsToRetain[] = $resTemProp;
             }
 
             // Remove resource template properties that were not included in the
             // passed data.
-            foreach ($resTemPropsToRemove as $resTemPropId => $resTemProp) {
-                $resTemProps->remove($resTemPropId);
+            foreach ($resTemProps as $resTemPropId => $resTemProp) {
+                if (!in_array($resTemProp, $resTemPropsToRetain)) {
+                    $resTemProps->remove($resTemPropId);
+                }
             }
         }
     }

@@ -132,16 +132,13 @@ class ItemController extends AbstractActionController
         $form = new ItemForm($this->getServiceLocator(), 'items', $options);
         $view->setVariable('form', $form);
 
-        /* PMJ temporary hack to have some items in the sidebar */
-        $items = $this->api()->search('items')->getContent();
-        $view->setVariable('items', $items);
-        /* end PMJ hack */
         if ($this->getRequest()->isPost()) {
             $response = $this->api()->create('items', $this->params()->fromPost());
             if ($response->isError()) {
                 $view->setVariable('errors', $response->getErrors());
             } else {
-                $view->setVariable('item', $response->getContent());
+                $this->messenger()->addSuccess('Item created.');
+                return $this->redirect()->toUrl($response->getContent()->url());
             }
         }
         return $view;

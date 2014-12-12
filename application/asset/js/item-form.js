@@ -60,6 +60,20 @@
             $('#select-item a').data('resource-id', resourceId);
             });
         
+        $('#sidebar').on('click', '.pagination a', function(e) {
+            e.preventDefault();
+            var sidebarContent = $('#sidebar .sidebar-content');
+            $.ajax({
+                'url': $(this).attr('href'),
+                'type': 'get'
+            }).done(function(data) {
+                sidebarContent.html(data);
+                $(document).trigger('o:sidebar-content-loaded');
+            }).error(function() {
+                sidebarContent.html("<p>Something went wrong</p>");
+            });
+        });
+        
         $('#sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
             var searchValue = $('#resource-list-search').val();
             var sidebarContent = $('#sidebar .sidebar-content');

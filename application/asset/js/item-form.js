@@ -12,28 +12,11 @@
                 currentField.toggleClass('remove');
             }
         });
-
-        // Show properties
-        $('.property-selector li').on('click', function(e) {
-            e.stopPropagation();
-            if ($(this).children('li')) {
-                $(this).toggleClass('show');
-            }
-        });
+        
+        /* Property selector handlers */
 
         // Select property
-        $('.select-property').on('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var selectedProperty = $(this).parents('.properties').find('.selected').first();
-            if (selectedProperty.length > 0) {
-                selectedProperty.removeClass('selected');
-            }
-            $(this).parent().addClass('selected');
-        });
-
-        // Set property
-        $('.set-property-button').on('click', function(e) {
+        $('.select-property-button').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var propertyLi = $(this).closest('.property');
@@ -48,6 +31,8 @@
             }
         });
 
+        /* End Property Selector Handlers */
+        
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
@@ -69,28 +54,24 @@
         });
 
         // Attach sidebar triggers
-
-        $(document).bind('o:sidebar-content-loaded', function() {
-            var sidebar = $('#content > .sidebar');
-            Omeka.attachSidebarHandlers(sidebar);
-            $('div.resource-list a.sidebar-content').on('click', function() {
-                var resourceId = $(this).data('resource-id');
-                $('#select-item a').data('resource-id', resourceId);
+        
+        $('#sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
+            var resourceId = $(this).data('resource-id');
+            $('#select-item a').data('resource-id', resourceId);
             });
-
-            $('#sidebar-resource-search .o-icon-search').on('click', function() {
-                var searchValue = $('#resource-list-search').val();
-                console.log(searchValue);
-                $.ajax({
-                    'url': $(this).data('search-url'),
-                    'data': {'value[in][]': searchValue},
-                    'type': 'get'
-                }).done(function(data) {
-                    sidebarContent.html(data);
-                    $(document).trigger('o:sidebar-content-loaded');
-                }).error(function() {
-                    sidebarContent.html("<p>Something went wrong</p>");
-                });
+        
+        $('#sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
+            var searchValue = $('#resource-list-search').val();
+            var sidebarContent = $('#sidebar .sidebar-content');
+            $.ajax({
+                'url': $(this).data('search-url'),
+                'data': {'value[in][]': searchValue},
+                'type': 'get'
+            }).done(function(data) {
+                sidebarContent.html(data);
+                $(document).trigger('o:sidebar-content-loaded');
+            }).error(function() {
+                sidebarContent.html("<p>Something went wrong</p>");
             });
         });
 
@@ -98,6 +79,7 @@
             e.preventDefault();
             var title = $('#resource-details .o-title').html();
             var resourceId = $(this).data('resource-id');
+            console.log(resourceId);
             var propertyQname = $(this).data('property-qname');
             var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
             var count = valuesWrapper.find('input.value').length;
@@ -137,30 +119,11 @@
                 'type': 'get'
             }).done(function(data) {
                 $('#resource-details-content').html(data);
+                console.log(context.data('resource-id'));
+                $('#select-item a').data('resource-id', context.data('resource-id'));
+                
             });
             Omeka.openSidebar(context);
-        });
-
-        $('body.browse .fa-trash-o').click(function(e) {
-            e.preventDefault();
-            $.get('../common/delete-confirm.php', function(data) {
-                $('.modal-content').html(data);
-                $('.modal').attr('id', 'delete-confirm').attr('class', 'small modal');
-                $('.modal-header h1').replaceWith($('.modal-content h1'));
-            });
-        });
-
-        // Switch between the different value options.
-        $(document).on('click', '.tab', function(e) {
-            var tab = $(this);
-            e.preventDefault();
-            if (!$(this).hasClass('active')) {
-                tab.siblings('.tab.active').removeClass('active');
-                tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
-                var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
-                tab.addClass('active');
-                tab.parent().siblings(currentClass).addClass('active');
-            }
         });
 
         // Keep new fields that have been changed.
@@ -198,22 +161,17 @@
         var propertyId = propertyLi.data('property-id');
         var field = $('.resource-values.field.template').clone();
         field.removeClass('template');
-        var fieldName = $('span.property-label', propertyLi).html() + ' (' + cleanText(propertyLi.parents('.vocabulary')) + ')';
+        var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary')) + ')';
         $('label', field).text(fieldName);
         var fieldDesc = $('.description p', propertyLi).last();
         $('.field-description', field).append(fieldDesc);
         $('.new.resource-values.field').before(field);
         field.data('property-qname', qName);
         field.data('property-id', propertyId);
+        //adding the att because selectors need them to find the correct field and count when adding more
+        //should I put a class with the 
         field.attr('data-property-qname', qName);
-        field.attr('data-property-id', propertyId);
-    };
-
-    var cleanText = function(text) {
-        newText = text.clone();
-        newText.children().remove();
-        newText = newText.text().replace(/^\s+|\s+$/g,'');
-        return newText;
+        //field.attr('data-property-id', propertyId);
     };
 
 })(jQuery);

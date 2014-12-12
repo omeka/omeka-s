@@ -37,7 +37,7 @@ var Omeka = {
 
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
-        sidebarContent = sidebar.find('.sidebar-content');
+        var sidebarContent = sidebar.find('.sidebar-content');
         sidebarContent.empty();
         $.ajax({
             'url': url,
@@ -54,7 +54,7 @@ var Omeka = {
         if (typeof context == 'undefined') {
             context = $('body');
         }
-        context.find('a.sidebar-content, a.sidebar-confirm').click(function(e) {
+        context.on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
             e.preventDefault();
             var context = $(this);
             Omeka.openSidebar(context);
@@ -65,6 +65,13 @@ var Omeka = {
             var context = $(this);
             Omeka.closeSidebar(context);
         });
+    },
+    
+    cleanText : function(text) {
+        newText = text.clone();
+        newText.children().remove();
+        newText = newText.text().replace(/^\s+|\s+$/g,'');
+        return newText;
     }
 };
 
@@ -110,11 +117,24 @@ var Omeka = {
             }
         });
 
-        // Show property descriptions when clicking "more-info" icon. yes
+        // Show property descriptions when clicking "more-info" icon.
         $('.o-icon-info').on('click', function() {
             $(this).parents('.description').toggleClass('show');
         });
 
+        // Switch between the different value options.
+        $(document).on('click', '.tab', function(e) {
+            var tab = $(this);
+            e.preventDefault();
+            if (!$(this).hasClass('active')) {
+                tab.siblings('.tab.active').removeClass('active');
+                tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
+                var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
+                tab.addClass('active');
+                tab.parent().siblings(currentClass).addClass('active');
+            }
+        });
+        
         // Switch between section tabs.
         $('a.section, .section legend').click(function(e) {
             e.preventDefault();
@@ -129,6 +149,14 @@ var Omeka = {
                 var section_id = section_class.replace(/section/, '');
                 tab.addClass('active');
                 $('#' + section_id).addClass('active');
+            }
+        });
+        
+        // Property selector toggle children
+        $('.property-selector li').on('click', function(e) {
+            e.stopPropagation();
+            if ($(this).children('li')) {
+                $(this).toggleClass('show');
             }
         });
     });

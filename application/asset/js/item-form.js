@@ -53,8 +53,7 @@
             }
         });
 
-        // Attach sidebar triggers
-        
+
         $('#sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
@@ -89,7 +88,7 @@
             });
         });
 
-        $('#select-item a').click(function(e) {
+        $('#sidebar').on('click', '#select-item a', function(e) {
             e.preventDefault();
             var title = $('#resource-details .o-title').html();
             var resourceId = $(this).data('resource-id');

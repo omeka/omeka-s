@@ -49,23 +49,6 @@ var Omeka = {
             sidebarContent.html("<p>Something went wrong</p>");
         });
     },
-
-    attachSidebarHandlers : function(context) {
-        if (typeof context == 'undefined') {
-            context = $('body');
-        }
-        context.on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.openSidebar(context);
-        });
-
-        context.find('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.closeSidebar(context);
-        });
-    },
     
     cleanText : function(text) {
         newText = text.clone();
@@ -79,8 +62,17 @@ var Omeka = {
 
     $(function() {
 
-        Omeka.attachSidebarHandlers();
+        // Attach sidebar triggers
+        $('#sidebar').on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
+            e.preventDefault();
+            Omeka.openSidebar($(this));
+        });
 
+        $('#sidebar').find('.sidebar-close').click(function(e) {
+            e.preventDefault();
+            Omeka.closeSidebar($(this));
+        });
+        
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
             $('#main').attr('tabindex', -1).on('blur focusout', function() {

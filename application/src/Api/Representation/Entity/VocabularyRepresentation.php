@@ -72,14 +72,24 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         return $this->getData()->getNamespaceUri();
     }
 
-    public function comment()
-    {
-        return $this->getData()->getComment();
-    }
-
+    /**
+     * Return the vocabulary label.
+     *
+     * @return string
+     */
     public function label()
     {
         return $this->getData()->getLabel();
+    }
+    
+    /**
+     * Return the vocabulary comment.
+     *
+     * @return string
+     */
+    public function comment()
+    {
+        return $this->getData()->getComment();
     }
 
     /**
@@ -87,7 +97,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      *
      * @return array
      */
-
     public function properties()
     {
         if (empty($this->properties)) {

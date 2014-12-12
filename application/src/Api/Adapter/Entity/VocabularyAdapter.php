@@ -128,7 +128,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validate(EntityInterface $entity, ErrorStore $errorStore,
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
         $isPersistent
     ) {
         // Validate namespace URI

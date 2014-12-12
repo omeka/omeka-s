@@ -12,8 +12,10 @@ class ItemForm extends AbstractForm
             'name'    => 'o:resource_class[o:id]',
             'type'    => 'Select',
             'options' => array(
-                'label' => 'Class',
+                'label'         => 'Class',
                 'value_options' => $this->getResourceClassPairs(),
+                'comment'       => "A type for the item. Different types have 
+                                    different default properties attached to them."
             )
         ));
 
@@ -53,7 +55,8 @@ class ItemForm extends AbstractForm
                 'class'               => 'input-value'
                 ),
             'options'    => array(
-                'label' => $property->label()
+                'label'   => $property->label(),
+                'comment' => $property->comment()
             )
         ));
 

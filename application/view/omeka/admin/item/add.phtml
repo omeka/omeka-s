@@ -37,6 +37,7 @@ if (isset($errors)) {
             <?php echo $formLabel($element); ?>
                 <div class='field-description'>
                     <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                    <p><?php  echo $element->getOption('comment'); ?></p>
                 </div>
             </div>
 

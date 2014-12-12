@@ -76,26 +76,29 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     continue; // skip when no property ID
                 }
 
+                $propertyId = $resTemPropData['o:property']['o:id'];
+                $altLabel = isset($resTemPropData['o:alternate_label'])
+                    ? $resTemPropData['o:alternate_label'] : null;
+                $altComment = isset($resTemPropData['o:alternate_comment'])
+                    ? $resTemPropData['o:alternate_comment'] : null;
+
                 // Check whether a passed property is already assigned to this
                 // resource template.
-                $resTemProp = $getResTemProp(
-                    $resTemPropData['o:property']['o:id'],
-                    $resTemProps
-                );
+                $resTemProp = $getResTemProp($propertyId, $resTemProps);
                 if ($resTemProp) {
                     // It is already assigned. Modify the existing entity.
-                    $resTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
-                    $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
+                    $resTemProp->setAlternateLabel($altLabel);
+                    $resTemProp->setAlternateComment($altComment);
                 } else {
                     // It is not assigned. Add a new resource template property.
                     // No need to explicitly add it to the collection since it
                     // is added implicitly when setting the resource template.
-                    $property = $propertyAdapter->findEntity($resTemPropData['o:property']['o:id']);
+                    $property = $propertyAdapter->findEntity($propertyId);
                     $resTemProp = new ResourceTemplateProperty;
                     $resTemProp->setResourceTemplate($entity);
                     $resTemProp->setProperty($property);
-                    $resTemProp->setAlternateLabel($resTemPropData['o:alternate_label']);
-                    $resTemProp->setAlternateComment($resTemPropData['o:alternate_comment']);
+                    $resTemProp->setAlternateLabel($altLabel);
+                    $resTemProp->setAlternateComment($altComment);
                 }
                 $resTemPropsToRetain[] = $resTemProp;
             }

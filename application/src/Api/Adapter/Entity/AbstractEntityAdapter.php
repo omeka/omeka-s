@@ -447,9 +447,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 ->find($this->getEntityClass(), $id);
         }
         if (null === $entity) {
+            if (is_array($id)) {
+                $message = $this->getTranslator()->translate('%s entity not found using criteria: %s.');
+            } else {
+                $message = $this->getTranslator()->translate('%s entity with ID %s not found');
+            }
             throw new Exception\NotFoundException(sprintf(
-                $this->getTranslator()->translate('%s entity not found using criteria: %s.'),
-                $this->getEntityClass(),
+                $message, $this->getEntityClass(),
                 is_array($id) ? json_encode($id) : $id
             ));
         }

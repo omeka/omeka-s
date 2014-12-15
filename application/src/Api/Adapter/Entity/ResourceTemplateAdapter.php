@@ -42,6 +42,48 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function validateData(array $data, ErrorStore $errorStore,
+        $isManaged
+    ){
+        // A resource template may not have duplicate properties.
+        if (isset($data['o:resource_template_property'])
+            && is_array($data['o:resource_template_property'])
+        ) {
+            $propertyIds = array();
+            foreach ($data['o:resource_template_property'] as $resTemPropData) {
+                if (!isset($resTemPropData['o:property']['o:id'])) {
+                    continue; // skip when no property ID
+                }
+                $propertyId = $resTemPropData['o:property']['o:id'];
+                if (in_array($propertyId, $propertyIds)) {
+                    $errorStore->addError('o:property', sprintf(
+                        'Attempting to add duplicate property with ID %s',
+                        $propertyId
+                    ));
+                }
+                $propertyIds[] = $propertyId;
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validateEntity(EntityInterface $entity,
+        ErrorStore $errorStore, $isManaged
+    ) {
+        $label = $entity->getLabel();
+        if (empty($label)) {
+            $errorStore->addError('o:label', 'The label cannot be empty.');
+        }
+        if (!$this->isUnique($entity, array('label' => $label))) {
+            $errorStore->addError('o:username', 'The label is already taken.');
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore
     ) {

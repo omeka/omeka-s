@@ -66,7 +66,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->will($this->returnValue(true));
 
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
-        $eventManager->expects($this->once())
+        $eventManager->expects($this->exactly(2))
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
 
@@ -78,7 +78,7 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-        $this->adapter->expects($this->once())
+        $this->adapter->expects($this->exactly(2))
              ->method('getEventManager')
              ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())
@@ -228,7 +228,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->will($this->returnValue(true));
 
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
-        $eventManager->expects($this->once())
+        $eventManager->expects($this->exactly(2))
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
 
@@ -240,7 +240,7 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/
-        $this->adapter->expects($this->once())
+        $this->adapter->expects($this->exactly(2))
              ->method('getEventManager')
              ->will($this->returnValue($eventManager));
         $this->adapter->expects($this->once())

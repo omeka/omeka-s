@@ -81,10 +81,9 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validate(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
+        $isManaged
     ) {
-        // Validate username
         $username = $entity->getUsername();
         if (empty($username)) {
             $errorStore->addError('o:username', 'The username cannot be empty.');
@@ -99,15 +98,12 @@ class UserAdapter extends AbstractEntityAdapter
             ));
         }
 
-        // Validate name
-        $name = $entity->getName();
-        if (empty($name)) {
+        if (empty($entity->getName())) {
             $errorStore->addError('o:name', 'The name cannot be empty.');
         }
 
-        // Validate email
-        $validator = new EmailAddress();
         $email = $entity->getEmail();
+        $validator = new EmailAddress();
         if (!$validator->isValid($email)) {
             $errorStore->addValidatorMessages('o:email', $validator->getMessages());
         }
@@ -118,9 +114,7 @@ class UserAdapter extends AbstractEntityAdapter
             ));
         }
 
-        // Validate role
-        $role = $entity->getRole();
-        if (empty($role)) {
+        if (empty($entity->getRole())) {
             $errorStore->addError('o:role', 'Users must have a role.');
         }
     }

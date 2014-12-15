@@ -102,6 +102,7 @@ return array(
             'propertySelect' => 'Omeka\View\Helper\PropertySelect',
             'sortLink'       => 'Omeka\View\Helper\SortLink',
             'formElements'   => 'Omeka\View\Helper\FormElements',
+            'propertySelector' => 'Omeka\View\Helper\PropertySelector',
             'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
         ),
     ),
@@ -278,6 +279,7 @@ return array(
     ),
     'installation_manager' => array(
         'tasks' => array(
+            'Omeka\Installation\Task\CheckEnvironmentTask',
             'Omeka\Installation\Task\ClearSessionTask',
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',

@@ -1,24 +1,10 @@
 <?php $this -> htmlElement('body')->appendAttribute('class', 'install'); ?>
 <?php
 $form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formElement = $this->plugin('formElement');
-$formErrors = $this->plugin('formElementErrors');
 $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
 echo $this->form()->openTag($form);
 ?>
-
-<?php foreach ($form->getElements() as $element): ?>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $formLabel($element); ?>
-    </div>
-    <div class="inputs">
-        <?php echo $formElement($element); ?>
-    </div>
-    <?php echo $formErrors($element, array('class' => 'messages')); ?>
-</div>
-<?php endforeach; ?>
+<?php echo $this->formElements($form); ?>
 <button>Install</button>
 <?php echo $this->form()->closeTag(); ?>

@@ -549,6 +549,10 @@ th {
 
   /* @end */
   /* @group ----- Form elements ----- */
+  textarea {
+    clear: both;
+  }
+
   input,
   textarea,
   button {
@@ -1336,6 +1340,10 @@ th {
   #add-item .remove.field {
     background-color: #ff9999;
     opacity: .6;
+  }
+
+  .template {
+    display: none;
   }
 
   .field.template {

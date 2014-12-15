@@ -1,1 +1,170 @@
-<p>admin/item/add</p>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'add item');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+$this->headScript()->appendFile($this->assetUrl('js/item-form.js', 'Omeka'));
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+$formErrors = $this->plugin('formElementErrors');
+
+?>
+<h1><?php echo $this->translate('Add Item'); ?></h1>
+<?php 
+if (isset($errors)) {
+    print_r($errors);
+}
+?>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="resource-values section active">Values</a></li>
+        <li><a href="#" class="item-media section">Media</a></li>
+        <li><a href="#" class="item-visibility section">Visibility</a></li>
+    </ul>
+</nav>
+
+<form method='post' id='add-item'>
+    <fieldset id='resource-values' class='section active'>
+        <?php foreach ($form->getElements() as $name => $element): ?>
+        <?php if ($element->getLabel()): ?>
+        <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>' data-property-id='<?php echo $element->getAttribute('data-property-id'); ?>'>
+            <?php if ($name != 'o:resource_class[o:id]'): ?>
+            <div class="field-actions">
+                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
+            </div>
+            <?php endif; ?>
+            <div class='field-meta'>
+            <?php echo $formLabel($element); ?>
+                <div class='field-description'>
+                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                    <p><?php  echo $element->getOption('comment'); ?></p>
+                </div>
+            </div>
+
+            <div class='inputs'>
+                <div class='value'>
+                    <?php if ($name != 'o:resource_class[o:id]'): ?>
+                    <div class="input-options">
+                            <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
+                            <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
+                            <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
+                     </div>
+                     <?php endif; ?>
+                     <div class="active type input-option text">
+                     <?php echo $formElement($element); ?>
+                     <?php if ($name != 'o:resource_class[o:id]'): ?>
+                     <?php $languageInputName = str_replace('@value', '@language', $name);  ?>
+                     <label class='value-language' for='<?php echo $languageInputName; ?>'>Language</label>
+                     <input class='value-language' type='text' name='<?php echo $languageInputName; ?>' />
+                     <?php endif; ?>
+                     </div>
+                     <div class="items input-option">
+                        <span class="default">No item selected</span>
+
+                        <ul class="selected-resources">
+                            <li class="selected-resource template">
+                            <span class="o-title"></span>
+                            <input type="hidden" class="value" />
+                            <input type="hidden" class="property" />
+                            </li>
+                        </ul>
+
+                        <a href="#resource-select"
+                           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+                           class="button resource-select">Select Omeka Resource
+                       </a>
+                    </div>
+                     <button class="remove-value">Remove value</button>
+                </div>
+            </div>
+
+            <?php
+            echo $formErrors($element);
+            ?>
+        </div>
+        <?php else: ?>
+        <!-- Display the hidden input for the property id -->
+        <?php echo $formElement($element); ?>
+        <?php endif; ?>
+        <?php endforeach; ?>
+
+        <div class='new resource-values field unset'>
+            <div class="field-actions">
+                <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
+                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
+            </div>
+
+        </div>
+    <?php echo $this->propertySelector(); ?>
+    </fieldset>
+
+    <fieldset id="save-sidebar">
+        <input type="submit" name="add-item-submit" value="Create Item" />
+        <a href="#" class="cancel button">Cancel</a>
+    </fieldset>
+</form>
+
+<div id="sidebar" class='sidebar'>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
+    <div class="sidebar-content">
+    </div>
+    <div id="resource-details" class="sidebar">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
+
+        <div class='sidebar-content'>
+            <div id="resource-details-content">
+            </div>
+        </div>
+        <div id="select-item">
+            <a href="#" class="button">Select Resource</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Templates -->
+<div class="resource-values field template">
+    <div class="field-actions">
+        <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
+    </div>
+    <div class='field-meta'>
+        <label></label>
+        <div class='field-description'>
+            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+        </div>
+    </div>
+    <div class='inputs'>
+    </div>
+</div>
+
+<div class="value template">
+    <div class="input-options">
+        <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
+        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
+        <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
+     </div>
+     <div class="active type input-option text">
+        <!-- input for the property value -->
+        <textarea name="" class="input-value"></textarea>
+        <input type='hidden' class="input-id" name="" value="" />
+        <label class='value-language' for=''>Language</label>
+        <input class='value-language' type='text' name='' />
+     </div>
+     <div class="items input-option">
+        <span class="default">No item selected</span>
+    
+        <ul class="selected-resources">
+            <li class="selected-resource template">
+            <span class="o-title"></span>
+            <input type="hidden" class="value" />
+            <input type="hidden" class="property" />
+            </li>
+        </ul>
+
+        <a href="#resource-select" 
+           class="button resource-select"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+           >Select Omeka Resource</a>
+    </div>
+     <button class="remove-value">Remove value</button>
+</div>

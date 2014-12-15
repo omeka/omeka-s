@@ -145,8 +145,8 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validate(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
+        $isManaged
     ) {
         // Validate local name
         $localName = $entity->getLocalName();

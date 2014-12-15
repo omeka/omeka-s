@@ -2,9 +2,11 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Api\ResponseFilter;
+use Omeka\Form\ItemForm;
 use Omeka\Form\DeleteForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Form\Form;
 
 class ItemController extends AbstractActionController
 {
@@ -54,10 +56,31 @@ class ItemController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $view->setVariable('linkTitle', $linkTitle);
         $response = $this->api()->read(
             'items', array('id' => $this->params('id'))
         );
         $view->setVariable('item', $response->getContent());
+        return $view;
+    }
+    
+    public function sidebarSelectAction()
+    {
+        $view = new ViewModel;
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('items', $query);
+
+        $this->paginator($response->getTotalResults(), $page);
+        $view->setVariable('items', $response->getContent());
+        if (isset($query['value'])) {
+            $searchValue = $query['value']['in'][0];
+        } else {
+            $searchValue = '';
+        }
+        $view->setVariable('searchValue', $searchValue);
+        $view->setTerminal(true);
         return $view;
     }
 
@@ -81,12 +104,45 @@ class ItemController extends AbstractActionController
         }
         return $this->redirect()->toRoute('admin/default', array(
             'controller' => 'item',
-            'action' => 'browse',
+            'action'     => 'browse',
         ));
     }
 
     public function addAction()
-    {}
+    {
+        $view = new ViewModel;
+        $response = $this->api()->search('resource_classes');
+        $resourceClasses = $response->getContent();
+        $resourceClassPairs = array();
+        foreach ($resourceClasses as $resourceClass) {
+            $resourceClassPairs[$resourceClass->id()] = $resourceClass->label();
+        }
+
+        $dctermsTitles = $this->api()
+                              ->search('properties', array('term' => 'dcterms:title'))
+                              ->getContent();
+        $dctermsDescriptions = $this->api()
+                              ->search('properties', array('term' => 'dcterms:description'))
+                              ->getContent();
+        $properties = array($dctermsTitles[0], $dctermsDescriptions[0]);
+        $options = array(
+            'resource_class_pairs' => $resourceClassPairs,
+            'properties'           => $properties
+            );
+        $form = new ItemForm($this->getServiceLocator(), 'items', $options);
+        $view->setVariable('form', $form);
+
+        if ($this->getRequest()->isPost()) {
+            $response = $this->api()->create('items', $this->params()->fromPost());
+            if ($response->isError()) {
+                $view->setVariable('errors', $response->getErrors());
+            } else {
+                $this->messenger()->addSuccess('Item created.');
+                return $this->redirect()->toUrl($response->getContent()->url());
+            }
+        }
+        return $view;
+    }
 
     public function editAction()
     {}

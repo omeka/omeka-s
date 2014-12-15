@@ -148,6 +148,10 @@ body {
     
     /* @group ----- Form elements ----- */
     
+    textarea {
+        clear: both;
+    }
+    
     input,
     textarea,
     button {
@@ -906,6 +910,10 @@ th a[class="sorted-desc"] {
     #add-item .remove.field {
         background-color: lighten($red, 30%);
         opacity: .6;
+    }
+    
+    .template {
+        display: none;
     }
     
     .field.template {

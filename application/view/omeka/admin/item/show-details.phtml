@@ -1,3 +1,7 @@
+<?php if ($linkTitle): ?>
 <h2 class="o-title"><?php echo $item->link(strip_tags($item->displayTitle('[untitled]'))); ?></h2>
+<?php else: ?>
+<h2 class="o-title"><?php echo $item->displayTitle('[untitled]'); ?></h2>
+<?php endif; ?>
 <div class="o-description"><?php echo $item->displayDescription(); ?></div>
 <?php echo $item->displayValues(); ?>

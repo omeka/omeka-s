@@ -109,6 +109,7 @@ CREATE TABLE `resource_template` (
   `owner_id` int(11) DEFAULT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_39ECD52EEA750E8` (`label`),
   KEY `IDX_39ECD52E7E3C61F9` (`owner_id`),
   CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -119,6 +120,7 @@ CREATE TABLE `resource_template_property` (
   `alternate_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_4689E2F116131EA549213EC` (`resource_template_id`,`property_id`),
   KEY `IDX_4689E2F116131EA` (`resource_template_id`),
   KEY `IDX_4689E2F1549213EC` (`property_id`),
   CONSTRAINT `FK_4689E2F1549213EC` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`),

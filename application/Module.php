@@ -21,7 +21,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.1.4';
+    const VERSION = '0.1.5';
 
     public function onBootstrap(MvcEvent $event)
     {

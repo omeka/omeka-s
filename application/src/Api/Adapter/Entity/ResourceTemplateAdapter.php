@@ -77,7 +77,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
         if (!$this->isUnique($entity, array('label' => $label))) {
-            $errorStore->addError('o:username', 'The label is already taken.');
+            $errorStore->addError('o:label', 'The label is already taken.');
         }
     }
 

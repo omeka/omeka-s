@@ -129,7 +129,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
+        $isManaged
     ) {
         // Validate namespace URI
         $namespaceUri = $entity->getNamespaceUri();

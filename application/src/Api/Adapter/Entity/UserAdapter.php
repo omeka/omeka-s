@@ -81,37 +81,16 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(array $data, ErrorStore $errorStore,
-        $isPersistent
-    ) {
-        if (empty($data['o:username'])) {
-            $errorStore->addError('o:username', 'The username cannot be empty.');
-        }
-        if (preg_match('/\s/u', $data['o:username'])) {
-            $errorStore->addError('o:username', 'A username cannot contain whitespace.');
-        }
-
-        if (empty($name)) {
-            $errorStore->addError('o:name', 'The name cannot be empty.');
-        }
-
-        $validator = new EmailAddress();
-        if (!$validator->isValid($data['o:email'])) {
-            $errorStore->addValidatorMessages('o:email', $validator->getMessages());
-        }
-
-        if (empty($data['o:role'])) {
-            $errorStore->addError('o:role', 'Users must have a role.');
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
+        $isManaged
     ) {
         $username = $entity->getUsername();
+        if (empty($username)) {
+            $errorStore->addError('o:username', 'The username cannot be empty.');
+        }
+        if (preg_match('/\s/u', $username)) {
+            $errorStore->addError('o:username', 'A username cannot contain whitespace.');
+        }
         if (!$this->isUnique($entity, array('username' => $username))) {
             $errorStore->addError('o:username', sprintf(
                 'The username "%s" is already taken.',
@@ -119,12 +98,24 @@ class UserAdapter extends AbstractEntityAdapter
             ));
         }
 
+        if (empty($entity->getName())) {
+            $errorStore->addError('o:name', 'The name cannot be empty.');
+        }
+
         $email = $entity->getEmail();
+        $validator = new EmailAddress();
+        if (!$validator->isValid($email)) {
+            $errorStore->addValidatorMessages('o:email', $validator->getMessages());
+        }
         if (!$this->isUnique($entity, array('email' => $email))) {
             $errorStore->addError('o:email', sprintf(
                 'The email "%s" is already taken.',
                 $email
             ));
+        }
+
+        if (empty($entity->getRole())) {
+            $errorStore->addError('o:role', 'Users must have a role.');
         }
     }
 }

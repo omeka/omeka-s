@@ -10,10 +10,7 @@ use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Exception as ModelException;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\DateTime;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Abstract entity API adapter.
@@ -42,11 +39,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Hydrate an entity with the provided array.
      *
-     * Do not modify or perform operations on the data when setting properties.
-     * Validation should be done in self::validateData() or
-     * self::validateEntity(). Filtering should be done in the entity's mutator
-     * methods. Authorize state changes of individual fields using
-     * self::authorize().
+     * Validation should be done in {@link self::validateData()} or
+     * {@link self::validateEntity()}. Filtering should be done in the entity's
+     * mutator methods. Authorize state changes of individual fields using
+     * {@link self::authorize()}.
      *
      * @param array $data
      * @param EntityInterface $entity
@@ -58,40 +54,42 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Validate entity data.
      *
-     * This happens before entity hydration. Set validation errors to the passed
-     * $errorStore object. If an error is declared the entity will not be
+     * This happens before entity hydration. Only use this for validations that
+     * don't require a hydrated entity, typically limited to validating for
+     * expected data format and internal consistency. Set validation errors to
+     * the passed $errorStore object. If an error is set the entity will not be
      * hydrated, created, or updated.
      *
      * @param array $data
      * @param ErrorStore $errorStore
-     * @param bool $isPersistent
+     * @param bool $isManaged
      */
     public function validateData(array $data, ErrorStore $errorStore,
-        $isPersistent
+        $isManaged
     ) {}
 
     /**
      * Validate an entity.
      *
-     * This happens after entity hydration. The entity must be in a completed
-     * state prior to being validated. Set validation errors to the passed
-     * $errorStore object. If an error is declared the entity will not be
-     * created or updated.
+     * This happens after entity hydration. Use this method for validations
+     * that require a hydrated entity (i.e. most validations). Set validation
+     * errors to the passed $errorStore object. If an error is set the entity
+     * will not be created or updated.
      *
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
-     * @param bool $isPersistent
+     * @param bool $isManaged
      */
     public function validateEntity(EntityInterface $entity,
-        ErrorStore $errorStore, $isPersistent
+        ErrorStore $errorStore, $isManaged
     ) {}
 
     /**
      * Build a conditional search query from an API request.
      *
-     * Modify the passed $queryBuilder object according to the passed $query.
-     * The sort_by, sort_order, page, limit, and offset parameters are included
-     * separately.
+     * Modify the passed query builder object according to the passed $query
+     * data. The sort_by, sort_order, page, limit, and offset parameters are
+     * included separately.
      *
      * @link http://docs.doctrine-project.org/en/latest/reference/query-builder.html
      * @param QueryBuilder $qb
@@ -348,19 +346,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // entity in its original state.
         $this->authorize($entity, $operation);
 
-        $isPersistent = $this->entityIsPersistent($entity);
+        $isManaged = $this->entityIsManaged($entity);
 
         // Trigger the operation's api.validate.data.pre event.
         $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'data' => $data,
-            'isPersistent' => $isPersistent,
+            'isManaged' => $isManaged,
         ));
         $this->getEventManager()->trigger($event);
 
         // Validate the data.
-        $this->validateData($data, $errorStore, $isPersistent);
+        $this->validateData($data, $errorStore, $isManaged);
 
         if ($errorStore->hasErrors()) {
             $validationException = new Exception\ValidationException;
@@ -375,12 +373,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'data' => $data,
-            'isPersistent' => $isPersistent,
+            'isManaged' => $isManaged,
         ));
         $this->getEventManager()->trigger($event);
 
         // Validate the entity.
-        $this->validateEntity($entity, $errorStore, $isPersistent);
+        $this->validateEntity($entity, $errorStore, $isManaged);
 
         if ($errorStore->hasErrors()) {
             if (Request::UPDATE == $operation) {
@@ -413,12 +411,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Check whether an entity is persistent.
+     * Check whether an entity is managed.
+     *
+     * A managed entity has been persisted but not necessarily flushed. This is
+     * useful to determine whether an entity is currently being created (not
+     * managed) or updated (managed).
      *
      * @param EntityInterface $entity
      * @return bool
      */
-    protected function entityIsPersistent(EntityInterface $entity)
+    protected function entityIsManaged(EntityInterface $entity)
     {
         $entityState = $this->getEntityManager()
             ->getUnitOfWork()
@@ -510,7 +512,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');
 
-        // Exclude the passed entity from the query if it is persistent.
+        // Exclude the passed entity from the query if it has an persistent
+        // indentifier.
         if ($entity->getId()) {
             $qb->andWhere($qb->expr()->neq(
                 'e.id',

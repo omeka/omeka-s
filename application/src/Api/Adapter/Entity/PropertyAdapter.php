@@ -157,7 +157,7 @@ class PropertyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isPersistent
+        $isManaged
     ) {
         // Validate local name
         $localName = $entity->getLocalName();

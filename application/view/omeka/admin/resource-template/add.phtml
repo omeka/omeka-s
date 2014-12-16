@@ -1,0 +1,57 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates add');
+$form->prepare();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+<h1>Add Resource Template</h1>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
+</div>
+
+<?php $labelElement = $form->get('o:label'); ?>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $this->formLabel($labelElement); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formElement($labelElement); ?>
+    </div>
+    <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
+</div>
+<table id="properties">
+    <thead>
+    <tr>
+        <th>Original label<br>
+        <span>term</span></th>
+        <th>Label</th>
+        <th>Comment</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($propertyRows as $propertyRow): ?>
+    <?php echo $this->partial(
+        'omeka/admin/resource-template/property-row',
+        array('propertyRow' => $propertyRow)
+    ) ?>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php echo $this->propertySelector(); ?>
+
+<script>
+$('.select-property-button').click('.property-selector', function(event) {
+    event.preventDefault();
+    var id = $(this).closest('li').data('property-id');
+    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'property-row'), true)); ?>';
+    $.get(url, {id: id}).done(function(data) {
+        $('#properties tbody').append(data);
+    });
+});
+</script>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>

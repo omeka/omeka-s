@@ -1055,9 +1055,9 @@ th a[class="sorted-desc"] {
     }
     
     .property-selector .property:hover .description.show .o-icon-info + p {
-        top: rhythm(1.5);
+        top: rhythm(.75);
         left: 0;
-        padding-left: 2em;
+        padding-left: 1.125em;
         background-color: #fff;
         z-index: 1;
     }
@@ -1115,10 +1115,10 @@ th a[class="sorted-desc"] {
             
             &:after,
             & > ul > li:after {
-                content: "\f0da";
+                content: $fa-var-caret-right;
                 font-family: "FontAwesome";
                 position: absolute;
-                right: 10px;
+                right: rhythm(.625);
                 top: rhythm(.25);
             }
             
@@ -1126,17 +1126,24 @@ th a[class="sorted-desc"] {
                 padding: rhythm(.25) 0;
             }
             
+            li li {
+                padding: rhythm(.25) rhythm(.75);
+                @include border-radius(0);
+            }
+            
             & > ul > li:before {
                 content: "— ";
+                margin-left: rhythm(.25);
             }
     
             & > ul > li:after {
-                right: 0;
+                right: rhythm(.25);
             }
-            
-            &.show:after {
-                content: "\f0d7" !important;
-            }
+
+        }
+
+        li.show:after {
+            content: $fa-var-caret-down !important;
         }
         
         & > li ul,
@@ -1176,6 +1183,12 @@ th a[class="sorted-desc"] {
         &:hover {
             background-color: transparent;
         }
+    }
+    
+    .selected-resources {
+        padding: 0;
+        margin: 0;
+        list-style: none;
     }
     
     .selected {

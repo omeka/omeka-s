@@ -3,7 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Api\ResponseFilter;
 use Omeka\Form\ItemForm;
-use Omeka\Form\DeleteForm;
+use Omeka\Form\ConfirmForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
@@ -37,8 +37,10 @@ class ItemController extends AbstractActionController
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('items', $response->getContent());
-        $view->setVariable('deleteForm', new DeleteForm(
-            $this->getServiceLocator(), 'delete'
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
         ));
         return $view;
     }
@@ -87,7 +89,7 @@ class ItemController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new DeleteForm($this->getServiceLocator(), 'delete');
+            $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete(

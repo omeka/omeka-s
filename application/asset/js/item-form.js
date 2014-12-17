@@ -111,6 +111,7 @@
             } else {
                 ul.siblings('span').hide();
             }
+            Omeka.closeSidebar($('.sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {

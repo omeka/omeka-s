@@ -60,14 +60,11 @@ if (isset($errors)) {
                      </div>
                      <div class="items input-option">
                         <span class="default">No item selected</span>
-
-                        <ul class="selected-resources">
-                            <li class="selected-resource template">
-                            <span class="o-title"></span>
-                            <input type="hidden" class="value" />
-                            <input type="hidden" class="property" />
-                            </li>
-                        </ul>
+                            <p class="selected-resource template">
+                                <span class="o-title"></span>
+                                <input type="hidden" class="value" />
+                                <input type="hidden" class="property" />
+                            </p>
 
                         <a href="#resource-select"
                            data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
@@ -153,13 +150,11 @@ if (isset($errors)) {
      <div class="items input-option">
         <span class="default">No item selected</span>
     
-        <ul class="selected-resources">
-            <li class="selected-resource template">
+        <p class="selected-resource template">
             <span class="o-title"></span>
             <input type="hidden" class="value" />
             <input type="hidden" class="property" />
-            </li>
-        </ul>
+        </p>
 
         <a href="#resource-select" 
            class="button resource-select"

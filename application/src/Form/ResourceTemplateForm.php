@@ -19,5 +19,11 @@ class ResourceTemplateForm extends AbstractForm
                 'required' => true,
             ),
         ));
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add(array(
+            'name' => 'o:label',
+            'required' => true,
+        ));
     }
 }

@@ -73,7 +73,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore, $isManaged
     ) {
         $label = $entity->getLabel();
-        if (empty($label)) {
+        if (empty(trim($label))) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
         if (!$this->isUnique($entity, array('label' => $label))) {

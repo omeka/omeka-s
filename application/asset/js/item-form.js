@@ -54,12 +54,12 @@
         });
 
 
-        $('#sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
+        $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
             });
         
-        $('#sidebar').on('click', '.pagination a', function(e) {
+        $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
             var sidebarContent = $('#sidebar .sidebar-content');
             $.ajax({
@@ -73,7 +73,7 @@
             });
         });
         
-        $('#sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
+        $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
             var searchValue = $('#resource-list-search').val();
             var sidebarContent = $('#sidebar .sidebar-content');
             $.ajax({
@@ -88,11 +88,10 @@
             });
         });
 
-        $('#sidebar').on('click', '#select-item a', function(e) {
+        $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
             e.preventDefault();
             var title = $('#resource-details .o-title').html();
             var resourceId = $(this).data('resource-id');
-            console.log(resourceId);
             var propertyQname = $(this).data('property-qname');
             var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
             var count = valuesWrapper.find('input.value').length;

@@ -63,12 +63,12 @@ var Omeka = {
     $(function() {
 
         // Attach sidebar triggers
-        $('#sidebar').on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
+        $('#content').on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this));
         });
 
-        $('#sidebar').find('.sidebar-close').click(function(e) {
+        $('.sidebar').find('.sidebar-close').click(function(e) {
             e.preventDefault();
             Omeka.closeSidebar($(this));
         });

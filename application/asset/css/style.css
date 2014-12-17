@@ -1562,8 +1562,8 @@ th {
   .properties > ul > li > ul > li:after {
     right: 0.375em;
   }
-  .property-selector > ul li.show:after,
-  .properties > ul li.show:after {
+  .property-selector > ul li:not(.property).show:after,
+  .properties > ul li:not(.property).show:after {
     content: "" !important;
   }
   .property-selector > ul > li ul, .property-selector > ul > li ul ul,
@@ -2012,14 +2012,6 @@ th {
     background-color: transparent;
     color: #FF0000;
     width: 2.25em;
-  }
-  .resource-list .item .select:after {
-    content: "\f00c";
-    font-family: 'FontAwesome';
-    text-indent: 0;
-    position: absolute;
-    top: 0.375em;
-    right: 0.75em;
   }
   .resource-list .item:hover, .resource-list .item.previewed {
     background-color: rgba(255, 255, 255, 0.8);

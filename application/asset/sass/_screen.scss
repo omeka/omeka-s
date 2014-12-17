@@ -1142,7 +1142,7 @@ th a[class="sorted-desc"] {
 
         }
 
-        li.show:after {
+        li:not(.property).show:after {
             content: $fa-var-caret-down !important;
         }
         
@@ -1626,15 +1626,6 @@ th a[class="sorted-desc"] {
             background-color: transparent;
             color: $red;
             width: rhythm(1.5);
-            
-            &:after {
-                content: "\f00c";
-                font-family: 'FontAwesome';
-                text-indent: 0;
-                position: absolute;
-                top: rhythm(.25);
-                right: rhythm(.5);
-            }
         }
         
         &:hover, 

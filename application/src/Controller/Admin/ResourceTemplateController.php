@@ -46,8 +46,8 @@ class ResourceTemplateController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
 
-            // @todo Remove dcterms:title and dcterms:description from data if
-            // they have no alternate label and comment.
+            // @todo Remove dcterms:title and :description from data if they
+            // have no alternate label and comment.
 
             $form->setData($data);
             if ($form->isValid()) {
@@ -65,14 +65,8 @@ class ResourceTemplateController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTemplate('omeka/admin/resource-template/add-edit');
-        $view->setVariable('resourceTemplate', null);
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('form', $form);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
-                'button_value' => $this->translate('Confirm Removal'),
-            )
-        ));
         return $view;
     }
 
@@ -87,8 +81,8 @@ class ResourceTemplateController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
 
-            // @todo Remove dcterms:title and dcterms:description from data if
-            // they have no alternate label and comment.
+            // @todo Remove dcterms:title and :description from data if they
+            // have no alternate label and comment.
 
             $form->setData($data);
             if ($form->isValid()) {
@@ -108,14 +102,8 @@ class ResourceTemplateController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTemplate('omeka/admin/resource-template/add-edit');
-        $view->setVariable('resourceTemplate', $resourceTemplate);
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('form', $form);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
-                'button_value' => $this->translate('Confirm Removal'),
-            )
-        ));
         return $view;
     }
 
@@ -129,7 +117,12 @@ class ResourceTemplateController extends AbstractActionController
 
             $data = $this->params()->fromPost();
             $propertyRows = $data['o:resource_template_property'];
-            foreach ($propertyRows as $propertyRow) {
+            foreach ($propertyRows as $key => $propertyRow) {
+                if (!isset($propertyRow['o:property']['o:id'])) {
+                    // No property ID indicates that the property was removed.
+                    unset($propertyRows[$key]);
+                    continue;
+                }
                 $property = $this->api()->read(
                     'properties', $propertyRow['o:property']['o:id']
                 )->getContent();
@@ -139,7 +132,7 @@ class ResourceTemplateController extends AbstractActionController
         // Set default property rows.
         } else {
 
-            // Set the dcterms:title and dcterms:description properties.
+            // Set the dcterms:title and :description properties.
             $titleProperty = $this->api()->searchOne(
                 'properties', array('term' => 'dcterms:title')
             )->getContent();
@@ -156,12 +149,18 @@ class ResourceTemplateController extends AbstractActionController
                     $propertyRows[$property->id()]['o:alternate_comment'] = null;
                 }
            } elseif ('edit' == $action) {
-                // @todo For the edit action, put dcterms:title and
-                // dcterms:description up front, and the rest following.
+
+                // @todo For the edit action, put dcterms:title and :description
+                // at the beginning of the rows, and the rest following.
+
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
                 $propertyRows = $resourceTemplate->resourceTemplateProperties();
+                foreach ($propertyRows as &$propertyRow) {
+                    // Convert references to full representations.
+                    $propertyRow['o:property'] = $propertyRow['o:property']->getRepresentation();
+                }
             } else {
                 // @todo Illegal action, throw exception
             }
@@ -192,7 +191,6 @@ class ResourceTemplateController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/resource-template/show-property-row');
         $view->setVariable('propertyRow', $propertyRow);
-        $view->setVariable('resourceTemplate', null);
         return $view;
     }
 }

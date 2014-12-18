@@ -1,7 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'resource-template add');
 $form->prepare();
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -34,10 +33,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
-        array(
-            'propertyRow' => $propertyRow,
-            'resourceTemplate' => $resourceTemplate,
-        )
+        array('propertyRow' => $propertyRow)
     ) ?>
     <?php endforeach; ?>
     </tbody>
@@ -53,11 +49,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Remove Property')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to remove this property from the template?')); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 
@@ -72,31 +63,32 @@ $('.select-property-button').click('.property-selector', function(event) {
         });
 });
 
-// Remove property row via the delete icon.
-$('#content').on('click', '.resource-property-delete', function(event) {
+// Remove property via the delete icon.
+$('#content').on('click', '.resource-template-property-remove', function(event) {
+    event.preventDefault();
 
-    var propertyRow =  $(this).closest('tr');
+    var removeLink = $(this);
+    var propertyRow =  removeLink.closest('tr');
     var propertyId = propertyRow.data('property-id');
-    var resourceTemplateId = propertyRow.data('resource-template-id');
 
-    // Override default confirm form behavior.
-    $('#sidebar-confirm form').submit(function(event) {
-        event.preventDefault();
+    // Remove the property ID element from the form.
+    var propertyIdElement = propertyRow.children('.property-id-element');
+    propertyRow.data('property-id-element', propertyIdElement);
+    propertyIdElement.remove();
 
-        if (resourceTemplateId) {
-            // Property is currently assigned.
-            var postUrl = '<?php echo $this->escapeJs($this->url(null, array('action' => 'remove-property'), true)); ?>';
-            var postData = {
-                resource_template_id: resourceTemplateId,
-                property_id: propertyId,
-                csrf: $(this).find('[name="csrf"]').val(),
-            };
-            // @todo Make a POST request to removePropertyAction
-            console.log(postData);
-        }
-
-        $('#sidebar-confirm').hide();
-        propertyRow.remove();
+    // Undo remove property link.
+    var undoRemoveLink = $('<a>', {
+        text: 'undo',
+        href: '#',
+        click: function(event) {
+            event.preventDefault();
+            propertyRow.append(propertyRow.data('property-id-element'));
+            removeLink.show();
+            $(this).remove();
+        },
     });
+
+    undoRemoveLink.insertAfter(removeLink);
+    removeLink.hide();
 });
 </script>

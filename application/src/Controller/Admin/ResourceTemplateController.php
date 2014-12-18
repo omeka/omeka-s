@@ -32,7 +32,10 @@ class ResourceTemplateController extends AbstractActionController
 
     public function showAction()
     {
+        $response = $this->api()->read('resource_templates', $this->params('id'));
+
         $view = new ViewModel;
+        $view->setVariable('resourceTemplate', $response->getContent());
         return $view;
     }
 

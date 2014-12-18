@@ -34,7 +34,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
-        array('propertyRow' => $propertyRow)
+        array(
+            'propertyRow' => $propertyRow,
+            'resourceTemplate' => $resourceTemplate,
+        )
     ) ?>
     <?php endforeach; ?>
     </tbody>
@@ -62,7 +65,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
     event.preventDefault();
-    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'show-property-row'), true)); ?>';
+    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
     $.get(url, {property_id: $(this).closest('li').data('property-id')})
         .done(function(data) {
             $('#properties tbody').append(data);
@@ -74,7 +77,7 @@ $('#content').on('click', '.resource-property-delete', function(event) {
 
     var propertyRow =  $(this).closest('tr');
     var propertyId = propertyRow.data('property-id');
-    var resourceTemplateId = $(this).data('resource-template-id');
+    var resourceTemplateId = propertyRow.data('resource-template-id');
 
     // Override default confirm form behavior.
     $('#sidebar-confirm form').submit(function(event) {

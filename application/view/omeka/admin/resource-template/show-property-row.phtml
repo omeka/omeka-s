@@ -1,12 +1,21 @@
 <?php
 $property = $propertyRow['o:property'];
+if ($resourceTemplate) {
+    // If a resource template is set, the property is stored as a reference
+    // rather than a representation, so we must convert accordingly.
+    $property = $property->getRepresentation();
+}
 $alternateLabel = $propertyRow['o:alternate_label'];
 $alternateComment = $propertyRow['o:alternate_comment'];
 $namePrefix = 'o:resource_template_property[' . $property->id() . ']';
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<tr data-property-id="<?php echo $escapeAttr($property->id()); ?>">
+<tr
+    <?php if ($resourceTemplate): ?>
+    data-resource-template-id="<?php echo $escapeAttr($resourceTemplate->id()); ?>"
+    <?php endif; ?>
+    data-property-id="<?php echo $escapeAttr($property->id()); ?>">
     <td>
         <?php echo $escape($property->label()); ?>
         <input type="hidden" name="<?php echo $escapeAttr($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escapeAttr($property->id()); ?>">

@@ -47,22 +47,9 @@
             var parentInput = $(this).parents('.inputs');
             valueToRemove.remove();
             var count = parentInput.find('> .value').length;
-            console.log(count);
             if (count == 1) {
                 parentInput.find('.remove-value').removeClass('active');
             }
-            
-/*
-            var value = $(this).parents('.value');
-            var count = $(this).parents('.field').find('.value').length;
-            if (count > 1) {
-                if (count == 2) {
-                    $(this).parents('.field').find('.remove-value').last().removeClass('active');
-                }
-                value.remove();
-            }
-            
-            */
         });
 
 

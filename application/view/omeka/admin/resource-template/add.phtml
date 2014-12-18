@@ -72,9 +72,9 @@ $('.select-property-button').click('.property-selector', function(event) {
 // Remove property row via the delete icon.
 $('#content').on('click', '.resource-property-delete', function(event) {
 
-    var resourceTemplateId = $(this).data('resource-template-id');
-    var propertyId = $(this).data('property-id');
     var propertyRow =  $(this).closest('tr');
+    var propertyId = propertyRow.data('property-id');
+    var resourceTemplateId = $(this).data('resource-template-id');
 
     // Override default confirm form behavior.
     $('#sidebar-confirm form').submit(function(event) {

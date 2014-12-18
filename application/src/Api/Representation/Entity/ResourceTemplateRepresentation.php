@@ -49,4 +49,19 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getLabel();
     }
+
+    /**
+     * Return the properties assigned to this resource template.
+     *
+     * Since resource template properties are not API resources, this cannot
+     * return an array of representations. Instead this returns the array of
+     * resource template properties as built by {@link self::getJsonLd()}.
+     *
+     * @return array
+     */
+    public function resourceTemplateProperties()
+    {
+        $jsonLd = $this->getJsonLd();
+        return $jsonLd['o:resource_template_property'];
+    }
 }

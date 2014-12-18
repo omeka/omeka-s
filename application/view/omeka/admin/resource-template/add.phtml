@@ -6,10 +6,10 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1>Add Resource Template</h1>
+<h1><?php echo $escape($this->translate('Add Resource Template')); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
+    <button><?php echo $escape($this->translate('Submit')); ?></button>
 </div>
 
 <?php $labelElement = $form->get('o:label'); ?>
@@ -25,9 +25,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <table id="properties">
     <thead>
     <tr>
-        <th>Original Label</th>
-        <th>Alternate Label</th>
-        <th>Alternate Comment</th>
+        <th><?php echo $escape($this->translate('Original Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
     </tr>
     </thead>
     <tbody>

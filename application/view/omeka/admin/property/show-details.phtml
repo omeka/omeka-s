@@ -1,4 +1,4 @@
-<h2><?php echo $property->label(); ?></h2>
-<p>Vocabulary: <?php echo $property->vocabulary()->label(); ?></p>
-<p>Term: <?php echo $property->term(); ?></p>
-<p>Comment: <?php echo $property->comment(); ?></p>
+<h2><?php echo $this->escapeHtml($property->label()); ?></h2>
+<p><?php echo $this->escapeHtml($this->translate('Vocabulary')); ?>: <?php echo $this->escapeHtml($property->vocabulary()->label()); ?></p>
+<p><?php echo $this->escapeHtml($this->translate('Term')); ?>: <?php echo $this->escapeHtml($property->term()); ?></p>
+<p><?php echo $this->escapeHtml($this->translate('Comment')); ?>: <?php echo $this->escapeHtml($property->comment()); ?></p>

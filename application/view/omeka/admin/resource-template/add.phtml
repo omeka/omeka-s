@@ -1,6 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'resource-template add');
 $form->prepare();
+$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -24,34 +25,74 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <table id="properties">
     <thead>
     <tr>
-        <th>Original label<br>
-        <span>term</span></th>
-        <th>Label</th>
-        <th>Comment</th>
-        <th></th>
+        <th>Original Label</th>
+        <th>Alternate Label</th>
+        <th>Alternate Comment</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
-        'omeka/admin/resource-template/property-row',
+        'omeka/admin/resource-template/show-property-row',
         array('propertyRow' => $propertyRow)
     ) ?>
     <?php endforeach; ?>
     </tbody>
 </table>
 
-<?php echo $this->propertySelector(); ?>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>
 
+<?php echo $this->propertySelector(); ?>
 <script>
+// Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
     event.preventDefault();
-    var id = $(this).closest('li').data('property-id');
-    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'property-row'), true)); ?>';
-    $.get(url, {id: id}).done(function(data) {
-        $('#properties tbody').append(data);
+    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'show-property-row'), true)); ?>';
+    $.get(url, {property_id: $(this).closest('li').data('property-id')})
+        .done(function(data) {
+            $('#properties tbody').append(data);
+        });
+});
+
+// Remove property row via the delete icon.
+$('#content').on('click', '.resource-property-delete', function(event) {
+
+    var resourceTemplateId = $(this).data('resource-template-id');
+    var propertyId = $(this).data('property-id');
+    var propertyRow =  $(this).closest('tr');
+
+    // Override default confirm form behavior.
+    $('#sidebar-confirm form').submit(function(event) {
+        event.preventDefault();
+
+        if (resourceTemplateId) {
+            // Property is currently assigned.
+            var postUrl = '<?php echo $this->escapeJs($this->url(null, array('action' => 'remove-property'), true)); ?>';
+            var postData = {
+                resource_template_id: resourceTemplateId,
+                property_id: propertyId,
+                csrf: $(this).find('[name="csrf"]').val(),
+            };
+            // @todo Make a POST request to removePropertyAction
+            console.log(postData);
+        }
+
+        $('#sidebar-confirm').hide();
+        propertyRow.remove();
     });
 });
 </script>
-<?php echo $this->formElement($form->get('csrf')); ?>
-<?php echo $this->form()->closeTag(); ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Remove Property')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to remove this property from the template?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+    <div class="sidebar-content"></div>
+</div>

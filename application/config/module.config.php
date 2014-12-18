@@ -63,6 +63,7 @@ return array(
             'Omeka\Controller\Admin\Module'    => 'Omeka\Controller\Admin\ModuleController',
             'Omeka\Controller\Admin\ResourceTemplate' => 'Omeka\Controller\Admin\ResourceTemplateController',
             'Omeka\Controller\Admin\Vocabulary' => 'Omeka\Controller\Admin\VocabularyController',
+            'Omeka\Controller\Admin\Property' => 'Omeka\Controller\Admin\PropertyController',
             'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),

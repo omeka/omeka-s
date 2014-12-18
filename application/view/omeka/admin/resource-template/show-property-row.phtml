@@ -1,0 +1,32 @@
+<?php
+$property = $propertyRow['o:property'];
+$alternateLabel = $propertyRow['o:alternate_label'];
+$alternateComment = $propertyRow['o:alternate_comment'];
+$namePrefix = 'o:resource_template_property[' . $property->id() . ']';
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<tr>
+    <td>
+        <?php echo $escape($property->label()); ?>
+        <input type="hidden" name="<?php echo $escapeAttr($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escapeAttr($property->id()); ?>">
+        <ul class="actions">
+            <?php if (!in_array($property->term(), array('dcterms:title', 'dcterms:description'))): ?>
+            <li><a href="#"
+                data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                data-sidebar-confirm-url="#"
+                data-property-id="<?php echo $escapeAttr($property->id()); ?>"
+                class="o-icon-delete sidebar-confirm resource-property-delete"
+                aria-label="<?php echo $escapeAttr($this->translate('Remove property')); ?>"
+                title="<?php echo $escapeAttr($this->translate('Remove property')); ?>"></a></li>
+            <?php endif; ?>
+            <li><a href="#"
+                data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                class="o-icon-more sidebar-content"
+                aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+        </ul>
+    </td>
+    <td><input type="text" name="<?php echo $escapeAttr($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escapeAttr($alternateLabel); ?>"></td>
+    <td><textarea name="<?php echo $escapeAttr($namePrefix . '[o:alternate_comment]'); ?>"><?php echo $escape($alternateComment); ?></textarea></td>
+</tr>

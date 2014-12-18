@@ -1,6 +1,7 @@
 <?php 
 namespace Omeka\Controller\Admin;
 
+use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
 use Omeka\Mvc\Exception\NotFoundException;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -52,9 +53,10 @@ class ResourceTemplateController extends AbstractActionController
                 $propertyRows[$property->id()]['o:property'] = $property;
             }
 
-            $form->setData($data);
             // @todo Remove dcterms:title and dcterms:description from data if
             // they have no alternate label and comment.
+
+            $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api()->create('resource_templates', $data);
                 if ($response->isError()) {
@@ -80,8 +82,13 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $view->setVariable('form', $form);
         $view->setVariable('propertyRows', $propertyRows);
+        $view->setVariable('form', $form);
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Removal'),
+            )
+        ));
         return $view;
     }
 
@@ -91,14 +98,14 @@ class ResourceTemplateController extends AbstractActionController
         return $view;
     }
 
-    public function propertyRowAction()
+    public function showPropertyRowAction()
     {
         if (!$this->getRequest()->isXmlHttpRequest()) {
             throw new NotFoundException;
         }
 
         $property = $this->api()
-            ->read('properties', $this->params()->fromQuery('id'))
+            ->read('properties', $this->params()->fromQuery('property_id'))
             ->getContent();
         $propertyRow = array(
             'o:property' => $property,

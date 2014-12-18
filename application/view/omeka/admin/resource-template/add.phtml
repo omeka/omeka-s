@@ -44,6 +44,20 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->propertySelector(); ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Remove Property')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to remove this property from the template?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+    <div class="sidebar-content"></div>
+</div>
+
 <script>
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
@@ -83,16 +97,3 @@ $('#content').on('click', '.resource-property-delete', function(event) {
     });
 });
 </script>
-
-<div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Remove Property')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to remove this property from the template?')); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
-    <div class="sidebar-content"></div>
-</div>

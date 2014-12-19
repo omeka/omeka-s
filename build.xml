@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Omeka" basedir="." default="init">
     <property name="build.dir" location="build"/>
+    <property name="build.data.dir" location="data/build"/>
+    <property name="migration.dir" location="data/migrations"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
     <property name="composer.vendor.path" location="vendor"/>
     <property name="composer.bin.path" location="${composer.vendor.path}/bin"/>
     <property name="phpunit.path" location="${composer.bin.path}/phpunit"/>
     <property name="phpunit.log.path" location="${build.dir}/test-results.xml"/>
     <property name="phpunit.coverage.html.path" location="${build.dir}/test-coverage/html"/>
+
     <target name="build-dir">
         <mkdir dir="${build.dir}"/>
     </target>
@@ -96,5 +99,22 @@
         <exec executable="php" failonerror="true">
             <arg file="create-schema.php"/>
         </exec>
+    </target>
+    <target name="create-migration"
+            description="Create a new migration.">
+        <tstamp>
+            <format property="migration.date" pattern="yyyyMMddHHmmss" timezone="UTC"/>
+        </tstamp>
+        <input message="Migration name (UpperCamelCased):"
+               addproperty="migration.name"
+        />
+        <copy file="${build.data.dir}/migration.php.tpl"
+              tofile="${migration.dir}/${migration.date}_${migration.name}.php">
+            <filterchain>
+                <replacetokens>
+                    <token key="ClassName" value="${migration.name}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
     </target>
 </project>

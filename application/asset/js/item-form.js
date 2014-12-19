@@ -47,8 +47,10 @@
             var parentInput = $(this).parents('.inputs');
             valueToRemove.remove();
             var count = parentInput.find('> .value').length;
+            
             if (count == 1) {
                 parentInput.find('.remove-value').removeClass('active');
+                makeNewValue();
             }
         });
 
@@ -94,28 +96,25 @@
             var propertyQname = $(this).data('property-qname');
             var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
             var count = valuesWrapper.find('input.value').length;
-            //var ul = jQuery("div[data-property-qname = '" + propertyQname + "'] ul.selected-resources");
             var newResource = valuesWrapper.find("p.selected-resource.template");
             newResource.removeClass('template');
             newResource.find('span.o-title').html(title);
+            
+            //instead of what's currently here, completely replace the existing
+            //inputs for value and property, for the "value" box being used
+            
             var valueInput = newResource.find('input.value'); 
             valueInput.attr('name', propertyQname + '[' + count + '][value_resource_id]');
             valueInput.val(resourceId);
             var propertyInput = $('input.property', newResource);
             propertyInput.attr('name', propertyQname + '[' + count + '][property_id]');
             propertyInput.val(valuesWrapper.data('property-id'));
+            
+            //set up the buttons for actions
             newResource.siblings('span').hide();
             newResource.siblings('a.button').hide();
             newResource.parent().siblings('button.remove-value').addClass('active');
-            //newResource.append(newResource);
-            
-            /*
-            if ($('li', ul).length == 1) {
-                newResource.siblings('span').show();
-            } else {
-                newResource.siblings('span').hide();
-            }
-            */
+
             Omeka.closeSidebar($('.sidebar'));
         });
 

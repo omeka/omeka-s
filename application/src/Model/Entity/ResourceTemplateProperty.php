@@ -31,7 +31,7 @@ class ResourceTemplateProperty extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Property")
-     * @JoinColumn(nullable=false)
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $property;
 

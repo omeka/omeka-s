@@ -9,12 +9,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <td>
         <?php echo $escape($property->label()); ?>
         <ul class="actions">
-            <?php if (!in_array($property->term(), array('dcterms:title', 'dcterms:description'))): ?>
             <li><a href="#"
                 class="o-icon-delete resource-template-property-remove"
                 aria-label="<?php echo $escapeAttr($this->translate('Remove property')); ?>"
                 title="<?php echo $escapeAttr($this->translate('Remove property')); ?>"></a></li>
-            <?php endif; ?>
             <li><a href="#"
                 data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
                 class="o-icon-more sidebar-content"

@@ -46,8 +46,26 @@ class ResourceTemplateController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
 
-            // @todo Remove dcterms:title and :description from data if they
+            $titleProperty = $this->api()->searchOne(
+                'properties', array('term' => 'dcterms:title')
+            )->getContent();
+            $descriptionProperty = $this->api()->searchOne(
+                'properties', array('term' => 'dcterms:description')
+            )->getContent();
+
+            // Remove dcterms:title and dcterms:description from data if they
             // have no alternate label and comment.
+            foreach ($data['o:resource_template_property'] as $key => $propertyRow) {
+                if (!in_array(
+                    $propertyRow['o:property']['o:id'],
+                    array($titleProperty->id(), $descriptionProperty->id())
+                )) {
+                    continue;
+                }
+                if (!$propertyRow['o:alternate_label'] && !$propertyRow['o:alternate_comment']) {
+                    unset($data['o:resource_template_property'][$key]);
+                }
+            }
 
             $form->setData($data);
             if ($form->isValid()) {
@@ -81,8 +99,26 @@ class ResourceTemplateController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
 
-            // @todo Remove dcterms:title and :description from data if they
+            $titleProperty = $this->api()->searchOne(
+                'properties', array('term' => 'dcterms:title')
+            )->getContent();
+            $descriptionProperty = $this->api()->searchOne(
+                'properties', array('term' => 'dcterms:description')
+            )->getContent();
+
+            // Remove dcterms:title and dcterms:description from data if they
             // have no alternate label and comment.
+            foreach ($data['o:resource_template_property'] as $key => $propertyRow) {
+                if (!in_array(
+                    $propertyRow['o:property']['o:id'],
+                    array($titleProperty->id(), $descriptionProperty->id())
+                )) {
+                    continue;
+                }
+                if (!$propertyRow['o:alternate_label'] && !$propertyRow['o:alternate_comment']) {
+                    unset($data['o:resource_template_property'][$key]);
+                }
+            }
 
             $form->setData($data);
             if ($form->isValid()) {

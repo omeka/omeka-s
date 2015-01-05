@@ -132,7 +132,6 @@ class ResourceTemplateController extends AbstractActionController
         // Set default property rows.
         } else {
 
-            // Set the dcterms:title and :description properties.
             $titleProperty = $this->api()->searchOne(
                 'properties', array('term' => 'dcterms:title')
             )->getContent();
@@ -140,27 +139,44 @@ class ResourceTemplateController extends AbstractActionController
                 'properties', array('term' => 'dcterms:description')
             )->getContent();
 
+            // When adding and editing a resource template, dcterms:title and
+            // dcterms:description must be at the beginning of the form, even if
+            // they are not specifically used by the template. Set up the
+            // default title and description rows here.
+            $titleRow = array(
+                'o:property' => $titleProperty,
+                'o:alternate_label' => null,
+                'o:alternate_comment' => null,
+            );
+            $descriptionRow = array(
+                'o:property' => $descriptionProperty,
+                'o:alternate_label' => null,
+                'o:alternate_comment' => null,
+            );
+
             if ('add' == $action) {
-                // For the add action, dcterms:title and dcterms:description are
-                // the only default property rows.
-                foreach (array($titleProperty, $descriptionProperty) as $property) {
-                    $propertyRows[$property->id()]['o:property'] = $property;
-                    $propertyRows[$property->id()]['o:alternate_label'] = null;
-                    $propertyRows[$property->id()]['o:alternate_comment'] = null;
-                }
+                // For the add action, title and description are the only
+                // default property rows.
+                $propertyRows = array($titleRow, $descriptionRow);
            } elseif ('edit' == $action) {
-
-                // @todo For the edit action, put dcterms:title and :description
-                // at the beginning of the rows, and the rest following.
-
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
                 $propertyRows = $resourceTemplate->resourceTemplateProperties();
-                foreach ($propertyRows as &$propertyRow) {
+                foreach ($propertyRows as $key => $propertyRow) {
                     // Convert references to full representations.
-                    $propertyRow['o:property'] = $propertyRow['o:property']->getRepresentation();
+                    $propertyRows[$key]['o:property'] = $propertyRow['o:property']->getRepresentation();
+                    // Remove title and description to be prepended later.
+                    if ($titleProperty->id() === $propertyRow['o:property']->id()) {
+                        $titleRow = $propertyRows[$key];
+                        unset($propertyRows[$key]);
+                    } elseif ($descriptionProperty->id() === $propertyRow['o:property']->id()) {
+                        $descriptionRow = $propertyRows[$key];
+                        unset($propertyRows[$key]);
+                    }
                 }
+                // Prepend title and description at the beginning of the rows.
+                array_unshift($propertyRows, $titleRow, $descriptionRow);
             } else {
                 // @todo Illegal action, throw exception
             }

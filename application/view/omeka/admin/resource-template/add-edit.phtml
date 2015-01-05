@@ -56,8 +56,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
     event.preventDefault();
+    var propertyId = $(this).closest('li').data('property-id');
+    if ($('#properties tbody tr[data-property-id="' + propertyId + '"]').length) {
+        // Resource templates cannot be assigned duplicate properties.
+        return;
+    }
     var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
-    $.get(url, {property_id: $(this).closest('li').data('property-id')})
+    $.get(url, {property_id: propertyId})
         .done(function(data) {
             $('#properties tbody').append(data);
         });
@@ -78,16 +83,19 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
 
     // Undo remove property link.
     var undoRemoveLink = $('<a>', {
-        text: 'undo',
         href: '#',
+        class: 'fa fa-undo',
+        title: 'Undo remove property',
         click: function(event) {
             event.preventDefault();
+            propertyRow.css({'background-color': '#f2f2f2'});
             propertyRow.append(propertyRow.data('property-id-element'));
             removeLink.show();
             $(this).remove();
         },
     });
 
+    propertyRow.css({'background-color': '#ffcccc'});
     undoRemoveLink.insertAfter(removeLink);
     removeLink.hide();
 });

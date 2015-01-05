@@ -41,60 +41,30 @@ class ResourceTemplateController extends AbstractActionController
 
     public function addAction()
     {
-        $form = new ResourceTemplateForm($this->getServiceLocator());
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-
-            $titleProperty = $this->api()->searchOne(
-                'properties', array('term' => 'dcterms:title')
-            )->getContent();
-            $descriptionProperty = $this->api()->searchOne(
-                'properties', array('term' => 'dcterms:description')
-            )->getContent();
-
-            // Remove dcterms:title and dcterms:description from data if they
-            // have no alternate label and comment.
-            foreach ($data['o:resource_template_property'] as $key => $propertyRow) {
-                if (!in_array(
-                    $propertyRow['o:property']['o:id'],
-                    array($titleProperty->id(), $descriptionProperty->id())
-                )) {
-                    continue;
-                }
-                if (!$propertyRow['o:alternate_label'] && !$propertyRow['o:alternate_comment']) {
-                    unset($data['o:resource_template_property'][$key]);
-                }
-            }
-
-            $form->setData($data);
-            if ($form->isValid()) {
-                $response = $this->api()->create('resource_templates', $data);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Resource template created.');
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addError('There was an error during validation');
-            }
-        }
-
-        $view = new ViewModel;
-        $view->setTemplate('omeka/admin/resource-template/add-edit');
-        $view->setVariable('propertyRows', $this->getPropertyRows());
-        $view->setVariable('form', $form);
-        return $view;
+        return $this->getAddEditView();
     }
 
     public function editAction()
     {
+        return $this->getAddEditView();
+    }
+
+    /**
+     * Get the add/edit view.
+     *
+     * @return ViewModel
+     */
+    protected function getAddEditView()
+    {
+        $action = $this->params('action');
+
         $form = new ResourceTemplateForm($this->getServiceLocator());
-        $resourceTemplate = $this->api()
-            ->read('resource_templates', $this->params('id'))
-            ->getContent();
-        $form->setData($resourceTemplate->jsonSerialize());
+        if ('edit' == $action) {
+            $resourceTemplate = $this->api()
+                ->read('resource_templates', $this->params('id'))
+                ->getContent();
+            $form->setData($resourceTemplate->jsonSerialize());
+        }
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -115,20 +85,30 @@ class ResourceTemplateController extends AbstractActionController
                 )) {
                     continue;
                 }
-                if (!$propertyRow['o:alternate_label'] && !$propertyRow['o:alternate_comment']) {
+                if (!trim($propertyRow['o:alternate_label'])
+                    && !trim($propertyRow['o:alternate_comment'])
+                ) {
                     unset($data['o:resource_template_property'][$key]);
                 }
             }
 
             $form->setData($data);
             if ($form->isValid()) {
-                $response = $this->api()->update(
-                    'resource_templates', $resourceTemplate->id(), $data
-                );
+                if ('edit' == $action) {
+                    $response = $this->api()->update(
+                        'resource_templates', $resourceTemplate->id(), $data
+                    );
+                } else {
+                    $response = $this->api()->create('resource_templates', $data);
+                }
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addSuccess('Resource template edited.');
+                    if ('edit' == $action) {
+                        $this->messenger()->addSuccess('Resource template edited.');
+                    } else {
+                        $this->messenger()->addSuccess('Resource template created.');
+                    }
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
@@ -143,6 +123,11 @@ class ResourceTemplateController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Get the property rows for the add/edit form.
+     *
+     * @return array
+     */
     protected function getPropertyRows()
     {
         $propertyRows = array();

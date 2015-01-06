@@ -18,7 +18,7 @@ class ResourceTemplate extends AbstractEntity
     protected $id;
 
     /**
-     * @Column
+     * @Column(unique=true)
      */
     protected $label;
 
@@ -32,7 +32,8 @@ class ResourceTemplate extends AbstractEntity
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove"},
+     *     indexBy="id"
      * )
      */
     protected $resourceTemplateProperties;

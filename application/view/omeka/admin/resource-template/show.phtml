@@ -1,0 +1,48 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'resource-template show');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+<h1><?php echo $escape($this->translate(sprintf('Resource Template “%s”', $resourceTemplate->label()))); ?></h1>
+
+<div id="page-actions">
+    <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>">Edit Resource Template</a>
+</div>
+
+<table id="properties">
+    <thead>
+    <tr>
+        <th><?php echo $escape($this->translate('Original Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
+        <?php $property = $resourceTemplateProperty['o:property']->getRepresentation(); ?>
+        <tr data-property-id="<?php echo $escapeAttr($property->id()); ?>">
+            <td>
+                <?php echo $escape($property->label()); ?>
+                <ul class="actions">
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
+                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                </ul>
+            </td>
+            <td><?php echo $escape($resourceTemplateProperty['o:alternate_label']); ?></td>
+            <td><?php echo $escape($resourceTemplateProperty['o:alternate_comment']); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>

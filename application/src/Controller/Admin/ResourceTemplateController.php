@@ -27,16 +27,51 @@ class ResourceTemplateController extends AbstractActionController
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('resourceTemplates', $response->getContent());
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
         return $view;
     }
 
     public function showAction()
     {
         $response = $this->api()->read('resource_templates', $this->params('id'));
-
         $view = new ViewModel;
         $view->setVariable('resourceTemplate', $response->getContent());
         return $view;
+    }
+
+    public function showDetailsAction()
+    {
+        $response = $this->api()->read('resource_templates', $this->params('id'));
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resourceTemplate', $response->getContent());
+        return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('resource_templates', $this->params('id'));
+                if ($response->isError()) {
+                    $this->messenger()->addError('Resource template could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Resource template successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Resource template could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute('admin/default', array(
+            'controller' => 'resource-template',
+            'action'     => 'browse',
+        ));
     }
 
     public function addAction()
@@ -68,7 +103,6 @@ class ResourceTemplateController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-
             $form->setData($data);
             if ($form->isValid()) {
                 if ('edit' == $action) {

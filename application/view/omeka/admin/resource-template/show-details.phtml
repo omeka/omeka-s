@@ -1,0 +1,5 @@
+<h2><?php echo $resourceTemplate->link($resourceTemplate->label()); ?></h2>
+<?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
+<?php $property = $resourceTemplateProperty['o:property']->getRepresentation(); ?>
+<p><?php echo $property->label(); ?></p>
+<?php endforeach; ?>

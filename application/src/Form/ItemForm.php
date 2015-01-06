@@ -3,6 +3,7 @@ namespace Omeka\Form;
 
 use Omeka\Form\ResourceValuesCollection;
 use Omeka\Api\Representation\Entity\PropertyRepresentation;
+use Zend\Form\Fieldset;
 
 class ItemForm extends AbstractForm
 {
@@ -22,11 +23,17 @@ class ItemForm extends AbstractForm
         foreach( $this->getProperties() as $property) {
             $this->addPropertyInputs($property);
         }
-
-        $this->add(array(
-            'name' => 'csrf',
-            'type' => 'Csrf'
-        ));
+    }
+    
+    public function getAllElements()
+    {
+        $elements = array();
+        $fieldSets = $this->getFieldSets();
+        foreach ($fieldSets as $fieldSet) {
+            $fieldSetElements = $fieldSet->getElements();
+            $elements = array_merge($elements, $fieldSetElements);
+        }
+        return $elements;
     }
 
     protected function getResourceClassPairs()
@@ -43,11 +50,27 @@ class ItemForm extends AbstractForm
      * Boilerplate to add a text property input
      * @param Omeka\Api\Representation\Entity\PropertyRepresentation $property
      */
-    protected function addPropertyInputs(PropertyRepresentation $property)
+    protected function addPropertyInputs(PropertyRepresentation $property, $values = array())
     {
+        //question: add elements/values here in the form, or in the propertyInputs helper?
+        //putting in here might mean using fieldsets, and making the helper take the entire
+        //fieldset to display
+        
+        //plus, should this use/add something analogous 
+        //to Omeka\Api\Representation\EntityAbstractResourceEntityRepresentation::displayValues()???
+        
+        //key question is where the indexes get added to the input names
+        
+        //radical move is to extend Fieldset to PropertySet and build helpers/partials off of that
+        //would let me stuff needed options like values into PropertySet::options for use in the helper
+        
+        //
         $qName = $property->term();
+        $fieldset = new Fieldset($qName);
+
+        $index = 0;
         $this->add(array(
-            'name'       => $qName . "[0][@value]",
+            'name'       => $qName . "[$index][@value]",
             'type'       => 'Textarea',
             'attributes' => array(
                 'data-property-qname' => $qName,
@@ -56,10 +79,34 @@ class ItemForm extends AbstractForm
                 ),
             'options'    => array(
                 'label'   => $property->label(),
-                'comment' => $property->comment()
+                'comment' => $property->comment(),
+                'term'    => $qName,
+                'index'   => $index
             )
         ));
-
+        
+        
+        /*
+        $fieldset->add(array(
+            'name'       => $qName . "[$index][@value]",
+            'type'       => 'Textarea',
+            'attributes' => array(
+                'data-property-qname' => $qName,
+                'data-property-id'    => $property->id(),
+                'class'               => 'input-value'
+                ),
+            'options'    => array(
+                'label'   => $property->label(),
+                'comment' => $property->comment(),
+                'term'    => $qName,
+                'index'   => $index
+            )
+        ));
+        
+        $this->add($fieldset);
+        */
+        
+/*
         $this->add(array(
             'name'       => $qName . "[0][property_id]",
             'type'       => 'Hidden',
@@ -69,6 +116,7 @@ class ItemForm extends AbstractForm
                 'class'               => 'input-id'
             )
         ));
+        */
     }
 }
 

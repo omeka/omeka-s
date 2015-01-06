@@ -5,6 +5,7 @@ $this->headScript()->appendFile($this->assetUrl('js/item-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+$formPropertyInputs = $this->plugin('formPropertyInputs');
 $formErrors = $this->plugin('formElementErrors');
 
 ?>
@@ -24,15 +25,45 @@ if (isset($errors)) {
 </nav>
 
 <form method='post' id='add-item'>
+    <?php
+    $name = $form->getName() ? $form->getName() . '_csrf' : 'csrf';
+    $csrf = $form->get($name);
+    echo $formElement($csrf);
+    $form->remove($name);
+    ?>
     <fieldset id='resource-values' class='section active'>
-        <?php foreach ($form->getElements() as $name => $element): ?>
-        <?php if ($element->getLabel()): ?>
+        <?php foreach ($form->getFieldsets() as $term => $fieldset): ?>
+            <?php foreach ($fieldset->getElements() as $name => $element): ?>
+            <?php // echo $formPropertyInputs($element); ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+        
+        <div class="resource-values field" >
+            <div class="field-meta">
+                <?php $resourceClassElement = $form->get('o:resource_class[o:id]'); 
+                echo $formLabel($resourceClassElement);
+                ?>
+                <div class='field-description'>
+                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                    <p><?php  echo $resourceClassElement->getOption('comment'); ?></p>
+                </div>
+            </div>
+            <div class="field-inputs">
+                <div class="value">
+                    <?php 
+                    echo $formElement($resourceClassElement);
+                    $form->remove('o:resource_class[o:id]');
+                    ?>
+                </div>
+            </div>
+
+        </div>
+        <?php  foreach ($form->getElements() as $name => $element): ?>
         <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>' data-property-id='<?php echo $element->getAttribute('data-property-id'); ?>'>
-            <?php if ($name != 'o:resource_class[o:id]'): ?>
+
             <div class="field-actions">
                 <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
             </div>
-            <?php endif; ?>
             <div class='field-meta'>
             <?php echo $formLabel($element); ?>
                 <div class='field-description'>
@@ -43,35 +74,8 @@ if (isset($errors)) {
 
             <div class='inputs'>
                 <div class='value'>
-                    <?php if ($name != 'o:resource_class[o:id]'): ?>
-                    <div class="input-options">
-                            <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
-                            <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
-                            <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
-                     </div>
-                     <?php endif; ?>
-                     <div class="active type input-option text">
-                     <?php echo $formElement($element); ?>
-                     <?php if ($name != 'o:resource_class[o:id]'): ?>
-                     <?php $languageInputName = str_replace('@value', '@language', $name);  ?>
-                     <label class='value-language' for='<?php echo $languageInputName; ?>'>Language</label>
-                     <input class='value-language' type='text' name='<?php echo $languageInputName; ?>' />
-                     <?php endif; ?>
-                     </div>
-                     <div class="items input-option">
-                        <span class="default">No item selected</span>
-                            <p class="selected-resource template">
-                                <span class="o-title"></span>
-                                <input type="hidden" class="value" />
-                                <input type="hidden" class="property" />
-                            </p>
-
-                        <a href="#resource-select"
-                           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
-                           class="button resource-select">Select Omeka Resource
-                       </a>
-                    </div>
-                     <button class="remove-value">Remove value</button>
+                    <?php echo $formPropertyInputs($element); ?>
+                    <button class="remove-value">Remove value</button>
                 </div>
             </div>
 
@@ -79,10 +83,6 @@ if (isset($errors)) {
             echo $formErrors($element);
             ?>
         </div>
-        <?php else: ?>
-        <!-- Display the hidden input for the property id -->
-        <?php echo $formElement($element); ?>
-        <?php endif; ?>
         <?php endforeach; ?>
 
         <div class='new resource-values field unset'>

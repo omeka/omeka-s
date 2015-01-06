@@ -101,6 +101,7 @@ return array(
             'sortLink'       => 'Omeka\View\Helper\SortLink',
             'formElements'   => 'Omeka\View\Helper\FormElements',
             'propertySelector' => 'Omeka\View\Helper\PropertySelector',
+            'formPropertyInputs'  => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
         ),
     ),

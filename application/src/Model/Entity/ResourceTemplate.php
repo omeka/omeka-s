@@ -3,6 +3,7 @@ namespace Omeka\Model\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Omeka\Model\Entity\ResourceTemplateProperty;
+use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\User;
 
 /**
@@ -26,6 +27,11 @@ class ResourceTemplate extends AbstractEntity
      * @ManyToOne(targetEntity="User", inversedBy="resourceTemplates")
      */
     protected $owner;
+
+    /**
+     * @ManyToOne(targetEntity="ResourceClass")
+     */
+    protected $resourceClass;
 
     /**
      * @OneToMany(
@@ -66,6 +72,16 @@ class ResourceTemplate extends AbstractEntity
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    public function setResourceClass(ResourceClass $resourceClass = null)
+    {
+        $this->resourceClass = $resourceClass;
+    }
+
+    public function getResourceClass()
+    {
+        return $this->resourceClass;
     }
 
     public function getResourceTemplateProperties()

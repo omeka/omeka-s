@@ -51,6 +51,18 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Return the resource class assigned to this resource template.
+     *
+     * @return ResourceClassRepresentation
+     */
+    public function resourceClass()
+    {
+        return $this->getAdapter('resource_classes')
+            ->getRepresentation(null, $this->getData()->getResourceClass());
+
+    }
+
+    /**
      * Return the properties assigned to this resource template.
      *
      * Since resource template properties are not API resources, this cannot

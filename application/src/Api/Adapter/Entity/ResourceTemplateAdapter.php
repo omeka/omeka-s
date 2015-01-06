@@ -92,6 +92,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ->findEntity($data['o:owner']['o:id']);
             $entity->setOwner($owner);
         }
+        if (isset($data['o:resource_class']['o:id'])) {
+            $resourceClass = null;
+            if (is_numeric($data['o:resource_class']['o:id'])) {
+                $resourceClass = $this->getAdapter('resource_classes')
+                    ->findEntity($data['o:resource_class']['o:id']);
+            }
+            $entity->setResourceClass($resourceClass);
+        }
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);
         }

@@ -21,6 +21,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
 </div>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $escape($this->translate('Suggested Class')); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceClassSelect(
+            'o:resource_class[o:id]',
+            array('value' => $resourceClassId)
+        ); ?>
+    </div>
+</div>
 <table id="properties">
     <thead>
     <tr>

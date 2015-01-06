@@ -92,13 +92,17 @@ class ResourceTemplateController extends AbstractActionController
     protected function getAddEditView()
     {
         $action = $this->params('action');
-
         $form = new ResourceTemplateForm($this->getServiceLocator());
+        $resourceClassId = null;
+
         if ('edit' == $action) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
             $form->setData($resourceTemplate->jsonSerialize());
+            if ($resourceTemplate->resourceClass()) {
+                $resourceClassId = $resourceTemplate->resourceClass()->id();
+            }
         }
 
         if ($this->getRequest()->isPost()) {
@@ -130,6 +134,7 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         $view->setTemplate('omeka/admin/resource-template/add-edit');
         $view->setVariable('propertyRows', $this->getPropertyRows());
+        $view->setVariable('resourceClassId', $resourceClassId);
         $view->setVariable('form', $form);
         return $view;
     }

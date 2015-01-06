@@ -10,6 +10,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>">Edit Resource Template</a>
 </div>
 
+<?php if ($resourceTemplate->resourceClass()): ?>
+<p>Class: <?php echo $resourceTemplate->resourceClass()->label(); ?></p>
+<?php endif; ?>
+
 <table id="properties">
     <thead>
     <tr>

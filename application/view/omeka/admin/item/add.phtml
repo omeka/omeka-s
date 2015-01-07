@@ -32,11 +32,7 @@ if (isset($errors)) {
     $form->remove($name);
     ?>
     <fieldset id='resource-values' class='section active'>
-        <?php foreach ($form->getFieldsets() as $term => $fieldset): ?>
-            <?php foreach ($fieldset->getElements() as $name => $element): ?>
-            <?php // echo $formPropertyInputs($element); ?>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+
         
         <div class="resource-values field" >
             <div class="field-meta">
@@ -58,33 +54,36 @@ if (isset($errors)) {
             </div>
 
         </div>
-        <?php  foreach ($form->getElements() as $name => $element): ?>
-        <div class="resource-values field" data-property-qname='<?php echo $element->getAttribute('data-property-qname'); ?>' data-property-id='<?php echo $element->getAttribute('data-property-id'); ?>'>
-
-            <div class="field-actions">
-                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
-            </div>
-            <div class='field-meta'>
-            <?php echo $formLabel($element); ?>
-                <div class='field-description'>
-                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                    <p><?php  echo $element->getOption('comment'); ?></p>
+        <?php foreach ($form->getFieldsets() as $term => $fieldset): ?>
+            <div class="resource-values field" data-property-qname='<?php echo $fieldset->getOption('data-property-qname'); ?>' data-property-id='<?php echo $fieldset->getOption('data-property-id'); ?>'>
+    
+                <div class="field-actions">
+                    <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
                 </div>
-            </div>
-
-            <div class='inputs'>
-                <div class='value'>
-                    <?php echo $formPropertyInputs($element); ?>
-                    <button class="remove-value">Remove value</button>
+                <div class='field-meta'>
+                <?php echo $formLabel($fieldset); ?>
+                    <div class='field-description'>
+                        <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                        <p><?php  echo $fieldset->getOption('comment'); ?></p>
+                    </div>
                 </div>
+    
+                <div class='inputs'>
+                    <?php foreach ($fieldset->getElements() as $name => $element): ?>
+                        <?php echo $formPropertyInputs($element); ?>
+                        <button class="remove-value">Remove value</button>
+                    <?php endforeach; ?>
+                    <div class='value'>
+                        <?php //echo $formPropertyInputs($element); ?>
+                    </div>
+                </div>
+<!-- put errors in the partial/helper? -->
+                <?php
+                echo $formErrors($element);
+                ?>
             </div>
-
-            <?php
-            echo $formErrors($element);
-            ?>
-        </div>
         <?php endforeach; ?>
-
+        
         <div class='new resource-values field unset'>
             <div class="field-actions">
                 <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>

@@ -65,28 +65,37 @@ class ItemForm extends AbstractForm
         //would let me stuff needed options like values into PropertySet::options for use in the helper
         
         //
+        $index = 0;
         $qName = $property->term();
         $fieldset = new Fieldset($qName);
-
-        $index = 0;
-        $this->add(array(
-            'name'       => $qName . "[$index][@value]",
-            'type'       => 'Textarea',
-            'attributes' => array(
-                'data-property-qname' => $qName,
-                'data-property-id'    => $property->id(),
-                'class'               => 'input-value'
-                ),
-            'options'    => array(
-                'label'   => $property->label(),
-                'comment' => $property->comment(),
-                'term'    => $qName,
-                'index'   => $index
-            )
-        ));
+        $fieldset->setOptions(array(
+                    'label'   => $property->label(),
+                    'comment' => $property->comment(),
+                    'term'    => $qName,
+                    'data-property-qname' => $qName,
+                    'data-property-id'    => $property->id(),
+                    'class'               => 'input-value'
+                ));
         
-        
-        /*
+        foreach ($values as $index => $value) {
+            $fieldset->add(array(
+                'name'       => $qName . "[$index][@value]",
+                'type'       => 'Textarea',
+                'attributes' => array(
+                    'data-property-qname' => $qName,
+                    'data-property-id'    => $property->id(),
+                    'class'               => 'input-value'
+                    ),
+                'options'    => array(
+                    'label'   => $property->label(),
+                    'comment' => $property->comment(),
+                    'term'    => $qName,
+                    'index'   => $index
+                )
+            ));
+            $index ++;
+        }
+        //always add an empty at the end
         $fieldset->add(array(
             'name'       => $qName . "[$index][@value]",
             'type'       => 'Textarea',
@@ -102,21 +111,7 @@ class ItemForm extends AbstractForm
                 'index'   => $index
             )
         ));
-        
         $this->add($fieldset);
-        */
-        
-/*
-        $this->add(array(
-            'name'       => $qName . "[0][property_id]",
-            'type'       => 'Hidden',
-            'attributes' => array(
-                'value'               => $property->id(),
-                'data-property-qname' => $qName,
-                'class'               => 'input-id'
-            )
-        ));
-        */
     }
 }
 

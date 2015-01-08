@@ -5,7 +5,7 @@ use Omeka\Form\ResourceValuesCollection;
 use Omeka\Api\Representation\Entity\PropertyRepresentation;
 use Zend\Form\Fieldset;
 
-class ItemForm extends AbstractForm
+class ResourceForm extends AbstractForm
 {
     public function buildForm()
     {
@@ -15,11 +15,11 @@ class ItemForm extends AbstractForm
             'options' => array(
                 'label'         => 'Class',
                 'value_options' => $this->getResourceClassPairs(),
-                'comment'       => "A type for the item. Different types have 
+                'comment'       => "A type for the resource. Different types have 
                                     different default properties attached to them."
             )
         ));
-
+        
         foreach( $this->getProperties() as $property) {
             $this->addPropertyInputs($property);
         }

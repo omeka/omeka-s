@@ -13,6 +13,18 @@
             }
         });
         
+        //clone dcterms:title and dcterms:description for starters, if they don't already exist
+        //assumes that the propertySelector helper has been deployed
+        
+        var titleLi = $('li[data-property-qname="dcterms:title"]');
+        var qName = titleLi.data('property-qname');
+        makeNewField(titleLi);
+        makeNewValue(qName, true);
+
+        var descriptionLi = $('li[data-property-qname="dcterms:description"]');
+        var qName = descriptionLi.data('property-qname');
+        makeNewField(descriptionLi);
+        makeNewValue(qName, true);
         /* Property selector handlers */
 
         // Select property
@@ -149,7 +161,7 @@
         });
     });
 
-    var makeNewValue = function(qName) {
+    var makeNewValue = function(qName, skipFocus) {
         var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
         var newValue = $('.value.template ').clone(true);
         newValue.removeClass('template');
@@ -163,10 +175,15 @@
         $('label.value-language', newValue).attr('for', languageElementName);
         $('input.value-language', newValue).attr('name', languageElementName);
         
-        $('html, body').animate({
-            scrollTop: (valuesWrapper.offset().top -100)
-        },200);
-        $('textarea', newValue).focus();
+        // the skipFocus was added late in dev. should be refactored to make more sense
+        // and use 'focus' as the variable
+        if (typeof skipFocus == 'undefined') {
+            $('html, body').animate({
+                scrollTop: (valuesWrapper.offset().top -100)
+            },200);
+            $('textarea', newValue).focus();
+        } 
+
         // elements are counted before the newest is added
         if (count > 0) {
             valuesWrapper.find('.remove-value').addClass('active');

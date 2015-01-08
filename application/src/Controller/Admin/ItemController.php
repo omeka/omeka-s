@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Api\ResponseFilter;
-use Omeka\Form\ItemForm;
+use Omeka\Form\ResourceForm;
 use Omeka\Form\ConfirmForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -127,11 +127,12 @@ class ItemController extends AbstractActionController
                               ->search('properties', array('term' => 'dcterms:description'))
                               ->getContent();
         $properties = array($dctermsTitles[0], $dctermsDescriptions[0]);
+        $properties = array();
         $options = array(
             'resource_class_pairs' => $resourceClassPairs,
             'properties'           => $properties
             );
-        $form = new ItemForm($this->getServiceLocator(), 'items', $options);
+        $form = new ResourceForm($this->getServiceLocator(), 'items', $options);
         $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {

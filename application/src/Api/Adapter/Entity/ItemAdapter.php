@@ -47,7 +47,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore
+        ErrorStore $errorStore, $isManaged
     ) {
         $this->hydrateValues($data, $entity);
 

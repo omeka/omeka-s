@@ -46,7 +46,7 @@ class PropertyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore
+        ErrorStore $errorStore, $isManaged
     ) {
         if (isset($data['o:owner']['o:id'])) {
             $owner = $this->getAdapter('users')

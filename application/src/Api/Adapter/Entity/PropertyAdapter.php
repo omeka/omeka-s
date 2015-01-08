@@ -2,12 +2,15 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {
+    use OwnedEntityTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -48,11 +51,7 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        if (isset($data['o:owner']['o:id'])) {
-            $owner = $this->getAdapter('users')
-                ->findEntity($data['o:owner']['o:id']);
-            $entity->setOwner($owner);
-        }
+        $this->setOwner($data, $entity, $isManaged);
         if (isset($data['o:vocabulary']['o:id'])) {
             $vocabulary = $this->getAdapter('vocabularies')
                 ->findEntity($data['o:vocabulary']['o:id']);

@@ -2,12 +2,15 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class MediaAdapter extends AbstractResourceEntityAdapter
 {
+    use OwnedEntityTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -52,11 +55,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     ) {
         $this->hydrateValues($data, $entity);
 
-        if (isset($data['o:owner']['o:id'])) {
-            $owner = $this->getAdapter('users')
-                ->findEntity($data['o:owner']['o:id']);
-            $entity->setOwner($owner);
-        }
+        $this->setOwner($data, $entity, $isManaged);
 
         if (isset($data['o:resource_class']['o:id'])) {
             $resourceClass = $this->getAdapter('resource_classes')

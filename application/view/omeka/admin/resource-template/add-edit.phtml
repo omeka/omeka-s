@@ -32,23 +32,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         ); ?>
     </div>
 </div>
-<table id="properties">
-    <thead>
-    <tr>
-        <th><?php echo $escape($this->translate('Original Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
-    </tr>
-    </thead>
-    <tbody>
+<ul id="properties">
+    <li class="property-row">
+        <div class="property-heading" id="original-label"><?php echo $escape($this->translate('Original Label')); ?></div>
+        <div class="property-heading" id="alternate-label"><?php echo $escape($this->translate('Alternate Label')); ?></div>
+        <div class="property-heading" id="alternate-comment"><?php echo $escape($this->translate('Alternate Comment')); ?></div>
+    </li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
         array('propertyRow' => $propertyRow)
     ) ?>
     <?php endforeach; ?>
-    </tbody>
-</table>
+</ul>
 
 <?php echo $this->formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>

@@ -648,7 +648,7 @@ th {
 
   .property-selector,
   .field {
-    float: left;
+    overflow: hidden;
     width: 100%;
     background-color: #e7e7e7;
     padding: 0.375em;
@@ -2351,6 +2351,48 @@ th {
 
   .resource-template .local-name {
     font-style: italic;
+  }
+
+  .resource-template .property-row {
+    overflow: hidden;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+  }
+  .resource-template .property-row label:first-child,
+  .resource-template .property-row input[type="text"],
+  .resource-template .property-row textarea {
+    display: inline-block;
+    width: 30%;
+    vertical-align: top;
+  }
+
+  .resource-template #properties {
+    margin: 1.5em 0 0;
+    clear: both;
+    padding: 0;
+  }
+
+  .resource-template .property-heading {
+    font-weight: bold;
+    display: inline-block;
+    width: 30%;
+  }
+
+  .resource-template .property-heading:not(:first-child),
+  .resource-template .property-row input[type="text"],
+  .resource-template .property-row textarea {
+    margin-left: -4px;
+  }
+
+  .resource-template .property-row input[type="text"] {
+    width: 27.5%;
+    margin-right: 2.5%;
   }
 
   /* @end */

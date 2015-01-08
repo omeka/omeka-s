@@ -1,4 +1,5 @@
 @import "font-awesome/variables";
+@import "mixins";
 
 /* @group ----- Generic HTML elements ----- */
 
@@ -227,13 +228,7 @@ body {
     
     .property-selector,
     .field {
-        float: left;
-        width: 100%;
-        background-color: #e7e7e7;
-        padding: rhythm(.25);
-        position: relative;
-        border-color: $gray-on-white;
-        @include leading-border(1px, 0, $base-font-size, solid);
+        @include field-row;
         
         &:first-child {
             border-color: transparent;
@@ -1993,6 +1988,41 @@ body.show .property {
 
 .resource-template .local-name {
     font-style: italic;
+}
+
+.resource-template .property-row {
+    @include field-row;
+    
+    label:first-child,
+    input[type="text"],
+    textarea {
+        display: inline-block;
+        width: span(3 of 10);
+        vertical-align: top;
+    }
+}
+
+.resource-template #properties {
+    margin: rhythm() 0 0;
+    clear: both;
+    padding: 0;
+}
+
+.resource-template .property-heading {
+    font-weight: bold;
+    display: inline-block;
+    width: span(3 of 10);
+}
+
+.resource-template .property-heading:not(:first-child),
+.resource-template .property-row input[type="text"],
+.resource-template .property-row textarea {
+    margin-left: -4px;
+}
+
+.resource-template .property-row input[type="text"] {
+    width: span(2.75 of 10);
+    margin-right: span(.25 of 10);
 }
 
 /* @end */

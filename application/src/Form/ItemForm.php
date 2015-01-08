@@ -52,19 +52,6 @@ class ItemForm extends AbstractForm
      */
     protected function addPropertyInputs(PropertyRepresentation $property, $values = array())
     {
-        //question: add elements/values here in the form, or in the propertyInputs helper?
-        //putting in here might mean using fieldsets, and making the helper take the entire
-        //fieldset to display
-        
-        //plus, should this use/add something analogous 
-        //to Omeka\Api\Representation\EntityAbstractResourceEntityRepresentation::displayValues()???
-        
-        //key question is where the indexes get added to the input names
-        
-        //radical move is to extend Fieldset to PropertySet and build helpers/partials off of that
-        //would let me stuff needed options like values into PropertySet::options for use in the helper
-        
-        //
         $index = 0;
         $qName = $property->term();
         $fieldset = new Fieldset($qName);
@@ -76,7 +63,7 @@ class ItemForm extends AbstractForm
                     'data-property-id'    => $property->id(),
                     'class'               => 'input-value'
                 ));
-        
+
         foreach ($values as $index => $value) {
             $fieldset->add(array(
                 'name'       => $qName . "[$index][@value]",

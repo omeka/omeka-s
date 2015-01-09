@@ -47,9 +47,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param array $data
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
+     * @param bool $isManaged
      */
     abstract public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore);
+        ErrorStore $errorStore, $isManaged);
 
     /**
      * Validate entity data.
@@ -366,7 +367,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             throw $validationException;
         }
 
-        $this->hydrate($data, $entity, $errorStore);
+        $this->hydrate($data, $entity, $errorStore, $isManaged);
 
         // Trigger the operation's api.validate.entity.pre event.
         $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, array(

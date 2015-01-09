@@ -71,7 +71,7 @@ $('.select-property-button').click('.property-selector', function(event) {
     var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
     $.get(url, {property_id: propertyId})
         .done(function(data) {
-            $('#properties tbody').append(data);
+            $('#properties').append(data);
         });
 });
 
@@ -80,7 +80,7 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     event.preventDefault();
 
     var removeLink = $(this);
-    var propertyRow =  removeLink.closest('tr');
+    var propertyRow =  removeLink.closest('li.property-row');
     var propertyId = propertyRow.data('property-id');
 
     // Remove the property ID element from the form.

@@ -1,0 +1,113 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'resource-template add');
+$form->prepare();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+<h1><?php echo $escape($this->translate('Add Resource Template')); ?></h1>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $escape($this->translate('Submit')); ?></button>
+</div>
+
+<?php $labelElement = $form->get('o:label'); ?>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $this->formLabel($labelElement); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formElement($labelElement); ?>
+    </div>
+    <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <?php echo $escape($this->translate('Suggested Class')); ?>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceClassSelect(
+            'o:resource_class[o:id]',
+            array('value' => $resourceClassId)
+        ); ?>
+    </div>
+</div>
+<table id="properties">
+    <thead>
+    <tr>
+        <th><?php echo $escape($this->translate('Original Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
+        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($propertyRows as $propertyRow): ?>
+    <?php echo $this->partial(
+        'omeka/admin/resource-template/show-property-row',
+        array('propertyRow' => $propertyRow)
+    ) ?>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php echo $this->propertySelector(); ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<script>
+// Add property row via the property selector.
+$('.select-property-button').click('.property-selector', function(event) {
+    event.preventDefault();
+    var propertyId = $(this).closest('li').data('property-id');
+    if ($('#properties tbody tr[data-property-id="' + propertyId + '"]').length) {
+        // Resource templates cannot be assigned duplicate properties.
+        return;
+    }
+    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
+    $.get(url, {property_id: propertyId})
+        .done(function(data) {
+            $('#properties tbody').append(data);
+        });
+});
+
+// Remove property via the delete icon.
+$('#content').on('click', '.resource-template-property-remove', function(event) {
+    event.preventDefault();
+
+    var removeLink = $(this);
+    var propertyRow =  removeLink.closest('tr');
+    var propertyId = propertyRow.data('property-id');
+
+    // Remove the property ID element from the form.
+    var propertyIdElement = propertyRow.children('.property-id-element');
+    propertyRow.data('property-id-element', propertyIdElement);
+    propertyIdElement.remove();
+
+    // Undo remove property link.
+    var undoRemoveLink = $('<a>', {
+        href: '#',
+        class: 'fa fa-undo',
+        title: 'Undo remove property',
+        click: function(event) {
+            event.preventDefault();
+            propertyRow.css({'background-color': '#f2f2f2'});
+            propertyRow.append(propertyRow.data('property-id-element'));
+            removeLink.show();
+            $(this).remove();
+        },
+    });
+
+    propertyRow.css({'background-color': '#ffcccc'});
+    undoRemoveLink.insertAfter(removeLink);
+    removeLink.hide();
+});
+</script>

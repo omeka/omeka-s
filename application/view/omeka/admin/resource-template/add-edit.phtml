@@ -33,7 +33,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
 </div>
 <ul id="properties">
-    <li class="property-row">
+    <li>
         <div class="property-heading" id="original-label"><?php echo $escape($this->translate('Original Label')); ?></div>
         <div class="property-heading" id="alternate-label"><?php echo $escape($this->translate('Alternate Label')); ?></div>
         <div class="property-heading" id="alternate-comment"><?php echo $escape($this->translate('Alternate Comment')); ?></div>
@@ -58,8 +58,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
-
+<script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 <script>
+// Enable sorting on property rows.
+var list = document.getElementById('properties');
+new Sortable(list, {draggable: ".property-row"});
+
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
     event.preventDefault();

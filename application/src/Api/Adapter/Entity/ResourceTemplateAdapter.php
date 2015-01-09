@@ -120,6 +120,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemPropsToRetain = array();
+            $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
 
                 if (!isset($resTemPropData['o:property']['o:id'])) {
@@ -150,6 +151,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp->setAlternateLabel($altLabel);
                     $resTemProp->setAlternateComment($altComment);
                 }
+                // Set the position of the property to its intrinsic order
+                // within the passed array.
+                $resTemProp->setPosition($position++);
                 $resTemPropsToRetain[] = $resTemProp;
             }
 

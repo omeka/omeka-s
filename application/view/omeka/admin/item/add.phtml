@@ -2,7 +2,6 @@
 $this->htmlElement('body')->appendAttribute('class', 'add item');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
@@ -23,47 +22,14 @@ if (isset($errors)) {
 
 <form method='post' id='add-item'>
     <?php
-    $name = $form->getName() ? $form->getName() . '_csrf' : 'csrf';
-    $csrf = $form->get($name);
-    echo $formElement($csrf);
+        echo $formElement($csrf);
     ?>
-    <fieldset id='resource-values' class='section active'>
-        <div class="resource-values field" >
-            <div class="field-meta">
-                <?php $resourceClassElement = $form->get('o:resource_class[o:id]'); 
-                echo $formLabel($resourceClassElement);
-                ?>
-                <div class='field-description'>
-                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                    <p><?php  echo $resourceClassElement->getOption('comment'); ?></p>
-                </div>
-            </div>
-            <div class="field-inputs">
-                <div class="value">
-                    <?php 
-                    echo $formElement($resourceClassElement);
-                    ?>
-                </div>
-            </div>
-
-        </div>
-        <?php echo $this->partial(
-                'common/resource-property-values',
-                array(
-                    'form' => $form,
-                )
-              );
-         ?>
-
-        <div class='new resource-values field unset'>
-            <div class="field-actions">
-                <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
-                <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
-            </div>
-
-        </div>
-    <?php echo $this->propertySelector(); ?>
-    </fieldset>
+    <?php 
+        echo $this->partial(
+                'common/resource-fields.phtml',
+                array('id' => 'resource-values', 'class' => 'section active' )
+                );
+    ?>
 
     <fieldset id="save-sidebar">
         <input type="submit" name="add-item-submit" value="Create Item" />

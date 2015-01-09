@@ -2,11 +2,11 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Api\ResponseFilter;
-use Omeka\Form\ResourceForm;
 use Omeka\Form\ConfirmForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
+use Zend\Form\Element\Csrf;
 
 class ItemController extends AbstractActionController
 {
@@ -113,29 +113,17 @@ class ItemController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
-        $response = $this->api()->search('resource_classes');
-        $resourceClasses = $response->getContent();
-        $resourceClassPairs = array();
-        foreach ($resourceClasses as $resourceClass) {
-            $resourceClassPairs[$resourceClass->id()] = $resourceClass->label();
-        }
-
-        $dctermsTitles = $this->api()
-                              ->search('properties', array('term' => 'dcterms:title'))
-                              ->getContent();
-        $dctermsDescriptions = $this->api()
-                              ->search('properties', array('term' => 'dcterms:description'))
-                              ->getContent();
-        $properties = array($dctermsTitles[0], $dctermsDescriptions[0]);
-        $properties = array();
-        $options = array(
-            'resource_class_pairs' => $resourceClassPairs,
-            'properties'           => $properties
-            );
-        $form = new ResourceForm($this->getServiceLocator(), 'items', $options);
-        $view->setVariable('form', $form);
-
+        $csrf = new Csrf('csrf');
+        $csrf->setOptions(array(
+                'csrf_options' => array(
+                    'timeout' => 3600
+               )));
+        $view->setVariable('csrf', $csrf);
         if ($this->getRequest()->isPost()) {
+            $csrfValidator = $csrf->getCsrfValidator();
+            if( ! $csrfValidator->isValid($this->params()->fromPost('csrf'))) {
+                $this->messenger()->addError('The page has expired. Please try again');
+            }
             $response = $this->api()->create('items', $this->params()->fromPost());
             if ($response->isError()) {
                 $view->setVariable('errors', $response->getErrors());
@@ -148,5 +136,21 @@ class ItemController extends AbstractActionController
     }
 
     public function editAction()
-    {}
+    {
+        $view = new ViewModel;
+        $id = $this->params('id');
+        $response = $this->api()->read('items', $id);
+        $item = $response->getContent();
+        $values = array();
+        foreach ($item->values() as $vocabulary) {
+            foreach ($vocabulary['properties'] as $property) {
+                foreach ($property['values'] as $value) {
+                    $values[$property['property']->term()][] = $value->jsonSerialize();
+                }
+            }
+        }
+        $view->setVariable('item', $item);
+        $view->setVariable('values', json_encode($values));
+        return $view;
+    }
 }

@@ -82,22 +82,7 @@ class ResourceForm extends AbstractForm
             ));
             $index ++;
         }
-        //always add an empty at the end
-        $fieldset->add(array(
-            'name'       => $qName . "[$index][@value]",
-            'type'       => 'Textarea',
-            'attributes' => array(
-                'data-property-qname' => $qName,
-                'data-property-id'    => $property->id(),
-                'class'               => 'input-value'
-                ),
-            'options'    => array(
-                'label'   => $property->label(),
-                'comment' => $property->comment(),
-                'term'    => $qName,
-                'index'   => $index
-            )
-        ));
+
         $this->add($fieldset);
     }
 }

@@ -18,6 +18,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <thead>
         <tr>
             <th><?php echo $this->sortLink($this->translate('Label'), 'label'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +42,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     )); ?></li>
                  </ul>
             </td>
+            <td><?php echo $escape($resourceTemplate->displayResourceClassLabel()); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

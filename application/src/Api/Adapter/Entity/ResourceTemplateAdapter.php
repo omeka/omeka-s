@@ -45,6 +45,23 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    $this->getEntityClass() . '.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function validateData(array $data, ErrorStore $errorStore,
         $isManaged
     ){

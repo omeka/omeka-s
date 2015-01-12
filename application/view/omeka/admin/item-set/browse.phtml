@@ -1,0 +1,78 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
+$confirmForm->prepare();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $escape($this->translate('Item Sets')); ?></h1>
+
+<div id="page-actions">
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new item set')); ?></a>
+</div>
+
+<?php if (count($itemSets) > 0): ?>
+
+<?php echo $this->pagination(); ?>
+
+<table>
+    <thead>
+        <tr>
+            <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Items'), 'item_count'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($itemSets as $itemSet): ?>
+        <tr>
+            <td>
+                <span class="resource-name">
+                    <?php echo $itemSet->link(strip_tags($itemSet->displayTitle('[untitled]'))); ?>
+                </span>
+                <ul class="actions">
+                    <li><?php echo $item->link('', 'edit', array(
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    )); ?></li>
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escapeAttr($item->url('delete')); ?>"
+                        class="o-icon-delete sidebar-confirm"
+                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
+                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                </ul>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Item Set')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item set?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any item sets.')); ?></p>
+    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first item set')); ?></a>
+</div>
+
+<?php endif; ?>

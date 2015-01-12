@@ -461,7 +461,7 @@ th {
   }
 
   p {
-    margin-bottom: 1.5em;
+    margin: 1.5em 0;
   }
 
   ul {
@@ -689,6 +689,10 @@ th {
   .property-selector input[type="text"],
   .property-selector > ul {
     width: 90%;
+  }
+
+  .property-selector > ul {
+    margin: 0;
   }
 
   /* @end */
@@ -1151,10 +1155,15 @@ th {
     top: 0.75em;
   }
   .sidebar h4 {
-    margin-bottom: 0.75em;
+    margin-bottom: 0.375em;
+    background-color: transparent;
+    padding: 0;
+  }
+  .sidebar h4 + .value {
+    margin-top: 0em;
   }
   .sidebar .vocabulary,
-  .sidebar .property {
+  .sidebar .meta-group {
     margin-bottom: 1.5em;
   }
   .sidebar .value {
@@ -2311,6 +2320,29 @@ th {
 
   /* @end */
   /* @end */
+  /* @group ----- Show Resource Template ----- */
+  .class-row {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -1.5em;
+    margin-left: -1.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .class-label {
+    font-weight: bold;
+  }
+  .class-label:after {
+    content: ": ";
+  }
+
+  /* @end */
   /* @group ----- Edit Resource Template ----- */
   .resource-template .properties ul {
     list-style: none;
@@ -2372,10 +2404,33 @@ th {
     vertical-align: top;
   }
 
+  .resource-template .property-row label:first-child {
+    width: 20%;
+    margin-right: 10%;
+  }
+
+  .resource-template .property-row .actions {
+    position: absolute;
+    right: 70%;
+    top: 0.375em;
+    padding: 0 0.375em;
+  }
+
   .resource-template #properties {
     margin: 1.5em 0 0;
     clear: both;
     padding: 0;
+  }
+  .resource-template #properties > li:first-child {
+    overflow: hidden;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
   }
 
   .resource-template .property-heading {

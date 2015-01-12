@@ -63,7 +63,7 @@ h4 {
 }
 
 p {
-    @include trailer();
+    margin: rhythm() 0;
 }
 
 ul {
@@ -259,6 +259,10 @@ body {
     .property-selector input[type="text"],
     .property-selector > ul {
         width: 90%;
+    }
+    
+    .property-selector > ul {
+        margin: 0;
     }
     
     /* @end */
@@ -724,13 +728,19 @@ th a[class="sorted-desc"] {
         right: gutter();
         top: rhythm(.5);
     }
-        
+            
     h4 {
-        @include trailer(.5);
+        @include trailer(.25);
+        background-color: transparent;
+        padding: 0;
+        
+        + .value {
+            @include leader(0);
+        }
     }
     
     .vocabulary,
-    .property {
+    .meta-group {
         @include trailer();
     }
     
@@ -1947,6 +1957,24 @@ body.show .property {
 
 /* @end */
 
+/* @group ----- Show Resource Template ----- */
+    
+.class-row {
+    @include bleed-x(rhythm());
+    border-color: $gray-on-white;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+}
+
+.class-label {
+    font-weight: bold;
+    
+    &:after {
+        content: ": ";
+    }
+}
+
+/* @end */
+
 /* @group ----- Edit Resource Template ----- */
 
 .resource-template .properties ul {
@@ -2002,10 +2030,26 @@ body.show .property {
     }
 }
 
+.resource-template .property-row label:first-child {
+    width: span(2 of 10);
+    margin-right: span(1 of 10);
+}
+
+.resource-template .property-row .actions {
+    position: absolute;
+    right: span(7 of 10);
+    top: rhythm(.25);
+    padding: 0 rhythm(.25);
+}
+
 .resource-template #properties {
     margin: rhythm() 0 0;
     clear: both;
     padding: 0;
+    
+    & > li:first-child {
+        @include field-row;
+    }
 }
 
 .resource-template .property-heading {

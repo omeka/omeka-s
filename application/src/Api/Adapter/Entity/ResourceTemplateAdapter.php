@@ -45,6 +45,23 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    $this->getEntityClass() . '.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function validateData(array $data, ErrorStore $errorStore,
         $isManaged
     ){
@@ -120,6 +137,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemPropsToRetain = array();
+            $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
 
                 if (!isset($resTemPropData['o:property']['o:id'])) {
@@ -150,6 +168,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp->setAlternateLabel($altLabel);
                     $resTemProp->setAlternateComment($altComment);
                 }
+                // Set the position of the property to its intrinsic order
+                // within the passed array.
+                $resTemProp->setPosition($position++);
                 $resTemPropsToRetain[] = $resTemProp;
             }
 

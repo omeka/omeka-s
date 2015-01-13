@@ -122,6 +122,7 @@ CREATE TABLE `resource_template_property` (
   `property_id` int(11) NOT NULL,
   `alternate_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8_unicode_ci,
+  `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_4689E2F116131EA549213EC` (`resource_template_id`,`property_id`),
   KEY `IDX_4689E2F116131EA` (`resource_template_id`),

@@ -45,6 +45,11 @@ class ResourceTemplateProperty extends AbstractEntity
      */
     protected $alternateComment;
 
+    /**
+     * @Column(type="integer", nullable=true)
+     */
+    protected $position;
+
     public function getId()
     {
         return $this->id;
@@ -89,5 +94,15 @@ class ResourceTemplateProperty extends AbstractEntity
     public function getAlternateComment()
     {
         return $this->alternateComment;
+    }
+
+    public function getPosition()
+    {
+        return $this->sortOrder;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = (int) $position;
     }
 }

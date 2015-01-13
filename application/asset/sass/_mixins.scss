@@ -1,0 +1,9 @@
+@mixin field-row {
+    overflow: hidden;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: rhythm(.25);
+    position: relative;
+    border-color: $gray-on-white;
+    @include leading-border(1px, 0, $base-font-size, solid);
+}

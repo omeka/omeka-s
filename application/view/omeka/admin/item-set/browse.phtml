@@ -48,8 +48,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
-            <td><?php echo $itemSet->itemCount(); ?></td>
-            <td><?php echo $escape($itemSet->owner()->username()); ?></td>
+            <td><?php echo $this->hyperlink($itemSet->itemCount(), $this->url(null, array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></td>
+            <td><?php echo $this->hyperlink($itemSet->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $itemSet->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

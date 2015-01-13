@@ -49,6 +49,26 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        parent::buildQuery($qb, $query);
+
+        if (isset($query['item_set_id']) && is_numeric($query['item_set_id'])) {
+            $itemSetAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.itemSets',
+                $itemSetAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$itemSetAlias.id",
+                $this->createNamedParameter($qb, $query['item_set_id']))
+            );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {

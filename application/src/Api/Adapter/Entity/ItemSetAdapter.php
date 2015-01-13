@@ -47,6 +47,21 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('item_count' == $query['sort_by']) {
+                $qb->addSelect('COUNT(items.id) HIDDEN item_count')
+                ->leftJoin('Omeka\Model\Entity\ItemSet.items', 'items')
+                ->groupBy('Omeka\Model\Entity\ItemSet.id')
+                ->orderBy('item_count', $query['sort_order']);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {

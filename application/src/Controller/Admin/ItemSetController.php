@@ -32,4 +32,7 @@ class ItemSetController extends AbstractActionController
         ));
         return $view;
     }
+
+    public function showAction()
+    {}
 }

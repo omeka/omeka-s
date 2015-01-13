@@ -1385,7 +1385,7 @@ th {
   .field-meta label {
     display: inline-block;
     max-width: 80%;
-    line-height: 36px;
+    padding: 0.375em 0;
   }
   .field-meta input {
     width: 100%;
@@ -1704,6 +1704,9 @@ th {
     min-height: 2.25em;
     padding: 0.375em;
     margin: 0.375em 0;
+  }
+  .inputs *:only-child {
+    margin: 0 !important;
   }
   .inputs select {
     margin: 0;
@@ -2395,6 +2398,7 @@ th {
     border-top-width: 0.0625em;
     border-top-style: solid;
     padding-top: -0.0625em;
+    cursor: move;
   }
   .resource-template .property-row label:first-child,
   .resource-template .property-row input[type="text"],
@@ -2402,6 +2406,20 @@ th {
     display: inline-block;
     width: 30%;
     vertical-align: top;
+  }
+  .resource-template .property-row label:first-child {
+    cursor: move;
+    padding: 0.375em 0;
+  }
+  .resource-template .property-row:before {
+    content: "";
+    font-family: "FontAwesome";
+    position: absolute;
+    right: .5em;
+    top: 0.6em;
+    font-size: 20px;
+    line-height: 24px;
+    opacity: .1;
   }
 
   .resource-template .property-row label:first-child {
@@ -2412,7 +2430,7 @@ th {
   .resource-template .property-row .actions {
     position: absolute;
     right: 70%;
-    top: 0.375em;
+    top: 0.75em;
     padding: 0 0.375em;
   }
 

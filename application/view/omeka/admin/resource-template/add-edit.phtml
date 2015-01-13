@@ -23,7 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 <div class="field">
     <div class="field-meta">
-        <?php echo $escape($this->translate('Suggested Class')); ?>
+        <label for="o:resource_class[o:id]"><?php echo $escape($this->translate('Suggested Class')); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->resourceClassSelect(

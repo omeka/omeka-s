@@ -2,15 +2,12 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceTemplateAdapter extends AbstractEntityAdapter
 {
-    use OwnedEntityTrait;
-
     /**
      * {@inheritDoc}
      */
@@ -107,19 +104,16 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        $this->setOwner($data, $entity, $isManaged);
+        // o:owner
+        $this->hydrateOwner($data, $entity, $isManaged);
 
-        if (isset($data['o:resource_class']['o:id'])) {
-            $resourceClass = null;
-            if (is_numeric($data['o:resource_class']['o:id'])) {
-                $resourceClass = $this->getAdapter('resource_classes')
-                    ->findEntity($data['o:resource_class']['o:id']);
-            }
-            $entity->setResourceClass($resourceClass);
-        }
+        // o:resource_class
+        $this->hydrateResourceClass($data, $entity, $isManaged);
+
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);
         }
+
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {

@@ -2,14 +2,11 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
-    use OwnedEntityTrait;
-
     /**
      * {@inheritDoc}
      */
@@ -51,19 +48,24 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        $this->setOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($data, $entity, $isManaged);
+
         if (isset($data['o:namespace_uri'])) {
             $entity->setNamespaceUri($data['o:namespace_uri']);
         }
+
         if (isset($data['o:prefix'])) {
             $entity->setPrefix($data['o:prefix']);
         }
+
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);
         }
+
         if (isset($data['o:comment'])) {
             $entity->setComment($data['o:comment']);
         }
+
         if (isset($data['o:classes']) && is_array($data['o:classes'])) {
             $resourceClassAdapter = $this->getAdapter('resource_classes');
             $resourceClassEntityClass = $resourceClassAdapter->getEntityClass();
@@ -78,6 +80,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 );
             }
         }
+
         if (isset($data['o:properties']) && is_array($data['o:properties'])) {
             $propertyAdapter = $this->getAdapter('properties');
             $propertyEntityClass = $propertyAdapter->getEntityClass();

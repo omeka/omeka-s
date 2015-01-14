@@ -35,4 +35,33 @@ class ItemSetController extends AbstractActionController
 
     public function showAction()
     {}
+
+    public function showDetailsAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('item_sets', $this->params('id'));
+                if ($response->isError()) {
+                    $this->messenger()->addError('Item set could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Item set successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Item set could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute('admin/default', array(
+            'controller' => 'item-set',
+            'action'     => 'browse',
+        ));
+    }
 }

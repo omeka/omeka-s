@@ -55,6 +55,8 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 ->leftJoin('Omeka\Model\Entity\ItemSet.items', 'items')
                 ->groupBy('Omeka\Model\Entity\ItemSet.id')
                 ->orderBy('item_count', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
             }
         }
     }

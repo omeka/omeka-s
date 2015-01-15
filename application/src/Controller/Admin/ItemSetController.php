@@ -46,6 +46,10 @@ class ItemSetController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $view->setVariable('linkTitle', $linkTitle);
+        $response = $this->api()->read('item_sets', $this->params('id'));
+        $view->setVariable('itemSet', $response->getContent());
         return $view;
     }
 

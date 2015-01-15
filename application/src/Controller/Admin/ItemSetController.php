@@ -34,7 +34,13 @@ class ItemSetController extends AbstractActionController
     }
 
     public function showAction()
-    {}
+    {
+        $view = new ViewModel;
+        $id = $this->params('id');
+        $response = $this->api()->read('item_sets', $id);
+        $view->setVariable('itemSet', $response->getContent());
+        return $view;
+    }
 
     public function showDetailsAction()
     {

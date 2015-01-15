@@ -71,43 +71,31 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($data, $entity, $errorStore, $isManaged);
 
-        if (isset($data['o:media']) && is_array($data['o:media'])) {
-            $mediaAdapter = $this->getAdapter('media');
-            $mediaEntityClass = $mediaAdapter->getEntityClass();
-            foreach ($data['o:media'] as $mediaData) {
-                if (isset($mediaData['o:id'])) {
-                    continue; // do not process existing media
-                }
-                $media = new $mediaEntityClass;
-                $mediaAdapter->hydrateEntity(
-                    'create', $mediaData, $media, $errorStore
-                );
-                $entity->addMedia($media);
-            }
-        }
+        // o:item_set
+        if (array_key_exists('o:item_set', $data) && is_array($data['o:item_set'])) {
 
-        if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
-            $setAdapter = $this->getAdapter('item_sets');
-            $sets = $entity->getItemSets();
-            $setsToAdd = array();
-            $setsToRemove = clone $sets;
+            $itemSetAdapter = $this->getAdapter('item_sets');
+            $itemSets = $entity->getItemSets();
+            $itemSetsToRetain = array();
+
             foreach ($data['o:item_set'] as $itemSetData) {
-                if (!isset($itemSetData['o:id'])) {
-                    continue; // skip any sets with no ID
-                }
-                $setId = $itemSetData['o:id'];
-                if (isset($sets[$setId])) {
-                    $setsToRemove->remove($id);
-                } else {
-                    $setsToAdd[] = $setId;
+                if (array_key_exists('o:id', $itemSetData)
+                    && is_numeric($itemSetData['o:id'])
+                ) {
+                    if (!$itemSet = $itemSets->get($itemSetData['o:id'])) {
+                        // Item set not already assigned. Assign it.
+                        $itemSet = $itemSetAdapter->findEntity($itemSetData['o:id']);
+                        $itemSets->add($itemSet);
+                    }
+                    $itemSetsToRetain[] = $itemSet;
                 }
             }
-            foreach ($setsToAdd as $setId) {
-                $newSet = $setAdapter->findEntity($setId);
-                $sets->add($newSet);
-            }
-            foreach ($setsToRemove as $setId => $set) {
-                $sets->remove($setId);
+
+            // Unassign item sets that were not included in the passed data.
+            foreach ($itemSets as $itemSet) {
+                if (!in_array($itemSet, $itemSetsToRetain)) {
+                    $itemSets->removeElement($itemSet);
+                }
             }
         }
     }

@@ -65,6 +65,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $this->getEntityClass() . '.resourceClass',
                     'omeka_order'
                 )->orderBy('omeka_order.label', $query['sort_order']);
+            } elseif ('owner_username' == $query['sort_by']) {
+                $qb->leftJoin(
+                    $this->getEntityClass() . '.owner',
+                    'omeka_order'
+                )->orderBy('omeka_order.username', $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

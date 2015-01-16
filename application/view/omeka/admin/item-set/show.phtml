@@ -1,0 +1,24 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $escape('Item Set'); ?>: &ldquo;<?php echo $escape(strip_tags($itemSet->displayTitle('[untitled]'))); ?>&rdquo;</h1>
+<div id="page-actions">
+    <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
+</div>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#" class="item-set-metadata active section"><?php echo $escape('Metadata'); ?></a></li>
+        <li><a href="#" class="item-set-linked section"><?php echo $escape('Linked Resources'); ?></a></li>
+    </ul>
+</nav>
+
+<div id="item-set-metadata" class="active section">
+    <?php echo $itemSet->displayValues(); ?>
+</div>
+
+<div id="item-set-linked" class="section">
+    <?php echo $itemSet->displayLinkedResources(); ?>
+</div>

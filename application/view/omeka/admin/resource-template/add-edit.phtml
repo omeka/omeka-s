@@ -23,7 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 <div class="field">
     <div class="field-meta">
-        <?php echo $escape($this->translate('Suggested Class')); ?>
+        <label for="o:resource_class[o:id]"><?php echo $escape($this->translate('Suggested Class')); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->resourceClassSelect(
@@ -32,23 +32,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         ); ?>
     </div>
 </div>
-<table id="properties">
-    <thead>
-    <tr>
-        <th><?php echo $escape($this->translate('Original Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
-    </tr>
-    </thead>
-    <tbody>
+<ul id="properties">
+    <li>
+        <div class="property-heading" id="original-label"><?php echo $escape($this->translate('Original Label')); ?></div>
+        <div class="property-heading" id="alternate-label"><?php echo $escape($this->translate('Alternate Label')); ?></div>
+        <div class="property-heading" id="alternate-comment"><?php echo $escape($this->translate('Alternate Comment')); ?></div>
+    </li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
         array('propertyRow' => $propertyRow)
     ) ?>
     <?php endforeach; ?>
-    </tbody>
-</table>
+</ul>
 
 <?php echo $this->formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>
@@ -62,8 +58,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
-
+<script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 <script>
+// Enable sorting on property rows.
+var list = document.getElementById('properties');
+new Sortable(list, {draggable: ".property-row"});
+
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {
     event.preventDefault();
@@ -75,7 +75,7 @@ $('.select-property-button').click('.property-selector', function(event) {
     var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
     $.get(url, {property_id: propertyId})
         .done(function(data) {
-            $('#properties tbody').append(data);
+            $('#properties').append(data);
         });
 });
 
@@ -84,7 +84,7 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     event.preventDefault();
 
     var removeLink = $(this);
-    var propertyRow =  removeLink.closest('tr');
+    var propertyRow =  removeLink.closest('li.property-row');
     var propertyId = propertyRow.data('property-id');
 
     // Remove the property ID element from the form.

@@ -50,7 +50,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     ) {
         $this->hydrateOwner($data, $entity, $isManaged);
 
-        if (isset($data['o:vocabulary']['o:id'])) {
+        if (isset($data['o:vocabulary']['o:id'])
+            && is_numeric($data['o:vocabulary']['o:id'])
+        ) {
             $vocabulary = $this->getAdapter('vocabularies')
                 ->findEntity($data['o:vocabulary']['o:id']);
             $entity->setVocabulary($vocabulary);

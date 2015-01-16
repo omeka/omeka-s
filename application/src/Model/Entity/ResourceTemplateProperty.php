@@ -6,6 +6,13 @@ use Omeka\Model\Entity\ResourceTemplate;
 
 /**
  * @Entity
+ * @Table(
+ *     uniqueConstraints={
+ *         @UniqueConstraint(
+ *             columns={"resource_template_id", "property_id"}
+ *         )
+ *     }
+ * )
  */
 class ResourceTemplateProperty extends AbstractEntity
 {
@@ -24,7 +31,7 @@ class ResourceTemplateProperty extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Property")
-     * @JoinColumn(nullable=false)
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $property;
 

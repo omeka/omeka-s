@@ -1,0 +1,26 @@
+<?php
+$property = $propertyRow['o:property'];
+$namePrefix = 'o:resource_template_property[' . $property->id() . ']';
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<tr
+    data-property-id="<?php echo $escapeAttr($property->id()); ?>">
+    <td>
+        <?php echo $escape($property->label()); ?>
+        <ul class="actions">
+            <li><a href="#"
+                class="o-icon-delete resource-template-property-remove"
+                aria-label="<?php echo $escapeAttr($this->translate('Remove property')); ?>"
+                title="<?php echo $escapeAttr($this->translate('Remove property')); ?>"></a></li>
+            <li><a href="#"
+                data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                class="o-icon-more sidebar-content"
+                aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+        </ul>
+    </td>
+    <td><input type="text" name="<?php echo $escapeAttr($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escapeAttr($propertyRow['o:alternate_label']); ?>"></td>
+    <td><textarea name="<?php echo $escapeAttr($namePrefix . '[o:alternate_comment]'); ?>"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea></td>
+    <input class="property-id-element" type="hidden" name="<?php echo $escapeAttr($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escapeAttr($property->id()); ?>">
+</tr>

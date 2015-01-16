@@ -62,7 +62,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <script>
 // Enable sorting on property rows.
 var list = document.getElementById('properties');
-new Sortable(list, {draggable: ".property-row"});
+new Sortable(list, {
+    draggable: ".property-row",
+    handle: ".sortable-handle"
+});
 
 // Add property row via the property selector.
 $('.select-property-button').click('.property-selector', function(event) {

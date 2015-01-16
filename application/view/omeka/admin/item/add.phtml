@@ -25,6 +25,10 @@ if (isset($errors)) {
         echo $formElement($csrf);
     ?>
     <?php 
+    
+        //produces a <fieldset> with the id and class atts passed in.
+        //on, e.g., the item add/edit pages, the id will work with the classes on 
+        //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
                 array('id' => 'resource-values', 'class' => 'section active' )
@@ -36,6 +40,12 @@ if (isset($errors)) {
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
 </form>
+
+<!-- 
+the sidebar and templates are not going into the partial because
+they exist outside the form, and the partial needs to work with 
+multiple resource fieldsets (item and media, e.g.)
+-->
 
 <div class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>

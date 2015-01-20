@@ -1075,13 +1075,15 @@ th {
     white-space: nowrap;
   }
 
-  th a[class^="sort"] {
+  th a.sortable,
+  th .sorted-asc,
+  th .sorted-desc {
     display: block;
     width: 100%;
   }
 
-  th a[class="sorted-asc"],
-  th a[class="sorted-desc"] {
+  th .sorted-asc,
+  th .sorted-desc {
     border-color: #d2d2d2;
     padding: 0 .5em;
     border-bottom-width: 0.1875em;
@@ -1092,20 +1094,29 @@ th {
     width: calc(100% + 1em);
   }
 
-  [class*="sort"]:after,
-  [class*="sort"]:before {
+  th a.sortable:after,
+  th .sorted-asc:after,
+  th .sorted-desc:after,
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     position: absolute;
     font-size: 12px;
     right: .5em;
     top: 0.9375em;
+    z-index: 2;
   }
 
-  [class*="sort"]:hover:after {
+  th a.sortable:hover:after,
+  th .sorted-asc:hover:after,
+  th .sorted-desc:hover:after {
     color: #FF0000;
   }
 
   .sortable:after,
-  [class*="sort"]:before {
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     content: "";
     color: #999;
   }
@@ -1121,12 +1132,10 @@ th {
     content: "";
   }
 
-  [class*="sort"]:before {
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     z-index: 1;
-  }
-
-  [class*="sort"]:after {
-    z-index: 2;
   }
 
   .sidebar {

@@ -22,4 +22,5 @@ $propertyId = $escapeAttr($property->id());
     <input type="text" name="<?php echo $escapeAttr($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escapeAttr($propertyRow['o:alternate_label']); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-label">
     <textarea name="<?php echo $escapeAttr($namePrefix . '[o:alternate_comment]'); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-comment"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea>
     <input class="property-id-element" type="hidden" name="<?php echo $escapeAttr($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escapeAttr($property->id()); ?>">
+    <span class="sortable-handle"></span>
 </li>

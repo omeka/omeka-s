@@ -19,6 +19,12 @@ use Zend\EventManager\Event;
 class FilterEvent extends Event
 {
     /**
+     * Filter triggered by the resource discriminator map Doctrine listener,
+     * allowing modules to extend the entity resource interface.
+     */
+    const RESOURCE_DISCRIMINATOR_MAP = 'resource_discriminator_map';
+
+    /**
      * @var mixed The argument to filter.
      */
     protected $arg;

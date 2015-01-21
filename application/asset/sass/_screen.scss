@@ -654,13 +654,15 @@ div[role="main"] {
     white-space: nowrap;
 }
 
-th a[class^="sort"] {
+th a.sortable,
+th .sorted-asc,
+th .sorted-desc {
     display: block;
     width: 100%;
 }
 
-th a[class="sorted-asc"],
-th a[class="sorted-desc"] {
+th .sorted-asc,
+th .sorted-desc {
     border-color: #d2d2d2;
     padding: 0 .5em;
     @include trailing-border(3px, .25, $base-font-size, solid);
@@ -668,20 +670,29 @@ th a[class="sorted-desc"] {
     @include calc('width', '100% + 1em');
 }
 
-[class*="sort"]:after,
-[class*="sort"]:before {
+th a.sortable:after,
+th .sorted-asc:after,
+th .sorted-desc:after,
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     position: absolute;
     font-size: .75 * $base-font-size;
     right: .5em;
     top: rhythm(.625);
+    z-index: 2;
 }
 
-[class*="sort"]:hover:after {
+th a.sortable:hover:after,
+th .sorted-asc:hover:after,
+th .sorted-desc:hover:after {
     color: $red;
 }
 
 .sortable:after,
-[class*="sort"]:before {
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     content: $fa-var-sort;
     color: #999;
 }
@@ -697,12 +708,10 @@ th a[class="sorted-desc"] {
     content: $fa-var-sort-asc;
 }
 
-[class*="sort"]:before {
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     z-index: 1;
-}
-
-[class*="sort"]:after {
-    z-index: 2;
 }
 
 .sidebar {

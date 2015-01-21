@@ -59,7 +59,6 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         return $this->getAdapter('resource_classes')
             ->getRepresentation(null, $this->getData()->getResourceClass());
-
     }
 
     /**
@@ -75,5 +74,17 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         $jsonLd = $this->getJsonLd();
         return $jsonLd['o:resource_template_property'];
+    }
+
+    /**
+     * Get the display resource class label for this resource template.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function displayResourceClassLabel($default = null)
+    {
+        $resourceClass = $this->resourceClass();
+        return $resourceClass ? $resourceClass->label() : $default;
     }
 }

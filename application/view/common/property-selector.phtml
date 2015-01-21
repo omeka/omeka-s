@@ -1,29 +1,34 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
 <div class='property-selector'>
-    <input type="text" title="new-property-name" placeholder="Property name" />
-        <ul>
-            <li class=''>Vocabularies (<span class='count'><?php echo count($vocabularies); ?></span>)
-                <ul>
-                    <?php foreach ($vocabularies as $vocabulary): ?>
-                    <li class='vocabulary'><?php echo $vocabulary->label(); ?>
-                        <ul>
-                            <?php foreach ($vocabulary->properties() as $property): ?>
-                            <li class='property' data-property-id='<?php echo $property->id(); ?>' data-property-qname='<?php echo $property->term(); ?>'>
-                                <span class='property-label'><?php echo $property->label(); ?></span>
-                                <div class='description'>
-                                    <p class='o-icon-info'>
-                                        <span class='screen-reader-text'>More Info</span>
-                                    </p>
-                                    <p>
-                                    <?php echo $property->comment(); ?>
-                                    </p>
-                                </div>
-                                <button class='select-property-button'>Select Property</button>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </li>
-        </ul>
+    <input type="text" class="property-selector-filter" placeholder="Filter properties">
+    <ul>
+        <li><?php echo $escape($this->translate('Vocabularies')); ?>
+            <ul>
+                <?php foreach ($vocabularies as $vocabulary): ?>
+                <li class='vocabulary'
+                    data-vocabulary-id="<?php echo $escapeAttr($vocabulary->id()); ?>">
+                    <?php echo $escape($vocabulary->label()); ?> (<span class="property-count"><?php echo $escape(count($vocabulary->properties())); ?></span>)
+                    <ul>
+                        <?php foreach ($vocabulary->properties() as $property): ?>
+                        <li class='property'
+                            data-property-id="<?php echo $escapeAttr($property->id()); ?>"
+                            data-property-label="<?php echo $escapeAttr($property->label()); ?>"
+                            data-property-qname="<?php echo $escapeAttr($property->term()); ?>">
+                            <span class="property-label"><?php echo $property->label(); ?></span>
+                            <div class="description">
+                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+                                <p><?php echo $escape($property->comment()); ?></p>
+                            </div>
+                            <button class='select-property-button'><?php echo $escape($this->translate('Select Property')); ?></button>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+    </ul>
 </div>

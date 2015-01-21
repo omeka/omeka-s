@@ -140,8 +140,8 @@ class RdfImporter implements ServiceLocatorAwareInterface
         array $options
     ) {
         $members = array(
-            'o:classes' => array(),
-            'o:properties' => array(),
+            'o:class' => array(),
+            'o:property' => array(),
         );
         // Iterate through all resources of the graph instead of selectively by 
         // rdf:type becuase a resource may have more than one type, causing
@@ -157,7 +157,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
             }
             // Get the vocabulary's classes.
             if (in_array($resource->type(), $this->classTypes)) {
-                $members['o:classes'][] = array(
+                $members['o:class'][] = array(
                     'o:local_name' => $resource->localName(),
                     'o:label' => $this->getLabel($resource, $resource->localName()),
                     'o:comment' => $this->getComment($resource, $options['comment_property']),
@@ -165,7 +165,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
             }
             // Get the vocabulary's properties.
             if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['o:properties'][] = array(
+                $members['o:property'][] = array(
                     'o:local_name' => $resource->localName(),
                     'o:label' => $this->getLabel($resource, $resource->localName()),
                     'o:comment' => $this->getComment($resource, $options['comment_property']),

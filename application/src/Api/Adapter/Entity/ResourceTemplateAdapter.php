@@ -2,15 +2,12 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceTemplateAdapter extends AbstractEntityAdapter
 {
-    use OwnedEntityTrait;
-
     /**
      * {@inheritDoc}
      */
@@ -40,6 +37,23 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\ResourceTemplate';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('resource_class_label' == $query['sort_by']) {
+                $qb ->leftJoin(
+                    $this->getEntityClass() . '.resourceClass',
+                    'omeka_order'
+                )->orderBy('omeka_order.label', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
     }
 
     /**
@@ -90,19 +104,16 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        $this->setOwner($data, $entity, $isManaged);
+        // o:owner
+        $this->hydrateOwner($data, $entity, $isManaged);
 
-        if (isset($data['o:resource_class']['o:id'])) {
-            $resourceClass = null;
-            if (is_numeric($data['o:resource_class']['o:id'])) {
-                $resourceClass = $this->getAdapter('resource_classes')
-                    ->findEntity($data['o:resource_class']['o:id']);
-            }
-            $entity->setResourceClass($resourceClass);
-        }
+        // o:resource_class
+        $this->hydrateResourceClass($data, $entity, $isManaged);
+
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);
         }
+
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
@@ -120,6 +131,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemPropsToRetain = array();
+            $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
 
                 if (!isset($resTemPropData['o:property']['o:id'])) {
@@ -150,6 +162,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp->setAlternateLabel($altLabel);
                     $resTemProp->setAlternateComment($altComment);
                 }
+                // Set the position of the property to its intrinsic order
+                // within the passed array.
+                $resTemProp->setPosition($position++);
                 $resTemPropsToRetain[] = $resTemProp;
             }
 

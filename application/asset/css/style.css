@@ -461,7 +461,7 @@ th {
   }
 
   p {
-    margin-bottom: 1.5em;
+    margin: 1.5em 0;
   }
 
   ul {
@@ -648,7 +648,7 @@ th {
 
   .property-selector,
   .field {
-    float: left;
+    overflow: hidden;
     width: 100%;
     background-color: #e7e7e7;
     padding: 0.375em;
@@ -689,6 +689,10 @@ th {
   .property-selector input[type="text"],
   .property-selector > ul {
     width: 90%;
+  }
+
+  .property-selector > ul {
+    margin: 0;
   }
 
   /* @end */
@@ -1071,13 +1075,15 @@ th {
     white-space: nowrap;
   }
 
-  th a[class^="sort"] {
+  th a.sortable,
+  th .sorted-asc,
+  th .sorted-desc {
     display: block;
     width: 100%;
   }
 
-  th a[class="sorted-asc"],
-  th a[class="sorted-desc"] {
+  th .sorted-asc,
+  th .sorted-desc {
     border-color: #d2d2d2;
     padding: 0 .5em;
     border-bottom-width: 0.1875em;
@@ -1088,20 +1094,29 @@ th {
     width: calc(100% + 1em);
   }
 
-  [class*="sort"]:after,
-  [class*="sort"]:before {
+  th a.sortable:after,
+  th .sorted-asc:after,
+  th .sorted-desc:after,
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     position: absolute;
     font-size: 12px;
     right: .5em;
     top: 0.9375em;
+    z-index: 2;
   }
 
-  [class*="sort"]:hover:after {
+  th a.sortable:hover:after,
+  th .sorted-asc:hover:after,
+  th .sorted-desc:hover:after {
     color: #FF0000;
   }
 
   .sortable:after,
-  [class*="sort"]:before {
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     content: "";
     color: #999;
   }
@@ -1117,12 +1132,10 @@ th {
     content: "";
   }
 
-  [class*="sort"]:before {
+  th a.sortable:before,
+  th .sorted-asc:before,
+  th .sorted-desc:before {
     z-index: 1;
-  }
-
-  [class*="sort"]:after {
-    z-index: 2;
   }
 
   .sidebar {
@@ -1151,10 +1164,15 @@ th {
     top: 0.75em;
   }
   .sidebar h4 {
-    margin-bottom: 0.75em;
+    margin-bottom: 0.375em;
+    background-color: transparent;
+    padding: 0;
+  }
+  .sidebar h4 + .value {
+    margin-top: 0em;
   }
   .sidebar .vocabulary,
-  .sidebar .property {
+  .sidebar .meta-group {
     margin-bottom: 1.5em;
   }
   .sidebar .value {
@@ -1376,7 +1394,7 @@ th {
   .field-meta label {
     display: inline-block;
     max-width: 80%;
-    line-height: 36px;
+    padding: 0.375em 0;
   }
   .field-meta input {
     width: 100%;
@@ -1695,6 +1713,9 @@ th {
     min-height: 2.25em;
     padding: 0.375em;
     margin: 0.375em 0;
+  }
+  .inputs *:only-child {
+    margin: 0 !important;
   }
   .inputs select {
     margin: 0;
@@ -2311,6 +2332,29 @@ th {
 
   /* @end */
   /* @end */
+  /* @group ----- Show Resource Template ----- */
+  .class-row {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -1.5em;
+    margin-left: -1.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .class-label {
+    font-weight: bold;
+  }
+  .class-label:after {
+    content: ": ";
+  }
+
+  /* @end */
   /* @group ----- Edit Resource Template ----- */
   .resource-template .properties ul {
     list-style: none;
@@ -2351,6 +2395,84 @@ th {
 
   .resource-template .local-name {
     font-style: italic;
+  }
+
+  .resource-template .property-row {
+    overflow: hidden;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+  }
+  .resource-template .property-row label:first-child,
+  .resource-template .property-row input[type="text"],
+  .resource-template .property-row textarea {
+    display: inline-block;
+    width: 30%;
+    vertical-align: top;
+  }
+  .resource-template .property-row label:first-child {
+    padding: 0.375em 0;
+  }
+  .resource-template .property-row .sortable-handle:before {
+    cursor: move;
+    content: "";
+    font-family: "FontAwesome";
+    position: absolute;
+    right: .5em;
+    top: 0.6em;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .resource-template .property-row label:first-child {
+    width: 20%;
+    margin-right: 10%;
+  }
+
+  .resource-template .property-row .actions {
+    position: absolute;
+    right: 70%;
+    top: 0.75em;
+    padding: 0 0.375em;
+  }
+
+  .resource-template #properties {
+    margin: 1.5em 0 0;
+    clear: both;
+    padding: 0;
+  }
+  .resource-template #properties > li:first-child {
+    overflow: hidden;
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+  }
+
+  .resource-template .property-heading {
+    font-weight: bold;
+    display: inline-block;
+    width: 30%;
+  }
+
+  .resource-template .property-heading:not(:first-child),
+  .resource-template .property-row input[type="text"],
+  .resource-template .property-row textarea {
+    margin-left: -4px;
+  }
+
+  .resource-template .property-row input[type="text"] {
+    width: 27.5%;
+    margin-right: 2.5%;
   }
 
   /* @end */

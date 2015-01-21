@@ -8,6 +8,8 @@ use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
+use Omeka\Model\Entity\ResourceClass;
+use Omeka\Model\Entity\User;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
@@ -533,5 +535,72 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             ));
         }
         return null === $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Hydrate the entity's owner.
+     *
+     * Assumes the owner can be set to NULL. By default, new entities are owned
+     * by the current user.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param bool $isManaged
+     */
+    public function hydrateOwner(array $data, EntityInterface $entity, $isManaged)
+    {
+        $owner = $entity->getOwner();
+        if (array_key_exists('o:owner', $data)) {
+            if (!$data['o:owner']
+                || (array_key_exists('o:id', $data['o:owner'])
+                    && !$data['o:owner']['o:id'])
+            ) {
+                $owner = null;
+            } elseif (array_key_exists('o:id', $data['o:owner'])
+                && is_numeric($data['o:owner']['o:id'])
+                && (!$owner instanceof User
+                    || $owner->getId() != $data['o:owner']['o:id'])
+            ) {
+                $owner = $this->getAdapter('users')
+                    ->findEntity($data['o:owner']['o:id']);
+            }
+        }
+        if (!$isManaged && !$owner instanceof User) {
+            $owner = $this->getServiceLocator()
+                ->get('Omeka\AuthenticationService')
+                ->getIdentity();
+        }
+        $entity->setOwner($owner);
+    }
+
+    /**
+     * Hydrate the entity's resource class.
+     *
+     * Assumes the resource class can be set to NULL.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param bool $isManaged
+     */
+    public function hydrateResourceClass(array $data, EntityInterface $entity,
+        $isManaged
+    ) {
+        $resourceClass = $entity->getResourceClass();
+        if (array_key_exists('o:resource_class', $data)) {
+            if (!$data['o:resource_class']
+                || (array_key_exists('o:id', $data['o:resource_class'])
+                    && !$data['o:resource_class']['o:id'])
+            ) {
+                $resourceClass = null;
+            } elseif (array_key_exists('o:id', $data['o:resource_class'])
+                && is_numeric($data['o:resource_class']['o:id'])
+                && (!$resourceClass instanceof ResourceClass
+                    || $resourceClass->getId() != $data['o:resource_class']['o:id'])
+            ) {
+                $resourceClass = $this->getAdapter('resource_classes')
+                    ->findEntity($data['o:resource_class']['o:id']);
+            }
+        }
+        $entity->setResourceClass($resourceClass);
     }
 }

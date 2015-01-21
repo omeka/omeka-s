@@ -11,7 +11,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 
 <?php if ($resourceTemplate->resourceClass()): ?>
-<p>Class: <?php echo $resourceTemplate->resourceClass()->label(); ?></p>
+<div class="class-row">
+    <span class="class-label">Class</span>
+    <span class="class-value"><?php echo $resourceTemplate->resourceClass()->label(); ?></span>
+</div>
 <?php endif; ?>
 
 <table id="properties">

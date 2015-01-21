@@ -2,15 +2,12 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Adapter\Entity\OwnedEntityTrait;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractResourceEntityAdapter
 {
-    use OwnedEntityTrait;
-
     /**
      * {@inheritDoc}
      */
@@ -49,56 +46,56 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        parent::buildQuery($qb, $query);
+
+        if (isset($query['item_set_id']) && is_numeric($query['item_set_id'])) {
+            $itemSetAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.itemSets',
+                $itemSetAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$itemSetAlias.id",
+                $this->createNamedParameter($qb, $query['item_set_id']))
+            );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        $this->hydrateValues($data, $entity);
+        parent::hydrate($data, $entity, $errorStore, $isManaged);
 
-        $this->setOwner($data, $entity, $isManaged);
+        // o:item_set
+        if (array_key_exists('o:item_set', $data) && is_array($data['o:item_set'])) {
 
-        if (isset($data['o:resource_class']['o:id'])) {
-            $resourceClass = $this->getAdapter('resource_classes')
-                ->findEntity($data['o:resource_class']['o:id']);
-            $entity->setResourceClass($resourceClass);
-        }
+            $itemSetAdapter = $this->getAdapter('item_sets');
+            $itemSets = $entity->getItemSets();
+            $itemSetsToRetain = array();
 
-        if (isset($data['o:media']) && is_array($data['o:media'])) {
-            $mediaAdapter = $this->getAdapter('media');
-            $mediaEntityClass = $mediaAdapter->getEntityClass();
-            foreach ($data['o:media'] as $mediaData) {
-                if (isset($mediaData['o:id'])) {
-                    continue; // do not process existing media
-                }
-                $media = new $mediaEntityClass;
-                $mediaAdapter->hydrateEntity(
-                    'create', $mediaData, $media, $errorStore
-                );
-                $entity->addMedia($media);
-            }
-        }
-
-        if (isset($data['o:item_set']) && is_array($data['o:item_set'])) {
-            $setAdapter = $this->getAdapter('item_sets');
-            $sets = $entity->getItemSets();
-            $setsToAdd = array();
-            $setsToRemove = clone $sets;
             foreach ($data['o:item_set'] as $itemSetData) {
-                if (!isset($itemSetData['o:id'])) {
-                    continue; // skip any sets with no ID
-                }
-                $setId = $itemSetData['o:id'];
-                if (isset($sets[$setId])) {
-                    $setsToRemove->remove($id);
-                } else {
-                    $setsToAdd[] = $setId;
+                if (array_key_exists('o:id', $itemSetData)
+                    && is_numeric($itemSetData['o:id'])
+                ) {
+                    if (!$itemSet = $itemSets->get($itemSetData['o:id'])) {
+                        // Item set not already assigned. Assign it.
+                        $itemSet = $itemSetAdapter->findEntity($itemSetData['o:id']);
+                        $itemSets->add($itemSet);
+                    }
+                    $itemSetsToRetain[] = $itemSet;
                 }
             }
-            foreach ($setsToAdd as $setId) {
-                $newSet = $setAdapter->findEntity($setId);
-                $sets->add($newSet);
-            }
-            foreach ($setsToRemove as $setId => $set) {
-                $sets->remove($setId);
+
+            // Unassign item sets that were not included in the passed data.
+            foreach ($itemSets as $itemSet) {
+                if (!in_array($itemSet, $itemSetsToRetain)) {
+                    $itemSets->removeElement($itemSet);
+                }
             }
         }
     }

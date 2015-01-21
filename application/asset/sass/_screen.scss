@@ -1,4 +1,5 @@
 @import "font-awesome/variables";
+@import "mixins";
 
 /* @group ----- Generic HTML elements ----- */
 
@@ -62,7 +63,7 @@ h4 {
 }
 
 p {
-    @include trailer();
+    margin: rhythm() 0;
 }
 
 ul {
@@ -227,13 +228,7 @@ body {
     
     .property-selector,
     .field {
-        float: left;
-        width: 100%;
-        background-color: #e7e7e7;
-        padding: rhythm(.25);
-        position: relative;
-        border-color: $gray-on-white;
-        @include leading-border(1px, 0, $base-font-size, solid);
+        @include field-row;
         
         &:first-child {
             border-color: transparent;
@@ -264,6 +259,10 @@ body {
     .property-selector input[type="text"],
     .property-selector > ul {
         width: 90%;
+    }
+    
+    .property-selector > ul {
+        margin: 0;
     }
     
     /* @end */
@@ -655,13 +654,15 @@ div[role="main"] {
     white-space: nowrap;
 }
 
-th a[class^="sort"] {
+th a.sortable,
+th .sorted-asc,
+th .sorted-desc {
     display: block;
     width: 100%;
 }
 
-th a[class="sorted-asc"],
-th a[class="sorted-desc"] {
+th .sorted-asc,
+th .sorted-desc {
     border-color: #d2d2d2;
     padding: 0 .5em;
     @include trailing-border(3px, .25, $base-font-size, solid);
@@ -669,20 +670,29 @@ th a[class="sorted-desc"] {
     @include calc('width', '100% + 1em');
 }
 
-[class*="sort"]:after,
-[class*="sort"]:before {
+th a.sortable:after,
+th .sorted-asc:after,
+th .sorted-desc:after,
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     position: absolute;
     font-size: .75 * $base-font-size;
     right: .5em;
     top: rhythm(.625);
+    z-index: 2;
 }
 
-[class*="sort"]:hover:after {
+th a.sortable:hover:after,
+th .sorted-asc:hover:after,
+th .sorted-desc:hover:after {
     color: $red;
 }
 
 .sortable:after,
-[class*="sort"]:before {
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     content: $fa-var-sort;
     color: #999;
 }
@@ -698,12 +708,10 @@ th a[class="sorted-desc"] {
     content: $fa-var-sort-asc;
 }
 
-[class*="sort"]:before {
+th a.sortable:before,
+th .sorted-asc:before,
+th .sorted-desc:before {
     z-index: 1;
-}
-
-[class*="sort"]:after {
-    z-index: 2;
 }
 
 .sidebar {
@@ -729,13 +737,19 @@ th a[class="sorted-desc"] {
         right: gutter();
         top: rhythm(.5);
     }
-        
+            
     h4 {
-        @include trailer(.5);
+        @include trailer(.25);
+        background-color: transparent;
+        padding: 0;
+        
+        + .value {
+            @include leader(0);
+        }
     }
     
     .vocabulary,
-    .property {
+    .meta-group {
         @include trailer();
     }
     
@@ -946,7 +960,7 @@ th a[class="sorted-desc"] {
         label {
             display: inline-block;
             max-width: 80%;
-            line-height: 1.5 * $base-line-height;
+            padding: rhythm(.25) 0;
         }
         
         input {
@@ -1277,6 +1291,10 @@ th a[class="sorted-desc"] {
             min-height: rhythm(1.5);
             padding: rhythm(.25);
             margin: rhythm(.25) 0;
+        }
+        
+        *:only-child {
+            margin: 0 !important;
         }
         
         select {
@@ -1952,6 +1970,24 @@ body.show .property {
 
 /* @end */
 
+/* @group ----- Show Resource Template ----- */
+    
+.class-row {
+    @include bleed-x(rhythm());
+    border-color: $gray-on-white;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+}
+
+.class-label {
+    font-weight: bold;
+    
+    &:after {
+        content: ": ";
+    }
+}
+
+/* @end */
+
 /* @group ----- Edit Resource Template ----- */
 
 .resource-template .properties ul {
@@ -1993,6 +2029,72 @@ body.show .property {
 
 .resource-template .local-name {
     font-style: italic;
+}
+
+.resource-template .property-row {
+    @include field-row;
+    
+    label:first-child,
+    input[type="text"],
+    textarea {
+        display: inline-block;
+        width: span(3 of 10);
+        vertical-align: top;
+    }
+    
+    label:first-child {
+        padding: rhythm(.25) 0;
+    }
+    
+    .sortable-handle:before {
+        cursor: move;
+        content: $fa-var-reorder;
+        font-family: "FontAwesome";
+        position: absolute;
+        right: .5em;
+        top: rhythm(.5, 1.25 * $base-font-size);
+        font-size: 1.25 * $base-font-size;
+        line-height: $base-line-height;
+    }
+}
+
+.resource-template .property-row label:first-child {
+    width: span(2 of 10);
+    margin-right: span(1 of 10);
+}
+
+.resource-template .property-row .actions {
+    position: absolute;
+    right: span(7 of 10);
+    top: rhythm(.5);
+    padding: 0 rhythm(.25);
+}
+
+.resource-template #properties {
+    margin: rhythm() 0 0;
+    clear: both;
+    padding: 0;
+    
+    & > li:first-child {
+        @include field-row;
+    }
+}
+
+.resource-template .property-heading {
+    font-weight: bold;
+    display: inline-block;
+    width: span(3 of 10);
+}
+
+.resource-template .property-heading:not(:first-child),
+.resource-template .property-row input[type="text"],
+.resource-template .property-row textarea {
+    margin-left: -4px;
+}
+
+.resource-template .property-row input[type="text"] {
+    width: span(2.75 of 10);
+    margin-right: span(.25 of 10);
 }
 
 /* @end */

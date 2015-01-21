@@ -127,6 +127,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the owner representation of this resource.
+     *
+     * @return UserRepresentation
+     */
+    public function owner()
+    {
+        return $this->getAdapter('users')
+            ->getRepresentation(null, $this->getData()->getOwner());
+    }
+
+    /**
      * Get the date-time when this resource was created.
      *
      * @return DateTime

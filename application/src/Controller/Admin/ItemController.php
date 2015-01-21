@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Omeka\Api\ResponseFilter;
 use Omeka\Form\ConfirmForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;

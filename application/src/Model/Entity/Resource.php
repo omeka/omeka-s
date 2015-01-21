@@ -83,7 +83,7 @@ abstract class Resource extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -93,7 +93,7 @@ abstract class Resource extends AbstractEntity
         return $this->owner;
     }
 
-    public function setResourceClass(ResourceClass $resourceClass)
+    public function setResourceClass(ResourceClass $resourceClass = null)
     {
         $this->resourceClass = $resourceClass;
     }

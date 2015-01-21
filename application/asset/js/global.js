@@ -156,22 +156,21 @@ var Omeka = {
         $('.property-selector-filter').on('keyup', function(e) {
             var propertyFilter = $(this).val().toLowerCase();
             var propertySelector = $(this).closest('.property-selector');
-            // Show or hide all properties by filter string.
-            propertySelector.find('li.property').each(function(index) {
-                var property = $(this);
-                var propertyLabel = property.data('property-label').toLowerCase();
-                if (propertyLabel.indexOf(propertyFilter) > -1) {
-                    // Label contains the filter string. Show the property.
-                    property.toggle(true);
-                } else {
-                    // Label doesn't contain the filter string. Hide the property.
-                    property.toggle(false);
-                }
-            });
-            // Calculate and display filtered property count.
             propertySelector.find('li.vocabulary').each(function(index) {
                 var vocabulary = $(this);
-                var propertyCount = vocabulary.find('li.property:visible').length;
+                var propertyCount = 0;
+                vocabulary.find('li.property').each(function(index) {
+                    var property = $(this);
+                    var propertyLabel = property.data('property-label').toLowerCase();
+                    if (propertyLabel.indexOf(propertyFilter) > -1) {
+                        // Label contains the filter string. Show the property.
+                        property.show();
+                        propertyCount++;
+                    } else {
+                        // Label doesn't contain the filter string. Hide the property.
+                        property.hide();
+                    }
+                });
                 vocabulary.children('span.property-count').html(propertyCount);
             });
         })

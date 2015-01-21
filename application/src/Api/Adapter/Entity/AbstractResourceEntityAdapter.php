@@ -91,6 +91,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 
         // o:resource_class
         $this->hydrateResourceClass($data, $entity, $isManaged);
+
+        // o:resource_template
+        $this->hydrateResourceTemplate($data, $entity, $isManaged);
     }
 
     /**

@@ -103,7 +103,7 @@ abstract class Resource extends AbstractEntity
         return $this->resourceClass;
     }
 
-    public function setResourceTemplate(ResourceTemplate $resourceTemplate)
+    public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
     {
         $this->resourceTemplate = $resourceTemplate;
     }

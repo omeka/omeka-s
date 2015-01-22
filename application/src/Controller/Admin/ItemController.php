@@ -137,6 +137,12 @@ class ItemController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
+        $csrf = new Csrf('csrf');
+        $csrf->setOptions(array(
+                'csrf_options' => array(
+                    'timeout' => 3600
+               )));
+        $view->setVariable('csrf', $csrf);
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();

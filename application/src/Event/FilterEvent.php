@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Event;
 
-use Zend\EventManager\Event;
+use Zend\EventManager\Event as ZendEvent;
 
 /**
  * Filter event.
@@ -16,7 +16,7 @@ use Zend\EventManager\Event;
  * $arg = $event->getArg();
  * </code>
  */
-class FilterEvent extends Event
+class FilterEvent extends ZendEvent
 {
     /**
      * Filter triggered by the resource discriminator map Doctrine listener,

@@ -60,6 +60,7 @@ var Omeka = {
     filterPropertySelector : function() {
         var propertyFilter = $(this).val().toLowerCase();
         var propertySelector = $(this).closest('.property-selector');
+        var totalPropertyCount = 0;
         propertySelector.find('li.vocabulary').each(function() {
             var vocabulary = $(this);
             var propertyCount = 0;
@@ -69,6 +70,7 @@ var Omeka = {
                 if (propertyLabel.indexOf(propertyFilter) > -1) {
                     // Label contains the filter string. Show the property.
                     property.show();
+                    totalPropertyCount++;
                     propertyCount++;
                 } else {
                     // Label doesn't contain the filter string. Hide the property.
@@ -77,6 +79,7 @@ var Omeka = {
             });
             vocabulary.children('span.property-count').text(propertyCount);
         });
+        propertySelector.find('span.total-property-count').text(totalPropertyCount);
     }
 };
 

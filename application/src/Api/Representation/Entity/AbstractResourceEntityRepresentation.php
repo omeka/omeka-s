@@ -98,6 +98,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                     $this->getData()->getResourceClass(),
                     $this->getAdapter('resource_classes')
                 ),
+                'o:resource_template' => $this->getReference(
+                    null,
+                    $this->getData()->getResourceTemplate(),
+                    $this->getAdapter('resource_templates')
+                ),
             ),
             $dateTime,
             $this->getResourceJsonLd(),

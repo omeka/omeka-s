@@ -5,7 +5,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class='property-selector'>
     <input type="text" class="property-selector-filter" placeholder="Filter properties">
     <ul>
-        <li><?php echo $escape($this->translate('Vocabularies')); ?>
+        <li><?php echo $escape($this->translate('Vocabularies')); ?> (<span class="total-property-count"><?php echo $escape($totalPropertyCount); ?></span>)
             <ul>
                 <?php foreach ($vocabularies as $vocabulary): ?>
                 <li class='vocabulary'

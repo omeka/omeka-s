@@ -55,6 +55,31 @@ var Omeka = {
         newText.children().remove();
         newText = newText.text().replace(/^\s+|\s+$/g,'');
         return newText;
+    },
+
+    filterPropertySelector : function() {
+        var propertyFilter = $(this).val().toLowerCase();
+        var propertySelector = $(this).closest('.property-selector');
+        var totalPropertyCount = 0;
+        propertySelector.find('li.vocabulary').each(function() {
+            var vocabulary = $(this);
+            var propertyCount = 0;
+            vocabulary.find('li.property').each(function() {
+                var property = $(this);
+                var propertyLabel = property.data('property-label').toLowerCase();
+                if (propertyLabel.indexOf(propertyFilter) > -1) {
+                    // Label contains the filter string. Show the property.
+                    property.show();
+                    totalPropertyCount++;
+                    propertyCount++;
+                } else {
+                    // Label doesn't contain the filter string. Hide the property.
+                    property.hide();
+                }
+            });
+            vocabulary.children('span.property-count').text(propertyCount);
+        });
+        propertySelector.find('span.total-property-count').text(totalPropertyCount);
     }
 };
 
@@ -153,27 +178,13 @@ var Omeka = {
         });
 
         // Property selector, filter properties.
-        $('.property-selector-filter').on('keyup', function(e) {
-            var propertyFilter = $(this).val().toLowerCase();
-            var propertySelector = $(this).closest('.property-selector');
-            propertySelector.find('li.vocabulary').each(function(index) {
-                var vocabulary = $(this);
-                var propertyCount = 0;
-                vocabulary.find('li.property').each(function(index) {
-                    var property = $(this);
-                    var propertyLabel = property.data('property-label').toLowerCase();
-                    if (propertyLabel.indexOf(propertyFilter) > -1) {
-                        // Label contains the filter string. Show the property.
-                        property.show();
-                        propertyCount++;
-                    } else {
-                        // Label doesn't contain the filter string. Hide the property.
-                        property.hide();
-                    }
-                });
-                vocabulary.children('span.property-count').html(propertyCount);
-            });
-        })
+        $('.property-selector-filter').on('keyup', (function() {
+            var timer = 0;
+            return function() {
+                clearTimeout(timer);
+                timer = setTimeout(Omeka.filterPropertySelector.bind(this), 400);
+            }
+        })())
     });
 
 }(window.jQuery, window, document));

@@ -9,6 +9,7 @@ use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\ResourceClass;
+use Omeka\Model\Entity\ResourceTemplate;
 use Omeka\Model\Entity\User;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\EntityInterface;
@@ -602,5 +603,36 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
         }
         $entity->setResourceClass($resourceClass);
+    }
+
+    /**
+     * Hydrate the entity's resource template.
+     *
+     * Assumes the resource template can be set to NULL.
+     *
+     * @param array $data
+     * @param EntityInterface $entity
+     * @param bool $isManaged
+     */
+    public function hydrateResourceTemplate(array $data, EntityInterface $entity,
+        $isManaged
+    ) {
+        $resourceTemplate = $entity->getResourceTemplate();
+        if (array_key_exists('o:resource_template', $data)) {
+            if (!$data['o:resource_template']
+                || (array_key_exists('o:id', $data['o:resource_template'])
+                    && !$data['o:resource_template']['o:id'])
+            ) {
+                $resourceTemplate = null;
+            } elseif (array_key_exists('o:id', $data['o:resource_template'])
+                && is_numeric($data['o:resource_template']['o:id'])
+                && (!$resourceTemplate instanceof ResourceTemplate
+                    || $resourceTemplate->getId() != $data['o:resource_template']['o:id'])
+            ) {
+                $resourceTemplate = $this->getAdapter('resource_templates')
+                    ->findEntity($data['o:resource_template']['o:id']);
+            }
+        }
+        $entity->setResourceTemplate($resourceTemplate);
     }
 }

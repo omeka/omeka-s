@@ -12,6 +12,7 @@ return array(
             'media'            => 'Omeka\Api\Adapter\Entity\MediaAdapter',
             'item_sets'        => 'Omeka\Api\Adapter\Entity\ItemSetAdapter',
             'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
+            'sites'            => 'Omeka\Api\Adapter\Entity\SiteAdapter',
         ),
     ),
     'service_manager' => array(

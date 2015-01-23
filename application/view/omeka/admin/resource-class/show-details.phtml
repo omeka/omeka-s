@@ -1,0 +1,13 @@
+<h2><?php echo $this->escapeHtml($resourceClass->label()); ?></h2>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Vocabulary')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($resourceClass->vocabulary()->label()); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Term')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($resourceClass->term()); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Comment')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($resourceClass->comment()); ?></div>
+</div>

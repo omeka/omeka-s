@@ -1,4 +1,4 @@
-<h2><?php echo $vocabulary->link($vocabulary->label()); ?></h2>
+<h2><?php echo $this->escapeHtml($vocabulary->label()); ?></h2>
 <p><?php echo $this->escapeHtml($vocabulary->comment()); ?></p>
 <h3>Prefix:</h3>
 <p><?php echo $this->escapeHtml($vocabulary->prefix()); ?></p>

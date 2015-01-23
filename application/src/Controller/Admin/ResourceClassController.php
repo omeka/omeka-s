@@ -5,7 +5,7 @@ use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class PropertyController extends AbstractActionController
+class ResourceClassController extends AbstractActionController
 {
     public function showDetailsAction()
     {
@@ -13,11 +13,11 @@ class PropertyController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
 
-        $response = $this->api()->read('properties', $this->params('id'));
+        $response = $this->api()->read('resource_classes', $this->params('id'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('property', $response->getContent());
+        $view->setVariable('resourceClass', $response->getContent());
         return $view;
     }
 }

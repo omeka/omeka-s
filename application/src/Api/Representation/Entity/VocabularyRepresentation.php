@@ -127,4 +127,24 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         }
         return $this->resourceClasses;
      }
+
+    /**
+     * Get this vocabulary's property count.
+     *
+     * @return int
+     */
+    public function propertyCount()
+    {
+        return count($this->getData()->getProperties());
+    }
+
+    /**
+     * Get this vocabulary's resource class count.
+     *
+     * @return int
+     */
+    public function resourceClassCount()
+    {
+        return count($this->getData()->getResourceClasses());
+    }
 }

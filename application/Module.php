@@ -3,12 +3,6 @@ namespace Omeka;
 
 use Omeka\Event\Event;
 use Omeka\Module\AbstractModule;
-use Omeka\View\Helper\Api;
-use Omeka\View\Helper\AssetUrl;
-use Omeka\View\Helper\I18n;
-use Omeka\View\Helper\Media;
-use Omeka\View\Helper\Nav;
-use Omeka\View\Helper\Pagination;
 use Zend\EventManager\Event as BaseEvent;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
@@ -23,38 +17,35 @@ class Module extends AbstractModule
      */
     const VERSION = '0.1.8';
 
+    /**
+     * @var array View helpers that need service manager injection
+     */
+    protected $viewHelpers = array(
+        'api'        => 'Omeka\View\Helper\Api',
+        'assetUrl'   => 'Omeka\View\Helper\AssetUrl',
+        'i18n'       => 'Omeka\View\Helper\I18n',
+        'media'      => 'Omeka\View\Helper\Media',
+        'nav'        => 'Omeka\View\Helper\Nav',
+        'pagination' => 'Omeka\View\Helper\Pagination',
+    );
+
+    /**
+     * {@inheritDoc}
+     */
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);
 
         $serviceManager = $this->getServiceLocator();
+        $viewHelperManager = $serviceManager->get('ViewHelperManager');
 
         // Inject the service manager into view helpers that need it.
-        $viewHelperManager = $serviceManager->get('ViewHelperManager');
-        $viewHelperManager->setFactory('Api',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new Api($serviceManager);
-            });
-        $viewHelperManager->setFactory('AssetUrl',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new AssetUrl($serviceManager);
-            });
-        $viewHelperManager->setFactory('Media',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new Media($serviceManager);
-            });
-        $viewHelperManager->setFactory('Pagination',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new Pagination($serviceManager);
-            });
-        $viewHelperManager->setFactory('I18n',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new I18n($serviceManager);
-            });
-        $viewHelperManager->setFactory('Nav',
-            function ($helperPluginManager) use ($serviceManager) {
-                return new Nav($serviceManager);
-            });
+        foreach ($this->viewHelpers as $helperName => $helperClass) {
+            $viewHelperManager->setFactory($helperName,
+                function ($helperPluginManager) use ($helperClass, $serviceManager) {
+                    return new $helperClass($serviceManager);
+                });
+        }
 
         // Set the ACL to navigation.
         $acl = $serviceManager->get('Omeka\Acl');
@@ -62,36 +53,54 @@ class Module extends AbstractModule
         $navigation->setAcl($acl);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function attachListeners(
         SharedEventManagerInterface $sharedEventManager,
         SharedEventManagerInterface $filterManager
     ) {
-        $sharedEventManager->attach('Zend\View\Helper\Navigation\AbstractHelper',
-            'isAllowed', function (BaseEvent $event) {
-                $accepted = true;
-                $params   = $event->getParams();
-                $acl      = $params['acl'];
-                $page     = $params['page'];
+        $sharedEventManager->attach(
+            'Zend\View\Helper\Navigation\AbstractHelper',
+            'isAllowed',
+            array($this, 'navigationPageIsAllowed')
+        );
+    }
 
-                if (!$acl) {
-                    return $accepted;
-                }
+    /**
+     * Determine whether a navigation page is allowed.
+     *
+     * @param BaseEvent $event
+     * @return bool
+     */
+    public function navigationPageIsAllowed(BaseEvent $event)
+    {
+        $accepted = true;
+        $params   = $event->getParams();
+        $acl      = $params['acl'];
+        $page     = $params['page'];
 
-                $resource  = $page->getResource();
-                $privilege = $page->getPrivilege();
+        if (!$acl) {
+            return $accepted;
+        }
 
-                if ($resource || $privilege) {
-                    $accepted = $acl->hasResource($resource)
-                                && $acl->userIsAllowed($resource, $privilege);
-                }
+        $resource  = $page->getResource();
+        $privilege = $page->getPrivilege();
 
-                $event->stopPropagation();
-                return $accepted;
-        });
+        if ($resource || $privilege) {
+            $accepted = $acl->hasResource($resource)
+                && $acl->userIsAllowed($resource, $privilege);
+        }
+
+        $event->stopPropagation();
+        return $accepted;
     }
 }

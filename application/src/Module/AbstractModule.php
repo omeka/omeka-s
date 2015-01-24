@@ -3,13 +3,11 @@ namespace Omeka\Module;
 
 use Omeka\Event\FilterEvent;
 use ReflectionClass;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
@@ -17,10 +15,7 @@ use Zend\View\Model\ViewModel;
 /**
  * Abstract Omeka module.
  */
-abstract class AbstractModule implements
-    ConfigProviderInterface,
-    ServiceLocatorAwareInterface,
-    EventManagerAwareInterface
+abstract class AbstractModule implements ConfigProviderInterface
 {
     use EventManagerAwareTrait, ServiceLocatorAwareTrait;
 

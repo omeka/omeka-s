@@ -3,7 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
-use Omeka\Mvc\Exception\PermissionDeniedException;
+use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -20,8 +20,7 @@ class VocabularyController extends AbstractActionController
     public function showAction()
     {
         $view = new ViewModel;
-        $id = $this->params('id');
-        $response = $this->api()->read('vocabularies', $id);
+        $response = $this->api()->read('vocabularies', $this->params('id'));
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }
@@ -43,9 +42,7 @@ class VocabularyController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
-        $response = $this->api()->read(
-            'vocabularies', array('id' => $this->params('id'))
-        );
+        $response = $this->api()->read('vocabularies', $this->params('id'));
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }
@@ -97,7 +94,7 @@ class VocabularyController extends AbstractActionController
         $vocabulary = $readResponse->getContent();
 
         if ($vocabulary->isPermanent()) {
-            throw new PermissionDeniedException('Cannot edit a permanent vocabulary');
+            throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
         }
 
         $data = $vocabulary->jsonSerialize();
@@ -125,15 +122,45 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
-    public function editCustomAction()
+    public function propertiesAction()
     {
+        if (!$this->params('id')) {
+            throw new Exception\NotFoundException;
+        }
+
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array(
+            'page' => $page,
+            'vocabulary_id' => $this->params('id'),
+        );
+        $propResponse = $this->api()->search('properties', $query);
+        $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
+
         $view = new ViewModel;
+        $this->paginator($propResponse->getTotalResults(), $page);
+        $view->setVariable('properties', $propResponse->getContent());
+        $view->setVariable('vocabulary', $vocabResponse->getContent());
         return $view;
     }
-    
-    public function addResourceTemplateAction()
+
+    public function classesAction()
     {
+        if (!$this->params('id')) {
+            throw new Exception\NotFoundException;
+        }
+
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array(
+            'page' => $page,
+            'vocabulary_id' => $this->params('id'),
+        );
+        $classResponse = $this->api()->search('resource_classes', $query);
+        $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
+
         $view = new ViewModel;
+        $this->paginator($classResponse->getTotalResults(), $page);
+        $view->setVariable('resourceClasses', $classResponse->getContent());
+        $view->setVariable('vocabulary', $vocabResponse->getContent());
         return $view;
     }
 }

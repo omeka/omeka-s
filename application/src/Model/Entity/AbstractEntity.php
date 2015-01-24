@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Model\Entity;
 
+use Doctrine\Common\Util\ClassUtils;
+
 /**
  * Abstract entity.
  */
@@ -11,7 +13,8 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function getResourceId()
     {
-        return get_class($this);
+        // Get the real name of this entity, even if it is a Doctrine proxy.
+        return ClassUtils::getClass($this);
     }
 
     /**

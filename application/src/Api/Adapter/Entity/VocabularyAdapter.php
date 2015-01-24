@@ -45,6 +45,28 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('property_count' == $query['sort_by']) {
+                $qb->addSelect('COUNT(properties.id) HIDDEN property_count')
+                ->leftJoin('Omeka\Model\Entity\Vocabulary.properties', 'properties')
+                ->groupBy('Omeka\Model\Entity\Vocabulary.id')
+                ->orderBy('property_count', $query['sort_order']);
+            } elseif ('resource_class_count' == $query['sort_by']) {
+                $qb->addSelect('COUNT(resourceClasses.id) HIDDEN resource_class_count')
+                ->leftJoin('Omeka\Model\Entity\Vocabulary.resourceClasses', 'resourceClasses')
+                ->groupBy('Omeka\Model\Entity\Vocabulary.id')
+                ->orderBy('resource_class_count', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {

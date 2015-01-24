@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Classes are logical groupings of resources that have specified ranges of 
  * descriptive properties.
  * 
- * @Entity(repositoryClass="Omeka\Model\Repository\ResourceClass")
+ * @Entity
  * @Table(
  *     options={"collate"="utf8_bin"},
  *     uniqueConstraints={
@@ -59,6 +59,15 @@ class ResourceClass extends AbstractEntity
      * @Column(type="text", nullable=true)
      */
     protected $comment;
+
+    /**
+     * @OneToMany(
+     *     targetEntity="Resource",
+     *     mappedBy="resourceClass",
+     *     fetch="EXTRA_LAZY"
+     * )
+     */
+    protected $resources;
 
     public function getId()
     {

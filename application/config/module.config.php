@@ -64,9 +64,10 @@ return array(
             'Omeka\Controller\Admin\User'      => 'Omeka\Controller\Admin\UserController',
             'Omeka\Controller\Admin\Module'    => 'Omeka\Controller\Admin\ModuleController',
             'Omeka\Controller\Admin\ResourceTemplate' => 'Omeka\Controller\Admin\ResourceTemplateController',
-            'Omeka\Controller\Admin\Vocabulary' => 'Omeka\Controller\Admin\VocabularyController',
-            'Omeka\Controller\Admin\Property' => 'Omeka\Controller\Admin\PropertyController',
-            'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Controller\SiteAdmin\IndexController',
+            'Omeka\Controller\Admin\Vocabulary'    => 'Omeka\Controller\Admin\VocabularyController',
+            'Omeka\Controller\Admin\Property'      => 'Omeka\Controller\Admin\PropertyController',
+            'Omeka\Controller\Admin\ResourceClass' => 'Omeka\Controller\Admin\ResourceClassController',
+            'Omeka\Controller\SiteAdmin\Index'     => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),
     'controller_plugins' => array(

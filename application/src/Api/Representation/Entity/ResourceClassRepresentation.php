@@ -10,4 +10,16 @@ class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
     {
         return 'resource-class';
     }
+
+    /**
+     * Get the resource count of this resource class.
+     *
+     * @return int
+     */
+    public function itemCount()
+    {
+        return $this->getAdapter()->getResourceCount(
+            $this->getData(), 'Omeka\Model\Entity\Item'
+        );
+    }
 }

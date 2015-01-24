@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
@@ -40,6 +41,28 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function getEntityClass()
     {
         return 'Omeka\Model\Entity\ResourceClass';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('item_count' == $query['sort_by']) {
+                $qb->addSelect('COUNT(resources.id) HIDDEN resource_count')
+                    ->leftJoin(
+                        'Omeka\Model\Entity\ResourceClass.resources',
+                        'resources',
+                        'WITH',
+                        'resources INSTANCE OF Omeka\Model\Entity\Item'
+                    )
+                    ->groupBy('Omeka\Model\Entity\ResourceClass.id')
+                    ->orderBy('resource_count', $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
     }
 
     /**
@@ -180,5 +203,28 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         } else {
             $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
+    }
+
+    /**
+     * Get the resource count of the passed resource class.
+     *
+     * @param ResourceClass $resourceClass
+     * @param string|null $resourceType The fully qualified entity name
+     * @return int
+     */
+    public function getResourceCount(ResourceClass $resourceClass,
+        $resourceType = null
+    ) {
+        $dql = '
+        SELECT COUNT(resource.id)
+        FROM Omeka\Model\Entity\Resource resource
+        WHERE resource.resourceClass = :resourceClass';
+        if ($resourceType) {
+            $dql .= " AND resource INSTANCE OF $resourceType";
+        }
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter('resourceClass', $resourceClass)
+            ->getSingleScalarResult();
     }
 }

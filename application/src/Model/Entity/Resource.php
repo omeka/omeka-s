@@ -33,7 +33,7 @@ abstract class Resource extends AbstractEntity
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass")
+     * @ManyToOne(targetEntity="ResourceClass", inversedBy="resources")
      */
     protected $resourceClass;
 

@@ -60,6 +60,15 @@ class ResourceClass extends AbstractEntity
      */
     protected $comment;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="Resource",
+     *     mappedBy="resourceClass",
+     *     fetch="EXTRA_LAZY"
+     * )
+     */
+    protected $resources;
+
     public function getId()
     {
         return $this->id;

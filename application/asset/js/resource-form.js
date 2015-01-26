@@ -253,7 +253,7 @@
     var makeNewField = function(propertyLi) {
         var qName = propertyLi.data('property-term');
         var propertyId = propertyLi.data('property-id');
-        var field = $('.resource-values.field.template').clone();
+        var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
         var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')';
         $('label', field).text(fieldName);

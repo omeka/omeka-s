@@ -119,6 +119,33 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Sort a query by resource count.
+     *
+     * The corresponding entity must have a @OneToMany association with
+     * Omeka\Model\Entiy\Resource named "resources".
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     * @param string|null $resourceType The fully qualified resource class name
+     */
+    public function sortResourceCount(QueryBuilder $qb, array $query,
+        $resourceType = null
+    ) {
+        $entityClass = $this->getEntityClass();
+        $qb->addSelect('COUNT(resources.id) HIDDEN resource_count');
+        if ($resourceType) {
+            $qb->leftJoin(
+                "$entityClass.resources", 'resources',
+                'WITH', "resources INSTANCE OF $resourceType"
+            );
+        } else {
+            $qb->leftJoin("$entityClass.resources", 'resources');
+        }
+        $qb->groupBy("$entityClass.id")
+            ->orderBy('resource_count', $query['sort_order']);
+    }
+
+    /**
      * Set page, limit (max results) and offset (first result) conditions to the
      * query builder.
      *
@@ -634,5 +661,38 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
         }
         $entity->setResourceTemplate($resourceTemplate);
+    }
+
+    /**
+     * Get the resource count of the passed entity.
+     *
+     * The passed entity must have a @OneToMany association with
+     * Omeka\Model\Entiy\Resource.
+     *
+     * When using class table inheritance and querying from the inverse side of
+     * a bidirectional association, it is not possible to discriminate between
+     * resource types defined in the discriminator map. This gets around that
+     * limitation by adding an INSTANCE OF check on a separate query.
+     *
+     * @param EntityInterface $entity The inverse entity
+     * @param string $property The property declaring the inverse association
+     * @param string|null $resourceType The fully qualified resource class name
+     * @return int
+     */
+    public function getResourceCount(EntityInterface $entity, $property,
+        $resourceType = null
+    ) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('COUNT(resource.id)')
+            ->from('Omeka\Model\Entity\Resource', 'resource')
+            ->where($qb->expr()->eq(
+                "resource.$property",
+                $this->createNamedParameter($qb, $entity))
+            );
+        if ($resourceType) {
+            // Count resources for a specific resource type.
+            $qb->andWhere("resource INSTANCE OF $resourceType");
+        }
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

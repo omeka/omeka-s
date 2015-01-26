@@ -50,15 +50,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $qb->addSelect('COUNT(resources.id) HIDDEN resource_count')
-                    ->leftJoin(
-                        'Omeka\Model\Entity\ResourceClass.resources',
-                        'resources',
-                        'WITH',
-                        'resources INSTANCE OF Omeka\Model\Entity\Item'
-                    )
-                    ->groupBy('Omeka\Model\Entity\ResourceClass.id')
-                    ->orderBy('resource_count', $query['sort_order']);
+                $this->sortResourceCount($qb, $query, 'Omeka\Model\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }
@@ -203,29 +195,5 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         } else {
             $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
-    }
-
-    /**
-     * Get the resource count of the passed resource class.
-     *
-     * @param ResourceClass $resourceClass
-     * @param string|null $resourceType The fully qualified entity name
-     * @return int
-     */
-    public function getResourceCount(ResourceClass $resourceClass,
-        $resourceType = null
-    ) {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('COUNT(resource.id)')
-            ->from('Omeka\Model\Entity\Resource', 'resource')
-            ->where($qb->expr()->eq(
-                'resource.resourceClass',
-                $this->createNamedParameter($qb, $resourceClass))
-            );
-        if ($resourceType) {
-            // Count resources for a specific resource type.
-            $qb->andWhere("resource INSTANCE OF $resourceType");
-        }
-        return $qb->getQuery()->getSingleScalarResult();
     }
 }

@@ -87,4 +87,16 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
         $resourceClass = $this->resourceClass();
         return $resourceClass ? $resourceClass->label() : $default;
     }
+
+    /**
+     * Get the item count of this resource template.
+     *
+     * @return int
+     */
+    public function itemCount()
+    {
+        return $this->getAdapter()->getResourceCount(
+            $this->getData(), 'resourceTemplate', 'Omeka\Model\Entity\Item'
+        );
+    }
 }

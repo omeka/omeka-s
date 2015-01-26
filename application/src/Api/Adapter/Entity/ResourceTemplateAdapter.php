@@ -50,11 +50,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $this->getEntityClass() . '.resourceClass',
                     'omeka_order'
                 )->orderBy('omeka_order.label', $query['sort_order']);
+            } elseif ('item_count' == $query['sort_by']) {
+                $this->sortResourceCount($qb, $query, 'Omeka\Model\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }
         }
     }
+
 
     /**
      * {@inheritDoc}

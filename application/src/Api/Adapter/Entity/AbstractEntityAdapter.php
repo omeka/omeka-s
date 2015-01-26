@@ -219,9 +219,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ));
         $this->getEventManager()->trigger($event);
 
-        // Finish building the search query and get the representations.
+        // Finish building the search query. In addition to any sorting the
+        // adapters add, always sort by entity ID.
         $this->sortQuery($qb, $query);
+        $qb->addOrderBy($this->getEntityClass() . '.id', $query['sort_order']);
         $this->limitQuery($qb, $query);
+
+        // Get the representations.
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {

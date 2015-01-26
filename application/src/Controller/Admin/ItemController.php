@@ -165,19 +165,19 @@ class ItemController extends AbstractActionController
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
             if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
-            if($form->isValid()) {
-                $response = $this->api()->update('items', $data);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
+                $data = $this->params()->fromPost();
+                $form->setData($data);
+                if($form->isValid()) {
+                    $response = $this->api()->update('items', $id, $data);
+                    if ($response->isError()) {
+                        $form->setMessages($response->getErrors());
+                    } else {
+                        $this->messenger()->addSuccess('Item Updated.');
+                        return $this->redirect()->toUrl($response->getContent()->url());
+                    }
                 } else {
-                    $this->messenger()->addSuccess('Item Updated.');
-                    return $this->redirect()->toUrl($response->getContent()->url());
+                    $this->messenger()->addError('There was an error during validation');
                 }
-            } else {
-                $this->messenger()->addError('There was an error during validation');
-            }
         }
         return $view;
     }

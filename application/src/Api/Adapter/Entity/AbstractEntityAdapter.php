@@ -212,7 +212,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
-            'query_builder' => $qb,
+            'queryBuilder' => $qb,
         ));
         $this->getEventManager()->trigger($event);
 

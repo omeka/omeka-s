@@ -194,6 +194,9 @@
         languageInput.attr('name', languageElementName);
 
         if (typeof valueObject != 'undefined') {
+            var valueIdInput = newValue.find('input.value-id');
+            valueIdInput.attr('name', qName + '[' + count + '][value_id]');
+            valueIdInput.val(valueObject['value_id']);
             var type = valueObjectType(valueObject);
             languageInput.val(valueObject['@language']);
             switch (type) {

@@ -1,7 +1,8 @@
 (function($) {
 
     $(document).ready( function() {
-
+        //var valuesJson = valuesJson;
+        //console.log(valuesJson);
         // Mark existing properties for deletion and straight up remove new properties.
         $('.remove.button').on('click', function(e) {
             e.preventDefault();
@@ -16,15 +17,28 @@
         //clone dcterms:title and dcterms:description for starters, if they don't already exist
         //assumes that the propertySelector helper has been deployed
         
-        var titleLi = $('li[data-property-qname="dcterms:title"]');
-        var qName = titleLi.data('property-qname');
+        var titleLi = $('li[data-property-term="dcterms:title"]');
+        var qName = titleLi.data('property-term');
         makeNewField(titleLi);
-        makeNewValue(qName, true);
+        if (typeof valuesJson != 'undefined' && typeof valuesJson['dcterms:title'] != 'undefined') {
+            for (var i=0; i < valuesJson['dcterms:title'].length; i++) {
+                makeNewValue(qName, true, valuesJson['dcterms:title'][i]);
+            }
+        } else {
+            makeNewValue(qName, true);
+        }
+        
 
-        var descriptionLi = $('li[data-property-qname="dcterms:description"]');
-        var qName = descriptionLi.data('property-qname');
+        var descriptionLi = $('li[data-property-term="dcterms:description"]');
+        var qName = descriptionLi.data('property-term');
         makeNewField(descriptionLi);
-        makeNewValue(qName, true);
+        if (typeof valuesJson != 'undefined' && typeof valuesJson['dcterms:description'] != 'undefined') {
+            for (var i=0; i < valuesJson['dcterms:description'].length; i++) {
+                makeNewValue(qName, true, valuesJson['dcterms:description'][i]);
+            }
+        } else {
+            makeNewValue(qName, true);
+        }
         /* Property selector handlers */
 
         // Select property
@@ -32,8 +46,8 @@
             e.preventDefault();
             e.stopPropagation();
             var propertyLi = $(this).closest('.property');
-            var qName = propertyLi.data('property-qname');
-            var count = $('input.input-id[data-property-qname = "' + qName + '"]').length;
+            var qName = propertyLi.data('property-term');
+            var count = $('input.input-id[data-property-term = "' + qName + '"]').length;
             // If property has already been set, add a new value
             if (count > 0) {
                 makeNewValue(qName);
@@ -49,7 +63,7 @@
         $('.add-value').on('click', function(e) {
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
-            makeNewValue(wrapper.data('property-qname'));
+            makeNewValue(wrapper.data('property-term'));
         });
 
         // Remove value.
@@ -105,8 +119,8 @@
             e.preventDefault();
             var title = $('#resource-details .o-title').html();
             var resourceId = $(this).data('resource-id');
-            var propertyQname = $(this).data('property-qname');
-            var valuesWrapper = $('div.resource-values.field[data-property-qname="' + propertyQname + '"]');
+            var propertyQname = $(this).data('property-term');
+            var valuesWrapper = $('div.resource-values.field[data-property-term="' + propertyQname + '"]');
             var count = valuesWrapper.find('input.value').length;
             var newResource = valuesWrapper.find("p.selected-resource.template");
             newResource.removeClass('template');
@@ -133,8 +147,8 @@
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
-            var qName = context.parents('.resource-values').data('property-qname');
-            $('#select-item a').data('property-qname', qName);
+            var qName = context.parents('.resource-values').data('property-term');
+            $('#select-item a').data('property-term', qName);
             Omeka.openSidebar(context);
         });
         
@@ -148,7 +162,6 @@
                 'type': 'get'
             }).done(function(data) {
                 $('#resource-details-content').html(data);
-                console.log(context.data('resource-id'));
                 $('#select-item a').data('resource-id', context.data('resource-id'));
                 
             });
@@ -161,20 +174,66 @@
         });
     });
 
-    var makeNewValue = function(qName, skipFocus) {
-        var valuesWrapper = $('div.resource-values.field[data-property-qname="' + qName + '"]');
+    var makeNewValue = function(qName, skipFocus, valueObject) {
+        var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
         var newValue = $('.value.template ').clone(true);
         newValue.removeClass('template');
         var count = valuesWrapper.find('input.value').length;
-        $('.inputs', valuesWrapper).append(newValue);
+        valuesWrapper.find('.inputs').append(newValue);
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
-        $('.input-id', newValue).val(propertyId).attr('name', qName + '[' + count + '][property_id]');
-        $('.input-id', newValue).attr('data-property-qname', qName);
-        $('textarea', newValue).attr('name', qName + '[' + count + '][@value]');
-        $('label.value-language', newValue).attr('for', languageElementName);
-        $('input.value-language', newValue).attr('name', languageElementName);
-        
+
+        var propertyIdInput = newValue.find('.input-id');
+        var valueTextarea = newValue.find('textarea');
+        var languageLabel = newValue.find('label.value-language');
+        var languageInput = newValue.find('input.value-language');
+        propertyIdInput.val(propertyId).attr('name', qName + '[' + count + '][property_id]');
+        propertyIdInput.attr('data-property-term', qName);
+        valueTextarea.attr('name', qName + '[' + count + '][@value]');
+        languageLabel.attr('for', languageElementName);
+        languageInput.attr('name', languageElementName);
+
+        if (typeof valueObject != 'undefined') {
+            var type = valueObjectType(valueObject);
+            languageInput.val(valueObject['@language']);
+            switch (type) {
+                case 'literal' :
+                    valueTextarea.val(valueObject['@value']);
+                break;
+                
+                case 'resource' :
+                    var valueInternalInput = newValue.find('input.value');
+                    var newResource = newValue.find('.selected-resource');
+                    newResource.removeClass('template');
+                    if (typeof valueObject['dcterms:title'] == 'undefined') {
+                        newResource.find('.o-title').html(valueObject['dcterms:title']);                        
+                    } else {
+                        //@TODO: figure out how to translate this
+                        newResource.find('.o-title').html('[Untitled]');
+                    }
+                    valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
+                    valueInternalInput.val(valueObject['value_resource_id']);
+                    var propertyInput = newValue.find('input.property');
+                    propertyInput.attr('name', qName + '[' + count + '][property_id');
+                    propertyInput.val(valueObject['property_id']);
+                    
+                    //set up the buttons for actions
+                    
+                    newResource.siblings('span').hide();
+                    newResource.siblings('a.button').hide();
+                    newResource.parent().siblings('button.remove-value').addClass('active');
+                    
+                    var activeTab = newValue.find('.o-icon-items');
+                    Omeka.switchValueTabs(activeTab);
+                break;
+                
+                case 'external' :
+                    var activeTab = newValue.find('.o-icon-link');
+                    Omeka.switchValueTabs(activeTab);                    
+                break;
+            }
+        }
+
         // the skipFocus was added late in dev. should be refactored to make more sense
         // and use 'focus' as the variable
         if (typeof skipFocus == 'undefined') {
@@ -191,7 +250,7 @@
     };
     
     var makeNewField = function(propertyLi) {
-        var qName = propertyLi.data('property-qname');
+        var qName = propertyLi.data('property-term');
         var propertyId = propertyLi.data('property-id');
         var field = $('.resource-values.field.template').clone();
         field.removeClass('template');
@@ -200,13 +259,26 @@
         var fieldDesc = $('.description p', propertyLi).last();
         $('.field-description', field).append(fieldDesc);
         $('.new.resource-values.field').before(field);
-        field.data('property-qname', qName);
+        field.data('property-term', qName);
         field.data('property-id', propertyId);
         //adding the att because selectors need them to find the correct field and count when adding more
         //should I put a class with the 
-        field.attr('data-property-qname', qName);
+        field.attr('data-property-term', qName);
         //field.attr('data-property-id', propertyId);
     };
 
+    /**
+     * Figure out if a valueObject is a literal, internal resource, or external resource
+     */
+    var valueObjectType = function(valueObject) {
+        if (typeof valueObject['@value'] == 'string') {
+            return 'literal';
+        } else {
+            if (typeof valueObject['resource_id'] == 'undefined') {
+                return 'resource';
+            } else {
+                return 'external';
+            }
+        }
+    };
 })(jQuery);
-

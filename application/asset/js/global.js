@@ -80,6 +80,16 @@ var Omeka = {
             vocabulary.children('span.property-count').text(propertyCount);
         });
         propertySelector.find('span.total-property-count').text(totalPropertyCount);
+    },
+    
+    switchValueTabs : function(tab) {
+        if (!tab.hasClass('active')) {
+            tab.siblings('.tab.active').removeClass('active');
+            tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
+            var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
+            tab.addClass('active');
+            tab.parent().siblings(currentClass).addClass('active');
+        }
     }
 };
 
@@ -143,13 +153,7 @@ var Omeka = {
         $(document).on('click', '.tab', function(e) {
             var tab = $(this);
             e.preventDefault();
-            if (!$(this).hasClass('active')) {
-                tab.siblings('.tab.active').removeClass('active');
-                tab.parent().siblings('.active:not(.remove-value)').removeClass('active');
-                var currentClass = '.' + tab.attr('class').split(" o-icon-")[1];
-                tab.addClass('active');
-                tab.parent().siblings(currentClass).addClass('active');
-            }
+            Omeka.switchValueTabs(tab);
         });
         
         // Switch between section tabs.

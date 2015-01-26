@@ -215,16 +215,17 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function getResourceCount(ResourceClass $resourceClass,
         $resourceType = null
     ) {
-        $dql = '
-        SELECT COUNT(resource.id)
-        FROM Omeka\Model\Entity\Resource resource
-        WHERE resource.resourceClass = :resourceClass';
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('COUNT(resource.id)')
+            ->from('Omeka\Model\Entity\Resource', 'resource')
+            ->where($qb->expr()->eq(
+                'resource.resourceClass',
+                $this->createNamedParameter($qb, $resourceClass))
+            );
         if ($resourceType) {
-            $dql .= " AND resource INSTANCE OF $resourceType";
+            // Count resources for a specific resource type.
+            $qb->andWhere("resource INSTANCE OF $resourceType");
         }
-        return $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameter('resourceClass', $resourceClass)
-            ->getSingleScalarResult();
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

@@ -156,6 +156,7 @@ class ItemController extends AbstractActionController
                         if ($titleValue) {
                             $valuesArray['dcterms:title'] = $titleValue->value();
                         }
+                        $valuesArray['url'] = $valueResource->url();
                     }
                     $values[$property['property']->term()][] = $valuesArray;
                 }

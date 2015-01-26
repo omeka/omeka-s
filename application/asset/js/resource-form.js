@@ -207,10 +207,11 @@
                     var newResource = newValue.find('.selected-resource');
                     newResource.removeClass('template');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
-                        newResource.find('.o-title').html(valueObject['dcterms:title']);                        
-                    } else {
                         //@TODO: figure out how to translate this
-                        newResource.find('.o-title').html('[Untitled]');
+                        newResource.find('.o-title').html('[Untitled]');                                                
+                    } else {
+                        var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
+                        newResource.find('.o-title').html(html);
                     }
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);

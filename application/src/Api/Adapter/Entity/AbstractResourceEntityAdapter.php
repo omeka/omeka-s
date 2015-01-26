@@ -49,27 +49,34 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
+            $entityClass = $this->getEntityClass();
             if ($property) {
+                $valuesAlias = $this->createAlias();
                 $qb->leftJoin(
                     $this->getEntityClass() . '.values',
-                    'omeka_order_values',
+                    $valuesAlias,
                     'WITH',
                     $qb->expr()->eq(
-                        'omeka_order_values.property',
+                        "$valuesAlias.property",
                         $property->getId()
                     )
                 );
-                $qb->orderBy('omeka_order_values.value', $query['sort_order']);
+                $qb->orderBy("$valuesAlias.value", $query['sort_order']);
+
             } elseif ('resource_class_label' == $query['sort_by']) {
+                $resourceClassAlias = $this->createAlias();
                 $qb ->leftJoin(
-                    $this->getEntityClass() . '.resourceClass',
-                    'omeka_order'
-                )->orderBy('omeka_order.label', $query['sort_order']);
+                    "$entityClass.resourceClass",
+                    $resourceClassAlias
+                )->orderBy("$resourceClassAlias.label", $query['sort_order']);
+
             } elseif ('owner_username' == $query['sort_by']) {
+                $ownerAlias = $this->createAlias();
                 $qb->leftJoin(
-                    $this->getEntityClass() . '.owner',
-                    'omeka_order'
-                )->orderBy('omeka_order.username', $query['sort_order']);
+                    "$entityClass.owner",
+                    $ownerAlias
+                )->orderBy("$ownerAlias.username", $query['sort_order']);
+                var_dump($qb->getDQL());
             } else {
                 parent::sortQuery($qb, $query);
             }

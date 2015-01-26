@@ -132,17 +132,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $resourceType = null
     ) {
         $entityClass = $this->getEntityClass();
-        $qb->addSelect('COUNT(resources.id) HIDDEN resource_count');
+        $resourcesAlias = $this->createAlias();
+        $resourceCountAlias = $this->createAlias();
+
+        $qb->addSelect("COUNT($resourcesAlias.id) HIDDEN $resourceCountAlias");
         if ($resourceType) {
             $qb->leftJoin(
-                "$entityClass.resources", 'resources',
-                'WITH', "resources INSTANCE OF $resourceType"
+                "$entityClass.resources", $resourcesAlias,
+                'WITH', "$resourcesAlias INSTANCE OF $resourceType"
             );
         } else {
-            $qb->leftJoin("$entityClass.resources", 'resources');
+            $qb->leftJoin("$entityClass.resources", $resourcesAlias);
         }
         $qb->groupBy("$entityClass.id")
-            ->orderBy('resource_count', $query['sort_order']);
+            ->orderBy($resourceCountAlias, $query['sort_order']);
     }
 
     /**

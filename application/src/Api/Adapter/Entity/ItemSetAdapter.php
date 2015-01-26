@@ -48,10 +48,12 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $qb->addSelect('COUNT(items.id) HIDDEN item_count')
-                ->leftJoin('Omeka\Model\Entity\ItemSet.items', 'items')
+                $itemsAlias = $this->createAlias();
+                $itemCountAlias = $this->createAlias();
+                $qb->addSelect("COUNT($itemsAlias.id) HIDDEN $itemCountAlias")
+                ->leftJoin('Omeka\Model\Entity\ItemSet.items', $itemsAlias)
                 ->groupBy('Omeka\Model\Entity\ItemSet.id')
-                ->orderBy('item_count', $query['sort_order']);
+                ->orderBy($itemCountAlias, $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

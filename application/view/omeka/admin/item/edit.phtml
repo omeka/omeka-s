@@ -2,39 +2,13 @@
 $this->htmlElement('body')->appendAttribute('class', 'edit item');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
 
 <script type='text/javascript'>
 var valuesJson = <?php echo $values; ?>;
-
-var valuesWriter = {
-    values : valuesJson,
-
-    writeValues : function() {
-        for ( var prop in this.values ) {
-            console.log(this.values[prop]);
-            for ( var propertyValue in this.values[prop] ) {
-                var type = this.type(this.values[prop][propertyValue]);
-                console.log(type);
-            }
-        }
-    },
-
-    type : function(valueObject) {
-        if (typeof valueObject['@value'] == 'string') {
-            return 'literal';
-        } else {
-            if (typeof valueObject['resource_id'] == 'undefined') {
-                return 'internal';
-            } else {
-                return 'external';
-            }
-        }
-    }
-};
-
 </script>
 
 <h1><?php echo $this->translate('Edit Item'); ?></h1>
@@ -53,11 +27,7 @@ if (isset($errors)) {
 </nav>
 
 <form method='post' id='edit-item'>
-    <?php
-        echo $formElement($csrf);
-    ?>
     <?php 
-    
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on 
         //the nav lis above. (see globals.js)  
@@ -71,6 +41,7 @@ if (isset($errors)) {
         <input type="submit" name="add-item-submit" value="Create Item" />
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
+    <?php echo $this->formElement($form->get('csrf')); ?>
 </form>
 
 <!-- 

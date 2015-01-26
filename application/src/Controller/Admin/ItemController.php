@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\ResourceForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
@@ -112,23 +113,21 @@ class ItemController extends AbstractActionController
     public function addAction()
     {
         $view = new ViewModel;
-        $csrf = new Csrf('csrf');
-        $csrf->setOptions(array(
-                'csrf_options' => array(
-                    'timeout' => 3600
-               )));
-        $view->setVariable('csrf', $csrf);
+        $form = new ResourceForm($this->getServiceLocator());
+        $view->setVariable('form', $form);
         if ($this->getRequest()->isPost()) {
-            $csrfValidator = $csrf->getCsrfValidator();
-            if( ! $csrfValidator->isValid($this->params()->fromPost('csrf'))) {
-                $this->messenger()->addError('The page has expired. Please try again');
-            }
-            $response = $this->api()->create('items', $this->params()->fromPost());
-            if ($response->isError()) {
-                $view->setVariable('errors', $response->getErrors());
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->create('items', $data);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Item Created.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
             } else {
-                $this->messenger()->addSuccess('Item created.');
-                return $this->redirect()->toUrl($response->getContent()->url());
+                $this->messenger()->addError('There was an error during validation');
             }
         }
         return $view;
@@ -137,12 +136,8 @@ class ItemController extends AbstractActionController
     public function editAction()
     {
         $view = new ViewModel;
-        $csrf = new Csrf('csrf');
-        $csrf->setOptions(array(
-                'csrf_options' => array(
-                    'timeout' => 3600
-               )));
-        $view->setVariable('csrf', $csrf);
+        $form = new ResourceForm($this->getServiceLocator());
+        $view->setVariable('form', $form);
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
@@ -150,12 +145,40 @@ class ItemController extends AbstractActionController
         foreach ($item->values() as $vocabulary) {
             foreach ($vocabulary['properties'] as $property) {
                 foreach ($property['values'] as $value) {
-                    $values[$property['property']->term()][] = $value->jsonSerialize();
+                    $valuesArray = $value->jsonSerialize(); 
+                    //look for internal resources and add their titles to the data
+                    //@TODO: should this be a filter? or maybe a method on the Representation with a param?
+                    //method would look like valuesArray($terms = array()) and
+                    //would do the job of looking up bonus values to add to the da
+                    if ($value->type() == 'resource') {
+                        $valueResource = $value->valueResource();
+                        $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
+                        if ($titleValue) {
+                            $valuesArray['dcterms:title'] = $titleValue->value();
+                        }
+                    }
+                    $values[$property['property']->term()][] = $valuesArray;
                 }
             }
         }
+        
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
+            if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->update('items', $data);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Item Updated.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
         return $view;
     }
 }

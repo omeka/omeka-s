@@ -1,8 +1,6 @@
 (function($) {
 
     $(document).ready( function() {
-        //var valuesJson = valuesJson;
-        //console.log(valuesJson);
         // Mark existing properties for deletion and straight up remove new properties.
         $('.remove.button').on('click', function(e) {
             e.preventDefault();
@@ -257,7 +255,7 @@
         var propertyId = propertyLi.data('property-id');
         var field = $('.resource-values.field.template').clone();
         field.removeClass('template');
-        var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary')) + ')';
+        var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')';
         $('label', field).text(fieldName);
         var fieldDesc = $('.description p', propertyLi).last();
         $('.field-description', field).append(fieldDesc);

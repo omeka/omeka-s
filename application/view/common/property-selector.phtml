@@ -10,7 +10,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <?php foreach ($vocabularies as $vocabulary): ?>
                 <li class='vocabulary'
                     data-vocabulary-id="<?php echo $escapeAttr($vocabulary->id()); ?>">
-                    <?php echo $escape($vocabulary->label()); ?> (<span class="property-count"><?php echo $escape(count($vocabulary->properties())); ?></span>)
+                    <span class='vocabulary-name'><?php echo $escape($vocabulary->label()); ?></span> (<span class="property-count"><?php echo $escape(count($vocabulary->properties())); ?></span>)
                     <ul>
                         <?php foreach ($vocabulary->properties() as $property): ?>
                         <li class='property'

@@ -50,7 +50,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $this->sortResourceCount($qb, $query, 'Omeka\Model\Entity\Item');
+                $this->sortByCount($qb, $query, 'resources', 'Omeka\Model\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }

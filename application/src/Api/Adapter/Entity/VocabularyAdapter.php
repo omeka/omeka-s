@@ -49,19 +49,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('property_count' == $query['sort_by']) {
-                $propertiesAlias = $this->createAlias();
-                $propertyCountAlias = $this->createAlias();
-                $qb->addSelect("COUNT($propertiesAlias.id) HIDDEN $propertyCountAlias")
-                ->leftJoin('Omeka\Model\Entity\Vocabulary.properties', $propertiesAlias)
-                ->groupBy('Omeka\Model\Entity\Vocabulary.id')
-                ->orderBy($propertyCountAlias, $query['sort_order']);
+                $this->sortByCount($qb, $query, 'properties');
             } elseif ('resource_class_count' == $query['sort_by']) {
-                $resourceClassesAlias = $this->createAlias();
-                $resourceClassCountAlias = $this->createAlias();
-                $qb->addSelect("COUNT($resourceClassesAlias.id) HIDDEN $resourceClassCountAlias")
-                ->leftJoin('Omeka\Model\Entity\Vocabulary.resourceClasses', $resourceClassesAlias)
-                ->groupBy('Omeka\Model\Entity\Vocabulary.id')
-                ->orderBy($resourceClassCountAlias, $query['sort_order']);
+                $this->sortByCount($qb, $query, 'resourceClasses');
             } else {
                 parent::sortQuery($qb, $query);
             }

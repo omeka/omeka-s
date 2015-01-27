@@ -105,8 +105,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Set sort_by and sort_order conditions to the query builder.
      *
-     * @param array $query
      * @param QueryBuilder $qb
+     * @param array $query
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
@@ -119,33 +119,32 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Sort a query by resource count.
-     *
-     * The corresponding entity must have a @OneToMany association with
-     * Omeka\Model\Entiy\Resource named "resources".
+     * Sort a query by inverse association count.
      *
      * @param QueryBuilder $qb
      * @param array $query
-     * @param string|null $resourceType The fully qualified resource class name
+     * @param string $inverseField The name of the inverse association field.
+     * @param string|null $instanceOf A fully qualified entity class name. If
+     * provided, count only these instances.
      */
-    public function sortResourceCount(QueryBuilder $qb, array $query,
-        $resourceType = null
+    public function sortByCount(QueryBuilder $qb, array $query,
+        $inverseField, $instanceOf = null
     ) {
-        $entityClass = $this->getEntityClass();
-        $resourcesAlias = $this->createAlias();
-        $resourceCountAlias = $this->createAlias();
+        $entityAlias = $this->getEntityClass();
+        $inverseAlias = $this->createAlias();
+        $countAlias = $this->createAlias();
 
-        $qb->addSelect("COUNT($resourcesAlias.id) HIDDEN $resourceCountAlias");
-        if ($resourceType) {
+        $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
+        if ($instanceOf) {
             $qb->leftJoin(
-                "$entityClass.resources", $resourcesAlias,
-                'WITH', "$resourcesAlias INSTANCE OF $resourceType"
+                "$entityAlias.$inverseField", $inverseAlias,
+                'WITH', "$inverseAlias INSTANCE OF $instanceOf"
             );
         } else {
-            $qb->leftJoin("$entityClass.resources", $resourcesAlias);
+            $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
         }
-        $qb->groupBy("$entityClass.id")
-            ->orderBy($resourceCountAlias, $query['sort_order']);
+        $qb->groupBy("$entityAlias.id")
+            ->orderBy($countAlias, $query['sort_order']);
     }
 
     /**

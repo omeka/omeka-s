@@ -52,7 +52,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resourceClassAlias
                 )->orderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('item_count' == $query['sort_by']) {
-                $this->sortResourceCount($qb, $query, 'Omeka\Model\Entity\Item');
+                $this->sortByCount($qb, $query, 'resources', 'Omeka\Model\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }

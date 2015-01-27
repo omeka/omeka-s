@@ -681,23 +681,24 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * limitation by adding an INSTANCE OF check on a separate query.
      *
      * @param EntityInterface $entity The inverse entity
-     * @param string $property The property declaring the inverse association
-     * @param string|null $resourceType The fully qualified resource class name
+     * @param string $inverseField The name of the inverse association field.
+     * @param string|null $instanceOf A fully qualified resource class name. If
+     * provided, count only these instances.
      * @return int
      */
-    public function getResourceCount(EntityInterface $entity, $property,
-        $resourceType = null
+    public function getResourceCount(EntityInterface $entity, $inverseField,
+        $instanceOf = null
     ) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('COUNT(resource.id)')
             ->from('Omeka\Model\Entity\Resource', 'resource')
             ->where($qb->expr()->eq(
-                "resource.$property",
+                "resource.$inverseField",
                 $this->createNamedParameter($qb, $entity))
             );
-        if ($resourceType) {
-            // Count resources for a specific resource type.
-            $qb->andWhere("resource INSTANCE OF $resourceType");
+        if ($instanceOf) {
+            // Count specific resource instances.
+            $qb->andWhere("resource INSTANCE OF $instanceOf");
         }
         return $qb->getQuery()->getSingleScalarResult();
     }

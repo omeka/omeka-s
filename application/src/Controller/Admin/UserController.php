@@ -12,10 +12,7 @@ class UserController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'user',
-            'action' => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function addAction()

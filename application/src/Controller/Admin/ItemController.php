@@ -12,10 +12,7 @@ class ItemController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'item',
-            'action' => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function searchAction()
@@ -104,10 +101,7 @@ class ItemController extends AbstractActionController
                 $this->messenger()->addError('Item could not be deleted');
             }
         }
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'item',
-            'action'     => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function addAction()

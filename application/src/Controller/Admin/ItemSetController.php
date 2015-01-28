@@ -9,10 +9,7 @@ class ItemSetController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'item-set',
-            'action' => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function browseAction()
@@ -69,9 +66,6 @@ class ItemSetController extends AbstractActionController
                 $this->messenger()->addError('Item set could not be deleted');
             }
         }
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'item-set',
-            'action'     => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 }

@@ -11,10 +11,7 @@ class ResourceTemplateController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'resource-template',
-            'action' => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function browseAction()
@@ -68,10 +65,7 @@ class ResourceTemplateController extends AbstractActionController
                 $this->messenger()->addError('Resource template could not be deleted');
             }
         }
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'resource-template',
-            'action'     => 'browse',
-        ));
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function addAction()

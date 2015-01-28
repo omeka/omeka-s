@@ -12,18 +12,7 @@ class VocabularyController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute('admin/default', array(
-            'controller' => 'vocabulary',
-            'action' => 'browse',
-        ));
-    }
-
-    public function showAction()
-    {
-        $view = new ViewModel;
-        $response = $this->api()->read('vocabularies', $this->params('id'));
-        $view->setVariable('vocabulary', $response->getContent());
-        return $view;
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function browseAction()
@@ -76,7 +65,7 @@ class VocabularyController extends AbstractActionController
                         $form->setMessages($response->getErrors());
                     } else {
                         $this->messenger()->addSuccess('The vocabulary was successfully imported.');
-                        return $this->redirect()->toUrl($response->getContent()->url());
+                        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
                     }
                 } catch (\Exception $e) {
                     $this->messenger()->addError($e->getMessage());
@@ -116,7 +105,7 @@ class VocabularyController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Vocabulary updated.');
-                    return $this->redirect()->refresh();
+                    return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');

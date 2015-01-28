@@ -44,6 +44,15 @@ class ResourceTemplate extends AbstractEntity
      */
     protected $resourceTemplateProperties;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="Resource",
+     *     mappedBy="resourceClass",
+     *     fetch="EXTRA_LAZY"
+     * )
+     */
+    protected $resources;
+
     public function __construct()
     {
         $this->resourceTemplateProperties = new ArrayCollection;

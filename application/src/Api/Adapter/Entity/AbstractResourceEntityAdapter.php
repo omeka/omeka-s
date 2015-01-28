@@ -49,27 +49,22 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
+            $entityClass = $this->getEntityClass();
             if ($property) {
+                $valuesAlias = $this->createAlias();
                 $qb->leftJoin(
-                    $this->getEntityClass() . '.values',
-                    'omeka_order_values',
-                    'WITH',
-                    $qb->expr()->eq(
-                        'omeka_order_values.property',
-                        $property->getId()
-                    )
+                    "$entityClass.values", $valuesAlias,
+                    'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
                 );
-                $qb->orderBy('omeka_order_values.value', $query['sort_order']);
+                $qb->orderBy("$valuesAlias.value", $query['sort_order']);
             } elseif ('resource_class_label' == $query['sort_by']) {
-                $qb ->leftJoin(
-                    $this->getEntityClass() . '.resourceClass',
-                    'omeka_order'
-                )->orderBy('omeka_order.label', $query['sort_order']);
+                $resourceClassAlias = $this->createAlias();
+                $qb ->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
+                    ->orderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('owner_username' == $query['sort_by']) {
-                $qb->leftJoin(
-                    $this->getEntityClass() . '.owner',
-                    'omeka_order'
-                )->orderBy('omeka_order.username', $query['sort_order']);
+                $ownerAlias = $this->createAlias();
+                $qb->leftJoin("$entityClass.owner", $ownerAlias)
+                    ->orderBy("$ownerAlias.username", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

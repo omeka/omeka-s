@@ -45,6 +45,30 @@ class PropertyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('item_count' == $query['sort_by']) {
+                $entityAlias = $this->getEntityClass();
+                $valuesAlias = $this->createAlias();
+                $resourceAlias = $this->createAlias();
+                $countAlias = $this->createAlias();
+                $qb->addSelect("COUNT($valuesAlias.id) HIDDEN $countAlias")
+                    ->leftJoin("$entityAlias.values", $valuesAlias)
+                    ->leftJoin(
+                        "$valuesAlias.resource", $resourceAlias,
+                        'WITH', "$resourceAlias INSTANCE OF Omeka\Model\Entity\Item"
+                    )->addGroupBy("$entityAlias.id")
+                    ->orderBy($countAlias, $query['sort_order']);
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(array $data, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
@@ -191,5 +215,26 @@ class PropertyAdapter extends AbstractEntityAdapter
         } else {
             $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceCount(EntityInterface $entity, $inverseField,
+        $instanceOf = null
+    ) {
+        $dql = "
+        SELECT COUNT(DISTINCT resource.id)
+        FROM Omeka\Model\Entity\Resource resource
+        JOIN Omeka\Model\Entity\Value value
+        WITH value.resource = resource
+        WHERE value.property = :property
+        AND resource INSTANCE OF :instanceOf";
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameters(array(
+                'property' => $entity,
+                'instanceOf' => $instanceOf,
+            ))->getSingleScalarResult();
     }
 }

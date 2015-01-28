@@ -105,8 +105,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Set sort_by and sort_order conditions to the query builder.
      *
-     * @param array $query
      * @param QueryBuilder $qb
+     * @param array $query
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
@@ -116,6 +116,35 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $sortBy = $this->sortFields[$query['sort_by']];
             $qb->orderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
         }
+    }
+
+    /**
+     * Sort a query by inverse association count.
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     * @param string $inverseField The name of the inverse association field.
+     * @param string|null $instanceOf A fully qualified entity class name. If
+     * provided, count only these instances.
+     */
+    public function sortByCount(QueryBuilder $qb, array $query,
+        $inverseField, $instanceOf = null
+    ) {
+        $entityAlias = $this->getEntityClass();
+        $inverseAlias = $this->createAlias();
+        $countAlias = $this->createAlias();
+
+        $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
+        if ($instanceOf) {
+            $qb->leftJoin(
+                "$entityAlias.$inverseField", $inverseAlias,
+                'WITH', "$inverseAlias INSTANCE OF $instanceOf"
+            );
+        } else {
+            $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
+        }
+        $qb->groupBy("$entityAlias.id")
+            ->orderBy($countAlias, $query['sort_order']);
     }
 
     /**
@@ -185,13 +214,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
-            'query_builder' => $qb,
+            'queryBuilder' => $qb,
         ));
         $this->getEventManager()->trigger($event);
 
-        // Finish building the search query and get the representations.
+        // Finish building the search query. In addition to any sorting the
+        // adapters add, always sort by entity ID.
         $this->sortQuery($qb, $query);
+        $qb->addOrderBy($this->getEntityClass() . '.id', $query['sort_order']);
         $this->limitQuery($qb, $query);
+
+        // Get the representations.
         $paginator = new Paginator($qb);
         $representations = array();
         foreach ($paginator as $entity) {
@@ -634,5 +667,39 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             }
         }
         $entity->setResourceTemplate($resourceTemplate);
+    }
+
+    /**
+     * Get the resource count of the passed entity.
+     *
+     * The passed entity must have a @OneToMany association with
+     * Omeka\Model\Entiy\Resource.
+     *
+     * When using class table inheritance and querying from the inverse side of
+     * a bidirectional association, it is not possible to discriminate between
+     * resource types defined in the discriminator map. This gets around that
+     * limitation by adding an INSTANCE OF check on a separate query.
+     *
+     * @param EntityInterface $entity The inverse entity
+     * @param string $inverseField The name of the inverse association field.
+     * @param string|null $instanceOf A fully qualified resource class name. If
+     * provided, count only these instances.
+     * @return int
+     */
+    public function getResourceCount(EntityInterface $entity, $inverseField,
+        $instanceOf = null
+    ) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('COUNT(resource.id)')
+            ->from('Omeka\Model\Entity\Resource', 'resource')
+            ->where($qb->expr()->eq(
+                "resource.$inverseField",
+                $this->createNamedParameter($qb, $entity))
+            );
+        if ($instanceOf) {
+            // Count specific resource instances.
+            $qb->andWhere("resource INSTANCE OF $instanceOf");
+        }
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

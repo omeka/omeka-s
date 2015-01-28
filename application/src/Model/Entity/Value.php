@@ -35,7 +35,7 @@ class Value extends AbstractEntity
     protected $resource;
 
     /**
-     * @ManyToOne(targetEntity="Property")
+     * @ManyToOne(targetEntity="Property", inversedBy="values")
      * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $property;

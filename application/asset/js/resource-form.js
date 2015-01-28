@@ -69,9 +69,21 @@
             e.preventDefault();
             var valueToRemove = $(this).parents('.value');
             var parentInput = $(this).parents('.inputs');
-            valueToRemove.remove();
+            //check if there is an value_id, which indicates the value has
+            //already been saved
+            if (valueToRemove.find('input.value-id').length == 0 ) {
+                valueToRemove.remove();
+            } else {
+                var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);
+                deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
+                valueToRemove.append(deleteInput);
+                //@TODO: maybe handle all this with a class? Q for Kim.
+                valueToRemove.attr('style', "background-color: #ffcccc;");
+                valueToRemove.find('input').attr('style', "background-color: #ffcccc;");
+                valueToRemove.find('textarea').attr('style', "background-color: #ffcccc;");
+                valueToRemove.addClass('delete');
+            }
             var count = parentInput.find('> .value').length;
-            
             if (count == 1) {
                 parentInput.find('.remove-value').removeClass('active');
                 makeNewValue();
@@ -177,6 +189,7 @@
         var newValue = $('.value.template ').clone(true);
         newValue.removeClass('template');
         var count = valuesWrapper.find('input.value').length;
+        newValue.data('base-name', qName + '[' + count + ']');
         valuesWrapper.find('.inputs').append(newValue);
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
@@ -208,7 +221,7 @@
                     newResource.removeClass('template');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
                         //@TODO: figure out how to translate this
-                        newResource.find('.o-title').html('[Untitled]');                                                
+                        newResource.find('.o-title').html('[Untitled]');
                     } else {
                         var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
                         newResource.find('.o-title').html(html);
@@ -231,7 +244,7 @@
                 
                 case 'external' :
                     var activeTab = newValue.find('.o-icon-link');
-                    Omeka.switchValueTabs(activeTab);                    
+                    Omeka.switchValueTabs(activeTab);
                 break;
             }
         }

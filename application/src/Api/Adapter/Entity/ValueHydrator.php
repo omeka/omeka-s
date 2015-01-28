@@ -76,7 +76,7 @@ class ValueHydrator implements HydrationInterface
                 'Omeka\Model\Entity\Value',
                 $valueObject['value_id']
             );
-            if (isset($valueObject['delete']) && true === $valueObject['delete']) {
+            if (isset($valueObject['delete']) && true == $valueObject['delete']) {
                 $this->remove($value);
             } elseif (array_key_exists('@value', $valueObject)) {
                 $this->modifyLiteral($valueObject, $value);

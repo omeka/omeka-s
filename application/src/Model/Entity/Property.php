@@ -59,6 +59,15 @@ class Property extends AbstractEntity
      */
     protected $comment;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="Value",
+     *     mappedBy="property",
+     *     fetch="EXTRA_LAZY"
+     * )
+     */
+    protected $values;
+
     public function __construct()
     {
         $this->values = new ArrayCollection;

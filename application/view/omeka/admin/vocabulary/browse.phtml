@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
+$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -35,6 +36,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escapeAttr($vocabulary->url('delete')); ?>"
+                        class="o-icon-delete sidebar-confirm"
+                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
@@ -59,5 +66,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Vocabulary')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this vocabulary?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
     <div class="sidebar-content"></div>
 </div>

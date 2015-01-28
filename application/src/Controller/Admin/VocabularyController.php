@@ -1,6 +1,7 @@
 <?php 
 namespace Omeka\Controller\Admin;
 
+use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
 use Omeka\Mvc\Exception;
@@ -35,6 +36,11 @@ class VocabularyController extends AbstractActionController
 
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('vocabularies', $response->getContent());
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
         return $view;
     }
 
@@ -120,6 +126,25 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('form', $form);
         return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('vocabularies', $this->params('id'));
+                if ($response->isError()) {
+                    $this->messenger()->addError('Vocabulary could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Vocabulary successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Vocabulary could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
     public function propertiesAction()

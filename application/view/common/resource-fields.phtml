@@ -25,7 +25,12 @@
         </div>
         <div class="field-inputs">
             <div class="value">
-            <?php echo $this->resourceClassSelect('o:resource_class[o:id]'); ?>
+            <?php $atts = array();
+                  if (isset($item)) {
+                    $atts = array('value' => $item->resourceClass()->id());
+                  }
+            ?>
+            <?php echo $this->resourceClassSelect('o:resource_class[o:id]', $atts); ?>
             </div>
         </div>
     </div>

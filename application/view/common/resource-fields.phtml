@@ -1,5 +1,21 @@
 <fieldset id='<?php echo $id; ?>' class='<?php echo $class; ?>'>
-    <div class="resource-values field" >
+
+    <div class="resource-values field" id="resource-template" >
+        <div class="field-meta">
+            <label>Resource Template</label>
+            <div class='field-description'>
+                <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                <p>A pre-defined template for resource creation.</p>
+            </div>
+        </div>
+        <div class="field-inputs">
+            <div class="value">
+            <?php echo $this->resourceTemplateSelect('o:resource_template[o:id]'); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="resource-values field" id="resource-class">
         <div class="field-meta">
             <label>Class</label>
             <div class='field-description'>

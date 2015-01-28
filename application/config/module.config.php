@@ -108,6 +108,7 @@ return array(
             'propertySelector' => 'Omeka\View\Helper\PropertySelector',
             'formPropertyInputs'  => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect' => 'Omeka\View\Helper\ResourceClassSelect',
+            'resourceTemplateSelect' => 'Omeka\View\Helper\ResourceTemplateSelect'
         ),
     ),
     'media_types' => array(

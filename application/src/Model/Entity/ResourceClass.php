@@ -36,6 +36,7 @@ class ResourceClass extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="User", inversedBy="resourceClasses")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 

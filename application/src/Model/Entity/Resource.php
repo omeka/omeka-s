@@ -29,16 +29,19 @@ abstract class Resource extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="User")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
      * @ManyToOne(targetEntity="ResourceClass", inversedBy="resources")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $resourceClass;
 
     /**
      * @ManyToOne(targetEntity="ResourceTemplate")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $resourceTemplate;
 

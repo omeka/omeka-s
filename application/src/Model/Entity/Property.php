@@ -35,6 +35,7 @@ class Property extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="User", inversedBy="properties")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 

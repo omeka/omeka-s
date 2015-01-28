@@ -21,6 +21,7 @@ class Vocabulary extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="User", inversedBy="vocabularies")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 

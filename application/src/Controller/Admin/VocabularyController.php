@@ -146,6 +146,7 @@ class VocabularyController extends AbstractActionController
         $query = $this->params()->fromQuery() + array(
             'page' => $page,
             'vocabulary_id' => $this->params('id'),
+            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
         );
         $propResponse = $this->api()->search('properties', $query);
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
@@ -167,6 +168,7 @@ class VocabularyController extends AbstractActionController
         $query = $this->params()->fromQuery() + array(
             'page' => $page,
             'vocabulary_id' => $this->params('id'),
+            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
         );
         $classResponse = $this->api()->search('resource_classes', $query);
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));

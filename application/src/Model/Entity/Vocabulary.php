@@ -52,6 +52,7 @@ class Vocabulary extends AbstractEntity
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
+     * @OrderBy({"label" = "ASC"})
      */
     protected $resourceClasses;
 
@@ -62,6 +63,7 @@ class Vocabulary extends AbstractEntity
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
+     * @OrderBy({"label" = "ASC"})
      */
     protected $properties;
 

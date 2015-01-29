@@ -124,20 +124,6 @@ return array(
                 'class'      => 'resources',
                 'pages' => array(
                     array(
-                        'label'      => 'Item Sets',
-                        'route'      => 'admin/default',
-                        'controller' => 'item-set',
-                        'action'     => 'browse',
-                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'item-set',
-                                'visible'    => false,
-                            ),
-                        ),
-                    ),
-                    array(
                         'label'      => 'Items',
                         'route'      => 'admin/default',
                         'controller' => 'item',
@@ -161,6 +147,20 @@ return array(
                             array(
                                 'route'      => 'admin/id',
                                 'controller' => 'media',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label'      => 'Item Sets',
+                        'route'      => 'admin/default',
+                        'controller' => 'item-set',
+                        'action'     => 'browse',
+                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'item-set',
                                 'visible'    => false,
                             ),
                         ),

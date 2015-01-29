@@ -4,10 +4,11 @@ $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+
 <h1><?php echo $escape($this->translate('Items')); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new item')); ?></a>
+    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
 </div>
 
 <?php if (count($items) > 0): ?>
@@ -74,7 +75,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <div class="no-resources">
     <p><?php echo $escape($this->translate('Omeka could not find any items.')); ?></p>
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first item')); ?></a>
 </div>
 
 <?php endif; ?>

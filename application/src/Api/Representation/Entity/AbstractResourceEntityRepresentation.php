@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
+use DoctrineProxies\__CG__\Omeka\Model\Entity\ResourceTemplate;
+
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\Entity\ResourceClassRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
@@ -129,6 +131,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         return $this->getAdapter('resource_classes')
             ->getRepresentation(null, $this->getData()->getResourceClass());
+    }
+    
+    /**
+     * Get the resource template of this resource.
+     * 
+     * @return ResourceTemplateRepresentation
+     */
+    public function resourceTemplate()
+    {
+        return $this->getAdapter('resource_templates')
+            ->getRepresentation(null, $this->getData()->getResourceTemplate());
     }
 
     /**

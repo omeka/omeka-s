@@ -10,7 +10,15 @@
         </div>
         <div class="field-inputs">
             <div class="value">
-            <?php echo $this->resourceTemplateSelect('o:resource_template[o:id]'); ?>
+            <?php $atts = array();
+                  if (isset($item)) {
+                      $resourceTemplate = $item->resourceTemplate();
+                      if ($resourceTemplate) {
+                          $atts = array('value' => $item->resourceTemplate()->id());
+                      }
+                  }
+            ?>
+            <?php echo $this->resourceTemplateSelect('o:resource_template[o:id]', $atts); ?>
             </div>
         </div>
     </div>
@@ -27,7 +35,10 @@
             <div class="value">
             <?php $atts = array();
                   if (isset($item)) {
-                    $atts = array('value' => $item->resourceClass()->id());
+                      $resourceClass = $item->resourceClass();
+                      if ($resourceClass) {
+                          $atts = array('value' => $resourceClass->id());
+                      }
                   }
             ?>
             <?php echo $this->resourceClassSelect('o:resource_class[o:id]', $atts); ?>

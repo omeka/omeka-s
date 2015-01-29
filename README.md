@@ -1,8 +1,8 @@
-# Omeka S (Multisite)
+# Omeka S
 
-The Omeka S web publication system for universities, galleries, libraries, archives, and museums. A local network of independently
-curated exhibits sharing a collaboratively built pool of items and their
-metadata. 
+The Omeka S web publication system for universities, galleries, libraries,
+archives, and museums. A local network of independently curated exhibits sharing
+a collaboratively built pool of items and their metadata.
 
 ## Installation
 
@@ -21,17 +21,17 @@ metadata.
 
 You can find Omeka-specific code under application/.
 
-## Libraries Used
+## Libraries
 
-Omeka uses the following libraries
+Omeka uses the following libraries, among others:
 
 * [Zend Framework 2](http://framework.zend.com/)
-* [Doctrine](http://www.doctrine-project.org/)
-* [Composer](http://getcomposer.org/)
+* [Doctrine 2](http://www.doctrine-project.org/)
+* [EasyRdf](http://www.easyrdf.org/)
+* [PHPUnit](https://phpunit.de/)
 * [jQuery](http://jquery.com/)
-* [Symfony Console](http://symfony.com/doc/current/components/console/introduction.html)
 
 ## Coding Standards
 
-Omeka development adheres to the [Zend Framework 2 Coding Standards](http://framework.zend.com/wiki/display/ZFDEV2/Coding+Standards) 
+Omeka development adheres to the [Zend Framework 2 Coding Standards](https://zf2-docs.readthedocs.org/en/latest/ref/coding.standard.html) 
 and uses the [git-flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model.

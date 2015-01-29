@@ -8,8 +8,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $this->translate('Vocabularies'); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'import'), true)); ?>" class="button">Import new vocabulary</a>
+    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, array('action' => 'import'), true), array('class' => 'button')); ?>
 </div>
+
+<?php if (count($vocabularies) > 0): ?>
 
 <?php echo $this->pagination(); ?>
 
@@ -73,3 +75,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div class="sidebar-content"></div>
 </div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any vocabularies.')); ?></p>
+</div>
+
+<?php endif; ?>

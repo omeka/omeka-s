@@ -17,9 +17,7 @@ class UserController extends AbstractActionController
 
     public function addAction()
     {
-        $view = new ViewModel;
         $form = new UserForm($this->getServiceLocator(), null, array('include_role' => true));
-
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
@@ -36,46 +34,44 @@ class UserController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
     }
 
     public function browseAction()
     {
-        $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('users', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
         return $view;
     }
 
     public function showAction()
     {
-        $view = new ViewModel;
-        $id = $this->params('id');
-        $response = $this->api()->read('users', $id);
+        $response = $this->api()->read('users', $this->params('id'));
 
+        $view = new ViewModel;
         $view->setVariable('user', $response->getContent());
         return $view;
     }
 
     public function showDetailsAction()
     {
+        $response = $this->api()->read('users', $this->params('id'));
+
         $view = new ViewModel;
         $view->setTerminal(true);
-        $response = $this->api()->read(
-            'users', array('id' => $this->params('id'))
-        );
         $view->setVariable('user', $response->getContent());
         return $view;
     }
 
     public function editAction()
     {
-        $view = new ViewModel;
         $form = new UserForm($this->getServiceLocator());
         $id = $this->params('id');
 
@@ -100,6 +96,7 @@ class UserController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('user', $user);
         $view->setVariable('form', $form);
         return $view;
@@ -107,7 +104,6 @@ class UserController extends AbstractActionController
 
     public function changePasswordAction()
     {
-        $view = new ViewModel;
         $form = new UserPasswordForm($this->getServiceLocator());
         $id = $this->params('id');
 
@@ -129,6 +125,7 @@ class UserController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('user', $userRepresentation);
         $view->setVariable('form', $form);
         return $view;
@@ -136,7 +133,6 @@ class UserController extends AbstractActionController
 
     public function editKeysAction()
     {
-        $view = new ViewModel;
         $form = new UserKeyForm($this->getServiceLocator());
         $id = $this->params('id');
 
@@ -173,6 +169,7 @@ class UserController extends AbstractActionController
             $viewKeys[$id] = $key->getLabel();
         }
 
+        $view = new ViewModel;
         $view->setVariable('user', $userRepresentation);
         $view->setVariable('keys', $viewKeys);
         $view->setVariable('form', $form);

@@ -14,13 +14,12 @@ class ItemSetController extends AbstractActionController
 
     public function browseAction()
     {
-        $view = new ViewModel;
-
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('item_sets', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('itemSets', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
@@ -32,20 +31,21 @@ class ItemSetController extends AbstractActionController
 
     public function showAction()
     {
+        $response = $this->api()->read('item_sets', $this->params('id'));
+
         $view = new ViewModel;
-        $id = $this->params('id');
-        $response = $this->api()->read('item_sets', $id);
         $view->setVariable('itemSet', $response->getContent());
         return $view;
     }
 
     public function showDetailsAction()
     {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('item_sets', $this->params('id'));
+
         $view = new ViewModel;
         $view->setTerminal(true);
-        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $view->setVariable('linkTitle', $linkTitle);
-        $response = $this->api()->read('item_sets', $this->params('id'));
         $view->setVariable('itemSet', $response->getContent());
         return $view;
     }

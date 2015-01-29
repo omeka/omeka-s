@@ -64,16 +64,16 @@ CREATE TABLE `property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) NOT NULL,
-  `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `label` varchar(255) COLLATE utf8_bin NOT NULL,
-  `comment` longtext COLLATE utf8_bin,
+  `local_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `comment` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `vocabulary_local_name` (`vocabulary_id`,`local_name`),
   KEY `IDX_8BF21CDE7E3C61F9` (`owner_id`),
   KEY `IDX_8BF21CDEAD0E05F6` (`vocabulary_id`),
   CONSTRAINT `FK_8BF21CDEAD0E05F6` FOREIGN KEY (`vocabulary_id`) REFERENCES `vocabulary` (`id`),
   CONSTRAINT `FK_8BF21CDE7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
@@ -94,16 +94,16 @@ CREATE TABLE `resource_class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) NOT NULL,
-  `local_name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `label` varchar(255) COLLATE utf8_bin NOT NULL,
-  `comment` longtext COLLATE utf8_bin,
+  `local_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `comment` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `vocabulary_local_name` (`vocabulary_id`,`local_name`),
   KEY `IDX_C6F063AD7E3C61F9` (`owner_id`),
   KEY `IDX_C6F063ADAD0E05F6` (`vocabulary_id`),
   CONSTRAINT `FK_C6F063ADAD0E05F6` FOREIGN KEY (`vocabulary_id`) REFERENCES `vocabulary` (`id`),
   CONSTRAINT `FK_C6F063AD7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `resource_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,

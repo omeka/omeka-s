@@ -6,8 +6,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate('Users')); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Add new user')); ?></a>
+    <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
 </div>
+
+<?php if (count($users)): ?>
 
 <?php echo $this->pagination(); ?>
 
@@ -66,3 +68,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div class="sidebar-content"></div>
 </div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any users.')); ?></p>
+</div>
+
+<?php endif; ?>

@@ -190,13 +190,6 @@ return array(
                         ),
                     ),
                     array(
-                        'label'      => 'Import Vocabulary',
-                        'route'      => 'admin/default',
-                        'controller' => 'vocabulary',
-                        'action'     => 'import',
-                        'resource'   => 'Omeka\Controller\Admin\Vocabulary',
-                    ),
-                    array(
                         'label'      => 'Resource Templates',
                         'route'      => 'admin/default',
                         'controller' => 'resource-template',

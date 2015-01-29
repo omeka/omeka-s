@@ -454,7 +454,6 @@ div[role="main"] > h1:first-of-type {
     margin-bottom: 0;
     border-color: #e7e7e7;
     @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
-    text-transform: uppercase;
     font-weight: bold;
 }
 

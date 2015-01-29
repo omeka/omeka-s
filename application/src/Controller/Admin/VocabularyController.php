@@ -17,13 +17,12 @@ class VocabularyController extends AbstractActionController
 
     public function browseAction()
     {
-        $view = new ViewModel;
-
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('vocabularies', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('vocabularies', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
@@ -35,16 +34,16 @@ class VocabularyController extends AbstractActionController
 
     public function showDetailsAction()
     {
+        $response = $this->api()->read('vocabularies', $this->params('id'));
+
         $view = new ViewModel;
         $view->setTerminal(true);
-        $response = $this->api()->read('vocabularies', $this->params('id'));
         $view->setVariable('vocabulary', $response->getContent());
         return $view;
     }
 
     public function importAction()
     {
-        $view = new ViewModel;
         $form = new VocabularyImportForm($this->getServiceLocator());
 
         $request = $this->getRequest();
@@ -75,13 +74,13 @@ class VocabularyController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
     }
     
     public function editAction()
     {
-        $view = new ViewModel;
         $form = new VocabularyForm($this->getServiceLocator());
         $id = $this->params('id');
 
@@ -112,6 +111,7 @@ class VocabularyController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('form', $form);
         return $view;

@@ -71,7 +71,7 @@
             var parentInput = $(this).parents('.inputs');
             //check if there is an value_id, which indicates the value has
             //already been saved
-            if (valueToRemove.find('input.value-id').length == 0 ) {
+            if (valueToRemove.find('input.value-id').val() == '' ) {
                 valueToRemove.remove();
             } else {
                 var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);

@@ -7,7 +7,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate('Resource Templates')); ?></h1>
 
 <div id="page-actions">
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button">Add Resource Template</a>
+    <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
 </div>
 
 <?php if (count($resourceTemplates)): ?>
@@ -72,7 +72,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <div class="no-resources">
     <p><?php echo $escape($this->translate('Omeka could not find any resource templates.')); ?></p>
-    <a href="<?php echo $escapeAttr($this->url(null, array('action' => 'add'), true)); ?>" class="button"><?php echo $escape($this->translate('Create your first resource template')); ?></a>
 </div>
 
 <?php endif; ?>

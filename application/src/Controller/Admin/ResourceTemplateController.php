@@ -16,16 +16,15 @@ class ResourceTemplateController extends AbstractActionController
 
     public function browseAction()
     {
-        $view = new ViewModel;
-
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array(
             'page' => $page,
             'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
         );
         $response = $this->api()->search('resource_templates', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
@@ -38,6 +37,7 @@ class ResourceTemplateController extends AbstractActionController
     public function showAction()
     {
         $response = $this->api()->read('resource_templates', $this->params('id'));
+
         $view = new ViewModel;
         $view->setVariable('resourceTemplate', $response->getContent());
         return $view;
@@ -46,6 +46,7 @@ class ResourceTemplateController extends AbstractActionController
     public function showDetailsAction()
     {
         $response = $this->api()->read('resource_templates', $this->params('id'));
+
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('resourceTemplate', $response->getContent());

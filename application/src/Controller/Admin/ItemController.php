@@ -26,13 +26,12 @@ class ItemController extends AbstractActionController
 
     public function browseAction()
     {
-        $view = new ViewModel;
-
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('items', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('items', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
@@ -44,34 +43,33 @@ class ItemController extends AbstractActionController
 
     public function showAction()
     {
+        $response = $this->api()->read('items', $this->params('id'));
+
         $view = new ViewModel;
-        $id = $this->params('id');
-        $response = $this->api()->read('items', $id);
         $view->setVariable('item', $response->getContent());
         return $view;
     }
 
     public function showDetailsAction()
     {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('items', $this->params('id'));
+
         $view = new ViewModel;
         $view->setTerminal(true);
-        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $view->setVariable('linkTitle', $linkTitle);
-        $response = $this->api()->read(
-            'items', array('id' => $this->params('id'))
-        );
         $view->setVariable('item', $response->getContent());
         return $view;
     }
     
     public function sidebarSelectAction()
     {
-        $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
         $query = $this->params()->fromQuery() + array('page' => $page);
         $response = $this->api()->search('items', $query);
-
         $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
         $view->setVariable('items', $response->getContent());
         if (isset($query['value'])) {
             $searchValue = $query['value']['in'][0];
@@ -106,9 +104,7 @@ class ItemController extends AbstractActionController
 
     public function addAction()
     {
-        $view = new ViewModel;
         $form = new ResourceForm($this->getServiceLocator());
-        $view->setVariable('form', $form);
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -124,14 +120,15 @@ class ItemController extends AbstractActionController
                 $this->messenger()->addError('There was an error during validation');
             }
         }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
         return $view;
     }
 
     public function editAction()
     {
-        $view = new ViewModel;
         $form = new ResourceForm($this->getServiceLocator());
-        $view->setVariable('form', $form);
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
@@ -157,6 +154,8 @@ class ItemController extends AbstractActionController
             }
         }
         
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
             if ($this->getRequest()->isPost()) {

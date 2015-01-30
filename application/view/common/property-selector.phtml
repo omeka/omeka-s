@@ -5,7 +5,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class='property-selector'>
     <input type="text" class="property-selector-filter" placeholder="Filter properties">
     <ul>
-        <li><?php echo $escape($this->translate('Vocabularies')); ?> (<span class="total-property-count"><?php echo count($vocabularies); ?></span>)
+        <li><?php echo $escape($this->translate('All Properties')); ?> (<span class="total-property-count"><?php echo $totalPropertyCount; ?></span>)
             <ul>
                 <?php foreach ($vocabularies as $vocabulary): ?>
                 <li class='vocabulary'
@@ -17,12 +17,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                             data-property-id="<?php echo $escapeAttr($property->id()); ?>"
                             data-property-label="<?php echo $escapeAttr($property->label()); ?>"
                             data-property-term="<?php echo $escapeAttr($property->term()); ?>">
-                            <span class="property-label"><?php echo $escape($property->label()); ?></span>
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
                                 <p><?php echo $escape($property->comment()); ?></p>
                             </div>
-                            <button class='select-property-button'><?php echo $escape($this->translate('Select Property')); ?></button>
+                            <span class="property-label"><?php echo $escape($property->label()); ?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>

@@ -4,10 +4,12 @@ $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+
 <h1><?php echo $escape($this->translate('Item Sets')); ?></h1>
 
 <div id="page-actions">
     <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Search item sets'), $this->url(null, array('action' => 'search'), true), array('class' => 'button')); ?>
 </div>
 
 <?php if (count($itemSets) > 0): ?>

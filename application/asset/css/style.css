@@ -1491,12 +1491,14 @@ th {
     padding: 0.375em 0;
   }
 
-  .property-selector .property:hover .description.show .o-icon-info + p {
-    top: 1.125em;
+  .property-selector .property .description .o-icon-info:hover + p {
+    top: 2.25em;
     left: 0;
-    padding-left: 1.125em;
+    padding-left: -webkit-calc(2.25em + 10px);
+    padding-left: calc(2.25em + 10px);
     background-color: #fff;
     z-index: 1;
+    margin: 0;
   }
 
   .property-selector ul {
@@ -1508,8 +1510,9 @@ th {
   }
   .property-selector ul .description .o-icon-info {
     display: inline-block;
-    margin: 0 0 0 1em;
+    margin: 0 1em 0 0;
     opacity: .75;
+    width: 1em;
   }
   .property-selector ul .description .o-icon-info + p {
     position: absolute;
@@ -1526,16 +1529,29 @@ th {
   }
   .property-selector > ul li,
   .properties > ul li {
-    float: left;
-    width: 100%;
     position: relative;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
   }
   .property-selector > ul li:hover,
   .properties > ul li:hover {
     background-color: rgba(0, 0, 0, 0.1);
+  }
+  .property-selector > ul > li.show,
+  .properties > ul > li.show {
+    background-color: #575757;
+    color: #f9f9f9;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+  }
+  .property-selector > ul > li.show > ul,
+  .properties > ul > li.show > ul {
+    background-color: #c7c7c7;
+    color: #000;
+    margin: 0.375em -10px -0.375em;
+    overflow: visible;
+    -moz-border-radius: 0px 0px 3px 3px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px 0px 3px 3px;
   }
   .property-selector > ul > li,
   .properties > ul > li {
@@ -1561,23 +1577,20 @@ th {
   }
   .property-selector > ul > li > ul > li,
   .properties > ul > li > ul > li {
-    padding: 0.375em 0;
+    padding: 0.375em 10px;
   }
-  .property-selector > ul > li li li,
-  .properties > ul > li li li {
-    padding: 0.375em 1.125em;
+  .property-selector > ul > li .property,
+  .properties > ul > li .property {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
-  }
-  .property-selector > ul > li > ul > li:before,
-  .properties > ul > li > ul > li:before {
-    content: "— ";
-    margin-left: 0.375em;
+    font-weight: normal;
+    padding: 0.375em 10px;
+    margin: 0 -10px;
   }
   .property-selector > ul > li > ul > li:after,
   .properties > ul > li > ul > li:after {
-    right: 0.375em;
+    right: 0.9375em;
   }
   .property-selector > ul li:not(.property).show:after,
   .properties > ul li:not(.property).show:after {
@@ -1596,15 +1609,7 @@ th {
     top: 0;
     left: 0;
     margin-top: 0.375em;
-  }
-  .property-selector > ul > .property,
-  .properties > ul > .property {
-    font-weight: normal;
-    padding: 0.375em 10px 0.375em 2em;
-    position: relative;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    overflow: visible;
   }
 
   .select-property {
@@ -2415,14 +2420,15 @@ th {
     vertical-align: top;
   }
   .resource-template .property-row label:first-child {
-    padding: 0.375em 0;
+    padding: 0.375em 0 0.375em 2.25em;
   }
   .resource-template .property-row .sortable-handle:before {
     cursor: move;
     content: "";
     font-family: "FontAwesome";
     position: absolute;
-    right: .5em;
+    left: .5em;
+    opacity: .35;
     top: 0.6em;
     font-size: 20px;
     line-height: 24px;
@@ -2461,6 +2467,10 @@ th {
     font-weight: bold;
     display: inline-block;
     width: 30%;
+  }
+
+  .resource-template .property-heading:first-of-type {
+    padding-left: 2.25em;
   }
 
   .resource-template .property-heading:not(:first-child),

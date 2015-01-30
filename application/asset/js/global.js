@@ -77,6 +77,11 @@ var Omeka = {
                     property.hide();
                 }
             });
+            if (propertyCount > 0) {
+                vocabulary.show();
+            } else {
+                vocabulary.hide();
+            }
             vocabulary.children('span.property-count').text(propertyCount);
         });
         propertySelector.find('span.total-property-count').text(totalPropertyCount);

@@ -8,11 +8,18 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <li><?php echo $escape($this->translate('All Properties')); ?> (<span class="total-property-count"><?php echo $totalPropertyCount; ?></span>)
             <ul>
                 <?php foreach ($vocabularies as $vocabulary): ?>
+                <?php
+                $properties = $vocabulary->properties();
+                if (!$properties) {
+                    // Do not render vocabularies without properties.
+                    continue;
+                }
+                ?>
                 <li class='vocabulary'
                     data-vocabulary-id="<?php echo $escapeAttr($vocabulary->id()); ?>">
                     <span class='vocabulary-name'><?php echo $escape($vocabulary->label()); ?></span> (<span class="property-count"><?php echo $escape(count($vocabulary->properties())); ?></span>)
                     <ul>
-                        <?php foreach ($vocabulary->properties() as $property): ?>
+                        <?php foreach ($properties as $property): ?>
                         <li class='property'
                             data-property-id="<?php echo $escapeAttr($property->id()); ?>"
                             data-property-label="<?php echo $escapeAttr($property->label()); ?>"

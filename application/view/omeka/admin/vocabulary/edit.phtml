@@ -2,11 +2,6 @@
 <h1><?php echo $this->escapeHtml($this->translate(sprintf('Edit Vocabulary “%s”', $vocabulary->label()))); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php echo $vocabulary->link(
-        $this->translate('Show Vocabulary'),
-        'show',
-        array('class' => 'button')
-    ); ?>
     <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
 </div>
 <?php echo $this->formElements($form); ?>

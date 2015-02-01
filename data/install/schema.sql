@@ -36,6 +36,19 @@ CREATE TABLE `item_set` (
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_1015EEEBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_id` int(11) DEFAULT NULL,
+  `pid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `args` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:json_array)',
+  `started` datetime NOT NULL,
+  `stopped` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_FBD8E0F87E3C61F9` (`owner_id`),
+  CONSTRAINT `FK_FBD8E0F87E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `media` (
   `id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,

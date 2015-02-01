@@ -1,19 +1,12 @@
 <?php
 namespace Omeka\Job\Strategy;
 
+use Omeka\Model\Entity\Job;
+
 class PhpCliStrategy extends AbstractStrategy
 {
-    public function send($class, $args = null)
+    public function send(Job $job)
     {
-        /*
-        $process = new Process;
-        $process->setClass($class);
-        $process->setArgs($args);
-
-        $entityManager->persist($process);
-        $entityManager->flush();
-
-        $this->fork($process);
-        */
+        //~ $this->fork($job);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Job\Strategy;
 
+use Omeka\Model\Entity\Job;
+
 interface StrategyInterface
 {
     /**
@@ -9,5 +11,5 @@ interface StrategyInterface
      * @param string $class
      * @param mixed $args
      */
-    public function send($class, $args = null);
+    public function send(Job $job);
 }

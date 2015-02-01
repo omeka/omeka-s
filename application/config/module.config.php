@@ -26,6 +26,7 @@ return array(
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
+            'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -303,6 +304,10 @@ return array(
             'log'  => false,
             'path' => OMEKA_PATH . '/data/logs/sql.log',
         ),
+    ),
+    'jobs' => array(
+        'short_running_strategy' => 'Omeka\Job\Strategy\SynchronousStrategy',
+        'long_running_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
     ),
     'router' => array(
         'routes' => array(

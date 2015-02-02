@@ -78,7 +78,7 @@ class Job extends AbstractEntity
 
     public function setPid($pid)
     {
-        $this->pid = $pid;
+        $this->pid = is_null($pid) ? null : trim($pid);
     }
 
     public function getPid()
@@ -98,7 +98,7 @@ class Job extends AbstractEntity
 
     public function setClass($class)
     {
-        $this->class = $class;
+        $this->class = trim($class);
     }
 
     public function getClass()

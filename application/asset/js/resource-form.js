@@ -59,17 +59,18 @@
         //handle changing the resource template
         
         $('#resource-template-select').on('change', function(e) {
-            console.log($(this).data('api-base-url'));
-            var url = $(this).data('api-base-url') + '1';
-            $.ajax({
-                'url': url,
-                'type': 'get'
-            }).done(function(data) {
-                data['o:resource_template_property'].forEach(rewritePropertyFromTemplateProperty);
-            }).error(function() {
-                console.log('fail');
-            });
-            
+            var templateId = $(this).find(':selected').val();
+            if (templateId != "") {
+                var url = $(this).data('api-base-url') + templateId;
+                $.ajax({
+                    'url': url,
+                    'type': 'get'
+                }).done(function(data) {
+                    data['o:resource_template_property'].forEach(rewritePropertyFromTemplateProperty);
+                }).error(function() {
+                    console.log('fail');
+                });                
+            }
         });
         
         // Make new value inputs whenever "add value" button clicked.

@@ -66,7 +66,11 @@
                     'url': url,
                     'type': 'get'
                 }).done(function(data) {
-                    data['o:resource_template_property'].forEach(rewritePropertyFromTemplateProperty);
+                    //in case people have added fields, reverse the template so
+                    //I can prepend everything and keep the order, and then drop
+                    //back to what people have added
+                    var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                    propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
                 }).error(function() {
                     console.log('fail');
                 });                
@@ -315,7 +319,7 @@
             //refactor makeNewField
             //pass in either term or property id. decide based on what's more available???
         }
-        propertiesContainer.append(field);
+        propertiesContainer.prepend(field);
     };
 
     /**

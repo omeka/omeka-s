@@ -13,9 +13,7 @@ abstract class AbstractJob implements JobInterface
     protected $args;
 
     /**
-     * Set job arguments.
-     *
-     * @param mixed $args
+     * {@inheritDoc}
      */
     public function setArgs($args)
     {
@@ -23,9 +21,7 @@ abstract class AbstractJob implements JobInterface
     }
 
     /**
-     * Get job arguments.
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function getArgs()
     {

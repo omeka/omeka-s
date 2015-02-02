@@ -57,6 +57,7 @@ class Dispatcher implements ServiceLocatorAwareInterface
      * @param StrategyInterface $strategy
      * @param string $class
      * @param mixed $args
+     * @return Job $job
      */
     public function dispatch(StrategyInterface $strategy, $class, $args = null)
     {
@@ -85,6 +86,8 @@ class Dispatcher implements ServiceLocatorAwareInterface
             $job->setStopped(new DateTime('now'));
             $entityManager->flush();
         }
+
+        return $job;
     }
 
     /**

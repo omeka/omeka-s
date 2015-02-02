@@ -28,15 +28,15 @@ class Media extends Resource
     protected $isPublic = false;
 
     /**
+     * @Column(nullable=true)
+     */
+    protected $filename;
+
+    /**
      * @ManyToOne(targetEntity="Item", inversedBy="media")
      * @JoinColumn(nullable=false)
      */
     protected $item;
-
-    /**
-     * @OneToOne(targetEntity="File")
-     */
-    protected $file;
 
     public function getResourceName()
     {
@@ -78,6 +78,16 @@ class Media extends Resource
         return (bool) $this->isPublic;
     }
 
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
     public function setItem(Item $item = null)
     {
         $this->synchronizeOneToMany($item, 'item', 'getMedia');
@@ -86,15 +96,5 @@ class Media extends Resource
     public function getItem()
     {
         return $this->item;
-    }
-
-    public function setFile(File $file)
-    {
-        $this->file = $file;
-    }
-
-    public function getFile()
-    {
-        return $this->file;
     }
 }

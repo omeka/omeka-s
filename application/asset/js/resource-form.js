@@ -56,6 +56,22 @@
 
         /* End Property Selector Handlers */
         
+        //handle changing the resource template
+        
+        $('#resource-template-select').on('change', function(e) {
+            console.log($(this).data('api-base-url'));
+            var url = $(this).data('api-base-url') + '1';
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                data['o:resource_template_property'].forEach(rewritePropertyFromTemplateProperty);
+            }).error(function() {
+                console.log('fail');
+            });
+            
+        });
+        
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
@@ -271,14 +287,34 @@
         var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')';
         $('label', field).text(fieldName);
         var fieldDesc = $('.description p', propertyLi).last();
-        $('.field-description', field).append(fieldDesc);
-        $('.new.resource-values.field').before(field);
+        field.find('.field-comment').text(fieldDesc.text());
+        $('div#properties').append(field);
         field.data('property-term', qName);
         field.data('property-id', propertyId);
         //adding the att because selectors need them to find the correct field and count when adding more
         //should I put a class with the 
         field.attr('data-property-term', qName);
-        //field.attr('data-property-id', propertyId);
+        field.attr('data-property-id', propertyId);
+    };
+
+    var rewritePropertyFromTemplateProperty = function(template, index, templates) {
+        var propertiesContainer = $('div#properties');
+        var id = template['o:property']['o:id'];
+        var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
+        if (template['o:alternate_label'] != "") {
+            field.find('label.field-label').text(template['o:alternate_label']);
+        }
+        
+        if (template['o:alternate_comment'] != "") {
+            field.find('field-comment').text(template['o:alternate_comment']);
+        } 
+        
+        if (field.length == 0) {
+            //field = makeNewField() 
+            //refactor makeNewField
+            //pass in either term or property id. decide based on what's more available???
+        }
+        propertiesContainer.append(field);
     };
 
     /**
@@ -296,3 +332,4 @@
         }
     };
 })(jQuery);
+

@@ -12,13 +12,20 @@ class Job extends AbstractEntity
 {
     /**#@+
      * Job statuses
+     *
+     * STATUS_STARTING:    The job was dispatched.
+     * STATUS_IN_PROGRESS: The job was sent and is in progress.
+     * STATUS_COMPLETED:   The job was performed and is sucessfully completed.
+     * STATUS_INCOMPLETE:  The job is incomplete and cannot be restarted.
+     * STATUS_PAUSED:      The job was paused and can be restarted.
+     * STATUS_ERROR:       There was an unrecoverable error during the job.
      */
     const STATUS_STARTING    = 'starting';
     const STATUS_IN_PROGRESS = 'in_progress';
     const STATUS_COMPLETED   = 'completed';
+    const STATUS_INCOMPLETE  = 'incomplete';
     const STATUS_PAUSED      = 'paused';
     const STATUS_ERROR       = 'error';
-    const STATUS_INCOMPLETE  = 'incomplete';
     /**#@-*/
 
     /**

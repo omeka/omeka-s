@@ -125,24 +125,9 @@ return array(
                 'class'      => 'resources',
                 'pages' => array(
                     array(
-                        'label'      => 'Item Sets',
-                        'route'      => 'admin/default',
-                        'controller' => 'item-set',
-                        'action'     => 'browse',
-                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'item-set',
-                                'visible'    => false,
-                            ),
-                        ),
-                    ),
-                    array(
                         'label'      => 'Items',
                         'route'      => 'admin/default',
                         'controller' => 'item',
-                        'action'     => 'browse',
                         'resource'   => 'Omeka\Controller\Admin\Item',
                         'pages' => array(
                             array(
@@ -156,12 +141,24 @@ return array(
                         'label'      => 'Media',
                         'route'      => 'admin/default',
                         'controller' => 'media',
-                        'action'     => 'browse',
                         'resource'   => 'Omeka\Controller\Admin\Media',
                         'pages' => array(
                             array(
                                 'route'      => 'admin/id',
                                 'controller' => 'media',
+                                'visible'    => false,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label'      => 'Item Sets',
+                        'route'      => 'admin/default',
+                        'controller' => 'item-set',
+                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
+                        'pages' => array(
+                            array(
+                                'route'      => 'admin/id',
+                                'controller' => 'item-set',
                                 'visible'    => false,
                             ),
                         ),

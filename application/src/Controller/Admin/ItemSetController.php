@@ -12,6 +12,12 @@ class ItemSetController extends AbstractActionController
         return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
     }
 
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
+
     public function browseAction()
     {
         $page = $this->params()->fromQuery('page', 1);

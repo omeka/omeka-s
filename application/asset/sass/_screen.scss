@@ -1067,12 +1067,13 @@ th .sorted-desc:before {
         }
     }
     
-    .property-selector .property:hover .description.show .o-icon-info + p {
-        top: rhythm(.75);
+    .property-selector .property .description .o-icon-info:hover + p {
+        top: rhythm(1.5);
         left: 0;
-        padding-left: 1.125em;
+        @include calc('padding-left', rhythm(1.5) + ' + 10px');
         background-color: #fff;
         z-index: 1;
+        margin: 0;
     }
     
     .property-selector ul {
@@ -1084,8 +1085,9 @@ th .sorted-desc:before {
             
             .o-icon-info {
                 display: inline-block;
-                margin: 0 0 0 1em;
+                margin: 0 1em 0 0;
                 opacity: .75;
+                width: 1em;
             }
             
             .o-icon-info + p {
@@ -1104,13 +1106,24 @@ th .sorted-desc:before {
         padding-left: 0;
         
         li {
-            float: left;
-            width: 100%;
             position: relative;
-            @include border-radius(3px);
     
             &:hover {
                 background-color: rgba(0,0,0,.1);
+            }
+        }
+        
+        & > li.show {
+            background-color: #575757;
+            color: #f9f9f9;
+            @include border-radius(3px);
+            
+            & > ul {
+                background-color: #c7c7c7;
+                color: #000;
+                margin: rhythm(.25) -10px rhythm(-.25);
+                overflow: visible;
+                @include border-radius(0px 0px 3px 3px);
             }
         }
     
@@ -1136,21 +1149,18 @@ th .sorted-desc:before {
             }
             
             & > ul > li {
-                padding: rhythm(.25) 0;
+                padding: rhythm(.25) 10px;
             }
             
-            li li {
-                padding: rhythm(.25) rhythm(.75);
+            .property {
                 @include border-radius(0);
+                font-weight: normal;
+                padding: rhythm(.25) 10px;
+                margin: 0 -10px;
             }
             
-            & > ul > li:before {
-                content: "— ";
-                margin-left: rhythm(.25);
-            }
-    
             & > ul > li:after {
-                right: rhythm(.25);
+                right: rhythm(.625);
             }
 
         }
@@ -1171,13 +1181,7 @@ th .sorted-desc:before {
             top: 0;
             left: 0;
             @include leader(.25);
-        }
-        
-        & > .property {
-            font-weight: normal;
-            padding: rhythm(.25) 10px rhythm(.25) 2em;
-            position: relative;
-            @include border-radius(0px);
+            overflow: visible;
         }
     }
     
@@ -2032,7 +2036,7 @@ body.show .property {
 
 .resource-template .property-row {
     @include field-row;
-    
+        
     label:first-child,
     input[type="text"],
     textarea {
@@ -2042,15 +2046,16 @@ body.show .property {
     }
     
     label:first-child {
-        padding: rhythm(.25) 0;
+        padding: rhythm(.25) 0 rhythm(.25) rhythm(1.5);
     }
-    
+        
     .sortable-handle:before {
         cursor: move;
         content: $fa-var-reorder;
         font-family: "FontAwesome";
         position: absolute;
-        right: .5em;
+        left: .5em;
+        opacity: .35;
         top: rhythm(.5, 1.25 * $base-font-size);
         font-size: 1.25 * $base-font-size;
         line-height: $base-line-height;
@@ -2083,6 +2088,10 @@ body.show .property {
     font-weight: bold;
     display: inline-block;
     width: span(3 of 10);
+}
+
+.resource-template .property-heading:first-of-type {
+    padding-left: rhythm(1.5);
 }
 
 .resource-template .property-heading:not(:first-child),

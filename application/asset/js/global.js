@@ -77,6 +77,11 @@ var Omeka = {
                     property.hide();
                 }
             });
+            if (propertyCount > 0) {
+                vocabulary.show();
+            } else {
+                vocabulary.hide();
+            }
             vocabulary.children('span.property-count').text(propertyCount);
         });
         propertySelector.find('span.total-property-count').text(totalPropertyCount);
@@ -142,11 +147,6 @@ var Omeka = {
             if ($('.expand-collapse-parent').length > 0) {
                 $(this).parent().toggleClass('collapse').toggleClass('expand');
             }
-        });
-
-        // Show property descriptions when clicking "more-info" icon.
-        $('.o-icon-info').on('click', function() {
-            $(this).parents('.description').toggleClass('show');
         });
 
         // Switch between the different value options.

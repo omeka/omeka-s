@@ -5,24 +5,30 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class='property-selector'>
     <input type="text" class="property-selector-filter" placeholder="Filter properties">
     <ul>
-        <li><?php echo $escape($this->translate('Vocabularies')); ?> (<span class="total-property-count"><?php echo count($vocabularies); ?></span>)
+        <li><?php echo $escape($this->translate('All Properties')); ?> (<span class="total-property-count"><?php echo $totalPropertyCount; ?></span>)
             <ul>
                 <?php foreach ($vocabularies as $vocabulary): ?>
+                <?php
+                $properties = $vocabulary->properties();
+                if (!$properties) {
+                    // Do not render vocabularies without properties.
+                    continue;
+                }
+                ?>
                 <li class='vocabulary'
                     data-vocabulary-id="<?php echo $escapeAttr($vocabulary->id()); ?>">
                     <span class='vocabulary-name'><?php echo $escape($vocabulary->label()); ?></span> (<span class="property-count"><?php echo $escape(count($vocabulary->properties())); ?></span>)
                     <ul>
-                        <?php foreach ($vocabulary->properties() as $property): ?>
+                        <?php foreach ($properties as $property): ?>
                         <li class='property'
                             data-property-id="<?php echo $escapeAttr($property->id()); ?>"
                             data-property-label="<?php echo $escapeAttr($property->label()); ?>"
                             data-property-term="<?php echo $escapeAttr($property->term()); ?>">
-                            <span class="property-label"><?php echo $property->label(); ?></span>
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
                                 <p><?php echo $escape($property->comment()); ?></p>
                             </div>
-                            <button class='select-property-button'><?php echo $escape($this->translate('Select Property')); ?></button>
+                            <span class="property-label"><?php echo $escape($property->label()); ?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>

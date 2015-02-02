@@ -11,9 +11,8 @@ class JobDispatcherFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
 
-        $shortRunningStrategy = $config['jobs']['short_running_strategy'];
-        $longRunningStrategy = $config['jobs']['long_running_strategy'];
+        $dispatchStrategy = $config['jobs']['dispatch_strategy'];
 
-        return new Dispatcher(new $shortRunningStrategy, new $longRunningStrategy);
+        return new Dispatcher(new $dispatchStrategy);
     }
 }

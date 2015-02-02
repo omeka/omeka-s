@@ -14,55 +14,44 @@ class Dispatcher implements ServiceLocatorAwareInterface
     /**
      * @var StrategyInterface
      */
-    protected $shortRunningStrategy;
+    protected $dispatchStrategy;
 
     /**
-     * @var StrategyInterface
-     */
-    protected $longRunningStrategy;
-
-    /**
-     * Set the short- and long-running strategies.
+     * Set the dispatch strategy.
      *
-     * @param StrategyInterface $shortRunningStrategy
-     * @param StrategyInterface $longRunningStrategy
+     * @param StrategyInterface $dispatchStrategy
      */
-    public function __construct(
-        StrategyInterface $shortRunningStrategy,
-        StrategyInterface $longRunningStrategy
-    ) {
-        $this->shortRunningStrategy = $shortRunningStrategy;
-        $this->longRunningStrategy = $longRunningStrategy;
+    public function __construct(StrategyInterface $dispatchStrategy)
+    {
+        $this->dispatchStrategy = $dispatchStrategy;
     }
 
     /**
      * @return StrategyInterface
      */
-    public function getShortRunningStrategy()
+    public function getDispatchStrategy()
     {
-        return $this->shortRunningStrategy;
+        return $this->dispatchStrategy;
     }
 
     /**
-     * @return StrategyInterface
-     */
-    public function getLongRunningStrategy()
-    {
-        return $this->shortRunningStrategy;
-    }
-
-    /**
-     * Dispatch a job via the specified strategy.
+     * Dispatch a job.
      *
-     * @param StrategyInterface $strategy
+     * Uses the configured strategy if no strategy is passed.
+     *
      * @param string $class
      * @param mixed $args
-     * @return Job $job
+     * @param StrategyInterface $strategy
+     * @return null|Job $job
      */
-    public function dispatch(StrategyInterface $strategy, $class, $args = null)
+    public function dispatch($class, $args = null, StrategyInterface $strategy = null)
     {
         if (!is_subclass_of($class, 'Omeka\Job\JobInterface')) {
             throw new Exception\InvalidArgumentException;
+        }
+
+        if (!$strategy) {
+            $strategy = $this->getDispatchStrategy();
         }
 
         $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
@@ -88,27 +77,5 @@ class Dispatcher implements ServiceLocatorAwareInterface
         }
 
         return $job;
-    }
-
-    /**
-     * Dispatch a job via the configured short-running strategy.
-     *
-     * @param string $class
-     * @param mixed $args
-     */
-    public function dispatchShortRunning($class, $args = null)
-    {
-        $this->dispatch($this->getShortRunningStrategy(), $class, $args);
-    }
-
-    /**
-     * Dispatch a job via the configured long-running strategy.
-     *
-     * @param string $class
-     * @param mixed $args
-     */
-    public function dispatchLongRunning($class, $args = null)
-    {
-        $this->dispatch($this->getLongRunningStrategy(), $class, $args);
     }
 }

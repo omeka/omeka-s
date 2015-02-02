@@ -306,8 +306,7 @@ return array(
         ),
     ),
     'jobs' => array(
-        'short_running_strategy' => 'Omeka\Job\Strategy\SynchronousStrategy',
-        'long_running_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
+        'dispatch_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
     ),
     'router' => array(
         'routes' => array(

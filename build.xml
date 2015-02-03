@@ -2,6 +2,7 @@
 <project name="Omeka" basedir="." default="init">
     <property name="build.dir" location="build"/>
     <property name="build.data.dir" location="data/build"/>
+    <property name="scripts.data.dir" location="data/scripts"/>
     <property name="migration.dir" location="data/migrations"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
     <property name="composer.vendor.path" location="vendor"/>
@@ -97,7 +98,7 @@
     <target name="create-schema"
             description="Create optimized schema SQL for installation.">
         <exec executable="php" failonerror="true">
-            <arg file="create-schema.php"/>
+            <arg file="${scripts.data.dir}/create-schema.php"/>
         </exec>
     </target>
     <target name="create-migration"

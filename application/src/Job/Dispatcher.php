@@ -47,7 +47,7 @@ class Dispatcher implements ServiceLocatorAwareInterface
     public function dispatch($class, $args = null, StrategyInterface $strategy = null)
     {
         if (!is_subclass_of($class, 'Omeka\Job\JobInterface')) {
-            throw new Exception\InvalidArgumentException;
+            throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
         }
 
         if (!$strategy) {

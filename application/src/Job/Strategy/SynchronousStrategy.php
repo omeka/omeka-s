@@ -2,6 +2,7 @@
 namespace Omeka\Job\Strategy;
 
 use DateTime;
+use Omeka\Job\Exception;
 use Omeka\Model\Entity\Job;
 
 class SynchronousStrategy extends AbstractStrategy
@@ -11,9 +12,13 @@ class SynchronousStrategy extends AbstractStrategy
      */
     public function send(Job $job)
     {
+        $class = $job->getClass();
+        if (!is_subclass_of($class, 'Omeka\Job\JobInterface')) {
+            throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
+        }
+
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
 
-        $class = $job->getClass();
         $jobClass = new $class;
         $jobClass->setServiceLocator($this->getServiceLocator());
         $jobClass->setArgs($job->getArgs());

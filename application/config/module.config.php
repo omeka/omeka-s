@@ -307,6 +307,7 @@ return array(
     ),
     'jobs' => array(
         'dispatch_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
+        'phpcli_path' => null,
     ),
     'router' => array(
         'routes' => array(

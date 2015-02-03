@@ -37,6 +37,26 @@
         } else {
             makeNewValue(qName, true);
         }
+        
+        //rewrite the fields if a template has been selected when editing
+        
+        var templateSelect = $('#resource-template-select'); 
+        var templateId = templateSelect.find(':selected').val();
+        if (templateId != "") {
+            var url = templateSelect.data('api-base-url') + templateId;
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                //in case people have added fields, reverse the template so
+                //I can prepend everything and keep the order, and then drop
+                //back to what people have added
+                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            }).error(function() {
+                console.log('fail');
+            });
+        }
         /* Property selector handlers */
 
         // Select property
@@ -58,7 +78,7 @@
         
         //handle changing the resource template
         
-        $('#resource-template-select').on('change', function(e) {
+        templateSelect.on('change', function(e) {
             var templateId = $(this).find(':selected').val();
             if (templateId != "") {
                 var url = $(this).data('api-base-url') + templateId;

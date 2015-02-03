@@ -314,9 +314,28 @@
         }
     };
     
-    var makeNewField = function(propertyLi) {
+    var makeNewField = function(property) {
+        //sort out whether property is the LI that holds data, or the id
+        var propertyLi, propertyId;
+        
+        switch (typeof property) {
+            case 'object':
+                propertyLi = property;
+                propertyId = propertyLi.data('property-id');
+            break;
+            
+            case 'number':
+                propertyId = property;
+                propertyLi = $('.property-selector').find("li[data-property-id='" + propertyId + "']");
+            break;
+            
+            case 'string':
+                propertyLi = $('.property-selector').find("li[data-property-term='" + property + "']");
+                propertyId = propertyLi.data('property-id');
+            break;
+        }
+        
         var qName = propertyLi.data('property-term');
-        var propertyId = propertyLi.data('property-id');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
         var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')';
@@ -330,25 +349,23 @@
         //should I put a class with the 
         field.attr('data-property-term', qName);
         field.attr('data-property-id', propertyId);
+        return field;
     };
 
     var rewritePropertyFromTemplateProperty = function(template, index, templates) {
         var propertiesContainer = $('div#properties');
         var id = template['o:property']['o:id'];
         var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
+        if (field.length == 0) {
+            field = makeNewField(id);
+            makeNewValue(field.data('property-term'), true);
+        }
         if (template['o:alternate_label'] != "") {
             field.find('label.field-label').text(template['o:alternate_label']);
         }
-        
         if (template['o:alternate_comment'] != "") {
             field.find('field-comment').text(template['o:alternate_comment']);
         } 
-        
-        if (field.length == 0) {
-            //field = makeNewField() 
-            //refactor makeNewField
-            //pass in either term or property id. decide based on what's more available???
-        }
         propertiesContainer.prepend(field);
     };
 

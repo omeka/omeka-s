@@ -40,10 +40,9 @@
         /* Property selector handlers */
 
         // Select property
-        $('.select-property-button').on('click', function(e) {
-            e.preventDefault();
+        $('li.property').on('click', function(e) {
             e.stopPropagation();
-            var propertyLi = $(this).closest('.property');
+            var propertyLi = $(this);
             var qName = propertyLi.data('property-term');
             var count = $('input.input-id[data-property-term = "' + qName + '"]').length;
             // If property has already been set, add a new value

@@ -149,11 +149,6 @@ var Omeka = {
             }
         });
 
-        // Show property descriptions when clicking "more-info" icon.
-        $('.o-icon-info').on('click', function() {
-            $(this).parents('.description').toggleClass('show');
-        });
-
         // Switch between the different value options.
         $(document).on('click', '.tab', function(e) {
             var tab = $(this);

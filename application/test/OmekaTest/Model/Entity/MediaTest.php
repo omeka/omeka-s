@@ -21,8 +21,8 @@ class MediaTest extends TestCase
         $this->assertNull($this->media->getType());
         $this->assertNull($this->media->getData());
         $this->assertFalse($this->media->isPublic());
+        $this->assertNull($this->media->getFilename());
         $this->assertNull($this->media->getItem());
-        $this->assertNull($this->media->getFile());
     }
 
     public function testSetType()
@@ -45,18 +45,18 @@ class MediaTest extends TestCase
         $this->assertTrue($this->media->isPublic());
     }
 
+    public function testSetFilename()
+    {
+        $filename = 'foo.jpg';
+        $this->media->setFilename($filename);
+        $this->assertEquals($filename, $this->media->getFilename());
+    }
+
     public function testSetItem()
     {
         $item = new Item;
         $this->media->setItem($item);
         $this->assertSame($item, $this->media->getItem());
         $this->assertTrue($item->getMedia()->contains($this->media));
-    }
-
-    public function testSetFile()
-    {
-        $file = new File;
-        $this->media->setFile($file);
-        $this->assertSame($file, $this->media->getFile());
     }
 }

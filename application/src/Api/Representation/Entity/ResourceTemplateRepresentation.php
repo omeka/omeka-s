@@ -36,6 +36,11 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
                 $this->getData()->getOwner(),
                 $this->getAdapter('users')
             ),
+            'o:resource_class' => $this->getReference(
+                null,
+                $this->getData()->getResourceClass(),
+                $this->getAdapter('resource_classes')
+            ),
             'o:resource_template_property' => $resTemProps,
         );
     }

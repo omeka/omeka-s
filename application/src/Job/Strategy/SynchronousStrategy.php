@@ -6,6 +6,9 @@ use Omeka\Model\Entity\Job;
 
 class SynchronousStrategy extends AbstractStrategy
 {
+    /**
+     * {@inheritDoc}
+     */
     public function send(Job $job)
     {
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');

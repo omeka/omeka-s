@@ -42,7 +42,10 @@ class ResourceTemplateSelect extends AbstractHelper
            $options[$resourceTemplate->id()] = $resourceTemplate->label();
         }
 
-        $attributes['id'] = 'resource-template-select';
+        if (! isset($attributes['id'])) {
+            $attributes['id'] = 'resource-template-select';
+        }
+
         $attributes['data-api-base-url'] = $this->getView()->url('api') .  '/resource_templates/';
         $select = new Select;
         $select->setValueOptions($options)

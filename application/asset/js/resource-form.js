@@ -48,6 +48,12 @@
                 'url': url,
                 'type': 'get'
             }).done(function(data) {
+                if (data['o:resource_class']) {
+                    console.log(data['o:resource_class']['o:id']);
+                    $('select#resource-class-select').val(data['o:resource_class']['o:id']);
+                } else {
+                    $('select#resource-class-select').val("");
+                }
                 //in case people have added fields, reverse the template so
                 //I can prepend everything and keep the order, and then drop
                 //back to what people have added
@@ -86,6 +92,12 @@
                     'url': url,
                     'type': 'get'
                 }).done(function(data) {
+                    if (data['o:resource_class']) {
+                        console.log(data['o:resource_class']['o:id']);
+                        $('select#resource-class-select').val(data['o:resource_class']['o:id']);
+                    } else {
+                        $('select#resource-class-select').val("");
+                    }
                     //in case people have added fields, reverse the template so
                     //I can prepend everything and keep the order, and then drop
                     //back to what people have added

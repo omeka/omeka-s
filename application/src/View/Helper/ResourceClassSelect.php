@@ -47,6 +47,9 @@ class ResourceClassSelect extends AbstractHelper
             );
         }
 
+        if (! isset($attributes['id'])) {
+            $attributes['id'] = 'resource-class-select';
+        }
         $select = new Select;
         $select->setValueOptions($valueOptions)
             ->setName($name)

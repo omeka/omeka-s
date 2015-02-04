@@ -367,7 +367,7 @@
         
         if (template['o:alternate_label'] == "") {
             var label = propertyLi.find('span.property-label');
-            field.find('label.field-label').text(label.text());
+            field.find('label.field-label').text(label.text() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')');
         } else {
             field.find('label.field-label').text(template['o:alternate_label']);
         }

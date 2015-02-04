@@ -338,8 +338,9 @@
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = $('span.property-label', propertyLi).html() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')';
-        $('label', field).text(fieldName);
+        var fieldName = $('span.property-label', propertyLi).html();
+        field.find('span.field-label-text').text(fieldName);
+        field.find('span.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();
         field.find('.field-comment').text(fieldDesc.text());
         $('div#properties').append(field);
@@ -367,9 +368,9 @@
         
         if (template['o:alternate_label'] == "") {
             var label = propertyLi.find('span.property-label');
-            field.find('label.field-label').text(label.text() + ' (' + Omeka.cleanText(propertyLi.parents('.vocabulary').find('.vocabulary-name')) + ')');
+            field.find('span.field-label-text').text(label.text());
         } else {
-            field.find('label.field-label').text(template['o:alternate_label']);
+            field.find('span.field-label-text').text(template['o:alternate_label']);
         }
         
         if (template['o:alternate_comment'] == "") {

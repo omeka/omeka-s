@@ -19,7 +19,6 @@ class ItemTest extends TestCase
     {
         $this->assertNull($this->item->getId());
         $this->assertFalse($this->item->isPublic());
-        $this->assertFalse($this->item->isShareable());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
             $this->item->getItemSets()
@@ -34,12 +33,6 @@ class ItemTest extends TestCase
     {
         $this->item->setIsPublic(true);
         $this->assertTrue($this->item->isPublic());
-    }
-
-    public function testSetIsShareable()
-    {
-        $this->item->setIsShareable(true);
-        $this->assertTrue($this->item->isShareable());
     }
 
     public function testAddMedia()

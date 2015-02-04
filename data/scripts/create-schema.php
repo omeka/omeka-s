@@ -8,7 +8,7 @@
  * reduces installation time.
  */
 
-require 'bootstrap.php';
+require dirname(dirname(__DIR__)) . '/bootstrap.php';
 
 // Initialize the Omeka application using the test database.
 $config = require OMEKA_PATH . '/config/application.config.php';

@@ -20,11 +20,6 @@ class Item extends Resource
     protected $isPublic = false;
 
     /**
-     * @Column(type="boolean")
-     */
-    protected $isShareable = false;
-
-    /**
      * @OneToMany(
      *     targetEntity="Media",
      *     mappedBy="item",
@@ -70,16 +65,6 @@ class Item extends Resource
     public function isPublic()
     {
         return (bool) $this->isPublic;
-    }
-
-    public function setIsShareable($isShareable)
-    {
-        $this->isShareable = (bool) $isShareable;
-    }
-
-    public function isShareable()
-    {
-        return (bool) $this->isShareable;
     }
 
     public function getMedia()

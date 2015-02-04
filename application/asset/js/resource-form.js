@@ -360,12 +360,24 @@
             field = makeNewField(id);
             makeNewValue(field.data('property-term'), true);
         }
-        if (template['o:alternate_label'] != "") {
+        
+        if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
+            var propertyLi = $('.property-selector').find("li[data-property-id='" + id + "']");
+        }
+        
+        if (template['o:alternate_label'] == "") {
+            var label = propertyLi.find('span.property-label');
+            field.find('label.field-label').text(label.text());
+        } else {
             field.find('label.field-label').text(template['o:alternate_label']);
         }
-        if (template['o:alternate_comment'] != "") {
-            field.find('field-comment').text(template['o:alternate_comment']);
-        } 
+        
+        if (template['o:alternate_comment'] == "") {
+            var description = propertyLi.find('.description p').last();
+            field.find('p.field-comment').text(description.text());
+        } else {
+            field.find('p.field-comment').text(template['o:alternate_comment']);
+        }
         propertiesContainer.prepend(field);
     };
 

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Model\Entity\EntityInterface;
+use Omeka\Model\Entity\Item;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
@@ -14,7 +15,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     protected $sortFields = array(
         'id'        => 'id',
         'type'      => 'type',
-        'data'      => 'data',
         'is_public' => 'isPublic',
         'created'   => 'created',
         'modified'  => 'modified',
@@ -52,12 +52,38 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($data, $entity, $errorStore, $isManaged);
 
+        // Don't allow mutation of basic properties
+        if ($isManaged) {
+            return;
+        }
+
+        if (isset($data['o:item']['o:id'])) {
+            $item = $this->getAdapter('items')
+                ->findEntity($data['o:item']['o:id']);
+            $entity->setItem($item);
+        }
+
         if (isset($data['o:type'])) {
             $entity->setType($data['o:type']);
         }
 
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validateEntity(EntityInterface $entity,
+        ErrorStore $errorStore, $isManaged
+    ) {
+        if (!($entity->getItem() instanceof Item)) {
+            $errorStore->addError('o:item', 'Media must belong to an item.');
+        }
+
+        if (empty($entity->getType())) {
+            $errorStore->addError('o:type', 'Media must have a type.');
         }
     }
 }

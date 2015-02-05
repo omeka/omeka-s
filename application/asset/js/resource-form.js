@@ -12,56 +12,7 @@
             }
         });
         
-        //clone dcterms:title and dcterms:description for starters, if they don't already exist
-        //assumes that the propertySelector helper has been deployed
-        
-        var titleLi = $('li[data-property-term="dcterms:title"]');
-        var qName = titleLi.data('property-term');
-        makeNewField(titleLi);
-        if (typeof valuesJson != 'undefined' && typeof valuesJson['dcterms:title'] != 'undefined') {
-            for (var i=0; i < valuesJson['dcterms:title'].length; i++) {
-                makeNewValue(qName, true, valuesJson['dcterms:title'][i]);
-            }
-        } else {
-            makeNewValue(qName, true);
-        }
-        
 
-        var descriptionLi = $('li[data-property-term="dcterms:description"]');
-        var qName = descriptionLi.data('property-term');
-        makeNewField(descriptionLi);
-        if (typeof valuesJson != 'undefined' && typeof valuesJson['dcterms:description'] != 'undefined') {
-            for (var i=0; i < valuesJson['dcterms:description'].length; i++) {
-                makeNewValue(qName, true, valuesJson['dcterms:description'][i]);
-            }
-        } else {
-            makeNewValue(qName, true);
-        }
-        
-        //rewrite the fields if a template has been selected when editing
-        
-        var templateSelect = $('#resource-template-select'); 
-        var templateId = templateSelect.find(':selected').val();
-        if (templateId != "") {
-            var url = templateSelect.data('api-base-url') + templateId;
-            $.ajax({
-                'url': url,
-                'type': 'get'
-            }).done(function(data) {
-                if (data['o:resource_class']) {
-                    $('select#resource-class-select').val(data['o:resource_class']['o:id']);
-                } else {
-                    $('select#resource-class-select').val("");
-                }
-                //in case people have added fields, reverse the template so
-                //I can prepend everything and keep the order, and then drop
-                //back to what people have added
-                var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-            }).error(function() {
-                console.log('fail');
-            });
-        }
         /* Property selector handlers */
 
         // Select property
@@ -82,10 +33,12 @@
         /* End Property Selector Handlers */
         
         //handle changing the resource template
-        
-        templateSelect.on('change', function(e) {
+        $('#resource-template-select').on('change', function(e) {
             var templateId = $(this).find(':selected').val();
-            if (templateId != "") {
+            if (templateId == "") {
+                $('#properties').empty();
+                initPage();
+            } else {
                 var url = $(this).data('api-base-url') + templateId;
                 $.ajax({
                     'url': url,
@@ -103,7 +56,7 @@
                     propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
                 }).error(function() {
                     console.log('fail');
-                });
+                });                
             }
         });
         
@@ -232,6 +185,8 @@
         $(document).on('change', '.items .field input', function() {
             $(this).parents('.field').addClass('keep');
         });
+        
+        initPage();
     });
 
     var makeNewValue = function(qName, skipFocus, valueObject) {
@@ -396,5 +351,43 @@
             }
         }
     };
+    
+    var initPage = function() {
+        //clone dcterms:title and dcterms:description for starters, if they don't already exist
+        //assumes that the propertySelector helper has been deployed
+        
+        if (typeof valuesJson == 'undefined') {
+            makeNewField('dcterms:title');
+            makeNewValue('dcterms:title', true);
+            makeNewField('dcterms:description');
+            makeNewValue('dcterms:description', true);
+        } else {
+            for (var term in valuesJson) {
+                makeNewField(term);
+                for (var i=0; i < valuesJson[term].length; i++) {
+                    makeNewValue(term, true, valuesJson[term][i]);
+                }
+            }
+        }
+
+        //rewrite the fields if a template is set
+        var templateSelect = $('#resource-template-select');
+        var templateId = templateSelect.find(':selected').val();
+        if (templateId != "") {
+            var url = templateSelect.data('api-base-url') + templateId;
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                //reverse the templates because the need to be prepended
+                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            }).error(function() {
+                console.log('fail');
+            });
+        }
+        
+    };
+    
 })(jQuery);
 

@@ -25,4 +25,15 @@ class AbstractJobTest extends TestCase
         $this->abstractJob->setArgs($args);
         $this->assertEquals($args, $this->abstractJob->getArgs());
     }
+
+    public function testGetArg()
+    {
+        $this->assertNull($this->abstractJob->getArg('foobar'));
+
+        $args = array('foo' => 'bar', 'baz' => 'bat');
+        $this->abstractJob->setArgs($args);
+        $this->assertEquals($args['foo'], $this->abstractJob->getArg('foo'));
+        $this->assertEquals($args['baz'], $this->abstractJob->getArg('baz'));
+        $this->assertNull($this->abstractJob->getArg('foobar'));
+    }
 }

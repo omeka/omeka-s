@@ -6,6 +6,7 @@ use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Model\Entity\ResourceClass;
@@ -264,6 +265,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Batch create entities.
+     *
+     * Detaches entities after they've been created to minimize memory usage.
+     * Because the entities are detached, this returns resource references
+     * (containing only the entity ID) instead of full entity representations.
+     *
      * {@inheritDoc}
      */
     public function batchCreate(Request $request)
@@ -271,16 +278,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $response = new Response;
 
         $errorStore = new ErrorStore;
+        $entities = array();
         $representations = array();
         foreach ($request->getContent() as $datum) {
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $this->hydrateEntity(Request::CREATE, $datum, $entity, $errorStore);
             $this->getEntityManager()->persist($entity);
-            $representations[] = $this->getRepresentation($entity->getId(), $entity);
+            $entities[] = $entity;
+            $representations[] = new ResourceReference($entity->getId(), null, $this);
         }
-
         $this->getEntityManager()->flush();
+        foreach ($entities as $entity) {
+            $this->getEntityManager()->detach($entity);
+        }
         $response->setContent($representations);
         return $response;
     }

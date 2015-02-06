@@ -918,6 +918,25 @@ th .sorted-desc:before {
     @include leader();
 }
 
+.field-term {
+    display: block;
+    @include adjust-font-size-to(14px);
+    background-color: $gray-on-white;
+    padding: 0 rhythm(.25);
+    @include border-radius(2px);
+    @include leader(.25, 14px);
+    
+    &:before {
+        display: inline-block;
+        margin-right: .25em;
+    }
+}
+
+#properties .field:first-child {
+    border-color: $gray-on-white;
+    @include leading-border(1px, 0, $base-font-size, solid);
+}
+
     /* @group ----- Metadata ----- */
     
     #add-item .remove.field {
@@ -952,9 +971,8 @@ th .sorted-desc:before {
     
     .field-meta {
         width: span(3 of 10);
-        float: left;
-        clear: left;
         position: relative;
+        display: inline-block;
         
         label {
             display: inline-block;
@@ -1074,6 +1092,7 @@ th .sorted-desc:before {
         background-color: #fff;
         z-index: 1;
         margin: 0;
+        @include box-shadow(0 0 0 1px $gray-on-white inset);
     }
     
     .property-selector ul {
@@ -1249,6 +1268,7 @@ th .sorted-desc:before {
             max-width: 100%;
             @include adjust-font-size-to(14px, 1, $base-font-size);
             padding: rhythm(.25) 5px;
+            margin: rhythm(.5) 0;
         }
     
         &:hover + p:before {
@@ -1274,7 +1294,8 @@ th .sorted-desc:before {
     
     .inputs {
         width: span(6 of 10);
-        float: left;
+        display: inline-block;
+        vertical-align: top;
         position: relative;
         
         &:only-child {

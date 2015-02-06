@@ -8,7 +8,7 @@
                 <p>A pre-defined template for resource creation.</p>
             </div>
         </div>
-        <div class="field-inputs">
+        <div class="inputs">
             <?php $atts = array();
                   if (isset($item)) {
                       $resourceTemplate = $item->resourceTemplate();
@@ -29,7 +29,7 @@
                 <p> A type for the resource. Different types have different default properties attached to them. </p>
             </div>
         </div>
-        <div class="field-inputs">
+        <div class="inputs">
             <?php $atts = array();
                   if (isset($item)) {
                       $resourceClass = $item->resourceClass();
@@ -42,13 +42,6 @@
         </div>
     </div>
     <div id='properties'>
-    </div>
-    <div class='new resource-values field unset'>
-        <div class="field-actions">
-            <a href="#" class="remove button o-icon-times"><span class="screen-reader-text">Remove</span></a>
-            <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
-        </div>
-
     </div>
 <?php echo $this->propertySelector(); ?>
 </fieldset>

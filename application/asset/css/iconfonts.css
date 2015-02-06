@@ -1256,7 +1256,7 @@
   content: "";
 }
 
-.fa-code:before {
+.fa-code:before, .o-icon-developer:before {
   content: "";
 }
 

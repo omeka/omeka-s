@@ -101,27 +101,4 @@ class Item extends Resource
     {
         return $this->itemSets;
     }
-
-    /**
-     * Add this item to an item set.
-     *
-     * @param ItemSet $itemSet
-     */
-    public function addToItemSet(ItemSet $itemSet)
-    {
-        $itemSet->getItems()->add($this);
-        $this->getItemSets()->add($itemSet);
-    }
-
-    /**
-     * Remove this item from an item set.
-     *
-     * @param ItemSet $itemSet
-     * @return bool
-     */
-    public function removeFromItemSet(ItemSet $itemSet)
-    {
-        $itemSet->getItems()->removeElement($this);
-        return $this->getItemSets()->removeElement($itemSet);
-    }
 }

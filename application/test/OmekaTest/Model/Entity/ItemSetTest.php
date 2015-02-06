@@ -22,18 +22,4 @@ class ItemSetTest extends TestCase
             $this->itemSet->getItems()
         );
     }
-
-    public function testAddItem()
-    {
-        $item= new Item;
-        $this->itemSet->addItem($item);
-        $this->assertTrue($this->itemSet->getItems()->contains($item));
-    }
-
-    public function testRemoveItem()
-    {
-        $item = new Item;
-        $this->itemSet->addItem($item);
-        $this->assertTrue($this->itemSet->removeItem($item));
-    }
 }

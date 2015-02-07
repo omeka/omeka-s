@@ -226,7 +226,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->limitQuery($qb, $query);
 
         // Get the representations.
-        $paginator = new Paginator($qb);
+        $paginator = new Paginator($qb, false);
         $representations = array();
         foreach ($paginator as $entity) {
             $representations[] = $this->getRepresentation($entity->getId(), $entity);

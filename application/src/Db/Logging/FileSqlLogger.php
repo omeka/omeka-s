@@ -7,13 +7,6 @@ use SplFileObject;
 
 class FileSqlLogger implements SQLLogger
 {
-    protected $types = array(
-        PDO::PARAM_BOOL => 'boolean',
-        PDO::PARAM_NULL => 'null',
-        PDO::PARAM_INT  => 'integer',
-        PDO::PARAM_STR  => 'string',
-    );
-
     /**
      * @var SplFileObject
      */
@@ -38,36 +31,15 @@ class FileSqlLogger implements SQLLogger
      */
     public function startQuery($sql, array $params = null, array $types = null)
     {
-        $this->file->fwrite(date('c') . PHP_EOL);
-        $this->file->fwrite($sql . PHP_EOL);
-        if (is_array($params)) {
-            foreach ($params as $key => $param) {
-                $type = $this->getType($types[$key]);
-                $param = var_export($param, true);
-                $this->file->fwrite("($type) $param" . PHP_EOL);
-            }
-        }
-        $this->file->fwrite(PHP_EOL);
+        $this->file->fwrite(
+            date('c') . PHP_EOL
+          . $sql . PHP_EOL
+          . var_export($params, true) . PHP_EOL
+          . var_export($types, true) . PHP_EOL
+          . PHP_EOL
+        );
     }
 
     public function stopQuery()
-    {
-    }
-
-    /**
-     * Get the human readable parameter type.
-     *
-     * @param int|string $type
-     * @return string
-     */
-    protected function getType($type)
-    {
-        if (is_string($type)) {
-            return $type;
-        }
-        if (array_key_exists($type, $this->types)) {
-            return $this->types[$type];
-        }
-        return $type;
-    }
+    {}
 }

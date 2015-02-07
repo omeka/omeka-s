@@ -115,7 +115,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             && array_key_exists($query['sort_by'], $this->sortFields)
         ) {
             $sortBy = $this->sortFields[$query['sort_by']];
-            $qb->orderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+            $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
         }
     }
 
@@ -145,7 +145,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
         }
         $qb->groupBy("$entityAlias.id")
-            ->orderBy($countAlias, $query['sort_order']);
+            ->addOrderBy($countAlias, $query['sort_order']);
     }
 
     /**

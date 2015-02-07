@@ -50,7 +50,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $qb ->leftJoin(
                     'Omeka\Model\Entity\ResourceTemplate.resourceClass',
                     $resourceClassAlias
-                )->orderBy("$resourceClassAlias.label", $query['sort_order']);
+                )->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('item_count' == $query['sort_by']) {
                 $this->sortByCount($qb, $query, 'resources', 'Omeka\Model\Entity\Item');
             } else {

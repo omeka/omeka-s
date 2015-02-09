@@ -84,7 +84,7 @@ class Dispatcher implements ServiceLocatorAwareInterface
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
-            $job->setStopped(new DateTime('now'));
+            $job->setEnded(new DateTime('now'));
             $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
         }
     }

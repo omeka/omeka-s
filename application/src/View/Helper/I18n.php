@@ -48,12 +48,16 @@ class i18n extends AbstractHelper
      * @return string
      */
     public function dateFormat(
-        DateTime $date,
+        DateTime $date = null,
         $dateType = self::DATE_FORMAT_MEDIUM,
         $timeType = self::DATE_FORMAT_NONE,
         $locale = null,
         $pattern = null
     ) {
+        if (!$date) {
+            return null;
+        }
+
         if (extension_loaded('intl')) {
 
             // Map local constants to those in IntlDateFormatter.

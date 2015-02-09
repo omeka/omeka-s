@@ -39,7 +39,7 @@ CREATE TABLE `job` (
   `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `args` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:json_array)',
   `started` datetime NOT NULL,
-  `stopped` datetime DEFAULT NULL,
+  `ended` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_FBD8E0F87E3C61F9` (`owner_id`),
   CONSTRAINT `FK_FBD8E0F87E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL

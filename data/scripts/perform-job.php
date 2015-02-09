@@ -25,27 +25,17 @@ if (!$job) {
     exit;
 }
 
-$job->setPid(getmypid());
-$entityManager->flush();
-
 // Set the job owner as the authenticated identity.
 $owner = $job->getOwner();
 if ($owner) {
-    $serviceLocator->get('Omeka\AuthenticationService')
-        ->getStorage()->write($owner);
+    $serviceLocator->get('Omeka\AuthenticationService')->getStorage()->write($owner);
 }
 
-// Here all processing is synchronous.
-$strategy = new SynchronousStrategy;
-$strategy->setServiceLocator($serviceLocator);
+$job->setPid(getmypid());
+$entityManager->flush();
 
-try {
-    $strategy->send($job);
-} catch (\Exception $e) {
-    $logger->err((string) $e);
-    $job->setStatus(Job::STATUS_ERROR);
-    $job->setStopped(new DateTime('now'));
-}
+// From here all processing is synchronous.
+$serviceLocator->get('Omeka\JobDispatcher')->send($job, new SynchronousStrategy);
 
 $job->setPid(null);
 $entityManager->flush();

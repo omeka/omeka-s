@@ -1,18 +1,12 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'edit item');
+$this->htmlElement('body')->appendAttribute('class', 'add item-set');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
-
-<script type='text/javascript'>
-var valuesJson = <?php echo $values; ?>;
-var selectedItemValueJson;
-</script>
-
-<h1><?php echo $this->translate('Edit Item'); ?></h1>
+<h1><?php echo $this->translate('Add Item Set'); ?></h1>
 <?php 
 if (isset($errors)) {
     print_r($errors);
@@ -27,19 +21,20 @@ if (isset($errors)) {
     </ul>
 </nav>
 
-<form method='post' id='edit-item'>
+<form method='post' id='add-item-set'>
     <?php 
+    
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on 
         //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
-                array('id' => 'resource-values', 'class' => 'section active', 'resource' => $item )
+                array('id' => 'resource-values', 'class' => 'section active' )
                 );
     ?>
 
     <fieldset id="save-sidebar">
-        <input type="submit" name="add-item-submit" value="Update Item" />
+        <input type="submit" name="add-item-submit" value="Create Item" />
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
@@ -96,7 +91,6 @@ multiple resource fieldsets (item and media, e.g.)
         <!-- input for the property value -->
         <textarea name="" class="input-value"></textarea>
         <input type='hidden' class="input-id" name="" value="" />
-        <input type='hidden' class='value-id' name='' value='' />
         <label class='value-language' for=''>Language</label>
         <input class='value-language' type='text' name='' />
      </div>
@@ -111,7 +105,11 @@ multiple resource fieldsets (item and media, e.g.)
 
         <a href="#resource-select" 
            class="button resource-select"
-           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                       array( 'controller' => 'Item',
+                                                                              'action'     => 'sidebar-select'
+                                                                             ), 
+                                                                       true)); ?>"
            >Select Omeka Resource</a>
     </div>
      <button class="remove-value">Remove value</button>

@@ -67,8 +67,9 @@
         });
 
         // Remove value.
-        $('.remove-value').on('click', function(e) {
+        $('a.remove-value').on('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
             var parentInput = $(this).parents('.inputs');
             //check if there is an value_id, which indicates the value has
@@ -80,18 +81,33 @@
                 deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
                 valueToRemove.append(deleteInput);
                 //@TODO: maybe handle all this with a class? Q for Kim.
-                valueToRemove.attr('style', "background-color: #ffcccc;");
-                valueToRemove.find('input').attr('style', "background-color: #ffcccc;");
-                valueToRemove.find('textarea').attr('style', "background-color: #ffcccc;");
+                //valueToRemove.attr('style', "background-color: #ffcccc;");
+                //valueToRemove.find('input').attr('style', "background-color: #ffcccc;");
+                //valueToRemove.find('textarea').attr('style', "background-color: #ffcccc;");
                 valueToRemove.addClass('delete');
+                //'remove-value' class hides everything -- maybe holdovers from earlier versions and approaches?
             }
+            /*
             var count = parentInput.find('> .value').length;
             if (count == 1) {
                 parentInput.find('.remove-value').removeClass('active');
                 makeNewValue();
             }
+            */
+            valueToRemove.find('a.restore-value').show();
+            $(this).hide();
+            
         });
 
+        $('a.restore-value').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var valueToRemove = $(this).parents('.value');
+            valueToRemove.find('a.remove-value').show();
+            valueToRemove.removeClass('delete');
+            valueToRemove.find('input.delete').remove();
+            $(this).hide();
+        });
 
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
@@ -253,8 +269,6 @@
             }
         }
 
-        // the skipFocus was added late in dev. should be refactored to make more sense
-        // and use 'focus' as the variable
         if (focus) {
             $('html, body').animate({
                 scrollTop: (valuesWrapper.offset().top -100)
@@ -263,9 +277,11 @@
         } 
 
         // elements are counted before the newest is added
+        /*
         if (count > 0) {
             valuesWrapper.find('.remove-value').addClass('active');
         }
+        */
     };
     
     var makeNewField = function(property) {

@@ -10,10 +10,10 @@
         </div>
         <div class="inputs">
             <?php $atts = array();
-                  if (isset($item)) {
-                      $resourceTemplate = $item->resourceTemplate();
+                  if (isset($resource)) {
+                      $resourceTemplate = $resource->resourceTemplate();
                       if ($resourceTemplate) {
-                          $atts = array('value' => $item->resourceTemplate()->id());
+                          $atts = array('value' => $resource->resourceTemplate()->id());
                       }
                   }
             ?>
@@ -31,8 +31,8 @@
         </div>
         <div class="inputs">
             <?php $atts = array();
-                  if (isset($item)) {
-                      $resourceClass = $item->resourceClass();
+                  if (isset($resource)) {
+                      $resourceClass = $resource->resourceClass();
                       if ($resourceClass) {
                           $atts = array('value' => $resourceClass->id());
                       }

@@ -216,6 +216,7 @@
                 break;
                 
                 case 'resource' :
+                    valueTextarea.remove();
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
                     newResource.removeClass('template');

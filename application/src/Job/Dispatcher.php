@@ -37,7 +37,8 @@ class Dispatcher implements ServiceLocatorAwareInterface
     /**
      * Dispatch a job.
      *
-     * Uses the configured strategy if no strategy is passed.
+     * Composes a Job entity and uses the configured strategy if no strategy is
+     * passed.
      *
      * @param string $class
      * @param mixed $args
@@ -50,12 +51,8 @@ class Dispatcher implements ServiceLocatorAwareInterface
             throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
         }
 
-        if (!$strategy) {
-            $strategy = $this->getDispatchStrategy();
-        }
-
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
 
         $job = new Job;
         $job->setStatus(Job::STATUS_STARTING);
@@ -65,17 +62,30 @@ class Dispatcher implements ServiceLocatorAwareInterface
         $entityManager->persist($job);
         $entityManager->flush();
 
-        $strategy->setServiceLocator($this->getServiceLocator());
+        if (!$strategy) {
+            $strategy = $this->getDispatchStrategy();
+        }
 
+        $this->send($job, $strategy);
+        return $job;
+    }
+
+    /**
+     * Send a job via a strategy.
+     *
+     * @param Job $job
+     * @param StrategyInterface $strategy
+     */
+    public function send(Job $job, StrategyInterface $strategy)
+    {
+        $strategy->setServiceLocator($this->getServiceLocator());
         try {
             $strategy->send($job);
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
             $job->setStopped(new DateTime('now'));
-            $entityManager->flush();
+            $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
         }
-
-        return $job;
     }
 }

@@ -51,11 +51,21 @@ class ItemController extends AbstractActionController
     {
         $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $response = $this->api()->read('items', $this->params('id'));
+        $item = $response->getContent();
+        $values = array();
+        //create a value that matches what comes to the edit form for internal resources
+        //so this can be used the same way in the sidebar with makeNewValue
+        $values = array('@id'               => $item->id(),
+                        'dcterms:title'     => $item->displayTitle('[Untitled]'),
+                        'url'               => $item->url(),
+                        'value_resource_id' => $item->id()
+                );
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('item', $response->getContent());
+        $view->setVariable('item', $item);
+        $view->setVariable('values', json_encode($values));
         return $view;
     }
     

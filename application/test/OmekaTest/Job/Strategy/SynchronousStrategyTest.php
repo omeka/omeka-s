@@ -39,7 +39,7 @@ class SynchronousStrategyTest extends TestCase
                 array($this->equalTo(Job::STATUS_COMPLETED))
             );
         $job->expects($this->once())
-            ->method('setStopped')
+            ->method('setEnded')
             ->with($this->isInstanceOf('DateTime'));
 
         $this->synchronousStrategy->setServiceLocator($serviceLocator);

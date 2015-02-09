@@ -25,7 +25,7 @@ class SynchronousStrategy extends AbstractStrategy
         $jobClass->perform();
 
         $job->setStatus(Job::STATUS_COMPLETED);
-        $job->setStopped(new DateTime('now'));
+        $job->setEnded(new DateTime('now'));
         $entityManager->flush();
     }
 }

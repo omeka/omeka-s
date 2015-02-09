@@ -22,7 +22,7 @@ class JobTest extends TestCase
         $this->assertNull($this->job->getArgs());
         $this->assertNull($this->job->getOwner());
         $this->assertNull($this->job->getStarted());
-        $this->assertNull($this->job->getStopped());
+        $this->assertNull($this->job->getEnded());
     }
 
     public function testSetPid()
@@ -67,11 +67,11 @@ class JobTest extends TestCase
         $this->assertSame($dateTime, $this->job->getStarted());
     }
 
-    public function testSetStopped()
+    public function testSetEnded()
     {
         $dateTime = $this->getMock('DateTime');
-        $this->job->setStopped($dateTime);
-        $this->assertSame($dateTime, $this->job->getStopped());
+        $this->job->setEnded($dateTime);
+        $this->assertSame($dateTime, $this->job->getEnded());
     }
 
     public function testPrePersist()

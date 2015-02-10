@@ -12,24 +12,21 @@ class SynchronousStrategy extends AbstractStrategy
      */
     public function send(Job $job)
     {
-        $class = $job->getClass();
-        if (!is_subclass_of($class, 'Omeka\Job\JobInterface')) {
-            throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
-        }
-
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-
-        $jobClass = new $class;
-        $jobClass->setServiceLocator($this->getServiceLocator());
-        $jobClass->setArgs($job->getArgs());
 
         $job->setStatus(Job::STATUS_IN_PROGRESS);
         $entityManager->flush();
 
+        $class = $job->getClass();
+        $jobClass = new $class($job, $this->getServiceLocator());
         $jobClass->perform();
 
-        $job->setStatus(Job::STATUS_COMPLETED);
-        $job->setStopped(new DateTime('now'));
+        if (Job::STATUS_STOPPING == $job->getStatus()) {
+            $job->setStatus(Job::STATUS_STOPPED);
+        } else {
+            $job->setStatus(Job::STATUS_COMPLETED);
+        }
+        $job->setEnded(new DateTime('now'));
         $entityManager->flush();
     }
 }

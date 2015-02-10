@@ -157,6 +157,10 @@
     @extend .fa-caret-left;
 }
 
+.o-icon-developer {
+    @extend .fa-code;
+}
+
 .screen-reader-text {
     position: absolute;
     top: -9999px;

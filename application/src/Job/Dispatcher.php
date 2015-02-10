@@ -37,7 +37,8 @@ class Dispatcher implements ServiceLocatorAwareInterface
     /**
      * Dispatch a job.
      *
-     * Uses the configured strategy if no strategy is passed.
+     * Composes a Job entity and uses the configured strategy if no strategy is
+     * passed.
      *
      * @param string $class
      * @param mixed $args
@@ -50,12 +51,8 @@ class Dispatcher implements ServiceLocatorAwareInterface
             throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
         }
 
-        if (!$strategy) {
-            $strategy = $this->getDispatchStrategy();
-        }
-
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
 
         $job = new Job;
         $job->setStatus(Job::STATUS_STARTING);
@@ -65,17 +62,49 @@ class Dispatcher implements ServiceLocatorAwareInterface
         $entityManager->persist($job);
         $entityManager->flush();
 
-        $strategy->setServiceLocator($this->getServiceLocator());
+        if (!$strategy) {
+            $strategy = $this->getDispatchStrategy();
+        }
 
+        $this->send($job, $strategy);
+        return $job;
+    }
+
+    /**
+     * Send a job via a strategy.
+     *
+     * @param Job $job
+     * @param StrategyInterface $strategy
+     */
+    public function send(Job $job, StrategyInterface $strategy)
+    {
         try {
             $strategy->send($job);
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
-            $job->setStopped(new DateTime('now'));
-            $entityManager->flush();
+            $job->setEnded(new DateTime('now'));
+            $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
         }
+    }
 
-        return $job;
+    /**
+     * Set a job to be stopped.
+     *
+     * This does nothing but change the job status to STATUS_STOPPING. It's up
+     * to individual job implementations to stop performing by listening to the
+     * status change, usually from within an iteration.
+     *
+     * @param int $jobId
+     */
+    public function stop($jobId)
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $job = $entityManager->find('Omeka\Model\Entity\Job', $jobId);
+        if (!$job) {
+            throw new Exception\InvalidArgumentException(sprintf('The job ID "%s" is invalid.', $jobId));
+        }
+        $job->setStatus(Job::STATUS_STOPPING);
+        $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
     }
 }

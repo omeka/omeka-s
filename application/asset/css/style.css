@@ -648,7 +648,6 @@ th {
 
   .property-selector,
   .field {
-    overflow: hidden;
     width: 100%;
     background-color: #e7e7e7;
     padding: 0.375em;
@@ -1353,6 +1352,29 @@ th {
     margin-top: 1.5em;
   }
 
+  .field-term {
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.71429em;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0 0.375em;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    margin-top: 0.42857em;
+  }
+  .field-term:before {
+    display: inline-block;
+    margin-right: .25em;
+  }
+
+  #properties .field:first-child {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+  }
+
   /* @group ----- Metadata ----- */
   #add-item .remove.field {
     background-color: #ff9999;
@@ -1386,9 +1408,8 @@ th {
 
   .field-meta {
     width: 30%;
-    float: left;
-    clear: left;
     position: relative;
+    display: inline-block;
   }
   .field-meta label {
     display: inline-block;
@@ -1499,6 +1520,9 @@ th {
     background-color: #fff;
     z-index: 1;
     margin: 0;
+    -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
   }
 
   .property-selector ul {
@@ -1676,6 +1700,7 @@ th {
     font-size: 0.875em;
     line-height: 1.71429em;
     padding: 0.375em 5px;
+    margin: 0.75em 0;
   }
   .field-description .o-icon-info:hover + p:before {
     content: "";
@@ -1699,7 +1724,8 @@ th {
 
   .inputs {
     width: 60%;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
     position: relative;
   }
   .inputs:only-child {
@@ -2402,7 +2428,6 @@ th {
   }
 
   .resource-template .property-row {
-    overflow: hidden;
     width: 100%;
     background-color: #e7e7e7;
     padding: 0.375em;
@@ -2452,7 +2477,6 @@ th {
     padding: 0;
   }
   .resource-template #properties > li:first-child {
-    overflow: hidden;
     width: 100%;
     background-color: #e7e7e7;
     padding: 0.375em;

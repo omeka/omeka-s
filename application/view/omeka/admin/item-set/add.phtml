@@ -1,12 +1,12 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'add item');
+$this->htmlElement('body')->appendAttribute('class', 'add item-set');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
-<h1><?php echo $this->translate('Add item'); ?></h1>
+<h1><?php echo $this->translate('Add Item Set'); ?></h1>
 <?php 
 if (isset($errors)) {
     print_r($errors);
@@ -21,7 +21,7 @@ if (isset($errors)) {
     </ul>
 </nav>
 
-<form method='post' id='add-item'>
+<form method='post' id='add-item-set'>
     <?php 
     
         //produces a <fieldset> with the id and class atts passed in.
@@ -105,7 +105,11 @@ multiple resource fieldsets (item and media, e.g.)
 
         <a href="#resource-select" 
            class="button resource-select"
-           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                       array( 'controller' => 'Item',
+                                                                              'action'     => 'sidebar-select'
+                                                                             ), 
+                                                                       true)); ?>"
            >Select Omeka Resource</a>
     </div>
      <button class="remove-value">Remove value</button>

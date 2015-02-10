@@ -13,6 +13,7 @@ return array(
             'item_sets'        => 'Omeka\Api\Adapter\Entity\ItemSetAdapter',
             'modules'          => 'Omeka\Api\Adapter\ModuleAdapter',
             'sites'            => 'Omeka\Api\Adapter\Entity\SiteAdapter',
+            'jobs'             => 'Omeka\Api\Adapter\Entity\JobAdapter',
         ),
     ),
     'service_manager' => array(
@@ -64,6 +65,7 @@ return array(
             'Omeka\Controller\Admin\ItemSet'   => 'Omeka\Controller\Admin\ItemSetController',
             'Omeka\Controller\Admin\User'      => 'Omeka\Controller\Admin\UserController',
             'Omeka\Controller\Admin\Module'    => 'Omeka\Controller\Admin\ModuleController',
+            'Omeka\Controller\Admin\Job'       => 'Omeka\Controller\Admin\JobController',
             'Omeka\Controller\Admin\ResourceTemplate' => 'Omeka\Controller\Admin\ResourceTemplateController',
             'Omeka\Controller\Admin\Vocabulary'    => 'Omeka\Controller\Admin\VocabularyController',
             'Omeka\Controller\Admin\Property'      => 'Omeka\Controller\Admin\PropertyController',
@@ -229,6 +231,12 @@ return array(
                 'controller' => 'module',
                 'resource'   => 'Omeka\Controller\Admin\Module',
                 'class'      => 'modules',
+            ),
+            array(
+                'label'      => 'Jobs',
+                'route'      => 'admin/default',
+                'controller' => 'job',
+                'resource'   => 'Omeka\Controller\Admin\Job',
             ),
             array(
                 'label'      => 'Sites',

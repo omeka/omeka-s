@@ -14,17 +14,17 @@ class Job extends AbstractEntity
      * Job statuses
      *
      * STATUS_STARTING:    The job was dispatched.
+     * STATUS_STOPPING:    The job is currently stopping.
      * STATUS_IN_PROGRESS: The job was sent and is in progress.
      * STATUS_COMPLETED:   The job was performed and is sucessfully completed.
-     * STATUS_INCOMPLETE:  The job is incomplete and cannot be restarted.
-     * STATUS_PAUSED:      The job was paused and can be restarted.
+     * STATUS_STOPPED:     The job was stopped and most likely incomplete.
      * STATUS_ERROR:       There was an unrecoverable error during the job.
      */
     const STATUS_STARTING    = 'starting';
+    const STATUS_STOPPING    = 'stopping';
     const STATUS_IN_PROGRESS = 'in_progress';
     const STATUS_COMPLETED   = 'completed';
-    const STATUS_INCOMPLETE  = 'incomplete';
-    const STATUS_PAUSED      = 'paused';
+    const STATUS_STOPPED     = 'stopped';
     const STATUS_ERROR       = 'error';
     /**#@-*/
 
@@ -69,7 +69,7 @@ class Job extends AbstractEntity
     /**
      * @Column(type="datetime", nullable=true)
      */
-    protected $stopped;
+    protected $ended;
 
     public function getId()
     {
@@ -136,14 +136,14 @@ class Job extends AbstractEntity
         return $this->started;
     }
 
-    public function setStopped(DateTime $stopped)
+    public function setEnded(DateTime $ended)
     {
-        $this->stopped = $stopped;
+        $this->ended = $ended;
     }
 
-    public function getStopped()
+    public function getEnded()
     {
-        return $this->stopped;
+        return $this->ended;
     }
 
     /**

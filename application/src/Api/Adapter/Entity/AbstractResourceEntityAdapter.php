@@ -56,15 +56,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     "$entityClass.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
                 );
-                $qb->orderBy("$valuesAlias.value", $query['sort_order']);
+                $qb->addOrderBy("$valuesAlias.value", $query['sort_order']);
             } elseif ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
                 $qb ->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
-                    ->orderBy("$resourceClassAlias.label", $query['sort_order']);
+                    ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('owner_username' == $query['sort_by']) {
                 $ownerAlias = $this->createAlias();
                 $qb->leftJoin("$entityClass.owner", $ownerAlias)
-                    ->orderBy("$ownerAlias.username", $query['sort_order']);
+                    ->addOrderBy("$ownerAlias.username", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

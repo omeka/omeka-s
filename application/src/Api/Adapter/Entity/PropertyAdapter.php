@@ -59,7 +59,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                         "$valuesAlias.resource", $resourceAlias,
                         'WITH', "$resourceAlias INSTANCE OF Omeka\Model\Entity\Item"
                     )->addGroupBy("$entityAlias.id")
-                    ->orderBy($countAlias, $query['sort_order']);
+                    ->addOrderBy($countAlias, $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }
@@ -130,7 +130,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
-                "$vocabularyAlias.namespace_uri",
+                "$vocabularyAlias.namespaceUri",
                 $this->createNamedParameter($qb, $query['vocabulary_namespace_uri']))
             );
         }

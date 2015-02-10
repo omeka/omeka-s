@@ -51,18 +51,4 @@ class ItemTest extends TestCase
         $this->assertFalse($this->item->getMedia()->contains($media));
         $this->assertNull($media->getItem());
     }
-
-    public function testAddToItemSet()
-    {
-        $itemSet = new ItemSet;
-        $this->item->addToItemSet($itemSet);
-        $this->assertTrue($this->item->getItemSets()->contains($itemSet));
-    }
-
-    public function testRemoveFromItemSet()
-    {
-        $itemSet = new ItemSet;
-        $this->item->addToItemSet($itemSet);
-        $this->assertTrue($this->item->removeFromItemSet($itemSet));
-    }
 }

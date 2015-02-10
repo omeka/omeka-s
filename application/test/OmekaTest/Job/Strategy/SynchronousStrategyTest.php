@@ -11,13 +11,6 @@ class SynchronousStrategyTest extends TestCase
 
     public function setUp()
     {
-        $this->synchronousStrategy = new SynchronousStrategy;
-    }
-
-    public function testSend()
-    {
-        require OMEKA_PATH . '/application/test/OmekaTest/Job/_files/Job.php';
-
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -25,13 +18,18 @@ class SynchronousStrategyTest extends TestCase
         $serviceLocator = $this->getServiceManager(array(
             'Omeka\EntityManager' => $entityManager,
         ));
+        $this->synchronousStrategy = new SynchronousStrategy($serviceLocator);
+    }
+
+    public function testSend()
+    {
+        require OMEKA_PATH . '/application/test/OmekaTest/Job/_files/Job.php';
+
 
         $job = $this->getMock('Omeka\Model\Entity\Job');
         $job->expects($this->once())
             ->method('getClass')
             ->will($this->returnValue('OmekaTest\Job\Job'));
-        $job->expects($this->once())
-            ->method('getArgs');
         $job->expects($this->exactly(2))
             ->method('setStatus')
             ->withConsecutive(
@@ -39,10 +37,9 @@ class SynchronousStrategyTest extends TestCase
                 array($this->equalTo(Job::STATUS_COMPLETED))
             );
         $job->expects($this->once())
-            ->method('setStopped')
+            ->method('setEnded')
             ->with($this->isInstanceOf('DateTime'));
 
-        $this->synchronousStrategy->setServiceLocator($serviceLocator);
         $this->synchronousStrategy->send($job);
     }
 }

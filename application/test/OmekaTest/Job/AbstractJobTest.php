@@ -5,24 +5,23 @@ use Omeka\Test\TestCase;
 
 class AbstractJobTest extends TestCase
 {
-    protected $abstractJob;
-
-    public function setUp()
+    public function testGetArg()
     {
-        $this->abstractJob = $this->getMockForAbstractClass('Omeka\Job\AbstractJob');
-    }
+        $args = array('foo' => 'bar', 'baz' => 'bat');
 
-    public function testSetServiceLocator()
-    {
+        $job = $this->getMock('Omeka\Model\Entity\Job');
+        $job->expects($this->any())
+            ->method('getArgs')
+            ->will($this->returnValue($args));
         $serviceLocator = $this->getServiceManager();
-        $this->abstractJob->setServiceLocator($serviceLocator);
-        $this->assertSame($serviceLocator, $this->abstractJob->getServiceLocator());
-    }
 
-    public function testSetArgs()
-    {
-        $args = 'test-args';
-        $this->abstractJob->setArgs($args);
-        $this->assertEquals($args, $this->abstractJob->getArgs());
+        $this->abstractJob = $this->getMockForAbstractClass(
+            'Omeka\Job\AbstractJob',
+            array($job, $serviceLocator)
+        );
+
+        $this->assertEquals($args['foo'], $this->abstractJob->getArg('foo'));
+        $this->assertEquals($args['baz'], $this->abstractJob->getArg('baz'));
+        $this->assertNull($this->abstractJob->getArg('foobar'));
     }
 }

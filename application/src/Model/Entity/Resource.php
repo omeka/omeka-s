@@ -60,7 +60,7 @@ abstract class Resource extends AbstractEntity
      *     targetEntity="Value",
      *     mappedBy="resource",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove", "detach"}
      * )
      */
     protected $values;

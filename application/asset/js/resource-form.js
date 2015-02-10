@@ -11,7 +11,6 @@
                 currentField.toggleClass('remove');
             }
         });
-        
 
         /* Property selector handlers */
 
@@ -23,7 +22,7 @@
             var count = $('input.input-id[data-property-term = "' + qName + '"]').length;
             // If property has already been set, add a new value
             if (count > 0) {
-                makeNewValue(qName);
+                makeNewValue(qName, true);
             } else {
                 makeNewField(propertyLi);
                 makeNewValue(qName);
@@ -31,7 +30,7 @@
         });
 
         /* End Property Selector Handlers */
-        
+
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
             var templateId = $(this).find(':selected').val();
@@ -56,10 +55,10 @@
                     propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
                 }).error(function() {
                     console.log('fail');
-                });                
+                });
             }
         });
-        
+
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
@@ -130,36 +129,23 @@
 
         $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
             e.preventDefault();
-            var title = $('#resource-details .o-title').html();
-            var resourceId = $(this).data('resource-id');
             var propertyQname = $(this).data('property-term');
-            var valuesWrapper = $('div.resource-values.field[data-property-term="' + propertyQname + '"]');
-            var count = valuesWrapper.find('input.value').length;
-            var newResource = valuesWrapper.find("p.selected-resource.template");
-            newResource.removeClass('template');
-            newResource.find('span.o-title').html(title);
-            
-            //instead of what's currently here, completely replace the existing
-            //inputs for value and property, for the "value" box being used
-            
-            var valueInput = newResource.find('input.value'); 
-            valueInput.attr('name', propertyQname + '[' + count + '][value_resource_id]');
-            valueInput.val(resourceId);
-            var propertyInput = $('input.property', newResource);
-            propertyInput.attr('name', propertyQname + '[' + count + '][property_id]');
-            propertyInput.val(valuesWrapper.data('property-id'));
-            
-            //set up the buttons for actions
-            newResource.siblings('span').hide();
-            newResource.siblings('a.button').hide();
-            newResource.parent().siblings('button.remove-value').addClass('active');
+            //@TODO: right now this is creating a new value, and deleting the value
+            //that was clicked. Seems like steps can be removed in the workflow?
 
+            $('.value.selecting-resource').remove();
+            var valuesData = $('.item-details').data('item-values');
+            makeNewValue(propertyQname, false, valuesData);
             Omeka.closeSidebar($('.sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
+            // put 'selecting-resource' class on one value so that when the resource
+            // is selected I can get rid of the placeholder
+            $('.selecting-resource').removeClass('selecting-resource');
+            context.parents('.value').addClass('selecting-resource');
             var qName = context.parents('.resource-values').data('property-term');
             $('#select-item a').data('property-term', qName);
             Omeka.openSidebar(context);
@@ -189,7 +175,7 @@
         initPage();
     });
 
-    var makeNewValue = function(qName, skipFocus, valueObject) {
+    var makeNewValue = function(qName, focus, valueObject) {
         var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
         var newValue = $('.value.template ').clone(true);
         newValue.removeClass('template');
@@ -203,16 +189,25 @@
         var valueTextarea = newValue.find('textarea');
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
-        propertyIdInput.val(propertyId).attr('name', qName + '[' + count + '][property_id]');
+        propertyIdInput.val(propertyId);
+        propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
         propertyIdInput.attr('data-property-term', qName);
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
         languageLabel.attr('for', languageElementName);
         languageInput.attr('name', languageElementName);
 
-        if (typeof valueObject != 'undefined') {
-            var valueIdInput = newValue.find('input.value-id');
+        var valueIdInput = newValue.find('input.value-id');
+        
+        if (typeof valueObject == 'undefined') {
+            valueIdInput.remove();
+        } else {
             valueIdInput.attr('name', qName + '[' + count + '][value_id]');
-            valueIdInput.val(valueObject['value_id']);
+            if (valueObject['value_id']) {
+                valueIdInput.val(valueObject['value_id']);
+            } else {
+                valueIdInput.remove();
+            }
+            
             var type = valueObjectType(valueObject);
             languageInput.val(valueObject['@language']);
             switch (type) {
@@ -221,11 +216,11 @@
                 break;
                 
                 case 'resource' :
+                    valueTextarea.remove();
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
                     newResource.removeClass('template');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
-                        //@TODO: figure out how to translate this
                         newResource.find('.o-title').html('[Untitled]');
                     } else {
                         var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
@@ -234,8 +229,12 @@
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
                     var propertyInput = newValue.find('input.property');
-                    propertyInput.attr('name', qName + '[' + count + '][property_id');
-                    propertyInput.val(valueObject['property_id']);
+                    propertyInput.attr('name', qName + '[' + count + '][property_id]');
+                    if (valueObject['property_id']) {
+                        propertyInput.val(valueObject['property_id']);
+                    } else {
+                        propertyInput.val(propertyId);
+                    }
                     
                     //set up the buttons for actions
                     
@@ -256,7 +255,7 @@
 
         // the skipFocus was added late in dev. should be refactored to make more sense
         // and use 'focus' as the variable
-        if (typeof skipFocus == 'undefined') {
+        if (focus) {
             $('html, body').animate({
                 scrollTop: (valuesWrapper.offset().top -100)
             },200);
@@ -314,7 +313,7 @@
         var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
         if (field.length == 0) {
             field = makeNewField(id);
-            makeNewValue(field.data('property-term'), true);
+            makeNewValue(field.data('property-term'));
         }
         
         if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
@@ -358,14 +357,14 @@
         
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
-            makeNewValue('dcterms:title', true);
+            makeNewValue('dcterms:title');
             makeNewField('dcterms:description');
-            makeNewValue('dcterms:description', true);
+            makeNewValue('dcterms:description');
         } else {
             for (var term in valuesJson) {
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
-                    makeNewValue(term, true, valuesJson[term][i]);
+                    makeNewValue(term, false, valuesJson[term][i]);
                 }
             }
         }

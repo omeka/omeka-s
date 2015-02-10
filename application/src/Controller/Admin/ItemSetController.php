@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\ResourceForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -17,7 +18,81 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         return $view;
     }
+    
+    public function addAction()
+    {
+        $form = new ResourceForm($this->getServiceLocator());
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->create('item_sets', $data);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Item Set Created.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
 
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
+    }
+    
+    public function editAction()
+    {
+        $form = new ResourceForm($this->getServiceLocator());
+        $id = $this->params('id');
+        $response = $this->api()->read('item_sets', $id);
+        $itemSet = $response->getContent();
+        $values = array();
+        foreach ($itemSet->values() as $vocabulary) {
+            foreach ($vocabulary['properties'] as $property) {
+                foreach ($property['values'] as $value) {
+                    $valuesArray = $value->jsonSerialize(); 
+                    //look for internal resources and add their titles to the data
+                    //@TODO: should this be a filter? or maybe a method on the Representation with a param?
+                    //method would look like valuesArray($terms = array()) and
+                    //would do the job of looking up bonus values to add to the da
+                    if ($value->type() == 'resource') {
+                        $valueResource = $value->valueResource();
+                        $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
+                        if ($titleValue) {
+                            $valuesArray['dcterms:title'] = $titleValue->value();
+                        }
+                        $valuesArray['url'] = $valueResource->url();
+                    }
+                    $values[$property['property']->term()][] = $valuesArray;
+                }
+            }
+        }
+        
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('values', json_encode($values));
+            if ($this->getRequest()->isPost()) {
+                $data = $this->params()->fromPost();
+                $form->setData($data);
+                if($form->isValid()) {
+                    $response = $this->api()->update('item_sets', $id, $data);
+                    if ($response->isError()) {
+                        $form->setMessages($response->getErrors());
+                    } else {
+                        $this->messenger()->addSuccess('Item Set Updated.');
+                        return $this->redirect()->toUrl($response->getContent()->url());
+                    }
+                } else {
+                    $this->messenger()->addError('There was an error during validation');
+                }
+        }
+        return $view;
+    }
+    
     public function browseAction()
     {
         $page = $this->params()->fromQuery('page', 1);

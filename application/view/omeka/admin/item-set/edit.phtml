@@ -1,12 +1,18 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'add item');
+$this->htmlElement('body')->appendAttribute('class', 'edit item-set');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
-<h1><?php echo $this->translate('Add item'); ?></h1>
+
+<script type='text/javascript'>
+var valuesJson = <?php echo $values; ?>;
+var selectedItemValueJson;
+</script>
+
+<h1><?php echo $this->translate('Edit item set'); ?></h1>
 <?php 
 if (isset($errors)) {
     print_r($errors);
@@ -21,20 +27,19 @@ if (isset($errors)) {
     </ul>
 </nav>
 
-<form method='post' id='add-item'>
+<form method='post' id='edit-item-set'>
     <?php 
-    
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on 
         //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
-                array('id' => 'resource-values', 'class' => 'section active' )
+                array('id' => 'resource-values', 'class' => 'section active', 'resource' => $itemSet )
                 );
     ?>
 
     <fieldset id="save-sidebar">
-        <input type="submit" name="add-item-submit" value="Create item" />
+        <input type="submit" name="add-item-submit" value="Update item set" />
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
@@ -91,6 +96,7 @@ multiple resource fieldsets (item and media, e.g.)
         <!-- input for the property value -->
         <textarea name="" class="input-value"></textarea>
         <input type='hidden' class="input-id" name="" value="" />
+        <input type='hidden' class='value-id' name='' value='' />
         <label class='value-language' for=''>Language</label>
         <input class='value-language' type='text' name='' />
      </div>

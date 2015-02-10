@@ -402,6 +402,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             'entity' => $entity,
             'request' => $request,
             'isManaged' => $isManaged,
+            'errorStore', => $errorStore,
         ));
         $this->getEventManager()->trigger($event);
 
@@ -422,6 +423,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             'entity' => $entity,
             'request' => $request,
             'isManaged' => $isManaged,
+            'errorStore' => $errorStore,
         ));
         $this->getEventManager()->trigger($event);
 

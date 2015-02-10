@@ -78,7 +78,6 @@ class Dispatcher implements ServiceLocatorAwareInterface
      */
     public function send(Job $job, StrategyInterface $strategy)
     {
-        $strategy->setServiceLocator($this->getServiceLocator());
         try {
             $strategy->send($job);
         } catch (\Exception $e) {
@@ -87,5 +86,25 @@ class Dispatcher implements ServiceLocatorAwareInterface
             $job->setEnded(new DateTime('now'));
             $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
         }
+    }
+
+    /**
+     * Set a job to be stopped.
+     *
+     * This does nothing but change the job status to STATUS_STOPPING. It's up
+     * to individual job implementations to stop performing by listening to the
+     * status change, usually from within an iteration.
+     *
+     * @param int $jobId
+     */
+    public function stop($jobId)
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $job = $entityManager->find('Omeka\Model\Entity\Job', $jobId);
+        if (!$job) {
+            throw new Exception\InvalidArgumentException(sprintf('The job ID "%s" is invalid.', $jobId));
+        }
+        $job->setStatus(Job::STATUS_STOPPING);
+        $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
     }
 }

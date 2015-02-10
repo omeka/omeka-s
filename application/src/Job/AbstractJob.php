@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Job;
 
+use Omeka\Model\Entity\Job;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 abstract class AbstractJob implements JobInterface
@@ -8,42 +10,58 @@ abstract class AbstractJob implements JobInterface
     use ServiceLocatorAwareTrait;
 
     /**
-     * @var mixed
+     * @var Job
      */
-    protected $args;
+    protected $job;
 
     /**
-     * {@inheritDoc}
-     */
-    public function setArgs($args)
-    {
-        $this->args = $args;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getArgs()
-    {
-        return $this->args;
-    }
-
-    /**
-     * Get an argument by name.
+     * Inject dependencies.
      *
-     * Assumes that self::$args is an array.
+     * @param Job $job
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function __construct(Job $job, ServiceLocatorInterface $serviceLocator)
+    {
+        $this->job = $job;
+        $this->setServiceLocator($serviceLocator);
+    }
+
+    /**
+     * Get a Job argument by name.
+     *
+     * Assumes that the job arguments are an array.
      *
      * @param string $name
      * @return mixed|null
      */
     public function getArg($name)
     {
-        if (!is_array($this->args)) {
+        $args = $this->job->getArgs();
+        if (!is_array($args)) {
             return null;
         }
-        if (!array_key_exists($name, $this->args)) {
+        if (!array_key_exists($name, $args)) {
             return null;
         }
-        return $this->args[$name];
+        return $args[$name];
+    }
+
+    /**
+     * Check if this job should stop.
+     *
+     * Typically called from within an iteration and followed by whatever logic
+     * is needed to gracefully clean up the job, in turn followed by a break out
+     * of the iteration and no further work.
+     *
+     * Refreshes the job entity since the process that sets STATUS_STOPPING is
+     * not necessarily the same process that this job is running on.
+     *
+     * @return bool
+     */
+    public function shouldStop()
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $entityManager->refresh($this->job);
+        return Job::STATUS_STOPPING == $this->job->getStatus();
     }
 }

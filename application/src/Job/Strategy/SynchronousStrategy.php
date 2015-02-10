@@ -14,17 +14,18 @@ class SynchronousStrategy extends AbstractStrategy
     {
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
 
-        $class = $job->getClass();
-        $jobClass = new $class;
-        $jobClass->setServiceLocator($this->getServiceLocator());
-        $jobClass->setArgs($job->getArgs());
-
         $job->setStatus(Job::STATUS_IN_PROGRESS);
         $entityManager->flush();
 
+        $class = $job->getClass();
+        $jobClass = new $class($job, $this->getServiceLocator());
         $jobClass->perform();
 
-        $job->setStatus(Job::STATUS_COMPLETED);
+        if (Job::STATUS_STOPPING == $job->getStatus()) {
+            $job->setStatus(Job::STATUS_STOPPED);
+        } else {
+            $job->setStatus(Job::STATUS_COMPLETED);
+        }
         $job->setEnded(new DateTime('now'));
         $entityManager->flush();
     }

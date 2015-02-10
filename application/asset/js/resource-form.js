@@ -1,18 +1,6 @@
 (function($) {
 
     $(document).ready( function() {
-        // Mark existing properties for deletion and straight up remove new properties.
-        $('.remove.button').on('click', function(e) {
-            e.preventDefault();
-            var currentField = $(this).parents('.field');
-            if (currentField.hasClass('new')) {
-                currentField.remove();
-            } else {
-                currentField.toggleClass('remove');
-            }
-        });
-
-        /* Property selector handlers */
 
         // Select property
         $('li.property').on('click', function(e) {
@@ -28,8 +16,6 @@
                 makeNewValue(qName, true);
             }
         });
-
-        /* End Property Selector Handlers */
 
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
@@ -71,7 +57,6 @@
             e.preventDefault();
             e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
-            var parentInput = $(this).parents('.inputs');
             //check if there is an value_id, which indicates the value has
             //already been saved
             if (valueToRemove.find('input.value-id').length == 0 ) {
@@ -172,11 +157,6 @@
             Omeka.openSidebar(context);
         });
 
-        // Keep new fields that have been changed.
-        $(document).on('change', '.items .field input', function() {
-            $(this).parents('.field').addClass('keep');
-        });
-
         initPage();
     });
 
@@ -202,7 +182,7 @@
         languageInput.attr('name', languageElementName);
 
         var valueIdInput = newValue.find('input.value-id');
-        
+
         var showRemoveValue = false;
         if (typeof valueObject == 'undefined') {
             valueIdInput.remove();
@@ -266,7 +246,7 @@
             $('textarea', newValue).focus();
         } 
 
-        //decide whether to show the 'remove value' trashcan base on number of values
+        //decide whether to show the 'remove value' trashcan based on number of values
         var removeValueButton = valuesWrapper.find('a.remove-value');
         if (count > 0) {
             showRemoveValue = true;
@@ -277,37 +257,29 @@
         } else {
             removeValueButton.hide();
         }
-
-        
-        // elements are counted before the newest is added
-        /*
-        if (count > 0) {
-            valuesWrapper.find('.remove-value').addClass('active');
-        }
-        */
     };
-    
+
     var makeNewField = function(property) {
         //sort out whether property is the LI that holds data, or the id
         var propertyLi, propertyId;
-        
+
         switch (typeof property) {
             case 'object':
                 propertyLi = property;
                 propertyId = propertyLi.data('property-id');
             break;
-            
+
             case 'number':
                 propertyId = property;
                 propertyLi = $('.property-selector').find("li[data-property-id='" + propertyId + "']");
             break;
-            
+
             case 'string':
                 propertyLi = $('.property-selector').find("li[data-property-term='" + property + "']");
                 propertyId = propertyLi.data('property-id');
             break;
         }
-        
+
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
@@ -334,18 +306,18 @@
             field = makeNewField(id);
             makeNewValue(field.data('property-term'));
         }
-        
+
         if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
             var propertyLi = $('.property-selector').find("li[data-property-id='" + id + "']");
         }
-        
+
         if (template['o:alternate_label'] == "") {
             var label = propertyLi.find('span.property-label');
             field.find('span.field-label-text').text(label.text());
         } else {
             field.find('span.field-label-text').text(template['o:alternate_label']);
         }
-        
+
         if (template['o:alternate_comment'] == "") {
             var description = propertyLi.find('.description p').last();
             field.find('p.field-comment').text(description.text());
@@ -369,11 +341,11 @@
             }
         }
     };
-    
+
     var initPage = function() {
         //clone dcterms:title and dcterms:description for starters, if they don't already exist
         //assumes that the propertySelector helper has been deployed
-        
+
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
             makeNewValue('dcterms:title');
@@ -404,8 +376,6 @@
                 console.log('fail');
             });
         }
-        
     };
-    
 })(jQuery);
 

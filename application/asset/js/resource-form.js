@@ -74,18 +74,17 @@
             var parentInput = $(this).parents('.inputs');
             //check if there is an value_id, which indicates the value has
             //already been saved
-            if (valueToRemove.find('input.value-id').val() == '' ) {
-                valueToRemove.remove();
+            if (valueToRemove.find('input.value-id').length == 0 ) {
+                valueToRemove.find('input').prop('disabled', true);
+                valueToRemove.find('textarea').prop('disabled', true);
             } else {
                 var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);
                 deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
                 valueToRemove.append(deleteInput);
-                valueToRemove.addClass('delete');
-                //'remove-value' class hides everything, so using 'delete' instead -- maybe holdovers from earlier versions and approaches?
             }
+            valueToRemove.addClass('delete');
             valueToRemove.find('a.restore-value').show();
             $(this).hide();
-
         });
 
         $('a.restore-value').on('click', function(e) {
@@ -93,6 +92,8 @@
             e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
             valueToRemove.find('a.remove-value').show();
+            valueToRemove.find('input').prop('disabled', false);
+            valueToRemove.find('textarea').prop('disabled', false);
             valueToRemove.removeClass('delete');
             valueToRemove.find('input.delete').remove();
             $(this).hide();
@@ -201,6 +202,7 @@
         languageInput.attr('name', languageElementName);
 
         var valueIdInput = newValue.find('input.value-id');
+        
         var showRemoveValue = false;
         if (typeof valueObject == 'undefined') {
             valueIdInput.remove();
@@ -257,7 +259,6 @@
                 break;
             }
         }
-
         if (focus) {
             $('html, body').animate({
                 scrollTop: (valuesWrapper.offset().top -100)

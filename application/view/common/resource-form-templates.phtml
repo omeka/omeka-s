@@ -91,7 +91,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
         <a href="#resource-select" 
            class="button resource-select"
-           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                       array( 'controller' => 'Item',
+                                                                              'action'     => 'sidebar-select'
+                                                                             ), 
+                                                                       true)); ?>"
            >Select Omeka Resource</a>
     </div>
 </div>

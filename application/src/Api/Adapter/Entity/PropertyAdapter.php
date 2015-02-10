@@ -130,7 +130,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
-                "$vocabularyAlias.namespace_uri",
+                "$vocabularyAlias.namespaceUri",
                 $this->createNamedParameter($qb, $query['vocabulary_namespace_uri']))
             );
         }

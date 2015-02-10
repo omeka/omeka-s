@@ -35,7 +35,8 @@ $job->setPid(getmypid());
 $entityManager->flush();
 
 // From here all processing is synchronous.
-$serviceLocator->get('Omeka\JobDispatcher')->send($job, new SynchronousStrategy);
+$strategy = new SynchronousStrategy($serviceLocator);
+$serviceLocator->get('Omeka\JobDispatcher')->send($job, $strategy);
 
 $job->setPid(null);
 $entityManager->flush();

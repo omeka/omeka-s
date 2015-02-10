@@ -78,7 +78,6 @@ class Dispatcher implements ServiceLocatorAwareInterface
      */
     public function send(Job $job, StrategyInterface $strategy)
     {
-        $strategy->setServiceLocator($this->getServiceLocator());
         try {
             $strategy->send($job);
         } catch (\Exception $e) {

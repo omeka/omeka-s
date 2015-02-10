@@ -31,4 +31,28 @@ class JobController extends AbstractActionController
         ));
         return $view;
     }
+
+    public function showDetailsAction()
+    {
+        $response = $this->api()->read('jobs', $this->params('id'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('job', $response->getContent());
+        return $view;
+    }
+
+    public function stopAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                // @todo stop job using $this->params('id')
+            } else {
+                $this->messenger()->addError('The job could not be stopped.');
+            }
+        }
+        return $this->redirect()->toRoute('admin/default', array('action' => 'browse'), true);
+    }
 }

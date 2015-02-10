@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
@@ -65,10 +66,12 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
+    public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        parent::hydrate($data, $entity, $errorStore, $isManaged);
+        parent::hydrate($request, $entity, $errorStore, $isManaged);
+
+        $data = $request->getContent();
 
         // o:item_set
         if (array_key_exists('o:item_set', $data) && is_array($data['o:item_set'])) {

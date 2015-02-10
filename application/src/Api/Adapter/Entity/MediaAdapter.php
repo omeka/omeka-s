@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\Item;
 use Omeka\Model\Entity\ResourceClass;
@@ -47,15 +48,17 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
+    public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
-        parent::hydrate($data, $entity, $errorStore, $isManaged);
+        parent::hydrate($request, $entity, $errorStore, $isManaged);
 
         // Don't allow mutation of basic properties
         if ($isManaged) {
             return;
         }
+
+        $data = $request->getContent();
 
         if (isset($data['o:item']['o:id'])) {
             $item = $this->getAdapter('items')

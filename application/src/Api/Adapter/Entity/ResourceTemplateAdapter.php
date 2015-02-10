@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
@@ -63,9 +64,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(array $data, ErrorStore $errorStore,
+    public function validateData(Request $request, ErrorStore $errorStore,
         $isManaged
     ){
+        $data = $request->getContent();
+
         // A resource template may not have duplicate properties.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
@@ -105,9 +108,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
+    public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {
+        $data = $request->getContent();
+
         // o:owner
         $this->hydrateOwner($data, $entity, $isManaged);
 

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
@@ -35,9 +36,11 @@ class SiteAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore, $isManaged
     ) {
+        $data = $request->getContent();
+
         if (isset($data['o:slug'])) {
             $entity->setSlug($data['o:slug']);
         }

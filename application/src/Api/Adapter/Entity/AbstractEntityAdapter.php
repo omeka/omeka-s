@@ -48,12 +48,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * mutator methods. Authorize state changes of individual fields using
      * {@link self::authorize()}.
      *
-     * @param array $data
+     * @param Request $request
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
      * @param bool $isManaged
      */
-    abstract public function hydrate(array $data, EntityInterface $entity,
+    abstract public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore, $isManaged);
 
     /**
@@ -69,7 +69,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param ErrorStore $errorStore
      * @param bool $isManaged
      */
-    public function validateData(array $data, ErrorStore $errorStore,
+    public function validateData(Request $request, ErrorStore $errorStore,
         $isManaged
     ) {}
 
@@ -248,8 +248,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
         $this->hydrateEntity(
-            Request::CREATE,
-            $request->getContent(),
+            $request,
             $entity,
             new ErrorStore
         );
@@ -283,7 +282,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         foreach ($request->getContent() as $datum) {
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
-            $this->hydrateEntity(Request::CREATE, $datum, $entity, $errorStore);
+            $subRequest = new Request(Request::CREATE, $request->getResource());
+            $subRequest->setContent($datum);
+            $this->hydrateEntity($subRequest, $entity, $errorStore);
             $this->getEntityManager()->persist($entity);
             $entities[] = $entity;
             $representations[] = new ResourceReference($entity->getId(), null, $this);
@@ -329,8 +330,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $entity = $this->findEntity(array('id' => $request->getId()));
         $this->hydrateEntity(
-            Request::UPDATE,
-            $request->getContent(),
+            $request,
             $entity,
             new ErrorStore
         );
@@ -382,14 +382,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * validation procedures into one method.
      *
      * @throws Exception\ValidationException
-     * @param string $operation
-     * @param array $data
+     * @param Request $request
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
      */
-    protected function hydrateEntity($operation, array $data,
+    protected function hydrateEntity(Request $request,
         EntityInterface $entity, ErrorStore $errorStore
     ) {
+        $operation = $request->getOperation();
         // Before everything, check whether the current user has access to this
         // entity in its original state.
         $this->authorize($entity, $operation);
@@ -400,13 +400,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
-            'data' => $data,
+            'request' => $request,
             'isManaged' => $isManaged,
         ));
         $this->getEventManager()->trigger($event);
 
         // Validate the data.
-        $this->validateData($data, $errorStore, $isManaged);
+        $this->validateData($request, $errorStore, $isManaged);
 
         if ($errorStore->hasErrors()) {
             $validationException = new Exception\ValidationException;
@@ -414,13 +414,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             throw $validationException;
         }
 
-        $this->hydrate($data, $entity, $errorStore, $isManaged);
+        $this->hydrate($request, $entity, $errorStore, $isManaged);
 
         // Trigger the operation's api.validate.entity.pre event.
         $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
-            'data' => $data,
+            'request' => $request,
             'isManaged' => $isManaged,
         ));
         $this->getEventManager()->trigger($event);

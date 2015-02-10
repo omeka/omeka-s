@@ -27,8 +27,6 @@ class AbstractEntityAdapterTest extends TestCase
 
     public function testCreate()
     {
-        $data = array('foo', 'bar');
-
         /** ServiceManager **/
 
         // UnitOfWork
@@ -92,8 +90,8 @@ class AbstractEntityAdapterTest extends TestCase
 
         $request = $this->getMock('Omeka\Api\Request');
         $request->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($data));
+            ->method('getOperation')
+            ->will($this->returnValue(\Omeka\Api\Request::CREATE));
 
         /** ASSERTIONS **/
 
@@ -239,6 +237,16 @@ class AbstractEntityAdapterTest extends TestCase
         ));
         $this->adapter->setServiceLocator($serviceManager);
 
+        /** Request **/
+
+        $request = $this->getMock('Omeka\Api\Request');
+        $request->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($id));
+        $request->expects($this->once())
+            ->method('getOperation')
+            ->will($this->returnValue(\Omeka\Api\Request::UPDATE));
+
         /** Adapter **/
         $this->adapter->expects($this->exactly(2))
              ->method('getEventManager')
@@ -249,21 +257,12 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter->expects($this->once())
             ->method('hydrate')
             ->with(
-                $data, $this->isInstanceOf('Omeka\Model\Entity\EntityInterface')
+                $request,
+                $this->isInstanceOf('Omeka\Model\Entity\EntityInterface')
             );
         $this->adapter->expects($this->once())
             ->method('getRepresentationClass')
             ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
-
-        /** Request **/
-
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($id));
-        $request->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($data));
 
         /** ASSERTIONS **/
 

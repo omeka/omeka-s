@@ -242,7 +242,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function create(Request $request)
     {
-        $t = $this->getTranslator();
         $response = new Response;
 
         $entityClass = $this->getEntityClass();
@@ -302,7 +301,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function read(Request $request)
     {
-        $t = $this->getTranslator();
         $response = new Response;
 
         $entity = $this->findEntity(array('id' => $request->getId()));
@@ -325,7 +323,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function update(Request $request)
     {
-        $t = $this->getTranslator();
         $response = new Response;
 
         $entity = $this->findEntity(array('id' => $request->getId()));
@@ -345,7 +342,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function delete(Request $request)
     {
-        $t = $this->getTranslator();
         $response = new Response;
 
         $entity = $this->findEntity(array('id' => $request->getId()));

@@ -553,6 +553,10 @@ nav.pagination form input[type="text"] {
         content: $fa-var-plus-square;
     }
     
+    #menu .jobs:before {
+        content: $fa-var-tasks;
+    }
+    
     #menu li li a:before {
         content: $fa-var-caret-right;
     }
@@ -1297,6 +1301,7 @@ th .sorted-desc:before {
         display: inline-block;
         vertical-align: top;
         position: relative;
+        margin-left: -4px;
         
         &:only-child {
             width: 100%;

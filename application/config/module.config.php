@@ -237,6 +237,7 @@ return array(
                 'route'      => 'admin/default',
                 'controller' => 'job',
                 'resource'   => 'Omeka\Controller\Admin\Job',
+                'class'      => 'jobs',
             ),
             array(
                 'label'      => 'Sites',

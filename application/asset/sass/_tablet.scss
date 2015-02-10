@@ -353,6 +353,11 @@ body.minimal {
     div[role="main"] > .messages {
         @include trailer();
     }
+    
+    .inputs {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 /* @end */

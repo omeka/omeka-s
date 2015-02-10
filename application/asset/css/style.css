@@ -975,6 +975,10 @@ th {
     content: "";
   }
 
+  #menu .jobs:before {
+    content: "";
+  }
+
   #menu li li a:before {
     content: "";
   }
@@ -1727,6 +1731,7 @@ th {
     display: inline-block;
     vertical-align: top;
     position: relative;
+    margin-left: -4px;
   }
   .inputs:only-child {
     width: 100%;
@@ -2972,6 +2977,10 @@ th {
   }
   body.minimal div[role="main"] > .messages {
     margin-bottom: 1.5em;
+  }
+  body.minimal .inputs {
+    width: 100%;
+    margin-left: 0;
   }
 
   /* @end */

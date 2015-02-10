@@ -161,6 +161,14 @@
     @extend .fa-code;
 }
 
+.o-icon-stop {
+    @extend .fa-stop;
+}
+
+.o-icon-jobs {
+    @extend .fa-tasks;
+}
+
 .screen-reader-text {
     position: absolute;
     top: -9999px;

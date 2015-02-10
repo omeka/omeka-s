@@ -49,9 +49,12 @@ abstract class AbstractJob implements JobInterface
     /**
      * Check if this job should stop.
      *
+     * Typically called from within an iteration and followed by whatever logic
+     * is needed to gracefully clean up the job, in turn followed by a break out
+     * of the iteration and no further work.
+     *
      * Refreshes the job entity since the process that sets STATUS_STOPPING is
-     * not necessarily the same process that this job is running on. Typically
-     * called from within an iteration, followed by self::stop().
+     * not necessarily the same process that this job is running on.
      *
      * @return bool
      */
@@ -61,15 +64,4 @@ abstract class AbstractJob implements JobInterface
         $entityManager->refresh($this->job);
         return Job::STATUS_STOPPING == $this->job->getStatus();
     }
-
-    /**
-     * Stop this job gracefully.
-     *
-     * Implement this method to perform cleanup in the event that this job has
-     * been flagged to be stopped. Typically called from within an iteration,
-     * following self::shouldStop() and followed by a break out of the
-     * iteration and no further work.
-     */
-    public function stop()
-    {}
 }

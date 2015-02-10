@@ -25,7 +25,7 @@
                 makeNewValue(qName, true);
             } else {
                 makeNewField(propertyLi);
-                makeNewValue(qName);
+                makeNewValue(qName, true);
             }
         });
 
@@ -80,23 +80,12 @@
                 var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);
                 deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
                 valueToRemove.append(deleteInput);
-                //@TODO: maybe handle all this with a class? Q for Kim.
-                //valueToRemove.attr('style', "background-color: #ffcccc;");
-                //valueToRemove.find('input').attr('style', "background-color: #ffcccc;");
-                //valueToRemove.find('textarea').attr('style', "background-color: #ffcccc;");
                 valueToRemove.addClass('delete');
-                //'remove-value' class hides everything -- maybe holdovers from earlier versions and approaches?
+                //'remove-value' class hides everything, so using 'delete' instead -- maybe holdovers from earlier versions and approaches?
             }
-            /*
-            var count = parentInput.find('> .value').length;
-            if (count == 1) {
-                parentInput.find('.remove-value').removeClass('active');
-                makeNewValue();
-            }
-            */
             valueToRemove.find('a.restore-value').show();
             $(this).hide();
-            
+
         });
 
         $('a.restore-value').on('click', function(e) {
@@ -113,7 +102,7 @@
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
             });
-        
+
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
             var sidebarContent = $('#sidebar .sidebar-content');
@@ -127,7 +116,7 @@
                 sidebarContent.html("<p>Something went wrong</p>");
             });
         });
-        
+
         $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
             var searchValue = $('#resource-list-search').val();
             var sidebarContent = $('#sidebar .sidebar-content');
@@ -166,7 +155,7 @@
             $('#select-item a').data('property-term', qName);
             Omeka.openSidebar(context);
         });
-        
+
         $('.resource-name a').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
@@ -178,7 +167,6 @@
             }).done(function(data) {
                 $('#resource-details-content').html(data);
                 $('#select-item a').data('resource-id', context.data('resource-id'));
-                
             });
             Omeka.openSidebar(context);
         });
@@ -187,7 +175,7 @@
         $(document).on('change', '.items .field input', function() {
             $(this).parents('.field').addClass('keep');
         });
-        
+
         initPage();
     });
 
@@ -213,24 +201,25 @@
         languageInput.attr('name', languageElementName);
 
         var valueIdInput = newValue.find('input.value-id');
-        
+        var showRemoveValue = false;
         if (typeof valueObject == 'undefined') {
             valueIdInput.remove();
         } else {
+            showRemoveValue = true;
             valueIdInput.attr('name', qName + '[' + count + '][value_id]');
             if (valueObject['value_id']) {
                 valueIdInput.val(valueObject['value_id']);
             } else {
                 valueIdInput.remove();
             }
-            
+
             var type = valueObjectType(valueObject);
             languageInput.val(valueObject['@language']);
             switch (type) {
                 case 'literal' :
                     valueTextarea.val(valueObject['@value']);
                 break;
-                
+
                 case 'resource' :
                     valueTextarea.remove();
                     var valueInternalInput = newValue.find('input.value');
@@ -251,17 +240,17 @@
                     } else {
                         propertyInput.val(propertyId);
                     }
-                    
+
                     //set up the buttons for actions
-                    
+
                     newResource.siblings('span').hide();
                     newResource.siblings('a.button').hide();
                     newResource.parent().siblings('button.remove-value').addClass('active');
-                    
+
                     var activeTab = newValue.find('.o-icon-items');
                     Omeka.switchValueTabs(activeTab);
                 break;
-                
+
                 case 'external' :
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);
@@ -276,6 +265,19 @@
             $('textarea', newValue).focus();
         } 
 
+        //decide whether to show the 'remove value' trashcan base on number of values
+        var removeValueButton = valuesWrapper.find('a.remove-value');
+        if (count > 0) {
+            showRemoveValue = true;
+        }
+
+        if (showRemoveValue) {
+            removeValueButton.show();
+        } else {
+            removeValueButton.hide();
+        }
+
+        
         // elements are counted before the newest is added
         /*
         if (count > 0) {

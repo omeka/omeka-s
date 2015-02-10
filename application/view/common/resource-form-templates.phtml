@@ -3,20 +3,39 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <style>
-.delete {
+.value.delete {
     background-color: #ffcccc;
+    padding-bottom: 24px;
 }
 
-.delete textarea {
-    background-color: #ffcccc;
-}
 
-.delete input {
-    background-color: #ffcccc;
-}
-
-.delete span {
+.value.delete span {
     background-color: #ffcccc !important;
+}
+
+.value.delete a.tab {
+    display: none;
+}
+
+.value.delete div.input-option {
+    display: none;
+}
+
+.value a.remove-value {
+    float: right;
+}
+
+.value a.restore-value {
+    float: right;
+    display: none;
+}
+
+.value span.restore-value {
+    display:none;
+}
+
+.value.delete span.restore-value {
+    display:inline;
 }
 </style>
 
@@ -62,14 +81,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
         <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
         <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
-         <ul class='actions'>
-             <li>
-                 <a class='o-icon-delete remove-value active' style='float:right' href='#' title='Remove value' aria-label='Remove value'></a>
-             </li>
-             <li>
-                 <a class='o-icon-undo fa-undo restore-value' style='float:right; display: none;' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
-             </li>
-         </ul>
+        <span class='restore-value'>Value to be removed</span>
+        <ul class='actions'>
+            <li>
+                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+            </li>
+            <li>
+                <a class='o-icon-undo fa-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+            </li>
+        </ul>
     </div>
 
      <div class="active type input-option text">

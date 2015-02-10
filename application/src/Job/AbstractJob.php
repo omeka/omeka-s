@@ -45,4 +45,31 @@ abstract class AbstractJob implements JobInterface
         }
         return $args[$name];
     }
+
+    /**
+     * Check if this job should stop.
+     *
+     * Refreshes the job entity since the process that sets STATUS_STOPPING is
+     * not necessarily the same process that this job is running on. Typically
+     * called from within an iteration, followed by self::stop().
+     *
+     * @return bool
+     */
+    public function shouldStop()
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $entityManager->refresh($this->job);
+        return Job::STATUS_STOPPING == $this->job->getStatus();
+    }
+
+    /**
+     * Stop this job gracefully.
+     *
+     * Implement this method to perform cleanup in the event that this job has
+     * been flagged to be stopped. Typically called from within an iteration,
+     * following self::shouldStop() and followed by a break out of the
+     * iteration and no further work.
+     */
+    public function stop()
+    {}
 }

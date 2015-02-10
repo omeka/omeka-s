@@ -27,12 +27,14 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php echo $escape($job->id()); ?>
                 </span>
                 <ul class="actions">
+                    <?php if ('in_progress' == $job->status()): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($job->url('show-details')); ?>"
                         data-sidebar-confirm-url="<?php echo $escapeAttr($job->url('stop')); ?>"
                         class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escapeAttr($this->translate('Stop')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Stop')); ?>"></a></li>
+                    <?php endif; ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($job->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"

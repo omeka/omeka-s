@@ -48,7 +48,9 @@ class JobController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                // @todo stop job using $this->params('id')
+                $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
+                $dispatcher->stop($this->params('id'));
+                $this->messenger()->addSuccess('Attempting to stop the job.');
             } else {
                 $this->messenger()->addError('The job could not be stopped.');
             }

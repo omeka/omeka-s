@@ -3,8 +3,10 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Response;
 use Omeka\View\Model\ApiJsonModel;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\RequestInterface as Request;
 
 class ApiController extends AbstractRestfulController
 {
@@ -36,11 +38,13 @@ class ApiController extends AbstractRestfulController
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $fileData PHP file upload data
      */
-    public function create($data)
+    public function create($data, $fileData = array())
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->create($resource, $data);
+        $response = $this->api()->create($resource, $data, $fileData);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -75,8 +79,11 @@ class ApiController extends AbstractRestfulController
 
         // Require application/json Content-Type for certain methods.
         $method = strtolower($request->getMethod());
+        $contentType = $request->getHeader('content-type');
         if (in_array($method, array('post', 'put', 'patch'))
-            && !$this->requestHasContentType($request, self::CONTENT_TYPE_JSON)
+            && !$contentType->match(array(
+                'application/json',
+                'multipart/form-data'))
         ) {
             $contentType = $request->getHeader('Content-Type');
             $errorMessage = sprintf(
@@ -107,6 +114,29 @@ class ApiController extends AbstractRestfulController
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             return $this->getErrorResult($event, $e);
         }
+    }
+
+    /**
+     * Process post data and call create
+     *
+     * This method is overridden from the AbstractRestfulController to allow
+     * processing of multipart POSTs.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function processPostData(Request $request)
+    {
+        $contentType = $request->getHeader('content-type');
+        if ($contentType->match('multipart/form-data')) {
+            $content = $request->getPost('data');
+            $fileData = $request->getFiles()->toArray();
+        } else {
+            $content = $request->getContent;
+            $fileData = null;
+        }
+        $data = Json::decode($content, $this->jsonDecodeType);
+        return $this->create($data, $fileData);
     }
 
     /**

@@ -107,6 +107,10 @@ var Omeka = {
             e.preventDefault();
             Omeka.openSidebar($(this));
         });
+        
+        if ($('.active.sidebar').length > 0) {
+            $('#content').addClass('sidebar-open');
+        }
 
         $('.sidebar').find('.sidebar-close').click(function(e) {
             e.preventDefault();

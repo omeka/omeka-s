@@ -233,7 +233,8 @@
                     Omeka.switchValueTabs(activeTab);
                 break;
 
-                case 'external' :
+                case 'uri' :
+                    console.log(valueObject);
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);
                 break;
@@ -334,10 +335,10 @@
         if (typeof valueObject['@value'] == 'string') {
             return 'literal';
         } else {
-            if (typeof valueObject['resource_id'] == 'undefined') {
-                return 'resource';
+            if (typeof valueObject['value_resource_id'] == 'undefined') {
+                return 'uri';
             } else {
-                return 'external';
+                return 'resource';
             }
         }
     };

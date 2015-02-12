@@ -218,7 +218,7 @@
 
                 case 'resource' :
                     valueTextarea.remove();
-                    var valueInternalInput = newValue.find('input.value');
+                    var valueInternalInput = newValue.find('.resource input.value');
                     var newResource = newValue.find('.selected-resource');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
                         newResource.find('.o-title').html('[Untitled]');

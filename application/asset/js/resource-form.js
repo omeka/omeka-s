@@ -220,7 +220,6 @@
                     valueTextarea.remove();
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
-                    newResource.removeClass('template');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
                         newResource.find('.o-title').html('[Untitled]');
                     } else {
@@ -242,7 +241,6 @@
 
                 case 'uri' :
                     uriInput.val(valueObject['@id']);
-                    console.log(valueObject);
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);
                 break;

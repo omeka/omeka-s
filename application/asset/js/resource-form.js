@@ -167,20 +167,33 @@
         var count = valuesWrapper.find('input.value').length;
         newValue.data('base-name', qName + '[' + count + ']');
         valuesWrapper.find('.inputs').append(newValue);
-        var propertyId = valuesWrapper.data('property-id');
+       // var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
 
-        var propertyIdInput = newValue.find('.input-id');
+        //var propertyIdInput = newValue.find('.input-id');
+        //propertyIdInput.val(propertyId);
+        //propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
+        //propertyIdInput.attr('data-property-term', qName);
+        var propertyInput = newValue.find('input.property');
+        propertyInput.attr('name', qName + '[' + count + '][property_id]');
+        if (valueObject['property_id']) {
+            propertyInput.val(valueObject['property_id']);
+        } else {
+            propertyInput.val(propertyId);
+        }
+        
+        // set up text inputs
         var valueTextarea = newValue.find('textarea');
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
-        propertyIdInput.val(propertyId);
-        propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
-        propertyIdInput.attr('data-property-term', qName);
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
         languageLabel.attr('for', languageElementName);
         languageInput.attr('name', languageElementName);
 
+        //set up uri inputs
+        var uriInput = newValue.find('.uri input.value');
+        uriInput.attr('name', qName + '[' + count + '][@id]');
+        
         var valueIdInput = newValue.find('input.value-id');
 
         var showRemoveValue = false;
@@ -196,10 +209,11 @@
             }
 
             var type = valueObjectType(valueObject);
-            languageInput.val(valueObject['@language']);
+            
             switch (type) {
                 case 'literal' :
                     valueTextarea.val(valueObject['@value']);
+                    languageInput.val(valueObject['@language']);
                 break;
 
                 case 'resource' :
@@ -215,13 +229,6 @@
                     }
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
-                    var propertyInput = newValue.find('input.property');
-                    propertyInput.attr('name', qName + '[' + count + '][property_id]');
-                    if (valueObject['property_id']) {
-                        propertyInput.val(valueObject['property_id']);
-                    } else {
-                        propertyInput.val(propertyId);
-                    }
 
                     //set up the buttons for actions
 
@@ -234,6 +241,7 @@
                 break;
 
                 case 'uri' :
+                    uriInput.val(valueObject['@id']);
                     console.log(valueObject);
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);

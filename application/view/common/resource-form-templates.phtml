@@ -77,6 +77,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 
 <div class="value template">
+    <input type="hidden" class="property" />
+    <input type='hidden' class='value-id' name='' value='' />
+    
     <div class="input-options">
         <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
         <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
@@ -93,20 +96,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
 
      <div class="active type input-option text">
+
         <!-- input for the property value -->
         <textarea name="" class="input-value"></textarea>
-        <input type='hidden' class="input-id" name="" value="" />
-        <input type='hidden' class='value-id' name='' value='' />
+        
         <label class='value-language' for=''>Language</label>
         <input class='value-language' type='text' name='' />
      </div>
-     <div class="items input-option">
+     <div class="items input-option resource">
         <span class="default">No item selected</span>
     
         <p class="selected-resource template">
             <span class="o-title"></span>
             <input type="hidden" class="value" />
-            <input type="hidden" class="property" />
         </p>
 
         <a href="#resource-select" 
@@ -117,5 +119,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                                                                              ), 
                                                                        true)); ?>"
            >Select Omeka Resource</a>
+    </div>
+    <div class="items input-option uri link">
+        <input type="text" class='value' />
     </div>
 </div>

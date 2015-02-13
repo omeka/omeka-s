@@ -1,0 +1,40 @@
+<?php
+use Zend\Json\Json;
+
+if ($job->started()) {
+    $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
+} else {
+    $started = '[not started]';
+}
+if ($job->ended()) {
+    $ended = $this->i18n()->dateFormat($job->ended(), 'long', 'long');
+} else {
+    $ended = '[not ended]';
+}
+$args = Json::prettyPrint(Json::encode($job->args()), array('indent' => ' '));
+?>
+<h2><?php echo $this->escapeHtml(sprintf($this->translate('Job #%s'), $job->id())); ?></h2>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Status')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($job->status()); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Started')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($started); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Ended')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($ended); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Class')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($job->jobClass()); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Owner')); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($job->owner()->username()); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $this->escapeHtml($this->translate('Args')); ?></h4>
+    <pre><?php echo $this->escapeHtml($args); ?></pre>
+</div>

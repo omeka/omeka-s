@@ -167,7 +167,7 @@
         var count = valuesWrapper.find('input.value').length;
         newValue.data('base-name', qName + '[' + count + ']');
         valuesWrapper.find('.inputs').append(newValue);
-       // var propertyId = valuesWrapper.data('property-id');
+        var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
 
         //var propertyIdInput = newValue.find('.input-id');
@@ -176,7 +176,7 @@
         //propertyIdInput.attr('data-property-term', qName);
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
-        if (valueObject['property_id']) {
+        if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
             propertyInput.val(valueObject['property_id']);
         } else {
             propertyInput.val(propertyId);

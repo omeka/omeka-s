@@ -22,6 +22,7 @@ class ResourceTemplateSelect extends AbstractHelper
     public function __invoke($name, array $attributes = array(),
         $emptyOption = 'Select Template'
     ) {
+        
         if ($this->selectMarkup) {
             // Build the select markup only once.
             return $this->selectMarkup;
@@ -35,9 +36,10 @@ class ResourceTemplateSelect extends AbstractHelper
         $options = array();
         $content = $response->getContent();
         if (! $content) {
-            return;
+            $resourceTemplatesUrl = $this->getView()->url('admin') . '/resource_template';
+            return "No <a href='$resourceTemplatesUrl'>resource templates</a> available";
         }
-        
+
         foreach ($response->getContent() as $resourceTemplate) {
            $options[$resourceTemplate->id()] = $resourceTemplate->label();
         }
@@ -55,6 +57,7 @@ class ResourceTemplateSelect extends AbstractHelper
 
         // Cache the select markup.
         $this->selectMarkup = $this->getView()->formSelect($select);
+
         return $this->selectMarkup;
     }
 }

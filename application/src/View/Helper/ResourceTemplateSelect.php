@@ -36,8 +36,7 @@ class ResourceTemplateSelect extends AbstractHelper
         $options = array();
         $content = $response->getContent();
         if (! $content) {
-            $resourceTemplatesUrl = $this->getView()->url('admin') . '/resource_template';
-            return "No <a href='$resourceTemplatesUrl'>resource templates</a> available";
+            return;
         }
 
         foreach ($response->getContent() as $resourceTemplate) {

@@ -1022,7 +1022,8 @@
 }
 
 .fa-rotate-left:before, .o-icon-revert:before,
-.fa-undo:before {
+.fa-undo:before,
+.o-icon-undo:before {
   content: "";
 }
 

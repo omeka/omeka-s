@@ -2,45 +2,6 @@
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<style>
-.value.delete {
-    background-color: #ffcccc;
-    padding-bottom: 24px;
-}
-
-
-.value.delete span {
-    background-color: #ffcccc !important;
-}
-
-.value.delete a.tab {
-    display: none;
-}
-
-.value.delete div.input-option {
-    display: none;
-}
-
-.value a.remove-value {
-    float: right;
-}
-
-.value a.restore-value {
-    float: right;
-    display: none;
-}
-
-.value span.restore-value {
-    display:none;
-}
-
-.value.delete span.restore-value {
-    display:inline;
-}
-</style>
-
-
-
 <div class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
     <div class="sidebar-content">
@@ -90,7 +51,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
             </li>
             <li>
-                <a class='o-icon-undo fa-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
             </li>
         </ul>
     </div>

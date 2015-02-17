@@ -604,6 +604,7 @@ div[role="main"] {
 .actions,
 .actions li {
     display: inline-block;
+    margin-left: -4px;
 }
 
 .actions a,
@@ -956,10 +957,15 @@ th .sorted-desc:before {
         display: none;
     }
     
+    .no-templates {
+        padding: rhythm(.25) 0;
+        display: inline-block;
+    }
+    
     .items.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
-        padding: rhythm(.25) 10px;
+        padding: rhythm(.25) 10px 0;
         width: 100%;
         float: left;
     }
@@ -1402,34 +1408,50 @@ th .sorted-desc:before {
             }
         }
     }
-    
-    .remove-value {
-        display: none;
-        clear: both;
-        min-height: 0;
-        height: $base-line-height;
-        padding: 0 10px;
-        font-size: .85 * $base-font-size;
-        @include leader(.25, .85 * $base-font-size);
         
-        &.active {
-            display: block;
-        }
-    }
-    
     .input-options {
-        text-align: center;
         width: 100%;
         float: left;
         background-color: rgba(0,0,0,.15);
     }
     
-    .input-option {
-        display: none;
+    .input-options .tab {
+        text-align: center;
+    }
+
+    .input-options .actions a:before {
+        line-height: 1.5 * $base-line-height;
+        height: 1.5 * $base-line-height;
     }
     
     .active.input-option {
         display: block;
+    }
+    
+    .value.delete {
+        background-color: #ffcccc;
+        overflow: hidden;
+    }
+
+    .input-option,
+    .value a.restore-value,
+    .value span.restore-value,
+    .value.delete a.tab,
+    .value.delete div.input-option {
+        display: none;
+    }
+    
+    .value.delete .input-options {
+        background-color: transparent;
+    }
+        
+    .value.delete span.restore-value {
+        display: inline-block;
+        padding: rhythm(.25);
+    }
+    
+    p.selected-resource {
+        margin: 0;
     }
     
     /* @end */

@@ -22,7 +22,7 @@
                       echo $select;
                   } else {
                       $resourceTemplatesUrl = $this->url('admin') . '/resource_template';
-                      echo "No <a href='$resourceTemplatesUrl'>resource templates</a> available";
+                      echo "<span class=\"no-templates\">No <a href='$resourceTemplatesUrl'>resource templates</a> available</span>";
                   }
 
                   ?>

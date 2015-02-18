@@ -66,7 +66,6 @@ class ValueHydratorTest extends TestCase
                     '@value' => 'test-@value',
                     '@language' => 'test-@language',
                     'value_id' => 'test-value_id',
-                    'value_is_html' => true,
                 ),
             ),
         );
@@ -81,9 +80,6 @@ class ValueHydratorTest extends TestCase
         $value->expects($this->once())
             ->method('setLang')
             ->with($this->equalTo($nodeObject['term'][0]['@language']));
-        $value->expects($this->once())
-            ->method('setIsHtml')
-            ->with($this->equalTo($nodeObject['term'][0]['value_is_html']));
         $value->expects($this->once())
             ->method('setValueResource')
             ->with($this->equalTo(null));
@@ -126,9 +122,6 @@ class ValueHydratorTest extends TestCase
         $value->expects($this->once())
             ->method('setLang')
             ->with($this->equalTo(null));
-        $value->expects($this->once())
-            ->method('setIsHtml')
-            ->with($this->equalTo(false));
         $value->expects($this->once())
             ->method('setValueResource')
             ->with($this->identicalTo($valueResource));
@@ -177,9 +170,6 @@ class ValueHydratorTest extends TestCase
             ->method('setLang')
             ->with($this->equalTo(null));
         $value->expects($this->once())
-            ->method('setIsHtml')
-            ->with($this->equalTo(false));
-        $value->expects($this->once())
             ->method('setValueResource')
             ->with($this->equalTo(null));
         $entityManager = $this->getEntityManager();
@@ -206,7 +196,6 @@ class ValueHydratorTest extends TestCase
                     '@value' => 'test-@value',
                     '@language' => 'test-@language',
                     'property_id' => 'test-property_id',
-                    'value_is_html' => true,
                 ),
             ),
         );
@@ -236,9 +225,6 @@ class ValueHydratorTest extends TestCase
                     return false;
                 }
                 if ($nodeObject['term'][0]['@language'] !== $value->getLang()) {
-                    return false;
-                }
-                if ($nodeObject['term'][0]['value_is_html'] !== $value->isHtml()) {
                     return false;
                 }
                 return true;

@@ -85,7 +85,6 @@ class ValueRepresentation extends AbstractRepresentation
                 if ($value->getLang()) {
                     $valueObject['@language'] = $value->getLang();
                 }
-                $valueObject['value_is_html'] = $value->isHtml();
                 break;
         }
 
@@ -154,16 +153,6 @@ class ValueRepresentation extends AbstractRepresentation
     public function lang()
     {
         return $this->getData()->getLang();
-    }
-
-    /**
-     * Get the value HTML flag.
-     *
-     * @return string
-     */
-    public function isHtml()
-    {
-        return $this->getData()->isHtml();
     }
 
     /**

@@ -126,13 +126,6 @@ class ValueHydrator implements HydrationInterface
         } else {
             $value->setLang(null); // set default
         }
-        if (isset($valueObject['value_is_html'])
-            && true === $valueObject['value_is_html']
-        ) {
-            $value->setIsHtml(true);
-        } else {
-            $value->setIsHtml(false); // set default
-        }
         $value->setValueResource(null); // set default
     }
 
@@ -147,7 +140,6 @@ class ValueHydrator implements HydrationInterface
         $value->setType(Value::TYPE_RESOURCE);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
-        $value->setIsHtml(false); // set default
         $valueResource = $this->adapter->getEntityManager()->find(
             'Omeka\Model\Entity\Resource',
             $valueObject['value_resource_id']
@@ -172,7 +164,6 @@ class ValueHydrator implements HydrationInterface
         $value->setType(Value::TYPE_URI);
         $value->setValue($valueObject['@id']);
         $value->setLang(null); // set default
-        $value->setIsHtml(false); // set default
         $value->setValueResource(null); // set default
     }
 
@@ -193,9 +184,6 @@ class ValueHydrator implements HydrationInterface
         $value->setValue($valueObject['@value']);
         if (isset($valueObject['@language'])) {
             $value->setLang($valueObject['@language']);
-        }
-        if (isset($valueObject['value_is_html'])) {
-            $value->setIsHtml($valueObject['value_is_html']);
         }
 
         $this->adapter->getEntityManager()->persist($value);

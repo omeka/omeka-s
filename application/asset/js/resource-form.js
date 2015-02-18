@@ -240,6 +240,7 @@
                 break;
 
                 case 'uri' :
+                    valueTextarea.remove();
                     uriInput.val(valueObject['@id']);
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);

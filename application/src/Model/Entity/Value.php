@@ -61,11 +61,6 @@ class Value extends AbstractEntity
     protected $lang;
 
     /**
-     * @Column(type="boolean")
-     */
-    protected $isHtml = false;
-
-    /**
      * @ManyToOne(targetEntity="Resource")
      * @JoinColumn(onDelete="CASCADE")
      */
@@ -134,17 +129,6 @@ class Value extends AbstractEntity
     public function getLang()
     {
         return $this->lang;
-    }
-
-    public function setIsHtml($isHtml)
-    {
-        // Default is false.
-        $this->isHtml = $isHtml ? (bool) $isHtml : false;
-    }
-
-    public function isHtml()
-    {
-        return $this->isHtml;
     }
 
     public function setValueResource(Resource $valueResource = null)

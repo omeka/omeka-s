@@ -167,7 +167,6 @@ class ValueRepresentationTest extends TestCase
         $valueId             = 'test-value_id';
         $valueLiteral        = 'test-value_literal';
         $valueLang           = 'test-value_lang';
-        $valueIsHtml         = true;
         $propertyId          = 'test-property_id';
         $propertyLabel       = 'test-property_label';
 
@@ -194,9 +193,6 @@ class ValueRepresentationTest extends TestCase
         $value->expects($this->exactly(2))
             ->method('getLang')
             ->will($this->returnValue($valueLang));
-        $value->expects($this->once())
-            ->method('isHtml')
-            ->will($this->returnValue($valueIsHtml));
         $value->expects($this->exactly(2))
             ->method('getProperty')
             ->will($this->returnValue($property));
@@ -205,7 +201,6 @@ class ValueRepresentationTest extends TestCase
         $this->assertEquals(array(
             '@value'         => $valueLiteral,
             '@language'      => $valueLang,
-            'value_is_html'  => $valueIsHtml,
             'value_id'       => $valueId,
             'property_id'    => $propertyId,
             'property_label' => $propertyLabel,
@@ -252,20 +247,6 @@ class ValueRepresentationTest extends TestCase
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
         $this->assertEquals($valueLang, $valueRep->lang());
-    }
-
-    public function testIsHtml()
-    {
-        $valueIsHtml = true;
-
-        $serviceLocator = $this->getServiceManager();
-        $value = $this->getMock('Omeka\Model\Entity\Value');
-        $value->expects($this->once())
-            ->method('isHtml')
-            ->will($this->returnValue($valueIsHtml));
-
-        $valueRep = new ValueRepresentation($value, $serviceLocator);
-        $this->assertEquals($valueIsHtml, $valueRep->isHtml());
     }
 
     public function testGetValueResource()

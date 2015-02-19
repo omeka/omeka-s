@@ -116,8 +116,15 @@ return array(
         ),
     ),
     'media_types' => array(
-        'img'     => 'Omeka\View\Helper\MediaType\Img',
-        'youtube' => 'Omeka\View\Helper\MediaType\Youtube',
+        'file' => array(
+            'ingester' => 'Omeka\Media\Ingester\File'
+        ),
+        'img' => array(
+            'view_helper' => 'Omeka\View\Helper\MediaType\Img',
+        ),
+        'youtube' => array(
+            'view_helper' => 'Omeka\View\Helper\MediaType\Youtube',
+        ),
     ),
     'navigation' => array(
         'admin' => array(

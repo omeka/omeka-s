@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
+use Omeka\Media\Ingester\IngesterInterface;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\Item;
 use Omeka\Model\Entity\ResourceClass;
@@ -20,6 +21,11 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'created'   => 'created',
         'modified'  => 'modified',
     );
+
+    /**
+     * @var IngesterInterface
+     */
+    protected $ingester;
 
     /**
      * {@inheritDoc}
@@ -59,6 +65,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         $data = $request->getContent();
+        $config = $this->getServiceLocator()->get('Config');
+        $mediaTypes = $config['media_types'];
 
         if (isset($data['o:item']['o:id'])) {
             $item = $this->getAdapter('items')
@@ -66,9 +74,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $entity->setItem($item);
         }
 
-        if (isset($data['o:type'])) {
-            $entity->setType($data['o:type']);
-        }
+        // If we've gotten here we're guaranteed to have a set, valid
+        // media type thanks to validateData
+        $type = $data['o:type'];
+        $entity->setType($type);
+        $ingester = $this->getIngester();
+        $ingester->ingest($entity, $request, $errorStore);
 
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);
@@ -85,9 +96,26 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         $mediaTypes = $config['media_types'];
 
         $data = $request->getContent();
-        if (isset($data['o:type']) && !isset($mediaTypes[$data['o:type']])) {
-            $errorStore->addError('o:type', 'Unrecognized media type.');
+        if (!isset($data['o:type'])) {
+            $errorStore->addError('o:type', 'Media must have a type.');
+            return;
         }
+
+        $type = $data['o:type'];
+        if (!isset($mediaTypes[$type]['ingester'])) {
+            $errorStore->addError('o:type', 'Unrecognized media type.');
+            return;
+        }
+
+        $ingesterClass = $mediaTypes[$type]['ingester'];
+        if (!is_subclass_of($ingesterClass, 'Omeka\Media\Ingester\IngesterInterface')) {
+            $errorStore->addError('o:type', 'Invalid media ingester.');
+        }
+
+        $ingester = new $ingesterClass;
+        $this->setIngester($ingester);
+
+        $ingester->validateRequest($request, $errorStore);
     }
 
     /**
@@ -99,9 +127,15 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (!($entity->getItem() instanceof Item)) {
             $errorStore->addError('o:item', 'Media must belong to an item.');
         }
+    }
 
-        if (empty($entity->getType())) {
-            $errorStore->addError('o:type', 'Media must have a type.');
-        }
+    protected function setIngester(IngesterInterface $ingester)
+    {
+        $this->ingester = $ingester;
+    }
+
+    protected function getIngester()
+    {
+        return $this->ingester;
     }
 }

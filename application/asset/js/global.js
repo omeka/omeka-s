@@ -7,8 +7,8 @@ var Omeka = {
             var sidebar = $('.sidebar > .sidebar');
         }
         sidebar.addClass('active');
-        if (!$('#content').hasClass('sidebar-open')) {
-            $('#content').addClass('sidebar-open');
+        if (!$('body').hasClass('sidebar-open')) {
+            $('body').addClass('sidebar-open');
         }
         var sidebarConfirm = $('#sidebar-confirm');
         if (context.hasClass('sidebar-confirm')) {
@@ -31,7 +31,7 @@ var Omeka = {
         context.removeClass('active');
         context.parent('.active').removeClass('active');
         if ($('.active.sidebar').length < 1) {
-            $('#content').removeClass('sidebar-open');
+            $('body').removeClass('sidebar-open');
         }
     },
 

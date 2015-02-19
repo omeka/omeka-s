@@ -1219,7 +1219,7 @@ th {
     margin-bottom: 0em;
   }
 
-  #content.sidebar-open {
+  body.sidebar-open #content {
     width: 56.25%;
   }
 

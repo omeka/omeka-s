@@ -17,7 +17,15 @@
                       }
                   }
             ?>
-            <?php echo $this->resourceTemplateSelect('o:resource_template[o:id]', $atts); ?>
+            <?php $select = $this->resourceTemplateSelect('o:resource_template[o:id]', $atts); ?>
+            <?php if ($select) {
+                      echo $select;
+                  } else {
+                      $resourceTemplatesUrl = $this->url('admin') . '/resource_template';
+                      echo "<span class=\"no-templates\">No <a href='$resourceTemplatesUrl'>resource templates</a> available</span>";
+                  }
+
+                  ?>
         </div>
     </div>
 

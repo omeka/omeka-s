@@ -496,7 +496,7 @@
   content: "";
 }
 
-.fa-stop:before {
+.fa-stop:before, .o-icon-stop:before {
   content: "";
 }
 
@@ -864,7 +864,7 @@
   content: "";
 }
 
-.fa-tasks:before {
+.fa-tasks:before, .o-icon-jobs:before {
   content: "";
 }
 
@@ -1022,7 +1022,8 @@
 }
 
 .fa-rotate-left:before, .o-icon-revert:before,
-.fa-undo:before {
+.fa-undo:before,
+.o-icon-undo:before {
   content: "";
 }
 

@@ -45,74 +45,7 @@ if (isset($errors)) {
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>
 
-<!-- 
-the sidebar and templates are not going into the partial because
-they exist outside the form, and the partial needs to work with 
-multiple resource fieldsets (item and media, e.g.)
--->
 
-<div class='sidebar'>
-    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
-    <div class="sidebar-content">
-    </div>
-    <div id="resource-details" class="sidebar">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
-
-        <div class='sidebar-content'>
-            <div id="resource-details-content">
-            </div>
-        </div>
-        <div id="select-item">
-            <a href="#" class="button">Select resource</a>
-        </div>
-    </div>
-</div>
-
-
-<!-- Templates -->
-<div class="resource-values field template">
-    <div class="field-actions">
-        <a href="#" class="add-value button o-icon-add"><span class="screen-reader-text">Add Value</span></a>
-    </div>
-    <div class='field-meta'>
-        <label class='field-label'><span class='field-label-text'></span>
-        <span class='field-term o-icon-developer' title="Property term for development use"></span></label>
-        <div class='field-description'>
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-            <p class='field-comment'></p>
-        </div>
-    </div>
-    <div class='inputs'>
-    </div>
-</div>
-
-<div class="value template">
-    <div class="input-options">
-        <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
-        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
-        <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
-     </div>
-     <div class="active type input-option text">
-        <!-- input for the property value -->
-        <textarea name="" class="input-value"></textarea>
-        <input type='hidden' class="input-id" name="" value="" />
-        <input type='hidden' class='value-id' name='' value='' />
-        <label class='value-language' for=''>Language</label>
-        <input class='value-language' type='text' name='' />
-     </div>
-     <div class="items input-option">
-        <span class="default">No item selected</span>
-    
-        <p class="selected-resource template">
-            <span class="o-title"></span>
-            <input type="hidden" class="value" />
-            <input type="hidden" class="property" />
-        </p>
-
-        <a href="#resource-select" 
-           class="button resource-select"
-           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'sidebar-select'), true)); ?>"
-           >Select Omeka Resource</a>
-    </div>
-     <button class="remove-value">Remove value</button>
-</div>
+<?php 
+        echo $this->partial('common/resource-form-templates.phtml');
+?>

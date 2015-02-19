@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ModuleStateChangeForm;
 use Omeka\Form\ModuleUninstallForm;
+use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -88,7 +89,12 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $manager->install($module);
+        try {
+            $manager->install($module);
+        } catch (ModuleCannotInstallException $e) {
+            $this->messenger()->addError($e->getMessage());
+            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        }
         $this->messenger()->addSuccess($this->translate('The module was successfully installed'));
         if ($module->isConfigurable()) {
             return $this->redirect()->toRoute(

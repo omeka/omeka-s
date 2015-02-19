@@ -1,18 +1,6 @@
 (function($) {
 
     $(document).ready( function() {
-        // Mark existing properties for deletion and straight up remove new properties.
-        $('.remove.button').on('click', function(e) {
-            e.preventDefault();
-            var currentField = $(this).parents('.field');
-            if (currentField.hasClass('new')) {
-                currentField.remove();
-            } else {
-                currentField.toggleClass('remove');
-            }
-        });
-
-        /* Property selector handlers */
 
         // Select property
         $('li.property').on('click', function(e) {
@@ -25,11 +13,9 @@
                 makeNewValue(qName, true);
             } else {
                 makeNewField(propertyLi);
-                makeNewValue(qName);
+                makeNewValue(qName, true);
             }
         });
-
-        /* End Property Selector Handlers */
 
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
@@ -67,37 +53,42 @@
         });
 
         // Remove value.
-        $('.remove-value').on('click', function(e) {
+        $('a.remove-value').on('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
-            var parentInput = $(this).parents('.inputs');
             //check if there is an value_id, which indicates the value has
             //already been saved
-            if (valueToRemove.find('input.value-id').val() == '' ) {
-                valueToRemove.remove();
+            if (valueToRemove.find('input.value-id').length == 0 ) {
+                valueToRemove.find('input').prop('disabled', true);
+                valueToRemove.find('textarea').prop('disabled', true);
             } else {
                 var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);
                 deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
                 valueToRemove.append(deleteInput);
-                //@TODO: maybe handle all this with a class? Q for Kim.
-                valueToRemove.attr('style', "background-color: #ffcccc;");
-                valueToRemove.find('input').attr('style', "background-color: #ffcccc;");
-                valueToRemove.find('textarea').attr('style', "background-color: #ffcccc;");
-                valueToRemove.addClass('delete');
             }
-            var count = parentInput.find('> .value').length;
-            if (count == 1) {
-                parentInput.find('.remove-value').removeClass('active');
-                makeNewValue();
-            }
+            valueToRemove.addClass('delete');
+            valueToRemove.find('a.restore-value').show();
+            $(this).hide();
         });
 
+        $('a.restore-value').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var valueToRemove = $(this).parents('.value');
+            valueToRemove.find('a.remove-value').show();
+            valueToRemove.find('input').prop('disabled', false);
+            valueToRemove.find('textarea').prop('disabled', false);
+            valueToRemove.removeClass('delete');
+            valueToRemove.find('input.delete').remove();
+            $(this).hide();
+        });
 
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
             });
-        
+
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
             var sidebarContent = $('#sidebar .sidebar-content');
@@ -111,7 +102,7 @@
                 sidebarContent.html("<p>Something went wrong</p>");
             });
         });
-        
+
         $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
             var searchValue = $('#resource-list-search').val();
             var sidebarContent = $('#sidebar .sidebar-content');
@@ -150,7 +141,7 @@
             $('#select-item a').data('property-term', qName);
             Omeka.openSidebar(context);
         });
-        
+
         $('.resource-name a').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
@@ -162,16 +153,10 @@
             }).done(function(data) {
                 $('#resource-details-content').html(data);
                 $('#select-item a').data('resource-id', context.data('resource-id'));
-                
             });
             Omeka.openSidebar(context);
         });
 
-        // Keep new fields that have been changed.
-        $(document).on('change', '.items .field input', function() {
-            $(this).parents('.field').addClass('keep');
-        });
-        
         initPage();
     });
 
@@ -185,41 +170,56 @@
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
 
-        var propertyIdInput = newValue.find('.input-id');
+        //var propertyIdInput = newValue.find('.input-id');
+        //propertyIdInput.val(propertyId);
+        //propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
+        //propertyIdInput.attr('data-property-term', qName);
+        var propertyInput = newValue.find('input.property');
+        propertyInput.attr('name', qName + '[' + count + '][property_id]');
+        if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
+            propertyInput.val(valueObject['property_id']);
+        } else {
+            propertyInput.val(propertyId);
+        }
+        
+        // set up text inputs
         var valueTextarea = newValue.find('textarea');
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
-        propertyIdInput.val(propertyId);
-        propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
-        propertyIdInput.attr('data-property-term', qName);
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
         languageLabel.attr('for', languageElementName);
         languageInput.attr('name', languageElementName);
 
-        var valueIdInput = newValue.find('input.value-id');
+        //set up uri inputs
+        var uriInput = newValue.find('.uri input.value');
+        uriInput.attr('name', qName + '[' + count + '][@id]');
         
+        var valueIdInput = newValue.find('input.value-id');
+
+        var showRemoveValue = false;
         if (typeof valueObject == 'undefined') {
             valueIdInput.remove();
         } else {
+            showRemoveValue = true;
             valueIdInput.attr('name', qName + '[' + count + '][value_id]');
             if (valueObject['value_id']) {
                 valueIdInput.val(valueObject['value_id']);
             } else {
                 valueIdInput.remove();
             }
-            
+
             var type = valueObjectType(valueObject);
-            languageInput.val(valueObject['@language']);
+            
             switch (type) {
                 case 'literal' :
                     valueTextarea.val(valueObject['@value']);
+                    languageInput.val(valueObject['@language']);
                 break;
-                
+
                 case 'resource' :
                     valueTextarea.remove();
-                    var valueInternalInput = newValue.find('input.value');
+                    var valueInternalInput = newValue.find('.resource input.value');
                     var newResource = newValue.find('.selected-resource');
-                    newResource.removeClass('template');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
                         newResource.find('.o-title').html('[Untitled]');
                     } else {
@@ -228,33 +228,25 @@
                     }
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
-                    var propertyInput = newValue.find('input.property');
-                    propertyInput.attr('name', qName + '[' + count + '][property_id]');
-                    if (valueObject['property_id']) {
-                        propertyInput.val(valueObject['property_id']);
-                    } else {
-                        propertyInput.val(propertyId);
-                    }
-                    
+
                     //set up the buttons for actions
-                    
+
                     newResource.siblings('span').hide();
                     newResource.siblings('a.button').hide();
                     newResource.parent().siblings('button.remove-value').addClass('active');
-                    
+
                     var activeTab = newValue.find('.o-icon-items');
                     Omeka.switchValueTabs(activeTab);
                 break;
-                
-                case 'external' :
+
+                case 'uri' :
+                    valueTextarea.remove();
+                    uriInput.val(valueObject['@id']);
                     var activeTab = newValue.find('.o-icon-link');
                     Omeka.switchValueTabs(activeTab);
                 break;
             }
         }
-
-        // the skipFocus was added late in dev. should be refactored to make more sense
-        // and use 'focus' as the variable
         if (focus) {
             $('html, body').animate({
                 scrollTop: (valuesWrapper.offset().top -100)
@@ -262,33 +254,40 @@
             $('textarea', newValue).focus();
         } 
 
-        // elements are counted before the newest is added
+        //decide whether to show the 'remove value' trashcan based on number of values
+        var removeValueButton = valuesWrapper.find('a.remove-value');
         if (count > 0) {
-            valuesWrapper.find('.remove-value').addClass('active');
+            showRemoveValue = true;
+        }
+
+        if (showRemoveValue) {
+            removeValueButton.show();
+        } else {
+            removeValueButton.hide();
         }
     };
-    
+
     var makeNewField = function(property) {
         //sort out whether property is the LI that holds data, or the id
         var propertyLi, propertyId;
-        
+
         switch (typeof property) {
             case 'object':
                 propertyLi = property;
                 propertyId = propertyLi.data('property-id');
             break;
-            
+
             case 'number':
                 propertyId = property;
                 propertyLi = $('.property-selector').find("li[data-property-id='" + propertyId + "']");
             break;
-            
+
             case 'string':
                 propertyLi = $('.property-selector').find("li[data-property-term='" + property + "']");
                 propertyId = propertyLi.data('property-id');
             break;
         }
-        
+
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
@@ -315,18 +314,18 @@
             field = makeNewField(id);
             makeNewValue(field.data('property-term'));
         }
-        
+
         if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
             var propertyLi = $('.property-selector').find("li[data-property-id='" + id + "']");
         }
-        
+
         if (template['o:alternate_label'] == "") {
             var label = propertyLi.find('span.property-label');
             field.find('span.field-label-text').text(label.text());
         } else {
             field.find('span.field-label-text').text(template['o:alternate_label']);
         }
-        
+
         if (template['o:alternate_comment'] == "") {
             var description = propertyLi.find('.description p').last();
             field.find('p.field-comment').text(description.text());
@@ -343,18 +342,18 @@
         if (typeof valueObject['@value'] == 'string') {
             return 'literal';
         } else {
-            if (typeof valueObject['resource_id'] == 'undefined') {
-                return 'resource';
+            if (typeof valueObject['value_resource_id'] == 'undefined') {
+                return 'uri';
             } else {
-                return 'external';
+                return 'resource';
             }
         }
     };
-    
+
     var initPage = function() {
         //clone dcterms:title and dcterms:description for starters, if they don't already exist
         //assumes that the propertySelector helper has been deployed
-        
+
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
             makeNewValue('dcterms:title');
@@ -385,8 +384,6 @@
                 console.log('fail');
             });
         }
-        
     };
-    
 })(jQuery);
 

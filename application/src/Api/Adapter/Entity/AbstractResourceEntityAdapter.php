@@ -18,6 +18,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $this->buildPropertyQuery($qb, $query);
         $this->buildHasPropertyQuery($qb, $query);
 
+        if (isset($query['owner_id'])) {
+            $userAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.owner',
+                $userAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$userAlias.id",
+                $this->createNamedParameter($qb, $query['owner_id']))
+            );
+        }
+
         if (isset($query['resource_class_label'])) {
             $resourceClassAlias = $this->createAlias();
             $qb->innerJoin(

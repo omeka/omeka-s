@@ -37,6 +37,11 @@ class JobRepresentation extends AbstractEntityRepresentation
         return $this->getData()->getEnded();
     }
 
+    public function args()
+    {
+        return $this->getData()->getArgs();
+    }
+
     /**
      * Get the owner representation of this job.
      *

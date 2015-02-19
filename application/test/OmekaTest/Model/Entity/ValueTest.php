@@ -24,7 +24,6 @@ class ValueTest extends TestCase
         $this->assertNull($this->value->getValue());
         $this->assertNull($this->value->getValueTransformed());
         $this->assertNull($this->value->getLang());
-        $this->assertFalse($this->value->isHtml());
     }
 
     public function testSetResource()
@@ -77,11 +76,4 @@ class ValueTest extends TestCase
         $this->value->setLang($lang);
         $this->assertEquals($lang, $this->value->getLang());
     }
-
-    public function testIsHtml()
-    {
-        $this->value->setIsHtml(true);
-        $this->asserttrue($this->value->isHtml());
-    }
-
 }

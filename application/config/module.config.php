@@ -28,6 +28,7 @@ return array(
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
+            'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -237,6 +238,7 @@ return array(
                 'route'      => 'admin/default',
                 'controller' => 'job',
                 'resource'   => 'Omeka\Controller\Admin\Job',
+                'class'      => 'jobs',
             ),
             array(
                 'label'      => 'Sites',
@@ -317,6 +319,10 @@ return array(
     'jobs' => array(
         'dispatch_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
         'phpcli_path' => null,
+    ),
+    'http_client' => array(
+        'adapter' => 'Zend\Http\Client\Adapter\Socket',
+        'sslcapath' => '/etc/ssl/certs',
     ),
     'router' => array(
         'routes' => array(

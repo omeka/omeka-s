@@ -239,7 +239,6 @@ CREATE TABLE `value` (
   `value` longtext COLLATE utf8_unicode_ci,
   `value_transformed` longtext COLLATE utf8_unicode_ci,
   `lang` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `is_html` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1D77583489329D25` (`resource_id`),
   KEY `IDX_1D775834549213EC` (`property_id`),

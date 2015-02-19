@@ -78,6 +78,21 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function validateData(Request $request, ErrorStore $errorStore,
+        $isManaged
+    ) {
+        $config = $this->getServiceLocator()->get('Config');
+        $mediaTypes = $config['media_types'];
+
+        $data = $request->getContent();
+        if (isset($data['o:type']) && !isset($mediaTypes[$data['o:type']])) {
+            $errorStore->addError('o:type', 'Unrecognized media type.');
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function validateEntity(EntityInterface $entity,
         ErrorStore $errorStore, $isManaged
     ) {

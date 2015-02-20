@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
- *             name="vocabulary_local_name",
  *             columns={"vocabulary_id", "local_name"}
  *         )
  *     }

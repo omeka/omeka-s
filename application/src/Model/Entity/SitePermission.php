@@ -6,7 +6,6 @@ namespace Omeka\Model\Entity;
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
- *             name="site_user",
  *             columns={"site_id", "user_id"}
  *         )
  *     }

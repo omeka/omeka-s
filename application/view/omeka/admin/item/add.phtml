@@ -1,17 +1,17 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'add item');
+$this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
-<h1><?php echo $this->translate('Add item'); ?></h1>
 <?php 
 if (isset($errors)) {
     print_r($errors);
 }
 ?>
+<h1><?php echo $this->translate('Add item'); ?></h1>
 
 <nav class="section-nav">
     <ul>

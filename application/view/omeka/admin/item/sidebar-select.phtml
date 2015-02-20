@@ -24,7 +24,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             class="sidebar-content"
             data-resource-id="<?php echo $item->id(); ?>"
             data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"><?php echo $item->displayTitle('[untitled]'); ?></a></span>
-        <button class="select">Select</button>
     </div>
     <?php endforeach; ?>
 </div>

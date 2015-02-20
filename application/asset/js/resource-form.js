@@ -125,7 +125,7 @@
             //that was clicked. Seems like steps can be removed in the workflow?
 
             $('.value.selecting-resource').remove();
-            var valuesData = $('.item-details').data('item-values');
+            var valuesData = $('.resource-details').data('resource-values');
             makeNewValue(propertyQname, false, valuesData);
             Omeka.closeSidebar($('.sidebar'));
         });

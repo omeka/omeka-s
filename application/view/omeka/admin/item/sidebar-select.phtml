@@ -2,7 +2,7 @@
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1>Select Resource</h1>
+<h1>Select Item</h1>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search">
         <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
@@ -17,7 +17,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <!-- here to let me work on the javascript and ajax for showing resource details -->
     <?php foreach ($items as $item):?>
-    <div class="item">
+    <div class="resource item">
         <div class="placeholder"></div>
         <span class="resource-name">
             <a href="#"

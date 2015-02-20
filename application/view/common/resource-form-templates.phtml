@@ -2,6 +2,17 @@
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
+<style>
+ul.available-resources {
+    list-style: none;
+    padding-left: 0px;
+}
+
+ul.available-resources li {
+    display: inline;
+}
+</style>
+
 <div class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
     <div class="sidebar-content">
@@ -43,7 +54,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     
     <div class="input-options">
         <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
-        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Omeka Item</span></a>
+        <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Local Omeka Resource</span></a>
         <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
         <span class='restore-value'>Value to be removed</span>
         <ul class='actions'>
@@ -65,21 +76,35 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <input class='value-language' type='text' name='' />
      </div>
      <div class="items input-option resource">
-        <span class="default">No item selected</span>
+        <span class="default">No resource selected</span>
     
         <p class="selected-resource">
             <span class="o-title"></span>
             <input type="hidden" class="value" />
         </p>
+        <ul class='available-resources'>
+            <li class='item-resource-select'>
+                <a href="#item-resource-select" 
+                   class="button resource-select"
+                   data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                               array( 'controller' => 'Item',
+                                                                                      'action'     => 'sidebar-select'
+                                                                                     ), 
+                                                                               true)); ?>"
+                   >Items</a>
+            </li>
+            <li class='itemset-resource-select'>
+                <a href="#itemset-resource-select" 
+                   class="button resource-select"
+                   data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                               array( 'controller' => 'ItemSet',
+                                                                                      'action'     => 'sidebar-select'
+                                                                                     ), 
+                                                                               true)); ?>"
+                   >Item Sets</a>
+            </li>
+        </ul>
 
-        <a href="#resource-select" 
-           class="button resource-select"
-           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
-                                                                       array( 'controller' => 'Item',
-                                                                              'action'     => 'sidebar-select'
-                                                                             ), 
-                                                                       true)); ?>"
-           >Select Omeka Resource</a>
     </div>
     <div class="input-option uri link">
         <input type="text" class='value' />

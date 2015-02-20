@@ -138,6 +138,25 @@ class ItemSetController extends AbstractActionController
         return $view;
     }
 
+    public function sidebarSelectAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('item_sets', $query);
+        $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
+        $view->setVariable('itemSets', $response->getContent());
+        if (isset($query['value'])) {
+            $searchValue = $query['value']['in'][0];
+        } else {
+            $searchValue = '';
+        }
+        $view->setVariable('searchValue', $searchValue);
+        $view->setTerminal(true);
+        return $view;
+    }
+    
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

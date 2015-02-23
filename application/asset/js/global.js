@@ -23,12 +23,8 @@ var Omeka = {
     },
 
     closeSidebar : function(context) {
-        if (context.parents('.sidebar').length == 0) {
-            var sidebar = $('body > .sidebar');
-        } else {
-            var sidebar = $('.sidebar > .sidebar');
-        }
         context.removeClass('active');
+        context.parent('.active').removeClass('active');
         if ($('.active.sidebar').length < 1) {
             $('body').removeClass('sidebar-open');
         }

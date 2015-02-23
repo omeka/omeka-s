@@ -127,7 +127,7 @@
             $('.value.selecting-resource').remove();
             var valuesData = $('.item-details').data('item-values');
             makeNewValue(propertyQname, false, valuesData);
-            Omeka.closeSidebar($('.sidebar'));
+            Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {

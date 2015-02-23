@@ -64,7 +64,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(Request $request, ErrorStore $errorStore){
+    public function validateRequest(Request $request, ErrorStore $errorStore){
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties.

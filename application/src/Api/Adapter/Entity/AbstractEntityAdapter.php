@@ -42,7 +42,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Hydrate an entity with the provided array.
      *
-     * Validation should be done in {@link self::validateData()} or
+     * Validation should be done in {@link self::validateRequest()} or
      * {@link self::validateEntity()}. Filtering should be done in the entity's
      * mutator methods. Authorize state changes of individual fields using
      * {@link self::authorize()}.
@@ -66,7 +66,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param array $data
      * @param ErrorStore $errorStore
      */
-    public function validateData(Request $request, ErrorStore $errorStore)
+    public function validateRequest(Request $request, ErrorStore $errorStore)
     {}
 
     /**
@@ -397,8 +397,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ));
         $this->getEventManager()->trigger($event);
 
-        // Validate the data.
-        $this->validateData($request, $errorStore);
+        // Validate the request.
+        $this->validateRequest($request, $errorStore);
 
         if ($errorStore->hasErrors()) {
             $validationException = new Exception\ValidationException;

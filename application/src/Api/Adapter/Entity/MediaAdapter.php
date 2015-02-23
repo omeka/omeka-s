@@ -75,7 +75,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         // If we've gotten here we're guaranteed to have a set, valid
-        // media type thanks to validateData
+        // media type thanks to validateRequest
         $type = $data['o:type'];
         $entity->setType($type);
         $ingester = $this->getIngester();
@@ -89,7 +89,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(Request $request, ErrorStore $errorStore)
+    public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $config = $this->getServiceLocator()->get('Config');
         $mediaTypes = $config['media_types'];

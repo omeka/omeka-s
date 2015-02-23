@@ -646,7 +646,6 @@ th {
     cursor: default;
   }
 
-  .property-selector,
   .field {
     width: 100%;
     background-color: #e7e7e7;
@@ -657,7 +656,6 @@ th {
     border-top-style: solid;
     padding-top: -0.0625em;
   }
-  .property-selector:first-child,
   .field:first-child {
     border-color: transparent;
   }
@@ -687,11 +685,16 @@ th {
 
   .property-selector input[type="text"],
   .property-selector > ul {
-    width: 90%;
+    width: 100%;
   }
 
   .property-selector > ul {
     margin: 0;
+    overflow: hidden;
+  }
+
+  .property-selector.sidebar .vocabulary {
+    margin-bottom: 0;
   }
 
   /* @end */
@@ -1216,7 +1219,7 @@ th {
     margin-bottom: 0em;
   }
 
-  #content.sidebar-open {
+  body.sidebar-open #content {
     width: 56.25%;
   }
 
@@ -1521,12 +1524,16 @@ th {
     width: 100%;
     padding: 0.375em 0;
   }
+  .properties .description .o-icon-info + p:empty {
+    padding: 0;
+  }
 
   .property-selector .property .description .o-icon-info:hover + p {
     top: 2.25em;
     left: 0;
-    padding-left: -webkit-calc(2.25em + 10px);
-    padding-left: calc(2.25em + 10px);
+    right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: #fff;
     z-index: 1;
     margin: 0;
@@ -1554,6 +1561,9 @@ th {
     left: -9999px;
     width: 100%;
     padding: 0.375em 0;
+  }
+  .property-selector ul .description .o-icon-info + p:empty {
+    padding: 0;
   }
 
   .property-selector > ul,
@@ -2414,7 +2424,7 @@ th {
 
   /* @end */
   /* @group ----- Edit Resource Template ----- */
-  .resource-template .properties ul {
+  .resource-template #properties {
     list-style: none;
     padding-left: 0;
     margin-left: 0;

@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
- *             name="site_slug",
  *             columns={"site_id", "slug"}
  *         )
  *     }

@@ -29,7 +29,6 @@ var Omeka = {
             var sidebar = $('.sidebar > .sidebar');
         }
         context.removeClass('active');
-        //context.parent('.active').removeClass('active');
         if ($('.active.sidebar').length < 1) {
             $('body').removeClass('sidebar-open');
         }

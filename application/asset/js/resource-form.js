@@ -91,7 +91,7 @@
 
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
-            var sidebarContent = $('#sidebar .sidebar-content');
+            var sidebarContent = $(this).parents('div.sidebar-content');
             $.ajax({
                 'url': $(this).attr('href'),
                 'type': 'get'
@@ -105,7 +105,7 @@
 
         $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
             var searchValue = $('#resource-list-search').val();
-            var sidebarContent = $('#sidebar .sidebar-content');
+            var sidebarContent = $(this).parents('div.sidebar-content');
             $.ajax({
                 'url': $(this).data('search-url'),
                 'data': {'value[in][]': searchValue},
@@ -127,7 +127,7 @@
             $('.value.selecting-resource').remove();
             var valuesData = $('.resource-details').data('resource-values');
             makeNewValue(propertyQname, false, valuesData);
-            Omeka.closeSidebar($('.sidebar'));
+            Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {

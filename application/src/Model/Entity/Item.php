@@ -24,7 +24,7 @@ class Item extends Resource
      *     targetEntity="Media",
      *     mappedBy="item",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove", "detach"}
      * )
      */
     protected $media;

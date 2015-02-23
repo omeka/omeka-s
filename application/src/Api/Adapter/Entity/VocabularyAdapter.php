@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
@@ -61,10 +62,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
     ) {
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:namespace_uri'])) {
             $entity->setNamespaceUri($data['o:namespace_uri']);
@@ -91,8 +92,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 }
                 $resourceClass = new $resourceClassEntityClass;
                 $resourceClass->setVocabulary($entity);
+                $subrequest = new Request(Request::CREATE, 'resource_classes');
+                $subrequest->setContent($classData);
                 $resourceClassAdapter->hydrateEntity(
-                    'create', $classData, $resourceClass, $errorStore
+                    $subrequest, $resourceClass, $errorStore
                 );
             }
         }
@@ -106,8 +109,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 }
                 $property = new $propertyEntityClass;
                 $property->setVocabulary($entity);
+                $subrequest = new Request(Request::CREATE, 'properties');
+                $subrequest->setContent($propertyData);
                 $propertyAdapter->hydrateEntity(
-                    'create', $propertyData, $property, $errorStore
+                    $subrequest, $property, $errorStore
                 );
             }
         }
@@ -146,9 +151,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         // Validate namespace URI
         $namespaceUri = $entity->getNamespaceUri();
         if (empty($namespaceUri)) {

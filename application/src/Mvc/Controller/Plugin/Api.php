@@ -54,11 +54,12 @@ class Api extends AbstractPlugin
      *
      * @param string $resource
      * @param array $data
+     * @param array $files
      * @return Response
      */
-    public function create($resource, $data = array())
+    public function create($resource, $data = array(), $fileData = array())
     {
-        $response = $this->getApiManager()->create($resource, $data);
+        $response = $this->getApiManager()->create($resource, $data, $fileData);
         $this->detectError($response);
         return $response;
     }

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
@@ -48,9 +49,11 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
+
         if (isset($data['o:username'])) {
             $entity->setUsername($data['o:username']);
         }
@@ -81,9 +84,8 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         $username = $entity->getUsername();
         if (empty($username)) {
             $errorStore->addError('o:username', 'The username cannot be empty.');

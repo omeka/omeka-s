@@ -5,6 +5,7 @@
 /data/doctrine-proxies/
 /data/logs/sql.log
 /data/logs/application.log
+/files/
 /application/test/config/database.ini
 /vendor/
 .sass-cache

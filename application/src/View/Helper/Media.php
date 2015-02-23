@@ -61,12 +61,12 @@ class Media extends AbstractHelper
      */
     protected function getMediaType($mediaType)
     {
-        if (!isset($this->mediaTypes[$mediaType])) {
+        if (!isset($this->mediaTypes[$mediaType]['view_helper'])) {
             throw new Exception\InvalidArgumentException('Media type not registered.');
         }
-        if (!class_exists($this->mediaTypes[$mediaType])) {
-            throw new Exception\RuntimeException('Media type class does not exist.');
+        if (!class_exists($this->mediaTypes[$mediaType]['view_helper'])) {
+            throw new Exception\RuntimeException('Media type helper does not exist.');
         }
-        return new $this->mediaTypes[$mediaType];
+        return new $this->mediaTypes[$mediaType]['view_helper'];
     }
 }

@@ -16,6 +16,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
                 $this->getData()->getItem(),
                 $this->getAdapter('items')
             ),
+            'o:filename' => $this->filename(),
         );
     }
 
@@ -53,5 +54,15 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function mediaData()
     {
         return $this->getData()->getData();
+    }
+
+    /**
+     * Get the media's filename (if any).
+     *
+     * @return string|null
+     */
+    public function filename()
+    {
+        return $this->getData()->getFilename();
     }
 }

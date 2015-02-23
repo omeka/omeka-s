@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceClass;
 use Omeka\Model\Entity\Vocabulary;
@@ -60,10 +61,12 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
     ) {
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $data = $request->getContent();
+
+        $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:vocabulary']['o:id'])
             && is_numeric($data['o:vocabulary']['o:id'])
@@ -162,9 +165,8 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         // Validate local name
         $localName = $entity->getLocalName();
         if (empty($localName)) {

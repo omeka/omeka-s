@@ -64,9 +64,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(Request $request, ErrorStore $errorStore,
-        $isManaged
-    ){
+    public function validateData(Request $request, ErrorStore $errorStore){
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties.
@@ -94,7 +92,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $label = $entity->getLabel();
         if (empty(trim($label))) {
@@ -109,15 +107,15 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $data = $request->getContent();
 
         // o:owner
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         // o:resource_class
-        $this->hydrateResourceClass($data, $entity, $isManaged);
+        $this->hydrateResourceClass($request, $entity);
 
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);

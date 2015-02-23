@@ -29,21 +29,10 @@ class AbstractEntityAdapterTest extends TestCase
     {
         /** ServiceManager **/
 
-        // UnitOfWork
-        $unitOfWork = $this->getMockBuilder('Doctrine\ORM\UnitOfWork')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $unitOfWork->expects($this->once())
-            ->method('getEntityState')
-            ->will($this->returnValue(UnitOfWork::STATE_MANAGED));
-
         // Service: Omeka\EntityManager
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $entityManager->expects($this->once())
-            ->method('getUnitOfWork')
-            ->will($this->returnValue($unitOfWork));
         $entityManager->expects($this->once())
             ->method('persist')
             ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
@@ -188,14 +177,6 @@ class AbstractEntityAdapterTest extends TestCase
         // Service: MvcTranslator
         $translator = $this->getMock('Zend\I18n\Translator\Translator');
 
-        // UnitOfWork
-        $unitOfWork = $this->getMockBuilder('Doctrine\ORM\UnitOfWork')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $unitOfWork->expects($this->once())
-            ->method('getEntityState')
-            ->will($this->returnValue(UnitOfWork::STATE_MANAGED));
-
         // Service: Omeka\EntityManager
         $entityRepository = $this->getEntityRepository();
         $entityRepository->expects($this->once())
@@ -209,9 +190,6 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('getRepository')
             ->with($this->equalTo('OmekaTest\Api\Adapter\Entity\TestEntity'))
             ->will($this->returnValue($entityRepository));
-        $entityManager->expects($this->once())
-            ->method('getUnitOfWork')
-            ->will($this->returnValue($unitOfWork));
         $entityManager->expects($this->once())
             ->method('flush');
 

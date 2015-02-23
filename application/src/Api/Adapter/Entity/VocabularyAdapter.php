@@ -63,9 +63,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:namespace_uri'])) {
             $entity->setNamespaceUri($data['o:namespace_uri']);
@@ -151,9 +151,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         // Validate namespace URI
         $namespaceUri = $entity->getNamespaceUri();
         if (empty($namespaceUri)) {

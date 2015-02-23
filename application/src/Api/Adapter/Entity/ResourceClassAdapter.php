@@ -62,11 +62,11 @@ class ResourceClassAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $data = $request->getContent();
 
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:vocabulary']['o:id'])
             && is_numeric($data['o:vocabulary']['o:id'])
@@ -165,9 +165,8 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         // Validate local name
         $localName = $entity->getLocalName();
         if (empty($localName)) {

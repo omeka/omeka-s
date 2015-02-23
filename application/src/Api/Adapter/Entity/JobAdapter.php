@@ -47,7 +47,7 @@ class JobAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {}
 
     /**

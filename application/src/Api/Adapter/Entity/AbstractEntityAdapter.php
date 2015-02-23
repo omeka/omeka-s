@@ -50,10 +50,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param Request $request
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
-     * @param bool $isManaged
      */
     abstract public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged);
+        ErrorStore $errorStore);
 
     /**
      * Validate entity data.
@@ -66,11 +65,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * @param array $data
      * @param ErrorStore $errorStore
-     * @param bool $isManaged
      */
-    public function validateData(Request $request, ErrorStore $errorStore,
-        $isManaged
-    ) {}
+    public function validateData(Request $request, ErrorStore $errorStore)
+    {}
 
     /**
      * Validate an entity.
@@ -82,11 +79,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
-     * @param bool $isManaged
      */
-    public function validateEntity(EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
-    ) {}
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {}
 
     /**
      * Build a conditional search query from an API request.
@@ -393,20 +388,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // entity in its original state.
         $this->authorize($entity, $operation);
 
-        $isManaged = $this->entityIsManaged($entity);
-
         // Trigger the operation's api.validate.data.pre event.
         $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
-            'isManaged' => $isManaged,
             'errorStore' => $errorStore,
         ));
         $this->getEventManager()->trigger($event);
 
         // Validate the data.
-        $this->validateData($request, $errorStore, $isManaged);
+        $this->validateData($request, $errorStore);
 
         if ($errorStore->hasErrors()) {
             $validationException = new Exception\ValidationException;
@@ -414,20 +406,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             throw $validationException;
         }
 
-        $this->hydrate($request, $entity, $errorStore, $isManaged);
+        $this->hydrate($request, $entity, $errorStore);
 
         // Trigger the operation's api.validate.entity.pre event.
         $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
-            'isManaged' => $isManaged,
             'errorStore' => $errorStore,
         ));
         $this->getEventManager()->trigger($event);
 
         // Validate the entity.
-        $this->validateEntity($entity, $errorStore, $isManaged);
+        $this->validateEntity($entity, $errorStore);
 
         if ($errorStore->hasErrors()) {
             if (Request::UPDATE == $operation) {
@@ -457,24 +448,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $operation, $entity->getResourceId()
             ));
         }
-    }
-
-    /**
-     * Check whether an entity is managed.
-     *
-     * A managed entity has been persisted but not necessarily flushed. This is
-     * useful to determine whether an entity is currently being created (not
-     * managed) or updated (managed).
-     *
-     * @param EntityInterface $entity
-     * @return bool
-     */
-    protected function entityIsManaged(EntityInterface $entity)
-    {
-        $entityState = $this->getEntityManager()
-            ->getUnitOfWork()
-            ->getEntityState($entity);
-        return UnitOfWork::STATE_MANAGED === $entityState;
     }
 
     /**
@@ -589,12 +562,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Assumes the owner can be set to NULL. By default, new entities are owned
      * by the current user.
      *
-     * @param array $data
+     * @param Request $request
      * @param EntityInterface $entity
-     * @param bool $isManaged
      */
-    public function hydrateOwner(array $data, EntityInterface $entity, $isManaged)
+    public function hydrateOwner(Request $request, EntityInterface $entity)
     {
+        $data = $request->getContent();
         $owner = $entity->getOwner();
         if (array_key_exists('o:owner', $data)) {
             if (!$data['o:owner']
@@ -611,7 +584,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                     ->findEntity($data['o:owner']['o:id']);
             }
         }
-        if (!$isManaged && !$owner instanceof User) {
+        if ($request->getOperation() === Request::CREATE && !$owner instanceof User) {
             $owner = $this->getServiceLocator()
                 ->get('Omeka\AuthenticationService')
                 ->getIdentity();
@@ -624,13 +597,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * Assumes the resource class can be set to NULL.
      *
-     * @param array $data
+     * @param Request $request
      * @param EntityInterface $entity
-     * @param bool $isManaged
      */
-    public function hydrateResourceClass(array $data, EntityInterface $entity,
-        $isManaged
-    ) {
+    public function hydrateResourceClass(Request $request, EntityInterface $entity)
+    {
+        $data = $request->getContent();
         $resourceClass = $entity->getResourceClass();
         if (array_key_exists('o:resource_class', $data)) {
             if (!$data['o:resource_class']
@@ -655,13 +627,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * Assumes the resource template can be set to NULL.
      *
-     * @param array $data
+     * @param Request $request
      * @param EntityInterface $entity
-     * @param bool $isManaged
      */
-    public function hydrateResourceTemplate(array $data, EntityInterface $entity,
-        $isManaged
-    ) {
+    public function hydrateResourceTemplate(Request $request, EntityInterface $entity)
+    {
+        $data = $request->getContent();
         $resourceTemplate = $entity->getResourceTemplate();
         if (array_key_exists('o:resource_template', $data)) {
             if (!$data['o:resource_template']

@@ -50,7 +50,7 @@ class UserAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $data = $request->getContent();
 
@@ -84,9 +84,8 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
         $username = $entity->getUsername();
         if (empty($username)) {
             $errorStore->addError('o:username', 'The username cannot be empty.');

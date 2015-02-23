@@ -88,7 +88,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $data = $request->getContent();
 
@@ -97,13 +97,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $valueHydrator->hydrate($data, $entity);
 
         // o:owner
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         // o:resource_class
-        $this->hydrateResourceClass($data, $entity, $isManaged);
+        $this->hydrateResourceClass($request, $entity);
 
         // o:resource_template
-        $this->hydrateResourceTemplate($data, $entity, $isManaged);
+        $this->hydrateResourceTemplate($request, $entity);
     }
 
     /**

@@ -67,9 +67,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
-        parent::hydrate($request, $entity, $errorStore, $isManaged);
+        parent::hydrate($request, $entity, $errorStore);
 
         $data = $request->getContent();
 

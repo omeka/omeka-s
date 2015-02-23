@@ -55,12 +55,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
-        parent::hydrate($request, $entity, $errorStore, $isManaged);
+        parent::hydrate($request, $entity, $errorStore);
 
         // Don't allow mutation of basic properties
-        if ($isManaged) {
+        if ($request->getOperation() !== Request::CREATE) {
             return;
         }
 
@@ -89,9 +89,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(Request $request, ErrorStore $errorStore,
-        $isManaged
-    ) {
+    public function validateData(Request $request, ErrorStore $errorStore)
+    {
         $config = $this->getServiceLocator()->get('Config');
         $mediaTypes = $config['media_types'];
 
@@ -123,7 +122,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         if (!($entity->getItem() instanceof Item)) {
             $errorStore->addError('o:item', 'Media must belong to an item.');

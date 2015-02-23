@@ -4,13 +4,14 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Interface for ingesters for Media.
  *
  * Each ingester corresponds to one media type.
  */
-interface IngesterInterface
+interface IngesterInterface extends ServiceLocatorAwareInterface
 {
     /**
      * Validate a request for compliance with this media type.

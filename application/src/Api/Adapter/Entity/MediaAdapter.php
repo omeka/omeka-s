@@ -113,6 +113,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         $ingester = new $ingesterClass;
+        $ingester->setServiceLocator($this->getServiceLocator());
         $this->setIngester($ingester);
 
         $ingester->validateRequest($request, $errorStore);

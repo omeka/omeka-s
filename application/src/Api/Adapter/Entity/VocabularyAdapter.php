@@ -65,6 +65,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:namespace_uri'])) {

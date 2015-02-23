@@ -46,6 +46,7 @@ return array(
         ),
         'shared' => array(
             'Omeka\Paginator' => false,
+            'Omeka\HttpClient' => false,
         ),
     ),
     'listeners' => array(

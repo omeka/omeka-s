@@ -100,5 +100,20 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 }
             }
         }
+
+        if (isset($data['o:media']) && is_array($data['o:media'])) {
+            $mediaAdapter = $this->getAdapter('media');
+            $mediaEntityClass = $mediaAdapter->getEntityClass();
+            foreach ($data['o:media'] as $mediaData) {
+                if (isset($mediaData['o:id'])) {
+                    continue; // do not process existing media
+                }
+                $media = new $mediaEntityClass;
+                $media->setItem($entity);
+                $subrequest = new Request(Request::CREATE, 'media');
+                $subrequest->setContent($mediaData);
+                $mediaAdapter->hydrateEntity($subrequest, $media, $errorStore);
+            }
+        }
     }
 }

@@ -253,18 +253,6 @@
             },200);
             $('textarea', newValue).focus();
         } 
-
-        //decide whether to show the 'remove value' trashcan based on number of values
-        var removeValueButton = valuesWrapper.find('a.remove-value');
-        if (count > 0) {
-            showRemoveValue = true;
-        }
-
-        if (showRemoveValue) {
-            removeValueButton.show();
-        } else {
-            removeValueButton.hide();
-        }
     };
 
     var makeNewField = function(property) {

@@ -14,7 +14,9 @@ class MediaTest extends TestCase
 
     protected $config = array(
         'media_types' => array(
-            'test' => 'OmekaTest\View\Helper\MediaType',
+            'test' => array(
+                'view_helper' => 'OmekaTest\View\Helper\MediaType',
+            ),
         ),
     );
 

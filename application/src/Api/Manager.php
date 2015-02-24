@@ -41,12 +41,14 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $resource
      * @param array $data
+     * @param array $fileData
      * @return Response
      */
-    public function create($resource, $data = array())
+    public function create($resource, $data = array(), $fileData = array())
     {
         $request = new Request(Request::CREATE, $resource);
         $request->setContent($data);
+        $request->setFileData($fileData);
         return $this->execute($request);
     }
 

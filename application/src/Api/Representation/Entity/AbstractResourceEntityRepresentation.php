@@ -442,12 +442,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             );
         }
     }
-    
+
     protected function applyResourceTemplate($values)
     {
-        //var_dump($values);
         $template = $this->resourceTemplate();
-        
+
         $sortedValues = array();
         foreach ($values as $prefix => $vocabulary) {
             $sortedValues[$prefix] = array();
@@ -478,9 +477,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
             $sortedValues[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
         }
-        
-        //var_dump($sortedValues);
-        //die();
-        return $sortedValues;            
+        return $sortedValues;
     }
 }

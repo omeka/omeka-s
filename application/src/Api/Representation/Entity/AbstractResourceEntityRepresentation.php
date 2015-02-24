@@ -185,7 +185,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if (empty($this->values)) {
             $this->setValues();
         }
-        return $this->values;
+        //return $this->values;
+        return $this->applyResourceTemplate($this->values);
     }
 
     /**
@@ -440,5 +441,39 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 ))
             );
         }
+    }
+    
+    protected function applyResourceTemplate($values)
+    {
+        //var_dump($values);
+        $template = $this->resourceTemplate();
+        if ($template) {
+            $templateProperties = $template->resourceTemplateProperties();
+            $sortedValues = array();
+            foreach ($values as $prefix => $vocabulary) {
+                $sortedValues[$prefix] = array();
+                $sortedValues[$prefix]['vocabulary'] = $vocabulary['vocabulary'];
+
+                $templatedProperties = array();
+                $remainderProperties = array();
+                foreach ($values[$prefix]['properties'] as $localName => $property) {
+                    $propertyRep = $property['property'];
+                    foreach ($templateProperties as $resTemProp) {
+                        if ($resTemProp['o:property']->id() == $propertyRep->id()) {
+                            $templatedProperties[$localName] = $property;
+                        } else {
+                            $remainderProperties[$localName] = $property;
+                            $sortedValues[$prefix]['properties'][$localName] = $property;
+                        }
+                    }
+                }
+                $sortedValues[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
+            }
+            
+            //var_dump($sortedValues);
+            //die();
+            return $sortedValues;            
+        }
+        return $values;
     }
 }

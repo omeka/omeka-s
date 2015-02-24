@@ -1281,7 +1281,8 @@ body.sidebar-open #content {
     }
 
     .field-description .o-icon-info {
-        &:hover + p {
+        &:hover + p,
+        &:focus + p {
             top: rhythm(1.5);
             left: inherit;
             right: 10px;
@@ -1295,7 +1296,8 @@ body.sidebar-open #content {
             margin: rhythm(.5) 0;
         }
     
-        &:hover + p:before {
+        &:hover + p:before,
+        &:focus + p:before {
             content: "";
             display: block;
             height: 0;
@@ -1382,7 +1384,8 @@ body.sidebar-open #content {
                 color: #fff;
             }
             
-            &:hover .screen-reader-text {
+            &:hover .screen-reader-text,
+            &:focus .screen-reader-text {
                 top: rhythm(1.5);
                 left: inherit;
                 right: 0;
@@ -1394,7 +1397,8 @@ body.sidebar-open #content {
                 z-index: 1;
             }
             
-            &:hover .screen-reader-text:before {
+            &:hover .screen-reader-text:before,
+            &:focus .screen-reader-text:before {
                 content: "";
                 display: block;
                 height: 0;

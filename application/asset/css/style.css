@@ -1706,7 +1706,7 @@ th {
     margin: 0;
   }
 
-  .field-description .o-icon-info:hover + p {
+  .field-description .o-icon-info:hover + p, .field-description .o-icon-info:focus + p {
     top: 2.25em;
     left: inherit;
     right: 10px;
@@ -1722,7 +1722,7 @@ th {
     padding: 0.375em 5px;
     margin: 0.75em 0;
   }
-  .field-description .o-icon-info:hover + p:before {
+  .field-description .o-icon-info:hover + p:before, .field-description .o-icon-info:focus + p:before {
     content: "";
     display: block;
     height: 0;
@@ -1799,7 +1799,7 @@ th {
     background-color: #990000;
     color: #fff;
   }
-  .inputs .tab:hover .screen-reader-text {
+  .inputs .tab:hover .screen-reader-text, .inputs .tab:focus .screen-reader-text {
     top: 2.25em;
     left: inherit;
     right: 0;
@@ -1812,7 +1812,7 @@ th {
     white-space: nowrap;
     z-index: 1;
   }
-  .inputs .tab:hover .screen-reader-text:before {
+  .inputs .tab:hover .screen-reader-text:before, .inputs .tab:focus .screen-reader-text:before {
     content: "";
     display: block;
     height: 0;

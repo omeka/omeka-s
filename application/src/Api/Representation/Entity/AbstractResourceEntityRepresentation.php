@@ -446,36 +446,56 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected function applyResourceTemplate($values)
     {
         $template = $this->resourceTemplate();
+        $resortDctermsTitle = false;
+
+        //check to see if dcterms:title is not at the top of dcterms if no template
+        if ( ! $template ) {
+            if (isset($values['dcterms'])) {
+                if (array_keys($values['dcterms']['properties'])[0] != 'title' ) {
+                    $resortDctermsTitle = true;
+                }
+            }
+        }
 
         $sortedValues = array();
-        foreach ($values as $prefix => $vocabulary) {
-            $sortedValues[$prefix] = array();
-            $sortedValues[$prefix]['vocabulary'] = $vocabulary['vocabulary'];
+        if ($template || $resortDctermsTitle) {
+            foreach ($values as $prefix => $vocabulary) {
+                $sortedValues[$prefix] = array();
+                $sortedValues[$prefix]['vocabulary'] = $vocabulary['vocabulary'];
 
-            $templatedProperties = array();
-            $remainderProperties = array();
-            foreach ($values[$prefix]['properties'] as $localName => $property) {
-                $propertyRep = $property['property'];
-                if ($template) {
-                    $templateProperties = $template->resourceTemplateProperties();
-                    foreach ($templateProperties as $resTemProp) {
-                        if ($resTemProp['o:property']->id() == $propertyRep->id()) {
+                $templatedProperties = array();
+                $remainderProperties = array();
+                foreach ($values[$prefix]['properties'] as $localName => $property) {
+                    $propertyRep = $property['property'];
+                    if ($template) {
+                        $templateProperties = $template->resourceTemplateProperties();
+                        foreach ($templateProperties as $resTemProp) {
+                            if ($resTemProp['o:property']->id() == $propertyRep->id()) {
+                                $templatedProperties[$localName] = $property;
+                            } else {
+                                $remainderProperties[$localName] = $property;
+                            }
+                        }
+                    } else {
+                        //put dcterms:title and dcterms:description at top
+                        if ($prefix == 'dcterms') {
                             $templatedProperties[$localName] = $property;
+                            //always make title first
+                            if ($localName == 'title') {
+                                $templatedProperties = array('title' => $property) + $templatedProperties;
+                            }
+
+                            if ($localName == 'description') {
+                                $templatedProperties = $templatedProperties + array('description' => $property);
+                            }
+
                         } else {
                             $remainderProperties[$localName] = $property;
                         }
                     }
-                } else {
-                    //put dcterms:title and dcterms:description at top
-                    if ($prefix == 'dcterms' && ( $localName == 'title' || $localName == 'description' )) {
-                        $templatedProperties[$localName] = $property;
-                    } else {
-                        $remainderProperties[$localName] = $property;
-                    }
                 }
-
+                $sortedValues[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
             }
-            $sortedValues[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
         }
         return $sortedValues;
     }

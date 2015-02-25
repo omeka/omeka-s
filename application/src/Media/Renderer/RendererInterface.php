@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\View\Helper\MediaType;
+namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 
-interface MediaTypeInterface
+interface RendererInterface
 {
     /**
      * Return the HTML necessary to render an add/edit form.

@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\View\Helper\MediaType;
+namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 
-class Youtube implements MediaTypeInterface
+class Youtube implements RendererInterface
 {
     const WIDTH = 420;
     const HEIGHT = 315;

@@ -38,7 +38,7 @@ class Media extends AbstractHelper
             $media = $mediaType;
             $mediaType = $media->type();
         }
-        return $this->getMediaType($mediaType)->form($media, $options);
+        return $this->getMediaRenderer($mediaType)->form($media, $options);
     }
 
     /**
@@ -50,23 +50,23 @@ class Media extends AbstractHelper
      */
     public function render(MediaRepresentation $media, array $options = array())
     {
-        return $this->getMediaType($media->type())->render($media, $options);
+        return $this->getMediaRenderer($media->type())->render($media, $options);
     }
 
     /**
-     * Get the media type object.
+     * Get the media renderer object.
      *
      * @param string $mediaType
      * @return MediaTypeInterface
      */
-    protected function getMediaType($mediaType)
+    protected function getMediaRenderer($mediaType)
     {
-        if (!isset($this->mediaTypes[$mediaType]['view_helper'])) {
-            throw new Exception\InvalidArgumentException('Media type not registered.');
+        if (!isset($this->mediaTypes[$mediaType]['renderer'])) {
+            throw new Exception\InvalidArgumentException('Media renderer not registered.');
         }
-        if (!class_exists($this->mediaTypes[$mediaType]['view_helper'])) {
-            throw new Exception\RuntimeException('Media type helper does not exist.');
+        if (!class_exists($this->mediaTypes[$mediaType]['renderer'])) {
+            throw new Exception\RuntimeException('Media type renderer does not exist.');
         }
-        return new $this->mediaTypes[$mediaType]['view_helper'];
+        return new $this->mediaTypes[$mediaType]['renderer'];
     }
 }

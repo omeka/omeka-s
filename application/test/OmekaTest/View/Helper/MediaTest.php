@@ -4,7 +4,7 @@ namespace OmekaTest\View\Helper;
 use Omeka\Test\TestCase;
 use Omeka\View\Helper\Media;
 
-require_once __DIR__ . '/_files/MediaType.php';
+require_once __DIR__ . '/_files/Renderer.php';
 
 class MediaTest extends TestCase
 {
@@ -15,7 +15,7 @@ class MediaTest extends TestCase
     protected $config = array(
         'media_types' => array(
             'test' => array(
-                'view_helper' => 'OmekaTest\View\Helper\MediaType',
+                'renderer' => 'OmekaTest\Media\Renderer\Renderer',
             ),
         ),
     );

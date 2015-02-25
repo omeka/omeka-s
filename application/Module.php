@@ -27,6 +27,7 @@ class Module extends AbstractModule
         'media'      => 'Omeka\View\Helper\Media',
         'nav'        => 'Omeka\View\Helper\Nav',
         'pagination' => 'Omeka\View\Helper\Pagination',
+        'trigger'    => 'Omeka\View\Helper\Trigger',
     );
 
     /**

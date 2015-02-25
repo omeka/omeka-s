@@ -22,3 +22,5 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div id="item-linked" class="section">
     <?php echo $item->displayLinkedResources(); ?>
 </div>
+
+<?php echo $this->trigger('view.show.after'); ?>

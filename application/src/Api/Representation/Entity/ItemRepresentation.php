@@ -6,7 +6,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * @var array Cache of media representations
      */
-    protected $media = array();
+    protected $media;
 
     /**
      * {@inheritDoc}
@@ -47,15 +47,14 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function media()
     {
-        if (empty($this->media)) {
-            $this->media = array();
-            $mediaAdapter = $this->getAdapter('media');
-            foreach ($this->getData()->getMedia() as $mediaEntity) {
-                $this->media[] = $mediaAdapter
-                    ->getRepresentation(null, $mediaEntity);
-            }
+        if (isset($this->media)) {
+            return $this->media;
+        }
+        $this->media = array();
+        $mediaAdapter = $this->getAdapter('media');
+        foreach ($this->getData()->getMedia() as $mediaEntity) {
+            $this->media[] = $mediaAdapter->getRepresentation(null, $mediaEntity);
         }
         return $this->media;
-
     }
 }

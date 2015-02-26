@@ -34,4 +34,19 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             'o:item_set' => $itemSetReferences,
         );
     }
+
+    /**
+     * Get the media associated with this item.
+     *
+     * @return array Array of MediaRepresentations
+     */
+    public function media()
+    {
+        $mediaReps = array();
+        foreach ($this->getData()->getMedia() as $media) {
+            $mediaReps[] = $this->getAdapter('media')
+                ->getRepresentation(null, $media);
+        }
+        return $mediaReps;
+    }
 }

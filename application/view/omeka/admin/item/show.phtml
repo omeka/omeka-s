@@ -15,6 +15,23 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </ul>
 </nav>
 
+<?php
+$itemMedia = $item->media();
+if ($itemMedia):
+?>
+<div id="item-media">
+<?php
+$mediaHelper = $this->media();
+foreach ($item->media() as $media):
+    echo '<div>';
+    echo $mediaHelper->render($media);
+    echo '</div>';
+endforeach;
+?>
+</div>
+<?php endif; ?>
+
+
 <div id="item-metadata" class="active section">
     <?php echo $item->displayValues(); ?>
 </div>

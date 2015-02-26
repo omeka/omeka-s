@@ -11,29 +11,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <nav class="section-nav">
     <ul>
         <li><a href="#" class="item-metadata active section"><?php echo $escape('Metadata'); ?></a></li>
+        <li><a href="#" class="item-media section"><?php echo $escape('Media'); ?></a></li>
         <li><a href="#" class="item-linked section"><?php echo $escape('Linked Resources'); ?></a></li>
     </ul>
 </nav>
 
-<?php
-$itemMedia = $item->media();
-if ($itemMedia):
-?>
-<div id="item-media">
-<?php
-$mediaHelper = $this->media();
-foreach ($item->media() as $media):
-    echo '<div>';
-    echo $mediaHelper->render($media);
-    echo '</div>';
-endforeach;
-?>
-</div>
-<?php endif; ?>
-
-
 <div id="item-metadata" class="active section">
     <?php echo $item->displayValues(); ?>
+</div>
+
+<div id="item-media" class="section">
+    <?php foreach ($item->media() as $media): ?>
+    <div><?php echo $this->media()->render($media); ?></div>
+    <?php endforeach; ?>
 </div>
 
 <div id="item-linked" class="section">

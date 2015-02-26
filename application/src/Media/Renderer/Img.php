@@ -2,6 +2,7 @@
 namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Zend\View\Renderer\PhpRenderer;
 
 class Img implements RendererInterface
 {
@@ -12,13 +13,13 @@ class Img implements RendererInterface
     /**
      * {@inheritDoc}
      */
-    public function form(MediaRepresentation $media = null, array $options = array())
+    public function form(PhpRenderer $view, MediaRepresentation $media = null, array $options = array())
     {}
 
     /**
      * {@inheritDoc}
      */
-    public function render(MediaRepresentation $media, array $options = array())
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
     {
         $options = $this->sanitizeOptions($options);
         $data = $media->getData();

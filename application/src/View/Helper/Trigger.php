@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Event\Event;
 use Omeka\Event\FilterEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
@@ -45,7 +46,7 @@ class Trigger extends AbstractHelper
     public function event($name, array $params = array())
     {
         $params['services'] = $this->serviceLocator;
-        $event = new FilterEvent($name, $this->getView(), $params);
+        $event = new Event($name, $this->getView(), $params);
 
         // Set the current controller as the event identifier.
         $controller = $this->serviceLocator->get('Application')->getMvcEvent()

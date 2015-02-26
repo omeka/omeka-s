@@ -69,6 +69,10 @@ class File implements IngesterInterface
         chmod($destination, 0644);
 
         $media->setFilename($filename);
+
+        if (!array_key_exists('o:source', $data)) {
+            $media->setSource($uri);
+        }
     }
 
     /**

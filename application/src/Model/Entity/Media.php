@@ -28,6 +28,11 @@ class Media extends Resource
     protected $isPublic = false;
 
     /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $source;
+
+    /**
      * @Column(nullable=true)
      */
     protected $filename;
@@ -76,6 +81,16 @@ class Media extends Resource
     public function isPublic()
     {
         return (bool) $this->isPublic;
+    }
+
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    public function getSource()
+    {
+        return $this->source;
     }
 
     public function setFilename($filename)

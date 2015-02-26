@@ -61,11 +61,12 @@ class File implements IngesterInterface
 
         $destination = OMEKA_PATH . '/files/' . $filename;
         $status = @rename($response->getStreamName(), $destination);
-        chmod($destination, 0644);
         if (!$status) {
             $errorStore->addError('ingest_uri', 'Failed to move ingested file to the files directory');
             return;
         }
+
+        chmod($destination, 0644);
 
         $media->setFilename($filename);
     }

@@ -4,6 +4,11 @@ namespace Omeka\Api\Representation\Entity;
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
     /**
+     * @var array Cache of media representations
+     */
+    protected $media = array();
+
+    /**
      * {@inheritDoc}
      */
     public function getControllerName()
@@ -42,11 +47,15 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function media()
     {
-        $mediaReps = array();
-        foreach ($this->getData()->getMedia() as $media) {
-            $mediaReps[] = $this->getAdapter('media')
-                ->getRepresentation(null, $media);
+        if (empty($this->media)) {
+            $this->media = array();
+            $mediaAdapter = $this->getAdapter('media');
+            foreach ($this->getData()->getMedia() as $mediaEntity) {
+                $this->media[] = $mediaAdapter
+                    ->getRepresentation(null, $mediaEntity);
+            }
         }
-        return $mediaReps;
+        return $this->media;
+
     }
 }

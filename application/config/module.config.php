@@ -118,7 +118,8 @@ return array(
     ),
     'media_types' => array(
         'file' => array(
-            'ingester' => 'Omeka\Media\Ingester\File'
+            'ingester' => 'Omeka\Media\Ingester\File',
+            'renderer' => 'Omeka\Media\Renderer\File',
         ),
         'img' => array(
             'renderer' => 'Omeka\Media\Renderer\Img',

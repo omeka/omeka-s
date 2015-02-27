@@ -457,11 +457,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
         }
 
-        $sortedValues = array();
+        $sortedProperties = array();
         if ($template || $resortDctermsTitle) {
             foreach ($values as $prefix => $vocabulary) {
-                $sortedValues[$prefix] = array();
-                $sortedValues[$prefix]['vocabulary'] = $vocabulary['vocabulary'];
+                $sortedProperties[$prefix] = array();
+                $sortedProperties[$prefix]['vocabulary'] = $vocabulary['vocabulary'];
 
                 $templatedProperties = array();
                 $remainderProperties = array();
@@ -494,9 +494,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                         }
                     }
                 }
-                $sortedValues[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
+                $sortedProperties[$prefix]['properties'] = array_merge($templatedProperties, $remainderProperties);
             }
+            return $sortedProperties;
         }
-        return $sortedValues;
+        return $values;
     }
 }

@@ -124,7 +124,7 @@ class Request extends ZendRequest
      */
     public function setFileData($fileData)
     {
-        $this->setMetadata('fileData');
+        $this->setMetadata('fileData', $fileData);
     }
 
     /**

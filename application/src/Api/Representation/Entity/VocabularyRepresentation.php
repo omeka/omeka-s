@@ -6,12 +6,12 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     /**
      * @var array Cache of property representation members
      */
-    protected $properties = array();
+    protected $properties;
 
     /**
      * @var array Cache of resource class representation members
      */
-    protected $resourceClasses = array();
+    protected $resourceClasses;
 
     /**
      * {@inheritDoc}
@@ -99,13 +99,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function properties()
     {
-        if (empty($this->properties)) {
-            $this->properties = array();
-            $propertyAdapter = $this->getAdapter('properties');
-            foreach ($this->getData()->getProperties() as $propertyEntity) {
-                $this->properties[] = $propertyAdapter
-                    ->getRepresentation(null, $propertyEntity);
-            }
+        if (isset($this->properties)) {
+            return $this->properties;
+        }
+        $this->properties = array();
+        $propertyAdapter = $this->getAdapter('properties');
+        foreach ($this->getData()->getProperties() as $propertyEntity) {
+            $this->properties[] = $propertyAdapter
+                ->getRepresentation(null, $propertyEntity);
         }
         return $this->properties;
     }
@@ -117,13 +118,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
      public function resourceClasses()
      {
-        if (empty($this->resourceClasses)) {
-            $this->resourceClasses = array();
-            $resourceClassAdapter = $this->getAdapter('resource_classes');
-            foreach ($this->getData()->getResourceClasses() as $resourceClass) {
-                $this->resourceClasses[] = $resourceClassAdapter
-                    ->getRepresentation(null, $resourceClass);
-            }
+        if (isset($this->resourceClasses)) {
+            return $this->resourceClasses;
+        }
+        $this->resourceClasses = array();
+        $resourceClassAdapter = $this->getAdapter('resource_classes');
+        foreach ($this->getData()->getResourceClasses() as $resourceClass) {
+            $this->resourceClasses[] = $resourceClassAdapter
+                ->getRepresentation(null, $resourceClass);
         }
         return $this->resourceClasses;
      }

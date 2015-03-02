@@ -84,6 +84,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);
         }
+
+        if (array_key_exists('o:source', $data)) {
+            $entity->setSource($data['o:source']);
+        }
     }
 
     /**

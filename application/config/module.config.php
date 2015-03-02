@@ -118,13 +118,14 @@ return array(
     ),
     'media_types' => array(
         'file' => array(
-            'ingester' => 'Omeka\Media\Ingester\File'
+            'ingester' => 'Omeka\Media\Ingester\File',
+            'renderer' => 'Omeka\Media\Renderer\File',
         ),
         'img' => array(
-            'view_helper' => 'Omeka\View\Helper\MediaType\Img',
+            'renderer' => 'Omeka\Media\Renderer\Img',
         ),
         'youtube' => array(
-            'view_helper' => 'Omeka\View\Helper\MediaType\Youtube',
+            'renderer' => 'Omeka\Media\Renderer\Youtube',
         ),
     ),
     'navigation' => array(

@@ -15,7 +15,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.1.16';
+    const VERSION = '0.1.17';
 
     /**
      * @var array View helpers that need service manager injection
@@ -27,6 +27,7 @@ class Module extends AbstractModule
         'media'      => 'Omeka\View\Helper\Media',
         'nav'        => 'Omeka\View\Helper\Nav',
         'pagination' => 'Omeka\View\Helper\Pagination',
+        'trigger'    => 'Omeka\View\Helper\Trigger',
     );
 
     /**

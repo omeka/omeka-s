@@ -24,6 +24,14 @@ class FilterEvent extends ZendEvent
      */
     const RESOURCE_DISCRIMINATOR_MAP = 'resource_discriminator_map';
 
+    /**#@+
+     * Filters triggered by views.
+     *
+     * Use the view's controller name as the event identifier.
+     */
+    const VIEW_SHOW_AFTER   = 'view.show.after';
+    const VIEW_BROWSE_AFTER = 'view.browse.after';
+
     /**
      * @var mixed The argument to filter.
      */

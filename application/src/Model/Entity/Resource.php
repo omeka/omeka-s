@@ -62,6 +62,7 @@ abstract class Resource extends AbstractEntity
      *     orphanRemoval=true,
      *     cascade={"persist", "remove", "detach"}
      * )
+     * @OrderBy({"id" = "ASC"})
      */
     protected $values;
 

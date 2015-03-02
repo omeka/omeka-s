@@ -75,7 +75,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         foreach ($this->values() as $term => $property) {
             $this->addVocabularyToContext($property['property']->vocabulary());
             foreach ($property['values'] as $value) {
-                $values[$term] = $value;
+                $values[$term][] = $value;
             }
         }
 

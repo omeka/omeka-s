@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\Resource;
 use Omeka\Stdlib\ErrorStore;
@@ -86,21 +87,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
+
         // Hydrate this resource's values.
         $valueHydrator = new ValueHydrator($this);
         $valueHydrator->hydrate($data, $entity);
 
         // o:owner
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         // o:resource_class
-        $this->hydrateResourceClass($data, $entity, $isManaged);
+        $this->hydrateResourceClass($request, $entity);
 
         // o:resource_template
-        $this->hydrateResourceTemplate($data, $entity, $isManaged);
+        $this->hydrateResourceTemplate($request, $entity);
     }
 
     /**

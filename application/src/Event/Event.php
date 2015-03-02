@@ -64,6 +64,13 @@ class Event extends ZendEvent
     const ENTITY_UPDATE_POST  = 'entity.update.post';
     /**#@-*/
 
+    /**#@+
+     * Events triggered by views.
+     *
+     * Use the view's controller name as the event identifier.
+     */
+    const VIEW_LAYOUT = 'view.layout';
+
     // ACL event
     const ACL = 'acl';
 }

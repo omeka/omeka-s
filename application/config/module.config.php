@@ -46,6 +46,7 @@ return array(
         ),
         'shared' => array(
             'Omeka\Paginator' => false,
+            'Omeka\HttpClient' => false,
         ),
     ),
     'listeners' => array(
@@ -116,8 +117,16 @@ return array(
         ),
     ),
     'media_types' => array(
-        'img'     => 'Omeka\View\Helper\MediaType\Img',
-        'youtube' => 'Omeka\View\Helper\MediaType\Youtube',
+        'file' => array(
+            'ingester' => 'Omeka\Media\Ingester\File',
+            'renderer' => 'Omeka\Media\Renderer\File',
+        ),
+        'img' => array(
+            'renderer' => 'Omeka\Media\Renderer\Img',
+        ),
+        'youtube' => array(
+            'renderer' => 'Omeka\Media\Renderer\Youtube',
+        ),
     ),
     'navigation' => array(
         'admin' => array(

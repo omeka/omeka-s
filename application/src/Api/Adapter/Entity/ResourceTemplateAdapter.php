@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
 use Omeka\Model\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
@@ -63,9 +64,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateData(array $data, ErrorStore $errorStore,
-        $isManaged
-    ){
+    public function validateRequest(Request $request, ErrorStore $errorStore){
+        $data = $request->getContent();
+
         // A resource template may not have duplicate properties.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
@@ -91,7 +92,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+        ErrorStore $errorStore
     ) {
         $label = $entity->getLabel();
         if (empty(trim($label))) {
@@ -105,14 +106,16 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
+
         // o:owner
-        $this->hydrateOwner($data, $entity, $isManaged);
+        $this->hydrateOwner($request, $entity);
 
         // o:resource_class
-        $this->hydrateResourceClass($data, $entity, $isManaged);
+        $this->hydrateResourceClass($request, $entity);
 
         if (isset($data['o:label'])) {
             $entity->setLabel($data['o:label']);

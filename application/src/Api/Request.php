@@ -118,4 +118,20 @@ class Request extends ZendRequest
     {
         return $this->getMetadata('id');
     }
+
+    /**
+     * Set the file data for the request.
+     */
+    public function setFileData($fileData)
+    {
+        $this->setMetadata('fileData', $fileData);
+    }
+
+    /**
+     * Get the file data for the request.
+     */
+    public function getFileData()
+    {
+        return $this->getMetadata('fileData');
+    }
 }

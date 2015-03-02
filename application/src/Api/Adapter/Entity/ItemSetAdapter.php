@@ -54,13 +54,4 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             }
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function hydrate(array $data, EntityInterface $entity,
-        ErrorStore $errorStore, $isManaged
-    ) {
-        parent::hydrate($data, $entity, $errorStore, $isManaged);
-    }
 }

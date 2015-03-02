@@ -22,6 +22,7 @@ class MediaTest extends TestCase
         $this->assertNull($this->media->getData());
         $this->assertFalse($this->media->isPublic());
         $this->assertNull($this->media->getFilename());
+        $this->assertNull($this->media->getSource());
         $this->assertNull($this->media->getItem());
     }
 
@@ -50,6 +51,13 @@ class MediaTest extends TestCase
         $filename = 'foo.jpg';
         $this->media->setFilename($filename);
         $this->assertEquals($filename, $this->media->getFilename());
+    }
+
+    public function testSetSource()
+    {
+        $source = 'http://example.com/foo.jpg';
+        $this->media->setSource($source);
+        $this->assertEquals($source, $this->media->getSource());
     }
 
     public function testSetItem()

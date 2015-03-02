@@ -1,36 +1,34 @@
 <?php
-namespace Omeka\View\Helper\MediaType;
+namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Zend\View\Renderer\PhpRenderer;
 
-class Youtube implements MediaTypeInterface
+class Img implements RendererInterface
 {
     const WIDTH = 420;
     const HEIGHT = 315;
-    const ALLOWFULLSCREEN = true;
+    const ALT = '';
 
     /**
      * {@inheritDoc}
      */
-    public function form(MediaRepresentation $media = null, array $options = array())
+    public function form(PhpRenderer $view, MediaRepresentation $media = null, array $options = array())
     {}
 
     /**
      * {@inheritDoc}
      */
-    public function render(MediaRepresentation $media, array $options = array())
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
     {
         $options = $this->sanitizeOptions($options);
-        $data = $media->getMediaData();
-        $embed = '<iframe'
+        $data = $media->getData();
+        $embed = '<img'
                . ' width="' . $options['width'] . '"'
                . ' height="' . $options['height'] . '"'
                . ' src="' . $data['src'] . '"'
-               . ' frameborder="0"';
-        if ($options['allowfullscreen']) {
-            $embed .= ' allowfullscreen';
-        }
-        $embed .= '></iframe>';
+               . ' alt="' . $data['alt'] . '"'
+               . ' />';
         return $embed;
     }
 
@@ -42,8 +40,8 @@ class Youtube implements MediaTypeInterface
         if (!isset($options['height'])) {
             $options['height'] = self::HEIGHT;
         }
-        if (!isset($options['allowfullscreen'])) {
-            $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
+        if (!isset($options['alt'])) {
+            $options['alt'] = self::ALT;
         }
         return $options;
     }

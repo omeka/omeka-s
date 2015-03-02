@@ -3,8 +3,9 @@ namespace OmekaTest\View\Helper;
 
 use Omeka\Test\TestCase;
 use Omeka\View\Helper\Media;
+use Zend\View\Renderer\PhpRenderer;
 
-require_once __DIR__ . '/_files/MediaType.php';
+require_once __DIR__ . '/_files/Renderer.php';
 
 class MediaTest extends TestCase
 {
@@ -14,7 +15,9 @@ class MediaTest extends TestCase
 
     protected $config = array(
         'media_types' => array(
-            'test' => 'OmekaTest\View\Helper\MediaType',
+            'test' => array(
+                'renderer' => 'OmekaTest\Media\Renderer\Renderer',
+            ),
         ),
     );
 
@@ -28,6 +31,9 @@ class MediaTest extends TestCase
         $this->mediaRepresentation = $this->getMockBuilder('Omeka\Api\Representation\Entity\MediaRepresentation')
             ->disableOriginalConstructor()
             ->getMock();
+        $view = new PhpRenderer;
+        $this->media = new Media($this->serviceManager);
+        $this->media->setView($view);
     }
 
     public function testForm()
@@ -35,7 +41,6 @@ class MediaTest extends TestCase
         $this->mediaRepresentation->expects($this->once())
             ->method('type')
             ->will($this->returnValue('test'));
-        $this->media = new Media($this->serviceManager);
         $form = $this->media->form($this->mediaRepresentation, $this->options);
         $this->assertEquals(serialize($this->options), $form);
     }
@@ -45,7 +50,6 @@ class MediaTest extends TestCase
         $this->mediaRepresentation->expects($this->once())
             ->method('type')
             ->will($this->returnValue('test'));
-        $this->media = new Media($this->serviceManager);
         $render = $this->media->render($this->mediaRepresentation, $this->options);
         $this->assertEquals(serialize($this->options), $render);
     }

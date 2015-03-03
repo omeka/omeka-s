@@ -101,6 +101,12 @@
             <arg file="${scripts.data.dir}/create-schema.php"/>
         </exec>
     </target>
+    <target name="create-media-type-map"
+            description="Create a map between Internet media types and file extensions.">
+        <exec executable="php" failonerror="true">
+            <arg file="${scripts.data.dir}/create-media-type-map.php"/>
+        </exec>
+    </target>
     <target name="create-migration"
             description="Create a new migration.">
         <tstamp>

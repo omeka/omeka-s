@@ -76,10 +76,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         // If we've gotten here we're guaranteed to have a set, valid
         // media type thanks to validateRequest
-        $type = $data['o:type'];
-        $entity->setType($type);
-        $ingester = $this->getIngester();
-        $ingester->ingest($entity, $request, $errorStore);
+        $entity->setType($data['o:type']);
+        $ingester = $this->getIngester()->ingest($entity, $request, $errorStore);
 
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);

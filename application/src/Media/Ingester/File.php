@@ -101,7 +101,7 @@ class File implements IngesterInterface
         $fileData = $request->getFileData()['file'];
         $originalFilename = $fileData['name'];
         $mediaType = $this->getMediaType($fileData['tmp_name']);
-        $extension = substr(strrchr($originalFilename, '.'), 1);
+        $extension = $this->getExtension($originalFilename, $mediaType);
         $baseName = $this->getLocalBaseName($extension);
         $destination = OMEKA_PATH . '/files/' . $baseName;
 

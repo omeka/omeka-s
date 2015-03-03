@@ -140,24 +140,22 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
         $values = array();
-        foreach ($item->values() as $vocabulary) {
-            foreach ($vocabulary['properties'] as $property) {
-                foreach ($property['values'] as $value) {
-                    $valuesArray = $value->jsonSerialize(); 
-                    //look for internal resources and add their titles to the data
-                    //@TODO: should this be a filter? or maybe a method on the Representation with a param?
-                    //method would look like valuesArray($terms = array()) and
-                    //would do the job of looking up bonus values to add to the da
-                    if ($value->type() == 'resource') {
-                        $valueResource = $value->valueResource();
-                        $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
-                        if ($titleValue) {
-                            $valuesArray['dcterms:title'] = $titleValue->value();
-                        }
-                        $valuesArray['url'] = $valueResource->url();
+        foreach ($item->values() as $term => $property) {
+            foreach ($property['values'] as $value) {
+                $valuesArray = $value->jsonSerialize(); 
+                //look for internal resources and add their titles to the data
+                //@TODO: should this be a filter? or maybe a method on the Representation with a param?
+                //method would look like valuesArray($terms = array()) and
+                //would do the job of looking up bonus values to add to the da
+                if ($value->type() == 'resource') {
+                    $valueResource = $value->valueResource();
+                    $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
+                    if ($titleValue) {
+                        $valuesArray['dcterms:title'] = $titleValue->value();
                     }
-                    $values[$property['property']->term()][] = $valuesArray;
+                    $valuesArray['url'] = $valueResource->url();
                 }
+                $values[$property['property']->term()][] = $valuesArray;
             }
         }
         

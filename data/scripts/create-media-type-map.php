@@ -14,5 +14,5 @@ foreach (explode(PHP_EOL, file_get_contents($url)) as $mt) {
     preg_match_all('/[^\s]+/', $mt, $matches);
     $mediaTypes[array_shift($matches[0])] = $matches[0];
 }
-$data = sprintf("<?php\nreturn %s;", var_export($mediaTypes, true));
+$data = sprintf("<?php\nreturn %s;\n", var_export($mediaTypes, true));
 file_put_contents(dirname(__DIR__) . '/media-types/media-type-map.php', $data);

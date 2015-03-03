@@ -155,7 +155,7 @@ class ItemController extends AbstractActionController
                     }
                     $valuesArray['url'] = $valueResource->url();
                 }
-                $values[$property['property']->term()][] = $valuesArray;
+                $values[$term][] = $valuesArray;
             }
         }
         

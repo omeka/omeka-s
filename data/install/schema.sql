@@ -51,6 +51,7 @@ CREATE TABLE `media` (
   `data` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:json_array)',
   `is_public` tinyint(1) NOT NULL,
   `source` longtext COLLATE utf8_unicode_ci,
+  `media_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `filename` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_6A2CA10C126F525E` (`item_id`),

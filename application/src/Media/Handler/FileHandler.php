@@ -101,6 +101,41 @@ class FileHandler implements HandlerInterface
     }
 
     /**
+     * Ingest from the uploaded file 'file'
+     */
+    protected function ingestFromUpload(Media $media, Request $request, ErrorStore $errorStore)
+    {
+        $fileData = $request->getFileData()['file'];
+        $originalFilename = $fileData['name'];
+        $mediaType = $this->getMediaType($fileData['tmp_name']);
+        $extension = $this->getExtension($originalFilename, $mediaType);
+        $baseName = $this->getLocalBaseName($extension);
+        $destination = OMEKA_PATH . '/files/' . $baseName;
+
+        $fileInput = new FileInput('file');
+        $fileInput->getFilterChain()->attach(new RenameUpload(array(
+            'target' => $destination
+        )));
+
+        $fileInput->setValue($fileData);
+        if (!$fileInput->isValid()) {
+            foreach($fileInput->getMessages() as $message) {
+                $errorStore->addError('upload', $message);
+            }
+            return;
+        }
+
+        // Actually process and move the upload
+        $fileInput->getValue();
+
+        $media->setFilename($baseName);
+        $media->setMediaType($mediaType);
+        if (!array_key_exists('o:source', $request->getContent())) {
+            $media->setSource($originalFilename);
+        }
+    }
+
+    /**
      * Get a random base name for the ingested file.
      *
      * @param string $extension The filename extension to append

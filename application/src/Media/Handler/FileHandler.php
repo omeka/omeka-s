@@ -1,20 +1,18 @@
 <?php
-namespace Omeka\Media\Ingester;
+namespace Omeka\Media\Handler;
 
 use finfo;
+use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Omeka\Api\Request;
+use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Filter\File\RenameUpload;
-use Zend\InputFilter\FileInput;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
+use Zend\View\Renderer\PhpRenderer;
 
-/**
- * Ingester for the file media type.
- */
-class File implements IngesterInterface
+class FileHandler implements HandlerInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -23,15 +21,9 @@ class File implements IngesterInterface
      */
     protected $mediaTypeMap;
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {}
 
-    /**
-     * {@inheritDoc}
-     */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -46,10 +38,25 @@ class File implements IngesterInterface
         }
     }
 
+    public function form(PhpRenderer $view, array $options = array())
+    {}
+
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
+    {
+        $filename = $media->filename();
+        $url = $view->basePath('files/' . $filename);
+        return $view->hyperlink($filename, $url);
+    }
+
+    public function setMediaTypeMap($mediaTypeMap)
+    {
+        $this->mediaTypeMap = $mediaTypeMap;
+    }
+
     /**
      * Ingest from the passed ingest_uri
      */
-    public function ingestFromUri(Media $media, Request $request, ErrorStore $errorStore)
+    protected function ingestFromUri(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
 
@@ -169,9 +176,6 @@ class File implements IngesterInterface
      */
     protected function getExtension($originalFile, $mediaType)
     {
-        if (!isset($this->mediaTypes)) {
-            $this->mediaTypeMap = include OMEKA_PATH . '/data/media-types/media-type-map.php';
-        }
         $extension = substr(strrchr($originalFile, '.'), 1);
         if (!$extension && isset($this->mediaTypeMap[$mediaType][0])) {
             $extension = $this->mediaTypeMap[$mediaType][0];

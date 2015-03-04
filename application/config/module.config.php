@@ -25,6 +25,7 @@ return array(
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
+            'Omeka\MediaManager'          => 'Omeka\Service\MediaManagerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
@@ -116,16 +117,9 @@ return array(
             'resourceTemplateSelect' => 'Omeka\View\Helper\ResourceTemplateSelect'
         ),
     ),
-    'media_types' => array(
-        'file' => array(
-            'ingester' => 'Omeka\Media\Ingester\File',
-            'renderer' => 'Omeka\Media\Renderer\File',
-        ),
-        'img' => array(
-            'renderer' => 'Omeka\Media\Renderer\Img',
-        ),
-        'youtube' => array(
-            'renderer' => 'Omeka\Media\Renderer\Youtube',
+    'media_handlers' => array(
+        'factories' => array(
+            'file' => 'Omeka\Service\FileHandlerFactory',
         ),
     ),
     'navigation' => array(

@@ -25,20 +25,15 @@ class Media extends AbstractHelper
     }
 
     /**
-     * Return the HTML necessary to render an add/edit form.
+     * Return the HTML necessary to render an add form.
      *
-     * @param string|MediaRepresentation $mediaType
+     * @param string $mediaType
      * @param array $options Global options for the media type
      * @return string
      */
     public function form($mediaType, array $options = array())
     {
-        $media = null;
-        if ($mediaType instanceof MediaRepresentation) {
-            $media = $mediaType;
-            $mediaType = $media->type();
-        }
-        return $this->getMediaRenderer($mediaType)->form($this->getView(), $media, $options);
+        return $this->getMediaRenderer($mediaType)->form($this->getView(), $options);
     }
 
     /**

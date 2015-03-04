@@ -38,10 +38,7 @@ class MediaTest extends TestCase
 
     public function testForm()
     {
-        $this->mediaRepresentation->expects($this->once())
-            ->method('type')
-            ->will($this->returnValue('test'));
-        $form = $this->media->form($this->mediaRepresentation, $this->options);
+        $form = $this->media->form('test', $this->options);
         $this->assertEquals(serialize($this->options), $form);
     }
 

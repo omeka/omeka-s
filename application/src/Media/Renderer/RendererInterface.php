@@ -10,11 +10,10 @@ interface RendererInterface
      * Return the HTML necessary to render an add/edit form.
      *
      * @param PhpRenderer $view
-     * @param MediaRepresentation|null $media
      * @param array $options
      * @return string
      */
-    public function form(PhpRenderer $view, MediaRepresentation $media = null, array $options = array());
+    public function form(PhpRenderer $view, array $options = array());
 
     /**
      * Return the HTML necessary to render the provided media.

@@ -13,7 +13,7 @@ class Img implements RendererInterface
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, MediaRepresentation $media = null, array $options = array())
+    public function form(PhpRenderer $view, array $options = array())
     {}
 
     /**

@@ -23,6 +23,7 @@ return array(
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'Omeka\FileStore\Local'       => 'Omeka\Service\FileStoreLocalFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaManager'          => 'Omeka\Service\MediaManagerFactory',
@@ -43,7 +44,8 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
-            'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
+            'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
+            'Omeka\FileStore' => 'Omeka\FileStore\Local',
         ),
         'shared' => array(
             'Omeka\Paginator' => false,

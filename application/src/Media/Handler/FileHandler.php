@@ -43,9 +43,9 @@ class FileHandler implements HandlerInterface
 
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
     {
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         $filename = $media->filename();
-        $url = $view->basePath('files/' . $filename);
-        return $view->hyperlink($filename, $url);
+        return $view->hyperlink($filename, $fileStore->getUri($filename));
     }
 
     public function setMediaTypeMap($mediaTypeMap)
@@ -83,15 +83,10 @@ class FileHandler implements HandlerInterface
         $mediaType = $this->getMediaType($origin);
         $extension = $this->getExtension($uri->getPath(), $mediaType);
         $baseName = $this->getLocalBaseName($extension);
-        $destination = sprintf('%s/files/%s', OMEKA_PATH, $baseName);
-        $status = @rename($origin, $destination);
 
-        if (!$status) {
-            $errorStore->addError('ingest_uri', 'Failed to move ingested file to the files directory');
-            return;
-        }
-
-        chmod($destination, 0644);
+        chmod($origin, 0644);
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $fileStore->put($origin, $baseName);
 
         $media->setFilename($baseName);
         $media->setMediaType($mediaType);

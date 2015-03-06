@@ -14,8 +14,6 @@ a collaboratively built pool of items and their metadata.
    * `$ ant init`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name.
-1. Generate proxy files needed by Doctrine (one time only)
-   * `$ ant generate-proxies`
 1. In your web browser, navigate to the omeka-s/install directory, where you can
    complete installation.
 

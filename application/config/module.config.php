@@ -296,6 +296,11 @@ return array(
         'mapping_classes_paths' => array(
             OMEKA_PATH . '/application/src/Model/Entity',
         ),
+        'resource_discriminator_map' => array(
+            'Omeka\Model\Entity\Item'    => 'Omeka\Model\Entity\Item',
+            'Omeka\Model\Entity\Media'   => 'Omeka\Model\Entity\Media',
+            'Omeka\Model\Entity\ItemSet' => 'Omeka\Model\Entity\ItemSet',
+        ),
     ),
     'installation_manager' => array(
         'tasks' => array(

@@ -2,7 +2,6 @@
 namespace Omeka\Db\Event\Listener;
 
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
-use Omeka\Event\FilterEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -11,48 +10,28 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ResourceDiscriminatorMap
 {
     /**
-     * @var array Default entity resources
+     * @var array
      */
-    protected $defaultResources = array(
-        'Omeka\Model\Entity\Item' => 'Omeka\Model\Entity\Item', 
-        'Omeka\Model\Entity\Media' => 'Omeka\Model\Entity\Media', 
-        'Omeka\Model\Entity\ItemSet' => 'Omeka\Model\Entity\ItemSet', 
-    );
-    
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
+    protected $discriminatorMap;
 
     /**
-     * @var EventManagerInterface
+     * Set the resource discriminator map.
      */
-    protected $events;
-
-    /**
-     * Set the service locator.
-     */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $discriminatorMap)
     {
-        $this->services = $serviceLocator;
-        $this->events = $serviceLocator->get('EventManager');
-        $this->events->setIdentifiers(get_class($this));
+        $this->discriminatorMap = $discriminatorMap;
     }
 
+    /**
+     * Attach the discriminator map to the Resource entity.
+     *
+     * @param LoadClassMetadataEventArgs $event
+     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $event)
     {
         $classMetadata = $event->getClassMetadata();
-        if ('Omeka\Model\Entity\Resource' != $classMetadata->name) {
-            return;
+        if ('Omeka\Model\Entity\Resource' == $classMetadata->name) {
+            $classMetadata->discriminatorMap = $this->discriminatorMap;
         }
-
-        // Modules can extend the resource discriminator map using a filter.
-        $event = new FilterEvent;
-        $event->setArg($this->defaultResources);
-        $this->events->trigger(FilterEvent::RESOURCE_DISCRIMINATOR_MAP, $event);
-        $this->defaultResources = $event->getArg();
-
-        // Load default resources.
-        $classMetadata->discriminatorMap = $this->defaultResources;
     }
 }

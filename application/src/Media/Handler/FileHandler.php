@@ -8,6 +8,7 @@ use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Math\Rand;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
@@ -41,11 +42,18 @@ class FileHandler implements HandlerInterface
     public function form(PhpRenderer $view, array $options = array())
     {}
 
-    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
-    {
-        $filename = $media->filename();
-        $url = $view->basePath('files/' . $filename);
-        return $view->hyperlink($filename, $url);
+    public function render(PhpRenderer $view, MediaRepresentation $media,
+        array $options = array()
+    ) {
+        try {
+            $renderer = $this->getServiceLocator()
+                ->get('Omeka\FileRendererManager')
+                ->get($media->mediaType());
+            return $renderer->render($view, $media, $options);
+        } catch (ServiceNotFoundException $e) {
+            $url = $view->basePath('files/' . $media->filename());
+            return $view->hyperlink($media->filename(), $url);
+        }
     }
 
     public function setMediaTypeMap($mediaTypeMap)

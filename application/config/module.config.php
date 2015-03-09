@@ -23,6 +23,7 @@ return array(
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
+            'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
@@ -120,6 +121,16 @@ return array(
     'media_handlers' => array(
         'factories' => array(
             'file' => 'Omeka\Service\FileHandlerFactory',
+        ),
+    ),
+    'file_renderers' => array(
+        'invokables' => array(
+            'image'  => 'Omeka\Media\File\Renderer\ImageRenderer',
+        ),
+        'aliases' => array(
+            'image/png'  => 'image',
+            'image/jpeg' => 'image',
+            'image/gif'  => 'image',
         ),
     ),
     'navigation' => array(

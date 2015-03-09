@@ -13,14 +13,14 @@ class MediaTest extends TestCase
     {
         $testHandler = $this->getMock('Omeka\Media\Handler\FileHandler');
 
-        $mediaManager = $this->getMock('Omeka\Media\Manager');
+        $mediaManager = $this->getMock('Omeka\Media\Handler\Manager');
         $mediaManager->expects($this->once())
             ->method('get')
             ->with($this->equalTo('file'))
             ->will($this->returnValue($testHandler));
 
         $this->serviceManager = $this->getServiceManager(array(
-            'Omeka\MediaManager' => $mediaManager,
+            'Omeka\MediaHandlerManager' => $mediaManager,
         ));
     }
 

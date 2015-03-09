@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media;
+namespace Omeka\Media\Handler;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;

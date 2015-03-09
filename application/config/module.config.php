@@ -25,7 +25,7 @@ return array(
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
-            'Omeka\MediaManager'          => 'Omeka\Service\MediaManagerFactory',
+            'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',

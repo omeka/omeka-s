@@ -11,8 +11,8 @@ class Manager extends AbstractPluginManager
     /**
      * Do not replace strings during canonicalization.
      *
-     * This prevents distinct yet similarly named media handlers (such as
-     * "foo_bar" and "foobar") from referencing the same handler instance.
+     * This prevents distinct yet similarly named media types from referencing
+     * the same handler instance.
      *
      * {@inheritDoc}
      */
@@ -24,18 +24,9 @@ class Manager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        $this->addInitializer(array($this, 'injectAdapterDependencies'), false);
-    }
-
-    /**
-     * Inject required dependencies into the handler.
-     *
-     * {@inheritDoc}
-     */
-    public function injectAdapterDependencies($handler,
-        ServiceLocatorInterface $serviceLocator
-    ) {
-        $handler->setServiceLocator($serviceLocator->getServiceLocator());
+        $this->addInitializer(function($instance, $serviceLocator) {
+            $instance->setServiceLocator($serviceLocator->getServiceLocator());
+        }, false);
     }
 
     /**

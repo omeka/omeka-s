@@ -11,8 +11,8 @@ class Manager extends AbstractPluginManager
     /**
      * Do not replace strings during canonicalization.
      *
-     * This prevents distinct yet similarly named resources (such as "foo_bar"
-     * and "foobar") from referencing the same adapter instance.
+     * This prevents distinct yet similarly named resources from referencing the
+     * same adapter instance.
      *
      * {@inheritDoc}
      */
@@ -24,28 +24,12 @@ class Manager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        $this->addInitializer(array($this, 'injectAdapterDependencies'), false);
+        $this->addInitializer(function($instance, $serviceLocator) {
+            $instance->setServiceLocator($serviceLocator->getServiceLocator());
+        }, false);
     }
 
     /**
-     * Inject required dependencies into the adapter.
-     *
-     * {@inheritDoc}
-     */
-    public function injectAdapterDependencies($adapter,
-        ServiceLocatorInterface $serviceLocator
-    ) {
-        $adapter->setServiceLocator($serviceLocator->getServiceLocator());
-    }
-
-    /**
-     * All API adapters must implement the following interfaces:
-     *
-     * - Omeka\Api\Adapter\AdapterInterface
-     * - Zend\ServiceManager\ServiceLocatorAwareInterface
-     * - Zend\EventManager\EventManagerAwareInterface
-     * - Zend\Permissions\Acl\Resource\ResourceInterface
-     *
      * {@inheritDoc}
      */
     public function validatePlugin($plugin)

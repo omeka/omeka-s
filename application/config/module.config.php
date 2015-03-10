@@ -174,6 +174,9 @@ return array(
         'factories' => array(
             'file' => 'Omeka\Service\FileHandlerFactory',
         ),
+        'invokables' => array(
+            'youtube' => 'Omeka\Media\Handler\YoutubeHandler',
+        ),
     ),
     'file_renderers' => array(
         'invokables' => array(

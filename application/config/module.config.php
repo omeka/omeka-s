@@ -24,6 +24,7 @@ return array(
         'login'       => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),
+    'temp_dir' => sys_get_temp_dir(),
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
@@ -84,6 +85,7 @@ return array(
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
+            'Omeka\FileStore\Local'       => 'Omeka\Service\FileStoreLocalFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
@@ -105,6 +107,7 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
         ),
         'aliases' => array(
+            'Omeka\FileStore' => 'Omeka\FileStore\Local',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
         'shared' => array(

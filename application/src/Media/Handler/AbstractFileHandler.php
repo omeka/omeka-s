@@ -25,7 +25,8 @@ abstract class AbstractFileHandler implements HandlerInterface
                 ->get($media->mediaType());
             return $renderer->render($view, $media, $options);
         } catch (ServiceNotFoundException $e) {
-            $url = $view->basePath('files/' . $media->filename());
+            $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+            $url = $fileStore->getUri($media->filename());
             return $view->hyperlink($media->filename(), $url);
         }
     }

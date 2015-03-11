@@ -33,8 +33,10 @@ class UrlHandler extends AbstractFileHandler
             return;
         }
 
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $client->setUri($uri)->setStream();
+        $services = $this->getServiceLocator();
+        $tempDir = $services->get('Config')['temp_dir'];
+        $client = $services->get('Omeka\HttpClient');
+        $client->setUri($uri)->setStream(tempnam($tempDir, 'ingest'));
         $response = $client->send();
 
         if (!$response->isOk()) {
@@ -50,15 +52,10 @@ class UrlHandler extends AbstractFileHandler
         $mediaType = $this->getMediaType($origin);
         $extension = $this->getExtension($uri->getPath(), $mediaType);
         $baseName = $this->getLocalBaseName($extension);
-        $destination = sprintf('%s/files/%s', OMEKA_PATH, $baseName);
-        $status = @rename($origin, $destination);
 
-        if (!$status) {
-            $errorStore->addError('ingest_uri', 'Failed to move ingested file to the files directory');
-            return;
-        }
-
-        chmod($destination, 0644);
+        chmod($origin, 0644);
+        $fileStore = $services->get('Omeka\FileStore');
+        $fileStore->put($origin, $baseName);
 
         $media->setFilename($baseName);
         $media->setMediaType($mediaType);

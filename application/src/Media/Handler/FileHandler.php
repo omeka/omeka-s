@@ -77,8 +77,10 @@ class FileHandler implements HandlerInterface
             return;
         }
 
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $client->setUri($uri)->setStream();
+        $services = $this->getServiceLocator();
+        $tempDir = $services->get('Config')['temp_dir'];
+        $client = $services->get('Omeka\HttpClient');
+        $client->setUri($uri)->setStream(tempnam($tempDir, 'ingest'));
         $response = $client->send();
 
         if (!$response->isOk()) {
@@ -96,7 +98,7 @@ class FileHandler implements HandlerInterface
         $baseName = $this->getLocalBaseName($extension);
 
         chmod($origin, 0644);
-        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $fileStore = $services->get('Omeka\FileStore');
         $fileStore->put($origin, $baseName);
 
         $media->setFilename($baseName);
@@ -111,12 +113,15 @@ class FileHandler implements HandlerInterface
      */
     protected function ingestFromUpload(Media $media, Request $request, ErrorStore $errorStore)
     {
+        $services = $this->getServiceLocator();
+        $tempDir = $services->get('Config')['temp_dir'];
+
         $fileData = $request->getFileData()['file'];
         $originalFilename = $fileData['name'];
         $mediaType = $this->getMediaType($fileData['tmp_name']);
         $extension = $this->getExtension($originalFilename, $mediaType);
         $baseName = $this->getLocalBaseName($extension);
-        $destination = OMEKA_PATH . '/files/' . $baseName;
+        $destination = $tempDir . DIRECTORY_SEPARATOR . $baseName;
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload(array(
@@ -133,6 +138,9 @@ class FileHandler implements HandlerInterface
 
         // Actually process and move the upload
         $fileInput->getValue();
+
+        $fileStore = $services->get('Omeka\FileStore');
+        $fileStore->put($destination, $baseName);
 
         $media->setFilename($baseName);
         $media->setMediaType($mediaType);

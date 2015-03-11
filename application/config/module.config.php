@@ -24,6 +24,7 @@ return array(
         'login'       => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),
+    'temp_dir' => sys_get_temp_dir(),
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(

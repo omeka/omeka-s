@@ -13,23 +13,23 @@ $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
 $logger = $serviceLocator->get('Omeka\Logger');
 
-$options = getopt('j:p:');
-if (!isset($options['j'])) {
-    $logger->err('No job ID given; use -j <id>');
+$options = getopt(null, array('job-id:', 'base-path:'));
+if (!isset($options['job-id'])) {
+    $logger->err('No job ID given; use --job-id <id>');
     exit;
 }
-if (!isset($options['p'])) {
-    $logger->err('No base path given; use -p <basePath>');
+if (!isset($options['base-path'])) {
+    $logger->err('No base path given; use --base-path <basePath>');
     exit;
 }
 
-$serviceLocator->get('ViewHelperManager')->get('BasePath')->setBasePath($options['p']);
-
-$job = $entityManager->find('Omeka\Model\Entity\Job', $options['j']);
+$job = $entityManager->find('Omeka\Model\Entity\Job', $options['job-id']);
 if (!$job) {
     $logger->err('There is no job with the given ID');
     exit;
 }
+
+$serviceLocator->get('ViewHelperManager')->get('BasePath')->setBasePath($options['base-path']);
 
 // Set the job owner as the authenticated identity.
 $owner = $job->getOwner();

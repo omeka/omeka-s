@@ -35,6 +35,11 @@ class Media extends Resource
     /**
      * @Column(nullable=true)
      */
+    protected $mediaType;
+
+    /**
+     * @Column(nullable=true)
+     */
     protected $filename;
 
     /**
@@ -91,6 +96,16 @@ class Media extends Resource
     public function getSource()
     {
         return $this->source;
+    }
+
+    public function setMediaType($mediaType)
+    {
+        $this->mediaType = $mediaType;
+    }
+
+    public function getMediaType()
+    {
+        return $this->mediaType;
     }
 
     public function setFilename($filename)

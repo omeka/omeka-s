@@ -7,7 +7,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Renderer implements RendererInterface
 {
-    public function form(PhpRenderer $view, MediaRepresentation $media = null, array $options = array())
+    public function form(PhpRenderer $view, array $options = array())
     {
         return serialize($options);
     }

@@ -5,52 +5,42 @@ use Omeka\Test\TestCase;
 use Omeka\View\Helper\Media;
 use Zend\View\Renderer\PhpRenderer;
 
-require_once __DIR__ . '/_files/Renderer.php';
-
 class MediaTest extends TestCase
 {
     protected $serviceManager;
 
-    protected $mediaRepresentation;
-
-    protected $config = array(
-        'media_types' => array(
-            'test' => array(
-                'renderer' => 'OmekaTest\Media\Renderer\Renderer',
-            ),
-        ),
-    );
-
-    protected $options = array('foo' => 'bar');
-
     public function setUp()
     {
-        $this->serviceManager = $this->getServiceManager(
-            array('Config' => $this->config)
-        );
-        $this->mediaRepresentation = $this->getMockBuilder('Omeka\Api\Representation\Entity\MediaRepresentation')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $view = new PhpRenderer;
-        $this->media = new Media($this->serviceManager);
-        $this->media->setView($view);
+        $testHandler = $this->getMock('Omeka\Media\Handler\FileHandler');
+
+        $mediaManager = $this->getMock('Omeka\Media\Manager');
+        $mediaManager->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('file'))
+            ->will($this->returnValue($testHandler));
+
+        $this->serviceManager = $this->getServiceManager(array(
+            'Omeka\MediaManager' => $mediaManager,
+        ));
     }
 
     public function testForm()
     {
-        $this->mediaRepresentation->expects($this->once())
-            ->method('type')
-            ->will($this->returnValue('test'));
-        $form = $this->media->form($this->mediaRepresentation, $this->options);
-        $this->assertEquals(serialize($this->options), $form);
+        $media = new Media($this->serviceManager);
+        $media->setView($this->getMock('Zend\View\Renderer\PhpRenderer'));
+        $media->form('file', array());
     }
 
     public function testRender()
     {
-        $this->mediaRepresentation->expects($this->once())
+        $media = new Media($this->serviceManager);
+        $media->setView($this->getMock('Zend\View\Renderer\PhpRenderer'));
+        $mediaRep = $this->getMockBuilder('Omeka\Api\Representation\Entity\MediaRepresentation')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mediaRep->expects($this->once())
             ->method('type')
-            ->will($this->returnValue('test'));
-        $render = $this->media->render($this->mediaRepresentation, $this->options);
-        $this->assertEquals(serialize($this->options), $render);
+            ->will($this->returnValue('file'));
+        $media->render($mediaRep, array());
     }
 }

@@ -7,6 +7,8 @@ use Omeka\Api\Request;
 use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Filter\File\RenameUpload;
+use Zend\InputFilter\FileInput;
 use Zend\Math\Rand;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

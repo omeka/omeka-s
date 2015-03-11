@@ -91,6 +91,7 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
+            'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -171,10 +172,9 @@ return array(
         ),
     ),
     'media_handlers' => array(
-        'factories' => array(
-            'file' => 'Omeka\Service\FileHandlerFactory',
-        ),
         'invokables' => array(
+            'url'     => 'Omeka\Media\Handler\UrlHandler',
+            'upload'  => 'Omeka\Media\Handler\UploadHandler',
             'youtube' => 'Omeka\Media\Handler\YoutubeHandler',
         ),
     ),

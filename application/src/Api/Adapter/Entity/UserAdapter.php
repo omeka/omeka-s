@@ -87,7 +87,7 @@ class UserAdapter extends AbstractEntityAdapter
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         $username = $entity->getUsername();
-        if (empty($username)) {
+        if (false == $username) {
             $errorStore->addError('o:username', 'The username cannot be empty.');
         }
         if (preg_match('/\s/u', $username)) {
@@ -100,7 +100,7 @@ class UserAdapter extends AbstractEntityAdapter
             ));
         }
 
-        if (empty($entity->getName())) {
+        if (false == $entity->getName()) {
             $errorStore->addError('o:name', 'The name cannot be empty.');
         }
 
@@ -116,7 +116,7 @@ class UserAdapter extends AbstractEntityAdapter
             ));
         }
 
-        if (empty($entity->getRole())) {
+        if (false == $entity->getRole()) {
             $errorStore->addError('o:role', 'Users must have a role.');
         }
     }

@@ -156,7 +156,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     {
         // Validate namespace URI
         $namespaceUri = $entity->getNamespaceUri();
-        if (empty($namespaceUri)) {
+        if (false == $entity->getNamespaceUri()) {
             $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
         }
         if (!$this->isUnique($entity, array('namespaceUri' => $namespaceUri))) {
@@ -168,7 +168,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
         // Validate prefix
         $prefix = $entity->getPrefix();
-        if (empty($prefix)) {
+        if (false == $entity->getPrefix()) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
         }
         if (!$this->isUnique($entity, array('prefix' => $prefix))) {
@@ -179,8 +179,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
 
         // Validate label
-        $label = $entity->getLabel();
-        if (empty($label)) {
+        if (false == $entity->getLabel()) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
 

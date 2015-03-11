@@ -13,12 +13,14 @@ class PhpCliStrategy extends AbstractStrategy
     public function send(Job $job)
     {
         $script = OMEKA_PATH . '/data/scripts/perform-job.php';
+        $basePath = $this->getServiceLocator()->get('ViewHelperManager')->get('BasePath');
 
         $command = sprintf(
-            '%s %s -j %s',
+            '%s %s -j %s -p %s',
             escapeshellcmd($this->getPhpcliPath()),
             escapeshellarg($script),
-            escapeshellarg($job->getId())
+            escapeshellarg($job->getId()),
+            escapeshellarg($basePath())
         );
 
         exec(sprintf('%s > /dev/null 2>&1 &', $command));

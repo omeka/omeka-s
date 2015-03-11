@@ -13,11 +13,17 @@ $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
 $logger = $serviceLocator->get('Omeka\Logger');
 
-$options = getopt('j:');
+$options = getopt('j:p:');
 if (!isset($options['j'])) {
     $logger->err('No job ID given; use -j <id>');
     exit;
 }
+if (!isset($options['p'])) {
+    $logger->err('No base path given; use -p <basePath>');
+    exit;
+}
+
+$serviceLocator->get('ViewHelperManager')->get('BasePath')->setBasePath($options['p']);
 
 $job = $entityManager->find('Omeka\Model\Entity\Job', $options['j']);
 if (!$job) {

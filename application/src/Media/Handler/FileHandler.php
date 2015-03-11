@@ -7,6 +7,8 @@ use Omeka\Api\Request;
 use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Filter\File\RenameUpload;
+use Zend\InputFilter\FileInput;
 use Zend\Math\Rand;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -51,7 +53,8 @@ class FileHandler implements HandlerInterface
                 ->get($media->mediaType());
             return $renderer->render($view, $media, $options);
         } catch (ServiceNotFoundException $e) {
-            $url = $view->basePath('files/' . $media->filename());
+            $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+            $url = $fileStore->getUri($media->filename());
             return $view->hyperlink($media->filename(), $url);
         }
     }
@@ -74,8 +77,10 @@ class FileHandler implements HandlerInterface
             return;
         }
 
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $client->setUri($uri)->setStream();
+        $services = $this->getServiceLocator();
+        $tempDir = $services->get('Config')['temp_dir'];
+        $client = $services->get('Omeka\HttpClient');
+        $client->setUri($uri)->setStream(tempnam($tempDir, 'ingest'));
         $response = $client->send();
 
         if (!$response->isOk()) {
@@ -91,15 +96,10 @@ class FileHandler implements HandlerInterface
         $mediaType = $this->getMediaType($origin);
         $extension = $this->getExtension($uri->getPath(), $mediaType);
         $baseName = $this->getLocalBaseName($extension);
-        $destination = sprintf('%s/files/%s', OMEKA_PATH, $baseName);
-        $status = @rename($origin, $destination);
 
-        if (!$status) {
-            $errorStore->addError('ingest_uri', 'Failed to move ingested file to the files directory');
-            return;
-        }
-
-        chmod($destination, 0644);
+        chmod($origin, 0644);
+        $fileStore = $services->get('Omeka\FileStore');
+        $fileStore->put($origin, $baseName);
 
         $media->setFilename($baseName);
         $media->setMediaType($mediaType);
@@ -113,12 +113,15 @@ class FileHandler implements HandlerInterface
      */
     protected function ingestFromUpload(Media $media, Request $request, ErrorStore $errorStore)
     {
+        $services = $this->getServiceLocator();
+        $tempDir = $services->get('Config')['temp_dir'];
+
         $fileData = $request->getFileData()['file'];
         $originalFilename = $fileData['name'];
         $mediaType = $this->getMediaType($fileData['tmp_name']);
         $extension = $this->getExtension($originalFilename, $mediaType);
         $baseName = $this->getLocalBaseName($extension);
-        $destination = OMEKA_PATH . '/files/' . $baseName;
+        $destination = $tempDir . DIRECTORY_SEPARATOR . $baseName;
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload(array(
@@ -135,6 +138,9 @@ class FileHandler implements HandlerInterface
 
         // Actually process and move the upload
         $fileInput->getValue();
+
+        $fileStore = $services->get('Omeka\FileStore');
+        $fileStore->put($destination, $baseName);
 
         $media->setFilename($baseName);
         $media->setMediaType($mediaType);

@@ -11,7 +11,7 @@ class MediaTest extends TestCase
 
     public function setUp()
     {
-        $testHandler = $this->getMock('Omeka\Media\Handler\FileHandler');
+        $testHandler = $this->getMock('Omeka\Media\Handler\UrlHandler');
 
         $mediaManager = $this->getMock('Omeka\Media\Handler\Manager');
         $mediaManager->expects($this->once())

@@ -188,14 +188,12 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         // Validate local name
-        $localName = $entity->getLocalName();
-        if (empty($localName)) {
+        if (false == $entity->getLocalName()) {
             $errorStore->addError('o:local_name', 'The local name cannot be empty.');
         }
 
         // Validate label
-        $label = $entity->getLabel();
-        if (empty($label)) {
+        if (false == $entity->getLabel()) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
 

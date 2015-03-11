@@ -84,11 +84,11 @@ class SiteAdapter extends AbstractEntityAdapter
             ));
         }
 
-        if (empty($entity->getTitle())) {
+        if (false == $entity->getTitle()) {
             $errorStore->addError('o:title', 'A site must have a title.');
         }
 
-        if (empty($entity->getTheme())) {
+        if (false == $entity->getTheme()) {
             $errorStore->addError('o:theme', 'A site must have a theme.');
         }
 

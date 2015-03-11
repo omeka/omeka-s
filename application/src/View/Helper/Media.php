@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Omeka\Media\Manager as MediaManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
@@ -9,9 +10,9 @@ use Zend\View\Helper\AbstractHelper;
 class Media extends AbstractHelper
 {
     /**
-     * @var array
+     * @var MediaManager
      */
-    protected $mediaTypes;
+    protected $mediaManager;
 
     /**
      * Construct the helper.
@@ -20,25 +21,20 @@ class Media extends AbstractHelper
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
-        $this->mediaTypes = $config['media_types'];
+        $this->mediaManager = $serviceLocator->get('Omeka\MediaManager');
     }
 
     /**
-     * Return the HTML necessary to render an add/edit form.
+     * Return the HTML necessary to render an add form.
      *
-     * @param string|MediaRepresentation $mediaType
+     * @param string $mediaType
      * @param array $options Global options for the media type
      * @return string
      */
     public function form($mediaType, array $options = array())
     {
-        $media = null;
-        if ($mediaType instanceof MediaRepresentation) {
-            $media = $mediaType;
-            $mediaType = $media->type();
-        }
-        return $this->getMediaRenderer($mediaType)->form($this->getView(), $media, $options);
+        return $this->mediaManager->get($mediaType)
+            ->form($this->getView(), $options);
     }
 
     /**
@@ -50,23 +46,7 @@ class Media extends AbstractHelper
      */
     public function render(MediaRepresentation $media, array $options = array())
     {
-        return $this->getMediaRenderer($media->type())->render($this->getView(), $media, $options);
-    }
-
-    /**
-     * Get the media renderer object.
-     *
-     * @param string $mediaType
-     * @return MediaTypeInterface
-     */
-    protected function getMediaRenderer($mediaType)
-    {
-        if (!isset($this->mediaTypes[$mediaType]['renderer'])) {
-            throw new Exception\InvalidArgumentException('Media renderer not registered.');
-        }
-        if (!class_exists($this->mediaTypes[$mediaType]['renderer'])) {
-            throw new Exception\RuntimeException('Media type renderer does not exist.');
-        }
-        return new $this->mediaTypes[$mediaType]['renderer'];
+        return $this->mediaManager->get($media->type())
+            ->render($this->getView(), $media, $options);
     }
 }

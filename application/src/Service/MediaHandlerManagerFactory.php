@@ -1,8 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Exception;
-use Omeka\Media\Manager as MediaManager;
+use Omeka\Media\Handler\Manager;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -10,17 +9,17 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Media manager factory.
  */
-class MediaManagerFactory implements FactoryInterface
+class MediaHandlerManagerFactory implements FactoryInterface
 {
     /**
-     * Create the media manager service.
+     * Create the media handler manager service.
      * 
      * @param ServiceLocatorInterface $serviceLocator
-     * @return ApiManager
+     * @return Manager
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        return new MediaManager(new Config($config['media_handlers']));
+        return new Manager(new Config($config['media_handlers']));
     }
 }

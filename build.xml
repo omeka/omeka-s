@@ -64,8 +64,11 @@
             <mapper type="glob" from="*.dist" to="*"/>
         </copy>
     </target>
-    <target name="generate-proxies"
-            description="Generate Doctrine proxies.">
+    <target name="update-db-data"
+            depends="create-schema,generate-proxies"
+            description="Update database-related data files after changes to the ORM entities."
+    />
+    <target name="generate-proxies">
         <exec executable="./vendor/bin/doctrine" failonerror="true">
             <arg value="orm:generate-proxies"/>
         </exec>
@@ -95,8 +98,7 @@
         <delete dir="${build.dir}" quiet="true"/>
         <delete dir="${composer.vendor.path}" quiet="true"/>
     </target>
-    <target name="create-schema"
-            description="Create optimized schema SQL for installation.">
+    <target name="create-schema">
         <exec executable="php" failonerror="true">
             <arg file="${scripts.data.dir}/create-schema.php"/>
         </exec>

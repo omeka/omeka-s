@@ -32,16 +32,17 @@ abstract class AbstractJob implements JobInterface
      * Assumes that the job arguments are an array.
      *
      * @param string $name
+     * @param mixed $default
      * @return mixed|null
      */
-    public function getArg($name)
+    public function getArg($name, $default = null)
     {
         $args = $this->job->getArgs();
         if (!is_array($args)) {
-            return null;
+            return $default;
         }
         if (!array_key_exists($name, $args)) {
-            return null;
+            return $default;
         }
         return $args[$name];
     }

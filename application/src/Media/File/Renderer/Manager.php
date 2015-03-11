@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter;
+namespace Omeka\Media\File\Renderer;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -11,8 +11,8 @@ class Manager extends AbstractPluginManager
     /**
      * Do not replace strings during canonicalization.
      *
-     * This prevents distinct yet similarly named resources from referencing the
-     * same adapter instance.
+     * This prevents distinct yet similarly named media types from referencing
+     * the same renderer instance.
      *
      * {@inheritDoc}
      */
@@ -34,9 +34,9 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\Api\Adapter\AdapterInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\Media\File\Renderer\RendererInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
-                'The adapter class "%1$s" does not implement Omeka\Api\Adapter\AdapterInterface.',
+                'The file renderer class "%1$s" does not implement Omeka\Media\File\Renderer\RendererInterface.',
                 get_class($plugin)
             ));
         }

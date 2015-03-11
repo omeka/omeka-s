@@ -98,7 +98,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             return;
         }
 
-        $handler = $this->getServiceLocator()->get('Omeka\MediaManager')
+        $handler = $this->getServiceLocator()->get('Omeka\MediaHandlerManager')
             ->get($data['o:type']);
         $this->setHandler($handler);
         $handler->validateRequest($request, $errorStore);

@@ -209,27 +209,7 @@ class ValueHydratorTest extends TestCase
                 $this->equalTo($nodeObject['term'][0]['property_id'])
             )
             ->will($this->returnValue($property));
-        $entityManager->expects($this->once())
-            ->method('persist')
-            ->with($this->callback(function ($value) use ($nodeObject) {
-                if (!$value->getResource() instanceof Resource) {
-                    return false;
-                }
-                if (!$value->getProperty() instanceof Property) {
-                    return false;
-                }
-                if (Value::TYPE_LITERAL !== $value->getType()) {
-                    return false;
-                }
-                if ($nodeObject['term'][0]['@value'] !== $value->getValue()) {
-                    return false;
-                }
-                if ($nodeObject['term'][0]['@language'] !== $value->getLang()) {
-                    return false;
-                }
-                return true;
-            }));
-        $this->adapter->expects($this->exactly(2))
+        $this->adapter->expects($this->once())
             ->method('getEntityManager')
             ->will($this->returnValue($entityManager));
 
@@ -265,24 +245,7 @@ class ValueHydratorTest extends TestCase
                 $this->equalTo($nodeObject['term'][0]['value_resource_id'])
             )
             ->will($this->returnValue($valueResource));
-        $entityManager->expects($this->once())
-            ->method('persist')
-            ->with($this->callback(function ($value) use ($nodeObject) {
-                if (!$value->getResource() instanceof Resource) {
-                    return false;
-                }
-                if (!$value->getProperty() instanceof Property) {
-                    return false;
-                }
-                if (Value::TYPE_RESOURCE !== $value->getType()) {
-                    return false;
-                }
-                if (!$value->getValueResource() instanceof Resource) {
-                    return false;
-                }
-                return true;
-            }));
-        $this->adapter->expects($this->exactly(3))
+        $this->adapter->expects($this->exactly(2))
             ->method('getEntityManager')
             ->will($this->returnValue($entityManager));
 
@@ -310,24 +273,7 @@ class ValueHydratorTest extends TestCase
                 $this->equalTo($nodeObject['term'][0]['property_id'])
             )
             ->will($this->returnValue($property));
-        $entityManager->expects($this->once())
-            ->method('persist')
-            ->with($this->callback(function ($value) use ($nodeObject) {
-                if (!$value->getResource() instanceof Resource) {
-                    return false;
-                }
-                if (!$value->getProperty() instanceof Property) {
-                    return false;
-                }
-                if (Value::TYPE_URI !== $value->getType()) {
-                    return false;
-                }
-                if ($nodeObject['term'][0]['@id'] !== $value->getValue()) {
-                    return false;
-                }
-                return true;
-            }));
-        $this->adapter->expects($this->exactly(2))
+        $this->adapter->expects($this->once())
             ->method('getEntityManager')
             ->will($this->returnValue($entityManager));
 

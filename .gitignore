@@ -2,7 +2,6 @@
 /build/
 /config/local.config.php
 /config/database.ini
-/data/doctrine-proxies/
 /data/logs/sql.log
 /data/logs/application.log
 /files/

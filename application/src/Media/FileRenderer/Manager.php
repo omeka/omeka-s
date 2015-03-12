@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media\File\Renderer;
+namespace Omeka\Media\FileRenderer;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -34,9 +34,9 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\Media\File\Renderer\RendererInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\Media\FileRenderer\RendererInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
-                'The file renderer class "%1$s" does not implement Omeka\Media\File\Renderer\RendererInterface.',
+                'The file renderer class "%1$s" does not implement Omeka\Media\FileRenderer\RendererInterface.',
                 get_class($plugin)
             ));
         }

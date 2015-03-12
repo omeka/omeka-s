@@ -183,7 +183,7 @@ return array(
     ),
     'file_renderers' => array(
         'invokables' => array(
-            'image'  => 'Omeka\Media\File\Renderer\ImageRenderer',
+            'image' => 'Omeka\Media\FileRenderer\ImageRenderer',
         ),
         'aliases' => array(
             'image/png'  => 'image',

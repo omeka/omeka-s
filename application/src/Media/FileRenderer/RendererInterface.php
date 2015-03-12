@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media\File\Renderer;
+namespace Omeka\Media\FileRenderer;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Zend\View\Renderer\PhpRenderer;

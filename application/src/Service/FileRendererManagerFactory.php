@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Media\File\Renderer\Manager;
+use Omeka\Media\FileRenderer\Manager;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

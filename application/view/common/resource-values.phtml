@@ -2,10 +2,11 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<?php foreach ($values as $term => $property): ?>
+
+<?php foreach ($values as $term => $propertyData): ?>
 <div class="property">
-    <h4><?php echo $escape($property['property']->label()); ?></h4>
-    <?php foreach ($property['values'] as $value): ?>
+    <h4><?php echo $escape($propertyData['property']->label()); ?></h4>
+    <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>
         <?php else: ?>

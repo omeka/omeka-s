@@ -313,7 +313,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $partial = $this->getViewHelper('partial');
         $options['values'] = $this->values();
         $template = $this->resourceTemplate();
-        $options['templateProperties'] = $template->resourceTemplateProperties();
+        if ($template) {
+            $options['templateProperties'] = $template->resourceTemplateProperties();
+        }
+        
         return $partial($options['viewName'], $options);
     }
 

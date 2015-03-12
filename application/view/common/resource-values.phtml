@@ -4,7 +4,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
 <div class="property">
-    <?php if ($templateProperties) {
+    <?php if (isset($templateProperties)) {
         $label = '';
         $comment = '';
         $propertyId = $propertyData['property']->id();
@@ -22,7 +22,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             $comment = $propertyData['property']->comment();
         }
     } else {
-        $label = $propertyData['property']->comment();
+        $label = $propertyData['property']->label();
         $comment = $propertyData['property']->comment();
     }
     ?>

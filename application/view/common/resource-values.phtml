@@ -2,10 +2,31 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-
 <?php foreach ($values as $term => $propertyData): ?>
 <div class="property">
-    <h4><?php echo $escape($propertyData['property']->label()); ?></h4>
+    <?php if ($templateProperties) {
+        $label = '';
+        $comment = '';
+        $propertyId = $propertyData['property']->id();
+        foreach ($templateProperties as $templatePropertyData) {
+            if ( $propertyId == $templatePropertyData['o:property']->id() ) {
+                $label = $templatePropertyData['o:alternate_label'] ;
+                $comment = $templatePropertyData['o:alternate_comment'] ;
+                break;
+            }
+        }
+        if (empty($label)) {
+            $label = $propertyData['property']->label();
+        }
+        if (empty($comment)) {
+            $comment = $propertyData['property']->comment();
+        }
+    } else {
+        $label = $propertyData['property']->comment();
+        $comment = $propertyData['property']->comment();
+    }
+    ?>
+    <h4><?php echo $escape($label); ?></h4>
     <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>

@@ -312,6 +312,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
         $partial = $this->getViewHelper('partial');
         $options['values'] = $this->values();
+        $template = $this->resourceTemplate();
+        $options['templateProperties'] = $template->resourceTemplateProperties();
         return $partial($options['viewName'], $options);
     }
 
@@ -408,12 +410,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     protected function applyResourceTemplate($values)
     {
-        //var_dump($values);
-        //die();
         
-        $template = $this->resourceTemplate();
         $resortDctermsTitle = false;
-
+        $template = $this->resourceTemplate();
         //check to see if dcterms:title is not at the top of dcterms if no template
         if ( ! $template ) {
             if (isset($values['dcterms'])) {

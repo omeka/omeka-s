@@ -80,4 +80,24 @@ abstract class AbstractFileHandler implements HandlerInterface
         }
         return $extension;
     }
+
+    /**
+     * Process and store a file from temporary storage
+     *
+     * @param Omeka\Model\Entity\Media $media
+     * @param string $path
+     * @param string $originalName
+     */
+    protected function processFile($media, $path, $originalName)
+    {
+        $mediaType = $this->getMediaType($path);
+        $extension = $this->getExtension($originalName, $mediaType);
+        $baseName = $this->getLocalBaseName($extension);
+
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $fileStore->put($path, $baseName);
+
+        $media->setFilename($baseName);
+        $media->setMediaType($mediaType);
+    }
 }

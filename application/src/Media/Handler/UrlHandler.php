@@ -60,16 +60,9 @@ class UrlHandler extends AbstractFileHandler
         }
 
         $origin = $response->getStreamName();
-        $mediaType = $this->getMediaType($origin);
-        $extension = $this->getExtension($uri->getPath(), $mediaType);
-        $baseName = $this->getLocalBaseName($extension);
-
         chmod($origin, 0644);
-        $fileStore = $services->get('Omeka\FileStore');
-        $fileStore->put($origin, $baseName);
+        $this->processFile($media, $origin, $uri->getPath());
 
-        $media->setFilename($baseName);
-        $media->setMediaType($mediaType);
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);
         }

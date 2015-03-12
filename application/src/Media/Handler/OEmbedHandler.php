@@ -15,10 +15,6 @@ class OEmbedHandler implements HandlerInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const WIDTH = 420;
-    const HEIGHT = 315;
-    const ALLOWFULLSCREEN = true;
-
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();

@@ -18,14 +18,6 @@ use Zend\EventManager\Event as ZendEvent;
  */
 class FilterEvent extends ZendEvent
 {
-    /**#@+
-     * Filters triggered by views.
-     *
-     * Use the view's controller name as the event identifier.
-     */
-    const VIEW_SHOW_AFTER   = 'view.show.after';
-    const VIEW_BROWSE_AFTER = 'view.browse.after';
-
     /**
      * @var mixed The argument to filter.
      */

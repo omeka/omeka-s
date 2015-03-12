@@ -69,7 +69,9 @@ class Event extends ZendEvent
      *
      * Use the view's controller name as the event identifier.
      */
-    const VIEW_LAYOUT = 'view.layout';
+    const VIEW_LAYOUT       = 'view.layout';
+    const VIEW_SHOW_AFTER   = 'view.show.after';
+    const VIEW_BROWSE_AFTER = 'view.browse.after';
 
     // ACL event
     const ACL = 'acl';

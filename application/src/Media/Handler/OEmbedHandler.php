@@ -99,7 +99,7 @@ class OEmbedHandler implements HandlerInterface
             if (!$empty($data['title'])) {
                 $title = $data['title'];
             } else {
-                $title = source;
+                $title = $source;
             }
             return $view->hyperlink($title, $source);
         }

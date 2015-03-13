@@ -413,55 +413,30 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     protected function applyResourceTemplate($values)
     {
-        
-        $resortDctermsTitle = false;
         $template = $this->resourceTemplate();
-        //check to see if dcterms:title is not at the top of dcterms if no template
-        if ( ! $template ) {
-            if (isset($values['dcterms'])) {
-                if (array_keys($values['dcterms']['properties'])[0] != 'title' ) {
-                    $resortDctermsTitle = true;
-                }
+
+        if ($template) {
+            $sortTerms = array();
+            $templateProperties = $template->resourceTemplateProperties();
+            foreach ($templateProperties as $resTemProp) {
+                $prop = $resTemProp['o:property']->getRepresentation();
+                $term = $prop->term();
+                $sortTerms[] = $term;
             }
-        }
-
-        if ($template || $resortDctermsTitle) {
-            $templatedProperties = array();
-            $remainderProperties = array();
-            foreach ($values as $localName => $property) {
-                $propertyRep = $property['property'];
-                if ($template) {
-                    $templateProperties = $template->resourceTemplateProperties();
-                    foreach ($templateProperties as $resTemProp) {
-                        if ($resTemProp['o:property']->id() == $propertyRep->id()) {
-                            $templatedProperties[$localName] = $property;
-                        } else {
-                            $remainderProperties[$localName] = $property;
-                        }
-                    }
-                } else {
-                    //put dcterms:title and dcterms:description at top
-                    if ($prefix == 'dcterms') {
-                        $templatedProperties[$localName] = $property;
-                        //always make title first
-                        if ($localName == 'title') {
-                            $templatedProperties = array('title' => $property) + $templatedProperties;
-                        }
-
-                        if ($localName == 'description') {
-                            $templatedProperties = $templatedProperties + array('description' => $property);
-                        }
-
-                    } else {
-                        $remainderProperties[$localName] = $property;
-                    }
-                }
-            }
-            $sortedProperties = array_merge($templatedProperties, $remainderProperties);
-            return $sortedProperties;
         } else {
-            return $values;
+            //always sort title and description to top
+            //@TODO is it worth checking each time whether this is redundant?
+            $sortTerms = array('dcterms:title', 'dcterms:description');
         }
-        
+
+        foreach ($values as $localName => $property) {
+            foreach ($sortTerms as $term) {
+                if (array_key_exists($term, $values)) {
+                    $sortedProperties[$term] = $values[$term];
+                    unset($values[$term]);
+                }
+            }
+        }
+        return $sortedProperties + $values;
     }
 }

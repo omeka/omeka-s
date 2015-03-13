@@ -27,7 +27,7 @@ class Local implements FileStoreInterface
     public function __construct($basePath, $baseUri)
     {
         if (!(is_dir($basePath) && is_writable($basePath))) {
-            throw Exception\RuntimeException(
+            throw new Exception\RuntimeException(
                 sprintf('Base path "%s" is not a writable directory.', $basePath)
             );
         }

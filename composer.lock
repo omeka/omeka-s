@@ -772,16 +772,16 @@
         },
         {
             "name": "zendframework/zendframework",
-            "version": "2.3.5",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf2.git",
-                "reference": "886063aa5aee7476b77c380e25ecfacb2ee5ff4c"
+                "reference": "a1aae5fdd27a422beb32c56ddf5a197654a0f94a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf2/zipball/886063aa5aee7476b77c380e25ecfacb2ee5ff4c",
-                "reference": "886063aa5aee7476b77c380e25ecfacb2ee5ff4c",
+                "url": "https://api.github.com/repos/zendframework/zf2/zipball/a1aae5fdd27a422beb32c56ddf5a197654a0f94a",
+                "reference": "a1aae5fdd27a422beb32c56ddf5a197654a0f94a",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 "framework",
                 "zf2"
             ],
-            "time": "2015-02-18 19:48:16"
+            "time": "2015-03-12 16:55:53"
         },
         {
             "name": "zendframework/zendxml",

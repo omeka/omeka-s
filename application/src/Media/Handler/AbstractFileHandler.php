@@ -3,16 +3,13 @@ namespace Omeka\Media\Handler;
 
 use finfo;
 use Omeka\Api\Representation\Entity\MediaRepresentation;
-use Omeka\Media\Handler\HandlerInterface;
+use Omeka\Media\Handler\AbstractHandler;
 use Zend\Math\Rand;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\Renderer\PhpRenderer;
 
-abstract class AbstractFileHandler implements HandlerInterface
+abstract class AbstractFileHandler extends AbstractHandler
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * {@inheritDoc}
      */

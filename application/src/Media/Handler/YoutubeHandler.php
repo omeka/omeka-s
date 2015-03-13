@@ -3,17 +3,14 @@ namespace Omeka\Media\Handler;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\HandlerInterface;
+use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class YoutubeHandler implements HandlerInterface
+class YoutubeHandler extends AbstractHandler
 {
-    use ServiceLocatorAwareTrait;
-
     const WIDTH = 420;
     const HEIGHT = 315;
     const ALLOWFULLSCREEN = true;

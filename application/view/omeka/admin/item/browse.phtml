@@ -80,4 +80,4 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php endif; ?>
 
-<?php echo $this->trigger()->filter('view.browse.after'); ?>
+<?php $this->trigger('view.browse.after'); ?>

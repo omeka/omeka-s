@@ -67,7 +67,7 @@ class EntityManagerFactory implements FactoryInterface
         $em = EntityManager::create($connection, $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
-            new ResourceDiscriminatorMap($serviceLocator)
+            new ResourceDiscriminatorMap($config['entity_manager']['resource_discriminator_map'])
         );
         $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator));
 

@@ -26,7 +26,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                             data-property-term="<?php echo $escapeAttr($property->term()); ?>">
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
-                                <p><?php echo $escape($property->comment()); ?></p>
+                                <p class="field-comment"><?php echo $escape($property->comment()); ?></p>
                             </div>
                             <span class="property-label"><?php echo $escape($property->label()); ?></span>
                         </li>

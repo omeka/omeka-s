@@ -4,7 +4,7 @@
         <?php if ($info = $element->getOption('info')): ?>
         <div class="field-description">
             <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->escapeHtml($this->translate('More Info')); ?></span></p>
-            <p><?php echo $this->escapeHtml($info); ?></p>
+            <p class="field-comment"><?php echo $this->escapeHtml($info); ?></p>
         </div>
         <?php endif; ?>
     </div>

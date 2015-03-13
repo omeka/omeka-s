@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
-use Omeka\Media\Manager as MediaManager;
+use Omeka\Media\Handler\Manager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
@@ -10,9 +10,9 @@ use Zend\View\Helper\AbstractHelper;
 class Media extends AbstractHelper
 {
     /**
-     * @var MediaManager
+     * @var Manager
      */
-    protected $mediaManager;
+    protected $manager;
 
     /**
      * Construct the helper.
@@ -21,7 +21,7 @@ class Media extends AbstractHelper
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->mediaManager = $serviceLocator->get('Omeka\MediaManager');
+        $this->manager = $serviceLocator->get('Omeka\MediaHandlerManager');
     }
 
     /**
@@ -33,7 +33,7 @@ class Media extends AbstractHelper
      */
     public function form($mediaType, array $options = array())
     {
-        return $this->mediaManager->get($mediaType)
+        return $this->manager->get($mediaType)
             ->form($this->getView(), $options);
     }
 
@@ -46,7 +46,7 @@ class Media extends AbstractHelper
      */
     public function render(MediaRepresentation $media, array $options = array())
     {
-        return $this->mediaManager->get($media->type())
+        return $this->manager->get($media->type())
             ->render($this->getView(), $media, $options);
     }
 }

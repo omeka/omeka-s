@@ -10,7 +10,7 @@ class JobDispatcherFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $class = $config['jobs']['dispatch_strategy'];
-        return new Dispatcher(new $class($serviceLocator));
+        $strategy = $serviceLocator->get($config['jobs']['strategy']);
+        return new Dispatcher($strategy);
     }
 }

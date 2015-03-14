@@ -70,8 +70,8 @@ return array(
         ),
     ),
     'jobs' => array(
-        'dispatch_strategy' => 'Omeka\Job\Strategy\PhpCliStrategy',
-        'phpcli_path'       => null,
+        'strategy'    => 'Omeka\JobDispatchStrategy',
+        'phpcli_path' => null,
     ),
     'http_client' => array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
@@ -105,9 +105,12 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
+            'Omeka\JobDispatchStrategy\PhpCli'  => 'Omeka\Job\Strategy\PhpCliStrategy',
+            'Omeka\JobDispatchStrategy\Synchronous'  => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
-            'Omeka\FileStore' => 'Omeka\FileStore\Local',
+            'Omeka\FileStore'           => 'Omeka\FileStore\Local',
+            'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
         'shared' => array(

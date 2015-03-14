@@ -77,6 +77,9 @@ return array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
     ),
+    'thumbnails' => array(
+        'strategy' => 'Omeka\ThumbnailerStrategy',
+    ),
     'service_manager' => array(
         'factories' => array(
             'Navigation'                  => 'Zend\Navigation\Service\DefaultNavigationFactory',
@@ -94,6 +97,8 @@ return array(
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
+            'Omeka\Thumbnailer'           => 'Omeka\Service\ThumbnailerFactory',
+            
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -107,9 +112,11 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\JobDispatchStrategy\PhpCli'  => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous'  => 'Omeka\Job\Strategy\SynchronousStrategy',
+            'Omeka\ThumbnailerStrategy\Gd' => 'Omeka\Thumbnailer\Strategy\GdStrategy',
         ),
         'aliases' => array(
             'Omeka\FileStore'           => 'Omeka\FileStore\Local',
+            'Omeka\ThumbnailerStrategy' => 'Omeka\ThumbnailerStrategy\Gd',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),

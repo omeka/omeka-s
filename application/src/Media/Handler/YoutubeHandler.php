@@ -46,20 +46,13 @@ class YoutubeHandler extends AbstractHandler
             return;
         }
 
-        // Compose the YouTube embed URL and set that to o:source.
-        $embedUri = new HttpUri;
-        $embedUri->setScheme('https')
-            ->setHost('www.youtube.com')
-            ->setPath('/embed/' . $query['v']);
-
-        $data['o:source'] = $embedUri;
-        $request->setContent($data);
+        $request->setMetadata('youtubeId', $query['v']);
     }
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
-        $data = $request->getContent();
-        $media->setSource($data['o:source']);
+        $data = array('id' => $request->getMetadata('youtubeId'));
+        $media->setData($data);
     }
 
     public function form(PhpRenderer $view, array $options = array())
@@ -78,16 +71,19 @@ class YoutubeHandler extends AbstractHandler
             $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
         }
 
-        $embed = '<iframe'
-               . ' width="' . $view->escapeHtmlAttr($options['width']) . '"'
-               . ' height="' . $view->escapeHtmlAttr($options['height']) . '"'
-               . ' src="' . $view->escapeHtmlAttr($media->source()) . '"'
-               . ' frameborder="0"';
-        if ($options['allowfullscreen']) {
-            $embed .= ' allowfullscreen';
-        }
-        $embed .= '></iframe>';
-
+        // Compose the YouTube embed URL and build the markup.
+        $data = $media->mediaData();
+        $embedUri = new HttpUri;
+        $embedUri->setScheme('https')
+            ->setHost('www.youtube.com')
+            ->setPath('/embed/' . $data['id']);
+        $embed = sprintf(
+            '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
+            $view->escapeHtmlAttr($options['width']),
+            $view->escapeHtmlAttr($options['height']),
+            $view->escapeHtmlAttr($embedUri->toString()),
+            $options['allowfullscreen'] ? ' allowfullscreen' : ''
+        );
         return $embed;
     }
 }

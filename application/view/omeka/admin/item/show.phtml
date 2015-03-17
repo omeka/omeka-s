@@ -30,4 +30,4 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php echo $item->displayLinkedResources(); ?>
 </div>
 
-<?php echo $this->trigger()->filter('view.show.after'); ?>
+<?php $this->trigger('view.show.after'); ?>

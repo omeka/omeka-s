@@ -19,20 +19,6 @@ use Zend\EventManager\Event as ZendEvent;
 class FilterEvent extends ZendEvent
 {
     /**
-     * Filter triggered by the resource discriminator map Doctrine listener,
-     * allowing modules to extend the entity resource interface.
-     */
-    const RESOURCE_DISCRIMINATOR_MAP = 'resource_discriminator_map';
-
-    /**#@+
-     * Filters triggered by views.
-     *
-     * Use the view's controller name as the event identifier.
-     */
-    const VIEW_SHOW_AFTER   = 'view.show.after';
-    const VIEW_BROWSE_AFTER = 'view.browse.after';
-
-    /**
      * @var mixed The argument to filter.
      */
     protected $arg;

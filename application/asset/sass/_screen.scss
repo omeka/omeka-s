@@ -1103,8 +1103,7 @@ body.sidebar-open #content {
         }
     }
     
-    .property-selector .property .description .o-icon-info:hover + p {
-        top: rhythm(1.5);
+    .property-selector .property .description .o-icon-info:hover + .field-comment {
         left: 0;
         right: 0;
         padding-left: 10px;
@@ -1113,6 +1112,38 @@ body.sidebar-open #content {
         z-index: 1;
         margin: 0;
         @include box-shadow(0 0 0 1px $gray-on-white inset);
+
+        &:before {
+            content: "";
+            display: block;
+            height: 0;
+            width: 0;
+            position: absolute;
+            left: 10px;
+            font-size: $base-font-size;
+            border-left: rhythm(.25) solid transparent;
+            border-right: rhythm(.25) solid transparent;
+            border-bottom: rhythm(.5) solid #fff;
+        }
+        
+        &.below {
+            top: rhythm(1.5);
+            
+            &:before {
+                top: rhythm(-.25);
+            }
+        }
+        
+        &.above {
+            bottom: 100%;
+            top: auto;
+            
+            &:before {
+                @include calc('top', '100% - ' + rhythm(.25));
+                @include transform(rotate(180deg));
+            }
+
+        }
     }
     
     .property-selector ul {
@@ -1269,11 +1300,15 @@ body.sidebar-open #content {
     }
     
     .field-description {
-        float: right;
         display: block;
         margin-right: 10px;
         line-height: 1.5 * $base-line-height;
         height: 1.5 * $base-line-height;
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: right;
+        left: 0;
     }
     
     .field-description .o-icon-info {
@@ -1281,10 +1316,10 @@ body.sidebar-open #content {
     }
 
     .field-description .o-icon-info {
-        &:hover + p {
-            top: rhythm(1.5);
+        &:hover + p,
+        &:focus + p {
             left: inherit;
-            right: 10px;
+            right: 0px;
             background-color: #333;
             color: #fff;
             @include border-radius(3px);
@@ -1293,9 +1328,19 @@ body.sidebar-open #content {
             @include adjust-font-size-to(14px, 1, $base-font-size);
             padding: rhythm(.25) 5px;
             margin: rhythm(.5) 0;
+            
+            &.below {
+                top: rhythm(1.5);
+            }
+            
+            &.above {
+                top: auto;
+                bottom: rhythm(1.25);
+            }
         }
     
-        &:hover + p:before {
+        &:hover + p:before,
+        &:focus + p:before {
             content: "";
             display: block;
             height: 0;
@@ -1307,6 +1352,18 @@ body.sidebar-open #content {
             border-left: rhythm(.25) solid transparent;
             border-right: rhythm(.25) solid transparent;
             border-bottom: rhythm(.5) solid #333;
+        }
+
+        &:hover + p.below:before,
+        &:focus + p.below:before {
+            bottom: 0;
+        }
+        
+        &:hover + p.above:before,
+        &:focus + p.above:before {
+            top: auto;
+            bottom: rhythm(-.5);
+            @include transform(rotate(180deg));
         }
     }
     
@@ -1382,7 +1439,8 @@ body.sidebar-open #content {
                 color: #fff;
             }
             
-            &:hover .screen-reader-text {
+            &:hover .screen-reader-text,
+            &:focus .screen-reader-text {
                 top: rhythm(1.5);
                 left: inherit;
                 right: 0;
@@ -1394,7 +1452,8 @@ body.sidebar-open #content {
                 z-index: 1;
             }
             
-            &:hover .screen-reader-text:before {
+            &:hover .screen-reader-text:before,
+            &:focus .screen-reader-text:before {
                 content: "";
                 display: block;
                 height: 0;

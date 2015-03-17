@@ -2,22 +2,6 @@
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<style>
-ul.available-resources {
-    list-style: none;
-    padding-left: 0px;
-}
-
-ul.available-resources li {
-    display: inline;
-}
-
-div.resource-list div.resource {
-    clear: both;
-    margin-bottom: 20px;
-}
-</style>
-
 <div class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text">Close Me</span></a>
     <div class="sidebar-content">
@@ -45,7 +29,7 @@ div.resource-list div.resource {
         <label class='field-label'><span class='field-label-text'></span>
         <span class='field-term o-icon-developer' title="Property term for development use"></span></label>
         <div class='field-description'>
-            <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+            <p class="o-icon-info" tabindex="0"><span class="screen-reader-text">More Info</span></p>
             <p class='field-comment'></p>
         </div>
     </div>
@@ -61,6 +45,7 @@ div.resource-list div.resource {
         <a link="#" class="tab active o-icon-text"><span class="screen-reader-text">Text</span></a>
         <a link="#" class="tab o-icon-items"><span class="screen-reader-text">Local Omeka Resource</span></a>
         <a link="#" class="tab o-icon-link"><span class="screen-reader-text">External Resource</span></a>
+
         <span class='restore-value'>Value to be removed</span>
         <ul class='actions'>
             <li>

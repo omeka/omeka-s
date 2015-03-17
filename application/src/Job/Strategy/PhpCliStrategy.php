@@ -3,22 +3,40 @@ namespace Omeka\Job\Strategy;
 
 use Omeka\Installation\Task\CheckEnvironmentTask;
 use Omeka\Job\Exception;
+use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Model\Entity\Job;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class PhpCliStrategy extends AbstractStrategy
+class PhpCliStrategy implements StrategyInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
+     * Perform the job in the background.
+     *
+     * Jobs may need access to variables that are impossible to derive from
+     * outside a web context. Here we pass the variables via shell arguments.
+     * The perform-job script then sets them to the PHP-CLI context.
+     *
+     * @todo Pass the server URL, or compents required to set one
+     * @see \Zend\View\Helper\BasePath
+     * @see \Zend\View\Helper\ServerUrl
+     *
      * {@inheritDoc}
      */
     public function send(Job $job)
     {
         $script = OMEKA_PATH . '/data/scripts/perform-job.php';
 
+        $basePath = $this->getServiceLocator()->get('ViewHelperManager')
+            ->get('BasePath');
+
         $command = sprintf(
-            '%s %s -j %s',
+            '%s %s --job-id %s --base-path %s',
             escapeshellcmd($this->getPhpcliPath()),
             escapeshellarg($script),
-            escapeshellarg($job->getId())
+            escapeshellarg($job->getId()),
+            escapeshellarg($basePath())
         );
 
         exec(sprintf('%s > /dev/null 2>&1 &', $command));

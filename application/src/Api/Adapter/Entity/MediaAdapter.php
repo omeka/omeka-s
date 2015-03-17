@@ -23,11 +23,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     );
 
     /**
-     * @var HandlerInterface
-     */
-    protected $handler;
-
-    /**
      * {@inheritDoc}
      */
     public function getResourceName()
@@ -54,6 +49,25 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function validateRequest(Request $request, ErrorStore $errorStore)
+    {
+        $data = $request->getContent();
+
+        if (!isset($data['o:type'])) {
+            $errorStore->addError('o:type', 'Media must have a type.');
+            return;
+        }
+
+        $handler = $this->getServiceLocator()
+            ->get('Omeka\MediaHandlerManager')
+            ->get($data['o:type']);
+        $handler->validateRequest($request, $errorStore);
+        $request->setMetadata('mediaHandler', $handler);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -73,9 +87,9 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         // If we've gotten here we're guaranteed to have a set, valid media type
-        // thanks to validateRequest
+        // and media handler thanks to validateRequest
         $entity->setType($data['o:type']);
-        $this->getHandler()->ingest($entity, $request, $errorStore);
+        $request->getMetadata('mediaHandler')->ingest($entity, $request, $errorStore);
 
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);
@@ -89,39 +103,11 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateRequest(Request $request, ErrorStore $errorStore)
-    {
-        $data = $request->getContent();
-
-        if (!isset($data['o:type'])) {
-            $errorStore->addError('o:type', 'Media must have a type.');
-            return;
-        }
-
-        $handler = $this->getServiceLocator()->get('Omeka\MediaManager')
-            ->get($data['o:type']);
-        $this->setHandler($handler);
-        $handler->validateRequest($request, $errorStore);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity,
         ErrorStore $errorStore
     ) {
         if (!($entity->getItem() instanceof Item)) {
             $errorStore->addError('o:item', 'Media must belong to an item.');
         }
-    }
-
-    protected function setHandler(HandlerInterface $handler)
-    {
-        $this->handler = $handler;
-    }
-
-    protected function getHandler()
-    {
-        return $this->handler;
     }
 }

@@ -1,7 +1,11 @@
 <?php
-if ('development' == $_SERVER['APPLICATION_ENV']) {
-    error_reporting(E_ALL);
+error_reporting(E_ALL);
+if (isset($_SERVER['APPLICATION_ENV'])
+    && 'development' == $_SERVER['APPLICATION_ENV']
+) {
     ini_set('display_errors', 1);
+} else {
+    ini_set('display_errors', 0);
 }
 
 require 'bootstrap.php';

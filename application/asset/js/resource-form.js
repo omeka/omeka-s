@@ -2,6 +2,18 @@
 
     $(document).ready( function() {
 
+        // Autoposition tooltip.
+        $('.o-icon-info').on('mouseover', function(e) {
+            var moreInfoIcon = $(this);
+            var fieldDesc = moreInfoIcon.next('.field-comment');
+            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
+            if (fieldDescBottom > $(window).height()) {
+                fieldDesc.removeClass('below').addClass('above');
+            } else {
+                fieldDesc.removeClass('above').addClass('below');
+            }
+        });
+
         // Select property
         $('li.property').on('click', function(e) {
             e.stopPropagation();
@@ -253,18 +265,6 @@
             },200);
             $('textarea', newValue).focus();
         } 
-
-        //decide whether to show the 'remove value' trashcan based on number of values
-        var removeValueButton = valuesWrapper.find('a.remove-value');
-        if (count > 0) {
-            showRemoveValue = true;
-        }
-
-        if (showRemoveValue) {
-            removeValueButton.show();
-        } else {
-            removeValueButton.hide();
-        }
     };
 
     var makeNewField = function(property) {

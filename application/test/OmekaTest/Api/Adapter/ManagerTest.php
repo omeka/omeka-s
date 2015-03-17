@@ -19,18 +19,6 @@ class ManagerTest extends TestCase
         $this->manager->__construct(new \stdClass);
     }
 
-    public function testInjectsAdapterDependencies()
-    {
-        $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
-        $mockServiceManager = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $mockServiceManager->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue(
-                $this->getMock('Zend\ServiceManager\ServiceLocatorInterface')
-            ));
-        $this->manager->injectAdapterDependencies($mockAdapter, $mockServiceManager);
-    }
-
     public function testValidatePluginRequiresAdapterInterface()
     {
         $this->setExpectedException('Omeka\Api\Exception\InvalidAdapterException');

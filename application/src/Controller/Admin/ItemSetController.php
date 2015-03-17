@@ -121,14 +121,40 @@ class ItemSetController extends AbstractActionController
     {
         $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $response = $this->api()->read('item_sets', $this->params('id'));
-
+        $itemSet = $response->getContent();
         $view = new ViewModel;
         $view->setTerminal(true);
+        $values = array('@id'               => $itemSet->id(),
+                        'dcterms:title'     => $itemSet->displayTitle('[Untitled]'),
+                        'url'               => $itemSet->url(),
+                        'value_resource_id' => $itemSet->id()
+                );
+        
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('itemSet', $response->getContent());
+        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('values', json_encode($values));
         return $view;
     }
 
+    public function sidebarSelectAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        $response = $this->api()->search('item_sets', $query);
+        $this->paginator($response->getTotalResults(), $page);
+
+        $view = new ViewModel;
+        $view->setVariable('itemSets', $response->getContent());
+        if (isset($query['value'])) {
+            $searchValue = $query['value']['in'][0];
+        } else {
+            $searchValue = '';
+        }
+        $view->setVariable('searchValue', $searchValue);
+        $view->setTerminal(true);
+        return $view;
+    }
+    
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

@@ -110,6 +110,7 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
+            'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
             'Omeka\JobDispatchStrategy\PhpCli'  => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous'  => 'Omeka\Job\Strategy\SynchronousStrategy',
             'Omeka\ThumbnailerStrategy\Gd' => 'Omeka\Thumbnailer\Strategy\GdStrategy',
@@ -123,6 +124,7 @@ return array(
         'shared' => array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
+            'Omeka\StorableFile' => false,
         ),
     ),
     'controllers' => array(

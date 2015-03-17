@@ -30,18 +30,15 @@ class UploadHandler extends AbstractFileHandler
             return;
         }
 
-        $services = $this->getServiceLocator();
-        $tempDir = $services->get('Config')['temp_dir'];
-
-        $fileData = $request->getFileData()['file'];
-        $destination = tempnam($tempDir, 'ingest');
+        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload(array(
-            'target' => $destination,
+            'target' => $file->getTempPath(),
             'overwrite' => true
         )));
 
+        $fileData = $request->getFileData()['file'];
         $fileInput->setValue($fileData);
         if (!$fileInput->isValid()) {
             foreach($fileInput->getMessages() as $message) {
@@ -52,13 +49,12 @@ class UploadHandler extends AbstractFileHandler
 
         // Actually process and move the upload
         $fileInput->getValue();
-        chmod($destination, 0644);
+        chmod($file->getTempPath(), 0644);
 
-        $originalFilename = $fileData['name'];
-        $this->processFile($media, $destination, $originalFilename);
+        $file->store($fileData['name']);
 
         if (!array_key_exists('o:source', $data)) {
-            $media->setSource($originalFilename);
+            $media->setSource($fileData['name']);
         }
     }
 

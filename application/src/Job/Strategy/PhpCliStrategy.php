@@ -3,10 +3,14 @@ namespace Omeka\Job\Strategy;
 
 use Omeka\Installation\Task\CheckEnvironmentTask;
 use Omeka\Job\Exception;
+use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Model\Entity\Job;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class PhpCliStrategy extends AbstractStrategy
+class PhpCliStrategy implements StrategyInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * Perform the job in the background.
      *

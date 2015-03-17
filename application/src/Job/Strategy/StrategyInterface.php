@@ -2,8 +2,9 @@
 namespace Omeka\Job\Strategy;
 
 use Omeka\Model\Entity\Job;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-interface StrategyInterface
+interface StrategyInterface extends ServiceLocatorAwareInterface 
 {
     /**
      * Send the job to be performed.

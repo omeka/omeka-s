@@ -13,7 +13,7 @@ class DispatcherTest extends TestCase
     {
         $strategy = $this->getMock(
             'Omeka\Job\Strategy\StrategyInterface',
-            array('send', 'setServiceLocator')
+            array('send', 'setServiceLocator', 'getServiceLocator')
         );
         $this->dispatcher = new Dispatcher($strategy);
     }

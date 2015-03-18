@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Thumbnailer\Exception;
+namespace Omeka\Thumbnail\Exception;
 
 interface ExceptionInterface
 {}

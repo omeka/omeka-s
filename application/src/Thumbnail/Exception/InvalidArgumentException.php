@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Thumbnailer\Exception;
+namespace Omeka\Thumbnail\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {

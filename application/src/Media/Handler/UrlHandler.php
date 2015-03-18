@@ -36,10 +36,14 @@ class UrlHandler extends AbstractFileHandler
 
         $file = $this->getServiceLocator()->get('Omeka\StorableFile');
         $this->downloadFile($uri, $file->getTempPath());
+        $hasThumbnails = $file->storeThumbnails();
         $file->store($uri->getPath());
 
         $media->setFilename($file->getStoredName());
         $media->setMediaType($file->getMediaType());
+        // @todo implement Media::$hasThumbnails and ::$hasOriginal
+        //$media->setHasThumbnails($hasThumbnails);
+        //$media->setHasOriginal(true);
 
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);

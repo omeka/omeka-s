@@ -1,26 +1,25 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Thumbnailer\Thumbnailer;
+use Omeka\Thumbnail\Manager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RdfImporter implements FactoryInterface
+class ThumbnailManagerFactory implements FactoryInterface
 {
     use ServiceLocatorAwareTrait;
 
     /**
-     * Create the thumbnailer service.
+     * Create the thumbnail manager service.
      * 
      * @param ServiceLocatorInterface $serviceLocator
      * @return Thumbnailer
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $strategy = $services->get($config['thumbnails']['strategy']);
-        return new Thumbnailer($strategy);
+        $thumbnailer = $serviceLocator->get('Omeka\Thumbnailer');
+        $config = $serviceLocator->get('Config')['thumbnails'];
+        return new Manager($thumbnailer, $config);
     }
 }

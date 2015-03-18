@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Thumbnailer\Exception;
+namespace Omeka\Thumbnail\Exception;
 
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {}

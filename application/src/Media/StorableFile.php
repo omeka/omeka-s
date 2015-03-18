@@ -31,17 +31,26 @@ class StorableFile implements ServiceLocatorAwareInterface
     protected $extension;
 
     /**
-     * Store the file.
+     * Store this file.
      *
      * @param string $originalName The original name of the file
      */
     public function store($originalName)
     {
         $extension = $this->getExtension($originalName);
-        $storedName = $this->getStoredName($extension);
-
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $fileStore->put($this->getTempPath(), $storedName);
+        $fileStore->put($this->getTempPath(), $this->getStoredName($extension));
+    }
+
+    /**
+     * Create and store thumbnails of this file.
+     *
+     * @return bool Whether thumbnails were created and stored
+     */
+    public function storeThumbnails()
+    {
+        $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
+        return $manager->create($this->getTempPath(), $this->getStoredName());
     }
 
     /**
@@ -81,7 +90,7 @@ class StorableFile implements ServiceLocatorAwareInterface
      * @param string $extension The filename extension to append
      * @return string
      */
-    public function getStoredName($extension)
+    public function getStoredName($extension = null)
     {
         if (isset($this->storedName)) {
             return $this->storedName;

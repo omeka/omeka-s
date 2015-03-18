@@ -414,7 +414,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     protected function applyResourceTemplate($values)
     {
         $template = $this->resourceTemplate();
-
+        $sortedProperties = array();
         if ($template) {
             $sortTerms = array();
             $templateProperties = $template->resourceTemplateProperties();

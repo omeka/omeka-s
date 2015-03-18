@@ -187,7 +187,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
             $this->values = $values;
         }
-        return $this->values;
+        //return $this->values;
+        return $this->applyResourceTemplate($this->values);
     }
 
     /**
@@ -311,6 +312,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
         $partial = $this->getViewHelper('partial');
         $options['values'] = $this->values();
+        $template = $this->resourceTemplate();
+        if ($template) {
+            $options['templateProperties'] = $template->resourceTemplateProperties();
+        }
+        
         return $partial($options['viewName'], $options);
     }
 
@@ -403,5 +409,34 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 ))
             );
         }
+    }
+
+    protected function applyResourceTemplate($values)
+    {
+        $template = $this->resourceTemplate();
+
+        if ($template) {
+            $sortTerms = array();
+            $templateProperties = $template->resourceTemplateProperties();
+            foreach ($templateProperties as $resTemProp) {
+                $prop = $resTemProp['o:property']->getRepresentation();
+                $term = $prop->term();
+                $sortTerms[] = $term;
+            }
+        } else {
+            //always sort title and description to top
+            //@TODO is it worth checking each time whether this is redundant?
+            $sortTerms = array('dcterms:title', 'dcterms:description');
+        }
+
+        foreach ($values as $localName => $property) {
+            foreach ($sortTerms as $term) {
+                if (array_key_exists($term, $values)) {
+                    $sortedProperties[$term] = $values[$term];
+                    unset($values[$term]);
+                }
+            }
+        }
+        return $sortedProperties + $values;
     }
 }

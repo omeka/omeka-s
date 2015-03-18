@@ -1,7 +1,9 @@
-<?php if ($linkTitle): ?>
-<h2 class="o-title"><?php echo $itemSet->link(strip_tags($itemSet->displayTitle('[untitled]'))); ?></h2>
-<?php else: ?>
-<h2 class="o-title"><?php echo $itemSet->displayTitle('[untitled]'); ?></h2>
-<?php endif; ?>
-<div class="o-description"><?php echo $itemSet->displayDescription(); ?></div>
-<?php echo $itemSet->displayValues(); ?>
+<div class='resource-details' data-resource-values='<?php echo $values; ?>'>
+    <?php if ($linkTitle): ?>
+    <h2 class="o-title"><?php echo $itemSet->link(strip_tags($itemSet->displayTitle('[untitled]'))); ?></h2>
+    <?php else: ?>
+    <h2 class="o-title"><?php echo $itemSet->displayTitle('[untitled]'); ?></h2>
+    <?php endif; ?>
+    <div class="o-description"><?php echo $itemSet->displayDescription(); ?></div>
+    <?php echo $itemSet->displayValues(); ?>
+</div>

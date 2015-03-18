@@ -53,6 +53,9 @@ class UploadHandler extends AbstractFileHandler
 
         $file->store($fileData['name']);
 
+        $media->setFilename($file->getStoredName());
+        $media->setMediaType($file->getMediaType());
+
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($fileData['name']);
         }

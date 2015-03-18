@@ -187,7 +187,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
             $this->values = $values;
         }
-        //return $this->values;
         return $this->applyResourceTemplate($this->values);
     }
 

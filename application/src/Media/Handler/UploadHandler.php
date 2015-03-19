@@ -56,9 +56,8 @@ class UploadHandler extends AbstractFileHandler
 
         $media->setFilename($file->getStoredName());
         $media->setMediaType($file->getMediaType());
-        // @todo implement Media::$hasThumbnails and ::$hasOriginal
-        //$media->setHasThumbnails($hasThumbnails);
-        //$media->setHasOriginal(true);
+        $media->setHasThumbnails($hasThumbnails);
+        $media->setHasOriginal(true);
 
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($fileData['name']);

@@ -64,10 +64,10 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
     }
 
     /**
@@ -307,6 +307,50 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMediaType', array());
 
         return parent::getMediaType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHasOriginal($hasOriginal)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasOriginal', array($hasOriginal));
+
+        return parent::setHasOriginal($hasOriginal);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasOriginal()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasOriginal', array());
+
+        return parent::hasOriginal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHasThumbnails($hasThumbnails)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasThumbnails', array($hasThumbnails));
+
+        return parent::setHasThumbnails($hasThumbnails);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasThumbnails()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThumbnails', array());
+
+        return parent::hasThumbnails();
     }
 
     /**

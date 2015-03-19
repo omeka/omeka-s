@@ -81,7 +81,7 @@ class Local implements FileStoreInterface
      */
     protected function getLocalPath($storagePath)
     {
-        if (preg_match('#(^|/)\.{2}($|/)#', $storagePath)) {
+        if (preg_match('#(?:^|/)\.{2}(?:$|/)#', $storagePath)) {
             throw new Exception\RuntimeException(
                 sprintf('Illegal relative component in path "%s"',
                     $storagePath));

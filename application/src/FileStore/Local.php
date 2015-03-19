@@ -103,7 +103,7 @@ class Local implements FileStoreInterface
 
         if (!is_writable($dir)) {
             throw new Exception\RuntimeException(
-                sprintf('Directory "%s" is not writable.', $basePath)
+                sprintf('Directory "%s" is not writable.', $dir)
             );
         }
     }

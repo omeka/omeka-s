@@ -42,6 +42,7 @@ class Local implements FileStoreInterface
     public function put($source, $storagePath)
     {
         $localPath = $this->getLocalPath($storagePath);
+        $this->assurePathDirectories($localPath);
         $status = rename($source, $localPath);
         if (!$status) {
             throw new Exception\RuntimeException(
@@ -80,6 +81,30 @@ class Local implements FileStoreInterface
      */
     protected function getLocalPath($storagePath)
     {
+        if (preg_match('#(^|/)\.{2}($|/)#', $storagePath)) {
+            throw new Exception\RuntimeException(
+                sprintf('Illegal relative component in path "%s"',
+                    $storagePath));
+        }
         return $this->basePath . DIRECTORY_SEPARATOR . $storagePath;
+    }
+
+    /**
+     * Check for directory existence and access for a local path
+     *
+     * @param string $localPath
+     */
+    protected function assurePathDirectories($localPath)
+    {
+        $dir = dirname($localPath);
+        if (!is_dir($dir)) {
+            mkdir($localPath, 0755, true);
+        }
+
+        if (!is_writable($dir)) {
+            throw new Exception\RuntimeException(
+                sprintf('Directory "%s" is not writable.', $basePath)
+            );
+        }
     }
 }

@@ -38,9 +38,9 @@ class UrlHandler extends AbstractFileHandler
         $this->downloadFile($uri, $file->getTempPath());
         $originalName = $uri->getPath();
         $hasThumbnails = $file->storeThumbnails($originalName);
-        $file->store($originalName);
+        $file->storeOriginal($originalName);
 
-        $media->setFilename($file->getStoredName());
+        $media->setFilename($file->getStorageName());
         $media->setMediaType($file->getMediaType());
         $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);

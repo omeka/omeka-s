@@ -18,7 +18,7 @@ class StorableFile implements ServiceLocatorAwareInterface
     /**
      * @var string Name of the persistently stored file
      */
-    protected $storedName;
+    protected $storageName;
 
     /**
      * @var string Internet media type of the file
@@ -35,11 +35,12 @@ class StorableFile implements ServiceLocatorAwareInterface
      *
      * @param string $originalName The original name of the file
      */
-    public function store($originalName)
+    public function storeOriginal($originalName)
     {
         $extension = $this->getExtension($originalName);
+        $storagePath = '/original/' . $this->getStorageName($extension);
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $fileStore->put($this->getTempPath(), $this->getStoredName($extension));
+        $fileStore->put($this->getTempPath(), $storagePath);
     }
 
     /**
@@ -51,8 +52,9 @@ class StorableFile implements ServiceLocatorAwareInterface
     public function storeThumbnails($originalName)
     {
         $extension = $this->getExtension($originalName);
+        $storageName = $this->getStorageName($extension);
         $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
-        return $manager->create($this->getTempPath(), $this->getStoredName($extension));
+        return $manager->create($this->getTempPath(), $storageName);
     }
 
     /**
@@ -92,17 +94,17 @@ class StorableFile implements ServiceLocatorAwareInterface
      * @param string $extension The filename extension to append
      * @return string
      */
-    public function getStoredName($extension)
+    public function getStorageName($extension)
     {
-        if (isset($this->storedName)) {
-            return $this->storedName;
+        if (isset($this->storageName)) {
+            return $this->storageName;
         }
-        $storedName = bin2hex(Rand::getBytes(20));
+        $storageName = bin2hex(Rand::getBytes(20));
         if ($extension) {
-            $storedName .= '.' . $extension;
+            $storageName .= '.' . $extension;
         }
-        $this->storedName = $storedName;
-        return $storedName;
+        $this->storageName = $storageName;
+        return $storageName;
     }
 
     /**

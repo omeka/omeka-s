@@ -98,7 +98,7 @@ class Local implements FileStoreInterface
     {
         $dir = dirname($localPath);
         if (!is_dir($dir)) {
-            mkdir($localPath, 0755, true);
+            mkdir($dir, 0755, true);
         }
 
         if (!is_writable($dir)) {

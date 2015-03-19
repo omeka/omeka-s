@@ -19,6 +19,10 @@ class Manager implements ServiceLocatorAwareInterface
         'medium' => self::CONSTRAINT_MEDIUM,
     );
 
+    protected $squareTypes = array(
+        'square' => self::CONSTRAINT_SQUARE,
+    );
+
     /**
      * Create thumbnail derivatives.
      *
@@ -46,8 +50,13 @@ class Manager implements ServiceLocatorAwareInterface
         */
     }
 
-    public function addType($type, $constraint)
+    public function setType($type, $constraint)
     {
         $this->types[$type] = $constraint;
+    }
+
+    public function setSquareType($type, $constraint)
+    {
+        $this->squarTypes[$type] = $constraint;
     }
 }

@@ -7,7 +7,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @todo In create() and createSquare() copy $source to temp file:
  *   - convert to JPEG
  *   - resize according to $constraint
- *   - append .jpeg extension to file
  *   - return the temp thumbnail path
  */
 interface ThumbnailerInterface extends ServiceLocatorAwareInterface 

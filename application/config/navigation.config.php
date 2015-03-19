@@ -3,92 +3,79 @@ return array(
     'navigation' => array(
         'admin' => array(
             array(
-                'label'      => 'Resources',
+                'label'      => 'Items',
                 'route'      => 'admin/default',
                 'controller' => 'item',
                 'resource'   => 'Omeka\Controller\Admin\Item',
                 'class'      => 'resources',
                 'pages' => array(
                     array(
-                        'label'      => 'Items',
-                        'route'      => 'admin/default',
+                        'route'      => 'admin/id',
                         'controller' => 'item',
-                        'resource'   => 'Omeka\Controller\Admin\Item',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'item',
-                                'visible'    => false,
-                            ),
-                        ),
-                    ),
-                    array(
-                        'label'      => 'Media',
-                        'route'      => 'admin/default',
-                        'controller' => 'media',
-                        'resource'   => 'Omeka\Controller\Admin\Media',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'media',
-                                'visible'    => false,
-                            ),
-                        ),
-                    ),
-                    array(
-                        'label'      => 'Item Sets',
-                        'route'      => 'admin/default',
-                        'controller' => 'item-set',
-                        'resource'   => 'Omeka\Controller\Admin\ItemSet',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'item-set',
-                                'visible'    => false,
-                            ),
-                        ),
+                        'visible'    => false,
                     ),
                 ),
             ),
             array(
-                'label'      => 'Ontology',
+                'label'      => 'Media',
+                'route'      => 'admin/default',
+                'controller' => 'media',
+                'resource'   => 'Omeka\Controller\Admin\Media',
+                'class'      => 'resources',
+                'pages' => array(
+                    array(
+                        'route'      => 'admin/id',
+                        'controller' => 'media',
+                        'visible'    => false,
+                    ),
+                ),
+            ),
+            array(
+                'label'      => 'Item Sets',
+                'route'      => 'admin/default',
+                'controller' => 'item-set',
+                'resource'   => 'Omeka\Controller\Admin\ItemSet',
+                'class'      => 'resources',
+                'pages' => array(
+                    array(
+                        'route'      => 'admin/id',
+                        'controller' => 'item-set',
+                        'visible'    => false,
+                    ),
+                ),
+            ),
+            array(
+                'label'      => 'Vocabularies',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Vocabulary',
+                'class'      => 'ontology',
+                'pages' => array(
+                    array(
+                        'route'      => 'admin/id',
+                        'controller' => 'vocabulary',
+                        'visible'    => false,
+                    ),
+                ),
+            ),
+            array(
+                'label'      => 'Resource Templates',
+                'route'      => 'admin/default',
+                'controller' => 'resource-template',
+                'action'     => 'browse',
+                'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
                 'class'      => 'ontology',
                 'pages'      => array(
                     array(
-                        'label'      => 'Vocabularies',
-                        'route'      => 'admin/default',
-                        'controller' => 'vocabulary',
-                        'action'     => 'browse',
-                        'resource'   => 'Omeka\Controller\Admin\Vocabulary',
-                        'pages' => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'vocabulary',
-                                'visible'    => false,
-                            ),
-                        ),
+                        'route'      => 'admin/id',
+                        'controller' => 'resource-template',
+                        'visible'    => false,
                     ),
                     array(
-                        'label'      => 'Resource Templates',
                         'route'      => 'admin/default',
                         'controller' => 'resource-template',
-                        'action'     => 'browse',
-                        'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
-                        'pages'      => array(
-                            array(
-                                'route'      => 'admin/id',
-                                'controller' => 'resource-template',
-                                'visible'    => false,
-                            ),
-                            array(
-                                'route'      => 'admin/default',
-                                'controller' => 'resource-template',
-                                'visible'    => false,
-                            ),
-                        ),
+                        'visible'    => false,
                     ),
                 ),
             ),

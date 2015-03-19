@@ -32,10 +32,10 @@ class Manager implements ServiceLocatorAwareInterface
         $thumbnailer->setSource($source);
 
         $tempPaths = array();
-        $tempPaths[] = $this->thumbnailer->createSquare(self::CONSTRAINT_SQUARE);
+        $tempPaths[] = $thumbnailer->createSquare(self::CONSTRAINT_SQUARE);
 
         foreach ($this->types as $type => $constraint) {
-            $tempPaths[$type] = $this->thumbnailer->create($constraint);
+            $tempPaths[$type] = $thumbnailer->create($constraint);
         }
 
         // Finally, store the thumbnails.

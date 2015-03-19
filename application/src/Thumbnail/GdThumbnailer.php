@@ -15,9 +15,6 @@ class GdThumbnailer implements ThumbnailerInterface
         $this->source = $source;
     }
 
-    public function create($constraint)
-    {}
-
-    public function createSquare($constraint)
+    public function create($type, $constraint)
     {}
 }

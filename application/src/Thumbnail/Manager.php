@@ -20,19 +20,6 @@ class Manager implements ServiceLocatorAwareInterface
     );
 
     /**
-     * @var ThumbnailerInterface
-     */
-    protected $thumbnailer;
-
-    /**
-     * @param StrategyInterface $strategy
-     */
-    public function __construct(ThumbnailerInterface $thumbnailer, array $config)
-    {
-        $this->thumbnailer = $thumbnailer;
-    }
-
-    /**
      * Create thumbnail derivatives.
      *
      * @param string $source
@@ -41,12 +28,14 @@ class Manager implements ServiceLocatorAwareInterface
     public function create($source, $storageBaseName)
     {
         /*
-        $tempPaths = array();
+        $thumbnailer = $this->getServiceLocator()->get('Omeka\Thumbnailer');
+        $thumbnailer->setSource($source);
 
-        $tempPaths[] = $this->thumbnailer->createSquare($source, self::CONSTRAINT_SQUARE);
+        $tempPaths = array();
+        $tempPaths[] = $this->thumbnailer->createSquare(self::CONSTRAINT_SQUARE);
 
         foreach ($this->types as $type => $constraint) {
-            $tempPaths[$type] = $this->thumbnailer->create($source, $constraint);
+            $tempPaths[$type] = $this->thumbnailer->create($constraint);
         }
 
         // Finally, store the thumbnails.

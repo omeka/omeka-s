@@ -8,9 +8,16 @@ class GdThumbnailer implements ThumbnailerInterface
 {
     use ServiceLocatorAwareTrait;
 
-    public function create($source, $constraint)
+    protected $source;
+
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    public function create($constraint)
     {}
 
-    public function createSquare($source, $constraint)
+    public function createSquare($constraint)
     {}
 }

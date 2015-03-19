@@ -95,8 +95,6 @@ return array(
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
-            'Omeka\ThumbnailManager'      => 'Omeka\Service\ThumbnailManagerFactory',
-            
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -109,6 +107,7 @@ return array(
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
+            'Omeka\ThumbnailManager'    => 'Omeka\Thumbnail\Manager',
             'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\GdThumbnailer',
             'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
@@ -123,6 +122,7 @@ return array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
             'Omeka\StorableFile' => false,
+            'Omeka\Thumbnailer\Gd' => false,
         ),
     ),
     'controllers' => array(

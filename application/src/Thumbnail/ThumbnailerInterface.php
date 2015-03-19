@@ -12,6 +12,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 interface ThumbnailerInterface extends ServiceLocatorAwareInterface 
 {
-    public function create($source, $constraint);
-    public function createSquare($source, $constraint);
+    public function setSource($source);
+    public function create($constraint);
+    public function createSquare($constraint);
 }

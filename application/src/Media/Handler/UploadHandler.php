@@ -51,7 +51,7 @@ class UploadHandler extends AbstractFileHandler
         $fileInput->getValue();
         chmod($file->getTempPath(), 0644);
 
-        $hasThumbnails = $file->storeThumbnails($fileData['name']);
+        $hasThumbnails = $file->storeThumbnails();
         $file->storeOriginal($fileData['name']);
 
         $media->setFilename($file->getStorageName());

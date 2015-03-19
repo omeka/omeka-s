@@ -36,9 +36,9 @@ class Manager implements ServiceLocatorAwareInterface
      * Create thumbnail derivatives.
      *
      * @param string $source
-     * @param string $storageName
+     * @param string $storageBaseName
      */
-    public function create($source, $storageName)
+    public function create($source, $storageBaseName)
     {
         /*
         $tempPaths = array();
@@ -50,8 +50,9 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         // Finally, store the thumbnails.
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         foreach ($tempPaths as $type => $tempPath) {
-            $fileStore->put($tempPath, sprintf('/%s/%s', $type, $storageName));
+            $fileStore->put($tempPath, sprintf('/%s/%s.jpeg', $type, $storageBaseName));
         }
         */
     }

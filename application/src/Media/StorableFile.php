@@ -16,7 +16,12 @@ class StorableFile implements ServiceLocatorAwareInterface
     protected $tempPath;
 
     /**
-     * @var string Name of the persistently stored file
+     * @var string Base name of the stored file (without extension)
+     */
+    protected $storageBaseName;
+
+    /**
+     * @var string Name of the stored file (with extension)
      */
     protected $storageName;
 
@@ -46,15 +51,12 @@ class StorableFile implements ServiceLocatorAwareInterface
     /**
      * Create and store thumbnails of this file.
      *
-     * @param string $originalName The original name of the file
      * @return bool Whether thumbnails were created and stored
      */
-    public function storeThumbnails($originalName)
+    public function storeThumbnails()
     {
-        $extension = $this->getExtension($originalName);
-        $storageName = $this->getStorageName($extension);
         $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
-        return $manager->create($this->getTempPath(), $storageName);
+        return $manager->create($this->getTempPath(), $this->getStorageBaseName());
     }
 
     /**
@@ -88,6 +90,15 @@ class StorableFile implements ServiceLocatorAwareInterface
         $this->tempPath = $tempPath;
     }
 
+    public function getStorageBaseName()
+    {
+        if (isset($this->storageBaseName)) {
+            return $this->storageBaseName;
+        }
+        $this->storageBaseName = bin2hex(Rand::getBytes(20));
+        return $this->storageBaseName;
+    }
+
     /**
      * Get the name of the persistently stored file.
      *
@@ -99,12 +110,12 @@ class StorableFile implements ServiceLocatorAwareInterface
         if (isset($this->storageName)) {
             return $this->storageName;
         }
-        $storageName = bin2hex(Rand::getBytes(20));
-        if ($extension) {
-            $storageName .= '.' . $extension;
-        }
-        $this->storageName = $storageName;
-        return $storageName;
+        $this->storageName = sprintf(
+            '%s%s',
+            $this->getStorageBaseName(),
+            $extension ? ".$extension" : null
+        );
+        return $this->storageName;
     }
 
     /**

@@ -10,18 +10,43 @@ class Manager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const CONSTRAINT_LARGE = 800;
-    const CONSTRAINT_MEDIUM = 200;
-    const CONSTRAINT_SQUARE = 200;
-
-    protected $types = array(
-        'large' => self::CONSTRAINT_LARGE,
-        'medium' => self::CONSTRAINT_MEDIUM,
+    /**
+     * @var array Default thumbnail configuration
+     */
+    protected $thumbnails = array(
+        'large' => array(
+            'constraint' => 800,
+            'type' => 'default',
+        ),
+        'medium' => array(
+            'constraint' => 200,
+            'type' => 'default',
+        ),
+        'square' => array(
+            'constraint' => 200,
+            'type' => 'square',
+        ),
     );
 
-    protected $squareTypes = array(
-        'square' => self::CONSTRAINT_SQUARE,
-    );
+    /**
+     * Set the custom thumbnail configuration during construction.
+     *
+     * @param array $thumbnails Custom thumbnail configuration
+     */
+    public function __construct(array $thumbnails)
+    {
+        foreach ($thumbnails as $thumbnail => $info) {
+            if (!isset($info['constraint'])) {
+                continue;
+            }
+            $this->thumbnails[$thumbnail]['constraint'] = (int) $info['constraint'];
+            if (isset($info['type'])) {
+                $this->thumbnails[$thumbnail]['type'] = $info['type'];
+            } else {
+                $this->thumbnails[$thumbnail]['type'] = 'default';
+            }
+        }
+    }
 
     /**
      * Create thumbnail derivatives.
@@ -36,27 +61,15 @@ class Manager implements ServiceLocatorAwareInterface
         $thumbnailer->setSource($source);
 
         $tempPaths = array();
-        $tempPaths[] = $thumbnailer->createSquare(self::CONSTRAINT_SQUARE);
-
-        foreach ($this->types as $type => $constraint) {
-            $tempPaths[$type] = $thumbnailer->create($constraint);
+        foreach ($this->thumbnails as $thumbnail => $info) {
+            $tempPaths[$thumbnail] = $thumbnailer->create($info['type'], $info['constraint']);
         }
 
         // Finally, store the thumbnails.
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        foreach ($tempPaths as $type => $tempPath) {
-            $fileStore->put($tempPath, sprintf('/%s/%s.jpeg', $type, $storageBaseName));
+        foreach ($tempPaths as $thumbnail => $tempPath) {
+            $fileStore->put($tempPath, sprintf('/%s/%s.jpeg', $thumbnail, $storageBaseName));
         }
         */
-    }
-
-    public function setType($type, $constraint)
-    {
-        $this->types[$type] = $constraint;
-    }
-
-    public function setSquareType($type, $constraint)
-    {
-        $this->squarTypes[$type] = $constraint;
     }
 }

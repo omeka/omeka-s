@@ -23,11 +23,6 @@ class Media extends Resource
     protected $data;
 
     /**
-     * @Column(type="boolean")
-     */
-    protected $isPublic = false;
-
-    /**
      * @Column(type="text", nullable=true)
      */
     protected $source;
@@ -76,16 +71,6 @@ class Media extends Resource
     public function getData()
     {
         return $this->data;
-    }
-
-    public function setIsPublic($isPublic)
-    {
-        $this->isPublic = (bool) $isPublic;
-    }
-
-    public function isPublic()
-    {
-        return (bool) $this->isPublic;
     }
 
     public function setSource($source)

@@ -64,10 +64,10 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'type', 'data', 'isPublic', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -246,28 +246,6 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setIsPublic($isPublic)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
-
-        return parent::setIsPublic($isPublic);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isPublic()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
-
-        return parent::isPublic();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setSource($source)
     {
 
@@ -417,6 +395,28 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', array());
 
         return parent::getResourceTemplate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+
+        return parent::isPublic();
     }
 
     /**

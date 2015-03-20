@@ -68,7 +68,8 @@ class Manager implements ServiceLocatorAwareInterface
         // Finally, store the thumbnails.
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         foreach ($tempPaths as $thumbnail => $tempPath) {
-            $fileStore->put($tempPath, sprintf('/%s/%s.jpeg', $thumbnail, $storageBaseName));
+            $storagePath = sprintf('/%s/%s.jpeg', $thumbnail, $storageBaseName);
+            $fileStore->put($tempPath, $storagePath);
         }
         */
     }

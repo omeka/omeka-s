@@ -38,7 +38,5 @@ abstract class AbstractHandler implements HandlerInterface
                 $response->getStatusCode()
             ));
         }
-
-        chmod($tempPath, 0644);
     }
 }

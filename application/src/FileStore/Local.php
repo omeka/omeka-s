@@ -44,6 +44,7 @@ class Local implements FileStoreInterface
         $localPath = $this->getLocalPath($storagePath);
         $this->assurePathDirectories($localPath);
         $status = rename($source, $localPath);
+        chmod($localPath, 0644);
         if (!$status) {
             throw new Exception\RuntimeException(
                 sprintf('Failed to move "%s" to "%s".', $source, $localPath)

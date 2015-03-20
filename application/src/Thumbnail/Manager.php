@@ -22,10 +22,10 @@ class Manager implements ServiceLocatorAwareInterface
             'constraint' => 200,
             'type' => 'default',
         ),
-        'square' => array(
-            'constraint' => 200,
-            'type' => 'square',
-        ),
+        //~ 'square' => array(
+            //~ 'constraint' => 200,
+            //~ 'type' => 'square',
+        //~ ),
     );
 
     /**
@@ -53,16 +53,22 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $source
      * @param string $storageBaseName
+     * @return bool Whether thumbnails were created and stored
      */
     public function create($source, $storageBaseName)
     {
-        /*
         $thumbnailer = $this->getServiceLocator()->get('Omeka\Thumbnailer');
-        $thumbnailer->setSource($source);
-
         $tempPaths = array();
-        foreach ($this->thumbnails as $thumbnail => $info) {
-            $tempPaths[$thumbnail] = $thumbnailer->create($info['type'], $info['constraint']);
+
+        try {
+            $thumbnailer->setSource($source);
+            foreach ($this->thumbnails as $thumbnail => $info) {
+                $tempPaths[$thumbnail] = $thumbnailer->create(
+                    $info['type'], $info['constraint']
+                );
+            }
+        } catch (Exception\CannotCreateThumbnailException $e) {
+            return false;
         }
 
         // Finally, store the thumbnails.
@@ -71,6 +77,7 @@ class Manager implements ServiceLocatorAwareInterface
             $storagePath = sprintf('/%s/%s.jpeg', $thumbnail, $storageBaseName);
             $fileStore->put($tempPath, $storagePath);
         }
-        */
+
+        return true;
     }
 }

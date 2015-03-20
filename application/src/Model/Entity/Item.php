@@ -15,11 +15,6 @@ class Item extends Resource
     protected $id;
 
     /**
-     * @Column(type="boolean")
-     */
-    protected $isPublic = false;
-
-    /**
      * @OneToMany(
      *     targetEntity="Media",
      *     mappedBy="item",
@@ -55,16 +50,6 @@ class Item extends Resource
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setIsPublic($isPublic)
-    {
-        $this->isPublic = (bool) $isPublic;
-    }
-
-    public function isPublic()
-    {
-        return (bool) $this->isPublic;
     }
 
     public function getMedia()

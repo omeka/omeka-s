@@ -64,10 +64,10 @@ class ItemSet extends \Omeka\Model\Entity\ItemSet implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -274,6 +274,28 @@ class ItemSet extends \Omeka\Model\Entity\ItemSet implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', array());
 
         return parent::getResourceTemplate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+
+        return parent::isPublic();
     }
 
     /**

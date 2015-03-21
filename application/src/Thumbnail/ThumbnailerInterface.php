@@ -21,7 +21,8 @@ interface ThumbnailerInterface extends ServiceLocatorAwareInterface
      *
      * @param string $type Type of thumbnail (default is "default")
      * @param int $constraint Size constraint of the thumbnail
-     * @return string Path to the new thumnail file
+     * @param array $options Thumbnail options
+     * @return string Path to temporary thumbnail file
      */
-    public function create($type, $constraint);
+    public function create($type, $constraint, array $options = array());
 }

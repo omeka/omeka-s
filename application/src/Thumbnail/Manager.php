@@ -15,17 +15,22 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected $thumbnails = array(
         'large' => array(
-            'constraint' => 800,
             'type' => 'default',
+            'constraint' => 800,
+            'options' => array(),
         ),
         'medium' => array(
-            'constraint' => 200,
             'type' => 'default',
+            'constraint' => 200,
+            'options' => array(),
         ),
-        //~ 'square' => array(
-            //~ 'constraint' => 200,
-            //~ 'type' => 'square',
-        //~ ),
+        'square' => array(
+            'type' => 'square',
+            'constraint' => 200,
+            'options' => array(
+                'gravity' => 'center',
+            ),
+        ),
     );
 
     /**
@@ -44,6 +49,11 @@ class Manager implements ServiceLocatorAwareInterface
                 $this->thumbnails[$thumbnail]['type'] = $info['type'];
             } else {
                 $this->thumbnails[$thumbnail]['type'] = 'default';
+            }
+            if (isset($info['options']) && is_array($info['options'])) {
+                $this->thumbnails[$thumbnail]['options'] = $info['options'];
+            } else {
+                $this->thumbnails[$thumbnail]['options'] = array();
             }
         }
     }
@@ -64,7 +74,7 @@ class Manager implements ServiceLocatorAwareInterface
             $thumbnailer->setSource($source);
             foreach ($this->thumbnails as $thumbnail => $info) {
                 $tempPaths[$thumbnail] = $thumbnailer->create(
-                    $info['type'], $info['constraint']
+                    $info['type'], $info['constraint'], $info['options']
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {

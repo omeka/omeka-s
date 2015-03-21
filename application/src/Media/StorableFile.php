@@ -105,7 +105,7 @@ class StorableFile implements ServiceLocatorAwareInterface
      * @param string $extension The filename extension to append
      * @return string
      */
-    public function getStorageName($extension)
+    public function getStorageName($extension = null)
     {
         if (isset($this->storageName)) {
             return $this->storageName;

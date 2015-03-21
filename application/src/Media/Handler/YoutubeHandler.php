@@ -51,8 +51,18 @@ class YoutubeHandler extends AbstractHandler
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
-        $data = array('id' => $request->getMetadata('youtubeId'));
-        $media->setData($data);
+        $id = $request->getMetadata('youtubeId');
+
+        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
+        $this->downloadFile($url, $file->getTempPath());
+        $hasThumbnails = $file->storeThumbnails();
+
+        $media->setData(array('id' => $id));
+        $media->setFilename($file->getStorageName());
+        $media->setMediaType($file->getMediaType());
+        $media->setHasThumbnails($hasThumbnails);
+        $media->setHasOriginal(false);
     }
 
     public function form(PhpRenderer $view, array $options = array())
@@ -73,15 +83,12 @@ class YoutubeHandler extends AbstractHandler
 
         // Compose the YouTube embed URL and build the markup.
         $data = $media->mediaData();
-        $embedUri = new HttpUri;
-        $embedUri->setScheme('https')
-            ->setHost('www.youtube.com')
-            ->setPath('/embed/' . $data['id']);
+        $url = sprintf('https://www.youtube.com/embed/%s', $data['id']);
         $embed = sprintf(
             '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
             $view->escapeHtmlAttr($options['width']),
             $view->escapeHtmlAttr($options['height']),
-            $view->escapeHtmlAttr($embedUri->toString()),
+            $view->escapeHtmlAttr($url),
             $options['allowfullscreen'] ? ' allowfullscreen' : ''
         );
         return $embed;

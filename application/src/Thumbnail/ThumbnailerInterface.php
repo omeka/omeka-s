@@ -16,13 +16,13 @@ interface ThumbnailerInterface extends ServiceLocatorAwareInterface
      * Create a thumbnail derivative.
      *
      * Implementations should attempt to copy the source file, convert it to
-     * JPEG, and resize it according to the passed type and constraint. They
-     * should handle at least the "default" and "square" thumbnail types.
+     * JPEG, and resize it according to the passed strategy and constraint. They
+     * should handle at least the "default" and "square" thumbnail strategies.
      *
-     * @param string $type Type of thumbnail (default is "default")
+     * @param string $strategy Creation strategy (default is "default")
      * @param int $constraint Size constraint of the thumbnail
      * @param array $options Thumbnail options
      * @return string Path to temporary thumbnail file
      */
-    public function create($type, $constraint, array $options = array());
+    public function create($strategy, $constraint, array $options = array());
 }

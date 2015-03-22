@@ -43,9 +43,9 @@ class GdThumbnailer implements ThumbnailerInterface
     /**
      * {@inheritDoc}
      */
-    public function create($type, $constraint, array $options = array())
+    public function create($strategy, $constraint, array $options = array())
     {
-        switch ($type) {
+        switch ($strategy) {
             case 'square':
                 $tempPath = $this->createSquare($constraint, $options);
                 break;

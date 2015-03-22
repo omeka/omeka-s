@@ -15,17 +15,17 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected $thumbnails = array(
         'large' => array(
-            'type' => 'default',
+            'strategy' => 'default',
             'constraint' => 800,
             'options' => array(),
         ),
         'medium' => array(
-            'type' => 'default',
+            'strategy' => 'default',
             'constraint' => 200,
             'options' => array(),
         ),
         'square' => array(
-            'type' => 'square',
+            'strategy' => 'square',
             'constraint' => 200,
             'options' => array(
                 'gravity' => 'center',
@@ -45,10 +45,10 @@ class Manager implements ServiceLocatorAwareInterface
                 continue;
             }
             $this->thumbnails[$thumbnail]['constraint'] = (int) $info['constraint'];
-            if (isset($info['type'])) {
-                $this->thumbnails[$thumbnail]['type'] = $info['type'];
+            if (isset($info['strategy'])) {
+                $this->thumbnails[$thumbnail]['strategy'] = $info['strategy'];
             } else {
-                $this->thumbnails[$thumbnail]['type'] = 'default';
+                $this->thumbnails[$thumbnail]['strategy'] = 'default';
             }
             if (isset($info['options']) && is_array($info['options'])) {
                 $this->thumbnails[$thumbnail]['options'] = $info['options'];
@@ -74,7 +74,7 @@ class Manager implements ServiceLocatorAwareInterface
             $thumbnailer->setSource($source);
             foreach ($this->thumbnails as $thumbnail => $info) {
                 $tempPaths[$thumbnail] = $thumbnailer->create(
-                    $info['type'], $info['constraint'], $info['options']
+                    $info['strategy'], $info['constraint'], $info['options']
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {

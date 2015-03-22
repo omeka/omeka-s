@@ -19,6 +19,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:source'     => $this->source(),
             'o:media_type' => $this->mediaType(),
             'o:filename'   => $this->filename(),
+            'o:has_original' => $this->hasOriginal(),
+            'o:has_thumbnail' => $this->hasThumbnails(),
         );
     }
 
@@ -86,5 +88,25 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function filename()
     {
         return $this->getData()->getFilename();
+    }
+
+    /**
+     * Check whether this media has an original file.
+     *
+     * @return bool
+     */
+    public function hasOriginal()
+    {
+        return $this->getData()->hasOriginal();
+    }
+
+    /**
+     * Check whether this media has thumbnail images.
+     *
+     * @return bool
+     */
+    public function hasThumbnails()
+    {
+        return $this->getData()->hasThumbnails();
     }
 }

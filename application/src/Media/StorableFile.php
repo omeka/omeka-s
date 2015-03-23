@@ -140,11 +140,13 @@ class StorableFile implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the filename extension of the original file.
+     * Get the filename extension for the original file.
      *
-     * Returns the original extension if the file already has one. Otherwise it
-     * returns the first extension found from a map between Internet media types
-     * and extensions.
+     * Checks the extension against a map of Internet media types. Returns a
+     * "best guess" extension if the media type is known but the original
+     * extension is unrecognized or nonexistent. Returns the original extension
+     * if it is unrecoginized, maps to a known media type, or maps to the
+     * catch-all media type, "application/octet-stream".
      *
      * @param string $originalFile The original file name
      * @return string
@@ -157,8 +159,18 @@ class StorableFile implements ServiceLocatorAwareInterface
         $map = $this->getServiceLocator()->get('Omeka\MediaTypeExtensionMap');
         $mediaType = $this->getMediaType();
         $extension = substr(strrchr($originalFile, '.'), 1);
-        if (!$extension && isset($map[$mediaType][0])) {
-            $extension = $map[$mediaType][0];
+        if (isset($map[$mediaType][0])
+            && !in_array($mediaType, array('application/octet-stream'))
+        ) {
+            if ($extension) {
+                if (!in_array($extension, $map[$mediaType])) {
+                    // Unrecognized extension.
+                    $extension = $map[$mediaType][0];
+                }
+            } else {
+                // No extension.
+                $extension = $map[$mediaType][0];
+            }
         }
         $this->extension = $extension;
         return $extension;

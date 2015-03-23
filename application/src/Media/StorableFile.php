@@ -11,6 +11,11 @@ class StorableFile implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * The storage prefix for original files.
+     */
+    const ORIGINAL_STORAGE_PREFIX = 'original';
+
+    /**
      * @var string Path to the temporary file
      */
     protected $tempPath;
@@ -43,7 +48,8 @@ class StorableFile implements ServiceLocatorAwareInterface
     public function storeOriginal($originalName)
     {
         $extension = $this->getExtension($originalName);
-        $storagePath = sprintf('original/%s', $this->getStorageName($extension));
+        $storagePath = sprintf('%s/%s', self::ORIGINAL_STORAGE_PREFIX,
+            $this->getStorageName($extension));
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         $fileStore->put($this->getTempPath(), $storagePath);
     }
@@ -110,11 +116,8 @@ class StorableFile implements ServiceLocatorAwareInterface
         if (isset($this->storageName)) {
             return $this->storageName;
         }
-        $this->storageName = sprintf(
-            '%s%s',
-            $this->getStorageBaseName(),
-            $extension ? ".$extension" : null
-        );
+        $this->storageName = sprintf('%s%s', $this->getStorageBaseName(),
+            $extension ? ".$extension" : null);
         return $this->storageName;
     }
 

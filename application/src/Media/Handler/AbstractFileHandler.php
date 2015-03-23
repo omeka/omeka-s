@@ -22,9 +22,7 @@ abstract class AbstractFileHandler extends AbstractHandler
                 ->get($media->mediaType());
             return $renderer->render($view, $media, $options);
         } catch (ServiceNotFoundException $e) {
-            $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-            $url = $fileStore->getUri('original/' . $media->filename());
-            return $view->hyperlink($media->filename(), $url);
+            return $view->hyperlink($media->filename(), $media->originalUrl());
         }
     }
 }

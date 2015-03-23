@@ -10,7 +10,7 @@ class Manager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const EXTENSION = '.jpeg';
+    const EXTENSION = '.jpg';
 
     /**
      * @var array Default thumbnail configuration

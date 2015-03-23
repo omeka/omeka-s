@@ -22,7 +22,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <div id="item-media" class="section">
     <?php foreach ($item->media() as $media): ?>
-    <div><?php echo $media->render(); ?></div>
+    <div><img src="<?php echo $media->thumbnailUrl('large'); ?>"></div>
     <?php endforeach; ?>
 </div>
 

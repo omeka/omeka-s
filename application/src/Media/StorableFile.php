@@ -43,7 +43,7 @@ class StorableFile implements ServiceLocatorAwareInterface
     public function storeOriginal($originalName)
     {
         $extension = $this->getExtension($originalName);
-        $storagePath = '/original/' . $this->getStorageName($extension);
+        $storagePath = sprintf('original/%s', $this->getStorageName($extension));
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         $fileStore->put($this->getTempPath(), $storagePath);
     }

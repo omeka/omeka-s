@@ -10,6 +10,8 @@ class Manager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    const EXTENSION = '.jpeg';
+
     /**
      * @var array Default thumbnail configuration
      */
@@ -59,6 +61,41 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Check whether a thumbnail type exists.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function typeExists($type)
+    {
+        return array_key_exists($type, $this->thumbnails);
+    }
+
+    /**
+     * Get all thumbnail types.
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
+        return array_keys($this->thumbnails);
+    }
+
+    /**
+     * Get the storage path to a thumbnail.
+     *
+     * @param string $type
+     * @param string $filename
+     * @return string
+     */
+    public function getStoragePath($type, $filename)
+    {
+        // Remove an extension if there is one.
+        $storageBaseName = strstr($filename, '.', true) ?: $filename;
+        return sprintf('%s/%s%s', $type, $storageBaseName, self::EXTENSION);
+    }
+
+    /**
      * Create thumbnail derivatives.
      *
      * @param string $source
@@ -78,13 +115,14 @@ class Manager implements ServiceLocatorAwareInterface
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {
+            // @todo Unset thumbnail files created before exception was thrown
             return false;
         }
 
         // Finally, store the thumbnails.
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
         foreach ($tempPaths as $thumbnail => $tempPath) {
-            $storagePath = sprintf('/%s/%s.jpeg', $thumbnail, $storageBaseName);
+            $storagePath = $this->getStoragePath($thumbnail, $storageBaseName);
             $fileStore->put($tempPath, $storagePath);
         }
 

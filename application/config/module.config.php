@@ -77,6 +77,7 @@ return array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
     ),
+    'thumbnails' => array(),
     'service_manager' => array(
         'factories' => array(
             'Navigation'                  => 'Zend\Navigation\Service\DefaultNavigationFactory',
@@ -94,6 +95,7 @@ return array(
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
+            'Omeka\ThumbnailManager'      => 'Omeka\Service\ThumbnailManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -105,17 +107,22 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\JobDispatchStrategy\PhpCli'  => 'Omeka\Job\Strategy\PhpCliStrategy',
-            'Omeka\JobDispatchStrategy\Synchronous'  => 'Omeka\Job\Strategy\SynchronousStrategy',
+            'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
+            'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\GdThumbnailer',
+            'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
+            'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
             'Omeka\FileStore'           => 'Omeka\FileStore\Local',
+            'Omeka\Thumbnailer'         => 'Omeka\Thumbnailer\Gd',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
         'shared' => array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
+            'Omeka\StorableFile' => false,
+            'Omeka\Thumbnailer\Gd' => false,
         ),
     ),
     'controllers' => array(

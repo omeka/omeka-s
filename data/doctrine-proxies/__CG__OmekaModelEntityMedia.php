@@ -290,6 +290,50 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function setHasOriginal($hasOriginal)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasOriginal', array($hasOriginal));
+
+        return parent::setHasOriginal($hasOriginal);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasOriginal()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasOriginal', array());
+
+        return parent::hasOriginal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHasThumbnails($hasThumbnails)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasThumbnails', array($hasThumbnails));
+
+        return parent::setHasThumbnails($hasThumbnails);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasThumbnails()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThumbnails', array());
+
+        return parent::hasThumbnails();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setFilename($filename)
     {
 

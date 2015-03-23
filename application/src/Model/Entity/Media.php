@@ -38,6 +38,16 @@ class Media extends Resource
     protected $filename;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $hasOriginal = false;
+
+    /**
+     * @Column(type="boolean")
+     */
+    protected $hasThumbnails = false;
+
+    /**
      * @ManyToOne(targetEntity="Item", inversedBy="media")
      * @JoinColumn(nullable=false)
      */
@@ -91,6 +101,26 @@ class Media extends Resource
     public function getMediaType()
     {
         return $this->mediaType;
+    }
+
+    public function setHasOriginal($hasOriginal)
+    {
+        $this->hasOriginal = (bool) $hasOriginal;
+    }
+
+    public function hasOriginal()
+    {
+        return (bool) $this->hasOriginal;
+    }
+
+    public function setHasThumbnails($hasThumbnails)
+    {
+        $this->hasThumbnails = (bool) $hasThumbnails;
+    }
+
+    public function hasThumbnails()
+    {
+        return (bool) $this->hasThumbnails;
     }
 
     public function setFilename($filename)

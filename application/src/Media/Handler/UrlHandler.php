@@ -34,34 +34,15 @@ class UrlHandler extends AbstractFileHandler
             return;
         }
 
-        $services = $this->getServiceLocator();
-        $tempDir = $services->get('Config')['temp_dir'];
-        $client = $services->get('Omeka\HttpClient');
-        $client->setUri($uri)->setStream(tempnam($tempDir, 'ingest'));
+        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $this->downloadFile($uri, $file->getTempPath());
+        $hasThumbnails = $file->storeThumbnails();
+        $file->storeOriginal($uri->getPath());
 
-        // Attempt three requests before throwing a Zend HTTP exception.
-        $attempt = 0;
-        while (true) {
-            try {
-                $response = $client->send();
-                break;
-            } catch (HttpExceptionInterface $e) {
-                if (++$attempt == 3) throw $e;
-            }
-        }
-
-        if (!$response->isOk()) {
-            $errorStore->addError('ingest_uri', sprintf(
-                "Error ingesting from URI: %s (%s)",
-                $response->getReasonPhrase(),
-                $response->getStatusCode()
-            ));
-            return;
-        }
-
-        $origin = $response->getStreamName();
-        chmod($origin, 0644);
-        $this->processFile($media, $origin, $uri->getPath());
+        $media->setFilename($file->getStorageName());
+        $media->setMediaType($file->getMediaType());
+        $media->setHasThumbnails($hasThumbnails);
+        $media->setHasOriginal(true);
 
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);

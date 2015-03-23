@@ -51,6 +51,8 @@ CREATE TABLE `media` (
   `source` longtext COLLATE utf8_unicode_ci,
   `media_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `filename` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `has_original` tinyint(1) NOT NULL,
+  `has_thumbnails` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_6A2CA10C126F525E` (`item_id`),
   CONSTRAINT `FK_6A2CA10C126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),

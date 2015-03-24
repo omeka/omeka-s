@@ -13,9 +13,9 @@ class Manager implements ServiceLocatorAwareInterface
     const EXTENSION = '.jpg';
 
     /**
-     * @var array Default thumbnail configuration
+     * @var array Default thumbnail types and their configuration
      */
-    protected $thumbnails = array(
+    protected $types = array(
         'large' => array(
             'strategy' => 'default',
             'constraint' => 800,
@@ -36,27 +36,40 @@ class Manager implements ServiceLocatorAwareInterface
     );
 
     /**
-     * Set the custom thumbnail configuration during construction.
-     *
-     * @param array $thumbnails Custom thumbnail configuration
+     * @var array Default options for all thumbnail types
      */
-    public function __construct(array $thumbnails)
+    protected $options = array(
+        'page' => 0,
+    );
+
+    /**
+     * Set the custom configuration during construction.
+     *
+     * @param array $types Thumbnail types and their configuration
+     * @param array $options Options for all thumbnail types
+     */
+    public function __construct(array $types, array $options = array())
     {
-        foreach ($thumbnails as $thumbnail => $info) {
-            if (!isset($info['constraint'])) {
+        // Set custom type configuration.
+        foreach ($types as $type => $config) {
+            if (!isset($config['constraint'])) {
                 continue;
             }
-            $this->thumbnails[$thumbnail]['constraint'] = (int) $info['constraint'];
-            if (isset($info['strategy'])) {
-                $this->thumbnails[$thumbnail]['strategy'] = $info['strategy'];
+            $this->types[$type]['constraint'] = (int) $config['constraint'];
+            if (isset($config['strategy'])) {
+                $this->types[$type]['strategy'] = $config['strategy'];
             } else {
-                $this->thumbnails[$thumbnail]['strategy'] = 'default';
+                $this->types[$type]['strategy'] = 'default';
             }
-            if (isset($info['options']) && is_array($info['options'])) {
-                $this->thumbnails[$thumbnail]['options'] = $info['options'];
+            if (isset($config['options']) && is_array($config['options'])) {
+                $this->types[$type]['options'] = $config['options'];
             } else {
-                $this->thumbnails[$thumbnail]['options'] = array();
+                $this->types[$type]['options'] = array();
             }
+        }
+        // Set custom options.
+        foreach ($options as $key => $value) {
+            $this->options[$key] = $value;
         }
     }
 
@@ -68,7 +81,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function typeExists($type)
     {
-        return array_key_exists($type, $this->thumbnails);
+        return array_key_exists($type, $this->types);
     }
 
     /**
@@ -78,7 +91,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getTypes()
     {
-        return array_keys($this->thumbnails);
+        return array_keys($this->types);
     }
 
     /**
@@ -109,9 +122,9 @@ class Manager implements ServiceLocatorAwareInterface
 
         try {
             $thumbnailer->setSource($source);
-            foreach ($this->thumbnails as $thumbnail => $info) {
-                $tempPaths[$thumbnail] = $thumbnailer->create(
-                    $info['strategy'], $info['constraint'], $info['options']
+            foreach ($this->types as $type => $config) {
+                $tempPaths[$type] = $thumbnailer->create(
+                    $config['strategy'], $config['constraint'], $config['options']
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {

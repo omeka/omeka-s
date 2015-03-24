@@ -2,14 +2,12 @@
 namespace Omeka\Thumbnail;
 
 use Imagick;
+use ImagickException;
 use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\ThumbnailerInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Omeka\Thumbnail\AbstractThumbnailer;
 
-class ImagickThumbnailer implements ThumbnailerInterface
+class ImagickThumbnailer extends AbstractThumbnailer
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var string
      */
@@ -33,16 +31,6 @@ class ImagickThumbnailer implements ThumbnailerInterface
     }
 
     /**
-     * Create Imagick instance.
-     *
-     * {@inheritDoc}
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function setOptions(array $options)
@@ -57,7 +45,11 @@ class ImagickThumbnailer implements ThumbnailerInterface
      */
     public function create($strategy, $constraint, array $options = array())
     {
-        $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->page));
+        try {
+            $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->page));
+        } catch (ImagickException $e) {
+            throw new Exception\CannotCreateThumbnailException;
+        }
         $imagick->setBackgroundColor('white');
         $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
@@ -91,63 +83,5 @@ class ImagickThumbnailer implements ThumbnailerInterface
         $imagick->clear();
 
         return $file->getTempPath();
-    }
-
-    /**
-     * Get the required offset on the X axis.
-     *
-     * This respects the "gravity" option.
-     *
-     * @param int $width Original image width
-     * @param int $size Side size of the square region being selected
-     * @param string $gravity
-     * @return int
-     */
-    protected function getOffsetX($width, $size, $gravity)
-    {
-        switch ($gravity) {
-            case 'northwest':
-            case 'west':
-            case 'southwest':
-                return 0;
-            case 'northeast':
-            case 'east':
-            case 'southeast':
-                return $width - $size;
-            case 'north':
-            case 'center':
-            case 'south':
-            default:
-                return (int) (($width - $size) / 2);
-        }
-    }
-
-    /**
-     * Get the required offset on the Y axis.
-     *
-     * This respects the "gravity" option.
-     *
-     * @param int $height Original image height
-     * @param int $size Side size of square region being selected
-     * @param string $gravity
-     * @return int
-     */
-    protected function getOffsetY($height, $size, $gravity)
-    {
-        switch ($gravity) {
-            case 'northwest':
-            case 'north':
-            case 'northeast':
-                return 0;
-            case 'southwest':
-            case 'south':
-            case 'southeast':
-                return $height - $size;
-            case 'west':
-            case 'center':
-            case 'east':
-            default:
-                return (int) (($height - $size) / 2);
-        }
     }
 }

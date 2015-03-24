@@ -2,13 +2,10 @@
 namespace Omeka\Thumbnail;
 
 use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\ThumbnailerInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Omeka\Thumbnail\AbstractThumbnailer;
 
-class GdThumbnailer implements ThumbnailerInterface
+class GdThumbnailer extends AbstractThumbnailer
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var "gd" resource
      */
@@ -39,12 +36,6 @@ class GdThumbnailer implements ThumbnailerInterface
         }
         $this->origImage = $origImage;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setOptions(array $options)
-    {}
 
     /**
      * {@inheritDoc}
@@ -181,64 +172,6 @@ class GdThumbnailer implements ThumbnailerInterface
 
         imagedestroy($tempImage);
         return $file->getTempPath();
-    }
-
-    /**
-     * Get the required offset on the X axis.
-     *
-     * This respects the "gravity" option.
-     *
-     * @param int $width Original image width
-     * @param int $size Side size of the square region being selected
-     * @param string $gravity
-     * @return int
-     */
-    protected function getOffsetX($width, $size, $gravity)
-    {
-        switch ($gravity) {
-            case 'northwest':
-            case 'west':
-            case 'southwest':
-                return 0;
-            case 'northeast':
-            case 'east':
-            case 'southeast':
-                return $width - $size;
-            case 'north':
-            case 'center':
-            case 'south':
-            default:
-                return (int) (($width - $size) / 2);
-        }
-    }
-
-    /**
-     * Get the required offset on the Y axis.
-     *
-     * This respects the "gravity" option.
-     *
-     * @param int $height Original image height
-     * @param int $size Side size of square region being selected
-     * @param string $gravity
-     * @return int
-     */
-    protected function getOffsetY($height, $size, $gravity)
-    {
-        switch ($gravity) {
-            case 'northwest':
-            case 'north':
-            case 'northeast':
-                return 0;
-            case 'southwest':
-            case 'south':
-            case 'southeast':
-                return $height - $size;
-            case 'west':
-            case 'center':
-            case 'east':
-            default:
-                return (int) (($height - $size) / 2);
-        }
     }
 
     /**

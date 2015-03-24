@@ -179,6 +179,13 @@ var Omeka = {
                 $(this).toggleClass('show');
             }
         });
+        
+        $('.property-selector-filter').on('keydown', function(e) {
+            if (e.keyCode == 13) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
 
         // Property selector, filter properties.
         $('.property-selector-filter').on('keyup', (function() {

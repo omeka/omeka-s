@@ -64,10 +64,10 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**

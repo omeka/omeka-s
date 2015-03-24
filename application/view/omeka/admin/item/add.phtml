@@ -29,7 +29,10 @@ if (isset($errors)) {
         //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
-                array('id' => 'resource-values', 'class' => 'section active' )
+                array('id'                   => 'resource-values',
+                      'class'                => 'section active',
+                      'propertySelectorText' => 'Click on a property to add it to the add panel'
+                      )
                 );
     ?>
 

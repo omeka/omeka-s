@@ -111,6 +111,11 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Create thumbnail derivatives.
      *
+     * Gets a new thumbnailer instance for each call to this method (via a
+     * non-shared service). This gives thumbnailers an opportunity to share
+     * common properties that are needed for each type. Depending on the how the
+     * strategy creates thumbnails, this can solve memory limit problems.
+     *
      * @param string $source
      * @param string $storageBaseName
      * @return bool Whether thumbnails were created and stored
@@ -122,6 +127,7 @@ class Manager implements ServiceLocatorAwareInterface
 
         try {
             $thumbnailer->setSource($source);
+            $thumbnailer->setOptions($this->options);
             foreach ($this->types as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
                     $config['strategy'], $config['constraint'], $config['options']

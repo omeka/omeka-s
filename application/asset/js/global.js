@@ -73,12 +73,15 @@ var Omeka = {
                 }
             });
             if (propertyCount > 0) {
-                vocabulary.show();
+                vocabulary.addClass('show');
             } else {
-                vocabulary.hide();
+                vocabulary.removeClass('show');
             }
             vocabulary.children('span.property-count').text(propertyCount);
         });
+        if (propertyFilter == '') {
+            propertySelector.find('li.vocabulary').removeClass('show');
+        }
         propertySelector.find('span.total-property-count').text(totalPropertyCount);
     },
     
@@ -173,7 +176,7 @@ var Omeka = {
         });
         
         // Property selector toggle children
-        $('.property-selector li').on('click', function(e) {
+        $('.property-selector li.vocabulary').on('click', function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');

@@ -112,6 +112,7 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
             'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\GdThumbnailer',
+            'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\ImagickThumbnailer',
             'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),

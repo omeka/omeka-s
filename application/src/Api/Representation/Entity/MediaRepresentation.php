@@ -5,6 +5,15 @@ use Omeka\Media\StorableFile;
 
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerName()
+    {
+        return 'media';
+    }
+    
     /**
      * {@inheritDoc}
      */

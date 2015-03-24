@@ -143,6 +143,7 @@ return array(
             'Omeka\Controller\Admin\Vocabulary'       => 'Omeka\Controller\Admin\VocabularyController',
             'Omeka\Controller\Admin\Property'         => 'Omeka\Controller\Admin\PropertyController',
             'Omeka\Controller\Admin\ResourceClass'    => 'Omeka\Controller\Admin\ResourceClassController',
+            'Omeka\Controller\Admin\Media'            => 'Omeka\Controller\Admin\MediaController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
         ),
     ),

@@ -1,0 +1,19 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'media browse');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+
+<h1><?php echo $escape($this->translate('Media')); ?></h1>
+<p>This is temporary. Just a path to editing media for now.</p>
+
+<ul>
+<?php foreach ($medias as $media): ?>
+<li>
+<?php echo $media->link(strip_tags($media->displayTitle('[untitled]')), 'edit'); ?>
+</li>
+
+
+
+<?php endforeach; ?>
+</ul>

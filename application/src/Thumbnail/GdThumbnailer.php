@@ -43,6 +43,12 @@ class GdThumbnailer implements ThumbnailerInterface
     /**
      * {@inheritDoc}
      */
+    public function setOptions(array $options)
+    {}
+
+    /**
+     * {@inheritDoc}
+     */
     public function create($strategy, $constraint, array $options = array())
     {
         switch ($strategy) {

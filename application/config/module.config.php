@@ -77,7 +77,10 @@ return array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
     ),
-    'thumbnails' => array(),
+    'thumbnails' => array(
+        'types' => array(),
+        'options' => array(),
+    ),
     'service_manager' => array(
         'factories' => array(
             'Navigation'                  => 'Zend\Navigation\Service\DefaultNavigationFactory',

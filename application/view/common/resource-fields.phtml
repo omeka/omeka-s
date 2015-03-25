@@ -51,5 +51,11 @@
     </div>
     <div id='properties'>
     </div>
-<?php echo $this->propertySelector(); ?>
+<?php 
+    if (isset($propertySelectorText)) {
+        echo $this->propertySelector($propertySelectorText);
+    } else {
+        echo $this->propertySelector();
+    }
+?>
 </fieldset>

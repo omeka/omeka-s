@@ -46,6 +46,11 @@ abstract class Resource extends AbstractEntity
     protected $resourceTemplate;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = false;
+
+    /**
      * @Column(type="datetime")
      */
     protected $created;
@@ -115,6 +120,16 @@ abstract class Resource extends AbstractEntity
     public function getResourceTemplate()
     {
         return $this->resourceTemplate;
+    }
+
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function isPublic()
+    {
+        return (bool) $this->isPublic;
     }
 
     public function setCreated(DateTime $dateTime)

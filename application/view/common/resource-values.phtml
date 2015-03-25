@@ -2,10 +2,35 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<?php foreach ($values as $term => $property): ?>
+<?php foreach ($values as $term => $propertyData): ?>
 <div class="property">
-    <h4><?php echo $escape($property['property']->label()); ?></h4>
-    <?php foreach ($property['values'] as $value): ?>
+    <?php if (isset($templateProperties)) {
+        $label = '';
+        $comment = '';
+        $propertyId = $propertyData['property']->id();
+        foreach ($templateProperties as $templatePropertyData) {
+            if ( $propertyId == $templatePropertyData['o:property']->id() ) {
+                $altLabel = $templatePropertyData['o:alternate_label'];
+                if ( ! empty($altLabel)) {
+                    $label = $escape($altLabel) . "<span class='field-term o-icon-developer' title='Property term for development use'>$term</span>";
+                }
+                $comment = $templatePropertyData['o:alternate_comment'] ;
+                break;
+            }
+        }
+        if (empty($label)) {
+            $label = $escape($propertyData['property']->label());
+        }
+        if (empty($comment)) {
+            $comment = $propertyData['property']->comment();
+        }
+    } else {
+        $label = $escape($propertyData['property']->label());
+        $comment = $propertyData['property']->comment();
+    }
+    ?>
+    <h4><?php echo $label; ?></h4>
+    <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>
         <?php else: ?>

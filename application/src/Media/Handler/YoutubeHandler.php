@@ -3,17 +3,14 @@ namespace Omeka\Media\Handler;
 
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\HandlerInterface;
+use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class YoutubeHandler implements HandlerInterface
+class YoutubeHandler extends AbstractHandler
 {
-    use ServiceLocatorAwareTrait;
-
     const WIDTH = 420;
     const HEIGHT = 315;
     const ALLOWFULLSCREEN = true;
@@ -49,20 +46,23 @@ class YoutubeHandler implements HandlerInterface
             return;
         }
 
-        // Compose the YouTube embed URL and set that to o:source.
-        $embedUri = new HttpUri;
-        $embedUri->setScheme('https')
-            ->setHost('www.youtube.com')
-            ->setPath('/embed/' . $query['v']);
-
-        $data['o:source'] = $embedUri;
-        $request->setContent($data);
+        $request->setMetadata('youtubeId', $query['v']);
     }
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
-        $data = $request->getContent();
-        $media->setSource($data['o:source']);
+        $id = $request->getMetadata('youtubeId');
+
+        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
+        $this->downloadFile($url, $file->getTempPath());
+        $hasThumbnails = $file->storeThumbnails();
+
+        $media->setData(array('id' => $id));
+        $media->setFilename($file->getStorageName());
+        $media->setMediaType($file->getMediaType());
+        $media->setHasThumbnails($hasThumbnails);
+        $media->setHasOriginal(false);
     }
 
     public function form(PhpRenderer $view, array $options = array())
@@ -81,16 +81,16 @@ class YoutubeHandler implements HandlerInterface
             $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
         }
 
-        $embed = '<iframe'
-               . ' width="' . $view->escapeHtmlAttr($options['width']) . '"'
-               . ' height="' . $view->escapeHtmlAttr($options['height']) . '"'
-               . ' src="' . $view->escapeHtmlAttr($media->source()) . '"'
-               . ' frameborder="0"';
-        if ($options['allowfullscreen']) {
-            $embed .= ' allowfullscreen';
-        }
-        $embed .= '></iframe>';
-
+        // Compose the YouTube embed URL and build the markup.
+        $data = $media->mediaData();
+        $url = sprintf('https://www.youtube.com/embed/%s', $data['id']);
+        $embed = sprintf(
+            '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
+            $view->escapeHtmlAttr($options['width']),
+            $view->escapeHtmlAttr($options['height']),
+            $view->escapeHtmlAttr($url),
+            $options['allowfullscreen'] ? ' allowfullscreen' : ''
+        );
         return $embed;
     }
 }

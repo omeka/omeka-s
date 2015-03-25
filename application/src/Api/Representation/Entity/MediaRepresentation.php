@@ -1,8 +1,19 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
+use Omeka\Media\StorableFile;
+
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerName()
+    {
+        return 'media';
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -19,6 +30,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:source'     => $this->source(),
             'o:media_type' => $this->mediaType(),
             'o:filename'   => $this->filename(),
+            'o:original_url' => $this->originalUrl(),
+            'o:thumbnail_urls' => $this->thumbnailUrls()
         );
     }
 
@@ -34,6 +47,63 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             ->get('ViewHelperManager')
             ->get('Media');
         return $mediaHelper->render($this, $options);
+    }
+
+    /**
+     * Get the URL to the original file.
+     *
+     * @return string
+     */
+    public function originalUrl()
+    {
+        if (!$this->hasOriginal()) {
+            return null;
+        }
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $storagePath = sprintf('%s/%s', StorableFile::ORIGINAL_STORAGE_PREFIX,
+            $this->filename());
+        return $fileStore->getUri($storagePath);
+    }
+
+    /**
+     * Get the URL to a thumbnail image.
+     *
+     * @param string $type The type of thumbnail
+     * @return string
+     */
+    public function thumbnailUrl($type)
+    {
+        if (!$this->hasThumbnails()) {
+            return null;
+        }
+        $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
+        if (!$manager->typeExists($type)) {
+            return null;
+        }
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $storagePath = $manager->getStoragePath($type, $this->filename());
+        return $fileStore->getUri($storagePath);
+    }
+
+    /**
+     * Get all thumbnail URLs, keyed by type.
+     *
+     * @return array
+     */
+    public function thumbnailUrls()
+    {
+        if (!$this->hasThumbnails()) {
+            return array();
+        }
+        $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
+        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+
+        $urls = array();
+        foreach ($manager->getTypes() as $type) {
+            $storagePath = $manager->getStoragePath($type, $this->filename());
+            $urls[$type] = $fileStore->getUri($storagePath);
+        }
+        return $urls;
     }
 
     /**
@@ -86,5 +156,25 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function filename()
     {
         return $this->getData()->getFilename();
+    }
+
+    /**
+     * Check whether this media has an original file.
+     *
+     * @return bool
+     */
+    public function hasOriginal()
+    {
+        return $this->getData()->hasOriginal();
+    }
+
+    /**
+     * Check whether this media has thumbnail images.
+     *
+     * @return bool
+     */
+    public function hasThumbnails()
+    {
+        return $this->getData()->hasThumbnails();
     }
 }

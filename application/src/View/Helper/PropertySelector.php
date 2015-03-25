@@ -15,7 +15,7 @@ class PropertySelector extends AbstractHelper
      *
      * @return string
      */
-    public function __invoke()
+    public function __invoke($propertySelectorText = null)
     {
         if ($this->selectorMarkup) {
             // Build the selector markup only once.
@@ -34,8 +34,9 @@ class PropertySelector extends AbstractHelper
         return $this->getView()->partial(
             'common/property-selector',
             array(
-                'vocabularies' => $vocabResponse->getContent(),
+                'vocabularies'       => $vocabResponse->getContent(),
                 'totalPropertyCount' => $propResponse->getTotalResults(),
+                'propertySelectorText'               => $propertySelectorText
             )
         );
     }

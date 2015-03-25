@@ -18,7 +18,9 @@ class SynchronousStrategyTest extends TestCase
         $serviceLocator = $this->getServiceManager(array(
             'Omeka\EntityManager' => $entityManager,
         ));
-        $this->synchronousStrategy = new SynchronousStrategy($serviceLocator);
+        $synchronousStrategy = new SynchronousStrategy;
+        $synchronousStrategy->setServiceLocator($serviceLocator);
+        $this->synchronousStrategy = $synchronousStrategy;
     }
 
     public function testSend()

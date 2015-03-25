@@ -23,11 +23,6 @@ class Media extends Resource
     protected $data;
 
     /**
-     * @Column(type="boolean")
-     */
-    protected $isPublic = false;
-
-    /**
      * @Column(type="text", nullable=true)
      */
     protected $source;
@@ -41,6 +36,16 @@ class Media extends Resource
      * @Column(nullable=true)
      */
     protected $filename;
+
+    /**
+     * @Column(type="boolean")
+     */
+    protected $hasOriginal = false;
+
+    /**
+     * @Column(type="boolean")
+     */
+    protected $hasThumbnails = false;
 
     /**
      * @ManyToOne(targetEntity="Item", inversedBy="media")
@@ -78,16 +83,6 @@ class Media extends Resource
         return $this->data;
     }
 
-    public function setIsPublic($isPublic)
-    {
-        $this->isPublic = (bool) $isPublic;
-    }
-
-    public function isPublic()
-    {
-        return (bool) $this->isPublic;
-    }
-
     public function setSource($source)
     {
         $this->source = $source;
@@ -106,6 +101,26 @@ class Media extends Resource
     public function getMediaType()
     {
         return $this->mediaType;
+    }
+
+    public function setHasOriginal($hasOriginal)
+    {
+        $this->hasOriginal = (bool) $hasOriginal;
+    }
+
+    public function hasOriginal()
+    {
+        return (bool) $this->hasOriginal;
+    }
+
+    public function setHasThumbnails($hasThumbnails)
+    {
+        $this->hasThumbnails = (bool) $hasThumbnails;
+    }
+
+    public function hasThumbnails()
+    {
+        return (bool) $this->hasThumbnails;
     }
 
     public function setFilename($filename)

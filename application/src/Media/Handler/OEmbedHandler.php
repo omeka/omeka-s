@@ -21,13 +21,6 @@ class OEmbedHandler implements HandlerInterface
 
         if (!isset($data['o:source'])) {
             $errorStore->addError('o:source', 'No OEmbed URL specified');
-            return;
-        }
-
-        $uri = new HttpUri($data['o:source']);
-        if (!($uri->isValid() && $uri->isAbsolute())) {
-            $errorStore->addError('o:source', 'Invalid OEmbed URL specified');
-            return;
         }
     }
 
@@ -36,36 +29,34 @@ class OEmbedHandler implements HandlerInterface
         $data = $request->getContent();
         $source = $data['o:source'];
 
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $client->setUri($source);
-        $response = $client->send();
-
-        if (!$response->isOk()) {
-            $errorStore->addError('o:source', sprintf(
-                "Error reading OEmbed URI: %s (%s)",
-                $response->getReasonPhrase(),
-                $response->getStatusCode()
-            ));
+        $response = $this->makeRequest($source, 'OEmbed URL', $errorStore);
+        if (!$response) {
             return;
         }
 
         $document = $response->getBody();
         $dom = new Query($document);
         $oEmbedLinks = $dom->queryXpath('//link[@rel="alternate" and @type="application/json+oembed"]');
-
         if (!count($oEmbedLinks)) {
             $errorStore->addError('o:source', 'No OEmbed links were found at the given URI');
             return;
         }
 
         $oEmbedLink = $oEmbedLinks[0];
-        $client->setUri($oEmbedLink->getAttribute('href'));
-        $response = $client->send();
+        $linkResponse = $this->makeRequest($oEmbedLink->getAttribute('href'),
+            'OEmbed link URL', $errorStore);
+        if (!$linkResponse) {
+            return;
+        }
 
-        $mediaData = json_decode($response->getBody());
+        $mediaData = json_decode($linkResponse->getBody());
+        if (!$mediaData) {
+            $errorStore->addError('o:source', 'Error decoding OEmbed JSON');
+            return;
+        }
         $media->setData($mediaData);
 
-        $media->setSource($data['o:source']);
+        $media->setSource($source);
     }
 
     public function form(PhpRenderer $view, array $options = array())
@@ -103,5 +94,37 @@ class OEmbedHandler implements HandlerInterface
             }
             return $view->hyperlink($title, $source);
         }
+    }
+
+    /**
+     * Make a request and handle any errors that might occur.
+     *
+     * @param string $url URL to request
+     * @param string $type Type of URL (used to compose error messages)
+     * @param ErrorStore $errorStore
+     */
+    protected function makeRequest($url, $type, ErrorStore $errorStore)
+    {
+        $uri = new HttpUri($url);
+        if (!($uri->isValid() && $uri->isAbsolute())) {
+            $errorStore->addError('o:source', "Invalid $type specified");
+            return false;
+        }
+
+        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        $client->setUri($uri);
+        $response = $client->send();
+
+        if (!$response->isOk()) {
+            $errorStore->addError('o:source', sprintf(
+                "Error reading %s: %s (%s)",
+                $type,
+                $response->getReasonPhrase(),
+                $response->getStatusCode()
+            ));
+            return false;
+        }
+
+        return $response;
     }
 }

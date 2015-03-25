@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Thumbnail;
+namespace Omeka\Thumbnail\Thumbnailer;
 
 use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\AbstractThumbnailer;
+use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
 
 class GdThumbnailer extends AbstractThumbnailer
 {

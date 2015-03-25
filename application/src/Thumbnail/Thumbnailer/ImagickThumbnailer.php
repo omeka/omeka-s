@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Thumbnail;
+namespace Omeka\Thumbnail\Thumbnailer;
 
 use Imagick;
 use ImagickException;
 use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\AbstractThumbnailer;
+use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
 
 class ImagickThumbnailer extends AbstractThumbnailer
 {

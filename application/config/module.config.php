@@ -113,6 +113,7 @@ return array(
             'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
             'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\Thumbnailer\GdThumbnailer',
             'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\Thumbnailer\ImagickThumbnailer',
+            'Omeka\Thumbnailer\ImageMagick' => 'Omeka\Thumbnail\Thumbnailer\ImageMagickThumbnailer',
             'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),

@@ -39,6 +39,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @var array Default options for all thumbnail types
      */
     protected $options = array(
+        'imagemagick_dir' => null,
         'page' => 0,
     );
 

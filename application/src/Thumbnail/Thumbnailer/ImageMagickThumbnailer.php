@@ -1,0 +1,124 @@
+<?php
+namespace Omeka\Thumbnail\Thumbnailer;
+
+use Omeka\Thumbnail\Exception;
+use Omeka\Thumbnail\Manager as ThumbnailManager;
+use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
+
+class ImageMagickThumbnailer extends AbstractThumbnailer
+{
+    const CONVERT_COMMAND = 'convert';
+
+    /**
+     * @var string Path to the ImageMagick "convert" command
+     */
+    protected $convertPath;
+
+    /**
+     * @var int
+     */
+    protected $page = 0;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOptions(array $options)
+    {
+        if (!isset($this->convertPath)) {
+            $convertDir = isset($options['imagemagick_dir']) ? $options['imagemagick_dir'] : null;
+            $this->setConvertPath($convertDir);
+        }
+
+        if (isset($options['page'])) {
+            $this->page = (int) $options['page'];
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create($strategy, $constraint, array $options = array())
+    {
+        $origPath = sprintf('%s[%s]', $this->source, $this->page);
+
+        switch ($strategy) {
+            case 'square':
+                $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+                $args = array(
+                    '-background white',
+                    '-flatten',
+                    sprintf('-thumbnail %s', escapeshellarg($constraint . 'x' . $constraint . '^')),
+                    sprintf('-gravity %s', escapeshellarg($gravity)),
+                    sprintf('-crop %s', escapeshellarg($constraint . 'x' . $constraint . '+0+0')),
+                    '+repage',
+                );
+                break;
+            case 'default':
+            default:
+                $args = array(
+                    '-background white',
+                    '-flatten',
+                    sprintf('-thumbnail %s', escapeshellarg($constraint . 'x' . $constraint . '>')),
+                );
+        }
+
+        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $tempPath = sprintf('%s%s', $file->getTempPath(), ThumbnailManager::EXTENSION);
+        $command = sprintf(
+            '%s %s %s %s',
+            $this->convertPath,
+            escapeshellarg($origPath),
+            implode(' ', $args),
+            escapeshellarg($tempPath)
+        );
+
+        exec($command, $output, $exitCode);
+        if (0 !== $exitCode) {
+            throw new Exception\CannotCreateThumbnailException;
+        }
+
+        return $tempPath;
+    }
+
+    /**
+     * Set the path to the ImageMagick "convert" command.
+     *
+     * @param string $convertDir
+     */
+    public function setConvertPath($convertDir)
+    {
+        if ($convertDir) {
+            // Validate the configured directory.
+            $convertDir = realpath($convertDir);
+            if (!$convertDir || !is_dir($convertDir)) {
+                throw new Exception\InvalidThumbnailerException(
+                    'ImageMagick error: invalid ImageMagick command directory.'
+                );
+            }
+            $convertPath = sprintf('%s/%s', $convertDir, self::CONVERT_COMMAND);
+            if (!is_executable($convertPath)) {
+                throw new Exception\InvalidThumbnailerException(
+                    'ImageMagick error: the ImageMagick command is not executable.'
+                );
+            }
+            $command = sprintf('%s -version', $convertPath);
+            exec($command, $output, $exitCode);
+            if (0 !== $exitCode) {
+                throw new Exception\InvalidThumbnailerException(
+                    'ImageMagick error: invalid ImageMagick command.'
+                );
+            }
+        } else {
+            // Auto-detect the command using "which".
+            $command = sprintf('which %s', escapeshellarg(self::CONVERT_COMMAND));
+            exec($command, $output, $exitCode);
+            if (0 !== $exitCode) {
+                throw new Exception\InvalidThumbnailerException(
+                    'ImageMagick error: cannot determine path to ImageMagick command.'
+                );
+            }
+            $convertPath = $output[0];
+        }
+        $this->convertPath = $convertPath;
+    }
+}

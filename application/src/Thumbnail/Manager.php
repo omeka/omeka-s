@@ -112,10 +112,9 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * Create thumbnail derivatives.
      *
-     * Gets a new thumbnailer instance for each call to this method (via a
-     * non-shared service). This gives thumbnailers an opportunity to share
-     * common properties that are needed for each type. Depending on the how the
-     * strategy creates thumbnails, this can solve memory limit problems.
+     * Gets the thumbnailer from the service manager for each call to this
+     * method. This gives thumbnailers an opportunity to be non-shared services,
+     * which can be useful for resolving memory allocation issues.
      *
      * @param string $source
      * @param string $storageBaseName

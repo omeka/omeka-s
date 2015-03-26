@@ -31,11 +31,26 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
      */
     public function setOptions(array $options)
     {
-        $this->options = $options;
+        // Set options only once for shared services.
+        if (!isset($this->options)) {
+            $this->options = $options;
+        }
     }
 
     /**
-     * Get the required offset on the X axis.
+     * Get an option.
+     *
+     * @param string $option
+     * @param string $default
+     * @return string
+     */
+    public function getOption($option, $default = null)
+    {
+        return isset($this->options[$option]) ? $this->options[$option] : $default;
+    }
+
+    /**
+     * For the square strategy, get the required offset on the X axis.
      *
      * @param int $width Original image width
      * @param int $size Side size of the square region being selected
@@ -62,7 +77,7 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
     }
 
     /**
-     * Get the required offset on the Y axis.
+     * For the square strategy, get the required offset on the Y axis.
      *
      * @param int $height Original image height
      * @param int $size Side size of square region being selected

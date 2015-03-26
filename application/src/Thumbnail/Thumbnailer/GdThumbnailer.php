@@ -176,6 +176,8 @@ class GdThumbnailer extends AbstractThumbnailer
 
     /**
      * Destroy the GD resource.
+     *
+     * This works because the gd thumbnailer is a non-shared service.
      */
     public function __destruct()
     {

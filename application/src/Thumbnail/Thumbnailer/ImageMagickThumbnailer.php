@@ -15,22 +15,12 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
     protected $convertPath;
 
     /**
-     * @var int
-     */
-    protected $page = 0;
-
-    /**
      * {@inheritDoc}
      */
     public function setOptions(array $options)
     {
         if (!isset($this->convertPath)) {
-            $convertDir = isset($options['imagemagick_dir']) ? $options['imagemagick_dir'] : null;
-            $this->setConvertPath($convertDir);
-        }
-
-        if (isset($options['page'])) {
-            $this->page = (int) $options['page'];
+            $this->setConvertPath($this->getOption('imagemagick_dir'));
         }
     }
 
@@ -39,7 +29,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
      */
     public function create($strategy, $constraint, array $options = array())
     {
-        $origPath = sprintf('%s[%s]', $this->source, $this->page);
+        $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
 
         switch ($strategy) {
             case 'square':

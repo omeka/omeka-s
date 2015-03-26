@@ -4,20 +4,11 @@ namespace Omeka\Thumbnail\Thumbnailer;
 use Imagick;
 use ImagickException;
 use Omeka\Thumbnail\Exception;
+use Omeka\Thumbnail\Manager as ThumbnailManager;
 use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
 
 class ImagickThumbnailer extends AbstractThumbnailer
 {
-    /**
-     * @var string
-     */
-    protected $source;
-
-    /**
-     * @var int
-     */
-    protected $page = 0;
-
     /**
      * Check whether the GD entension is loaded.
      *
@@ -33,25 +24,15 @@ class ImagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function setOptions(array $options)
-    {
-        if (isset($options['page'])) {
-            $this->page = (int) $options['page'];
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function create($strategy, $constraint, array $options = array())
     {
         try {
-            $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->page));
+            $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
         } catch (ImagickException $e) {
             throw new Exception\CannotCreateThumbnailException;
         }
         $imagick->setBackgroundColor('white');
-        $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+        $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
         switch ($strategy) {
             case 'square':
@@ -79,9 +60,10 @@ class ImagickThumbnailer extends AbstractThumbnailer
         }
 
         $file = $this->getServiceLocator()->get('Omeka\StorableFile');
-        $imagick->writeImage($file->getTempPath());
+        $tempPath = sprintf('%s%s', $file->getTempPath(), ThumbnailManager::EXTENSION);
+        $imagick->writeImage($tempPath);
         $imagick->clear();
 
-        return $file->getTempPath();
+        return $tempPath;
     }
 }

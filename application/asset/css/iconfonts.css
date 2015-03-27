@@ -856,7 +856,7 @@
   content: "";
 }
 
-.fa-globe:before {
+.fa-globe:before, .o-icon-language:before {
   content: "";
 }
 
@@ -888,7 +888,7 @@
 
 .fa-chain:before,
 .fa-link:before,
-.o-icon-link:before {
+.o-icon-uri:before {
   content: "";
 }
 
@@ -1241,7 +1241,8 @@
   content: "";
 }
 
-.fa-keyboard-o:before, .o-icon-text:before {
+.fa-keyboard-o:before, .o-icon-text:before,
+.o-icon-literal:before {
   content: "";
 }
 
@@ -1827,7 +1828,8 @@
   content: "";
 }
 
-.fa-cubes:before, .o-icon-items:before {
+.fa-cubes:before, .o-icon-items:before,
+.o-icon-resource:before {
   content: "";
 }
 

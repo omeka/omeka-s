@@ -1376,11 +1376,33 @@ th {
     margin-right: .25em;
   }
 
-  #properties .field:first-child {
-    border-color: rgba(0, 0, 0, 0.08);
-    border-top-width: 0.0625em;
-    border-top-style: solid;
-    padding-top: -0.0625em;
+  .inputs label.value-language {
+    text-align: center;
+    margin-right: 0;
+    vertical-align: top;
+    position: absolute;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+    top: 0.375em;
+    left: 3em;
+    height: 1.5em;
+  }
+
+  .inputs input[type="text"].value-language {
+    position: absolute;
+    top: 0.375em;
+    left: 3.75em;
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+    width: 6em;
+    min-height: 0;
+    padding: 0 0 0 0.75em;
+    height: 1.5em;
+  }
+
+  .non-properties {
+    margin-bottom: 1.5em;
   }
 
   /* @group ----- Metadata ----- */
@@ -1402,7 +1424,7 @@ th {
     display: inline-block;
   }
 
-  .items.input-option span {
+  .resource.input-option span {
     display: block;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 0.375em 10px 0;
@@ -1410,7 +1432,7 @@ th {
     float: left;
   }
 
-  .items.input-option a.button {
+  .resource.input-option a.button {
     margin: 0.44118em 0 0;
     padding: 0.375em 10px;
     min-height: intrinsic;
@@ -1442,19 +1464,6 @@ th {
   .field-meta ul {
     padding: 0;
     list-style-type: none;
-  }
-
-  .field a.remove.button,
-  .field a.add-value.button {
-    background-color: transparent;
-    color: #FF0000;
-    padding: 0;
-    min-height: intrinsic;
-    margin: 0;
-  }
-  .field a.remove.button:before,
-  .field a.add-value.button:before {
-    vertical-align: top;
   }
 
   .unset .value,
@@ -1713,14 +1722,9 @@ th {
   }
 
   .field-actions {
-    float: right;
-    width: 24px;
-    text-align: right;
-  }
-
-  .field-actions button,
-  .field-actions a.button {
-    min-height: 0;
+    width: 60%;
+    display: inline-block;
+    margin: 1.5em 0 0 30%;
   }
 
   .field-description {
@@ -1802,6 +1806,9 @@ th {
   .inputs:only-child {
     width: 100%;
   }
+  .inputs p:only-child {
+    margin: 0;
+  }
   .inputs label {
     margin-right: 1em;
   }
@@ -1816,7 +1823,7 @@ th {
     margin: 0.375em 0;
   }
   .inputs *:only-child {
-    margin: 0 !important;
+    margin: 0;
   }
   .inputs select {
     margin: 0;
@@ -1887,23 +1894,51 @@ th {
     margin-bottom: 0em;
   }
 
-  .input-options {
+  p.no-values {
+    padding: 0.75em;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  p.no-values:not(:only-child) {
+    display: none;
+  }
+
+  .add-values {
+    margin-top: 1.125em;
+  }
+
+  .add-values * {
+    display: inline-block;
+    width: 2.25em;
+    height: 2.25em;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .inputs .add-values a.button {
+    padding: 0.375em 0;
+  }
+
+  .add-values label {
+    background-color: rgba(0, 0, 0, 0.08);
+    line-height: 36px;
+    margin-right: 0;
+  }
+
+  .input-header {
     width: 100%;
     float: left;
     background-color: rgba(0, 0, 0, 0.15);
   }
 
-  .input-options .tab {
-    text-align: center;
-  }
-
-  .input-options .actions a:before {
+  .input-header .actions a:before {
     line-height: 36px;
     height: 36px;
-  }
-
-  .active.input-option {
-    display: block;
   }
 
   .value.delete {
@@ -1911,21 +1946,46 @@ th {
     overflow: hidden;
   }
 
-  .input-option,
   .value a.restore-value,
   .value span.restore-value,
-  .value.delete a.tab,
-  .value.delete div.input-option {
+  .value.delete a.tab {
     display: none;
   }
 
-  .value.delete .input-options {
+  .value.delete .input-header {
     background-color: transparent;
+  }
+
+  .value label:not(.value-language) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.25em;
+    width: 2.25em;
+    background-color: rgba(0, 0, 0, 0.08);
+    text-align: center;
+    line-height: 36px;
+  }
+
+  .uri.value input[type="text"] {
+    margin: 0;
+  }
+
+  .resource.value .default,
+  .resource.value .o-title:not(:empty) {
+    background-color: #fff;
+    padding: 0.375em;
+    display: block;
+    clear: both;
   }
 
   .value.delete span.restore-value {
     display: inline-block;
     padding: 0.375em;
+  }
+
+  .value.delete > *:not(.input-header) {
+    display: none;
   }
 
   p.selected-resource {

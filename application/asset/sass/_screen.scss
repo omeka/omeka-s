@@ -941,9 +941,33 @@ body.sidebar-open #content {
     }
 }
 
-#properties .field:first-child {
-    border-color: $gray-on-white;
-    @include leading-border(1px, 0, $base-font-size, solid);
+.inputs label.value-language {
+    text-align: center;
+    margin-right: 0;
+    vertical-align: top;
+    position: absolute;
+    border-bottom: 2px solid $gray-on-white;
+    top: rhythm(.25);
+    left: rhythm(2);
+    height: rhythm();
+}
+
+.inputs input[type="text"].value-language {
+    position: absolute;
+    top: rhythm(.25);
+    left: rhythm(2.5);
+    margin: 0;
+    background-color: transparent; 
+    border: 0;
+    border-bottom: 2px solid $gray-on-white;
+    width: 6em;
+    min-height: 0;
+    padding: 0 0 0 rhythm(.5);
+    height: rhythm();
+}
+
+.non-properties {
+    @include trailer();
 }
 
     /* @group ----- Metadata ----- */
@@ -966,7 +990,7 @@ body.sidebar-open #content {
         display: inline-block;
     }
     
-    .items.input-option span {
+    .resource.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
         padding: rhythm(.25) 10px 0;
@@ -974,7 +998,7 @@ body.sidebar-open #content {
         float: left;
     }
     
-    .items.input-option a.button {
+    .resource.input-option a.button {
         margin: rhythm(.25, .85 * $base-font-size) 0 0;
         padding: rhythm(.25) 10px;
         min-height: intrinsic;
@@ -1010,19 +1034,6 @@ body.sidebar-open #content {
         ul {
             padding: 0;
             list-style-type: none;
-        }
-    }
-    
-    .field a.remove.button,
-    .field a.add-value.button {
-        background-color: transparent;
-        color: $red;
-        padding: 0;
-        min-height: intrinsic;
-        margin: 0;
-        
-        &:before {
-            vertical-align: top;
         }
     }
     
@@ -1286,19 +1297,13 @@ body.sidebar-open #content {
         background-color: rgba(0,0,0,.1);
         font-weight: bold !important;
     }
-        
-    
+
     .field-actions {
-        float: right;
-        width: 1.5 * $base-font-size;
-        text-align: right;
+        width: span(6 of 10);
+        display: inline-block;
+        margin: rhythm() 0 0 span(3 of 10);
     }
 
-    .field-actions button,
-    .field-actions a.button {
-        min-height: 0;
-    }
-    
     .field-description {
         display: block;
         margin-right: 10px;
@@ -1383,7 +1388,11 @@ body.sidebar-open #content {
         &:only-child {
             width: 100%;
         }
-                
+
+        p:only-child {
+            margin: 0;
+        }
+
         label {
             margin-right: 1em;
         }
@@ -1400,7 +1409,7 @@ body.sidebar-open #content {
         }
         
         *:only-child {
-            margin: 0 !important;
+            margin: 0;
         }
         
         select {
@@ -1481,24 +1490,49 @@ body.sidebar-open #content {
             }
         }
     }
-        
-    .input-options {
+
+    p.no-values {
+        padding: rhythm(.5);
+        @include border-radius(3px);
+        background-color: $gray-on-white;
+
+        &:not(:only-child) {
+            display: none;
+        }
+    }
+
+    .add-values {
+        @include leader(.75);
+    }
+
+    .add-values * {
+        display: inline-block;
+        width: rhythm(1.5);
+        height: rhythm(1.5);
+        @include border-radius(2px);
+        text-align: center;
+        margin: 0;
+    }
+
+    .inputs .add-values a.button {
+        padding: rhythm(.25) 0;
+    }
+
+    .add-values label {
+        background-color: $gray-on-white;
+        line-height: 1.5 * $base-line-height;
+        margin-right: 0;
+    }
+
+    .input-header {
         width: 100%;
         float: left;
         background-color: rgba(0,0,0,.15);
     }
-    
-    .input-options .tab {
-        text-align: center;
-    }
 
-    .input-options .actions a:before {
+    .input-header .actions a:before {
         line-height: 1.5 * $base-line-height;
         height: 1.5 * $base-line-height;
-    }
-    
-    .active.input-option {
-        display: block;
     }
     
     .value.delete {
@@ -1506,23 +1540,48 @@ body.sidebar-open #content {
         overflow: hidden;
     }
 
-    .input-option,
     .value a.restore-value,
     .value span.restore-value,
-    .value.delete a.tab,
-    .value.delete div.input-option {
+    .value.delete a.tab {
         display: none;
     }
     
-    .value.delete .input-options {
+    .value.delete .input-header {
         background-color: transparent;
     }
-        
+
+    .value label:not(.value-language) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: rhythm(1.5);
+        width: rhythm(1.5);
+        background-color: $gray-on-white;
+        text-align: center;
+        line-height: 1.5 * $base-line-height;
+    }
+
+    .uri.value input[type="text"] {
+        margin: 0;
+    }
+
+    .resource.value .default,
+    .resource.value .o-title:not(:empty) {
+        background-color: #fff;
+        padding: rhythm(.25);
+        display: block;
+        clear: both;
+    }
+
     .value.delete span.restore-value {
         display: inline-block;
         padding: rhythm(.25);
     }
-    
+
+    .value.delete > *:not(.input-header) {
+        display: none;
+    }
+
     p.selected-resource {
         margin: 0;
     }

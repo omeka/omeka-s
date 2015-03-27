@@ -18,6 +18,7 @@ if (isset($errors)) {
         <li><a href="#" class="resource-values section active">Values</a></li>
         <li><a href="#" class="item-media section">Media</a></li>
         <li><a href="#" class="item-visibility section">Visibility</a></li>
+        <li><a href="#" class="item-sets section">Item Sets</a></li>
     </ul>
 </nav>
 
@@ -34,6 +35,11 @@ if (isset($errors)) {
                       'propertySelectorText' => 'Click on a property to add it to the add panel'
                       )
                 );
+
+        echo $this->partial(
+                'omeka/admin/item/item-set-form.phtml',
+                array('id' => 'item-sets', 'class' => 'section' )
+                );
     ?>
 
     <fieldset id="save-sidebar">
@@ -41,6 +47,7 @@ if (isset($errors)) {
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
+    <?php echo $this->formElement($form->get('itemSet')); ?>
 </form>
 
 <!-- 

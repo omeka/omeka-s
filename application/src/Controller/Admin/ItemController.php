@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
-use Omeka\Form\ResourceForm;
+use Omeka\Form\ItemForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
@@ -111,7 +111,7 @@ class ItemController extends AbstractActionController
 
     public function addAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = new ItemForm($this->getServiceLocator());
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -135,7 +135,7 @@ class ItemController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = new ItemForm($this->getServiceLocator());
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();

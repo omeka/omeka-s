@@ -12,8 +12,9 @@ class ItemForm extends ResourceForm {
         $serviceLocator = $this->getServiceLocator();
         $auth = $serviceLocator->get('Omeka\AuthenticationService');
         $itemSetSelect = new ResourceSelect($serviceLocator);
-        $itemSetSelect->setName('itemSet')
+        $itemSetSelect->setName('o:item_set[][o:id]')
             ->setAttribute('required', false)
+            ->setAttribute('multiple', true)
             ->setLabel($translator->translate('Item Sets'))
             ->setOption('info', $translator->translate('Select Items Sets for this resource.'))
             ->setEmptyOption($translator->translate('Select Item Set...'))
@@ -25,5 +26,11 @@ class ItemForm extends ResourceForm {
                 }
             );
         $this->add($itemSetSelect);
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add(array(
+            'name' => 'o:item_set[][o:id]',
+            'required' => false,
+        ));
     }
 }

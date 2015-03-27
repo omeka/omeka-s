@@ -37,9 +37,9 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 $args = array(
                     '-background white',
                     '-flatten',
-                    sprintf('-thumbnail %s', escapeshellarg($constraint . 'x' . $constraint . '^')),
-                    sprintf('-gravity %s', escapeshellarg($gravity)),
-                    sprintf('-crop %s', escapeshellarg($constraint . 'x' . $constraint . '+0+0')),
+                    '-thumbnail ' . escapeshellarg(sprintf('%sx%s^', $constraint, $constraint)),
+                    '-gravity ' .  escapeshellarg($gravity),
+                    '-crop ' . escapeshellarg(sprintf('%sx%s+0+0', $constraint, $constraint)),
                     '+repage',
                 );
                 break;
@@ -48,7 +48,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 $args = array(
                     '-background white',
                     '-flatten',
-                    sprintf('-thumbnail %s', escapeshellarg($constraint . 'x' . $constraint . '>')),
+                    '-thumbnail ' . escapeshellarg(sprintf('%sx%s>', $constraint, $constraint)),
                 );
         }
 

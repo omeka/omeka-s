@@ -7,14 +7,11 @@ use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Dom\Query;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class OEmbedHandler implements HandlerInterface
+class OEmbedHandler extends AbstractHandler
 {
-    use ServiceLocatorAwareTrait;
-
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -49,10 +46,23 @@ class OEmbedHandler implements HandlerInterface
             return;
         }
 
-        $mediaData = json_decode($linkResponse->getBody());
+        $mediaData = json_decode($linkResponse->getBody(), true);
         if (!$mediaData) {
             $errorStore->addError('o:source', 'Error decoding OEmbed JSON');
             return;
+        }
+
+        if (isset($mediaData['thumbnail_url'])) {
+            $thumbnailUrl = $mediaData['thumbnail_url'];
+
+            $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+            $this->downloadFile($thumbnailUrl, $file->getTempPath());
+            $hasThumbnails = $file->storeThumbnails();
+
+            if ($hasThumbnails) {
+                $media->setFilename($file->getStorageName());
+                $media->setHasThumbnails(true);
+            }
         }
         $media->setData($mediaData);
 

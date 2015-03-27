@@ -119,7 +119,7 @@ return array(
         ),
         'aliases' => array(
             'Omeka\FileStore'           => 'Omeka\FileStore\Local',
-            'Omeka\Thumbnailer'         => 'Omeka\Thumbnailer\Gd',
+            'Omeka\Thumbnailer'         => 'Omeka\Thumbnailer\ImageMagick',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),

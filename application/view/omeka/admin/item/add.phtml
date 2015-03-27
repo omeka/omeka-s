@@ -38,7 +38,7 @@ if (isset($errors)) {
 
         echo $this->partial(
                 'omeka/admin/item/item-set-form.phtml',
-                array('id' => 'item-sets', 'class' => 'section' )
+                array('form' => $form)
                 );
     ?>
 
@@ -47,7 +47,7 @@ if (isset($errors)) {
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
-    <?php echo $this->formElement($form->get('itemSet')); ?>
+
 </form>
 
 <!-- 

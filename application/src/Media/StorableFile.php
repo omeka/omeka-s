@@ -96,6 +96,11 @@ class StorableFile implements ServiceLocatorAwareInterface
         $this->tempPath = $tempPath;
     }
 
+    /**
+     * Get the base name of the persistently stored file.
+     *
+     * @return string
+     */
     public function getStorageBaseName()
     {
         if (isset($this->storageBaseName)) {

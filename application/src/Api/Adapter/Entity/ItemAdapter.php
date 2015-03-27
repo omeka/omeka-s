@@ -84,13 +84,20 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 if (array_key_exists('o:id', $itemSetData)
                     && is_numeric($itemSetData['o:id'])
                 ) {
-                    if (!$itemSet = $itemSets->get($itemSetData['o:id'])) {
-                        // Item set not already assigned. Assign it.
-                        $itemSet = $itemSetAdapter->findEntity($itemSetData['o:id']);
-                        $itemSets->add($itemSet);
-                    }
-                    $itemSetsToRetain[] = $itemSet;
+                    $itemSetId = $itemSetData['o:id'];
+                } else if (is_numeric($itemSetData)) {
+                    $itemSetId = $itemSetData;
+                } else {
+                    continue;
                 }
+
+                if (!$itemSet = $itemSets->get($itemSetId)) {
+                    // Item set not already assigned. Assign it.
+                    $itemSet = $itemSetAdapter->findEntity($itemSetId);
+                    $itemSets->add($itemSet);
+                }
+
+                $itemSetsToRetain[] = $itemSet;
             }
 
             // Unassign item sets that were not included in the passed data.

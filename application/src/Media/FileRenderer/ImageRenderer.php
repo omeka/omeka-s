@@ -12,9 +12,6 @@ class ImageRenderer implements RendererInterface
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = array()
     ){
-        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $url = $fileStore->getUri($media->filename());
-
-        return sprintf('<img src="%s">', $view->escapeHtmlAttr($url));
+        return sprintf('<img src="%s">', $view->escapeHtmlAttr($media->originalUrl()));
     }
 }

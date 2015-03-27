@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Thumbnail;
+namespace Omeka\Thumbnail\Thumbnailer;
 
 use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\AbstractThumbnailer;
+use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
 
 class GdThumbnailer extends AbstractThumbnailer
 {
@@ -176,6 +176,8 @@ class GdThumbnailer extends AbstractThumbnailer
 
     /**
      * Destroy the GD resource.
+     *
+     * This works because the gd thumbnailer is a non-shared service.
      */
     public function __destruct()
     {

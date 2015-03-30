@@ -55,7 +55,7 @@ class OEmbedHandler extends AbstractHandler
         if (isset($mediaData['thumbnail_url'])) {
             $thumbnailUrl = $mediaData['thumbnail_url'];
 
-            $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+            $file = $this->getServiceLocator()->get('Omeka\TempFile');
             $this->downloadFile($thumbnailUrl, $file->getTempPath());
             $hasThumbnails = $file->storeThumbnails();
 

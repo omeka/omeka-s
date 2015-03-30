@@ -68,9 +68,6 @@ class StorableFile implements ServiceLocatorAwareInterface
     /**
      * Get the path to the temporary file.
      *
-     * If a temporary path is not already set this automatically generates one
-     * using the configured temporary directory in "temp_dir".
-     *
      * @return string
      */
     public function getTempPath()
@@ -78,22 +75,37 @@ class StorableFile implements ServiceLocatorAwareInterface
         if (isset($this->tempPath)) {
             return $this->tempPath;
         }
-        $tempDir = $this->getServiceLocator()->get('Config')['temp_dir'];
-        $this->tempPath = tempnam($tempDir, 'omeka');
+        $this->setTempPath();
         return $this->tempPath;
     }
 
     /**
      * Set the path to the temporary file.
      *
-     * Use this only when the temporary path is not the same that will be
-     * automatically generated on the first call to self::getTempPath().
-     *
-     * @param string $tempPath
+     * @param null|string $tempDir
      */
-    public function setTempPath($tempPath)
+    public function setTempPath($tempDir = null)
     {
-        $this->tempPath = $tempPath;
+        if (isset($tempDir)) {
+            $tempDir = $this->getServiceLocator()->get('Config')['temp_dir'];
+        }
+        $this->tempPath = tempnam($tempDir, 'omeka');
+    }
+
+    /**
+     * Delete this temporary file.
+     *
+     * Always delete a temporary file after all work has been done. Otherwise
+     * the file will remain in the temporary directory.
+     *
+     * @return bool Whether the file was deleted or never created
+     */
+    public function delete()
+    {
+        if (isset($this->tempPath)) {
+            return unlink($this->tempPath);
+        }
+        return true;
     }
 
     /**

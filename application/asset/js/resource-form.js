@@ -229,13 +229,18 @@
                 case 'resource' :
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
-                    if (typeof valueObject['dcterms:title'] == 'undefined') {
-                        newResource.find('.o-title').html('[Untitled]');
-                    } else {
-                        var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
-                        newResource.find('.o-title').html(html);
+                    var title = valueObject['dcterms:title'];
+                    if (typeof valueObject['value_resource_id'] === 'undefined') {
+                        break;
                     }
+
                     newResource.prev('.default').hide();
+                    if (typeof title == 'undefined') {
+                        title = '[Untitled]';
+                    }
+                    var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
+                    newResource.find('.o-title').html(html);
+
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
 

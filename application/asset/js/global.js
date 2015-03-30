@@ -198,6 +198,18 @@ var Omeka = {
                 timer = setTimeout(Omeka.filterPropertySelector.bind(this), 400);
             }
         })())
+
+        // Autoposition tooltip.
+        $('.o-icon-info').on('mouseover', function(e) {
+            var moreInfoIcon = $(this);
+            var fieldDesc = moreInfoIcon.next('.field-comment');
+            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
+            if (fieldDescBottom > $(window).height()) {
+                fieldDesc.removeClass('below').addClass('above');
+            } else {
+                fieldDesc.removeClass('above').addClass('below');
+            }
+        });
     });
 
 }(window.jQuery, window, document));

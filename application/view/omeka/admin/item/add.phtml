@@ -2,14 +2,11 @@
 $this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/chosen/chosen.jquery.min.js', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('js/chosen/chosen.min.css', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
-?>
-<?php 
-if (isset($errors)) {
-    print_r($errors);
-}
 ?>
 <h1><?php echo $this->translate('Add item'); ?></h1>
 
@@ -24,7 +21,6 @@ if (isset($errors)) {
 
 <form method='post' id='add-item'>
     <?php 
-    
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on 
         //the nav lis above. (see globals.js)  
@@ -35,18 +31,19 @@ if (isset($errors)) {
                       'propertySelectorText' => 'Click on a property to add it to the add panel'
                       )
                 );
-
-        echo $this->partial(
-                'omeka/admin/item/item-set-form.phtml',
-                array('form' => $form)
-                );
     ?>
+    <fieldset id='item-sets' class='section'>
+        <?php
+        echo $this->partial('common/form-element',
+            array('element' => $form->get('o:item_set')));
+        ?>
+    </fieldset>
 
     <fieldset id="save-sidebar">
         <input type="submit" name="add-item-submit" value="Create item" />
         <a href="#" class="cancel button">Cancel</a>
     </fieldset>
-    <?php echo $this->formElement($form->get('csrf')); ?>
+    <?php echo $formElement($form->get('csrf')); ?>
 
 </form>
 
@@ -59,3 +56,9 @@ multiple resource fieldsets (item and media, e.g.)
 <?php 
         echo $this->partial('common/resource-form-templates.phtml');
 ?>
+
+<script type="text/javascript">
+jQuery(document).ready(function ($) {
+    $('#select-item-set').chosen({width: '100%'});
+});
+</script>

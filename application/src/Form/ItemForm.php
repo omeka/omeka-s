@@ -15,9 +15,10 @@ class ItemForm extends ResourceForm {
         $itemSetSelect->setName('o:item_set')
             ->setAttribute('required', false)
             ->setAttribute('multiple', true)
+            ->setAttribute('id', 'select-item-set')
+            ->setAttribute('data-placeholder', $translator->translate('Select Item Sets...'))
             ->setLabel($translator->translate('Item Sets'))
             ->setOption('info', $translator->translate('Select Items Sets for this resource.'))
-            ->setEmptyOption($translator->translate('Select Item Set...'))
             ->setResourceValueOptions(
                 'item_sets',
                 array('owner_id' => $auth->getIdentity()),

@@ -200,7 +200,7 @@ var Omeka = {
         })())
 
         // Autoposition tooltip.
-        $('.o-icon-info').on('mouseover', function(e) {
+        $('body').on('mouseover', '.o-icon-info', function(e) {
             var moreInfoIcon = $(this);
             var fieldDesc = moreInfoIcon.next('.field-comment');
             var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();

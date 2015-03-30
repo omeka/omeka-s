@@ -52,7 +52,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 );
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
         $tempPath = $file->getTempPath() . ThumbnailManager::EXTENSION;
         $file->delete();
 

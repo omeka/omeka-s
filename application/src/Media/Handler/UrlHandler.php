@@ -34,7 +34,7 @@ class UrlHandler extends AbstractFileHandler
             return;
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
         $this->downloadFile($uri, $file->getTempPath());
         $hasThumbnails = $file->storeThumbnails();
         $file->storeOriginal($uri->getPath());

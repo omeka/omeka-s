@@ -162,7 +162,7 @@ class GdThumbnailer extends AbstractThumbnailer
      */
     protected function saveTempImage($tempImage)
     {
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
         $saveResult = imagejpeg($tempImage, $file->getTempPath());
 
         if (false === $saveResult) {

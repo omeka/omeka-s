@@ -59,7 +59,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 $imagick->thumbnailImage($constraint, $constraint, true);
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
         $tempPath = $file->getTempPath() . ThumbnailManager::EXTENSION;
         $file->delete();
 

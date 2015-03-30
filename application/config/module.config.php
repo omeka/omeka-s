@@ -110,7 +110,7 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\StorableFile'        => 'Omeka\Media\StorableFile',
+            'Omeka\TempFile'            => 'Omeka\Stdlib\TempFile',
             'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\Thumbnailer\GdThumbnailer',
             'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\Thumbnailer\ImagickThumbnailer',
             'Omeka\Thumbnailer\ImageMagick' => 'Omeka\Thumbnail\Thumbnailer\ImageMagickThumbnailer',
@@ -126,7 +126,7 @@ return array(
         'shared' => array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
-            'Omeka\StorableFile' => false,
+            'Omeka\TempFile' => false,
             'Omeka\Thumbnailer\Gd' => false,
         ),
     ),

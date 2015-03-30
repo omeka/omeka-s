@@ -53,7 +53,7 @@ class YoutubeHandler extends AbstractHandler
     {
         $id = $request->getMetadata('youtubeId');
 
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
         $this->downloadFile($url, $file->getTempPath());
         $hasThumbnails = $file->storeThumbnails();

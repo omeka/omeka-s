@@ -30,7 +30,7 @@ class UploadHandler extends AbstractFileHandler
             return;
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\StorableFile');
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload(array(

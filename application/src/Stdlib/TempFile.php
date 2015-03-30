@@ -1,12 +1,12 @@
 <?php
-namespace Omeka\Media;
+namespace Omeka\Stdlib;
 
 use finfo;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class StorableFile implements ServiceLocatorAwareInterface
+class TempFile implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 

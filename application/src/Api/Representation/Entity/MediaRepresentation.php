@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
-use Omeka\Media\StorableFile;
+use Omeka\Stdlib\TempFile;
 
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
@@ -60,7 +60,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             return null;
         }
         $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $storagePath = sprintf('%s/%s', StorableFile::ORIGINAL_STORAGE_PREFIX,
+        $storagePath = sprintf('%s/%s', TempFile::ORIGINAL_STORAGE_PREFIX,
             $this->filename());
         return $fileStore->getUri($storagePath);
     }

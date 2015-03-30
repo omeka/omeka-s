@@ -61,7 +61,8 @@
         $('.add-value').on('click', function(e) {
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
-            makeNewValue(wrapper.data('property-term'));
+            var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
+            makeNewValue(wrapper.data('property-term'), false, false, type);
         });
 
         // Remove value.
@@ -135,7 +136,6 @@
             var propertyQname = $(this).data('property-term');
             //@TODO: right now this is creating a new value, and deleting the value
             //that was clicked. Seems like steps can be removed in the workflow?
-
             $('.value.selecting-resource').remove();
             var valuesData = $('.resource-details').data('resource-values');
             makeNewValue(propertyQname, false, valuesData);
@@ -172,20 +172,20 @@
         initPage();
     });
 
-    var makeNewValue = function(qName, focus, valueObject) {
+    var makeNewValue = function(qName, focus, valueObject, valueType) {
         var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
-        var newValue = $('.value.template ').clone(true);
-        newValue.removeClass('template');
-        var count = valuesWrapper.find('input.value').length;
-        newValue.data('base-name', qName + '[' + count + ']');
-        valuesWrapper.find('.inputs').append(newValue);
+        var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
+        if (typeof valueObject != 'undefined' && typeof valueType === 'undefined') {
+            valueType = valueObjectType(valueObject);
+        }
 
-        //var propertyIdInput = newValue.find('.input-id');
-        //propertyIdInput.val(propertyId);
-        //propertyIdInput.attr('name', qName + '[' + count + '][property_id]');
-        //propertyIdInput.attr('data-property-term', qName);
+        var newValue = $('.value.template.' + valueType).clone(true);
+        newValue.removeClass('template');
+        newValue.data('base-name', qName + '[' + count + ']');
+        valuesWrapper.find('.values').append(newValue);
+
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
         if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
@@ -199,11 +199,11 @@
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
-        languageLabel.attr('for', languageElementName);
+        languageLabel.attr('for', languageElementName); // 
         languageInput.attr('name', languageElementName);
 
         //set up uri inputs
-        var uriInput = newValue.find('.uri input.value');
+        var uriInput = newValue.find('input.value');
         uriInput.attr('name', qName + '[' + count + '][@id]');
         
         var valueIdInput = newValue.find('input.value-id');
@@ -219,18 +219,15 @@
             } else {
                 valueIdInput.remove();
             }
-
-            var type = valueObjectType(valueObject);
             
-            switch (type) {
+            switch (valueType) {
                 case 'literal' :
                     valueTextarea.val(valueObject['@value']);
                     languageInput.val(valueObject['@language']);
                 break;
 
                 case 'resource' :
-                    valueTextarea.remove();
-                    var valueInternalInput = newValue.find('.resource input.value');
+                    var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
                     if (typeof valueObject['dcterms:title'] == 'undefined') {
                         newResource.find('.o-title').html('[Untitled]');
@@ -238,24 +235,14 @@
                         var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
                         newResource.find('.o-title').html(html);
                     }
+                    newResource.prev('.default').hide();
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
 
-                    //set up the buttons for actions
-
-                    newResource.siblings('span').hide();
-                    newResource.siblings('a.button').hide();
-                    newResource.parent().siblings('button.remove-value').addClass('active');
-
-                    var activeTab = newValue.find('.o-icon-items');
-                    Omeka.switchValueTabs(activeTab);
                 break;
 
                 case 'uri' :
-                    valueTextarea.remove();
                     uriInput.val(valueObject['@id']);
-                    var activeTab = newValue.find('.o-icon-link');
-                    Omeka.switchValueTabs(activeTab);
                 break;
             }
         }
@@ -356,14 +343,13 @@
 
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
-            makeNewValue('dcterms:title');
             makeNewField('dcterms:description');
-            makeNewValue('dcterms:description');
         } else {
             for (var term in valuesJson) {
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
                     makeNewValue(term, false, valuesJson[term][i]);
+                    console.log(valuesJson[term][i]);
                 }
             }
         }

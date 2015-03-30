@@ -18,11 +18,13 @@
     @extend .fa-user;
 } 
 
-.o-icon-items {
+.o-icon-items,
+.o-icon-resource {
     @extend .fa-cubes;
 }
 
-.o-icon-text {
+.o-icon-text,
+.o-icon-literal {
     @extend .fa-keyboard-o;
 }
 
@@ -94,7 +96,7 @@
     @extend .fa-upload;
 }
 
-.o-icon-link {
+.o-icon-uri {
     @extend .fa-link;
 }
 
@@ -171,6 +173,10 @@
 
 .o-icon-undo {
     @extend .fa-undo;
+}
+
+.o-icon-language {
+    @extend .fa-globe;
 }
 
 .screen-reader-text {

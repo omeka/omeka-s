@@ -1,52 +1,53 @@
 <fieldset id='<?php echo $id; ?>' class='<?php echo $class; ?>'>
-
-    <div class="resource-values field" id="resource-template" >
-        <div class="field-meta">
-            <label>Resource Template</label>
-            <div class='field-description'>
-                <p class="o-icon-info" tabindex="0"><span class="screen-reader-text">More Info</span></p>
-                <p class="field-comment">A pre-defined template for resource creation.</p>
+    <div class="non-properties">
+        <div class="resource-values field" id="resource-template" >
+            <div class="field-meta">
+                <label>Resource Template</label>
+                <div class='field-description'>
+                    <p class="o-icon-info" tabindex="0"><span class="screen-reader-text">More Info</span></p>
+                    <p class="field-comment">A pre-defined template for resource creation.</p>
+                </div>
+            </div>
+            <div class="inputs">
+                <?php $atts = array();
+                      if (isset($resource)) {
+                          $resourceTemplate = $resource->resourceTemplate();
+                          if ($resourceTemplate) {
+                              $atts = array('value' => $resource->resourceTemplate()->id());
+                          }
+                      }
+                ?>
+                <?php $select = $this->resourceTemplateSelect('o:resource_template[o:id]', $atts); ?>
+                <?php if ($select) {
+                          echo $select;
+                      } else {
+                          $resourceTemplatesUrl = $this->url('admin') . '/resource_template';
+                          echo "<span class=\"no-templates\">No resource templates available</span>";
+                      }
+    
+                      ?>
             </div>
         </div>
-        <div class="inputs">
-            <?php $atts = array();
-                  if (isset($resource)) {
-                      $resourceTemplate = $resource->resourceTemplate();
-                      if ($resourceTemplate) {
-                          $atts = array('value' => $resource->resourceTemplate()->id());
-                      }
-                  }
-            ?>
-            <?php $select = $this->resourceTemplateSelect('o:resource_template[o:id]', $atts); ?>
-            <?php if ($select) {
-                      echo $select;
-                  } else {
-                      $resourceTemplatesUrl = $this->url('admin') . '/resource_template';
-                      echo "<span class=\"no-templates\">No <a href='$resourceTemplatesUrl'>resource templates</a> available</span>";
-                  }
-
-                  ?>
-        </div>
-    </div>
-
-    <div class="resource-values field" id="resource-class">
-        <div class="field-meta">
-            <label>Class</label>
-            <div class='field-description'>
-                <p class="o-icon-info" tabindex="0"><span class="screen-reader-text">More Info</span></p>
-                <p class="field-comment"> A type for the resource. Different types have different default properties attached to them. </p>
+    
+        <div class="resource-values field" id="resource-class">
+            <div class="field-meta">
+                <label>Class</label>
+                <div class='field-description'>
+                    <p class="o-icon-info" tabindex="0"><span class="screen-reader-text">More Info</span></p>
+                    <p class="field-comment"> A type for the resource. Different types have different default properties attached to them. </p>
+                </div>
             </div>
-        </div>
-        <div class="inputs">
-            <?php $atts = array();
-                  if (isset($resource)) {
-                      $resourceClass = $resource->resourceClass();
-                      if ($resourceClass) {
-                          $atts = array('value' => $resourceClass->id());
+            <div class="inputs">
+                <?php $atts = array();
+                      if (isset($resource)) {
+                          $resourceClass = $resource->resourceClass();
+                          if ($resourceClass) {
+                              $atts = array('value' => $resourceClass->id());
+                          }
                       }
-                  }
-            ?>
-            <?php echo $this->resourceClassSelect('o:resource_class[o:id]', $atts); ?>
+                ?>
+                <?php echo $this->resourceClassSelect('o:resource_class[o:id]', $atts); ?>
+            </div>
         </div>
     </div>
     <div id='properties'>

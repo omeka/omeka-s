@@ -134,7 +134,10 @@ class Manager implements ServiceLocatorAwareInterface
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {
-            // @todo Unset thumbnail files created before exception was thrown
+            // Delete temporary files created before exception was thrown.
+            foreach ($tempPaths as $tempPath) {
+                @unlink($tempPath);
+            }
             return false;
         }
 
@@ -143,6 +146,8 @@ class Manager implements ServiceLocatorAwareInterface
         foreach ($tempPaths as $thumbnail => $tempPath) {
             $storagePath = $this->getStoragePath($thumbnail, $storageBaseName);
             $fileStore->put($tempPath, $storagePath);
+            // Delete the temporary file in case the file store hasn't already.
+            @unlink($tempPath);
         }
 
         return true;

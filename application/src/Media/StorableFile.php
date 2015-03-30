@@ -86,7 +86,7 @@ class StorableFile implements ServiceLocatorAwareInterface
      */
     public function setTempPath($tempDir = null)
     {
-        if (isset($tempDir)) {
+        if (!isset($tempDir)) {
             $tempDir = $this->getServiceLocator()->get('Config')['temp_dir'];
         }
         $this->tempPath = tempnam($tempDir, 'omeka');

@@ -192,6 +192,7 @@ return array(
     ),
     'media_handlers' => array(
         'invokables' => array(
+            'oembed'  => 'Omeka\Media\Handler\OEmbedHandler',
             'url'     => 'Omeka\Media\Handler\UrlHandler',
             'upload'  => 'Omeka\Media\Handler\UploadHandler',
             'youtube' => 'Omeka\Media\Handler\YoutubeHandler',

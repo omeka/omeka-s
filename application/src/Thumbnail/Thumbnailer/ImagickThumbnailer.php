@@ -59,7 +59,11 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 break;
             case 'default':
             default:
-                $imagick->thumbnailImage($constraint, $constraint, true);
+                if ($origWidth < $constraint && $origHeight < $constraint) {
+                    $imagick->thumbnailImage($origWidth, $origHeight, true);
+                } else {
+                    $imagick->thumbnailImage($constraint, $constraint, true);
+                }
         }
 
         $file = $this->getServiceLocator()->get('Omeka\TempFile');

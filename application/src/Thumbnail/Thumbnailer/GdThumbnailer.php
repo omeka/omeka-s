@@ -12,6 +12,16 @@ class GdThumbnailer extends AbstractThumbnailer
     protected $origImage;
 
     /**
+     * @var int The width of the original image
+     */
+    protected $origWidth;
+
+    /**
+     * @var int The height of the original image
+     */
+    protected $origHeight;
+
+    /**
      * Check whether the GD entension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
@@ -35,6 +45,8 @@ class GdThumbnailer extends AbstractThumbnailer
             throw new Exception\CannotCreateThumbnailException;
         }
         $this->origImage = $origImage;
+        $this->origWidth = imagesx($origImage);
+        $this->origHeight = imagesy($origImage);
     }
 
     /**
@@ -73,17 +85,18 @@ class GdThumbnailer extends AbstractThumbnailer
      */
     public function createDefault($constraint, array $options)
     {
-        $origWidth = imagesx($this->origImage);
-        $origHeight = imagesy($this->origImage);
-
+        // Original is smaller than constraint
+        if ($this->origWidth < $constraint && $this->origHeight < $constraint) {
+            $tempWidth = $this->origWidth;
+            $tempHeight = $this->origHeight;
         // Original is landscape
-        if ($origWidth > $origHeight) {
+        } elseif ($this->origWidth > $this->origHeight) {
             $tempWidth = $constraint;
-            $tempHeight = round($origHeight * $constraint / $origWidth);
+            $tempHeight = round($this->origHeight * $constraint / $this->origWidth);
         }
         // Original is portrait
-        elseif ($origWidth < $origHeight) {
-            $tempWidth = round($origWidth * $constraint / $origHeight);
+        elseif ($this->origWidth < $this->origHeight) {
+            $tempWidth = round($this->origWidth * $constraint / $this->origHeight);
             $tempHeight = $constraint;
         }
         // Original is square
@@ -94,7 +107,7 @@ class GdThumbnailer extends AbstractThumbnailer
 
         $tempImage = $this->createTempImage($tempWidth, $tempHeight);
         $resizeResult = imagecopyresampled($tempImage, $this->origImage, 0, 0,
-            0, 0, $tempWidth, $tempHeight, $origWidth, $origHeight);
+            0, 0, $tempWidth, $tempHeight, $this->origWidth, $this->origHeight);
 
         if (false === $resizeResult) {
             imagedestroy($tempImage);
@@ -115,24 +128,21 @@ class GdThumbnailer extends AbstractThumbnailer
     {
         $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
 
-        $origWidth = imagesx($this->origImage);
-        $origHeight = imagesy($this->origImage);
-
         // Original is landscape
-        if ($origWidth > $origHeight) {
-            $origSize = $origHeight;
-            $origX = $this->getOffsetX($origWidth, $origSize, $gravity);
+        if ($this->origWidth > $this->origHeight) {
+            $origSize = $this->origHeight;
+            $origX = $this->getOffsetX($this->origWidth, $origSize, $gravity);
             $origY = 0;
         }
         // Original is portrait
-        elseif ($origWidth < $origHeight) {
-            $origSize = $origWidth;
+        elseif ($this->origWidth < $this->origHeight) {
+            $origSize = $this->origWidth;
             $origX = 0;
-            $origY = $this->getOffsetY($origHeight, $origSize, $gravity);
+            $origY = $this->getOffsetY($this->origHeight, $origSize, $gravity);
         }
         // Original is square
         else {
-            $origSize = $origWidth;
+            $origSize = $this->origWidth;
             $origX = 0;
             $origY = 0;
         }

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Thumbnail;
 
+use Omeka\Stdlib\TempFile;
 use Omeka\Thumbnail\Exception;
 use Omeka\Thumbnail\ThumbnailerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -51,6 +52,13 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function __construct(array $types, array $options = array())
     {
+        if (array_key_exists(TempFile::ORIGINAL_STORAGE_PREFIX, $types)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Cannot use the reserved word "%s" as a thumbnail type.',
+                TempFile::ORIGINAL_STORAGE_PREFIX
+            ));
+        }
+
         // Set custom type configuration.
         foreach ($types as $type => $config) {
             if (!isset($config['constraint'])) {

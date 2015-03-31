@@ -36,6 +36,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
         $origHeight = $imagick->getImageHeight();
 
         $imagick->setBackgroundColor('white');
+        $imagick->setImageBackgroundColor('white');
         $imagick->setImagePage($origWidth, $origHeight, 0, 0);
         $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 

@@ -1540,6 +1540,7 @@ th {
   .property-selector .property .description .o-icon-info:hover + .field-comment {
     left: 0;
     right: 0;
+    top: 2.25em;
     padding-left: 10px;
     padding-right: 10px;
     background-color: #fff;
@@ -1556,16 +1557,11 @@ th {
     width: 0;
     position: absolute;
     left: 10px;
+    top: -0.375em;
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
     border-bottom: 0.75em solid #fff;
-  }
-  .property-selector .property .description .o-icon-info:hover + .field-comment.below {
-    top: 2.25em;
-  }
-  .property-selector .property .description .o-icon-info:hover + .field-comment.below:before {
-    top: -0.375em;
   }
   .property-selector .property .description .o-icon-info:hover + .field-comment.above {
     bottom: 100%;

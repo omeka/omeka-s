@@ -1117,6 +1117,7 @@ body.sidebar-open #content {
     .property-selector .property .description .o-icon-info:hover + .field-comment {
         left: 0;
         right: 0;
+        top: rhythm(1.5);
         padding-left: 10px;
         padding-right: 10px;
         background-color: #fff;
@@ -1131,18 +1132,11 @@ body.sidebar-open #content {
             width: 0;
             position: absolute;
             left: 10px;
+            top: rhythm(-.25);
             font-size: $base-font-size;
             border-left: rhythm(.25) solid transparent;
             border-right: rhythm(.25) solid transparent;
             border-bottom: rhythm(.5) solid #fff;
-        }
-        
-        &.below {
-            top: rhythm(1.5);
-            
-            &:before {
-                top: rhythm(-.25);
-            }
         }
         
         &.above {

@@ -62,7 +62,9 @@ class Manager implements ServiceLocatorAwareInterface
         // Set custom type configuration.
         foreach ($types as $type => $config) {
             if (!isset($config['constraint'])) {
-                continue;
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'No constraint provided for the "%s" thumbnail type.', $type
+                ));
             }
             $this->types[$type]['constraint'] = (int) $config['constraint'];
             if (isset($config['strategy'])) {

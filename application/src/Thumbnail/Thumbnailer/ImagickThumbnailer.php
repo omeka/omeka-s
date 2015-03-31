@@ -44,10 +44,10 @@ class ImagickThumbnailer extends AbstractThumbnailer
             case 'square':
                 $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
                 if ($origWidth < $origHeight) {
-                    $tempHeight = $constraint;
-                    $tempWidth = $origHeight * ($constraint / $origWidth);
+                    $tempWidth = $constraint;
+                    $tempHeight = $origHeight * ($constraint / $origWidth);
                     $origX = 0;
-                    $origY = $this->getOffsetY($tempWidth, $constraint, $gravity);
+                    $origY = $this->getOffsetY($tempHeight, $constraint, $gravity);
                 } else {
                     $tempHeight = $constraint;
                     $tempWidth = $origWidth * ($constraint / $origHeight);

@@ -44,22 +44,34 @@ class GdThumbnailer extends AbstractThumbnailer
     {
         switch ($strategy) {
             case 'square':
-                $tempPath = $this->createSquare($constraint, $options);
+                $tempImage = $this->createSquare($constraint, $options);
                 break;
             case 'default':
             default:
-                $tempPath = $this->createDefault($constraint, $options);
+                $tempImage = $this->createDefault($constraint, $options);
         }
-        return $tempPath;
+
+        // Save a temporary thumbnail image.
+        $file = $this->getServiceLocator()->get('Omeka\TempFile');
+        $saveResult = imagejpeg($tempImage, $file->getTempPath());
+
+        if (false === $saveResult) {
+            imagedestroy($tempImage);
+            throw new Exception\CannotCreateThumbnailException;
+        }
+
+        imagedestroy($tempImage);
+        return $file->getTempPath();
     }
 
     /**
      * Create a default thumbnail.
      *
      * @param int $constraint
-     * @return string Path to temporary thumbnail image
+     * @param array $options
+     * @return resource A "gd" resource
      */
-    protected function createDefault($constraint, array $options)
+    public function createDefault($constraint, array $options)
     {
         $origWidth = imagesx($this->origImage);
         $origHeight = imagesy($this->origImage);
@@ -89,14 +101,15 @@ class GdThumbnailer extends AbstractThumbnailer
             throw new Exception\CannotCreateThumbnailException;
         }
 
-        return $this->saveTempImage($tempImage);
+        return $tempImage;
     }
 
     /**
      * Create a square thumbnail.
      *
      * @param int $constraint
-     * @return string Path to temporary thumbnail image
+     * @param array $options
+     * @return resource A "gd" resource
      */
     public function createSquare($constraint, array $options)
     {
@@ -133,7 +146,7 @@ class GdThumbnailer extends AbstractThumbnailer
             throw new Exception\CannotCreateThumbnailException;
         }
 
-        return $this->saveTempImage($tempImage);
+        return $tempImage;
     }
 
     /**
@@ -143,7 +156,7 @@ class GdThumbnailer extends AbstractThumbnailer
      * @param int $height
      * @return resource
      */
-    protected function createTempImage($width, $height)
+    public function createTempImage($width, $height)
     {
         $tempImage = imagecreatetruecolor($width, $height);
 
@@ -152,26 +165,6 @@ class GdThumbnailer extends AbstractThumbnailer
         imagefill($tempImage, 0, 0, $white);
 
         return $tempImage;
-    }
-
-    /**
-     * Save a temporary thumbnail image.
-     *
-     * @param resource $tempImage
-     * @return string Path to temporary thumbnail image
-     */
-    protected function saveTempImage($tempImage)
-    {
-        $file = $this->getServiceLocator()->get('Omeka\TempFile');
-        $saveResult = imagejpeg($tempImage, $file->getTempPath());
-
-        if (false === $saveResult) {
-            imagedestroy($tempImage);
-            throw new Exception\CannotCreateThumbnailException;
-        }
-
-        imagedestroy($tempImage);
-        return $file->getTempPath();
     }
 
     /**

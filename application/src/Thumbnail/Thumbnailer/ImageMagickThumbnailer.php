@@ -36,18 +36,19 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
                 $args = array(
                     '-background white',
-                    '-flatten',
+                    '+repage',
+                    '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s^', $constraint, $constraint)),
                     '-gravity ' .  escapeshellarg($gravity),
                     '-crop ' . escapeshellarg(sprintf('%sx%s+0+0', $constraint, $constraint)),
-                    '+repage',
                 );
                 break;
             case 'default':
             default:
                 $args = array(
                     '-background white',
-                    '-flatten',
+                    '+repage',
+                    '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s>', $constraint, $constraint)),
                 );
         }

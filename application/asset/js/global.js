@@ -200,15 +200,12 @@ var Omeka = {
         })())
 
         // Autoposition tooltip.
-        $('body').on('mouseover', '.o-icon-info', function(e) {
+        $('body').on('mouseover', '.o-icon-info', function() {
             var moreInfoIcon = $(this);
             var fieldDesc = moreInfoIcon.next('.field-comment');
-            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
-            if (fieldDescBottom > $(window).height()) {
-                fieldDesc.removeClass('below').addClass('above');
-            } else {
-                fieldDesc.removeClass('above').addClass('below');
-            }
+            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.outerHeight() + fieldDesc.outerHeight() - $(window).scrollTop();
+            console.log(fieldDescBottom);
+            fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
         });
     });
 

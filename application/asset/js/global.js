@@ -174,7 +174,6 @@ var Omeka = {
             var moreInfoIcon = $(this);
             var fieldDesc = moreInfoIcon.next('.field-comment');
             var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.outerHeight() + fieldDesc.outerHeight() - $(window).scrollTop();
-            console.log(fieldDescBottom);
             fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
         });
     });

@@ -1814,10 +1814,11 @@ th {
     padding: 0.375em;
     margin: 0.375em 0;
   }
-  .inputs *:only-child {
-    margin: 0;
-  }
-  .inputs select {
+  .inputs select:only-child,
+  .inputs textarea:only-child,
+  .inputs input[type="text"]:only-child,
+  .inputs input[type="password"]:only-child,
+  .inputs input[type="email"]:only-child {
     margin: 0;
   }
   .inputs .button,

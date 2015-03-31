@@ -1395,11 +1395,11 @@ body.sidebar-open #content {
             margin: rhythm(.25) 0;
         }
         
-        *:only-child {
-            margin: 0;
-        }
-        
-        select {
+        select:only-child,
+        textarea:only-child,
+        input[type="text"]:only-child,
+        input[type="password"]:only-child,
+        input[type="email"]:only-child {
             margin: 0;
         }
 

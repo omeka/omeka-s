@@ -159,19 +159,13 @@ var Omeka = {
         });
         
         // Switch between section tabs.
-        $('a.section, .section legend').click(function(e) {
+        $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
             var tab = $(this);
             if (!tab.hasClass('active')) {
-                $('.section.active, legend.active').removeClass('active');
-                if (tab.is('legend')) {
-                    var section_class = tab.parents('.section').attr('id');
-                } else {
-                    var section_class = tab.attr('class');
-                }
-                var section_id = section_class.replace(/section/, '');
+                $('.section.active, .section-nav a.active').removeClass('active');
                 tab.addClass('active');
-                $('#' + section_id).addClass('active');
+                $(tab.attr('href')).addClass('active');
             }
         });
         

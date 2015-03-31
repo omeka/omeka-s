@@ -31,14 +31,17 @@ class ImagickThumbnailer extends AbstractThumbnailer
         } catch (ImagickException $e) {
             throw new Exception\CannotCreateThumbnailException;
         }
+
+        $origWidth = $imagick->getImageWidth();
+        $origHeight = $imagick->getImageHeight();
+
         $imagick->setBackgroundColor('white');
+        $imagick->setImagePage($origWidth, $origHeight, 0, 0);
         $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
         switch ($strategy) {
             case 'square':
                 $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
-                $origWidth = $imagick->getImageWidth();
-                $origHeight = $imagick->getImageHeight();
                 if ($origWidth < $origHeight) {
                     $tempHeight = $constraint;
                     $tempWidth = $origHeight * ($constraint / $origWidth);

@@ -1742,6 +1742,7 @@ th {
   .field-description .o-icon-info:hover + p, .field-description .o-icon-info:focus + p {
     left: inherit;
     right: 0px;
+    top: 2.25em;
     background-color: #333;
     color: #fff;
     -moz-border-radius: 3px;
@@ -1754,9 +1755,6 @@ th {
     padding: 0.375em 5px;
     margin: 0.75em 0;
   }
-  .field-description .o-icon-info:hover + p.below, .field-description .o-icon-info:focus + p.below {
-    top: 2.25em;
-  }
   .field-description .o-icon-info:hover + p.above, .field-description .o-icon-info:focus + p.above {
     top: auto;
     bottom: 1.875em;
@@ -1768,14 +1766,12 @@ th {
     width: 0;
     position: absolute;
     top: -0.375em;
+    bottom: 0;
     right: 3px;
     font-size: 16px;
     border-left: 0.375em solid transparent;
     border-right: 0.375em solid transparent;
     border-bottom: 0.75em solid #333;
-  }
-  .field-description .o-icon-info:hover + p.below:before, .field-description .o-icon-info:focus + p.below:before {
-    bottom: 0;
   }
   .field-description .o-icon-info:hover + p.above:before, .field-description .o-icon-info:focus + p.above:before {
     top: auto;

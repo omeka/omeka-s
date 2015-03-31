@@ -1319,6 +1319,7 @@ body.sidebar-open #content {
         &:focus + p {
             left: inherit;
             right: 0px;
+            top: rhythm(1.5);
             background-color: #333;
             color: #fff;
             @include border-radius(3px);
@@ -1327,10 +1328,6 @@ body.sidebar-open #content {
             @include adjust-font-size-to(14px, 1, $base-font-size);
             padding: rhythm(.25) 5px;
             margin: rhythm(.5) 0;
-            
-            &.below {
-                top: rhythm(1.5);
-            }
             
             &.above {
                 top: auto;
@@ -1346,16 +1343,12 @@ body.sidebar-open #content {
             width: 0;
             position: absolute;
             top: rhythm(-.25);
+            bottom: 0;
             right: 3px;
             font-size: $base-font-size;
             border-left: rhythm(.25) solid transparent;
             border-right: rhythm(.25) solid transparent;
             border-bottom: rhythm(.5) solid #333;
-        }
-
-        &:hover + p.below:before,
-        &:focus + p.below:before {
-            bottom: 0;
         }
         
         &:hover + p.above:before,

@@ -101,8 +101,8 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 );
             }
         } else {
-            // Auto-detect the command using "which".
-            $command = sprintf('which %s', escapeshellarg(self::CONVERT_COMMAND));
+            // Auto-detect the command using "command".
+            $command = sprintf('command -v %s', escapeshellarg(self::CONVERT_COMMAND));
             exec($command, $output, $exitCode);
             if (0 !== $exitCode) {
                 throw new Exception\InvalidThumbnailerException(

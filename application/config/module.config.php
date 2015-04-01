@@ -184,6 +184,7 @@ return array(
             'propertySelect'         => 'Omeka\View\Helper\PropertySelect',
             'sortLink'               => 'Omeka\View\Helper\SortLink',
             'formElements'           => 'Omeka\View\Helper\FormElements',
+            'formField'              => 'Omeka\View\Helper\FormField',
             'propertySelector'       => 'Omeka\View\Helper\PropertySelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',

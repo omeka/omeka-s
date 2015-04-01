@@ -32,10 +32,7 @@ $formElement = $this->plugin('formElement');
     );
     ?>
     <fieldset id='item-sets' class='section'>
-        <?php
-        echo $this->partial('common/form-element',
-            array('element' => $form->get('o:item_set')));
-        ?>
+        <?php echo $this->formField($form->get('o:item_set')); ?>
     </fieldset>
 
     <fieldset id="page-actions">

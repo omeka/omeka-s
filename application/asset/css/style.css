@@ -1331,8 +1331,7 @@ th {
     display: block;
   }
 
-  #page-actions,
-  #save-sidebar {
+  #page-actions {
     width: 79.58333%;
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
@@ -1345,10 +1344,7 @@ th {
   }
   #page-actions input[type="submit"],
   #page-actions button,
-  #page-actions .button,
-  #save-sidebar input[type="submit"],
-  #save-sidebar button,
-  #save-sidebar .button {
+  #page-actions .button {
     display: inline-block;
     height: 2.25em;
     padding: 0.375em 1em;
@@ -2818,7 +2814,6 @@ th {
 
   #current-user,
   #menu,
-  #save-sidebar,
   #search,
   footer {
     position: fixed;

@@ -1,15 +1,14 @@
 <?php
-
 namespace Omeka\Service;
 
-use Omeka\FileStore\Local;
+use Omeka\File\Store\LocalStore;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Service factory for the Local file store.
  */
-class FileStoreLocalFactory implements FactoryInterface
+class LocalStoreFactory implements FactoryInterface
 {
     /**
      * Create and return the Local file store
@@ -25,7 +24,7 @@ class FileStoreLocalFactory implements FactoryInterface
 
         $localPath = OMEKA_PATH . '/files';
         $webPath = $serverUrl($basePath('files'));
-        $fileStore = new Local($localPath, $webPath);
+        $fileStore = new LocalStore($localPath, $webPath);
         return $fileStore;
     }
 }

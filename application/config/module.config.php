@@ -89,7 +89,7 @@ return array(
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
-            'Omeka\FileStore\Local'       => 'Omeka\Service\FileStoreLocalFactory',
+            'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
@@ -99,6 +99,7 @@ return array(
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
             'Omeka\ThumbnailManager'      => 'Omeka\Service\ThumbnailManagerFactory',
+            'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -111,6 +112,7 @@ return array(
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\TempFile'            => 'Omeka\Stdlib\TempFile',
+            'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\Thumbnailer\GdThumbnailer',
             'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\Thumbnailer\ImagickThumbnailer',
             'Omeka\Thumbnailer\ImageMagick' => 'Omeka\Thumbnail\Thumbnailer\ImageMagickThumbnailer',
@@ -118,7 +120,7 @@ return array(
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
-            'Omeka\FileStore'           => 'Omeka\FileStore\Local',
+            'Omeka\File\Store'          => 'Omeka\File\LocalStore',
             'Omeka\Thumbnailer'         => 'Omeka\Thumbnailer\ImageMagick',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
@@ -128,6 +130,7 @@ return array(
             'Omeka\HttpClient' => false,
             'Omeka\TempFile' => false,
             'Omeka\Thumbnailer\Gd' => false,
+            'Omeka\File' => false,
         ),
     ),
     'controllers' => array(

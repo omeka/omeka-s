@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\FileStore\Exception;
+namespace Omeka\File\Exception;
 
 interface ExceptionInterface
 {}

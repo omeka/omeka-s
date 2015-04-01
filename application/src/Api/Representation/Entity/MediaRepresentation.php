@@ -1,11 +1,8 @@
 <?php
 namespace Omeka\Api\Representation\Entity;
 
-use Omeka\Stdlib\TempFile;
-
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
-
     /**
      * {@inheritDoc}
      */
@@ -59,10 +56,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasOriginal()) {
             return null;
         }
-        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $storagePath = sprintf('%s/%s', TempFile::ORIGINAL_STORAGE_PREFIX,
-            $this->filename());
-        return $fileStore->getUri($storagePath);
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        return $fileManager->getOriginalUri($this->getData());
     }
 
     /**

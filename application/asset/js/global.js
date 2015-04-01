@@ -128,9 +128,15 @@ var Omeka = {
         // Set classes for expandable/collapsible content.
         $(document).on('click', 'a.expand, a.collapse', function(e) {
             e.preventDefault();
-            $(this).toggleClass('collapse').toggleClass('expand');
+            var toggle = $(this);
+            toggle.toggleClass('collapse').toggleClass('expand').toggleClass('o-icon-right').toggleClass('o-icon-down');
             if ($('.expand-collapse-parent').length > 0) {
-                $(this).parent().toggleClass('collapse').toggleClass('expand');
+                toggle.parent().toggleClass('collapse').toggleClass('expand');
+            }
+            if (toggle.hasClass('expand')) {
+                toggle.attr('aria-title','Expand');
+            } else {
+                toggle.attr('aria-title','Collapse');
             }
         });
 
@@ -170,9 +176,11 @@ var Omeka = {
         })())
 
         // Autoposition tooltip.
-        $('body').on('mouseover', '.o-icon-info', function() {
+        $('body').on('click', '.o-icon-info', function(e) {
+            e.preventDefault();
             var moreInfoIcon = $(this);
             var fieldDesc = moreInfoIcon.next('.field-comment');
+            fieldDesc.toggleClass('open');
             var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.outerHeight() + fieldDesc.outerHeight() - $(window).scrollTop();
             fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
         });

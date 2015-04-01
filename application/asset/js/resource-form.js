@@ -156,6 +156,11 @@
             Omeka.openSidebar(context);
         });
 
+        $('.field-meta .expand, .field-meta .collapse').each(function(e) {
+            var nextSiblings = $(this).nextAll();
+            nextSiblings.wrapAll('<div class="collapsible"></div>');
+        });
+
         initPage();
     });
 
@@ -271,10 +276,10 @@
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
         var fieldName = $('span.property-label', propertyLi).html();
-        field.find('span.field-label-text').text(fieldName);
-        field.find('span.field-term').text(qName);
+        field.find('.field-label').text(fieldName);
+        field.find('.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();
-        field.find('.field-comment').text(fieldDesc.text());
+        field.find('.field-description').prepend(fieldDesc.text());
         $('div#properties').append(field);
         field.data('property-term', qName);
         field.data('property-id', propertyId);
@@ -341,7 +346,6 @@
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
                     makeNewValue(term, false, valuesJson[term][i]);
-                    console.log(valuesJson[term][i]);
                 }
             }
         }

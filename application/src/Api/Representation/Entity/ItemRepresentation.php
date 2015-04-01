@@ -9,6 +9,11 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     protected $media;
 
     /**
+     * @var array Cache of item set epresentations
+     */
+    protected $itemSets;
+
+    /**
      * {@inheritDoc}
      */
     public function getControllerName()
@@ -56,5 +61,25 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             $this->media[] = $mediaAdapter->getRepresentation(null, $mediaEntity);
         }
         return $this->media;
+    }
+
+    /**
+     * Get the item sets associated with this item.
+     *
+     * @return array Array of ItemSetRepresentations
+     */
+    public function itemSets()
+    {
+        if (isset($this->itemSets)) {
+            return $this->itemSets;
+        }
+
+        $this->itemSets = array();
+        $itemSetAdapter = $this->getAdapter('item_sets');
+        foreach ($this->getData()->getItemSets() as $itemSetEntity) {
+            $this->itemSets[$itemSetEntity->getId()] =
+                $itemSetAdapter->getRepresentation(null, $itemSetEntity);
+        }
+        return $this->itemSets;
     }
 }

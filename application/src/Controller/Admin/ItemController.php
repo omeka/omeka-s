@@ -112,6 +112,7 @@ class ItemController extends AbstractActionController
     public function addAction()
     {
         $form = new ItemForm($this->getServiceLocator());
+        $form->setAttribute('id', 'add-item');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -136,6 +137,7 @@ class ItemController extends AbstractActionController
     public function editAction()
     {
         $form = new ItemForm($this->getServiceLocator());
+        $form->setAttribute('id', 'edit-item');
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
@@ -158,6 +160,8 @@ class ItemController extends AbstractActionController
                 $values[$term][] = $valuesArray;
             }
         }
+
+        $form->get('o:item_set')->setValue(array_keys($item->itemSets()));
         
         $view = new ViewModel;
         $view->setVariable('form', $form);

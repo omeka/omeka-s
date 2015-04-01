@@ -1,64 +1,11 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/chosen/chosen.jquery.min.js', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('js/chosen/chosen.min.css', 'Omeka'));
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formElement = $this->plugin('formElement');
 ?>
 <h1><?php echo $this->translate('Add item'); ?></h1>
 
-<nav class="section-nav">
-    <ul>
-        <li><a href="#resource-values" class="active">Values</a></li>
-        <li><a href="#item-media">Media</a></li>
-        <li><a href="#item-visibility">Visibility</a></li>
-        <li><a href="#item-sets">Item Sets</a></li>
-    </ul>
-</nav>
-
-<form method='post' id='add-item'>
-    <?php 
-        //produces a <fieldset> with the id and class atts passed in.
-        //on, e.g., the item add/edit pages, the id will work with the classes on 
-        //the nav lis above. (see globals.js)  
-        echo $this->partial(
-                'common/resource-fields.phtml',
-                array('id'                   => 'resource-values',
-                      'class'                => 'section active',
-                      'propertySelectorText' => 'Click on a property to add it to the add panel'
-                      )
-                );
-    ?>
-    <fieldset id='item-sets' class='section'>
-        <?php
-        echo $this->partial('common/form-element',
-            array('element' => $form->get('o:item_set')));
-        ?>
-    </fieldset>
-
-    <fieldset id="save-sidebar">
-        <input type="submit" name="add-item-submit" value="Create item" />
-        <a href="#" class="cancel button">Cancel</a>
-    </fieldset>
-    <?php echo $formElement($form->get('csrf')); ?>
-
-</form>
-
-<!-- 
-the sidebar and templates are not going into the fields partial because
-they exist outside the form, and the partial needs to work with 
-multiple resource fieldsets (item and media, e.g.)
--->
-
-<?php 
-        echo $this->partial('common/resource-form-templates.phtml');
+<?php
+echo $this->partial('omeka/admin/item/form.phtml', array(
+    'form' => $form,
+    'submit_label' => $this->translate('Add item')
+));
 ?>
-
-<script type="text/javascript">
-jQuery(document).ready(function ($) {
-    $('#select-item-set').chosen({width: '100%'});
-});
-</script>

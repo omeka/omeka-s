@@ -1,50 +1,16 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
-$formLabel = $this->plugin('formLabel');
-$formElement = $this->plugin('formElement');
 ?>
 
 <script type='text/javascript'>
 var valuesJson = <?php echo $values; ?>;
-var selectedItemValueJson;
 </script>
 
 <h1><?php echo $this->translate('Edit item'); ?></h1>
-<?php 
-if (isset($errors)) {
-    print_r($errors);
-}
-?>
 
-<nav class="section-nav">
-    <ul>
-        <li><a href="#resource-values" class="active">Values</a></li>
-        <li><a href="#item-media">Media</a></li>
-        <li><a href="#item-visibility">Visibility</a></li>
-    </ul>
-</nav>
-
-<form method='post' id='edit-item'>
-    <?php 
-        //produces a <fieldset> with the id and class atts passed in.
-        //on, e.g., the item add/edit pages, the id will work with the classes on 
-        //the nav lis above. (see globals.js)  
-        echo $this->partial(
-                'common/resource-fields.phtml',
-                array('id' => 'resource-values', 'class' => 'section active', 'resource' => $item )
-                );
-    ?>
-
-    <fieldset id="save-sidebar">
-        <input type="submit" name="add-item-submit" value="Update item" />
-        <a href="#" class="cancel button">Cancel</a>
-    </fieldset>
-    <?php echo $this->formElement($form->get('csrf')); ?>
-</form>
-
-<?php 
-        echo $this->partial('common/resource-form-templates.phtml');
+<?php
+echo $this->partial('omeka/admin/item/form.phtml', array(
+    'form' => $form,
+    'submit_label' => $this->translate('Edit item')
+));
 ?>

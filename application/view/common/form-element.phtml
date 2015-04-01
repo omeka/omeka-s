@@ -3,7 +3,7 @@
         <?php echo $this->formLabel($element); ?>
         <?php if ($info = $element->getOption('info')): ?>
         <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->escapeHtml($this->translate('More Info')); ?></span></p>
+            <a href="#" class="o-icon-info"><span class="screen-reader-text"><?php echo $this->escapeHtml($this->translate('More Info')); ?></span></a>
             <p class="field-comment"><?php echo $this->escapeHtml($info); ?></p>
         </div>
         <?php endif; ?>

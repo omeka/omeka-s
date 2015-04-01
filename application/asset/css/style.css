@@ -1342,6 +1342,7 @@ th {
 
   .field-meta {
     width: 30%;
+    padding-right: 0.375em;
     position: relative;
     display: inline-block;
   }
@@ -1511,6 +1512,20 @@ th {
     margin: 1.5em 0 0 30%;
   }
 
+  .resource-values .field-label {
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .resource-values .field-description {
+    margin-bottom: 0.375em;
+    font-size: 0.875em;
+    line-height: 1.71429em;
+    position: static;
+    text-align: left;
+    height: auto;
+  }
+
   .field-description {
     display: block;
     margin-right: 10px;
@@ -1525,9 +1540,10 @@ th {
 
   .field-description .o-icon-info {
     margin: 0;
+    cursor: pointer;
   }
 
-  .field-description .o-icon-info:hover + .field-comment, .field-description .o-icon-info:focus + .field-comment {
+  .field-description .field-comment.open {
     left: inherit;
     right: 0px;
     top: 2.25em;
@@ -1541,11 +1557,12 @@ th {
     padding: 0.375em 5px;
     margin: 0.75em 0;
   }
-  .field-description .o-icon-info:hover + .field-comment.above, .field-description .o-icon-info:focus + .field-comment.above {
+  .field-description .field-comment.open.above {
     top: auto;
     bottom: 1.875em;
   }
-  .field-description .o-icon-info:hover + .field-comment:before, .field-description .o-icon-info:focus + .field-comment:before {
+
+  .field-description .field-comment.open:before {
     content: "";
     display: block;
     height: 0;
@@ -1559,7 +1576,8 @@ th {
     border-right: 0.375em solid transparent;
     border-bottom: 0.75em solid #333;
   }
-  .field-description .o-icon-info:hover + .field-comment.above:before, .field-description .o-icon-info:focus + .field-comment.above:before {
+
+  .field-description .field-comment.open.above:before {
     top: auto;
     bottom: -0.75em;
     -moz-transform: rotate(180deg);
@@ -1568,10 +1586,31 @@ th {
     transform: rotate(180deg);
   }
 
-  .field-description .field-comment:not(:first-of-type) {
+  .field-meta .expand,
+  .field-meta .collapse {
+    display: inline-block;
+    margin-left: .5em;
+  }
+
+  .collapsible {
+    display: none;
+  }
+
+  .collapse + .collapsible {
+    display: block;
+  }
+
+  .field-description .field-comment {
     position: absolute;
     top: -9999px;
     left: -9999px;
+  }
+
+  .resource-values .field-term {
+    font-family: "Source Code Pro";
+    display: block;
+    font-size: 0.75em;
+    line-height: 2em;
   }
 
   .inputs {

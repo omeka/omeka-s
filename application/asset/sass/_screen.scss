@@ -945,6 +945,7 @@ body.sidebar-open #content {
     
     .field-meta {
         width: span(3 of 10);
+        padding-right: rhythm(.25);
         position: relative;
         display: inline-block;
         
@@ -1122,6 +1123,19 @@ body.sidebar-open #content {
         margin: rhythm() 0 0 span(3 of 10);
     }
 
+    .resource-values .field-label {
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .resource-values .field-description {
+        @include trailer(.25);
+        @include adjust-font-size-to(14px);
+        position: static;
+        text-align: left;
+        height: auto;
+    }
+
     .field-description {
         display: block;
         margin-right: 10px;
@@ -1136,59 +1150,74 @@ body.sidebar-open #content {
     
     .field-description .o-icon-info {
         margin: 0;
+        cursor: pointer;
     }
 
-    .field-description .o-icon-info {
-        &:hover + .field-comment,
-        &:focus + .field-comment {
-            left: inherit;
-            right: 0px;
-            top: rhythm(1.5);
-            background-color: #333;
-            color: #fff;
-            @include border-radius(3px);
-            z-index: 1;
-            max-width: 100%;
-            @include adjust-font-size-to(14px, 1, $base-font-size);
-            padding: rhythm(.25) 5px;
-            margin: rhythm(.5) 0;
-            
-            &.above {
-                top: auto;
-                bottom: rhythm(1.25);
-            }
-        }
-    
-        &:hover + .field-comment:before,
-        &:focus + .field-comment:before {
-            content: "";
-            display: block;
-            height: 0;
-            width: 0;
-            position: absolute;
-            top: rhythm(-.25);
-            bottom: 0;
-            right: 3px;
-            font-size: $base-font-size;
-            border-left: rhythm(.25) solid transparent;
-            border-right: rhythm(.25) solid transparent;
-            border-bottom: rhythm(.5) solid #333;
-        }
+    .field-description .field-comment.open {
+        left: inherit;
+        right: 0px;
+        top: rhythm(1.5);
+        background-color: #333;
+        color: #fff;
+        @include border-radius(3px);
+        z-index: 1;
+        max-width: 100%;
+        @include adjust-font-size-to(14px, 1, $base-font-size);
+        padding: rhythm(.25) 5px;
+        margin: rhythm(.5) 0;
         
-        &:hover + .field-comment.above:before,
-        &:focus + .field-comment.above:before {
+        &.above {
             top: auto;
-            bottom: rhythm(-.5);
-            @include transform(rotate(180deg));
+            bottom: rhythm(1.25);
         }
     }
+
+    .field-description .field-comment.open:before {
+        content: "";
+        display: block;
+        height: 0;
+        width: 0;
+        position: absolute;
+        top: rhythm(-.25);
+        bottom: 0;
+        right: 3px;
+        font-size: $base-font-size;
+        border-left: rhythm(.25) solid transparent;
+        border-right: rhythm(.25) solid transparent;
+        border-bottom: rhythm(.5) solid #333;
+    }
     
-    .field-description .field-comment:not(:first-of-type) {
+    .field-description .field-comment.open.above:before {
+        top: auto;
+        bottom: rhythm(-.5);
+        @include transform(rotate(180deg));
+    }
+
+    .field-meta .expand,
+    .field-meta .collapse {
+        display: inline-block;
+        margin-left: .5em;
+    }
+
+    .collapsible {
+        display: none;
+    }
+
+    .collapse + .collapsible {
+        display: block;
+    }
+
+    .field-description .field-comment {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
+    .resource-values .field-term {
+        font-family: "Source Code Pro";
+        display: block;
+        @include adjust-font-size-to(12px);
+    }
     .inputs {
         width: span(6 of 10);
         display: inline-block;

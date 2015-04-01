@@ -160,6 +160,8 @@ class ItemController extends AbstractActionController
                 $values[$term][] = $valuesArray;
             }
         }
+
+        $form->get('o:item_set')->setValue(array_keys($item->itemSets()));
         
         $view = new ViewModel;
         $view->setVariable('form', $form);

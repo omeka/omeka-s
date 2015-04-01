@@ -9,5 +9,8 @@ var valuesJson = <?php echo $values; ?>;
 <h1><?php echo $this->translate('Edit item'); ?></h1>
 
 <?php
-echo $this->partial('omeka/admin/item/form.phtml', array('form' => $form));
+echo $this->partial('omeka/admin/item/form.phtml', array(
+    'form' => $form,
+    'submit_label' => $this->translate('Edit item')
+));
 ?>

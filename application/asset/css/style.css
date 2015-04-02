@@ -651,10 +651,7 @@ th {
     background-color: #e7e7e7;
     padding: 0.375em;
     position: relative;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-top-width: 0.0625em;
-    border-top-style: solid;
-    padding-top: -0.0625em;
+    margin-bottom: 0.375em;
   }
   .field:first-child {
     border-color: transparent;
@@ -1911,6 +1908,7 @@ th {
 
   .inputs .add-values a.button {
     padding: 0.375em 0;
+    margin: 0;
   }
 
   .add-values label {
@@ -2569,10 +2567,7 @@ th {
     background-color: #e7e7e7;
     padding: 0.375em;
     position: relative;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-top-width: 0.0625em;
-    border-top-style: solid;
-    padding-top: -0.0625em;
+    margin-bottom: 0.375em;
   }
   .resource-template .property-row label:first-child,
   .resource-template .property-row input[type="text"],
@@ -2618,10 +2613,7 @@ th {
     background-color: #e7e7e7;
     padding: 0.375em;
     position: relative;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-top-width: 0.0625em;
-    border-top-style: solid;
-    padding-top: -0.0625em;
+    margin-bottom: 0.375em;
   }
 
   .resource-template .property-heading {

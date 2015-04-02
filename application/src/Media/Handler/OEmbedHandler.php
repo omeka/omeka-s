@@ -53,19 +53,20 @@ class OEmbedHandler extends AbstractHandler
         }
 
         if (isset($mediaData['thumbnail_url'])) {
-            $thumbnailUrl = $mediaData['thumbnail_url'];
 
-            $file = $this->getServiceLocator()->get('Omeka\TempFile');
-            $this->downloadFile($thumbnailUrl, $file->getTempPath());
-            $hasThumbnails = $file->storeThumbnails();
+            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            $file = $this->getServiceLocator()->get('Omeka\File');
+
+            $this->downloadFile($mediaData['thumbnail_url'], $file->getTempPath());
+            $hasThumbnails = $fileManager->storeThumbnails($file);
 
             if ($hasThumbnails) {
                 $media->setFilename($file->getStorageName());
                 $media->setHasThumbnails(true);
             }
         }
-        $media->setData($mediaData);
 
+        $media->setData($mediaData);
         $media->setSource($source);
     }
 

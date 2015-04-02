@@ -53,16 +53,18 @@ class YoutubeHandler extends AbstractHandler
     {
         $id = $request->getMetadata('youtubeId');
 
-        $file = $this->getServiceLocator()->get('Omeka\TempFile');
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $file = $this->getServiceLocator()->get('Omeka\File');
+
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
         $this->downloadFile($url, $file->getTempPath());
-        $hasThumbnails = $file->storeThumbnails();
+        $hasThumbnails = $fileManager->storeThumbnails($file);
 
         $media->setData(array('id' => $id));
-        $media->setFilename($file->getStorageName());
-        $media->setMediaType($file->getMediaType());
-        $media->setHasThumbnails($hasThumbnails);
-        $media->setHasOriginal(false);
+        if ($hasThumbnails) {
+            $media->setFilename($file->getStorageName());
+            $media->setHasThumbnails(true);
+        }
     }
 
     public function form(PhpRenderer $view, array $options = array())

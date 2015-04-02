@@ -77,9 +77,11 @@ return array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
     ),
-    'thumbnails' => array(
-        'types' => array(),
-        'options' => array(),
+    'file_manager' => array(
+        'store' => 'Omeka\File\LocalStore',
+        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'thumbnail_types' => array(),
+        'thumbnail_options' => array(),
     ),
     'service_manager' => array(
         'factories' => array(
@@ -89,7 +91,6 @@ return array(
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
-            'Omeka\FileStore\Local'       => 'Omeka\Service\FileStoreLocalFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
@@ -97,8 +98,9 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
-            'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
-            'Omeka\ThumbnailManager'      => 'Omeka\Service\ThumbnailManagerFactory',
+            'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
+            'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
+            'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -110,24 +112,22 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\TempFile'            => 'Omeka\Stdlib\TempFile',
-            'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\Thumbnailer\GdThumbnailer',
-            'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\Thumbnailer\ImagickThumbnailer',
-            'Omeka\Thumbnailer\ImageMagick' => 'Omeka\Thumbnail\Thumbnailer\ImageMagickThumbnailer',
-            'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
+            'Omeka\File'                => 'Omeka\File\File',
+            'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
+            'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
+            'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
+            'Omeka\JobDispatchStrategy\PhpCli'      => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
-            'Omeka\FileStore'           => 'Omeka\FileStore\Local',
-            'Omeka\Thumbnailer'         => 'Omeka\Thumbnailer\ImageMagick',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),
         'shared' => array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
-            'Omeka\TempFile' => false,
-            'Omeka\Thumbnailer\Gd' => false,
+            'Omeka\File\GdThumbnailer' => false,
+            'Omeka\File' => false,
         ),
     ),
     'controllers' => array(

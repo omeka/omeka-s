@@ -30,7 +30,8 @@ class UploadHandler extends AbstractFileHandler
             return;
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\TempFile');
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $file = $this->getServiceLocator()->get('Omeka\File');
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload(array(
@@ -50,8 +51,9 @@ class UploadHandler extends AbstractFileHandler
         // Actually process and move the upload
         $fileInput->getValue();
 
-        $hasThumbnails = $file->storeThumbnails();
-        $file->storeOriginal($fileData['name']);
+        $file->setSourceName($uri->getPath());
+        $hasThumbnails = $fileManager->storeThumbnails($file);
+        $fileManager->storeOriginal($file);
 
         $media->setFilename($file->getStorageName());
         $media->setMediaType($file->getMediaType());

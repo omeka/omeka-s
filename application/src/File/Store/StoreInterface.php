@@ -1,12 +1,12 @@
 <?php
-namespace Omeka\FileStore;
+namespace Omeka\File\Store;
 
 /**
  * Interface for a store of files.
  *
  * File stores abstract over simple file operations.
  */
-interface FileStoreInterface
+interface StoreInterface
 {
     /**
      * Store a file.

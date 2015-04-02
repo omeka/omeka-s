@@ -1,10 +1,12 @@
 <?php
-namespace Omeka\FileStore;
+namespace Omeka\File\Store;
+
+use Omeka\File\Exception;
 
 /**
  * Local filesystem file store
  */
-class Local implements FileStoreInterface
+class LocalStore implements StoreInterface
 {
     /**
      * Local base path.

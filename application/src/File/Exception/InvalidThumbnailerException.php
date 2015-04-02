@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Thumbnail\Exception;
+namespace Omeka\File\Exception;
 
 class InvalidThumbnailerException extends RuntimeException
 {}

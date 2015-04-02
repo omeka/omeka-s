@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\Thumbnail\Thumbnailer;
+namespace Omeka\File\Thumbnailer;
 
-use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\Manager as ThumbnailManager;
-use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
+use Omeka\File\Exception;
+use Omeka\File\Manager as FileManager;
+use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class ImageMagickThumbnailer extends AbstractThumbnailer
 {
@@ -53,8 +53,8 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 );
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\TempFile');
-        $tempPath = $file->getTempPath() . ThumbnailManager::EXTENSION;
+        $file = $this->getServiceLocator()->get('Omeka\File');
+        $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 
         $command = sprintf(

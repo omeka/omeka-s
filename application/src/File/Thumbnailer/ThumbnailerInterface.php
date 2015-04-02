@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Thumbnail\Thumbnailer;
+namespace Omeka\File\Thumbnailer;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 

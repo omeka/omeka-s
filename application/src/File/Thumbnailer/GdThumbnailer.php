@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Thumbnail\Thumbnailer;
+namespace Omeka\File\Thumbnailer;
 
-use Omeka\Thumbnail\Exception;
-use Omeka\Thumbnail\Thumbnailer\AbstractThumbnailer;
+use Omeka\File\Exception;
+use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class GdThumbnailer extends AbstractThumbnailer
 {
@@ -64,7 +64,7 @@ class GdThumbnailer extends AbstractThumbnailer
         }
 
         // Save a temporary thumbnail image.
-        $file = $this->getServiceLocator()->get('Omeka\TempFile');
+        $file = $this->getServiceLocator()->get('Omeka\File');
         $saveResult = imagejpeg($tempImage, $file->getTempPath());
 
         if (false === $saveResult) {

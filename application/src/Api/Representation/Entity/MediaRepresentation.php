@@ -71,13 +71,11 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasThumbnails()) {
             return null;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
-        if (!$manager->typeExists($type)) {
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        if (!$fileManager->thumbnailTypeExists($type)) {
             return null;
         }
-        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
-        $storagePath = $manager->getStoragePath($type, $this->filename());
-        return $fileStore->getUri($storagePath);
+        return $fileManager->getThumbnailUri($type, $this->getData());
     }
 
     /**
@@ -90,15 +88,13 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasThumbnails()) {
             return array();
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ThumbnailManager');
-        $fileStore = $this->getServiceLocator()->get('Omeka\FileStore');
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
 
-        $urls = array();
-        foreach ($manager->getTypes() as $type) {
-            $storagePath = $manager->getStoragePath($type, $this->filename());
-            $urls[$type] = $fileStore->getUri($storagePath);
+        $thumbnailUrls = array();
+        foreach ($fileManager->getThumbnailTypes() as $type) {
+            $thumbnailUrls[$type] = $fileManager->getThumbnailUri($type, $this->getData());
         }
-        return $urls;
+        return $thumbnailUrls;
     }
 
     /**

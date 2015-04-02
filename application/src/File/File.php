@@ -162,4 +162,20 @@ class File implements ServiceLocatorAwareInterface
         $this->extension = $extension;
         return $extension;
     }
+
+    /**
+     * Delete this temporary file.
+     *
+     * Always delete a temporary file after all work has been done. Otherwise
+     * the file will remain in the temporary directory.
+     *
+     * @return bool Whether the file was deleted/never created
+     */
+    public function delete()
+    {
+        if (isset($this->tempPath)) {
+            return unlink($this->tempPath);
+        }
+        return true;
+    }
 }

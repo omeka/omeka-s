@@ -117,12 +117,99 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getOriginalUri(Media $media)
     {
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
         $storagePath = $this->getStoragePath(
             self::ORIGINAL_PREFIX,
             $media->getFilename()
         );
+
+        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
         return $fileStore->getUri($storagePath);
+    }
+
+    /**
+     * Get the URI to the thumbnail file.
+     *
+     * @param string $type
+     * @param Media $media
+     * @return string
+     */
+    public function getThumbnailUri($type, Media $media)
+    {
+        $filename = $media->getFilename();
+        $basename = strstr($filename, '.', true) ?: $filename;
+        $storagePath = $this->getStoragePath(
+            $type, $basename, self::THUMBNAIL_EXTENSION
+        );
+
+        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
+        return $fileStore->getUri($storagePath);
+    }
+
+    /**
+     * Create and store thumbnail derivatives.
+     *
+     * Gets the thumbnailer from the service manager for each call to this
+     * method. This gives thumbnailers an opportunity to be non-shared services,
+     * which can be useful for resolving memory allocation issues.
+     *
+     * @param string $source
+     * @param string $storageBaseName
+     * @return bool Whether thumbnails were created and stored
+     */
+    public function storeThumbnails(File $file)
+    {
+        $thumbnailer = $this->getServiceLocator()->get('Omeka\File\Thumbnailer');
+        $tempPaths = array();
+
+        try {
+            $thumbnailer->setSource($file->getTempPath());
+            $thumbnailer->setOptions($this->config['thumbnail_options']);
+            foreach ($this->config['thumbnail_types'] as $type => $config) {
+                $tempPaths[$type] = $thumbnailer->create(
+                    $config['strategy'], $config['constraint'], $config['options']
+                );
+            }
+        } catch (Exception\CannotCreateThumbnailException $e) {
+            // Delete temporary files created before exception was thrown.
+            foreach ($tempPaths as $tempPath) {
+                @unlink($tempPath);
+            }
+            return false;
+        }
+
+        // Finally, store the thumbnails.
+        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
+        foreach ($tempPaths as $type => $tempPath) {
+            $storagePath = $this->getStoragePath(
+                $type, $file->getStorageBaseName(), self::THUMBNAIL_EXTENSION
+            );
+            $fileStore->put($tempPath, $storagePath);
+            // Delete the temporary file in case the file store hasn't already.
+            @unlink($tempPath);
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether a thumbnail type exists.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function thumbnailTypeExists($type)
+    {
+        return array_key_exists($type, $this->config['thumbnail_types']);
+    }
+
+    /**
+     * Get all thumbnail types.
+     *
+     * @return array
+     */
+    public function getThumbnailTypes()
+    {
+        return array_keys($this->config['thumbnail_types']);
     }
 
     /**
@@ -131,9 +218,10 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $prefix The storage prefix
      * @param string $name The file name, or basename if extension is passed
      * @param null|string $extension The file extension
+     * @return string
      */
     public function getStoragePath($prefix, $name, $extension = null)
     {
-        return sprintf('%s/%s%s', $prefix, $name, $extension);
+        return sprintf('%s/%s%s', $prefix, $name, $extension ? ".$extension" : null);
     }
 }

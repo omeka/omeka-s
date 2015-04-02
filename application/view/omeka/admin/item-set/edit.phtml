@@ -34,8 +34,12 @@ if (isset($errors)) {
         //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
-                array('id' => 'resource-values', 'class' => 'section active', 'resource' => $itemSet )
-                );
+                array(
+                    'id' => 'resource-values',
+                    'class' => 'section active',
+                    'form' => $form,
+                    'resource' => $itemSet
+                ));
     ?>
 
     <fieldset id="page-actions">

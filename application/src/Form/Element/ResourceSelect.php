@@ -48,7 +48,15 @@ class ResourceSelect extends Select
 
         $valueOptions = array();
         foreach ($response->getContent() as $representation) {
-            $valueOptions[$representation->id()] = $callback($representation, $serviceLocator);
+            $value = $callback($representation, $serviceLocator);
+            if (is_array($value)) {
+                if (!isset($valueOptions[$value[0]])) {
+                    $valueOptions[$value[0]]['label'] = $value[0];
+                }
+                $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
+            } else {
+                $valueOptions[$representation->id()] = $value;
+            }
         }
         $this->setValueOptions($valueOptions);
     }

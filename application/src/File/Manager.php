@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use Omeka\File\Store\StoreInterface;
+use Omeka\File\Thumbnailer\ThumbnailerInterface;
 use Omeka\Model\Entity\Media;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -21,6 +22,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected $config = array(
         'store' => 'Omeka\File\LocalStore',
+        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
         'thumbnail_types' => array(
             'large' => array(
                 'strategy' => 'default',
@@ -55,6 +57,10 @@ class Manager implements ServiceLocatorAwareInterface
     {
         if (isset($config['store']) && is_string($config['store'])) {
             $this->config['store'] = $config['store'];
+        }
+
+        if (isset($config['thumbnailer']) && is_string($config['thumbnailer'])) {
+            $this->config['thumbnailer'] = $config['thumbnailer'];
         }
 
         if (isset($config['thumbnail_types']) && is_array($config['thumbnail_types'])) {
@@ -93,6 +99,16 @@ class Manager implements ServiceLocatorAwareInterface
     public function getStore()
     {
         return $this->getServiceLocator()->get($this->config['store']);
+    }
+
+    /**
+     * Get the thumbnailer service.
+     *
+     * @return ThumbnailerInterface
+     */
+    public function getThumbnailer()
+    {
+        return $this->getServiceLocator()->get($this->config['thumbnailer']);
     }
 
     /**
@@ -170,7 +186,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function storeThumbnails(File $file)
     {
-        $thumbnailer = $this->getServiceLocator()->get('Omeka\File\Thumbnailer');
+        $thumbnailer = $this->getThumbnailer();
         $tempPaths = array();
 
         try {

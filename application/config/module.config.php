@@ -79,6 +79,7 @@ return array(
     ),
     'file_manager' => array(
         'store' => 'Omeka\File\LocalStore',
+        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
         'thumbnail_types' => array(),
         'thumbnail_options' => array(),
     ),
@@ -119,7 +120,6 @@ return array(
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
-            'Omeka\File\Thumbnailer'    => 'Omeka\File\ImageMagickThumbnailer',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
         ),

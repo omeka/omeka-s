@@ -78,6 +78,7 @@ return array(
         'sslcapath' => '/etc/ssl/certs',
     ),
     'file_manager' => array(
+        'store' => 'Omeka\File\LocalStore',
         'thumbnail_types' => array(),
         'thumbnail_options' => array(),
     ),
@@ -118,7 +119,6 @@ return array(
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
         'aliases' => array(
-            'Omeka\File\Store'          => 'Omeka\File\LocalStore',
             'Omeka\File\Thumbnailer'    => 'Omeka\File\ImageMagickThumbnailer',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\File;
 
+use Omeka\File\Store\StoreInterface;
 use Omeka\Model\Entity\Media;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -19,6 +20,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @var array
      */
     protected $config = array(
+        'store' => 'Omeka\File\LocalStore',
         'thumbnail_types' => array(
             'large' => array(
                 'strategy' => 'default',
@@ -51,6 +53,10 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function __construct(array $config = array())
     {
+        if (isset($config['store']) && is_string($config['store'])) {
+            $this->config['store'] = $config['store'];
+        }
+
         if (isset($config['thumbnail_types']) && is_array($config['thumbnail_types'])) {
             foreach ($config['thumbnail_types'] as $type => $typeConfig) {
                 if (!isset($typeConfig['constraint'])) {
@@ -80,18 +86,27 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Get the file store service.
+     *
+     * @return StoreInterface
+     */
+    public function getStore()
+    {
+        return $this->getServiceLocator()->get($this->config['store']);
+    }
+
+    /**
      * Store original file.
      *
      * @param File $file
      */
     public function storeOriginal(File $file)
     {
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
         $storagePath = $this->getStoragePath(
             self::ORIGINAL_PREFIX,
             $file->getStorageName()
         );
-        $fileStore->put($file->getTempPath(), $storagePath);
+        $this->getStore()->put($file->getTempPath(), $storagePath);
     }
 
     /**
@@ -101,12 +116,11 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function deleteOriginal(Media $media)
     {
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
         $storagePath = $this->getStoragePath(
             self::ORIGINAL_PREFIX,
             $media->getFilename()
         );
-        $fileStore->delete($storagePath);
+        $this->getStore()->delete($storagePath);
     }
 
     /**
@@ -122,8 +136,7 @@ class Manager implements ServiceLocatorAwareInterface
             $media->getFilename()
         );
 
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
-        return $fileStore->getUri($storagePath);
+        return $this->getStore()->getUri($storagePath);
     }
 
     /**
@@ -141,8 +154,7 @@ class Manager implements ServiceLocatorAwareInterface
             $type, $basename, self::THUMBNAIL_EXTENSION
         );
 
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
-        return $fileStore->getUri($storagePath);
+        return $this->getStore()->getUri($storagePath);
     }
 
     /**
@@ -178,12 +190,11 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         // Finally, store the thumbnails.
-        $fileStore = $this->getServiceLocator()->get('Omeka\File\Store');
         foreach ($tempPaths as $type => $tempPath) {
             $storagePath = $this->getStoragePath(
                 $type, $file->getStorageBaseName(), self::THUMBNAIL_EXTENSION
             );
-            $fileStore->put($tempPath, $storagePath);
+            $this->getStore()->put($tempPath, $storagePath);
             // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }

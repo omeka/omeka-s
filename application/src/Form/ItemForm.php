@@ -7,6 +7,8 @@ use Omeka\Form\Element\ResourceSelect;
 class ItemForm extends ResourceForm {
     public function buildForm()
     {
+        parent::buildForm();
+
         $translator = $this->getTranslator();
 
         $serviceLocator = $this->getServiceLocator();

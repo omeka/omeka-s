@@ -4,7 +4,7 @@ namespace Omeka\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MediaTypeExtensionMapFactory implements FactoryInterface
+class MediaTypeMapFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

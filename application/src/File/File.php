@@ -141,7 +141,7 @@ class File implements ServiceLocatorAwareInterface
             return null;
         }
 
-        $mediaTypeMap = $this->getServiceLocator()->get('Omeka\MediaTypeExtensionMap');
+        $mediaTypeMap = $this->getServiceLocator()->get('Omeka\File\MediaTypeMap');
         $mediaType = $this->getMediaType();
         $extension = substr(strrchr($this->sourceName, '.'), 1);
 

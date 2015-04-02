@@ -89,7 +89,6 @@ return array(
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
-            'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
@@ -97,7 +96,8 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
-            'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
+            'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
+            'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
         ),
         'invokables' => array(

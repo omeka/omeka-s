@@ -1489,11 +1489,12 @@ body.sidebar-open #content {
 
     .add-values {
         @include leader(.75);
+        @include trailer(-.125);
     }
 
     .add-values * {
         display: inline-block;
-        width: rhythm(1.5);
+        min-width: rhythm(1.5);
         height: rhythm(1.5);
         @include border-radius(2px);
         text-align: center;
@@ -1501,8 +1502,11 @@ body.sidebar-open #content {
     }
 
     .inputs .add-values a.button {
-        padding: rhythm(.25) 0;
-        margin: 0;
+        margin: 0 0 rhythm(.125);
+
+        &:before {
+            margin-right: .25em;
+        }
     }
 
     .add-values label {

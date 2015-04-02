@@ -1893,11 +1893,12 @@ th {
 
   .add-values {
     margin-top: 1.125em;
+    margin-bottom: -0.1875em;
   }
 
   .add-values * {
     display: inline-block;
-    width: 2.25em;
+    min-width: 2.25em;
     height: 2.25em;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -1907,8 +1908,10 @@ th {
   }
 
   .inputs .add-values a.button {
-    padding: 0.375em 0;
-    margin: 0;
+    margin: 0 0 0.1875em;
+  }
+  .inputs .add-values a.button:before {
+    margin-right: .25em;
   }
 
   .add-values label {

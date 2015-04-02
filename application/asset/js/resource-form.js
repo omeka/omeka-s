@@ -68,7 +68,7 @@
                 valueToRemove.append(deleteInput);
             }
             valueToRemove.addClass('delete');
-            valueToRemove.find('a.restore-value').show();
+            valueToRemove.find('a.restore-value').show().focus();
             $(this).hide();
         });
 
@@ -76,7 +76,7 @@
             e.preventDefault();
             e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
-            valueToRemove.find('a.remove-value').show();
+            valueToRemove.find('a.remove-value').show().focus();
             valueToRemove.find('input').prop('disabled', false);
             valueToRemove.find('textarea').prop('disabled', false);
             valueToRemove.removeClass('delete');

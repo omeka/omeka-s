@@ -140,36 +140,17 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the URI to the original file.
+     * Get the URL to the original file.
      *
      * @param Media $media
      * @return string
      */
-    public function getOriginalUri(Media $media)
+    public function getOriginalUrl(Media $media)
     {
         $storagePath = $this->getStoragePath(
             self::ORIGINAL_PREFIX,
             $media->getFilename()
         );
-
-        return $this->getStore()->getUri($storagePath);
-    }
-
-    /**
-     * Get the URI to the thumbnail file.
-     *
-     * @param string $type
-     * @param Media $media
-     * @return string
-     */
-    public function getThumbnailUri($type, Media $media)
-    {
-        $filename = $media->getFilename();
-        $basename = strstr($filename, '.', true) ?: $filename;
-        $storagePath = $this->getStoragePath(
-            $type, $basename, self::THUMBNAIL_EXTENSION
-        );
-
         return $this->getStore()->getUri($storagePath);
     }
 
@@ -219,6 +200,55 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Delete thumbnail files.
+     *
+     * @param Media $media
+     */
+    public function deleteThumbnails(Media $media)
+    {
+        foreach ($this->getThumbnailTypes() as $type) {
+            $storagePath = $this->getStoragePath(
+                $type,
+                $this->getBasename($media->getFilename()),
+                self::THUMBNAIL_EXTENSION
+            );
+            $this->getStore()->delete($storagePath);
+        }
+    }
+
+    /**
+     * Get the URI to the thumbnail file.
+     *
+     * @param string $type
+     * @param Media $media
+     * @return string
+     */
+    public function getThumbnailUrl($type, Media $media)
+    {
+        $storagePath = $this->getStoragePath(
+            $type,
+            $this->getBasename($media->getFilename()),
+            self::THUMBNAIL_EXTENSION
+        );
+        return $this->getStore()->getUri($storagePath);
+    }
+
+    /**
+     * Get all thumbnail URIs, keyed by type.
+     *
+     * @param Media $media
+     * @return array
+     */
+    public function getThumbnailUrls(Media $media)
+    {
+        $uris = array();
+        foreach ($this->getThumbnailTypes() as $type) {
+            $uris[$type] = $this->getThumbnailUri($type, $media);
+        }
+        return $uris;
+    }
+
+    /**
      * Check whether a thumbnail type exists.
      *
      * @param string $type
@@ -250,5 +280,16 @@ class Manager implements ServiceLocatorAwareInterface
     public function getStoragePath($prefix, $name, $extension = null)
     {
         return sprintf('%s/%s%s', $prefix, $name, $extension ? ".$extension" : null);
+    }
+
+    /**
+     * Get the basename, given a file name.
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getBasename($name)
+    {
+        return strstr($name, '.', true) ?: $name;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace Omeka;
 
-use Omeka\Event\Event;
+use Omeka\Event\Event as OmekaEvent;
 use Omeka\Module\AbstractModule;
-use Zend\EventManager\Event as BaseEvent;
+use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 
@@ -78,15 +78,21 @@ class Module extends AbstractModule
             'isAllowed',
             array($this, 'navigationPageIsAllowed')
         );
+
+        $sharedEventManager->attach(
+            'Omeka\Model\Entity\Media',
+            OmekaEvent::ENTITY_REMOVE_POST,
+            array($this, 'deleteMediaFiles')
+        );
     }
 
     /**
      * Determine whether a navigation page is allowed.
      *
-     * @param BaseEvent $event
+     * @param Event $event
      * @return bool
      */
-    public function navigationPageIsAllowed(BaseEvent $event)
+    public function navigationPageIsAllowed(Event $event)
     {
         $accepted = true;
         $params   = $event->getParams();
@@ -107,5 +113,24 @@ class Module extends AbstractModule
 
         $event->stopPropagation();
         return $accepted;
+    }
+
+    /**
+     * Delete all files associated with a removed Media entity.
+     *
+     * @param Event $event
+     */
+    public function deleteMediaFiles(Event $event)
+    {
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $media = $event->getTarget();
+
+        if ($media->hasOriginal()) {
+            $fileManager->deleteOriginal($media);
+        }
+
+        if ($media->hasThumbnails()) {
+            $fileManager->deleteThumbnails($media);
+       }
     }
 }

@@ -57,7 +57,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             return null;
         }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getOriginalUri($this->getData());
+        return $fileManager->getOriginalUrl($this->getData());
     }
 
     /**
@@ -75,7 +75,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$fileManager->thumbnailTypeExists($type)) {
             return null;
         }
-        return $fileManager->getThumbnailUri($type, $this->getData());
+        return $fileManager->getThumbnailUrl($type, $this->getData());
     }
 
     /**
@@ -89,12 +89,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             return array();
         }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-
-        $thumbnailUrls = array();
-        foreach ($fileManager->getThumbnailTypes() as $type) {
-            $thumbnailUrls[$type] = $fileManager->getThumbnailUri($type, $this->getData());
-        }
-        return $thumbnailUrls;
+        return $fileManager->getThumbnailUrls($this->getData());
     }
 
     /**

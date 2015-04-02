@@ -77,9 +77,9 @@ return array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
     ),
-    'thumbnails' => array(
-        'types' => array(),
-        'options' => array(),
+    'file_manager' => array(
+        'thumbnail_types' => array(),
+        'thumbnail_options' => array(),
     ),
     'service_manager' => array(
         'factories' => array(
@@ -98,7 +98,6 @@ return array(
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\MediaTypeExtensionMap' => 'Omeka\Service\MediaTypeExtensionMapFactory',
-            'Omeka\ThumbnailManager'      => 'Omeka\Service\ThumbnailManagerFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
         ),
         'invokables' => array(
@@ -111,11 +110,10 @@ return array(
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\TempFile'            => 'Omeka\Stdlib\TempFile',
             'Omeka\File'                => 'Omeka\File\File',
-            'Omeka\Thumbnailer\Gd'      => 'Omeka\Thumbnail\Thumbnailer\GdThumbnailer',
-            'Omeka\Thumbnailer\Imagick' => 'Omeka\Thumbnail\Thumbnailer\ImagickThumbnailer',
-            'Omeka\Thumbnailer\ImageMagick' => 'Omeka\Thumbnail\Thumbnailer\ImageMagickThumbnailer',
+            'Omeka\Thumbnailer\Gd'      => 'Omeka\File\Thumbnailer\GdThumbnailer',
+            'Omeka\Thumbnailer\Imagick' => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
+            'Omeka\Thumbnailer\ImageMagick' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
             'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ),
@@ -128,7 +126,6 @@ return array(
         'shared' => array(
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
-            'Omeka\TempFile' => false,
             'Omeka\Thumbnailer\Gd' => false,
             'Omeka\File' => false,
         ),

@@ -9,6 +9,12 @@ class FileManagerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new FileManager;
+        $config = $serviceLocator->get('Config');
+        if (isset($config['file_manager']) && is_array($config['file_manager'])) {
+            $config = $config['file_manager'];
+        } else {
+            $config = array();
+        }
+        return new FileManager($config);
     }
 }

@@ -52,12 +52,12 @@ class UploadHandler extends AbstractFileHandler
         $fileInput->getValue();
 
         $file->setSourceName($uri->getPath());
-        //~ $hasThumbnails = $fileManager->storeThumbnails($file);
+        $hasThumbnails = $fileManager->storeThumbnails($file);
         $fileManager->storeOriginal($file);
 
         $media->setFilename($file->getStorageName());
         $media->setMediaType($file->getMediaType());
-        //~ $media->setHasThumbnails($hasThumbnails);
+        $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);
 
         if (!array_key_exists('o:source', $data)) {

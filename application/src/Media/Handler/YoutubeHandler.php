@@ -58,13 +58,13 @@ class YoutubeHandler extends AbstractHandler
 
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
         $this->downloadFile($url, $file->getTempPath());
-        //~ $hasThumbnails = $fileManager->storeThumbnails($file);
+        $hasThumbnails = $fileManager->storeThumbnails($file);
 
         $media->setData(array('id' => $id));
-        //~ if ($hasThumbnails) {
-            //~ $media->setFilename($file->getStorageName());
-            //~ $media->setHasThumbnails(true);
-        //~ }
+        if ($hasThumbnails) {
+            $media->setFilename($file->getStorageName());
+            $media->setHasThumbnails(true);
+        }
     }
 
     public function form(PhpRenderer $view, array $options = array())

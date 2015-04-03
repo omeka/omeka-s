@@ -18,6 +18,18 @@ class UrlHandler extends AbstractFileHandler
     {}
 
     /**
+     * Ingest from a URL.
+     *
+     * Accepts the following non-prefixed keys:
+     *
+     * + ingest_url: (required) The URL to ingest. The idea is that some URLs
+     *   contain sensitive data that should not be saved to the database, such
+     *   as private keys. To preserve the URL, remove sensitive data from the
+     *   URL and set it to o:source.
+     * + store_original: (optional, default true) Whether to store an original
+     *   file. This is helpful when you want the media to have thumbnails but do
+     *   not need the original file.
+     *
      * {@inheritDoc}
      */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)

@@ -826,7 +826,6 @@ th {
 
   #search input[type="text"] {
     height: 2.25em;
-    width: -webkit-calc(100% - 4.5em);
     width: calc(100% - 4.5em);
     float: left;
   }
@@ -1004,7 +1003,6 @@ th {
   .browse .resource-name {
     display: block;
     float: left;
-    max-width: -webkit-calc(100% - 5.5em);
     max-width: calc(100% - 5.5em);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1093,7 +1091,6 @@ th {
     border-bottom-style: solid;
     padding-bottom: 0.1875em;
     margin: 0 0 -0.375em -0.5em;
-    width: -webkit-calc(100% + 1em);
     width: calc(100% + 1em);
   }
 
@@ -1561,7 +1558,6 @@ th {
     top: auto;
   }
   .property-selector .property .description .o-icon-info:hover + .field-comment.above:before {
-    top: -webkit-calc(100% - 0.375em);
     top: calc(100% - 0.375em);
     -moz-transform: rotate(180deg);
     -ms-transform: rotate(180deg);
@@ -2051,7 +2047,6 @@ th {
     width: 100%;
   }
   .search-nav .resource-search > input[type="text"] {
-    width: -webkit-calc(100% - 2.25em);
     width: calc(100% - 2.25em);
   }
   .search-nav .more-options {
@@ -2668,14 +2663,12 @@ th {
   #has-property-queries select,
   #has-property-queries input[type="text"] {
     width: 49%;
-    margin-right: -webkit-calc(1% - 4px);
     margin-right: calc(1% - 4px);
   }
 
   #property-queries select,
   #property-queries input[type="text"] {
     width: 32.33%;
-    margin-right: -webkit-calc(1% - 4px);
     margin-right: calc(1% - 4px);
   }
 
@@ -2745,7 +2738,6 @@ th {
     width: 70%;
   }
   body.minimal input {
-    width: -webkit-calc(66.66% - 6px);
     width: calc(66.66% - 6px);
     vertical-align: top;
   }
@@ -2771,7 +2763,6 @@ th {
 
   /* @group ----- Header ----- */
   header {
-    width: -webkit-calc(100% - 16.66667%);
     width: calc(100% - 16.66667%);
     float: none;
     text-align: center;
@@ -2838,7 +2829,6 @@ th {
   div[role="main"] {
     margin: 2.25em 0 0 0;
     width: 100%;
-    min-height: -webkit-calc(100% - 4.5em);
     min-height: calc(100% - 4.5em);
     position: relative;
     padding-top: 3.75em;

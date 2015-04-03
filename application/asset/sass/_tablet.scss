@@ -6,7 +6,7 @@ body {
 /* @group ----- Header ----- */
 
 header {
-    @include calc('width', '100% - ' + (2 * gutter(2)));
+    width: calc(100% - #{(2 * gutter(2))});
     float: none;
     text-align: center;
     position: fixed;
@@ -76,7 +76,7 @@ footer {
 div[role="main"] {
     margin: rhythm(1.5) 0 0 0;
     width: 100%;
-    @include calc('min-height', '100% - ' + rhythm(3));
+    min-height: calc(100% - #{rhythm(3)});
     position: relative;
     padding-top: rhythm(2.5);
     

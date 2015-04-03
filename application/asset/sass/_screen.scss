@@ -407,7 +407,7 @@ header {
 
 #search input[type="text"] {
     height: rhythm(1.5);
-    @include calc(width, "100% - " + rhythm(3));
+    width: calc(100% - #{rhythm(3)});
     float: left;
 }
 
@@ -588,7 +588,7 @@ div[role="main"] {
 .browse .resource-name {
     display: block;
     float: left;
-    @include calc('max-width', '100% - 5.5em');
+    max-width: calc(100% - 5.5em);
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -675,7 +675,7 @@ th .sorted-desc {
     padding: 0 .5em;
     @include trailing-border(3px, .25, $base-font-size, solid);
     margin: 0 0 rhythm(-.25) -.5em;
-    @include calc('width', '100% + 1em');
+    width: calc(100% + 1em);
 }
 
 th a.sortable:after,
@@ -1143,7 +1143,7 @@ body.sidebar-open #content {
             top: auto;
             
             &:before {
-                @include calc('top', '100% - ' + rhythm(.25));
+                top: calc(100% - #{rhythm(.25)});
                 @include transform(rotate(180deg));
             }
 
@@ -1656,7 +1656,7 @@ body.sidebar-open #content {
     }
 
     .resource-search > input[type="text"] {
-        @include calc('width', '100% - ' + rhythm(1.5));
+        width: calc(100% - #{rhythm(1.5)});
     }
     
     .more-options {
@@ -2308,13 +2308,13 @@ body.show .property {
 #has-property-queries select,
 #has-property-queries input[type="text"] {
     width: 49%;
-    @include calc('margin-right','1% - 4px');
+    margin-right: calc(1% - 4px);
 }
 
 #property-queries select,
 #property-queries input[type="text"] {
     width: 32.33%;
-    @include calc('margin-right','1% - 4px');
+    margin-right: calc(1% - 4px);
 }
 
 #advanced-search .field.removable .value:only-child .remove-value {
@@ -2371,7 +2371,7 @@ body.minimal {
     }
 
     input {
-          @include calc('width','66.66% - 6px');
+          width: calc(66.66% - 6px);
           vertical-align: top;
     }
     

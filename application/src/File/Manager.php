@@ -243,7 +243,7 @@ class Manager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get the URI to the thumbnail file.
+     * Get the URL to the thumbnail file.
      *
      * @param string $type
      * @param Media $media
@@ -251,8 +251,13 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getThumbnailUrl($type, Media $media)
     {
-        if (!$media->hasThumbnails()) {
+        $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
+        $fallback = $this->config['thumbnail_fallbacks']['default'];
 
+        if (!$this->thumbnailTypeExists($type)) {
+            $thumbnailUrl = $assetUrl($fallback[0], $fallback[1]);
+
+        } elseif (!$media->hasThumbnails()) {
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);
@@ -263,38 +268,34 @@ class Manager implements ServiceLocatorAwareInterface
             } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
                 // Then fall back on a match against the top-level type, e.g. "image"
                 $fallback = $fallbacks[$topLevelType];
-            } else {
-                // Then, when there are no matches, fall back on the default.
-                $fallback = $this->config['thumbnail_fallbacks']['default'];
             }
+            $thumbnailUrl = $assetUrl($fallback[0], $fallback[1]);
 
-            // Use the AssetUrl view helper to build the URL.
-            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')
-                ->get('assetUrl');
-            return $assetUrl($fallback[0], $fallback[1]);
+        } else {
+            $storagePath = $this->getStoragePath(
+                $type,
+                $this->getBasename($media->getFilename()),
+                self::THUMBNAIL_EXTENSION
+            );
+            $thumbnailUrl = $this->getStore()->getUri($storagePath);
         }
 
-        $storagePath = $this->getStoragePath(
-            $type,
-            $this->getBasename($media->getFilename()),
-            self::THUMBNAIL_EXTENSION
-        );
-        return $this->getStore()->getUri($storagePath);
+        return $thumbnailUrl;
     }
 
     /**
-     * Get all thumbnail URIs, keyed by type.
+     * Get all thumbnail URLs, keyed by type.
      *
      * @param Media $media
      * @return array
      */
     public function getThumbnailUrls(Media $media)
     {
-        $uris = array();
+        $urls = array();
         foreach ($this->getThumbnailTypes() as $type) {
-            $uris[$type] = $this->getThumbnailUri($type, $media);
+            $urls[$type] = $this->getThumbnailUrl($type, $media);
         }
-        return $uris;
+        return $urls;
     }
 
     /**

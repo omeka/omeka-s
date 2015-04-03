@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div id="value-queries" class="field">
+    <div id="value-queries" class="field removable">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div id="property-queries" class="field">
+    <div id="property-queries" class="field removable">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div id="has-property-queries" class="field">
+    <div id="has-property-queries" class="field removable">
         <ul class="actions">
             <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
         </ul>
@@ -86,10 +86,6 @@ $('#advanced-search').on('click', '.remove-value', function(event) {
     event.preventDefault();
     var values = $(this).parents('.inputs').children('.value');
     $(this).parent('.value').remove();
-    if (2 == values.length) {
-        // Hide remove button when there is only one value.
-        values.children('.remove-value').hide();
-    }
 });
 
 $('#value-queries').find('.add-value').click(function(event) {
@@ -99,8 +95,6 @@ $('#value-queries').find('.add-value').click(function(event) {
     clone.children('.query-type').val('eq');
     clone.children('.query-text').val(null);
     clone.appendTo('#value-queries .inputs');
-    clone.children('.remove-value').show();
-    first.children('.remove-value').show();
 });
 
 $('#property-queries').find('.add-value').click(function(event) {
@@ -111,8 +105,6 @@ $('#property-queries').find('.add-value').click(function(event) {
     clone.children('.query-property').val(null);
     clone.children('.query-text').val(null);
     clone.appendTo('#property-queries .inputs');
-    clone.children('.remove-value').show();
-    first.children('.remove-value').show();
 });
 
 $('#has-property-queries').find('.add-value').click(function(event) {
@@ -122,8 +114,6 @@ $('#has-property-queries').find('.add-value').click(function(event) {
     clone.children('.query-type').val('1');
     clone.children('.query-property').val(null);
     clone.appendTo('#has-property-queries .inputs');
-    clone.children('.remove-value').show();
-    first.children('.remove-value').show();
 });
 
 // Bypass regular form handling for value, property, and has property queries.

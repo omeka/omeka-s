@@ -28,6 +28,12 @@ class ItemForm extends ResourceForm {
                     return $itemSet->displayTitle('[no title]');
                 }
             );
+
+        if (!$itemSetSelect->getValueOptions()) {
+            $itemSetSelect->setAttribute('disabled', true);
+            $itemSetSelect->setAttribute('data-placeholder',
+                $translator->translate('No item sets exist'));
+        }
         $this->add($itemSetSelect);
 
         $inputFilter = $this->getInputFilter();

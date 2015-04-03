@@ -2317,6 +2317,10 @@ body.show .property {
     @include calc('margin-right','1% - 4px');
 }
 
+#advanced-search .field.removable .value:only-child .remove-value {
+    display: none;
+}
+
 /* @end */
 
 /* @group ----- Minimal Layout ----- */

@@ -106,7 +106,11 @@ class ItemController extends AbstractActionController
                 $this->messenger()->addError('Item could not be deleted');
             }
         }
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(
+            'admin/default',
+            array('action' => 'browse'),
+            true
+        );
     }
 
     public function addAction()

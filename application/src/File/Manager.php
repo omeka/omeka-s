@@ -251,13 +251,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getThumbnailUrl($type, Media $media)
     {
-        $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
-        $fallback = $this->config['thumbnail_fallbacks']['default'];
+        if (!$media->hasThumbnails() || !$this->thumbnailTypeExists($type)) {
 
-        if (!$this->thumbnailTypeExists($type)) {
-            $thumbnailUrl = $assetUrl($fallback[0], $fallback[1]);
-
-        } elseif (!$media->hasThumbnails()) {
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);
@@ -268,19 +263,20 @@ class Manager implements ServiceLocatorAwareInterface
             } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
                 // Then fall back on a match against the top-level type, e.g. "image"
                 $fallback = $fallbacks[$topLevelType];
+            } else {
+                $fallback = $this->config['thumbnail_fallbacks']['default'];
             }
-            $thumbnailUrl = $assetUrl($fallback[0], $fallback[1]);
 
-        } else {
-            $storagePath = $this->getStoragePath(
-                $type,
-                $this->getBasename($media->getFilename()),
-                self::THUMBNAIL_EXTENSION
-            );
-            $thumbnailUrl = $this->getStore()->getUri($storagePath);
+            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
+            return $assetUrl($fallback[0], $fallback[1]);
         }
 
-        return $thumbnailUrl;
+        $storagePath = $this->getStoragePath(
+            $type,
+            $this->getBasename($media->getFilename()),
+            self::THUMBNAIL_EXTENSION
+        );
+        return $this->getStore()->getUri($storagePath);
     }
 
     /**

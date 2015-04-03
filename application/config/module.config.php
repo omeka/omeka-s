@@ -78,8 +78,8 @@ return array(
         'sslcapath' => '/etc/ssl/certs',
     ),
     'file_manager' => array(
-        'store' => 'Omeka\File\LocalStore',
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'store' => null,
+        'thumbnailer' => null,
         'thumbnail_types' => array(),
         'thumbnail_options' => array(),
     ),

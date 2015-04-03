@@ -23,14 +23,14 @@ class UrlHandler extends AbstractFileHandler
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        if (!isset($data['ingest_uri'])) {
-            $errorStore->addError('error', 'No URL ingest data specified');
+        if (!isset($data['ingest_url'])) {
+            $errorStore->addError('error', 'No ingest URL specified');
             return;
         }
 
-        $uri = new HttpUri($data['ingest_uri']);
+        $uri = new HttpUri($data['ingest_url']);
         if (!($uri->isValid() && $uri->isAbsolute())) {
-            $errorStore->addError('ingest_uri', 'Invalid ingest URI specified');
+            $errorStore->addError('ingest_url', 'Invalid ingest URL');
             return;
         }
 

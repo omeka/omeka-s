@@ -82,6 +82,7 @@ return array(
         'thumbnailer' => null,
         'thumbnail_types' => array(),
         'thumbnail_options' => array(),
+        'thumbnail_fallbacks' => array(),
     ),
     'service_manager' => array(
         'factories' => array(

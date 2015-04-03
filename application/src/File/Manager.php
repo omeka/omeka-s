@@ -46,6 +46,14 @@ class Manager implements ServiceLocatorAwareInterface
             'imagemagick_dir' => null,
             'page' => 0,
         ),
+        'thumbnail_fallbacks' => array(
+            'default' => array('thumbnails/default.png', 'Omeka'),
+            'fallbacks' => array(
+                'image' => array('thumbnails/image.png', 'Omeka'),
+                'video' => array('thumbnails/video.png', 'Omeka'),
+                'audio' => array('thumbnails/audio.png', 'Omeka'),
+            ),
+        ),
     );
 
     /**
@@ -87,6 +95,24 @@ class Manager implements ServiceLocatorAwareInterface
         if (isset($config['thumbnail_options']) && is_array($config['thumbnail_options'])) {
             foreach ($config['thumbnail_options'] as $key => $value) {
                 $this->config['thumbnail_options'][$key] = $value;
+            }
+        }
+
+        if (isset($config['thumbnail_fallbacks']) && is_array($config['thumbnail_fallbacks'])) {
+            if (isset($config['thumbnail_fallbacks']['default'])
+                && is_array($config['thumbnail_fallbacks']['default'])
+                && 2 == count($config['thumbnail_fallbacks']['default'])
+            ) {
+                $this->config['thumbnail_fallbacks']['default'] = $config['thumbnail_fallbacks']['default'];
+            }
+            if (isset($config['thumbnail_fallbacks']['fallbacks'])
+                && is_array($config['thumbnail_fallbacks']['fallbacks'])
+            ) {
+                foreach ($config['thumbnail_fallbacks']['fallbacks'] as $mediaType => $assetConfig) {
+                    if (is_array($assetConfig) && 2 == count($assetConfig)) {
+                        $this->config['thumbnail_fallbacks']['fallbacks'][$mediaType] = $assetConfig;
+                    }
+                }
             }
         }
     }
@@ -225,6 +251,29 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getThumbnailUrl($type, Media $media)
     {
+        if (!$media->hasThumbnails()) {
+
+            $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
+            $mediaType = $media->getMediaType();
+            $topLevelType = strstr($mediaType, '/', true);
+
+            if (isset($fallbacks[$mediaType])) {
+                // Prioritize a match against the full media type, e.g. "image/jpeg"
+                $fallback = $fallbacks[$mediaType];
+            } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
+                // Then fall back on a match against the top-level type, e.g. "image"
+                $fallback = $fallbacks[$topLevelType];
+            } else {
+                // Then, when there are no matches, fall back on the default.
+                $fallback = $this->config['thumbnail_fallbacks']['default'];
+            }
+
+            // Use the AssetUrl view helper to build the URL.
+            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')
+                ->get('assetUrl');
+            return $assetUrl($fallback[0], $fallback[1]);
+        }
+
         $storagePath = $this->getStoragePath(
             $type,
             $this->getBasename($media->getFilename()),

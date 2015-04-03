@@ -3,6 +3,8 @@
 $base-font-size:        16px;
 $base-line-height:      24px;
 
+// Layout
+
 $susy: (
     columns: 16,
     gutters: 1/2,
@@ -16,3 +18,7 @@ $susy: (
 
 $red:                 #FF0000;
 $gray-on-white:       rgba(0,0,0,.08);
+
+// Prefix settings
+
+$graceful-usage-threshold: .5;

@@ -567,8 +567,6 @@ th {
   input[type="email"] {
     -moz-appearance: none;
     -webkit-appearance: none;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
     height: 2.25em;
     border-color: rgba(0, 0, 0, 0.15);
@@ -613,8 +611,6 @@ th {
     min-height: 1.875em;
     background-color: #ff6666;
     color: #fff;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     border: 0;
     padding: 0.375em 10px;
@@ -664,8 +660,6 @@ th {
     line-height: 36px;
     font-size: 16px;
     margin: 0;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     vertical-align: top;
   }
@@ -720,8 +714,6 @@ th {
   }
   .messages li {
     background-color: rgba(255, 255, 255, 0.5);
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     padding: 0.375em 10px;
     margin-top: 0.375em;
@@ -776,8 +768,6 @@ th {
     text-align: center;
     background-color: #fff;
     padding: 0.375em;
-    -moz-border-radius: 0 0 3px 3px;
-    -webkit-border-radius: 0;
     border-radius: 0 0 3px 3px;
     border-color: rgba(0, 0, 0, 0.08);
     border-width: 0.0625em;
@@ -835,8 +825,6 @@ th {
     text-indent: -9999px;
     float: left;
     margin: 0;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
     position: relative;
     height: 2.25em;
@@ -846,8 +834,6 @@ th {
   }
   #search button:last-of-type {
     border-left: 1px solid rgba(255, 255, 255, 0.2);
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0;
     border-radius: 0 3px 3px 0;
   }
   #search button:last-of-type:after {
@@ -993,7 +979,6 @@ th {
     min-height: 100%;
     overflow: hidden;
     -moz-transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
@@ -1151,7 +1136,6 @@ th {
     overflow-x: hidden;
     width: 24.47917%;
     -moz-transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
@@ -1356,8 +1340,6 @@ th {
     line-height: 1.71429em;
     background-color: rgba(0, 0, 0, 0.08);
     padding: 0 0.375em;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
     margin-top: 0.42857em;
   }
@@ -1488,8 +1470,6 @@ th {
     top: -9999px;
     right: -9999px;
     margin: 0;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 
@@ -1536,7 +1516,6 @@ th {
     background-color: #fff;
     z-index: 1;
     margin: 0;
-    -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
     -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
   }
@@ -1606,8 +1585,6 @@ th {
   .properties > ul > li.show {
     background-color: #575757;
     color: #f9f9f9;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
   }
   .property-selector > ul > li.show > ul,
@@ -1616,8 +1593,6 @@ th {
     color: #000;
     margin: 0.375em -10px -0.375em;
     overflow: visible;
-    -moz-border-radius: 0px 0px 3px 3px;
-    -webkit-border-radius: 0px;
     border-radius: 0px 0px 3px 3px;
   }
   .property-selector > ul > li,
@@ -1648,8 +1623,6 @@ th {
   }
   .property-selector > ul > li .property,
   .properties > ul > li .property {
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
     border-radius: 0;
     font-weight: normal;
     padding: 0.375em 10px;
@@ -1734,8 +1707,6 @@ th {
     top: 2.25em;
     background-color: #333;
     color: #fff;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     z-index: 1;
     max-width: 100%;
@@ -1845,8 +1816,6 @@ th {
     background-color: #333;
     color: #fff;
     padding: 0 5px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     white-space: nowrap;
     z-index: 1;
@@ -1878,8 +1847,6 @@ th {
 
   p.no-values {
     padding: 0.75em;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.08);
   }
@@ -1896,8 +1863,6 @@ th {
     display: inline-block;
     min-width: 2.25em;
     height: 2.25em;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
     text-align: center;
     margin: 0;
@@ -2029,8 +1994,6 @@ th {
     width: 2.25em;
     line-height: 24px;
     padding: 0 10px;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0;
     border-radius: 0 3px 3px 0;
     min-height: intrinsic;
     position: absolute;
@@ -2052,8 +2015,6 @@ th {
   .search-nav .more-options {
     line-height: 2.25em;
     padding: 0.375em 10px;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
     border-radius: 0;
     min-height: 0;
     text-align: left;
@@ -2189,8 +2150,6 @@ th {
     top: 0.375em;
     right: -9999px;
     text-indent: -9999px;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
     height: 2.25em;
     background-color: transparent;
@@ -2240,7 +2199,6 @@ th {
     padding-top: 0.3125em;
     border-left: 1px solid #d2d2d2;
     -moz-transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
@@ -2421,8 +2379,6 @@ th {
     padding: 0 0.375em;
     background-color: rgba(0, 0, 0, 0.08);
     margin-bottom: 0.375em;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     cursor: default;
     position: absolute;
@@ -2774,8 +2730,6 @@ th {
     z-index: 1000;
   }
   header .button {
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
     border-radius: 0;
     position: absolute;
     top: 0;
@@ -2876,8 +2830,6 @@ th {
     margin: 0.75em 0;
     background-color: #ff4d4d;
     padding: 0.375em 0;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
   }
   #current-user p:last-of-type:before {
@@ -2915,8 +2867,6 @@ th {
   /* @group ----- Browse views ----- */
   .batch-edit.button {
     margin: 0;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
     position: relative;
     z-index: 1;

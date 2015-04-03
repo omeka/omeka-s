@@ -16,105 +16,18 @@ class Manager implements ServiceLocatorAwareInterface
     const THUMBNAIL_EXTENSION = 'jpg';
 
     /**
-     * Default configuration
-     *
      * @var array
      */
-    protected $config = array(
-        'store' => 'Omeka\File\LocalStore',
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
-        'thumbnail_types' => array(
-            'large' => array(
-                'strategy' => 'default',
-                'constraint' => 800,
-                'options' => array(),
-            ),
-            'medium' => array(
-                'strategy' => 'default',
-                'constraint' => 200,
-                'options' => array(),
-            ),
-            'square' => array(
-                'strategy' => 'square',
-                'constraint' => 200,
-                'options' => array(
-                    'gravity' => 'center',
-                ),
-            ),
-        ),
-        'thumbnail_options' => array(
-            'imagemagick_dir' => null,
-            'page' => 0,
-        ),
-        'thumbnail_fallbacks' => array(
-            'default' => array('thumbnails/default.png', 'Omeka'),
-            'fallbacks' => array(
-                'image' => array('thumbnails/image.png', 'Omeka'),
-                'video' => array('thumbnails/video.png', 'Omeka'),
-                'audio' => array('thumbnails/audio.png', 'Omeka'),
-            ),
-        ),
-    );
+    protected $config;
 
     /**
-     * Set custom configuration during construction.
+     * Set configuration during construction.
      *
      * @param array $config
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config)
     {
-        if (isset($config['store']) && is_string($config['store'])) {
-            $this->config['store'] = $config['store'];
-        }
-
-        if (isset($config['thumbnailer']) && is_string($config['thumbnailer'])) {
-            $this->config['thumbnailer'] = $config['thumbnailer'];
-        }
-
-        if (isset($config['thumbnail_types']) && is_array($config['thumbnail_types'])) {
-            foreach ($config['thumbnail_types'] as $type => $typeConfig) {
-                if (!isset($typeConfig['constraint'])) {
-                    throw new Exception\InvalidArgumentException(sprintf(
-                        'No constraint provided for the "%s" thumbnail type.', $type
-                    ));
-                }
-                $this->config['thumbnail_types'][$type]['constraint'] = (int) $typeConfig['constraint'];
-                if (isset($config['strategy'])) {
-                    $this->config['thumbnail_types'][$type]['strategy'] = $typeConfig['strategy'];
-                } else {
-                    $this->config['thumbnail_types'][$type]['strategy'] = 'default';
-                }
-                if (isset($config['options']) && is_array($typeConfig['options'])) {
-                    $this->config['thumbnail_types'][$type]['options'] = $typeConfig['options'];
-                } else {
-                    $this->config['thumbnail_types'][$type]['options'] = array();
-                }
-            }
-        }
-
-        if (isset($config['thumbnail_options']) && is_array($config['thumbnail_options'])) {
-            foreach ($config['thumbnail_options'] as $key => $value) {
-                $this->config['thumbnail_options'][$key] = $value;
-            }
-        }
-
-        if (isset($config['thumbnail_fallbacks']) && is_array($config['thumbnail_fallbacks'])) {
-            if (isset($config['thumbnail_fallbacks']['default'])
-                && is_array($config['thumbnail_fallbacks']['default'])
-                && 2 == count($config['thumbnail_fallbacks']['default'])
-            ) {
-                $this->config['thumbnail_fallbacks']['default'] = $config['thumbnail_fallbacks']['default'];
-            }
-            if (isset($config['thumbnail_fallbacks']['fallbacks'])
-                && is_array($config['thumbnail_fallbacks']['fallbacks'])
-            ) {
-                foreach ($config['thumbnail_fallbacks']['fallbacks'] as $mediaType => $assetConfig) {
-                    if (is_array($assetConfig) && 2 == count($assetConfig)) {
-                        $this->config['thumbnail_fallbacks']['fallbacks'][$mediaType] = $assetConfig;
-                    }
-                }
-            }
-        }
+        $this->config = $config;
     }
 
     /**

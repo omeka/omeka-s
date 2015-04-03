@@ -78,11 +78,39 @@ return array(
         'sslcapath' => '/etc/ssl/certs',
     ),
     'file_manager' => array(
-        'store' => null,
-        'thumbnailer' => null,
-        'thumbnail_types' => array(),
-        'thumbnail_options' => array(),
-        'thumbnail_fallbacks' => array(),
+        'store' => 'Omeka\File\LocalStore',
+        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'thumbnail_types' => array(
+            'large' => array(
+                'strategy' => 'default',
+                'constraint' => 800,
+                'options' => array(),
+            ),
+            'medium' => array(
+                'strategy' => 'default',
+                'constraint' => 200,
+                'options' => array(),
+            ),
+            'square' => array(
+                'strategy' => 'square',
+                'constraint' => 200,
+                'options' => array(
+                    'gravity' => 'center',
+                ),
+            ),
+        ),
+        'thumbnail_options' => array(
+            'imagemagick_dir' => null,
+            'page' => 0,
+        ),
+        'thumbnail_fallbacks' => array(
+            'default' => array('thumbnails/default.png', 'Omeka'),
+            'fallbacks' => array(
+                'image' => array('thumbnails/image.png', 'Omeka'),
+                'video' => array('thumbnails/video.png', 'Omeka'),
+                'audio' => array('thumbnails/audio.png', 'Omeka'),
+            ),
+        ),
     ),
     'service_manager' => array(
         'factories' => array(

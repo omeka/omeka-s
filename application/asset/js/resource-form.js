@@ -6,10 +6,13 @@
             e.stopPropagation();
             var propertyLi = $(this);
             var qName = propertyLi.data('property-term');
-            var count = $('input.input-id[data-property-term = "' + qName + '"]').length;
-            // If property has already been set, add a new value
+            var propertyField = $('[data-property-term = "' + qName + '"].field');
+            var count = propertyField.length;
+            // If property has already been set, scroll to its field
             if (count > 0) {
-                makeNewValue(qName, true);
+                $('html, body').animate({
+                    scrollTop: (propertyField.first().offset().top -100)
+                },200);
             } else {
                 makeNewField(propertyLi);
                 makeNewValue(qName, true);

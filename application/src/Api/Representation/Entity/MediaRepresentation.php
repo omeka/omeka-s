@@ -68,13 +68,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function thumbnailUrl($type)
     {
-        if (!$this->hasThumbnails()) {
-            return null;
-        }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        if (!$fileManager->thumbnailTypeExists($type)) {
-            return null;
-        }
         return $fileManager->getThumbnailUrl($type, $this->getData());
     }
 

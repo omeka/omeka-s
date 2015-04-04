@@ -87,4 +87,14 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
     {
         return $this->vocabulary()->prefix() . ':' . $this->localName();
     }
+    
+    /**
+     * Return this member's full URI
+     * 
+     * @return string
+     */
+    public function uri()
+    {
+        return $this->vocabulary()->namespaceUri() . $this->localName();
+    }
 }

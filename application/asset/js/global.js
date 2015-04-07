@@ -135,13 +135,13 @@ var Omeka = {
         });
 
         // Switch between section tabs.
-        $('.section-nav a[href^="#"]').click(function (e) {
+        $('.section-nav li').click(function (e) {
             e.preventDefault();
             var tab = $(this);
             if (!tab.hasClass('active')) {
-                $('.section.active, .section-nav a.active').removeClass('active');
+                $('.section.active, .section-nav li.active').removeClass('active');
                 tab.addClass('active');
-                $(tab.attr('href')).addClass('active');
+                $(tab.find('a').attr('href')).addClass('active');
             }
         });
         

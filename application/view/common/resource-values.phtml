@@ -12,7 +12,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             if ( $propertyId == $templatePropertyData['o:property']->id() ) {
                 $altLabel = $templatePropertyData['o:alternate_label'];
                 if ( ! empty($altLabel)) {
-                    $label = $escape($altLabel) . "<span class='field-term o-icon-developer' title='Property term for development use'>$term</span>";
+                    $label = $escape($altLabel) . " <span class='field-term' title='Property term for development use'>($term)</span>";
                 }
                 $comment = $templatePropertyData['o:alternate_comment'] ;
                 break;

@@ -102,45 +102,27 @@ body {
         @include leading-border(1px, .5, $base-font-size, solid);
     }
     
-    tbody tr:last-of-type td,
-    tbody tr:last-of-type th {
-        border-color: #d7d7d7;
-        @include trailing-border(1px, .5, $base-font-size, solid);
-    }
-    
     thead + tbody tr:first-child {
         border-color: #d7d7d7;
     }
     
-    .browse table,
-    .edit table,
-    .add table {
+    table {
         @include trailer(.5);
     }
     
-    .browse tr,
-    .edit tr,
-    .add tr {
+    tr {
         background-color: #f2f2f2;
     }
     
-    .browse td,
-    .browse th,
-    .edit td,
-    .edit th,
-    .add td,
-    .add th {
+    td,
+    th{
         padding: rhythm(.25) .5em;
         position: relative;
         vertical-align: top;
     }
     
-    .browse tr:last-of-type td,
-    .browse tr:last-of-type th,
-    .edit tr:last-of-type td,
-    .edit tr:last-of-type th,
-    .add tr:last-of-type td,
-    .add tr:last-of-type th,
+    tr:last-of-type td,
+    tr:last-of-type th,
      {
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
@@ -420,10 +402,6 @@ header {
     position: relative;
     height: rhythm(1.5);
     
-    &:after {
-        content: $fa-var-ellipsis-h;
-    }
-    
     &:last-of-type {
         border-left: 1px solid rgba(255,255,255,.2);
         @include border-radius(0 3px 3px 0);
@@ -434,6 +412,7 @@ header {
     }
     
     &:after {
+        content: $fa-var-ellipsis-h;
         font-family: "FontAwesome";
         text-indent: 0;
         position: absolute;
@@ -458,7 +437,6 @@ div[role="main"] > h1:first-of-type {
     margin-bottom: 0;
     border-color: #e7e7e7;
     @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
-    font-weight: bold;
 }
 
 /* @end */
@@ -477,14 +455,13 @@ footer {
 /* @group ----- Navigation ----- */
 
 nav ul {
-    padding-left: 0;
+    padding: 0;
     list-style: none;
     margin: 0;
 }
 
 nav.pagination form {
     display: inline-block;
-    min-width: min-content;
     margin-right: 1em;
 }
 
@@ -853,15 +830,14 @@ body.sidebar-open #content {
     &:before {
         content: "";
         height: rhythm(.125);
-        background-color: #fff;
         position: absolute;
         bottom: 1px;
         left: 0;
         right: 0;
         z-index: 0;
         background: #fff;
-        border-color: #e7e7e7;
-        @include h-borders(1px, 0, $base-font-size, solid);
+        border: 1px solid #e7e7e7;
+        border-width: 1px 0;
     }
     
     a {
@@ -874,16 +850,8 @@ body.sidebar-open #content {
         z-index: 1;
         background-color: #fff;
         border-color: #e7e7e7;
-        border-left: 1px solid #e7e7e7;
-        border-right: 1px solid #e7e7e7;
-        @include h-borders(1px, 0, $base-font-size, solid);
+        border: 1px solid #e7e7e7;
         margin-left: .25em;
-        text-align: center;
-        
-        &.active {
-            font-weight: bold;
-            border-bottom-color: #fff;
-        }
     }
     
     .active a {
@@ -927,21 +895,12 @@ body.sidebar-open #content {
 }
 
 .field-term {
-    display: block;
-    @include adjust-font-size-to(14px);
-    background-color: $gray-on-white;
-    padding: 0 rhythm(.25);
-    @include border-radius(2px);
-    @include leader(.25, 14px);
-    
-    &:before {
-        display: inline-block;
-        margin-right: .25em;
-    }
+    display: inline-block;
+    font-family: "Source Code Pro";
+    font-size: .75 * $base-font-size;
 }
 
 .inputs label.value-language {
-    text-align: center;
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -975,35 +934,13 @@ body.sidebar-open #content {
         background-color: lighten($red, 30%);
         opacity: .6;
     }
-    
-    .template {
-        display: none;
-    }
-    
-    .field.template {
-        display: none;
-    }
-    
-    .no-templates {
-        padding: rhythm(.25) 0;
-        display: inline-block;
-    }
-    
+
     .resource.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
         padding: rhythm(.25) 10px 0;
         width: 100%;
         float: left;
-    }
-    
-    .resource.input-option a.button {
-        margin: rhythm(.25, .85 * $base-font-size) 0 0;
-        padding: rhythm(.25) 10px;
-        min-height: intrinsic;
-        font-size: .85 * $base-font-size;
-        display: inline-block;
-        clear: left;
     }
     
     .field-meta {
@@ -1016,16 +953,7 @@ body.sidebar-open #content {
             max-width: 80%;
             padding: rhythm(.25) 0;
         }
-        
-        input {
-            width: 100%;
-        }
-        
-        button {
-            float: left;
-            margin: rhythm(.25) 0 0;
-        }
-        
+
         .error {
             float: left;
         }
@@ -1035,90 +963,20 @@ body.sidebar-open #content {
             list-style-type: none;
         }
     }
-    
-    .unset .value,
-    .unset .add-value,
-    .unset.new.field a.remove.button,
-    .field a.remove.button,
-    .set-property,
-    .properties,
-    .browse-properties {
-        display: none;
-    }
-    
-    .unset .set-property,
-    .unset .properties,
-    .unset .browse-properties,
-    .new.field a.remove.button {
+
+    .field-label-text {
         display: block;
     }
     
-    .unset {
-        .field-meta {
-            width: span(9 of 10);
-        } 
-    }
-    
-    .unset label,
-    .unset .inputs {
+    .template {
         display: none;
     }
-    
-    .property-selector button,
-    .property .set-property {
-        position: absolute;
-        top: -9999px;
-        right: -9999px;
-        margin: 0;
-        @include border-radius(0px);
-    }
-    
-    .property-selector .property:hover button,
-    .property:hover .set-property {
-        top: 0;
-        right: 0;
-    }
-    
-    
-    .properties {
-        clear: both;
-         
-        &.show {
-            position: relative;
-            top: auto;
-            left: auto;
-        }
-        
-        .description {
-            display: inline-block;
-            
-            .o-icon-info {
-                display: inline-block;
-                margin: 0 0 0 1em;
-                opacity: .75;
-                margin: 0;
-            }
-            
-            .o-icon-info + p {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-                width: 100%;
-                padding: rhythm(.25) 0;
-                
-                &:empty {
-                    padding: 0;
-                }
-            }
-        }
-    }
-    
+
     .property-selector .property .description .o-icon-info:hover + .field-comment {
         left: 0;
         right: 0;
         top: rhythm(1.5);
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: rhythm(.25) 10px;
         background-color: #fff;
         z-index: 1;
         margin: 0;
@@ -1126,13 +984,9 @@ body.sidebar-open #content {
 
         &:before {
             content: "";
-            display: block;
-            height: 0;
-            width: 0;
             position: absolute;
             left: 10px;
             top: rhythm(-.25);
-            font-size: $base-font-size;
             border-left: rhythm(.25) solid transparent;
             border-right: rhythm(.25) solid transparent;
             border-bottom: rhythm(.5) solid #fff;
@@ -1164,12 +1018,11 @@ body.sidebar-open #content {
                 width: 1em;
             }
             
-            .o-icon-info + p {
+            .o-icon-info + .field-comment {
                 position: absolute;
                 top: -9999px;
                 left: -9999px;
                 width: 100%;
-                padding: rhythm(.25) 0;
                 
                 &:empty {
                     padding: 0;
@@ -1262,34 +1115,6 @@ body.sidebar-open #content {
             overflow: visible;
         }
     }
-    
-    .select-property {
-        text-indent: -9999px;
-        padding: 0;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0);
-        bottom: 0;
-        margin: 0 !important;
-        min-height: initial;
-        
-        &:hover {
-            background-color: transparent;
-        }
-    }
-    
-    .selected-resources {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-    }
-    
-    .selected {
-        background-color: rgba(0,0,0,.1);
-        font-weight: bold !important;
-    }
 
     .field-actions {
         width: span(6 of 10);
@@ -1314,8 +1139,8 @@ body.sidebar-open #content {
     }
 
     .field-description .o-icon-info {
-        &:hover + p,
-        &:focus + p {
+        &:hover + .field-comment,
+        &:focus + .field-comment {
             left: inherit;
             right: 0px;
             top: rhythm(1.5);
@@ -1334,8 +1159,8 @@ body.sidebar-open #content {
             }
         }
     
-        &:hover + p:before,
-        &:focus + p:before {
+        &:hover + .field-comment:before,
+        &:focus + .field-comment:before {
             content: "";
             display: block;
             height: 0;
@@ -1350,20 +1175,20 @@ body.sidebar-open #content {
             border-bottom: rhythm(.5) solid #333;
         }
         
-        &:hover + p.above:before,
-        &:focus + p.above:before {
+        &:hover + .field-comment.above:before,
+        &:focus + .field-comment.above:before {
             top: auto;
             bottom: rhythm(-.5);
             @include transform(rotate(180deg));
         }
     }
     
-    .field-description p:not(:first-of-type) {
+    .field-description .field-comment:not(:first-of-type) {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
-    
+
     .inputs {
         width: span(6 of 10);
         display: inline-block;
@@ -1406,61 +1231,6 @@ body.sidebar-open #content {
         button,
         input[type="submit"] {
             margin: rhythm(.25) 0;
-        }
-    
-        .tab {
-            display: block;
-            float: left;
-            width: 1.5 * $base-line-height;;
-            background-color: lighten($red, 20%);
-            color: #fff;
-            line-height: 1.5 * $base-line-height;
-            height: 1.5 * $base-line-height;
-            padding: 0 4px;
-            border-right: 1px solid lighten(desaturate($red, 20%), 10%);
-            position: relative;
-            cursor: pointer;
-            
-            &:last-of-type {
-                border-right: 0;
-            }
-            
-            &:hover {
-                background-color: $red;
-            }
-            
-            &.active {
-                background-color: darken($red, 20%);
-                color: #fff;
-            }
-            
-            &:hover .screen-reader-text,
-            &:focus .screen-reader-text {
-                top: rhythm(1.5);
-                left: inherit;
-                right: 0;
-                background-color: #333;
-                color: #fff;
-                padding: 0 5px;
-                @include border-radius(3px);
-                white-space: nowrap;
-                z-index: 1;
-            }
-            
-            &:hover .screen-reader-text:before,
-            &:focus .screen-reader-text:before {
-                content: "";
-                display: block;
-                height: 0;
-                width: 0;
-                position: absolute;
-                top: rhythm(-.25);
-                right: .25 * $base-line-height;
-                font-size: $base-font-size;
-                border-left: rhythm(.25) solid transparent;
-                border-right: rhythm(.25) solid transparent;
-                border-bottom: rhythm(.5) solid #333;
-            }
         }
     }
     
@@ -1599,24 +1369,6 @@ body.sidebar-open #content {
 
 /* @end */
 
-/* @group ----- Iconfont ----- */
-
-.external.button:after {
-    font-family: 'FontAwesome';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: $fa-var-external-link;
-    margin-left: .5em;
-}
-
-/* @end */
-
 /* @group ----- Select Item Sidebar ----- */
 
 .search-nav {
@@ -1639,7 +1391,7 @@ body.sidebar-open #content {
         line-height: $base-line-height;
         padding: 0 10px;
         @include border-radius(0 3px 3px 0);
-        min-height: intrinsic;
+        min-height: 0;
         position: absolute;
         top: 0;
         right: 0;
@@ -1659,61 +1411,16 @@ body.sidebar-open #content {
         width: calc(100% - #{rhythm(1.5)});
     }
     
-    .more-options {
-        line-height: rhythm(1.5);
-        padding: rhythm(.25) 10px;
-        @include border-radius(0);
-        min-height: 0;
-        text-align: left;
-        color: lighten($red, 20%);
-        border-color: rgba(0,0,0,.08);
-        @include trailing-border(1px, .25, $base-font-size, solid);
-        
-        &:hover {
-            color: $red;
-            background-color: #fff;
-        }
-        
-        &.collapse {
-            border-color: transparent;
-        }
-    }
-    
     .expand:after {
-        content: "\f0da";
+        content: $fa-var-caret-right;
         font-family: "FontAwesome";
         margin-left: 3px;
     } 
     
     .collapse:after {
-        content: "\f0d7";
+        content: $fa-var-caret-down;
         font-family: "FontAwesome";
         margin-left: 3px;
-    }
-    
-    .collapse + .search-options {
-        left: 0;
-        top: rhythm(2);
-        bottom: 0;
-    }
-
-    .search-options {
-        position: absolute;
-        left: -9999px;
-        width: 100%;
-        background-color: #fff;
-        padding: rhythm() 20px;
-        z-index: 1004;
-        
-        label {
-            display: inline-block;
-            width: span(2 of 10);
-        }
-        
-        label + * {
-            display: inline-block;
-            width: span(7 of 10);
-        }
     }
     
     .pagination {
@@ -1739,27 +1446,6 @@ body.sidebar-open #content {
         a.button {
             margin-right: 5px;
         }
-    }
-}
-
-.search-options {
-    clear: left;
-
-    &:before {
-        content: "";
-        display: block;
-        position: absolute;
-        background-color: #000;
-        opacity: 0.3;
-        top: -3em;
-        left: 0;
-        right: 0;
-        height: 3em;
-        z-index: 1001;
-    }
-    
-    .field:last-of-type {
-        @include trailer();
     }
 }
 
@@ -1790,10 +1476,6 @@ body.sidebar-open #content {
         }
     }
     
-    .resource-name a {
-        width: auto;
-    }
-    
     .resource-name {
         display: inline-block;
         vertical-align: top;
@@ -1806,37 +1488,14 @@ body.sidebar-open #content {
         @include trailing-border(1px, .25, $base-font-size, solid);
         position: relative;
         width: 100%;
-        float: left;
+        overflow: hidden;
         
-        .select {
-            position: absolute;
-            top: rhythm(.25);
-            right: -9999px;
-            text-indent: -9999px;
-            @include border-radius(0px);
-            height: rhythm(1.5);
-            background-color: transparent;
-            color: $red;
-            width: rhythm(1.5);
-        }
-        
-        &:hover, 
-        &.previewed {
+        &:hover {
             background-color: rgba(255,255,255,.8);
         }
         
-        &:hover .select,
-        &.previewed .select {
+        &:hover .select {
             right: 0px;
-        }
-        
-        &:hover .directions,
-        &.previewed .directions {
-            text-indent: 0px;
-        }
-        
-        &.previewed a {
-            font-weight: bold;
         }
     }
 }
@@ -1853,7 +1512,8 @@ body.sidebar-open #content {
         padding: 0;
     }
     
-    .element {
+    .o-description,
+    .property {
         @include trailer();
     }
 }
@@ -1885,31 +1545,9 @@ body.sidebar-open #content {
 /* @end */
 
 /* @group ----- Import Vocabulary ----- */
-.vocabs .field .upload-input {
+
+.vocabs .field [type="file"] {
     margin: rhythm(.25) 0 0;
-    position: relative;
-    overflow: hidden;
-    vertical-align: top;
-    display: block;
-    float: left;
-    clear: left;
-}
-
-.vocabs .field .upload-input input {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    @include opacity(0);
-}
-
-.vocabs .upload.input-option span {
-    display: block;
-    background-color: rgba(255,255,255,.5);
-    padding: rhythm(.25) 10px;
-    float: left;
-    width: 100%;
 }
 
 /* @end */
@@ -1924,27 +1562,6 @@ body.sidebar-open #content {
 
 .vocabulary h2 {
     margin-bottom: 0;
-}
-
-.vocabulary-contents > li {
-    font-weight: bold;
-    
-    &:first-of-type {
-        margin-right: gutter();
-    }
-    
-    li {
-        font-weight: normal;
-        display: inline;
-        
-        &:after {
-            content: ", "
-        }
-        
-        &:last-child:after {
-            content: "";
-        }
-    }
 }
 
 /* @end */
@@ -1985,155 +1602,17 @@ body.show .property {
         content: $fa-var-external-link-square;
     }
     
-    #item-metadata .value.item a:after {
+    #item-metadata .value.items a:after {
         content: $fa-var-cubes;
     }
-    
-    #item-linked ul {
-        padding-left: 0;
-        list-style-type: none;
-    }
-    
-    #item-linked li {
-        background-color: $gray-on-white;
-        padding: rhythm(.25);
-        @include trailer(.25);
-        
-        &.item:before {
-            content: $fa-var-cubes;
-            font-family: "FontAwesome";
-            margin-right: .5em;
-            display: inline-block;
-        }
-    }
-    
-    #item-linked a {
-        font-weight: bold;
-    }
-    
+
     /* @end */
     
-    /* @group ----- Show Vocabulary ----- */
-
-    .vocabs h2 {
-        margin-bottom: 0;
-    }
-    
-    .vocabs h3 {
-        font-size: $base-font-size;
-        line-height: $base-line-height;
-        @include trailer(0);
-        display: inline-block;
-        margin-right: .5em;
-    }
-    
-    .vocabs .owner {
-        display: inline-block;
-    
-        &:before {
-            content: "(";
-        }
-    
-        &:after {
-            content: ")";
-        }
-    }
-    
-    .vocabs .class,
-    .vocabs .property-set {
-        background-color: $gray-on-white;
-        padding: rhythm(.25);
-        @include trailer(.25);
-        overflow: hidden;
-        position: relative;
-    
-        .collapse ~ .properties .property {
-            position: static;
-            left: auto
-        }
-        
-        .collapse ~ .properties .property {
-            @include leader(.25);
-        }
-        
-        .properties {
-            clear: left;
-            display: block;
-        }
-    
-        .property {
-            display: inline-block;
-            padding: 0 rhythm(.25);
-            background-color: $gray-on-white;
-            @include trailer(.25);
-            @include border-radius(3px);
-            cursor: default;
-            position: absolute;
-            left: -9999px;
-        }
-        
-        .description {
-            position: relative;
-            
-            p {
-                width: 90%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-        
-        .field-actions {
-            width: 15%;
-        }
-    }
-    
-    .vocabs .property-set {
-        margin-left: 2em;
-    }
-    
-    .vocabs .section > h2:first-child {
-        position: absolute;
-        left: -9999px;
-    }
-    
-    #vocab-properties .property {
-        background-color: $gray-on-white;
-        @include trailer(.25);
-        padding: rhythm(.25);
-        overflow: hidden;
-    }
-    
-    .vocabs .description p:only-child {
-        margin-bottom: 0;
-    }
-    
-    .vocabs .description {
-        display: block;
-        height: $base-line-height;
-        overflow: hidden;
-        font-style: italic;
-        
-        &:empty {
-            height: 0;
-        }
-    }
-    
-    .vocabs.show .section-nav {
-        @include padding-leader();
-    }
-    
-    /* @end */
-
     /* @group ----- Show User ----- */
     
     .users.show .field-meta {
         font-weight: bold;
         width: 15%;
-    }
-    
-    .users.show #page-actions + .field {
-        border-top-color: transparent;
     }
     
     .users.show .field {
@@ -2361,7 +1840,6 @@ body.minimal {
         margin: 0;
         padding: rhythm(2) span(1 of 8);
         border-color: rgba(0,0,0,.15);
-        border-top-color: transparent;
         overflow: hidden;
         @include rhythm-borders(1px, 0, $base-font-size, solid);
     }

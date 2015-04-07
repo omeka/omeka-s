@@ -344,7 +344,6 @@
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
                     makeNewValue(term, false, valuesJson[term][i]);
-                    console.log(valuesJson[term][i]);
                 }
             }
         }

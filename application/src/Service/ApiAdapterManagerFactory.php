@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Exception;
 use Omeka\Api\Adapter\Manager as AdapterManager;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -21,6 +21,9 @@ class ApiAdapterManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
+        if (!isset($config['api_adapters'])) {
+            throw new Exception\ConfigException('Missing API adapter configuration');
+        }
         return new AdapterManager(new Config($config['api_adapters']));
     }
 }

@@ -4,6 +4,7 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -74,6 +75,11 @@ class AclFactory implements FactoryInterface
         // Add API adapters as ACL resources. These resources are used to set
         // rules for general access to API resources.
         $config = $serviceLocator->get('Config');
+        if (!isset($config['api_adapters']['invokables'])
+            || !is_array($config['api_adapters']['invokables'])
+        ) {
+            throw new Exception\ConfigException('Missing API adapter configuration');
+        }
         foreach ($config['api_adapters']['invokables'] as $adapterClass) {
             $acl->addResource($adapterClass);
         }

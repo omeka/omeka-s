@@ -15,7 +15,7 @@ class ManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Omeka\Installation\Exception\ConfigException
+     * @expectedException Omeka\Service\Exception\ConfigException
      */
     public function testRegistrationRequiresValidClass()
     {
@@ -26,7 +26,7 @@ class ManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Omeka\Installation\Exception\ConfigException
+     * @expectedException Omeka\Service\Exception\ConfigException
      */
     public function testRegistrationRequiresClassToImplementTaskInterface()
     {

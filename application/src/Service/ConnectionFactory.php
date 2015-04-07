@@ -3,6 +3,7 @@ namespace Omeka\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -25,7 +26,7 @@ class ConnectionFactory implements FactoryInterface
         $config = $serviceLocator->get('ApplicationConfig');
 
         if (!isset($config['connection'])) {
-            throw new \RuntimeException('No database connection configuration given.');
+            throw new Exception\ConfigException('Missing database connection configuration');
         }
 
         $config['connection']['driver'] = self::DRIVER;

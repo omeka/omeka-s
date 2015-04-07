@@ -9,6 +9,7 @@ use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\Logging\FileSqlLogger;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -30,8 +31,17 @@ class EntityManagerFactory implements FactoryInterface
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
 
-        if (!isset($config['entity_manager']) || !isset($appConfig['connection'])) {
-            throw new \RuntimeException('No entity manager configuration given.');
+        if (!isset($appConfig['connection'])) {
+            throw new Exception\ConfigException('Missing database connection configuration');
+        }
+        if (!isset($config['entity_manager'])) {
+            throw new Exception\ConfigException('Missing entity manager configuration');
+        }
+        if (!isset($config['entity_manager']['mapping_classes_paths'])) {
+            throw new Exception\ConfigException('Missing mapping classes paths configuration');
+        }
+        if (!isset($config['entity_manager']['resource_discriminator_map'])) {
+            throw new Exception\ConfigException('Missing resource discriminator map configuration');
         }
 
         if (isset($config['entity_manager']['is_dev_mode'])) {

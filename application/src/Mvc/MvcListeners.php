@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc;
 
+use Omeka\Service\Exception\ConfigException;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -217,6 +218,9 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $serviceLocator = $event->getApplication()->getServiceManager();
         $config = $serviceLocator->get('Config');
+        if (!isset($config['view_route_layouts'])) {
+            throw new ConfigException('Missing view route layouts configuration');
+        }
         $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
         if (!array_key_exists($matchedRouteName, $config['view_route_layouts'])) {
             return;

@@ -3,6 +3,7 @@ namespace Omeka\File;
 
 use finfo;
 use Omeka\File\Manager as FileManager;
+use Omeka\Service\Exception\ConfigException;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -53,7 +54,11 @@ class File implements ServiceLocatorAwareInterface
             return $this->tempPath;
         }
         if (!isset($tempDir)) {
-            $tempDir = $this->getServiceLocator()->get('Config')['temp_dir'];
+            $config = $this->getServiceLocator()->get('Config');
+            if (!isset($config['temp_dir'])) {
+                throw new ConfigException('Missing temporary directory configuration');
+            }
+            $tempDir = $config['temp_dir'];
         }
         $this->tempPath = tempnam($tempDir, 'omeka');
         return $this->tempPath;

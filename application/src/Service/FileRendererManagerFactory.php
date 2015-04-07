@@ -2,6 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Media\FileRenderer\Manager;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -20,6 +21,9 @@ class FileRendererManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
+        if (!isset($config['file_renderers'])) {
+            throw new Exception\ConfigException('Missing file renderer configuration');
+        }
         return new Manager(new Config($config['file_renderers']));
     }
 }

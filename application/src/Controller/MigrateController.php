@@ -8,11 +8,12 @@ class MigrateController extends AbstractActionController
 {
     public function indexAction()
     {
-        $view = new ViewModel;
         $status = $this->getServiceLocator()->get('Omeka\Status');
+
         if (!$status->needsMigration()) {
             return $this->redirect()->toRoute('admin');
         }
+
         if ($this->getRequest()->isPost()) {
             // Perform migrations and update the installed version.
             $this->getServiceLocator()->get('Omeka\MigrationManager')->upgrade();
@@ -21,6 +22,8 @@ class MigrateController extends AbstractActionController
             $this->messenger()->addSuccess("Migration successful");
             return $this->redirect()->toRoute('admin');
         }
+
+        $view = new ViewModel;
         return $view;
     }
 }

@@ -10,7 +10,10 @@ class InstallController extends AbstractActionController
 {
     public function indexAction()
     {
-        $view = new ViewModel;
+        if ($this->getServiceLocator()->get('Omeka\Status')->isInstalled()) {
+            return $this->redirect()->toRoute('admin');
+        }
+
         $form = new InstallationForm($this->getServiceLocator());
 
         if ($this->getRequest()->isPost()) {
@@ -43,6 +46,7 @@ class InstallController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
     }

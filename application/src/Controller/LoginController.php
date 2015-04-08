@@ -11,10 +11,9 @@ class LoginController extends AbstractActionController
     {
         $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         if ($auth->hasIdentity()) {
-            return $this->redirect()->toRoute('admin/default');
+            return $this->redirect()->toRoute('admin');
         }
 
-        $view = new ViewModel;
         $form = new LoginForm($this->getServiceLocator());
 
         if ($this->getRequest()->isPost()) {
@@ -37,6 +36,7 @@ class LoginController extends AbstractActionController
             }
         }
 
+        $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
     }

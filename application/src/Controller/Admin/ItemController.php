@@ -135,7 +135,7 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
-        $view->setVariable('mediaForms', $this->getMediaForms($form));
+        $view->setVariable('mediaForms', $this->getMediaForms());
         return $view;
     }
 
@@ -171,6 +171,7 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
+        $view->setVariable('mediaForms', $this->getMediaForms());
         $view->setVariable('values', json_encode($values));
             if ($this->getRequest()->isPost()) {
                 $data = $this->params()->fromPost();

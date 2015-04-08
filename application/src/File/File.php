@@ -154,7 +154,7 @@ class File implements ServiceLocatorAwareInterface
             && !in_array($mediaType, array('application/octet-stream'))
         ) {
             if ($extension) {
-                if (!in_array($extension, $map[$mediaType])) {
+                if (!in_array($extension, $mediaTypeMap[$mediaType])) {
                     // Unrecognized extension.
                     $extension = $mediaTypeMap[$mediaType][0];
                 }

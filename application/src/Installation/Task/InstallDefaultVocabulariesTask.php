@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
  * Install default RDF vocabularies.
@@ -60,10 +60,10 @@ class InstallDefaultVocabulariesTask implements TaskInterface
         ),
     );
 
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
-        $rdfImporter = $manager->getServiceLocator()->get('Omeka\RdfImporter');
-        $entityManager = $manager->getServiceLocator()->get('Omeka\EntityManager');
+        $rdfImporter = $installer->getServiceLocator()->get('Omeka\RdfImporter');
+        $entityManager = $installer->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
             $response = $rdfImporter->import(
@@ -75,7 +75,7 @@ class InstallDefaultVocabulariesTask implements TaskInterface
                 )
             );
             if ($response->isError()) {
-                $manager->addErrorStore($response->getErrorStore());
+                $installer->addErrorStore($response->getErrorStore());
                 return;
             }
             $entityManager->clear();

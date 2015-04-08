@@ -36,7 +36,7 @@ return array(
             'Omeka\Model\Entity\ItemSet' => 'Omeka\Model\Entity\ItemSet',
         ),
     ),
-    'installation_manager' => array(
+    'installer' => array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckEnvironmentTask',
             'Omeka\Installation\Task\ClearSessionTask',
@@ -120,7 +120,7 @@ return array(
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
-            'Omeka\InstallationManager'   => 'Omeka\Service\InstallationManagerFactory',
+            'Omeka\Installer'             => 'Omeka\Service\InstallerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
             'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',

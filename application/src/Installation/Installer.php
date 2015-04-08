@@ -1,12 +1,11 @@
 <?php
 namespace Omeka\Installation;
 
-use Omeka\Service\Exception\ConfigException;
 use Omeka\Stdlib\ErrorStore;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Manager implements ServiceLocatorAwareInterface
+class Installer implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -54,25 +53,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function registerTask($task)
     {
-        if (!class_exists($task)) {
-            throw new ConfigException(sprintf('The "%s" installation task does not exist.', $task));
-        }
-        if (!is_subclass_of($task, 'Omeka\Installation\Task\TaskInterface')) {
-            throw new ConfigException(sprintf('The "%s" task is not a valid installation task.', $task));
-        }
         $this->tasks[] = $task;
-    }
-
-    /**
-     * Register installation tasks.
-     * 
-     * @param array $tasks
-     */
-    public function registerTasks(array $tasks)
-    {
-        foreach ($tasks as $task) {
-            $this->registerTask($task);
-        }
     }
 
     /**

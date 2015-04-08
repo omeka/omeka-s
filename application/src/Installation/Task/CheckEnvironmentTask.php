@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
  * Check environment task.
@@ -15,10 +15,10 @@ class CheckEnvironmentTask implements TaskInterface
         'pdo_mysql',
     );
 
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
         if (version_compare(PHP_VERSION, self::PHP_MINIMUM_VERSION, '<')) {
-            $manager->addError(sprintf(
+            $installer->addError(sprintf(
                 'The installed PHP version (%1$s) is too low. Omeka requires at least version %2$s',
                 PHP_VERSION,
                 self::PHP_MINIMUM_VERSION
@@ -27,7 +27,7 @@ class CheckEnvironmentTask implements TaskInterface
 
         foreach (self::$requiredExtensions as $ext) {
             if (!extension_loaded($ext)) {
-                $manager->addError(sprintf(
+                $installer->addError(sprintf(
                     'Omeka requires the PHP extension %s, and it is not loaded.',
                     $ext
                 ));

@@ -2,7 +2,7 @@
 namespace Omeka\Controller;
 
 use Omeka\Form\InstallationForm;
-use Omeka\Installation\Manager as InstallationManager;
+use Omeka\Installation\Installer;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -17,7 +17,7 @@ class InstallController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $manager = $this->getServiceLocator()->get('Omeka\InstallationManager');
+                $manager = $this->getServiceLocator()->get('Omeka\Installer');
                 $manager->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
                     array(

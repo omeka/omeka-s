@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Test;
 
-use Omeka\Installation\Manager as InstallationManager;
+use Omeka\Installation\Installer;
 use Zend\Mvc\Application;
 
 /**
@@ -84,7 +84,7 @@ class DbTestCase extends TestCase
      */
     public static function installSchema()
     {
-        $manager = new InstallationManager;
+        $manager = new Installer;
         $manager->setServiceLocator(self::getApplication()->getServiceManager());
         $manager->registerTask('Omeka\Installation\Task\InstallSchemaTask');
         $result = $manager->install();

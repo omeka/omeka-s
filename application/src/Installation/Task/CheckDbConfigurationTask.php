@@ -1,19 +1,19 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
  * Check database configuration task.
  */
 class CheckDbConfigurationTask implements TaskInterface
 {
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
         try {
-            $manager->getServiceLocator()->get('Omeka\Connection')->connect();
+            $installer->getServiceLocator()->get('Omeka\Connection')->connect();
         } catch (\Exception $e) {
-            $manager->addError($e->getMessage());
+            $installer->addError($e->getMessage());
             return;
         }
     }

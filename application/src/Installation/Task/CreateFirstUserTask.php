@@ -1,19 +1,19 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
  * Create the first user.
  */
 class CreateFirstUserTask implements TaskInterface
 {
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
-        $apiManager = $manager->getServiceLocator()->get('Omeka\ApiManager');
-        $entityManager = $manager->getServiceLocator()->get('Omeka\EntityManager');
+        $apiManager = $installer->getServiceLocator()->get('Omeka\ApiManager');
+        $entityManager = $installer->getServiceLocator()->get('Omeka\EntityManager');
 
-        $vars = $manager->getVars('Omeka\Installation\Task\CreateFirstUserTask');
+        $vars = $installer->getVars('Omeka\Installation\Task\CreateFirstUserTask');
         $response = $apiManager->create('users', array(
             'o:role'     => 'global_admin',
             'o:username' => $vars['username'],
@@ -21,7 +21,7 @@ class CreateFirstUserTask implements TaskInterface
             'o:email'    => $vars['email'],
         ));
         if ($response->isError()) {
-            $manager->addErrorStore($response->getErrorStore());
+            $installer->addErrorStore($response->getErrorStore());
             return;
         }
 

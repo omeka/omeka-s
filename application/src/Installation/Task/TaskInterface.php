@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 interface TaskInterface
 {
     /**
      * Perform the installation task.
      */
-    public function perform(Manager $manager);
+    public function perform(Installer $installer);
 }
 

@@ -2,24 +2,24 @@
 namespace Omeka\Installation\Task;
 
 use Doctrine\DBAL\DBALException;
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
  * Install schema task.
  */
 class InstallSchemaTask implements TaskInterface
 {
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
         $schemaPath = OMEKA_PATH . '/data/install/schema.sql';
         if (!is_readable($schemaPath)) {
-            $manager->addError('Could not read the schema installation file.');
+            $installer->addError('Could not read the schema installation file.');
             return;
         }
 
         $schema = file_get_contents($schemaPath);
         $statements = explode(';', $schema);
-        $connection = $manager->getServiceLocator()->get('Omeka\Connection');
+        $connection = $installer->getServiceLocator()->get('Omeka\Connection');
         try {
             foreach ($statements as $statement) {
                 $statement = trim($statement);
@@ -29,7 +29,7 @@ class InstallSchemaTask implements TaskInterface
                 $connection->exec($statement);
             }
         } catch (DBALException $e) {
-            $manager->addError($e->getMessage());
+            $installer->addError($e->getMessage());
             return;
         }
     }

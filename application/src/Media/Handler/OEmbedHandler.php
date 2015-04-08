@@ -7,6 +7,7 @@ use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Dom\Query;
+use Zend\Form\Element\Text;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -70,8 +71,22 @@ class OEmbedHandler extends AbstractHandler
         $media->setSource($source);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function form(PhpRenderer $view, array $options = array())
-    {}
+    {
+        $urlInput = new Text('o:media[__index__][o:source]');
+        $urlInput->setOptions(array(
+            'label' => $view->translate('OEmbed URL'),
+            'info' => $view->translate('URL for the media to embed.'),
+        ));
+        $urlInput->setAttributes(array(
+            'id' => 'media-oembed-source-__index__',
+            'required' => true
+        ));
+        return $view->formField($urlInput);
+    }
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = array()

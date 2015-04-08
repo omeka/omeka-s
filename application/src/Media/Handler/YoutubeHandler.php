@@ -6,6 +6,7 @@ use Omeka\Api\Request;
 use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Form\Element\Text;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -67,8 +68,22 @@ class YoutubeHandler extends AbstractHandler
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function form(PhpRenderer $view, array $options = array())
-    {}
+    {
+        $urlInput = new Text('o:media[__index__][o:source]');
+        $urlInput->setOptions(array(
+            'label' => $view->translate('Video URL'),
+            'info' => $view->translate('URL for the video to embed.'),
+        ));
+        $urlInput->setAttributes(array(
+            'id' => 'media-youtube-source-__index__',
+            'required' => true
+        ));
+        return $view->formField($urlInput);
+    }
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = array()

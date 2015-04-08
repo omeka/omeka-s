@@ -39,6 +39,7 @@ return array(
     'installer' => array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckEnvironmentTask',
+            'Omeka\Installation\Task\CheckDirPermissionsTask',
             'Omeka\Installation\Task\ClearSessionTask',
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\InstallSchemaTask',

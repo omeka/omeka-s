@@ -134,9 +134,9 @@ var Omeka = {
                 toggle.parent().toggleClass('collapse').toggleClass('expand');
             }
             if (toggle.hasClass('expand')) {
-                toggle.attr('aria-title','Expand');
+                toggle.attr('aria-label','Expand');
             } else {
-                toggle.attr('aria-title','Collapse');
+                toggle.attr('aria-label','Collapse');
             }
         });
 

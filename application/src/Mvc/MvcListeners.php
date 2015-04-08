@@ -120,7 +120,7 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Redirect all admin requests to install route if user not logged in.
+     * Redirect all admin requests to login route if user not logged in.
      *
      * @param MvcEvent $event
      * @return Zend\Http\PhpEnvironment\Response

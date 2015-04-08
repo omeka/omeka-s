@@ -1512,18 +1512,21 @@ th {
     margin: 1.5em 0 0 30%;
   }
 
-  .resource-values .field-label {
+  .field .field-label {
     font-weight: bold;
     display: inline-block;
   }
 
-  .resource-values .field-description {
-    margin-bottom: 0.375em;
+  .field .field-description {
     font-size: 0.875em;
     line-height: 1.71429em;
     position: static;
     text-align: left;
     height: auto;
+  }
+
+  .field .field-description:not(:only-child) {
+    margin-bottom: 0.375em;
   }
 
   .field-description {
@@ -1614,7 +1617,7 @@ th {
   }
 
   .inputs {
-    width: 60%;
+    width: 70%;
     display: inline-block;
     vertical-align: top;
     position: relative;
@@ -2074,11 +2077,13 @@ th {
     position: relative;
     margin-bottom: 0.375em;
   }
+  .resource-template .property-row.delete {
+    background-color: #ffcccc;
+  }
   .resource-template .property-row label:first-child,
   .resource-template .property-row input[type="text"],
   .resource-template .property-row textarea {
     display: inline-block;
-    width: 30%;
     vertical-align: top;
   }
   .resource-template .property-row label:first-child {
@@ -2124,11 +2129,12 @@ th {
   .resource-template .property-heading {
     font-weight: bold;
     display: inline-block;
-    width: 30%;
+    width: 35%;
   }
 
   .resource-template .property-heading:first-of-type {
     padding-left: 2.25em;
+    width: 30%;
   }
 
   .resource-template .property-heading:not(:first-child),
@@ -2137,9 +2143,10 @@ th {
     margin-left: -4px;
   }
 
-  .resource-template .property-row input[type="text"] {
-    width: 27.5%;
-    margin-right: 2.5%;
+  .resource-template .property-row input[type="text"],
+  .resource-template .property-row textarea {
+    width: 33.75%;
+    margin-right: 1.25%;
   }
 
   /* @end */
@@ -2169,18 +2176,38 @@ th {
   .class-names input[type="text"],
   #has-property-queries select,
   #has-property-queries input[type="text"] {
-    width: 49%;
+    width: 46.5%;
     margin-right: calc(1% - 4px);
   }
 
   #property-queries select,
   #property-queries input[type="text"] {
-    width: 32.33%;
+    width: 30.66%;
     margin-right: calc(1% - 4px);
   }
 
   #advanced-search .field.removable .value:only-child .remove-value {
     display: none;
+  }
+
+  #advanced-search .remove-value {
+    display: inline-block;
+    text-indent: -9999px;
+    position: relative;
+    width: 36px;
+    text-align: center;
+  }
+  #advanced-search .remove-value:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    line-height: 36px;
+    text-indent: 0;
+  }
+
+  #advanced-search .value {
+    margin-bottom: 0.75em;
   }
 
   /* @end */

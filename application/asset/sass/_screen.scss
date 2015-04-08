@@ -1123,17 +1123,20 @@ body.sidebar-open #content {
         margin: rhythm() 0 0 span(3 of 10);
     }
 
-    .resource-values .field-label {
+    .field .field-label {
         font-weight: bold;
         display: inline-block;
     }
 
-    .resource-values .field-description {
-        @include trailer(.25);
+    .field .field-description {
         @include adjust-font-size-to(14px);
         position: static;
         text-align: left;
         height: auto;
+    }
+
+    .field .field-description:not(:only-child) {
+        @include trailer(.25);
     }
 
     .field-description {
@@ -1219,7 +1222,7 @@ body.sidebar-open #content {
         @include adjust-font-size-to(12px);
     }
     .inputs {
-        width: span(6 of 10);
+        width: span(7 of 10);
         display: inline-block;
         vertical-align: top;
         position: relative;
@@ -1715,12 +1718,15 @@ body.show .property {
 
 .resource-template .property-row {
     @include field-row;
-        
+
+    &.delete {
+        background-color: #ffcccc;
+    }
+
     label:first-child,
     input[type="text"],
     textarea {
         display: inline-block;
-        width: span(3 of 10);
         vertical-align: top;
     }
     
@@ -1766,11 +1772,12 @@ body.show .property {
 .resource-template .property-heading {
     font-weight: bold;
     display: inline-block;
-    width: span(3 of 10);
+    width: span(3.5 of 10);
 }
 
 .resource-template .property-heading:first-of-type {
     padding-left: rhythm(1.5);
+    width: span(3 of 10);
 }
 
 .resource-template .property-heading:not(:first-child),
@@ -1779,9 +1786,10 @@ body.show .property {
     margin-left: -4px;
 }
 
-.resource-template .property-row input[type="text"] {
-    width: span(2.75 of 10);
-    margin-right: span(.25 of 10);
+.resource-template .property-row input[type="text"],
+.resource-template .property-row textarea {
+    width: span(3.375 of 10);
+    margin-right: span(.125 of 10);
 }
 
 /* @end */
@@ -1815,18 +1823,39 @@ body.show .property {
 .class-names input[type="text"],
 #has-property-queries select,
 #has-property-queries input[type="text"] {
-    width: 49%;
+    width: 46.5%;
     margin-right: calc(1% - 4px);
 }
 
 #property-queries select,
 #property-queries input[type="text"] {
-    width: 32.33%;
+    width: 30.66%;
     margin-right: calc(1% - 4px);
 }
 
 #advanced-search .field.removable .value:only-child .remove-value {
     display: none;
+}
+
+#advanced-search .remove-value {
+    display: inline-block;
+    text-indent: -9999px;
+    position: relative;
+    width: 1.5 * $base-line-height;
+    text-align: center;
+
+    &:before{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1.5 * $base-line-height;
+        line-height: 1.5 * $base-line-height;
+        text-indent: 0;
+    }
+}
+
+#advanced-search .value {
+    @include trailer(.5);
 }
 
 /* @end */

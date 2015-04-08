@@ -159,11 +159,6 @@
             Omeka.openSidebar(context);
         });
 
-        $('.field-meta .expand, .field-meta .collapse').each(function(e) {
-            var nextSiblings = $(this).nextAll();
-            nextSiblings.wrapAll('<div class="collapsible"></div>');
-        });
-
         initPage();
     });
 
@@ -315,9 +310,9 @@
 
         if (template['o:alternate_comment'] == "") {
             var description = propertyLi.find('.description p').last();
-            field.find('p.field-comment').text(description.text());
+            field.find('.field-comment').text(description.text());
         } else {
-            field.find('p.field-comment').text(template['o:alternate_comment']);
+            field.find('.field-comment').text(template['o:alternate_comment']);
         }
         propertiesContainer.prepend(field);
     };

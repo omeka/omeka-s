@@ -102,14 +102,14 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
         title: 'Undo remove property',
         click: function(event) {
             event.preventDefault();
-            propertyRow.css({'background-color': '#f2f2f2'});
+            propertyRow.toggleClass('delete');  
             propertyRow.append(propertyRow.data('property-id-element'));
             removeLink.show();
             $(this).remove();
         },
     });
 
-    propertyRow.css({'background-color': '#ffcccc'});
+    propertyRow.toggleClass('delete');
     undoRemoveLink.insertAfter(removeLink);
     removeLink.hide();
 });

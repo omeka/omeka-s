@@ -105,6 +105,12 @@ var Omeka = {
             }).focus();
         });
 
+        // If Javascript being used, provide wrapper for collapsible field descriptions.
+        $('.field-meta .expand, .field-meta .collapse').each(function(e) {
+            var nextSiblings = $(this).nextAll();
+            nextSiblings.wrapAll('<div class="collapsible"></div>');
+        });
+
         // Mobile navigation
         $('#mobile-nav .button').click(function(e) {
             e.preventDefault();

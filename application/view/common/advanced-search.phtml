@@ -10,9 +10,6 @@
     </div>
 
     <div id="value-queries" class="field removable">
-        <ul class="actions">
-            <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
-        </ul>
         <div class="field-meta">
             <legend>Search all properties</legend>
         </div>
@@ -25,15 +22,13 @@
                     <option value="nin">does not contain value</option>
                 </select>
                 <input type="text" class="query-text">
-                <button class="remove-value button">Remove value</button>
+                <button class="o-icon-delete remove-value button">Remove value</button>
             </div>
+            <a href="#" class="add-value button">Add new value</a>
         </div>
     </div>
 
     <div id="property-queries" class="field removable">
-        <ul class="actions">
-            <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
-        </ul>
         <div class="field-meta">
             <legend>Search specific property</legend>
         </div>
@@ -47,15 +42,13 @@
                     <option value="nin">does not contain value</option>
                 </select>
                 <input type="text" class="query-text">
-                <button class="remove-value button">Remove value</button>
+                <button class="o-icon-delete remove-value button">Remove value</button>
             </div>
+            <a href="#" class="add-value button">Add new value</a>
         </div>
     </div>
 
     <div id="has-property-queries" class="field removable">
-        <ul class="actions">
-            <li><a href="#" class="o-icon-add add-value"><span class="screen-reader-text">Add new value</span></a></li>
-        </ul>
         <div class="field-meta">
             <legend>Search resources</legend>
         </div>
@@ -66,8 +59,9 @@
                     <option value="0">does not have property</option>
                 </select>
                 <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
-                <button class="remove-value button">Remove value</button>
+                <button class="o-icon-delete remove-value button">Remove value</button>
             </div>
+            <a href="#" class="add-value button">Add new value</a>
         </div>
     </div>
 
@@ -94,7 +88,7 @@ $('#value-queries').find('.add-value').click(function(event) {
     var clone = first.clone();
     clone.children('.query-type').val('eq');
     clone.children('.query-text').val(null);
-    clone.appendTo('#value-queries .inputs');
+    clone.insertBefore($(this));
 });
 
 $('#property-queries').find('.add-value').click(function(event) {
@@ -104,7 +98,7 @@ $('#property-queries').find('.add-value').click(function(event) {
     clone.children('.query-type').val('eq');
     clone.children('.query-property').val(null);
     clone.children('.query-text').val(null);
-    clone.appendTo('#property-queries .inputs');
+    clone.insertBefore($(this));
 });
 
 $('#has-property-queries').find('.add-value').click(function(event) {
@@ -113,7 +107,7 @@ $('#has-property-queries').find('.add-value').click(function(event) {
     var clone = first.clone();
     clone.children('.query-type').val('1');
     clone.children('.query-property').val(null);
-    clone.appendTo('#has-property-queries .inputs');
+    clone.insertBefore($(this));
 });
 
 // Bypass regular form handling for value, property, and has property queries.

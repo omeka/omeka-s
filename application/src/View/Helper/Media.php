@@ -33,8 +33,11 @@ class Media extends AbstractHelper
      */
     public function form($mediaType, array $options = array())
     {
-        return $this->manager->get($mediaType)
+        $form = $this->manager->get($mediaType)
             ->form($this->getView(), $options);
+        $form .= '<input type="hidden" name="o:media[__index__][o:type]" value="'
+            . $this->getView()->escapeHtmlAttr($mediaType) . '">';
+        return $form;
     }
 
     /**

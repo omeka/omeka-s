@@ -135,6 +135,7 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        $view->setVariable('mediaForms', $this->getMediaForms($form));
         return $view;
     }
 
@@ -187,5 +188,20 @@ class ItemController extends AbstractActionController
                 }
         }
         return $view;
+    }
+
+    protected function getMediaForms()
+    {
+        $services = $this->getServiceLocator();
+        $mediaHelper = $services->get('ViewHelperManager')->get('media');
+        $mediaManager = $services->get('Omeka\MediaHandlerManager');
+        $types = $mediaManager->getCanonicalNames();
+
+        $forms = array();
+        foreach ($types as $type) {
+            $forms[$type] = $mediaHelper->form($type);
+        }
+
+        return $forms;
     }
 }

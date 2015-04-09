@@ -16,6 +16,12 @@ class YoutubeHandler extends AbstractHandler
     const HEIGHT = 315;
     const ALLOWFULLSCREEN = true;
 
+    public function getLabel()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('YouTube');
+    }
+
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();

@@ -13,6 +13,12 @@ use Zend\View\Renderer\PhpRenderer;
 
 class OEmbedHandler extends AbstractHandler
 {
+    public function getLabel()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('oEmbed');
+    }
+
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -78,7 +84,7 @@ class OEmbedHandler extends AbstractHandler
     {
         $urlInput = new Text('o:media[__index__][o:source]');
         $urlInput->setOptions(array(
-            'label' => $view->translate('OEmbed URL'),
+            'label' => $view->translate('oEmbed URL'),
             'info' => $view->translate('URL for the media to embed.'),
         ));
         $urlInput->setAttributes(array(

@@ -15,6 +15,13 @@ use Zend\View\Renderer\PhpRenderer;
 interface HandlerInterface
 {
     /**
+     * Get a human-readable label for the media type.
+     *
+     * @return string
+     */
+    public function getLabel();
+
+    /**
      * Validate a request for compliance with this media type.
      *
      * @param Request $request The API request to validate

@@ -12,6 +12,12 @@ use Zend\View\Renderer\PhpRenderer;
 
 class UrlHandler extends AbstractFileHandler
 {
+    public function getLabel()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('URL');
+    }
+
     /**
      * {@inheritDoc}
      */

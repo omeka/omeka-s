@@ -13,6 +13,12 @@ use Zend\View\Renderer\PhpRenderer;
 
 class UploadHandler extends AbstractFileHandler
 {
+    public function getLabel()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('Upload');
+    }
+
     /**
      * {@inheritDoc}
      */

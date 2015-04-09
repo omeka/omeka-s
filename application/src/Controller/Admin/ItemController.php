@@ -202,7 +202,10 @@ class ItemController extends AbstractActionController
 
         $forms = array();
         foreach ($types as $type) {
-            $forms[$type] = $mediaHelper->form($type);
+            $forms[$type] = array(
+                'label' => $mediaManager->get($type)->getLabel(),
+                'form' => $mediaHelper->form($type)
+            );
         }
 
         return $forms;

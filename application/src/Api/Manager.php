@@ -88,13 +88,15 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $fileData
      * @return Response
      */
-    public function update($resource, $id, $data = array())
+    public function update($resource, $id, $data = array(), $fileData = array())
     {
         $request = new Request(Request::UPDATE, $resource);
         $request->setId($id);
         $request->setContent($data);
+        $request->setFileData($fileData);
         return $this->execute($request);
     }
 

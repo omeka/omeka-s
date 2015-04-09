@@ -19,6 +19,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
      */
     public function setOptions(array $options)
     {
+        parent::setOptions($options);
         if (!isset($this->convertPath)) {
             $this->setConvertPath($this->getOption('imagemagick_dir'));
         }

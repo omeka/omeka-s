@@ -146,4 +146,14 @@ abstract class AbstractRepresentation implements RepresentationInterface
         }
         return $this->viewHelperManager->get($name);
     }
+
+    /**
+     * Get one Media representation that typifies this representation.
+     *
+     * @return null|MediaRepresentation
+     */
+    public function primaryMedia()
+    {
+        return null;
+    }
 }

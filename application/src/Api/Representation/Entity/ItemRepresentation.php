@@ -82,4 +82,14 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         }
         return $this->itemSets;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function primaryMedia()
+    {
+        // Return the first media if one exists.
+        $media = $this->media();
+        return $media ? $media[0] : null;
+    }
 }

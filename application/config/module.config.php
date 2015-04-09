@@ -114,8 +114,10 @@ return array(
         ),
     ),
     'service_manager' => array(
+        'abstract_factories' => array(
+            'Zend\Navigation\Service\NavigationAbstractServiceFactory',
+        ),
         'factories' => array(
-            'Navigation'                  => 'Zend\Navigation\Service\DefaultNavigationFactory',
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',

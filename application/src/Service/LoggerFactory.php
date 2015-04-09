@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Zend\Log\Logger;
-use Zend\Log\Writer\Null as NullWriter;
+use Zend\Log\Writer\Noop;
 use Zend\Log\Writer\Stream;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -29,7 +29,7 @@ class LoggerFactory implements FactoryInterface
         ) {
             $writer = new Stream($config['loggers']['application']['path']);
         } else {
-            $writer = new NullWriter;
+            $writer = new Noop;
         }
         $logger = new Logger;
         $logger->addWriter($writer);

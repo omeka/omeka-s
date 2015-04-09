@@ -121,7 +121,8 @@ class ItemController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if($form->isValid()) {
-                $response = $this->api()->create('items', $data);
+                $fileData = $this->getRequest()->getFiles()->toArray();
+                $response = $this->api()->create('items', $data, $fileData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {

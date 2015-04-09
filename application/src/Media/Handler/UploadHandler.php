@@ -6,6 +6,7 @@ use Omeka\Media\Handler\AbstractFileHandler;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
+use Zend\Form\Element\File;
 use Zend\InputFilter\FileInput;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
@@ -26,7 +27,18 @@ class UploadHandler extends AbstractFileHandler
         $data = $request->getContent();
         $fileData = $request->getFileData();
         if (!isset($fileData['file'])) {
-            $errorStore->addError('error', 'No URL ingest data specified');
+            $errorStore->addError('error', 'No files were uploaded');
+            return;
+        }
+
+        if (!isset($data['file_index'])) {
+            $errorStore->addError('error', 'No file index was specified');
+            return;
+        }
+
+        $index = $data['file_index'];
+        if (!isset($fileData['file'][$index])) {
+            $errorStore->addError('error', 'No file uploaded for the specified index');
             return;
         }
 
@@ -39,7 +51,7 @@ class UploadHandler extends AbstractFileHandler
             'overwrite' => true
         )));
 
-        $fileData = $request->getFileData()['file'];
+        $fileData = $fileData['file'][$index];
         $fileInput->setValue($fileData);
         if (!$fileInput->isValid()) {
             foreach($fileInput->getMessages() as $message) {
@@ -50,8 +62,7 @@ class UploadHandler extends AbstractFileHandler
 
         // Actually process and move the upload
         $fileInput->getValue();
-
-        $file->setSourceName($uri->getPath());
+        $file->setSourceName($fileData['name']);
         $hasThumbnails = $fileManager->storeThumbnails($file);
         $fileManager->storeOriginal($file);
 
@@ -69,5 +80,15 @@ class UploadHandler extends AbstractFileHandler
      * {@inheritDoc}
      */
     public function form(PhpRenderer $view, array $options = array())
-    {}
+    {
+        $fileInput = new File('file[__index__]');
+        $fileInput->setOptions(array(
+            'label' => $view->translate('Upload File'),
+        ));
+        $fileInput->setAttributes(array(
+            'id' => 'media-file-input-__index__',
+        ));
+        $field = $view->formField($fileInput);
+        return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
+    }
 }

@@ -4,11 +4,13 @@ namespace Omeka\Form;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\Element\ResourceSelect;
 
-class ItemForm extends ResourceForm {
+class ItemForm extends ResourceForm
+{
     public function buildForm()
     {
         parent::buildForm();
 
+        $this->setAttribute('enctype', 'multipart/form-data');
         $translator = $this->getTranslator();
 
         $serviceLocator = $this->getServiceLocator();

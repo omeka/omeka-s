@@ -1,0 +1,42 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<legend><?php echo $this->translate('Media'); ?></legend>
+<div id="add-media-field" class="field">
+    <div class="field-meta">
+        <label for="new-media-type">
+            <?php echo $this->translate('Add New Media'); ?> 
+        </label>
+    </div>
+    <div class="inputs">
+        <select id="new-media-type">
+            <option value=""></option>
+            <?php foreach ($mediaForms as $type => $form): ?>
+            <option value="<?php echo $escapeAttr($type); ?>"><?php echo $escape($type); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<?php foreach ($mediaForms as $type => $form): ?>
+<span
+    id="media-template-<?php echo $escapeAttr($type); ?>"
+    data-template="<?php echo $escapeAttr($form); ?>"
+></span>
+<?php endforeach; ?>
+
+<script type="text/javascript">
+var index = 0;
+$('#new-media-type').change(function () {
+    var type = $(this).val();
+    if (!type) {
+        return;
+    }
+
+    var template = $('#media-template-' + type).data('template');
+    $('#add-media-field').before(
+        $.parseHTML(template.replace(/__index__/g, index++))
+    );
+    $(this).val('');
+});
+</script>

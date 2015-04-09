@@ -7,6 +7,7 @@ $this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
 echo $this->partial('omeka/admin/item/form.phtml', array(
     'form' => $form,
     'item' => null,
+    'mediaForms' => $mediaForms,
     'submit_label' => $this->translate('Add item')
 ));
 ?>

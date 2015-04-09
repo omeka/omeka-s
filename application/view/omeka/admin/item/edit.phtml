@@ -12,6 +12,7 @@ var valuesJson = <?php echo $values; ?>;
 echo $this->partial('omeka/admin/item/form.phtml', array(
     'form' => $form,
     'item' => $item,
+    'mediaForms' => $mediaForms,
     'submit_label' => $this->translate('Edit item')
 ));
 ?>

@@ -5,6 +5,7 @@ use Omeka\Api\Request;
 use Omeka\Media\Handler\AbstractFileHandler;
 use Omeka\Model\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Form\Element\Text;
 use Zend\Http\Exception\ExceptionInterface as HttpExceptionInterface;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
@@ -71,5 +72,16 @@ class UrlHandler extends AbstractFileHandler
      * {@inheritDoc}
      */
     public function form(PhpRenderer $view, array $options = array())
-    {}
+    {
+        $urlInput = new Text('o:media[__index__][ingest_url]');
+        $urlInput->setOptions(array(
+            'label' => $view->translate('URL'),
+            'info' => $view->translate('A URL to the media.'),
+        ));
+        $urlInput->setAttributes(array(
+            'id' => 'media-url-ingest-url-__index__',
+            'required' => true
+        ));
+        return $view->formField($urlInput);
+    }
 }

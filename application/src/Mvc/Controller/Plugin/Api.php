@@ -99,11 +99,12 @@ class Api extends AbstractPlugin
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $fileData
      * @return Response
      */
-    public function update($resource, $id, $data = array())
+    public function update($resource, $id, $data = array(), $fileData = array())
     {
-        $response = $this->getApiManager()->update($resource, $id, $data);
+        $response = $this->getApiManager()->update($resource, $id, $data, $fileData);
         $this->detectError($response);
         return $response;
     }

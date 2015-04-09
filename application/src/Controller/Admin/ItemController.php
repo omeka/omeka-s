@@ -121,7 +121,8 @@ class ItemController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if($form->isValid()) {
-                $response = $this->api()->create('items', $data);
+                $fileData = $this->getRequest()->getFiles()->toArray();
+                $response = $this->api()->create('items', $data, $fileData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -135,6 +136,7 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        $view->setVariable('mediaForms', $this->getMediaForms());
         return $view;
     }
 
@@ -170,12 +172,14 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
+        $view->setVariable('mediaForms', $this->getMediaForms());
         $view->setVariable('values', json_encode($values));
             if ($this->getRequest()->isPost()) {
                 $data = $this->params()->fromPost();
                 $form->setData($data);
                 if($form->isValid()) {
-                    $response = $this->api()->update('items', $id, $data);
+                    $fileData = $this->getRequest()->getFiles()->toArray();
+                    $response = $this->api()->update('items', $id, $data, $fileData);
                     if ($response->isError()) {
                         $form->setMessages($response->getErrors());
                     } else {
@@ -187,5 +191,20 @@ class ItemController extends AbstractActionController
                 }
         }
         return $view;
+    }
+
+    protected function getMediaForms()
+    {
+        $services = $this->getServiceLocator();
+        $mediaHelper = $services->get('ViewHelperManager')->get('media');
+        $mediaManager = $services->get('Omeka\MediaHandlerManager');
+        $types = $mediaManager->getCanonicalNames();
+
+        $forms = array();
+        foreach ($types as $type) {
+            $forms[$type] = $mediaHelper->form($type);
+        }
+
+        return $forms;
     }
 }

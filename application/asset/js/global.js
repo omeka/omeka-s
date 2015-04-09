@@ -147,7 +147,7 @@ var Omeka = {
         });
 
         // Switch between section tabs.
-        $('.section-nav a[href^="#"').click(function (e) {
+        $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
             var tab = $(this).parent();
             if (!tab.hasClass('active')) {

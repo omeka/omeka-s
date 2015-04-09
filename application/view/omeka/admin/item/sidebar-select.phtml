@@ -18,7 +18,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <!-- here to let me work on the javascript and ajax for showing resource details -->
     <?php foreach ($items as $item):?>
     <div class="resource item">
-        <div class="placeholder"></div>
+        <?php if ($media = $item->primaryMedia()): ?>
+        <div class="placeholder">
+            <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>" style="width:2.25em;height:2.25em;">
+        </div>
+        <?php endif; ?>
         <span class="resource-name">
             <a href="#"
             class="sidebar-content"

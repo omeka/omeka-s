@@ -81,7 +81,8 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $itemSetsToRetain = array();
 
             foreach ($data['o:item_set'] as $itemSetData) {
-                if (array_key_exists('o:id', $itemSetData)
+                if (is_array($itemSetData)
+                    && array_key_exists('o:id', $itemSetData)
                     && is_numeric($itemSetData['o:id'])
                 ) {
                     $itemSetId = $itemSetData['o:id'];

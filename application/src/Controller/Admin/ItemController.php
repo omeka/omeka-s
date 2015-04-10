@@ -178,6 +178,10 @@ class ItemController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if($form->isValid()) {
+                // Allow deletion of all sets
+                if (!isset($data['o:item_set'])) {
+                    $data['o:item_set'] = array();
+                }
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api()->update('items', $id, $data, $fileData);
                 if ($response->isError()) {

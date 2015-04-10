@@ -1,4 +1,4 @@
-<div class='resource-details' data-resource-values='<?php echo $values; ?>'>
+<div class='resource-details' data-resource-values='<?php echo $this->escapeHtmlAttr($values); ?>'>
     <?php if ($linkTitle): ?>
     <h2 class="o-title"><?php echo $item->link(strip_tags($item->displayTitle('[untitled]'))); ?></h2>
     <?php else: ?>

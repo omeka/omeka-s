@@ -25,7 +25,6 @@ class Module extends AbstractModule
         'assetUrl'   => 'Omeka\View\Helper\AssetUrl',
         'i18n'       => 'Omeka\View\Helper\I18n',
         'media'      => 'Omeka\View\Helper\Media',
-        'nav'        => 'Omeka\View\Helper\Nav',
         'pagination' => 'Omeka\View\Helper\Pagination',
         'trigger'    => 'Omeka\View\Helper\Trigger',
     );

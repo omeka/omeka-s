@@ -174,21 +174,21 @@ class ItemController extends AbstractActionController
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
         $view->setVariable('values', json_encode($values));
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
-                $form->setData($data);
-                if($form->isValid()) {
-                    $fileData = $this->getRequest()->getFiles()->toArray();
-                    $response = $this->api()->update('items', $id, $data, $fileData);
-                    if ($response->isError()) {
-                        $form->setMessages($response->getErrors());
-                    } else {
-                        $this->messenger()->addSuccess('Item Updated.');
-                        return $this->redirect()->toUrl($response->getContent()->url());
-                    }
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $fileData = $this->getRequest()->getFiles()->toArray();
+                $response = $this->api()->update('items', $id, $data, $fileData);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addError('There was an error during validation');
+                    $this->messenger()->addSuccess('Item Updated.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
         }
         return $view;
     }

@@ -66,7 +66,7 @@ class PhpCliStrategy implements StrategyInterface
      */
     public function autodetectPhpcliPath()
     {
-        $command = 'which php';
+        $command = 'command -v php';
         exec($command, $output, $returnVar);
         return 0 === $returnVar ? $output[0] : null;
     }

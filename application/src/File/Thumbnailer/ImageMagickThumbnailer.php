@@ -81,37 +81,17 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
      */
     public function setConvertPath($convertDir)
     {
+        $cli = $this->getServiceLocator()->get('Omeka\Cli');
         if ($convertDir) {
-            // Validate the configured directory.
-            $convertDir = realpath($convertDir);
-            if (!$convertDir || !is_dir($convertDir)) {
-                throw new Exception\InvalidThumbnailerException(
-                    'ImageMagick error: invalid ImageMagick command directory.'
-                );
-            }
-            $convertPath = sprintf('%s/%s', $convertDir, self::CONVERT_COMMAND);
-            if (!is_executable($convertPath)) {
-                throw new Exception\InvalidThumbnailerException(
-                    'ImageMagick error: the ImageMagick command is not executable.'
-                );
-            }
-            $command = sprintf('%s -version', $convertPath);
-            exec($command, $output, $exitCode);
-            if (0 !== $exitCode) {
-                throw new Exception\InvalidThumbnailerException(
-                    'ImageMagick error: invalid ImageMagick command.'
-                );
+            $convertPath = $cli->validateCommand($convertDir, self::CONVERT_COMMAND);
+            if (false === $convertPath) {
+                throw new Exception\InvalidThumbnailerException('ImageMagick error: invalid ImageMagick command.');
             }
         } else {
-            // Auto-detect the command using "command".
-            $command = sprintf('command -v %s', escapeshellarg(self::CONVERT_COMMAND));
-            exec($command, $output, $exitCode);
-            if (0 !== $exitCode) {
-                throw new Exception\InvalidThumbnailerException(
-                    'ImageMagick error: cannot determine path to ImageMagick command.'
-                );
+            $convertPath = $cli->getCommandPath(self::CONVERT_COMMAND);
+            if (false === $convertPath) {
+                throw new Exception\InvalidThumbnailerException('ImageMagick error: cannot determine path to ImageMagick command.');
             }
-            $convertPath = $output[0];
         }
         $this->convertPath = $convertPath;
     }

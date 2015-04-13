@@ -70,13 +70,13 @@ return array(
             'path' => OMEKA_PATH . '/data/logs/sql.log',
         ),
     ),
-    'jobs' => array(
-        'strategy'    => 'Omeka\JobDispatchStrategy',
-        'phpcli_path' => null,
-    ),
     'http_client' => array(
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
+    ),
+    'cli' => array(
+        'execute_strategy' => 'exec',
+        'phpcli_path' => null,
     ),
     'file_manager' => array(
         'store' => 'Omeka\File\LocalStore',
@@ -145,6 +145,7 @@ return array(
             'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
+            'Omeka\Cli'                 => 'Omeka\Service\Cli',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',

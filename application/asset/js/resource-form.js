@@ -297,22 +297,18 @@
             makeNewValue(field.data('property-term'));
         }
 
-        if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
-            var propertyLi = $('.property-selector').find("li[data-property-id='" + id + "']");
-        }
-
         if (template['o:alternate_label'] == "") {
-            var label = propertyLi.find('span.property-label');
-            field.find('span.field-label-text').text(label.text());
+            var label = field.find('.field-label');
+            field.find('.field-label').text(label.text());
         } else {
-            field.find('span.field-label-text').text(template['o:alternate_label']);
+            field.find('.field-label').text(template['o:alternate_label']);
         }
 
         if (template['o:alternate_comment'] == "") {
-            var description = propertyLi.find('.description p').last();
-            field.find('.field-comment').text(description.text());
+            var description = field.find('.field-description');
+            field.find('.field-description').text(description.text());
         } else {
-            field.find('.field-comment').text(template['o:alternate_comment']);
+            field.find('.field-description').text(template['o:alternate_comment']);
         }
         propertiesContainer.prepend(field);
     };

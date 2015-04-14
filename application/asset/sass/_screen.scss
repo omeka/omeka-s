@@ -953,6 +953,7 @@ body.sidebar-open #content {
             display: inline-block;
             max-width: 80%;
             padding: rhythm(.25) 0;
+            font-weight: bold;
         }
 
         .error {
@@ -1130,6 +1131,7 @@ body.sidebar-open #content {
 
     .field .field-description {
         @include adjust-font-size-to(14px);
+        line-height: .75 * $base-line-height;
         position: static;
         text-align: left;
         height: auto;

@@ -1350,6 +1350,7 @@ th {
     display: inline-block;
     max-width: 80%;
     padding: 0.375em 0;
+    font-weight: bold;
   }
   .field-meta .error {
     float: left;
@@ -1520,6 +1521,7 @@ th {
   .field .field-description {
     font-size: 0.875em;
     line-height: 1.71429em;
+    line-height: 18px;
     position: static;
     text-align: left;
     height: auto;

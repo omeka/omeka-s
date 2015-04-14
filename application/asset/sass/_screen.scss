@@ -563,7 +563,6 @@ div[role="main"] {
 /* @group ----- Browse views ----- */
 
 .browse .resource-name {
-    display: block;
     float: left;
     max-width: calc(100% - 5.5em);
     overflow: hidden;
@@ -574,6 +573,11 @@ div[role="main"] {
 .browse .batch-edit.button {
     float: left;
     margin-right: .25em;
+}
+
+.browse td:first-child,
+.browse th:first-child {
+    width: 50%;
 }
 
 .actions {
@@ -625,18 +629,6 @@ div[role="main"] {
         top: 0;
         left: 0;
     }
-}
-
-.resource-name {
-    max-width: 80%;
-}
-
-.resource-name a {
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 th a.sortable,
@@ -953,6 +945,7 @@ body.sidebar-open #content {
             display: inline-block;
             max-width: 80%;
             padding: rhythm(.25) 0;
+            font-weight: bold;
         }
 
         .error {
@@ -1130,6 +1123,7 @@ body.sidebar-open #content {
 
     .field .field-description {
         @include adjust-font-size-to(14px);
+        line-height: .75 * $base-line-height;
         position: static;
         text-align: left;
         height: auto;
@@ -1360,10 +1354,17 @@ body.sidebar-open #content {
 
     .resource.value .default,
     .resource.value .o-title:not(:empty) {
-        background-color: #fff;
         padding: rhythm(.25);
+        @include bleed-x(rhythm(.25));
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
+    }
+
+    .input-body {
         clear: both;
+        background-color: #fff;
+        padding: 0 rhythm(.25);
     }
 
     .value.delete span.restore-value {
@@ -1514,7 +1515,7 @@ body.sidebar-open #content {
         margin: rhythm(.25) 0 0 rhythm(.5);
     }
     
-    .item {
+    .resource {
         padding: rhythm(.25) 0;
         border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);

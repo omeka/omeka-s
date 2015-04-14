@@ -962,7 +962,6 @@ th {
   /* @end */
   /* @group ----- Browse views ----- */
   .browse .resource-name {
-    display: block;
     float: left;
     max-width: calc(100% - 5.5em);
     overflow: hidden;
@@ -973,6 +972,11 @@ th {
   .browse .batch-edit.button {
     float: left;
     margin-right: .25em;
+  }
+
+  .browse td:first-child,
+  .browse th:first-child {
+    width: 50%;
   }
 
   .actions {
@@ -1023,18 +1027,6 @@ th {
     position: absolute;
     top: 0;
     left: 0;
-  }
-
-  .resource-name {
-    max-width: 80%;
-  }
-
-  .resource-name a {
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   th a.sortable,
@@ -1350,6 +1342,7 @@ th {
     display: inline-block;
     max-width: 80%;
     padding: 0.375em 0;
+    font-weight: bold;
   }
   .field-meta .error {
     float: left;
@@ -1520,6 +1513,7 @@ th {
   .field .field-description {
     font-size: 0.875em;
     line-height: 1.71429em;
+    line-height: 18px;
     position: static;
     text-align: left;
     height: auto;
@@ -1745,10 +1739,25 @@ th {
 
   .resource.value .default,
   .resource.value .o-title:not(:empty) {
-    background-color: #fff;
     padding: 0.375em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.375em;
+    margin-left: -0.375em;
+    padding-right: 0.375em;
+    padding-left: 0.375em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
     display: block;
+  }
+
+  .input-body {
     clear: both;
+    background-color: #fff;
+    padding: 0 0.375em;
   }
 
   .value.delete span.restore-value {
@@ -1878,7 +1887,7 @@ th {
     vertical-align: top;
     margin: 0.375em 0 0 0.75em;
   }
-  .resource-list .item {
+  .resource-list .resource {
     padding: 0.375em 0;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
@@ -1888,10 +1897,10 @@ th {
     width: 100%;
     overflow: hidden;
   }
-  .resource-list .item:hover {
+  .resource-list .resource:hover {
     background-color: rgba(255, 255, 255, 0.8);
   }
-  .resource-list .item:hover .select {
+  .resource-list .resource:hover .select {
     right: 0px;
   }
 

@@ -14,6 +14,7 @@ class Request extends ZendRequest
     const BATCH_CREATE = 'batch_create';
     const READ         = 'read';
     const UPDATE       = 'update';
+    const PARTIAL_UPDATE = 'partial_update';
     const DELETE       = 'delete';
 
     /**
@@ -25,6 +26,7 @@ class Request extends ZendRequest
         self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
+        self::PARTIAL_UPDATE,
         self::DELETE,
     );
 

@@ -563,7 +563,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param string $key
      * @return bool
      */
-    public function hydrateThis(Request $request, $key)
+    public function shouldHydrate(Request $request, $key)
     {
         if (Request::PARTIAL_UPDATE == $request->getOperation()) {
             // Conditionally hydrate on partial_update operation.
@@ -586,7 +586,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $owner = $entity->getOwner();
-        if ($this->hydrateThis($request, 'o:owner')) {
+        if ($this->shouldHydrate($request, 'o:owner')) {
             if (!isset($data['o:owner']['o:id'])) {
                 $owner = null;
             } elseif (!$owner instanceof User || $owner->getId() != $data['o:owner']['o:id']) {

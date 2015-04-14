@@ -68,7 +68,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
 
-        if ($this->hydrateThis($request, 'o:namespace_uri')) {
+        if ($this->shouldHydrate($request, 'o:namespace_uri')) {
             if (isset($data['o:namespace_uri'])) {
                 $namespaceUri = $data['o:namespace_uri'];
             } else {
@@ -77,7 +77,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setNamespaceUri($namespaceUri);
         }
 
-        if ($this->hydrateThis($request, 'o:prefix')) {
+        if ($this->shouldHydrate($request, 'o:prefix')) {
             if (isset($data['o:prefix'])) {
                 $prefix = $data['o:prefix'];
             } else {
@@ -86,7 +86,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setPrefix($prefix);
         }
 
-        if ($this->hydrateThis($request, 'o:label')) {
+        if ($this->shouldHydrate($request, 'o:label')) {
             if (isset($data['o:label'])) {
                 $label = $data['o:label'];
             } else {
@@ -95,7 +95,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setLabel($label);
         }
 
-        if ($this->hydrateThis($request, 'o:comment')) {
+        if ($this->shouldHydrate($request, 'o:comment')) {
             if (isset($data['o:comment'])) {
                 $comment = $data['o:comment'];
             } else {
@@ -104,7 +104,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setComment($comment);
         }
 
-        if ($this->hydrateThis($request, 'o:class') && is_array($data['o:class'])) {
+        if ($this->shouldHydrate($request, 'o:class') && is_array($data['o:class'])) {
             $adapter = $this->getAdapter('resource_classes');
             $class = $adapter->getEntityClass();
             $retainResourceClasses = array();
@@ -134,7 +134,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
         }
 
-        if ($this->hydrateThis($request, 'o:property') && is_array($data['o:property'])) {
+        if ($this->shouldHydrate($request, 'o:property') && is_array($data['o:property'])) {
             $adapter = $this->getAdapter('properties');
             $class = $adapter->getEntityClass();
             $retainProperties = array();

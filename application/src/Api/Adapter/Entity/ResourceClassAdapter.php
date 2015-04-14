@@ -67,7 +67,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
 
-        if ($this->hydrateThis($request, 'o:local_name')) {
+        if ($this->shouldHydrate($request, 'o:local_name')) {
             if (isset($data['o:local_name'])) {
                 $localName = $data['o:local_name'];
             } else {
@@ -76,7 +76,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             $entity->setLocalName($localName);
         }
 
-        if ($this->hydrateThis($request, 'o:label')) {
+        if ($this->shouldHydrate($request, 'o:label')) {
             if (isset($data['o:label'])) {
                 $label = $data['o:label'];
             } else {
@@ -85,7 +85,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             $entity->setLabel($label);
         }
 
-        if ($this->hydrateThis($request, 'o:comment')) {
+        if ($this->shouldHydrate($request, 'o:comment')) {
             if (isset($data['o:comment'])) {
                 $comment = $data['o:comment'];
             } else {

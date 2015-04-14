@@ -563,7 +563,6 @@ div[role="main"] {
 /* @group ----- Browse views ----- */
 
 .browse .resource-name {
-    display: block;
     float: left;
     max-width: calc(100% - 5.5em);
     overflow: hidden;
@@ -574,6 +573,11 @@ div[role="main"] {
 .browse .batch-edit.button {
     float: left;
     margin-right: .25em;
+}
+
+.browse td:first-child,
+.browse th:first-child {
+    width: 50%;
 }
 
 .actions {
@@ -625,18 +629,6 @@ div[role="main"] {
         top: 0;
         left: 0;
     }
-}
-
-.resource-name {
-    max-width: 80%;
-}
-
-.resource-name a {
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 th a.sortable,

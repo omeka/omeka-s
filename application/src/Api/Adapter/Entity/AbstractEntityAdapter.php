@@ -557,6 +557,23 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Check whether to hydrate on a key.
+     *
+     * @param Request $request
+     * @param string $key
+     * @return bool
+     */
+    public function hydrateThis(Request $request, $key)
+    {
+        if (Request::PARTIAL_UPDATE == $request->getOperation()) {
+            // Conditionally hydrate on partial_update operation.
+            return array_key_exists($key, $request->getContent());
+        }
+        // Always hydrate on create and update operations.
+        return true;
+    }
+
+    /**
      * Hydrate the entity's owner.
      *
      * Assumes the owner can be set to NULL. By default, new entities are owned

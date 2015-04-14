@@ -586,25 +586,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $owner = $entity->getOwner();
-        if (array_key_exists('o:owner', $data)) {
-            if (!$data['o:owner']
-                || (array_key_exists('o:id', $data['o:owner'])
-                    && !$data['o:owner']['o:id'])
-            ) {
+        if ($this->hydrateThis($request, 'o:owner')) {
+            if (!isset($data['o:owner']['o:id'])) {
                 $owner = null;
-            } elseif (array_key_exists('o:id', $data['o:owner'])
-                && is_numeric($data['o:owner']['o:id'])
-                && (!$owner instanceof User
-                    || $owner->getId() != $data['o:owner']['o:id'])
-            ) {
-                $owner = $this->getAdapter('users')
-                    ->findEntity($data['o:owner']['o:id']);
+            } elseif (!$owner instanceof User || $owner->getId() != $data['o:owner']['o:id']) {
+                $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
             }
         }
-        if ($request->getOperation() === Request::CREATE && !$owner instanceof User) {
-            $owner = $this->getServiceLocator()
-                ->get('Omeka\AuthenticationService')
-                ->getIdentity();
+        if (!$owner instanceof User && Request::CREATE == $request->getOperation()) {
+            $owner = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
         }
         $entity->setOwner($owner);
     }

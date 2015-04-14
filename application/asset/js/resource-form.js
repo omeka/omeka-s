@@ -321,7 +321,7 @@
             originalDescription.addClass('original');
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);
-            altDescription.insertAfter(originalLabel);
+            altDescription.insertAfter(originalDescription);
             originalDescription.hide();            
         }
         propertiesContainer.prepend(field);

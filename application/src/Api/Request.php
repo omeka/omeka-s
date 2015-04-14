@@ -122,6 +122,20 @@ class Request extends ZendRequest
     }
 
     /**
+     * Get a value from the content by key.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getValue($key, $default = null)
+    {
+        $data = $this->getContent();
+        return (is_array($data) && array_key_exists($key, $data))
+            ? $data[$key] : $default;
+    }
+
+    /**
      * Set the file data for the request.
      */
     public function setFileData($fileData)

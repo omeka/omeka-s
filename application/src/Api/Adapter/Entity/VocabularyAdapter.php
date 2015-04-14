@@ -69,39 +69,16 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
-            if (isset($data['o:namespace_uri'])) {
-                $namespaceUri = $data['o:namespace_uri'];
-            } else {
-                $namespaceUri = null;
-            }
-            $entity->setNamespaceUri($namespaceUri);
+            $entity->setNamespaceUri($request->getValue('o:namespace_uri'));
         }
-
         if ($this->shouldHydrate($request, 'o:prefix')) {
-            if (isset($data['o:prefix'])) {
-                $prefix = $data['o:prefix'];
-            } else {
-                $prefix = null;
-            }
-            $entity->setPrefix($prefix);
+            $entity->setPrefix($request->getValue('o:prefix'));
         }
-
         if ($this->shouldHydrate($request, 'o:label')) {
-            if (isset($data['o:label'])) {
-                $label = $data['o:label'];
-            } else {
-                $label = null;
-            }
-            $entity->setLabel($label);
+            $entity->setLabel($request->getValue('o:label'));
         }
-
         if ($this->shouldHydrate($request, 'o:comment')) {
-            if (isset($data['o:comment'])) {
-                $comment = $data['o:comment'];
-            } else {
-                $comment = null;
-            }
-            $entity->setComment($comment);
+            $entity->setComment($request->getValue('o:comment'));
         }
 
         if ($this->shouldHydrate($request, 'o:class') && is_array($data['o:class'])) {

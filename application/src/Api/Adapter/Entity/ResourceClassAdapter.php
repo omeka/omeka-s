@@ -68,30 +68,13 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:local_name')) {
-            if (isset($data['o:local_name'])) {
-                $localName = $data['o:local_name'];
-            } else {
-                $localName = null;
-            }
-            $entity->setLocalName($localName);
+            $entity->setLocalName($request->getValue('o:local_name'));
         }
-
         if ($this->shouldHydrate($request, 'o:label')) {
-            if (isset($data['o:label'])) {
-                $label = $data['o:label'];
-            } else {
-                $label = null;
-            }
-            $entity->setLabel($label);
+            $entity->setLabel($request->getValue('o:label'));
         }
-
         if ($this->shouldHydrate($request, 'o:comment')) {
-            if (isset($data['o:comment'])) {
-                $comment = $data['o:comment'];
-            } else {
-                $comment = null;
-            }
-            $entity->setComment($comment);
+            $entity->setComment($request->getValue('o:comment'));
         }
     }
 

@@ -1887,7 +1887,7 @@ th {
     vertical-align: top;
     margin: 0.375em 0 0 0.75em;
   }
-  .resource-list .item {
+  .resource-list .resource {
     padding: 0.375em 0;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
@@ -1897,10 +1897,10 @@ th {
     width: 100%;
     overflow: hidden;
   }
-  .resource-list .item:hover {
+  .resource-list .resource:hover {
     background-color: rgba(255, 255, 255, 0.8);
   }
-  .resource-list .item:hover .select {
+  .resource-list .resource:hover .select {
     right: 0px;
   }
 

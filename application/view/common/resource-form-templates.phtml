@@ -87,21 +87,29 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     
     <div class="input-body">
         <label aria-label="Omeka resource" class="o-icon-resource"></label>
-        <span class="default">No item selected</span>
+        <span class="default">No resource selected</span>
     
         <p class="selected-resource">
             <span class="o-title"></span>
             <input type="hidden" class="value" />
         </p>
     
-        <a href="#resource-select" 
+        <a href="#item-resource-select" 
            class="button resource-select"
            data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
                                                                        array( 'controller' => 'Item',
                                                                               'action'     => 'sidebar-select'
                                                                              ), 
                                                                        true)); ?>"
-           >Select Omeka Resource</a>
+           >Items</a>
+        <a href="#itemset-resource-select" 
+           class="button resource-select"
+           data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, 
+                                                                       array( 'controller' => 'ItemSet',
+                                                                              'action'     => 'sidebar-select'
+                                                                             ), 
+                                                                       true)); ?>"
+           >Item Sets</a>
     </div>
 </div>
 

@@ -1515,7 +1515,7 @@ body.sidebar-open #content {
         margin: rhythm(.25) 0 0 rhythm(.5);
     }
     
-    .item {
+    .resource {
         padding: rhythm(.25) 0;
         border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);

@@ -65,27 +65,33 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
-
         $this->hydrateOwner($request, $entity);
 
-        if (isset($data['o:vocabulary']['o:id'])
-            && is_numeric($data['o:vocabulary']['o:id'])
-        ) {
-            $vocabulary = $this->getAdapter('vocabularies')
-                ->findEntity($data['o:vocabulary']['o:id']);
-            $entity->setVocabulary($vocabulary);
+        if ($this->hydrateThis($request, 'o:local_name')) {
+            if (isset($data['o:local_name'])) {
+                $localName = $data['o:local_name'];
+            } else {
+                $localName = null;
+            }
+            $entity->setLocalName($localName);
         }
 
-        if (isset($data['o:local_name'])) {
-            $entity->setLocalName($data['o:local_name']);
+        if ($this->hydrateThis($request, 'o:label')) {
+            if (isset($data['o:label'])) {
+                $label = $data['o:label'];
+            } else {
+                $label = null;
+            }
+            $entity->setLabel($label);
         }
 
-        if (isset($data['o:label'])) {
-            $entity->setLabel($data['o:label']);
-        }
-
-        if (isset($data['o:comment'])) {
-            $entity->setComment($data['o:comment']);
+        if ($this->hydrateThis($request, 'o:comment')) {
+            if (isset($data['o:comment'])) {
+                $comment = $data['o:comment'];
+            } else {
+                $comment = null;
+            }
+            $entity->setComment($comment);
         }
     }
 

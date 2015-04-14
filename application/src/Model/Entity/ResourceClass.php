@@ -80,7 +80,7 @@ class ResourceClass extends AbstractEntity
 
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
-        $this->synchronizeOneToMany($vocabulary, 'vocabulary', 'getResourceClasses');
+        $this->vocabulary = $vocabulary;
     }
 
     public function getVocabulary()

@@ -133,50 +133,8 @@ class Vocabulary extends AbstractEntity
         return $this->resourceClasses;
     }
 
-    /**
-     * Add a resource class to this vocabulary.
-     *
-     * @param ResourceClass $resourceClass
-     */
-    public function addResourceClass(ResourceClass $resourceClass)
-    {
-        $resourceClass->setVocabulary($this);
-    }
-
-    /**
-     * Remove a resource class from this vocabulary.
-     *
-     * @param ResourceClass $resourceClass
-     * @return bool
-     */
-    public function removeResourceClass(ResourceClass $resourceClass)
-    {
-        $resourceClass->setVocabulary(null);
-    }
-
     public function getProperties()
     {
         return $this->properties;
     }
-
-    /**
-     * Add a property to this vocabulary.
-     *
-     * @param Property $property
-     */
-    public function addProperty(Property $property)
-    {
-        $property->setVocabulary($this);
-    }
-
-    /**
-     * Remove a property from this vocabulary.
-     *
-     * @param Property $property
-     */
-    public function removeProperty(Property $property)
-    {
-        $property->setVocabulary(null);
-    }
-
 }

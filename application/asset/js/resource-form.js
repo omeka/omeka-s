@@ -23,8 +23,10 @@
         $('#resource-template-select').on('change', function(e) {
             var templateId = $(this).find(':selected').val();
             if (templateId == "") {
-                $('#properties').empty();
-                initPage();
+                $('.field-label.alternate').remove();
+                $('.field-description.alternate').remove();
+                $('.field-label').show();
+                $('.field-description').show();
             } else {
                 var url = $(this).data('api-base-url') + templateId;
                 $.ajax({
@@ -297,18 +299,30 @@
             makeNewValue(field.data('property-term'));
         }
 
+        var originalLabel = field.find('.field-label');
         if (template['o:alternate_label'] == "") {
-            var label = field.find('.field-label');
-            field.find('.field-label').text(label.text());
+            originalLabel.show();
+            field.find('field-label.alternate').remove();
         } else {
-            field.find('.field-label').text(template['o:alternate_label']);
+            var altLabel = originalLabel.clone();
+            originalLabel.addClass('original');
+            altLabel.addClass('alternate');
+            altLabel.text(template['o:alternate_label']);
+            altLabel.insertAfter(originalLabel);
+            originalLabel.hide();
         }
 
+        var originalDescription = field.find('.field-description');
         if (template['o:alternate_comment'] == "") {
-            var description = field.find('.field-description');
-            field.find('.field-description').text(description.text());
+            originalDescription.show();
+            field.find('.field-description.alternate').remove();
         } else {
-            field.find('.field-description').text(template['o:alternate_comment']);
+            var altDescription = originalDescription.clone();
+            originalDescription.addClass('original');
+            altDescription.addClass('alternate');
+            altDescription.text(template['o:alternate_comment']);
+            altDescription.insertAfter(originalLabel);
+            originalDescription.hide();            
         }
         propertiesContainer.prepend(field);
     };

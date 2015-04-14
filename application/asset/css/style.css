@@ -1747,10 +1747,25 @@ th {
 
   .resource.value .default,
   .resource.value .o-title:not(:empty) {
-    background-color: #fff;
     padding: 0.375em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.375em;
+    margin-left: -0.375em;
+    padding-right: 0.375em;
+    padding-left: 0.375em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
     display: block;
+  }
+
+  .input-body {
     clear: both;
+    background-color: #fff;
+    padding: 0 0.375em;
   }
 
   .value.delete span.restore-value {

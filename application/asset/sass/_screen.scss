@@ -1362,10 +1362,17 @@ body.sidebar-open #content {
 
     .resource.value .default,
     .resource.value .o-title:not(:empty) {
-        background-color: #fff;
         padding: rhythm(.25);
+        @include bleed-x(rhythm(.25));
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
+    }
+
+    .input-body {
         clear: both;
+        background-color: #fff;
+        padding: 0 rhythm(.25);
     }
 
     .value.delete span.restore-value {

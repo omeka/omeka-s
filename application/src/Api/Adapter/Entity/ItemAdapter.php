@@ -122,6 +122,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $subrequest->setContent($mediaData);
                 $subrequest->setFileData($request->getFileData());
                 $mediaAdapter->hydrateEntity($subrequest, $media, $errorStore);
+                $entity->getMedia()->add($media);
             }
         }
     }

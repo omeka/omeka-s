@@ -57,26 +57,6 @@ class Item extends Resource
         return $this->media;
     }
 
-    /**
-     * Add media to this item.
-     *
-     * @param Media $media
-     */
-    public function addMedia(Media $media)
-    {
-        $media->setItem($this);
-    }
-
-    /**
-     * Remove media from this item.
-     *
-     * @param Media $media
-     */
-    public function removeMedia(Media $media)
-    {
-        $media->setItem(null);
-    }
-
     public function getSiteItems()
     {
         return $this->siteItems;

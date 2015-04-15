@@ -1987,17 +1987,18 @@ th {
   }
 
   /* @group ----- Show Item ----- */
-  #item-metadata .value a:after {
+  .property .value a:after {
     font-family: "FontAwesome";
     display: inline-block;
     margin-left: .5em;
   }
 
-  #item-metadata .value.uri a:after {
+  .property .value.uri a:after {
     content: "";
   }
 
-  #item-metadata .value.items a:after {
+  .property .value.items a:after,
+  .property .value.item-sets a:after {
     content: "";
   }
 

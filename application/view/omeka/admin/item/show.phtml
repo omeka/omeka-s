@@ -13,6 +13,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <li class="active"><a href="#item-metadata"><?php echo $escape('Metadata'); ?></a></li>
         <li><a href="#item-media"><?php echo $escape('Media'); ?></a></li>
         <li><a href="#item-linked"><?php echo $escape('Linked Resources'); ?></a></li>
+        <li><a href="#item-details"><?php echo $escape('Admin Details'); ?></a></li>
     </ul>
 </nav>
 
@@ -36,4 +37,23 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php echo $item->displayLinkedResources(); ?>
 </div>
 
+<div id="item-sets" class="section">
+
+</div>
+
+<div id="item-details" class="section">
+    <?php $itemsets = $item->itemSets(); ?>
+    <?php if (count($itemsets) > 0): ?>
+    <div class="property">
+        <h4>Item Sets</h4>
+        <?php foreach ($itemsets as $itemset): ?>
+        <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+    <div class="property">
+        <h4>Created in Omeka</h4>
+        <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
+    </div>
+</div>
 <?php $this->trigger('view.show.after'); ?>

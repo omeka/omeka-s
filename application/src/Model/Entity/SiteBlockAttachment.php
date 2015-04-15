@@ -95,7 +95,7 @@ class SiteBlockAttachment extends AbstractEntity
 
     public function setBlock(SitePageBlock $block)
     {
-        $this->synchronizeOneToMany($block, 'block', 'getAttachments');
+        $this->block = $block;
     }
 
     public function getBlock()

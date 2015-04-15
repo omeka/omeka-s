@@ -625,13 +625,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $data = $request->getContent();
         $resourceClass = $entity->getResourceClass();
         if ($this->shouldHydrate($request, 'o:resource_class')) {
-            if (!isset($data['o:resource_class']['o:id'])) {
-                $resourceClass = null;
-            } elseif (!$resourceClass instanceof ResourceClass
-                || $resourceClass->getId() != $data['o:resource_class']['o:id']
+            if (isset($data['o:resource_class']['o:id'])
+                && is_numeric($data['o:resource_class']['o:id'])
             ) {
                 $resourceClass = $this->getAdapter('resource_classes')
                     ->findEntity($data['o:resource_class']['o:id']);
+            } else {
+                $resourceClass = null;
             }
         }
         $entity->setResourceClass($resourceClass);
@@ -650,13 +650,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $data = $request->getContent();
         $resourceTemplate = $entity->getResourceTemplate();
         if ($this->shouldHydrate($request, 'o:resource_template')) {
-            if (!isset($data['o:resource_template']['o:id'])) {
-                $resourceTemplate = null;
-            } elseif (!$resourceTemplate instanceof ResourceTemplate
-                || $resourceTemplate->getId() != $data['o:resource_template']['o:id']
+            if (isset($data['o:resource_template']['o:id'])
+                && is_numeric($data['o:resource_template']['o:id'])
             ) {
                 $resourceTemplate = $this->getAdapter('resource_templates')
                     ->findEntity($data['o:resource_template']['o:id']);
+            } else {
+                $resourceTemplate = null;
             }
         }
         $entity->setResourceTemplate($resourceTemplate);

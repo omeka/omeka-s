@@ -15,7 +15,7 @@
                 },200);
             } else {
                 makeNewField(propertyLi);
-                makeNewValue(qName, true);
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, true));
             }
         });
 
@@ -52,7 +52,8 @@
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
             var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
-            makeNewValue(wrapper.data('property-term'), false, false, type);
+            var qName = wrapper.data('property-term');
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, false, type));
         });
 
         // Remove value.
@@ -75,6 +76,7 @@
             $(this).hide();
         });
 
+        // Restore a removed value
         $('a.restore-value').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -124,11 +126,8 @@
         $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
             e.preventDefault();
             var propertyQname = $(this).data('property-term');
-            //@TODO: right now this is creating a new value, and deleting the value
-            //that was clicked. Seems like steps can be removed in the workflow?
-            $('.value.selecting-resource').remove();
             var valuesData = $('.resource-details').data('resource-values');
-            makeNewValue(propertyQname, false, valuesData);
+            $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, false, valuesData));
             Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
@@ -174,7 +173,6 @@
         var newValue = $('.value.template.' + valueType).clone(true);
         newValue.removeClass('template');
         newValue.data('base-name', qName + '[' + count + ']');
-        valuesWrapper.find('.values').append(newValue);
 
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
@@ -241,6 +239,9 @@
                 break;
             }
         }
+
+        return newValue;
+
         if (focus) {
             $('html, body').animate({
                 scrollTop: (valuesWrapper.offset().top -100)
@@ -294,7 +295,8 @@
         var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
         if (field.length == 0) {
             field = makeNewField(id);
-            makeNewValue(field.data('property-term'));
+            var qName = field.data('property-term');
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
         if (template['o:alternate_label'] == "" || template['o:alternate_comment'] == "") {
@@ -343,7 +345,7 @@
             for (var term in valuesJson) {
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
-                    makeNewValue(term, false, valuesJson[term][i]);
+                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, false, valuesJson[term][i]));
                 }
             }
         }

@@ -110,18 +110,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
-
-        // o:owner
         $this->hydrateOwner($request, $entity);
-
-        // o:resource_class
         $this->hydrateResourceClass($request, $entity);
 
-        if (isset($data['o:label'])) {
-            $entity->setLabel($data['o:label']);
+        if ($this->shouldHydrate($request, 'o:label')) {
+            $entity->setLabel($request->getValue('o:label'));
         }
 
-        if (isset($data['o:resource_template_property'])
+        if ($this->shouldHydrate($request, 'o:resource_template_property')
             && is_array($data['o:resource_template_property'])
         ) {
 

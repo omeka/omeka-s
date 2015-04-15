@@ -12,7 +12,8 @@ class ItemController extends AbstractActionController
 {
     public function indexAction()
     {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, array('action' => 'browse'),
+            array('query' => $this->params()->fromQuery()), true);
     }
 
     public function searchAction()

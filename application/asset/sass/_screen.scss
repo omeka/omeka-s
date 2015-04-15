@@ -1082,8 +1082,7 @@ body.sidebar-open #content {
                 @include trailer(0);
             }
             
-            &:after,
-            & > ul > li:after {
+            & > ul > .vocabulary:after {
                 content: $fa-var-caret-right;
                 font-family: "FontAwesome";
                 position: absolute;
@@ -1101,15 +1100,10 @@ body.sidebar-open #content {
                 padding: rhythm(.25) 10px;
                 margin: 0 -10px;
             }
-            
-            & > ul > li:after {
-                right: rhythm(.625);
-            }
-
         }
 
-        li:not(.property).show:after {
-            content: $fa-var-caret-down !important;
+        li.vocabulary.show:after {
+            content: $fa-var-caret-down;
         }
         
         & > li ul,

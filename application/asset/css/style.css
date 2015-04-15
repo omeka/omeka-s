@@ -1474,9 +1474,8 @@ th {
   .properties > ul > li:last-of-type li:last-of-type {
     margin-bottom: 0em;
   }
-  .property-selector > ul > li:after, .property-selector > ul > li > ul > li:after,
-  .properties > ul > li:after,
-  .properties > ul > li > ul > li:after {
+  .property-selector > ul > li > ul > .vocabulary:after,
+  .properties > ul > li > ul > .vocabulary:after {
     content: "";
     font-family: "FontAwesome";
     position: absolute;
@@ -1494,13 +1493,9 @@ th {
     padding: 0.375em 10px;
     margin: 0 -10px;
   }
-  .property-selector > ul > li > ul > li:after,
-  .properties > ul > li > ul > li:after {
-    right: 0.9375em;
-  }
-  .property-selector > ul li:not(.property).show:after,
-  .properties > ul li:not(.property).show:after {
-    content: "" !important;
+  .property-selector > ul li.vocabulary.show:after,
+  .properties > ul li.vocabulary.show:after {
+    content: "";
   }
   .property-selector > ul > li ul, .property-selector > ul > li ul ul,
   .properties > ul > li ul,

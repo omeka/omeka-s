@@ -579,6 +579,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * Assumes the owner can be set to NULL. By default, new entities are owned
      * by the current user.
      *
+     * This diverges from the conventional hydration pattern for an update
+     * operation. Normally the absence of [o:owner] would set the value to null.
+     * In this case [o:owner][o:id] must explicitly be set to null.
+     *
      * @param Request $request
      * @param EntityInterface $entity
      */
@@ -587,14 +591,23 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $data = $request->getContent();
         $owner = $entity->getOwner();
         if ($this->shouldHydrate($request, 'o:owner')) {
-            if (!isset($data['o:owner']['o:id'])) {
-                $owner = null;
-            } elseif (!$owner instanceof User || $owner->getId() != $data['o:owner']['o:id']) {
-                $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
+            if (array_key_exists('o:owner', $data)
+                && is_array($data['o:owner'])
+                && array_key_exists('o:id', $data['o:owner'])
+            ) {
+                if (is_numeric($data['o:owner']['o:id'])) {
+                    $owner = $this->getAdapter('users')
+                        ->findEntity($data['o:owner']['o:id']);
+                } elseif (null === $data['o:owner']['o:id']) {
+                    $owner = null;
+                }
             }
         }
-        if (!$owner instanceof User && Request::CREATE == $request->getOperation()) {
-            $owner = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+        if (!$owner instanceof User
+            && Request::CREATE == $request->getOperation()
+        ) {
+            $owner = $this->getServiceLocator()
+                ->get('Omeka\AuthenticationService')->getIdentity();
         }
         $entity->setOwner($owner);
     }

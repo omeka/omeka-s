@@ -99,25 +99,4 @@ class ResourceTemplate extends AbstractEntity
     {
         return $this->resourceTemplateProperties;
     }
-
-    /**
-     * Add a property assignment to this set.
-     *
-     * @param ResourceTemplateProperty $resourceTemplateProperty
-     */
-    public function addResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
-    {
-        $resourceTemplateProperty->setResourceTemplate($this);
-    }
-
-    /**
-     * Remove a property assignment from this set.
-     *
-     * @param ResourceTemplateProperty $resourceTemplateProperty
-     * @return bool
-     */
-    public function removeResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
-    {
-        $resourceTemplateProperty->setResourceTemplate(null);
-    }
 }

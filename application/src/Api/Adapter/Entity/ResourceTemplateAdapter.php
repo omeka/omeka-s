@@ -168,6 +168,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp->setProperty($property);
                     $resTemProp->setAlternateLabel($altLabel);
                     $resTemProp->setAlternateComment($altComment);
+                    $entity->getResourceTemplateProperties()->add($resTemProp);
                 }
                 // Set the position of the property to its intrinsic order
                 // within the passed array.

@@ -46,4 +46,15 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         return $this->getData()->getNavigation();
     }
+
+    /**
+     * Get the owner representation of this resource.
+     *
+     * @return UserRepresentation
+     */
+    public function owner()
+    {
+        return $this->getAdapter('users')
+            ->getRepresentation(null, $this->getData()->getOwner());
+    }
 }

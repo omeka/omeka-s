@@ -80,7 +80,7 @@ class Vocabulary extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getVocabularies');
+        $this->owner = $owner;
     }
 
     public function getOwner()

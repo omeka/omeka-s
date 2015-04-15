@@ -74,7 +74,7 @@ class Property extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getProperties');
+        $this->owner = $owner;
     }
 
     public function getOwner()

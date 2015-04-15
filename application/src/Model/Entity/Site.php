@@ -103,7 +103,7 @@ class Site extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getSites');
+        $this->owner = $owner;
     }
 
     public function getOwner()

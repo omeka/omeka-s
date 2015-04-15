@@ -40,6 +40,7 @@ class SiteAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
+        $this->hydrateOwner($request, $entity);
 
         if (isset($data['o:slug'])) {
             $entity->setSlug($data['o:slug']);
@@ -52,15 +53,6 @@ class SiteAdapter extends AbstractEntityAdapter
         }
         if (isset($data['o:navigation'])) {
             $entity->setNavigation($data['o:navigation']);
-        }
-        if (isset($data['o:owner']['o:id'])) {
-            $owner = $this->getAdapter('users')
-                ->findEntity($data['o:owner']['o:id']);
-            $entity->setOwner($owner);
-        } else {
-            $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-            $currentUser = $auth->getIdentity();
-            $entity->setOwner($currentUser);
         }
     }
 

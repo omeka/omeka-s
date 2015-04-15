@@ -70,7 +70,7 @@ class ResourceClass extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getResourceClasses');
+        $this->owner = $owner;
     }
 
     public function getOwner()

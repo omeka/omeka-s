@@ -73,7 +73,7 @@ class Value extends AbstractEntity
 
     public function setResource(Resource $resource = null)
     {
-        $this->synchronizeOneToMany($resource, 'resource', 'getValues');
+        $this->resource = $resource;
     }
 
     public function getResource()

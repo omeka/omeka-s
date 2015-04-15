@@ -499,6 +499,7 @@ th {
     border-top-width: 0.0625em;
     border-top-style: solid;
     padding-top: 0.6875em;
+    vertical-align: middle;
   }
 
   thead + tbody tr:first-child {
@@ -962,10 +963,9 @@ th {
   /* @end */
   /* @group ----- Browse views ----- */
   .browse .resource-name {
-    float: left;
-    max-width: calc(100% - 5.5em);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: calc(100% - 8.5em);
+    vertical-align: middle;
   }
 
   .browse .add.button,
@@ -977,6 +977,25 @@ th {
   .browse td:first-child,
   .browse th:first-child {
     width: 50%;
+  }
+
+  .browse td,
+  .browse th {
+    padding: 0.75em 0.375em;
+  }
+
+  .browse tr:last-of-type td,
+  .browse tr:last-of-type th {
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .browse img {
+    width: 2.25em;
+    display: inline-block;
+    margin: -0.375em 0.375em -0.375em 0;
+    vertical-align: middle;
   }
 
   .actions {
@@ -1042,9 +1061,9 @@ th {
     padding: 0 .5em;
     border-bottom-width: 0.1875em;
     border-bottom-style: solid;
-    padding-bottom: 0.1875em;
-    margin: 0 0 -0.375em -0.5em;
-    width: calc(100% + 1em);
+    padding-bottom: 0.5625em;
+    margin: 0 0 -0.75em -0.375em;
+    width: calc(100% + .75em);
   }
 
   th a.sortable:after,
@@ -1056,7 +1075,7 @@ th {
     position: absolute;
     font-size: 12px;
     right: .5em;
-    top: 0.9375em;
+    top: 1.5em;
     z-index: 2;
   }
 
@@ -1862,10 +1881,8 @@ th {
   .resource-list {
     width: 100%;
   }
-  .resource-list .placeholder {
-    background-color: #666;
+  .resource-list img {
     width: 2.25em;
-    height: 2.25em;
     float: left;
     margin-left: 0.375em;
   }

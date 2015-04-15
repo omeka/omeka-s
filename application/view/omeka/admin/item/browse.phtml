@@ -28,6 +28,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <?php foreach ($items as $item): ?>
         <tr>
             <td>
+                <?php if ($media = $item->primaryMedia()): ?>
+                <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+                <?php endif; ?>
                 <span class="resource-name">
                     <?php echo $item->link(strip_tags($item->displayTitle('[untitled]'))); ?>
                 </span>

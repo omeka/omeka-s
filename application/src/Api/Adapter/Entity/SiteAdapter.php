@@ -39,20 +39,18 @@ class SiteAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
-
-        if (isset($data['o:slug'])) {
-            $entity->setSlug($data['o:slug']);
+        if ($this->shouldHydrate($request, 'o:slug')) {
+            $entity->setSlug($request->getValue('o:slug'));
         }
-        if (isset($data['o:theme'])) {
-            $entity->setTheme($data['o:theme']);
+        if ($this->shouldHydrate($request, 'o:theme')) {
+            $entity->setTheme($request->getValue('o:theme'));
         }
-        if (isset($data['o:title'])) {
-            $entity->setTitle($data['o:title']);
+        if ($this->shouldHydrate($request, 'o:title')) {
+            $entity->setTitle($request->getValue('o:title'));
         }
-        if (isset($data['o:navigation'])) {
-            $entity->setNavigation($data['o:navigation']);
+        if ($this->shouldHydrate($request, 'o:navigation')) {
+            $entity->setNavigation($request->getValue('o:navigation'));
         }
     }
 

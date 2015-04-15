@@ -611,16 +611,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $resourceClass = $entity->getResourceClass();
-        if (array_key_exists('o:resource_class', $data)) {
-            if (!$data['o:resource_class']
-                || (array_key_exists('o:id', $data['o:resource_class'])
-                    && !$data['o:resource_class']['o:id'])
-            ) {
+        if ($this->shouldHydrate($request, 'o:resource_class')) {
+            if (!isset($data['o:resource_class']['o:id'])) {
                 $resourceClass = null;
-            } elseif (array_key_exists('o:id', $data['o:resource_class'])
-                && is_numeric($data['o:resource_class']['o:id'])
-                && (!$resourceClass instanceof ResourceClass
-                    || $resourceClass->getId() != $data['o:resource_class']['o:id'])
+            } elseif (!$resourceClass instanceof ResourceClass
+                || $resourceClass->getId() != $data['o:resource_class']['o:id']
             ) {
                 $resourceClass = $this->getAdapter('resource_classes')
                     ->findEntity($data['o:resource_class']['o:id']);
@@ -641,16 +636,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $resourceTemplate = $entity->getResourceTemplate();
-        if (array_key_exists('o:resource_template', $data)) {
-            if (!$data['o:resource_template']
-                || (array_key_exists('o:id', $data['o:resource_template'])
-                    && !$data['o:resource_template']['o:id'])
-            ) {
+        if ($this->shouldHydrate($request, 'o:resource_template')) {
+            if (!isset($data['o:resource_template']['o:id'])) {
                 $resourceTemplate = null;
-            } elseif (array_key_exists('o:id', $data['o:resource_template'])
-                && is_numeric($data['o:resource_template']['o:id'])
-                && (!$resourceTemplate instanceof ResourceTemplate
-                    || $resourceTemplate->getId() != $data['o:resource_template']['o:id'])
+            } elseif (!$resourceTemplate instanceof ResourceTemplate
+                || $resourceTemplate->getId() != $data['o:resource_template']['o:id']
             ) {
                 $resourceTemplate = $this->getAdapter('resource_templates')
                     ->findEntity($data['o:resource_template']['o:id']);

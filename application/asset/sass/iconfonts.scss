@@ -18,7 +18,11 @@
     @extend .fa-user;
 } 
 
-.o-icon-items,
+.o-icon-items {
+    @extend .fa-cube;
+}
+
+.o-icon-item-sets,
 .o-icon-resource {
     @extend .fa-cubes;
 }

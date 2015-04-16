@@ -63,7 +63,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 // Enable sorting on property rows.
 var list = document.getElementById('properties');
 new Sortable(list, {
-    draggable: ".property-row",
+    draggable: ".property.row",
     handle: ".sortable-handle"
 });
 
@@ -87,7 +87,7 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     event.preventDefault();
 
     var removeLink = $(this);
-    var propertyRow =  removeLink.closest('li.property-row');
+    var propertyRow =  removeLink.closest('li.property.row');
     var propertyId = propertyRow.data('property-id');
 
     // Remove the property ID element from the form.

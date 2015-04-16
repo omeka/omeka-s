@@ -10,12 +10,12 @@
             var count = propertyField.length;
             // If property has already been set, scroll to its field
             if (count > 0) {
-                $('html, body').animate({
-                    scrollTop: (propertyField.first().offset().top -100)
-                },200);
+                scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
-                makeNewValue(qName, true);
+                var wrapper = $('div.resource-values.field[data-property-term="' + qName + '"] .values');
+                wrapper.append(makeNewValue(qName));
+                scrollTo(wrapper);
             }
         });
 
@@ -54,7 +54,8 @@
             e.preventDefault();
             var wrapper = $(this).parents('.resource-values.field');
             var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
-            makeNewValue(wrapper.data('property-term'), false, false, type);
+            var qName = wrapper.data('property-term');
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
         });
 
         // Remove value.
@@ -77,6 +78,7 @@
             $(this).hide();
         });
 
+        // Restore a removed value
         $('a.restore-value').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -126,11 +128,8 @@
         $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
             e.preventDefault();
             var propertyQname = $(this).data('property-term');
-            //@TODO: right now this is creating a new value, and deleting the value
-            //that was clicked. Seems like steps can be removed in the workflow?
-            $('.value.selecting-resource').remove();
             var valuesData = $('.resource-details').data('resource-values');
-            makeNewValue(propertyQname, false, valuesData);
+            $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, valuesData));
             Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
@@ -164,7 +163,7 @@
         initPage();
     });
 
-    var makeNewValue = function(qName, focus, valueObject, valueType) {
+    var makeNewValue = function(qName, valueObject, valueType) {
         var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
@@ -176,7 +175,6 @@
         var newValue = $('.value.template.' + valueType).clone(true);
         newValue.removeClass('template');
         newValue.data('base-name', qName + '[' + count + ']');
-        valuesWrapper.find('.values').append(newValue);
 
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
@@ -243,12 +241,8 @@
                 break;
             }
         }
-        if (focus) {
-            $('html, body').animate({
-                scrollTop: (valuesWrapper.offset().top -100)
-            },200);
-            $('textarea', newValue).focus();
-        } 
+
+        return newValue; 
     };
 
     var makeNewField = function(property) {
@@ -296,7 +290,8 @@
         var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
         if (field.length == 0) {
             field = makeNewField(id);
-            makeNewValue(field.data('property-term'));
+            var qName = field.data('property-term');
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
         var originalLabel = field.find('.field-label');
@@ -353,7 +348,7 @@
             for (var term in valuesJson) {
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
-                    makeNewValue(term, false, valuesJson[term][i]);
+                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, valuesJson[term][i]));
                 }
             }
         }
@@ -375,5 +370,12 @@
             });
         }
     };
+
+    var scrollTo = function(wrapper) {
+        //focus on the value being edited
+        $('html, body').animate({
+            scrollTop: (wrapper.offset().top -100)
+        },200);
+    }
 })(jQuery);
 

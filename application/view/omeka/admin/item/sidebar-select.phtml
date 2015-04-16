@@ -19,9 +19,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($items as $item):?>
     <div class="resource item">
         <?php if ($media = $item->primaryMedia()): ?>
-        <div class="placeholder">
-            <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>" style="width:2.25em;height:2.25em;">
-        </div>
+        <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
         <?php endif; ?>
         <span class="resource-name">
             <a href="#"

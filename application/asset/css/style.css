@@ -499,6 +499,7 @@ th {
     border-top-width: 0.0625em;
     border-top-style: solid;
     padding-top: 0.6875em;
+    vertical-align: middle;
   }
 
   thead + tbody tr:first-child {
@@ -725,6 +726,14 @@ th {
     line-height: 100%;
   }
 
+  .row {
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+  }
+
   /* @end */
   /* @group ----- Header ----- */
   header {
@@ -833,7 +842,7 @@ th {
     width: 79.58333%;
     font-size: 24px;
     position: fixed;
-    padding: 0 1.04167%;
+    padding: 0 30% 0 1.04167%;
     z-index: 2;
     top: 1.5em;
     height: 2em;
@@ -843,6 +852,9 @@ th {
     border-bottom-width: 0.04167em;
     border-bottom-style: solid;
     padding-bottom: -0.04167em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* @end */
@@ -962,10 +974,9 @@ th {
   /* @end */
   /* @group ----- Browse views ----- */
   .browse .resource-name {
-    float: left;
-    max-width: calc(100% - 5.5em);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: calc(100% - 8.5em);
+    vertical-align: middle;
   }
 
   .browse .add.button,
@@ -977,6 +988,25 @@ th {
   .browse td:first-child,
   .browse th:first-child {
     width: 50%;
+  }
+
+  .browse td,
+  .browse th {
+    padding: 0.75em 0.375em;
+  }
+
+  .browse tr:last-of-type td,
+  .browse tr:last-of-type th {
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .browse img {
+    width: 2.25em;
+    display: inline-block;
+    margin: -0.375em 0.375em -0.375em 0;
+    vertical-align: middle;
   }
 
   .actions {
@@ -1042,9 +1072,9 @@ th {
     padding: 0 .5em;
     border-bottom-width: 0.1875em;
     border-bottom-style: solid;
-    padding-bottom: 0.1875em;
-    margin: 0 0 -0.375em -0.5em;
-    width: calc(100% + 1em);
+    padding-bottom: 0.5625em;
+    margin: 0 0 -0.75em -0.375em;
+    width: calc(100% + .75em);
   }
 
   th a.sortable:after,
@@ -1056,7 +1086,7 @@ th {
     position: absolute;
     font-size: 12px;
     right: .5em;
-    top: 0.9375em;
+    top: 1.5em;
     z-index: 2;
   }
 
@@ -1449,15 +1479,13 @@ th {
     margin-top: 0.375em;
     padding: 0.375em 10px;
     background-color: rgba(0, 0, 0, 0.1);
-    cursor: pointer;
   }
   .property-selector > ul > li:last-of-type li:last-of-type,
   .properties > ul > li:last-of-type li:last-of-type {
     margin-bottom: 0em;
   }
-  .property-selector > ul > li:after, .property-selector > ul > li > ul > li:after,
-  .properties > ul > li:after,
-  .properties > ul > li > ul > li:after {
+  .property-selector > ul > li > ul > .vocabulary:after,
+  .properties > ul > li > ul > .vocabulary:after {
     content: "";
     font-family: "FontAwesome";
     position: absolute;
@@ -1475,13 +1503,13 @@ th {
     padding: 0.375em 10px;
     margin: 0 -10px;
   }
-  .property-selector > ul > li > ul > li:after,
-  .properties > ul > li > ul > li:after {
-    right: 0.9375em;
+  .property-selector > ul li.vocabulary,
+  .properties > ul li.vocabulary {
+    cursor: pointer;
   }
-  .property-selector > ul li:not(.property).show:after,
-  .properties > ul li:not(.property).show:after {
-    content: "" !important;
+  .property-selector > ul li.vocabulary.show:after,
+  .properties > ul li.vocabulary.show:after {
+    content: "";
   }
   .property-selector > ul > li ul, .property-selector > ul > li ul ul,
   .properties > ul > li ul,
@@ -1760,6 +1788,10 @@ th {
     padding: 0 0.375em;
   }
 
+  .resource.value .button:before {
+    margin-right: .5em;
+  }
+
   .value.delete span.restore-value {
     display: inline-block;
     padding: 0.375em;
@@ -1862,10 +1894,8 @@ th {
   .resource-list {
     width: 100%;
   }
-  .resource-list .placeholder {
-    background-color: #666;
+  .resource-list img {
     width: 2.25em;
-    height: 2.25em;
     float: left;
     margin-left: 0.375em;
   }
@@ -2080,26 +2110,19 @@ th {
     font-style: italic;
   }
 
-  .resource-template .property-row {
-    width: 100%;
-    background-color: #e7e7e7;
-    padding: 0.375em;
-    position: relative;
-    margin-bottom: 0.375em;
-  }
-  .resource-template .property-row.delete {
+  .resource-template .property.row.delete {
     background-color: #ffcccc;
   }
-  .resource-template .property-row label:first-child,
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row label:first-child,
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     display: inline-block;
     vertical-align: top;
   }
-  .resource-template .property-row label:first-child {
+  .resource-template .property.row label:first-child {
     padding: 0.375em 0 0.375em 2.25em;
   }
-  .resource-template .property-row .sortable-handle:before {
+  .resource-template .property.row .sortable-handle:before {
     cursor: move;
     content: "";
     font-family: "FontAwesome";
@@ -2111,12 +2134,12 @@ th {
     line-height: 24px;
   }
 
-  .resource-template .property-row label:first-child {
+  .resource-template .property.row label:first-child {
     width: 20%;
     margin-right: 10%;
   }
 
-  .resource-template .property-row .actions {
+  .resource-template .property.row .actions {
     position: absolute;
     right: 70%;
     top: 0.75em;
@@ -2148,13 +2171,13 @@ th {
   }
 
   .resource-template .property-heading:not(:first-child),
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     margin-left: -4px;
   }
 
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     width: 33.75%;
     margin-right: 1.25%;
   }

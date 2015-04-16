@@ -100,6 +100,7 @@ body {
         padding: rhythm(.5) gutter();
         border-color: #d7d7d7;
         @include leading-border(1px, .5, $base-font-size, solid);
+        vertical-align: middle;
     }
     
     thead + tbody tr:first-child {
@@ -316,6 +317,10 @@ table .icon-sortable {
     line-height: 100%;
 }
 
+.row {
+    @include field-row;
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -429,7 +434,7 @@ div[role="main"] > h1:first-of-type {
     width: span(13 of 16) - gutter(10);
     font-size: 1.5 * $base-font-size;
     position: fixed;
-    padding: 0 gutter();
+    padding: 0 30% 0 gutter();
     z-index: 2;
     top: rhythm(1.5, 1.5 * $base-font-size);
     height: rhythm(2, 1.5 * $base-font-size);
@@ -437,6 +442,9 @@ div[role="main"] > h1:first-of-type {
     margin-bottom: 0;
     border-color: #e7e7e7;
     @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* @end */
@@ -563,10 +571,9 @@ div[role="main"] {
 /* @group ----- Browse views ----- */
 
 .browse .resource-name {
-    float: left;
-    max-width: calc(100% - 5.5em);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: calc(100% - 8.5em);
+    vertical-align: middle;
 }
 
 .browse .add.button,
@@ -578,6 +585,24 @@ div[role="main"] {
 .browse td:first-child,
 .browse th:first-child {
     width: 50%;
+}
+
+.browse td,
+.browse th {
+    padding: rhythm(.5) rhythm(.25);
+}
+
+.browse tr:last-of-type td,
+.browse tr:last-of-type th,
+ {
+    @include trailing-border(1px, .5, $base-font-size, solid);
+}
+
+.browse img {
+    width: rhythm(1.5);
+    display: inline-block;
+    margin: rhythm(-.25) rhythm(.25) rhythm(-.25) 0;
+    vertical-align: middle;
 }
 
 .actions {
@@ -642,9 +667,9 @@ th .sorted-asc,
 th .sorted-desc {
     border-color: #d2d2d2;
     padding: 0 .5em;
-    @include trailing-border(3px, .25, $base-font-size, solid);
-    margin: 0 0 rhythm(-.25) -.5em;
-    width: calc(100% + 1em);
+    @include trailing-border(3px, .5, $base-font-size, solid);
+    margin: 0 0 rhythm(-.5) -.375em;
+    width: calc(100% + .75em);
 }
 
 th a.sortable:after,
@@ -656,7 +681,7 @@ th .sorted-desc:before {
     position: absolute;
     font-size: .75 * $base-font-size;
     right: .5em;
-    top: rhythm(.625);
+    top: rhythm(1);
     z-index: 2;
 }
 
@@ -1058,14 +1083,12 @@ body.sidebar-open #content {
             @include leader(.25);
             padding: rhythm(.25) 10px;
             background-color: rgba(0,0,0,.1);
-            cursor: pointer;
             
             &:last-of-type li:last-of-type {
                 @include trailer(0);
             }
             
-            &:after,
-            & > ul > li:after {
+            & > ul > .vocabulary:after {
                 content: $fa-var-caret-right;
                 font-family: "FontAwesome";
                 position: absolute;
@@ -1083,15 +1106,14 @@ body.sidebar-open #content {
                 padding: rhythm(.25) 10px;
                 margin: 0 -10px;
             }
-            
-            & > ul > li:after {
-                right: rhythm(.625);
-            }
-
         }
 
-        li:not(.property).show:after {
-            content: $fa-var-caret-down !important;
+        li.vocabulary {
+            cursor: pointer;
+        }
+
+        li.vocabulary.show:after {
+            content: $fa-var-caret-down;
         }
         
         & > li ul,
@@ -1367,6 +1389,10 @@ body.sidebar-open #content {
         padding: 0 rhythm(.25);
     }
 
+    .resource.value .button:before {
+        margin-right: .5em;
+    }
+
     .value.delete span.restore-value {
         display: inline-block;
         padding: rhythm(.25);
@@ -1397,7 +1423,7 @@ body.sidebar-open #content {
     #resource-files button {
         margin: rhythm() 0 0;
     }
-    
+
     /* @end */
 
 /* @end */
@@ -1485,11 +1511,8 @@ body.sidebar-open #content {
 .resource-list {
     width: 100%;
     
-    
-    .placeholder {
-        background-color: #666;
+    img {
         width: rhythm(1.5);
-        height: rhythm(1.5);
         float: left;
         margin-left: rhythm(.25);
     }
@@ -1718,8 +1741,7 @@ body.show .property {
     font-style: italic;
 }
 
-.resource-template .property-row {
-    @include field-row;
+.resource-template .property.row {
 
     &.delete {
         background-color: #ffcccc;
@@ -1749,12 +1771,12 @@ body.show .property {
     }
 }
 
-.resource-template .property-row label:first-child {
+.resource-template .property.row label:first-child {
     width: span(2 of 10);
     margin-right: span(1 of 10);
 }
 
-.resource-template .property-row .actions {
+.resource-template .property.row .actions {
     position: absolute;
     right: span(7 of 10);
     top: rhythm(.5);
@@ -1783,13 +1805,13 @@ body.show .property {
 }
 
 .resource-template .property-heading:not(:first-child),
-.resource-template .property-row input[type="text"],
-.resource-template .property-row textarea {
+.resource-template .property.row input[type="text"],
+.resource-template .property.row textarea {
     margin-left: -4px;
 }
 
-.resource-template .property-row input[type="text"],
-.resource-template .property-row textarea {
+.resource-template .property.row input[type="text"],
+.resource-template .property.row textarea {
     width: span(3.375 of 10);
     margin-right: span(.125 of 10);
 }

@@ -153,4 +153,23 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     {
         return $this->getData()->hasThumbnails();
     }
+
+    /**
+     * Get the display title for this resource.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function displayTitle($default = null)
+    {
+        $title = parent::displayTitle();
+        if ('' === $title) {
+            $source = $this->source();
+            if ($source) {
+                return $source;
+            }
+            return $default;
+        }
+        return $title;
+    }
 }

@@ -38,7 +38,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul>
         <span class='restore-value'>Media to be removed</span>
         <img src="<?php echo $media->thumbnailUrl('square'); ?>">
-        <?php echo $media->filename(); ?>
+        <?php echo $media->displayTitle('[Untitled]'); ?>
         <input type="hidden" name="o:media[][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
     </div>
     <?php endforeach; ?>

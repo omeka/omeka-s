@@ -1837,6 +1837,7 @@ th {
   .media.row * {
     display: inline-block;
     vertical-align: middle;
+    max-width: 80%;
   }
 
   .media.value.delete span.restore-value {

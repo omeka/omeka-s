@@ -25,6 +25,25 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ></span>
 <?php endforeach; ?>
 
+<?php if ($resource && $resource->media()): ?>
+    <?php foreach ($resource->media() as $media): ?>
+    <div class="media value row">
+        <ul class='actions'>
+            <li>
+                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+            </li>
+            <li>
+                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+            </li>
+        </ul>
+        <span class='restore-value'>Media to be removed</span>
+        <img src="<?php echo $media->thumbnailUrl('square'); ?>">
+        <?php echo $media->displayTitle('[Untitled]'); ?>
+        <input type="hidden" name="o:media[][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
+    </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
 <script type="text/javascript">
 var index = 0;
 $('#new-media-type').change(function () {

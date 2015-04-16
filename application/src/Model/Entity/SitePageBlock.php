@@ -92,7 +92,7 @@ class SitePageBlock extends AbstractEntity
 
     public function setPage(SitePage $page)
     {
-        $this->synchronizeOneToMany($page, 'page', 'getBlocks');
+        $this->page = $page;
     }
 
     public function getPage()

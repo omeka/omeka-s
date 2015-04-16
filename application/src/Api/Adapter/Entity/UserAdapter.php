@@ -52,19 +52,17 @@ class UserAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        $data = $request->getContent();
-
-        if (isset($data['o:username'])) {
-            $entity->setUsername($data['o:username']);
+        if ($this->shouldHydrate($request, 'o:username')) {
+            $entity->setUsername($request->getValue('o:username'));
         }
-        if (isset($data['o:name'])) {
-            $entity->setName($data['o:name']);
+        if ($this->shouldHydrate($request, 'o:name')) {
+            $entity->setName($request->getValue('o:name'));
         }
-        if (isset($data['o:email'])) {
-            $entity->setEmail($data['o:email']);
+        if ($this->shouldHydrate($request, 'o:email')) {
+            $entity->setEmail($request->getValue('o:email'));
         }
-        if (isset($data['o:role'])) {
-            $entity->setRole($data['o:role']);
+        if ($this->shouldHydrate($request, 'o:role')) {
+            $entity->setRole($request->getValue('o:role'));
         }
     }
 

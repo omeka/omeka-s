@@ -77,7 +77,7 @@ class ResourceTemplate extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getResourceTemplates');
+        $this->owner = $owner;
     }
 
     public function getOwner()
@@ -98,26 +98,5 @@ class ResourceTemplate extends AbstractEntity
     public function getResourceTemplateProperties()
     {
         return $this->resourceTemplateProperties;
-    }
-
-    /**
-     * Add a property assignment to this set.
-     *
-     * @param ResourceTemplateProperty $resourceTemplateProperty
-     */
-    public function addResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
-    {
-        $resourceTemplateProperty->setResourceTemplate($this);
-    }
-
-    /**
-     * Remove a property assignment from this set.
-     *
-     * @param ResourceTemplateProperty $resourceTemplateProperty
-     * @return bool
-     */
-    public function removeResourceTemplateProperty(ResourceTemplateProperty $resourceTemplateProperty)
-    {
-        $resourceTemplateProperty->setResourceTemplate(null);
     }
 }

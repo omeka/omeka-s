@@ -68,55 +68,79 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
 
-        if (isset($data['o:namespace_uri'])) {
-            $entity->setNamespaceUri($data['o:namespace_uri']);
+        if ($this->shouldHydrate($request, 'o:namespace_uri')) {
+            $entity->setNamespaceUri($request->getValue('o:namespace_uri'));
+        }
+        if ($this->shouldHydrate($request, 'o:prefix')) {
+            $entity->setPrefix($request->getValue('o:prefix'));
+        }
+        if ($this->shouldHydrate($request, 'o:label')) {
+            $entity->setLabel($request->getValue('o:label'));
+        }
+        if ($this->shouldHydrate($request, 'o:comment')) {
+            $entity->setComment($request->getValue('o:comment'));
         }
 
-        if (isset($data['o:prefix'])) {
-            $entity->setPrefix($data['o:prefix']);
-        }
-
-        if (isset($data['o:label'])) {
-            $entity->setLabel($data['o:label']);
-        }
-
-        if (isset($data['o:comment'])) {
-            $entity->setComment($data['o:comment']);
-        }
-
-        if (isset($data['o:class']) && is_array($data['o:class'])) {
-            $resourceClassAdapter = $this->getAdapter('resource_classes');
-            $resourceClassEntityClass = $resourceClassAdapter->getEntityClass();
+        if ($this->shouldHydrate($request, 'o:class') && is_array($data['o:class'])) {
+            $adapter = $this->getAdapter('resource_classes');
+            $class = $adapter->getEntityClass();
+            $retainResourceClasses = array();
+            $retainResourceClassIds = array();
             foreach ($data['o:class'] as $classData) {
                 if (isset($classData['o:id'])) {
-                    continue; // do not process existing classes
+                    // Do not update existing resource classes.
+                    $retainResourceClassIds[] = $classData['o:id'];
+                } else {
+                    // Create a new resource class.
+                    $resourceClass = new $class;
+                    $resourceClass->setVocabulary($entity);
+                    $subrequest = new Request(Request::CREATE, 'resource_classes');
+                    $subrequest->setContent($classData);
+                    $adapter->hydrateEntity($subrequest, $resourceClass, $errorStore);
+                    $entity->getResourceClasses()->add($resourceClass);
+                    $retainResourceClasses[] = $resourceClass;
                 }
-                $resourceClass = new $resourceClassEntityClass;
-                $resourceClass->setVocabulary($entity);
-                $subrequest = new Request(Request::CREATE, 'resource_classes');
-                $subrequest->setContent($classData);
-                $resourceClassAdapter->hydrateEntity(
-                    $subrequest, $resourceClass, $errorStore
-                );
+            }
+            // Remove resource classes not included in request.
+            foreach ($entity->getResourceClasses() as $resourceClass) {
+                if (!in_array($resourceClass, $retainResourceClasses)
+                    && !in_array($resourceClass->getId(), $retainResourceClassIds)
+                ) {
+                    $entity->getResourceClasses()->removeElement($resourceClass);
+                }
             }
         }
 
-        if (isset($data['o:property']) && is_array($data['o:property'])) {
-            $propertyAdapter = $this->getAdapter('properties');
-            $propertyEntityClass = $propertyAdapter->getEntityClass();
+        if ($this->shouldHydrate($request, 'o:property') && is_array($data['o:property'])) {
+            $adapter = $this->getAdapter('properties');
+            $class = $adapter->getEntityClass();
+            $retainProperties = array();
+            $retainPropertyIds = array();
             foreach ($data['o:property'] as $propertyData) {
                 if (isset($propertyData['o:id'])) {
-                    continue; // do not process existing properties
+                    // Do not update existing properties.
+                    $retainPropertyIds[] = $propertyData['o:id'];
+                } else {
+                    // Create a new property.
+                    $property = new $class;
+                    $property->setVocabulary($entity);
+                    $subrequest = new Request(Request::CREATE, 'properties');
+                    $subrequest->setContent($propertyData);
+                    $adapter->hydrateEntity($subrequest, $property, $errorStore);
+                    $entity->getProperties()->add($property);
+                    $retainProperties[] = $property;
                 }
-                $property = new $propertyEntityClass;
-                $property->setVocabulary($entity);
-                $subrequest = new Request(Request::CREATE, 'properties');
-                $subrequest->setContent($propertyData);
-                $propertyAdapter->hydrateEntity(
-                    $subrequest, $property, $errorStore
-                );
+            }
+            // Remove resource classes not included in request.
+            foreach ($entity->getProperties() as $property) {
+                if (!in_array($property, $retainProperties)
+                    && !in_array($property->getId(), $retainPropertyIds)
+                ) {
+                    $entity->getProperties()->removeElement($property);
+                }
             }
         }
+
     }
 
     /**

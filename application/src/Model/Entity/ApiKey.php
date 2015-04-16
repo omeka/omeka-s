@@ -154,7 +154,7 @@ class ApiKey extends AbstractEntity
 
     public function setOwner(User $owner = null)
     {
-        $this->synchronizeOneToMany($owner, 'owner', 'getKeys');
+        $this->owner = $owner;
     }
 
     public function getOwner()

@@ -14,6 +14,7 @@ class Request extends ZendRequest
     const BATCH_CREATE = 'batch_create';
     const READ         = 'read';
     const UPDATE       = 'update';
+    const PARTIAL_UPDATE = 'partial_update';
     const DELETE       = 'delete';
 
     /**
@@ -25,6 +26,7 @@ class Request extends ZendRequest
         self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
+        self::PARTIAL_UPDATE,
         self::DELETE,
     );
 
@@ -117,6 +119,20 @@ class Request extends ZendRequest
     public function getId()
     {
         return $this->getMetadata('id');
+    }
+
+    /**
+     * Get a value from the content by key.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getValue($key, $default = null)
+    {
+        $data = $this->getContent();
+        return (is_array($data) && array_key_exists($key, $data))
+            ? $data[$key] : $default;
     }
 
     /**

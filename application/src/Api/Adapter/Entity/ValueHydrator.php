@@ -185,6 +185,7 @@ class ValueHydrator implements HydrationInterface
         if (isset($valueObject['@language'])) {
             $value->setLang($valueObject['@language']);
         }
+        $resource->getValues()->add($value);
     }
 
     /**
@@ -212,6 +213,7 @@ class ValueHydrator implements HydrationInterface
             ));
         }
         $value->setValueResource($valueResource);
+        $resource->getValues()->add($value);
     }
 
     /**
@@ -229,5 +231,6 @@ class ValueHydrator implements HydrationInterface
         $value->setProperty($property);
         $value->setType(Value::TYPE_URI);
         $value->setValue($valueObject['@id']);
+        $resource->getValues()->add($value);
     }
 }

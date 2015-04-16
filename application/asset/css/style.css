@@ -1806,7 +1806,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Files ----- */
+  /* @group ----- Media ----- */
   .upload-zone {
     background-color: rgba(0, 0, 0, 0.08);
     padding: 3em 1.04167% 1.5em 1.04167%;
@@ -1818,6 +1818,33 @@ th {
 
   #resource-files button {
     margin: 1.5em 0 0;
+  }
+
+  #add-media-field {
+    margin-bottom: 1.5em;
+  }
+
+  .media.row {
+    padding: 0.75em 0.375em;
+    margin-bottom: 0.375em;
+  }
+
+  .media.row img {
+    width: 2.25em;
+    margin: -0.375em 0.5em -0.375em 0;
+  }
+
+  .media.row * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .media.value.delete span.restore-value {
+    padding: 0;
+  }
+
+  .value.delete > .actions {
+    display: inline-block;
   }
 
   /* @end */

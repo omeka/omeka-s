@@ -39,7 +39,6 @@ class VocabularyTest extends TestCase
         $owner = new User;
         $this->vocabulary->setOwner($owner);
         $this->assertSame($owner, $this->vocabulary->getOwner());
-        $this->assertTrue($owner->getVocabularies()->contains($this->vocabulary));
     }
 
     public function testSetNamespaceUri()
@@ -68,39 +67,5 @@ class VocabularyTest extends TestCase
         $comment = 'test-comment';
         $this->vocabulary->setComment($comment);
         $this->assertEquals($comment, $this->vocabulary->getComment());
-    }
-
-    public function testAddResourceClass()
-    {
-        $resourceClass = new ResourceClass;
-        $this->vocabulary->addResourceClass($resourceClass);
-        $this->assertSame($this->vocabulary, $resourceClass->getVocabulary());
-        $this->assertTrue($this->vocabulary->getResourceClasses()->contains($resourceClass));
-    }
-
-    public function testRemoveResourceClass()
-    {
-        $resourceClass = new ResourceClass;
-        $this->vocabulary->addResourceClass($resourceClass);
-        $this->vocabulary->removeResourceClass($resourceClass);
-        $this->assertFalse($this->vocabulary->getResourceClasses()->contains($resourceClass));
-        $this->assertNull($resourceClass->getVocabulary());
-    }
-
-    public function testAddProperty()
-    {
-        $property = new Property;
-        $this->vocabulary->addProperty($property);
-        $this->assertSame($this->vocabulary, $property->getVocabulary());
-        $this->assertTrue($this->vocabulary->getProperties()->contains($property));
-    }
-
-    public function testRemoveProperty()
-    {
-        $property = new Property;
-        $this->vocabulary->addProperty($property);
-        $this->vocabulary->removeProperty($property);
-        $this->assertFalse($this->vocabulary->getProperties()->contains($property));
-        $this->assertNull($property->getVocabulary());
     }
 }

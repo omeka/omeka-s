@@ -29,7 +29,6 @@ class ResourceTemplatePropertyTest extends TestCase
         $resourceTemplate = new ResourceTemplate;
         $this->resourceTemplateProperty->setResourceTemplate($resourceTemplate);
         $this->assertSame($resourceTemplate, $this->resourceTemplateProperty->getResourceTemplate());
-        $this->assertTrue($resourceTemplate->getResourceTemplateProperties()->contains($this->resourceTemplateProperty));
     }
 
     public function testSetProperty()

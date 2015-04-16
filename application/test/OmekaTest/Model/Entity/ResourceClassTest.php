@@ -30,7 +30,6 @@ class ResourceClassTest extends TestCase
         $owner = new User;
         $this->resourceClass->setOwner($owner);
         $this->assertSame($owner, $this->resourceClass->getOwner());
-        $this->assertTrue($owner->getResourceClasses()->contains($this->resourceClass));
     }
 
     public function testSetVocabulary()
@@ -38,7 +37,6 @@ class ResourceClassTest extends TestCase
         $vocabulary = new Vocabulary;
         $this->resourceClass->setVocabulary($vocabulary);
         $this->assertSame($vocabulary, $this->resourceClass->getVocabulary());
-        $this->assertTrue($vocabulary->getResourceClasses()->contains($this->resourceClass));
     }
 
     public function testSetLocalName()

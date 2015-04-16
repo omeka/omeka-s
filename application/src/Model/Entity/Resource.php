@@ -158,27 +158,6 @@ abstract class Resource extends AbstractEntity
     }
 
     /**
-     * Add a value to this resource.
-     *
-     * @param Value $value
-     */
-    public function addValue(Value $value)
-    {
-        $value->setResource($this);
-    }
-
-    /**
-     * Remove a value from this resource.
-     *
-     * @param Value $value
-     * @return bool
-     */
-    public function removeValue(Value $value)
-    {
-        $value->setResource(null);
-    }
-
-    /**
      * @PrePersist
      */
     public function prePersist(LifecycleEventArgs $eventArgs)

@@ -34,21 +34,4 @@ class ItemTest extends TestCase
         $this->item->setIsPublic(true);
         $this->assertTrue($this->item->isPublic());
     }
-
-    public function testAddMedia()
-    {
-        $media = new Media;
-        $this->item->addMedia($media);
-        $this->assertSame($this->item, $media->getItem());
-        $this->assertTrue($this->item->getMedia()->contains($media));
-    }
-
-    public function testRemoveMedia()
-    {
-        $media = new Media;
-        $this->item->addMedia($media);
-        $this->item->removeMedia($media);
-        $this->assertFalse($this->item->getMedia()->contains($media));
-        $this->assertNull($media->getItem());
-    }
 }

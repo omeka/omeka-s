@@ -89,11 +89,14 @@ class Manager implements ServiceLocatorAwareInterface
      * @param mixed $id
      * @param array $data
      * @param array $fileData
+     * @param bool $partial
      * @return Response
      */
-    public function update($resource, $id, $data = array(), $fileData = array())
-    {
-        $request = new Request(Request::UPDATE, $resource);
+    public function update($resource, $id, $data = array(), $fileData = array(),
+        $partial = false
+    ) {
+        $operation = $partial ? Request::PARTIAL_UPDATE: Request::UPDATE;
+        $request = new Request($operation, $resource);
         $request->setId($id);
         $request->setContent($data);
         $request->setFileData($fileData);

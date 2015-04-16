@@ -66,23 +66,6 @@ class ResourceTest extends TestCase
         $this->assertSame($dateTime, $this->resource->getModified());
     }
 
-    public function testAddValue()
-    {
-        $value = new Value;
-        $this->resource->addValue($value);
-        $this->assertSame($this->resource, $value->getResource());
-        $this->assertTrue($this->resource->getValues()->contains($value));
-    }
-
-    public function testRemoveValue()
-    {
-        $value = new Value;
-        $this->resource->addValue($value);
-        $this->resource->removeValue($value);
-        $this->assertFalse($this->resource->getValues()->contains($value));
-        $this->assertNull($value->getValue());
-    }
-
     public function testPrePersist()
     {
         $lifecycleEventArgs = $this->getMockBuilder('Doctrine\ORM\Event\LifecycleEventArgs')

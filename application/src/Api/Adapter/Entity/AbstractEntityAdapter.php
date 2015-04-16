@@ -557,10 +557,31 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * Check whether to hydrate on a key.
+     *
+     * @param Request $request
+     * @param string $key
+     * @return bool
+     */
+    public function shouldHydrate(Request $request, $key)
+    {
+        if (Request::PARTIAL_UPDATE == $request->getOperation()) {
+            // Conditionally hydrate on partial_update operation.
+            return array_key_exists($key, $request->getContent());
+        }
+        // Always hydrate on create and update operations.
+        return true;
+    }
+
+    /**
      * Hydrate the entity's owner.
      *
      * Assumes the owner can be set to NULL. By default, new entities are owned
      * by the current user.
+     *
+     * This diverges from the conventional hydration pattern for an update
+     * operation. Normally the absence of [o:owner] would set the value to null.
+     * In this case [o:owner][o:id] must explicitly be set to null.
      *
      * @param Request $request
      * @param EntityInterface $entity
@@ -569,25 +590,24 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $owner = $entity->getOwner();
-        if (array_key_exists('o:owner', $data)) {
-            if (!$data['o:owner']
-                || (array_key_exists('o:id', $data['o:owner'])
-                    && !$data['o:owner']['o:id'])
+        if ($this->shouldHydrate($request, 'o:owner')) {
+            if (array_key_exists('o:owner', $data)
+                && is_array($data['o:owner'])
+                && array_key_exists('o:id', $data['o:owner'])
             ) {
-                $owner = null;
-            } elseif (array_key_exists('o:id', $data['o:owner'])
-                && is_numeric($data['o:owner']['o:id'])
-                && (!$owner instanceof User
-                    || $owner->getId() != $data['o:owner']['o:id'])
-            ) {
-                $owner = $this->getAdapter('users')
-                    ->findEntity($data['o:owner']['o:id']);
+                if (is_numeric($data['o:owner']['o:id'])) {
+                    $owner = $this->getAdapter('users')
+                        ->findEntity($data['o:owner']['o:id']);
+                } elseif (null === $data['o:owner']['o:id']) {
+                    $owner = null;
+                }
             }
         }
-        if ($request->getOperation() === Request::CREATE && !$owner instanceof User) {
+        if (!$owner instanceof User
+            && Request::CREATE == $request->getOperation()
+        ) {
             $owner = $this->getServiceLocator()
-                ->get('Omeka\AuthenticationService')
-                ->getIdentity();
+                ->get('Omeka\AuthenticationService')->getIdentity();
         }
         $entity->setOwner($owner);
     }
@@ -604,19 +624,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $resourceClass = $entity->getResourceClass();
-        if (array_key_exists('o:resource_class', $data)) {
-            if (!$data['o:resource_class']
-                || (array_key_exists('o:id', $data['o:resource_class'])
-                    && !$data['o:resource_class']['o:id'])
-            ) {
-                $resourceClass = null;
-            } elseif (array_key_exists('o:id', $data['o:resource_class'])
+        if ($this->shouldHydrate($request, 'o:resource_class')) {
+            if (isset($data['o:resource_class']['o:id'])
                 && is_numeric($data['o:resource_class']['o:id'])
-                && (!$resourceClass instanceof ResourceClass
-                    || $resourceClass->getId() != $data['o:resource_class']['o:id'])
             ) {
                 $resourceClass = $this->getAdapter('resource_classes')
                     ->findEntity($data['o:resource_class']['o:id']);
+            } else {
+                $resourceClass = null;
             }
         }
         $entity->setResourceClass($resourceClass);
@@ -634,19 +649,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $data = $request->getContent();
         $resourceTemplate = $entity->getResourceTemplate();
-        if (array_key_exists('o:resource_template', $data)) {
-            if (!$data['o:resource_template']
-                || (array_key_exists('o:id', $data['o:resource_template'])
-                    && !$data['o:resource_template']['o:id'])
-            ) {
-                $resourceTemplate = null;
-            } elseif (array_key_exists('o:id', $data['o:resource_template'])
+        if ($this->shouldHydrate($request, 'o:resource_template')) {
+            if (isset($data['o:resource_template']['o:id'])
                 && is_numeric($data['o:resource_template']['o:id'])
-                && (!$resourceTemplate instanceof ResourceTemplate
-                    || $resourceTemplate->getId() != $data['o:resource_template']['o:id'])
             ) {
                 $resourceTemplate = $this->getAdapter('resource_templates')
                     ->findEntity($data['o:resource_template']['o:id']);
+            } else {
+                $resourceTemplate = null;
             }
         }
         $entity->setResourceTemplate($resourceTemplate);

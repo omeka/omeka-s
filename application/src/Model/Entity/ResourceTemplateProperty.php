@@ -57,8 +57,7 @@ class ResourceTemplateProperty extends AbstractEntity
 
     public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
     {
-        $this->synchronizeOneToMany($resourceTemplate, 'resourceTemplate',
-            'getResourceTemplateProperties');
+        $this->resourceTemplate = $resourceTemplate;
     }
 
     public function getResourceTemplate()

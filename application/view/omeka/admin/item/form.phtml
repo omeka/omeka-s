@@ -37,7 +37,11 @@ $formElement = $this->plugin('formElement');
     <fieldset id="item-media" class="section">
         <?php
         echo $this->partial('omeka/admin/item/add-media',
-            array('mediaForms' => $mediaForms));
+            array(
+                'mediaForms' => $mediaForms,
+                'resource' => $item
+            )
+        );
         ?>
     </fieldset>
     <fieldset id='item-sets' class='section'>

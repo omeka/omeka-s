@@ -76,7 +76,7 @@ class SitePage extends AbstractEntity
 
     public function setSite(Site $site)
     {
-        $this->synchronizeOneToMany($site, 'site', 'getPages');
+        $this->site = $site;
     }
 
     public function getSite()

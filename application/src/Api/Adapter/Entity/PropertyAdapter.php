@@ -74,29 +74,17 @@ class PropertyAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
-
         $this->hydrateOwner($request, $entity);
 
-        if (isset($data['o:vocabulary']['o:id'])
-            && is_numeric($data['o:vocabulary']['o:id'])
-        ) {
-            $vocabulary = $this->getAdapter('vocabularies')
-                ->findEntity($data['o:vocabulary']['o:id']);
-            $entity->setVocabulary($vocabulary);
+        if ($this->shouldHydrate($request, 'o:local_name')) {
+            $entity->setLocalName($request->getValue('o:local_name'));
         }
-
-        if (isset($data['o:local_name'])) {
-            $entity->setLocalName($data['o:local_name']);
+        if ($this->shouldHydrate($request, 'o:label')) {
+            $entity->setLabel($request->getValue('o:label'));
         }
-
-        if (isset($data['o:label'])) {
-            $entity->setLabel($data['o:label']);
+        if ($this->shouldHydrate($request, 'o:comment')) {
+            $entity->setComment($request->getValue('o:comment'));
         }
-
-        if (isset($data['o:comment'])) {
-            $entity->setComment($data['o:comment']);
-        }
-
     }
 
     /**

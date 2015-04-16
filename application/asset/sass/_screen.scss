@@ -317,6 +317,10 @@ table .icon-sortable {
     line-height: 100%;
 }
 
+.row {
+    @include field-row;
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -1419,7 +1423,7 @@ body.sidebar-open #content {
     #resource-files button {
         margin: rhythm() 0 0;
     }
-    
+
     /* @end */
 
 /* @end */
@@ -1737,8 +1741,7 @@ body.show .property {
     font-style: italic;
 }
 
-.resource-template .property-row {
-    @include field-row;
+.resource-template .property.row {
 
     &.delete {
         background-color: #ffcccc;
@@ -1768,12 +1771,12 @@ body.show .property {
     }
 }
 
-.resource-template .property-row label:first-child {
+.resource-template .property.row label:first-child {
     width: span(2 of 10);
     margin-right: span(1 of 10);
 }
 
-.resource-template .property-row .actions {
+.resource-template .property.row .actions {
     position: absolute;
     right: span(7 of 10);
     top: rhythm(.5);
@@ -1802,13 +1805,13 @@ body.show .property {
 }
 
 .resource-template .property-heading:not(:first-child),
-.resource-template .property-row input[type="text"],
-.resource-template .property-row textarea {
+.resource-template .property.row input[type="text"],
+.resource-template .property.row textarea {
     margin-left: -4px;
 }
 
-.resource-template .property-row input[type="text"],
-.resource-template .property-row textarea {
+.resource-template .property.row input[type="text"],
+.resource-template .property.row textarea {
     width: span(3.375 of 10);
     margin-right: span(.125 of 10);
 }

@@ -726,6 +726,14 @@ th {
     line-height: 100%;
   }
 
+  .row {
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+  }
+
   /* @end */
   /* @group ----- Header ----- */
   header {
@@ -2102,26 +2110,19 @@ th {
     font-style: italic;
   }
 
-  .resource-template .property-row {
-    width: 100%;
-    background-color: #e7e7e7;
-    padding: 0.375em;
-    position: relative;
-    margin-bottom: 0.375em;
-  }
-  .resource-template .property-row.delete {
+  .resource-template .property.row.delete {
     background-color: #ffcccc;
   }
-  .resource-template .property-row label:first-child,
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row label:first-child,
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     display: inline-block;
     vertical-align: top;
   }
-  .resource-template .property-row label:first-child {
+  .resource-template .property.row label:first-child {
     padding: 0.375em 0 0.375em 2.25em;
   }
-  .resource-template .property-row .sortable-handle:before {
+  .resource-template .property.row .sortable-handle:before {
     cursor: move;
     content: "";
     font-family: "FontAwesome";
@@ -2133,12 +2134,12 @@ th {
     line-height: 24px;
   }
 
-  .resource-template .property-row label:first-child {
+  .resource-template .property.row label:first-child {
     width: 20%;
     margin-right: 10%;
   }
 
-  .resource-template .property-row .actions {
+  .resource-template .property.row .actions {
     position: absolute;
     right: 70%;
     top: 0.75em;
@@ -2170,13 +2171,13 @@ th {
   }
 
   .resource-template .property-heading:not(:first-child),
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     margin-left: -4px;
   }
 
-  .resource-template .property-row input[type="text"],
-  .resource-template .property-row textarea {
+  .resource-template .property.row input[type="text"],
+  .resource-template .property.row textarea {
     width: 33.75%;
     margin-right: 1.25%;
   }

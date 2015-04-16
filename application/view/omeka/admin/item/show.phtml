@@ -23,12 +23,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <div id="item-media" class="section">
     <?php foreach ($item->media() as $media): ?>
-    <div>
-    <?php if ($media->hasThumbnails()): ?>
-    <img src="<?php echo $media->thumbnailUrl('large'); ?>">
-    <?php else: ?>
-    <?php echo $media->render(); ?>
-    <?php endif; ?>
+    <div class="media row">
+        <img src="<?php echo $media->thumbnailUrl('square'); ?>">
+        <span class="resource-name"><?php echo $media->link(strip_tags($media->displayTitle('[untitled]')), 'edit'); ?></span>
+        <input type="hidden" name="o:media[][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
     </div>
     <?php endforeach; ?>
 </div>

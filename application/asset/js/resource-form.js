@@ -10,12 +10,12 @@
             var count = propertyField.length;
             // If property has already been set, scroll to its field
             if (count > 0) {
-                $('html, body').animate({
-                    scrollTop: (propertyField.first().offset().top -100)
-                },200);
+                scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, true));
+                var wrapper = $('div.resource-values.field[data-property-term="' + qName + '"] .values');
+                wrapper.append(makeNewValue(qName));
+                scrollTo(wrapper);
             }
         });
 
@@ -55,7 +55,7 @@
             var wrapper = $(this).parents('.resource-values.field');
             var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
             var qName = wrapper.data('property-term');
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, false, type));
+            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
         });
 
         // Remove value.
@@ -129,7 +129,7 @@
             e.preventDefault();
             var propertyQname = $(this).data('property-term');
             var valuesData = $('.resource-details').data('resource-values');
-            $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, false, valuesData));
+            $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, valuesData));
             Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
@@ -163,7 +163,7 @@
         initPage();
     });
 
-    var makeNewValue = function(qName, focus, valueObject, valueType) {
+    var makeNewValue = function(qName, valueObject, valueType) {
         var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
@@ -242,14 +242,7 @@
             }
         }
 
-        return newValue;
-
-        if (focus) {
-            $('html, body').animate({
-                scrollTop: (valuesWrapper.offset().top -100)
-            },200);
-            $('textarea', newValue).focus();
-        } 
+        return newValue; 
     };
 
     var makeNewField = function(property) {
@@ -355,7 +348,7 @@
             for (var term in valuesJson) {
                 makeNewField(term);
                 for (var i=0; i < valuesJson[term].length; i++) {
-                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, false, valuesJson[term][i]));
+                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, valuesJson[term][i]));
                 }
             }
         }
@@ -377,5 +370,12 @@
             });
         }
     };
+
+    var scrollTo = function(wrapper) {
+        //focus on the value being edited
+        $('html, body').animate({
+            scrollTop: (wrapper.offset().top -100)
+        },200);
+    }
 })(jQuery);
 

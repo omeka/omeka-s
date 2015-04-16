@@ -1442,6 +1442,7 @@ body.sidebar-open #content {
         display: inline-block;
         vertical-align: middle;
         max-width: 80%;
+        word-break: break-word;
     }
 
     .media.value.delete span.restore-value {

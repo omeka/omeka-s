@@ -10,9 +10,7 @@
             var count = propertyField.length;
             // If property has already been set, scroll to its field
             if (count > 0) {
-                $('html, body').animate({
-                    scrollTop: (propertyField.first().offset().top -100)
-                },200);
+                scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
                 var wrapper = $('div.resource-values.field[data-property-term="' + qName + '"] .values');

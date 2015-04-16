@@ -228,7 +228,7 @@
                     if (typeof title == 'undefined') {
                         title = '[Untitled]';
                     }
-                    var html = "<a href='" + valueObject['url'] + "'>" + valueObject['dcterms:title'] + "</a>";
+                    var html = "<a href='" + valueObject['url'] + "'>" + title + "</a>";
                     newResource.find('.o-title').html(html);
 
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');

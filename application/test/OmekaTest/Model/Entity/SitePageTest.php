@@ -29,6 +29,5 @@ class SitePageTest extends TestCase
         $site = new Site;
         $this->page->setSite($site);
         $this->assertSame($site, $this->page->getSite());
-        $this->assertTrue($site->getPages()->contains($this->page));
     }
 }

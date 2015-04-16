@@ -29,6 +29,5 @@ class SitePageBlockTest extends TestCase
         $page = new SitePage;
         $this->block->setPage($page);
         $this->assertSame($page, $this->block->getPage());
-        $this->assertTrue($page->getBlocks()->contains($this->block));
     }
 }

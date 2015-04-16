@@ -65,6 +65,5 @@ class MediaTest extends TestCase
         $item = new Item;
         $this->media->setItem($item);
         $this->assertSame($item, $this->media->getItem());
-        $this->assertTrue($item->getMedia()->contains($this->media));
     }
 }

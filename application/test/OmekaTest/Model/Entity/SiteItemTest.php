@@ -36,7 +36,6 @@ class SiteItemTest extends TestCase
         $site = new Site;
         $this->siteItem->setSite($site);
         $this->assertSame($site, $this->siteItem->getSite());
-        $this->assertTrue($site->getSiteItems()->contains($this->siteItem));
     }
 
     public function testSetItem()
@@ -44,6 +43,5 @@ class SiteItemTest extends TestCase
         $item = new Item;
         $this->siteItem->setItem($item);
         $this->assertSame($item, $this->siteItem->getItem());
-        $this->assertTrue($item->getSiteItems()->contains($this->siteItem));
     }
 }

@@ -25,6 +25,5 @@ class SiteBlockAttachmentTest extends TestCase
         $block = new SitePageBlock;
         $this->attachment->setBlock($block);
         $this->assertSame($block, $this->attachment->getBlock());
-        $this->assertTrue($block->getAttachments()->contains($this->attachment));
     }
 }

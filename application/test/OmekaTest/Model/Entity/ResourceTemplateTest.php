@@ -39,23 +39,5 @@ class ResourceTemplateTest extends TestCase
         $owner = new User;
         $this->resourceTemplate->setOwner($owner);
         $this->assertSame($owner, $this->resourceTemplate->getOwner());
-        $this->assertTrue($owner->getResourceTemplates()->contains($this->resourceTemplate));
-    }
-
-    public function testAddResourceTemplateProperty()
-    {
-        $resourceTemplateProperty = new ResourceTemplateProperty;
-        $this->resourceTemplate->addResourceTemplateProperty($resourceTemplateProperty);
-        $this->assertSame($this->resourceTemplate, $resourceTemplateProperty->getResourceTemplate());
-        $this->assertTrue($this->resourceTemplate->getResourceTemplateProperties()->contains($resourceTemplateProperty));
-    }
-
-    public function testRemoveResourceTemplateProperty()
-    {
-        $resourceTemplateProperty = new ResourceTemplateProperty;
-        $this->resourceTemplate->addResourceTemplateProperty($resourceTemplateProperty);
-        $this->resourceTemplate->removeResourceTemplateProperty($resourceTemplateProperty);
-        $this->assertFalse($this->resourceTemplate->getResourceTemplateProperties()->contains($resourceTemplateProperty));
-        $this->assertNull($resourceTemplateProperty->getResourceTemplate());
     }
 }

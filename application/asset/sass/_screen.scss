@@ -1443,6 +1443,14 @@ body.sidebar-open #content {
         vertical-align: middle;
     }
 
+    .media.value.delete span.restore-value {
+        padding: 0;
+    }
+
+    .value.delete > .actions {
+        display: inline-block;
+    }
+
     /* @end */
 
 /* @end */

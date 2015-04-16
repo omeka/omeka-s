@@ -1839,6 +1839,14 @@ th {
     vertical-align: middle;
   }
 
+  .media.value.delete span.restore-value {
+    padding: 0;
+  }
+
+  .value.delete > .actions {
+    display: inline-block;
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Select Item Sidebar ----- */

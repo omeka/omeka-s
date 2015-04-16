@@ -1468,7 +1468,6 @@ th {
     margin-top: 0.375em;
     padding: 0.375em 10px;
     background-color: rgba(0, 0, 0, 0.1);
-    cursor: pointer;
   }
   .property-selector > ul > li:last-of-type li:last-of-type,
   .properties > ul > li:last-of-type li:last-of-type {
@@ -1492,6 +1491,10 @@ th {
     font-weight: normal;
     padding: 0.375em 10px;
     margin: 0 -10px;
+  }
+  .property-selector > ul li.vocabulary,
+  .properties > ul li.vocabulary {
+    cursor: pointer;
   }
   .property-selector > ul li.vocabulary.show:after,
   .properties > ul li.vocabulary.show:after {
@@ -1772,6 +1775,10 @@ th {
     clear: both;
     background-color: #fff;
     padding: 0 0.375em;
+  }
+
+  .resource.value .button:before {
+    margin-right: .5em;
   }
 
   .value.delete span.restore-value {

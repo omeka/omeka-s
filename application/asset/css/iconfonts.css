@@ -1824,11 +1824,11 @@
   content: "";
 }
 
-.fa-cube:before {
+.fa-cube:before, .o-icon-items:before {
   content: "";
 }
 
-.fa-cubes:before, .o-icon-items:before,
+.fa-cubes:before, .o-icon-item-sets:before,
 .o-icon-resource:before {
   content: "";
 }

@@ -1076,7 +1076,6 @@ body.sidebar-open #content {
             @include leader(.25);
             padding: rhythm(.25) 10px;
             background-color: rgba(0,0,0,.1);
-            cursor: pointer;
             
             &:last-of-type li:last-of-type {
                 @include trailer(0);
@@ -1100,6 +1099,10 @@ body.sidebar-open #content {
                 padding: rhythm(.25) 10px;
                 margin: 0 -10px;
             }
+        }
+
+        li.vocabulary {
+            cursor: pointer;
         }
 
         li.vocabulary.show:after {
@@ -1377,6 +1380,10 @@ body.sidebar-open #content {
         clear: both;
         background-color: #fff;
         padding: 0 rhythm(.25);
+    }
+
+    .resource.value .button:before {
+        margin-right: .5em;
     }
 
     .value.delete span.restore-value {

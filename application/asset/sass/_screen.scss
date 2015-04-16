@@ -1408,7 +1408,7 @@ body.sidebar-open #content {
     
     /* @end */
     
-    /* @group ----- Files ----- */
+    /* @group ----- Media ----- */
     
     .upload-zone {
         background-color: $gray-on-white;
@@ -1422,6 +1422,25 @@ body.sidebar-open #content {
     
     #resource-files button {
         margin: rhythm() 0 0;
+    }
+
+    #add-media-field {
+        @include trailer();
+    }
+
+    .media.row {
+        padding: rhythm(.5) rhythm(.25);
+        @include trailer(.25);
+    }
+
+    .media.row img {
+        width: rhythm(1.5);
+        margin: rhythm(-.25) .5em rhythm(-.25) 0;
+    }
+
+    .media.row * {
+        display: inline-block;
+        vertical-align: middle;
     }
 
     /* @end */

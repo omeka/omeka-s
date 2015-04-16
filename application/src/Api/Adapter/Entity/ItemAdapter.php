@@ -70,12 +70,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         ErrorStore $errorStore
     ) {
         parent::hydrate($request, $entity, $errorStore);
-
         $data = $request->getContent();
 
-        // o:item_set
-        if (array_key_exists('o:item_set', $data) && is_array($data['o:item_set'])) {
-
+        if ($this->shouldHydrate($request, 'o:item_set')
+            && is_array($data['o:item_set'])
+        ) {
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
             $itemSetsToRetain = array();
@@ -86,7 +85,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     && is_numeric($itemSetData['o:id'])
                 ) {
                     $itemSetId = $itemSetData['o:id'];
-                } else if (is_numeric($itemSetData)) {
+                } elseif (is_numeric($itemSetData)) {
                     $itemSetId = $itemSetData;
                 } else {
                     continue;
@@ -109,20 +108,34 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
-        if (isset($data['o:media']) && is_array($data['o:media'])) {
-            $mediaAdapter = $this->getAdapter('media');
-            $mediaEntityClass = $mediaAdapter->getEntityClass();
+        if ($this->shouldHydrate($request, 'o:media') && is_array($data['o:media'])) {
+            $adapter = $this->getAdapter('media');
+            $class = $adapter->getEntityClass();
+            $retainMedia = array();
+            $retainMediaIds = array();
             foreach ($data['o:media'] as $mediaData) {
                 if (isset($mediaData['o:id'])) {
-                    continue; // do not process existing media
+                    // Do not update existing media.
+                    $retainMediaIds[] = $mediaData['o:id'];
+                } else {
+                    // Create a new media.
+                    $media = new $class;
+                    $media->setItem($entity);
+                    $subrequest = new Request(Request::CREATE, 'media');
+                    $subrequest->setContent($mediaData);
+                    $subrequest->setFileData($request->getFileData());
+                    $adapter->hydrateEntity($subrequest, $media, $errorStore);
+                    $entity->getMedia()->add($media);
+                    $retainMedia[] = $media;
                 }
-                $media = new $mediaEntityClass;
-                $media->setItem($entity);
-                $subrequest = new Request(Request::CREATE, 'media');
-                $subrequest->setContent($mediaData);
-                $subrequest->setFileData($request->getFileData());
-                $mediaAdapter->hydrateEntity($subrequest, $media, $errorStore);
-                $entity->getMedia()->add($media);
+            }
+            // Remove media not included in request.
+            foreach ($entity->getMedia() as $media) {
+                if (!in_array($media, $retainMedia)
+                    && !in_array($media->getId(), $retainMediaIds)
+                ) {
+                    $entity->getMedia()->removeElement($media);
+                }
             }
         }
     }

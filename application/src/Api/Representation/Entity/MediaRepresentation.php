@@ -155,6 +155,17 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Return the parent item parent of this media.
+     *
+     * @return ItemRepresentation
+     */
+    public function item()
+    {
+        return $this->getAdapter('items')
+            ->getRepresentation(null, $this->getData()->getItem());
+    }
+
+    /**
      * Get the display title for this resource.
      *
      * @param string|null $default

@@ -1,14 +1,12 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'resource-template add sidebar-open');
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $escape($this->translate('Add Resource Template')); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $escape($this->translate('Submit')); ?></button>
+    <button><?php echo $escape($submitLabel); ?></button>
 </div>
 
 <?php $labelElement = $form->get('o:label'); ?>
@@ -102,7 +100,7 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
         title: 'Undo remove property',
         click: function(event) {
             event.preventDefault();
-            propertyRow.toggleClass('delete');  
+            propertyRow.toggleClass('delete');
             propertyRow.append(propertyRow.data('property-id-element'));
             removeLink.show();
             $(this).remove();

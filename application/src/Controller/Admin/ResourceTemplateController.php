@@ -130,7 +130,6 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $view->setTemplate('omeka/admin/resource-template/add-edit');
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('resourceClassId', $resourceClassId);
         $view->setVariable('form', $form);

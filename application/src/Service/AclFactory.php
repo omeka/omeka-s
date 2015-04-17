@@ -51,11 +51,13 @@ class AclFactory implements FactoryInterface
      */
     protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        // Add ACL roles.
-        $acl->addRole('guest')
-            ->addRole('item_creator', 'guest')
-            ->addRole('site_admin')
-            ->addRole('global_admin');
+        $acl->addRole(Acl::ROLE_GUEST)
+            ->addRole(Acl::ROLE_RESEARCHER)
+            ->addRole(Acl::ROLE_AUTHOR)
+            ->addRole(Acl::ROLE_REVIEWER)
+            ->addRole(Acl::ROLE_EDITOR)
+            ->addRole(Acl::ROLE_SITE_ADMIN)
+            ->addRole(Acl::ROLE_GLOBAL_ADMIN);
     }
 
     /**
@@ -112,41 +114,26 @@ class AclFactory implements FactoryInterface
     protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
         // Global admins have access to all resources.
-        $acl->allow('global_admin');
+        $acl->allow(Acl::ROLE_GLOBAL_ADMIN);
 
-        // Site admins have access to all resources.
-        $acl->allow('site_admin');
-
-        // Everyone has access to the API.
+        // Everyone has access to these resources.
         $acl->allow(null, 'Omeka\Controller\Api');
-
-        // Everyone has access to login.
         $acl->allow(null, 'Omeka\Controller\Login');
-
-        // Everyone has access to maintenance.
         $acl->allow(null, 'Omeka\Controller\Maintenance');
-
-        // Everyone has access to migrate.
         $acl->allow(null, 'Omeka\Controller\Migrate');
 
         // Add guest rules.
-        $acl->allow('guest', null, array(
+        $acl->allow(Acl::ROLE_GUEST, null, array(
             ApiRequest::SEARCH,
             ApiRequest::READ,
         ));
-        $acl->deny('guest', array(
-            'Omeka\Api\Adapter\Entity\UserAdapter',
+        $acl->deny(Acl::ROLE_GUEST, array(
             'Omeka\Api\Adapter\ModuleAdapter',
+            'Omeka\Api\Adapter\Entity\JobAdapter',
+            'Omeka\Api\Adapter\Entity\UserAdapter',
         ), array(
             ApiRequest::SEARCH,
             ApiRequest::READ,
-        ));
-
-        // Add item_creator rules.
-        $acl->allow('item_creator', 'Omeka\Api\Adapter\Entity\ItemAdapter', array(
-            ApiRequest::CREATE,
-            ApiRequest::UPDATE,
-            ApiRequest::DELETE,
         ));
     }
 }

@@ -28,17 +28,16 @@ class AclFactory implements FactoryInterface
 
         $this->addRoles($acl, $serviceLocator);
         $this->addResources($acl, $serviceLocator);
-        $this->addRules($acl, $serviceLocator);
 
-        if (!$serviceLocator->get('Omeka\Status')->isInstalled()) {
+        if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
+            // Omeka is installed. Set rules and trigger the acl event.
+            $this->addRules($acl, $serviceLocator);
+            $event = new Event(Event::ACL, $acl, array('services' => $serviceLocator));
+            $serviceLocator->get('EventManager')->trigger($event);
+        } else {
             // Allow all privileges during installation.
             $acl->allow();
-            return $acl;
         }
-
-        // Trigger the acl event.
-        $event = new Event(Event::ACL, $acl, array('services' => $serviceLocator));
-        $serviceLocator->get('EventManager')->trigger($event);
 
         return $acl;
     }

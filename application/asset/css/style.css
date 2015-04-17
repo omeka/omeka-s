@@ -2147,6 +2147,7 @@ th {
   .resource-template .property.row textarea {
     display: inline-block;
     vertical-align: top;
+    resize: vertical;
   }
   .resource-template .property.row label:first-child {
     padding: 0.375em 0 0.375em 2.25em;

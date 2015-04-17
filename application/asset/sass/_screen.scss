@@ -1781,6 +1781,7 @@ body.show .property {
     textarea {
         display: inline-block;
         vertical-align: top;
+        resize: vertical;
     }
     
     label:first-child {

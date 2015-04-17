@@ -44,7 +44,6 @@ class UserForm extends AbstractForm
         ));
 
         $roles = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
-        unset($roles['guest']);
         if ($this->getOption('include_role')) {
             $this->add(array(
                 'name' => 'o:role',

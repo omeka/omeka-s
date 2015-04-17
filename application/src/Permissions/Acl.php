@@ -24,7 +24,6 @@ class Acl extends ZendAcl
         self::ROLE_REVIEWER     => 'Reviewer',
         self::ROLE_AUTHOR       => 'Author',
         self::ROLE_RESEARCHER   => 'Researcher',
-        self::ROLE_GUEST        => 'Guest',
     );
 
     /**

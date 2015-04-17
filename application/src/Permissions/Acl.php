@@ -6,7 +6,26 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 
 class Acl extends ZendAcl
 {
-    const DEFAULT_USER_ROLE = 'guest';
+    const ROLE_GLOBAL_ADMIN = 'global_admin';
+    const ROLE_SITE_ADMIN   = 'site_admin';
+    const ROLE_EDITOR       = 'editor';
+    const ROLE_REVIEWER     = 'reviewer';
+    const ROLE_AUTHOR       = 'author';
+    const ROLE_RESEARCHER   = 'researcher';
+    const ROLE_GUEST        = 'guest';
+
+    /**
+     * @var array
+     */
+    protected $roleLabels = array(
+        self::ROLE_GLOBAL_ADMIN => 'Global Administrator',
+        self::ROLE_SITE_ADMIN   => 'Site Administrator',
+        self::ROLE_EDITOR       => 'Editor',
+        self::ROLE_REVIEWER     => 'Reviewer',
+        self::ROLE_AUTHOR       => 'Author',
+        self::ROLE_RESEARCHER   => 'Researcher',
+        self::ROLE_GUEST        => 'Guest',
+    );
 
     /**
      * @var AuthenticationServiceInterface
@@ -37,7 +56,7 @@ class Acl extends ZendAcl
             $role = $auth->getIdentity();
         }
         if (!$role) {
-            $role = self::DEFAULT_USER_ROLE;
+            $role = self::ROLE_GUEST;
         }
         return $this->isAllowed($role, $resource, $privilege);
     }

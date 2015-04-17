@@ -49,6 +49,16 @@ class Acl extends ZendAcl
     }
 
     /**
+     * Get role names and their labels.
+     *
+     * @return array
+     */
+    public function getRoleLabels()
+    {
+        return $this->roleLabels;
+    }
+
+    /**
      * Authorize the current user.
      *
      * @param Resource\ResourceInterface|string $resource

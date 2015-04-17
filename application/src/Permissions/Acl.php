@@ -48,6 +48,13 @@ class Acl extends ZendAcl
         return $this->auth;
     }
 
+    /**
+     * Authorize the current user.
+     *
+     * @param Resource\ResourceInterface|string $resource
+     * @param string $privilege
+     * @return bool
+     */
     public function userIsAllowed($resource = null, $privilege = null)
     {
         $auth = $this->auth;

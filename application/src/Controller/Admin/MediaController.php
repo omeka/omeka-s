@@ -77,4 +77,13 @@ class MediaController extends AbstractActionController
         }
         return $view;
     }
+
+    public function showAction()
+    {
+    $response = $this->api()->read('media', $this->params('id'));
+
+    $view = new ViewModel;
+    $view->setVariable('media', $response->getContent());
+    return $view;
+    }
 }

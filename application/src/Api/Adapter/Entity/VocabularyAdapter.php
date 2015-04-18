@@ -103,7 +103,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
             // Remove resource classes not included in request.
             foreach ($entity->getResourceClasses() as $resourceClass) {
-                if (!in_array($resourceClass, $retainResourceClasses)
+                if (!in_array($resourceClass, $retainResourceClasses, true)
                     && !in_array($resourceClass->getId(), $retainResourceClassIds)
                 ) {
                     $entity->getResourceClasses()->removeElement($resourceClass);
@@ -133,7 +133,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
             // Remove resource classes not included in request.
             foreach ($entity->getProperties() as $property) {
-                if (!in_array($property, $retainProperties)
+                if (!in_array($property, $retainProperties, true)
                     && !in_array($property->getId(), $retainPropertyIds)
                 ) {
                     $entity->getProperties()->removeElement($property);

@@ -4,6 +4,7 @@ namespace Omeka\Mvc;
 
 use Omeka\Api\Exception as ApiException;
 use Omeka\Mvc\Exception as MvcException;
+use Omeka\Permissions\Exception as AclException;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Response;
@@ -46,9 +47,7 @@ class ExceptionListener extends AbstractListenerAggregate
 
         $exception = $e->getParam('exception');
 
-        if ($exception instanceof ApiException\PermissionDeniedException
-            || $exception instanceof MvcException\PermissionDeniedException
-        ) {
+        if ($exception instanceof AclException\PermissionDeniedException) {
             $template = 'error/403';
             $status = 403;
         } else if ($exception instanceof ApiException\NotFoundException

@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Mvc\Exception;
 
-class PermissionDeniedException extends RuntimeException
-{
-}
+use Omeka\Permissions\Exception\PermissionDeniedException as AclPermissionDeniedException;
+
+class PermissionDeniedException extends AclPermissionDeniedException
+    implements ExceptionInterface
+{}

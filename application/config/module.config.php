@@ -25,7 +25,9 @@ return array(
         'maintenance' => 'layout/minimal',
     ),
     'permissions' => array(
-        'acl_resources' => array(),
+        'acl_resources' => array(
+            'Omeka\ModuleManager',
+        ),
     ),
     'temp_dir' => sys_get_temp_dir(),
     'entity_manager' => array(

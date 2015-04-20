@@ -51,12 +51,12 @@ class AclFactory implements FactoryInterface
     protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
         $acl->addRole(Acl::ROLE_GUEST)
-            ->addRole(Acl::ROLE_RESEARCHER)
-            ->addRole(Acl::ROLE_AUTHOR)
-            ->addRole(Acl::ROLE_REVIEWER)
-            ->addRole(Acl::ROLE_EDITOR)
-            ->addRole(Acl::ROLE_SITE_ADMIN)
-            ->addRole(Acl::ROLE_GLOBAL_ADMIN);
+            ->addRole(Acl::ROLE_RESEARCHER, Acl::ROLE_GUEST)
+            ->addRole(Acl::ROLE_AUTHOR, Acl::ROLE_RESEARCHER)
+            ->addRole(Acl::ROLE_REVIEWER, Acl::ROLE_AUTHOR)
+            ->addRole(Acl::ROLE_EDITOR, Acl::ROLE_REVIEWER)
+            ->addRole(Acl::ROLE_SITE_ADMIN, Acl::ROLE_EDITOR)
+            ->addRole(Acl::ROLE_GLOBAL_ADMIN, Acl::ROLE_SITE_ADMIN);
     }
 
     /**

@@ -1264,6 +1264,7 @@ body.sidebar-open #content {
             min-height: rhythm(1.5);
             padding: rhythm(.25);
             margin: rhythm(.25) 0;
+            resize: vertical;
         }
         
         select:only-child,

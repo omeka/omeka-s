@@ -73,9 +73,19 @@ class AclFactory implements FactoryInterface
      */
     protected function addResources(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
+        $config = $serviceLocator->get('Config');
+
+        // Add resources from configuration.
+        if (isset($config['permissions']['acl_resources'])
+            && is_array($config['permissions']['acl_resources'])
+        ) {
+            foreach ($config['permissions']['acl_resources'] as $resource) {
+                $acl->addResource($resource);
+            }
+        }
+
         // Add API adapters as ACL resources. These resources are used to set
         // rules for general access to API resources.
-        $config = $serviceLocator->get('Config');
         if (!isset($config['api_adapters']['invokables'])
             || !is_array($config['api_adapters']['invokables'])
         ) {

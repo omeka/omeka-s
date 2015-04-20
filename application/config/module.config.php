@@ -24,6 +24,9 @@ return array(
         'login'       => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),
+    'permissions' => array(
+        'acl_resources' => array(),
+    ),
     'temp_dir' => sys_get_temp_dir(),
     'entity_manager' => array(
         'is_dev_mode' => false,

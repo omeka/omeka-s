@@ -122,16 +122,15 @@ class AclFactory implements FactoryInterface
      */
     protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        // Global admins have access to all resources.
-        $acl->allow(Acl::ROLE_GLOBAL_ADMIN);
+        // All roles have access to these resources:
+        $acl->allow(null, array(
+            'Omeka\Controller\Api',
+            'Omeka\Controller\Login',
+            'Omeka\Controller\Maintenance',
+            'Omeka\Controller\Migrate',
+        ));
 
-        // Everyone has access to these resources.
-        $acl->allow(null, 'Omeka\Controller\Api');
-        $acl->allow(null, 'Omeka\Controller\Login');
-        $acl->allow(null, 'Omeka\Controller\Maintenance');
-        $acl->allow(null, 'Omeka\Controller\Migrate');
-
-        // Add guest rules.
+        // ROLE_GUEST
         $acl->allow(Acl::ROLE_GUEST, null, array(
             ApiRequest::SEARCH,
             ApiRequest::READ,
@@ -144,5 +143,18 @@ class AclFactory implements FactoryInterface
             ApiRequest::SEARCH,
             ApiRequest::READ,
         ));
+
+        // ROLE_RESEARCHER
+
+        // ROLE_AUTHOR
+
+        // ROLE_REVIEWER
+
+        // ROLE_EDITOR
+
+        // ROLE_SITE_ADMIN
+
+        // ROLE_GLOBAL_ADMIN
+        $acl->allow(Acl::ROLE_GLOBAL_ADMIN);
     }
 }

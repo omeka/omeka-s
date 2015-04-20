@@ -66,20 +66,38 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function validateRequest(Request $request, ErrorStore $errorStore)
+    {
+        $data = $request->getContent();
+        if (array_key_exists('o:item_set', $data)
+            && !is_array($data['o:item_set'])
+        ) {
+            $errorStore->addError('o:item_set', 'Item sets must be an array');
+        }
+
+        if (array_key_exists('o:media', $data)
+            && !is_array($data['o:media'])
+        ) {
+            $errorStore->addError('o:item_set', 'Media must be an array');
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
         parent::hydrate($request, $entity, $errorStore);
-        $data = $request->getContent();
 
-        if ($this->shouldHydrate($request, 'o:item_set')
-            && is_array($data['o:item_set'])
-        ) {
+        if ($this->shouldHydrate($request, 'o:item_set')) {
+            $itemSetsData = $request->getValue('o:item_set', array());
+
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
             $itemSetsToRetain = array();
 
-            foreach ($data['o:item_set'] as $itemSetData) {
+            foreach ($itemSetsData as $itemSetData) {
                 if (is_array($itemSetData)
                     && array_key_exists('o:id', $itemSetData)
                     && is_numeric($itemSetData['o:id'])
@@ -108,12 +126,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
-        if ($this->shouldHydrate($request, 'o:media') && is_array($data['o:media'])) {
+        if ($this->shouldHydrate($request, 'o:media')) {
+            $mediasData = $request->getValue('o:media', array());
             $adapter = $this->getAdapter('media');
             $class = $adapter->getEntityClass();
             $retainMedia = array();
             $retainMediaIds = array();
-            foreach ($data['o:media'] as $mediaData) {
+            foreach ($mediasData as $mediaData) {
                 if (isset($mediaData['o:id'])) {
                     // Do not update existing media.
                     $retainMediaIds[] = $mediaData['o:id'];

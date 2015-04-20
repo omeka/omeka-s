@@ -62,10 +62,28 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function validateRequest(Request $request, ErrorStore $errorStore)
+    {
+        $data = $request->getContent();
+        if (array_key_exists('o:class', $data)
+            && !is_array($data['o:class'])
+        ) {
+            $errorStore->addError('o:item_set', 'Classes must be an array');
+        }
+
+        if (array_key_exists('o:property', $data)
+            && !is_array($data['o:property'])
+        ) {
+            $errorStore->addError('o:item_set', 'Properties must be an array');
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
@@ -81,12 +99,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
             $entity->setComment($request->getValue('o:comment'));
         }
 
-        if ($this->shouldHydrate($request, 'o:class') && is_array($data['o:class'])) {
+        if ($this->shouldHydrate($request, 'o:class')) {
+            $classesData = $request->getValue('o:class', array());
             $adapter = $this->getAdapter('resource_classes');
             $class = $adapter->getEntityClass();
             $retainResourceClasses = array();
             $retainResourceClassIds = array();
-            foreach ($data['o:class'] as $classData) {
+            foreach ($classesData as $classData) {
                 if (isset($classData['o:id'])) {
                     // Do not update existing resource classes.
                     $retainResourceClassIds[] = $classData['o:id'];
@@ -111,12 +130,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
         }
 
-        if ($this->shouldHydrate($request, 'o:property') && is_array($data['o:property'])) {
+        if ($this->shouldHydrate($request, 'o:property')) {
+            $propertiesData = $request->getValue('o:property', array());
             $adapter = $this->getAdapter('properties');
             $class = $adapter->getEntityClass();
             $retainProperties = array();
             $retainPropertyIds = array();
-            foreach ($data['o:property'] as $propertyData) {
+            foreach ($propertiesData as $propertyData) {
                 if (isset($propertyData['o:id'])) {
                     // Do not update existing properties.
                     $retainPropertyIds[] = $propertyData['o:id'];

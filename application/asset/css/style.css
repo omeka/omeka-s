@@ -703,7 +703,6 @@ th {
   }
 
   .field .messages {
-    float: left;
     width: 100%;
     color: #FF0000;
   }
@@ -1849,6 +1848,15 @@ th {
     display: inline-block;
   }
 
+  .media-render {
+    margin-bottom: 1.5em;
+  }
+
+  .media-render img {
+    max-width: 100%;
+    height: auto;
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Select Item Sidebar ----- */
@@ -2031,18 +2039,51 @@ th {
   body.show .property h4 {
     background-color: rgba(0, 0, 0, 0.08);
     margin-bottom: 0em;
-    margin-right: .5em;
     padding: 0.375em;
   }
   body.show .property .value {
     padding: 0.375em;
     margin-bottom: 0em;
+    word-break: break-word;
   }
   body.show .property .value:not(:last-child) {
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
+  }
+
+  body.show .sidebar .property {
+    margin-bottom: 0.75em;
+  }
+
+  body.show .sidebar .property h4 {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.125em;
+    border-bottom-style: solid;
+    padding-bottom: 0.25em;
+  }
+
+  body.show .sidebar .media a:first-child img,
+  body.show .sidebar > img:first-child {
+    height: 10.5em;
+    width: auto;
+    display: block;
+    margin-bottom: 0.75em;
+  }
+
+  body.show .sidebar img {
+    height: 3em;
+    display: inline-block;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-width: 0.0625em;
+    border-style: solid;
+    padding: -0.0625em;
+  }
+
+  .source-type {
+    font-weight: bold;
   }
 
   /* @group ----- Show Item ----- */

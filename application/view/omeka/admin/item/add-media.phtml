@@ -11,7 +11,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div class="inputs">
         <select id="new-media-type">
-            <option value=""></option>
+            <option value=""><?php echo $this->translate('Select media type'); ?></option>
             <?php foreach ($mediaForms as $type => $form): ?>
             <option value="<?php echo $escapeAttr($type); ?>"><?php echo $escape($form['label']); ?></option>
             <?php endforeach; ?>

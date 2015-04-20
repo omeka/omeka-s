@@ -131,7 +131,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
             // Remove media not included in request.
             foreach ($entity->getMedia() as $media) {
-                if (!in_array($media, $retainMedia)
+                if (!in_array($media, $retainMedia, true)
                     && !in_array($media->getId(), $retainMediaIds)
                 ) {
                     $entity->getMedia()->removeElement($media);

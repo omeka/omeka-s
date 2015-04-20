@@ -294,7 +294,6 @@ div[role="main"] > .messages {
 }
 
 .field .messages {
-    float: left;
     width: 100%;
     color: $red;
 }
@@ -1453,6 +1452,15 @@ body.sidebar-open #content {
         display: inline-block;
     }
 
+    .media-render {
+        @include trailer();
+    }
+
+    .media-render img {
+        max-width: 100%;
+        height: auto;
+    }
+
     /* @end */
 
 /* @end */
@@ -1659,13 +1667,13 @@ body.show .property {
     h4 {
         background-color: $gray-on-white;
         @include trailer(0);
-        margin-right: .5em;
         padding: rhythm(.25);
     }
     
     .value {
         padding: rhythm(.25);
         @include trailer(0);
+        word-break: break-word;
         
         &:not(:last-child) {
             border-color: $gray-on-white;
@@ -1674,13 +1682,41 @@ body.show .property {
     }
 }
 
+body.show .sidebar .property {
+    @include trailer(.5);
+}
+
+body.show .sidebar .property h4 {
+    background-color: transparent;
+    border-color: $gray-on-white;
+    @include trailing-border(2px, .25, $base-font-size, solid);
+}
+
+body.show .sidebar .media a:first-child img,
+body.show .sidebar > img:first-child {
+    height: rhythm(7);
+    width: auto;
+    display: block;
+    @include trailer(.5);
+}
+
+body.show .sidebar img {
+    height: rhythm(2);
+    display: inline-block;
+    border-color: $gray-on-white;
+    @include rhythm-borders(1px, 0, $base-font-size, solid);
+}
+
+.source-type {
+    font-weight: bold;
+}
+
     /* @group ----- Show Item ----- */
     
     .property .value a:after {
         font-family: "FontAwesome";
         display: inline-block;
         margin-left: .5em;
-        
     }
     
     .property .value.uri a:after {

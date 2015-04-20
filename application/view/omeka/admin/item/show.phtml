@@ -1,5 +1,5 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'items show');
+$this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -11,35 +11,25 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#item-metadata"><?php echo $escape('Metadata'); ?></a></li>
-        <li><a href="#item-media"><?php echo $escape('Media'); ?></a></li>
         <li><a href="#item-linked"><?php echo $escape('Linked Resources'); ?></a></li>
-        <li><a href="#item-details"><?php echo $escape('Admin Details'); ?></a></li>
     </ul>
 </nav>
 
-<div id="item-metadata" class="active section">
+<div id="item-metadata" class="active section sidebar-open">
     <?php echo $item->displayValues(); ?>
-</div>
-
-<div id="item-media" class="section">
-    <?php foreach ($item->media() as $media): ?>
-    <div class="media row">
-        <img src="<?php echo $media->thumbnailUrl('square'); ?>">
-        <span class="resource-name"><?php echo $media->link(strip_tags($media->displayTitle('[untitled]')), 'edit'); ?></span>
-        <input type="hidden" name="o:media[][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
-    </div>
-    <?php endforeach; ?>
 </div>
 
 <div id="item-linked" class="section">
     <?php echo $item->displayLinkedResources(); ?>
 </div>
 
-<div id="item-sets" class="section">
 
-</div>
-
-<div id="item-details" class="section">
+<div class="sidebar active">
+    <div class="media">
+        <?php foreach ($item->media() as $media): ?>
+        <a href="<?php echo $media->url(); ?>"><img src="<?php echo $media->thumbnailUrl('square'); ?>"></a>
+        <?php endforeach; ?>
+    </div>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="property">
@@ -50,7 +40,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <?php endif; ?>
     <div class="property">
-        <h4>Created in Omeka</h4>
+        <h4>Date Created</h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
 </div>

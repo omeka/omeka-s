@@ -1,0 +1,37 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'media show sidebar-open');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<h1><?php echo $escape('Media'); ?>: &ldquo;<?php echo $escape(strip_tags($media->displayTitle('[untitled]'))); ?>&rdquo;</h1>
+<div id="page-actions">
+    <?php echo $media->link($this->translate('Edit media'), 'edit', array('class' => 'button')); ?>
+</div>
+
+
+<div id="item-metadata" class="active section">
+    <div class="media-render">
+    <?php echo $media->render(); ?>
+    </div>
+    <?php echo $media->displayValues(); ?>
+</div>
+
+<div class="sidebar active">
+    <div class="property">
+        <h4>Date Created</h4>
+        <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
+    </div>
+    <div class="property">
+        <h4>Part of Item</h4>
+        <?php $mediaItem = $media->item(); ?>
+        <div class="value"><?php echo $media->link($mediaItem->displayTitle()); ?></div>
+    </div>
+    <div class="property">
+        <h4>Source</h4>
+        <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
+    </div>
+    <div class="property">
+        <h4>Type</h4>
+        <div class="value"><?php echo $media->mediaType(); ?></div>
+    </div>
+</div>

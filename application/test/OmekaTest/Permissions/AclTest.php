@@ -22,7 +22,6 @@ class AclTest extends TestCase
     public function testUserIsAllowedWithNoAuth()
     {
         $this->assertFalse($this->acl->userIsAllowed('resource', 'not-guest-priv'));
-        $this->assertTrue($this->acl->userIsAllowed('resource', 'guest-priv'));
     }
 
     public function testUserIsAllowedWithNoUser()
@@ -34,7 +33,6 @@ class AclTest extends TestCase
         $this->acl->setAuthenticationService($auth);
 
         $this->assertFalse($this->acl->userIsAllowed('resource', 'not-guest-priv'));
-        $this->assertTrue($this->acl->userIsAllowed('resource', 'guest-priv'));
     }
 
     public function testUserIsAllowedWithUser()

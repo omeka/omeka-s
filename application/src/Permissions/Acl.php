@@ -12,7 +12,6 @@ class Acl extends ZendAcl
     const ROLE_REVIEWER     = 'reviewer';
     const ROLE_AUTHOR       = 'author';
     const ROLE_RESEARCHER   = 'researcher';
-    const ROLE_GUEST        = 'guest';
 
     /**
      * @var array
@@ -70,9 +69,6 @@ class Acl extends ZendAcl
         $role = null;
         if ($auth) {
             $role = $auth->getIdentity();
-        }
-        if (!$role) {
-            $role = self::ROLE_GUEST;
         }
         return $this->isAllowed($role, $resource, $privilege);
     }

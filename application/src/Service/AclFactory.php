@@ -50,8 +50,7 @@ class AclFactory implements FactoryInterface
      */
     protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        $acl->addRole(Acl::ROLE_GUEST)
-            ->addRole(Acl::ROLE_RESEARCHER, Acl::ROLE_GUEST)
+        $acl->addRole(Acl::ROLE_RESEARCHER)
             ->addRole(Acl::ROLE_AUTHOR, Acl::ROLE_RESEARCHER)
             ->addRole(Acl::ROLE_REVIEWER, Acl::ROLE_AUTHOR)
             ->addRole(Acl::ROLE_EDITOR, Acl::ROLE_REVIEWER)
@@ -122,16 +121,8 @@ class AclFactory implements FactoryInterface
      */
     protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        // All roles have access to these resources:
+        // All roles:
         $acl->allow(null, array(
-            'Omeka\Controller\Api',
-            'Omeka\Controller\Login',
-            'Omeka\Controller\Maintenance',
-            'Omeka\Controller\Migrate',
-        ));
-
-        // ROLE_GUEST
-        $acl->allow(Acl::ROLE_GUEST, array(
             'Omeka\Model\Entity\Item',
             'Omeka\Model\Entity\ItemSet',
             'Omeka\Model\Entity\Media',
@@ -139,7 +130,7 @@ class AclFactory implements FactoryInterface
         ), array(
             'read',
         ));
-        $acl->allow(Acl::ROLE_GUEST, array(
+        $acl->allow(null, array(
             'Omeka\Api\Adapter\Entity\VocabularyAdapter',
             'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
             'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
@@ -151,6 +142,12 @@ class AclFactory implements FactoryInterface
         ), array(
             'search',
             'read',
+        ));
+        $acl->allow(null, array(
+            'Omeka\Controller\Api',
+            'Omeka\Controller\Login',
+            'Omeka\Controller\Maintenance',
+            'Omeka\Controller\Migrate',
         ));
 
         // ROLE_RESEARCHER

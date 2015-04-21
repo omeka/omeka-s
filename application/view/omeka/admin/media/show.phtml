@@ -34,4 +34,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <h4>Type</h4>
         <div class="value"><?php echo $media->mediaType(); ?></div>
     </div>
+    <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
+    <div class="property">
+        <h4>File Derivatives</h4>
+        <?php if ($media->hasOriginal()): ?>
+            <div class="value"><a href="<?php echo $media->originalUrl(); ?>">original</a></div>
+        <?php endif; ?>
+        <?php if ($media->hasThumbnails()): ?>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('large'); ?>">large</a></div>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('medium'); ?>">medium</a></div>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('square'); ?>">square</a></div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 </div>

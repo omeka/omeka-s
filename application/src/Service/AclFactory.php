@@ -131,20 +131,59 @@ class AclFactory implements FactoryInterface
         ));
 
         // ROLE_GUEST
-        $acl->allow(Acl::ROLE_GUEST, null, array(
-            ApiRequest::SEARCH,
-            ApiRequest::READ,
-        ));
-        $acl->deny(Acl::ROLE_GUEST, array(
-            'Omeka\Api\Adapter\ModuleAdapter',
-            'Omeka\Api\Adapter\Entity\JobAdapter',
-            'Omeka\Api\Adapter\Entity\UserAdapter',
+        $acl->allow(Acl::ROLE_GUEST, array(
+            'Omeka\Model\Entity\Item',
+            'Omeka\Model\Entity\ItemSet',
+            'Omeka\Model\Entity\Media',
+            'Omeka\Model\Entity\Vocabulary',
         ), array(
-            ApiRequest::SEARCH,
-            ApiRequest::READ,
+            'read',
+        ));
+        $acl->allow(Acl::ROLE_GUEST, array(
+            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+            'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'Omeka\Api\Adapter\Entity\ItemAdapter',
+            'Omeka\Api\Adapter\Entity\MediaAdapter',
+            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+            'Omeka\Api\Adapter\Entity\SiteAdapter',
+        ), array(
+            'search',
+            'read',
         ));
 
         // ROLE_RESEARCHER
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Model\Entity\User',
+        ), array(
+            'read',
+        ));
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Api\Adapter\Entity\UserAdapter',
+        ), array(
+            'search',
+            'read',
+        ));
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Controller\Admin\Item',
+            'Omeka\Controller\Admin\ItemSet',
+            'Omeka\Controller\Admin\Media',
+            'Omeka\Controller\Admin\Vocabulary',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'Omeka\Controller\Admin\User',
+        ), array(
+            'index',
+            'browse',
+            'show',
+        ));
+        $acl->allow(Acl::ROLE_RESEARCHER,
+            'Omeka\Controller\Admin\Vocabulary',
+            array(
+                'classes',
+                'properties',
+            )
+        );
 
         // ROLE_AUTHOR
 

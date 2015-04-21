@@ -205,7 +205,6 @@ return array(
             'resource_classes'   => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
             'resource_templates' => 'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
             'properties'         => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
-            'values'             => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             'items'              => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             'media'              => 'Omeka\Api\Adapter\Entity\MediaAdapter',
             'item_sets'          => 'Omeka\Api\Adapter\Entity\ItemSetAdapter',

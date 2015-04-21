@@ -231,8 +231,14 @@ body {
             padding:0;
         }
 
+        .field-meta,
+        .inputs {
+            margin-top: rhythm(-.25);
+            margin-bottom: rhythm(-.25);
+        }
+
         .actions {
-            padding-top:1%;
+            margin-right: 4px;
         }
     }
 
@@ -1457,7 +1463,7 @@ body.sidebar-open #content {
         margin: rhythm(-.25) .5em rhythm(-.25) 0;
     }
 
-    .media.row * {
+    .media.row > * {
         display: inline-block;
         vertical-align: middle;
         max-width: 80%;
@@ -1479,6 +1485,16 @@ body.sidebar-open #content {
     .media-render img {
         max-width: 100%;
         height: auto;
+    }
+
+    #item-media .sidebar label {
+        @extend h4;
+    }
+
+    #item-media .sidebar select {
+        width: 100%;
+        display: block;
+        @include leader(.5);
     }
 
     /* @end */

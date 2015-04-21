@@ -24,7 +24,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="property">
         <h4>Part of Item</h4>
         <?php $mediaItem = $media->item(); ?>
-        <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
+        <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle('[untitled]')); ?></div>
     </div>
     <div class="property">
         <h4>Source</h4>

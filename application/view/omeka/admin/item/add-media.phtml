@@ -60,6 +60,6 @@ $('#new-media-type').change(function () {
 });
 
 $('#item-media').on('click', 'a.remove-new-media-field', function () {
-    $(".media-field-wrapper").remove();
+    $(this).parents(".media-field-wrapper").remove();
 });
 </script>

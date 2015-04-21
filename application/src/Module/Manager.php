@@ -6,10 +6,11 @@ use Omeka\Event\Event;
 use Omeka\Model\Entity\Module as ModuleEntity;
 use Omeka\Permissions\Exception as AclException;
 use Zend\I18n\Translator\TranslatorInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Manager implements ServiceLocatorAwareInterface
+class Manager implements ServiceLocatorAwareInterface, ResourceInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -388,7 +389,7 @@ class Manager implements ServiceLocatorAwareInterface
     protected function authorize(Module $module, $privilege)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->userIsAllowed('Omeka\ModuleManager', $privilege)) {
+        if (!$acl->userIsAllowed($this, $privilege)) {
             throw new AclException\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(
                     'Permission denied for the current user to %s the %s module.
@@ -396,5 +397,13 @@ class Manager implements ServiceLocatorAwareInterface
                 $privilege, $module->getId()
             ));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceId()
+    {
+        return get_called_class();
     }
 }

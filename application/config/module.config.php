@@ -26,7 +26,7 @@ return array(
     ),
     'permissions' => array(
         'acl_resources' => array(
-            'Omeka\ModuleManager',
+            'Omeka\Module\Manager',
         ),
     ),
     'temp_dir' => sys_get_temp_dir(),

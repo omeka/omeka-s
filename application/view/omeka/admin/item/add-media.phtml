@@ -58,4 +58,8 @@ $('#new-media-type').change(function () {
     );
     $(this).val('');
 });
+
+$('#item-media').on('click', 'a.remove-new-media-field', function () {
+    $(this).parents(".media-field-wrapper").remove();
+});
 </script>

@@ -634,6 +634,23 @@ th {
     border-color: transparent;
   }
 
+  .media-field-wrapper {
+    width: 100%;
+    padding: 0.75em 0.375em;
+    margin-bottom: 0.375em;
+    background-color: #e7e7e7;
+    position: relative;
+  }
+  .media-field-wrapper .field {
+    width: 90%;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+  .media-field-wrapper .actions {
+    padding-top: 1%;
+  }
+
   select {
     background-color: #fff;
     border: 1px solid #ccc;

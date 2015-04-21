@@ -217,6 +217,25 @@ body {
         }
     }
 
+    .media-field-wrapper {
+        width:100%;
+        padding: rhythm(.5) rhythm(.25);
+        @include trailer(.25);
+        background-color: #e7e7e7;
+        position: relative;
+
+        .field {
+            width:90%;
+            display:inline-block;
+            margin:0;
+            padding:0;
+        }
+
+        .actions {
+            padding-top:1%;
+        }
+    }
+
     select {
         background-color: #fff;
         border: 1px solid #ccc;

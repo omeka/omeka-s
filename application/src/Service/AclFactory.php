@@ -4,6 +4,7 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
+use Omeka\Permissions\Assertion\UserOwnsEntityAssertion;
 use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -123,22 +124,24 @@ class AclFactory implements FactoryInterface
     {
         // All roles:
         $acl->allow(null, array(
-            'Omeka\Model\Entity\Item',
             'Omeka\Model\Entity\ItemSet',
+            'Omeka\Model\Entity\Item',
             'Omeka\Model\Entity\Media',
             'Omeka\Model\Entity\Vocabulary',
+            'Omeka\Model\Entity\ResourceClass',
+            'Omeka\Model\Entity\Property',
+            'Omeka\Model\Entity\ResourceTemplate',
         ), array(
             'read',
         ));
         $acl->allow(null, array(
-            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
-            'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
-            'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
             'Omeka\Api\Adapter\Entity\ItemAdapter',
             'Omeka\Api\Adapter\Entity\MediaAdapter',
-            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-            'Omeka\Api\Adapter\Entity\SiteAdapter',
+            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+            'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+            'Omeka\Api\Adapter\Entity\PropertyAdapter',
+            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
         ), array(
             'search',
             'read',
@@ -183,6 +186,54 @@ class AclFactory implements FactoryInterface
         );
 
         // ROLE_AUTHOR
+        $acl->allow(Acl::ROLE_AUTHOR, array(
+            'Omeka\Model\Entity\ItemSet',
+            'Omeka\Model\Entity\Item',
+            'Omeka\Model\Entity\Media',
+            'Omeka\Model\Entity\ResourceTemplate',
+        ), array(
+            'create',
+        ));
+        $acl->allow(Acl::ROLE_AUTHOR, array(
+            'Omeka\Model\Entity\ItemSet',
+            'Omeka\Model\Entity\Item',
+            'Omeka\Model\Entity\Media',
+            'Omeka\Model\Entity\ResourceTemplate',
+        ), array(
+            'update',
+            'delete',
+        ), new UserOwnsEntityAssertion);
+        $acl->allow(Acl::ROLE_AUTHOR,
+            'Omeka\Model\Entity\User',
+            'update',
+            new UserOwnsEntityAssertion
+        );
+        $acl->allow(Acl::ROLE_AUTHOR, array(
+            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+            'Omeka\Api\Adapter\Entity\ItemAdapter',
+            'Omeka\Api\Adapter\Entity\MediaAdapter',
+            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            'Omeka\Api\Adapter\Entity\UserAdapter',
+        ), array(
+            'create',
+            'update',
+            'delete',
+        ));
+        $acl->allow(Acl::ROLE_AUTHOR, array(
+            'Omeka\Controller\Admin\ItemSet',
+            'Omeka\Controller\Admin\Item',
+            'Omeka\Controller\Admin\Media',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'Omeka\Controller\Admin\User',
+        ), array(
+            'add',
+            'edit',
+            'delete',
+        ));
+        $acl->allow(Acl::ROLE_AUTHOR,
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
 
         // ROLE_REVIEWER
 

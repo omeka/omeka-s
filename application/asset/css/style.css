@@ -968,6 +968,10 @@ th {
     content: "";
   }
 
+  #menu .sites:before {
+    content: "";
+  }
+
   #menu li li a:before {
     content: "";
   }

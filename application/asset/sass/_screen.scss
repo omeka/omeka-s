@@ -563,6 +563,10 @@ nav.pagination form input[type="text"] {
     #menu .jobs:before {
         content: $fa-var-tasks;
     }
+
+    #menu .sites:before {
+        content: $fa-var-laptop;
+    }
     
     #menu li li a:before {
         content: $fa-var-caret-right;

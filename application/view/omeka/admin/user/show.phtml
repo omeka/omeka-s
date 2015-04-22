@@ -8,26 +8,20 @@
     <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>">Edit User</a>
 </div>
 
-<div class="field">
-    <div class="field-meta">
-        <?php echo $escape('Name'); ?>
-    </div>
+<div class="property">
+    <h4><?php echo $escape('Name'); ?></h4>
     <div class="value">
         <?php echo $escape($user->name()); ?>
     </div>
 </div>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $escape('Email'); ?>
-    </div>
+<div class="property">
+    <h4><?php echo $escape('Email'); ?></h4>
     <div class="value">
         <?php echo $escape($user->email()); ?>
     </div>
 </div>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $escape('Role'); ?>
-    </div>
+<div class="property">
+    <h4><?php echo $escape('Role'); ?></h4>
     <div class="value">
         <?php echo $escape($user->role()); ?>
     </div>

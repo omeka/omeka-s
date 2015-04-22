@@ -563,6 +563,10 @@ nav.pagination form input[type="text"] {
     #menu .jobs:before {
         content: $fa-var-tasks;
     }
+
+    #menu .sites:before {
+        content: $fa-var-laptop;
+    }
     
     #menu li li a:before {
         content: $fa-var-caret-right;
@@ -1748,19 +1752,6 @@ body.show .sidebar img {
         content: $fa-var-cubes;
     }
 
-    /* @end */
-    
-    /* @group ----- Show User ----- */
-    
-    .users.show .field-meta {
-        font-weight: bold;
-        width: 15%;
-    }
-    
-    .users.show .field {
-        background-color: transparent;
-    }
-    
     /* @end */
 
 /* @end */

@@ -24,14 +24,29 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="property">
         <h4>Part of Item</h4>
         <?php $mediaItem = $media->item(); ?>
-        <div class="value"><?php echo $media->link($mediaItem->displayTitle()); ?></div>
+        <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle('[untitled]')); ?></div>
     </div>
     <div class="property">
         <h4>Source</h4>
         <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
     </div>
+    <?php if ($media->mediaType()): ?>
     <div class="property">
         <h4>Type</h4>
         <div class="value"><?php echo $media->mediaType(); ?></div>
     </div>
+    <?php endif; ?>
+    <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
+    <div class="property">
+        <h4>File Derivatives</h4>
+        <?php if ($media->hasOriginal()): ?>
+            <div class="value"><a href="<?php echo $media->originalUrl(); ?>">original</a></div>
+        <?php endif; ?>
+        <?php if ($media->hasThumbnails()): ?>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('large'); ?>">large</a></div>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('medium'); ?>">medium</a></div>
+            <div class="value"><a href="<?php echo $media->thumbnailUrl('square'); ?>">square</a></div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 </div>

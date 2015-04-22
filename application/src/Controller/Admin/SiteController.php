@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\SiteForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -10,6 +11,30 @@ class SiteController extends AbstractActionController
     public function indexAction()
     {
         return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+    }
+
+    public function addAction()
+    {
+        $form = new SiteForm($this->getServiceLocator());
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $response = $this->api()->create('sites', $formData);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Site created.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
     }
 
     public function browseAction()

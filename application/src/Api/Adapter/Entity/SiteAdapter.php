@@ -50,7 +50,7 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setTitle($request->getValue('o:title'));
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
-            $entity->setNavigation($request->getValue('o:navigation'));
+            $entity->setNavigation($request->getValue('o:navigation', array()));
         }
     }
 

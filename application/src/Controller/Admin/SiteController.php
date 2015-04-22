@@ -37,6 +37,38 @@ class SiteController extends AbstractActionController
         return $view;
     }
 
+    public function editAction()
+    {
+        $form = new SiteForm($this->getServiceLocator());
+        $id = $this->params('id');
+
+        $readResponse = $this->api()->read('sites', $id);
+        $site = $readResponse->getContent();
+        $data = $site->jsonSerialize();
+        $form->setData($data);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $response = $this->api()->update('sites', $id, $formData);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Site updated.');
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
     public function browseAction()
     {
         $page = $this->params()->fromQuery('page', 1);

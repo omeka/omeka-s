@@ -2121,17 +2121,6 @@ th {
   }
 
   /* @end */
-  /* @group ----- Show User ----- */
-  .users.show .field-meta {
-    font-weight: bold;
-    width: 15%;
-  }
-
-  .users.show .field {
-    background-color: transparent;
-  }
-
-  /* @end */
   /* @end */
   /* @group ----- Show Resource Template ----- */
   .class-row {

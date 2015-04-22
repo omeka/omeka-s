@@ -4,7 +4,8 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
-use Omeka\Permissions\Assertion\UserOwnsEntityAssertion;
+use Omeka\Permissions\Assertion\IsSelfAssertion;
+use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -160,6 +161,12 @@ class AclFactory implements FactoryInterface
             'read',
         ));
         $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Model\Entity\User',
+        ), array(
+            'update',
+            'change-password',
+        ), new IsSelfAssertion);
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
             'Omeka\Api\Adapter\Entity\UserAdapter',
         ), array(
             'search',
@@ -177,6 +184,11 @@ class AclFactory implements FactoryInterface
             'browse',
             'show',
         ));
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Controller\Admin\User',
+        ), array(
+            'change-password',
+        ));
         $acl->allow(Acl::ROLE_RESEARCHER,
             'Omeka\Controller\Admin\Vocabulary',
             array(
@@ -184,6 +196,14 @@ class AclFactory implements FactoryInterface
                 'properties',
             )
         );
+        $acl->allow(Acl::ROLE_RESEARCHER, array(
+            'Omeka\Controller\Admin\Item',
+            'Omeka\Controller\Admin\ItemSet',
+            'Omeka\Controller\Admin\Media',
+            'Omeka\Controller\Admin\Vocabulary',
+        ), array(
+            'show-details',
+        ));
 
         // ROLE_AUTHOR
         $acl->allow(Acl::ROLE_AUTHOR, array(
@@ -202,12 +222,7 @@ class AclFactory implements FactoryInterface
         ), array(
             'update',
             'delete',
-        ), new UserOwnsEntityAssertion);
-        $acl->allow(Acl::ROLE_AUTHOR,
-            'Omeka\Model\Entity\User',
-            'update',
-            new UserOwnsEntityAssertion
-        );
+        ), new OwnsEntityAssertion);
         $acl->allow(Acl::ROLE_AUTHOR, array(
             'Omeka\Api\Adapter\Entity\ItemSetAdapter',
             'Omeka\Api\Adapter\Entity\ItemAdapter',

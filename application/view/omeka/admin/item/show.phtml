@@ -25,11 +25,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 
 <div class="sidebar active">
-    <div class="media">
-        <?php foreach ($item->media() as $media): ?>
-        <a href="<?php echo $media->url(); ?>"><img src="<?php echo $media->thumbnailUrl('square'); ?>"></a>
-        <?php endforeach; ?>
-    </div>
+    <?php if ($primaryMedia = $item->primaryMedia()): ?>
+    <img 
+        src="<?php echo $escapeAttr($primaryMedia->thumbnailUrl('square')); ?>" 
+        title="<?php echo $escapeAttr($primaryMedia->displayTitle()); ?>" 
+        alt="<?php echo $escapeAttr($primaryMedia->mediaType()); ?> thumbnail"
+    >
+    <?php endif; ?>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="property">
@@ -43,5 +45,22 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <h4>Date Created</h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
+    <?php if ($item->media()): ?>
+    <div class="property">
+        <h4>Media</h4>
+        <?php foreach ($item->media() as $media): ?>
+        <div class="value">
+            <a href="<?php echo $media->url(); ?>">
+                <img 
+                    src="<?php echo $media->thumbnailUrl('square'); ?>"
+                title="<?php echo $escapeAttr($media->displayTitle()); ?>" 
+                alt="<?php echo $escapeAttr($media->mediaType()); ?> thumbnail"
+                >
+                <span class="file-name"><?php echo $media->displayTitle(); ?>
+            </a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 </div>
 <?php $this->trigger('view.show.after'); ?>

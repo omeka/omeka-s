@@ -1183,6 +1183,7 @@ th {
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
+    vertical-align: middle;
   }
   .sidebar .value *:last-child {
     margin-bottom: 0em;
@@ -1190,6 +1191,16 @@ th {
   .sidebar .value:last-child {
     border-color: transparent;
     margin-bottom: 1.5em;
+  }
+  .sidebar .value img {
+    vertical-align: middle;
+    margin-right: 0.375em;
+  }
+  .sidebar .file-name {
+    display: inline-block;
+    word-break: break-word;
+    max-width: calc(100% - 4.5em);
+    vertical-align: middle;
   }
 
   #sidebar-confirm {

@@ -44,7 +44,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 
 <script type="text/javascript">
-var index = 0;
+var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;
+
 $('#new-media-type').change(function () {
     var type = $(this).val();
     if (!type) {
@@ -56,9 +57,14 @@ $('#new-media-type').change(function () {
         $.parseHTML(template.replace(/__index__/g, index++))
     );
     $(this).val('');
+    $('html, body').animate({
+        scrollTop: ($('.media-field-wrapper').last().offset().top -100)
+    },200);
 });
 
-$('#item-media').on('click', 'a.remove-new-media-field', function () {
+$('#item-media').on('click', 'a.remove-new-media-field', function (e) {
+    e.preventDefault();
     $(this).parents(".media-field-wrapper").remove();
 });
+
 </script>

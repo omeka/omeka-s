@@ -4,10 +4,11 @@ return array(
         'admin' => array(
             array(
                 'label'      => 'Items',
+                'class'      => 'resources',
                 'route'      => 'admin/default',
                 'controller' => 'item',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Item',
-                'class'      => 'resources',
                 'privilege'  => 'browse',
                 'pages' => array(
                     array(
@@ -19,10 +20,12 @@ return array(
             ),
             array(
                 'label'      => 'Media',
+                'class'      => 'resources',
                 'route'      => 'admin/default',
                 'controller' => 'media',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Media',
-                'class'      => 'resources',
+                'privilege'  => 'browse',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -33,10 +36,11 @@ return array(
             ),
             array(
                 'label'      => 'Item Sets',
+                'class'      => 'resources',
                 'route'      => 'admin/default',
                 'controller' => 'item-set',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\ItemSet',
-                'class'      => 'resources',
                 'privilege'  => 'browse',
                 'pages' => array(
                     array(
@@ -48,11 +52,11 @@ return array(
             ),
             array(
                 'label'      => 'Vocabularies',
+                'class'      => 'ontology',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Vocabulary',
-                'class'      => 'ontology',
                 'privilege'  => 'browse',
                 'pages' => array(
                     array(
@@ -64,11 +68,11 @@ return array(
             ),
             array(
                 'label'      => 'Resource Templates',
+                'class'      => 'ontology',
                 'route'      => 'admin/default',
                 'controller' => 'resource-template',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
-                'class'      => 'ontology',
                 'privilege'  => 'browse',
                 'pages'      => array(
                     array(
@@ -85,11 +89,11 @@ return array(
             ),
             array(
                 'label'      => 'Users',
+                'class'      => 'users',
                 'route'      => 'admin/default',
                 'controller' => 'user',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\User',
-                'class'      => 'users',
                 'privilege'  => 'browse',
                 'pages' => array(
                     array(
@@ -101,26 +105,30 @@ return array(
             ),
             array(
                 'label'      => 'Modules',
+                'class'      => 'modules',
                 'route'      => 'admin/default',
                 'controller' => 'module',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Module',
-                'class'      => 'modules',
+                'privilege'  => 'browse',
             ),
             array(
                 'label'      => 'Jobs',
+                'class'      => 'jobs',
                 'route'      => 'admin/default',
                 'controller' => 'job',
+                'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Job',
-                'class'      => 'jobs',
+                'privilege'  => 'browse',
             ),
             array(
                 'label'      => 'Sites',
+                'class'      => 'sites',
                 'route'      => 'admin/default',
                 'controller' => 'site',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Site',
                 'privilege'  => 'browse',
-                'class'      => 'sites',
             ),
             array(
                 'label'      => 'Settings',

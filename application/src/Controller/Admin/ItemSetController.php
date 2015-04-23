@@ -8,11 +8,6 @@ use Zend\View\Model\ViewModel;
 
 class ItemSetController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
-    }
-
     public function searchAction()
     {
         $view = new ViewModel;

@@ -8,11 +8,6 @@ use Zend\View\Model\ViewModel;
 
 class JobController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
-    }
-
     public function browseAction()
     {
         $page = $this->params()->fromQuery('page', 1);

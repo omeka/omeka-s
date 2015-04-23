@@ -11,11 +11,6 @@ use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
-    }
-
     public function addAction()
     {
         $form = new UserForm($this->getServiceLocator(), null, array('include_role' => true));

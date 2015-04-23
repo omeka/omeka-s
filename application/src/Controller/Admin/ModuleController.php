@@ -10,11 +10,6 @@ use Zend\View\Model\ViewModel;
 
 class ModuleController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
-    }
-
     public function browseAction()
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');

@@ -10,11 +10,6 @@ use Zend\Form\Element\Csrf;
 
 class MediaController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
-    }
-    
     public function browseAction()
     {
         $response = $this->api()->search('media', array());

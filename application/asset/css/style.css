@@ -430,11 +430,11 @@ th {
     color: #FF0000;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, #item-media .sidebar label, h5, h6 {
     margin: 0;
   }
 
-  h3, h4, h5, h6 {
+  h3, h4, #item-media .sidebar label, h5, h6 {
     font-weight: bold;
   }
 
@@ -455,7 +455,7 @@ th {
     margin-bottom: 1em;
   }
 
-  h4 {
+  h4, #item-media .sidebar label {
     font-size: 20px;
     margin-bottom: 1.2em;
   }
@@ -647,8 +647,13 @@ th {
     margin: 0;
     padding: 0;
   }
+  .media-field-wrapper .field-meta,
+  .media-field-wrapper .inputs {
+    margin-top: -0.375em;
+    margin-bottom: -0.375em;
+  }
   .media-field-wrapper .actions {
-    padding-top: 1%;
+    margin-right: 4px;
   }
 
   select {
@@ -1165,12 +1170,12 @@ th {
     right: 1.04167%;
     top: 0.75em;
   }
-  .sidebar h4 {
+  .sidebar h4, #item-media .sidebar label {
     margin-bottom: 0.375em;
     background-color: transparent;
     padding: 0;
   }
-  .sidebar h4 + .value {
+  .sidebar h4 + .value, #item-media .sidebar label + .value {
     margin-top: 0em;
   }
   .sidebar .vocabulary,
@@ -1866,7 +1871,7 @@ th {
     margin: -0.375em 0.5em -0.375em 0;
   }
 
-  .media.row * {
+  .media.row > * {
     display: inline-block;
     vertical-align: middle;
     max-width: 80%;
@@ -1888,6 +1893,12 @@ th {
   .media-render img {
     max-width: 100%;
     height: auto;
+  }
+
+  #item-media .sidebar select {
+    width: 100%;
+    display: block;
+    margin-top: 0.75em;
   }
 
   /* @end */
@@ -2069,7 +2080,7 @@ th {
   body.show .property {
     margin-bottom: 1.5em;
   }
-  body.show .property h4 {
+  body.show .property h4, body.show .property #item-media .sidebar label, #item-media .sidebar body.show .property label {
     background-color: rgba(0, 0, 0, 0.08);
     margin-bottom: 0em;
     padding: 0.375em;
@@ -2090,7 +2101,7 @@ th {
     margin-bottom: 0.75em;
   }
 
-  body.show .sidebar .property h4 {
+  body.show .sidebar .property h4, body.show #item-media .sidebar .property label, #item-media body.show .sidebar .property label {
     background-color: transparent;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.125em;

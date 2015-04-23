@@ -3,21 +3,6 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <legend><?php echo $this->translate('Media'); ?></legend>
-<div id="add-media-field" class="field">
-    <div class="field-meta">
-        <label for="new-media-type">
-            <?php echo $this->translate('Add New Media'); ?> 
-        </label>
-    </div>
-    <div class="inputs">
-        <select id="new-media-type">
-            <option value=""><?php echo $this->translate('Select media type'); ?></option>
-            <?php foreach ($mediaForms as $type => $form): ?>
-            <option value="<?php echo $escapeAttr($type); ?>"><?php echo $escape($form['label']); ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-</div>
 <?php foreach ($mediaForms as $type => $form): ?>
 <span
     id="media-template-<?php echo $escapeAttr($type); ?>"
@@ -25,6 +10,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ></span>
 <?php endforeach; ?>
 
+<div id="media-list">
 <?php if ($resource && $resource->media()): ?>
     <?php foreach ($resource->media() as $media): ?>
     <div class="media value row">
@@ -43,9 +29,23 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <?php endforeach; ?>
 <?php endif; ?>
+</div>
+
+<div class="active sidebar">
+    <label for="new-media-type">
+        <?php echo $this->translate('Add New Media'); ?> 
+    </label>
+    <select id="new-media-type">
+        <option value=""><?php echo $this->translate('Select media type'); ?></option>
+        <?php foreach ($mediaForms as $type => $form): ?>
+        <option value="<?php echo $escapeAttr($type); ?>"><?php echo $escape($form['label']); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
 
 <script type="text/javascript">
-var index = 0;
+var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;
+
 $('#new-media-type').change(function () {
     var type = $(this).val();
     if (!type) {
@@ -53,13 +53,18 @@ $('#new-media-type').change(function () {
     }
 
     var template = $('#media-template-' + type).data('template');
-    $('#add-media-field').before(
+    $('#media-list').append(
         $.parseHTML(template.replace(/__index__/g, index++))
     );
     $(this).val('');
+    $('html, body').animate({
+        scrollTop: ($('.media-field-wrapper').last().offset().top -100)
+    },200);
 });
 
-$('#item-media').on('click', 'a.remove-new-media-field', function () {
+$('#item-media').on('click', 'a.remove-new-media-field', function (e) {
+    e.preventDefault();
     $(this).parents(".media-field-wrapper").remove();
 });
+
 </script>

@@ -6,7 +6,24 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 
 class Acl extends ZendAcl
 {
-    const DEFAULT_USER_ROLE = 'guest';
+    const ROLE_GLOBAL_ADMIN = 'global_admin';
+    const ROLE_SITE_ADMIN   = 'site_admin';
+    const ROLE_EDITOR       = 'editor';
+    const ROLE_REVIEWER     = 'reviewer';
+    const ROLE_AUTHOR       = 'author';
+    const ROLE_RESEARCHER   = 'researcher';
+
+    /**
+     * @var array
+     */
+    protected $roleLabels = array(
+        self::ROLE_GLOBAL_ADMIN => 'Global Administrator',
+        self::ROLE_SITE_ADMIN   => 'Site Administrator',
+        self::ROLE_EDITOR       => 'Editor',
+        self::ROLE_REVIEWER     => 'Reviewer',
+        self::ROLE_AUTHOR       => 'Author',
+        self::ROLE_RESEARCHER   => 'Researcher',
+    );
 
     /**
      * @var AuthenticationServiceInterface
@@ -29,15 +46,29 @@ class Acl extends ZendAcl
         return $this->auth;
     }
 
+    /**
+     * Get role names and their labels.
+     *
+     * @return array
+     */
+    public function getRoleLabels()
+    {
+        return $this->roleLabels;
+    }
+
+    /**
+     * Authorize the current user.
+     *
+     * @param Resource\ResourceInterface|string $resource
+     * @param string $privilege
+     * @return bool
+     */
     public function userIsAllowed($resource = null, $privilege = null)
     {
         $auth = $this->auth;
         $role = null;
         if ($auth) {
             $role = $auth->getIdentity();
-        }
-        if (!$role) {
-            $role = self::DEFAULT_USER_ROLE;
         }
         return $this->isAllowed($role, $resource, $privilege);
     }

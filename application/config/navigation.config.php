@@ -8,6 +8,7 @@ return array(
                 'controller' => 'item',
                 'resource'   => 'Omeka\Controller\Admin\Item',
                 'class'      => 'resources',
+                'privilege'  => 'browse',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -36,6 +37,7 @@ return array(
                 'controller' => 'item-set',
                 'resource'   => 'Omeka\Controller\Admin\ItemSet',
                 'class'      => 'resources',
+                'privilege'  => 'browse',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -51,6 +53,7 @@ return array(
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Vocabulary',
                 'class'      => 'ontology',
+                'privilege'  => 'browse',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -66,6 +69,7 @@ return array(
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\ResourceTemplate',
                 'class'      => 'ontology',
+                'privilege'  => 'browse',
                 'pages'      => array(
                     array(
                         'route'      => 'admin/id',
@@ -86,6 +90,7 @@ return array(
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\User',
                 'class'      => 'users',
+                'privilege'  => 'browse',
                 'pages' => array(
                     array(
                         'route'      => 'admin/id',
@@ -114,6 +119,7 @@ return array(
                 'controller' => 'site',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Site',
+                'privilege'  => 'browse',
                 'class'      => 'sites',
             ),
             array(

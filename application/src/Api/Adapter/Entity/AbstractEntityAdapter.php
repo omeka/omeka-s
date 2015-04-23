@@ -444,8 +444,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if (!$acl->userIsAllowed($entity, $privilege)) {
             throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to %s the %s resource.'),
-                $operation, $entity->getResourceId()
+                $this->getTranslator()->translate(
+                    'Permission denied for the current user to %s the %s resource.
+                '),
+                $privilege, $entity->getResourceId()
             ));
         }
     }

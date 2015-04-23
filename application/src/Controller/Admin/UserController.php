@@ -6,6 +6,7 @@ use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
 use Omeka\Model\Entity\ApiKey;
 use Zend\Mvc\Controller\AbstractActionController;
+use Omeka\Mvc\Exception;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
@@ -113,6 +114,12 @@ class UserController extends AbstractActionController
         $user = $userRepresentation->getEntity();
 
         if ($this->getRequest()->isPost()) {
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            if (!$acl->userIsAllowed($user, 'change-password')) {
+                throw new Exception\PermissionDeniedException(
+                    'User does not have permission to change the password'
+                );
+            }
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();

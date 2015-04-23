@@ -24,6 +24,11 @@ return array(
         'login'       => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),
+    'permissions' => array(
+        'acl_resources' => array(
+            'Omeka\Module\Manager',
+        ),
+    ),
     'temp_dir' => sys_get_temp_dir(),
     'entity_manager' => array(
         'is_dev_mode' => false,
@@ -201,7 +206,6 @@ return array(
             'resource_classes'   => 'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
             'resource_templates' => 'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
             'properties'         => 'Omeka\Api\Adapter\Entity\PropertyAdapter',
-            'values'             => 'Omeka\Api\Adapter\Entity\ValueAdapter',
             'items'              => 'Omeka\Api\Adapter\Entity\ItemAdapter',
             'media'              => 'Omeka\Api\Adapter\Entity\MediaAdapter',
             'item_sets'          => 'Omeka\Api\Adapter\Entity\ItemSetAdapter',

@@ -43,15 +43,14 @@ class UserForm extends AbstractForm
             ),
         ));
 
+        $roles = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
         if ($this->getOption('include_role')) {
             $this->add(array(
                 'name' => 'o:role',
                 'type' => 'select',
                 'options' => array(
                     'label' => 'Role',
-                    'value_options' => array(
-                        'global_admin' => 'Global Admin',
-                    ),
+                    'value_options' => $roles,
                 ),
                 'attributes' => array(
                     'id' => 'role',

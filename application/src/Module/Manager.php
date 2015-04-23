@@ -4,11 +4,13 @@ namespace Omeka\Module;
 use Doctrine\ORM\EntityManager;
 use Omeka\Event\Event;
 use Omeka\Model\Entity\Module as ModuleEntity;
+use Omeka\Permissions\Exception as AclException;
 use Zend\I18n\Translator\TranslatorInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Manager implements ServiceLocatorAwareInterface
+class Manager implements ServiceLocatorAwareInterface, ResourceInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -142,6 +144,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function activate(Module $module)
     {
+        $this->authorize($module, 'activate');
         $t = $this->getTranslator();
 
         // Only a deactivated module can be activated
@@ -173,6 +176,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function deactivate(Module $module)
     {
+        $this->authorize($module, 'deactivate');
         $t = $this->getTranslator();
 
         // Only an active module can be deactivated
@@ -204,6 +208,8 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function install(Module $module)
     {
+        $this->authorize($module, 'install');
+
         // Only a not installed module can be installed
         if (self::STATE_NOT_INSTALLED !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
@@ -236,6 +242,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function uninstall(Module $module)
     {
+        $this->authorize($module, 'uninstall');
         $t = $this->getTranslator();
 
         // Only an installed and upgraded module can be uninstalled
@@ -276,6 +283,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function upgrade(Module $module)
     {
+        $this->authorize($module, 'upgrade');
         $t = $this->getTranslator();
 
         // Only a module marked for upgrade can be upgraded
@@ -369,5 +377,33 @@ class Manager implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
+    }
+
+    /**
+     * Verify that the current user has permission.
+     *
+     * @throws AclException\PermissionDeniedException
+     * @param Module $module
+     * @param string $privilege
+     */
+    protected function authorize(Module $module, $privilege)
+    {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($this, $privilege)) {
+            throw new AclException\PermissionDeniedException(sprintf(
+                $this->getTranslator()->translate(
+                    'Permission denied for the current user to %s the %s module.
+                '),
+                $privilege, $module->getId()
+            ));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceId()
+    {
+        return get_called_class();
     }
 }

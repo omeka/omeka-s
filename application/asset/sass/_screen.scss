@@ -447,6 +447,10 @@ header {
     }
 }
 
+#advanced-options {
+    display:none;
+}
+
 div[role="main"] > h1:first-of-type {
     background-color: #fff;
     width: span(13 of 16) - gutter(10);

@@ -23,7 +23,8 @@
             <button id="advanced">Advanced Options</button>
             <button type="submit">Search</button>
             <fieldset id="advanced-options">
-                <input type="radio" name="resource-type" value="item" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>">Items<br>
+                <legend>Resource Type:</legend>
+                <input type="radio" name="resource-type" value="item" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" checked="checked">Items<br>
                 <input type="radio" name="resource-type" value="item-set" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'))); ?>">Item Sets<br>
                 <input type="radio" name="resource-type" value="media" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'media', 'action' => 'browse'))); ?>">Media<br>
             </fieldset>
@@ -35,8 +36,11 @@
 
 <script>
     $('#search-form').change(function() {
-        var controller = $("#advanced-options input[type='radio']:checked ").attr('data-action');
-        console.log(controller);
-        $("#search-form").attr("action", controller);
+        var actionURL = $("#advanced-options input[type='radio']:checked ").data('action');
+        $("#search-form").attr("action", actionURL);
+    });
+
+    $('#advanced').click(function() {
+        $('#advanced-options').slideToggle('slow');
     });
 </script>

@@ -53,11 +53,11 @@ class AclFactory implements FactoryInterface
     protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
         $acl->addRole(Acl::ROLE_RESEARCHER)
-            ->addRole(Acl::ROLE_AUTHOR, Acl::ROLE_RESEARCHER)
-            ->addRole(Acl::ROLE_REVIEWER, Acl::ROLE_AUTHOR)
-            ->addRole(Acl::ROLE_EDITOR, Acl::ROLE_REVIEWER)
-            ->addRole(Acl::ROLE_SITE_ADMIN, Acl::ROLE_EDITOR)
-            ->addRole(Acl::ROLE_GLOBAL_ADMIN, Acl::ROLE_SITE_ADMIN);
+            ->addRole(Acl::ROLE_AUTHOR)
+            ->addRole(Acl::ROLE_REVIEWER)
+            ->addRole(Acl::ROLE_EDITOR)
+            ->addRole(Acl::ROLE_SITE_ADMIN)
+            ->addRole(Acl::ROLE_GLOBAL_ADMIN);
     }
 
     /**
@@ -123,140 +123,439 @@ class AclFactory implements FactoryInterface
      */
     protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
-        // All roles:
-        $acl->allow(null, array(
-            'Omeka\Model\Entity\ItemSet',
-            'Omeka\Model\Entity\Item',
-            'Omeka\Model\Entity\Media',
-            'Omeka\Model\Entity\Vocabulary',
-            'Omeka\Model\Entity\ResourceClass',
-            'Omeka\Model\Entity\Property',
-            'Omeka\Model\Entity\ResourceTemplate',
-        ), array(
-            'read',
-        ));
-        $acl->allow(null, array(
-            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-            'Omeka\Api\Adapter\Entity\ItemAdapter',
-            'Omeka\Api\Adapter\Entity\MediaAdapter',
-            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
-            'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-            'Omeka\Api\Adapter\Entity\PropertyAdapter',
-            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
-        ), array(
-            'search',
-            'read',
-        ));
-        $acl->allow(null, array(
-            'Omeka\Controller\Api',
-            'Omeka\Controller\Login',
-            'Omeka\Controller\Maintenance',
-            'Omeka\Controller\Migrate',
-        ));
+        $this->addRulesForAllRoles($acl);
+        $this->addRulesForResearcher($acl);
+        $this->addRulesForAuthor($acl);
+        $this->addRulesForReviewer($acl);
+        $this->addRulesForEditor($acl);
+        $this->addRulesForSiteAdmin($acl);
+        $this->addRulesForGlobalAdmin($acl);
+    }
 
-        // ROLE_RESEARCHER
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Model\Entity\User',
-        ), array(
-            'read',
-        ));
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Model\Entity\User',
-        ), array(
-            'update',
-            'change-password',
-        ), new IsSelfAssertion);
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Api\Adapter\Entity\UserAdapter',
-        ), array(
-            'search',
-            'read',
-        ));
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Controller\Admin\Item',
-            'Omeka\Controller\Admin\ItemSet',
-            'Omeka\Controller\Admin\Media',
-            'Omeka\Controller\Admin\Vocabulary',
-            'Omeka\Controller\Admin\ResourceTemplate',
-            'Omeka\Controller\Admin\User',
-        ), array(
-            'index',
-            'browse',
-            'show',
-        ));
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Controller\Admin\User',
-        ), array(
-            'change-password',
-        ));
-        $acl->allow(Acl::ROLE_RESEARCHER,
-            'Omeka\Controller\Admin\Vocabulary',
+    /**
+     * Add rules for all roles, including users that aren't authenticated.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForAllRoles(Acl $acl)
+    {
+        $acl->allow(
+            null,
             array(
-                'classes',
-                'properties',
+                'Omeka\Controller\Api',
+                'Omeka\Controller\Login',
+                'Omeka\Controller\Maintenance',
+                'Omeka\Controller\Migrate',
             )
         );
-        $acl->allow(Acl::ROLE_RESEARCHER, array(
-            'Omeka\Controller\Admin\Item',
-            'Omeka\Controller\Admin\ItemSet',
-            'Omeka\Controller\Admin\Media',
-            'Omeka\Controller\Admin\Vocabulary',
-        ), array(
-            'show-details',
-        ));
-
-        // ROLE_AUTHOR
-        $acl->allow(Acl::ROLE_AUTHOR, array(
-            'Omeka\Model\Entity\ItemSet',
-            'Omeka\Model\Entity\Item',
-            'Omeka\Model\Entity\Media',
-            'Omeka\Model\Entity\ResourceTemplate',
-        ), array(
-            'create',
-        ));
-        $acl->allow(Acl::ROLE_AUTHOR, array(
-            'Omeka\Model\Entity\ItemSet',
-            'Omeka\Model\Entity\Item',
-            'Omeka\Model\Entity\Media',
-            'Omeka\Model\Entity\ResourceTemplate',
-        ), array(
-            'update',
-            'delete',
-        ), new OwnsEntityAssertion);
-        $acl->allow(Acl::ROLE_AUTHOR, array(
-            'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-            'Omeka\Api\Adapter\Entity\ItemAdapter',
-            'Omeka\Api\Adapter\Entity\MediaAdapter',
-            'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
-            'Omeka\Api\Adapter\Entity\UserAdapter',
-        ), array(
-            'create',
-            'update',
-            'delete',
-        ));
-        $acl->allow(Acl::ROLE_AUTHOR, array(
-            'Omeka\Controller\Admin\ItemSet',
-            'Omeka\Controller\Admin\Item',
-            'Omeka\Controller\Admin\Media',
-            'Omeka\Controller\Admin\ResourceTemplate',
-            'Omeka\Controller\Admin\User',
-        ), array(
-            'add',
-            'edit',
-            'delete',
-        ));
-        $acl->allow(Acl::ROLE_AUTHOR,
-            'Omeka\Controller\Admin\ResourceTemplate',
-            'add-new-property-row'
+        $acl->allow(
+            null,
+            array(
+                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+                'Omeka\Api\Adapter\Entity\ItemAdapter',
+                'Omeka\Api\Adapter\Entity\MediaAdapter',
+                'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+                'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
+                'Omeka\Api\Adapter\Entity\PropertyAdapter',
+                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            ),
+            array(
+                'search',
+                'read',
+            )
         );
+        $acl->allow(
+            null,
+            array(
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\Media',
+                'Omeka\Model\Entity\Vocabulary',
+                'Omeka\Model\Entity\ResourceClass',
+                'Omeka\Model\Entity\Property',
+                'Omeka\Model\Entity\ResourceTemplate',
+            ),
+            array(
+                'read',
+            )
+        );
+    }
 
-        // ROLE_REVIEWER
+    /**
+     * Add rules for "researcher" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForResearcher(Acl $acl)
+    {
+        $acl->allow(
+            'researcher',
+            array(
+                'Omeka\Controller\Admin\Index',
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Vocabulary',
+                'Omeka\Controller\Admin\ResourceClass',
+                'Omeka\Controller\Admin\Property',
+            ),
+            array(
+                'index',
+                'browse',
+                'show',
+                'show-details',
+                'classes', // from Vocabulary controller
+                'properties', // from Vocabulary controller
+            )
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Controller\Admin\User',
+            'edit'
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Api\Adapter\Entity\UserAdapter',
+            array('read', 'update')
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Model\Entity\User',
+            array('read', 'update'),
+            new IsSelfAssertion
+        );
+    }
 
-        // ROLE_EDITOR
+    /**
+     * Add rules for "author" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForAuthor(Acl $acl)
+    {
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Controller\Admin\Index',
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Vocabulary',
+                'Omeka\Controller\Admin\ResourceClass',
+                'Omeka\Controller\Admin\Property',
+            ),
+            array(
+                'index',
+                'browse',
+                'show',
+                'show-details',
+                'classes', // from Vocabulary controller
+                'properties', // from Vocabulary controller
+                'add-new-property-row', // from ResourceTemplate controller
+            )
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+            ),
+            array(
+                'add',
+                'edit',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Api\Adapter\Entity\ItemAdapter',
+                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+                'Omeka\Api\Adapter\Entity\MediaAdapter',
+                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            ),
+            array(
+                'create',
+                'update',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Media',
+                'Omeka\Model\Entity\ResourceTemplate',
+            ),
+            array(
+                'create',
+            )
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Media',
+                'Omeka\Model\Entity\ResourceTemplate',
+            ),
+            array(
+                'update',
+                'delete',
+            ),
+            new OwnsEntityAssertion
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\User',
+            'edit'
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Api\Adapter\Entity\UserAdapter',
+            array('read', 'update')
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Model\Entity\User',
+            array('read', 'update'),
+            new IsSelfAssertion
+        );
+    }
 
-        // ROLE_SITE_ADMIN
+    /**
+     * Add rules for "reviewer" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForReviewer(Acl $acl)
+    {
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Controller\Admin\Index',
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Vocabulary',
+                'Omeka\Controller\Admin\ResourceClass',
+                'Omeka\Controller\Admin\Property',
+            ),
+            array(
+                'index',
+                'browse',
+                'show',
+                'show-details',
+                'classes', // from Vocabulary controller
+                'properties', // from Vocabulary controller
+                'add-new-property-row', // from ResourceTemplate controller
+            )
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+            ),
+            array(
+                'add',
+                'edit',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Api\Adapter\Entity\ItemAdapter',
+                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+                'Omeka\Api\Adapter\Entity\MediaAdapter',
+                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            ),
+            array(
+                'create',
+                'update',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Media',
+            ),
+            array(
+                'create',
+                'update',
+            )
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Media',
+            ),
+            array(
+                'delete',
+            ),
+            new OwnsEntityAssertion
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Controller\Admin\User',
+            'edit'
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Api\Adapter\Entity\UserAdapter',
+            array('read', 'update')
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Model\Entity\User',
+            array('read', 'update'),
+            new IsSelfAssertion
+        );
+    }
 
-        // ROLE_GLOBAL_ADMIN
-        $acl->allow(Acl::ROLE_GLOBAL_ADMIN);
+    /**
+     * Add rules for "editor" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForEditor(Acl $acl)
+    {
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Controller\Admin\Index',
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Vocabulary',
+                'Omeka\Controller\Admin\ResourceClass',
+                'Omeka\Controller\Admin\Property',
+            ),
+            array(
+                'index',
+                'browse',
+                'show',
+                'show-details',
+                'classes', // from Vocabulary controller
+                'properties', // from Vocabulary controller
+                'add-new-property-row', // from ResourceTemplate controller
+            )
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\ResourceTemplate',
+            ),
+            array(
+                'add',
+                'edit',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Api\Adapter\Entity\ItemAdapter',
+                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
+                'Omeka\Api\Adapter\Entity\MediaAdapter',
+                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+            ),
+            array(
+                'create',
+                'update',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Model\Entity\Item',
+                'Omeka\Model\Entity\ItemSet',
+                'Omeka\Model\Entity\Media',
+                'Omeka\Model\Entity\ResourceTemplate',
+            ),
+            array(
+                'create',
+                'update',
+                'delete',
+            )
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\User'
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Api\Adapter\Entity\UserAdapter'
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Model\Entity\User',
+            array('read')
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Model\Entity\User',
+            array('create', 'update'),
+            new IsSelfAssertion
+        );
+    }
+
+    /**
+     * Add rules for "site_admin" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForSiteAdmin(Acl $acl)
+    {
+        $acl->allow('site_admin');
+        $acl->deny(
+            'site_admin',
+            'Omeka\Module\Manager',
+            array('activate', 'deactivate', 'install', 'uninstall', 'upgrade')
+        );
+        $acl->deny(
+            'site_admin',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('import')
+        );
+        $acl->deny(
+            'site_admin',
+            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+            array('create', 'update', 'delete')
+        );
+        $acl->deny(
+            'site_admin',
+            'Omeka\Model\Entity\Media',
+            array('create', 'update', 'delete')
+        );
+    }
+
+    /**
+     * Add rules for "global_admin" role.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForGlobalAdmin(Acl $acl)
+    {
+        $acl->allow('global_admin');
     }
 }

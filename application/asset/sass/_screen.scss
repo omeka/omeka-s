@@ -781,6 +781,7 @@ th .sorted-desc:before {
         @include trailer(.25);
         border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
+        vertical-align: middle;
         
         *:last-child {
             @include trailer(0);
@@ -790,6 +791,18 @@ th .sorted-desc:before {
             border-color: transparent;
             @include trailer();
         }
+
+        img {
+            vertical-align: middle;
+            margin-right: rhythm(.25);
+        }
+    }
+
+    .file-name {
+        display: inline-block;
+        word-break: break-word;
+        max-width: calc(100% - #{rhythm(3)});
+        vertical-align: middle;
     }
 }
 

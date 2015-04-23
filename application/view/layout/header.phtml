@@ -17,13 +17,25 @@
         <?php endif; ?>
     </div>
     <div id="search">
-        <form action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" id="search-form">
+        <form action="#" id="search-form">
             <?php $searchValue = isset($_GET['value']['in'][0]) ? $_GET['value']['in'][0] : ''; ?>
             <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>">
-            <button>Advanced Options</button>
+            <button id="advanced">Advanced Options</button>
             <button type="submit">Search</button>
+            <fieldset id="advanced-options">
+                <input type="radio" name="resource-type" value="item">Items<br>
+                <input type="radio" name="resource-type" value="item-set">Item Sets<br>
+                <input type="radio" name="resource-type" value="media">Media<br>
+            </fieldset>
         </form>
     </div>
     <nav id="menu" role="navigation"><?php echo $this->navigation('Zend\Navigation\Admin')->menu(); ?></nav>
     </nav>
 </header>
+
+<script>
+    $('#search-form').change(function() {
+        var controller = $("#advanced-options input[type='radio']:checked").val();
+        $("#search-form").attr("action", "<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' =>" + controller + ", 'action' => 'browse'))); ?>");
+    });
+</script>

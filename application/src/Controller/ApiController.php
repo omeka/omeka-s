@@ -61,6 +61,16 @@ class ApiController extends AbstractRestfulController
     /**
      * {@inheritDoc}
      */
+    public function patch($id, $data)
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api()->update($resource, $id, $data, array(), true);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete($id)
     {
         $resource = $this->params()->fromRoute('resource');

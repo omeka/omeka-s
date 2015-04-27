@@ -10,7 +10,7 @@ use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
 
 /**
  * Abstract Omeka module.
@@ -65,10 +65,10 @@ abstract class AbstractModule implements ConfigProviderInterface
     /**
      * Get this module's configuration form.
      *
-     * @param ViewModel $view
+     * @param PhpRenderer $renderer
      * @return string
      */
-    public function getConfigForm(ViewModel $view)
+    public function getConfigForm(PhpRenderer $renderer)
     {}
 
     /**

@@ -230,8 +230,9 @@ class ModuleController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $renderer = $this->getServiceLocator()->get('ViewRenderer');
+        $view->setVariable('configForm', $moduleObject->getConfigForm($renderer));
         $view->setVariable('module', $module);
-        $view->setVariable('configForm', $moduleObject->getConfigForm($view));
         return $view;
     }
 

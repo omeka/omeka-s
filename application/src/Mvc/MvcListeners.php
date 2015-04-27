@@ -38,6 +38,10 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_DISPATCH,
+            array($this, 'setThemeTemplatePath')
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_DISPATCH,
             array($this, 'setLayoutForRoute')
         );
     }
@@ -207,6 +211,39 @@ class MvcListeners extends AbstractListenerAggregate
             // MvcEvent::EVENT_DISPATCH_ERROR.
             $event->setParam('exception', $e);
         }
+    }
+
+    /**
+     * Set the site theme's template path.
+     *
+     * @param MvcEvent $event
+     */
+    public function setThemeTemplatePath(MvcEvent $event)
+    {
+        $routeMatch = $event->getRouteMatch();
+        $routeNamespace = $routeMatch->getParam('__NAMESPACE__');
+
+        if ('Omeka\Controller\Site' !== $routeNamespace) {
+            return;
+        }
+
+        $serviceLocator = $event->getApplication()->getServiceManager();
+        $entityManager = $serviceLocator->get('Omeka\EntityManager');
+
+        $sql = 'SELECT s FROM Omeka\Model\Entity\Site s WHERE s.slug = :slug';
+        $query = $entityManager->createQuery($sql);
+        $query->setParameter('slug', $routeMatch->getParam('site-slug'));
+        $site = $query->getOneOrNullResult();
+
+        if (!$site) {
+            // Site not found, set minimal layout and 404 status
+            $event->getViewModel()->setTemplate('layout/minimal');
+            $event->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        $resolver = $serviceLocator->get('ViewTemplatePathStack');
+        $resolver->addPath(sprintf('%s/theme/%s', OMEKA_PATH, $site->getTheme()));
     }
 
     /**

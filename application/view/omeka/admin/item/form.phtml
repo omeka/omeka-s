@@ -50,7 +50,7 @@ $formElement = $this->plugin('formElement');
 
     <fieldset id="page-actions">
         <input type="submit" name="add-item-submit" value="<?php echo $escapeAttr($submit_label); ?>">
-        <a href="#" class="cancel button">Cancel</a>
+        <a href="<?php echo $this->url('admin/default', array('controller'=>'item', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $formElement($form->get('csrf')); ?>
 </form>

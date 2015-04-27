@@ -44,7 +44,7 @@ if (isset($errors)) {
 
     <fieldset id="page-actions">
         <input type="submit" name="add-item-submit" value="Save changes" />
-        <a href="#" class="cancel button">Cancel</a>
+        <a href="<?php echo $this->url('admin/default', array('controller'=>'item-set', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>

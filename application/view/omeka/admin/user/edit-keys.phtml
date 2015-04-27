@@ -4,6 +4,7 @@
 
 <div id="page-actions">
     <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
+    <a href="<?php echo $this->url('admin/default', array('controller'=>'user', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
 </div>
 
 <nav class="section-nav">

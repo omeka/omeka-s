@@ -82,6 +82,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return array_merge(
             $nodeType,
             array(
+                'o:is_public' => $this->isPublic(),
                 'o:owner' => $this->getReference(
                     null,
                     $this->getData()->getOwner(),
@@ -145,6 +146,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         return $this->getAdapter('users')
             ->getRepresentation(null, $this->getData()->getOwner());
+    }
+
+    /**
+     * Get whether this resource is public or not public.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->getData()->isPublic();
     }
 
     /**

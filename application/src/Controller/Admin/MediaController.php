@@ -34,21 +34,21 @@ class MediaController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('media', $media);
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
-                $form->setData($data);
-                if($form->isValid()) {
-                    $response = $this->api()->update('media', $id, $data);
-                    if ($response->isError()) {
-                        $view->setVariable('errors', $response->getErrors());
-                        $form->setMessages($response->getErrors());
-                    } else {
-                        $this->messenger()->addSuccess('Media Updated.');
-                        return $this->redirect()->toUrl($response->getContent()->url());
-                    }
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->update('media', $id, $data);
+                if ($response->isError()) {
+                    $view->setVariable('errors', $response->getErrors());
+                    $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addError('There was an error during validation');
+                    $this->messenger()->addSuccess('Media Updated.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
         }
         return $view;
     }

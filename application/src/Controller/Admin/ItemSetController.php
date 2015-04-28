@@ -48,20 +48,20 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
-                $form->setData($data);
-                if($form->isValid()) {
-                    $response = $this->api()->update('item_sets', $id, $data);
-                    if ($response->isError()) {
-                        $form->setMessages($response->getErrors());
-                    } else {
-                        $this->messenger()->addSuccess('Item Set Updated.');
-                        return $this->redirect()->toUrl($response->getContent()->url());
-                    }
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->update('item_sets', $id, $data);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addError('There was an error during validation');
+                    $this->messenger()->addSuccess('Item Set Updated.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
         }
         return $view;
     }

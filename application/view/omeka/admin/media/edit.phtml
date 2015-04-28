@@ -12,11 +12,6 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
 <h1><?php echo $this->translate('Edit media'); ?></h1>
-<?php 
-if (isset($errors)) {
-    print_r($errors);
-}
-?>
 
 <form method='post' id='edit-media'>
     <?php 

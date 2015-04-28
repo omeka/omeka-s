@@ -51,14 +51,7 @@ class ItemController extends AbstractActionController
         $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $response = $this->api()->read('items', $this->params('id'));
         $item = $response->getContent();
-        $values = array();
-        //create a value that matches what comes to the edit form for internal resources
-        //so this can be used the same way in the sidebar with makeNewValue
-        $values = array('@id'               => $item->id(),
-                        'dcterms:title'     => $item->displayTitle('[Untitled]'),
-                        'url'               => $item->url(),
-                        'value_resource_id' => $item->id()
-                );
+        $values = $item->valueRepresentation();
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -150,25 +143,6 @@ class ItemController extends AbstractActionController
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
-        $values = array();
-        foreach ($item->values() as $term => $property) {
-            foreach ($property['values'] as $value) {
-                $valuesArray = $value->jsonSerialize(); 
-                //look for internal resources and add their titles to the data
-                //@TODO: should this be a filter? or maybe a method on the Representation with a param?
-                //method would look like valuesArray($terms = array()) and
-                //would do the job of looking up bonus values to add to the da
-                if ($value->type() == 'resource') {
-                    $valueResource = $value->valueResource();
-                    $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
-                    if ($titleValue) {
-                        $valuesArray['dcterms:title'] = $titleValue->value();
-                    }
-                    $valuesArray['url'] = $valueResource->url();
-                }
-                $values[$term][] = $valuesArray;
-            }
-        }
 
         $form->get('o:item_set')->setValue(array_keys($item->itemSets()));
         
@@ -176,7 +150,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
-        $view->setVariable('values', json_encode($values));
+
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);

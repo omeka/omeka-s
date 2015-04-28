@@ -30,30 +30,10 @@ class MediaController extends AbstractActionController
         $id = $this->params('id');
         $response = $this->api()->read('media', $id);
         $media = $response->getContent();
-        $values = array();
-        foreach ($media->values() as $term => $property) {
-            foreach ($property['values'] as $value) {
-                $valuesArray = $value->jsonSerialize(); 
-                //look for internal resources and add their titles to the data
-                //@TODO: should this be a filter? or maybe a method on the Representation with a param?
-                //method would look like valuesArray($terms = array()) and
-                //would do the job of looking up bonus values to add to the da
-                if ($value->type() == 'resource') {
-                    $valueResource = $value->valueResource();
-                    $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
-                    if ($titleValue) {
-                        $valuesArray['dcterms:title'] = $titleValue->value();
-                    }
-                    $valuesArray['url'] = $valueResource->url();
-                }
-                $values[$term][] = $valuesArray;
-            }
-        }
         
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('media', $media);
-        $view->setVariable('values', json_encode($values));
             if ($this->getRequest()->isPost()) {
                 $data = $this->params()->fromPost();
                 $form->setData($data);

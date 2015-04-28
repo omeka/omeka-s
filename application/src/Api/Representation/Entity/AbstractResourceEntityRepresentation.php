@@ -394,6 +394,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the representation of this resource as a value for linking from
+     * another resource.
+     *
+     * @return array
+     */
+    public function valueRepresentation()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+
+        $representation = array();
+        $representation['@id'] = $this->apiUrl();
+        $representation['value_resource_id'] = $this->id();
+        $representation['url'] = $this->url();
+        $representation['display_title'] = $this->displayTitle(
+            $translator->translate('[Untitled]'));
+
+        return $representation;
+    }
+
+    /**
      * Add a vocabulary term definition to the JSON-LD context.
      *
      * @param VocabularyRepresentation $vocabulary

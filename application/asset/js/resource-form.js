@@ -219,7 +219,7 @@
                 case 'resource' :
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
-                    var title = valueObject['dcterms:title'];
+                    var title = valueObject['display_title'];
                     if (typeof valueObject['value_resource_id'] === 'undefined') {
                         break;
                     }
@@ -347,9 +347,9 @@
         } else {
             for (var term in valuesJson) {
                 makeNewField(term);
-                for (var i=0; i < valuesJson[term].length; i++) {
-                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, valuesJson[term][i]));
-                }
+                valuesJson[term].values.forEach(function (value) {
+                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
+                });
             }
         }
 

@@ -50,16 +50,15 @@ class ValueRepresentationTest extends TestCase
         $propertyLabel       = 'test-property_label';
 
         $resourceRep = $this->getMock(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array('apiUrl', 'getJsonLd', 'id'), array(), '',
+            'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
+            array('getJsonLd', 'valueRepresentation'), array(), '',
             false
         );
         $resourceRep->expects($this->once())
-            ->method('apiUrl')
-            ->will($this->returnValue($valueResourceApiUrl));
-        $resourceRep->expects($this->any())
-            ->method('id')
-            ->will($this->returnValue($valueResourceId));
+            ->method('valueRepresentation')
+            ->will($this->returnValue(array(
+                'fake_value_representation' => 'fake_data'
+            )));
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
@@ -112,8 +111,7 @@ class ValueRepresentationTest extends TestCase
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
         $this->assertEquals(array(
-            '@id'               => $valueResourceApiUrl,
-            'value_resource_id' => $valueResourceId,
+            'fake_value_representation' => 'fake_data',
             'value_id'          => $valueId,
             'property_id'       => $propertyId,
             'property_label'    => $propertyLabel,

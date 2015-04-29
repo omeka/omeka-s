@@ -9,16 +9,10 @@ $formElement = $this->plugin('formElement');
 ?>
 
 <script type='text/javascript'>
-var valuesJson = <?php echo $values; ?>;
-var selectedItemValueJson;
+var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 </script>
 
 <h1><?php echo $this->translate('Edit item set'); ?></h1>
-<?php 
-if (isset($errors)) {
-    print_r($errors);
-}
-?>
 
 <form method='post' id='edit-item-set'>
 

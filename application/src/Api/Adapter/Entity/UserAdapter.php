@@ -4,7 +4,7 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class UserAdapter extends AbstractEntityAdapter
@@ -43,7 +43,7 @@ class UserAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\User';
+        return 'Omeka\Entity\User';
     }
 
     /**
@@ -73,7 +73,7 @@ class UserAdapter extends AbstractEntityAdapter
     {
         if (isset($query['username'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\User.username",
+                "Omeka\Entity\User.username",
                 $this->createNamedParameter($qb, $query['username']))
             );
         }

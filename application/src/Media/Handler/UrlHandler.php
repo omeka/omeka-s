@@ -3,7 +3,7 @@ namespace Omeka\Media\Handler;
 
 use Omeka\Api\Request;
 use Omeka\Media\Handler\AbstractFileHandler;
-use Omeka\Model\Entity\Media;
+use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
 use Zend\Http\Exception\ExceptionInterface as HttpExceptionInterface;

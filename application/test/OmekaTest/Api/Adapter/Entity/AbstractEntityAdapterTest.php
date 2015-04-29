@@ -3,7 +3,7 @@ namespace OmekaTest\Api\Adapter\Entity;
 
 use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Representation\RepresentationInterface;
-use Omeka\Model\Entity\AbstractEntity;
+use Omeka\Entity\AbstractEntity;
 use Omeka\Test\TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -35,7 +35,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->getMock();
         $entityManager->expects($this->once())
             ->method('persist')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
+            ->with($this->isInstanceOf('Omeka\Entity\EntityInterface'));
         $entityManager->expects($this->once())
             ->method('flush');
 
@@ -236,7 +236,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('hydrate')
             ->with(
                 $request,
-                $this->isInstanceOf('Omeka\Model\Entity\EntityInterface')
+                $this->isInstanceOf('Omeka\Entity\EntityInterface')
             );
         $this->adapter->expects($this->once())
             ->method('getRepresentationClass')
@@ -277,7 +277,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->will($this->returnValue($entityRepository));
         $entityManager->expects($this->once())
             ->method('remove')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\EntityInterface'));
+            ->with($this->isInstanceOf('Omeka\Entity\EntityInterface'));
         $entityManager->expects($this->once())
             ->method('flush');
 

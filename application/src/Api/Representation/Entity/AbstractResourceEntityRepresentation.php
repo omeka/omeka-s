@@ -4,14 +4,14 @@ namespace Omeka\Api\Representation\Entity;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\Entity\ResourceClassRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\Model\Entity\Resource;
-use Omeka\Model\Entity\Value;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Entity\Resource;
+use Omeka\Entity\Value;
+use Omeka\Entity\Vocabulary;
 
 /**
  * Abstract resource entity representation.
  *
- * Provides functionality for entities that extend Omeka\Model\Entity\Resource.
+ * Provides functionality for entities that extend Omeka\Entity\Resource.
  */
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
@@ -391,6 +391,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $resourceClass = $this->resourceClass();
         return $resourceClass ? $resourceClass->label() : $default;
+    }
+
+    /**
+     * Get the representation of this resource as a value for linking from
+     * another resource.
+     *
+     * @return array
+     */
+    public function valueRepresentation()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+
+        $representation = array();
+        $representation['@id'] = $this->apiUrl();
+        $representation['value_resource_id'] = $this->id();
+        $representation['url'] = $this->url();
+        $representation['display_title'] = $this->displayTitle(
+            $translator->translate('[Untitled]'));
+
+        return $representation;
     }
 
     /**

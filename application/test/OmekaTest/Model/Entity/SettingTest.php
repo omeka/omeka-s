@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Setting;
+use Omeka\Entity\Setting;
 use Omeka\Test\TestCase;
 
 class SettingTest extends TestCase

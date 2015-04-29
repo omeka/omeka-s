@@ -2,7 +2,7 @@
 namespace OmekaTest\Job\Strategy;
 
 use Omeka\Job\Strategy\SynchronousStrategy;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Omeka\Test\TestCase;
 
 class SynchronousStrategyTest extends TestCase
@@ -28,7 +28,7 @@ class SynchronousStrategyTest extends TestCase
         require OMEKA_PATH . '/application/test/OmekaTest/Job/_files/Job.php';
 
 
-        $job = $this->getMock('Omeka\Model\Entity\Job');
+        $job = $this->getMock('Omeka\Entity\Job');
         $job->expects($this->once())
             ->method('getClass')
             ->will($this->returnValue('OmekaTest\Job\Job'));

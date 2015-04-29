@@ -3,8 +3,8 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Entity\ResourceClass;
+use Omeka\Entity\EntityInterface;
+use Omeka\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractResourceEntityAdapter
@@ -40,7 +40,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Item';
+        return 'Omeka\Entity\Item';
     }
 
     /**

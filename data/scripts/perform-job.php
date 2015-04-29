@@ -4,7 +4,7 @@
  */
 
 use Omeka\Job\Strategy\SynchronousStrategy;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 
 require dirname(dirname(__DIR__)) . '/bootstrap.php';
 
@@ -23,7 +23,7 @@ if (!isset($options['base-path'])) {
     exit;
 }
 
-$job = $entityManager->find('Omeka\Model\Entity\Job', $options['job-id']);
+$job = $entityManager->find('Omeka\Entity\Job', $options['job-id']);
 if (!$job) {
     $logger->err('There is no job with the given ID');
     exit;

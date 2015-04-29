@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Doctrine\ORM\EntityManager;
-use Omeka\Model\Entity\Setting;
+use Omeka\Entity\Setting;
 use Zend\Json\Json;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -140,7 +140,7 @@ class Settings implements ServiceLocatorAwareInterface
     protected function cacheSettings()
     {
         $rows = $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Setting')
+            ->getRepository('Omeka\Entity\Setting')
             ->findAll();
         $this->settings = array();
         foreach ($rows as $row) {
@@ -157,7 +157,7 @@ class Settings implements ServiceLocatorAwareInterface
     protected function findSetting($id)
     {
         return $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Setting')
+            ->getRepository('Omeka\Entity\Setting')
             ->findOneById($id);
     }
 

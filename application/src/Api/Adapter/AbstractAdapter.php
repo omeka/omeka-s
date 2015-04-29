@@ -5,7 +5,7 @@ use Omeka\Api\Exception;
 use Omeka\Api\Representation\Entity\EntityRepresentation;
 use Omeka\Api\Representation\ResourceRepresentation;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

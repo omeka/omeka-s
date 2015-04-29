@@ -19,7 +19,7 @@ class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
     public function itemCount()
     {
         return $this->getAdapter()->getResourceCount(
-            $this->getData(), null, 'Omeka\Model\Entity\Item'
+            $this->getData(), null, 'Omeka\Entity\Item'
         );
     }
 }

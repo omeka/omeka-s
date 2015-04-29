@@ -5,7 +5,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvent;
 use Omeka\Event\Event as OmekaEvent;
-use Omeka\Model\Entity\Resource as OmekaResource;
+use Omeka\Entity\Resource as OmekaResource;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -115,7 +115,7 @@ class Entity implements EventSubscriber
         $identifiers = array(get_class($entity));
         if ($entity instanceof OmekaResource) {
             // Add the identifier for a generic resource entity.
-            $identifiers[] = 'Omeka\Model\Entity\Resource';
+            $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
         $event = new OmekaEvent($eventName, $entity, array(

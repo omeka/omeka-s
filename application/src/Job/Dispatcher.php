@@ -3,7 +3,7 @@ namespace Omeka\Job;
 
 use DateTime;
 use Omeka\Job\Strategy\StrategyInterface;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -100,7 +100,7 @@ class Dispatcher implements ServiceLocatorAwareInterface
     public function stop($jobId)
     {
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $job = $entityManager->find('Omeka\Model\Entity\Job', $jobId);
+        $job = $entityManager->find('Omeka\Entity\Job', $jobId);
         if (!$job) {
             throw new Exception\InvalidArgumentException(sprintf('The job ID "%s" is invalid.', $jobId));
         }

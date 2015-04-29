@@ -1,8 +1,8 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Property;
+use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ValueTest extends TestCase
@@ -28,14 +28,14 @@ class ValueTest extends TestCase
 
     public function testSetResource()
     {
-        $resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
+        $resource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
         $this->value->setResource($resource);
         $this->assertSame($resource, $this->value->getResource());
     }
 
     public function testSetValueResource()
     {
-        $valueResource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
+        $valueResource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
         $this->value->setValueResource($valueResource);
         $this->assertSame($valueResource, $this->value->getValueResource());
     }

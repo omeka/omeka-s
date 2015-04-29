@@ -44,44 +44,24 @@ class ItemSetController extends AbstractActionController
         $id = $this->params('id');
         $response = $this->api()->read('item_sets', $id);
         $itemSet = $response->getContent();
-        $values = array();
-        foreach ($itemSet->values() as $term => $property) {
-            foreach ($property['values'] as $value) {
-                $valuesArray = $value->jsonSerialize(); 
-                //look for internal resources and add their titles to the data
-                //@TODO: should this be a filter? or maybe a method on the Representation with a param?
-                //method would look like valuesArray($terms = array()) and
-                //would do the job of looking up bonus values to add to the da
-                if ($value->type() == 'resource') {
-                    $valueResource = $value->valueResource();
-                    $titleValue = $valueResource->value('dcterms:title', array('type' => 'literal'));
-                    if ($titleValue) {
-                        $valuesArray['dcterms:title'] = $titleValue->value();
-                    }
-                    $valuesArray['url'] = $valueResource->url();
-                }
-                $values[$term][] = $valuesArray;
-            }
-        }
         
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
-        $view->setVariable('values', json_encode($values));
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
-                $form->setData($data);
-                if($form->isValid()) {
-                    $response = $this->api()->update('item_sets', $id, $data);
-                    if ($response->isError()) {
-                        $form->setMessages($response->getErrors());
-                    } else {
-                        $this->messenger()->addSuccess('Item Set Updated.');
-                        return $this->redirect()->toUrl($response->getContent()->url());
-                    }
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if($form->isValid()) {
+                $response = $this->api()->update('item_sets', $id, $data);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addError('There was an error during validation');
+                    $this->messenger()->addSuccess('Item Set Updated.');
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
         }
         return $view;
     }
@@ -121,14 +101,10 @@ class ItemSetController extends AbstractActionController
         $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
         $response = $this->api()->read('item_sets', $this->params('id'));
         $itemSet = $response->getContent();
+        $values = $itemSet->valueRepresentation();
+
         $view = new ViewModel;
         $view->setTerminal(true);
-        $values = array('@id'               => $itemSet->id(),
-                        'dcterms:title'     => $itemSet->displayTitle('[Untitled]'),
-                        'url'               => $itemSet->url(),
-                        'value_resource_id' => $itemSet->id()
-                );
-        
         $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('itemSet', $itemSet);
         $view->setVariable('values', json_encode($values));

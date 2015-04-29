@@ -3,7 +3,7 @@ namespace Omeka\Api\Representation\Entity;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\AbstractResourceRepresentation;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 
 /**
  * Abstract entity representation.

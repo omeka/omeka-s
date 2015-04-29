@@ -1,8 +1,8 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\SiteBlockAttachment;
-use Omeka\Model\Entity\SitePageBlock;
+use Omeka\Entity\SiteBlockAttachment;
+use Omeka\Entity\SitePageBlock;
 use Omeka\Test\TestCase;
 
 class SiteBlockAttachmentTest extends TestCase

@@ -2,7 +2,7 @@
 namespace OmekaTest\Api\Representation;
 
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ValueRepresentationTest extends TestCase
@@ -17,7 +17,7 @@ class ValueRepresentationTest extends TestCase
     {
         $literal = 'test_literal';
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(Value::TYPE_LITERAL));
@@ -50,16 +50,15 @@ class ValueRepresentationTest extends TestCase
         $propertyLabel       = 'test-property_label';
 
         $resourceRep = $this->getMock(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array('apiUrl', 'getJsonLd', 'id'), array(), '',
+            'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
+            array('getJsonLd', 'valueRepresentation'), array(), '',
             false
         );
         $resourceRep->expects($this->once())
-            ->method('apiUrl')
-            ->will($this->returnValue($valueResourceApiUrl));
-        $resourceRep->expects($this->any())
-            ->method('id')
-            ->will($this->returnValue($valueResourceId));
+            ->method('valueRepresentation')
+            ->will($this->returnValue(array(
+                'fake_value_representation' => 'fake_data'
+            )));
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
@@ -78,7 +77,7 @@ class ValueRepresentationTest extends TestCase
         ));
 
         $valueResource = $this->getMockForAbstractClass(
-            'Omeka\Model\Entity\Resource',
+            'Omeka\Entity\Resource',
             array(), '', true, true, true, array('getId'), false
         );
         $valueResource->expects($this->once())
@@ -88,7 +87,7 @@ class ValueRepresentationTest extends TestCase
             ->method('getId')
             ->will($this->returnValue($valueResourceId));
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
         $property->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($propertyId));
@@ -96,7 +95,7 @@ class ValueRepresentationTest extends TestCase
             ->method('getLabel')
             ->will($this->returnValue($propertyLabel));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(Value::TYPE_RESOURCE));
@@ -112,8 +111,7 @@ class ValueRepresentationTest extends TestCase
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
         $this->assertEquals(array(
-            '@id'               => $valueResourceApiUrl,
-            'value_resource_id' => $valueResourceId,
+            'fake_value_representation' => 'fake_data',
             'value_id'          => $valueId,
             'property_id'       => $propertyId,
             'property_label'    => $propertyLabel,
@@ -130,7 +128,7 @@ class ValueRepresentationTest extends TestCase
 
         $serviceLocator = $this->getServiceManager();
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
         $property->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($propertyId));
@@ -138,7 +136,7 @@ class ValueRepresentationTest extends TestCase
             ->method('getLabel')
             ->will($this->returnValue($propertyLabel));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(Value::TYPE_URI));
@@ -172,7 +170,7 @@ class ValueRepresentationTest extends TestCase
 
         $serviceLocator = $this->getServiceManager();
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
         $property->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($propertyId));
@@ -180,7 +178,7 @@ class ValueRepresentationTest extends TestCase
             ->method('getLabel')
             ->will($this->returnValue($propertyLabel));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(Value::TYPE_LITERAL));
@@ -212,7 +210,7 @@ class ValueRepresentationTest extends TestCase
         $valueType = 'test-value_type';
 
         $serviceLocator = $this->getServiceManager();
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($valueType));
@@ -226,7 +224,7 @@ class ValueRepresentationTest extends TestCase
         $valueValue = 'test-value_value';
 
         $serviceLocator = $this->getServiceManager();
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($valueValue));
@@ -240,7 +238,7 @@ class ValueRepresentationTest extends TestCase
         $valueLang = 'test-value_lang';
 
         $serviceLocator = $this->getServiceManager();
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getLang')
             ->will($this->returnValue($valueLang));
@@ -255,7 +253,7 @@ class ValueRepresentationTest extends TestCase
         $valueResourceId = 'test-value_resource_id';
 
         $valueResource = $this->getMockForAbstractClass(
-            'Omeka\Model\Entity\Resource',
+            'Omeka\Entity\Resource',
             array(), '', true, true, true, array('getId'), false
         );
         $valueResource->expects($this->once())
@@ -283,7 +281,7 @@ class ValueRepresentationTest extends TestCase
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
         ));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getValueResource')
             ->will($this->returnValue($valueResource));
@@ -298,7 +296,7 @@ class ValueRepresentationTest extends TestCase
         $resourceId = 'test-value_resource_id';
 
         $resource = $this->getMockForAbstractClass(
-            'Omeka\Model\Entity\Resource',
+            'Omeka\Entity\Resource',
             array(), '', true, true, true, array('getId'), false
         );
         $resource->expects($this->once())
@@ -323,7 +321,7 @@ class ValueRepresentationTest extends TestCase
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
         ));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($resource));
@@ -336,7 +334,7 @@ class ValueRepresentationTest extends TestCase
     {
         $propertyId = 'test-property_id';
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
@@ -356,7 +354,7 @@ class ValueRepresentationTest extends TestCase
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
         ));
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('getProperty')
             ->will($this->returnValue($property));

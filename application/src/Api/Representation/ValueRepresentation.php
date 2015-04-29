@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ValueRepresentation extends AbstractRepresentation
@@ -71,8 +71,7 @@ class ValueRepresentation extends AbstractRepresentation
 
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
-                $valueObject['@id'] = $valueResource->apiUrl();
-                $valueObject['value_resource_id'] = $valueResource->id();
+                $valueObject = $valueResource->valueRepresentation();
                 break;
 
             case Value::TYPE_URI:

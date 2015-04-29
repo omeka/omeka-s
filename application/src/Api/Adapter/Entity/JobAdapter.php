@@ -3,7 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class JobAdapter extends AbstractEntityAdapter
@@ -40,7 +40,7 @@ class JobAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Job';
+        return 'Omeka\Entity\Job';
     }
 
     /**
@@ -64,6 +64,19 @@ class JobAdapter extends AbstractEntityAdapter
             } else {
                 parent::sortQuery($qb, $query);
             }
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['class'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\Job.class",
+                $this->createNamedParameter($qb, $query['class']))
+            );
         }
     }
 }

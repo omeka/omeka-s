@@ -3,7 +3,7 @@ namespace Omeka\Module;
 
 use Doctrine\ORM\EntityManager;
 use Omeka\Event\Event;
-use Omeka\Model\Entity\Module as ModuleEntity;
+use Omeka\Entity\Module as ModuleEntity;
 use Omeka\Permissions\Exception as AclException;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
@@ -329,7 +329,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
     protected function getModuleEntity(Module $module)
     {
         return $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Module')
+            ->getRepository('Omeka\Entity\Module')
             ->findOneById($module->getId());
     }
 

@@ -2,9 +2,9 @@
 namespace OmekaTest\Api\Adapter\Entity;
 
 use Omeka\Api\Adapter\Entity\ValueHydrator;
-use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\Resource;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Property;
+use Omeka\Entity\Resource;
+use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ValueHydratorTest extends TestCase
@@ -19,7 +19,7 @@ class ValueHydratorTest extends TestCase
                 array(), '', true, true, true,
                 array('getEntityManager', 'getAdapter')
         );
-        $this->resource = $this->getMock('Omeka\Model\Entity\Resource');
+        $this->resource = $this->getMock('Omeka\Entity\Resource');
         $this->resource->expects($this->any())
             ->method('getValues')
             ->will($this->returnValue(
@@ -38,18 +38,18 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $entityManager = $this->getEntityManager();
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Value'),
+                $this->equalTo('Omeka\Entity\Value'),
                 $this->equalTo($nodeObject['term'][0]['value_id'])
             )
             ->will($this->returnValue($value));
         $entityManager->expects($this->once())
             ->method('remove')
-            ->with($this->isInstanceOf('Omeka\Model\Entity\Value'));
+            ->with($this->isInstanceOf('Omeka\Entity\Value'));
         $this->adapter->expects($this->exactly(2))
             ->method('getEntityManager')
             ->will($this->returnValue($entityManager));
@@ -70,7 +70,7 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('setType')
             ->with($this->equalTo(Value::TYPE_LITERAL));
@@ -87,7 +87,7 @@ class ValueHydratorTest extends TestCase
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Value'),
+                $this->equalTo('Omeka\Entity\Value'),
                 $this->equalTo($nodeObject['term'][0]['value_id'])
             )
             ->will($this->returnValue($value));
@@ -111,8 +111,8 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $valueResource = $this->getMock('Omeka\Model\Entity\Resource');
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $valueResource = $this->getMock('Omeka\Entity\Resource');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('setType')
             ->with($this->equalTo(Value::TYPE_RESOURCE));
@@ -129,14 +129,14 @@ class ValueHydratorTest extends TestCase
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Value'),
+                $this->equalTo('Omeka\Entity\Value'),
                 $this->equalTo($nodeObject['term'][0]['value_id'])
             )
             ->will($this->returnValue($value));
         $entityManager->expects($this->once())
             ->method('find')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Resource'),
+                $this->equalTo('Omeka\Entity\Resource'),
                 $this->equalTo($nodeObject['term'][0]['value_resource_id'])
             )
             ->will($this->returnValue($valueResource));
@@ -159,7 +159,7 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $value = $this->getMock('Omeka\Model\Entity\Value');
+        $value = $this->getMock('Omeka\Entity\Value');
         $value->expects($this->once())
             ->method('setType')
             ->with($this->equalTo(Value::TYPE_URI));
@@ -176,7 +176,7 @@ class ValueHydratorTest extends TestCase
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Value'),
+                $this->equalTo('Omeka\Entity\Value'),
                 $this->equalTo($nodeObject['term'][0]['value_id'])
             )
             ->will($this->returnValue($value));
@@ -200,12 +200,12 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Property'),
+                $this->equalTo('Omeka\Entity\Property'),
                 $this->equalTo($nodeObject['term'][0]['property_id'])
             )
             ->will($this->returnValue($property));
@@ -228,20 +228,20 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $valueResource = $this->getMock('Omeka\Model\Entity\Resource');
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $valueResource = $this->getMock('Omeka\Entity\Resource');
+        $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Property'),
+                $this->equalTo('Omeka\Entity\Property'),
                 $this->equalTo($nodeObject['term'][0]['property_id'])
             )
             ->will($this->returnValue($property));
         $entityManager->expects($this->once())
             ->method('find')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Resource'),
+                $this->equalTo('Omeka\Entity\Resource'),
                 $this->equalTo($nodeObject['term'][0]['value_resource_id'])
             )
             ->will($this->returnValue($valueResource));
@@ -264,12 +264,12 @@ class ValueHydratorTest extends TestCase
             ),
         );
 
-        $property = $this->getMock('Omeka\Model\Entity\Property');
+        $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();
         $entityManager->expects($this->once())
             ->method('getReference')
             ->with(
-                $this->equalTo('Omeka\Model\Entity\Property'),
+                $this->equalTo('Omeka\Entity\Property'),
                 $this->equalTo($nodeObject['term'][0]['property_id'])
             )
             ->will($this->returnValue($property));

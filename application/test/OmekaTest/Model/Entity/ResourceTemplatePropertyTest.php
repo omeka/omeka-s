@@ -1,9 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\ResourceTemplateProperty;
-use Omeka\Model\Entity\ResourceTemplate;
+use Omeka\Entity\Property;
+use Omeka\Entity\ResourceTemplateProperty;
+use Omeka\Entity\ResourceTemplate;
 use Omeka\Test\TestCase;
 
 class ResourceTemplatePropertyTest extends TestCase

@@ -74,7 +74,7 @@ class JobAdapter extends AbstractEntityAdapter
     {
         if (isset($query['class'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\Job.class",
+                $this->getEntityClass() . ".class",
                 $this->createNamedParameter($qb, $query['class']))
             );
         }

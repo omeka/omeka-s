@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
+$escape = $this->plugin('escapeHtml');
 ?>
 
 <script type='text/javascript'>
@@ -13,6 +14,7 @@ echo $this->partial('omeka/admin/item/form.phtml', array(
     'form' => $form,
     'item' => $item,
     'mediaForms' => $mediaForms,
-    'submitLabel' => $this->translate('Save changes')
+    'submitLabel' => $this->translate('Save'),
+    'deleteButton' => '<a href="#" class="delete button"a>' . $escape('Delete') . '</a>'
 ));
 ?>

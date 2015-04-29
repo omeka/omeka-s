@@ -55,8 +55,8 @@ $formElement = $this->plugin('formElement');
             <label for="o:is_public"><?php echo $escape('Public'); ?></label>
             <input type="checkbox" id="o:is_public" name="o:is_public" <?php echo ($item && $item->isPublic()) ? 'checked' : ''; ?>>
         </div>
-        
-        <button type="submit" name="add-item-submit" value="<?php echo $escapeAttr($submitLabel); ?>"><?php echo $escape($submitLabel); ?></button>
+        <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+        <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
     </fieldset>
     <?php echo $formElement($form->get('csrf')); ?>
 </form>

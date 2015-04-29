@@ -312,56 +312,12 @@ class Vocabulary extends \Omeka\Model\Entity\Vocabulary implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function addResourceClass(\Omeka\Model\Entity\ResourceClass $resourceClass)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addResourceClass', array($resourceClass));
-
-        return parent::addResourceClass($resourceClass);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeResourceClass(\Omeka\Model\Entity\ResourceClass $resourceClass)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeResourceClass', array($resourceClass));
-
-        return parent::removeResourceClass($resourceClass);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getProperties()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperties', array());
 
         return parent::getProperties();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addProperty(\Omeka\Model\Entity\Property $property)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addProperty', array($property));
-
-        return parent::addProperty($property);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeProperty(\Omeka\Model\Entity\Property $property)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeProperty', array($property));
-
-        return parent::removeProperty($property);
     }
 
     /**

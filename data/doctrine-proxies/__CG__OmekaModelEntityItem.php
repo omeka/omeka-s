@@ -213,28 +213,6 @@ class Item extends \Omeka\Model\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addMedia(\Omeka\Model\Entity\Media $media)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addMedia', array($media));
-
-        return parent::addMedia($media);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeMedia(\Omeka\Model\Entity\Media $media)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeMedia', array($media));
-
-        return parent::removeMedia($media);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getSiteItems()
     {
 
@@ -395,28 +373,6 @@ class Item extends \Omeka\Model\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValues', array());
 
         return parent::getValues();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addValue', array($value));
-
-        return parent::addValue($value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeValue', array($value));
-
-        return parent::removeValue($value);
     }
 
     /**

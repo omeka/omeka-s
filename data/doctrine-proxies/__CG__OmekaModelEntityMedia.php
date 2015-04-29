@@ -521,28 +521,6 @@ class Media extends \Omeka\Model\Entity\Media implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function addValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addValue', array($value));
-
-        return parent::addValue($value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeValue', array($value));
-
-        return parent::removeValue($value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 

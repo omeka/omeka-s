@@ -356,28 +356,6 @@ class ItemSet extends \Omeka\Model\Entity\ItemSet implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addValue', array($value));
-
-        return parent::addValue($value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeValue(\Omeka\Model\Entity\Value $value)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeValue', array($value));
-
-        return parent::removeValue($value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 

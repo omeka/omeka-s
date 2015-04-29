@@ -268,28 +268,6 @@ class ResourceTemplate extends \Omeka\Model\Entity\ResourceTemplate implements \
     /**
      * {@inheritDoc}
      */
-    public function addResourceTemplateProperty(\Omeka\Model\Entity\ResourceTemplateProperty $resourceTemplateProperty)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addResourceTemplateProperty', array($resourceTemplateProperty));
-
-        return parent::addResourceTemplateProperty($resourceTemplateProperty);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeResourceTemplateProperty(\Omeka\Model\Entity\ResourceTemplateProperty $resourceTemplateProperty)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeResourceTemplateProperty', array($resourceTemplateProperty));
-
-        return parent::removeResourceTemplateProperty($resourceTemplateProperty);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceId()
     {
 

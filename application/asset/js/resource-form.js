@@ -228,9 +228,11 @@
                     if (typeof title == 'undefined') {
                         title = '[Untitled]';
                     }
-                    var link = $('<a></a>')
-                        .attr('href', valueObject['url'])
-                        .text(title);
+                    var link = $('<a></a>', {
+                        href: valueObject['url'],
+                        text: title
+                    });
+
                     newResource.find('.o-title').append(link);
 
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');

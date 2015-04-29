@@ -988,17 +988,11 @@ body.sidebar-open #content {
 }
 
 .visibility {
-    @include trailer(.5);
-    float: left;
+    display: inline-block;
+    padding: rhythm(.25);
+    margin-right: rhythm(.5);
 }
 
-.add .delete,
-.edit .delete {
-    float: right;
-}
-
-.add .delete:before,
-.edit .delete:before,
 .add .visibility:before,
 .edit .visibility:before {
     margin-right: .25em;

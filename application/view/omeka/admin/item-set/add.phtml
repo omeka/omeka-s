@@ -11,13 +11,6 @@ $formElement = $this->plugin('formElement');
 
 <form method='post' id='add-item-set'>
 
-    <div class="o-icon-view visibility">
-        <label for="o:is_public"><?php echo $escape('Public'); ?></label>
-        <input type="checkbox" id="o:is_public" name="o:is_public">
-    </div>
-    
-    <a href="#" class="o-icon-delete delete"><?php echo $escape('Delete item'); ?></a>
-    
     <nav class="section-nav">
         <ul>
             <li class="active"><a href="#resource-values">Values</a></li>
@@ -40,6 +33,11 @@ $formElement = $this->plugin('formElement');
     ?>
 
     <fieldset id="page-actions">
+        <div class="o-icon-view visibility">
+            <label for="o:is_public"><?php echo $escape('Public'); ?></label>
+            <input type="checkbox" id="o:is_public" name="o:is_public">
+        </div>
+        
         <input type="submit" name="add-item-submit" value="Add item set" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>

@@ -12,13 +12,6 @@ $formElement = $this->plugin('formElement');
 
 <?php echo $this->form()->openTag($form); ?>
 
-<div class="o-icon-view visibility">
-    <label for="o:is_public"><?php echo $escape('Public'); ?></label>
-    <input type="checkbox" id="o:is_public" name="o:is_public" <?php echo ($item && $item->isPublic()) ? 'checked' : ''; ?>>
-</div>
-
-<a href="#" class="o-icon-delete delete"><?php echo $escape('Delete item'); ?></a>
-
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#resource-values">Values</a></li>
@@ -58,6 +51,11 @@ $formElement = $this->plugin('formElement');
     </fieldset>
 
     <fieldset id="page-actions">
+        <div class="o-icon-view visibility">
+            <label for="o:is_public"><?php echo $escape('Public'); ?></label>
+            <input type="checkbox" id="o:is_public" name="o:is_public" <?php echo ($item && $item->isPublic()) ? 'checked' : ''; ?>>
+        </div>
+        
         <button type="submit" name="add-item-submit" value="<?php echo $escapeAttr($submit_label); ?>"><?php echo $escape($submitLabel); ?></button>
     </fieldset>
     <?php echo $formElement($form->get('csrf')); ?>

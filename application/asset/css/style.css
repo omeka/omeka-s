@@ -1386,17 +1386,11 @@ th {
   }
 
   .visibility {
-    margin-bottom: 0.75em;
-    float: left;
+    display: inline-block;
+    padding: 0.375em;
+    margin-right: 0.75em;
   }
 
-  .add .delete,
-  .edit .delete {
-    float: right;
-  }
-
-  .add .delete:before,
-  .edit .delete:before,
   .add .visibility:before,
   .edit .visibility:before {
     margin-right: .25em;

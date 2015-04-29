@@ -56,7 +56,7 @@ $formElement = $this->plugin('formElement');
             <input type="checkbox" id="o:is_public" name="o:is_public" <?php echo ($item && $item->isPublic()) ? 'checked' : ''; ?>>
         </div>
         
-        <button type="submit" name="add-item-submit" value="<?php echo $escapeAttr($submit_label); ?>"><?php echo $escape($submitLabel); ?></button>
+        <button type="submit" name="add-item-submit" value="<?php echo $escapeAttr($submitLabel); ?>"><?php echo $escape($submitLabel); ?></button>
     </fieldset>
     <?php echo $formElement($form->get('csrf')); ?>
 </form>

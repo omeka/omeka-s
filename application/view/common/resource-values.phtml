@@ -32,9 +32,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <h4><?php echo $label; ?></h4>
     <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
-        <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>
+        <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $escape($value); ?></div>
         <?php else: ?>
-        <div class="value"><?php echo $value; ?></div>
+        <div class="value"><?php echo $escape($value); ?></div>
         <?php endif; ?>
     <?php endforeach; ?>
 </div>

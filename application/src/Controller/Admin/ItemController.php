@@ -150,6 +150,11 @@ class ItemController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();

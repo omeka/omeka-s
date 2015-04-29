@@ -18,7 +18,9 @@ var Omeka = {
         } else {
             sidebarConfirm.hide();
         }
-        this.populateSidebarContent(context, sidebar);
+        if (context.attr('data-sidebar-content-url')) {
+            this.populateSidebarContent(context, sidebar);
+        }
         return sidebar;
     },
 

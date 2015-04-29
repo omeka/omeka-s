@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Representation\Entity;
+namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\AbstractResourceRepresentation;

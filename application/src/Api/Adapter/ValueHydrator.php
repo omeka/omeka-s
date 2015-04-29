@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter\Entity;
+namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Entity\Property;

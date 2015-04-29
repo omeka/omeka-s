@@ -35,7 +35,7 @@ class MediaTest extends TestCase
     {
         $media = new Media($this->serviceManager);
         $media->setView($this->getMock('Zend\View\Renderer\PhpRenderer'));
-        $mediaRep = $this->getMockBuilder('Omeka\Api\Representation\Entity\MediaRepresentation')
+        $mediaRep = $this->getMockBuilder('Omeka\Api\Representation\MediaRepresentation')
             ->disableOriginalConstructor()
             ->getMock();
         $mediaRep->expects($this->once())

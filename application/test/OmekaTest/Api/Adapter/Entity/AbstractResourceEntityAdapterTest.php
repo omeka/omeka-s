@@ -12,7 +12,7 @@ class AbstractResourceEntityAdapterTest extends TestCase
             ->getMock();
         $query = array('foo', 'bar');
         $adapter = $this->getMockForAbstractClass(
-            'Omeka\Api\Adapter\Entity\AbstractResourceEntityAdapter',
+            'Omeka\Api\Adapter\AbstractResourceEntityAdapter',
             array(), '', true, true, true,
             array('buildValueQuery', 'buildPropertyQuery', 'buildHasPropertyQuery')
         );

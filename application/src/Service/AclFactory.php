@@ -151,13 +151,13 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             null,
             array(
-                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-                'Omeka\Api\Adapter\Entity\ItemAdapter',
-                'Omeka\Api\Adapter\Entity\MediaAdapter',
-                'Omeka\Api\Adapter\Entity\VocabularyAdapter',
-                'Omeka\Api\Adapter\Entity\ResourceClassAdapter',
-                'Omeka\Api\Adapter\Entity\PropertyAdapter',
-                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+                'Omeka\Api\Adapter\VocabularyAdapter',
+                'Omeka\Api\Adapter\ResourceClassAdapter',
+                'Omeka\Api\Adapter\PropertyAdapter',
+                'Omeka\Api\Adapter\ResourceTemplateAdapter',
             ),
             array(
                 'search',
@@ -216,7 +216,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
-            'Omeka\Api\Adapter\Entity\UserAdapter',
+            'Omeka\Api\Adapter\UserAdapter',
             array('read', 'update')
         );
         $acl->allow(
@@ -273,10 +273,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             array(
-                'Omeka\Api\Adapter\Entity\ItemAdapter',
-                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-                'Omeka\Api\Adapter\Entity\MediaAdapter',
-                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+                'Omeka\Api\Adapter\ResourceTemplateAdapter',
             ),
             array(
                 'create',
@@ -317,7 +317,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-            'Omeka\Api\Adapter\Entity\UserAdapter',
+            'Omeka\Api\Adapter\UserAdapter',
             array('read', 'update')
         );
         $acl->allow(
@@ -374,10 +374,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             array(
-                'Omeka\Api\Adapter\Entity\ItemAdapter',
-                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-                'Omeka\Api\Adapter\Entity\MediaAdapter',
-                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+                'Omeka\Api\Adapter\ResourceTemplateAdapter',
             ),
             array(
                 'create',
@@ -416,7 +416,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
-            'Omeka\Api\Adapter\Entity\UserAdapter',
+            'Omeka\Api\Adapter\UserAdapter',
             array('read', 'update')
         );
         $acl->allow(
@@ -473,10 +473,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             array(
-                'Omeka\Api\Adapter\Entity\ItemAdapter',
-                'Omeka\Api\Adapter\Entity\ItemSetAdapter',
-                'Omeka\Api\Adapter\Entity\MediaAdapter',
-                'Omeka\Api\Adapter\Entity\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+                'Omeka\Api\Adapter\ResourceTemplateAdapter',
             ),
             array(
                 'create',
@@ -504,7 +504,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
-            'Omeka\Api\Adapter\Entity\UserAdapter'
+            'Omeka\Api\Adapter\UserAdapter'
         );
         $acl->allow(
             'editor',
@@ -539,7 +539,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->deny(
             'site_admin',
-            'Omeka\Api\Adapter\Entity\VocabularyAdapter',
+            'Omeka\Api\Adapter\VocabularyAdapter',
             array('create', 'update', 'delete')
         );
         $acl->deny(

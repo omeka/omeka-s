@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Media\Renderer;
 
-use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Renderer\RendererInterface;
 use Zend\View\Renderer\PhpRenderer;
 

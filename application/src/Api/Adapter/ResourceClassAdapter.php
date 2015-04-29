@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter\Entity;
+namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
@@ -33,7 +33,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\Entity\ResourceClassRepresentation';
+        return 'Omeka\Api\Representation\ResourceClassRepresentation';
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Representation\Entity;
+namespace Omeka\Api\Representation;
 
 class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
 {

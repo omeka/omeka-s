@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Media\Handler;
 
-use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;

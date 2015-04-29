@@ -32,7 +32,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
                 <?php endif; ?>
                 <span class="resource-name">
-                    <?php echo $item->link(strip_tags($item->displayTitle())); ?>
+                    <?php echo $item->link($item->displayTitle()); ?>
                 </span>
                 <ul class="actions">
                     <li><?php echo $item->link('', 'edit', array(

@@ -66,4 +66,17 @@ class JobAdapter extends AbstractEntityAdapter
             }
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['class'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Model\Entity\Job.class",
+                $this->createNamedParameter($qb, $query['class']))
+            );
+        }
+    }
 }

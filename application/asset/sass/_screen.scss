@@ -865,7 +865,7 @@ body.sidebar-open #content {
 
 /* @end */
 
-/* @group ----- Add views ----- */
+/* @group ----- Add/Edit views ----- */
 
 .add div[role="main"],
 .import div[role="main"],
@@ -884,6 +884,7 @@ body.sidebar-open #content {
     height: rhythm(1.75);
     position: relative;
     @include trailer();
+    clear: both;
     
     &:before {
         content: "";
@@ -983,7 +984,29 @@ body.sidebar-open #content {
 }
 
 .non-properties {
-    @include trailer();
+    @include trailer(.5);
+}
+
+.visibility {
+    @include trailer(.5);
+    float: left;
+}
+
+.add .delete,
+.edit .delete {
+    float: right;
+}
+
+.add .delete:before,
+.edit .delete:before,
+.add .visibility:before,
+.edit .visibility:before {
+    margin-right: .25em;
+}
+
+.add .visibility [type="checkbox"],
+.edit .visibility [type="checkbox"] {
+    margin-left: .5em;
 }
 
     /* @group ----- Metadata ----- */

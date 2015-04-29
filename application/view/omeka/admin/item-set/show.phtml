@@ -1,5 +1,5 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
+$this->htmlElement('body')->appendAttribute('class', 'item-sets show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $viewItemsLink = $this->url(
@@ -31,4 +31,16 @@ $viewItemsLink = $this->url(
 
 <div id="item-set-linked" class="section">
     <?php echo $itemSet->displayLinkedResources(); ?>
+</div>
+
+<div class="active sidebar">
+    <div class="property">
+        <h4>Date Created</h4>
+        <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
+    </div>
+    <div class="property">
+        <h4>Visibility</h4>
+        <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr('Public') : $escapeAttr('Private'); ?></div>
+    </div>
+
 </div>

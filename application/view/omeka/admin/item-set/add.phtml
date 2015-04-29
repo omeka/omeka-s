@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'add item-set sidebar-open');
+$escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
@@ -13,15 +14,22 @@ if (isset($errors)) {
 }
 ?>
 
-<nav class="section-nav">
-    <ul>
-        <li><a href="#resource-values" class="active">Values</a></li>
-        <li><a href="#item-media">Media</a></li>
-        <li><a href="#item-visibility">Visibility</a></li>
-    </ul>
-</nav>
-
 <form method='post' id='add-item-set'>
+
+    <div class="o-icon-view visibility">
+        <label for="o:is_public"><?php echo $escape('Public'); ?></label>
+        <input type="checkbox" id="o:is_public" name="o:is_public">
+    </div>
+    
+    <a href="#" class="o-icon-delete delete"><?php echo $escape('Delete item'); ?></a>
+    
+    <nav class="section-nav">
+        <ul>
+            <li class="active"><a href="#resource-values">Values</a></li>
+            <li><a href="#item-media">Media</a></li>
+        </ul>
+    </nav>
+
     <?php 
     
         //produces a <fieldset> with the id and class atts passed in.
@@ -37,8 +45,7 @@ if (isset($errors)) {
     ?>
 
     <fieldset id="page-actions">
-        <input type="submit" name="add-item-submit" value="Create item set" />
-        <a href="<?php echo $this->url('admin/default', array('controller'=>'item-set', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
+        <input type="submit" name="add-item-submit" value="Add item set" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>

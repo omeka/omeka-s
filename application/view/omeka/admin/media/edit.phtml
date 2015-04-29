@@ -36,7 +36,6 @@ if (isset($errors)) {
 
     <fieldset id="page-actions">
         <input type="submit" name="add-item-submit" value="Save changes" />
-        <a href="<?php echo $this->url('admin/default', array('controller'=>'media', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />

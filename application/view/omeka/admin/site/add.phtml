@@ -6,7 +6,6 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
-    <a href="<?php echo $this->url('admin/default', array('controller'=>'site', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
 </div>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

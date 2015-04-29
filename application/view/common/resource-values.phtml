@@ -33,6 +33,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->resource()->resourceName()); ?>"><?php echo $value; ?></div>
+        <?php elseif ('uri' == $value->type()): ?>
+        <div class="value"><?php echo $value; ?></div>
         <?php else: ?>
         <div class="value"><?php echo $escape($value); ?></div>
         <?php endif; ?>

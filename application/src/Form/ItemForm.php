@@ -27,7 +27,7 @@ class ItemForm extends ResourceForm
                 'item_sets',
                 array('owner_id' => $auth->getIdentity()),
                 function ($itemSet, $serviceLocator) {
-                    return $itemSet->displayTitle('[no title]');
+                    return $itemSet->displayTitle();
                 }
             );
 

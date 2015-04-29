@@ -12,7 +12,7 @@ $viewItemsLink = $this->url(
     )
 );
 ?>
-<h1><?php echo $escape('Item Set'); ?>: &ldquo;<?php echo $escape(strip_tags($itemSet->displayTitle('[untitled]'))); ?>&rdquo;</h1>
+<h1><?php echo $escape('Item Set'); ?>: &ldquo;<?php echo $escape(strip_tags($itemSet->displayTitle())); ?>&rdquo;</h1>
 <div id="page-actions">
     <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
     <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>

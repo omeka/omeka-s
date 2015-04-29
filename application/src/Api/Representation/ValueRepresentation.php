@@ -31,7 +31,7 @@ class ValueRepresentation extends AbstractRepresentation
 
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
-                return $valueResource->link($valueResource->displayTitle('[untitled]'));
+                return $valueResource->link($valueResource->displayTitle());
 
             case Value::TYPE_URI:
                 $escapeHtml = $this->getViewHelper('escapeHtml');

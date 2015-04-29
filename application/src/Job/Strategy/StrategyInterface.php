@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Job\Strategy;
 
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 interface StrategyInterface extends ServiceLocatorAwareInterface 

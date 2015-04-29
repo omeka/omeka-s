@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Migration;
+use Omeka\Entity\Migration;
 use Omeka\Test\TestCase;
 
 class MigrationTest extends TestCase

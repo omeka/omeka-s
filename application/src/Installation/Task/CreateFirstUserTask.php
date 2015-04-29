@@ -27,7 +27,7 @@ class CreateFirstUserTask implements TaskInterface
 
         // Set the password.
         $user = $response->getContent()->jsonSerialize();
-        $userEntity = $entityManager->find('Omeka\Model\Entity\User', $user['o:id']);
+        $userEntity = $entityManager->find('Omeka\Entity\User', $user['o:id']);
         $userEntity->setPassword($vars['password']);
         $entityManager->flush();
     }

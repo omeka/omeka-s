@@ -30,7 +30,7 @@ class ResourceDiscriminatorMap
     public function loadClassMetadata(LoadClassMetadataEventArgs $event)
     {
         $classMetadata = $event->getClassMetadata();
-        if ('Omeka\Model\Entity\Resource' == $classMetadata->name) {
+        if ('Omeka\Entity\Resource' == $classMetadata->name) {
             $classMetadata->discriminatorMap = $this->discriminatorMap;
         }
     }

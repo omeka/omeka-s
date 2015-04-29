@@ -1,8 +1,8 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\SitePage;
-use Omeka\Model\Entity\SitePageBlock;
+use Omeka\Entity\SitePage;
+use Omeka\Entity\SitePageBlock;
 use Omeka\Test\TestCase;
 
 class SitePageBlockTest extends TestCase

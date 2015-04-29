@@ -3,7 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class VocabularyAdapter extends AbstractEntityAdapter
@@ -40,7 +40,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Vocabulary';
+        return 'Omeka\Entity\Vocabulary';
     }
 
     /**
@@ -171,7 +171,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\Vocabulary.owner',
+                'Omeka\Entity\Vocabulary.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -181,13 +181,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($query['namespace_uri'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\Vocabulary.namespaceUri",
+                "Omeka\Entity\Vocabulary.namespaceUri",
                 $this->createNamedParameter($qb, $query['namespace_uri']))
             );
         }
         if (isset($query['prefix'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\Vocabulary.prefix",
+                "Omeka\Entity\Vocabulary.prefix",
                 $this->createNamedParameter($qb, $query['prefix']))
             );
         }

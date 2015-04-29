@@ -4,7 +4,7 @@ namespace Omeka\Media\Handler;
 use Omeka\Api\Representation\Entity\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Media\Handler\AbstractHandler;
-use Omeka\Model\Entity\Media;
+use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
 use Zend\Uri\Http as HttpUri;

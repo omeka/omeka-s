@@ -8,11 +8,11 @@ use Omeka\Api\Exception;
 use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\ResourceTemplate;
-use Omeka\Model\Entity\User;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\ResourceTemplate;
+use Omeka\Entity\User;
 use Omeka\Event\Event;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 /**
@@ -686,7 +686,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     ) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('COUNT(resource.id)')
-            ->from('Omeka\Model\Entity\Resource', 'resource')
+            ->from('Omeka\Entity\Resource', 'resource')
             ->where($qb->expr()->eq(
                 "resource.$inverseField",
                 $this->createNamedParameter($qb, $entity))

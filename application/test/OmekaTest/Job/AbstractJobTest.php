@@ -9,7 +9,7 @@ class AbstractJobTest extends TestCase
     {
         $args = array('foo' => 'bar', 'baz' => 'bat');
 
-        $job = $this->getMock('Omeka\Model\Entity\Job');
+        $job = $this->getMock('Omeka\Entity\Job');
         $job->expects($this->any())
             ->method('getArgs')
             ->will($this->returnValue($args));

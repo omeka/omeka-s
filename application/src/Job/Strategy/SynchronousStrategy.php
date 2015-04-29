@@ -4,7 +4,7 @@ namespace Omeka\Job\Strategy;
 use DateTime;
 use Omeka\Job\Exception;
 use Omeka\Job\Strategy\StrategyInterface;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class SynchronousStrategy implements StrategyInterface

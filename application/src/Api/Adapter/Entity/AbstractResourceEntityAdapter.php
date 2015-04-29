@@ -3,8 +3,8 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Entity\Resource;
+use Omeka\Entity\EntityInterface;
+use Omeka\Entity\Resource;
 use Omeka\Stdlib\ErrorStore;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
@@ -319,7 +319,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             return null;
         }
         list($prefix, $localName) = explode(':', $term);
-        $dql = 'SELECT p FROM Omeka\Model\Entity\Property p
+        $dql = 'SELECT p FROM Omeka\Entity\Property p
         JOIN p.vocabulary v WHERE p.localName = :localName
         AND v.prefix = :prefix';
         return $this->getEntityManager()
@@ -339,7 +339,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     public function getSubjectValues(Resource $resource)
     {
         return $this->getEntityManager()
-            ->getRepository('Omeka\Model\Entity\Value')
+            ->getRepository('Omeka\Entity\Value')
             ->findBy(array('valueResource' => $resource));
     }
 }

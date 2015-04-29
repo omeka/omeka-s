@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Job;
 
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

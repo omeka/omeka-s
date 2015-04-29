@@ -1,9 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\User;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\User;
+use Omeka\Entity\Vocabulary;
 use Omeka\Test\TestCase;
 
 class ResourceClassTest extends TestCase

@@ -3,7 +3,7 @@ namespace Omeka\File;
 
 use Omeka\File\Store\StoreInterface;
 use Omeka\File\Thumbnailer\ThumbnailerInterface;
-use Omeka\Model\Entity\Media;
+use Omeka\Entity\Media;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

@@ -2,9 +2,9 @@
 namespace Omeka\Api\Adapter\Entity;
 
 use Omeka\Api\Exception;
-use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\Resource;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Property;
+use Omeka\Entity\Resource;
+use Omeka\Entity\Value;
 use Zend\Stdlib\Hydrator\HydrationInterface;
 
 class ValueHydrator implements HydrationInterface
@@ -73,7 +73,7 @@ class ValueHydrator implements HydrationInterface
         if (isset($valueObject['value_id'])) {
             // Modify an existing value
             $value = $this->adapter->getEntityManager()->getReference(
-                'Omeka\Model\Entity\Value',
+                'Omeka\Entity\Value',
                 $valueObject['value_id']
             );
             if (isset($valueObject['delete']) && true == $valueObject['delete']) {
@@ -88,7 +88,7 @@ class ValueHydrator implements HydrationInterface
         } elseif (isset($valueObject['property_id'])) {
             // Persist a new value
             $property = $this->adapter->getEntityManager()->getReference(
-                'Omeka\Model\Entity\Property',
+                'Omeka\Entity\Property',
                 $valueObject['property_id']
             );
             if (array_key_exists('@value', $valueObject) && $valueObject['@value']) {
@@ -141,7 +141,7 @@ class ValueHydrator implements HydrationInterface
         $value->setValue(null); // set default
         $value->setLang(null); // set default
         $valueResource = $this->adapter->getEntityManager()->find(
-            'Omeka\Model\Entity\Resource',
+            'Omeka\Entity\Resource',
             $valueObject['value_resource_id']
         );
         if (null === $valueResource) {
@@ -203,7 +203,7 @@ class ValueHydrator implements HydrationInterface
         $value->setProperty($property);
         $value->setType(Value::TYPE_RESOURCE);
         $valueResource = $this->adapter->getEntityManager()->find(
-            'Omeka\Model\Entity\Resource',
+            'Omeka\Entity\Resource',
             $valueObject['value_resource_id']
         );
         if (null === $valueResource) {

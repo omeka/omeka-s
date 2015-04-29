@@ -2,8 +2,8 @@
 namespace OmekaTest\Model;
 
 use DateTime;
-use Omeka\Model\Entity\ApiKey;
-use Omeka\Model\Entity\User;
+use Omeka\Entity\ApiKey;
+use Omeka\Entity\User;
 use Omeka\Test\TestCase;
 
 class ApiKeyTest extends TestCase

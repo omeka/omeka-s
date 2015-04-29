@@ -101,7 +101,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function itemCount()
     {
         return $this->getAdapter()->getResourceCount(
-            $this->getData(), 'resourceTemplate', 'Omeka\Model\Entity\Item'
+            $this->getData(), 'resourceTemplate', 'Omeka\Entity\Item'
         );
     }
 }

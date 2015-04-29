@@ -4,9 +4,9 @@ namespace Omeka\Service;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
-use Omeka\Model\Entity\Property;
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Entity\Property;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\Vocabulary;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

@@ -4,9 +4,9 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Media\Handler\HandlerInterface;
-use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Entity\Item;
-use Omeka\Model\Entity\ResourceClass;
+use Omeka\Entity\EntityInterface;
+use Omeka\Entity\Item;
+use Omeka\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class MediaAdapter extends AbstractResourceEntityAdapter
@@ -43,7 +43,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Media';
+        return 'Omeka\Entity\Media';
     }
 
     /**

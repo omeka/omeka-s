@@ -167,13 +167,13 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             null,
             array(
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\Media',
-                'Omeka\Model\Entity\Vocabulary',
-                'Omeka\Model\Entity\ResourceClass',
-                'Omeka\Model\Entity\Property',
-                'Omeka\Model\Entity\ResourceTemplate',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\Media',
+                'Omeka\Entity\Vocabulary',
+                'Omeka\Entity\ResourceClass',
+                'Omeka\Entity\Property',
+                'Omeka\Entity\ResourceTemplate',
             ),
             array(
                 'read',
@@ -221,7 +221,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
-            'Omeka\Model\Entity\User',
+            'Omeka\Entity\User',
             array('read', 'update'),
             new IsSelfAssertion
         );
@@ -287,10 +287,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             array(
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Media',
-                'Omeka\Model\Entity\ResourceTemplate',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Media',
+                'Omeka\Entity\ResourceTemplate',
             ),
             array(
                 'create',
@@ -299,10 +299,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             array(
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Media',
-                'Omeka\Model\Entity\ResourceTemplate',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Media',
+                'Omeka\Entity\ResourceTemplate',
             ),
             array(
                 'update',
@@ -322,7 +322,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-            'Omeka\Model\Entity\User',
+            'Omeka\Entity\User',
             array('read', 'update'),
             new IsSelfAssertion
         );
@@ -388,9 +388,9 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             array(
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Media',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Media',
             ),
             array(
                 'create',
@@ -400,9 +400,9 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             array(
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Media',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Media',
             ),
             array(
                 'delete',
@@ -421,7 +421,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
-            'Omeka\Model\Entity\User',
+            'Omeka\Entity\User',
             array('read', 'update'),
             new IsSelfAssertion
         );
@@ -487,10 +487,10 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             array(
-                'Omeka\Model\Entity\Item',
-                'Omeka\Model\Entity\ItemSet',
-                'Omeka\Model\Entity\Media',
-                'Omeka\Model\Entity\ResourceTemplate',
+                'Omeka\Entity\Item',
+                'Omeka\Entity\ItemSet',
+                'Omeka\Entity\Media',
+                'Omeka\Entity\ResourceTemplate',
             ),
             array(
                 'create',
@@ -508,12 +508,12 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
-            'Omeka\Model\Entity\User',
+            'Omeka\Entity\User',
             array('read')
         );
         $acl->allow(
             'editor',
-            'Omeka\Model\Entity\User',
+            'Omeka\Entity\User',
             array('create', 'update'),
             new IsSelfAssertion
         );
@@ -544,7 +544,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->deny(
             'site_admin',
-            'Omeka\Model\Entity\Media',
+            'Omeka\Entity\Media',
             array('create', 'update', 'delete')
         );
     }

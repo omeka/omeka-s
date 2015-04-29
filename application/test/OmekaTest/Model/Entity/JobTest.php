@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Omeka\Test\TestCase;
 
 class JobTest extends TestCase
@@ -55,7 +55,7 @@ class JobTest extends TestCase
 
     public function testSetOwner()
     {
-        $owner = $this->getMock('Omeka\Model\Entity\User');
+        $owner = $this->getMock('Omeka\Entity\User');
         $this->job->setOwner($owner);
         $this->assertEquals($owner, $this->job->getOwner());
     }

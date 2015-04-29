@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Permissions\Assertion;
 
-use Omeka\Model\Entity\User;
+use Omeka\Entity\User;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;

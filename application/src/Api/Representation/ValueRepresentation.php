@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ValueRepresentation extends AbstractRepresentation

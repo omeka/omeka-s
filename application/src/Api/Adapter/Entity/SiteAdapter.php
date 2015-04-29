@@ -4,7 +4,7 @@ namespace Omeka\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class SiteAdapter extends AbstractEntityAdapter
@@ -30,7 +30,7 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\Site';
+        return 'Omeka\Entity\Site';
     }
 
     /**

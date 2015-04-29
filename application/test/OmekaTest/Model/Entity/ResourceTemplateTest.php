@@ -1,10 +1,10 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\ResourceTemplateProperty;
-use Omeka\Model\Entity\ResourceTemplate;
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\User;
+use Omeka\Entity\ResourceTemplateProperty;
+use Omeka\Entity\ResourceTemplate;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\User;
 use Omeka\Test\TestCase;
 
 class ResourceTemplateTest extends TestCase

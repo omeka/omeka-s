@@ -4,7 +4,7 @@ namespace Omeka\Job\Strategy;
 use Omeka\Installation\Task\CheckEnvironmentTask;
 use Omeka\Job\Exception;
 use Omeka\Job\Strategy\StrategyInterface;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class PhpCliStrategy implements StrategyInterface

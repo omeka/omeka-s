@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 

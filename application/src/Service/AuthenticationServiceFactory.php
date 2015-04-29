@@ -25,11 +25,11 @@ class AuthenticationServiceFactory implements FactoryInterface
     {
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
         $status = $serviceLocator->get('Omeka\Status');
-        $userRepository = $entityManager->getRepository('Omeka\Model\Entity\User');
+        $userRepository = $entityManager->getRepository('Omeka\Entity\User');
 
         if ($status->isApiRequest()) {
             // Authenticate using key for API requests.
-            $keyRepository = $entityManager->getRepository('Omeka\Model\Entity\ApiKey');
+            $keyRepository = $entityManager->getRepository('Omeka\Entity\ApiKey');
             $storage = new DoctrineWrapper(new NonPersistent, $userRepository);
             $adapter = new KeyAdapter($keyRepository, $entityManager);
         } else {

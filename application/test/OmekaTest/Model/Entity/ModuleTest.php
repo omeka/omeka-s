@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Module;
+use Omeka\Entity\Module;
 use Omeka\Test\TestCase;
 
 class ModuleTest extends TestCase

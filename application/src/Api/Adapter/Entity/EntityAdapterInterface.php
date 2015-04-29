@@ -3,7 +3,7 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 
 /**
  * Entity API adapter interface.

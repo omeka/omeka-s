@@ -1,9 +1,9 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Item;
-use Omeka\Model\Entity\ItemSet;
-use Omeka\Model\Entity\Media;
+use Omeka\Entity\Item;
+use Omeka\Entity\ItemSet;
+use Omeka\Entity\Media;
 use Omeka\Test\TestCase;
 
 class ItemTest extends TestCase

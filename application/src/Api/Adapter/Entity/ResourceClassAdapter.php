@@ -3,9 +3,9 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Entity\EntityInterface;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
@@ -41,7 +41,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\ResourceClass';
+        return 'Omeka\Entity\ResourceClass';
     }
 
     /**
@@ -51,7 +51,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $this->sortByCount($qb, $query, 'resources', 'Omeka\Model\Entity\Item');
+                $this->sortByCount($qb, $query, 'resources', 'Omeka\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }
@@ -86,7 +86,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\ResourceClass.owner',
+                'Omeka\Entity\ResourceClass.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -97,7 +97,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($query['vocabulary_id'])) {
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                'Omeka\Entity\ResourceClass.vocabulary',
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -108,7 +108,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($query['vocabulary_namespace_uri'])) {
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                'Omeka\Entity\ResourceClass.vocabulary',
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -119,7 +119,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($query['vocabulary_prefix'])) {
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                'Omeka\Entity\ResourceClass.vocabulary',
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -129,7 +129,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\ResourceClass.localName",
+                "Omeka\Entity\ResourceClass.localName",
                 $this->createNamedParameter($qb, $query['local_name']))
             );
         }
@@ -137,7 +137,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             list($prefix, $localName) = explode(':', $query['term']);
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Model\Entity\ResourceClass.vocabulary',
+                'Omeka\Entity\ResourceClass.vocabulary',
                 $vocabularyAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -145,7 +145,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $prefix))
             );
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\ResourceClass.localName",
+                "Omeka\Entity\ResourceClass.localName",
                 $this->createNamedParameter($qb, $localName))
             );
         }

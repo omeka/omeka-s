@@ -9,9 +9,9 @@ class AbstractResourceEntityRepresentationTest extends TestCase
     {
         $resourceId = 'test-resource_id';
 
-        $resourceClass = $this->getMock('Omeka\Model\Entity\ResourceClass');
+        $resourceClass = $this->getMock('Omeka\Entity\ResourceClass');
 
-        $resource = $this->getMock('Omeka\Model\Entity\Resource');
+        $resource = $this->getMock('Omeka\Entity\Resource');
         $resource->expects($this->once())
             ->method('getResourceClass')
             ->will($this->returnValue($resourceClass));
@@ -50,7 +50,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $resourceId = 'test-resource_id';
         $resourceCreated = 'test-resource_created';
 
-        $resource = $this->getMock('Omeka\Model\Entity\Resource');
+        $resource = $this->getMock('Omeka\Entity\Resource');
         $resource->expects($this->once())
             ->method('getCreated')
             ->will($this->returnValue($resourceCreated));
@@ -74,7 +74,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $resourceId = 'test-resource_id';
         $resourceModified = 'test-resource_modified';
 
-        $resource = $this->getMock('Omeka\Model\Entity\Resource');
+        $resource = $this->getMock('Omeka\Entity\Resource');
         $resource->expects($this->once())
             ->method('getModified')
             ->will($this->returnValue($resourceModified));

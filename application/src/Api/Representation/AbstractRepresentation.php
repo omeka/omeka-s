@@ -3,7 +3,7 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Representation\ResourceReference;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

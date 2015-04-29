@@ -2,10 +2,10 @@
 namespace OmekaTest\Model;
 
 use DateTime;
-use Omeka\Model\Entity\ResourceTemplate;
-use Omeka\Model\Entity\ResourceClass;
-use Omeka\Model\Entity\User;
-use Omeka\Model\Entity\Value;
+use Omeka\Entity\ResourceTemplate;
+use Omeka\Entity\ResourceClass;
+use Omeka\Entity\User;
+use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ResourceTest extends TestCase
@@ -14,7 +14,7 @@ class ResourceTest extends TestCase
 
     public function setUp()
     {
-        $this->resource = $this->getMockForAbstractClass('Omeka\Model\Entity\Resource');
+        $this->resource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
     }
 
     public function testInitialState()

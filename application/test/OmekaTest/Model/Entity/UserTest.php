@@ -2,7 +2,7 @@
 namespace OmekaTest\Model;
 
 use DateTime;
-use Omeka\Model\Entity\User;
+use Omeka\Entity\User;
 use Omeka\Test\TestCase;
 
 class UserTest extends TestCase

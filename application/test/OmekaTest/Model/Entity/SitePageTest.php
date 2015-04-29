@@ -1,8 +1,8 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Site;
-use Omeka\Model\Entity\SitePage;
+use Omeka\Entity\Site;
+use Omeka\Entity\SitePage;
 use Omeka\Test\TestCase;
 
 class SitePageTest extends TestCase

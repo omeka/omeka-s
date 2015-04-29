@@ -4,7 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\UserForm;
 use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
-use Omeka\Model\Entity\ApiKey;
+use Omeka\Entity\ApiKey;
 use Zend\Mvc\Controller\AbstractActionController;
 use Omeka\Mvc\Exception;
 use Zend\View\Model\ViewModel;

@@ -4,14 +4,14 @@ namespace Omeka\Api\Representation\Entity;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\Entity\ResourceClassRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\Model\Entity\Resource;
-use Omeka\Model\Entity\Value;
-use Omeka\Model\Entity\Vocabulary;
+use Omeka\Entity\Resource;
+use Omeka\Entity\Value;
+use Omeka\Entity\Vocabulary;
 
 /**
  * Abstract resource entity representation.
  *
- * Provides functionality for entities that extend Omeka\Model\Entity\Resource.
+ * Provides functionality for entities that extend Omeka\Entity\Resource.
  */
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {

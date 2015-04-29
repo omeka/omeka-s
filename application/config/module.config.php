@@ -33,12 +33,12 @@ return array(
     'entity_manager' => array(
         'is_dev_mode' => false,
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/application/src/Model/Entity',
+            OMEKA_PATH . '/application/src/Entity',
         ),
         'resource_discriminator_map' => array(
-            'Omeka\Model\Entity\Item'    => 'Omeka\Model\Entity\Item',
-            'Omeka\Model\Entity\Media'   => 'Omeka\Model\Entity\Media',
-            'Omeka\Model\Entity\ItemSet' => 'Omeka\Model\Entity\ItemSet',
+            'Omeka\Entity\Item'    => 'Omeka\Entity\Item',
+            'Omeka\Entity\Media'   => 'Omeka\Entity\Media',
+            'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
         ),
     ),
     'installer' => array(

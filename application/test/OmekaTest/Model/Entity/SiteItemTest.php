@@ -1,10 +1,10 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\Item;
-use Omeka\Model\Entity\Site;
-use Omeka\Model\Entity\SiteItem;
-use Omeka\Model\Entity\User;
+use Omeka\Entity\Item;
+use Omeka\Entity\Site;
+use Omeka\Entity\SiteItem;
+use Omeka\Entity\User;
 use Omeka\Test\TestCase;
 
 class SiteItemTest extends TestCase

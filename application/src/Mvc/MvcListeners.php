@@ -230,7 +230,7 @@ class MvcListeners extends AbstractListenerAggregate
         $serviceLocator = $event->getApplication()->getServiceManager();
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
 
-        $sql = 'SELECT s FROM Omeka\Model\Entity\Site s WHERE s.slug = :slug';
+        $sql = 'SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug';
         $query = $entityManager->createQuery($sql);
         $query->setParameter('slug', $routeMatch->getParam('site-slug'));
         $site = $query->getOneOrNullResult();

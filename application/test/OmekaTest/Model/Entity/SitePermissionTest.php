@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Model\Entity\SitePermission;
+use Omeka\Entity\SitePermission;
 use Omeka\Test\TestCase;
 
 class SitePermissionTest extends TestCase

@@ -79,7 +79,7 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            'Omeka\Model\Entity\Media',
+            'Omeka\Entity\Media',
             OmekaEvent::ENTITY_REMOVE_POST,
             array($this, 'deleteMediaFiles')
         );

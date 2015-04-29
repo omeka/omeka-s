@@ -19,7 +19,7 @@ class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
     public function itemCount()
     {
         return $this->getAdapter()->getResourceCount(
-            $this->getData(), 'resourceClass', 'Omeka\Model\Entity\Item'
+            $this->getData(), 'resourceClass', 'Omeka\Entity\Item'
         );
     }
 }

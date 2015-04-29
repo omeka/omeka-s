@@ -3,8 +3,8 @@ namespace Omeka\Api\Adapter\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
-use Omeka\Model\Entity\ResourceTemplateProperty;
+use Omeka\Entity\EntityInterface;
+use Omeka\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
 
 class ResourceTemplateAdapter extends AbstractEntityAdapter
@@ -37,7 +37,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Model\Entity\ResourceTemplate';
+        return 'Omeka\Entity\ResourceTemplate';
     }
 
     /**
@@ -49,11 +49,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             if ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
                 $qb ->leftJoin(
-                    'Omeka\Model\Entity\ResourceTemplate.resourceClass',
+                    'Omeka\Entity\ResourceTemplate.resourceClass',
                     $resourceClassAlias
                 )->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('item_count' == $query['sort_by']) {
-                $this->sortByCount($qb, $query, 'resources', 'Omeka\Model\Entity\Item');
+                $this->sortByCount($qb, $query, 'resources', 'Omeka\Entity\Item');
             } else {
                 parent::sortQuery($qb, $query);
             }

@@ -18,6 +18,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($itemSets as $itemSet):?>
     <div class="resource item-set">
         <div class="placeholder"></div>
+        <?php if ($media = $itemSet->primaryMedia()): ?>
+        <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+        <?php endif; ?>
         <span class="resource-name">
             <a href="#"
             class="sidebar-content"

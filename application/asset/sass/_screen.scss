@@ -1627,6 +1627,10 @@ body.sidebar-open #content {
         vertical-align: top;
         margin: rhythm(.25) 0 0 rhythm(.5);
     }
+
+    img + .resource-name {
+        width: calc(100% - #{rhythm(2.5)});
+    }
     
     .resource {
         padding: rhythm(.25) 0;

@@ -45,6 +45,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <h4>Date Created</h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
+
+    <div class="property">
+        <h4>Owner</h4>
+        <div class="value"><?php echo $item->owner()->username(); ?></div>
+    </div>
+
     <?php if ($item->media()): ?>
     <div class="property">
         <h4>Media</h4>

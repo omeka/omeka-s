@@ -6,13 +6,16 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'))
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+$deleteButton = '<a href="#" class="delete button sidebar-confirm" 
+    data-sidebar-confirm-url="' . $escapeAttr($itemSet->url('delete')) . 
+    '">' . $escape('Delete') . '</a>';
 ?>
 
 <script type='text/javascript'>
 var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 </script>
 
-<h1><?php echo $this->translate('Edit item set'); ?></h1>
+<h1><?php echo $this->translate('Edit Item Set'); ?>: "<?php echo $itemSet->displayTitle(); ?>"</h1>
 
 <form method='post' id='edit-item-set'>
 
@@ -42,7 +45,8 @@ var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
             <input type="checkbox" id="o:is_public" name="o:is_public" <?php echo ($itemSet->isPublic()) ? 'checked' : ''; ?>>
         </div>
         
-        <input type="submit" name="add-item-submit" value="Save changes" />
+        <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+        <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>
@@ -51,3 +55,15 @@ var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 <?php 
         echo $this->partial('common/resource-form-templates.phtml');
 ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Item Set')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item set?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+</div>

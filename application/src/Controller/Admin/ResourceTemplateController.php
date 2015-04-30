@@ -125,6 +125,9 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        if ('edit' == $action) {
+            $view->setVariable('resourceTemplate', $resourceTemplate);
+        }
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('resourceClassId', $resourceClassId);
         $view->setVariable('form', $form);

@@ -11,7 +11,7 @@ $formElement = $this->plugin('formElement');
 var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
-<h1><?php echo $this->translate('Edit media'); ?></h1>
+<h1><?php echo $this->translate('Edit Media'); ?>: "<?php echo $media->displayTitle(); ?>"</h1>
 
 <form method='post' id='edit-media'>
     <?php 
@@ -29,7 +29,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
     ?>
 
     <fieldset id="page-actions">
-        <input type="submit" name="add-item-submit" value="Save changes" />
+        <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />

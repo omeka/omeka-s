@@ -1,5 +1,5 @@
 <?php $this->htmlElement('body')->appendAttribute('class', 'edit resource-template sidebar-open'); ?>
-<h1><?php echo $this->translate('Edit Resource Template'); ?></h1>
+<h1><?php echo $this->translate(sprintf('Edit Resource Template: "%s"', $resourceTemplate->label())); ?></h1>
 <?php
 echo $this->partial(
     'omeka/admin/resource-template/form.phtml',
@@ -7,7 +7,7 @@ echo $this->partial(
         'form' => $form,
         'propertyRows' => $propertyRows,
         'resourceClassId' => $resourceClassId,
-        'submitLabel' => $this->translate('Edit resource template'),
+        'submitLabel' => $this->translate('Save'),
     )
 );
 ?>

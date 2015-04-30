@@ -11,7 +11,7 @@ $deleteButton = '<a href="#" class="delete button sidebar-confirm"
 var valuesJson = <?php echo json_encode($item->values()); ?>;
 </script>
 
-<h1><?php echo $this->translate('Edit item'); ?></h1>
+<h1><?php echo $this->translate('Edit Item'); ?>: "<?php echo $item->displayTitle(); ?>"</h1>
 
 <?php
 echo $this->partial('omeka/admin/item/form.phtml', array(

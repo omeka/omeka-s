@@ -39,12 +39,7 @@ abstract class AbstractEntityRepresentation extends AbstractResourceRepresentati
     public function userIsAllowed($privilege)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->userIsAllowed($this->getAdapter(), $privilege)) {
-            return false;
-        }
-        if (!$acl->userIsAllowed($this->getData(), $privilege)) {
-            return false;
-        }
-        return true;
+        return $acl->userIsAllowed($this->getAdapter(), $privilege)
+            && $acl->userIsAllowed($this->getData(), $privilege);
     }
 }

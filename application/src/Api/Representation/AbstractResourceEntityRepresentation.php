@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Api\Representation\Entity;
+namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\Entity\ResourceClassRepresentation;
+use Omeka\Api\Representation\ResourceClassRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
@@ -361,10 +361,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null)
     {
-        return (string) $this->value('dcterms:title', array(
+        $title = $this->value('dcterms:title', array(
             'type' => 'literal',
-            'default' => $default,
+            'default' => null,
         ));
+
+        if ($title !== null) {
+            return (string) $title;
+        }
+
+        if ($default === null) {
+            $translator = $this->getServiceLocator()->get('MvcTranslator');
+            $default = $translator->translate('[Untitled]');
+        }
+
+        return $default;
     }
 
     /**
@@ -401,14 +412,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function valueRepresentation()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-
         $representation = array();
         $representation['@id'] = $this->apiUrl();
         $representation['value_resource_id'] = $this->id();
         $representation['url'] = $this->url();
-        $representation['display_title'] = $this->displayTitle(
-            $translator->translate('[Untitled]'));
+        $representation['display_title'] = $this->displayTitle();
 
         return $representation;
     }

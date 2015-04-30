@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Representation\Entity;
+namespace Omeka\Api\Representation;
 
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
@@ -168,19 +168,18 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     /**
      * Get the display title for this resource.
      *
+     * Change the fallback title to be the media's source, if it exists.
+     *
      * @param string|null $default
      * @return string|null
      */
     public function displayTitle($default = null)
     {
-        $title = parent::displayTitle();
-        if ('' === $title) {
-            $source = $this->source();
-            if ($source) {
-                return $source;
-            }
-            return $default;
+        $source = $this->source();
+        if (!$source) {
+            $source = $default;
         }
-        return $title;
+
+        return parent::displayTitle($source);
     }
 }

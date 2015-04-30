@@ -1644,6 +1644,10 @@ body.sidebar-open #content {
         vertical-align: top;
         margin: rhythm(.25) 0 0 rhythm(.5);
     }
+
+    img + .resource-name {
+        width: calc(100% - #{rhythm(2.5)});
+    }
     
     .resource {
         padding: rhythm(.25) 0;
@@ -1793,8 +1797,11 @@ body.show .sidebar img {
         content: $fa-var-external-link-square;
     }
     
-    .property .value.items a:after,
-    .property .value.item-sets a:after {
+    .property .value.items a:after {
+        content: $fa-var-cube;
+    }
+
+    .property .value.item_sets a:after {
         content: $fa-var-cubes;
     }
 

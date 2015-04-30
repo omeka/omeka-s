@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Api\Adapter\Entity;
 
-use Omeka\Api\Adapter\Entity\ValueHydrator;
+use Omeka\Api\Adapter\ValueHydrator;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
@@ -15,7 +15,7 @@ class ValueHydratorTest extends TestCase
     public function setUp()
     {
         $this->adapter = $this->getMockForAbstractClass(
-            'Omeka\Api\Adapter\Entity\AbstractEntityAdapter',
+            'Omeka\Api\Adapter\AbstractEntityAdapter',
                 array(), '', true, true, true,
                 array('getEntityManager', 'getAdapter')
         );

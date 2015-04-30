@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter\Entity;
+namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
@@ -32,7 +32,7 @@ class JobAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\Entity\JobRepresentation';
+        return 'Omeka\Api\Representation\JobRepresentation';
     }
 
     /**
@@ -74,7 +74,7 @@ class JobAdapter extends AbstractEntityAdapter
     {
         if (isset($query['class'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Model\Entity\Job.class",
+                $this->getEntityClass() . ".class",
                 $this->createNamedParameter($qb, $query['class']))
             );
         }

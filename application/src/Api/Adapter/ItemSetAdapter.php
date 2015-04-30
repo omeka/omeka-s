@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter\Entity;
+namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Entity\EntityInterface;
@@ -30,7 +30,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\Entity\ItemSetRepresentation';
+        return 'Omeka\Api\Representation\ItemSetRepresentation';
     }
 
     /**

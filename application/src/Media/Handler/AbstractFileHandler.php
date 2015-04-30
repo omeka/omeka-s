@@ -2,7 +2,7 @@
 namespace Omeka\Media\Handler;
 
 use finfo;
-use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Handler\AbstractHandler;
 use Zend\Math\Rand;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;

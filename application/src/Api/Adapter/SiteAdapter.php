@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Api\Adapter\Entity;
+namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
@@ -22,7 +22,7 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\Entity\SiteRepresentation';
+        return 'Omeka\Api\Representation\SiteRepresentation';
     }
 
     /**

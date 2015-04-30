@@ -16,7 +16,7 @@ class AbstractEntityAdapterTest extends TestCase
     public function setUp()
     {
         $this->adapter = $this->getMock(
-            'Omeka\Api\Adapter\Entity\AbstractEntityAdapter',
+            'Omeka\Api\Adapter\AbstractEntityAdapter',
             array('hydrate', 'getResourceName', 'getRepresentationClass',
                 'getEntityClass', 'getEventManager')
         );

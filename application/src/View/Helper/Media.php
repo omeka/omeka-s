@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Api\Representation\Entity\MediaRepresentation;
+use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Handler\Manager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;

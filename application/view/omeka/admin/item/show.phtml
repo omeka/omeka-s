@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo $escape('Item'); ?>: &ldquo;<?php echo $escape(strip_tags($item->displayTitle('[untitled]'))); ?>&rdquo;</h1>
+<h1><?php echo $escape('Item'); ?>: &ldquo;<?php echo $escape($item->displayTitle()); ?>&rdquo;</h1>
 <div id="page-actions">
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
 </div>
@@ -44,6 +44,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="property">
         <h4>Date Created</h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
+    </div>
+    <div class="property">
+        <h4>Owner</h4>
+        <div class="value"><?php echo $item->owner()->username(); ?></div>
     </div>
     <div class="property">
         <h4>Visibility</h4>

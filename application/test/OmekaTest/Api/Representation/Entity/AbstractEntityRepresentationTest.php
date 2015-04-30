@@ -11,14 +11,14 @@ class AbstractEntityRepresentationTest extends TestCase
             'MvcTranslator' => $this->getMock('Zend\I18n\Translator\TranslatorInterface'),
         ));
 
-        $adapter = $this->getMock('Omeka\Api\Adapter\Entity\AbstractEntityAdapter');
+        $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
         $adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($serviceLocator));
 
         $this->setExpectedException('Omeka\Api\Exception\InvalidArgumentException');
         $abstractEntityRep = $this->getMockForAbstractClass(
-            'Omeka\Api\Representation\Entity\AbstractEntityRepresentation',
+            'Omeka\Api\Representation\AbstractEntityRepresentation',
             array('id', 'invalid_data', $adapter)
         );
     }

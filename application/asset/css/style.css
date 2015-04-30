@@ -2015,6 +2015,9 @@ th {
     vertical-align: top;
     margin: 0.375em 0 0 0.75em;
   }
+  .resource-list img + .resource-name {
+    width: calc(100% - 3.75em);
+  }
   .resource-list .resource {
     padding: 0.375em 0;
     border-color: rgba(0, 0, 0, 0.08);
@@ -2158,8 +2161,11 @@ th {
     content: "";
   }
 
-  .property .value.items a:after,
-  .property .value.item-sets a:after {
+  .property .value.items a:after {
+    content: "";
+  }
+
+  .property .value.item_sets a:after {
     content: "";
   }
 

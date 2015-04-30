@@ -18,7 +18,7 @@ $escape = $this->plugin('escapeHtml');
         <tr>
             <td><?php echo $escape($this->translate('This')); ?></td>
             <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $resource->link(strip_tags($resource->displayTitle('[untitled]'))); ?></td>
+            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
         </tr>
         <?php endforeach; ?>
 
@@ -28,7 +28,7 @@ $escape = $this->plugin('escapeHtml');
         $property = $value->property();
         ?>
         <tr>
-            <td><?php echo $resource->link(strip_tags($resource->displayTitle('[untitled]'))); ?></td>
+            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
             <td><?php echo $escape($property->label()); ?></td>
             <td><?php echo $escape($this->translate('This')); ?></td>
         </tr>

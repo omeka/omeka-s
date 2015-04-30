@@ -1780,8 +1780,11 @@ body.show .sidebar img {
         content: $fa-var-external-link-square;
     }
     
-    .property .value.items a:after,
-    .property .value.item-sets a:after {
+    .property .value.items a:after {
+        content: $fa-var-cube;
+    }
+
+    .property .value.item_sets a:after {
         content: $fa-var-cubes;
     }
 

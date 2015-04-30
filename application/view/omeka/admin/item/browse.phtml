@@ -8,7 +8,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate('Items')); ?></h1>
 
 <div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php endif; ?>
     <?php echo $this->hyperlink($this->translate('Search items'), $this->url(null, array('action' => 'search'), true), array('class' => 'button')); ?>
 </div>
 
@@ -35,17 +37,21 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php echo $item->link($item->displayTitle()); ?>
                 </span>
                 <ul class="actions">
+                    <?php if ($item->userIsAllowed('update')): ?>
                     <li><?php echo $item->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
+                    <?php endif; ?>
+                    <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
                         data-sidebar-confirm-url="<?php echo $escapeAttr($item->url('delete')); ?>"
                         class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <?php endif; ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"

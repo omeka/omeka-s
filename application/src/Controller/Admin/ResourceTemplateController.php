@@ -127,6 +127,11 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         if ('edit' == $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
+            $view->setVariable('confirmForm', new ConfirmForm(
+                $this->getServiceLocator(), null, array(
+                    'button_value' => $this->translate('Confirm Delete'),
+                )
+            ));
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('resourceClassId', $resourceClassId);

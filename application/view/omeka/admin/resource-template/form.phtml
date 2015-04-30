@@ -6,6 +6,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php if (isset($resourceTemplate)): ?>
+    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($resourceTemplate->url('delete')); ?>"><?php echo $escape('Delete'); ?></a>
+    <?php endif; ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
 
@@ -48,14 +51,21 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->propertySelector(); ?>
-
+<?php if (isset($resourceTemplate)): ?>
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Resource Template')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this resource template?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
     <div class="sidebar-content"></div>
 </div>
+<?php endif; ?>
+
 <script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 <script>
 // Enable sorting on property rows.

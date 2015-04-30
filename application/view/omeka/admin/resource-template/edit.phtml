@@ -5,9 +5,11 @@ echo $this->partial(
     'omeka/admin/resource-template/form.phtml',
     array(
         'form' => $form,
+        'resourceTemplate' => $resourceTemplate,
         'propertyRows' => $propertyRows,
         'resourceClassId' => $resourceClassId,
         'submitLabel' => $this->translate('Save'),
+        'confirmForm' => $confirmForm
     )
 );
 ?>

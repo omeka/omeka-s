@@ -1346,6 +1346,9 @@ th {
     min-height: 0;
     vertical-align: top;
   }
+  #page-actions .delete.button {
+    background-color: #b34d4d;
+  }
 
   .add-property.button {
     margin-top: 1.5em;

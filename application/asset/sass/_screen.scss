@@ -947,6 +947,10 @@ body.sidebar-open #content {
         min-height: 0;
         vertical-align: top;
     }
+
+    .delete.button {
+        background-color: desaturate($red, 60%);
+    }
 }
 
 .add-property.button {

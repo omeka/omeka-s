@@ -415,6 +415,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $representation = array();
         $representation['@id'] = $this->apiUrl();
         $representation['value_resource_id'] = $this->id();
+        $representation['value_resource_name'] = $this->resourceName();
         $representation['url'] = $this->url();
         $representation['display_title'] = $this->displayTitle();
 

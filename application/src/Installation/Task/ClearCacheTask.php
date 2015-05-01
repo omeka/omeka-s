@@ -1,17 +1,17 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Omeka\Installation\Manager;
+use Omeka\Installation\Installer;
 
 /**
- * Task to clear identity from the session.
+ * Task to clear Doctrine's metadata cache.
  */
-class ClearSessionTask implements TaskInterface
+class ClearCacheTask implements TaskInterface
 {
-    public function perform(Manager $manager)
+    public function perform(Installer $installer)
     {
-        $em = $manager->getServiceLocator()->get('Omeka\EntityManager');
-        $cache = $em->geConfiguration()->getMetadataCacheImpl();
+        $em = $installer->getServiceLocator()->get('Omeka\EntityManager');
+        $cache = $em->getConfiguration()->getMetadataCacheImpl();
 
         if (!$cache) {
             return;

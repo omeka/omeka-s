@@ -47,6 +47,7 @@ return array(
             'Omeka\Installation\Task\CheckDirPermissionsTask',
             'Omeka\Installation\Task\ClearSessionTask',
             'Omeka\Installation\Task\CheckDbConfigurationTask',
+            'Omeka\Installation\Task\ClearCacheTask',
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',

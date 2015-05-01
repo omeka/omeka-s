@@ -233,7 +233,7 @@
                         text: title
                     });
 
-                    newResource.find('.o-title').append(link);
+                    newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
 
                     valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);

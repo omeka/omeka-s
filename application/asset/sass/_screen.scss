@@ -1448,6 +1448,19 @@ body.sidebar-open #content {
         margin: 0;
     }
     
+    .selected-resource .o-title a:after {
+        font-family: "FontAwesome";
+        margin-left: .5em;
+    }
+
+    .selected-resource .items a:after {
+        content: $fa-var-cube;
+    }
+
+    .selected-resource .item_sets a:after {
+        content: $fa-var-cubes;
+    }    
+
     /* @end */
     
     /* @group ----- Media ----- */

@@ -1,12 +1,27 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 $form->prepare();
 ?>
-<h1><?php echo $this->escapeHtml(sprintf($this->translate('Edit Site “%s”'), $site->title())); ?></h1>
+<h1><?php echo $this->escapeHtml(sprintf($this->translate('Edit Site: "%s"'), $site->title())); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $this->escapeHtml($this->translate('Save changes')); ?></button>
-    <a href="<?php echo $this->url('admin/default', array('controller'=>'site', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
+    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($site->url('delete')); ?>">Delete</a>
+    <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
 </div>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Site')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this site?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+    <div class="sidebar-content"></div>
+</div>

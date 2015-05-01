@@ -160,6 +160,15 @@
             Omeka.openSidebar(context);
         });
 
+        $('.visibility [type="checkbox"]').on('click', function() {
+            var publicCheck = $(this);
+            if (publicCheck.prop("checked")) {
+                publicCheck.attr('checked','checked');
+            } else {
+                publicCheck.removeAttr('checked');
+            }
+        });
+
         initPage();
     });
 

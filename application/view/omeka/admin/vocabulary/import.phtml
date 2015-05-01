@@ -5,8 +5,7 @@ $form->prepare();
 <h1><?php echo $this->escapeHtml($this->translate('Import Vocabulary')); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
-    <a href="<?php echo $this->url('admin/default', array('controller'=>'vocabulary', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
+    <button><?php echo $this->escapeHtml($this->translate('Import')); ?></button>
 </div>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

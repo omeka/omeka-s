@@ -1272,7 +1272,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Add views ----- */
+  /* @group ----- Add/Edit views ----- */
   .add div[role="main"],
   .import div[role="main"],
   .edit div[role="main"] {
@@ -1290,6 +1290,7 @@ th {
     height: 2.625em;
     position: relative;
     margin-bottom: 1.5em;
+    clear: both;
   }
   .section-nav:before {
     content: "";
@@ -1349,6 +1350,9 @@ th {
     min-height: 0;
     vertical-align: top;
   }
+  #page-actions .delete.button {
+    background-color: #b34d4d;
+  }
 
   .add-property.button {
     margin-top: 1.5em;
@@ -1385,7 +1389,23 @@ th {
   }
 
   .non-properties {
-    margin-bottom: 1.5em;
+    margin-bottom: 0.75em;
+  }
+
+  .visibility {
+    display: inline-block;
+    padding: 0.375em;
+    margin-right: 0.75em;
+  }
+
+  .add .visibility:before,
+  .edit .visibility:before {
+    margin-right: .25em;
+  }
+
+  .add .visibility [type="checkbox"],
+  .edit .visibility [type="checkbox"] {
+    margin-left: .5em;
   }
 
   /* @group ----- Metadata ----- */

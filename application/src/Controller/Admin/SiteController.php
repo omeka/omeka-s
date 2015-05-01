@@ -61,6 +61,11 @@ class SiteController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
         return $view;
     }
 

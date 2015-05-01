@@ -21,6 +21,7 @@ class Item extends Resource
      *     orphanRemoval=true,
      *     cascade={"persist", "remove", "detach"}
      * )
+     * @OrderBy({"position" = "ASC"})
      */
     protected $media;
 

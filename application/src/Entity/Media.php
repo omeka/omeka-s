@@ -3,6 +3,14 @@ namespace Omeka\Entity;
 
 /**
  * @Entity
+ * @Table(
+ *     indexes={
+ *         @Index(
+ *             name="item_position",
+ *             columns={"item_id", "position"}
+ *         )
+ *     }
+ * )
  */
 class Media extends Resource
 {
@@ -46,6 +54,11 @@ class Media extends Resource
      * @Column(type="boolean")
      */
     protected $hasThumbnails = false;
+
+    /**
+     * @Column(type="integer", nullable=true)
+     */
+    protected $position;
 
     /**
      * @ManyToOne(targetEntity="Item", inversedBy="media")
@@ -131,6 +144,16 @@ class Media extends Resource
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    public function setPosition()
+    {
+        $this->position = $position;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     public function setItem(Item $item = null)

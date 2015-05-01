@@ -53,8 +53,10 @@ CREATE TABLE `media` (
   `filename` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `has_original` tinyint(1) NOT NULL,
   `has_thumbnails` tinyint(1) NOT NULL,
+  `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_6A2CA10C126F525E` (`item_id`),
+  KEY `item_position` (`item_id`,`position`),
   CONSTRAINT `FK_6A2CA10C126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
   CONSTRAINT `FK_6A2CA10CBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

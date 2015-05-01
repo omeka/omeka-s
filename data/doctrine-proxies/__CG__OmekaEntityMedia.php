@@ -64,10 +64,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -351,6 +351,28 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFilename', array());
 
         return parent::getFilename();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPosition()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array());
+
+        return parent::setPosition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPosition()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', array());
+
+        return parent::getPosition();
     }
 
     /**

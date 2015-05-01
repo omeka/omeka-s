@@ -68,6 +68,8 @@ class Manager implements ServiceLocatorAwareInterface
             $migration->up();
             $this->recordMigration($version);
         }
+
+        $this->clearDoctrineCache();
     }
 
     /**
@@ -172,5 +174,20 @@ class Manager implements ServiceLocatorAwareInterface
             $this->translator = $this->getServiceLocator()->get('MvcTranslator');
         }
         return $this->translator;
+    }
+
+    /**
+     * Clear Doctrine's cache to prevent errors after upgrade.
+     */
+    protected function clearDoctrineCache()
+    {
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $cache = $em->getConfiguration()->getMetadataCacheImpl();
+
+        if (!$cache) {
+            return;
+        }
+
+        $cache->deleteAll();
     }
 }

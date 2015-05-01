@@ -162,11 +162,14 @@ class ManagerTest extends TestCase
             ->method('up');
 
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getMigrationsToPerform', 'loadMigration', 'recordMigration'),
+            array('getMigrationsToPerform', 'loadMigration', 'recordMigration',
+                'clearDoctrineCache'),
             array(), '', false);
         $manager->expects($this->once())
             ->method('getMigrationsToPerform')
             ->will($this->returnValue($this->migrations));
+        $manager->expects($this->once())
+            ->method('clearDoctrineCache');
         $manager->expects($this->exactly(2))
             ->method('loadMigration')
             ->will($this->returnValue($migration));

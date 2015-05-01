@@ -20,7 +20,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 
 <div id="item-linked" class="section">
-    <?php echo $item->displayLinkedResources(); ?>
+    <?php $subjects = $item->subjectValues(); ?>
+    <?php $objects = $item->objectValues(); ?>
+    <?php if ( $subjects || $objects ): ?>
+        <?php echo $item->displayLinkedResources(); ?>
+    <?php else: ?>
+        <div class="no-resources">
+            <p>There are no linked resources for this item.</p>
+        </div>
+    <?php endif; ?>
 </div>
 
 

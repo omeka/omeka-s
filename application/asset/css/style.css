@@ -1296,6 +1296,40 @@ th {
     content: "";
   }
 
+  /* @group ----- Search results ----- */
+  .search-filters {
+    margin-bottom: 0.375em;
+  }
+
+  .filter {
+    display: inline-block;
+    margin: 0 0.375em 0.375em 0;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    padding: 0.375em;
+  }
+
+  .filter-label {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px 0 0 3px;
+    padding: 0.375em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -0.375em;
+    margin-bottom: -0.375em;
+    margin-left: -0.375em;
+    padding-top: 0.375em;
+    padding-bottom: 0.375em;
+    padding-left: 0.375em;
+  }
+
+  .filter-value:not(:last-child):after {
+    content: ",";
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Add/Edit views ----- */
   .add div[role="main"],

@@ -27,6 +27,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
         <img src="<?php echo $media->thumbnailUrl('square'); ?>">
         <span class="resource-name"><?php echo $media->displayTitle(); ?></span>
         <input type="hidden" name="o:media[][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
+        <span class="sortable-handle"></span>
     </div>
     <?php endforeach; ?>
 <?php endif; ?>
@@ -49,6 +50,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 var list = document.getElementById('media-list');
 new Sortable(list, {
     draggable: ".media",
+    handle: ".sortable-handle"
 });
 
 var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;

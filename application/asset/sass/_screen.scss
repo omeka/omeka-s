@@ -867,6 +867,34 @@ body.sidebar-open #content {
     content: $fa-var-book;
 }
 
+    /* @group ----- Search results ----- */
+
+    .search-filters {
+        @include trailer(.25);
+    }
+
+    .filter {
+        display: inline-block;
+        margin: 0 rhythm(.25) rhythm(.25) 0;
+        @include border-radius(3px);
+        background-color: #f0f0f0;
+        padding: rhythm(.25);
+    }
+
+    .filter-label {
+        display: inline-block;
+        background-color: $gray-on-white;
+        @include border-radius(3px 0 0 3px);
+        padding: rhythm(.25);
+        @include bleed(rhythm(.25) 0 rhythm(.25) rhythm(.25));
+    }
+
+    .filter-value:not(:last-child):after {
+        content: ",";
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @group ----- Add/Edit views ----- */

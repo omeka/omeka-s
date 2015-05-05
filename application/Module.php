@@ -28,6 +28,7 @@ class Module extends AbstractModule
         'pagination' => 'Omeka\View\Helper\Pagination',
         'trigger'    => 'Omeka\View\Helper\Trigger',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
+        'searchFilters' => 'Omeka\View\Helper\SearchFilters'
     );
 
     /**

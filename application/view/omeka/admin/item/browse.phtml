@@ -7,6 +7,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <h1><?php echo $escape($this->translate('Items')); ?></h1>
 
+<?php echo $this->searchFilters(); ?>
+
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>

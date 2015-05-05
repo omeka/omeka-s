@@ -1,6 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 ?>
 <legend><?php echo $this->translate('Media'); ?></legend>
 <?php foreach ($mediaForms as $type => $form): ?>
@@ -44,6 +45,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 
 <script type="text/javascript">
+
+var list = document.getElementById('media-list');
+new Sortable(list, {
+    draggable: ".media",
+});
+
 var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;
 
 $('#new-media-type').change(function () {

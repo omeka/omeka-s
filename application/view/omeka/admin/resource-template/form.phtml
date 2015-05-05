@@ -2,6 +2,7 @@
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -66,7 +67,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 </div>
 <?php endif; ?>
 
-<script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 <script>
 // Enable sorting on property rows.
 var list = document.getElementById('properties');

@@ -5,15 +5,57 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <h1><?php echo $escape($this->translate('Media')); ?></h1>
-<p>This is temporary. Just a path to editing media for now.</p>
 
-<ul>
-<?php foreach ($medias as $media): ?>
-<li>
-<?php echo $media->link($media->displayTitle(), 'show'); ?>
-</li>
+<?php if (count($medias) > 0): ?>
+
+<?php echo $this->pagination(); ?>
+
+<table>
+    <thead>
+        <tr>
+            <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($medias as $media): ?>
+            <tr>
+                <td>
+                    <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+                    <span class="resource-name">
+                        <?php echo $media->link($media->displayTitle(), 'show'); ?>
+                    </span>
+                    <ul class="actions">
+                        <li><?php echo $media->link('', 'edit', array(
+                            'class' => 'o-icon-edit',
+                            'aria-label' => $this->translate('Edit'),
+                            'title' => $this->translate('Edit'),
+                        )); ?></li>
+                        <li><a href="#"
+                            data-sidebar-content-url="<?php echo $escapeAttr($media->url('show-details')); ?>"
+                            data-sidebar-confirm-url="<?php echo $escapeAttr($media->url('delete')); ?>"
+                            class="o-icon-delete sidebar-confirm"
+                            aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
+                            title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                        <li><a href="#"
+                            data-sidebar-content-url="<?php echo $escapeAttr($media->url('show-details')); ?>"
+                            class="o-icon-more sidebar-content"
+                            aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
+                            title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                    </ul>
+                </td>
+                <td><?php echo $this->hyperlink($media->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $media->owner()->id()))); ?></td>
+            </tr>
+        <?php endforeach; ?>       
+    </tbody>
+
+</table>
 
 
+<?php else: ?>
 
-<?php endforeach; ?>
-</ul>
+<div class="no-resources">
+    <p><?php echo $escape($this->translate('Omeka could not find any media.')); ?></p>
+</div>
+
+<?php endif; ?>

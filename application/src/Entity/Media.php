@@ -146,7 +146,7 @@ class Media extends Resource
         return $this->filename;
     }
 
-    public function setPosition()
+    public function setPosition($position)
     {
         $this->position = $position;
     }

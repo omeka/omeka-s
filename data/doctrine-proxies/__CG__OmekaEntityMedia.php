@@ -356,12 +356,12 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setPosition()
+    public function setPosition($position)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
 
-        return parent::setPosition();
+        return parent::setPosition($position);
     }
 
     /**

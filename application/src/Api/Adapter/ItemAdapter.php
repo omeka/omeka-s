@@ -131,15 +131,17 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $adapter = $this->getAdapter('media');
             $class = $adapter->getEntityClass();
             $retainMedia = array();
-            $retainMediaIds = array();
+            $position = 1;
             foreach ($mediasData as $mediaData) {
                 if (isset($mediaData['o:id'])) {
-                    // Do not update existing media.
-                    $retainMediaIds[] = $mediaData['o:id'];
+                    $media = $adapter->findEntity($mediaData['o:id']);
+                    $media->setPosition($position);
+                    $retainMedia[] = $media;
                 } else {
                     // Create a new media.
                     $media = new $class;
                     $media->setItem($entity);
+                    $media->setPosition($position);
                     $subrequest = new Request(Request::CREATE, 'media');
                     $subrequest->setContent($mediaData);
                     $subrequest->setFileData($request->getFileData());
@@ -147,12 +149,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $entity->getMedia()->add($media);
                     $retainMedia[] = $media;
                 }
+                $position++;
             }
             // Remove media not included in request.
             foreach ($entity->getMedia() as $media) {
-                if (!in_array($media, $retainMedia, true)
-                    && !in_array($media->getId(), $retainMediaIds)
-                ) {
+                if (!in_array($media, $retainMedia, true)) {
                     $entity->getMedia()->removeElement($media);
                 }
             }

@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
+$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
@@ -56,6 +57,21 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 </table>
 
+<?php echo $this->pagination(); ?>
+
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
+        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $escape($this->translate('Delete Media')); ?></h2>
+        <p><?php echo $escape($this->translate('Are you sure you would like to delete this media?')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+    <div class="sidebar-content"></div>
+</div>
 
 <?php else: ?>
 

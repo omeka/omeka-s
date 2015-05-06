@@ -14,6 +14,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <thead>
         <tr>
             <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Resource'), 'item'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
         </tr>
     </thead>
@@ -43,6 +44,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                             aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
                             title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                     </ul>
+                </td>
+                <td>
+                    <?php $mediaItem = $media->item(); ?>
+                    <?php echo $mediaItem->link($mediaItem->displayTitle()); ?>
                 </td>
                 <td><?php echo $this->hyperlink($media->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $media->owner()->id()))); ?></td>
             </tr>

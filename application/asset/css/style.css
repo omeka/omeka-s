@@ -1018,6 +1018,7 @@ th {
     display: inline-block;
     max-width: calc(100% - 8.5em);
     vertical-align: middle;
+    word-break: break-word;
   }
 
   .browse .add.button,

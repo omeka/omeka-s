@@ -140,7 +140,7 @@ abstract class AbstractModule implements ConfigProviderInterface
             return;
         }
 
-        $autoloadPath = sprintf('%1$s/module/%2$s/src', OMEKA_PATH, $namespace);
+        $autoloadPath = sprintf('%1$s/modules/%2$s/src', OMEKA_PATH, $namespace);
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(

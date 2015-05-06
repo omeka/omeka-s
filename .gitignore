@@ -5,7 +5,7 @@
 /data/logs/sql.log
 /data/logs/application.log
 /files/
-/module/
+/modules/
 /application/test/config/database.ini
 /vendor/
 .sass-cache

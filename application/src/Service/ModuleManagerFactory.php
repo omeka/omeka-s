@@ -26,7 +26,7 @@ class ModuleManagerFactory implements FactoryInterface
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/module') as $dir) {
+        foreach (new DirectoryIterator(OMEKA_PATH . '/modules') as $dir) {
 
             // Module must be a directory
             if (!$dir->isDir() || $dir->isDot()) {

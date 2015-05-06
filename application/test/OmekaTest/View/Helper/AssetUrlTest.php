@@ -31,6 +31,6 @@ class AssetUrlTest extends TestCase
         $this->assertEquals('/application/asset/foo/bar', $url);
         
         $url = $assetUrl('baz/bat', 'MyModule');
-        $this->assertEquals('/module/MyModule/asset/baz/bat', $url);
+        $this->assertEquals('/modules/MyModule/asset/baz/bat', $url);
     }
 }

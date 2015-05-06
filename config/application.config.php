@@ -8,7 +8,7 @@ return array(
     'module_listener_options' => array(
         'module_paths' => array(
             'Omeka' => OMEKA_PATH . '/application',
-            OMEKA_PATH . '/module',
+            OMEKA_PATH . '/modules',
         ),
         'config_glob_paths' => array(
             OMEKA_PATH . '/config/local.config.php'

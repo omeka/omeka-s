@@ -213,6 +213,7 @@ return array(
             'item_sets'          => 'Omeka\Api\Adapter\ItemSetAdapter',
             'modules'            => 'Omeka\Api\Adapter\ModuleAdapter',
             'sites'              => 'Omeka\Api\Adapter\SiteAdapter',
+            'site_pages'         => 'Omeka\Api\Adapter\SitePageAdapter',
             'jobs'               => 'Omeka\Api\Adapter\JobAdapter',
         ),
     ),

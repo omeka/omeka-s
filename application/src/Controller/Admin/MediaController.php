@@ -61,4 +61,44 @@ class MediaController extends AbstractActionController
     $view->setVariable('media', $response->getContent());
     return $view;
     }
+
+    public function showDetailsAction()
+    {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('media', $this->params('id'));
+        $media = $response->getContent();
+        $values = $media->valueRepresentation();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('media', $media);
+        $view->setVariable('values', json_encode($values));
+        return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete(
+                    'media', array('id' => $this->params('id'))
+                );
+                if ($response->isError()) {
+                    $this->messenger()->addError('Media could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Media successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Media could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute(
+            'admin/default',
+            array('action' => 'browse'),
+            true
+        );
+    }
 }

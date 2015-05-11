@@ -20,7 +20,7 @@
         <form action="#" id="search-form">
             <?php $searchValue = isset($_GET['value']['in'][0]) ? $_GET['value']['in'][0] : ''; ?>
             <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>">
-            <button id="advanced">Advanced Options</button>
+            <button type="button" id="advanced">Advanced Options</button>
             <button type="submit">Search</button>
             <fieldset id="advanced-options">
                 <legend>Resource Type:</legend>

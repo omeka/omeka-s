@@ -6,6 +6,7 @@
 /data/logs/application.log
 /files/
 /modules/
+/themes/
 /application/test/config/database.ini
 /vendor/
 .sass-cache

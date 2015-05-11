@@ -22,17 +22,17 @@ class User extends AbstractEntity implements RoleInterface
     protected $id;
 
     /**
-     * @Column(type="string", length=255, unique=true)
+     * @Column(type="string", length=190, unique=true)
      */
     protected $username;
 
     /**
-     * @Column(type="string", length=255, unique=true)
+     * @Column(type="string", length=190, unique=true)
      */
     protected $email;
 
     /**
-     * @Column(type="string", length=255)
+     * @Column(type="string", length=190)
      */
     protected $name;
 
@@ -52,7 +52,7 @@ class User extends AbstractEntity implements RoleInterface
     protected $passwordHash;
 
     /**
-     * @Column(type="string", length=255)
+     * @Column(type="string", length=190)
      */
     protected $role;
 

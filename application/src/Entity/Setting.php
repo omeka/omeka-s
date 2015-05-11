@@ -8,7 +8,7 @@ class Setting extends AbstractEntity
 {
     /**
      * @Id
-     * @Column(type="string", length=255)
+     * @Column(type="string", length=190)
      */
     protected $id;
 

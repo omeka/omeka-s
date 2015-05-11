@@ -39,7 +39,7 @@ class Property extends AbstractEntity
     protected $vocabulary;
 
     /**
-     * @Column(options={"collation"="utf8_bin"})
+     * @Column(options={"collation"="utf8mb4_bin"}, length=190)
      */
     protected $localName;
 

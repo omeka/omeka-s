@@ -158,17 +158,15 @@ class Module extends AbstractModule
 
         $qb = $event->getParam('queryBuilder');
         $entityClass = $event->getTarget()->getEntityClass();
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
 
-        if ($auth->getIdentity()) {
+        $clause = $qb->expr()->eq("$entityClass.isPublic", true);
+        if ($identity) {
             // Users can search all resources they own.
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->eq("$entityClass.owner", $auth->getIdentity()->getId()),
-                $qb->expr()->eq("$entityClass.isPublic", true)
-            ));
-        } else {
-            // User is not authenticated.
-            $qb->andWhere($qb->expr()->eq("$entityClass.isPublic", true));
+            $clause = $qb->expr()->orX($clause,
+                $qb->expr()->eq("$entityClass.owner", $identity->getId()));
         }
+        $qb->andWhere($clause);
     }
 }

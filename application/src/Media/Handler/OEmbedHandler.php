@@ -26,6 +26,21 @@ class OEmbedHandler extends AbstractHandler
         if (!isset($data['o:source'])) {
             $errorStore->addError('o:source', 'No OEmbed URL specified');
         }
+        
+        $config = $this->getServiceLocator()->get('Config');
+        $whitelist = $config['oembed']['whitelist'];
+        
+        $whitelisted = false;
+        foreach ($whitelist as $regex) {
+            if (preg_match($regex, $data['o:source']) === 1 ) {
+                $whitelisted = true;
+                break;
+            }
+        }
+
+        if (! $whitelisted) {
+            $errorStore->addError('o:source', 'Invalid OEmbed URL');
+        }
     }
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)

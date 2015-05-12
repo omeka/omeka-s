@@ -969,12 +969,24 @@ th {
     width: 1.5em;
   }
 
-  #menu .resources:before {
+  #menu .items:before {
+    content: "";
+  }
+
+  #menu .media:before {
+    content: "";
+  }
+
+  #menu .item-sets:before {
     content: "";
   }
 
-  #menu .ontology:before {
+  #menu .vocabularies:before {
     content: "";
+  }
+
+  #menu .resource-templates:before {
+    content: "";
   }
 
   #menu .users:before {

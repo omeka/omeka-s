@@ -4,7 +4,7 @@ return array(
         'admin' => array(
             array(
                 'label'      => 'Items',
-                'class'      => 'resources',
+                'class'      => 'items',
                 'route'      => 'admin/default',
                 'controller' => 'item',
                 'action'     => 'browse',
@@ -20,7 +20,7 @@ return array(
             ),
             array(
                 'label'      => 'Media',
-                'class'      => 'resources',
+                'class'      => 'media',
                 'route'      => 'admin/default',
                 'controller' => 'media',
                 'action'     => 'browse',
@@ -36,7 +36,7 @@ return array(
             ),
             array(
                 'label'      => 'Item Sets',
-                'class'      => 'resources',
+                'class'      => 'item-sets',
                 'route'      => 'admin/default',
                 'controller' => 'item-set',
                 'action'     => 'browse',
@@ -52,7 +52,7 @@ return array(
             ),
             array(
                 'label'      => 'Vocabularies',
-                'class'      => 'ontology',
+                'class'      => 'vocabularies',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
                 'action'     => 'browse',
@@ -68,7 +68,7 @@ return array(
             ),
             array(
                 'label'      => 'Resource Templates',
-                'class'      => 'ontology',
+                'class'      => 'resource-templates',
                 'route'      => 'admin/default',
                 'controller' => 'resource-template',
                 'action'     => 'browse',

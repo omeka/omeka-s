@@ -566,15 +566,27 @@ nav.pagination form input[type="text"] {
         display: inline-block;
         width: rhythm();
     }
-    
-    #menu .resources:before {
+
+    #menu .items:before {
+        content: $fa-var-cube;
+    }
+
+    #menu .media:before {
+        content: $fa-var-image;
+    }
+
+    #menu .item-sets:before {
         content: $fa-var-cubes;
     }
     
-    #menu .ontology:before {
+    #menu .vocabularies:before {
         content: $fa-var-book;
     }
-    
+
+    #menu .resource-templates:before {
+        content: $fa-var-pencil-square;
+    }
+
     #menu .users:before {
         content: $fa-var-users;
     }

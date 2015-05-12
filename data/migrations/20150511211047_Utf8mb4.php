@@ -9,6 +9,15 @@ class Utf8mb4 extends AbstractMigration
     {
         $connection = $this->getConnection();
 
+        // Resize columns/indexes to prevent errors when converting charset
+        $connection->query('ALTER TABLE user CHANGE username username VARCHAR(190) NOT NULL, CHANGE email email VARCHAR(190) NOT NULL, CHANGE name name VARCHAR(190) NOT NULL, CHANGE role role VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE site CHANGE slug slug VARCHAR(190) NOT NULL, CHANGE theme theme VARCHAR(190) NOT NULL, CHANGE title title VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE vocabulary CHANGE namespace_uri namespace_uri VARCHAR(190) NOT NULL, CHANGE prefix prefix VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE resource_template CHANGE `label` `label` VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE setting CHANGE id id VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE module CHANGE id id VARCHAR(190) NOT NULL');
+        $connection->query('ALTER TABLE site_page CHANGE slug slug VARCHAR(190) NOT NULL, CHANGE title title VARCHAR(190) NOT NULL');
+
         $tables = array(
             'api_key','item','item_set','job','media','migration','module',
             'resource','resource_template','resource_template_property',

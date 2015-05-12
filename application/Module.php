@@ -84,6 +84,16 @@ class Module extends AbstractModule
             OmekaEvent::ENTITY_REMOVE_POST,
             array($this, 'deleteMediaFiles')
         );
+
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+            ),
+            OmekaEvent::API_SEARCH_QUERY,
+            array($this, 'filterSearchResults')
+        );
     }
 
     /**
@@ -132,5 +142,27 @@ class Module extends AbstractModule
         if ($media->hasThumbnails()) {
             $fileManager->deleteThumbnails($media);
        }
+    }
+
+    /**
+     * Filter search results by owner and visibility.
+     *
+     * @param Event $event
+     */
+    public function filterSearchResults(Event $event)
+    {
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity && 'global_admin' == $identity->getRole()) {
+            return;
+        }
+
+        $adapter = $event->getTarget();
+        $entityClass = $adapter->getEntityClass();
+        $qb = $event->getParam('queryBuilder');
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->eq("$entityClass.owner", $identity->getId()),
+            $qb->expr()->eq("$entityClass.isPublic", true)
+        ));
     }
 }

@@ -26,12 +26,12 @@ class Vocabulary extends AbstractEntity
     protected $owner;
 
     /**
-     * @Column(unique=true)
+     * @Column(unique=true, length=190)
      */
     protected $namespaceUri;
 
     /**
-     * @Column(unique=true)
+     * @Column(unique=true, length=190)
      */
     protected $prefix;
 

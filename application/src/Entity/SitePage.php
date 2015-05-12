@@ -23,12 +23,12 @@ class SitePage extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(length=255)
+     * @Column(length=190)
      */
     protected $slug;
 
     /**
-     * @Column(length=255)
+     * @Column(length=190)
      */
     protected $title;
 

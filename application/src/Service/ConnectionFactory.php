@@ -13,7 +13,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ConnectionFactory implements FactoryInterface
 {
     const DRIVER = 'pdo_mysql';
-    const CHARSET = 'utf8';
+    const CHARSET = 'utf8mb4';
 
     /**
      * Create the DBAL connection service.
@@ -30,9 +30,7 @@ class ConnectionFactory implements FactoryInterface
         }
 
         $config['connection']['driver'] = self::DRIVER;
-        if (!isset($config['connection']['charset'])) {
-            $config['connection']['charset'] = self::CHARSET;
-        }
+        $config['connection']['charset'] = self::CHARSET;
 
         return DriverManager::getConnection($config['connection']);
     }

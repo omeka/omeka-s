@@ -16,17 +16,17 @@ class Site extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(length=255, unique=true)
+     * @Column(length=190, unique=true)
      */
     protected $slug;
 
     /**
-     * @Column(length=255)
+     * @Column(length=190)
      */
     protected $theme;
 
     /**
-     * @Column(length=255)
+     * @Column(length=190)
      */
     protected $title;
 

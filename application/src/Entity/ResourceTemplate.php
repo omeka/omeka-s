@@ -19,7 +19,7 @@ class ResourceTemplate extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(unique=true)
+     * @Column(unique=true, length=190)
      */
     protected $label;
 

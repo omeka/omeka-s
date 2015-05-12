@@ -151,17 +151,16 @@ class Module extends AbstractModule
      */
     public function filterSearchResults(Event $event)
     {
-        $identity = $this->getServiceLocator()
-            ->get('Omeka\AuthenticationService')->getIdentity();
-        if ($identity && 'global_admin' == $identity->getRole()) {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed($event->getTarget(), 'search-all')) {
             return;
         }
 
-        $adapter = $event->getTarget();
-        $entityClass = $adapter->getEntityClass();
         $qb = $event->getParam('queryBuilder');
+        $entityClass = $event->getTarget()->getEntityClass();
+        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         $qb->andWhere($qb->expr()->orX(
-            $qb->expr()->eq("$entityClass.owner", $identity->getId()),
+            $qb->expr()->eq("$entityClass.owner", $auth->getIdentity()->getId()),
             $qb->expr()->eq("$entityClass.isPublic", true)
         ));
     }

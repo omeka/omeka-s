@@ -30,17 +30,17 @@ class SearchFilters extends AbstractHelper
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
-        $escape = $this->getView()->plugin('escapeHtml');
+        $translate = $this->getView()->plugin('translate');
 
         $filters = array();
         $exclude = array('submit', 'page', 'sort_by', 'sort_order');
         $api = $this->getView()->api();
         $query = $this->request->getQuery()->toArray();
         $queryTypes = array(
-            'eq' => $escape('has exact value(s)'),
-            'neq' => $escape('does not have exact value(s)'),
-            'in' => $escape('contains value(s)'),
-            'nin' => $escape('does not contain value(s)')
+            'eq' => $translate('has exact value(s)'),
+            'neq' => $translate('does not have exact value(s)'),
+            'in' => $translate('contains value(s)'),
+            'nin' => $translate('does not contain value(s)')
         );
         
         foreach($query as $key => $value) {
@@ -60,7 +60,7 @@ class SearchFilters extends AbstractHelper
                     // Search all properties
                     case 'value':
                         foreach ($value as $queryTypeKey => $filterValues) {
-                            $filterLabel = $escape('Property ') . ' ' . $queryTypes[$queryTypeKey];
+                            $filterLabel = $translate('Property ') . ' ' . $queryTypes[$queryTypeKey];
                             foreach ($filterValues as $filterValue) {
                                 $filters[$filterLabel][] = $filterValue;
                             }
@@ -85,9 +85,9 @@ class SearchFilters extends AbstractHelper
                         foreach ($value as $propertyId => $status) {
                             $propertyLabel = $api->read('properties', $propertyId, array('label'))->getContent()->label();
                             if ($status == 0) {
-                                $filterLabel = $escape('Has properties');
+                                $filterLabel = $translate('Has properties');
                             } else {
-                                $filterLabel = $escape('Does not have properties');
+                                $filterLabel = $translate('Does not have properties');
                             }
                             $filters[$filterLabel][] = $propertyLabel;
                         }

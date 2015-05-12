@@ -2,9 +2,9 @@
 <div class="search-filters">
     <?php foreach ($filters as $filterLabel => $filterValues): ?>
     <div class="filter">
-        <span class="filter-label"><?php echo $filterLabel; ?></span>
+        <span class="filter-label"><?php echo $escape($filterLabel); ?></span>
         <?php foreach ($filterValues as $filterValue): ?>
-        <span class="filter-value">"<?php echo $filterValue; ?>"</span>
+        <span class="filter-value">"<?php echo $escape($filterValue); ?>"</span>
         <?php endforeach; ?>
     </div>
     <?php endforeach; ?>

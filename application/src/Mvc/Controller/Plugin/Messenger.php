@@ -51,6 +51,17 @@ class Messenger extends AbstractPlugin
         $this->add(self::ERROR, $message);
     }
 
+    public function addErrors(array $messages)
+    {
+        foreach ($messages as $message) {
+            if (is_array($message)) {
+                $this->addErrors($message);
+            } else {
+                $this->addError($message);
+            }
+        }
+    }
+
     /**
      * Add a success message.
      *

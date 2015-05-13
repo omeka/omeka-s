@@ -19,14 +19,19 @@ class HtmlHandler extends AbstractHandler
      */
     public function form(PhpRenderer $view, array $options = array())
     {
-        $textarea = new Textarea('html[__index__]');
+        $textarea = new Textarea('o:media[__index__][o:html]');
         $textarea->setOptions(array(
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
         ));
         
-        $textarea->setAttribute('rows', 25);
-        
+        $textarea->setAttributes(
+                array(
+                    'rows' => 15,
+                    'id' => 'media-html-__index__',
+                    'required' => true
+                        
+                ));
         $field = $view->formField($textarea);
         return $field;
     }
@@ -45,8 +50,9 @@ class HtmlHandler extends AbstractHandler
      */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
-        $text = "whatev";
-        $media->setData(array('html' => $text));
+        $data = $request->getContent();
+        $html = $data['o:html'];
+        $media->setData(array('html' => $html));
     }
     
     /**
@@ -54,7 +60,6 @@ class HtmlHandler extends AbstractHandler
      */
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
-        
     }
 
     /**

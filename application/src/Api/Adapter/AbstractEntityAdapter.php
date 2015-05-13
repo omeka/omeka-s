@@ -301,7 +301,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $response = new Response;
 
-        $entity = $this->findEntity(array('id' => $request->getId()));
+        $entity = $this->findEntity($request->getId());
         $this->authorize($entity, Request::READ);
 
         // Trigger the read.find.post event.
@@ -323,7 +323,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $response = new Response;
 
-        $entity = $this->findEntity(array('id' => $request->getId()));
+        $entity = $this->findEntity($request->getId());
         $this->hydrateEntity(
             $request,
             $entity,
@@ -342,7 +342,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $response = new Response;
 
-        $entity = $this->findEntity(array('id' => $request->getId()));
+        $entity = $this->findEntity($request->getId());
         $this->authorize($entity, Request::DELETE);
 
         // Trigger the delete.find.post event.
@@ -453,32 +453,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Find a single entity by identifier or a set of criteria.
+     * Find a single entity by identifier.
      *
      * @throws Exception\NotFoundException
-     * @param mixed $id An ID or an array of criteria (keys are fields to check,
-     * values are strings to check against)
+     * @param mixed $id
      * @return EntityInterface
      */
     protected function findEntity($id)
     {
-        if (is_array($id)) {
-            $entity = $this->getEntityManager()
-                ->getRepository($this->getEntityClass())
-                ->findOneBy($id);
-        } else {
-            $entity = $this->getEntityManager()
-                ->find($this->getEntityClass(), $id);
-        }
+        $entity = $this->getEntityManager()->find($this->getEntityClass(), $id);
         if (null === $entity) {
-            if (is_array($id)) {
-                $message = $this->getTranslator()->translate('%s entity not found using criteria: %s.');
-            } else {
-                $message = $this->getTranslator()->translate('%s entity with ID %s not found');
-            }
             throw new Exception\NotFoundException(sprintf(
-                $message, $this->getEntityClass(),
-                is_array($id) ? json_encode($id) : $id
+                $this->getTranslator()->translate('%s entity with ID %s not found'),
+                $this->getEntityClass(), $id
             ));
         }
         return $entity;

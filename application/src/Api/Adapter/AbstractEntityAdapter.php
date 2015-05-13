@@ -174,7 +174,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function search(Request $request)
     {
-        $entityClass = $this->getEntityClass();
         $query = $request->getContent();
 
         // Set default query parameters
@@ -202,14 +201,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
 
         // Begin building the search query.
+        $entityClass = $this->getEntityClass();
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
         $this->buildQuery($qb, $query);
 
         // Trigger the search.query event.
-        $event = new Event(Event::API_QUERY, $this, array(
+        $event = new Event(Event::API_SEARCH_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
+            'request' => $request,
         ));
         $this->getEventManager()->trigger($event);
 
@@ -240,24 +241,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function create(Request $request)
     {
-        $response = new Response;
-
         $entityClass = $this->getEntityClass();
         $entity = new $entityClass;
-        $this->hydrateEntity(
-            $request,
-            $entity,
-            new ErrorStore
-        );
+        $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-
         // Refresh the entity on the chance that it contains associations that
         // have not been loaded.
         $this->getEntityManager()->refresh($entity);
         $representation = $this->getRepresentation($entity->getId(), $entity);
-        $response->setContent($representation);
-        return $response;
+        return new Response($representation);
     }
 
     /**
@@ -271,8 +264,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function batchCreate(Request $request)
     {
-        $response = new Response;
-
         $errorStore = new ErrorStore;
         $entities = array();
         $representations = array();
@@ -290,8 +281,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         foreach ($entities as $entity) {
             $this->getEntityManager()->detach($entity);
         }
-        $response->setContent($representations);
-        return $response;
+        return new Response($representations);
     }
 
     /**
@@ -299,21 +289,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function read(Request $request)
     {
-        $response = new Response;
-
-        $entity = $this->findEntity($request->getId());
+        $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::READ);
-
-        // Trigger the read.find.post event.
-        $event = new Event(Event::API_READ_FIND_POST, $this, array(
+        $event = new Event(Event::API_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
+            'request' => $request,
         ));
         $this->getEventManager()->trigger($event);
-
         $representation = $this->getRepresentation($entity->getId(), $entity);
-        $response->setContent($representation);
-        return $response;
+        return new Response($representation);
     }
 
     /**
@@ -321,18 +306,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function update(Request $request)
     {
-        $response = new Response;
-
-        $entity = $this->findEntity($request->getId());
-        $this->hydrateEntity(
-            $request,
-            $entity,
-            new ErrorStore
-        );
+        $entity = $this->findEntity($request->getId(), $request);
+        $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->flush();
         $representation = $this->getRepresentation($entity->getId(), $entity);
-        $response->setContent($representation);
-        return $response;
+        return new Response($representation);
     }
 
     /**
@@ -340,23 +318,18 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function delete(Request $request)
     {
-        $response = new Response;
-
-        $entity = $this->findEntity($request->getId());
+        $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::DELETE);
-
-        // Trigger the delete.find.post event.
-        $event = new Event(Event::API_DELETE_FIND_POST, $this, array(
+        $event = new Event(Event::API_FIND_POST, $this, array(
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
+            'request' => $request,
         ));
         $this->getEventManager()->trigger($event);
-
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
         $representation = $this->getRepresentation($entity->getId(), $entity);
-        $response->setContent($representation);
-        return $response;
+        return new Response($representation);
     }
 
     /**
@@ -457,9 +430,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      *
      * @throws Exception\NotFoundException
      * @param mixed $id
+     * @param Request|null $request
      * @return EntityInterface
      */
-    protected function findEntity($id)
+    protected function findEntity($id, $request = null)
     {
         $entityClass = $this->getEntityClass();
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -468,13 +442,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 "$entityClass.id",
                 $this->createNamedParameter($qb, $id)
             ));
-
-        $event = new Event(Event::API_QUERY, $this, array(
+        $event = new Event(Event::API_FIND_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
+            'request' => $request,
         ));
         $this->getEventManager()->trigger($event);
-
         try {
             $entity = $qb->getQuery()->getSingleResult();
         } catch (\Doctrine\ORM\NoResultException $e) {
@@ -483,7 +456,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 $this->getEntityClass(), $id
             ));
         }
-
         return $entity;
     }
 

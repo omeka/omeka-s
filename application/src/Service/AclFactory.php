@@ -207,6 +207,7 @@ class AclFactory implements FactoryInterface
                 'show-details',
                 'classes', // from Vocabulary controller
                 'properties', // from Vocabulary controller
+                'sidebar-select', // from resource entity controllers
             )
         );
         $acl->allow(
@@ -254,6 +255,7 @@ class AclFactory implements FactoryInterface
                 'classes', // from Vocabulary controller
                 'properties', // from Vocabulary controller
                 'add-new-property-row', // from ResourceTemplate controller
+                'sidebar-select', // from resource entity controllers
             )
         );
         $acl->allow(
@@ -355,6 +357,7 @@ class AclFactory implements FactoryInterface
                 'classes', // from Vocabulary controller
                 'properties', // from Vocabulary controller
                 'add-new-property-row', // from ResourceTemplate controller
+                'sidebar-select', // from resource entity controllers
             )
         );
         $acl->allow(
@@ -454,6 +457,7 @@ class AclFactory implements FactoryInterface
                 'classes', // from Vocabulary controller
                 'properties', // from Vocabulary controller
                 'add-new-property-row', // from ResourceTemplate controller
+                'sidebar-select', // from resource entity controllers
             )
         );
         $acl->allow(

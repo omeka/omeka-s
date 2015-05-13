@@ -33,7 +33,7 @@ class SearchFilters extends AbstractHelper
         $translate = $this->getView()->plugin('translate');
 
         $filters = array();
-        $exclude = array('submit', 'page', 'sort_by', 'sort_order');
+        $exclude = array('submit', 'page', 'sort_by', 'sort_order', 'resource-type');
         $api = $this->getView()->api();
         $query = $this->request->getQuery()->toArray();
         $queryTypes = array(
@@ -91,12 +91,6 @@ class SearchFilters extends AbstractHelper
                             }
                             $filters[$filterLabel][] = $propertyLabel;
                         }
-                        break;
-
-                    // Search resource type
-                    case 'resource-type':
-                        $filterLabel = $translate('Resource type');
-                        $filters[$filterLabel][] = $value;
                         break;
 
                     default:

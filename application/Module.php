@@ -85,6 +85,19 @@ class Module extends AbstractModule
             OmekaEvent::ENTITY_REMOVE_POST,
             array($this, 'deleteMediaFiles')
         );
+
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+            ),
+            array(
+                OmekaEvent::API_SEARCH_QUERY,
+                OmekaEvent::API_FIND_QUERY,
+            ),
+            array($this, 'checkUserCanViewResourceEntity')
+        );
     }
 
     /**
@@ -133,5 +146,31 @@ class Module extends AbstractModule
         if ($media->hasThumbnails()) {
             $fileManager->deleteThumbnails($media);
        }
+    }
+
+    /**
+     * Check that the current user can view a resource entity.
+     *
+     * @param Event $event
+     */
+    public function checkUserCanViewResourceEntity(Event $event)
+    {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed($event->getTarget(), 'view-all')) {
+            return;
+        }
+
+        $qb = $event->getParam('queryBuilder');
+        $entityClass = $event->getTarget()->getEntityClass();
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
+
+        $clause = $qb->expr()->eq("$entityClass.isPublic", true);
+        if ($identity) {
+            // Users can search all resources they own.
+            $clause = $qb->expr()->orX($clause,
+                $qb->expr()->eq("$entityClass.owner", $identity->getId()));
+        }
+        $qb->andWhere($clause);
     }
 }

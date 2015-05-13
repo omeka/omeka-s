@@ -93,6 +93,12 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
 
+                    // Search resource type
+                    case 'resource-type':
+                        $filterLabel = $translate('Resource type');
+                        $filters[$filterLabel][] = $value;
+                        break;
+
                     default:
                         $filters[$filterLabel][] = $filterValue;
                         break;

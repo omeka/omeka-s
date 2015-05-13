@@ -23,10 +23,10 @@
             <button type="button" id="advanced">Advanced Options</button>
             <button type="submit">Search</button>
             <fieldset id="advanced-options">
-                <legend>Resource Type:</legend>
-                <input type="radio" name="resource-type" value="item" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" checked="checked">Items<br>
-                <input type="radio" name="resource-type" value="item-set" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'))); ?>">Item Sets<br>
-                <input type="radio" name="resource-type" value="media" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'media', 'action' => 'browse'))); ?>">Media<br>
+                <legend>Resource Type</legend>
+                <input type="radio" name="resource-type" id="search-items" value="item" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" checked="checked"><label for="search-items"><?php echo $this->translate('Items'); ?></label>
+                <input type="radio" name="resource-type" id="search-item-sets" value="item-set" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'))); ?>"><label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
+                <input type="radio" name="resource-type" id="search-media" value="media" data-action="<?php echo $this->escapeHtmlAttr($this->url('admin/default', array('controller' => 'media', 'action' => 'browse'))); ?>"><label for="search-media"><?php echo $this->translate('Media'); ?></label>
             </fieldset>
         </form>
     </div>

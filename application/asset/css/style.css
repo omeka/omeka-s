@@ -1296,7 +1296,34 @@ th {
     content: "";
   }
 
-  /* @group ----- Search results ----- */
+  /* @group ----- Search ----- */
+  #advanced-options {
+    background-color: #fff;
+    padding: 0.375em 0.75em calc(0.375em - 1px);
+    clear: both;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 0;
+  }
+  #advanced-options legend {
+    float: left;
+    width: calc(100% + 1.5em);
+    font-weight: bold;
+    padding: 0.375em 0.75em;
+    margin: -0.375em -0.75em 0.75em;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  #advanced-options input {
+    float: left;
+    clear: left;
+    margin-right: .5em;
+    height: 24px;
+    margin-bottom: 0.375em;
+  }
+  #advanced-options label {
+    float: left;
+    margin-bottom: 0.375em;
+  }
+
   .search-filters {
     margin-bottom: 0.375em;
   }

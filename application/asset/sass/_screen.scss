@@ -893,7 +893,37 @@ body.sidebar-open #content {
     content: $fa-var-book;
 }
 
-    /* @group ----- Search results ----- */
+    /* @group ----- Search ----- */
+
+    #advanced-options {
+        background-color: #fff;
+        padding: rhythm(.25) rhythm(.5) calc(#{rhythm(.25)} - 1px);
+        clear: both;
+        border: 1px solid rgba(0,0,0,.15);
+        border-top: 0;
+
+        legend {
+            float: left;
+            width: calc(100% + #{rhythm()});
+            font-weight: bold;
+            padding: rhythm(.25) rhythm(.5);
+            margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
+            background-color: $gray-on-white;
+        }
+
+        input {
+            float: left;
+            clear: left;
+            margin-right: .5em;
+            height: $base-line-height;
+            @include trailer(.25);
+        }
+
+        label {
+            float: left;
+            @include trailer(.25);
+        }
+    }
 
     .search-filters {
         @include trailer(.25);

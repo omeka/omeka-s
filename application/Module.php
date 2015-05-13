@@ -91,9 +91,7 @@ class Module extends AbstractModule
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
             ),
-            array(
-                OmekaEvent::API_SEARCH_QUERY,
-            ),
+            OmekaEvent::API_QUERY,
             array($this, 'checkUserCanViewResourceEntity')
         );
     }

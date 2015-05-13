@@ -207,7 +207,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->buildQuery($qb, $query);
 
         // Trigger the search.query event.
-        $event = new Event(Event::API_SEARCH_QUERY, $this, array(
+        $event = new Event(Event::API_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
         ));
@@ -461,13 +461,29 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     protected function findEntity($id)
     {
-        $entity = $this->getEntityManager()->find($this->getEntityClass(), $id);
-        if (null === $entity) {
+        $entityClass = $this->getEntityClass();
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select($entityClass)->from($entityClass, $entityClass)
+            ->where($qb->expr()->eq(
+                "$entityClass.id",
+                $this->createNamedParameter($qb, $id)
+            ));
+
+        $event = new Event(Event::API_QUERY, $this, array(
+            'services' => $this->getServiceLocator(),
+            'queryBuilder' => $qb,
+        ));
+        $this->getEventManager()->trigger($event);
+
+        try {
+            $entity = $qb->getQuery()->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
             throw new Exception\NotFoundException(sprintf(
                 $this->getTranslator()->translate('%s entity with ID %s not found'),
                 $this->getEntityClass(), $id
             ));
         }
+
         return $entity;
     }
 

@@ -46,7 +46,7 @@ class Event extends ZendEvent
      * All classes that extend {@link Omeka\Api\Adapter\AbstractEntityAdapter}
      * trigger these events.
      */
-    const API_SEARCH_QUERY        = 'api.search.query';
+    const API_QUERY               = 'api.query';
     const API_VALIDATE_DATA_PRE   = 'api.validate.data.pre';
     const API_VALIDATE_ENTITY_PRE = 'api.validate.entity.pre';
     const API_READ_FIND_POST      = 'api.read.find.post';

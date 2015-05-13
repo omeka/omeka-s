@@ -46,23 +46,7 @@ class HtmlHandler extends AbstractHandler
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $text = "whatev";
-        $config = $this->getServiceLocator()->get('Config');
-        $tempDir = $config['temp_dir'];
-        $tempName = tempnam($tempDir, 'omeka_');
-        
-        $handle = fopen($tempName, "w");
-        fwrite($handle, $text);
-        fclose($handle);
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        $file = $this->getServiceLocator()->get('Omeka\File');
-        $file->setSourceName($tempName);
-        $fileManager->storeOriginal($file);
-        
-        unlink($tempName);
-        
-        $media->setFilename($file->getStorageName());
-        $media->setMediaType($file->getMediaType());
-        $media->setHasOriginal(true);
+        $media->setData(array('html' => $text));
     }
     
     /**
@@ -78,11 +62,7 @@ class HtmlHandler extends AbstractHandler
      */
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
     {
-        //$htmlFile = $media->source();
-        //$html = file_get_contents($htmlFile);
-        //return $html;
-        //return $media->source();
-        return $media->filename();
-        return $media->mediaType();
+        $data = $media->mediaData();
+        return $data['html'];
     }
 }

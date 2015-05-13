@@ -91,8 +91,10 @@ class Module extends AbstractModule
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
             ),
-            OmekaEvent::API_SEARCH_QUERY,
-            array($this, 'filterSearchResults')
+            array(
+                OmekaEvent::API_SEARCH_QUERY,
+            ),
+            array($this, 'checkUserCanViewResourceEntity')
         );
     }
 
@@ -145,14 +147,14 @@ class Module extends AbstractModule
     }
 
     /**
-     * Filter search results by owner and visibility.
+     * Check that the current user can view a resource entity.
      *
      * @param Event $event
      */
-    public function filterSearchResults(Event $event)
+    public function checkUserCanViewResourceEntity(Event $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if ($acl->userIsAllowed($event->getTarget(), 'search-all')) {
+        if ($acl->userIsAllowed($event->getTarget(), 'view-all')) {
             return;
         }
 

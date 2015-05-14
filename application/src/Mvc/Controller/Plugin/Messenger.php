@@ -52,6 +52,24 @@ class Messenger extends AbstractPlugin
     }
 
     /**
+     * Add multiple errors at once.
+     *
+     * This method accepts arbitrarily-deeply nested arrays of messages.
+     *
+     * @param array $messages
+     */
+    public function addErrors(array $messages)
+    {
+        foreach ($messages as $message) {
+            if (is_array($message)) {
+                $this->addErrors($message);
+            } else {
+                $this->addError($message);
+            }
+        }
+    }
+
+    /**
      * Add a success message.
      *
      * @param string $message

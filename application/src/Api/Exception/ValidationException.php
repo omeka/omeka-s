@@ -18,14 +18,6 @@ class ValidationException extends BadRequestException
     public function setErrorStore(ErrorStore $errorStore)
     {
         $this->errorStore = $errorStore;
-
-        // Flatten the error store messages and set the result as the exception
-        // message.
-        $message = '';
-        foreach ($errorStore->getErrors() as $key => $messages) {
-            $message .= "($key) " . implode(', ', $messages) . '; ';
-        }
-        $this->message = trim($message);
     }
 
     /**

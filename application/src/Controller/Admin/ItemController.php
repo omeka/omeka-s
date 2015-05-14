@@ -163,7 +163,9 @@ class ItemController extends AbstractActionController
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api()->update('items', $id, $data, $fileData);
                 if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
+                    $errors = $response->getErrors();
+                    $form->setMessages($errors);
+                    $this->messenger()->addErrors($errors);
                 } else {
                     $this->messenger()->addSuccess('Item Updated.');
                     return $this->redirect()->toUrl($response->getContent()->url());

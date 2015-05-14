@@ -26,15 +26,20 @@ class ErrorStore
      * Merge errors of an ErrorStore onto this one.
      *
      * @param ErrorStore $errorStore
+     * @param string $key Optional key to merge in errors under
      */
-    public function mergeErrors(ErrorStore $errorStore)
+    public function mergeErrors(ErrorStore $errorStore, $key = null)
     {
-        foreach ($errorStore->getErrors() as $key => $messages) {
-            if (is_array($messages)) {
-                foreach ($messages as $message) {
-                    $this->addError($key, $message);
+        if ($key === null) {
+            foreach ($errorStore->getErrors() as $origKey => $messages) {
+                if (is_array($messages)) {
+                    foreach ($messages as $message) {
+                        $this->addError($origKey, $message);
+                    }
                 }
             }
+        } else if ($errorStore->hasErrors()) {
+            $this->addError($key, $errorStore->getErrors());
         }
     }
 

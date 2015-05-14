@@ -51,8 +51,10 @@ class HtmlHandler extends AbstractHandler
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        $html = $data['o:html'];
-        $media->setData(array('html' => $html));
+        if (isset($data['o:html'])) {
+            $html = $data['o:html'];
+            $media->setData(array('html' => $html));
+        }
     }
     
     /**

@@ -1,4 +1,6 @@
 <?php
+use Zend\Form\Element\Textarea;
+
 $this->htmlElement('body')->appendAttribute('class', 'edit media sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
@@ -33,6 +35,25 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
+    <?php if ($media->type() == 'html') {
+        $textarea = new Textarea("o:data[html]");
+        $textarea->setOptions(array(
+            'label' => $this->translate('HTML'),
+            'info'  => $this->translate('HTML or plain text.'),
+        ));
+        $data = $media->mediaData();
+        $textarea->setValue($data['html']);
+        
+        $textarea->setAttributes(
+                array(
+                    'rows' => 15,
+                    'id' => 'media-html',
+                    'required' => true
+                ));
+        $field = $this->formField($textarea);
+        echo $field;
+    }
+    ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>
 

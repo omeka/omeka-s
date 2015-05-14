@@ -74,12 +74,11 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         parent::hydrate($request, $entity, $errorStore);
 
         // Don't allow mutation of basic properties
-        if ($request->getOperation() !== Request::CREATE) {
+        if ($entity->getType() !== 'html' && $request->getOperation() !== Request::CREATE) {
             return;
         }
 
         $data = $request->getContent();
-
         if (isset($data['o:item']['o:id'])) {
             $item = $this->getAdapter('items')
                 ->findEntity($data['o:item']['o:id']);

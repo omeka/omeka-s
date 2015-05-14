@@ -19,7 +19,10 @@ class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
     public function itemCount()
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items',array('has_property' => array($this->id() => true)));
+            ->search('items',array(
+                'has_property' => array($this->id() => true),
+                'limit' => 0,
+            ));
         return $response->getTotalResults();
     }
 }

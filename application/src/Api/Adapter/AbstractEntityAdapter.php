@@ -225,10 +225,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->addOrderBy($this->getEntityClass() . '.id', $query['sort_order']);
         $this->limitQuery($qb, $query);
 
-        // Get the representations.
+        // Do not make the request if the max results (limit) is 0. Useful if
+        // the only information needed is total results.
         $representations = array();
-        foreach ($qb->getQuery()->getResult() as $entity) {
-            $representations[] = $this->getRepresentation($entity->getId(), $entity);
+        if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
+            foreach ($qb->getQuery()->getResult() as $entity) {
+                $representations[] = $this->getRepresentation($entity->getId(), $entity);
+            }
         }
 
         $response = new Response($representations);

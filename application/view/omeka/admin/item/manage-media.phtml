@@ -2,6 +2,8 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headscript()->appendFile('//cdn.ckeditor.com/4.4.7/standard/ckeditor.js');
+$this->headscript()->appendFile('//cdn.ckeditor.com/4.4.7/standard/adapters/jquery.js');
 ?>
 <legend><?php echo $this->translate('Media'); ?></legend>
 <?php foreach ($mediaForms as $type => $form): ?>
@@ -71,6 +73,9 @@ $('#new-media-type').change(function () {
         $.parseHTML(template.replace(/__index__/g, index++))
     );
     $(this).val('');
+    if (type == 'html') {
+        $('textarea.media-html').ckeditor();
+    }
     $('html, body').animate({
         scrollTop: ($('.media-field-wrapper').last().offset().top -100)
     },200);

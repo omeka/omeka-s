@@ -27,10 +27,10 @@ class HtmlHandler extends AbstractHandler
         
         $textarea->setAttributes(
                 array(
-                    'rows' => 15,
-                    'id' => 'media-html-__index__',
-                    'required' => true
-                        
+                    'rows'     => 15,
+                    'id'       => 'media-html-__index__',
+                    'required' => true,
+                    'class'    => 'media-html'
                 ));
         $field = $view->formField($textarea);
         return $field;

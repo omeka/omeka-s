@@ -7,6 +7,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <h1><?php echo $escape($this->translate('Media')); ?></h1>
 
+<?php echo $this->searchFilters(); ?>
+
 <?php if (count($medias) > 0): ?>
 
 <?php echo $this->pagination(); ?>

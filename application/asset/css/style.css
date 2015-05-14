@@ -840,6 +840,7 @@ th {
     height: 2.25em;
     width: calc(100% - 4.5em);
     float: left;
+    padding: 0.375em 0.75em;
   }
 
   #search button {

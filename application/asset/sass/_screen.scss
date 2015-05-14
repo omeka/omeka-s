@@ -433,6 +433,7 @@ header {
     height: rhythm(1.5);
     width: calc(100% - #{rhythm(3)});
     float: left;
+    padding: rhythm(.25) rhythm(.5);
 }
 
 #search button {

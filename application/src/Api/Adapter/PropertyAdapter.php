@@ -204,25 +204,4 @@ class PropertyAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getResourceCount(EntityInterface $entity, $inverseField,
-        $instanceOf = null
-    ) {
-        $dql = "
-        SELECT COUNT(DISTINCT resource.id)
-        FROM Omeka\Entity\Resource resource
-        JOIN Omeka\Entity\Value value
-        WITH value.resource = resource
-        WHERE value.property = :property
-        AND resource INSTANCE OF :instanceOf";
-        return $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameters(array(
-                'property' => $entity,
-                'instanceOf' => $instanceOf,
-            ))->getSingleScalarResult();
-    }
 }

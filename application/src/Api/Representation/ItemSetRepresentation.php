@@ -26,7 +26,12 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function itemCount()
     {
-        return count($this->getData()->getItems());
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('items', array(
+                'item_set_id' => $this->id(),
+                'limit' => 0,
+            ));
+        return $response->getTotalResults();
     }
 
     /**

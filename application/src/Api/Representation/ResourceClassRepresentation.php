@@ -18,8 +18,11 @@ class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
      */
     public function itemCount()
     {
-        return $this->getAdapter()->getResourceCount(
-            $this->getData(), 'resourceClass', 'Omeka\Entity\Item'
-        );
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('items', array(
+                'resource_class_id' => $this->id(),
+                'limit' => 0,
+            ));
+        return $response->getTotalResults();
     }
 }

@@ -638,38 +638,4 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
         $entity->setResourceTemplate($resourceTemplate);
     }
-
-    /**
-     * Get the resource count of the passed entity.
-     *
-     * The passed entity must have a @OneToMany association with
-     * Omeka\Model\Entiy\Resource.
-     *
-     * When using class table inheritance and querying from the inverse side of
-     * a bidirectional association, it is not possible to discriminate between
-     * resource types defined in the discriminator map. This gets around that
-     * limitation by adding an INSTANCE OF check on a separate query.
-     *
-     * @param EntityInterface $entity The inverse entity
-     * @param string $inverseField The name of the inverse association field.
-     * @param string|null $instanceOf A fully qualified resource class name. If
-     * provided, count only these instances.
-     * @return int
-     */
-    public function getResourceCount(EntityInterface $entity, $inverseField,
-        $instanceOf = null
-    ) {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('COUNT(resource.id)')
-            ->from('Omeka\Entity\Resource', 'resource')
-            ->where($qb->expr()->eq(
-                "resource.$inverseField",
-                $this->createNamedParameter($qb, $entity))
-            );
-        if ($instanceOf) {
-            // Count specific resource instances.
-            $qb->andWhere("resource INSTANCE OF $instanceOf");
-        }
-        return $qb->getQuery()->getSingleScalarResult();
-    }
 }

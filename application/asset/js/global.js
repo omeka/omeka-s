@@ -1,10 +1,13 @@
 var Omeka = {
-    openSidebar : function(context) {
+    openSidebar : function(context,target) {
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');
         } else {
             var sidebar = $('.sidebar > .sidebar');
+        }
+        if (target !== undefined) {
+            var sidebar = $(target + '.sidebar');
         }
         sidebar.addClass('active');
         if (!$('body').hasClass('sidebar-open')) {
@@ -85,10 +88,15 @@ var Omeka = {
 
     $(function() {
 
-        // Attach sidebar triggers
-        $('#content').on('click', 'a.sidebar-content, a.sidebar-confirm', function(e) {
+        $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this));
+        });
+
+        // Attach sidebar triggers
+        $('#content').on('click', 'a.sidebar-confirm', function(e) {
+            e.preventDefault();
+            Omeka.openSidebar($(this), '#delete');
         });
         
         if ($('.active.sidebar').length > 0) {

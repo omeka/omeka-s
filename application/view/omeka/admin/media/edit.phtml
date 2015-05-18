@@ -1,6 +1,6 @@
 <?php
 use Zend\Form\Element\Textarea;
-$this->headscript()->appendFile('//cdn.ckeditor.com/4.4.7/standard/ckeditor.js');
+$this->headscript()->appendFile($this->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'edit media sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');

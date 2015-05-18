@@ -19,6 +19,8 @@ class HtmlHandler extends AbstractHandler
      */
     public function form(PhpRenderer $view, array $options = array())
     {
+        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
+        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
         $textarea = new Textarea('o:media[__index__][o:html]');
         $textarea->setOptions(array(
             'label' => $view->translate('HTML'),

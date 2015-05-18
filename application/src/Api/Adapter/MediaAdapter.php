@@ -111,4 +111,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $errorStore->addError('o:item', 'Media must belong to an item.');
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hydrateOwner(Request $request, EntityInterface $entity)
+    {
+        $entity->setOwner($entity->getItem()->getOwner());
+    }
 }

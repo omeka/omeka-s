@@ -40,7 +40,7 @@ class OEmbedHandler extends AbstractHandler
 
         $document = $response->getBody();
         $dom = new Query($document);
-        $oEmbedLinks = $dom->queryXpath('//link[@rel="alternate" and @type="application/json+oembed"]');
+        $oEmbedLinks = $dom->queryXpath('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed"]');
         if (!count($oEmbedLinks)) {
             $errorStore->addError('o:source', 'No OEmbed links were found at the given URI');
             return;

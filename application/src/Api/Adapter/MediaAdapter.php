@@ -75,6 +75,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         // Don't allow mutation of basic properties
         if ($request->getOperation() !== Request::CREATE) {
+            $request->getMetadata('mediaHandler')->update($entity, $request, $errorStore);
             return;
         }
 

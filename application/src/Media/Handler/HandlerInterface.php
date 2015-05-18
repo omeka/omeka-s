@@ -30,13 +30,22 @@ interface HandlerInterface
     public function validateRequest(Request $request, ErrorStore $errorStore);
 
     /**
-     * Process the ingest request and update the Media entity.
+     * Process an ingest (create) request.
      *
      * @param Media $media
      * @param Request $request
      * @param ErrorStore $errorStore
      */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore);
+
+    /**
+     * Process an update request.
+     *
+     * @param Media $media
+     * @param Request $request
+     * @param ErrorStore $errorStore
+     */
+    public function update(Media $media, Request $request, ErrorStore $errorStore);
 
     /**
      * Return the HTML necessary to render an add/edit form.

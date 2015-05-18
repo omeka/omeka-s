@@ -120,7 +120,9 @@ class ItemController extends AbstractActionController
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api()->create('items', $data, $fileData);
                 if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
+                    $errors = $response->getErrors();
+                    $form->setMessages($errors);
+                    $this->messenger()->addErrors($errors);
                 } else {
                     $this->messenger()->addSuccess('Item Created.');
                     return $this->redirect()->toUrl($response->getContent()->url());

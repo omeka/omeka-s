@@ -181,12 +181,22 @@
             valueType = valueObjectType(valueObject);
         }
 
+        // save hidden inputs for replacing existing values
+        if ($('.selecting-resource input.value-id').length > 0) {
+            var currentPropertyInput = $('.selecting-resource input.property');
+            var currentValueIdInput = $('.selecting-resource input.value-id');
+        }
+
         var newValue = $('.value.template.' + valueType).clone(true);
         newValue.removeClass('template');
         newValue.data('base-name', qName + '[' + count + ']');
 
         var propertyInput = newValue.find('input.property');
-        propertyInput.attr('name', qName + '[' + count + '][property_id]');
+        if (currentPropertyInput != undefined) {
+            propertyInput.replaceWith(currentPropertyInput);
+        } else {
+            propertyInput.attr('name', qName + '[' + count + '][property_id]');
+        }
         if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
             propertyInput.val(valueObject['property_id']);
         } else {
@@ -213,6 +223,7 @@
         } else {
             showRemoveValue = true;
             valueIdInput.attr('name', qName + '[' + count + '][value_id]');
+
             if (valueObject['value_id']) {
                 valueIdInput.val(valueObject['value_id']);
             } else {
@@ -244,7 +255,13 @@
 
                     newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
 
-                    valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
+                    if (currentValueIdInput != undefined) {
+                        newValue.find('input.property').after(currentValueIdInput);
+                        var valueHiddenName = $('.selecting-resource input.value').attr('name');
+                        valueInternalInput.attr('name', valueHiddenName);
+                    } else {
+                        valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
+                    }
                     valueInternalInput.val(valueObject['value_resource_id']);
 
                 break;

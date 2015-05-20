@@ -90,9 +90,7 @@ class ItemController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete(
-                    'items', array('id' => $this->params('id'))
-                );
+                $response = $this->api()->delete('items', $this->params('id'));
                 if ($response->isError()) {
                     $this->messenger()->addError('Item could not be deleted');
                 } else {

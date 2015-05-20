@@ -90,9 +90,7 @@ class MediaController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete(
-                    'media', array('id' => $this->params('id'))
-                );
+                $response = $this->api()->delete('media', $this->params('id'));
                 if ($response->isError()) {
                     $this->messenger()->addError('Media could not be deleted');
                 } else {

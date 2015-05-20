@@ -58,6 +58,7 @@ class EntityManagerFactory implements FactoryInterface
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+        $emConfig->addFilter('visibility', 'Omeka\Db\Filter\VisibilityFilter');
 
         $proxyDir = OMEKA_PATH . '/data/doctrine-proxies';
         $emConfig->setProxyDir($proxyDir);
@@ -76,6 +77,9 @@ class EntityManagerFactory implements FactoryInterface
         }
 
         $em = EntityManager::create($connection, $emConfig);
+        // Instantiate the visibility filter and inject the service locator.
+        $em->getFilters()->enable('visibility');
+        $em->getFilters()->getFilter('visibility')->setServiceLocator($serviceLocator);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new ResourceDiscriminatorMap($config['entity_manager']['resource_discriminator_map'])

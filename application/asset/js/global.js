@@ -96,7 +96,11 @@ var Omeka = {
         // Attach sidebar triggers
         $('#content').on('click', 'a.sidebar-confirm', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this), '#delete');
+            if ($('#delete').length > 0) {
+                Omeka.openSidebar($(this), '#delete');
+            } else {
+                Omeka.openSidebar($(this));
+            }
         });
         
         if ($('.active.sidebar').length > 0) {

@@ -271,7 +271,6 @@ return array(
             '#https?://(www\.)?twitter\.com/.+?/status(es)?/.*#i',
             '#https?://(www\.)?soundcloud\.com/.*#i',
             '#https?://(www\.)?slideshare\.net/.*#i',
-            '#http://instagr(\.am|am\.com)/p/.*#i',
             '#https?://(www\.)?rdio\.com/.*#i',
             '#https?://rd\.io/x/.*#i',
             '#https?://(open|play)\.spotify\.com/.*#i',

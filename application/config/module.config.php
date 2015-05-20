@@ -249,12 +249,9 @@ return array(
     ),
     'oembed' => array(
         'whitelist' => array(
-            '#http://(www\.)?youtube\.com/watch.*#i',
-            '#https://(www\.)?youtube\.com/watch.*#i',
-            '#http://(www\.)?youtube\.com/playlist.*#i',
-            '#https://(www\.)?youtube\.com/playlist.*#i',
-            '#http://youtu\.be/.*#i',
-            '#https://youtu\.be/.*#i',
+            '#http?://(www\.)?youtube\.com/watch.*#i',
+            '#http?://(www\.)?youtube\.com/playlist.*#i',
+            '#http?://youtu\.be/.*#i',
             '#http://blip.tv/*#',
             '#https?://(.+\.)?vimeo\.com/.*#i',
             '#https?://(www\.)?dailymotion\.com/.*#i',

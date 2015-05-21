@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
@@ -52,6 +53,19 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             } else {
                 parent::sortQuery($qb, $query);
             }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
+        parent::hydrate($request, $entity, $errorStore);
+
+        if ($this->shouldHydrate($request, 'o:is_open')) {
+            $entity->setIsOpen($request->getValue('o:is_open'));
         }
     }
 }

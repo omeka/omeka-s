@@ -16,7 +16,9 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
-        return array();
+        return array(
+            'o:is_open' => $this->isOpen(),
+        );
     }
 
     /**
@@ -32,6 +34,16 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
                 'limit' => 0,
             ));
         return $response->getTotalResults();
+    }
+
+    /**
+     * Get whether this set is open or not open.
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return $this->getData()->isOpen();
     }
 
     /**

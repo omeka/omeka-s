@@ -45,6 +45,37 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        parent::buildQuery($qb, $query);
+
+        // Select item sets to which the current user can assign an item.
+        if (isset($query['is_open'])) {
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            if (!$acl->userIsAllowed('Omeka\Entity\ItemSet', 'view-all')) {
+                $expr = $qb->expr()->eq(
+                    'Omeka\Entity\ItemSet.isOpen',
+                    $qb->expr()->literal(true)
+                );
+                $identity = $this->getServiceLocator()
+                    ->get('Omeka\AuthenticationService')->getIdentity();
+                if ($identity) {
+                    $expr = $qb->expr()->orX(
+                        $expr,
+                        $qb->expr()->eq(
+                            'Omeka\Entity\ItemSet.owner',
+                            $this->createNamedParameter($qb, $identity->getId())
+                        )
+                    );
+                }
+                $qb->andWhere($expr);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if (is_string($query['sort_by'])) {

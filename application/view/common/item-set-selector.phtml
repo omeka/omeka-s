@@ -1,0 +1,23 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<div class='item-set-selector sidebar active'>
+    <p><?php echo $escape($this->translate('Click on an item set to add it to the edit panel.')); ?></p>
+    <input type="text" class="item-set-selector-filter" placeholder="Filter item sets">
+    <ul>
+        <li><?php echo $escape($this->translate('All Item Sets')); ?>
+            <ul>
+                <?php foreach ($itemSetOwners as $itemSetOwner): ?>
+                <li><?php echo $itemSetOwner['owner']->username(); ?>
+                    <ul>
+                        <?php foreach ($itemSetOwner['item_sets'] as $itemSet): ?>
+                        <li><?php echo $itemSet->displayTitle(); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -41,6 +41,6 @@ class VisibilityFilter extends SQLFilter
             );
         }
 
-       return '(' . implode(' ', $constraints) . ')';
+       return implode(' ', $constraints);
     }
 }

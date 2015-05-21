@@ -2085,7 +2085,7 @@ body.show .sidebar img {
     margin-right: calc(1% - 4px);
 }
 
-#advanced-search .field.removable .value:only-child .remove-value {
+#advanced-search .field.removable .value:only-of-type .remove-value {
     display: none;
 }
 

@@ -10,6 +10,12 @@ use Zend\Form\Element\Csrf;
 
 class MediaController extends AbstractActionController
 {
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
+    
     public function browseAction()
     {
         $page = $this->params()->fromQuery('page', 1);

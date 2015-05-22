@@ -30,7 +30,10 @@ class ItemSetSelector extends AbstractHelper
 
         return $this->getView()->partial(
             'common/item-set-selector',
-            array('itemSetOwners' => $itemSetOwners)
+            array(
+                'itemSetOwners' => $itemSetOwners,
+                'totalItemSetCount' => $response->getTotalResults(),
+            )
         );
     }
 }

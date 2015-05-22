@@ -22,10 +22,11 @@ class ItemSetSelector extends AbstractHelper
         $itemSetOwners = array();
         foreach ($response->getContent() as $itemSet) {
             $owner = $itemSet->owner();
-            $ownerId = $owner ? $owner->id() : null;
-            $itemSetOwners[$ownerId]['owner'] = $owner;
-            $itemSetOwners[$ownerId]['item_sets'][] = $itemSet;
+            $username = $owner ? $owner->username() : null;
+            $itemSetOwners[$username]['owner'] = $owner;
+            $itemSetOwners[$username]['item_sets'][] = $itemSet;
         }
+        ksort($itemSetOwners);
 
         return $this->getView()->partial(
             'common/item-set-selector',

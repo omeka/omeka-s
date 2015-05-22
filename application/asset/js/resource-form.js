@@ -142,7 +142,7 @@
             context.parents('.value').addClass('selecting-resource');
             var qName = context.parents('.resource-values').data('property-term');
             $('#select-item a').data('property-term', qName);
-            Omeka.openSidebar(context);
+            Omeka.openSidebar(context, "#select-resource");
         });
 
         $('.resource-name a').on('click', function(e) {

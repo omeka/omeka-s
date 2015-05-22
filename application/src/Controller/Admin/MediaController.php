@@ -12,7 +12,14 @@ class MediaController extends AbstractActionController
 {
     public function browseAction()
     {
-        $response = $this->api()->search('media', array());
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->params()->fromQuery() + array('page' => $page);
+        if (!isset($query['sort_by'])) {
+            $query['sort_by'] = 'created';
+            $query['sort_order'] = 'desc';
+        }
+        $response = $this->api()->search('media', $query);
+        $this->paginator($response->getTotalResults(), $page);
 
         $view = new ViewModel;
         $view->setVariable('medias', $response->getContent());
@@ -83,9 +90,7 @@ class MediaController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete(
-                    'media', array('id' => $this->params('id'))
-                );
+                $response = $this->api()->delete('media', $this->params('id'));
                 if ($response->isError()) {
                     $this->messenger()->addError('Media could not be deleted');
                 } else {

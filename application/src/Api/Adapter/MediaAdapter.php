@@ -74,7 +74,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         parent::hydrate($request, $entity, $errorStore);
 
         // Don't allow mutation of basic properties
-        if ($entity->getType() !== 'html' && $request->getOperation() !== Request::CREATE) {
+        if ($request->getOperation() !== Request::CREATE) {
+            $request->getMetadata('mediaHandler')->update($entity, $request, $errorStore);
             return;
         }
 
@@ -108,5 +109,13 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (!($entity->getItem() instanceof Item)) {
             $errorStore->addError('o:item', 'Media must belong to an item.');
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hydrateOwner(Request $request, EntityInterface $entity)
+    {
+        $entity->setOwner($entity->getItem()->getOwner());
     }
 }

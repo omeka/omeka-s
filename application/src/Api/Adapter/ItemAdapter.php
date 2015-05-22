@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\ResourceClass;
@@ -133,6 +134,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $retainMedia = array();
             $position = 1;
             foreach ($mediasData as $mediaData) {
+                $subErrorStore = new ErrorStore;
                 if (isset($mediaData['o:id'])) {
                     $media = $adapter->findEntity($mediaData['o:id']);
                     $media->setPosition($position);
@@ -145,7 +147,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $subrequest = new Request(Request::CREATE, 'media');
                     $subrequest->setContent($mediaData);
                     $subrequest->setFileData($request->getFileData());
-                    $adapter->hydrateEntity($subrequest, $media, $errorStore);
+                    try {
+                        $adapter->hydrateEntity($subrequest, $media, $subErrorStore);
+                    } catch (Exception\ValidationException $e) {
+                        $errorStore->mergeErrors($e->getErrorStore(), 'o:media');
+                    }
                     $entity->getMedia()->add($media);
                     $retainMedia[] = $media;
                 }

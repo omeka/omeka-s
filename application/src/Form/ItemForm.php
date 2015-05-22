@@ -25,7 +25,7 @@ class ItemForm extends ResourceForm
             ->setOption('info', $translator->translate('Select Items Sets for this resource.'))
             ->setResourceValueOptions(
                 'item_sets',
-                array('owner_id' => $auth->getIdentity()),
+                array(),
                 function ($itemSet, $serviceLocator) {
                     return $itemSet->displayTitle();
                 }

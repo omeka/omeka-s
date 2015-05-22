@@ -433,6 +433,7 @@ header {
     height: rhythm(1.5);
     width: calc(100% - #{rhythm(3)});
     float: left;
+    padding: rhythm(.25) rhythm(.5);
 }
 
 #search button {
@@ -892,6 +893,64 @@ body.sidebar-open #content {
 .vocabs .no-resources:before {
     content: $fa-var-book;
 }
+
+    /* @group ----- Search ----- */
+
+    #advanced-options {
+        background-color: #fff;
+        padding: rhythm(.25) rhythm(.5) calc(#{rhythm(.25)} - 1px);
+        clear: both;
+        border: 1px solid rgba(0,0,0,.15);
+        border-top: 0;
+
+        legend {
+            float: left;
+            width: calc(100% + #{rhythm()});
+            font-weight: bold;
+            padding: rhythm(.25) rhythm(.5);
+            margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
+            background-color: $gray-on-white;
+        }
+
+        input {
+            float: left;
+            clear: left;
+            margin-right: .5em;
+            height: $base-line-height;
+            @include trailer(.25);
+        }
+
+        label {
+            float: left;
+            @include trailer(.25);
+        }
+    }
+
+    .search-filters {
+        @include trailer(.25);
+    }
+
+    .filter {
+        display: inline-block;
+        margin: 0 rhythm(.25) rhythm(.25) 0;
+        @include border-radius(3px);
+        background-color: #f0f0f0;
+        padding: rhythm(.25);
+    }
+
+    .filter-label {
+        display: inline-block;
+        background-color: $gray-on-white;
+        @include border-radius(3px 0 0 3px);
+        padding: rhythm(.25);
+        @include bleed(rhythm(.25) 0 rhythm(.25) rhythm(.25));
+    }
+
+    .filter-value:not(:last-child):after {
+        content: ",";
+    }
+
+    /* @end */
 
 /* @end */
 

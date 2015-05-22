@@ -840,6 +840,7 @@ th {
     height: 2.25em;
     width: calc(100% - 4.5em);
     float: left;
+    padding: 0.375em 0.75em;
   }
 
   #search button {
@@ -1296,6 +1297,67 @@ th {
     content: "";
   }
 
+  /* @group ----- Search ----- */
+  #advanced-options {
+    background-color: #fff;
+    padding: 0.375em 0.75em calc(0.375em - 1px);
+    clear: both;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 0;
+  }
+  #advanced-options legend {
+    float: left;
+    width: calc(100% + 1.5em);
+    font-weight: bold;
+    padding: 0.375em 0.75em;
+    margin: -0.375em -0.75em 0.75em;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  #advanced-options input {
+    float: left;
+    clear: left;
+    margin-right: .5em;
+    height: 24px;
+    margin-bottom: 0.375em;
+  }
+  #advanced-options label {
+    float: left;
+    margin-bottom: 0.375em;
+  }
+
+  .search-filters {
+    margin-bottom: 0.375em;
+  }
+
+  .filter {
+    display: inline-block;
+    margin: 0 0.375em 0.375em 0;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    padding: 0.375em;
+  }
+
+  .filter-label {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px 0 0 3px;
+    padding: 0.375em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -0.375em;
+    margin-bottom: -0.375em;
+    margin-left: -0.375em;
+    padding-top: 0.375em;
+    padding-bottom: 0.375em;
+    padding-left: 0.375em;
+  }
+
+  .filter-value:not(:last-child):after {
+    content: ",";
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Add/Edit views ----- */
   .add div[role="main"],

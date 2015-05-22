@@ -90,9 +90,7 @@ class ItemController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete(
-                    'items', array('id' => $this->params('id'))
-                );
+                $response = $this->api()->delete('items', $this->params('id'));
                 if ($response->isError()) {
                     $this->messenger()->addError('Item could not be deleted');
                 } else {
@@ -120,7 +118,9 @@ class ItemController extends AbstractActionController
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api()->create('items', $data, $fileData);
                 if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
+                    $errors = $response->getErrors();
+                    $form->setMessages($errors);
+                    $this->messenger()->addErrors($errors);
                 } else {
                     $this->messenger()->addSuccess('Item Created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
@@ -163,7 +163,9 @@ class ItemController extends AbstractActionController
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api()->update('items', $id, $data, $fileData);
                 if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
+                    $errors = $response->getErrors();
+                    $form->setMessages($errors);
+                    $this->messenger()->addErrors($errors);
                 } else {
                     $this->messenger()->addSuccess('Item Updated.');
                     return $this->redirect()->toUrl($response->getContent()->url());

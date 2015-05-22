@@ -263,17 +263,17 @@ body {
         padding: 0;
     }
     
-    .property-selector input[type="text"],
-    .property-selector > ul {
+    .selector input[type="text"],
+    .selector > ul {
         width: 100%;
     }
     
-    .property-selector > ul {
+    .selector > ul {
         margin: 0;
         overflow: hidden;
     }
     
-    .property-selector.sidebar .vocabulary {
+    .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
     
@@ -1142,7 +1142,7 @@ body.sidebar-open #content {
         display: none;
     }
 
-    .property-selector .property .description .o-icon-info:hover + .field-comment {
+    .selector .selector-child .description .o-icon-info:hover + .field-comment {
         left: 0;
         right: 0;
         top: rhythm(1.5);
@@ -1174,7 +1174,7 @@ body.sidebar-open #content {
         }
     }
     
-    .property-selector ul {
+    .selector ul {
         list-style: none;
         padding-left: 0;
 
@@ -1201,7 +1201,7 @@ body.sidebar-open #content {
         }
     }
     
-    .property-selector > ul,
+    .selector > ul,
     .properties > ul {
         list-style: none;
         padding-left: 0;
@@ -1239,7 +1239,7 @@ body.sidebar-open #content {
                 @include trailer(0);
             }
             
-            & > ul > .vocabulary:after {
+            & > ul > .selector-parent:after {
                 content: $fa-var-caret-right;
                 font-family: "FontAwesome";
                 position: absolute;
@@ -1251,7 +1251,7 @@ body.sidebar-open #content {
                 padding: rhythm(.25) 10px;
             }
             
-            .property {
+            .selector-child {
                 @include border-radius(0);
                 font-weight: normal;
                 padding: rhythm(.25) 10px;
@@ -1259,11 +1259,11 @@ body.sidebar-open #content {
             }
         }
 
-        li.vocabulary {
+        li.selector-parent {
             cursor: pointer;
         }
 
-        li.vocabulary.show:after {
+        li.selector-parent.show:after {
             content: $fa-var-caret-down;
         }
         

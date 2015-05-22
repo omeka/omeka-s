@@ -2,7 +2,7 @@
 
     $(document).ready( function() {
         // Select property
-        $('li.property').on('click', function(e) {
+        $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
             var propertyLi = $(this);
             var qName = propertyLi.data('property-term');
@@ -270,11 +270,11 @@
 
             case 'number':
                 propertyId = property;
-                propertyLi = $('.property-selector').find("li[data-property-id='" + propertyId + "']");
+                propertyLi = $('#property-selector').find("li[data-property-id='" + propertyId + "']");
             break;
 
             case 'string':
-                propertyLi = $('.property-selector').find("li[data-property-term='" + property + "']");
+                propertyLi = $('#property-selector').find("li[data-property-term='" + property + "']");
                 propertyId = propertyLi.data('property-id');
             break;
         }
@@ -282,7 +282,7 @@
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = $('span.property-label', propertyLi).html();
+        var fieldName = propertyLi.data('child-label');
         field.find('.field-label').text(fieldName);
         field.find('.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();

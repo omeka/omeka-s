@@ -76,7 +76,7 @@ new Sortable(list, {
 });
 
 // Add property row via the property selector.
-$('.selector-child').click('#property-selector', function(event) {
+$('#property-selector .selector-child').click(function(event) {
     event.preventDefault();
     var propertyId = $(this).closest('li').data('property-id');
     if ($('#properties tbody tr[data-property-id="' + propertyId + '"]').length) {

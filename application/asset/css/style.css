@@ -2030,6 +2030,12 @@ th {
   }
 
   /* @end */
+  /* @group ----- Item Sets ----- */
+  #item-item-sets tr.delete {
+    background-color: #ffcccc;
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Select Item Sidebar ----- */
   .search-nav {

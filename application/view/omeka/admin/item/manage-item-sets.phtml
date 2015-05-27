@@ -46,12 +46,14 @@ $('#item-set-selector .selector-child').click(function(event) {
     var itemSetTitle = $(this).data('child-label');
     var ownerUsername = $(this).data('owner-username');
 
-    var template = $('#item-set-template').data('template');
-    template = template.replace(/__item-set-title__/g, itemSetTitle);
-    template = template.replace(/__item-set-id__/g, itemSetId);
-    template = template.replace(/__owner-username__/g, ownerUsername);
-
-    $('#item-item-sets > tbody:last').append($.parseHTML(template));
+    if ($('input[value="' + itemSetId + '"]').length === 0) {
+        var template = $('#item-set-template').data('template');
+        template = template.replace(/__item-set-title__/g, itemSetTitle);
+        template = template.replace(/__item-set-id__/g, itemSetId);
+        template = template.replace(/__owner-username__/g, ownerUsername);
+    
+        $('#item-item-sets > tbody:last').append($.parseHTML(template));
+    }
 });
 
 // Remove an item set from the edit panel.

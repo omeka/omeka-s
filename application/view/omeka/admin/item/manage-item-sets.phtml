@@ -1,0 +1,87 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+?>
+<table id="item-item-sets">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Owner</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($item->itemSets() as $itemSet): ?>
+    <tr>
+        <td><?php echo $itemSet->displayTitle(); ?></td>
+        <td><?php echo $itemSet->owner()->username(); ?></td>
+        <td><ul class="actions">
+            <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
+        </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php
+$itemSetTemplate = '
+<tr>
+    <td>__item-set-title__</td>
+    <td>__owner-username__</td>
+    <td><ul class="actions">
+        <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
+    </ul><input type="hidden" name="o:item_set[]" value="__item-set-id__"></td>
+</tr>';
+?>
+<span id="item-set-template" data-template="<?php echo $escapeAttr($itemSetTemplate); ?>"></span>
+
+<?php echo $this->itemSetSelector(); ?>
+
+<script>
+// Add the selected item set to the edit panel.
+$('#item-set-selector .selector-child').click(function(event) {
+    event.preventDefault();
+
+    var itemSetId = $(this).data('item-set-id');
+    var itemSetTitle = $(this).data('child-label');
+    var ownerUsername = $(this).data('owner-username');
+
+    var template = $('#item-set-template').data('template');
+    template = template.replace(/__item-set-title__/g, itemSetTitle);
+    template = template.replace(/__item-set-id__/g, itemSetId);
+    template = template.replace(/__owner-username__/g, ownerUsername);
+
+    $('#item-item-sets > tbody:last').append($.parseHTML(template));
+});
+
+// Remove an item set from the edit panel.
+$('#item-item-sets').on('click', '.o-icon-delete', function(event) {
+    event.preventDefault();
+
+    var removeLink = $(this);
+    var itemSetRow = $(this).closest('tr');
+    var itemSetInput = removeLink.closest('td').find('input');
+
+    // Remove the item set input from the form.
+    itemSetRow.data('item-set-input', itemSetInput);
+    itemSetInput.remove();
+
+    // Undo remove item set link.
+    var undoRemoveLink = $('<a>', {
+        href: '#',
+        class: 'fa fa-undo',
+        title: 'Undo remove item set',
+        click: function(event) {
+            event.preventDefault();
+            itemSetRow.toggleClass('delete');
+            $(this).closest('td').append(itemSetInput);
+            removeLink.show();
+            $(this).remove();
+        },
+    });
+
+    itemSetRow.toggleClass('delete');
+    undoRemoveLink.insertAfter(removeLink);
+    removeLink.hide();
+});
+</script>

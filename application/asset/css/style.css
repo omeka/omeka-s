@@ -2035,6 +2035,22 @@ th {
     background-color: #ffcccc;
   }
 
+  #page-actions [class*="o-icon-"].button {
+    color: #ff6666;
+    background-color: transparent;
+    width: auto;
+    padding: 0.375em 0.375em;
+  }
+  #page-actions [class*="o-icon-"].button:hover {
+    color: #FF0000;
+    background-color: transparent;
+  }
+
+  .o-icon-private.button,
+  .o-icon-public.button {
+    margin-right: 0.375em;
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Select Item Sidebar ----- */

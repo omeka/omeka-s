@@ -1649,6 +1649,23 @@ body.sidebar-open #content {
         background-color: #ffcccc;
     }
 
+    #page-actions [class*="o-icon-"].button {
+        color: lighten($red, 20%);
+        background-color: transparent;
+        width: auto;
+        padding: rhythm(.25) rhythm(.25);
+
+        &:hover {
+            color: $red;
+            background-color: transparent;
+        }
+    }
+
+    .o-icon-private.button,
+    .o-icon-public.button {
+        margin-right: rhythm(.25);
+    }
+
     /* @end */
 
 /* @end */

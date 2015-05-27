@@ -327,7 +327,7 @@
   content: "";
 }
 
-.fa-lock:before {
+.fa-lock:before, .o-icon-lock:before {
   content: "";
 }
 
@@ -621,11 +621,12 @@
   content: "";
 }
 
-.fa-eye:before, .o-icon-view:before {
+.fa-eye:before, .o-icon-view:before,
+.o-icon-public:before {
   content: "";
 }
 
-.fa-eye-slash:before {
+.fa-eye-slash:before, .o-icon-private:before {
   content: "";
 }
 
@@ -796,7 +797,7 @@
   content: "";
 }
 
-.fa-unlock:before {
+.fa-unlock:before, .o-icon-unlock:before {
   content: "";
 }
 

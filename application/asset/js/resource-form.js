@@ -33,10 +33,9 @@
                     'url': url,
                     'type': 'get'
                 }).done(function(data) {
-                    if (data['o:resource_class']) {
-                        $('select#resource-class-select').val(data['o:resource_class']['o:id']);
-                    } else {
-                        $('select#resource-class-select').val("");
+                    var classSelect = $('select#resource-class-select');
+                    if (data['o:resource_class'] && classSelect.val() == '' ) {
+                        classSelect.val(data['o:resource_class']['o:id']);
                     }
                     //in case people have added fields, reverse the template so
                     //I can prepend everything and keep the order, and then drop

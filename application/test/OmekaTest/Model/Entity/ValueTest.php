@@ -22,7 +22,6 @@ class ValueTest extends TestCase
         $this->assertNull($this->value->getProperty());
         $this->assertNull($this->value->getType());
         $this->assertNull($this->value->getValue());
-        $this->assertNull($this->value->getValueTransformed());
         $this->assertNull($this->value->getLang());
     }
 
@@ -60,13 +59,6 @@ class ValueTest extends TestCase
         $value = 'test-value';
         $this->value->setValue($value);
         $this->assertEquals($value, $this->value->getValue());
-    }
-
-    public function testSetValueTransformed()
-    {
-        $valueTransformed = 'test-valueTransformed';
-        $this->value->setValueTransformed($valueTransformed);
-        $this->assertEquals($valueTransformed, $this->value->getValueTransformed());
     }
 
     public function testSetlang()

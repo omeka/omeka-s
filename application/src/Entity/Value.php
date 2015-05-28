@@ -51,11 +51,6 @@ class Value extends AbstractEntity
     protected $value;
 
     /**
-     * @Column(type="text", nullable=true)
-     */
-    protected $valueTransformed;
-
-    /**
      * @Column(nullable=true)
      */
     protected $lang;
@@ -109,16 +104,6 @@ class Value extends AbstractEntity
     public function getValue()
     {
         return $this->value;
-    }
-
-    public function setValueTransformed($valueTransformed)
-    {
-        $this->valueTransformed = $valueTransformed;
-    }
-
-    public function getValueTransformed()
-    {
-        return $this->valueTransformed;
     }
 
     public function setLang($lang)

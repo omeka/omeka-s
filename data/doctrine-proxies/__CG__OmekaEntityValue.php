@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'valueTransformed', 'lang', 'valueResource');
+            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'valueResource');
         }
 
-        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'valueTransformed', 'lang', 'valueResource');
+        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'valueResource');
     }
 
     /**
@@ -274,28 +274,6 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', array());
 
         return parent::getValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setValueTransformed($valueTransformed)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueTransformed', array($valueTransformed));
-
-        return parent::setValueTransformed($valueTransformed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getValueTransformed()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueTransformed', array());
-
-        return parent::getValueTransformed();
     }
 
     /**

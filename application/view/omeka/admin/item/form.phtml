@@ -47,7 +47,12 @@ $formElement = $this->plugin('formElement');
         ?>
     </fieldset>
     <fieldset id='item-sets' class='section'>
-        <?php echo $this->formField($form->get('o:item_set')); ?>
+        <?php
+        echo $this->partial(
+            'omeka/admin/item/manage-item-sets',
+            array('item' => $item)
+        );
+        ?>
     </fieldset>
 
     <fieldset id="page-actions">

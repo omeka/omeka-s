@@ -64,10 +64,10 @@ class ItemSet extends \Omeka\Entity\ItemSet implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'isOpen', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'isOpen', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -197,6 +197,28 @@ class ItemSet extends \Omeka\Entity\ItemSet implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsOpen($isOpen)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsOpen', array($isOpen));
+
+        return parent::setIsOpen($isOpen);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isOpen()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isOpen', array());
+
+        return parent::isOpen();
     }
 
     /**

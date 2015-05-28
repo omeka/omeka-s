@@ -50,37 +50,37 @@ var Omeka = {
         });
     },
 
-    filterPropertySelector : function() {
-        var propertyFilter = $(this).val().toLowerCase();
-        var propertySelector = $(this).closest('.property-selector');
-        var totalPropertyCount = 0;
-        propertySelector.find('li.vocabulary').each(function() {
-            var vocabulary = $(this);
-            var propertyCount = 0;
-            vocabulary.find('li.property').each(function() {
-                var property = $(this);
-                var propertyLabel = property.data('property-label').toLowerCase();
-                if (propertyLabel.indexOf(propertyFilter) > -1) {
-                    // Label contains the filter string. Show the property.
-                    property.show();
-                    totalPropertyCount++;
-                    propertyCount++;
+    filterSelector : function() {
+        var filter = $(this).val().toLowerCase();
+        var selector = $(this).closest('.selector');
+        var totalCount = 0;
+        selector.find('li.selector-parent').each(function() {
+            var parent = $(this);
+            var count = 0;
+            parent.find('li.selector-child').each(function() {
+                var child = $(this);
+                var label = child.data('child-label').toLowerCase();
+                if (label.indexOf(filter) > -1) {
+                    // Label contains the filter string. Show the child.
+                    child.show();
+                    totalCount++;
+                    count++;
                 } else {
-                    // Label doesn't contain the filter string. Hide the property.
-                    property.hide();
+                    // Label doesn't contain the filter string. Hide the child.
+                    child.hide();
                 }
             });
-            if (propertyCount > 0) {
-                vocabulary.addClass('show');
+            if (count > 0) {
+                parent.addClass('show');
             } else {
-                vocabulary.removeClass('show');
+                parent.removeClass('show');
             }
-            vocabulary.children('span.property-count').text(propertyCount);
+            parent.children('span.selector-child-count').text(count);
         });
-        if (propertyFilter == '') {
-            propertySelector.find('li.vocabulary').removeClass('show');
+        if (filter == '') {
+            selector.find('li.selector-parent').removeClass('show');
         }
-        propertySelector.find('span.total-property-count').text(totalPropertyCount);
+        selector.find('span.selector-total-count').text(totalCount);
     }
 };
 
@@ -166,14 +166,14 @@ var Omeka = {
         });
         
         // Property selector toggle children
-        $('.property-selector li.vocabulary').on('click', function(e) {
+        $('.selector li.selector-parent').on('click', function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');
             }
         });
         
-        $('.property-selector-filter').on('keydown', function(e) {
+        $('.selector-filter').on('keydown', function(e) {
             if (e.keyCode == 13) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -181,11 +181,11 @@ var Omeka = {
         });
 
         // Property selector, filter properties.
-        $('.property-selector-filter').on('keyup', (function() {
+        $('.selector-filter').on('keyup', (function() {
             var timer = 0;
             return function() {
                 clearTimeout(timer);
-                timer = setTimeout(Omeka.filterPropertySelector.bind(this), 400);
+                timer = setTimeout(Omeka.filterSelector.bind(this), 400);
             }
         })())
 

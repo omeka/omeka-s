@@ -36,23 +36,29 @@ class YoutubeHandler extends AbstractHandler
             return;
         }
 
-        if ('www.youtube.com' !== $uri->getHost()) {
-            $errorStore->addError('o:source', 'Invalid YouTube URL specified, not a YouTube URL');
-            return;
+        switch ($uri->getHost()) {
+            case 'www.youtube.com':
+                if ('/watch' !== $uri->getPath()) {
+                    $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "/watch" path');
+                    return;
+                }
+
+                $query = $uri->getQueryAsArray();
+                if (!isset($query['v'])) {
+                    $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "v" parameter');
+                    return;
+                }
+                $youtubeId = $query['v'];
+                break;
+            case 'youtu.be':
+                $youtubeId = substr($uri->getPath(), 1);
+                break;
+            default:
+                $errorStore->addError('o:source', 'Invalid YouTube URL specified, not a YouTube URL');
+                return;
         }
 
-        if ('/watch' !== $uri->getPath()) {
-            $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "/watch" path');
-            return;
-        }
-
-        $query = $uri->getQueryAsArray();
-        if (!isset($query['v'])) {
-            $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "v" parameter');
-            return;
-        }
-
-        $request->setMetadata('youtubeId', $query['v']);
+        $request->setMetadata('youtubeId', $youtubeId);
     }
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)

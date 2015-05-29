@@ -244,6 +244,7 @@ CREATE TABLE `value` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci,
   `lang` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uri_label` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1D77583489329D25` (`resource_id`),
   KEY `IDX_1D775834549213EC` (`property_id`),

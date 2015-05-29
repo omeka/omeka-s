@@ -37,7 +37,11 @@ class ValueRepresentation extends AbstractRepresentation
                 $escapeHtml = $this->getViewHelper('escapeHtml');
                 $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
                 $uri = $this->getData()->getValue();
-                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uri) . '</a>';
+                $uriLabel = $this->getData()->getUriLabel();
+                if (!$uriLabel) {
+                    $uriLabel = $uri;
+                }
+                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uriLabel) . '</a>';
 
             case Value::TYPE_LITERAL:
             default:
@@ -76,6 +80,9 @@ class ValueRepresentation extends AbstractRepresentation
 
             case Value::TYPE_URI:
                 $valueObject['@id'] = $value->getValue();
+                if ($value->getUriLabel()) {
+                    $valueObject['o:uri_label'] = $value->getUriLabel();
+                }
                 break;
 
             case Value::TYPE_LITERAL:
@@ -151,6 +158,16 @@ class ValueRepresentation extends AbstractRepresentation
     public function lang()
     {
         return $this->getData()->getLang();
+    }
+
+    /**
+     * Get the URI label.
+     *
+     * @return string
+     */
+    public function uriLabel()
+    {
+        return $this->getData()->getUriLabel();
     }
 
     /**

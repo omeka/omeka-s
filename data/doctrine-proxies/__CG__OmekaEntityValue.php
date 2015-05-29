@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'valueResource');
+            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
         }
 
-        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'valueResource');
+        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
     }
 
     /**
@@ -296,6 +296,28 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', array());
 
         return parent::getLang();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUriLabel($uriLabel)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUriLabel', array($uriLabel));
+
+        return parent::setUriLabel($uriLabel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUriLabel()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUriLabel', array());
+
+        return parent::getUriLabel();
     }
 
     /**

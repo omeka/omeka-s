@@ -56,6 +56,11 @@ class Value extends AbstractEntity
     protected $lang;
 
     /**
+     * @Column(nullable=true)
+     */
+    protected $uriLabel;
+
+    /**
      * @ManyToOne(targetEntity="Resource")
      * @JoinColumn(onDelete="CASCADE")
      */
@@ -114,6 +119,16 @@ class Value extends AbstractEntity
     public function getLang()
     {
         return $this->lang;
+    }
+
+    public function setUriLabel($uriLabel)
+    {
+        $this->uriLabel = $uriLabel;
+    }
+
+    public function getUriLabel()
+    {
+        return $this->uriLabel;
     }
 
     public function setValueResource(Resource $valueResource = null)

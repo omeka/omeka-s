@@ -15,7 +15,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </ul>
 </nav>
 
-<div id="item-metadata" class="active section sidebar-open">
+<div id="item-metadata" class="active section sidebar-open">    
+    <?php if ( $item->resourceClass()): ?>
+        <div class="property">
+            <h4>Class</h4>
+            <div class="value"><?php echo $item->resourceClass()->label(); ?></div>
+        </div>
+    <?php endif; ?>
     <?php echo $item->displayValues(); ?>
 </div>
 

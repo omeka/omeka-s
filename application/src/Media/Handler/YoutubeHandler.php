@@ -3,7 +3,6 @@ namespace Omeka\Media\Handler;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;

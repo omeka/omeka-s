@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
+use Omeka\Media\Handler\MutableHandlerInterface;
 use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Item;
@@ -61,7 +62,11 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         $handler = $this->getServiceLocator()
             ->get('Omeka\MediaHandlerManager')
             ->get($data['o:type']);
-        $handler->validateRequest($request, $errorStore);
+        if ($request->getOperation() === Request::CREATE) {
+            $handler->validateRequest($request, $errorStore);
+        } else if ($handler instanceof MutableHandlerInterface) {
+            $handler->validateUpdateRequest($request, $errorStore);
+        }
         $request->setMetadata('mediaHandler', $handler);
     }
 
@@ -75,7 +80,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         // Don't allow mutation of basic properties
         if ($request->getOperation() !== Request::CREATE) {
-            $request->getMetadata('mediaHandler')->update($entity, $request, $errorStore);
+            $handler = $request->getMetadata('mediaHandler');
+            if ($handler instanceof MutableHandlerInterface) {
+                $handler->update($entity, $request, $errorStore);
+            }
             return;
         }
 

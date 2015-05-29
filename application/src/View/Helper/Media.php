@@ -3,6 +3,7 @@ namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Handler\Manager;
+use Omeka\Media\Handler\MutableHandlerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
@@ -43,6 +44,24 @@ class Media extends AbstractHelper
             </ul>';
         $form .= '</div>';
         return $form;
+    }
+
+    /**
+     * Return the HTML necessary to render an edit form.
+     *
+     * @param MediaRepresentation $media
+     * @param array $options Global options for the media type
+     * @return string
+     */
+    public function updateForm(MediaRepresentation $media, array $options = array())
+    {
+        $handler = $this->manager->get($media->type());
+
+        if ($handler instanceof MutableHandlerInterface) {
+            return $handler->updateForm($this->getView(), $media, $options);
+        } else {
+            return '';
+        }
     }
 
     /**

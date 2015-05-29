@@ -26,6 +26,12 @@ $viewItemsLink = $this->url(
 </nav>
 
 <div id="item-set-metadata" class="active section">
+    <?php if ( $itemSet->resourceClass()): ?>
+        <div class="property">
+            <h4>Class</h4>
+            <div class="value"><?php echo $itemSet->resourceClass()->label(); ?></div>
+        </div>
+    <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>
 

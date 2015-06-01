@@ -14,7 +14,9 @@ $viewItemsLink = $this->url(
 ?>
 <h1><?php echo sprintf($this->translate('Item Set: “%s”'), $escape($itemSet->displayTitle())); ?></h1>
 <div id="page-actions">
+    <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
+    <?php endif; ?>
     <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>
 </div>
 

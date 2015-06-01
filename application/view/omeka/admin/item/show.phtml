@@ -5,7 +5,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h1><?php echo sprintf($this->translate('Item: “%s”'), $escape($item->displayTitle())); ?></h1>
 <div id="page-actions">
+    <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
+    <?php endif; ?>
 </div>
 
 <nav class="section-nav">

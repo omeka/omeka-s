@@ -7,7 +7,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate('Resource Templates')); ?></h1>
 
 <div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php endif; ?>
 </div>
 
 <?php if (count($resourceTemplates)): ?>
@@ -30,17 +32,21 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php echo $resourceTemplate->link($resourceTemplate->label()); ?>
                 </span>
                 <ul class="actions">
+                    <?php if ($resourceTemplate->userIsAllowed('update')): ?>
                     <li><?php echo $resourceTemplate->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
+                    <?php endif; ?>
+                    <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($resourceTemplate->url('show-details')); ?>"
                         data-sidebar-confirm-url="<?php echo $escapeAttr($resourceTemplate->url('delete')); ?>"
                         class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <?php endif; ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($resourceTemplate->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"

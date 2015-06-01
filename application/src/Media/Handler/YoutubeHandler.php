@@ -72,7 +72,11 @@ class YoutubeHandler extends AbstractHandler
         $this->downloadFile($url, $file->getTempPath());
         $hasThumbnails = $fileManager->storeThumbnails($file);
 
-        $media->setData(array('id' => $id));
+        $media->setData(array(
+            'id' => $id,
+            'start' => $request->getValue('start'),
+            'end' => $request->getValue('end'),
+        ));
         if ($hasThumbnails) {
             $media->setFilename($file->getStorageName());
             $media->setHasThumbnails(true);
@@ -93,7 +97,23 @@ class YoutubeHandler extends AbstractHandler
             'id' => 'media-youtube-source-__index__',
             'required' => true
         ));
-        return $view->formField($urlInput);
+        $urlInput->setAttributes(array(
+            'id' => 'media-youtube-source-__index__',
+            'required' => true
+        ));
+        $startInput = new Text('o:media[__index__][start]');
+        $startInput->setOptions(array(
+            'label' => $view->translate('Start'),
+            'info' => $view->translate('Begin playing the video at the given number of seconds from the start of the video.'),
+        ));
+        $endInput = new Text('o:media[__index__][end]');
+        $endInput->setOptions(array(
+            'label' => $view->translate('End'),
+            'info' => $view->translate('End playing the video at the given number of seconds from the start of the video.'),
+        ));
+        return $view->formField($urlInput)
+            . $view->formField($startInput)
+            . $view->formField($endInput);
     }
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
@@ -111,7 +131,8 @@ class YoutubeHandler extends AbstractHandler
 
         // Compose the YouTube embed URL and build the markup.
         $data = $media->mediaData();
-        $url = sprintf('https://www.youtube.com/embed/%s', $data['id']);
+        $url = new HttpUri(sprintf('https://www.youtube.com/embed/%s', $data['id']));
+        $url->setQuery(array('start' => $data['start'], 'end' => $data['end']));
         $embed = sprintf(
             '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
             $view->escapeHtmlAttr($options['width']),

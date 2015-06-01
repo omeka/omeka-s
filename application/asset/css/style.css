@@ -644,12 +644,18 @@ th {
   .media-field-wrapper .field {
     width: 90%;
     display: inline-block;
-    margin: 0;
+    margin: 0 0 0.375em;
     padding: 0;
   }
-  .media-field-wrapper .field-meta,
-  .media-field-wrapper .inputs {
+  .media-field-wrapper .field:last-of-type {
+    margin-bottom: 0;
+  }
+  .media-field-wrapper .field:first-of-type .field-meta,
+  .media-field-wrapper .field:first-of-type .inputs {
     margin-top: -0.375em;
+  }
+  .media-field-wrapper .field:last-of-type .field-meta,
+  .media-field-wrapper .field:last-of-type .inputs {
     margin-bottom: -0.375em;
   }
   .media-field-wrapper .actions {

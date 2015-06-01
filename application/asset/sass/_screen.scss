@@ -227,13 +227,22 @@ body {
         .field {
             width:90%;
             display:inline-block;
-            margin:0;
+            margin:0 0 rhythm(.25);
             padding:0;
         }
 
-        .field-meta,
-        .inputs {
+        .field:last-of-type {
+            margin-bottom: 0;
+        }
+
+
+        .field:first-of-type .field-meta,
+        .field:first-of-type .inputs {
             margin-top: rhythm(-.25);
+        }
+
+        .field:last-of-type .field-meta,
+        .field:last-of-type .inputs {
             margin-bottom: rhythm(-.25);
         }
 

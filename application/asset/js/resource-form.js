@@ -409,7 +409,7 @@
         //rewrite the fields if a template is set
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.find(':selected').val();
-        if (templateId != "") {
+        if ($.isNumeric(templateId)) {
             var url = templateSelect.data('api-base-url') + templateId;
             $.ajax({
                 'url': url,

@@ -1451,7 +1451,7 @@ th {
     font-size: 12px;
   }
 
-  .inputs label.value-language {
+  .inputs .value label.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -1459,6 +1459,9 @@ th {
     top: 0.375em;
     left: 3em;
     height: 1.5em;
+    width: auto;
+    background-color: transparent;
+    line-height: 24px;
   }
 
   .inputs input[type="text"].value-language {
@@ -1898,7 +1901,7 @@ th {
     background-color: transparent;
   }
 
-  .value label:not(.value-language) {
+  .value label[class*="o-icon-"] {
     position: absolute;
     top: 0;
     left: 0;
@@ -1964,6 +1967,33 @@ th {
 
   .selected-resource .item_sets a:after {
     content: "";
+  }
+
+  .uri .input {
+    position: relative;
+    clear: both;
+  }
+
+  .uri label:not(.o-icon-uri) {
+    position: absolute;
+    top: 0.375em;
+    left: 0.375em;
+    z-index: 1;
+    width: 3.375em;
+    font-weight: bold;
+    word-break: break-word;
+    color: rgba(0, 0, 0, 0.35);
+  }
+
+  .uri input.value,
+  .uri textarea.value-label {
+    padding-left: 3.75em;
+    height: 2.25em;
+  }
+
+  textarea.value-label {
+    margin-top: 0em;
+    border-top-width: 0;
   }
 
   /* @end */

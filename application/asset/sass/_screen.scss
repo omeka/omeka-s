@@ -1052,7 +1052,7 @@ body.sidebar-open #content {
     font-size: .75 * $base-font-size;
 }
 
-.inputs label.value-language {
+.inputs .value label.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -1060,6 +1060,9 @@ body.sidebar-open #content {
     top: rhythm(.25);
     left: rhythm(2);
     height: rhythm();
+    width: auto;
+    background-color: transparent;
+    line-height: $base-line-height;
 }
 
 .inputs input[type="text"].value-language {
@@ -1511,7 +1514,7 @@ body.sidebar-open #content {
         background-color: transparent;
     }
 
-    .value label:not(.value-language) {
+    .value label[class*="o-icon-"] {
         position: absolute;
         top: 0;
         left: 0;
@@ -1569,7 +1572,34 @@ body.sidebar-open #content {
 
     .selected-resource .item_sets a:after {
         content: $fa-var-cubes;
-    }    
+    }
+
+    .uri .input {
+        position: relative;
+        clear: both;
+    }
+
+    .uri label:not(.o-icon-uri) {
+        position: absolute;
+        top: rhythm(.25);
+        left: rhythm(.25);
+        z-index: 1;
+        width: rhythm(2.25);
+        font-weight: bold;
+        word-break: break-word;
+        color: rgba(0,0,0,.35);
+    }
+
+    .uri input.value,
+    .uri textarea.value-label {
+        padding-left: rhythm(2.5);
+        height: rhythm(1.5);
+    }
+
+    textarea.value-label {
+        @include leader(0);
+        border-top-width: 0;
+    }
 
     /* @end */
     

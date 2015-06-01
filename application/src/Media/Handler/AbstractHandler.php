@@ -3,7 +3,6 @@ namespace Omeka\Media\Handler;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
-use Omeka\Media\Handler\HandlerInterface;
 use Omeka\Stdlib\ErrorStore;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
@@ -11,12 +10,6 @@ use Zend\Uri\Http as HttpUri;
 abstract class AbstractHandler implements HandlerInterface
 {
     use ServiceLocatorAwareTrait;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function update(Media $media, Request $request, ErrorStore $errorStore)
-    {}
 
     /**
      * Download a file.

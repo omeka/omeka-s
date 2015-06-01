@@ -2,6 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+<?php if ($item && $item->itemSets()): ?>
 <table id="item-item-sets">
     <thead>
     <tr>
@@ -22,6 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php endif; ?>
 
 <?php
 $itemSetTemplate = '

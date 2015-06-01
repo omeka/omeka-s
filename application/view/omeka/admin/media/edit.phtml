@@ -33,6 +33,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
+    <?php echo $this->media()->updateForm($media); ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>
 

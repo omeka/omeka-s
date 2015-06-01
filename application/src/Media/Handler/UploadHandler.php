@@ -2,7 +2,6 @@
 namespace Omeka\Media\Handler;
 
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractFileHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;

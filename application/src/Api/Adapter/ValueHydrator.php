@@ -126,6 +126,7 @@ class ValueHydrator implements HydrationInterface
         } else {
             $value->setLang(null); // set default
         }
+        $value->setUriLabel(null); // set default
         $value->setValueResource(null); // set default
     }
 
@@ -140,6 +141,7 @@ class ValueHydrator implements HydrationInterface
         $value->setType(Value::TYPE_RESOURCE);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
+        $value->setUriLabel(null); // set default
         $valueResource = $this->adapter->getEntityManager()->find(
             'Omeka\Entity\Resource',
             $valueObject['value_resource_id']
@@ -163,6 +165,11 @@ class ValueHydrator implements HydrationInterface
     {
         $value->setType(Value::TYPE_URI);
         $value->setValue($valueObject['@id']);
+        if (isset($valueObject['o:uri_label'])) {
+            $value->setUriLabel($valueObject['o:uri_label']);
+        } else {
+            $value->setUriLabel(null); // set default
+        }
         $value->setLang(null); // set default
         $value->setValueResource(null); // set default
     }
@@ -231,6 +238,9 @@ class ValueHydrator implements HydrationInterface
         $value->setProperty($property);
         $value->setType(Value::TYPE_URI);
         $value->setValue($valueObject['@id']);
+        if (isset($valueObject['o:uri_label'])) {
+            $value->setUriLabel($valueObject['o:uri_label']);
+        }
         $resource->getValues()->add($value);
     }
 }

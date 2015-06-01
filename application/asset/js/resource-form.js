@@ -290,6 +290,7 @@
 
                 case 'uri' :
                     uriInput.val(valueObject['@id']);
+                    uriLabel.val(valueObject['o:uri_label']);
                 break;
             }
         }

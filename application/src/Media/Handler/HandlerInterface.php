@@ -22,14 +22,6 @@ interface HandlerInterface
     public function getLabel();
 
     /**
-     * Validate a request for compliance with this media type.
-     *
-     * @param Request $request The API request to validate
-     * @param ErrorStore $errorStore
-     */
-    public function validateRequest(Request $request, ErrorStore $errorStore);
-
-    /**
      * Process an ingest (create) request.
      *
      * @param Media $media

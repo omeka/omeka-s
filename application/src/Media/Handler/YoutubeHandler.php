@@ -21,28 +21,24 @@ class YoutubeHandler extends AbstractHandler
         return $translator->translate('YouTube');
     }
 
-    public function validateRequest(Request $request, ErrorStore $errorStore)
+    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-
         if (!isset($data['o:source'])) {
             $errorStore->addError('o:source', 'No YouTube URL specified');
             return;
         }
-
         $uri = new HttpUri($data['o:source']);
         if (!($uri->isValid() && $uri->isAbsolute())) {
             $errorStore->addError('o:source', 'Invalid YouTube URL specified');
             return;
         }
-
         switch ($uri->getHost()) {
             case 'www.youtube.com':
                 if ('/watch' !== $uri->getPath()) {
                     $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "/watch" path');
                     return;
                 }
-
                 $query = $uri->getQueryAsArray();
                 if (!isset($query['v'])) {
                     $errorStore->addError('o:source', 'Invalid YouTube URL specified, missing "v" parameter');
@@ -58,22 +54,15 @@ class YoutubeHandler extends AbstractHandler
                 return;
         }
 
-        $request->setMetadata('youtubeId', $youtubeId);
-    }
-
-    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
-    {
-        $id = $request->getMetadata('youtubeId');
-
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $file = $this->getServiceLocator()->get('Omeka\File');
 
-        $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $id);
+        $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
         $this->downloadFile($url, $file->getTempPath());
         $hasThumbnails = $fileManager->storeThumbnails($file);
 
         $media->setData(array(
-            'id' => $id,
+            'id' => $youtubeId,
             'start' => $request->getValue('start'),
             'end' => $request->getValue('end'),
         ));

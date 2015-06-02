@@ -18,14 +18,15 @@ class OEmbedHandler extends AbstractHandler
         return $translator->translate('oEmbed');
     }
 
-    public function validateRequest(Request $request, ErrorStore $errorStore)
+    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
 
         if (!isset($data['o:source'])) {
             $errorStore->addError('o:source', 'No OEmbed URL specified');
+            return;
         }
-        
+
         $config = $this->getServiceLocator()->get('Config');
         $whitelist = $config['oembed']['whitelist'];
         
@@ -37,14 +38,11 @@ class OEmbedHandler extends AbstractHandler
             }
         }
 
-        if (! $whitelisted) {
+        if (!$whitelisted) {
             $errorStore->addError('o:source', 'Invalid OEmbed URL');
+            return;
         }
-    }
 
-    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
-    {
-        $data = $request->getContent();
         $source = $data['o:source'];
 
         $response = $this->makeRequest($source, 'OEmbed URL', $errorStore);

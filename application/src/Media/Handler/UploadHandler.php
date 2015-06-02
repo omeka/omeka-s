@@ -21,12 +21,6 @@ class UploadHandler extends AbstractFileHandler
     /**
      * {@inheritDoc}
      */
-    public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
-
-    /**
-     * {@inheritDoc}
-     */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();

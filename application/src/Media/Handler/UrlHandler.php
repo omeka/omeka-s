@@ -18,12 +18,6 @@ class UrlHandler extends AbstractFileHandler
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
-
-    /**
      * Ingest from a URL.
      *
      * Accepts the following non-prefixed keys:

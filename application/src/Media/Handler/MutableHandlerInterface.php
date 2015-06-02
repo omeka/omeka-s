@@ -13,14 +13,6 @@ use Zend\View\Renderer\PhpRenderer;
 interface MutableHandlerInterface extends HandlerInterface
 {
     /**
-     * Validate a request to update media for compliance with this media type.
-     *
-     * @param Request $request The API request to validate
-     * @param ErrorStore $errorStore
-     */
-    public function validateUpdateRequest(Request $request, ErrorStore $errorStore);
-    
-    /**
      * Process an update request.
      *
      * @param Media $media

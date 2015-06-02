@@ -54,20 +54,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     {
         $data = $request->getContent();
 
-        if (!isset($data['o:type'])) {
+        if ($request->getOperation() === Request::CREATE
+            && !$request->getValue('o:type')
+        ) {
             $errorStore->addError('o:type', 'Media must have a type.');
             return;
         }
-
-        $handler = $this->getServiceLocator()
-            ->get('Omeka\MediaHandlerManager')
-            ->get($data['o:type']);
-        if ($request->getOperation() === Request::CREATE) {
-            $handler->validateRequest($request, $errorStore);
-        } else if ($handler instanceof MutableHandlerInterface) {
-            $handler->validateUpdateRequest($request, $errorStore);
-        }
-        $request->setMetadata('mediaHandler', $handler);
     }
 
     /**
@@ -78,9 +70,14 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
-        // Don't allow mutation of basic properties
+        $type = $entity->getType();
+        if ($request->getOperation() === Request::CREATE) {
+            $type = $request->getValue('o:type');
+        }
+        $handler = $this->getServiceLocator()
+            ->get('Omeka\MediaHandlerManager')->get($type);
+
         if ($request->getOperation() !== Request::CREATE) {
-            $handler = $request->getMetadata('mediaHandler');
             if ($handler instanceof MutableHandlerInterface) {
                 $handler->update($entity, $request, $errorStore);
             }
@@ -96,9 +93,9 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         // If we've gotten here we're guaranteed to have a set, valid media type
-        // and media handler thanks to validateRequest
+        // and media handler.
         $entity->setType($data['o:type']);
-        $request->getMetadata('mediaHandler')->ingest($entity, $request, $errorStore);
+        $handler->ingest($entity, $request, $errorStore);
 
         if (isset($data['o:data'])) {
             $entity->setData($data['o:data']);

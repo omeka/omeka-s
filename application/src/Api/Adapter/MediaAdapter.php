@@ -58,7 +58,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             && !$request->getValue('o:type')
         ) {
             $errorStore->addError('o:type', 'Media must have a type.');
-            return;
         }
     }
 

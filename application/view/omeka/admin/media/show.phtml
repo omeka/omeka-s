@@ -13,6 +13,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="media-render">
     <?php echo $media->render(); ?>
     </div>
+    <?php if ( $media->resourceClass()): ?>
+        <div class="property">
+            <h4>Class</h4>
+            <div class="value"><?php echo $media->resourceClass()->label(); ?></div>
+        </div>
+    <?php endif; ?>
     <?php echo $media->displayValues(); ?>
 </div>
 

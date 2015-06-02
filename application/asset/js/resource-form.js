@@ -2,7 +2,7 @@
 
     $(document).ready( function() {
         // Select property
-        $('li.property').on('click', function(e) {
+        $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
             var propertyLi = $(this);
             var qName = propertyLi.data('property-term');
@@ -33,10 +33,9 @@
                     'url': url,
                     'type': 'get'
                 }).done(function(data) {
-                    if (data['o:resource_class']) {
-                        $('select#resource-class-select').val(data['o:resource_class']['o:id']);
-                    } else {
-                        $('select#resource-class-select').val("");
+                    var classSelect = $('select#resource-class-select');
+                    if (data['o:resource_class'] && classSelect.val() == '' ) {
+                        classSelect.val(data['o:resource_class']['o:id']);
                     }
                     //in case people have added fields, reverse the template so
                     //I can prepend everything and keep the order, and then drop
@@ -89,6 +88,40 @@
             valueToRemove.removeClass('delete');
             valueToRemove.find('input.delete').remove();
             $(this).hide();
+        });
+
+        // Open or close item set
+        $('a.o-icon-lock, a.o-icon-unlock').click(function(e) {
+            e.preventDefault();
+            var isOpenIcon = $(this);
+            $(this).toggleClass('o-icon-lock').toggleClass('o-icon-unlock');
+            var isOpenHiddenValue = $('input[name="o:is_open"]');
+            if (isOpenHiddenValue.val() == 0) {
+                isOpenIcon.attr('aria-label', 'Close icon set');
+                isOpenIcon.attr('title', 'Close icon set');
+                isOpenHiddenValue.attr('value', 1);
+            } else {
+                isOpenHiddenValue.attr('value', 0);
+                isOpenIcon.attr('aria-label', 'Open icon set');
+                isOpenIcon.attr('title', 'Open icon set');
+            }
+        });
+
+        // Make resource public or private
+        $('a.o-icon-private, a.o-icon-public').click(function(e) {
+            e.preventDefault();
+            var isPublicIcon = $(this);
+            $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
+            var isPublicHiddenValue = $('input[name="o:is_public"]');
+            if (isPublicHiddenValue.val() == 0) {
+                isPublicIcon.attr('aria-label', 'Make public');
+                isPublicIcon.attr('title', 'Make public');
+                isPublicHiddenValue.attr('value', 1);
+            } else {
+                isPublicIcon.attr('aria-label', 'Make private');
+                isPublicIcon.attr('title', 'Make private');
+                isPublicHiddenValue.attr('value', 0);
+            }
         });
 
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
@@ -203,7 +236,13 @@
 
         //set up uri inputs
         var uriInput = newValue.find('input.value');
+        var uriInputLabel = newValue.find('label.value');
         uriInput.attr('name', qName + '[' + count + '][@id]');
+        uriInputLabel.attr('for', qName + '[' + count + '][@id]');
+        var uriLabel = newValue.find('textarea.value-label');
+        var uriLabelLabel = newValue.find('label.value-label');
+        uriLabel.attr('name', qName + '[' + count + '][o:uri_label]');
+        uriLabelLabel.attr('for', qName + '[' + count + '][@o:uri_label]');
         
         var valueIdInput = newValue.find('input.value-id');
 
@@ -251,6 +290,7 @@
 
                 case 'uri' :
                     uriInput.val(valueObject['@id']);
+                    uriLabel.val(valueObject['o:uri_label']);
                 break;
             }
         }
@@ -270,11 +310,11 @@
 
             case 'number':
                 propertyId = property;
-                propertyLi = $('.property-selector').find("li[data-property-id='" + propertyId + "']");
+                propertyLi = $('#property-selector').find("li[data-property-id='" + propertyId + "']");
             break;
 
             case 'string':
-                propertyLi = $('.property-selector').find("li[data-property-term='" + property + "']");
+                propertyLi = $('#property-selector').find("li[data-property-term='" + property + "']");
                 propertyId = propertyLi.data('property-id');
             break;
         }
@@ -282,7 +322,7 @@
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = $('span.property-label', propertyLi).html();
+        var fieldName = propertyLi.data('child-label');
         field.find('.field-label').text(fieldName);
         field.find('.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();
@@ -369,7 +409,7 @@
         //rewrite the fields if a template is set
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.find(':selected').val();
-        if (templateId != "") {
+        if ($.isNumeric(templateId)) {
             var url = templateSelect.data('api-base-url') + templateId;
             $.ajax({
                 'url': url,

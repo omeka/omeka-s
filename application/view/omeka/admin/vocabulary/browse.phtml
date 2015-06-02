@@ -8,7 +8,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $this->translate('Vocabularies'); ?></h1>
 
 <div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, array('action' => 'import'), true), array('class' => 'button')); ?>
+    <?php endif; ?>
 </div>
 
 <?php if (count($vocabularies) > 0): ?>
@@ -33,17 +35,21 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 </span>
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
+                    <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
+                    <?php endif; ?>
+                    <?php if ($vocabulary->userIsAllowed('delete')): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
                         data-sidebar-confirm-url="<?php echo $escapeAttr($vocabulary->url('delete')); ?>"
                         class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                    <?php endif; ?>
                     <?php endif; ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"

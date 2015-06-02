@@ -112,8 +112,13 @@
     @extend .fa-youtube;
 }
 
-.o-icon-view {
+.o-icon-view,
+.o-icon-public {
     @extend .fa-eye;
+}
+
+.o-icon-private {
+    @extend .fa-eye-slash;
 }
 
 .o-icon-activate {
@@ -181,6 +186,14 @@
 
 .o-icon-language {
     @extend .fa-globe;
+}
+
+.o-icon-lock {
+    @extend .fa-lock;
+}
+
+.o-icon-unlock {
+    @extend .fa-unlock;
 }
 
 .screen-reader-text {

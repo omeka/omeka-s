@@ -27,6 +27,7 @@ CREATE TABLE `item_item_set` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE `item_set` (
   `id` int(11) NOT NULL,
+  `is_open` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_1015EEEBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -242,8 +243,8 @@ CREATE TABLE `value` (
   `value_resource_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci,
-  `value_transformed` longtext COLLATE utf8mb4_unicode_ci,
   `lang` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uri_label` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1D77583489329D25` (`resource_id`),
   KEY `IDX_1D775834549213EC` (`property_id`),

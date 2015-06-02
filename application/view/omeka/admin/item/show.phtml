@@ -5,7 +5,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h1><?php echo sprintf($this->translate('Item: “%s”'), $escape($item->displayTitle())); ?></h1>
 <div id="page-actions">
+    <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
+    <?php endif; ?>
 </div>
 
 <nav class="section-nav">
@@ -15,7 +17,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </ul>
 </nav>
 
-<div id="item-metadata" class="active section sidebar-open">
+<div id="item-metadata" class="active section sidebar-open">    
+    <?php if ( $item->resourceClass()): ?>
+        <div class="property">
+            <h4>Class</h4>
+            <div class="value"><?php echo $item->resourceClass()->label(); ?></div>
+        </div>
+    <?php endif; ?>
     <?php echo $item->displayValues(); ?>
 </div>
 

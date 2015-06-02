@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'valueTransformed', 'lang', 'valueResource');
+            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
         }
 
-        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'valueTransformed', 'lang', 'valueResource');
+        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
     }
 
     /**
@@ -279,28 +279,6 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setValueTransformed($valueTransformed)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueTransformed', array($valueTransformed));
-
-        return parent::setValueTransformed($valueTransformed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getValueTransformed()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueTransformed', array());
-
-        return parent::getValueTransformed();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setLang($lang)
     {
 
@@ -318,6 +296,28 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', array());
 
         return parent::getLang();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUriLabel($uriLabel)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUriLabel', array($uriLabel));
+
+        return parent::setUriLabel($uriLabel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUriLabel()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUriLabel', array());
+
+        return parent::getUriLabel();
     }
 
     /**

@@ -22,14 +22,6 @@ interface HandlerInterface
     public function getLabel();
 
     /**
-     * Validate a request for compliance with this media type.
-     *
-     * @param Request $request The API request to validate
-     * @param ErrorStore $errorStore
-     */
-    public function validateRequest(Request $request, ErrorStore $errorStore);
-
-    /**
      * Process an ingest (create) request.
      *
      * @param Media $media
@@ -39,16 +31,7 @@ interface HandlerInterface
     public function ingest(Media $media, Request $request, ErrorStore $errorStore);
 
     /**
-     * Process an update request.
-     *
-     * @param Media $media
-     * @param Request $request
-     * @param ErrorStore $errorStore
-     */
-    public function update(Media $media, Request $request, ErrorStore $errorStore);
-
-    /**
-     * Return the HTML necessary to render an add/edit form.
+     * Render a form for adding media.
      *
      * @param PhpRenderer $view
      * @param array $options
@@ -57,7 +40,7 @@ interface HandlerInterface
     public function form(PhpRenderer $view, array $options = array());
 
     /**
-     * Return the HTML necessary to render the provided media.
+     * Render the provided media.
      *
      * @param PhpRenderer $view
      * @param MediaRepresentation $media

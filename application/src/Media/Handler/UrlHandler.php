@@ -2,7 +2,6 @@
 namespace Omeka\Media\Handler;
 
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractFileHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
@@ -17,12 +16,6 @@ class UrlHandler extends AbstractFileHandler
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('URL');
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
 
     /**
      * Ingest from a URL.

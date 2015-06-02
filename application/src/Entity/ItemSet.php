@@ -15,6 +15,11 @@ class ItemSet extends Resource
     protected $id;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isOpen = false;
+
+    /**
      * @ManyToMany(targetEntity="Item", mappedBy="itemSets", fetch="EXTRA_LAZY")
      * @JoinTable(name="item_item_set")
      */
@@ -33,6 +38,16 @@ class ItemSet extends Resource
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setIsOpen($isOpen)
+    {
+        $this->isOpen = (bool) $isOpen;
+    }
+
+    public function isOpen()
+    {
+        return (bool) $this->isOpen;
     }
 
     public function getItems()

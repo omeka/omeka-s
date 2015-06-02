@@ -7,7 +7,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate(sprintf('Resource Template: “%s”', $resourceTemplate->label()))); ?></h1>
 
 <div id="page-actions">
+    <?php if ($resourceTemplate->userIsAllowed('update')): ?>
     <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>">Edit Resource Template</a>
+    <?php endif; ?>
 </div>
 
 <?php if ($resourceTemplate->resourceClass()): ?>

@@ -3,6 +3,7 @@ namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Handler\Manager;
+use Omeka\Media\Handler\MutableHandlerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
@@ -34,15 +35,33 @@ class Media extends AbstractHelper
     public function form($mediaType, array $options = array())
     {   
         $form = '<div class="media-field-wrapper">';
+        $form .= '<ul class="actions">
+            <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
+            </ul>';
         $form .= $this->manager->get($mediaType)
             ->form($this->getView(), $options);
         $form .= '<input type="hidden" name="o:media[__index__][o:type]" value="'
             . $this->getView()->escapeHtmlAttr($mediaType) . '">';
-        $form .= '<ul class="actions">
-            <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
-            </ul>';
         $form .= '</div>';
         return $form;
+    }
+
+    /**
+     * Return the HTML necessary to render an edit form.
+     *
+     * @param MediaRepresentation $media
+     * @param array $options Global options for the media type
+     * @return string
+     */
+    public function updateForm(MediaRepresentation $media, array $options = array())
+    {
+        $handler = $this->manager->get($media->type());
+
+        if ($handler instanceof MutableHandlerInterface) {
+            return $handler->updateForm($this->getView(), $media, $options);
+        } else {
+            return '';
+        }
     }
 
     /**

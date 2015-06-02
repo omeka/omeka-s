@@ -14,7 +14,9 @@ $viewItemsLink = $this->url(
 ?>
 <h1><?php echo sprintf($this->translate('Item Set: “%s”'), $escape($itemSet->displayTitle())); ?></h1>
 <div id="page-actions">
+    <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
+    <?php endif; ?>
     <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>
 </div>
 
@@ -26,6 +28,12 @@ $viewItemsLink = $this->url(
 </nav>
 
 <div id="item-set-metadata" class="active section">
+    <?php if ( $itemSet->resourceClass()): ?>
+        <div class="property">
+            <h4>Class</h4>
+            <div class="value"><?php echo $itemSet->resourceClass()->label(); ?></div>
+        </div>
+    <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>
 

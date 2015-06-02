@@ -39,25 +39,8 @@ $(document).ready(function() {
         <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
-    <?php if ($media->type() == 'html') {
-        $textarea = new Textarea("o:data[html]");
-        $textarea->setOptions(array(
-            'label' => $this->translate('HTML'),
-            'info'  => $this->translate('HTML or plain text.'),
-        ));
-        $data = $media->mediaData();
-        $textarea->setValue($data['html']);
-        
-        $textarea->setAttributes(
-                array(
-                    'rows' => 15,
-                    'id' => 'media-html',
-                    'required' => true
-                ));
-        $field = $this->formField($textarea);
-        echo $field;
-    }
-    ?>
+
+    <?php echo $this->media()->updateForm($media); ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>
 

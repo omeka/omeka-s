@@ -51,14 +51,14 @@ class Value extends AbstractEntity
     protected $value;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @Column(nullable=true)
      */
-    protected $valueTransformed;
+    protected $lang;
 
     /**
      * @Column(nullable=true)
      */
-    protected $lang;
+    protected $uriLabel;
 
     /**
      * @ManyToOne(targetEntity="Resource")
@@ -111,16 +111,6 @@ class Value extends AbstractEntity
         return $this->value;
     }
 
-    public function setValueTransformed($valueTransformed)
-    {
-        $this->valueTransformed = $valueTransformed;
-    }
-
-    public function getValueTransformed()
-    {
-        return $this->valueTransformed;
-    }
-
     public function setLang($lang)
     {
         $this->lang = $lang;
@@ -129,6 +119,16 @@ class Value extends AbstractEntity
     public function getLang()
     {
         return $this->lang;
+    }
+
+    public function setUriLabel($uriLabel)
+    {
+        $this->uriLabel = $uriLabel;
+    }
+
+    public function getUriLabel()
+    {
+        return $this->uriLabel;
     }
 
     public function setValueResource(Resource $valueResource = null)

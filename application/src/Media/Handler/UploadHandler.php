@@ -2,7 +2,6 @@
 namespace Omeka\Media\Handler;
 
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractFileHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
@@ -18,12 +17,6 @@ class UploadHandler extends AbstractFileHandler
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('Upload');
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
 
     /**
      * {@inheritDoc}

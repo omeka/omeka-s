@@ -225,6 +225,7 @@ return array(
             'formElements'           => 'Omeka\View\Helper\FormElements',
             'formField'              => 'Omeka\View\Helper\FormField',
             'propertySelector'       => 'Omeka\View\Helper\PropertySelector',
+            'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
         ),

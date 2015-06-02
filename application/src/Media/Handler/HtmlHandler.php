@@ -88,13 +88,6 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $html = $data['o:media']['__index__']['o:html'];
         $media->setData(array('html' => $html));
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function validateUpdateRequest(Request $request, ErrorStore $errorStore)
-    {
-    }
 
     /**
      * {@inheritDoc}

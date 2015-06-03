@@ -18,6 +18,12 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
     {
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
+        $js = "
+            $(document).ready(function() {
+                $('textarea.media-html').ckeditor();
+            });
+        ";
+        $view->headscript()->appendScript($js);
         $textarea = new Textarea('o:media[__index__][o:html]');
         $textarea->setOptions(array(
             'label' => $view->translate('HTML'),

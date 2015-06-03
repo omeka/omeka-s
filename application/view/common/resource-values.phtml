@@ -29,7 +29,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         $comment = $propertyData['property']->comment();
     }
     ?>
-    <h4><?php echo $label; ?></h4>
+    <h4><?php echo $label; ?> <span class="field-term">(<?php echo $term; ?>)</span></h4>
     <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value; ?></div>

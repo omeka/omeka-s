@@ -69,12 +69,9 @@ $('#new-media-type').change(function () {
 
     var template = $('#media-template-' + type).data('template');
     $('#media-list').append(
-        $.parseHTML(template.replace(/__index__/g, index++))
+        template.replace(/__index__/g, index++)
     );
     $(this).val('');
-    if (type == 'html') {
-        $('textarea.media-html').ckeditor();
-    }
     $('html, body').animate({
         scrollTop: ($('.media-field-wrapper').last().offset().top -100)
     },200);

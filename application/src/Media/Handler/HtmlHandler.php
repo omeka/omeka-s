@@ -24,7 +24,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
             });
         ";
         $view->headscript()->appendScript($js);
-        $textarea = new Textarea('o:media[__index__][o:html]');
+        $textarea = new Textarea('o:media[__index__][html]');
         $textarea->setOptions(array(
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
@@ -56,7 +56,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
             });
         ";
         $view->headscript()->appendScript($js);
-        $textarea = new Textarea('o:media[__index__][o:html]');
+        $textarea = new Textarea('o:media[__index__][html]');
         $textarea->setOptions(array(
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
@@ -93,8 +93,8 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        if (isset($data['o:html'])) {
-            $html = $data['o:html'];
+        if (isset($data['html'])) {
+            $html = $data['html'];
             $media->setData(array('html' => $html));
         }
     }
@@ -102,7 +102,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
     public function update(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        $html = $data['o:media']['__index__']['o:html'];
+        $html = $data['o:media']['__index__']['html'];
         $media->setData(array('html' => $html));
     }
 

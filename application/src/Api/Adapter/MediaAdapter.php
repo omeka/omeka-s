@@ -84,7 +84,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         $data = $request->getContent();
-
         if (isset($data['o:item']['o:id'])) {
             $item = $this->getAdapter('items')
                 ->findEntity($data['o:item']['o:id']);

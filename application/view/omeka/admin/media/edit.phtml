@@ -1,4 +1,6 @@
 <?php
+use Zend\Form\Element\Textarea;
+$this->headscript()->appendFile($this->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'edit media sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
@@ -10,6 +12,10 @@ $formElement = $this->plugin('formElement');
 
 <script type='text/javascript'>
 var valuesJson = <?php echo json_encode($media->values()); ?>;
+
+$(document).ready(function() {
+    CKEDITOR.replace('media-html');
+});
 </script>
 
 <h1><?php echo $this->translate('Edit Media'); ?>: "<?php echo $escape($media->displayTitle()); ?>"</h1>
@@ -33,6 +39,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="submit" name="add-item-submit" value="Save" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
+
     <?php echo $this->media()->updateForm($media); ?>
     <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>

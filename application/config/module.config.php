@@ -236,6 +236,7 @@ return array(
             'url'     => 'Omeka\Media\Handler\UrlHandler',
             'oembed'  => 'Omeka\Media\Handler\OEmbedHandler',
             'youtube' => 'Omeka\Media\Handler\YoutubeHandler',
+            'html'    => 'Omeka\Media\Handler\HtmlHandler'
         ),
     ),
     'file_renderers' => array(

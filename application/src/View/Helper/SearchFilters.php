@@ -93,6 +93,13 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
 
+                    // Search resource template
+                    case 'resource_template_id':
+                            $filterLabel = $translate('Resource Template');
+                            $filterValue = $api->read('resource_templates', $value, array('label'))->getContent()->label();
+                            $filters[$filterLabel][] = $filterValue;
+                        break;
+
                     default:
                         $filters[$filterLabel][] = $filterValue;
                         break;

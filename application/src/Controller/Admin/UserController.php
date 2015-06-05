@@ -80,7 +80,7 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api()->update('users', $id, $formData);
+                $response = $this->api()->update('users', $id, $formData, array(), true);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {

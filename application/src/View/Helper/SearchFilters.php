@@ -100,6 +100,13 @@ class SearchFilters extends AbstractHelper
                             $filters[$filterLabel][] = $filterValue;
                         break;
 
+                    // Search item set
+                    case 'item_set_id':
+                        $filterLabel = $translate('Item Set');
+                        $filterValue = $api->read('item_sets', $value, array('label'))->getContent()->displayTitle();
+                        $filters[$filterLabel][] = $filterValue;
+                        break;
+
                     default:
                         $filters[$filterLabel][] = $filterValue;
                         break;

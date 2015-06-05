@@ -18,9 +18,10 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <div class="media value row">
         <ul class='actions'>
             <li><?php echo $media->link('', 'edit', array(
-                'class' => 'o-icon-edit',
+                'class'      => 'o-icon-edit',
                 'aria-label' => $this->translate('Edit'),
-                'title' => $this->translate('Edit'),
+                'title'      => $this->translate('Edit'),
+                'target'     => '_blank'
             )); ?></li>
             <li>
                 <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>

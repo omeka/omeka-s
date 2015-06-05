@@ -114,12 +114,12 @@
             $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
             var isPublicHiddenValue = $('input[name="o:is_public"]');
             if (isPublicHiddenValue.val() == 0) {
-                isPublicIcon.attr('aria-label', 'Make public');
-                isPublicIcon.attr('title', 'Make public');
-                isPublicHiddenValue.attr('value', 1);
-            } else {
                 isPublicIcon.attr('aria-label', 'Make private');
                 isPublicIcon.attr('title', 'Make private');
+                isPublicHiddenValue.attr('value', 1);
+            } else {
+                isPublicIcon.attr('aria-label', 'Make public');
+                isPublicIcon.attr('title', 'Make public');
                 isPublicHiddenValue.attr('value', 0);
             }
         });

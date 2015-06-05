@@ -2,7 +2,6 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<?php if ($item && $item->itemSets()): ?>
 <table id="item-item-sets">
     <thead>
     <tr>
@@ -12,6 +11,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </tr>
     </thead>
     <tbody>
+    <?php if ($item && $item->itemSets()): ?>
     <?php foreach ($item->itemSets() as $itemSet): ?>
     <tr>
         <td><?php echo $itemSet->displayTitle(); ?></td>
@@ -21,9 +21,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
     </tr>
     <?php endforeach; ?>
+    <?php endif; ?>
     </tbody>
 </table>
-<?php endif; ?>
 
 <?php
 $itemSetTemplate = '

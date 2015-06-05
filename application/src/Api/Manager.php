@@ -197,6 +197,7 @@ class Manager implements ServiceLocatorAwareInterface
                     $response = $adapter->read($request);
                     break;
                 case Request::UPDATE:
+                case Request::PARTIAL_UPDATE:
                     $response = $adapter->update($request);
                     break;
                 case Request::DELETE:

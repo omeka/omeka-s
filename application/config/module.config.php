@@ -191,6 +191,7 @@ return array(
             'Omeka\Controller\Admin\Site'             => 'Omeka\Controller\Admin\SiteController',
             'Omeka\Controller\Admin\Setting'          => 'Omeka\Controller\Admin\SettingController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
+            'Omeka\Controller\SiteAdmin\Page'         => 'Omeka\Controller\SiteAdmin\PageController',
         ),
     ),
     'controller_plugins' => array(

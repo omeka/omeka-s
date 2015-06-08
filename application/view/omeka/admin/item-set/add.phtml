@@ -9,40 +9,17 @@ $formElement = $this->plugin('formElement');
 ?>
 <h1><?php echo $this->translate('Add Item Set'); ?></h1>
 
-<form method='post' id='add-item-set'>
 
     <nav class="section-nav">
         <ul>
             <li class="active"><a href="#resource-values">Values</a></li>
         </ul>
     </nav>
-
-    <?php 
-    
-        //produces a <fieldset> with the id and class atts passed in.
-        //on, e.g., the item add/edit pages, the id will work with the classes on 
-        //the nav lis above. (see globals.js)  
-        echo $this->partial(
-                'common/resource-fields.phtml',
-                array(
-                    'id' => 'resource-values',
-                    'class' => 'section active',
-                    'form' => $form
-                ));
-    ?>
-
-    <fieldset id="page-actions">
-        <div class="o-icon-view visibility">
-            <label for="o:is_public"><?php echo $escape('Public'); ?></label>
-            <input type="checkbox" id="o:is_public" name="o:is_public">
-        </div>
-        
-        <input type="submit" name="add-item-submit" value="Add item set" />
-    </fieldset>
-    <?php echo $this->formElement($form->get('csrf')); ?>
-</form>
-
-
-<?php 
-        echo $this->partial('common/resource-form-templates.phtml');
+<?php
+echo $this->partial('omeka/admin/item-set/form.phtml', array(
+    'form' => $form,
+    'itemSet' => $itemSet,
+    'submitLabel' => $this->translate('Save'),
+    'deleteButton' => $deleteButton
+));
 ?>

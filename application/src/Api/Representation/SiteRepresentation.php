@@ -14,7 +14,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function getJsonLd()
     {
         $entity = $this->getData();
-        return array(
+        $jsonLd = array(
             'o:slug'       => $entity->getSlug(),
             'o:theme'      => $entity->getTheme(),
             'o:title'      => $entity->getTitle(),
@@ -25,6 +25,13 @@ class SiteRepresentation extends AbstractEntityRepresentation
                 $this->getAdapter('users')
             ),
         );
+
+        $pageAdapter = $this->getAdapter('site_pages');
+        foreach ($entity->getPages() as $page) {
+            $jsonLd['o:page'][] = $this->getReference(
+                null, $page, $pageAdapter);
+        }
+        return $jsonLd;
     }
 
     public function slug()

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form;
 
-class SiteForm extends AbstractForm
+class SitePageForm extends AbstractForm
 {
     public function buildForm()
     {
@@ -26,20 +26,6 @@ class SiteForm extends AbstractForm
             ),
             'attributes' => array(
                 'id' => 'title',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
-            'name' => 'o:theme',
-            'type' => 'Select',
-            'options' => array(
-                'label' => $translator->translate('Theme'),
-                'value_options' => array(
-                    'default' => $translator->translate('Default')
-                )
-            ),
-            'attributes' => array(
-                'id' => 'theme',
                 'required' => true,
             ),
         ));

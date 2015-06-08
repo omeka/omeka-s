@@ -1292,7 +1292,11 @@ th {
   }
 
   .items .no-resources:before {
-    content: "";
+    content: "";
+  }
+
+  .media .no-resources:before {
+    content: "";
   }
 
   .modules .no-resources:before {
@@ -1301,6 +1305,22 @@ th {
 
   .vocabs .no-resources:before {
     content: "";
+  }
+
+  .resource-templates .no-resources:before {
+    content: "";
+  }
+
+  .users .no-resources:before {
+    content: "";
+  }
+
+  .jobs .no-resources:before {
+    content: "";
+  }
+
+  .sites .no-resources:before {
+    content: "";
   }
 
   /* @group ----- Search ----- */

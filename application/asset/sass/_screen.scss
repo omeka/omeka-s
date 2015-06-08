@@ -892,7 +892,11 @@ body.sidebar-open #content {
 }
 
 .items .no-resources:before {
-    content: $fa-var-cubes;
+    content: $fa-var-cube;
+}
+
+.media .no-resources:before {
+    content: $fa-var-image;
 }
 
 .modules .no-resources:before {
@@ -903,6 +907,21 @@ body.sidebar-open #content {
     content: $fa-var-book;
 }
 
+.resource-templates .no-resources:before {
+    content: $fa-var-pencil-square;
+}
+
+.users .no-resources:before {
+    content: $fa-var-users;
+}
+
+.jobs .no-resources:before {
+    content: $fa-var-tasks;
+}
+
+.sites .no-resources:before {
+    content: $fa-var-laptop;
+}
     /* @group ----- Search ----- */
 
     #advanced-options {

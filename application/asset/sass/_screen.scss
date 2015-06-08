@@ -895,7 +895,7 @@ body.sidebar-open #content {
     content: $fa-var-cube;
 }
 
-.media .no-resources:before {
+.media .no-resources:before, #media-list .no-resources:before {
     content: $fa-var-image;
 }
 

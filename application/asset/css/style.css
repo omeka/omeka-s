@@ -1295,7 +1295,7 @@ th {
     content: "";
   }
 
-  .media .no-resources:before {
+  .media .no-resources:before, #media-list .no-resources:before {
     content: "";
   }
 

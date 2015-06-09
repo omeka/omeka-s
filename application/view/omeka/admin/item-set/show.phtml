@@ -53,5 +53,6 @@ $viewItemsLink = $this->url(
     <div class="property">
         <h4>Visibility</h4>
         <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr('Public') : $escapeAttr('Private'); ?></div>
+        <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr('Open to additions') : $escapeAttr('Closed to additions'); ?></div>
     </div>
 </div>

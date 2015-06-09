@@ -58,6 +58,6 @@ class ResourceSelect extends Select
                 $valueOptions[$representation->id()] = $value;
             }
         }
-        $this->setValueOptions($valueOptions);
+        return $this->setValueOptions($valueOptions);
     }
 }

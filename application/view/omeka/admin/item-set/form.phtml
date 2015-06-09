@@ -39,7 +39,7 @@ echo $this->partial(
         <input type="hidden" name="o:is_open" value="0">
         <?php endif; ?>
         
-        <?php if ($itemSet && $itemSet->isPublic()): ?>
+        <?php if ($itemSet && $itemSet->isPublic() || !isset($itemSet) ): ?>
         <a href="#" class="o-icon-public button" aria-label="Make private" title="Make private"></a>
         <input type="hidden" name="o:is_public" value="1">
         <?php else: ?>

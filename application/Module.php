@@ -85,6 +85,12 @@ class Module extends AbstractModule
             OmekaEvent::ENTITY_REMOVE_POST,
             array($this, 'deleteMediaFiles')
         );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Representation\MediaRepresentation',
+            OmekaEvent::JSON_LD_FILTER,
+            array($this, 'filterHtmlMediaJsonLd')
+        );
     }
 
     /**
@@ -133,5 +139,24 @@ class Module extends AbstractModule
         if ($media->hasThumbnails()) {
             $fileManager->deleteThumbnails($media);
        }
+    }
+
+    /**
+     * Filter the JSON-LD for HTML media.
+     *
+     * @param Event $event
+     */
+    public function filterHtmlMediaJsonLd(Event $event)
+    {
+        if ('html' !== $event->getTarget()->type()) {
+            return;
+        }
+        $data = $event->getTarget()->mediaData();
+        $jsonLd = $event->getParam('jsonLd');
+        $jsonLd['@context']['cnt'] = 'http://www.w3.org/2011/content#';
+        $jsonLd['@type'] = 'cnt:ContentAsText';
+        $jsonLd['cnt:chars'] = $data['html'];
+        $jsonLd['cnt:characterEncoding'] = 'UTF-8';
+        $event->setParam('jsonLd', $jsonLd);
     }
 }

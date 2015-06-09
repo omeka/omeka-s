@@ -95,11 +95,11 @@ class Manager implements ServiceLocatorAwareInterface
     public function update($resource, $id, $data = array(), $fileData = array(),
         $partial = false
     ) {
-        $operation = $partial ? Request::PARTIAL_UPDATE: Request::UPDATE;
-        $request = new Request($operation, $resource);
+        $request = new Request(Request::UPDATE, $resource);
         $request->setId($id);
         $request->setContent($data);
         $request->setFileData($fileData);
+        $request->setIsPartial($partial);
         return $this->execute($request);
     }
 
@@ -197,7 +197,6 @@ class Manager implements ServiceLocatorAwareInterface
                     $response = $adapter->read($request);
                     break;
                 case Request::UPDATE:
-                case Request::PARTIAL_UPDATE:
                     $response = $adapter->update($request);
                     break;
                 case Request::DELETE:

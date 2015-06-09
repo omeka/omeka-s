@@ -14,7 +14,6 @@ class Request extends ZendRequest
     const BATCH_CREATE = 'batch_create';
     const READ         = 'read';
     const UPDATE       = 'update';
-    const PARTIAL_UPDATE = 'partial_update';
     const DELETE       = 'delete';
 
     /**
@@ -26,7 +25,6 @@ class Request extends ZendRequest
         self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
-        self::PARTIAL_UPDATE,
         self::DELETE,
     );
 
@@ -149,5 +147,26 @@ class Request extends ZendRequest
     public function getFileData()
     {
         return $this->getMetadata('fileData');
+    }
+
+    /**
+     * Set whether this is a partial request (used for partial update, aka
+     * PATCH)
+     *
+     * @param boolean isPartial
+     */
+    public function setIsPartial($isPartial)
+    {
+        $this->setMetadata('isPartial', (bool) $isPartial);
+    }
+
+    /**
+     * Whether this is a partial request.
+     *
+     * @return boolean
+     */
+    public function isPartial()
+    {
+        return $this->getMetadata('isPartial', false);
     }
 }

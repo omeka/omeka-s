@@ -32,11 +32,8 @@ $formElement = $this->plugin('formElement');
     ?>
 
     <fieldset id="page-actions">
-        <div class="o-icon-view visibility">
-            <label for="o:is_public"><?php echo $escape('Public'); ?></label>
-            <input type="checkbox" id="o:is_public" name="o:is_public">
-        </div>
-        
+        <a href="#" class="o-icon-public button" aria-label="Make private" title="Make private"></a>
+        <input type="hidden" name="o:is_public" value="1">
         <input type="submit" name="add-item-submit" value="Add item set" />
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>

@@ -65,6 +65,14 @@ class Event extends ZendEvent
     /**#@-*/
 
     /**#@+
+     * Events triggered by API resource representations.
+     *
+     * All classes that extend {@link Omeka\Api\Representation\AbstractResourceRepresentation}
+     * trigger these events.
+     */
+    const JSON_LD_FILTER = 'json_ld.filter';
+
+    /**#@+
      * Events triggered by views.
      *
      * Use the view's controller name as the event identifier.

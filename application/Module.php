@@ -91,6 +91,12 @@ class Module extends AbstractModule
             OmekaEvent::JSON_LD_FILTER,
             array($this, 'filterHtmlMediaJsonLd')
         );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Representation\MediaRepresentation',
+            OmekaEvent::JSON_LD_FILTER,
+            array($this, 'filterYoutubeMediaJsonLd')
+        );
     }
 
     /**
@@ -157,6 +163,30 @@ class Module extends AbstractModule
         $jsonLd['@type'] = 'cnt:ContentAsText';
         $jsonLd['cnt:chars'] = $data['html'];
         $jsonLd['cnt:characterEncoding'] = 'UTF-8';
+        $event->setParam('jsonLd', $jsonLd);
+    }
+
+    /**
+     * Filter the JSON-LD for YouTube media.
+     *
+     * @param Event $event
+     */
+    public function filterYoutubeMediaJsonLd(Event $event)
+    {
+        if ('youtube' !== $event->getTarget()->type()) {
+            return;
+        }
+        $data = $event->getTarget()->mediaData();
+        $jsonLd = $event->getParam('jsonLd');
+        $jsonLd['@context']['time'] = 'http://www.w3.org/2006/time#';
+        $jsonLd['time:hasBeginning'] = array(
+            '@value' => $data['start'],
+            '@type' => 'time:seconds',
+        );
+        $jsonLd['time:hasEnd'] = array(
+            '@value' => $data['end'],
+            '@type' => 'time:seconds',
+        );
         $event->setParam('jsonLd', $jsonLd);
     }
 }

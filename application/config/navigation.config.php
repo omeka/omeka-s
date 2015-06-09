@@ -132,12 +132,13 @@ return array(
             ),
             array(
                 'label'      => 'Settings',
+                'class'      => 'settings',
                 'route'      => 'admin/default',
                 'controller' => 'setting',
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Setting',
+                'privilege'  => 'browse',
             ),
-
         ),
         'user' => array(
             array(

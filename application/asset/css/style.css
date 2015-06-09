@@ -1292,7 +1292,11 @@ th {
   }
 
   .items .no-resources:before {
-    content: "";
+    content: "";
+  }
+
+  .media .no-resources:before, #media-list .no-resources:before {
+    content: "";
   }
 
   .modules .no-resources:before {
@@ -1301,6 +1305,22 @@ th {
 
   .vocabs .no-resources:before {
     content: "";
+  }
+
+  .resource-templates .no-resources:before {
+    content: "";
+  }
+
+  .users .no-resources:before {
+    content: "";
+  }
+
+  .jobs .no-resources:before {
+    content: "";
+  }
+
+  .sites .no-resources:before {
+    content: "";
   }
 
   /* @group ----- Search ----- */
@@ -2067,6 +2087,21 @@ th {
 
   /* @end */
   /* @group ----- Item Sets ----- */
+  #item-item-sets + .no-resources {
+    display: none;
+  }
+
+  #item-item-sets.empty {
+    display: none;
+  }
+  #item-item-sets.empty + .no-resources {
+    display: block;
+    padding: 0 1.5em;
+  }
+  #item-item-sets.empty + .no-resources:before {
+    content: "";
+  }
+
   #item-item-sets tr.delete {
     background-color: #ffcccc;
   }

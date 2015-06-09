@@ -5,6 +5,7 @@ use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Test\TestCase;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AbstractEntityAdapterTest extends TestCase
@@ -105,4 +106,6 @@ class TestRepresentation implements RepresentationInterface
     public function jsonSerialize(){}
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator){}
     public function getServiceLocator(){}
+    public function setEventManager(EventManagerInterface $eventManager){}
+    public function getEventManager(){}
 }

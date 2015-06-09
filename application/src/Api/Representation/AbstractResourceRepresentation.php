@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Event\Event;
 
 /**
  * Abstract API resource representation.
@@ -77,15 +78,24 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
-        $jsonLd = $this->getJsonLd();
-        return array_merge(
+        $jsonLd = array_merge(
             array(
                 '@context' => $this->context,
                 '@id' => $this->apiUrl(),
                 'o:id' => $this->id(),
             ),
-            $jsonLd
+            $this->getJsonLd()
         );
+
+        // Filter the JSON-LD.
+        $args = array(
+            'jsonLd' => $jsonLd,
+            'services' => $this->getServiceLocator(),
+        );
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs($args);
+        $eventManager->trigger(Event::JSON_LD_FILTER, $this, $args);
+        return $args['jsonLd'];
     }
 
     /**

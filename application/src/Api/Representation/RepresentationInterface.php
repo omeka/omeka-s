@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Zend\EventManager\EventManagerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\JsonSerializable;
 
@@ -15,7 +16,8 @@ use Zend\Stdlib\JsonSerializable;
  */
 interface RepresentationInterface extends
     JsonSerializable,
-    ServiceLocatorAwareInterface
+    ServiceLocatorAwareInterface,
+    EventManagerAwareInterface
 {
     /**
      * Serialize the data to a JSON-LD compatible format.

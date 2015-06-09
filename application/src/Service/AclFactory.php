@@ -518,7 +518,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            array('create', 'update'),
+            'update',
             new IsSelfAssertion
         );
     }

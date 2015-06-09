@@ -8,18 +8,10 @@ $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 ?>
 <h1><?php echo $this->translate('Add Item Set'); ?></h1>
-
-
-    <nav class="section-nav">
-        <ul>
-            <li class="active"><a href="#resource-values">Values</a></li>
-        </ul>
-    </nav>
 <?php
 echo $this->partial('omeka/admin/item-set/form.phtml', array(
     'form' => $form,
-    'itemSet' => $itemSet,
+    'itemSet' => null,
     'submitLabel' => $this->translate('Save'),
-    'deleteButton' => $deleteButton
 ));
 ?>

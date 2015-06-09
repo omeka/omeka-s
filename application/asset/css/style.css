@@ -2087,6 +2087,21 @@ th {
 
   /* @end */
   /* @group ----- Item Sets ----- */
+  #item-item-sets + .no-resources {
+    display: none;
+  }
+
+  #item-item-sets.empty {
+    display: none;
+  }
+  #item-item-sets.empty + .no-resources {
+    display: block;
+    padding: 0 1.5em;
+  }
+  #item-item-sets.empty + .no-resources:before {
+    content: "";
+  }
+
   #item-item-sets tr.delete {
     background-color: #ffcccc;
   }

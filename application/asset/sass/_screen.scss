@@ -1703,6 +1703,23 @@ body.sidebar-open #content {
 
     /* @group ----- Item Sets ----- */
 
+    #item-item-sets + .no-resources {
+        display: none;
+    }
+
+    #item-item-sets.empty {
+        display: none;
+
+        & + .no-resources {
+            display: block;
+            padding: 0 rhythm();
+
+            &:before {
+                content: $fa-var-cubes;
+            }
+        }
+    }
+
     #item-item-sets tr.delete {
         background-color: #ffcccc;
     }

@@ -545,7 +545,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function shouldHydrate(Request $request, $key)
     {
-        if (Request::PARTIAL_UPDATE == $request->getOperation()) {
+        if ($request->getOperation() === Request::UPDATE
+            && $request->isPartial()
+        ) {
             // Conditionally hydrate on partial_update operation.
             return array_key_exists($key, $request->getContent());
         }

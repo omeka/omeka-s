@@ -12,8 +12,9 @@ use Zend\View\Model\ViewModel;
 class UserController extends AbstractActionController
 {
     public function addAction()
-    {
-        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => true));
+    {   
+        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed('Omeka\Entity\User', 'change-role');
+        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
@@ -68,11 +69,12 @@ class UserController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new UserForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
+        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed($user->getEntity(), 'change-role');
+        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
         $data = $user->jsonSerialize();
         $form->setData($data);
 

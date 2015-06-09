@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Event\Event;
-use Omeka\Event\FilterEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 

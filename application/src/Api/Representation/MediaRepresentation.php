@@ -18,7 +18,6 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     {
         return array(
             'o:type' => $this->type(),
-            'o:data' => $this->mediaData(),
             'o:item' => $this->getReference(
                 null,
                 $this->getData()->getItem(),
@@ -28,7 +27,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:media_type' => $this->mediaType(),
             'o:filename'   => $this->filename(),
             'o:original_url' => $this->originalUrl(),
-            'o:thumbnail_urls' => $this->thumbnailUrls()
+            'o:thumbnail_urls' => $this->thumbnailUrls(),
+            'data' => $this->mediaData(),
         );
     }
 

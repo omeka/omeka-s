@@ -95,8 +95,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         $entity->setType($data['o:type']);
         $handler->ingest($entity, $request, $errorStore);
 
-        if (isset($data['o:data'])) {
-            $entity->setData($data['o:data']);
+        if (isset($data['data'])) {
+            $entity->setData($data['data']);
         }
 
         if (array_key_exists('o:source', $data)) {

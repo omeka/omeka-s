@@ -518,7 +518,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            array('create', 'update'),
+            'update',
             new IsSelfAssertion
         );
     }
@@ -561,5 +561,11 @@ class AclFactory implements FactoryInterface
     protected function addRulesForGlobalAdmin(Acl $acl)
     {
         $acl->allow('global_admin');
+        $acl->deny (
+            'global_admin',
+            'Omeka\Entity\User',
+            'change-role',
+            new IsSelfAssertion
+        );
     }
 }

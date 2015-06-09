@@ -5,6 +5,7 @@ use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Representation\ResourceReference;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\HelperPluginManager;
@@ -16,7 +17,7 @@ use Zend\View\HelperPluginManager;
  */
 abstract class AbstractRepresentation implements RepresentationInterface
 {
-    use ServiceLocatorAwareTrait;
+    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
 
     /**
      * @var mixed The information from which to derive this representation.

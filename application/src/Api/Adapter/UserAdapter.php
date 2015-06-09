@@ -62,6 +62,7 @@ class UserAdapter extends AbstractEntityAdapter
             $entity->setEmail($request->getValue('o:email'));
         }
         if ($this->shouldHydrate($request, 'o:role')) {
+            $this->authorize($entity, 'change-role');
             $entity->setRole($request->getValue('o:role'));
         }
     }

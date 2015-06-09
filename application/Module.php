@@ -70,10 +70,8 @@ class Module extends AbstractModule
     /**
      * {@inheritDoc}
      */
-    public function attachListeners(
-        SharedEventManagerInterface $sharedEventManager,
-        SharedEventManagerInterface $filterManager
-    ) {
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    {
         $sharedEventManager->attach(
             'Zend\View\Helper\Navigation\AbstractHelper',
             'isAllowed',

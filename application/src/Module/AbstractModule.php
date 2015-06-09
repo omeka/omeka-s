@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Module;
 
-use Omeka\Event\FilterEvent;
 use ReflectionClass;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -29,10 +28,7 @@ abstract class AbstractModule implements ConfigProviderInterface
     public function onBootstrap(MvcEvent $event)
     {
         $this->setServiceLocator($event->getApplication()->getServiceManager());
-        $this->attachListeners(
-            $this->getServiceLocator()->get('SharedEventManager'),
-            $this->getServiceLocator()->get('Omeka\FilterManager')
-        );
+        $this->attachListeners($this->getServiceLocator()->get('SharedEventManager'));
     }
 
     /**
@@ -81,8 +77,6 @@ abstract class AbstractModule implements ConfigProviderInterface
     {}
 
     /**
-     * Attach shared event and filter listeners.
-     *
      * Attach listeners to the $sharedEventManager for shared events:
      *
      * <code>
@@ -96,28 +90,10 @@ abstract class AbstractModule implements ConfigProviderInterface
      * The shared event callbacks receive a
      * {@link \Zend\EventManager\EventInterface} object as its only parameter.
      *
-     * Attach listeners to the $filterManager for filters:
-     *
-     * <code>
-     * $filterManager->attach(
-     *     'Omeka\Identifier',
-     *     'filter_name',
-     *     array($this, 'myFilterCallback')
-     * );
-     * </code>
-     *
-     * The filter callback receives the argument to filter as the first
-     * parameter and a {@link \Zend\EventManager\EventInterface} object as the
-     * second. Callbacks should filter the argument and return it. This ignores
-     * events that aren't specifically declared as filter events.
-     *
      * @param SharedEventManagerInterface $sharedEventManager
-     * @param SharedEventManagerInterface $filterManager
      */
-    public function attachListeners(
-        SharedEventManagerInterface $sharedEventManager,
-        SharedEventManagerInterface $filterManager
-    ) {}
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    {}
 
     /**
      * Return module-specific configuration.

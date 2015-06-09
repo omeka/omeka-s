@@ -143,7 +143,6 @@ return array(
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\ApiManager'          => 'Omeka\Api\Manager',
-            'Omeka\FilterManager'       => 'Omeka\Event\FilterManager',
             'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Settings'            => 'Omeka\Service\Settings',

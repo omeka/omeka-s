@@ -429,34 +429,42 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
-     * Find a single entity by identifier.
+     * Find a single entity by criteria.
      *
      * @throws Exception\NotFoundException
-     * @param mixed $id
+     * @param mixed $criteria
      * @param Request|null $request
      * @return EntityInterface
      */
-    protected function findEntity($id, $request = null)
+    protected function findEntity($criteria, $request = null)
     {
+        if (!is_array($criteria)) {
+            $criteria = array('id' => $criteria);
+        }
+
         $entityClass = $this->getEntityClass();
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select($entityClass)->from($entityClass, $entityClass)
-            ->where($qb->expr()->eq(
-                "$entityClass.id",
-                $this->createNamedParameter($qb, $id)
+        $qb->select($entityClass)->from($entityClass, $entityClass);
+        foreach ($criteria as $field => $value) {
+            $qb->andWhere($qb->expr()->eq(
+                "$entityClass.$field",
+                $this->createNamedParameter($qb, $value)
             ));
+        }
+        $qb->setMaxResults(1);
+
         $event = new Event(Event::API_FIND_QUERY, $this, array(
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
         ));
+
         $this->getEventManager()->trigger($event);
-        try {
-            $entity = $qb->getQuery()->getSingleResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
+        $entity = $qb->getQuery()->getOneOrNullResult();
+        if (!$entity) {
             throw new Exception\NotFoundException(sprintf(
-                $this->getTranslator()->translate('%s entity with ID %s not found'),
-                $this->getEntityClass(), $id
+                $this->getTranslator()->translate('%s entity with criteria %s not found'),
+                $this->getEntityClass(), json_encode($criteria)
             ));
         }
         return $entity;

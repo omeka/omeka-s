@@ -13,10 +13,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
     <?php endif; ?>
-    <?php echo $this->hyperlink($this->translate('Search item sets'), $this->url(null, array('action' => 'search'), true), array('class' => 'button')); ?>
 </div>
 
 <?php if (count($itemSets) > 0): ?>
+
+    <?php echo $this->hyperlink($this->translate('Advanced item sets search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search button')); ?>
+
 
 <?php echo $this->pagination(); ?>
 

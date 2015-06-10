@@ -1,3 +1,4 @@
+<?php $escapeAttr = $this->plugin('escapeHtmlAttr'); ?>
 <header>
     <div class="logo"><a href="<?php echo $this->url('admin'); ?>">Omeka S</a></div>
     <div id="mobile-nav">
@@ -19,7 +20,7 @@
     <div id="search">
         <form action="#" id="search-form">
             <?php $searchValue = isset($_GET['value']['in'][0]) ? $_GET['value']['in'][0] : ''; ?>
-            <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>">
+            <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>" placeholder="<?php echo $escapeAttr('Search items'); ?>">
             <button type="button" id="advanced">Advanced Options</button>
             <button type="submit">Search</button>
             <fieldset id="advanced-options">
@@ -36,8 +37,11 @@
 
 <script>
     $('#search-form').change(function() {
-        var actionURL = $("#advanced-options input[type='radio']:checked ").data('action');
+        var checkedOption = $("#advanced-options input[type='radio']:checked ");
+        var checkedLabel = checkedOption.next().text().toLowerCase();
+        var actionURL = checkedOption.data('action');
         $("#search-form").attr("action", actionURL);
+        $("#search-form > input[type='text']").attr("placeholder", "Search " + checkedLabel);
     });
 
     $('#advanced').click(function(event) {

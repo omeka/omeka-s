@@ -9,11 +9,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php echo $this->searchFilters(); ?>
 
-<div id="page-actions">
-    <?php echo $this->hyperlink($this->translate('Search media'), $this->url(null, array('action' => 'search'), true), array('class' => 'button')); ?>
-</div>
-
 <?php if (count($medias) > 0): ?>
+
+<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search button')); ?>
 
 <?php echo $this->pagination(); ?>
 

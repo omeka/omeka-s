@@ -29,7 +29,7 @@ class Module extends AbstractModule
         'trigger'    => 'Omeka\View\Helper\Trigger',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'searchFilters' => 'Omeka\View\Helper\SearchFilters',
-        'settings' => 'Omeka\View\Helper\Settings',
+        'setting' => 'Omeka\View\Helper\Setting',
     );
 
     /**

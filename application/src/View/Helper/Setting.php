@@ -7,7 +7,7 @@ use Zend\View\Helper\AbstractHelper;
 /**
  * Helper to get settings from the settings service.
  */
-class Settings extends AbstractHelper
+class Setting extends AbstractHelper
 {
     /**
      * @var \Omeka\Service\Settings
@@ -32,7 +32,7 @@ class Settings extends AbstractHelper
      * @param string $id
      * @return mixed
      */
-    public function get($id, $default = null)
+    public function __invoke($id, $default = null)
     {
         return $this->settings->get($id, $default);
     }

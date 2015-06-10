@@ -19,6 +19,20 @@ class SettingForm extends AbstractForm
             ),
         ));
 
+        $this->add(array(
+            'name' => 'property_label_information',
+            'type' => 'Select',
+            'options' => array(
+                'label' => $translator->translate('Property Label Information'),
+                'info' => $translator->translate('The additional information that accompanies labels on resource pages.'),
+                'value_options' => array (                    
+                    '0' => 'None',
+                    '1' => 'Show Vocabulary',
+                    '2' => 'Show Term'
+                ),
+            )
+        ));
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
             'name' => 'pagination_per_page',

@@ -15,6 +15,7 @@ class SettingController extends AbstractActionController
         $form = new SettingForm($serviceLocator);
         $data = array(
             'pagination_per_page' => $settings->get('pagination_per_page'),
+            'property_label_information' => $settings->get('property_label_information'),
         );
         $form->setData($data);
 

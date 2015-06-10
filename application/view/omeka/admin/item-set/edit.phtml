@@ -2,7 +2,6 @@
 $this->htmlElement('body')->appendAttribute('class', 'edit item-set sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $deleteButton = '<a href="#" class="delete button sidebar-confirm" 
     data-sidebar-confirm-url="' . $escapeAttr($itemSet->url('delete')) . 

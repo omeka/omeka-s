@@ -543,6 +543,10 @@ class AclFactory implements FactoryInterface
         );
         $acl->deny(
             'site_admin',
+            'Omeka\Controller\Admin\Setting'
+        );
+        $acl->deny(
+            'site_admin',
             'Omeka\Api\Adapter\VocabularyAdapter',
             array('create', 'update', 'delete')
         );

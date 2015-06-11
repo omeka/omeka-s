@@ -49,7 +49,7 @@ class UserForm extends AbstractForm
                 'name' => 'o:role',
                 'type' => 'select',
                 'options' => array(
-                    'label' => 'Role',
+                    'label' => $translator->translate('Role'),
                     'value_options' => $roles,
                 ),
                 'attributes' => array(

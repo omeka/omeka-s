@@ -199,6 +199,7 @@ return array(
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
+            'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
         ),
     ),
     'api_adapters' => array(

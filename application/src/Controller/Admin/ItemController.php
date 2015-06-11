@@ -18,15 +18,9 @@ class ItemController extends AbstractActionController
 
     public function browseAction()
     {
-        $query = $this->getRequest()->getQuery();
-        if (!$query->get('sort_by')) {
-            $query->set('sort_by', 'created');
-            $query->set('sort_order', 'desc');
-        }
-        $page = $query->get('page', 1);
-        $query->set('page', $page);
+        $query = $this->setBrowseDefaults('created');
         $response = $this->api()->search('items', $query->toArray());
-        $this->paginator($response->getTotalResults(), $page);
+        $this->paginator($response->getTotalResults(), $query->get('page'));
 
         $view = new ViewModel;
         $view->setVariable('items', $response->getContent());

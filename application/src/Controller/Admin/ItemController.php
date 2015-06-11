@@ -58,23 +58,14 @@ class ItemController extends AbstractActionController
     
     public function sidebarSelectAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array('page' => $page);
-        if (!isset($query['sort_by'])) {
-            $query['sort_by'] = 'created';
-            $query['sort_order'] = 'desc';
-        }
-        $response = $this->api()->search('items', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('created');
+        $response = $this->api()->search('items', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('items', $response->getContent());
-        if (isset($query['value'])) {
-            $searchValue = $query['value']['in'][0];
-        } else {
-            $searchValue = '';
-        }
-        $view->setVariable('searchValue', $searchValue);
+        $value = $this->params()->fromQuery('value');
+        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
         $view->setTerminal(true);
         return $view;
     }

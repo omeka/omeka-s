@@ -12,10 +12,9 @@ class VocabularyController extends AbstractActionController
 {
     public function browseAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array('page' => $page);
-        $response = $this->api()->search('vocabularies', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('label', 'asc');
+        $response = $this->api()->search('vocabularies', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('vocabularies', $response->getContent());
@@ -137,17 +136,13 @@ class VocabularyController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
 
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page' => $page,
-            'vocabulary_id' => $this->params('id'),
-            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
-        );
-        $propResponse = $this->api()->search('properties', $query);
+        $this->setBrowseDefaults('label', 'asc');
+        $this->getRequest()->getQuery()->set('vocabulary_id', $this->params('id'));
+        $propResponse = $this->api()->search('properties', $this->params()->fromQuery());
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
+        $this->paginator($propResponse->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $this->paginator($propResponse->getTotalResults(), $page);
         $view->setVariable('properties', $propResponse->getContent());
         $view->setVariable('vocabulary', $vocabResponse->getContent());
         return $view;
@@ -159,17 +154,13 @@ class VocabularyController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
 
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page' => $page,
-            'vocabulary_id' => $this->params('id'),
-            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
-        );
-        $classResponse = $this->api()->search('resource_classes', $query);
+        $this->setBrowseDefaults('label', 'asc');
+        $this->getRequest()->getQuery()->set('vocabulary_id', $this->params('id'));
+        $classResponse = $this->api()->search('resource_classes', $this->params()->fromQuery());
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
+        $this->paginator($classResponse->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $this->paginator($classResponse->getTotalResults(), $page);
         $view->setVariable('resourceClasses', $classResponse->getContent());
         $view->setVariable('vocabulary', $vocabResponse->getContent());
         return $view;

@@ -30,6 +30,7 @@ class Module extends AbstractModule
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         'setting' => 'Omeka\View\Helper\Setting',
+        'params' => 'Omeka\View\Helper\Params',
     );
 
     /**

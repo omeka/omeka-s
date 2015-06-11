@@ -27,9 +27,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     } else {
         $label = $escape($propertyData['property']->label());
         $comment = $propertyData['property']->comment();
+        $vocabularyTitle = $propertyData['property']->vocabulary()->label();
     }
     ?>
-    <h4><?php echo $label; ?> <span class="field-term">(<?php echo $term; ?>)</span></h4>
+    <?php $propertyInfo = $this->settings()->get('property_label_information'); ?>
+    <?php if ($propertyInfo == 'none'): ?>
+        <h4><?php echo $label; ?></h4>
+    <?php elseif($propertyInfo == 'vocab'): ?>
+        <h4><?php echo $label; ?> <span class="field-term">(<?php echo $vocabularyTitle; ?>)</span></h4>
+    <?php else: ?>
+        <h4><?php echo $label; ?> <span class="field-term">(<?php echo $term; ?>)</span></h4>
+    <?php endif; ?>
     <?php foreach ($propertyData['values'] as $value): ?>
         <?php if ('resource' == $value->type()): ?>
         <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value; ?></div>

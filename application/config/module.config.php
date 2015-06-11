@@ -231,6 +231,7 @@ return array(
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         ),
     ),
     'media_handlers' => array(

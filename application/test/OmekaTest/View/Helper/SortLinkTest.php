@@ -40,15 +40,15 @@ class SortLinkTest extends TestCase
                     'sortOrder' => 'asc',
                 ))
             );
-        $partial = $this->getMockBuilder('Omeka\View\Helper\Params')
+        $params = $this->getMockBuilder('Omeka\View\Helper\Params')
             ->disableOriginalConstructor()
             ->getMock();
-        $partial->expects($this->exactly(3))
+        $params->expects($this->exactly(3))
             ->method('fromQuery')
             ->will($this->returnValue(array()));
         $view->expects($this->once())
             ->method('params')
-            ->will($this->returnValue($partial));
+            ->will($this->returnValue($params));
 
         $sortLink = new SortLink;
         $sortLink->setView($view);

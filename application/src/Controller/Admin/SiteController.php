@@ -71,10 +71,9 @@ class SiteController extends AbstractActionController
 
     public function browseAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array('page' => $page);
-        $response = $this->api()->search('sites', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('title');
+        $response = $this->api()->search('sites', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());

@@ -12,16 +12,6 @@ class SearchFilters extends AbstractHelper
     const PARTIAL_NAME = 'common/search-filters';
 
     /**
-     * Construct the helper.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->request = $serviceLocator->get('Request');
-    }
-
-    /**
      * Render filters from search query.
      *
      * @return array
@@ -35,7 +25,7 @@ class SearchFilters extends AbstractHelper
         $filters = array();
         $exclude = array('submit', 'page', 'sort_by', 'sort_order', 'resource-type');
         $api = $this->getView()->api();
-        $query = $this->request->getQuery()->toArray();
+        $query = $this->getView()->params()->fromQuery();
         $queryTypes = array(
             'eq' => $translate('has exact value(s)'),
             'neq' => $translate('does not have exact value(s)'),

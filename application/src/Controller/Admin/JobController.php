@@ -10,13 +10,9 @@ class JobController extends AbstractActionController
 {
     public function browseAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page' => $page,
-            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
-        );
-        $response = $this->api()->search('jobs', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('id');
+        $response = $this->api()->search('jobs', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());

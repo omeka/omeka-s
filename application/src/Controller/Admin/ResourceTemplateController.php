@@ -11,13 +11,9 @@ class ResourceTemplateController extends AbstractActionController
 {
     public function browseAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page' => $page,
-            'sort_by' => $this->params()->fromQuery('sort_by', 'label'),
-        );
-        $response = $this->api()->search('resource_templates', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('label');
+        $response = $this->api()->search('resource_templates', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());

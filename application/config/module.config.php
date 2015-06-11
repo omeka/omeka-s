@@ -199,6 +199,7 @@ return array(
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
+            'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
         ),
     ),
     'api_adapters' => array(
@@ -230,6 +231,7 @@ return array(
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         ),
     ),
     'media_handlers' => array(

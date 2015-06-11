@@ -19,11 +19,8 @@ class SetBrowseDefaults extends AbstractPlugin
     public function __invoke($sortBy, $sortOrder = 'desc', $page = 1)
     {
         $query = $this->getController()->getRequest()->getQuery();
-        if (!$query->get('sort_by')) {
-            $query->set('sort_by', $sortBy);
-            $query->set('sort_order', $sortOrder);
-        }
+        $query->set('sort_by', $query->get('sort_by', $sortBy));
+        $query->set('sort_order', $query->get('sort_order', $sortOrder));
         $query->set('page', $query->get('page', $page));
-        return $query;
     }
 }

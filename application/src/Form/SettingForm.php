@@ -26,9 +26,9 @@ class SettingForm extends AbstractForm
                 'label' => $translator->translate('Property Label Information'),
                 'info' => $translator->translate('The additional information that accompanies labels on resource pages.'),
                 'value_options' => array (                    
-                    '0' => 'None',
-                    '1' => 'Show Vocabulary',
-                    '2' => 'Show Term'
+                    'none' => 'None',
+                    'vocab' => 'Show Vocabulary',
+                    'term' => 'Show Term'
                 ),
             )
         ));

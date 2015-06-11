@@ -30,7 +30,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         $vocabularyTitle = $propertyData['property']->vocabulary()->label();
     }
     ?>
-    <?php $propertyInfo = $this->settings()->get('property_label_information'); ?>
+    <?php $propertyInfo = $this->setting('property_label_information'); ?>
     <?php if ($propertyInfo == 'none'): ?>
         <h4><?php echo $label; ?></h4>
     <?php elseif($propertyInfo == 'vocab'): ?>

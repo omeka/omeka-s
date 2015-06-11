@@ -673,8 +673,10 @@ div[role="main"] {
     vertical-align: middle;
 }
 
-.browse .advanced-search.button {
+.browse .advanced-search {
     float: right;
+    padding: rhythm(.25) 0;
+    display: block;
 }
 
 .actions {

@@ -1070,8 +1070,10 @@ th {
     vertical-align: middle;
   }
 
-  .browse .advanced-search.button {
+  .browse .advanced-search {
     float: right;
+    padding: 0.375em 0;
+    display: block;
   }
 
   .actions {

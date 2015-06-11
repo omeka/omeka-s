@@ -11,7 +11,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php if (count($medias) > 0): ?>
 
-<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search button')); ?>
+<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
 
 <?php echo $this->pagination(); ?>
 

@@ -17,7 +17,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php if (count($itemSets) > 0): ?>
 
-    <?php echo $this->hyperlink($this->translate('Advanced item sets search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search button')); ?>
+    <?php echo $this->hyperlink($this->translate('Advanced item sets search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
 
 
 <?php echo $this->pagination(); ?>

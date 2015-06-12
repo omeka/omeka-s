@@ -54,7 +54,9 @@ class Mailer
             $options = ArrayUtils::iteratorToArray($options);
         }
         foreach ($this->defaultOptions as $key => $value) {
-            $options[$key] = $value;
+            if (!isset($options[$key])) {
+                $options[$key] = $value;
+            }
         }
         return MessageFactory::getInstance($options);
     }

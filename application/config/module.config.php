@@ -139,6 +139,7 @@ return array(
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
+            'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -288,5 +289,9 @@ return array(
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
         )
-    )
+    ),
+    'mail' => array(
+        'type' => 'sendmail',
+        'options' => array(),
+    ),
 );

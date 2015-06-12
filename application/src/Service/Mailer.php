@@ -45,6 +45,8 @@ class Mailer
     /**
      * Return a new message object.
      *
+     * Sets default options if not already set.
+     *
      * @param array|Traversable $options
      * @return Message
      */
@@ -53,11 +55,7 @@ class Mailer
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
         }
-        foreach ($this->defaultOptions as $key => $value) {
-            if (!isset($options[$key])) {
-                $options[$key] = $value;
-            }
-        }
+        $options = array_merge($this->defaultOptions, $options);
         return MessageFactory::getInstance($options);
     }
 

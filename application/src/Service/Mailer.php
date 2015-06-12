@@ -15,13 +15,21 @@ class Mailer
     protected $transport;
 
     /**
-     * Set the transport.
+     * @var array
+     */
+    protected $defaultOptions;
+
+    /**
+     * Set the transport and message defaults.
      *
      * @var TransportInterface $transport
+     * @var array $defaultOptions
      */
-    public function __construct(TransportInterface $transport)
-    {
+    public function __construct(TransportInterface $transport,
+        array $defaultOptions = array()
+    ) {
         $this->transport = $transport;
+        $this->defaultOptions = $defaultOptions;
     }
 
     /**
@@ -37,8 +45,6 @@ class Mailer
     /**
      * Return a new message object.
      *
-     * By default, encode messages as UTF-8.
-     *
      * @param array|Traversable $options
      * @return Message
      */
@@ -47,8 +53,8 @@ class Mailer
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
         }
-        if (!isset($options['encoding'])) {
-            $options['encoding'] = 'UTF-8';
+        foreach ($this->defaultOptions as $key => $value) {
+            $options[$key] = $value;
         }
         return MessageFactory::getInstance($options);
     }

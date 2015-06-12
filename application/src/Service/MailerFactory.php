@@ -17,11 +17,15 @@ class MailerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        if (!isset($config['mail'])) {
-            throw new Exception\ConfigException('Missing mail configuration');
+        if (!isset($config['mail']['transport'])) {
+            throw new Exception\ConfigException('Missing mail transport configuration');
         }
-        $transport = TransportFactory::create($config['mail']);
-        return new Mailer($transport);
+        $transport = TransportFactory::create($config['mail']['transport']);
+        $defaultOptions = array();
+        if (isset($config['mail']['default_message_options'])) {
+            $defaultOptions = $config['mail']['default_message_options'];
+        }
+        return new Mailer($transport, $defaultOptions);
     }
 }
 

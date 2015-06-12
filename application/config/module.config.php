@@ -291,7 +291,12 @@ return array(
         )
     ),
     'mail' => array(
-        'type' => 'sendmail',
-        'options' => array(),
+        'transport' => array(
+            'type' => 'sendmail',
+            'options' => array(),
+        ),
+        'default_message_options' => array(
+            'encoding' => 'UTF-8',
+        ),
     ),
 );

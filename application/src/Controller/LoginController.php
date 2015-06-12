@@ -2,6 +2,8 @@
 namespace Omeka\Controller;
 
 use Omeka\Form\LoginForm;
+use Omeka\Form\ActivateForm;
+use Omeka\Form\ResetPasswordForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -47,5 +49,23 @@ class LoginController extends AbstractActionController
         $auth->clearIdentity();
         $this->messenger()->addSuccess('Successfully logged out');
         return $this->redirect()->toRoute('login');
+    }
+
+    public function activateAction()
+    {
+        $form = new ActivateForm($this->getServiceLocator());
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function resetPasswordAction()
+    {
+        $form = new ResetPasswordForm($this->getServiceLocator());
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
     }
 }

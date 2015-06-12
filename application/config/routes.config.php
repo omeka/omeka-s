@@ -198,6 +198,29 @@ return array(
                      ),
                 ),
             ),
+            'activate' => array(
+                'type' => 'Regex',
+                'options' => array(
+                    'regex' => '/activate(/.*)?',
+                    'spec' => '/activate',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'activate',
+                    ),
+                ),
+            ),
+            'reset-password' => array(
+                'type' => 'Regex',
+                'options' => 'Regex',
+                'options' => array(
+                    'regex' => '/reset-password(/.*)?',
+                    'spec' => '/reset-password',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'reset-password',
+                    ),
+                ),
+            ),
         ),
     ),
 );

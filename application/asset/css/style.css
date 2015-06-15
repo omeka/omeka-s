@@ -1550,11 +1550,12 @@ th {
     position: relative;
     display: inline-block;
   }
-  .field-meta label {
-    display: inline-block;
+  .field-meta legend {
     max-width: 80%;
     padding: 0.375em 0;
     font-weight: bold;
+    position: static;
+    float: left;
   }
   .field-meta .error {
     float: left;
@@ -1796,7 +1797,7 @@ th {
   .field-meta .expand,
   .field-meta .collapse {
     display: inline-block;
-    margin-left: .5em;
+    margin: 0.375em 0 0.375em 0.5em;
   }
 
   .collapsible {
@@ -1805,6 +1806,7 @@ th {
 
   .collapse + .collapsible {
     display: block;
+    clear: both;
   }
 
   .field-description .field-comment {
@@ -1933,7 +1935,7 @@ th {
     background-color: transparent;
   }
 
-  .value label[class*="o-icon-"] {
+  .value legend[class*="o-icon-"] {
     position: absolute;
     top: 0;
     left: 0;

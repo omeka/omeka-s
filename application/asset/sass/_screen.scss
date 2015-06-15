@@ -1154,11 +1154,12 @@ body.sidebar-open #content {
         position: relative;
         display: inline-block;
         
-        label {
-            display: inline-block;
+        legend {
             max-width: 80%;
             padding: rhythm(.25) 0;
             font-weight: bold;
+            position: static;
+            float: left;
         }
 
         .error {
@@ -1403,7 +1404,7 @@ body.sidebar-open #content {
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block;
-        margin-left: .5em;
+        margin: rhythm(.25) 0 rhythm(.25) .5em;
     }
 
     .collapsible {
@@ -1412,6 +1413,7 @@ body.sidebar-open #content {
 
     .collapse + .collapsible {
         display: block;
+        clear: both;
     }
 
     .field-description .field-comment {
@@ -1548,7 +1550,7 @@ body.sidebar-open #content {
         background-color: transparent;
     }
 
-    .value label[class*="o-icon-"] {
+    .value legend[class*="o-icon-"] {
         position: absolute;
         top: 0;
         left: 0;

@@ -2026,6 +2026,7 @@ th {
   textarea.value-label {
     margin-top: 0em;
     border-top-width: 0;
+    height: 100%;
   }
 
   /* @end */

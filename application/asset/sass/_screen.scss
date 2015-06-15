@@ -1633,6 +1633,7 @@ body.sidebar-open #content {
     textarea.value-label {
         @include leader(0);
         border-top-width: 0;
+        height: 100%;
     }
 
     /* @end */

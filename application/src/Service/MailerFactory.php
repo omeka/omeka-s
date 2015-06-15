@@ -25,6 +25,10 @@ class MailerFactory implements FactoryInterface
         if (isset($config['mail']['default_message_options'])) {
             $defaultOptions = $config['mail']['default_message_options'];
         }
+        if (!isset($defaultOptions['administrator_email'])) {
+            $settings = $serviceLocator->get('Omeka\Settings');
+            $defaultOptions['from'] = $settings->get('administrator_email');
+        }
         return new Mailer($transport, $defaultOptions);
     }
 }

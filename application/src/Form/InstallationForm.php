@@ -73,6 +73,28 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ),
         ));
+        $this->add(array(
+            'name' => 'administrator-email',
+            'type' => 'Email',
+            'options' => array(
+                'label' => $translator->translate('Administrator Email'),
+            ),
+            'attributes' => array(
+                'id' => 'administrator-email',
+                'required' => true,
+            ),
+        ));
+        $this->add(array(
+            'name' => 'administrator-email-confirm',
+            'type' => 'Email',
+            'options' => array(
+                'label' => $translator->translate('Confirm Administrator Email'),
+            ),
+            'attributes' => array(
+                'id' => 'administrator-email-confirm',
+                'required' => true,
+            ),
+        ));
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
@@ -119,6 +141,18 @@ class InstallationForm extends AbstractForm
                     'name' => 'Identical',
                     'options' => array(
                         'token' => 'email',
+                    ),
+                ),
+            ),
+        ));
+        $inputFilter->add(array(
+            'name' => 'administrator-email-confirm',
+            'required' => true,
+            'validators' => array(
+                array(
+                    'name' => 'Identical',
+                    'options' => array(
+                        'token' => 'administrator-email',
                     ),
                 ),
             ),

@@ -247,12 +247,14 @@
         //set up uri inputs
         var uriInput = newValue.find('input.value');
         var uriInputLabel = newValue.find('label.value');
-        uriInput.attr('name', qName + '[' + count + '][@id]');
-        uriInputLabel.attr('for', qName + '[' + count + '][@id]');
+        var uriInputId = qName + '[' + count + '][@id]';
+        var uriLabelId = qName + '[' + count + '][o:uri_label]'
+        uriInput.attr('name', uriInputId).attr('id', uriInputId);
+        uriInputLabel.attr('for', uriInputId);
         var uriLabel = newValue.find('textarea.value-label');
         var uriLabelLabel = newValue.find('label.value-label');
-        uriLabel.attr('name', qName + '[' + count + '][o:uri_label]');
-        uriLabelLabel.attr('for', qName + '[' + count + '][@o:uri_label]');
+        uriLabel.attr('name', uriLabelId).attr('id', uriLabelId);
+        uriLabelLabel.attr('for', uriLabelId);
         
         var valueIdInput = newValue.find('input.value-id');
 

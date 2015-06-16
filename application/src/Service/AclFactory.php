@@ -230,7 +230,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'researcher',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -336,7 +336,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -440,7 +440,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -533,7 +533,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            'update',
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }

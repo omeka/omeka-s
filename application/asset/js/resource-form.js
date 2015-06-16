@@ -13,7 +13,7 @@
                 scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
-                var wrapper = $('div.resource-values.field[data-property-term="' + qName + '"] .values');
+                var wrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values');
                 wrapper.append(makeNewValue(qName));
                 scrollTo(wrapper);
             }
@@ -206,7 +206,7 @@
     });
 
     var makeNewValue = function(qName, valueObject, valueType) {
-        var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
+        var valuesWrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"]');
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
@@ -363,7 +363,7 @@
         if (field.length == 0) {
             field = makeNewField(id);
             var qName = field.data('property-term');
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
+            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
         var originalLabel = field.find('.field-label');
@@ -420,7 +420,7 @@
             for (var term in valuesJson) {
                 makeNewField(term);
                 valuesJson[term].values.forEach(function (value) {
-                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
+                    $('fieldset.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
                 });
             }
         }

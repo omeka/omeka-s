@@ -54,7 +54,7 @@
             var wrapper = $(this).parents('.resource-values.field');
             var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
             var qName = wrapper.data('property-term');
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
+            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
         });
 
         // Remove value.

@@ -145,6 +145,13 @@ class UserController extends AbstractActionController
         $user = $userRepresentation->getEntity();
         $keys = $user->getKeys();
 
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($user, 'edit-keys')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit API keys'
+            );
+        }
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
             $form->setData($postData);

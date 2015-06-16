@@ -1557,6 +1557,9 @@ th {
     max-width: 80%;
     padding: 0.375em 0;
     font-weight: bold;
+    display: inline-block;
+  }
+  .field-meta legend {
     position: static;
     float: left;
   }

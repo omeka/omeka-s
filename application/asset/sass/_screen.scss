@@ -1161,6 +1161,10 @@ body.sidebar-open #content {
             max-width: 80%;
             padding: rhythm(.25) 0;
             font-weight: bold;
+            display: inline-block;
+        }
+
+        legend {
             position: static;
             float: left;
         }

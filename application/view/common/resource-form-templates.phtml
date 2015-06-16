@@ -17,10 +17,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <p class="no-values">Select the first value type.</p>
         </div>
         <div class="add-values">
-            <label class="add-value o-icon-add" aria-label="Add Value "></label>
-            <a href="#" class="add-value button o-icon-literal">Text</a>
-            <a href="#" class="add-value button o-icon-resource">Omeka Resource</a>
-            <a href="#" class="add-value button o-icon-uri">URI</a>
+            <label class="add-value o-icon-add"><?php echo $this->translate('Add value'); ?></label>
+            <a href="#" class="add-value button o-icon-literal"><?php echo $this->translate('Text'); ?></a>
+            <a href="#" class="add-value button o-icon-resource"><?php echo $this->translate('Omeka Resource'); ?></a>
+            <a href="#" class="add-value button o-icon-uri"><?php echo $this->translate('URI'); ?></a>
         </div>
     </div>
 </fieldset>
@@ -41,9 +41,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul>
     </div>
 
-    <legend aria-label="Text value" class="o-icon-text"></legend>
+    <legend class="o-icon-text"><?php echo $this->translate('Text value'); ?></legend>
 
-    <label class='value-language o-icon-language' for='' aria-label="Language"></label>
+    <label class='value-language o-icon-language' for=''><?php echo $this->translate('Language'); ?></label>
     <input class='value-language' type='text' name=''/>
 
     <!-- input for the property value -->
@@ -67,8 +67,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     
     <div class="input-body">
-        <legend aria-label="Omeka resource" class="o-icon-resource"></legend>
-        <span class="default">No resource selected</span>
+        <legend class="o-icon-resource"><?php echo $this->translate('Omeka resource'); ?></legend>
+        <span class="default"><?php echo $this->translate('No resource selected'); ?></span>
     
         <p class="selected-resource">
             <span class="o-title"></span>
@@ -101,7 +101,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <input type='hidden' class='value-id' name='' value='' />
     
     <div class="input-header">
-        <span class='restore-value'>Value to be removed</span>
+        <span class='restore-value'><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class='actions'>
             <li>
                 <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
@@ -112,7 +112,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul>
     </div>
 
-    <legend aria-label="External resource" class="o-icon-uri"></legend>
+    <legend class="o-icon-uri"><?php echo $this->translate('External resource'); ?></legend>
     <div class="input">
         <label class="value">Url</label>
         <input type="text" class='value' />

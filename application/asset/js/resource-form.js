@@ -242,7 +242,7 @@
         var languageInput = newValue.find('input.value-language');
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
         languageLabel.attr('for', languageElementName); // 
-        languageInput.attr('name', languageElementName);
+        languageInput.attr('name', languageElementName).attr('id', languageElementName);
 
         //set up uri inputs
         var uriInput = newValue.find('input.value');

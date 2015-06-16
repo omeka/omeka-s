@@ -937,7 +937,8 @@ body.sidebar-open #content {
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
 
-        legend {
+        legend,
+        label{
             float: left;
             width: calc(100% + #{rhythm()});
             font-weight: bold;
@@ -1094,22 +1095,23 @@ body.sidebar-open #content {
     top: rhythm(.25);
     left: rhythm(2);
     height: rhythm();
-    width: auto;
+    width: rhythm(.75);
     background-color: transparent;
     line-height: $base-line-height;
+    overflow: hidden;
 }
 
 .inputs input[type="text"].value-language {
     position: absolute;
     top: rhythm(.25);
     left: rhythm(2.5);
-    margin: 0;
+    margin: 0 0 0 rhythm(.25);
     background-color: transparent; 
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
     min-height: 0;
-    padding: 0 0 0 rhythm(.5);
+    padding: 0;
     height: rhythm();
 }
 
@@ -1154,7 +1156,8 @@ body.sidebar-open #content {
         position: relative;
         display: inline-block;
         
-        legend {
+        legend,
+        label {
             max-width: 80%;
             padding: rhythm(.25) 0;
             font-weight: bold;
@@ -1522,6 +1525,9 @@ body.sidebar-open #content {
         background-color: $gray-on-white;
         line-height: 1.5 * $base-line-height;
         margin-right: 0;
+        overflow: hidden;
+        width: rhythm(.5);
+        vertical-align: top;
     }
 
     .input-header {
@@ -1559,6 +1565,7 @@ body.sidebar-open #content {
         background-color: $gray-on-white;
         text-align: center;
         line-height: 1.5 * $base-line-height;
+        overflow: hidden;
     }
 
     .uri.value input[type="text"] {

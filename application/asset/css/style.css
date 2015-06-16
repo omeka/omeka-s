@@ -1337,7 +1337,8 @@ th {
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-top: 0;
   }
-  #advanced-options legend {
+  #advanced-options legend,
+  #advanced-options label {
     float: left;
     width: calc(100% + 1.5em);
     font-weight: bold;
@@ -1491,22 +1492,23 @@ th {
     top: 0.375em;
     left: 3em;
     height: 1.5em;
-    width: auto;
+    width: 1.125em;
     background-color: transparent;
     line-height: 24px;
+    overflow: hidden;
   }
 
   .inputs input[type="text"].value-language {
     position: absolute;
     top: 0.375em;
     left: 3.75em;
-    margin: 0;
+    margin: 0 0 0 0.375em;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.08);
     width: 6em;
     min-height: 0;
-    padding: 0 0 0 0.75em;
+    padding: 0;
     height: 1.5em;
   }
 
@@ -1550,7 +1552,8 @@ th {
     position: relative;
     display: inline-block;
   }
-  .field-meta legend {
+  .field-meta legend,
+  .field-meta label {
     max-width: 80%;
     padding: 0.375em 0;
     font-weight: bold;
@@ -1907,6 +1910,9 @@ th {
     background-color: rgba(0, 0, 0, 0.08);
     line-height: 36px;
     margin-right: 0;
+    overflow: hidden;
+    width: 0.75em;
+    vertical-align: top;
   }
 
   .input-header {
@@ -1944,6 +1950,7 @@ th {
     background-color: rgba(0, 0, 0, 0.08);
     text-align: center;
     line-height: 36px;
+    overflow: hidden;
   }
 
   .uri.value input[type="text"] {

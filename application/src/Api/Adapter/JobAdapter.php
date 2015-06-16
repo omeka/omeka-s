@@ -56,11 +56,11 @@ class JobAdapter extends AbstractEntityAdapter
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if (is_string($query['sort_by'])) {
-            if ('owner_username' == $query['sort_by']) {
+            if ('owner_email' == $query['sort_by']) {
                 $entityClass = $this->getEntityClass();
                 $ownerAlias = $this->createAlias();
                 $qb->leftJoin("$entityClass.owner", $ownerAlias)
-                    ->addOrderBy("$ownerAlias.username", $query['sort_order']);
+                    ->addOrderBy("$ownerAlias.email", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

@@ -22,9 +22,9 @@ class ItemSetSelector extends AbstractHelper
         $itemSetOwners = array();
         foreach ($response->getContent() as $itemSet) {
             $owner = $itemSet->owner();
-            $username = $owner ? $owner->username() : null;
-            $itemSetOwners[$username]['owner'] = $owner;
-            $itemSetOwners[$username]['item_sets'][] = $itemSet;
+            $email = $owner ? $owner->email() : null;
+            $itemSetOwners[$email]['owner'] = $owner;
+            $itemSetOwners[$email]['item_sets'][] = $itemSet;
         }
         ksort($itemSetOwners);
 

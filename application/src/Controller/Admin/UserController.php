@@ -38,7 +38,7 @@ class UserController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('username');
+        $this->setBrowseDefaults('email');
         $response = $this->api()->search('users', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 

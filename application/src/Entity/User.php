@@ -24,11 +24,6 @@ class User extends AbstractEntity implements RoleInterface
     /**
      * @Column(type="string", length=190, unique=true)
      */
-    protected $username;
-
-    /**
-     * @Column(type="string", length=190, unique=true)
-     */
     protected $email;
 
     /**
@@ -105,16 +100,6 @@ class User extends AbstractEntity implements RoleInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
     }
 
     public function setName($name)

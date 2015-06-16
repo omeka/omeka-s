@@ -15,7 +15,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($item->itemSets() as $itemSet): ?>
     <tr>
         <td><?php echo $itemSet->displayTitle(); ?></td>
-        <td><?php echo $itemSet->owner()->username(); ?></td>
+        <td><?php echo $itemSet->owner()->name(); ?></td>
         <td><ul class="actions">
             <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
@@ -34,7 +34,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 $itemSetTemplate = '
 <tr>
     <td>__item-set-title__</td>
-    <td>__owner-username__</td>
+    <td>__owner-email__</td>
     <td><ul class="actions">
         <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
     </ul><input type="hidden" name="o:item_set[]" value="__item-set-id__"></td>
@@ -52,13 +52,13 @@ $('#item-set-selector .selector-child').click(function(event) {
     $('#item-item-sets').removeClass('empty');
     var itemSetId = $(this).data('item-set-id');
     var itemSetTitle = $(this).data('child-label');
-    var ownerUsername = $(this).data('owner-username');
+    var ownerEmail = $(this).data('owner-email');
 
     if ($('input[value="' + itemSetId + '"]').length === 0) {
         var template = $('#item-set-template').data('template');
         template = template.replace(/__item-set-title__/g, itemSetTitle);
         template = template.replace(/__item-set-id__/g, itemSetId);
-        template = template.replace(/__owner-username__/g, ownerUsername);
+        template = template.replace(/__owner-email__/g, ownerEmail);
     
         $('#item-item-sets > tbody:last').append($.parseHTML(template));
     }

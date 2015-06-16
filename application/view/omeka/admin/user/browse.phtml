@@ -16,7 +16,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <table>
     <thead>
         <tr>
-            <th><?php echo $this->sortLink($this->translate('Username'), 'username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Email'), 'email'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Role'), 'role'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
         </tr>
@@ -26,7 +26,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <tr>
             <td>
                 <span class="resource-name">
-                    <?php echo $user->link($user->username() . ' (' . $user->name() . ')'); ?>
+                    <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
                 </span>
                 <ul class="actions">
                     <li><?php echo $user->link('', 'edit', array(

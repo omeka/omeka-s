@@ -17,7 +17,6 @@ class UserTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->user->getId());
-        $this->assertNull($this->user->getUsername());
         $this->assertNull($this->user->getName());
         $this->assertNull($this->user->getCreated());
         $this->assertNull($this->user->getEmail());
@@ -46,13 +45,6 @@ class UserTest extends TestCase
             'Doctrine\Common\Collections\ArrayCollection',
             $this->user->getResourceTemplates()
         );
-    }
-
-    public function testSetUsername()
-    {
-        $username = 'test-username';
-        $this->user->setUsername($username);
-        $this->assertEquals($username, $this->user->getUsername());
     }
 
     public function testSetName()

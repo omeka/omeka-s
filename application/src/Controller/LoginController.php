@@ -22,17 +22,17 @@ class LoginController extends AbstractActionController
             if ($form->isValid()) {
                 $validatedData = $form->getData();
                 $adapter = $auth->getAdapter();
-                $adapter->setIdentity($validatedData['username']);
+                $adapter->setIdentity($validatedData['email']);
                 $adapter->setCredential($validatedData['password']);
                 $result = $auth->authenticate();
                 if ($result->isValid()) {
                     $this->messenger()->addSuccess('Successfully logged in');
                     return $this->redirect()->toRoute('admin/default');
                 } else {
-                    $this->messenger()->addError('Username or password is invalid');
+                    $this->messenger()->addError('Email or password is invalid');
                 }
             } else {
-                $this->messenger()->addError('Username or password is invalid');
+                $this->messenger()->addError('Email or password is invalid');
             }
         }
 

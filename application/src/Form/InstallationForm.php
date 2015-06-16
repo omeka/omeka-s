@@ -8,17 +8,6 @@ class InstallationForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
-            'name' => 'username',
-            'type' => 'Text',
-            'options' => array(
-                'label' => $translator->translate('Username'),
-            ),
-            'attributes' => array(
-                'id' => 'username',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
@@ -97,18 +86,6 @@ class InstallationForm extends AbstractForm
         ));
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
-            'name' => 'username',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Regex',
-                    'options' => array(
-                        'pattern' => '/^\S+$/', // no whitespace
-                    ),
-                ),
-            ),
-        ));
         $inputFilter->add(array(
             'name' => 'password',
             'required' => true,

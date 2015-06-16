@@ -7,15 +7,15 @@ echo $this->form()->openTag($form);
 <div class="field">
     <div class="field-meta">
     <?php 
-    $username = $form->get('username');
-    echo $formLabel->openTag() . $username->getOption('label');
+    $email = $form->get('email');
+    echo $formLabel->openTag() . $email->getOption('label');
     echo $formLabel->closeTag();
     ?>
     </div>
     <div class="inputs">
     <?php 
-    echo $this->formInput($username);
-    echo $this->formElementErrors($username);
+    echo $this->formInput($email);
+    echo $this->formElementErrors($email);
     ?>
     </div>
 </div>

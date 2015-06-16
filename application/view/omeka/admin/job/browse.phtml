@@ -16,7 +16,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <th><?php echo $this->sortLink($this->translate('ID'), 'id'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Class'), 'class'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Status'), 'status'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_email'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +44,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
             <td><?php echo $escape($job->status()); ?></td>
-            <td><?php echo $this->hyperlink($job->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
+            <td><?php echo $this->hyperlink($job->owner()->email(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

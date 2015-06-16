@@ -14,7 +14,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div class='inputs'>
         <div class="values">
-            <p class="no-values">Select the first value type.</p>
+            <p class="no-values"><?php echo $this->translate('Select the first value type.'); ?></p>
         </div>
         <div class="add-values">
             <label class="add-value o-icon-add"><?php echo $this->translate('Add value'); ?></label>
@@ -83,7 +83,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     'action'     => 'sidebar-select'
                 ),
                 false)); ?>"
-           >Items</a>
+           ><?php echo $this->translate('Items'); ?></a>
         <a href="#itemset-resource-select" 
             class="o-icon-item-sets button resource-select"
             data-sidebar-content-url="<?php echo $escapeAttr($this->url('admin/default',
@@ -92,7 +92,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     'action'     => 'sidebar-select'
                 ),
                 false)); ?>"
-           >Item Sets</a>
+           ><?php echo $this->translate('Item Sets'); ?></a>
     </div>
 </fieldset>
 
@@ -114,11 +114,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
     <legend class="o-icon-uri"><?php echo $this->translate('External resource'); ?></legend>
     <div class="input">
-        <label class="value">Url</label>
+        <label class="value"><?php echo $this->translate('URI'); ?></label>
         <input type="text" class='value' />
     </div>
     <div class="input">
-        <label class="value-label">Label</label>
+        <label class="value-label"><?php echo $this->translate('Label'); ?></label>
         <textarea class="value-label" rows="1"></textarea>
     </div>
 </fieldset>

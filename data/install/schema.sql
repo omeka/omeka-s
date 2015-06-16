@@ -225,7 +225,6 @@ CREATE TABLE `site_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
@@ -233,7 +232,6 @@ CREATE TABLE `user` (
   `password_hash` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `role` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `value` (

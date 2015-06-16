@@ -19,7 +19,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <thead>
         <tr>
             <th><?php echo $this->sortLink($this->translate('Title'), 'title'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <td>
                 <?php
                 $owner = $site->owner();
-                echo $this->hyperlink($owner->username(), $this->url(
+                echo $this->hyperlink($owner->name(), $this->url(
                     'admin/id',
                     array(
                         'controller' => 'user',

@@ -8,10 +8,10 @@ class LoginForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
-            'name' => 'username',
-            'type' => 'Text',
+            'name' => 'email',
+            'type' => 'Email',
             'options' => array(
-                'label' => $translator->translate('Username'),
+                'label' => $translator->translate('Email'),
             ),
             'attributes' => array(
                 'required' => true,
@@ -37,7 +37,7 @@ class LoginForm extends AbstractForm
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
-            'name' => 'username',
+            'name' => 'email',
             'required' => true,
         ));
         $inputFilter->add(array(

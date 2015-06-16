@@ -4,9 +4,12 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
+use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
+use Omeka\Permissions\Assertion\UserIsAdminAssertion;
 use Omeka\Service\Exception;
+use Zend\Permissions\Acl\Assertion\AssertionAggregate;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -554,6 +557,26 @@ class AclFactory implements FactoryInterface
             'site_admin',
             'Omeka\Entity\Media',
             array('create', 'update', 'delete')
+        );
+        $acl->deny (
+            'site_admin',
+            'Omeka\Entity\User',
+            'change-role',
+            new IsSelfAssertion
+        );
+
+        // Site admins should not be able to edit other admin users but should
+        // be able to edit themselves
+        $denyEdit = new AssertionAggregate;
+        $denyEdit->addAssertions(array(
+            new UserIsAdminAssertion,
+            new AssertionNegation(new IsSelfAssertion),
+        ));
+        $acl->deny(
+            'site_admin',
+            'Omeka\Entity\User',
+            array('update', 'delete', 'change-password', 'edit-keys'),
+            $denyEdit
         );
     }
 

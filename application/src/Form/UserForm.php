@@ -10,17 +10,6 @@ class UserForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
-            'name' => 'o:username',
-            'type' => 'Text',
-            'options' => array(
-                'label' => $translator->translate('Username'),
-            ),
-            'attributes' => array(
-                'id' => 'username',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
             'name' => 'o:name',
             'type' => 'Text',
             'options' => array(

@@ -3,9 +3,9 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<div class="resource-values field template">
+<fieldset class="resource-values field template">
     <div class='field-meta'>
-        <label class='field-label'></label>
+        <legend class='field-label'></legend>
         <a href="#" class="collapse o-icon-down" aria-label="Collapse"></a>
         <div class="collapsible">
             <div class='field-description'></div>
@@ -23,9 +23,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <a href="#" class="add-value button o-icon-uri">URI</a>
         </div>
     </div>
-</div>
+</fieldset>
 
-<div class="literal value template">
+<fieldset class="literal value template">
     <input type="hidden" class="property" />
     <input type='hidden' class='value-id' name='' value='' />
     
@@ -41,16 +41,16 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul>
     </div>
 
-    <label aria-label="Text value" class="o-icon-text"></label>
+    <legend aria-label="Text value" class="o-icon-text"></legend>
 
     <label class='value-language o-icon-language' for='' aria-label="Language"></label>
     <input class='value-language' type='text' name=''/>
 
     <!-- input for the property value -->
     <textarea name="" class="input-value"></textarea>
-</div>
+</fieldset>
 
-<div class="resource value template">
+<fieldset class="resource value template">
     <input type="hidden" class="property" />
     <input type='hidden' class='value-id' name='' value='' />
     
@@ -67,7 +67,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     
     <div class="input-body">
-        <label aria-label="Omeka resource" class="o-icon-resource"></label>
+        <legend aria-label="Omeka resource" class="o-icon-resource"></legend>
         <span class="default">No resource selected</span>
     
         <p class="selected-resource">
@@ -94,9 +94,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 false)); ?>"
            >Item Sets</a>
     </div>
-</div>
+</fieldset>
 
-<div class="uri value template">
+<fieldset class="uri value template">
     <input type="hidden" class="property" />
     <input type='hidden' class='value-id' name='' value='' />
     
@@ -112,13 +112,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         </ul>
     </div>
 
-    <label aria-label="External resource" class="o-icon-uri"></label>
+    <legend aria-label="External resource" class="o-icon-uri"></legend>
     <div class="input">
         <label class="value">Url</label>
         <input type="text" class='value' />
     </div>
     <div class="input">
         <label class="value-label">Label</label>
-        <textarea class="value-label" aria-label="Label external resource" rows="1"></textarea>
+        <textarea class="value-label" rows="1"></textarea>
     </div>
-</div>
+</fieldset>

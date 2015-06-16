@@ -27,7 +27,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <tr>
             <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Items'), 'item_count'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -64,7 +64,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 </ul>
             </td>
             <td><?php echo $this->hyperlink($itemSet->itemCount(), $this->url(null, array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></td>
-            <td><?php echo $this->hyperlink($itemSet->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $itemSet->owner()->id()))); ?></td>
+            <td><?php echo $this->hyperlink($itemSet->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $itemSet->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

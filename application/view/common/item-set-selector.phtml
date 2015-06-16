@@ -8,19 +8,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <ul>
         <li class="show"><?php echo $escape($this->translate('All Item Sets')); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
             <ul>
-                <?php foreach ($itemSetOwners as $username => $itemSetOwner): ?>
+                <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
                 <?php
                 $owner = $itemSetOwner['owner'];
                 $itemSets = $itemSetOwner['item_sets'];
                 ?>
                 <li class='selector-parent'>
-                    <span><?php echo $escape($username); ?></span> (<span class="selector-child-count"><?php echo $escape(count($itemSets)); ?></span>)
+                    <span><?php echo $escape($owner->name()); ?></span> (<span class="selector-child-count"><?php echo $escape(count($itemSets)); ?></span>)
                     <ul>
                         <?php foreach ($itemSets as $itemSet): ?>
                         <li class='selector-child'
                             data-child-label="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
                             data-item-set-id="<?php echo $escapeAttr($itemSet->id()); ?>"
-                            data-owner-username="<?php echo $escapeAttr($username); ?>">
+                            data-owner-email="<?php echo $escapeAttr($email); ?>">
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
                                 <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>

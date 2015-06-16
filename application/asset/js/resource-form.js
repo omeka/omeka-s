@@ -13,7 +13,7 @@
                 scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
-                var wrapper = $('div.resource-values.field[data-property-term="' + qName + '"] .values');
+                var wrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values');
                 wrapper.append(makeNewValue(qName));
                 scrollTo(wrapper);
             }
@@ -54,7 +54,7 @@
             var wrapper = $(this).parents('.resource-values.field');
             var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
             var qName = wrapper.data('property-term');
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
+            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
         });
 
         // Remove value.
@@ -206,7 +206,7 @@
     });
 
     var makeNewValue = function(qName, valueObject, valueType) {
-        var valuesWrapper = $('div.resource-values.field[data-property-term="' + qName + '"]');
+        var valuesWrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"]');
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
@@ -247,12 +247,14 @@
         //set up uri inputs
         var uriInput = newValue.find('input.value');
         var uriInputLabel = newValue.find('label.value');
-        uriInput.attr('name', qName + '[' + count + '][@id]');
-        uriInputLabel.attr('for', qName + '[' + count + '][@id]');
+        var uriInputId = qName + '[' + count + '][@id]';
+        var uriLabelId = qName + '[' + count + '][o:uri_label]'
+        uriInput.attr('name', uriInputId).attr('id', uriInputId);
+        uriInputLabel.attr('for', uriInputId);
         var uriLabel = newValue.find('textarea.value-label');
         var uriLabelLabel = newValue.find('label.value-label');
-        uriLabel.attr('name', qName + '[' + count + '][o:uri_label]');
-        uriLabelLabel.attr('for', qName + '[' + count + '][@o:uri_label]');
+        uriLabel.attr('name', uriLabelId).attr('id', uriLabelId);
+        uriLabelLabel.attr('for', uriLabelId);
         
         var valueIdInput = newValue.find('input.value-id');
 
@@ -361,7 +363,7 @@
         if (field.length == 0) {
             field = makeNewField(id);
             var qName = field.data('property-term');
-            $('div.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
+            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
         var originalLabel = field.find('.field-label');
@@ -418,7 +420,7 @@
             for (var term in valuesJson) {
                 makeNewField(term);
                 valuesJson[term].values.forEach(function (value) {
-                    $('div.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
+                    $('fieldset.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
                 });
             }
         }

@@ -26,6 +26,16 @@ class Acl extends ZendAcl
     );
 
     /**
+     * Roles that are "admins" and restricted for editing.
+     *
+     * @var array
+     */
+    protected $adminRoles = array(
+        self::ROLE_GLOBAL_ADMIN,
+        self::ROLE_SITE_ADMIN,
+    );
+
+    /**
      * @var AuthenticationServiceInterface
      */
     protected $auth;
@@ -71,5 +81,16 @@ class Acl extends ZendAcl
             $role = $auth->getIdentity();
         }
         return $this->isAllowed($role, $resource, $privilege);
+    }
+
+    /**
+     * Determine whether the admin role is an "admin" role that carries
+     * restrictions beyond other roles.
+     *
+     * @return boolean
+     */
+    public function isAdminRole($role)
+    {
+        return in_array($role, $this->adminRoles);
     }
 }

@@ -38,7 +38,7 @@ class UserController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('username');
+        $this->setBrowseDefaults('email');
         $response = $this->api()->search('users', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
@@ -144,6 +144,13 @@ class UserController extends AbstractActionController
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $keys = $user->getKeys();
+
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($user, 'edit-keys')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit API keys'
+            );
+        }
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();

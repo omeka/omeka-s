@@ -72,8 +72,15 @@ class UserController extends AbstractActionController
 
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
-        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed($user->getEntity(), 'change-role');
-        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
+        $userEntity = $user->getEntity();
+
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
+        $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
+        $form = new UserForm($this->getServiceLocator(), null, array(
+            'include_role' => $changeRole,
+            'include_admin_roles' => $changeRoleAdmin,
+        ));
         $data = $user->jsonSerialize();
         $form->setData($data);
 

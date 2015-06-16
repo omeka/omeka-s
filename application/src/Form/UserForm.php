@@ -3,7 +3,10 @@ namespace Omeka\Form;
 
 class UserForm extends AbstractForm
 {
-    protected $options = array('include_role' => false);
+    protected $options = array(
+        'include_role' => false,
+        'include_admin_roles' => false
+    );
 
     public function buildForm()
     {
@@ -32,8 +35,9 @@ class UserForm extends AbstractForm
             ),
         ));
 
-        $roles = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
         if ($this->getOption('include_role')) {
+            $excludeAdminRoles = !$this->getOption('include_admin_roles');
+            $roles = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels($excludeAdminRoles);
             $this->add(array(
                 'name' => 'o:role',
                 'type' => 'select',

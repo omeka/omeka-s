@@ -570,6 +570,12 @@ class AclFactory implements FactoryInterface
             'Omeka\Entity\Media',
             array('create', 'update', 'delete')
         );
+
+        $acl->deny(
+            'site_admin',
+            'Omeka\Entity\User',
+            'change-role-admin'
+        );
         $acl->deny (
             'site_admin',
             'Omeka\Entity\User',

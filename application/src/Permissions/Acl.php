@@ -59,11 +59,20 @@ class Acl extends ZendAcl
     /**
      * Get role names and their labels.
      *
+     * @param boolean $excludeAdminRoles Whether to only return the non-admin
+     *  roles. False by default, so all roles are returned.
      * @return array
      */
-    public function getRoleLabels()
+    public function getRoleLabels($excludeAdminRoles = false)
     {
-        return $this->roleLabels;
+        $labels = $this->roleLabels;
+
+        if ($excludeAdminRoles) {
+            foreach ($this->adminRoles as $role) {
+                unset($labels[$role]);
+            }
+        }
+        return $labels;
     }
 
     /**

@@ -108,13 +108,14 @@ class UserController extends AbstractActionController
 
     public function changePasswordAction()
     {
-        $form = new UserPasswordForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
+        $currentUser = $user === $this->identity();
+        $form = new UserPasswordForm($this->getServiceLocator(), null, array('current_password' => $currentUser));
 
         if ($this->getRequest()->isPost()) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');

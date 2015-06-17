@@ -3,9 +3,23 @@ namespace Omeka\Form;
 
 class UserPasswordForm extends AbstractForm
 {
+    protected $options = array(
+        'current_password' => false,
+    );
+
     public function buildForm()
     {
         $translator = $this->getTranslator();
+
+        if ($this->getOption('current_password')){
+            $this->add(array(
+                'name' => 'current-password',
+                'type' => 'password',
+                'options' => array(
+                    'label' => $translator->translate('Change Password'),
+                ),
+            ));
+        }      
 
         $this->add(array(
             'name' => 'password',

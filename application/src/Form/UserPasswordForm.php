@@ -16,7 +16,7 @@ class UserPasswordForm extends AbstractForm
                 'name' => 'current-password',
                 'type' => 'password',
                 'options' => array(
-                    'label' => $translator->translate('Change Password'),
+                    'label' => $translator->translate('Current Password'),
                 ),
             ));
         }      
@@ -25,7 +25,7 @@ class UserPasswordForm extends AbstractForm
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
-                'label' => $translator->translate('Password'),
+                'label' => $translator->translate('New Password'),
             ),
             'attributes' => array(
                 'id' => 'password',
@@ -36,7 +36,7 @@ class UserPasswordForm extends AbstractForm
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => array(
-                'label' => $translator->translate('Confirm Password'),
+                'label' => $translator->translate('Confirm New Password'),
             ),
             'attributes' => array(
                 'id' => 'password-confirm',

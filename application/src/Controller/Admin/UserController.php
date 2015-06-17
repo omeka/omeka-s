@@ -127,10 +127,24 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
-                $user->setPassword($values['password']);
-                $em->flush();
-                $this->messenger()->addSuccess('Password changed.');
-                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
+                if($currentUser){
+                    if ($user->verifyPassword($values['current-password'])){
+                        $user->setPassword($values['password']);
+                        $em->flush();
+                        $this->messenger()->addSuccess('Password changed.');
+                        return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
+                    }
+                    else {
+                        $this->messenger()->addError('The current password entered was invalid.');
+                    }
+                }
+                else {
+                    $user->setPassword($values['password']);
+                    $em->flush();
+                    $this->messenger()->addSuccess('Password changed.');
+                    return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
+                }
+                
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

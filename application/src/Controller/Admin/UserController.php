@@ -117,6 +117,10 @@ class UserController extends AbstractActionController
         $currentUser = $user === $this->identity();
         $form = new UserPasswordForm($this->getServiceLocator(), null, array('current_password' => $currentUser));
 
+        $view = new ViewModel;
+        $view->setVariable('user', $userRepresentation);
+        $view->setVariable('form', $form);
+
         if ($this->getRequest()->isPost()) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             if (!$acl->userIsAllowed($user, 'change-password')) {
@@ -127,32 +131,19 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
-                if($currentUser){
-                    if ($user->verifyPassword($values['current-password'])){
-                        $user->setPassword($values['password']);
-                        $em->flush();
-                        $this->messenger()->addSuccess('Password changed.');
-                        return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
-                    }
-                    else {
+                if($currentUser && !$user->verifyPassword($values['current-password'])){
                         $this->messenger()->addError('The current password entered was invalid.');
+                        return $view;
                     }
-                }
-                else {
-                    $user->setPassword($values['password']);
-                    $em->flush();
-                    $this->messenger()->addSuccess('Password changed.');
-                    return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
-                }
-                
+                $user->setPassword($values['password']);
+                $em->flush();
+                $this->messenger()->addSuccess('Password changed.');
+                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);               
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }
         }
 
-        $view = new ViewModel;
-        $view->setVariable('user', $userRepresentation);
-        $view->setVariable('form', $form);
         return $view;
     }
 

@@ -70,7 +70,9 @@ class IndexController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Site updated.');
-                    return $this->redirect()->refresh();
+                    // Explicitly re-read the site URL instead of using
+                    // refresh() so we catch updates to the slug
+                    return $this->redirect()->toUrl($site->url());
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');

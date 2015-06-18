@@ -108,13 +108,18 @@ class UserController extends AbstractActionController
 
     public function changePasswordAction()
     {
-        $form = new UserPasswordForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
+        $currentUser = $user === $this->identity();
+        $form = new UserPasswordForm($this->getServiceLocator(), null, array('current_password' => $currentUser));
+
+        $view = new ViewModel;
+        $view->setVariable('user', $userRepresentation);
+        $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -126,6 +131,10 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
+                if($currentUser && !$user->verifyPassword($values['current-password'])){
+                        $this->messenger()->addError('The current password entered was invalid.');
+                        return $view;
+                    }
                 $user->setPassword($values['password']);
                 $em->flush();
                 $this->messenger()->addSuccess('Password changed.');
@@ -135,9 +144,6 @@ class UserController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel;
-        $view->setVariable('user', $userRepresentation);
-        $view->setVariable('form', $form);
         return $view;
     }
 

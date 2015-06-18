@@ -188,7 +188,6 @@ return array(
             'Omeka\Controller\Admin\Property'         => 'Omeka\Controller\Admin\PropertyController',
             'Omeka\Controller\Admin\ResourceClass'    => 'Omeka\Controller\Admin\ResourceClassController',
             'Omeka\Controller\Admin\Media'            => 'Omeka\Controller\Admin\MediaController',
-            'Omeka\Controller\Admin\Site'             => 'Omeka\Controller\Admin\SiteController',
             'Omeka\Controller\Admin\Setting'          => 'Omeka\Controller\Admin\SettingController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
             'Omeka\Controller\SiteAdmin\Page'         => 'Omeka\Controller\SiteAdmin\PageController',

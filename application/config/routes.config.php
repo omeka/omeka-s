@@ -96,25 +96,37 @@ return array(
                             'default' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/[:site-slug[/:controller[/:action]]]',
+                                    'route' => '/site/:site-slug[/:action]',
                                     'constraints' => array(
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                    'defaults' => array(
+                                        'action' => 'edit',
                                     ),
                                 ),
                             ),
-                            'id' => array(
+                            'add' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/add-site',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/:site-slug/:controller/:id',
+                                    'route' => 'page/:site-slug/:page-slug[/:action]',
                                     'constraints' => array(
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id'         => '\d+',
+                                        'page-slug'  => '[a-zA-Z0-9_-]+',
+                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                                     ),
                                     'defaults' => array(
-                                        'action' => 'show',
+                                        'controller' => 'Page',
+                                        'action' => 'edit',
                                     ),
                                 ),
                             ),

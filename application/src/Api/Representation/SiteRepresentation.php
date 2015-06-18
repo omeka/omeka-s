@@ -6,11 +6,17 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function getControllerName()
+    public function url($action = null)
     {
-        return 'site';
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'admin/site/default',
+            array(
+                'site-slug' => $this->slug(),
+                'action' => $action,
+            )
+        );
     }
-
     public function getJsonLd()
     {
         $entity = $this->getData();

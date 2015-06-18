@@ -138,7 +138,7 @@ class UserController extends AbstractActionController
                 $user->setPassword($values['password']);
                 $em->flush();
                 $this->messenger()->addSuccess('Password changed.');
-                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);               
+                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

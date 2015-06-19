@@ -4,6 +4,11 @@ namespace Omeka\Api\Representation;
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**
+     * @var array
+     */
+    protected $pages;
+
+    /**
      * {@inheritDoc}
      */
     public function url($action = null)
@@ -58,6 +63,19 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function navigation()
     {
         return $this->getData()->getNavigation();
+    }
+
+    public function pages()
+    {
+        if (isset($this->pages)) {
+            return $this->pages;
+        }
+        $this->pages = array();
+        $pageAdapter = $this->getAdapter('site_pages');
+        foreach ($this->getData()->getPages() as $pageEntity) {
+            $this->pages[] = $pageAdapter->getRepresentation(null, $pageEntity);
+        }
+        return $this->pages;
     }
 
     /**

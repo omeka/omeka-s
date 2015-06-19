@@ -67,34 +67,34 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        $type = $entity->getType();
         $data = $request->getContent();
+        $type = $entity->getType();
 
         if ($request->getOperation() === Request::CREATE) {
+            // Accept the passed type only on CREATE to prevent overwriting
+            // on subsequent UPDATE requests.
             $type = $request->getValue('o:type');
+            $entity->setType($data['o:type']);
             if (isset($data['o:item']['o:id'])) {
                 $item = $this->getAdapter('items')
                     ->findEntity($data['o:item']['o:id']);
                 $entity->setItem($item);
             }
-        }
-        $handler = $this->getServiceLocator()
-            ->get('Omeka\MediaHandlerManager')->get($type);
-
-        parent::hydrate($request, $entity, $errorStore);
-
-        if ($request->getOperation() === Request::CREATE) {
-            // Handle a CREATE request.
-            $entity->setType($data['o:type']);
             if (isset($data['data'])) {
                 $entity->setData($data['data']);
             }
             if (isset($data['o:source'])) {
                 $entity->setSource($data['o:source']);
             }
+        }
+
+        parent::hydrate($request, $entity, $errorStore);
+
+        $handler = $this->getServiceLocator()
+            ->get('Omeka\MediaHandlerManager')->get($type);
+        if ($request->getOperation() === Request::CREATE) {
             $handler->ingest($entity, $request, $errorStore);
         } elseif ($handler instanceof MutableHandlerInterface) {
-            // Handle an UPDATE request if the media type is mutable.
             $handler->update($entity, $request, $errorStore);
         }
     }

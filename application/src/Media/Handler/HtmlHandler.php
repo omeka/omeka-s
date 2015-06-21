@@ -20,7 +20,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
         $js = "
             $(document).ready(function() {
-                $('textarea.media-html').ckeditor();
+                $('textarea.media-html').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
             });
         ";
         $view->headscript()->appendScript($js);
@@ -52,7 +52,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
         $js = "
             $(document).ready(function() {
-                $('textarea.media-html').ckeditor();
+                $('textarea.media-html').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
             });
         ";
         $view->headscript()->appendScript($js);
@@ -72,7 +72,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $field = $view->formField($textarea);
         $html = $field . "
             <script type='text/javascript'>
-                    $('#media-html-__index__').ckeditor();
+                    $('#media-html-__index__').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
             </script>
         ";
         return $html;

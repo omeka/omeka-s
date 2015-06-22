@@ -13,8 +13,14 @@ class UserController extends AbstractActionController
 {
     public function addAction()
     {   
-        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed('Omeka\Entity\User', 'change-role');
-        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
+        $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
+        $form = new UserForm($this->getServiceLocator(), null, array(
+            'include_role' => $changeRole,
+            'include_admin_roles' => $changeRoleAdmin,
+        ));
+
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {

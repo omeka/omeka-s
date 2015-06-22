@@ -359,17 +359,22 @@
     var rewritePropertyFromTemplateProperty = function(template, index, templates) {
         var propertiesContainer = $('div#properties');
         var id = template['o:property']['o:id'];
-        var field = propertiesContainer.find('div[data-property-id="' + id + '"]');
+        var field = propertiesContainer.find('fieldset[data-property-id="' + id + '"]');
         if (field.length == 0) {
             field = makeNewField(id);
             var qName = field.data('property-term');
             $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
-        var originalLabel = field.find('.field-label');
+        if (field.find('.field-label.original').length > 0) {
+            var originalLabel = field.find('.field-label.original');
+        } else {
+            var originalLabel = field.find('.field-label');
+        }
         if (template['o:alternate_label'] == "") {
             originalLabel.show();
-            field.find('field-label.alternate').remove();
+            field.find('.field-label.alternate').remove();
+            console.log('alt removed');
         } else {
             var altLabel = originalLabel.clone();
             originalLabel.addClass('original');

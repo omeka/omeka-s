@@ -374,7 +374,6 @@
         if (template['o:alternate_label'] == "") {
             originalLabel.show();
             field.find('.field-label.alternate').remove();
-            console.log('alt removed');
         } else {
             var altLabel = originalLabel.clone();
             originalLabel.addClass('original');

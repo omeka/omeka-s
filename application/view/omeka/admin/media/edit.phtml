@@ -41,7 +41,6 @@ $(document).ready(function() {
     <?php echo $this->formElement($form->get('csrf')); ?>
 
     <?php echo $this->media()->updateForm($media); ?>
-    <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>
 
 <?php 

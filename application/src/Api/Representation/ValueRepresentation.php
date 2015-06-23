@@ -94,7 +94,6 @@ class ValueRepresentation extends AbstractRepresentation
                 break;
         }
 
-        $valueObject['value_id'] = $value->getId();
         $valueObject['property_id'] = $value->getProperty()->getId();
         $valueObject['property_label'] = $value->getProperty()->getLabel();
 

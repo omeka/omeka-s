@@ -10,6 +10,8 @@ use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\Form\Element\Textarea;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 
 class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
 {
@@ -95,6 +97,9 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $data = $request->getContent();
         if (isset($data['html'])) {
             $html = $data['html'];
+            $config = HTMLPurifier_Config::createDefault();
+            $purifier = new HTMLPurifier($config);
+            $html = $purifier->purify($html);
             $media->setData(array('html' => $html));
         }
     }
@@ -103,6 +108,9 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
     {
         $data = $request->getContent();
         $html = $data['o:media']['__index__']['html'];
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $html = $purifier->purify($html);
         $media->setData(array('html' => $html));
     }
 

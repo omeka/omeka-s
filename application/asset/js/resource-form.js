@@ -22,6 +22,8 @@
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
             var templateId = $(this).val();
+            $('.alternate').remove();
+            $('.field-label, .field-comment').show();
             if (templateId == "") {
                 $('.field-label.alternate').remove();
                 $('.field-description.alternate').remove();
@@ -331,17 +333,12 @@
             $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
-        if (field.find('.field-label.original').length > 0) {
-            var originalLabel = field.find('.field-label.original');
-        } else {
-            var originalLabel = field.find('.field-label');
-        }
+        var originalLabel = field.find('.field-label');
         if (template['o:alternate_label'] == "") {
             originalLabel.show();
             field.find('.field-label.alternate').remove();
-        } else if (field.find('.alternate').length == 0) {
+        } else {
             var altLabel = originalLabel.clone();
-            originalLabel.addClass('original');
             altLabel.addClass('alternate');
             altLabel.text(template['o:alternate_label']);
             altLabel.insertAfter(originalLabel);
@@ -354,7 +351,6 @@
             field.find('.field-description.alternate').remove();
         } else {
             var altDescription = originalDescription.clone();
-            originalDescription.addClass('original');
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);
             altDescription.insertAfter(originalDescription);

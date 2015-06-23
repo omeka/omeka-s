@@ -24,6 +24,9 @@
             var templateId = $(this).val();
             $('.alternate').remove();
             $('.field-label, .field-description').show();
+            if (templateId == '') {
+                return;
+            }
             var url = $(this).data('api-base-url') + templateId;
             $.ajax({
                 'url': url,

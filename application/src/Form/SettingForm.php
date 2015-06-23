@@ -43,6 +43,16 @@ class SettingForm extends AbstractForm
                 ),
             )
         ));
+        
+        $this->add(array(
+            'name'    => 'use_htmlpurifier',
+            'type'    => 'Checkbox',
+            'options' => array(
+                'label' => $translator->translate('Use HTMLPurifier'),
+                'info'  => $translator->translate('Clean up user-entered HTML.')
+            )
+                
+        ));
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(

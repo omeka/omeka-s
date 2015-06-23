@@ -45,7 +45,6 @@ class ValueRepresentationTest extends TestCase
         $valueResourceName   = 'test-value_resource_name';
         $valueResourceId     = 'test-value_resource_id';
         $valueResourceApiUrl = 'test-value_resource_api_url';
-        $valueId             = 'test-value_id';
         $propertyId          = 'test-property_id';
         $propertyLabel       = 'test-property_label';
 
@@ -105,14 +104,10 @@ class ValueRepresentationTest extends TestCase
         $value->expects($this->exactly(2))
             ->method('getProperty')
             ->will($this->returnValue($property));
-        $value->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($valueId));
 
         $valueRep = new ValueRepresentation($value, $serviceLocator);
         $this->assertEquals(array(
             'fake_value_representation' => 'fake_data',
-            'value_id'          => $valueId,
             'property_id'       => $propertyId,
             'property_label'    => $propertyLabel,
         ), $valueRep->jsonSerialize());
@@ -121,7 +116,6 @@ class ValueRepresentationTest extends TestCase
     public function testJsonSerializeUri()
     {
         $valueResourceApiUrl = 'test-value_resource_api_url';
-        $valueId             = 'test-value_id';
         $valueUri            = 'test-value_uri';
         $propertyId          = 'test-property_id';
         $propertyLabel       = 'test-property_label';
@@ -143,9 +137,6 @@ class ValueRepresentationTest extends TestCase
         $value->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($valueUri));
-        $value->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($valueId));
         $value->expects($this->exactly(2))
             ->method('getProperty')
             ->will($this->returnValue($property));
@@ -153,7 +144,6 @@ class ValueRepresentationTest extends TestCase
         $valueRep = new ValueRepresentation($value, $serviceLocator);
         $this->assertEquals(array(
             '@id'            => $valueUri,
-            'value_id'       => $valueId,
             'property_id'    => $propertyId,
             'property_label' => $propertyLabel,
         ), $valueRep->jsonSerialize());
@@ -162,7 +152,6 @@ class ValueRepresentationTest extends TestCase
     public function testJsonSerializeLiteral()
     {
         $valueResourceApiUrl = 'test-value_resource_api_url';
-        $valueId             = 'test-value_id';
         $valueLiteral        = 'test-value_literal';
         $valueLang           = 'test-value_lang';
         $propertyId          = 'test-property_id';
@@ -185,9 +174,6 @@ class ValueRepresentationTest extends TestCase
         $value->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($valueLiteral));
-        $value->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($valueId));
         $value->expects($this->exactly(2))
             ->method('getLang')
             ->will($this->returnValue($valueLang));
@@ -199,7 +185,6 @@ class ValueRepresentationTest extends TestCase
         $this->assertEquals(array(
             '@value'         => $valueLiteral,
             '@language'      => $valueLang,
-            'value_id'       => $valueId,
             'property_id'    => $propertyId,
             'property_label' => $propertyLabel,
         ), $valueRep->jsonSerialize());

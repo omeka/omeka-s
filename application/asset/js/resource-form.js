@@ -374,7 +374,7 @@
         if (template['o:alternate_label'] == "") {
             originalLabel.show();
             field.find('.field-label.alternate').remove();
-        } else {
+        } else if (field.find('.alternate').length == 0) {
             var altLabel = originalLabel.clone();
             originalLabel.addClass('original');
             altLabel.addClass('alternate');

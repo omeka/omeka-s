@@ -613,6 +613,10 @@ nav.pagination form input[type="text"] {
         content: $fa-var-laptop;
     }
     
+    #menu .settings:before {
+        content: $fa-var-gears;
+    }
+
     #menu li li a:before {
         content: $fa-var-caret-right;
     }
@@ -2178,6 +2182,19 @@ body.show .sidebar img {
 
 .state-filter select {
     @include trailer(.5);
+}
+
+/* @end */
+
+/* @group ----- Sites ----- */
+
+#page-list {
+    padding: 0;
+}
+
+#page-list li {
+    @include field-row;
+    list-style-type: none;
 }
 
 /* @end */

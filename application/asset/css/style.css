@@ -1012,6 +1012,10 @@ th {
     content: "";
   }
 
+  #menu .settings:before {
+    content: "";
+  }
+
   #menu li li a:before {
     content: "";
   }
@@ -2533,6 +2537,21 @@ th {
 
   .state-filter select {
     margin-bottom: 0.75em;
+  }
+
+  /* @end */
+  /* @group ----- Sites ----- */
+  #page-list {
+    padding: 0;
+  }
+
+  #page-list li {
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+    list-style-type: none;
   }
 
   /* @end */

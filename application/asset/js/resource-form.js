@@ -23,31 +23,24 @@
         $('#resource-template-select').on('change', function(e) {
             var templateId = $(this).val();
             $('.alternate').remove();
-            $('.field-label, .field-comment').show();
-            if (templateId == "") {
-                $('.field-label.alternate').remove();
-                $('.field-description.alternate').remove();
-                $('.field-label').show();
-                $('.field-description').show();
-            } else {
-                var url = $(this).data('api-base-url') + templateId;
-                $.ajax({
-                    'url': url,
-                    'type': 'get'
-                }).done(function(data) {
-                    var classSelect = $('select#resource-class-select');
-                    if (data['o:resource_class'] && classSelect.val() == '' ) {
-                        classSelect.val(data['o:resource_class']['o:id']);
-                    }
-                    //in case people have added fields, reverse the template so
-                    //I can prepend everything and keep the order, and then drop
-                    //back to what people have added
-                    var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                    propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-                }).error(function() {
-                    console.log('fail');
-                });
-            }
+            $('.field-label, .field-description').show();
+            var url = $(this).data('api-base-url') + templateId;
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                var classSelect = $('select#resource-class-select');
+                if (data['o:resource_class'] && classSelect.val() == '' ) {
+                    classSelect.val(data['o:resource_class']['o:id']);
+                }
+                //in case people have added fields, reverse the template so
+                //I can prepend everything and keep the order, and then drop
+                //back to what people have added
+                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            }).error(function() {
+                console.log('fail');
+            });
         });
 
         // Make new value inputs whenever "add value" button clicked.
@@ -334,10 +327,7 @@
         }
 
         var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label'] == "") {
-            originalLabel.show();
-            field.find('.field-label.alternate').remove();
-        } else {
+        if (template['o:alternate_label'] != "") {
             var altLabel = originalLabel.clone();
             altLabel.addClass('alternate');
             altLabel.text(template['o:alternate_label']);
@@ -346,10 +336,7 @@
         }
 
         var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment'] == "") {
-            originalDescription.show();
-            field.find('.field-description.alternate').remove();
-        } else {
+        if (template['o:alternate_comment'] != "") {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);

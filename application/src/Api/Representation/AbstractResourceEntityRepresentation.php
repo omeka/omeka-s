@@ -185,6 +185,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * array(
      *   {term} => array(
      *     'property' => {PropertyRepresentation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
      *     'values' => array(
      *       {ValueRepresentation},
      *       {ValueRepresentation},
@@ -201,6 +203,25 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             return $this->values;
         }
 
+        // Set the default template info.
+        $templateInfo = array(
+            'dcterms:title' => array(),
+            'dcterms:description' => array(),
+        );
+
+        $template = $this->resourceTemplate();
+        if ($template) {
+            // Set the custom template info.
+            $templateInfo = array();
+            foreach ($template->resourceTemplateProperties() as $templateProperty) {
+                $term = $templateProperty['o:property']->getRepresentation()->term();
+                $templateInfo[$term] = array(
+                    'alternate_label' => $templateProperty['o:alternate_label'],
+                    'alternate_comment' => $templateProperty['o:alternate_comment'],
+                );
+            }
+        }
+
         // Get this resource's values.
         $values = array();
         foreach ($this->getData()->getValues() as $valueEntity) {
@@ -208,29 +229,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $term = $value->property()->term();
             if (!isset($values[$term]['property'])) {
                 $values[$term]['property'] = $value->property();
+                $values[$term]['alternate_label'] = null;
+                $values[$term]['alternate_comment'] = null;
             }
             $values[$term]['values'][] = $value;
-        }
-
-        // Get this resource's template.
-        $template = $this->resourceTemplate();
-        if ($template) {
-            $sortTerms = array();
-            $templateProperties = $template->resourceTemplateProperties();
-            foreach ($templateProperties as $templateProperty) {
-                $sortTerms[] = $templateProperty['o:property']
-                    ->getRepresentation()->term();
-            }
-        } else {
-            $sortTerms = array('dcterms:title', 'dcterms:description');
         }
 
         // Order this resource's values according to the template order.
         $sortedValues = array();
         foreach ($values as $term => $valueInfo) {
-            foreach ($sortTerms as $sortTerm) {
-                if (array_key_exists($sortTerm, $values)) {
-                    $sortedValues[$sortTerm] = $values[$sortTerm];
+            foreach ($templateInfo as $templateTerm => $templateAlternates) {
+                if (array_key_exists($templateTerm, $values)) {
+                    $sortedValues[$templateTerm] =
+                        array_merge($values[$templateTerm], $templateAlternates);
                 }
             }
         }

@@ -21,7 +21,7 @@
 
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
-            var templateId = $(this).find(':selected').val();
+            var templateId = $(this).val();
             if (templateId == "") {
                 $('.field-label.alternate').remove();
                 $('.field-description.alternate').remove();
@@ -396,7 +396,7 @@
 
         //rewrite the fields if a template is set
         var templateSelect = $('#resource-template-select');
-        var templateId = templateSelect.find(':selected').val();
+        var templateId = templateSelect.val();
         if ($.isNumeric(templateId)) {
             var url = templateSelect.data('api-base-url') + templateId;
             $.ajax({

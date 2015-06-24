@@ -8,9 +8,19 @@ CKEDITOR.editorConfig = function( config ) {
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
     config.toolbar = [
-                      { "name" : "advanced", "items" : ['Source', '-', 'Link', 'Unlink']},
+                      { "name" : "advanced", "items" : 
+                          ['Source', '-', 
+                           'Link', 'Unlink', 'Anchor', '-', 
+                           'Format', 'Styles', 'PasteFromWord'
+                           ]
+                      },
                       "/",
-                      { "items" : ['Bold', 'Italic', 'Underline']}
-                      ];
-};    
+                      { "items" : 
+                          ['Bold', 'Italic', 'Underline', 'Strike', '-',
+                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
+                           'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'
+                          ]
+                      }
+                     ];
+};
 

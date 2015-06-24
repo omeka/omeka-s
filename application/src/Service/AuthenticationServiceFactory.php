@@ -27,8 +27,10 @@ class AuthenticationServiceFactory implements FactoryInterface
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
         $status = $serviceLocator->get('Omeka\Status');
 
-        // Skip auth retrieval entirely if we're upgrading
-        if ($status->needsVersionUpdate() && $status->needsMigration()) {
+        // Skip auth retrieval entirely if we're installing or migrating.
+        if (!$status->isInstalled() ||
+            ($status->needsVersionUpdate() && $status->needsMigration())
+        ) {
             $storage = new NonPersistent;
             $adapter = new Callback(function () { return null; });
         } else {

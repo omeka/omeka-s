@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Entity\Property;
+use Omeka\Entity\Media;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Zend\Stdlib\Hydrator\HydrationInterface;
@@ -154,10 +155,13 @@ class ValueHydrator implements HydrationInterface
                 $valueObject['value_resource_id']
             ));
         }
-        if ($valueResource instanceof \Omeka\Entity\Media) {
-            throw new Exception\NotFoundException(
-                $this->adapter->getTranslator()->translate('A value resource cannot be Media.')
+        if ($valueResource instanceof Media) {
+            $translator = $this->adapter->getTranslator();
+            $exception = new Exception\ValidationException;
+            $exception->getErrorStore()->addError(
+                'value', $translator->translate('A value resource cannot be Media.')
             );
+            throw $exception;
         }
         $value->setValueResource($valueResource);
     }

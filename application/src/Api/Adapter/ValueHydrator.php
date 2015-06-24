@@ -154,6 +154,11 @@ class ValueHydrator implements HydrationInterface
                 $valueObject['value_resource_id']
             ));
         }
+        if ($valueResource instanceof \Omeka\Entity\Media) {
+            throw new Exception\NotFoundException(
+                $this->adapter->getTranslator()->translate('A value resource cannot be Media.')
+            );
+        }
         $value->setValueResource($valueResource);
     }
 

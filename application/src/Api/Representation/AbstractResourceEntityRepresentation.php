@@ -226,6 +226,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $values = array();
         foreach ($this->getData()->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
+            if ('resource' === $value->type() && null === $value->valueResource()) {
+                // Skip this resource value if the resource is not available
+                // (most likely becuase it is private).
+                continue;
+            }
             $term = $value->property()->term();
             if (!isset($values[$term]['property'])) {
                 $values[$term]['property'] = $value->property();

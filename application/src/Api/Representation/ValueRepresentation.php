@@ -178,13 +178,11 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function valueResource()
     {
-        $valueResource = $this->getData()->getValueResource();
-        $valueResourceAdapter = $this->getAdapter(
-            $valueResource->getResourceName()
-        );
-        return $valueResourceAdapter->getRepresentation(
-            $valueResource->getId(),
-            $valueResource
-        );
+        $resource = $this->getData()->getValueResource();
+        if (!$resource) {
+            return null;
+        }
+        $resourceAdapter = $this->getAdapter($resource->getResourceName());
+        return $resourceAdapter->getRepresentation($resource->getId(), $resource);
     }
 }

@@ -68,7 +68,7 @@ class PaginationTest extends TestCase
         // View
         $view = $this->getMock(
             'Zend\View\Renderer\PhpRenderer',
-            array('partial', 'url')
+            array('partial', 'url', 'params')
         );
         $view->expects($this->any())
             ->method('url');
@@ -90,6 +90,15 @@ class PaginationTest extends TestCase
                     'lastPageUrl'     => null,
                 ))
             );
+        $params = $this->getMockBuilder('Omeka\View\Helper\Params')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $params->expects($this->exactly(5))
+            ->method('fromQuery')
+            ->will($this->returnValue($query));
+        $view->expects($this->exactly(5))
+            ->method('params')
+            ->will($this->returnValue($params));
 
         $pagination = new Pagination($serviceManager);
         $pagination->setView($view);

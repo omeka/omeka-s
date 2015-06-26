@@ -20,16 +20,14 @@ class SortLink extends AbstractHelper
      */
     public function __invoke($label, $sortBy, $partialName = null)
     {
-        if (!isset($_GET['sort_by'])) {
-            $_GET['sort_by'] = null;
-        }
-        if (!isset($_GET['sort_order'])) {
-            $_GET['sort_order'] = null;
-        }
-        if ('asc' == $_GET['sort_order'] && $_GET['sort_by'] == $sortBy) {
+        $params = $this->getView()->params();
+        $sortByQuery = $params->fromQuery('sort_by');
+        $sortOrderQuery = $params->fromQuery('sort_order');
+
+        if ('asc' === $sortOrderQuery && $sortByQuery === $sortBy) {
             $sortOrder = 'desc';
             $class = 'sorted-asc';
-        } elseif ('desc' == $_GET['sort_order'] && $_GET['sort_by'] == $sortBy) {
+        } elseif ('desc' === $sortOrderQuery && $sortByQuery === $sortBy) {
             $sortOrder = 'asc';
             $class = 'sorted-desc';
         } else {
@@ -43,7 +41,7 @@ class SortLink extends AbstractHelper
                 'query' => array(
                     'sort_by' => $sortBy,
                     'sort_order' => $sortOrder,
-                ) + $_GET
+                ) + $params->fromQuery()
             ),
             true
         );

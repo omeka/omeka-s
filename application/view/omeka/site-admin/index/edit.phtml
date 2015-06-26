@@ -10,7 +10,33 @@ $form->prepare();
     <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($site->url('delete')); ?>">Delete</a>
     <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
 </div>
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
+        <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
+    </ul>
+</nav>
+<fieldset id="admin" class="section active">
+<legend><?php echo $this->translate('Admin'); ?></legend>
 <?php echo $this->formElements($form); ?>
+</fieldset>
+<fieldset id="pages" class="section">
+<legend><?php echo $this->translate('Pages'); ?></legend>
+<?php echo $site->link('Add a Page', 'add-page', array('class' => 'button')); ?>
+
+<?php
+$pages = $site->pages();
+if ($pages):
+?>
+    <ul id="page-list">
+<?php foreach ($pages as $page): ?>
+        <li>
+            <?php echo $page->title(); ?>
+        </li>
+<?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+</fieldset>
 <?php echo $this->form()->closeTag(); ?>
 
 <div class="sidebar">

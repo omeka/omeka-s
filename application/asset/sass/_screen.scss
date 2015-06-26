@@ -613,6 +613,10 @@ nav.pagination form input[type="text"] {
         content: $fa-var-laptop;
     }
     
+    #menu .settings:before {
+        content: $fa-var-gears;
+    }
+
     #menu li li a:before {
         content: $fa-var-caret-right;
     }
@@ -673,8 +677,10 @@ div[role="main"] {
     vertical-align: middle;
 }
 
-.browse .advanced-search.button {
+.browse .advanced-search {
     float: right;
+    padding: rhythm(.25) 0;
+    display: block;
 }
 
 .actions {
@@ -1092,22 +1098,23 @@ body.sidebar-open #content {
     top: rhythm(.25);
     left: rhythm(2);
     height: rhythm();
-    width: auto;
+    width: rhythm(.75);
     background-color: transparent;
     line-height: $base-line-height;
+    overflow: hidden;
 }
 
 .inputs input[type="text"].value-language {
     position: absolute;
     top: rhythm(.25);
     left: rhythm(2.5);
-    margin: 0;
+    margin: 0 0 0 rhythm(.25);
     background-color: transparent; 
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
     min-height: 0;
-    padding: 0 0 0 rhythm(.5);
+    padding: 0;
     height: rhythm();
 }
 
@@ -1152,11 +1159,17 @@ body.sidebar-open #content {
         position: relative;
         display: inline-block;
         
+        legend,
         label {
-            display: inline-block;
             max-width: 80%;
             padding: rhythm(.25) 0;
             font-weight: bold;
+            display: inline-block;
+        }
+
+        legend {
+            position: static;
+            float: left;
         }
 
         .error {
@@ -1401,7 +1414,7 @@ body.sidebar-open #content {
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block;
-        margin-left: .5em;
+        margin: rhythm(.25) 0 rhythm(.25) .5em;
     }
 
     .collapsible {
@@ -1410,6 +1423,7 @@ body.sidebar-open #content {
 
     .collapse + .collapsible {
         display: block;
+        clear: both;
     }
 
     .field-description .field-comment {
@@ -1518,6 +1532,9 @@ body.sidebar-open #content {
         background-color: $gray-on-white;
         line-height: 1.5 * $base-line-height;
         margin-right: 0;
+        overflow: hidden;
+        width: rhythm(.5);
+        vertical-align: top;
     }
 
     .input-header {
@@ -1546,7 +1563,7 @@ body.sidebar-open #content {
         background-color: transparent;
     }
 
-    .value label[class*="o-icon-"] {
+    .value legend[class*="o-icon-"] {
         position: absolute;
         top: 0;
         left: 0;
@@ -1555,6 +1572,7 @@ body.sidebar-open #content {
         background-color: $gray-on-white;
         text-align: center;
         line-height: 1.5 * $base-line-height;
+        overflow: hidden;
     }
 
     .uri.value input[type="text"] {
@@ -1628,9 +1646,10 @@ body.sidebar-open #content {
         height: rhythm(1.5);
     }
 
-    textarea.value-label {
+    .uri textarea.value-label {
         @include leader(0);
         border-top-width: 0;
+        padding-bottom: 0;
     }
 
     /* @end */
@@ -2162,6 +2181,19 @@ body.show .sidebar img {
 
 .state-filter select {
     @include trailer(.5);
+}
+
+/* @end */
+
+/* @group ----- Sites ----- */
+
+#page-list {
+    padding: 0;
+}
+
+#page-list li {
+    @include field-row;
+    list-style-type: none;
 }
 
 /* @end */

@@ -4,9 +4,12 @@ namespace Omeka\Service;
 use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
+use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
+use Omeka\Permissions\Assertion\UserIsAdminAssertion;
 use Omeka\Service\Exception;
+use Zend\Permissions\Acl\Assertion\AssertionAggregate;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -212,8 +215,12 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
+            'Omeka\Controller\Admin\User'
+        );
+        $acl->deny(
+            'researcher',
             'Omeka\Controller\Admin\User',
-            'edit'
+            'browse'
         );
         $acl->allow(
             'researcher',
@@ -223,7 +230,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'researcher',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -314,8 +321,12 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
+            'Omeka\Controller\Admin\User'
+        );
+        $acl->deny(
+            'author',
             'Omeka\Controller\Admin\User',
-            'edit'
+            'browse'
         );
         $acl->allow(
             'author',
@@ -325,7 +336,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -414,8 +425,12 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
+            'Omeka\Controller\Admin\User'
+        );
+        $acl->deny(
+            'reviewer',
             'Omeka\Controller\Admin\User',
-            'edit'
+            'browse'
         );
         $acl->allow(
             'reviewer',
@@ -425,7 +440,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             'Omeka\Entity\User',
-            array('read', 'update'),
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -518,7 +533,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            'update',
+            array('read', 'update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -554,6 +569,32 @@ class AclFactory implements FactoryInterface
             'site_admin',
             'Omeka\Entity\Media',
             array('create', 'update', 'delete')
+        );
+
+        $acl->deny(
+            'site_admin',
+            'Omeka\Entity\User',
+            'change-role-admin'
+        );
+        $acl->deny (
+            'site_admin',
+            'Omeka\Entity\User',
+            'change-role',
+            new IsSelfAssertion
+        );
+
+        // Site admins should not be able to edit other admin users but should
+        // be able to edit themselves
+        $denyEdit = new AssertionAggregate;
+        $denyEdit->addAssertions(array(
+            new UserIsAdminAssertion,
+            new AssertionNegation(new IsSelfAssertion),
+        ));
+        $acl->deny(
+            'site_admin',
+            'Omeka\Entity\User',
+            array('update', 'delete', 'change-password', 'edit-keys'),
+            $denyEdit
         );
     }
 

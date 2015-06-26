@@ -12,11 +12,6 @@ class Pagination extends AbstractHelper
     const PARTIAL_NAME = 'common/pagination';
 
     /**
-     * @var \Zend\Http\PhpEnvironment\Request
-     */
-    protected $request;
-
-    /**
      * @var \Omeka\Service\Paginator
      */
     protected $paginator;
@@ -35,7 +30,6 @@ class Pagination extends AbstractHelper
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->request = $serviceLocator->get('Request');
         $this->paginator = $serviceLocator->get('Omeka\Paginator');
     }
 
@@ -90,7 +84,7 @@ class Pagination extends AbstractHelper
                 'previousPage'    => $paginator->getPreviousPage(),
                 'nextPage'        => $paginator->getNextPage(),
                 'pageCount'       => $pageCount,
-                'query'           => $this->request->getQuery()->toArray(),
+                'query'           => $this->getView()->params()->fromQuery(),
                 'firstPageUrl'    => $this->getUrl(1),
                 'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
                 'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
@@ -112,7 +106,7 @@ class Pagination extends AbstractHelper
      */
     protected function getUrl($page)
     {
-        $query = $this->request->getQuery()->toArray();
+        $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
         return $this->getView()->url(null, array(), array('query' => $query), true);
     }

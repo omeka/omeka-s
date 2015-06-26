@@ -14,7 +14,6 @@ class UserAdapter extends AbstractEntityAdapter
      */
     protected $sortFields = array(
         'id'        => 'id',
-        'username'  => 'username',
         'email'     => 'email',
         'name'      => 'name',
         'created'   => 'created',
@@ -52,18 +51,24 @@ class UserAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
-        if ($this->shouldHydrate($request, 'o:username')) {
-            $entity->setUsername($request->getValue('o:username'));
-        }
         if ($this->shouldHydrate($request, 'o:name')) {
             $entity->setName($request->getValue('o:name'));
         }
         if ($this->shouldHydrate($request, 'o:email')) {
             $entity->setEmail($request->getValue('o:email'));
         }
-        if ($this->shouldHydrate($request, 'o:role')) {
+
+        $role = $request->getValue('o:role');
+        if ($role && $this->shouldHydrate($request, 'o:role')) {
             $this->authorize($entity, 'change-role');
-            $entity->setRole($request->getValue('o:role'));
+
+            // Ask specially for permission to set an admin role
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            if ($acl->isAdminRole($role)) {
+                $this->authorize($entity, 'change-role-admin');
+            }
+
+            $entity->setRole($role);
         }
     }
 
@@ -71,34 +76,13 @@ class UserAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function buildQuery(QueryBuilder $qb, array $query)
-    {
-        if (isset($query['username'])) {
-            $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\User.username",
-                $this->createNamedParameter($qb, $query['username']))
-            );
-        }
-    }
+    {}
 
     /**
      * {@inheritDoc}
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
-        $username = $entity->getUsername();
-        if (false == $username) {
-            $errorStore->addError('o:username', 'The username cannot be empty.');
-        }
-        if (preg_match('/\s/u', $username)) {
-            $errorStore->addError('o:username', 'A username cannot contain whitespace.');
-        }
-        if (!$this->isUnique($entity, array('username' => $username))) {
-            $errorStore->addError('o:username', sprintf(
-                'The username "%s" is already taken.',
-                $username
-            ));
-        }
-
         if (false == $entity->getName()) {
             $errorStore->addError('o:name', 'The name cannot be empty.');
         }

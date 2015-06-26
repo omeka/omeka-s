@@ -1,7 +1,6 @@
-<?php if ($pageCount > 1): ?>
 <nav class="pagination" role="navigation">
     <form>
-        <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4">
+            <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
         <span class="page-count">of <?php echo $pageCount; ?></span>
     </form>
 
@@ -29,4 +28,3 @@
     <span class="last o-icon-last button inactive"></span>
     <?php endif; ?>
 </nav>
-<?php endif; ?>

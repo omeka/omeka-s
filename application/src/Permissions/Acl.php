@@ -26,6 +26,16 @@ class Acl extends ZendAcl
     );
 
     /**
+     * Roles that are "admins" and restricted for editing.
+     *
+     * @var array
+     */
+    protected $adminRoles = array(
+        self::ROLE_GLOBAL_ADMIN,
+        self::ROLE_SITE_ADMIN,
+    );
+
+    /**
      * @var AuthenticationServiceInterface
      */
     protected $auth;
@@ -49,11 +59,20 @@ class Acl extends ZendAcl
     /**
      * Get role names and their labels.
      *
+     * @param boolean $excludeAdminRoles Whether to only return the non-admin
+     *  roles. False by default, so all roles are returned.
      * @return array
      */
-    public function getRoleLabels()
+    public function getRoleLabels($excludeAdminRoles = false)
     {
-        return $this->roleLabels;
+        $labels = $this->roleLabels;
+
+        if ($excludeAdminRoles) {
+            foreach ($this->adminRoles as $role) {
+                unset($labels[$role]);
+            }
+        }
+        return $labels;
     }
 
     /**
@@ -71,5 +90,16 @@ class Acl extends ZendAcl
             $role = $auth->getIdentity();
         }
         return $this->isAllowed($role, $resource, $privilege);
+    }
+
+    /**
+     * Determine whether the admin role is an "admin" role that carries
+     * restrictions beyond other roles.
+     *
+     * @return boolean
+     */
+    public function isAdminRole($role)
+    {
+        return in_array($role, $this->adminRoles);
     }
 }

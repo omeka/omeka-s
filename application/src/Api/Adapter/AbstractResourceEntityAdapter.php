@@ -86,10 +86,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 $resourceClassAlias = $this->createAlias();
                 $qb ->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
                     ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
-            } elseif ('owner_username' == $query['sort_by']) {
+            } elseif ('owner_name' == $query['sort_by']) {
                 $ownerAlias = $this->createAlias();
                 $qb->leftJoin("$entityClass.owner", $ownerAlias)
-                    ->addOrderBy("$ownerAlias.username", $query['sort_order']);
+                    ->addOrderBy("$ownerAlias.name", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }
@@ -109,8 +109,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
 
         // Hydrate this resource's values.
+        $append = $request->getOperation() === Request::UPDATE
+            && $request->isPartial();
         $valueHydrator = new ValueHydrator($this);
-        $valueHydrator->hydrate($data, $entity);
+        $valueHydrator->hydrate($data, $entity, $append);
 
         // o:owner
         $this->hydrateOwner($request, $entity);

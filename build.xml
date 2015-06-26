@@ -93,6 +93,16 @@
             description="Set up this Omeka install."
             depends="dedist,install-deps"
     />
+    <target name="zip"
+            description="Build a zipped package of Omeka S."
+            depends="init">
+        <zip destfile="${build.dir}/omeka-s.zip">
+            <zipfileset dir="." prefix="omeka-s">
+                <exclude name="**/*.dist"/>
+                <exclude name="build/**"/>
+            </zipfileset>
+        </zip>
+    </target>
     <target name="clean"
             description="Remove build files and external dependencies.">
         <delete dir="${build.dir}" quiet="true"/>

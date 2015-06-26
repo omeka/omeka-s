@@ -11,7 +11,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php if (count($medias) > 0): ?>
 
-<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search button')); ?>
+<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
 
 <?php echo $this->pagination(); ?>
 
@@ -20,7 +20,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <tr>
             <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
             <th><?php echo $this->sortLink($this->translate('Item'), 'item'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_username'); ?></th>
+            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php $mediaItem = $media->item(); ?>
                     <?php echo $mediaItem->link($mediaItem->displayTitle()); ?>
                 </td>
-                <td><?php echo $this->hyperlink($media->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $media->owner()->id()))); ?></td>
+                <td><?php echo $this->hyperlink($media->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $media->owner()->id()))); ?></td>
             </tr>
         <?php endforeach; ?>       
     </tbody>

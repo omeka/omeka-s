@@ -124,11 +124,9 @@ return array(
             array(
                 'label'      => 'Sites',
                 'class'      => 'sites',
-                'route'      => 'admin/default',
-                'controller' => 'site',
-                'action'     => 'browse',
-                'resource'   => 'Omeka\Controller\Admin\Site',
-                'privilege'  => 'browse',
+                'route'      => 'admin/site',
+                'resource'   => 'Omeka\Controller\SiteAdmin\Index',
+                'privilege'  => 'index',
             ),
             array(
                 'label'      => 'Settings',

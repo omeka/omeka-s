@@ -64,10 +64,10 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'username', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+            return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
         }
 
-        return array('__isInitialized__', 'id', 'username', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+        return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
     }
 
     /**
@@ -186,28 +186,6 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
 
         return parent::getId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUsername($username)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsername', array($username));
-
-        return parent::setUsername($username);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsername()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsername', array());
-
-        return parent::getUsername();
     }
 
     /**

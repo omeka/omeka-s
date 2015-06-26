@@ -141,6 +141,7 @@ return array(
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
+            'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -189,7 +190,6 @@ return array(
             'Omeka\Controller\Admin\Property'         => 'Omeka\Controller\Admin\PropertyController',
             'Omeka\Controller\Admin\ResourceClass'    => 'Omeka\Controller\Admin\ResourceClassController',
             'Omeka\Controller\Admin\Media'            => 'Omeka\Controller\Admin\MediaController',
-            'Omeka\Controller\Admin\Site'             => 'Omeka\Controller\Admin\SiteController',
             'Omeka\Controller\Admin\Setting'          => 'Omeka\Controller\Admin\SettingController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
             'Omeka\Controller\SiteAdmin\Page'         => 'Omeka\Controller\SiteAdmin\PageController',
@@ -201,6 +201,7 @@ return array(
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
+            'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
         ),
     ),
     'api_adapters' => array(
@@ -232,6 +233,7 @@ return array(
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         ),
     ),
     'media_handlers' => array(
@@ -288,5 +290,14 @@ return array(
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
         )
-    )
+    ),
+    'mail' => array(
+        'transport' => array(
+            'type' => 'sendmail',
+            'options' => array(),
+        ),
+        'default_message_options' => array(
+            'encoding' => 'UTF-8',
+        ),
+    ),
 );

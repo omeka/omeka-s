@@ -1012,6 +1012,10 @@ th {
     content: "";
   }
 
+  #menu .settings:before {
+    content: "";
+  }
+
   #menu li li a:before {
     content: "";
   }
@@ -1070,8 +1074,10 @@ th {
     vertical-align: middle;
   }
 
-  .browse .advanced-search.button {
+  .browse .advanced-search {
     float: right;
+    padding: 0.375em 0;
+    display: block;
   }
 
   .actions {
@@ -1489,22 +1495,23 @@ th {
     top: 0.375em;
     left: 3em;
     height: 1.5em;
-    width: auto;
+    width: 1.125em;
     background-color: transparent;
     line-height: 24px;
+    overflow: hidden;
   }
 
   .inputs input[type="text"].value-language {
     position: absolute;
     top: 0.375em;
     left: 3.75em;
-    margin: 0;
+    margin: 0 0 0 0.375em;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.08);
     width: 6em;
     min-height: 0;
-    padding: 0 0 0 0.75em;
+    padding: 0;
     height: 1.5em;
   }
 
@@ -1548,11 +1555,16 @@ th {
     position: relative;
     display: inline-block;
   }
+  .field-meta legend,
   .field-meta label {
-    display: inline-block;
     max-width: 80%;
     padding: 0.375em 0;
     font-weight: bold;
+    display: inline-block;
+  }
+  .field-meta legend {
+    position: static;
+    float: left;
   }
   .field-meta .error {
     float: left;
@@ -1794,7 +1806,7 @@ th {
   .field-meta .expand,
   .field-meta .collapse {
     display: inline-block;
-    margin-left: .5em;
+    margin: 0.375em 0 0.375em 0.5em;
   }
 
   .collapsible {
@@ -1803,6 +1815,7 @@ th {
 
   .collapse + .collapsible {
     display: block;
+    clear: both;
   }
 
   .field-description .field-comment {
@@ -1903,6 +1916,9 @@ th {
     background-color: rgba(0, 0, 0, 0.08);
     line-height: 36px;
     margin-right: 0;
+    overflow: hidden;
+    width: 0.75em;
+    vertical-align: top;
   }
 
   .input-header {
@@ -1931,7 +1947,7 @@ th {
     background-color: transparent;
   }
 
-  .value label[class*="o-icon-"] {
+  .value legend[class*="o-icon-"] {
     position: absolute;
     top: 0;
     left: 0;
@@ -1940,6 +1956,7 @@ th {
     background-color: rgba(0, 0, 0, 0.08);
     text-align: center;
     line-height: 36px;
+    overflow: hidden;
   }
 
   .uri.value input[type="text"] {
@@ -2021,9 +2038,10 @@ th {
     height: 2.25em;
   }
 
-  textarea.value-label {
+  .uri textarea.value-label {
     margin-top: 0em;
     border-top-width: 0;
+    padding-bottom: 0;
   }
 
   /* @end */
@@ -2518,6 +2536,21 @@ th {
 
   .state-filter select {
     margin-bottom: 0.75em;
+  }
+
+  /* @end */
+  /* @group ----- Sites ----- */
+  #page-list {
+    padding: 0;
+  }
+
+  #page-list li {
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+    list-style-type: none;
   }
 
   /* @end */

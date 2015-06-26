@@ -13,8 +13,14 @@ class UserController extends AbstractActionController
 {
     public function addAction()
     {   
-        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed('Omeka\Entity\User', 'change-role');
-        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
+        $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
+        $form = new UserForm($this->getServiceLocator(), null, array(
+            'include_role' => $changeRole,
+            'include_admin_roles' => $changeRoleAdmin,
+        ));
+
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
@@ -38,10 +44,9 @@ class UserController extends AbstractActionController
 
     public function browseAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array('page' => $page);
-        $response = $this->api()->search('users', $query);
-        $this->paginator($response->getTotalResults(), $page);
+        $this->setBrowseDefaults('email');
+        $response = $this->api()->search('users', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
@@ -73,8 +78,15 @@ class UserController extends AbstractActionController
 
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
-        $changeRole = $this->getServiceLocator()->get('Omeka\Acl')->userIsAllowed($user->getEntity(), 'change-role');
-        $form = new UserForm($this->getServiceLocator(), null, array('include_role' => $changeRole));
+        $userEntity = $user->getEntity();
+
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
+        $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
+        $form = new UserForm($this->getServiceLocator(), null, array(
+            'include_role' => $changeRole,
+            'include_admin_roles' => $changeRoleAdmin,
+        ));
         $data = $user->jsonSerialize();
         $form->setData($data);
 
@@ -82,7 +94,7 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api()->update('users', $id, $formData, array(), true);
+                $response = $this->api()->update('users', $id, $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -102,13 +114,18 @@ class UserController extends AbstractActionController
 
     public function changePasswordAction()
     {
-        $form = new UserPasswordForm($this->getServiceLocator());
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
+        $currentUser = $user === $this->identity();
+        $form = new UserPasswordForm($this->getServiceLocator(), null, array('current_password' => $currentUser));
+
+        $view = new ViewModel;
+        $view->setVariable('user', $userRepresentation);
+        $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -120,6 +137,10 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
+                if($currentUser && !$user->verifyPassword($values['current-password'])){
+                        $this->messenger()->addError('The current password entered was invalid.');
+                        return $view;
+                    }
                 $user->setPassword($values['password']);
                 $em->flush();
                 $this->messenger()->addSuccess('Password changed.');
@@ -129,9 +150,6 @@ class UserController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel;
-        $view->setVariable('user', $userRepresentation);
-        $view->setVariable('form', $form);
         return $view;
     }
 
@@ -145,6 +163,13 @@ class UserController extends AbstractActionController
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $keys = $user->getKeys();
+
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($user, 'edit-keys')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit API keys'
+            );
+        }
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();

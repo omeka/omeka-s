@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Entity\Property;
+use Omeka\Entity\Media;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Zend\Stdlib\Hydrator\HydrationInterface;
@@ -29,9 +30,15 @@ class ValueHydrator implements HydrationInterface
      *
      * @param array $nodeObject A JSON-LD node object representing a resource
      * @param Resource $resource The owning resource entity instance
+     * @param boolean $append Whether to simply append instead of replacing
+     *  existing values
      */
-    public function hydrate(array $nodeObject, $resource)
+    public function hydrate(array $nodeObject, $resource, $append = false)
     {
+        $newValues = array();
+        $valueCollection = $resource->getValues();
+        $existingValues = $valueCollection->toArray();
+
         // Iterate all properties in a node object. Note that we ignore terms.
         foreach ($nodeObject as $property => $valueObjects) {
             // Value objects must be contained in lists
@@ -41,11 +48,37 @@ class ValueHydrator implements HydrationInterface
             // Iterate a node object list
             foreach ($valueObjects as $valueObject) {
                 // Value objects must be lists
-                if (!is_array($valueObject)) {
+                if (!(is_array($valueObject)
+                    && isset($valueObject['property_id']))
+                ) {
                     continue;
                 }
-                $this->hydrateValue($valueObject, $resource);
+
+                $value = current($existingValues);
+                if ($value === false || $append) {
+                    $value = new Value;
+                    $newValues[] = $value;
+                } else {
+                    // Null out values as we re-use them
+                    $existingValues[key($existingValues)] = null;
+                    next($existingValues);
+                }
+                $this->hydrateValue($valueObject, $resource, $value);
             }
+        }
+
+        // Remove any values that weren't reused
+        if (!$append) {
+            foreach ($existingValues as $key => $existingValue) {
+                if ($existingValue !== null) {
+                    $valueCollection->remove($key);
+                }
+            }
+        }
+
+        // Add any new values that had to be created
+        foreach ($newValues as $newValue) {
+            $valueCollection->add($newValue);
         }
     }
 
@@ -55,69 +88,43 @@ class ValueHydrator implements HydrationInterface
      * Parses the value object according to the existence of certain properties,
      * in order of priority:
      *
-     * - value_id & delete=true: remove the value
-     * - value_id & @value: modify a literal
-     * - value_id & value_resource_id: modify a resource value
-     * - value_id & @id: modify a URI value
-     * - property_id & @value: persist a literal
-     * - property_id & value_resource_id: persist a resource value
-     * - property_id & @id: persist a URI value
+     * - @value: persist a literal
+     * - value_resource_id: persist a resource value
+     * - @id: persist a URI value
      *
      * A value object that contains none of the above combinations is ignored.
      *
      * @param array $valueObject A (potential) JSON-LD value object
      * @param Resource $resource The owning resource entity instance
+     * @param Value $value The Value being hydrated
      */
-    public function hydrateValue(array $valueObject, Resource $resource)
+    public function hydrateValue(array $valueObject, Resource $resource, Value $value)
     {
-        if (isset($valueObject['value_id'])) {
-            // Modify an existing value
-            $value = $this->adapter->getEntityManager()->getReference(
-                'Omeka\Entity\Value',
-                $valueObject['value_id']
-            );
-            if (isset($valueObject['delete']) && true == $valueObject['delete']) {
-                $this->remove($value);
-            } elseif (array_key_exists('@value', $valueObject)) {
-                $this->modifyLiteral($valueObject, $value);
-            } elseif (array_key_exists('value_resource_id', $valueObject)) {
-                $this->modifyResource($valueObject, $value);
-            } elseif (array_key_exists('@id', $valueObject)) {
-                $this->modifyUri($valueObject, $value);
-            }
-        } elseif (isset($valueObject['property_id'])) {
-            // Persist a new value
-            $property = $this->adapter->getEntityManager()->getReference(
-                'Omeka\Entity\Property',
-                $valueObject['property_id']
-            );
-            if (array_key_exists('@value', $valueObject) && $valueObject['@value']) {
-                $this->persistLiteral($valueObject, $property, $resource);
-            } elseif (array_key_exists('value_resource_id', $valueObject)) {
-                $this->persistResource($valueObject, $property, $resource);
-            } elseif (array_key_exists('@id', $valueObject)) {
-                $this->persistUri($valueObject, $property, $resource);
-            }
+        // Persist a new value
+        $property = $this->adapter->getEntityManager()->getReference(
+            'Omeka\Entity\Property',
+            $valueObject['property_id']
+        );
+
+        $value->setResource($resource);
+        $value->setProperty($property);
+
+        if (array_key_exists('@value', $valueObject) && $valueObject['@value']) {
+            $this->hydrateLiteral($valueObject, $value);
+        } elseif (array_key_exists('value_resource_id', $valueObject)) {
+            $this->hydrateResource($valueObject, $value);
+        } elseif (array_key_exists('@id', $valueObject)) {
+            $this->hydrateUri($valueObject, $value);
         }
     }
 
     /**
-     * Delete a value
-     *
-     * @param Value $value
-     */
-    protected function remove(Value $value)
-    {
-        $this->adapter->getEntityManager()->remove($value);
-    }
-
-    /**
-     * Update a literal value
+     * Hydrate a literal value
      *
      * @param array $valueObject
      * @param Value $value
      */
-    protected function modifyLiteral(array $valueObject, Value $value)
+    protected function hydrateLiteral(array $valueObject, Value $value)
     {
         $value->setType(Value::TYPE_LITERAL);
         $value->setValue($valueObject['@value']);
@@ -131,12 +138,12 @@ class ValueHydrator implements HydrationInterface
     }
 
     /**
-     * Update a resource value
+     * Hydrate a resource value
      *
      * @param array $valueObject
      * @param Value $value
      */
-    protected function modifyResource(array $valueObject, Value $value)
+    protected function hydrateResource(array $valueObject, Value $value)
     {
         $value->setType(Value::TYPE_RESOURCE);
         $value->setValue(null); // set default
@@ -152,16 +159,24 @@ class ValueHydrator implements HydrationInterface
                 $valueObject['value_resource_id']
             ));
         }
+        if ($valueResource instanceof Media) {
+            $translator = $this->adapter->getTranslator();
+            $exception = new Exception\ValidationException;
+            $exception->getErrorStore()->addError(
+                'value', $translator->translate('A value resource cannot be Media.')
+            );
+            throw $exception;
+        }
         $value->setValueResource($valueResource);
     }
 
     /**
-     * Update a URI value
+     * Hydrate a URI value
      *
      * @param array $valueObject
      * @param Value $value
      */
-    protected function modifyUri(array $valueObject, Value $value)
+    protected function hydrateUri(array $valueObject, Value $value)
     {
         $value->setType(Value::TYPE_URI);
         $value->setValue($valueObject['@id']);
@@ -172,75 +187,5 @@ class ValueHydrator implements HydrationInterface
         }
         $value->setLang(null); // set default
         $value->setValueResource(null); // set default
-    }
-
-    /**
-     * Create a literal value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     * @param Resource $resource
-     */
-    protected function persistLiteral(array $valueObject, Property $property,
-        Resource $resource
-    ) {
-        $value = new Value;
-        $value->setResource($resource);
-        $value->setProperty($property);
-        $value->setType(Value::TYPE_LITERAL);
-        $value->setValue($valueObject['@value']);
-        if (isset($valueObject['@language'])) {
-            $value->setLang($valueObject['@language']);
-        }
-        $resource->getValues()->add($value);
-    }
-
-    /**
-     * Create a resource value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     * @param Resource $resource
-     */
-    protected function persistResource(array $valueObject, Property $property,
-        Resource $resource
-    ) {
-        $value = new Value;
-        $value->setResource($resource);
-        $value->setProperty($property);
-        $value->setType(Value::TYPE_RESOURCE);
-        $valueResource = $this->adapter->getEntityManager()->find(
-            'Omeka\Entity\Resource',
-            $valueObject['value_resource_id']
-        );
-        if (null === $valueResource) {
-            throw new Exception\NotFoundException(sprintf(
-                $this->adapter->getTranslator()->translate('Resource not found with id %s.'),
-                $valueObject['value_resource_id']
-            ));
-        }
-        $value->setValueResource($valueResource);
-        $resource->getValues()->add($value);
-    }
-
-    /**
-     * Create a URI value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     * @param Resource $resource
-     */
-    protected function persistUri(array $valueObject, Property $property,
-        Resource $resource
-    ) {
-        $value = new Value;
-        $value->setResource($resource);
-        $value->setProperty($property);
-        $value->setType(Value::TYPE_URI);
-        $value->setValue($valueObject['@id']);
-        if (isset($valueObject['o:uri_label'])) {
-            $value->setUriLabel($valueObject['o:uri_label']);
-        }
-        $resource->getValues()->add($value);
     }
 }

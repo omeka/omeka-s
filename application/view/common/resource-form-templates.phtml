@@ -3,76 +3,74 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<div class="resource-values field template">
-    <div class='field-meta'>
-        <label class='field-label'></label>
+<fieldset class="resource-values field template">
+    <div class="field-meta">
+        <legend class="field-label"></legend>
         <a href="#" class="collapse o-icon-down" aria-label="Collapse"></a>
         <div class="collapsible">
-            <div class='field-description'></div>
-            <div class='field-term' title="Property term for development use"></div>
+            <div class="field-description"></div>
+            <div class="field-term" title="Property term for development use"></div>
         </div>
     </div>
-    <div class='inputs'>
+    <div class="inputs">
         <div class="values">
-            <p class="no-values">Select the first value type.</p>
+            <p class="no-values"><?php echo $this->translate('Select the first value type.'); ?></p>
         </div>
         <div class="add-values">
-            <label class="add-value o-icon-add" aria-label="Add Value "></label>
-            <a href="#" class="add-value button o-icon-literal">Text</a>
-            <a href="#" class="add-value button o-icon-resource">Omeka Resource</a>
-            <a href="#" class="add-value button o-icon-uri">URI</a>
+            <label class="add-value o-icon-add"><?php echo $this->translate('Add value'); ?></label>
+            <a href="#" class="add-value button o-icon-literal"><?php echo $this->translate('Text'); ?></a>
+            <a href="#" class="add-value button o-icon-resource"><?php echo $this->translate('Omeka Resource'); ?></a>
+            <a href="#" class="add-value button o-icon-uri"><?php echo $this->translate('URI'); ?></a>
         </div>
     </div>
-</div>
+</fieldset>
 
-<div class="literal value template">
-    <input type="hidden" class="property" />
-    <input type='hidden' class='value-id' name='' value='' />
+<fieldset class="literal value template">
+    <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class='restore-value'>Value to be removed</span>
-        <ul class='actions'>
+        <span class="restore-value">Value to be removed</span>
+        <ul class="actions">
             <li>
-                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
             </li>
             <li>
-                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
             </li>
         </ul>
     </div>
 
-    <label aria-label="Text value" class="o-icon-text"></label>
+    <legend class="o-icon-text"><?php echo $this->translate('Text value'); ?></legend>
 
-    <label class='value-language o-icon-language' for='' aria-label="Language"></label>
-    <input class='value-language' type='text' name=''/>
+    <label class="value-language o-icon-language"><?php echo $this->translate('Language'); ?></label>
+    <input class="value-language" type="text">
 
     <!-- input for the property value -->
     <textarea name="" class="input-value"></textarea>
-</div>
+</fieldset>
 
-<div class="resource value template">
-    <input type="hidden" class="property" />
-    <input type='hidden' class='value-id' name='' value='' />
+<fieldset class="resource value template">
+    <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class='restore-value'>Value to be removed</span>
-        <ul class='actions'>
+        <span class="restore-value">Value to be removed</span>
+        <ul class="actions">
             <li>
-                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
             </li>
             <li>
-                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
             </li>
         </ul>
     </div>
     
     <div class="input-body">
-        <label aria-label="Omeka resource" class="o-icon-resource"></label>
-        <span class="default">No resource selected</span>
+        <legend class="o-icon-resource"><?php echo $this->translate('Omeka resource'); ?></legend>
+        <span class="default"><?php echo $this->translate('No resource selected'); ?></span>
     
         <p class="selected-resource">
             <span class="o-title"></span>
-            <input type="hidden" class="value" />
+            <input type="hidden" class="value">
         </p>
     
         <a href="#item-resource-select" 
@@ -83,7 +81,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     'action'     => 'sidebar-select'
                 ),
                 false)); ?>"
-           >Items</a>
+           ><?php echo $this->translate('Items'); ?></a>
         <a href="#itemset-resource-select" 
             class="o-icon-item-sets button resource-select"
             data-sidebar-content-url="<?php echo $escapeAttr($this->url('admin/default',
@@ -92,33 +90,32 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     'action'     => 'sidebar-select'
                 ),
                 false)); ?>"
-           >Item Sets</a>
+           ><?php echo $this->translate('Item Sets'); ?></a>
     </div>
-</div>
+</fieldset>
 
-<div class="uri value template">
-    <input type="hidden" class="property" />
-    <input type='hidden' class='value-id' name='' value='' />
+<fieldset class="uri value template">
+    <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class='restore-value'>Value to be removed</span>
-        <ul class='actions'>
+        <span class="restore-value">Value to be removed</span>
+        <ul class="actions">
             <li>
-                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
             </li>
             <li>
-                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
             </li>
         </ul>
     </div>
 
-    <label aria-label="External resource" class="o-icon-uri"></label>
+    <legend class="o-icon-uri"><?php echo $this->translate('External resource'); ?></legend>
     <div class="input">
-        <label class="value">Url</label>
-        <input type="text" class='value' />
+        <label class="value"><?php echo $this->translate('URI'); ?></label>
+        <input type="text" class='value'>
     </div>
     <div class="input">
-        <label class="value-label">Label</label>
-        <textarea class="value-label" aria-label="Label external resource"></textarea>
+        <label class="value-label"><?php echo $this->translate('Label'); ?></label>
+        <textarea class="value-label" rows="1"></textarea>
     </div>
-</div>
+</fieldset>

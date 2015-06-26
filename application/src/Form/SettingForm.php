@@ -8,6 +8,17 @@ class SettingForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
+            'name' => 'administrator_email',
+            'type' => 'Email',
+            'options' => array(
+                'label' => $translator->translate('Administrator Email'),
+            ),
+            'attributes' => array(
+                'required' => true,
+            ),
+        ));
+
+        $this->add(array(
             'name' => 'pagination_per_page',
             'type' => 'Text',
             'options' => array(
@@ -25,7 +36,7 @@ class SettingForm extends AbstractForm
             'options' => array(
                 'label' => $translator->translate('Property Label Information'),
                 'info' => $translator->translate('The additional information that accompanies labels on resource pages.'),
-                'value_options' => array (                    
+                'value_options' => array (
                     'none' => 'None',
                     'vocab' => 'Show Vocabulary',
                     'term' => 'Show Term'

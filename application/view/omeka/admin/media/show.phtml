@@ -33,6 +33,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="property">
+        <h4>Visibility</h4>
+        <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+    </div>
+    <div class="property">
         <h4>Source</h4>
         <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
     </div>

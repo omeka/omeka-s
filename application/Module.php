@@ -15,7 +15,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.1.26';
+    const VERSION = '0.1.27';
 
     /**
      * @var array View helpers that need service manager injection
@@ -28,8 +28,8 @@ class Module extends AbstractModule
         'pagination' => 'Omeka\View\Helper\Pagination',
         'trigger'    => 'Omeka\View\Helper\Trigger',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
-        'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         'setting' => 'Omeka\View\Helper\Setting',
+        'params' => 'Omeka\View\Helper\Params',
     );
 
     /**
@@ -95,6 +95,12 @@ class Module extends AbstractModule
             'Omeka\Api\Representation\MediaRepresentation',
             OmekaEvent::JSON_LD_FILTER,
             array($this, 'filterYoutubeMediaJsonLd')
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\MediaAdapter',
+            array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
+            array($this, 'filterMedia')
         );
     }
 
@@ -187,5 +193,40 @@ class Module extends AbstractModule
             '@type' => 'time:seconds',
         );
         $event->setParam('jsonLd', $jsonLd);
+    }
+
+    /**
+     * Filter media belonging to private items.
+     *
+     * @param Event $event
+     */
+    public function filterMedia(Event $event)
+    {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            return;
+        }
+
+        $adapter = $event->getTarget();
+        $itemAlias = $adapter->createAlias();
+        $qb = $event->getParam('queryBuilder');
+        $qb->innerJoin('Omeka\Entity\Media.item', $itemAlias);
+
+        // Users can view media they do not own that belong to public items.
+        $expression = $qb->expr()->eq("$itemAlias.isPublic", true);
+
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity) {
+            // Users can view all media they own.
+            $expression = $qb->expr()->orX(
+                $expression,
+                $qb->expr()->eq(
+                    "$itemAlias.owner",
+                    $adapter->createNamedParameter($qb, $identity)
+                )
+            );
+        }
+        $qb->andWhere($expression);
     }
 }

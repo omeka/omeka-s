@@ -67,40 +67,35 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
+        $type = $entity->getType();
+
+        if ($request->getOperation() === Request::CREATE) {
+            // Accept the passed type only on CREATE to prevent overwriting
+            // on subsequent UPDATE requests.
+            $type = $request->getValue('o:type');
+            $entity->setType($data['o:type']);
+            if (isset($data['o:item']['o:id'])) {
+                $item = $this->getAdapter('items')
+                    ->findEntity($data['o:item']['o:id']);
+                $entity->setItem($item);
+            }
+            if (isset($data['data'])) {
+                $entity->setData($data['data']);
+            }
+            if (isset($data['o:source'])) {
+                $entity->setSource($data['o:source']);
+            }
+        }
+
         parent::hydrate($request, $entity, $errorStore);
 
-        $type = $entity->getType();
-        if ($request->getOperation() === Request::CREATE) {
-            $type = $request->getValue('o:type');
-        }
         $handler = $this->getServiceLocator()
             ->get('Omeka\MediaHandlerManager')->get($type);
-
-        if ($request->getOperation() !== Request::CREATE) {
-            if ($handler instanceof MutableHandlerInterface) {
-                $handler->update($entity, $request, $errorStore);
-            }
-            return;
-        }
-
-        $data = $request->getContent();
-        if (isset($data['o:item']['o:id'])) {
-            $item = $this->getAdapter('items')
-                ->findEntity($data['o:item']['o:id']);
-            $entity->setItem($item);
-        }
-
-        // If we've gotten here we're guaranteed to have a set, valid media type
-        // and media handler.
-        $entity->setType($data['o:type']);
-        $handler->ingest($entity, $request, $errorStore);
-
-        if (isset($data['data'])) {
-            $entity->setData($data['data']);
-        }
-
-        if (array_key_exists('o:source', $data)) {
-            $entity->setSource($data['o:source']);
+        if ($request->getOperation() === Request::CREATE) {
+            $handler->ingest($entity, $request, $errorStore);
+        } elseif ($handler instanceof MutableHandlerInterface) {
+            $handler->update($entity, $request, $errorStore);
         }
     }
 
@@ -120,6 +115,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      */
     public function hydrateOwner(Request $request, EntityInterface $entity)
     {
-        $entity->setOwner($entity->getItem()->getOwner());
+        if ($entity->getItem() instanceof Item) {
+            $entity->setOwner($entity->getItem()->getOwner());
+        }
     }
 }

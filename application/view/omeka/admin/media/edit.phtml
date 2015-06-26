@@ -36,12 +36,18 @@ $(document).ready(function() {
     ?>
 
     <fieldset id="page-actions">
-        <input type="submit" name="add-item-submit" value="Save" />
+        <?php if ($media->isPublic()): ?>
+        <a href="#" class="o-icon-public button" aria-label="Make private" title="Make private"></a>
+        <input type="hidden" name="o:is_public" value="1">
+        <?php else: ?>
+        <a href="#" class="o-icon-private button" aria-label="Make public" title="Make public"></a>
+        <input type="hidden" name="o:is_public" value="0">
+        <?php endif; ?>
+        <input type="submit" name="add-item-submit" value="Save">
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
 
     <?php echo $this->media()->updateForm($media); ?>
-    <input type='hidden' name='o:type' value='<?php echo $media->type(); ?>' />
 </form>
 
 <?php 

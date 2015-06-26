@@ -941,8 +941,7 @@ body.sidebar-open #content {
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
 
-        legend,
-        label{
+        legend {
             float: left;
             width: calc(100% + #{rhythm()});
             font-weight: bold;

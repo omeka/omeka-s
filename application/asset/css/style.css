@@ -1341,8 +1341,7 @@ th {
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-top: 0;
   }
-  #advanced-options legend,
-  #advanced-options label {
+  #advanced-options legend {
     float: left;
     width: calc(100% + 1.5em);
     font-weight: bold;

@@ -138,6 +138,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 if (isset($mediaData['o:id'])) {
                     $media = $adapter->findEntity($mediaData['o:id']);
                     $media->setPosition($position);
+                    if (isset($mediaData['o:is_public'])) {
+                        $media->setIsPublic($mediaData['o:is_public']);
+                    }
                     $retainMedia[] = $media;
                 } else {
                     // Create a new media.

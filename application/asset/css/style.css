@@ -901,6 +901,33 @@ th {
     white-space: nowrap;
   }
 
+  .site-version {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    padding: 0.5em;
+    display: inline-block;
+    font-size: 12px;
+  }
+  .site-version .version-label {
+    background-color: rgba(0, 0, 0, 0.08);
+    font-weight: bold;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -0.5em;
+    margin-bottom: -0.5em;
+    margin-left: -0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding: 0.5em;
+    display: inline-block;
+  }
+  .site-version .version-number {
+    margin-left: 0.5em;
+    display: inline-block;
+  }
+
   /* @end */
   /* @group ----- Footer ----- */
   footer {

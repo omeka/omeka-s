@@ -211,10 +211,12 @@ return array(
                 ),
             ),
             'activate' => array(
-                'type' => 'Regex',
+                'type' => 'Segment',
                 'options' => array(
-                    'regex' => '/activate(/.*)?',
-                    'spec' => '/activate',
+                    'route' => '/activate/:key',
+                    'constraints' => array(
+                        'key' => '[a-zA-Z0-9]+',
+                    ),
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'activate',

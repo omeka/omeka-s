@@ -19,6 +19,7 @@ class UserActivation extends AbstractEntity
 
     /**
      * @OneToOne(targetEntity="User")
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $user;
 

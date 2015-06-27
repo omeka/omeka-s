@@ -8,17 +8,6 @@ class ActivateForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
-            'name' => 'username',
-            'type' => 'Text',
-            'options' => array(
-                'label' => $translator->translate('Username'),
-            ),
-            'attributes' => array(
-                'id' => 'username',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
             'name' => 'password',
             'type' => 'Password',
             'options' => array(
@@ -40,24 +29,9 @@ class ActivateForm extends AbstractForm
                 'required' => true,
             ),
         ));
-        $this->add(array(
-            'name' => 'name',
-            'type' => 'Text',
-            'options' => array(
-                'label' => $translator->translate('Name'),
-            ),
-            'atttributes' => array(
-                'id' => 'name',
-                'required' => true,
-            ),
-        ));
 
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
-            'name' => 'username',
-            'required' => true,
-        ));
         $inputFilter->add(array(
             'name' => 'password',
             'required' => true,

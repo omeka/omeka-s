@@ -189,6 +189,10 @@ class UserActivation extends \Omeka\Entity\UserActivation implements \Doctrine\O
      */
     public function getId()
     {
+        if ($this->__isInitialized__ === false) {
+            return  parent::getId();
+        }
+
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
 

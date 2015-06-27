@@ -240,11 +240,10 @@ class UserController extends AbstractActionController
         $entityManager->persist($userActivation);
         $entityManager->flush();
 
-        $activationUrl = $this->url()->fromRoute('activate', array(),
-            array(
-                'force_canonical' => true,
-                'query' => array('key' => $userActivation->getId()),
-            )
+        $activationUrl = $this->url()->fromRoute(
+            'activate',
+            array('key' => $userActivation->getId()),
+            array('force_canonical' => true)
         );
         $mailer = $this->getServiceLocator()->get('Omeka\Mailer');
         $message = $mailer->createMessage();

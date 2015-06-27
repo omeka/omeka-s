@@ -1,12 +1,8 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'activate');
 $form->prepare();
-$form->setAttribute('action', $this->url('activate'));
-$form->setAttribute('method', 'post');
 echo $this->form()->openTag($form);
+echo $this->formElements($form);
 ?>
-<?php echo $this->formElements($form); ?>
 <button>Activate</button>
-<?php
-echo $this->form()->closeTag();
-?>
+<?php echo $this->form()->closeTag(); ?>

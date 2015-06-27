@@ -53,7 +53,33 @@ class LoginController extends AbstractActionController
 
     public function activateAction()
     {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $userActivation = $entityManager->find(
+            'Omeka\Entity\UserActivation',
+            $this->params('key')
+        );
+        if (!$userActivation) {
+            $this->messenger()->addError('Invalid activation key.');
+            return $this->redirect()->toRoute('login');
+        }
+
         $form = new ActivateForm($this->getServiceLocator());
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                $userActivation->getUser()->setPassword($data['password']);
+                $entityManager->remove($userActivation);
+                $entityManager->flush();
+                $this->getServiceLocator()->get('Omeka\AuthenticationService')
+                    ->clearIdentity();
+                $this->messenger()->addSuccess('Successfully activated your account. Please log in.');
+                return $this->redirect()->toRoute('login');
+            } else {
+                $this->messenger()->addError('Activation unsuccessful');
+            }
+        }
 
         $view = new ViewModel;
         $view->setVariable('form', $form);

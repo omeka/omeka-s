@@ -69,7 +69,9 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $userActivation->getUser()->setPassword($data['password']);
+                $user = $userActivation->getUser();
+                $user->setPassword($data['password']);
+                $user->setIsActive(true);
                 $entityManager->remove($userActivation);
                 $entityManager->flush();
                 $this->getServiceLocator()->get('Omeka\AuthenticationService')

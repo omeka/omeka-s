@@ -583,6 +583,13 @@ class AclFactory implements FactoryInterface
             new IsSelfAssertion
         );
 
+        $acl->deny(
+            'site_admin',
+            'Omeka\Entity\User',
+            'activate-user',
+            new IsSelfAssertion
+        );
+
         // Site admins should not be able to edit other admin users but should
         // be able to edit themselves
         $denyEdit = new AssertionAggregate;
@@ -610,6 +617,12 @@ class AclFactory implements FactoryInterface
             'global_admin',
             'Omeka\Entity\User',
             'change-role',
+            new IsSelfAssertion
+        );
+        $acl->deny(
+            'global_admin',
+            'Omeka\Entity\User',
+            'activate-user',
             new IsSelfAssertion
         );
     }

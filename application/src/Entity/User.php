@@ -52,6 +52,11 @@ class User extends AbstractEntity implements RoleInterface
     protected $role;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isActive = false;
+
+    /**
      * @OneToMany(
      *     targetEntity="ApiKey",
      *     mappedBy="owner",
@@ -179,6 +184,16 @@ class User extends AbstractEntity implements RoleInterface
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function setIsActive($isActive)
+    {
+        $this->isActive = (bool) $isActive;
+    }
+
+    public function isActive()
+    {
+        return (bool) $this->isActive;
     }
 
     public function getKeys()

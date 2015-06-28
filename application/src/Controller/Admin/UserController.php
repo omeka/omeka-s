@@ -18,9 +18,11 @@ class UserController extends AbstractActionController
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
+        $activateUser = $acl->userIsAllowed('Omeka\Entity\User', 'activate-user');
         $form = new UserForm($this->getServiceLocator(), null, array(
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
+            'include_is_active' => $activateUser,
         ));
 
         if ($this->getRequest()->isPost()) {
@@ -86,9 +88,11 @@ class UserController extends AbstractActionController
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
+        $activateUser = $acl->userIsAllowed($userEntity, 'activate-user');
         $form = new UserForm($this->getServiceLocator(), null, array(
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
+            'include_is_active' => $activateUser,
         ));
         $data = $user->jsonSerialize();
         $form->setData($data);

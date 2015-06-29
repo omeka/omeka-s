@@ -102,7 +102,7 @@
             e.preventDefault();
             var isPublicIcon = $(this);
             $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
-            var isPublicHiddenValue = $('input[name="o:is_public"]');
+            var isPublicHiddenValue = $(this).next('[type="hidden"]');
             if (isPublicHiddenValue.val() == 0) {
                 isPublicIcon.attr('aria-label', 'Make private');
                 isPublicIcon.attr('title', 'Make private');

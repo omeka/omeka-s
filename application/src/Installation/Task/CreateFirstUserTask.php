@@ -15,6 +15,7 @@ class CreateFirstUserTask implements TaskInterface
 
         $vars = $installer->getVars('Omeka\Installation\Task\CreateFirstUserTask');
         $response = $apiManager->create('users', array(
+            'o:is_active' => true,
             'o:role'     => 'global_admin',
             'o:name'     => $vars['name'],
             'o:email'    => $vars['email'],

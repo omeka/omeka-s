@@ -5,7 +5,9 @@
 ?>
 <h1><?php echo $escape('User'); ?>: &ldquo;<?php echo $escape($user->email()); ?>&rdquo;</h1>
 <div id="page-actions">
-    <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>">Edit User</a>
+    <?php if ($user->userIsAllowed('update')): ?>
+        <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>">Edit User</a>
+    <?php endif; ?>
 </div>
 
 <div class="property">

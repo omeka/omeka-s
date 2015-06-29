@@ -217,20 +217,20 @@ class AclFactory implements FactoryInterface
             'researcher',
             'Omeka\Controller\Admin\User'
         );
-        $acl->deny(
-            'researcher',
-            'Omeka\Controller\Admin\User',
-            'browse'
-        );
         $acl->allow(
             'researcher',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update')
+            array('read', 'update', 'search')
         );
         $acl->allow(
             'researcher',
             'Omeka\Entity\User',
-            array('read', 'update', 'change-password', 'edit-keys'),
+            'read'
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Entity\User',
+            array('update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -323,20 +323,20 @@ class AclFactory implements FactoryInterface
             'author',
             'Omeka\Controller\Admin\User'
         );
-        $acl->deny(
-            'author',
-            'Omeka\Controller\Admin\User',
-            'browse'
-        );
         $acl->allow(
             'author',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update')
+            array('read', 'update', 'search')
         );
         $acl->allow(
             'author',
             'Omeka\Entity\User',
-            array('read', 'update', 'change-password', 'edit-keys'),
+            'read'
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Entity\User',
+            array('update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -427,20 +427,20 @@ class AclFactory implements FactoryInterface
             'reviewer',
             'Omeka\Controller\Admin\User'
         );
-        $acl->deny(
-            'reviewer',
-            'Omeka\Controller\Admin\User',
-            'browse'
-        );
         $acl->allow(
             'reviewer',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update')
+            array('read', 'update', 'search')
         );
         $acl->allow(
             'reviewer',
             'Omeka\Entity\User',
-            array('read', 'update', 'change-password', 'edit-keys'),
+            'read'
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Entity\User',
+            array('update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }
@@ -533,7 +533,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            array('read', 'update', 'change-password', 'edit-keys'),
+            array('update', 'change-password', 'edit-keys'),
             new IsSelfAssertion
         );
     }

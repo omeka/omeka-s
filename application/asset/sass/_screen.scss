@@ -498,6 +498,27 @@ div[role="main"] > h1:first-of-type {
     white-space: nowrap;
 }
 
+.site-version {
+    background-color: $gray-on-white;
+    @include border-radius(3px);
+    padding: rhythm(.25, .75 * $base-font-size);
+    display: inline-block;
+    font-size: .75 * $base-font-size;
+
+    .version-label {
+        background-color: $gray-on-white;
+        font-weight: bold;
+        @include bleed(rhythm(.25, .75 * $base-font-size) 0 rhythm(.25, .75 * $base-font-size) rhythm(.25, .75 * $base-font-size));
+        padding: rhythm(.25, .75 * $base-font-size);
+        display: inline-block;
+    }
+
+    .version-number {
+        margin-left: rhythm(.25, .75 * $base-font-size);
+        display: inline-block;
+    }
+}
+
 /* @end */
 
 /* @group ----- Footer ----- */
@@ -613,6 +634,10 @@ nav.pagination form input[type="text"] {
         content: $fa-var-laptop;
     }
     
+    #menu .settings:before {
+        content: $fa-var-gears;
+    }
+
     #menu li li a:before {
         content: $fa-var-caret-right;
     }
@@ -937,8 +962,7 @@ body.sidebar-open #content {
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
 
-        legend,
-        label{
+        legend {
             float: left;
             width: calc(100% + #{rhythm()});
             font-weight: bold;
@@ -2178,6 +2202,19 @@ body.show .sidebar img {
 
 .state-filter select {
     @include trailer(.5);
+}
+
+/* @end */
+
+/* @group ----- Sites ----- */
+
+#page-list {
+    padding: 0;
+}
+
+#page-list li {
+    @include field-row;
+    list-style-type: none;
 }
 
 /* @end */

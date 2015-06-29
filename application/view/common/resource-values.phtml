@@ -1,51 +1,30 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
+$labelInfo = $this->setting('property_label_information');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
-<div class="property">
-    <?php if (isset($templateProperties)) {
-        $label = '';
-        $comment = '';
-        $propertyId = $propertyData['property']->id();
-        foreach ($templateProperties as $templatePropertyData) {
-            if ( $propertyId == $templatePropertyData['o:property']->id() ) {
-                $altLabel = $templatePropertyData['o:alternate_label'];
-                if ( ! empty($altLabel)) {
-                    $label = $escape($altLabel) . " <span class='field-term' title='Property term for development use'>($term)</span>";
-                }
-                $comment = $templatePropertyData['o:alternate_comment'] ;
-                break;
-            }
-        }
-        if (empty($label)) {
-            $label = $escape($propertyData['property']->label());
-        }
-        if (empty($comment)) {
-            $comment = $propertyData['property']->comment();
-        }
-    } else {
-        $label = $escape($propertyData['property']->label());
-        $comment = $propertyData['property']->comment();
-        $vocabularyTitle = $propertyData['property']->vocabulary()->label();
-    }
-    ?>
-    <?php $propertyInfo = $this->setting('property_label_information'); ?>
-    <?php if ($propertyInfo == 'none'): ?>
-        <h4><?php echo $label; ?></h4>
-    <?php elseif($propertyInfo == 'vocab'): ?>
-        <h4><?php echo $label; ?> <span class="field-term">(<?php echo $vocabularyTitle; ?>)</span></h4>
-    <?php else: ?>
-        <h4><?php echo $label; ?> <span class="field-term">(<?php echo $term; ?>)</span></h4>
-    <?php endif; ?>
-    <?php foreach ($propertyData['values'] as $value): ?>
-        <?php if ('resource' == $value->type()): ?>
-        <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value; ?></div>
-        <?php elseif ('uri' == $value->type()): ?>
-        <div class="value uri"><?php echo $value; ?></div>
+    <div class="property">
+        <h4>
+        <?php if ($propertyData['alternate_label']): ?>
+        <?php echo $escape($propertyData['alternate_label']); ?>
         <?php else: ?>
-        <div class="value"><?php echo $escape($value); ?></div>
+        <?php echo $escape($propertyData['property']->label()); ?>
         <?php endif; ?>
-    <?php endforeach; ?>
-</div>
+        <?php if ('term' === $labelInfo): ?>
+        <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
+        <?php elseif ('vocab' === $labelInfo): ?>
+        <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
+        <?php endif; ?>
+        </h4>
+        <?php foreach ($propertyData['values'] as $value): ?>
+            <?php if ('resource' == $value->type()): ?>
+            <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value; ?></div>
+            <?php elseif ('uri' == $value->type()): ?>
+            <div class="value uri"><?php echo $value; ?></div>
+            <?php else: ?>
+            <div class="value"><?php echo $escape($value); ?></div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
 <?php endforeach; ?>

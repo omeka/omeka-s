@@ -181,24 +181,78 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get all value representations of this resource.
      *
+     * <code>
+     * array(
+     *   {term} => array(
+     *     'property' => {PropertyRepresentation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
+     *     'values' => array(
+     *       {ValueRepresentation},
+     *       {ValueRepresentation},
+     *     ),
+     *   ),
+     * )
+     * </code>
+     *
      * @return array
      */
     public function values()
     {
-        if (!isset($this->values)) {
-            // Cache the values.
-            $values = array();
-            foreach ($this->getData()->getValues() as $valueEntity) {
-                $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
-                $term = $value->property()->term();
-                if (!isset($values[$term]['property'])) {
-                    $values[$term]['property'] = $value->property();
-                }
-                $values[$term]['values'][] = $value;
-            }
-            $this->values = $values;
+        if (isset($this->values)) {
+            return $this->values;
         }
-        return $this->applyResourceTemplate($this->values);
+
+        // Set the default template info.
+        $templateInfo = array(
+            'dcterms:title' => array(),
+            'dcterms:description' => array(),
+        );
+
+        $template = $this->resourceTemplate();
+        if ($template) {
+            // Set the custom template info.
+            $templateInfo = array();
+            foreach ($template->resourceTemplateProperties() as $templateProperty) {
+                $term = $templateProperty['o:property']->getRepresentation()->term();
+                $templateInfo[$term] = array(
+                    'alternate_label' => $templateProperty['o:alternate_label'],
+                    'alternate_comment' => $templateProperty['o:alternate_comment'],
+                );
+            }
+        }
+
+        // Get this resource's values.
+        $values = array();
+        foreach ($this->getData()->getValues() as $valueEntity) {
+            $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
+            if ('resource' === $value->type() && null === $value->valueResource()) {
+                // Skip this resource value if the resource is not available
+                // (most likely becuase it is private).
+                continue;
+            }
+            $term = $value->property()->term();
+            if (!isset($values[$term]['property'])) {
+                $values[$term]['property'] = $value->property();
+                $values[$term]['alternate_label'] = null;
+                $values[$term]['alternate_comment'] = null;
+            }
+            $values[$term]['values'][] = $value;
+        }
+
+        // Order this resource's values according to the template order.
+        $sortedValues = array();
+        foreach ($values as $term => $valueInfo) {
+            foreach ($templateInfo as $templateTerm => $templateAlternates) {
+                if (array_key_exists($templateTerm, $values)) {
+                    $sortedValues[$templateTerm] =
+                        array_merge($values[$templateTerm], $templateAlternates);
+                }
+            }
+        }
+
+        $this->values = $sortedValues + $values;
+        return $this->values;
     }
 
     /**
@@ -448,34 +502,5 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 ))
             );
         }
-    }
-
-    protected function applyResourceTemplate($values)
-    {
-        $template = $this->resourceTemplate();
-        $sortedProperties = array();
-        if ($template) {
-            $sortTerms = array();
-            $templateProperties = $template->resourceTemplateProperties();
-            foreach ($templateProperties as $resTemProp) {
-                $prop = $resTemProp['o:property']->getRepresentation();
-                $term = $prop->term();
-                $sortTerms[] = $term;
-            }
-        } else {
-            //always sort title and description to top
-            //@TODO is it worth checking each time whether this is redundant?
-            $sortTerms = array('dcterms:title', 'dcterms:description');
-        }
-
-        foreach ($values as $localName => $property) {
-            foreach ($sortTerms as $term) {
-                if (array_key_exists($term, $values)) {
-                    $sortedProperties[$term] = $values[$term];
-                    unset($values[$term]);
-                }
-            }
-        }
-        return $sortedProperties + $values;
     }
 }

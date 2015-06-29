@@ -21,31 +21,29 @@
 
         //handle changing the resource template
         $('#resource-template-select').on('change', function(e) {
-            var templateId = $(this).find(':selected').val();
-            if (templateId == "") {
-                $('.field-label.alternate').remove();
-                $('.field-description.alternate').remove();
-                $('.field-label').show();
-                $('.field-description').show();
-            } else {
-                var url = $(this).data('api-base-url') + templateId;
-                $.ajax({
-                    'url': url,
-                    'type': 'get'
-                }).done(function(data) {
-                    var classSelect = $('select#resource-class-select');
-                    if (data['o:resource_class'] && classSelect.val() == '' ) {
-                        classSelect.val(data['o:resource_class']['o:id']);
-                    }
-                    //in case people have added fields, reverse the template so
-                    //I can prepend everything and keep the order, and then drop
-                    //back to what people have added
-                    var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                    propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-                }).error(function() {
-                    console.log('fail');
-                });
+            var templateId = $(this).val();
+            $('.alternate').remove();
+            $('.field-label, .field-description').show();
+            if (templateId == '') {
+                return;
             }
+            var url = $(this).data('api-base-url') + templateId;
+            $.ajax({
+                'url': url,
+                'type': 'get'
+            }).done(function(data) {
+                var classSelect = $('select#resource-class-select');
+                if (data['o:resource_class'] && classSelect.val() == '' ) {
+                    classSelect.val(data['o:resource_class']['o:id']);
+                }
+                //in case people have added fields, reverse the template so
+                //I can prepend everything and keep the order, and then drop
+                //back to what people have added
+                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            }).error(function() {
+                console.log('fail');
+            });
         });
 
         // Make new value inputs whenever "add value" button clicked.
@@ -62,16 +60,8 @@
             e.preventDefault();
             e.stopPropagation();
             var valueToRemove = $(this).parents('.value');
-            //check if there is an value_id, which indicates the value has
-            //already been saved
-            if (valueToRemove.find('input.value-id').length == 0 ) {
-                valueToRemove.find('input').prop('disabled', true);
-                valueToRemove.find('textarea').prop('disabled', true);
-            } else {
-                var deleteInput = $('<input>').addClass('delete').attr('type', 'hidden').val(1);
-                deleteInput.attr('name', valueToRemove.data('base-name') + '[delete]');
-                valueToRemove.append(deleteInput);
-            }
+
+            valueToRemove.find('input, textarea').prop('disabled', true);
             valueToRemove.addClass('delete');
             valueToRemove.find('a.restore-value').show().focus();
             $(this).hide();
@@ -214,22 +204,13 @@
             valueType = valueObjectType(valueObject);
         }
 
-        // save hidden inputs for replacing existing values
-        if ($('.selecting-resource input.value-id').length > 0) {
-            var currentPropertyInput = $('.selecting-resource input.property');
-            var currentValueIdInput = $('.selecting-resource input.value-id');
-        }
-
         var newValue = $('.value.template.' + valueType).clone(true);
         newValue.removeClass('template');
         newValue.data('base-name', qName + '[' + count + ']');
 
         var propertyInput = newValue.find('input.property');
-        if (currentPropertyInput != undefined) {
-            propertyInput.replaceWith(currentPropertyInput);
-        } else {
-            propertyInput.attr('name', qName + '[' + count + '][property_id]');
-        }
+        propertyInput.attr('name', qName + '[' + count + '][property_id]');
+
         if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
             propertyInput.val(valueObject['property_id']);
         } else {
@@ -255,22 +236,11 @@
         var uriLabelLabel = newValue.find('label.value-label');
         uriLabel.attr('name', uriLabelId).attr('id', uriLabelId);
         uriLabelLabel.attr('for', uriLabelId);
-        
-        var valueIdInput = newValue.find('input.value-id');
 
         var showRemoveValue = false;
-        if (typeof valueObject == 'undefined') {
-            valueIdInput.remove();
-        } else {
+        if (typeof valueObject !== 'undefined') {
             showRemoveValue = true;
-            valueIdInput.attr('name', qName + '[' + count + '][value_id]');
 
-            if (valueObject['value_id']) {
-                valueIdInput.val(valueObject['value_id']);
-            } else {
-                valueIdInput.remove();
-            }
-            
             switch (valueType) {
                 case 'literal' :
                     valueTextarea.val(valueObject['@value']);
@@ -296,15 +266,8 @@
 
                     newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
 
-                    if (currentValueIdInput != undefined) {
-                        newValue.find('input.property').after(currentValueIdInput);
-                        var valueHiddenName = $('.selecting-resource input.value').attr('name');
-                        valueInternalInput.attr('name', valueHiddenName);
-                    } else {
-                        valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
-                    }
+                    valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
                     valueInternalInput.val(valueObject['value_resource_id']);
-
                 break;
 
                 case 'uri' :
@@ -366,17 +329,9 @@
             $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
         }
 
-        if (field.find('.field-label.original').length > 0) {
-            var originalLabel = field.find('.field-label.original');
-        } else {
-            var originalLabel = field.find('.field-label');
-        }
-        if (template['o:alternate_label'] == "") {
-            originalLabel.show();
-            field.find('.field-label.alternate').remove();
-        } else {
+        var originalLabel = field.find('.field-label');
+        if (template['o:alternate_label'] != "") {
             var altLabel = originalLabel.clone();
-            originalLabel.addClass('original');
             altLabel.addClass('alternate');
             altLabel.text(template['o:alternate_label']);
             altLabel.insertAfter(originalLabel);
@@ -384,12 +339,8 @@
         }
 
         var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment'] == "") {
-            originalDescription.show();
-            field.find('.field-description.alternate').remove();
-        } else {
+        if (template['o:alternate_comment'] != "") {
             var altDescription = originalDescription.clone();
-            originalDescription.addClass('original');
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);
             altDescription.insertAfter(originalDescription);
@@ -431,7 +382,7 @@
 
         //rewrite the fields if a template is set
         var templateSelect = $('#resource-template-select');
-        var templateId = templateSelect.find(':selected').val();
+        var templateId = templateSelect.val();
         if ($.isNumeric(templateId)) {
             var url = templateSelect.data('api-base-url') + templateId;
             $.ajax({

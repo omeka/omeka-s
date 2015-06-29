@@ -901,6 +901,33 @@ th {
     white-space: nowrap;
   }
 
+  .site-version {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    padding: 0.5em;
+    display: inline-block;
+    font-size: 12px;
+  }
+  .site-version .version-label {
+    background-color: rgba(0, 0, 0, 0.08);
+    font-weight: bold;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -0.5em;
+    margin-bottom: -0.5em;
+    margin-left: -0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding: 0.5em;
+    display: inline-block;
+  }
+  .site-version .version-number {
+    margin-left: 0.5em;
+    display: inline-block;
+  }
+
   /* @end */
   /* @group ----- Footer ----- */
   footer {
@@ -1010,6 +1037,10 @@ th {
 
   #menu .sites:before {
     content: "";
+  }
+
+  #menu .settings:before {
+    content: "";
   }
 
   #menu li li a:before {
@@ -1337,8 +1368,7 @@ th {
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-top: 0;
   }
-  #advanced-options legend,
-  #advanced-options label {
+  #advanced-options legend {
     float: left;
     width: calc(100% + 1.5em);
     font-weight: bold;
@@ -2533,6 +2563,21 @@ th {
 
   .state-filter select {
     margin-bottom: 0.75em;
+  }
+
+  /* @end */
+  /* @group ----- Sites ----- */
+  #page-list {
+    padding: 0;
+  }
+
+  #page-list li {
+    width: 100%;
+    background-color: #e7e7e7;
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+    list-style-type: none;
   }
 
   /* @end */

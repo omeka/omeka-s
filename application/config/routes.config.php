@@ -49,7 +49,7 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'Omeka\Controller\Admin',
                         'controller'    => 'Index',
-                        'action'        => 'index',
+                        'action'        => 'browse',
                     ),
                 ),
                 'may_terminate' => true,

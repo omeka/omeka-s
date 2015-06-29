@@ -164,6 +164,6 @@ class ApiKey extends AbstractEntity
 
     protected function getString()
     {
-        return Rand::getString(self::STRING_LENGTH, self::STRING_CHARLIST);
+        return Rand::getString(self::STRING_LENGTH, self::STRING_CHARLIST, true);
     }
 }

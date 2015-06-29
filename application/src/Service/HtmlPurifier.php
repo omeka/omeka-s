@@ -7,15 +7,15 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 class HtmlPurifier implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
-    
+
     protected $config;
     protected $useHtmlPurifier;
-    
+
     public function __construct($useHtmlPurifier)
     {
         $this->useHtmlPurifier = $useHtmlPurifier;
     }
-    
+
     public function purify($html)
     {
         if ($this->useHtmlPurifier) {

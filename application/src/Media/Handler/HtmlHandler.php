@@ -42,7 +42,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $field = $view->formField($textarea);
         return $field;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -55,7 +55,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
         ));
-        
+
         $textarea->setAttributes(
                 array(
                     'rows'     => 15,
@@ -71,7 +71,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         ";
         return $html;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -80,7 +80,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('HTML');
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -89,14 +89,20 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $data = $request->getContent();
         if (isset($data['html'])) {
             $html = $data['html'];
+            $serviceLocator = $this->getServiceLocator();
+            $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
+            $html = $purifier->purify($html);
             $media->setData(array('html' => $html));
         }
     }
-    
+
     public function update(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
         $html = $data['o:media']['__index__']['html'];
+        $serviceLocator = $this->getServiceLocator();
+        $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
+        $html = $purifier->purify($html);
         $media->setData(array('html' => $html));
     }
 

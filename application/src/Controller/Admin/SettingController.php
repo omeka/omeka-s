@@ -17,6 +17,7 @@ class SettingController extends AbstractActionController
             'administrator_email' => $settings->get('administrator_email'),
             'pagination_per_page' => $settings->get('pagination_per_page'),
             'property_label_information' => $settings->get('property_label_information'),
+            'use_htmlpurifier' => $settings->get('use_htmlpurifier')
         );
         $form->setData($data);
 

@@ -53,6 +53,11 @@ class LoginController extends AbstractActionController
 
     public function activateAction()
     {
+        $authentication = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        if ($authentication->hasIdentity()) {
+            return $this->redirect()->toRoute('admin');
+        }
+
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $userActivation = $entityManager->find(
             'Omeka\Entity\UserActivation',
@@ -74,8 +79,6 @@ class LoginController extends AbstractActionController
                 $user->setIsActive(true);
                 $entityManager->remove($userActivation);
                 $entityManager->flush();
-                $this->getServiceLocator()->get('Omeka\AuthenticationService')
-                    ->clearIdentity();
                 $this->messenger()->addSuccess('Successfully activated your account. Please log in.');
                 return $this->redirect()->toRoute('login');
             } else {

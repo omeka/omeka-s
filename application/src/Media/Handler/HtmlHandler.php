@@ -90,11 +90,8 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         if (isset($data['html'])) {
             $html = $data['html'];
             $serviceLocator = $this->getServiceLocator();
-            $settings = $serviceLocator->get('Omeka\Settings');
-            if ($settings->get('use_htmlpurifier')) {
-                $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
-                $html = $purifier->purify($html);
-            }
+            $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
+            $html = $purifier->purify($html);
             $media->setData(array('html' => $html));
         }
     }
@@ -104,11 +101,8 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $data = $request->getContent();
         $html = $data['o:media']['__index__']['html'];
         $serviceLocator = $this->getServiceLocator();
-        $settings = $serviceLocator->get('Omeka\Settings');
-        if ($settings->get('use_htmlpurifier')) {
-            $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
-            $html = $purifier->purify($html);
-        }
+        $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
+        $html = $purifier->purify($html);
         $media->setData(array('html' => $html));
     }
 

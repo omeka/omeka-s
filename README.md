@@ -6,6 +6,8 @@ a collaboratively built pool of items and their metadata.
 
 ## Installation
 
+### Installing from GitHub
+
 1. Clone this repository in your Apache web directory:
    * `$ git clone git@github.com:omeka/omeka-s.git`
 1. Change into the Omeka S directory:
@@ -18,6 +20,15 @@ a collaboratively built pool of items and their metadata.
 1. In your web browser, navigate to the omeka-s/install directory, where you can
    complete installation.
 
+### Installing from released zip file
+
+1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases)
+1. Open `config/database.ini` and add your MySQL username, password, database
+   name, and host name.
+1. Make sure the `files/` directory is writable by Apache.
+1. In your web browser, navigate to the omeka-s/install directory, where you can
+   complete installation.
+   
 You can find Omeka-specific code under `application/`.
 
 ## Libraries

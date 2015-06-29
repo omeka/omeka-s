@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Controller;
 
+use DateInterval;
+use DateTime;
 use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
 use Omeka\Form\ResetPasswordForm;
@@ -63,8 +65,20 @@ class LoginController extends AbstractActionController
             'Omeka\Entity\UserActivation',
             $this->params('key')
         );
+
         if (!$userActivation) {
             $this->messenger()->addError('Invalid activation key.');
+            return $this->redirect()->toRoute('login');
+        }
+        $user = $userActivation->getUser();
+
+        // Activation key expires two weeks after creation
+        $expired = $userActivation->getCreated()->add(new DateInterval('P2W'));
+        if (new DateTime > $expired) {
+            $user->setIsActive(false);
+            $entityManager->remove($userActivation);
+            $entityManager->flush();
+            $this->messenger()->addError('Activation key expired.');
             return $this->redirect()->toRoute('login');
         }
 
@@ -74,7 +88,6 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $user = $userActivation->getUser();
                 $user->setPassword($data['password']);
                 $user->setIsActive(true);
                 $entityManager->remove($userActivation);

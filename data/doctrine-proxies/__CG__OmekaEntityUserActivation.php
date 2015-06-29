@@ -64,10 +64,10 @@ class UserActivation extends \Omeka\Entity\UserActivation implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'user', 'created');
+            return array('__isInitialized__', 'id', 'user', 'created', 'activate');
         }
 
-        return array('__isInitialized__', 'id', 'user', 'created');
+        return array('__isInitialized__', 'id', 'user', 'created', 'activate');
     }
 
     /**
@@ -230,6 +230,28 @@ class UserActivation extends \Omeka\Entity\UserActivation implements \Doctrine\O
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
 
         return parent::getCreated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setActivate($activate)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setActivate', array($activate));
+
+        return parent::setActivate($activate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function activate()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'activate', array());
+
+        return parent::activate();
     }
 
     /**

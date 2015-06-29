@@ -28,6 +28,12 @@ class UserActivation extends AbstractEntity
      */
     protected $created;
 
+    /**
+     * Whether to activate the user after setting a new password.
+     *
+     * @Column(type="boolean")
+     */
+    protected $activate = true;
 
     public function setId()
     {
@@ -55,6 +61,16 @@ class UserActivation extends AbstractEntity
     public function getCreated()
     {
         return $this->created;
+    }
+
+    public function setActivate($activate)
+    {
+        $this->activate = (bool) $activate;
+    }
+
+    public function activate()
+    {
+        return (bool) $this->activate;
     }
 
     /**

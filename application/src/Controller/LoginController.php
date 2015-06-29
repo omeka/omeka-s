@@ -5,6 +5,7 @@ use DateInterval;
 use DateTime;
 use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
+use Omeka\Form\ForgotPasswordForm;
 use Omeka\Form\ResetPasswordForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -89,10 +90,57 @@ class LoginController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $user->setPassword($data['password']);
-                $user->setIsActive(true);
+                if ($userActivation->activate()) {
+                    $user->setIsActive(true);
+                }
                 $entityManager->remove($userActivation);
                 $entityManager->flush();
                 $this->messenger()->addSuccess('Successfully activated your account. Please log in.');
+                return $this->redirect()->toRoute('login');
+            } else {
+                $this->messenger()->addError('Activation unsuccessful');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function forgotPasswordAction()
+    {
+        $serviceLocator = $this->getServiceLocator();
+        $authentication = $serviceLocator->get('Omeka\AuthenticationService');
+        if ($authentication->hasIdentity()) {
+            return $this->redirect()->toRoute('admin');
+        }
+
+        $form = new ForgotPasswordForm($serviceLocator);
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                $entityManager = $serviceLocator->get('Omeka\EntityManager');
+                $user =  $entityManager->getRepository('Omeka\Entity\User')
+                    ->findOneBy(array(
+                        'email' => $data['email'],
+                        'isActive' => true,
+                    ));
+                if ($user) {
+                    $userActivation = $entityManager
+                        ->getRepository('Omeka\Entity\UserActivation')
+                        ->findOneBy(array('user' => $user));
+                    if ($userActivation) {
+                        $entityManager->remove($userActivation);
+                        $entityManager->flush();
+                    }
+                    $subject = 'Reset your Omeka S password';
+                    $body = '%s';
+                    $serviceLocator->get('Omeka\Mailer')
+                        ->sendActivation($user, $subject, $body, false);
+                }
+                $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
                 return $this->redirect()->toRoute('login');
             } else {
                 $this->messenger()->addError('Activation unsuccessful');

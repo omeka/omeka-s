@@ -223,16 +223,15 @@ return array(
                     ),
                 ),
             ),
-            'reset-password' => array(
+            'forgot-password' => array(
                 'type' => 'Regex',
-                'options' => 'Regex',
                 'options' => array(
-                    'regex' => '/reset-password(/.*)?',
-                    'spec' => '/reset-password',
+                    'regex' => '/forgot-password(/.*)?',
+                    'spec' => '/forgot-password',
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Login',
-                        'action' => 'reset-password',
-                    ),
+                        'action' => 'forgot-password',
+                     ),
                 ),
             ),
         ),

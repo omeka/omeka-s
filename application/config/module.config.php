@@ -23,6 +23,7 @@ return array(
         'migrate'     => 'layout/minimal',
         'login'       => 'layout/minimal',
         'activate'    => 'layout/minimal',
+        'forgot-password' => 'layout/minimal',
         'reset-password' => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),

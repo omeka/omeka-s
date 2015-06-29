@@ -14,12 +14,13 @@ use Zend\View\Model\ViewModel;
 class UserController extends AbstractActionController
 {
     public function addAction()
-    {   
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+    {
+        $serviceLocator = $this->getServiceLocator();
+        $acl = $serviceLocator->get('Omeka\Acl');
         $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
         $activateUser = $acl->userIsAllowed('Omeka\Entity\User', 'activate-user');
-        $form = new UserForm($this->getServiceLocator(), null, array(
+        $form = new UserForm($serviceLocator, null, array(
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
@@ -33,7 +34,11 @@ class UserController extends AbstractActionController
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
-                    $this->sendActivationEmail($response->getContent()->getEntity());
+                    $user = $response->getContent()->getEntity();
+                    $subject = 'Activate your new Omeka S account';
+                    $body = '%s';
+                    $serviceLocator->get('Omeka\Mailer')
+                        ->sendActivation($user, $subject, $body);
                     $this->messenger()->addSuccess('User created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -228,32 +233,5 @@ class UserController extends AbstractActionController
 
         $this->messenger()->addSuccess('Key created.');
         $this->messenger()->addSuccess("ID: $id, Credential: $credential");
-    }
-
-    /**
-     * Send a user activation email.
-     *
-     * @param User $user
-     */
-    protected function sendActivationEmail(User $user)
-    {
-        $userActivation = new UserActivation;
-        $userActivation->setId();
-        $userActivation->setUser($user);
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $entityManager->persist($userActivation);
-        $entityManager->flush();
-
-        $activationUrl = $this->url()->fromRoute(
-            'activate',
-            array('key' => $userActivation->getId()),
-            array('force_canonical' => true)
-        );
-        $mailer = $this->getServiceLocator()->get('Omeka\Mailer');
-        $message = $mailer->createMessage();
-        $message->addTo($user->getEmail(), $user->getName())
-            ->setSubject($this->translate('Activate your new Omeka S account'))
-            ->setBody(sprintf($this->translate('%s'), $activationUrl));
-        $mailer->send($message);
     }
 }

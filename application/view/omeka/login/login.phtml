@@ -38,4 +38,5 @@ echo $this->form()->openTag($form);
 echo $this->formElement($form->get('submit'));
 echo $this->form()->closeTag();
 ?>
+<p><?php echo $this->hyperlink('Forgot password?', $this->url('forgot-password')); ?></p>
 

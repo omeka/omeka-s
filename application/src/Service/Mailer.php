@@ -1,14 +1,20 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Entity\User;
+use Omeka\Entity\UserActivation;
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Mail\Message;
 use Zend\Mail\MessageFactory;
 use Zend\Mail\Transport\TransportInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Mailer
+class Mailer implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @var TransportInterface
      */
@@ -71,5 +77,38 @@ class Mailer
         } else {
             $this->transport->send($this->createMessage($message));
         }
+    }
+
+    /**
+     * Send a create password message.
+     *
+     * @param User $user
+     * @param string $subject
+     * @param string $body
+     * @param bool $activate Whether to activate the user after setting a new
+     * password
+     */
+    public function sendCreatePassword(User $user, $subject, $body, $activate = true) {
+        $serviceLocator = $this->getServiceLocator();
+
+        $userActivation = new UserActivation;
+        $userActivation->setId();
+        $userActivation->setUser($user);
+        $userActivation->setActivate($activate);
+        $entityManager = $serviceLocator->get('Omeka\EntityManager');
+        $entityManager->persist($userActivation);
+        $entityManager->flush();
+
+        $activationUrl = $serviceLocator->get('ControllerPluginManager')
+            ->get('Url')->fromRoute(
+                'activate',
+                array('key' => $userActivation->getId()),
+                array('force_canonical' => true)
+            );
+        $message = $this->createMessage();
+        $message->addTo($user->getEmail(), $user->getName())
+            ->setSubject($subject)
+            ->setBody(sprintf($body, $activationUrl));
+        $this->send($message);
     }
 }

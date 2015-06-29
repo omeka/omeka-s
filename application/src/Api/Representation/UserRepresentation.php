@@ -19,6 +19,7 @@ class UserRepresentation extends AbstractEntityRepresentation
             'o:email'    => $entity->getEmail(),
             'o:created'  => $this->getDateTime($entity->getCreated()),
             'o:role'     => $entity->getRole(),
+            'o:is_active' => $entity->isActive(),
         );
     }
 

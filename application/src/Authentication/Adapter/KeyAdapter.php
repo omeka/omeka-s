@@ -36,7 +36,7 @@ class KeyAdapter extends AbstractAdapter
     {
         $key = $this->repository->find($this->getIdentity());
 
-        if (!$key) {
+        if (!$key || !$key->getOwner()->isActive()) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
                 array('Key identity not found.'));
         }

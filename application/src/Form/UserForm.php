@@ -51,5 +51,18 @@ class UserForm extends AbstractForm
                 ),
             ));
         }
+
+        if ($this->getOption('include_is_active')) {
+            $this->add(array(
+                'name' => 'o:is_active',
+                'type' => 'checkbox',
+                'options' => array(
+                    'label' => $translator->translate('Is Active'),
+                ),
+                'attributes' => array(
+                    'id' => 'is-active',
+                ),
+            ));
+        }
     }
 }

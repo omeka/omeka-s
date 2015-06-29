@@ -210,6 +210,31 @@ return array(
                      ),
                 ),
             ),
+            'activate' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/activate/:key',
+                    'constraints' => array(
+                        'key' => '[a-zA-Z0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'activate',
+                    ),
+                ),
+            ),
+            'reset-password' => array(
+                'type' => 'Regex',
+                'options' => 'Regex',
+                'options' => array(
+                    'regex' => '/reset-password(/.*)?',
+                    'spec' => '/reset-password',
+                    'defaults' => array(
+                        'controller' => 'Omeka\Controller\Login',
+                        'action' => 'reset-password',
+                    ),
+                ),
+            ),
         ),
     ),
 );

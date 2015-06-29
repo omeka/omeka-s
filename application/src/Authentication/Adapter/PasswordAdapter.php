@@ -32,7 +32,7 @@ class PasswordAdapter extends AbstractAdapter
     {
         $user = $this->repository->findOneBy(array('email' => $this->identity));
 
-        if (!$user) {
+        if (!$user || !$user->isActive()) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
                 array('User not found.'));
         }

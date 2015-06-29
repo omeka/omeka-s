@@ -64,10 +64,10 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+            return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
         }
 
-        return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+        return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
     }
 
     /**
@@ -318,6 +318,28 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', array());
 
         return parent::getRole();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsActive($isActive)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', array($isActive));
+
+        return parent::setIsActive($isActive);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isActive()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', array());
+
+        return parent::isActive();
     }
 
     /**

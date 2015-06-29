@@ -8,7 +8,7 @@ use Omeka\Installation\Installer;
  */
 class CheckEnvironmentTask implements TaskInterface
 {
-    const PHP_MINIMUM_VERSION = '5.4';
+    const PHP_MINIMUM_VERSION = '5.5';
 
     public static $requiredExtensions = array(
         'PDO',

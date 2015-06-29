@@ -6,7 +6,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <h1><?php echo $escape($this->translate('Users')); ?></h1>
 
 <div id="page-actions">
-    <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
+        <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php endif; ?>
 </div>
 
 <?php if (count($users)): ?>

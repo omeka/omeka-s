@@ -10,8 +10,6 @@ use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\Form\Element\Textarea;
-use HTMLPurifier;
-use HTMLPurifier_Config;
 
 class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
 {
@@ -94,8 +92,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
             $serviceLocator = $this->getServiceLocator();
             $settings = $serviceLocator->get('Omeka\Settings');
             if ($settings->get('use_htmlpurifier')) {
-                $config = HTMLPurifier_Config::createDefault();
-                $purifier = new HTMLPurifier($config);
+                $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
                 $html = $purifier->purify($html);
             }
             $media->setData(array('html' => $html));
@@ -109,8 +106,7 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $serviceLocator = $this->getServiceLocator();
         $settings = $serviceLocator->get('Omeka\Settings');
         if ($settings->get('use_htmlpurifier')) {
-            $config = HTMLPurifier_Config::createDefault();
-            $purifier = new HTMLPurifier($config);
+            $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
             $html = $purifier->purify($html);
         }
         $media->setData(array('html' => $html));

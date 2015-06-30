@@ -1,10 +1,16 @@
 # Omeka S
 
-The Omeka S is a web publication system for universities, galleries, libraries,
+Omeka S is a web publication system for universities, galleries, libraries,
 archives, and museums. It consists of a local network of independently curated exhibits sharing
 a collaboratively built pool of items, media, and their metadata.
 
 ## Installation
+
+## Requirements
+* Linux
+* Apache
+* MySql 5.5.3+ and the MySQL driver for PDO
+* PHP 5.5+ (the latest stable version preferred) and the PHP extensions for PDO
 
 ### Installing from GitHub
 

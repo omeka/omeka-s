@@ -2664,6 +2664,14 @@ th {
     display: block;
     clear: both;
   }
+  body.minimal div[role="main"] > h1:first-of-type {
+    position: static;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin: 0 0 0.75em 0;
+  }
   body.minimal .logo {
     position: static;
     width: auto;

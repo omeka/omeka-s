@@ -2290,7 +2290,16 @@ body.minimal {
         @include rhythm-borders(1px, 0, $base-font-size, solid);
         color: #fff;
     }
-    
+
+    div[role="main"] > h1:first-of-type {
+        position: static;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        display: inline-block;
+        margin: 0 0 rhythm(1, 2 * $base-font-size) 0;
+    }
+
     .logo {
         position: static;
         width: auto;

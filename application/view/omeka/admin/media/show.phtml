@@ -38,12 +38,12 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <div class="property">
         <h4>Source</h4>
-        <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
+        <div class="value"><span class="source-type"><?php echo $media->source(); ?></div>
     </div>
-    <?php if ($media->mediaType()): ?>
+    <?php if ($media->type()): ?>
     <div class="property">
         <h4>Type</h4>
-        <div class="value"><?php echo $media->mediaType(); ?></div>
+        <div class="value"><?php echo $media->type(); ?></div>
     </div>
     <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>

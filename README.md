@@ -6,7 +6,7 @@ a collaboratively built pool of items, media, and their metadata.
 
 ## Installation
 
-## Requirements
+### Requirements
 * Linux
 * Apache
 * MySql 5.5.3+ and the MySQL driver for PDO

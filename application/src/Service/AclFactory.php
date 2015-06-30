@@ -579,14 +579,7 @@ class AclFactory implements FactoryInterface
         $acl->deny (
             'site_admin',
             'Omeka\Entity\User',
-            'change-role',
-            new IsSelfAssertion
-        );
-
-        $acl->deny(
-            'site_admin',
-            'Omeka\Entity\User',
-            'activate-user',
+            array('change-role', 'activate-user', 'delete'),
             new IsSelfAssertion
         );
 
@@ -616,13 +609,7 @@ class AclFactory implements FactoryInterface
         $acl->deny (
             'global_admin',
             'Omeka\Entity\User',
-            'change-role',
-            new IsSelfAssertion
-        );
-        $acl->deny(
-            'global_admin',
-            'Omeka\Entity\User',
-            'activate-user',
+            array('change-role', 'activate-user', 'delete'),
             new IsSelfAssertion
         );
     }

@@ -2703,6 +2703,10 @@ th {
     margin-bottom: 1.5em;
   }
 
+  .forgot-password {
+    margin: 0;
+  }
+
   /* @end */
 }
 @media screen and (max-width: 980px) {

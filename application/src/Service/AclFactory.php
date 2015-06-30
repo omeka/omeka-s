@@ -548,8 +548,8 @@ class AclFactory implements FactoryInterface
         $acl->allow('site_admin');
         $acl->deny(
             'site_admin',
-            'Omeka\Module\Manager',
-            array('activate', 'deactivate', 'install', 'uninstall', 'upgrade')
+            array('Omeka\Module\Manager', 'Omeka\Controller\Admin\Module'),
+            array('activate', 'deactivate', 'install', 'uninstall', 'upgrade', 'configure')
         );
         $acl->deny(
             'site_admin',

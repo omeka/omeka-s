@@ -1,4 +1,6 @@
 <?php
+use Omeka\Module\Manager;
+
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
@@ -42,7 +44,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
                     <?php
                     // configure control
-                    if ('active' == $module->getState() && $module->isConfigurable()) {
+                    if (Manager::STATE_ACTIVE == $module->getState()
+                        && $module->isConfigurable()
+                        && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
+                    ) {
                         echo '<li>' . $this->hyperlink('',
                             $this->url(
                                 null,
@@ -60,7 +65,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
                     <?php
                     // activate control
-                    if ('not_active' == $module->getState()) {
+                    if (Manager::STATE_NOT_ACTIVE == $module->getState()
+                        && $this->userIsAllowed('Omeka\Module\Manager', 'activate')
+                    ) {
                         $form = $stateChangeForm('activate', $module->getId());
                         echo '<li>' . $this->form($form) . '</li>';
                     }
@@ -68,7 +75,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
                     <?php
                     // deactivate control
-                    if ('active' == $module->getState()) {
+                    if (Manager::STATE_ACTIVE == $module->getState()
+                        && $this->userIsAllowed('Omeka\Module\Manager', 'deactivate')
+                    ) {
                         $form = $stateChangeForm('deactivate', $module->getId());
                         echo '<li>' . $this->form($form) . '</li>';
                     }
@@ -76,13 +85,22 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
                     <?php
                     // install control
-                    if ('not_installed' == $module->getState()) {
+                    if (Manager::STATE_NOT_INSTALLED == $module->getState()
+                        && $this->userIsAllowed('Omeka\Module\Manager', 'install')
+                    ) {
                         $form = $stateChangeForm('install', $module->getId());
                         echo '<li>' . $this->form($form) . '</li>';
                     }
                     ?>
 
-                    <?php if (in_array($module->getState(), array('active', 'not_active'))): ?>
+                    <?php
+                    // uninstall control
+                    $canBeUninstalled = in_array(
+                        $module->getState(),
+                        array(Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE)
+                    );
+                    if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
+                    ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
                         data-sidebar-confirm-url="<?php echo $escapeAttr($this->url(null, array('action' => 'uninstall'), array('query' => array('id' => $module->getId())), true)); ?>"
@@ -93,7 +111,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
                     <?php
                     // upgrade control
-                    if ('needs_upgrade' == $module->getState()) {
+                    if (Manager::STATE_NEEDS_UPGRADE == $module->getState()
+                        && $this->userIsAllowed('Omeka\Module\Manager', 'upgrade')
+                    ) {
                         $form = $stateChangeForm('upgrade', $module->getId());
                         echo '<li>' . $this->form($form) . '</li>';
                     }

@@ -239,7 +239,10 @@ class Module extends AbstractModule
     private function configureSession()
     {
         $sessionManager = Container::getDefaultManager();
-        $sessionManager->setName(md5(OMEKA_PATH));
-        $sessionManager->getConfig()->setOption('cookie_httponly', true);
+        $config = $sessionManager->getConfig();
+        $config->setOptions(array(
+            'name' => md5(OMEKA_PATH),
+            'cookie_httponly' => true,
+        ));
     }
 }

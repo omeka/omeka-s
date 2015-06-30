@@ -2,6 +2,17 @@
 return array(
     'router' => array(
         'routes' => array(
+            'top' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Omeka\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             'site' => array(
                 'type' => 'Segment',
                 'options' => array(

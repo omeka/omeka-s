@@ -25,6 +25,7 @@ return array(
         'create-password'    => 'layout/minimal',
         'forgot-password' => 'layout/minimal',
         'maintenance' => 'layout/minimal',
+        'top'         => 'layout/minimal',
     ),
     'permissions' => array(
         'acl_resources' => array(
@@ -175,6 +176,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Omeka\Controller\Api'                    => 'Omeka\Controller\ApiController',
+            'Omeka\Controller\Index'                  => 'Omeka\Controller\IndexController',
             'Omeka\Controller\Install'                => 'Omeka\Controller\InstallController',
             'Omeka\Controller\Login'                  => 'Omeka\Controller\LoginController',
             'Omeka\Controller\Maintenance'            => 'Omeka\Controller\MaintenanceController',

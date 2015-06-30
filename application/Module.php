@@ -6,6 +6,7 @@ use Omeka\Module\AbstractModule;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Container;
 
 /**
  * The Omeka module.
@@ -37,6 +38,8 @@ class Module extends AbstractModule
      */
     public function onBootstrap(MvcEvent $event)
     {
+        $this->configureSession();
+
         parent::onBootstrap($event);
 
         $serviceManager = $this->getServiceLocator();
@@ -228,5 +231,14 @@ class Module extends AbstractModule
             );
         }
         $qb->andWhere($expression);
+    }
+
+    /**
+     * Configure Zend's default session manager.
+     */
+    private function configureSession()
+    {
+        $sessionManager = Container::getDefaultManager();
+        $sessionManager->setName(md5(OMEKA_PATH));
     }
 }

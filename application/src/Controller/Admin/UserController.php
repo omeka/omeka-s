@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserForm;
 use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
@@ -59,6 +60,11 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
         return $view;
     }
 
@@ -214,6 +220,29 @@ class UserController extends AbstractActionController
         $view->setVariable('keys', $viewKeys);
         $view->setVariable('form', $form);
         return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('users', $this->params('id'));
+                if ($response->isError()) {
+                    $this->messenger()->addError('User could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('User successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('User could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute(
+            'admin/default',
+            array('action' => 'browse'),
+            true
+        );
     }
 
     private function addKey($em, $user, $label)

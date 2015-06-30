@@ -68,9 +68,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div id="sidebar-confirm">
         <h2><?php echo $escape($this->translate('Delete User')); ?></h2>
         <p><?php echo $escape($this->translate('Are you sure you would like to delete this user?')); ?></p>
-        <form method="post">
-            <button><?php echo $escape($this->translate('Confirm Delete')); ?></button>
-        </form>
+        <?php echo $this->form($confirmForm); ?>
     </div>
     <div class="sidebar-content"></div>
 </div>

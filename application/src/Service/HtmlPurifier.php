@@ -20,6 +20,7 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
     {
         if ($this->useHtmlPurifier) {
             $config = $this->getConfig();
+            $config->set('Cache.DefinitionImpl', null);
             $purifier = new \HTMLPurifier($config);
             $html = $purifier->purify($html);
         }

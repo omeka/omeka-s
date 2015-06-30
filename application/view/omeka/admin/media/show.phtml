@@ -37,13 +37,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <div class="property">
-        <h4>Source</h4>
-        <div class="value"><span class="source-type"><?php echo $media->source(); ?></div>
-    </div>
-    <?php if ($media->type()): ?>
-    <div class="property">
         <h4>Type</h4>
         <div class="value"><?php echo $media->type(); ?></div>
+    </div>
+    <div class="property">
+        <h4>Source</h4>
+        <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
+    </div>
+    <?php if ($media->mediaType()): ?>
+    <div class="property">
+        <h4>MIME Type</h4>
+        <div class="value"><?php echo $media->mediaType(); ?></div>
     </div>
     <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>

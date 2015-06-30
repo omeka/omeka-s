@@ -9,7 +9,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * @Entity
  * @HasLifecycleCallbacks
  */
-class UserActivation extends AbstractEntity
+class PasswordCreation extends AbstractEntity
 {
     /**
      * @Id

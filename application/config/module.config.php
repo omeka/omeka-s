@@ -22,9 +22,8 @@ return array(
         'install'     => 'layout/minimal',
         'migrate'     => 'layout/minimal',
         'login'       => 'layout/minimal',
-        'activate'    => 'layout/minimal',
+        'create-password'    => 'layout/minimal',
         'forgot-password' => 'layout/minimal',
-        'reset-password' => 'layout/minimal',
         'maintenance' => 'layout/minimal',
     ),
     'permissions' => array(

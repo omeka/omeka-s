@@ -210,16 +210,16 @@ return array(
                      ),
                 ),
             ),
-            'activate' => array(
+            'create-password' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/activate/:key',
+                    'route' => '/create-password/:key',
                     'constraints' => array(
                         'key' => '[a-zA-Z0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Omeka\Controller\Login',
-                        'action' => 'activate',
+                        'action' => 'create-password',
                     ),
                 ),
             ),

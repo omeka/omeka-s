@@ -54,7 +54,7 @@ class LoginController extends AbstractActionController
         return $this->redirect()->toRoute('login');
     }
 
-    public function activateAction()
+    public function createPasswordAction()
     {
         $authentication = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         if ($authentication->hasIdentity()) {
@@ -62,24 +62,24 @@ class LoginController extends AbstractActionController
         }
 
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $userActivation = $entityManager->find(
-            'Omeka\Entity\UserActivation',
+        $passwordCreation = $entityManager->find(
+            'Omeka\Entity\PasswordCreation',
             $this->params('key')
         );
 
-        if (!$userActivation) {
-            $this->messenger()->addError('Invalid activation key.');
+        if (!$passwordCreation) {
+            $this->messenger()->addError('Invalid password creation key.');
             return $this->redirect()->toRoute('login');
         }
-        $user = $userActivation->getUser();
+        $user = $passwordCreation->getUser();
 
         // Activation key expires two weeks after creation
-        $expired = $userActivation->getCreated()->add(new DateInterval('P2W'));
+        $expired = $passwordCreation->getCreated()->add(new DateInterval('P2W'));
         if (new DateTime > $expired) {
             $user->setIsActive(false);
-            $entityManager->remove($userActivation);
+            $entityManager->remove($passwordCreation);
             $entityManager->flush();
-            $this->messenger()->addError('Activation key expired.');
+            $this->messenger()->addError('Password creation key expired.');
             return $this->redirect()->toRoute('login');
         }
 
@@ -90,15 +90,15 @@ class LoginController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $user->setPassword($data['password']);
-                if ($userActivation->activate()) {
+                if ($passwordCreation->activate()) {
                     $user->setIsActive(true);
                 }
-                $entityManager->remove($userActivation);
+                $entityManager->remove($passwordCreation);
                 $entityManager->flush();
-                $this->messenger()->addSuccess('Successfully activated your account. Please log in.');
+                $this->messenger()->addSuccess('Successfully created your Omeka S password. Please log in.');
                 return $this->redirect()->toRoute('login');
             } else {
-                $this->messenger()->addError('Activation unsuccessful');
+                $this->messenger()->addError('Password creation unsuccessful');
             }
         }
 
@@ -128,17 +128,17 @@ class LoginController extends AbstractActionController
                         'isActive' => true,
                     ));
                 if ($user) {
-                    $userActivation = $entityManager
-                        ->getRepository('Omeka\Entity\UserActivation')
+                    $passwordCreation = $entityManager
+                        ->getRepository('Omeka\Entity\PasswordCreation')
                         ->findOneBy(array('user' => $user));
-                    if ($userActivation) {
-                        $entityManager->remove($userActivation);
+                    if ($passwordCreation) {
+                        $entityManager->remove($passwordCreation);
                         $entityManager->flush();
                     }
                     $subject = 'Reset your Omeka S password';
                     $body = '%s';
                     $serviceLocator->get('Omeka\Mailer')
-                        ->sendActivation($user, $subject, $body, false);
+                        ->sendCreatePassword($user, $subject, $body, false);
                 }
                 $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
                 return $this->redirect()->toRoute('login');
@@ -146,15 +146,6 @@ class LoginController extends AbstractActionController
                 $this->messenger()->addError('Activation unsuccessful');
             }
         }
-
-        $view = new ViewModel;
-        $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function resetPasswordAction()
-    {
-        $form = new ResetPasswordForm($this->getServiceLocator());
 
         $view = new ViewModel;
         $view->setVariable('form', $form);

@@ -6,7 +6,6 @@ use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
 use Omeka\Entity\ApiKey;
 use Omeka\Entity\User;
-use Omeka\Entity\UserActivation;
 use Zend\Mvc\Controller\AbstractActionController;
 use Omeka\Mvc\Exception;
 use Zend\View\Model\ViewModel;
@@ -38,7 +37,7 @@ class UserController extends AbstractActionController
                     $subject = 'Activate your new Omeka S account';
                     $body = '%s';
                     $serviceLocator->get('Omeka\Mailer')
-                        ->sendActivation($user, $subject, $body);
+                        ->sendCreatePassword($user, $subject, $body);
                     $this->messenger()->addSuccess('User created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }

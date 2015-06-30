@@ -8,6 +8,7 @@ use Omeka\Form\ActivateForm;
 use Omeka\Form\ForgotPasswordForm;
 use Omeka\Form\ResetPasswordForm;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class LoginController extends AbstractActionController
@@ -25,6 +26,8 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
+                $sessionManager = Container::getDefaultManager();
+                $sessionManager->regenerateId();
                 $validatedData = $form->getData();
                 $adapter = $auth->getAdapter();
                 $adapter->setIdentity($validatedData['email']);
@@ -50,6 +53,8 @@ class LoginController extends AbstractActionController
     {
         $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
         $auth->clearIdentity();
+        $sessionManager = Container::getDefaultManager();
+        $sessionManager->destroy();
         $this->messenger()->addSuccess('Successfully logged out');
         return $this->redirect()->toRoute('login');
     }

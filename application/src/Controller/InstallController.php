@@ -29,11 +29,11 @@ class InstallController extends AbstractActionController
                         'email'    => $data['email']
                     )
                 );
+                $manager->registerVars(
+                    'Omeka\Installation\Task\AddDefaultSettingsTask',
+                    array('administrator_email' => $data['email'])
+                );
                 if ($manager->install()) {
-                    // Set settings.
-                    $settings = $this->getServiceLocator()->get('Omeka\Settings');
-                    $settings->set('administrator_email', $data['administrator-email']);
-
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful.');
                     return $this->redirect()->toRoute('login');

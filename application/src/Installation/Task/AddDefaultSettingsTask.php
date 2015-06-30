@@ -14,6 +14,9 @@ class AddDefaultSettingsTask implements TaskInterface
 
     public function perform(Installer $installer)
     {
+        $vars = $installer->getVars('Omeka\Installation\Task\AddDefaultSettingsTask');
+        $this->defaultSettings['administrator_email'] = $vars['administrator_email'];
+
         $settings = $installer->getServiceLocator()->get('Omeka\Settings');
         foreach ($this->defaultSettings as $id => $value) {
             $settings->set($id, $value);

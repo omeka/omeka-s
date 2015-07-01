@@ -28,6 +28,16 @@ class ValueHydrator implements HydrationInterface
      *
      * The node object represents a resource entity.
      *
+     * Parses value objects according to the existence of certain properties, in
+     * order of priority:
+     *
+     * - property_id: all value types must contain a property ID
+     * - @value: hydrate a literal
+     * - value_resource_id: hydrate a resource value
+     * - @id: hydrate a URI value
+     *
+     * A value object that contains none of the above combinations is ignored.
+     *
      * @param array $nodeObject A JSON-LD node object representing a resource
      * @param Resource $resource The owning resource entity instance
      * @param boolean $append Whether to simply append instead of replacing
@@ -47,10 +57,15 @@ class ValueHydrator implements HydrationInterface
             }
             // Iterate a node object list
             foreach ($valueObjects as $valueObject) {
-                // Value objects must be lists
-                if (!(is_array($valueObject)
-                    && isset($valueObject['property_id']))
-                ) {
+
+                // Value objects must be lists and contain a property ID.
+                if (!(is_array($valueObject) && isset($valueObject['property_id']))) {
+                    continue;
+                }
+
+                // Value objects must be mapped to a hydrate method.
+                $hydrateMethod = $this->getHydrateMethod($valueObject);
+                if (!$hydrateMethod) {
                     continue;
                 }
 
@@ -63,7 +78,15 @@ class ValueHydrator implements HydrationInterface
                     $existingValues[key($existingValues)] = null;
                     next($existingValues);
                 }
-                $this->hydrateValue($valueObject, $resource, $value);
+
+                // Hydrate a single JSON-LD value object
+                $property = $this->adapter->getEntityManager()->getReference(
+                    'Omeka\Entity\Property',
+                    $valueObject['property_id']
+                );
+                $value->setResource($resource);
+                $value->setProperty($property);
+                $this->$hydrateMethod($valueObject, $value);
             }
         }
 
@@ -83,39 +106,33 @@ class ValueHydrator implements HydrationInterface
     }
 
     /**
-     * Hydrate a single JSON-LD value object.
+     * Get a value object's hydrate method by checking against expected formats.
      *
-     * Parses the value object according to the existence of certain properties,
-     * in order of priority:
+     * Returns null if the value object is an invalid format.
      *
-     * - @value: persist a literal
-     * - value_resource_id: persist a resource value
-     * - @id: persist a URI value
-     *
-     * A value object that contains none of the above combinations is ignored.
-     *
-     * @param array $valueObject A (potential) JSON-LD value object
-     * @param Resource $resource The owning resource entity instance
-     * @param Value $value The Value being hydrated
+     * @param array $valueObject
+     * @return null|string
      */
-    public function hydrateValue(array $valueObject, Resource $resource, Value $value)
+    protected function getHydrateMethod(array $valueObject)
     {
-        // Persist a new value
-        $property = $this->adapter->getEntityManager()->getReference(
-            'Omeka\Entity\Property',
-            $valueObject['property_id']
-        );
-
-        $value->setResource($resource);
-        $value->setProperty($property);
-
-        if (array_key_exists('@value', $valueObject) && $valueObject['@value']) {
-            $this->hydrateLiteral($valueObject, $value);
-        } elseif (array_key_exists('value_resource_id', $valueObject)) {
-            $this->hydrateResource($valueObject, $value);
-        } elseif (array_key_exists('@id', $valueObject)) {
-            $this->hydrateUri($valueObject, $value);
+        if (isset($valueObject['@value'])
+            && is_string($valueObject['@value'])
+            && '' !== trim($valueObject['@value'])
+        ) {
+            return 'hydrateLiteral';
         }
+        if (isset($valueObject['@id'])
+            && is_string($valueObject['@id'])
+            && '' !== trim($valueObject['@id'])
+        ) {
+             return 'hydrateUri';
+        }
+        if (isset($valueObject['value_resource_id'])
+            && is_numeric($valueObject['value_resource_id'])
+        ) {
+             return 'hydrateResource';
+        }
+        return null; // invalid value object
     }
 
     /**

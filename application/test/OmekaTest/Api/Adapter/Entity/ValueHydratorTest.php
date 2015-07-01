@@ -74,23 +74,6 @@ class ValueHydratorTest extends TestCase
         $valueResource = $this->getMock('Omeka\Entity\Resource');
         $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();
-        $entityManager->expects($this->once())
-            ->method('getReference')
-            ->with(
-                $this->equalTo('Omeka\Entity\Property'),
-                $this->equalTo($nodeObject['term'][0]['property_id'])
-            )
-            ->will($this->returnValue($property));
-        $entityManager->expects($this->once())
-            ->method('find')
-            ->with(
-                $this->equalTo('Omeka\Entity\Resource'),
-                $this->equalTo($nodeObject['term'][0]['value_resource_id'])
-            )
-            ->will($this->returnValue($valueResource));
-        $this->adapter->expects($this->exactly(2))
-            ->method('getEntityManager')
-            ->will($this->returnValue($entityManager));
 
         $hydrator = new ValueHydrator($this->adapter);
         $hydrator->hydrate($nodeObject, $this->resource);

@@ -243,6 +243,8 @@ class Module extends AbstractModule
         $config->setOptions(array(
             'name' => md5(OMEKA_PATH),
             'cookie_httponly' => true,
+            'use_strict_mode' => true,
+            'use_only_cookies' => true,
         ));
     }
 }

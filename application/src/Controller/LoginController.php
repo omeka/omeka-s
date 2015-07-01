@@ -35,6 +35,10 @@ class LoginController extends AbstractActionController
                 $result = $auth->authenticate();
                 if ($result->isValid()) {
                     $this->messenger()->addSuccess('Successfully logged in');
+                    $redirectUrl = $this->params()->fromQuery('redirect');
+                    if ($redirectUrl) {
+                        return $this->redirect()->toUrl($redirectUrl);
+                    }
                     return $this->redirect()->toRoute('admin/default');
                 } else {
                     $this->messenger()->addError('Email or password is invalid');

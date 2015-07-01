@@ -138,7 +138,10 @@ class MvcListeners extends AbstractListenerAggregate
         $routeMatch = $event->getRouteMatch();
         if ($routeMatch->getParam('__ADMIN__')) {
             // This is an admin request.
-            $url = $event->getRouter()->assemble(array(), array('name' => 'login'));
+            $url = $event->getRouter()->assemble(array(), array(
+                'name' => 'login',
+                'query' => array('redirect' => $event->getRequest()->getUriString())
+            ));
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);

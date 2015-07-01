@@ -7,6 +7,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'))
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+$mediaForm = $this->media()->updateForm($media);
 ?>
 
 <script type='text/javascript'>
@@ -16,6 +17,14 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
 <h1><?php echo $this->translate('Edit Media'); ?>: "<?php echo $escape($media->displayTitle()); ?>"</h1>
 
 <form method='post' id='edit-media'>
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#resource-values">Values</a></li>
+        <?php if ($mediaForm): ?>
+        <li><a href="#media">Media</a></li>
+        <?php endif; ?>
+    </ul>
+</nav>
     <?php 
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on 
@@ -30,6 +39,10 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
                 ));
     ?>
 
+    <fieldset id="media" class="section">
+        <?php echo $mediaForm; ?>
+    </fieldset>
+
     <fieldset id="page-actions">
         <?php if ($media->isPublic()): ?>
         <a href="#" class="o-icon-public button" aria-label="Make private" title="Make private"></a>
@@ -41,10 +54,8 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="submit" name="add-item-submit" value="Save">
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
-
-    <?php echo $this->media()->updateForm($media); ?>
 </form>
 
-<?php 
+<?php
         echo $this->partial('common/resource-form-templates.phtml');
 ?>

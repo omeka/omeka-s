@@ -6,5 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 class MaintenanceController extends AbstractActionController
 {
     public function indexAction()
-    {}
+    {
+        $this->layout('layout/minimal');
+    }
 }

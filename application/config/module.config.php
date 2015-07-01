@@ -18,15 +18,6 @@ return array(
             'Omeka\ViewApiJsonStrategy',
         ),
     ),
-    'view_route_layouts' => array(
-        'install'     => 'layout/minimal',
-        'migrate'     => 'layout/minimal',
-        'login'       => 'layout/minimal',
-        'create-password'    => 'layout/minimal',
-        'forgot-password' => 'layout/minimal',
-        'maintenance' => 'layout/minimal',
-        'top'         => 'layout/minimal',
-    ),
     'permissions' => array(
         'acl_resources' => array(
             'Omeka\Module\Manager',

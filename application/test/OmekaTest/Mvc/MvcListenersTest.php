@@ -17,7 +17,7 @@ class MvcListenersTest extends TestCase
     public function testAttach()
     {
         $events = $this->getMock('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->exactly(7))
+        $events->expects($this->exactly(6))
             ->method('attach')
             ->withConsecutive(
                 array(
@@ -44,10 +44,6 @@ class MvcListenersTest extends TestCase
                 array(
                     $this->equalTo(MvcEvent::EVENT_DISPATCH),
                     $this->equalTo(array($this->mvcListeners, 'setThemeTemplatePath'))
-                ),
-                array(
-                    $this->equalTo(MvcEvent::EVENT_DISPATCH),
-                    $this->equalTo(array($this->mvcListeners, 'setLayoutForRoute'))
                 )
             );
         $this->mvcListeners->attach($events);

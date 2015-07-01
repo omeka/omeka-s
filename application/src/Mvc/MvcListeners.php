@@ -40,10 +40,6 @@ class MvcListeners extends AbstractListenerAggregate
             MvcEvent::EVENT_DISPATCH,
             array($this, 'setThemeTemplatePath')
         );
-        $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_DISPATCH,
-            array($this, 'setLayoutForRoute')
-        );
     }
 
     /**
@@ -244,25 +240,5 @@ class MvcListeners extends AbstractListenerAggregate
 
         $resolver = $serviceLocator->get('ViewTemplatePathStack');
         $resolver->addPath(sprintf('%s/themes/%s', OMEKA_PATH, $site->getTheme()));
-    }
-
-    /**
-     * Set the layout template according to route.
-     *
-     * @param MvcEvent $event
-     */
-    public function setLayoutForRoute(MvcEvent $event)
-    {
-        $serviceLocator = $event->getApplication()->getServiceManager();
-        $config = $serviceLocator->get('Config');
-        if (!isset($config['view_route_layouts'])) {
-            throw new ConfigException('Missing view route layouts configuration');
-        }
-        $matchedRouteName = $event->getRouteMatch()->getMatchedRouteName();
-        if (!array_key_exists($matchedRouteName, $config['view_route_layouts'])) {
-            return;
-        }
-        $viewModel = $event->getViewModel();
-        $viewModel->setTemplate($config['view_route_layouts'][$matchedRouteName]);
     }
 }

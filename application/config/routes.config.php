@@ -59,6 +59,7 @@ return array(
                     'route' => '/admin',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Omeka\Controller\Admin',
+                        '__ADMIN__'     => true,
                         'controller'    => 'Index',
                         'action'        => 'browse',
                     ),

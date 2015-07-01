@@ -111,7 +111,7 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        if ('Omeka\Controller\Admin' == $routeMatch->getParam('__NAMESPACE__')) {
+        if ($routeMatch->getParam('__ADMIN__')) {
             $url = $event->getRouter()->assemble(array(), array('name' => 'migrate'));
         } else {
             $url = $event->getRouter()->assemble(array(), array('name' => 'maintenance'));
@@ -140,7 +140,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $routeMatch = $event->getRouteMatch();
-        if ('Omeka\Controller\Admin' == $routeMatch->getParam('__NAMESPACE__')) {
+        if ($routeMatch->getParam('__ADMIN__')) {
             // This is an admin request.
             $url = $event->getRouter()->assemble(array(), array('name' => 'login'));
             $response = $event->getResponse();

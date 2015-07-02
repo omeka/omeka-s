@@ -10,6 +10,7 @@
     <property name="phpunit.path" location="${composer.bin.path}/phpunit"/>
     <property name="phpunit.log.path" location="${build.dir}/test-results.xml"/>
     <property name="phpunit.coverage.html.path" location="${build.dir}/test-coverage/html"/>
+    <property name="php.path" value="php"/>
 
     <target name="build-dir">
         <mkdir dir="${build.dir}"/>
@@ -23,12 +24,12 @@
         <get src="https://getcomposer.org/installer"
              dest="${build.dir}/composer-installer"
         />
-        <exec executable="php" dir="${build.dir}" failonerror="true">
+    <exec executable="${php.path}" dir="${build.dir}" failonerror="true">
             <arg file="${build.dir}/composer-installer"/>
         </exec>
     </target>
     <target name="update-composer" if="composer.installed">
-        <exec executable="php" failonerror="true">
+        <exec executable="${php.path}" failonerror="true">
             <arg file="${composer.path}"/>
             <arg value="self-update"/>
         </exec>
@@ -36,7 +37,7 @@
     <target name="install-deps"
             depends="get-composer,update-composer"
             description="Install dependencies.">
-        <exec executable="php" failonerror="true">
+        <exec executable="${php.path}" failonerror="true">
             <arg file="${composer.path}"/>
             <arg value="install"/>
         </exec>
@@ -44,7 +45,7 @@
     <target name="update-deps"
             depends="get-composer,update-composer"
             description="Update locked dependencies.">
-        <exec executable="php" failonerror="true">
+        <exec executable="${php.path}" failonerror="true">
             <arg file="${composer.path}"/>
             <arg value="update"/>
         </exec>
@@ -109,13 +110,13 @@
         <delete dir="${composer.vendor.path}" quiet="true"/>
     </target>
     <target name="create-schema">
-        <exec executable="php" failonerror="true">
+        <exec executable="${php.path}" failonerror="true">
             <arg file="${scripts.data.dir}/create-schema.php"/>
         </exec>
     </target>
     <target name="create-media-type-map"
             description="Create a map between Internet media types and file extensions.">
-        <exec executable="php" failonerror="true">
+        <exec executable="${php.path}" failonerror="true">
             <arg file="${scripts.data.dir}/create-media-type-map.php"/>
         </exec>
     </target>

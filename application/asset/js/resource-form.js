@@ -97,6 +97,8 @@
             }
         });
 
+<<<<<<< HEAD
+=======
         // Make resource public or private
         $('a.o-icon-private, a.o-icon-public').click(function(e) {
             e.preventDefault();
@@ -114,6 +116,7 @@
             }
         });
 
+>>>>>>> 4460b1d369e6e069195bfc7a6750eb25e78c412f
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);

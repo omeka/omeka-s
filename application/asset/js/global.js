@@ -102,6 +102,23 @@ var Omeka = {
                 Omeka.openSidebar($(this));
             }
         });
+
+        // Make resource public or private
+        $('#content').on('click', 'a.o-icon-private, a.o-icon-public', function(e) {
+            e.preventDefault();
+            var isPublicIcon = $(this);
+            $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
+            var isPublicHiddenValue = $(this).next('[type="hidden"]');
+            if (isPublicHiddenValue.val() == 0) {
+                isPublicIcon.attr('aria-label', 'Make private');
+                isPublicIcon.attr('title', 'Make private');
+                isPublicHiddenValue.attr('value', 1);
+            } else {
+                isPublicIcon.attr('aria-label', 'Make public');
+                isPublicIcon.attr('title', 'Make public');
+                isPublicHiddenValue.attr('value', 0);
+            }
+        });
         
         if ($('.active.sidebar').length > 0) {
             $('#content').addClass('sidebar-open');

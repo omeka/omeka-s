@@ -34,9 +34,14 @@ class Media extends AbstractHelper
      */
     public function form($mediaType, array $options = array())
     {   
+        $mediaType = $this->getView()->escapeHtmlAttr($mediaType);
         $form = '<div class="media-field-wrapper">';
-        $form .= '<ul class="actions">
-            <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
+        $form .= '<ul class="actions">';
+        if ($mediaType == 'upload') {
+            $form .= '<li><a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a>
+                <input type="hidden" name="o:media[][o:is_public]" value="1"></li>';
+        }
+        $form .= '<li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
             </ul>';
         $form .= $this->manager->get($mediaType)
             ->form($this->getView(), $options);

@@ -28,13 +28,20 @@ $form->prepare();
 $pages = $site->pages();
 if ($pages):
 ?>
-    <ul id="page-list">
+    <table id="page-list">
+        <thead>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Slug'); ?></th>
+        </thead>
+        <tbody>
 <?php foreach ($pages as $page): ?>
-        <li>
-            <?php echo $page->title(); ?>
-        </li>
+        <tr>
+            <td><?php echo $page->title(); ?></td>
+            <td><?php echo $page->slug(); ?></td>
+        </tr>
 <?php endforeach; ?>
-    </ul>
+        </tbody>
+    </table>
 <?php endif; ?>
 </fieldset>
 <?php echo $this->form()->closeTag(); ?>

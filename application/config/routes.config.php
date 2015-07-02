@@ -130,7 +130,7 @@ return array(
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => 'page/:site-slug/:page-slug[/:action]',
+                                    'route' => '/page/:site-slug/:page-slug[/:action]',
                                     'constraints' => array(
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
                                         'page-slug'  => '[a-zA-Z0-9_-]+',

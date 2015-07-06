@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Media\Handler;
 
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;

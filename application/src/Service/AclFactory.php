@@ -146,6 +146,7 @@ class AclFactory implements FactoryInterface
             null,
             array(
                 'Omeka\Controller\Api',
+                'Omeka\Controller\Index',
                 'Omeka\Controller\Login',
                 'Omeka\Controller\Maintenance',
                 'Omeka\Controller\Migrate',

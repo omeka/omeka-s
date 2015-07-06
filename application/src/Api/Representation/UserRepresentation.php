@@ -49,7 +49,12 @@ class UserRepresentation extends AbstractEntityRepresentation
     }
 
     public function displayRole()
-    {
-        return ucfirst(str_replace('_', ' ', $this->getData()->getRole()));
+    {   
+        $roleIndex = $this->getData()->getRole();
+        $roleLabels = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
+        if (isset($roleLabels[$roleIndex])) {
+            return $roleLabels[$roleIndex];
+        }
+        return $roleIndex;
     }
 }

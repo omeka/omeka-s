@@ -19,22 +19,6 @@ return array(
                 ),
             ),
             array(
-                'label'      => 'Media',
-                'class'      => 'media',
-                'route'      => 'admin/default',
-                'controller' => 'media',
-                'action'     => 'browse',
-                'resource'   => 'Omeka\Controller\Admin\Media',
-                'privilege'  => 'browse',
-                'pages' => array(
-                    array(
-                        'route'      => 'admin/id',
-                        'controller' => 'media',
-                        'visible'    => false,
-                    ),
-                ),
-            ),
-            array(
                 'label'      => 'Item Sets',
                 'class'      => 'item-sets',
                 'route'      => 'admin/default',

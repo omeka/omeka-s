@@ -91,7 +91,6 @@ $('#new-media-type').change(function () {
     $('#media-list').append(
         template.replace(/__index__/g, index++)
     );
-    $('.media-field-wrapper').last().find('[name="o:media[][o:is_public]"]').attr('name', 'o:media[' + (index-1) + '][o:is_public]');
     $(this).val('');
     $('html, body').animate({
         scrollTop: ($('.media-field-wrapper').last().offset().top -100)

@@ -97,26 +97,6 @@
             }
         });
 
-<<<<<<< HEAD
-=======
-        // Make resource public or private
-        $('a.o-icon-private, a.o-icon-public').click(function(e) {
-            e.preventDefault();
-            var isPublicIcon = $(this);
-            $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
-            var isPublicHiddenValue = $(this).next('[type="hidden"]');
-            if (isPublicHiddenValue.val() == 0) {
-                isPublicIcon.attr('aria-label', 'Make private');
-                isPublicIcon.attr('title', 'Make private');
-                isPublicHiddenValue.attr('value', 1);
-            } else {
-                isPublicIcon.attr('aria-label', 'Make public');
-                isPublicIcon.attr('title', 'Make public');
-                isPublicHiddenValue.attr('value', 0);
-            }
-        });
-
->>>>>>> 4460b1d369e6e069195bfc7a6750eb25e78c412f
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);

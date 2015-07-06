@@ -169,4 +169,22 @@ class Request extends ZendRequest
     {
         return $this->getMetadata('isPartial', false);
     }
+
+    /**
+     * Set whether a batch operation should continue processing on error.
+     *
+     * @param bool $continueOnError
+     */
+    public function setContinueOnError($continueOnError)
+    {
+        $this->setMetadata('continueOnError', (bool) $continueOnError);
+    }
+
+    /**
+     * Whether a batch operation should continue processing on error.
+     */
+    public function continueOnError()
+    {
+        return $this->getMetadata('continueOnError', false);
+    }
 }

@@ -57,12 +57,16 @@ class Manager implements ServiceLocatorAwareInterface
      *
      * @param string $resource
      * @param array $data
+     * @param array $fileData
+     * @param bool $continueOnError
      * @return Response
      */
-    public function batchCreate($resource, $data = array())
-    {
+    public function batchCreate($resource, $data = array(), $fileData = array(),
+        $continueOnError = false
+    ) {
         $request = new Request(Request::BATCH_CREATE, $resource);
         $request->setContent($data);
+        $request->setContinueOnError($continueOnError);
         return $this->execute($request);
     }
 

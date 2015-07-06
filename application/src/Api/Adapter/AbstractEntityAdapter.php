@@ -268,6 +268,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function batchCreate(Request $request)
     {
         $errorStore = new ErrorStore;
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = array();
         $representations = array();
         foreach ($request->getContent() as $datum) {
@@ -275,7 +276,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());
             $subRequest->setContent($datum);
-            $this->hydrateEntity($subRequest, $entity, $errorStore);
+            try {
+                $this->hydrateEntity($subRequest, $entity, $errorStore);
+            } catch (\Exception $e) {
+                if ($request->continueOnError()) {
+                    $logger->err((string) $e);
+                    continue;
+                }
+                throw $e;
+            }
             $this->getEntityManager()->persist($entity);
             $entities[] = $entity;
             $representations[] = new ResourceReference($entity->getId(), null, $this);

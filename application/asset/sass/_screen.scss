@@ -926,6 +926,10 @@ body.sidebar-open #content {
     content: $fa-var-cube;
 }
 
+.item-sets .no-resources:before {
+    content: $fa-var-cubes;
+}
+
 .media .no-resources:before, #media-list .no-resources:before {
     content: $fa-var-image;
 }

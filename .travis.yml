@@ -11,6 +11,10 @@ matrix:
 
 sudo: true
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 install: ant init
 
 before_script:

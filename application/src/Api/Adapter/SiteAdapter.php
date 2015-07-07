@@ -53,6 +53,14 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
         if ($this->shouldHydrate($request, 'o:site_permission')) {
+            $getSitePermission = function ($userId, $sitePermissions) {
+                foreach ($sitePermissions as $sitePermission) {
+                    if ($userId == $sitePermission->getUser()->getId()) {
+                        return $sitePermission;
+                    }
+                }
+                return null;
+            };
             $userAdapter = $this->getAdapter('users');
             $sitePermissions = $entity->getSitePermissions();
             $sitePermissionsToRetain = array();

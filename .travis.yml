@@ -19,8 +19,8 @@ install: ant init
 
 before_script:
   - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot
-  - sed -i 's/^host.*/host = "localhost"/' config/database.ini
-  - sed -i 's/^user.*/user = "root"/' config/database.ini
-  - sed -i 's/^dbname.*/dbname = "omeka_test"/' config/database.ini
+  - sed -i 's/^host.*/host = "localhost"/' application/test/config/database.ini
+  - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
+  - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
 
 script: ant test

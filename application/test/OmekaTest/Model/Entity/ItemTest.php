@@ -18,7 +18,7 @@ class ItemTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->item->getId());
-        $this->assertFalse($this->item->isPublic());
+        $this->assertTrue($this->item->isPublic());
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
             $this->item->getItemSets()

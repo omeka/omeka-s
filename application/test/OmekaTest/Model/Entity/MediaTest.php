@@ -20,7 +20,7 @@ class MediaTest extends TestCase
         $this->assertNull($this->media->getId());
         $this->assertNull($this->media->getType());
         $this->assertNull($this->media->getData());
-        $this->assertFalse($this->media->isPublic());
+        $this->assertTrue($this->media->isPublic());
         $this->assertNull($this->media->getFilename());
         $this->assertNull($this->media->getSource());
         $this->assertNull($this->media->getItem());

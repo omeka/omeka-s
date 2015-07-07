@@ -13,12 +13,6 @@ class ManagerTest extends TestCase
         $this->manager = new Manager;
     }
 
-    public function testConstructRequiresConfigInterface()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->manager->__construct(new \stdClass);
-    }
-
     public function testValidatePluginRequiresAdapterInterface()
     {
         $this->setExpectedException('Omeka\Api\Exception\InvalidAdapterException');

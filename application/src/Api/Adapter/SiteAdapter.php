@@ -52,6 +52,41 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
+        if ($this->shouldHydrate($request, 'o:site_permission')) {
+            $userAdapter = $this->getAdapter('users');
+            $sitePermissions = $entity->getSitePermissions();
+            $sitePermissionsToRetain = array();
+            $sitePermissionsData = $request->getValue('o:site_permission', array());
+            foreach ($sitePermissionsData as $sitePermissionData) {
+                if (!isset($sitePermissionData['o:user']['o:id'])) {
+                    continue;
+                }
+                $userId = $sitePermissionData['o:user']['o:id'];
+                $admin = isset($sitePermissionData['o:admin'])
+                    ? $sitePermissionData['o:admin'] : null;
+                $attach = isset($sitePermissionData['o:attach'])
+                    ? $sitePermissionData['o:attach'] : null;
+                $edit = isset($sitePermissionData['o:edit'])
+                    ? $sitePermissionData['o:edit'] : null;
+                $sitePermission = $getSitePermission($userId, $sitePermissions);
+                if (!$sitePermission) {
+                    $user = $userAdapter->findEntity($userId);
+                    $sitePermission = new SitePermission;
+                    $sitePermission->setSite($entity);
+                    $sitePermission->setUser($user);
+                    $entity->getSitePermissions()->add($sitePermission);
+                }
+                $sitePermission->setAdmin($admin);
+                $sitePermission->setAttach($attach);
+                $sitePermission->setEdit($edit);
+                $sitePermissionsToRetain[] = $sitePermission;
+            }
+            foreach ($sitePermissions as $sitePermissionId => $sitePermission) {
+                if (!in_array($sitePermission, $sitePermissionsToRetain)) {
+                    $sitePermissions->remove($sitePermissionId);
+                }
+            }
+        }
     }
 
     /**

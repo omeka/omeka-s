@@ -50,6 +50,16 @@ class Site extends AbstractEntity
      */
     protected $pages;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="SitePermission",
+     *     mappedBy="site",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    protected $sitePermissions;
+
     public function __construct()
     {
         $this->siteItems = new ArrayCollection;
@@ -119,5 +129,10 @@ class Site extends AbstractEntity
     public function getPages()
     {
         return $this->pages;
+    }
+
+    public function getSitePermissions()
+    {
+        return $this->sitePermissions;
     }
 }

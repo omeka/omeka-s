@@ -21,7 +21,7 @@ class SitePermission extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Site")
+     * @ManyToOne(targetEntity="Site", inversedBy="sitePermissions")
      * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $site;

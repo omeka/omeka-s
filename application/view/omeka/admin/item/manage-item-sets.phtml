@@ -5,19 +5,23 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <table id="item-item-sets" class="<?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
     <thead>
     <tr>
-        <th>Title</th>
-        <th>Owner</th>
-        <th></th>
+        <th><?php echo $this->translate('Title'); ?></th>
+        <th><?php echo $this->translate('Owner'); ?></th>
     </tr>
     </thead>
     <tbody>
     <?php if ($item && $item->itemSets()): ?>
     <?php foreach ($item->itemSets() as $itemSet): ?>
     <tr>
-        <td><?php echo $itemSet->displayTitle(); ?></td>
-        <td><?php echo $itemSet->owner()->name(); ?></td>
+        <td><?php echo $escape($itemSet->displayTitle()); ?></td>
+        <td><?php echo $escape($itemSet->owner()->name()); ?></td>
         <td><ul class="actions">
-            <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
+            <li><a 
+                class="o-icon-delete" 
+                href="#" 
+                title=" <?php echo $escapeAttr($this->translate('Remove item set')); ?>" 
+                aria-label=" <?php echo $escape($this->translate('Remove item set')); ?>">
+            </a></li>
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
     </tr>
     <?php endforeach; ?>

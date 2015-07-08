@@ -1116,7 +1116,7 @@ th {
   .actions,
   .actions li {
     display: inline-block;
-    margin-left: -4px;
+    margin-left: -3px;
   }
 
   .actions a,
@@ -1127,7 +1127,7 @@ th {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
-    text-align: center;
+    text-align: right;
   }
 
   .actions a,

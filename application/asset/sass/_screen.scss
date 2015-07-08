@@ -713,7 +713,7 @@ div[role="main"] {
 .actions,
 .actions li {
     display: inline-block;
-    margin-left: -4px;
+    margin-left: -3px;
 }
 
 .actions a,
@@ -724,7 +724,7 @@ div[role="main"] {
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
-    text-align: center;
+    text-align: right;
 }
 
 .actions a,

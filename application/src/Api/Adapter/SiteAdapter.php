@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
@@ -53,38 +54,41 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
-        if ($this->shouldHydrate($request, 'o:site_permission')) {
-            $getSitePermission = function ($userId, $sitePermissions) {
-                foreach ($sitePermissions as $sitePermission) {
-                    if ($userId == $sitePermission->getUser()->getId()) {
-                        return $sitePermission;
-                    }
-                }
-                return null;
-            };
+
+        $sitePermissionsData = $request->getValue('o:site_permission');
+        if ($this->shouldHydrate($request, 'o:site_permission')
+            && is_array($sitePermissionsData)
+        ) {
+
             $userAdapter = $this->getAdapter('users');
             $sitePermissions = $entity->getSitePermissions();
             $sitePermissionsToRetain = array();
-            $sitePermissionsData = $request->getValue('o:site_permission', array());
+
             foreach ($sitePermissionsData as $sitePermissionData) {
+
                 if (!isset($sitePermissionData['o:user']['o:id'])) {
                     continue;
                 }
-                $userId = $sitePermissionData['o:user']['o:id'];
+
                 $admin = isset($sitePermissionData['o:admin'])
-                    ? $sitePermissionData['o:admin'] : null;
+                    ? $sitePermissionData['o:admin'] : false;
                 $attach = isset($sitePermissionData['o:attach'])
-                    ? $sitePermissionData['o:attach'] : null;
+                    ? $sitePermissionData['o:attach'] : false;
                 $edit = isset($sitePermissionData['o:edit'])
-                    ? $sitePermissionData['o:edit'] : null;
-                $sitePermission = $getSitePermission($userId, $sitePermissions);
+                    ? $sitePermissionData['o:edit'] : false;
+
+                $user = $userAdapter->findEntity($sitePermissionData['o:user']['o:id']);
+                $criteria = Criteria::create()
+                    ->where(Criteria::expr()->eq('user', $user));
+                $sitePermission = $sitePermissions->matching($criteria)->first();
+
                 if (!$sitePermission) {
-                    $user = $userAdapter->findEntity($userId);
                     $sitePermission = new SitePermission;
                     $sitePermission->setSite($entity);
                     $sitePermission->setUser($user);
                     $entity->getSitePermissions()->add($sitePermission);
                 }
+
                 $sitePermission->setAdmin($admin);
                 $sitePermission->setAttach($attach);
                 $sitePermission->setEdit($edit);

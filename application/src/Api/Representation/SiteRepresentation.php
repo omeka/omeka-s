@@ -46,7 +46,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $sitePermissions = array();
         foreach ($entity->getSitePermissions() as $sitePermission) {
             $jsonLd['o:site_permission'][] = array(
-                'o:user' => array('o:id' => $sitePermission->getUser()->getId()),
+                'o:user' => $this->getReference(
+                    null,
+                    $sitePermission->getUser(),
+                    $this->getAdapter('users')
+                ),
                 'o:admin' => $sitePermission->getAdmin(),
                 'o:attach' => $sitePermission->getAttach(),
                 'o:edit' => $sitePermission->getEdit(),

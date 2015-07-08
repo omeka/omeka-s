@@ -94,12 +94,4 @@ class ResponseTest extends TestCase
         $this->response->setRequest($request);
         $this->assertInstanceOf('Omeka\Api\Request', $this->response->getRequest());
     }
-
-    /**
-     * @expectedException PHPUnit_Framework_Error
-     */
-    public function testRejectsInvalidRequest()
-    {
-        $this->response->setRequest(new \stdClass);
-    }
 }

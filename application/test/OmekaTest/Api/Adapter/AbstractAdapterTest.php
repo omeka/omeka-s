@@ -10,23 +10,11 @@ class AbstractAdapterTest extends TestCase
         $this->adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
     }
 
-    public function testSearchRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->search(new \stdClass);
-    }
-
     public function testSearchRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->search($this->getMock('Omeka\Api\Request'));
-    }
-
-    public function testCreateRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->create(new \stdClass);
     }
 
     public function testCreateRequiresImplementation()
@@ -36,23 +24,11 @@ class AbstractAdapterTest extends TestCase
         $this->adapter->create($this->getMock('Omeka\Api\Request'));
     }
 
-    public function testBatchCreateRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->batchCreate(new \stdClass);
-    }
-
     public function testBatchCreateRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->batchCreate($this->getMock('Omeka\Api\Request'));
-    }
-
-    public function testReadRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->read(new \stdClass);
     }
 
     public function testReadRequiresImplementation()
@@ -62,23 +38,11 @@ class AbstractAdapterTest extends TestCase
         $this->adapter->read($this->getMock('Omeka\Api\Request'));
     }
 
-    public function testUpdateRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->update(new \stdClass);
-    }
-
     public function testUpdateRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->update($this->getMock('Omeka\Api\Request'));
-    }
-
-    public function testDeleteRequiresRequest()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $this->adapter->delete(new \stdClass);
     }
 
     public function testDeleteRequiresImplementation()

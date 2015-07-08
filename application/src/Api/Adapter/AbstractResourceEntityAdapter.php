@@ -105,7 +105,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
 
         if ($this->shouldHydrate($request, 'o:is_public')) {
-            $entity->setIsPublic($request->getValue('o:is_public'));
+            $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
         // Hydrate this resource's values.

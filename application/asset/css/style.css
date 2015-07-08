@@ -1332,6 +1332,10 @@ th {
     content: "";
   }
 
+  .item-sets .no-resources:before {
+    content: "";
+  }
+
   .media .no-resources:before, #media-list .no-resources:before {
     content: "";
   }

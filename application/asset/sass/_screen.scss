@@ -2210,19 +2210,6 @@ body.show .sidebar img {
 
 /* @end */
 
-/* @group ----- Sites ----- */
-
-#page-list {
-    padding: 0;
-}
-
-#page-list li {
-    @include field-row;
-    list-style-type: none;
-}
-
-/* @end */
-
 /* @group ----- Advanced Search ----- */
 
 .advanced-search select,

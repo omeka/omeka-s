@@ -2570,21 +2570,6 @@ th {
   }
 
   /* @end */
-  /* @group ----- Sites ----- */
-  #page-list {
-    padding: 0;
-  }
-
-  #page-list li {
-    width: 100%;
-    background-color: #e7e7e7;
-    padding: 0.375em;
-    position: relative;
-    margin-bottom: 0.375em;
-    list-style-type: none;
-  }
-
-  /* @end */
   /* @group ----- Advanced Search ----- */
   .advanced-search select,
   .advanced-search input[type="text"] {

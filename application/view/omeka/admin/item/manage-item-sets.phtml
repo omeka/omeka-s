@@ -20,7 +20,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 class="o-icon-delete" 
                 href="#" 
                 title=" <?php echo $escapeAttr($this->translate('Remove item set')); ?>" 
-                aria-label=" <?php echo $escape($this->translate('Remove item set')); ?>">
+                aria-label=" <?php echo $escapeAttr($this->translate('Remove item set')); ?>">
             </a></li>
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
     </tr>
@@ -40,7 +40,11 @@ $itemSetTemplate = '
     <td>__item-set-title__</td>
     <td>__owner-email__</td>
     <td><ul class="actions">
-        <li><a class="o-icon-delete" href="#" title="Remove item set" aria-label="Remove item set"></a></li>
+        <li><a href="#" 
+        class="o-icon-delete" 
+        title="' . $escapeAttr($this->translate('Remove item set')) . '" 
+        aria-label="' . $escapeAttr($this->translate('Remove item set')) . '">
+        </a></li>
     </ul><input type="hidden" name="o:item_set[]" value="__item-set-id__"></td>
 </tr>';
 ?>

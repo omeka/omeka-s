@@ -545,6 +545,21 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             array(
+                'Omeka\Controller\SiteAdmin\Index',
+                'Omeka\Controller\SiteAdmin\Page'
+            ),
+            array(
+                'index',
+                'add',
+                'edit',
+                'add-page',
+                'delete',
+                'show-details',
+            )
+        );
+        $acl->allow(
+            'editor',
+            array(
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
@@ -554,6 +569,13 @@ class AclFactory implements FactoryInterface
                 'create',
                 'update',
                 'delete',
+            )
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Api\Adapter\SiteAdapter',
+                'Omeka\Api\Adapter\SitePageAdapter',
             )
         );
         $acl->allow(
@@ -569,6 +591,23 @@ class AclFactory implements FactoryInterface
                 'update',
                 'delete',
             )
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Entity\Site',
+                'Omeka\Entity\SitePage',
+            ),
+            array('search', 'read')
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Entity\Site',
+                'Omeka\Entity\SitePage',
+            ),
+            array('create', 'update', 'delete'),
+            new IsSelfAssertion
         );
         $acl->allow(
             'editor',

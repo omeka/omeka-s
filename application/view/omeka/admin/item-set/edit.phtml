@@ -28,8 +28,8 @@ echo $this->partial('omeka/admin/item-set/form.phtml', array(
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Item Set')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item set?')); ?></p>
+        <h2><?php echo $this->translate('Delete Item Set'); ?></h2>
+        <p><?php echo $this->translate('Are you sure you would like to delete this item set?'); ?></p>
         <?php echo $this->form($confirmForm); ?>
     </div>
 </div>

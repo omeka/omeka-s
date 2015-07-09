@@ -1,10 +1,59 @@
 <?php
 namespace Omeka\Controller\SiteAdmin;
 
+use Omeka\Form\ConfirmForm;
 use Omeka\Form\SitePageForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class PageController extends AbstractActionController
 {
+    public function editAction()
+    {
+        $form = new SitePageForm($this->getServiceLocator());
+        $readResponse = $this->api()->read('sites', array(
+            'slug' => $this->params('site-slug')
+        ));
+        $site = $readResponse->getContent();
+        $siteId = $site->id();
+
+        $readResponse = $this->api()->read('site_pages', array(
+            'slug' => $this->params('page-slug'),
+            'site' => $siteId
+        ));
+        $page = $readResponse->getContent();
+        $id = $page->id();
+
+        $data = $page->jsonSerialize();
+        $form->setData($data);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $response = $this->api()->update('site_pages', $id, $formData);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Page updated.');
+                    // Explicitly re-read the site URL instead of using
+                    // refresh() so we catch updates to the slug
+                    return $this->redirect()->toUrl($page->url());
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('page', $page);
+        $view->setVariable('form', $form);
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, array(
+                'button_value' => $this->translate('Confirm Delete'),
+            )
+        ));
+        return $view;
+    }
 }

@@ -209,10 +209,20 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'researcher',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'researcher',
@@ -260,11 +270,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'author',
@@ -366,11 +390,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'reviewer',
@@ -470,11 +508,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'editor',

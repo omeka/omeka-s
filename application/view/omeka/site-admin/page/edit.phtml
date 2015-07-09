@@ -5,8 +5,7 @@ $form->prepare();
 <h1>
 <?php
 echo $this->escapeHtml(
-    sprintf($this->translate('Site: "%1$s" | Edit Page: "%2$s"'),
-        $site->title(), $page->title())
+    sprintf($this->translate('Edit Page: "%s"'), $page->title())
 );
 ?>
 </h1>
@@ -14,5 +13,11 @@ echo $this->escapeHtml(
 <div id="page-actions">
     <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
 </div>
+
+<div class="breadcrumbs">
+    <?php echo $site->link($site->title(), 'show', array('class' => 'page-site')); ?>
+    <span class="page-title"><?php echo $page->title(); ?></span>
+</div>
+
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

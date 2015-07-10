@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $escape($this->translate(sprintf('Classes in “%s”', $vocabulary->label()))); ?></h1>
+<h1><?php echo sprintf($this->translate('Classes in “%s”'), $escape($vocabulary->label())); ?></h1>
 
 <p><?php echo $escape($this->translate($vocabulary->comment())); ?></p>
 <p><strong><?php echo $this->translate('Prefix:'); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>

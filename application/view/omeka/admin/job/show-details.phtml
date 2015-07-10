@@ -13,7 +13,7 @@ if ($job->ended()) {
 }
 $args = Json::prettyPrint(Json::encode($job->args()), array('indent' => ' '));
 ?>
-<h2><?php echo sprintf($this->translate('Job #%s'), $job->id()); ?></h2>
+<h2><?php echo sprintf($this->translate('Job #%s'), $this->escapeHtml($job->id())); ?></h2>
 <div class="meta-group">
     <h4><?php echo $this->translate('Status'); ?></h4>
     <div class="value"><?php echo $job->status(); ?></div>

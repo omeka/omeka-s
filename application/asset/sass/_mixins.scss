@@ -5,3 +5,9 @@
     position: relative;
     @include trailer(.25);
 }
+
+@mixin subhead-row {
+    @include bleed-x(rhythm());
+    border-color: $gray-on-white;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+}

@@ -138,8 +138,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         } else {
             $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
         }
-        $qb->groupBy("$entityAlias.id")
-            ->addOrderBy($countAlias, $query['sort_order']);
+        $qb->addOrderBy($countAlias, $query['sort_order']);
     }
 
     /**
@@ -202,9 +201,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select($entityClass)->from($entityClass, $entityClass);
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select($entityClass)
+            ->from($entityClass, $entityClass);
         $this->buildQuery($qb, $query);
+        $qb->groupBy("$entityClass.id");
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, array(
@@ -216,21 +218,23 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Get the total results.
         $totalResultsQb = clone $qb;
-        $totalResultsQb->select(sprintf('COUNT(%s.id)', $this->getEntityClass()));
-        $totalResults = $totalResultsQb->getQuery()->getSingleScalarResult();
-
-        // Finish building the search query. In addition to any sorting the
-        // adapters add, always sort by entity ID.
-        $this->sortQuery($qb, $query);
-        $qb->addOrderBy($this->getEntityClass() . '.id', $query['sort_order']);
-        $this->limitQuery($qb, $query);
+        $totalResults = $totalResultsQb
+            ->resetDQLPart('groupBy')
+            ->select("COUNT(DISTINCT $entityClass.id)")
+            ->getQuery()
+            ->getSingleScalarResult();
 
         // Do not make the request if the max results (limit) is 0. Useful if
         // the only information needed is total results.
         $representations = array();
         if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
+            // Finish building the search query. In addition to any sorting the
+            // adapters add, always sort by entity ID.
+            $this->sortQuery($qb, $query);
+            $qb->addOrderBy("$entityClass.id", $query['sort_order']);
+            $this->limitQuery($qb, $query);
             foreach ($qb->getQuery()->getResult() as $entity) {
-                $representations[] = $this->getRepresentation($entity->getId(), $entity);
+                $representations[] = $this->getRepresentation(null, $entity);
             }
         }
 

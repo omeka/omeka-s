@@ -2570,6 +2570,35 @@ th {
   }
 
   /* @end */
+  /* @group ----- Sites ----- */
+  .breadcrumbs {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -1.5em;
+    margin-left: -1.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .breadcrumbs + .field {
+    margin-top: 1.5em;
+  }
+
+  .breadcrumbs > *:not(:last-child):after {
+    content: "";
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin: 0 calc(0.75em - 3px) 0 0.75em;
+    color: #000;
+    cursor: default;
+  }
+
+  /* @end */
   /* @group ----- Advanced Search ----- */
   .advanced-search select,
   .advanced-search input[type="text"] {

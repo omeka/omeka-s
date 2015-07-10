@@ -2070,9 +2070,7 @@ body.show .sidebar img {
 /* @group ----- Show Resource Template ----- */
     
 .class-row {
-    @include bleed-x(rhythm());
-    border-color: $gray-on-white;
-    @include trailing-border(1px, .5, $base-font-size, solid);
+    @include subhead-row;
 }
 
 .class-label {
@@ -2206,6 +2204,27 @@ body.show .sidebar img {
 
 .state-filter select {
     @include trailer(.5);
+}
+
+/* @end */
+
+/* @group ----- Sites ----- */
+
+.breadcrumbs {
+    @include subhead-row;
+}
+
+.breadcrumbs + .field {
+    @include leader();
+}
+
+.breadcrumbs > *:not(:last-child):after {
+    content: $fa-var-caret-right;
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin: 0 calc(#{rhythm(.5)} - 3px) 0 rhythm(.5);
+    color: #000;
+    cursor: default;
 }
 
 /* @end */

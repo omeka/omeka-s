@@ -4,7 +4,7 @@
 
 <div id="page-actions">
     <button><?php echo $this->escapeHtml($this->translate('Submit')); ?></button>
-    <a href="<?php echo $this->url('admin/default', array('controller'=>'user', 'action'=>'browse')); ?>" class="cancel button">Cancel</a>
+    <a href="<?php echo $this->url('admin/default', array('controller'=>'user', 'action'=>'browse')); ?>" class="cancel button"><?php echo $this->translate('Cancel'); ?></a>
 </div>
 
 <nav class="section-nav">
@@ -12,13 +12,13 @@
 </nav>
 
 <?php if ($keys): ?>
-<h2 id="keys-existing-heading"><?php echo $this->escapeHtml($this->translate('Keys')); ?></h2>
+<h2 id="keys-existing-heading"><?php echo $this->translate('Keys'); ?></h2>
 <table>
     <thead>
         <tr>
-            <th>Label</th>
-            <th>ID</th>
-            <th>Delete?</th>
+            <th><?php echo $this->translate('Label'); ?></th>
+            <th><?php echo $this->translate('ID'); ?></th>
+            <th><?php echo $this->translate('Delete'); ?>?</th>
         </tr>
     </thead>
     <?php foreach ($keys as $id => $label): ?>
@@ -36,6 +36,6 @@
 </table>
 <?php endif; ?>
 
-<h2 id="keys-add-heading"><?php echo $this->escapeHtml($this->translate('Add a New Key')); ?></h2>
+<h2 id="keys-add-heading"><?php echo $this->translate('Add a New Key'); ?></h2>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

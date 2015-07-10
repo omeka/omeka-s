@@ -4,27 +4,27 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $escape($this->translate(sprintf('Resource Template: “%s”', $resourceTemplate->label()))); ?></h1>
+<h1><?php echo sprintf($this->translate('Resource Template: “%s”'), $escape($resourceTemplate->label())); ?></h1>
 
 <div id="page-actions">
     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
-    <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>">Edit Resource Template</a>
+    <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
     <?php endif; ?>
 </div>
 
 <?php if ($resourceTemplate->resourceClass()): ?>
 <div class="class-row">
-    <span class="class-label">Class</span>
-    <span class="class-value"><?php echo $resourceTemplate->resourceClass()->label(); ?></span>
+    <span class="class-label"><?php echo $this->translate('Class'); ?></span>
+    <span class="class-value"><?php echo $this->translate($resourceTemplate->resourceClass()->label()); ?></span>
 </div>
 <?php endif; ?>
 
 <table id="properties">
     <thead>
     <tr>
-        <th><?php echo $escape($this->translate('Original Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Label')); ?></th>
-        <th><?php echo $escape($this->translate('Alternate Comment')); ?></th>
+        <th><?php echo $this->translate('Original Label'); ?></th>
+        <th><?php echo $this->translate('Alternate Label'); ?></th>
+        <th><?php echo $this->translate('Alternate Comment'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <?php $property = $resourceTemplateProperty['o:property']->getRepresentation(); ?>
         <tr data-property-id="<?php echo $escapeAttr($property->id()); ?>">
             <td>
-                <?php echo $escape($property->label()); ?>
+                <?php echo $escape($this->translate($property->label())); ?>
                 <ul class="actions">
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"

@@ -8,7 +8,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
-    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($resourceTemplate->url('delete')); ?>"><?php echo $escape('Delete'); ?></a>
+    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($resourceTemplate->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
     <?php endif; ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
@@ -25,7 +25,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 </div>
 <div class="field">
     <div class="field-meta">
-        <label for="o:resource_class[o:id]"><?php echo $escape($this->translate('Suggested Class')); ?></label>
+        <label for="o:resource_class[o:id]"><?php echo $this->translate('Suggested Class'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->resourceClassSelect(
@@ -36,9 +36,9 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 </div>
 <ul id="properties">
     <li>
-        <div class="property-heading" id="original-label"><?php echo $escape($this->translate('Original Label')); ?></div>
-        <div class="property-heading" id="alternate-label"><?php echo $escape($this->translate('Alternate Label')); ?></div>
-        <div class="property-heading" id="alternate-comment"><?php echo $escape($this->translate('Alternate Comment')); ?></div>
+        <div class="property-heading" id="original-label"><?php echo $this->translate('Original Label'); ?></div>
+        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate Label'); ?></div>
+        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Alternate Comment'); ?></div>
     </li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
@@ -59,8 +59,8 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Resource Template')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this resource template?')); ?></p>
+        <h2><?php echo $this->translate('Delete Resource Template'); ?></h2>
+        <p><?php echo $this->translate('Are you sure you would like to delete this resource template?'); ?></p>
         <?php echo $this->form($confirmForm); ?>
     </div>
     <div class="sidebar-content"></div>

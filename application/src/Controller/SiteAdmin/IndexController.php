@@ -79,8 +79,11 @@ class IndexController extends AbstractActionController
             }
         }
 
+        $users = $this->api()->search('users', $this->params()->fromQuery());
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(

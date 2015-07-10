@@ -14,6 +14,7 @@ $form->prepare();
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
+        <li><a href="#permissions"><?php echo $this->translate('User permissions'); ?></a></li>
     </ul>
 </nav>
 <fieldset id="admin" class="section active">
@@ -52,6 +53,28 @@ if ($pages):
         </tbody>
     </table>
 <?php endif; ?>
+</fieldset>
+<fieldset id="permissions" class="section">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col"><?php echo $this->translate('User'); ?></th>
+                <th scope="col"><?php echo $this->translate('Admin'); ?></th>
+                <th scope="col"><?php echo $this->translate('Attach'); ?></th>
+                <th scope="col"><?php echo $this->translate('Edit'); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($users as $user): ?>
+            <tr>
+                <td><?php echo $user->email(); ?></td>
+                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-admin"></td>
+                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-attach"></td>
+                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-edit"></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </fieldset>
 <?php echo $this->form()->closeTag(); ?>
 

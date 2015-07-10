@@ -138,8 +138,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         } else {
             $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
         }
-        $qb->groupBy("$entityAlias.id")
-            ->addOrderBy($countAlias, $query['sort_order']);
+        $qb->addOrderBy($countAlias, $query['sort_order']);
     }
 
     /**

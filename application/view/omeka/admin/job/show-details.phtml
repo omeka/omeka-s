@@ -13,28 +13,28 @@ if ($job->ended()) {
 }
 $args = Json::prettyPrint(Json::encode($job->args()), array('indent' => ' '));
 ?>
-<h2><?php echo $this->escapeHtml(sprintf($this->translate('Job #%s'), $job->id())); ?></h2>
+<h2><?php echo sprintf($this->translate('Job #%s'), $this->escapeHtml($job->id())); ?></h2>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Status')); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($job->status()); ?></div>
+    <h4><?php echo $this->translate('Status'); ?></h4>
+    <div class="value"><?php echo $job->status(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Started')); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($started); ?></div>
+    <h4><?php echo $this->translate('Started'); ?></h4>
+    <div class="value"><?php echo $started; ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Ended')); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($ended); ?></div>
+    <h4><?php echo $this->translate('Ended'); ?></h4>
+    <div class="value"><?php echo $ended; ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Class')); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($job->jobClass()); ?></div>
+    <h4><?php echo $this->translate('Class'); ?></h4>
+    <div class="value"><?php $job->jobClass(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Owner')); ?></h4>
+    <h4><?php echo $this->translate('Owner'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($job->owner()->email()); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->escapeHtml($this->translate('Args')); ?></h4>
+    <h4><?php echo $this->translate('Args'); ?></h4>
     <pre><?php echo $this->escapeHtml($args); ?></pre>
 </div>

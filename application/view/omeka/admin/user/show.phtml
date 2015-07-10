@@ -3,27 +3,27 @@
     $escape = $this->plugin('escapeHtml');
     $escapeAttr = $this->plugin('escapeHtmlAttr'); 
 ?>
-<h1><?php echo $escape('User'); ?>: &ldquo;<?php echo $escape($user->email()); ?>&rdquo;</h1>
+<h1><?php echo $this->translate('User'); ?>: &ldquo;<?php echo $escape($user->email()); ?>&rdquo;</h1>
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>
-        <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>">Edit User</a>
+        <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>"><?php echo $this->translate('Edit User'); ?></a>
     <?php endif; ?>
 </div>
 
 <div class="property">
-    <h4><?php echo $escape('Name'); ?></h4>
+    <h4><?php echo $this->translate('Name'); ?></h4>
     <div class="value">
         <?php echo $escape($user->name()); ?>
     </div>
 </div>
 <div class="property">
-    <h4><?php echo $escape('Email'); ?></h4>
+    <h4><?php echo $this->translate('Email'); ?></h4>
     <div class="value">
         <?php echo $escape($user->email()); ?>
     </div>
 </div>
 <div class="property">
-    <h4><?php echo $escape('Role'); ?></h4>
+    <h4><?php echo $this->translate('Role'); ?></h4>
     <div class="value">
         <?php echo $escape($user->displayRole()); ?>
     </div>

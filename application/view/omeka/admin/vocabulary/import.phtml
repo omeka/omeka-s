@@ -2,10 +2,10 @@
 $this->htmlElement('body')->appendAttribute('class', 'vocabs import');
 $form->prepare(); 
 ?>
-<h1><?php echo $this->escapeHtml($this->translate('Import Vocabulary')); ?></h1>
+<h1><?php echo $this->translate('Import Vocabulary'); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $this->escapeHtml($this->translate('Import')); ?></button>
+    <button><?php echo $this->translate('Import'); ?></button>
 </div>
 <?php echo $this->formElements($form); ?>
 <?php echo $this->form()->closeTag(); ?>

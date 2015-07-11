@@ -1,29 +1,29 @@
 <nav class="pagination" role="navigation">
     <form>
             <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
-        <span class="page-count">of <?php echo $pageCount; ?></span>
+        <span class="page-count"><?php echo $this->translate('of'); ?> <?php echo $pageCount; ?></span>
     </form>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($firstPageUrl); ?>" class="first o-icon-first button" aria-label="First"></a>
+    <a href="<?php echo $this->escapeHtmlAttr($firstPageUrl); ?>" class="first o-icon-first button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('First')); ?>"></a>
     <?php else: ?>
     <span class="first o-icon-first button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label="Previous"></a>
+    <a href="<?php echo $this->escapeHtmlAttr($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Previous')); ?>"></a>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($nextPageUrl); ?>" class="next o-icon-next button" aria-label="Next"></a>
+    <a href="<?php echo $this->escapeHtmlAttr($nextPageUrl); ?>" class="next o-icon-next button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Next')); ?>"></a>
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($lastPageUrl); ?>" class="last o-icon-last button" aria-label="Last"></a>
+    <a href="<?php echo $this->escapeHtmlAttr($lastPageUrl); ?>" class="last o-icon-last button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Last')); ?>"></a>
     <?php else: ?>
     <span class="last o-icon-last button inactive"></span>
     <?php endif; ?>

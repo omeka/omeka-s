@@ -52,7 +52,9 @@ class SearchFilters extends AbstractHelper
                         foreach ($value as $queryTypeKey => $filterValues) {
                             $filterLabel = $translate('Property ') . ' ' . $queryTypes[$queryTypeKey];
                             foreach ($filterValues as $filterValue) {
-                                $filters[$filterLabel][] = $filterValue;
+                                if (is_string($filterValue) && $filterValue !== '') {
+                                    $filters[$filterLabel][] = $filterValue;
+                                }
                             }
                         }
                         break;
@@ -64,7 +66,9 @@ class SearchFilters extends AbstractHelper
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
                                 $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryTypeKey];
                                 foreach ($filterValues as $filterValue) {
-                                    $filters[$filterLabel][] = $filterValue;
+                                    if (is_string($filterValue) && $filterValue !== '') {
+                                        $filters[$filterLabel][] = $filterValue;
+                                    }
                                 }
                             }
                         }

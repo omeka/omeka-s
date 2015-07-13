@@ -28,18 +28,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <?php foreach ($modules as $id => $module): ?>
         <tr>
             <td>
-                <?php if ($name = $module->getName()): ?>
-                <span class="module-name"><?php echo $this->hyperlink($name, $module->getIni('module_link')); ?></span>
-                <?php else: ?>
-                [<?php echo $this->translate('name not found'); ?>]
-                <?php endif; ?>
-                <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
-                <span class="module-version"><?php echo sprintf($this->translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
-                <?php endif; ?>
-                <?php if ($author = $module->getIni('author')): ?>
-                <span class="module-author"><?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?></span>
-                <?php endif; ?>
-
                 <ul class="actions">
 
                     <?php
@@ -125,6 +113,18 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
                         title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
                 </ul>
+
+                <?php if ($name = $module->getName()): ?>
+                <span class="module-name"><?php echo $this->hyperlink($name, $module->getIni('module_link')); ?></span>
+                <?php else: ?>
+                [<?php echo $this->translate('name not found'); ?>]
+                <?php endif; ?>
+                <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
+                <span class="module-version"><?php echo sprintf($this->translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
+                <?php endif; ?>
+                <?php if ($author = $module->getIni('author')): ?>
+                <span class="module-author"><?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?></span>
+                <?php endif; ?>
             </td>
             <td><?php echo $escape($states[$module->getState()]); ?></td>
         </tr>

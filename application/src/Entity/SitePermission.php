@@ -101,4 +101,18 @@ class SitePermission extends AbstractEntity
     {
         return $this->edit;
     }
+
+    public function hasPrivilege($privilege)
+    {
+        switch ($privilege) {
+            case 'admin':
+                return $this->getAdmin();
+            case 'edit':
+                return $this->getEdit();
+            case 'attach':
+                return $this->getAttach();
+            default:
+                return false;
+        }
+    }
 }

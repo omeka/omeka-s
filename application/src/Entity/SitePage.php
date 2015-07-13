@@ -88,4 +88,9 @@ class SitePage extends AbstractEntity
     {
         return $this->blocks;
     }
+
+    public function getOwner()
+    {
+        return $this->getSite()->getOwner();
+    }
 }

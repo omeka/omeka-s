@@ -30,6 +30,8 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme'      => $entity->getTheme(),
             'o:title'      => $entity->getTitle(),
             'o:navigation' => $entity->getNavigation(),
+            'o:page'       => array(),
+            'o:site_permission' => array(),
             'o:owner'      => $this->getReference(
                 null,
                 $this->getData()->getOwner(),

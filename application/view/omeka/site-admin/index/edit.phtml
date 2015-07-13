@@ -77,7 +77,7 @@ if ($pages):
             <tr>
                 <td>
                     <?php echo $user->email(); ?>
-                    <input type="hidden" name="o:site_permission[<?php echo $index; ?>]['o:user']['o:id']" value="<?php echo $user->id(); ?>">
+                    <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $user->id(); ?>">
                 </td>
                 <td>
                     <input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:admin]" <?php echo $admin; ?> value="1">

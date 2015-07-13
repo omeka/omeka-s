@@ -94,6 +94,21 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Return the permissions assigned to this site.
+     *
+     * Since site permissions are not API resources, this cannot return an array
+     * of representations. Instead this returns the array of site permissions
+     * as built by {@link self::getJsonLd()}.
+     *
+     * @return array
+     */
+    public function sitePermissions()
+    {
+        $jsonLd = $this->getJsonLd();
+        return $jsonLd['o:site_permission'];
+    }
+
+    /**
      * Get the owner representation of this resource.
      *
      * @return UserRepresentation

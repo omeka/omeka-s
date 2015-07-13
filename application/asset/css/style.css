@@ -1133,6 +1133,7 @@ th {
   .actions a,
   .actions button {
     opacity: .5;
+    text-align: left;
   }
 
   .actions a:hover,

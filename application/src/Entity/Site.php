@@ -64,6 +64,7 @@ class Site extends AbstractEntity
     {
         $this->siteItems = new ArrayCollection;
         $this->pages = new ArrayCollection;
+        $this->sitePermissions = new ArrayCollection;
     }
 
     public function getId()

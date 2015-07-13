@@ -55,6 +55,7 @@ if ($pages):
 <?php endif; ?>
 </fieldset>
 <fieldset id="permissions" class="section">
+<?php $sitePermissions = $site->sitePermissions(); ?>
     <table>
         <thead>
             <tr>
@@ -65,12 +66,25 @@ if ($pages):
             </tr>
         </thead>
         <tbody>
-            <?php foreach($users as $user): ?>
+            <?php 
+            $index = 1;
+            foreach($sitePermissions as $sitePermission): 
+            $user = $sitePermission['o:user']->getRepresentation();
+            $admin = ($sitePermission['o:admin']) ? 'checked' : '';
+            $edit = ($sitePermission['o:edit']) ? 'checked' : '';
+            $attach = ($sitePermission['o:attach']) ? 'checked' : '';
+            ?>
             <tr>
-                <td><?php echo $user->email(); ?></td>
-                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-admin"></td>
-                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-attach"></td>
-                <td><input type="checkbox" name="user[<?php echo $user->id(); ?>]-edit"></td>
+                <td>
+                    <?php echo $user->email(); ?>
+                    <input type="hidden" name="o:site_permission[<?php echo $index; ?>]['o:user']['o:id']" value="<?php echo $user->id(); ?>">
+                </td>
+                <td>
+                    <input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:admin]" <?php echo $admin; ?> value="1">
+                </td>
+                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:edit]" <?php echo $edit; ?> value="1"></td>
+                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:attach]" <?php echo $attach; ?> value="1"></td>
+                <?php $index++; ?>
             </tr>
             <?php endforeach; ?>
         </tbody>

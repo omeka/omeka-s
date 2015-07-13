@@ -62,9 +62,9 @@ class IndexController extends AbstractActionController
         $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
             if ($form->isValid()) {
-                $formData = $form->getData();
                 $response = $this->api()->update('sites', $id, $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());

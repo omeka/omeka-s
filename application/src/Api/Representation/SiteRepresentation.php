@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Api\Representation\SitePermissionRepresentation;
+
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**
@@ -31,7 +33,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:title'      => $entity->getTitle(),
             'o:navigation' => $entity->getNavigation(),
             'o:page'       => array(),
-            'o:site_permission' => array(),
+            'o:site_permission' => $this->sitePermissions(),
             'o:owner'      => $this->getReference(
                 null,
                 $this->getData()->getOwner(),
@@ -43,20 +45,6 @@ class SiteRepresentation extends AbstractEntityRepresentation
         foreach ($entity->getPages() as $page) {
             $jsonLd['o:page'][] = $this->getReference(
                 null, $page, $pageAdapter);
-        }
-
-        $sitePermissions = array();
-        foreach ($entity->getSitePermissions() as $sitePermission) {
-            $jsonLd['o:site_permission'][] = array(
-                'o:user' => $this->getReference(
-                    null,
-                    $sitePermission->getUser(),
-                    $this->getAdapter('users')
-                ),
-                'o:admin' => $sitePermission->getAdmin(),
-                'o:attach' => $sitePermission->getAttach(),
-                'o:edit' => $sitePermission->getEdit(),
-            );
         }
 
         return $jsonLd;
@@ -98,16 +86,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Return the permissions assigned to this site.
      *
-     * Since site permissions are not API resources, this cannot return an array
-     * of representations. Instead this returns the array of site permissions
-     * as built by {@link self::getJsonLd()}.
-     *
      * @return array
      */
     public function sitePermissions()
     {
-        $jsonLd = $this->getJsonLd();
-        return $jsonLd['o:site_permission'];
+        $sitePermissions = array();
+        foreach ($this->getData()->getSitePermissions() as $sitePermission) {
+            $sitePermissions[]= new SitePermissionRepresentation(
+                $sitePermission, $this->getServiceLocator());
+        }
+        return $sitePermissions;
     }
 
     /**

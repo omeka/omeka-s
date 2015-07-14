@@ -147,6 +147,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 continue;
             }
             foreach ($values as $value) {
+                if (!is_string($value) || $value === '') {
+                    continue;
+                }
                 $valuesAlias = $this->createAlias();
                 if ('eq' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
@@ -214,6 +217,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     continue;
                 }
                 foreach ($values as $value) {
+                    if (!is_string($value) || $value === '') {
+                        continue;
+                    }
                     $valuesAlias = $this->createAlias();
                     if ('eq' == $queryType) {
                         $qb->innerJoin(

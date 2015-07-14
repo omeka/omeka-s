@@ -69,13 +69,18 @@ if ($pages):
             <?php 
             $index = 1;
             foreach($sitePermissions as $sitePermission): 
-            $user = $sitePermission['o:user']->getRepresentation();
-            $admin = ($sitePermission['o:admin']) ? 'checked' : '';
-            $edit = ($sitePermission['o:edit']) ? 'checked' : '';
-            $attach = ($sitePermission['o:attach']) ? 'checked' : '';
+            $user = $sitePermission->user();
+            $admin = ($sitePermission->admin()) ? 'checked' : '';
+            $edit = ($sitePermission->edit()) ? 'checked' : '';
+            $attach = ($sitePermission->attach()) ? 'checked' : '';
             ?>
-            <tr>
-                <td>
+            <tr class="user value">
+                <td data-user-id="<?php echo $user->id(); ?>" data-permission-id="<?php echo $index; ?>">
+                    <span class="restore-value"><?php echo $this->translate('User to be removed'); ?></span>
+                    <ul class="actions">
+                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
+                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
+                    </ul>
                     <?php echo $user->email(); ?>
                     <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $user->id(); ?>">
                 </td>
@@ -89,6 +94,20 @@ if ($pages):
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <div id="item-set-selector" class="selector sidebar">
+        <p><?php echo $this->translate('Click on a user to add them to the site.'); ?></p>
+        <input type="text" class="selector-filter" placeholder="Filter users">
+        <ul id="new-site-user">
+            <li class="show"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
+                <ul>
+                    <?php foreach ($users as $user): ?>
+                    <li data-child-label="<?php echo $user->name(); ?>" data-user-id="<?php echo $user->id(); ?>" data-user-email="<?php echo $user->email(); ?>"><?php echo $user->name(); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </fieldset>
 <?php echo $this->form()->closeTag(); ?>
 
@@ -104,3 +123,71 @@ if ($pages):
     </div>
     <div class="sidebar-content"></div>
 </div>
+
+<?php
+$userRowTemplate = '
+<tr class="user value">
+    <td data-user-id="__user-id__" data-permission-id="__index__">
+        <span class="restore-value">' . $this->translate('User to be removed') . '</span>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete" aria-label="' . $this->translate('Delete') . '"></a></li>
+            <li><a href="#" class="o-icon-undo" aria-label="' . $this->translate('Restore') . '"></a></li>
+        </ul>
+        <input type="hidden" name="o:site_permission[__index__][o:user][o:id]" value="__user-id__">
+    </td>
+    <td>
+        <input type="checkbox" name="o:site_permission[__index__][o:admin]" value="1">
+    </td>
+    <td><input type="checkbox" name="o:site_permission[__index__][o:edit]" value="1"></td>
+    <td><input type="checkbox" name="o:site_permission[__index__][o:attach]" value="1"></td>
+</tr>
+';
+?>
+
+<span id="user-row-template" data-template="<?php echo $escapeAttr($userRowTemplate); ?>">
+
+<script>
+$('#permissions').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
+    e.preventDefault();
+    $(this).parents('tr').toggleClass('delete');
+});
+
+$('#permissions').on('click', '.o-icon-delete', function() {
+    var userRow = $(this).parents('tr');
+    userRow.find('input[type="hidden"]').remove();
+});
+
+$('#permissions').on('click', '.o-icon-undo', function() {
+    var userCell = $(this).parents('td');
+    var userId = userCell.data('user-id');
+    var userHiddenInput = $('<input type="hidden" name="o:site_permission[2][o:user][o:id]">');
+    userHiddenInput.val(userId);
+    userCell.append(userHiddenInput);
+});
+
+$('#permissions .selector li li').click(function() {
+    var user = $(this);
+    var userId = user.data('user-id');
+    if ($('td[data-user-id="' + userId + '"]').length == 0) {
+        var index = $('#permissions tbody tr:last-of-type td:first-of-type').data('permission-id');
+        index++;
+        var template = $('#user-row-template').data('template');
+        template = template.replace(/__index__/g, index);
+        template = template.replace(/__user-id__/g, userId);
+        template = $($.parseHTML(template));
+        template.find('.actions').after(user.data('user-email'));
+        $('#permissions tbody').append(template);
+        
+    }
+});
+
+$('.section-nav a[href="#permissions"]').click(function() {
+    $('body').addClass('sidebar-open');
+    $('#permissions .sidebar').addClass('active');
+});
+
+$('.section-nav a:not([href="#permissions"])').click(function() {
+    $('body').removeClass('sidebar-open');
+    $('#permissions .sidebar').removeClass('active');
+});
+</script>

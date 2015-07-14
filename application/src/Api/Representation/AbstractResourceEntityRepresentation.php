@@ -214,10 +214,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             // Set the custom template info.
             $templateInfo = array();
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
-                $term = $templateProperty['o:property']->getRepresentation()->term();
+                $term = $templateProperty->property()->term();
                 $templateInfo[$term] = array(
-                    'alternate_label' => $templateProperty['o:alternate_label'],
-                    'alternate_comment' => $templateProperty['o:alternate_comment'],
+                    'alternate_label' => $templateProperty->alternateLabel(),
+                    'alternate_comment' => $templateProperty->alternateComment(),
                 );
             }
         }

@@ -11,9 +11,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php endif; ?>
 <?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
 <?php 
-$property = $resourceTemplateProperty['o:property']->getRepresentation();   
-$propertyAltLabel =$escape($resourceTemplateProperty['o:alternate_label']);
-$propertyAltComment =$escape($resourceTemplateProperty['o:alternate_comment']); 
+$property = $resourceTemplateProperty->property();
+$propertyAltLabel = $escape($resourceTemplateProperty->alternateLabel());
+$propertyAltComment = $escape($resourceTemplateProperty->alternateComment());
 ?>
 <div class="meta-group">
     <h4><?php echo ($propertyAltLabel) ? $propertyAltLabel : $property->label(); ?></h4>

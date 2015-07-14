@@ -62,6 +62,17 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get a reference for this representation.
+     *
+     * @return ResourceReference
+     */
+    public function reference()
+    {
+        return new ResourceReference(
+            $this->id(), $this->getData(), $this->getAdapter());
+    }
+
+    /**
      * Get the unique resource identifier.
      *
      * @return string|int

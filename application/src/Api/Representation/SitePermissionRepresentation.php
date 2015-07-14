@@ -39,16 +39,57 @@ class SitePermissionRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
-        $sitePermission = $this->getData();
         return array(
             'o:user' => $this->getReference(
                 null,
-                $sitePermission->getUser(),
+                $this->getData()->getUser(),
                 $this->getAdapter('users')
             ),
-            'o:admin' => $sitePermission->getAdmin(),
-            'o:attach' => $sitePermission->getAttach(),
-            'o:edit' => $sitePermission->getEdit(),
+            'o:admin' => $this->admin(),
+            'o:attach' => $this->attach(),
+            'o:edit' => $this->edit(),
         );
+    }
+
+    /**
+     * @return SiteRepresentation
+     */
+    public function site()
+    {
+        return $this->getAdapter('sites')
+            ->getRepresentation(null, $this->getData()->getSite());
+    }
+
+    /**
+     * @return UserRepresentation
+     */
+    public function user()
+    {
+        return $this->getAdapter('users')
+            ->getRepresentation(null, $this->getData()->getUser());
+    }
+
+    /**
+     * @return bool
+     */
+    public function admin()
+    {
+        return $this->getData()->getAdmin();
+    }
+
+    /**
+     * @return bool
+     */
+    public function edit()
+    {
+        return $this->getData()->getEdit();
+    }
+
+    /**
+     * @return bool
+     */
+    public function attach()
+    {
+        return $this->getData()->getAttach();
     }
 }

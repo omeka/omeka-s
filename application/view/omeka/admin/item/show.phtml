@@ -1,11 +1,9 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
-$title = sprintf($this->translate('Item: “%s”'), $item->displayTitle());
-$this->headTitle($title);
 $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 ?>
-<h1><?php echo $escape($title); ?></h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
 <div id="page-actions">
     <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>

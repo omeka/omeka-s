@@ -1,9 +1,8 @@
 <?php
-$title = $this->translate('Add Item');
-$this->headTitle($title);
 $this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
 ?>
-<h1><?php echo $title ?></h1>
+
+<?php echo $this->pageTitle($this->translate('Add Item')); ?>
 
 <?php
 echo $this->partial('omeka/admin/item/form.phtml', array(

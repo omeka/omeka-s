@@ -1,13 +1,11 @@
 <?php
-$title = $this->translate('Items');
-$this->headTitle($title);
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
 $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $title; ?></h1>
+<?php echo $this->pageTitle($this->translate('Items')); ?>
 
 <?php echo $this->searchFilters(); ?>
 

@@ -16,7 +16,7 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
             'o:term' => $this->term(),
-            'o:vocabulary' => $this->vocabulary()->reference(),
+            'o:vocabulary' => $this->vocabulary()->getReference(),
         );
     }
 

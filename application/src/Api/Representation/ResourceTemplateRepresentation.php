@@ -18,11 +18,11 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->reference();
+            $owner = $this->owner()->getReference();
         }
         $resourceClass = null;
         if ($this->resourceClass()) {
-            $resourceClass = $this->resourceClass()->reference();
+            $resourceClass = $this->resourceClass()->getReference();
         }
         return array(
             'o:label' => $this->label(),

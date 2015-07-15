@@ -40,7 +40,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function jsonSerialize()
     {
         return array(
-            'o:property' => $this->property()->reference(),
+            'o:property' => $this->property()->getReference(),
             'o:alternate_label' => $this->alternateLabel(),
             'o:alternate_comment' => $this->alternateComment(),
         );

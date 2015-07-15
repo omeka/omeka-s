@@ -18,7 +18,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->reference();
+            $owner = $this->owner()->getReference();
         }
         return array(
             'o:namespace_uri' => $this->namespaceUri(),

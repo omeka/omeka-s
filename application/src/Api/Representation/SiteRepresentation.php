@@ -23,12 +23,12 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         $pages = array();
         foreach ($this->pages() as $pageRepresentation) {
-            $pages[] = $pageRepresentation->reference();
+            $pages[] = $pageRepresentation->getReference();
         }
 
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->reference();
+            $owner = $this->owner()->geReference();
         }
 
         return array(

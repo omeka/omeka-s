@@ -81,15 +81,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->reference();
+            $owner = $this->owner()->getReference();
         }
         $resourceClass = null;
         if ($this->resourceClass()) {
-            $resourceClass = $this->resourceClass()->reference();
+            $resourceClass = $this->resourceClass()->getReference();
         }
         $resourceTemplate = null;
         if ($this->resourceTemplate()) {
-            $resourceTemplate = $this->resourceTemplate()->reference();
+            $resourceTemplate = $this->resourceTemplate()->getReference();
         }
 
         return array_merge(

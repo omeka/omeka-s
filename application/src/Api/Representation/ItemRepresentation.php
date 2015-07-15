@@ -18,11 +18,11 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     {
         $media = array();
         foreach ($this->media() as $mediaRepresentation) {
-            $media[] = $mediaRepresentation->reference();
+            $media[] = $mediaRepresentation->getReference();
         }
         $itemSets = array();
         foreach ($this->itemSets() as $itemSetRepresentation) {
-            $itemSets[] = $itemSetRepresentation->reference();
+            $itemSets[] = $itemSetRepresentation->getReference();
         }
         return array(
             'o:media' => $media,

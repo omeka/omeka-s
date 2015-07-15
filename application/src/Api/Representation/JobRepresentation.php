@@ -32,7 +32,7 @@ class JobRepresentation extends AbstractEntityRepresentation
 
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->reference();
+            $owner = $this->owner()->getReference();
         }
 
         return array_merge(

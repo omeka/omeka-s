@@ -216,6 +216,7 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
+            'pageTitle'              => 'Omeka\View\Helper\PageTitle',
             'htmlElement'            => 'Omeka\View\Helper\HtmlElement',
             'hyperlink'              => 'Omeka\View\Helper\Hyperlink',
             'messages'               => 'Omeka\View\Helper\Messages',

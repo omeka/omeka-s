@@ -16,10 +16,18 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      */
     public function getJsonLd()
     {
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->reference();
+        }
+        $resourceClass = null;
+        if ($this->resourceClass()) {
+            $resourceClass = $this->resourceClass()->reference();
+        }
         return array(
             'o:label' => $this->label(),
-            'o:owner' => $this->owner()->reference(),
-            'o:resource_class' => $this->resourceClass()->reference(),
+            'o:owner' => $owner,
+            'o:resource_class' => $resourceClass,
             'o:resource_template_property' => $this->resourceTemplateProperties(),
         );
     }

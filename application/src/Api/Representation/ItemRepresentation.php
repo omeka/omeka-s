@@ -4,16 +4,6 @@ namespace Omeka\Api\Representation;
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
     /**
-     * @var array Cache of media representations
-     */
-    protected $media;
-
-    /**
-     * @var array Cache of item set epresentations
-     */
-    protected $itemSets;
-
-    /**
      * {@inheritDoc}
      */
     public function getControllerName()
@@ -26,22 +16,17 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
-        $mediaReferences = array();
-        $itemSetReferences = array();
-        $item = $this->getData();
-        foreach ($item->getMedia() as $media) {
-            $mediaReferences[] =  $this->getReference(
-                null, $media, $this->getAdapter('media')
-            );
+        $media = array();
+        foreach ($this->media() as $mediaRepresentation) {
+            $media[] = $mediaRepresentation->reference();
         }
-        foreach ($item->getItemSets() as $itemSet) {
-            $itemSetReferences[] = $this->getReference(
-                null, $itemSet, $this->getAdapter('item_sets')
-            );
+        $itemSets = array();
+        foreach ($this->itemSets() as $itemSetRepresentation) {
+            $itemSets[] = $itemSetRepresentation->reference();
         }
         return array(
-            'o:media' => $mediaReferences,
-            'o:item_set' => $itemSetReferences,
+            'o:media' => $media,
+            'o:item_set' => $itemSets,
         );
     }
 
@@ -52,15 +37,12 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function media()
     {
-        if (isset($this->media)) {
-            return $this->media;
-        }
-        $this->media = array();
+        $media = array();
         $mediaAdapter = $this->getAdapter('media');
         foreach ($this->getData()->getMedia() as $mediaEntity) {
-            $this->media[] = $mediaAdapter->getRepresentation(null, $mediaEntity);
+            $media[] = $mediaAdapter->getRepresentation(null, $mediaEntity);
         }
-        return $this->media;
+        return $media;
     }
 
     /**
@@ -70,17 +52,13 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function itemSets()
     {
-        if (isset($this->itemSets)) {
-            return $this->itemSets;
-        }
-
-        $this->itemSets = array();
+        $itemSets = array();
         $itemSetAdapter = $this->getAdapter('item_sets');
         foreach ($this->getData()->getItemSets() as $itemSetEntity) {
-            $this->itemSets[$itemSetEntity->getId()] =
+            $itemSets[$itemSetEntity->getId()] =
                 $itemSetAdapter->getRepresentation(null, $itemSetEntity);
         }
-        return $this->itemSets;
+        return $itemSets;
     }
 
     /**

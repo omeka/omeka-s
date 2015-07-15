@@ -21,21 +21,24 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
     public function getJsonLd()
     {
-        $entity = $this->getData();
-
         $pages = array();
         foreach ($this->pages() as $pageRepresentation) {
             $pages[] = $pageRepresentation->reference();
         }
 
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->reference();
+        }
+
         return array(
-            'o:slug'       => $entity->getSlug(),
-            'o:theme'      => $entity->getTheme(),
-            'o:title'      => $entity->getTitle(),
-            'o:navigation' => $entity->getNavigation(),
-            'o:page'       => $pages,
+            'o:slug' => $this->slug(),
+            'o:theme' => $this->theme(),
+            'o:title' => $this->title(),
+            'o:navigation' => $this->navigation(),
+            'o:owner' => $owner,
+            'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
-            'o:owner'      => $this->owner()->reference(),
         );
     }
 

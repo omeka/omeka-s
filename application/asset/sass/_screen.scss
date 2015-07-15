@@ -2272,6 +2272,23 @@ body.show .sidebar img {
         cursor: pointer;
     }
 
+    #site-user-permissions + .no-resources {
+        display: none;
+    }
+
+    #site-user-permissions.empty {
+        display: none;
+
+        & + .no-resources {
+            display: block;
+            padding: 0 rhythm();
+
+            &:before {
+                content: $fa-var-users;
+            }
+        }
+    }
+
     /* @end */
 
 /* @end */

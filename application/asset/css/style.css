@@ -2642,6 +2642,21 @@ th {
     cursor: pointer;
   }
 
+  #site-user-permissions + .no-resources {
+    display: none;
+  }
+
+  #site-user-permissions.empty {
+    display: none;
+  }
+  #site-user-permissions.empty + .no-resources {
+    display: block;
+    padding: 0 1.5em;
+  }
+  #site-user-permissions.empty + .no-resources:before {
+    content: "";
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Advanced Search ----- */

@@ -1,5 +1,7 @@
 <?php
+$title = $this->translate('Advanced Item Search');
+$this->headTitle($title);
 $this->htmlElement('body')->appendAttribute('class', 'items search');
 ?>
-<h1><?php echo $this->translate('Advanced Item Search'); ?></h1>
+<h1><?php echo $title; ?></h1>
 <?php echo $this->partial('common/advanced-search'); ?>

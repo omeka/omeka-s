@@ -1,7 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
-$title = sprintf($this->translate('Edit Item: “%s”'), $escape($item->displayTitle()));
+$title = sprintf($this->translate('Edit Item: “%s”'), $item->displayTitle());
 $this->headTitle($title);
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
 $deleteButton = '<a href="#" class="delete button sidebar-confirm" 
@@ -13,7 +13,7 @@ $deleteButton = '<a href="#" class="delete button sidebar-confirm"
 var valuesJson = <?php echo json_encode($item->values()); ?>;
 </script>
 
-<h1><?php echo $title; ?></h1>
+<h1><?php echo $escape($title); ?></h1>
 
 <?php
 echo $this->partial('omeka/admin/item/form.phtml', array(

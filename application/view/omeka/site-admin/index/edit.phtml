@@ -105,9 +105,27 @@ if ($pages):
         <ul id="new-site-user">
             <li class="show"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
                 <ul>
-                    <?php foreach ($users as $user): ?>
-                    <li data-child-label="<?php echo $user->name(); ?>" data-user-id="<?php echo $user->id(); ?>" data-user-email="<?php echo $user->email(); ?>"><?php echo $user->name(); ?></li>
-                    <?php endforeach; ?>
+                <?php
+                    $usersByInitial = array();
+                    $initial = substr($users[0]->name(), 0, 1);
+                    foreach ($users as $user) {
+                        $userInitial = substr($user->name(), 0, 1);
+                        if ($userInitial !== $initial) {
+                            $initial = $userInitial;
+                        }
+                        $usersByInitial[$initial][] = $user;
+                    }
+                ?>
+                <?php foreach ($usersByInitial as $initial => $users): ?>
+                    <li class="selector-parent"><span>
+                        <?php echo $initial; ?></span> 
+                        (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
+                        <ul>
+                        <?php foreach($users as $user): ?>
+                            <li class="selector-child" data-child-label="<?php echo $user->name(); ?>" data-user-id="<?php echo $user->id(); ?>" data-user-email="<?php echo $user->email(); ?>"><span><?php echo $user->name(); ?><br><?php echo $user->email(); ?></span></li>
+                        <?php endforeach; ?>
+                        </ul>
+                <?php endforeach; ?>
                 </ul>
             </li>
         </ul>
@@ -169,7 +187,7 @@ $('#permissions').on('click', '.o-icon-undo', function() {
     userCell.append(userHiddenInput);
 });
 
-$('#permissions .selector li li').click(function() {
+$('#permissions .selector .selector-child').click(function() {
     var user = $(this);
     var userId = user.data('user-id');
     if ($('td[data-user-id="' + userId + '"]').length == 0) {

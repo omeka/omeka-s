@@ -79,7 +79,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $users = $this->api()->search('users', $this->params()->fromQuery());
+        $users = $this->api()->search('users', array('sort_by' => 'name'));
 
         $view = new ViewModel;
         $view->setVariable('site', $site);

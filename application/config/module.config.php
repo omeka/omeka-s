@@ -39,7 +39,7 @@ return array(
         'tasks' => array(
             'Omeka\Installation\Task\CheckEnvironmentTask',
             'Omeka\Installation\Task\CheckDirPermissionsTask',
-            'Omeka\Installation\Task\ClearSessionTask',
+            'Omeka\Installation\Task\DestroySessionTask',
             'Omeka\Installation\Task\CheckDbConfigurationTask',
             'Omeka\Installation\Task\ClearCacheTask',
             'Omeka\Installation\Task\InstallSchemaTask',
@@ -216,6 +216,7 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
+            'pageTitle'              => 'Omeka\View\Helper\PageTitle',
             'htmlElement'            => 'Omeka\View\Helper\HtmlElement',
             'hyperlink'              => 'Omeka\View\Helper\Hyperlink',
             'messages'               => 'Omeka\View\Helper\Messages',

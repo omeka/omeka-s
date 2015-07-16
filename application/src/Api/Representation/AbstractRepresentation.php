@@ -88,28 +88,6 @@ abstract class AbstractRepresentation implements RepresentationInterface
     }
 
     /**
-     * Get a reference representation.
-     *
-     * @param string|int $id The unique identifier of the referenced resource
-     * @param mixed $data The data from which to derive the reference
-     * @param AdapterInterface $adapter The corresponding API adapter
-     * @return RepresentationInterface
-     */
-    protected function getReference($id, $data, AdapterInterface $adapter)
-    {
-        // Do not attempt to compose a null reference.
-        if (null === $data) {
-            return null;
-        }
-
-        if ($data instanceof EntityInterface) {
-            $id = $data->getId();
-        }
-
-        return new ResourceReference($id, $data, $adapter);
-    }
-
-    /**
      * Get a JSON serializable instance of DateTime.
      *
      * @param \DateTime $dateTime

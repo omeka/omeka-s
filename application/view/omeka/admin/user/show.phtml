@@ -11,15 +11,15 @@
 </div>
 
 <div class="property">
-    <h4><?php echo $this->translate('Name'); ?></h4>
-    <div class="value">
-        <?php echo $escape($user->name()); ?>
-    </div>
-</div>
-<div class="property">
     <h4><?php echo $this->translate('Email'); ?></h4>
     <div class="value">
         <?php echo $escape($user->email()); ?>
+    </div>
+</div>
+<div class="property">
+    <h4><?php echo $this->translate('Display Name'); ?></h4>
+    <div class="value">
+        <?php echo $escape($user->name()); ?>
     </div>
 </div>
 <div class="property">

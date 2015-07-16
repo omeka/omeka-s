@@ -28,7 +28,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
 
         $owner = null;
         if ($this->owner()) {
-            $owner = $this->owner()->geReference();
+            $owner = $this->owner()->getReference();
         }
 
         return array(

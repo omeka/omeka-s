@@ -81,7 +81,7 @@ if ($pages):
                         <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
                         <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
                     </ul>
-                    <?php echo $user->email(); ?>
+                    <?php echo $user->name(); ?> (<?php echo $user->email(); ?>)
                     <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $user->id(); ?>">
                 </td>
                 <td>
@@ -122,7 +122,7 @@ if ($pages):
                         (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
                         <ul>
                         <?php foreach($users as $user): ?>
-                            <li class="selector-child" data-child-label="<?php echo $user->name(); ?>" data-user-id="<?php echo $user->id(); ?>" data-user-email="<?php echo $user->email(); ?>"><span><?php echo $user->name(); ?><br><?php echo $user->email(); ?></span></li>
+                            <li class="selector-child" data-child-label="<?php echo $user->name() . ' (' . $user->email() . ')'; ?>" data-user-id="<?php echo $user->id(); ?>"><span><?php echo $user->name(); ?><br><?php echo $user->email(); ?></span></li>
                         <?php endforeach; ?>
                         </ul>
                 <?php endforeach; ?>
@@ -201,7 +201,7 @@ $('#permissions .selector .selector-child').click(function() {
         template = template.replace(/__index__/g, index);
         template = template.replace(/__user-id__/g, userId);
         template = $($.parseHTML(template));
-        template.find('.actions').after(user.data('user-email'));
+        template.find('.actions').after(user.data('child-label'));
         $('#permissions tbody').append(template);
     }
     $('#site-user-permissions').removeClass('empty');

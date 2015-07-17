@@ -1,7 +1,7 @@
 <?php
 return array(
     'loggers' => array(
-        'application' => array('log'  => true),
+        'application' => array('log'  => false),
         'sql' => array('log'  => false),
     ),
     'cli' => array(

@@ -59,7 +59,7 @@ var Omeka = {
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
-                var label = child.data('child-label').toLowerCase();
+                var label = child.data('child-search').toLowerCase();
                 if (label.indexOf(filter) > -1) {
                     // Label contains the filter string. Show the child.
                     child.show();

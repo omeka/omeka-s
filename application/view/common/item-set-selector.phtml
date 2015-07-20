@@ -18,7 +18,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <ul>
                         <?php foreach ($itemSets as $itemSet): ?>
                         <li class='selector-child'
-                            data-child-label="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
+                            data-child-search="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
                             data-item-set-id="<?php echo $escapeAttr($itemSet->id()); ?>"
                             data-owner-email="<?php echo $escapeAttr($email); ?>">
                             <div class="description">

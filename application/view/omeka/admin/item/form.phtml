@@ -1,7 +1,5 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/chosen/chosen.jquery.min.js', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('js/chosen/chosen.min.css', 'Omeka'));
 $form->prepare();
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $escape = $this->plugin('escapeHtml');
@@ -86,10 +84,4 @@ $formElement = $this->plugin('formElement');
  */
 echo $this->partial('common/resource-form-templates.phtml');
 ?>
-
-<script type="text/javascript">
-jQuery(document).ready(function ($) {
-    $('#select-item-set').chosen({width: '100%'});
-});
-</script>
 

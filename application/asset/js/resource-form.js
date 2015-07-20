@@ -287,7 +287,7 @@
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = propertyLi.data('child-label');
+        var fieldName = propertyLi.data('child-search');
         field.find('.field-label').text(fieldName);
         field.find('.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();

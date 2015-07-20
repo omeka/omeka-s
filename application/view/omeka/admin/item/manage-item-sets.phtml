@@ -66,7 +66,7 @@ $('#item-set-selector .selector-child').click(function(event) {
     }
 
     var row = $($('#item-set-template').data('template'));
-    var itemSetTitle = $(this).data('child-label');
+    var itemSetTitle = $(this).data('child-search');
     var ownerEmail = $(this).data('owner-email');
     row.children('td.item-set-title').text(itemSetTitle);
     row.children('td.owner-email').text(ownerEmail);

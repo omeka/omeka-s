@@ -22,7 +22,7 @@ $form->prepare();
 </fieldset>
 <fieldset id="pages" class="section">
 <legend><?php echo $this->translate('Pages'); ?></legend>
-<?php echo $site->link('Add a Page', 'add-page', array('class' => 'button')); ?>
+<?php echo $site->link($this->translate('Add a Page'), 'add-page', array('class' => 'button')); ?>
 
 <?php
 $pages = $site->pages();

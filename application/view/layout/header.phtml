@@ -18,7 +18,7 @@
         <?php endif; ?>
     </div>
     <div id="search">
-        <form action="#" id="search-form">
+        <form action="" id="search-form">
             <?php $searchValue = isset($_GET['value']['in'][0]) ? $_GET['value']['in'][0] : ''; ?>
             <input type="text" name="value[in][]" value="<?php echo $this->escapeHtmlAttr($searchValue); ?>" placeholder="<?php echo $escapeAttr('Search items'); ?>">
             <button type="button" id="advanced">Advanced Options</button>
@@ -37,14 +37,6 @@
 </header>
 
 <script>
-    $('#search-form').change(function() {
-        var checkedOption = $("#advanced-options input[type='radio']:checked ");
-        var checkedLabel = checkedOption.next().text().toLowerCase();
-        var actionURL = checkedOption.data('action');
-        $("#search-form").attr("action", actionURL);
-        $("#search-form > input[type='text']").attr("placeholder", "Search " + checkedLabel);
-    });
-
     $('#advanced').click(function(event) {
         event.preventDefault();
         $('#advanced-options').slideToggle('slow');

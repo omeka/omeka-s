@@ -39,23 +39,19 @@ class SitePageAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $data = $request->getContent();
+        if (Request::CREATE === $request->getOperation()
+            && isset($data['o:site']['o:id'])
+        ) {
+            $site = $this->getAdapter('sites')->findEntity($data['o:site']['o:id']);
+            $this->authorize($site, 'add-page');
+            $entity->setSite($site);
+        }
         if ($this->shouldHydrate($request, 'o:slug')) {
             $entity->setSlug($request->getValue('o:slug'));
         }
         if ($this->shouldHydrate($request, 'o:title')) {
             $entity->setTitle($request->getValue('o:title'));
-        }
-
-        if ($request->getOperation() !== Request::CREATE) {
-            return;
-        }
-
-        $data = $request->getContent();
- 
-        if (isset($data['o:site']['o:id'])) {
-            $site = $this->getAdapter('sites')
-                ->findEntity($data['o:site']['o:id']);
-            $entity->setSite($site);
         }
     }
 

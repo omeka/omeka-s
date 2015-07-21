@@ -7,13 +7,9 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            'o:slug'       => $entity->getSlug(),
-            'o:title'      => $entity->getTitle(),
-            'o:site'      => $this->getReference(
-                null,
-                $this->getData()->getSite(),
-                $this->getAdapter('sites')
-            ),
+            'o:slug' => $this->slug(),
+            'o:title' => $this->title(),
+            'o:site' => $this->site()->getReference(),
         );
     }
 

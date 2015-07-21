@@ -167,10 +167,13 @@ class ResourceTemplateController extends AbstractActionController
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
-                $propertyRows = $resourceTemplate->resourceTemplateProperties();
-                foreach ($propertyRows as $key => $propertyRow) {
-                    // Convert references to full representations.
-                    $propertyRows[$key]['o:property'] = $propertyRow['o:property']->getRepresentation();
+                $resTemProps = $resourceTemplate->resourceTemplateProperties();
+                foreach ($resTemProps as $key => $resTemProp) {
+                    $propertyRows[$key] = array(
+                        'o:property' => $resTemProp->property(),
+                        'o:alternate_label' => $resTemProp->alternateLabel(),
+                        'o:alternate_comment' => $resTemProp->alternateComment(),
+                    );
                 }
             } else {
                 // For the add action, determs:title and dcterms:description are

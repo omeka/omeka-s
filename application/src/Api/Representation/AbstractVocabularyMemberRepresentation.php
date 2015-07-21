@@ -7,30 +7,16 @@ namespace Omeka\Api\Representation;
 abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var VocabularyRepresentation Cache of this member's vocabulary
-     */
-    protected $vocabulary;
-
-    /**
      * {@inheritDoc}
      */
     public function getJsonLd()
     {
         return array(
             'o:local_name' => $this->localName(),
-            'o:label'      => $this->label(),
-            'o:comment'    => $this->comment(),
-            'o:term'       => $this->term(),
-            'o:vocabulary' => $this->getReference(
-                null,
-                $this->getData()->getVocabulary(),
-                $this->getAdapter('vocabularies')
-            ),
-            'o:owner' => $this->getReference(
-                null,
-                $this->getData()->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'o:label' => $this->label(),
+            'o:comment' => $this->comment(),
+            'o:term' => $this->term(),
+            'o:vocabulary' => $this->vocabulary()->getReference(),
         );
     }
 
@@ -41,11 +27,8 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
      */
     public function vocabulary()
     {
-        if (!$this->vocabulary) {
-            $this->vocabulary = $this->getAdapter('vocabularies')
-                ->getRepresentation(null, $this->getData()->getVocabulary());
-        }
-        return $this->vocabulary;
+        return $this->getAdapter('vocabularies')
+            ->getRepresentation(null, $this->getData()->getVocabulary());
     }
 
     /**

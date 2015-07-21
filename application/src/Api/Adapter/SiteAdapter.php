@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\SitePermission;
 use Omeka\Stdlib\ErrorStore;
 
 class SiteAdapter extends AbstractEntityAdapter
@@ -51,6 +53,52 @@ class SiteAdapter extends AbstractEntityAdapter
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', array()));
+        }
+
+        $sitePermissionsData = $request->getValue('o:site_permission');
+        if ($this->shouldHydrate($request, 'o:site_permission')
+            && is_array($sitePermissionsData)
+        ) {
+
+            $userAdapter = $this->getAdapter('users');
+            $sitePermissions = $entity->getSitePermissions();
+            $sitePermissionsToRetain = array();
+
+            foreach ($sitePermissionsData as $sitePermissionData) {
+
+                if (!isset($sitePermissionData['o:user']['o:id'])) {
+                    continue;
+                }
+
+                $admin = isset($sitePermissionData['o:admin'])
+                    ? $sitePermissionData['o:admin'] : false;
+                $attach = isset($sitePermissionData['o:attach'])
+                    ? $sitePermissionData['o:attach'] : false;
+                $edit = isset($sitePermissionData['o:edit'])
+                    ? $sitePermissionData['o:edit'] : false;
+
+                $user = $userAdapter->findEntity($sitePermissionData['o:user']['o:id']);
+                $criteria = Criteria::create()
+                    ->where(Criteria::expr()->eq('user', $user));
+                $sitePermission = $sitePermissions->matching($criteria)->first();
+
+                if (!$sitePermission) {
+                    $sitePermission = new SitePermission;
+                    $sitePermission->setSite($entity);
+                    $sitePermission->setUser($user);
+                    $entity->getSitePermissions()->add($sitePermission);
+                }
+
+                $sitePermission->setAdmin($admin);
+                $sitePermission->setAttach($attach);
+                $sitePermission->setEdit($edit);
+                $sitePermissionsToRetain[] = $sitePermission;
+            }
+            foreach ($sitePermissions as $sitePermissionId => $sitePermission) {
+                if (!in_array($sitePermission, $sitePermissionsToRetain)) {
+                    $sitePermissions->remove($sitePermissionId);
+                }
+            }
         }
     }
 

@@ -7,6 +7,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>
         <th><?php echo $this->translate('Owner'); ?></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -37,15 +38,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php
 $itemSetTemplate = '
 <tr>
-    <td>__item-set-title__</td>
-    <td>__owner-email__</td>
+    <td class="item-set-title"></td>
+    <td class="owner-email">__owner-email__</td>
     <td><ul class="actions">
         <li><a href="#" 
         class="o-icon-delete" 
         title="' . $escapeAttr($this->translate('Remove item set')) . '" 
         aria-label="' . $escapeAttr($this->translate('Remove item set')) . '">
         </a></li>
-    </ul><input type="hidden" name="o:item_set[]" value="__item-set-id__"></td>
+    </ul><input type="hidden" name="o:item_set[]"></td>
 </tr>';
 ?>
 <span id="item-set-template" data-template="<?php echo $escapeAttr($itemSetTemplate); ?>"></span>
@@ -59,17 +60,18 @@ $('#item-set-selector .selector-child').click(function(event) {
 
     $('#item-item-sets').removeClass('empty');
     var itemSetId = $(this).data('item-set-id');
-    var itemSetTitle = $(this).data('child-label');
-    var ownerEmail = $(this).data('owner-email');
 
-    if ($('input[value="' + itemSetId + '"]').length === 0) {
-        var template = $('#item-set-template').data('template');
-        template = template.replace(/__item-set-title__/g, itemSetTitle);
-        template = template.replace(/__item-set-id__/g, itemSetId);
-        template = template.replace(/__owner-email__/g, ownerEmail);
-    
-        $('#item-item-sets > tbody:last').append($.parseHTML(template));
+    if ($('#item-item-sets').find("input[value='" + itemSetId + "']").length) {
+        return;
     }
+
+    var row = $($('#item-set-template').data('template'));
+    var itemSetTitle = $(this).data('child-search');
+    var ownerEmail = $(this).data('owner-email');
+    row.children('td.item-set-title').text(itemSetTitle);
+    row.children('td.owner-email').text(ownerEmail);
+    row.find('td > input').val(itemSetId);
+    $('#item-item-sets > tbody:last').append(row);
 });
 
 // Remove an item set from the edit panel.
@@ -79,10 +81,7 @@ $('#item-item-sets').on('click', '.o-icon-delete', function(event) {
     var removeLink = $(this);
     var itemSetRow = $(this).closest('tr');
     var itemSetInput = removeLink.closest('td').find('input');
-
-    // Remove the item set input from the form.
-    itemSetRow.data('item-set-input', itemSetInput);
-    itemSetInput.remove();
+    itemSetInput.prop('disabled', true);
 
     // Undo remove item set link.
     var undoRemoveLink = $('<a>', {
@@ -92,7 +91,7 @@ $('#item-item-sets').on('click', '.o-icon-delete', function(event) {
         click: function(event) {
             event.preventDefault();
             itemSetRow.toggleClass('delete');
-            $(this).closest('td').append(itemSetInput);
+            itemSetInput.prop('disabled', false);
             removeLink.show();
             $(this).remove();
         },

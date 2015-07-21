@@ -144,6 +144,17 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get a reference for this resource representation.
+     *
+     * @return ResourceReference
+     */
+    public function getReference()
+    {
+        return new ResourceReference(
+            $this->id(), $this->getData(), $this->getAdapter());
+    }
+
+    /**
      * Get the URL to the represented resource in the API
      *
      * @return string

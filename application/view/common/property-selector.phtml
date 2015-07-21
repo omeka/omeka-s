@@ -26,7 +26,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <ul>
                         <?php foreach ($properties as $property): ?>
                         <li class='selector-child'
-                            data-child-label="<?php echo $escapeAttr($property->label()); ?>"
+                            data-child-search="<?php echo $escapeAttr($property->label()); ?>"
                             data-property-id="<?php echo $escapeAttr($property->id()); ?>"
                             data-property-term="<?php echo $escapeAttr($property->term()); ?>">
                             <div class="description">

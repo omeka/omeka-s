@@ -83,9 +83,7 @@ class LoginController extends AbstractActionController
         }
         $user = $passwordCreation->getUser();
 
-        // Activation key expires two weeks after creation
-        $expired = $passwordCreation->getCreated()->add(new DateInterval('P2W'));
-        if (new DateTime > $expired) {
+        if (new DateTime > $passwordCreation->getExpiration()) {
             $user->setIsActive(false);
             $entityManager->remove($passwordCreation);
             $entityManager->flush();
@@ -146,10 +144,7 @@ class LoginController extends AbstractActionController
                         $entityManager->remove($passwordCreation);
                         $entityManager->flush();
                     }
-                    $subject = 'Reset your Omeka S password';
-                    $body = '%s';
-                    $serviceLocator->get('Omeka\Mailer')
-                        ->sendCreatePassword($user, $subject, $body, false);
+                    $serviceLocator->get('Omeka\Mailer')->sendResetPassword($user);
                 }
                 $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
                 return $this->redirect()->toRoute('login');

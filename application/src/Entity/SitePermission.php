@@ -21,7 +21,7 @@ class SitePermission extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Site")
+     * @ManyToOne(targetEntity="Site", inversedBy="sitePermissions")
      * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $site;
@@ -100,5 +100,19 @@ class SitePermission extends AbstractEntity
     public function getEdit()
     {
         return $this->edit;
+    }
+
+    public function hasPrivilege($privilege)
+    {
+        switch ($privilege) {
+            case 'admin':
+                return $this->getAdmin();
+            case 'edit':
+                return $this->getEdit();
+            case 'attach':
+                return $this->getAttach();
+            default:
+                return false;
+        }
     }
 }

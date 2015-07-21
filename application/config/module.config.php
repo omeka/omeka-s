@@ -243,11 +243,21 @@ return array(
     'file_renderers' => array(
         'invokables' => array(
             'image' => 'Omeka\Media\FileRenderer\ImageRenderer',
+            'audio' => 'Omeka\Media\FileRenderer\AudioRenderer',
+            'video' => 'Omeka\Media\FileRenderer\VideoRenderer',
         ),
         'aliases' => array(
             'image/png'  => 'image',
             'image/jpeg' => 'image',
             'image/gif'  => 'image',
+            'audio/ogg'   => 'audio',
+            'audio/mpeg'  => 'audio',
+            'audio/mpeg3' => 'audio',
+            'audio/wav'   => 'audio',
+            'application/ogg' => 'video',
+            'video/quicktime' => 'video',
+            'video/avi'  => 'video',
+            'video/mpeg' => 'video',
         ),
     ),
     'oembed' => array(

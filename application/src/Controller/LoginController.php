@@ -144,10 +144,7 @@ class LoginController extends AbstractActionController
                         $entityManager->remove($passwordCreation);
                         $entityManager->flush();
                     }
-                    $subject = 'Reset your Omeka S password';
-                    $body = '%s';
-                    $serviceLocator->get('Omeka\Mailer')
-                        ->sendCreatePassword($user, $subject, $body, false);
+                    $serviceLocator->get('Omeka\Mailer')->sendResetPassword($user);
                 }
                 $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
                 return $this->redirect()->toRoute('login');

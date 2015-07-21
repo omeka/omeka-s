@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Entity;
 
+use DateInterval;
 use DateTime;
 use Omeka\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -71,6 +72,16 @@ class PasswordCreation extends AbstractEntity
     public function activate()
     {
         return (bool) $this->activate;
+    }
+
+    /**
+     * Expires two weeks after creation
+     *
+     * @return DateTime
+     */
+    public function getExpiration()
+    {
+        return $this->getCreated()->add(new DateInterval('P2W'));
     }
 
     /**

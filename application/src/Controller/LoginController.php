@@ -83,9 +83,7 @@ class LoginController extends AbstractActionController
         }
         $user = $passwordCreation->getUser();
 
-        // Activation key expires two weeks after creation
-        $expired = $passwordCreation->getCreated()->add(new DateInterval('P2W'));
-        if (new DateTime > $expired) {
+        if (new DateTime > $passwordCreation->getExpiration()) {
             $user->setIsActive(false);
             $entityManager->remove($passwordCreation);
             $entityManager->flush();

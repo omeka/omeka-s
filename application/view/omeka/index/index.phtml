@@ -1,5 +1,5 @@
-<h2>Omeka S</h2>
+<h2><?php echo $this->translate('Omeka S'); ?></h2>
 <p>
-    Go to the <a href="<?php echo $this->url('admin'); ?>">Admin Dashboard</a>
-    to start working with Omeka S.
+    <?php echo sprintf($this->translate('Go to the <a href="%s">Admin Dashboard</a>
+    to start working with Omeka S.'), $this->url('admin')); ?>
 </p>

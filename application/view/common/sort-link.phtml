@@ -4,7 +4,7 @@ if ('sorted-asc' == $class) {
 } elseif ('sorted-desc' == $class) {
     $title = $this->translate('Switch to ascending order');
 } else {
-    $title = $this->translate("Sort by $this->escapeHtml($label)");
+    $title = sprintf($this->translate('Sort by %s'), $label);
 }
 ?>
 <a href="<?php echo $this->escapeHtmlAttr($url); ?>"

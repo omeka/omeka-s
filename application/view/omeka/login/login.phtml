@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'login');
 $form->prepare();
 $formLabel = $this->plugin('formLabel');
 ?>
-<h1>Login</h1>
+<h1><?php echo $this->translate('Login'); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 <div class="field">
     <div class="field-meta">
@@ -39,5 +39,5 @@ $formLabel = $this->plugin('formLabel');
 echo $this->formElement($form->get('submit'));
 echo $this->form()->closeTag();
 ?>
-<p class="forgot-password"><?php echo $this->hyperlink('Forgot password?', $this->url('forgot-password')); ?></p>
+<p class="forgot-password"><?php echo $this->hyperlink($this->translate('Forgot password?'), $this->url('forgot-password')); ?></p>
 

@@ -6,7 +6,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $this->translate('Jobs'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Jobs')); ?>
 
 <?php if (count($jobs)): ?>
 

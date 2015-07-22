@@ -5,7 +5,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $this->translate('Vocabularies'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Vocabularies')); ?>
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>

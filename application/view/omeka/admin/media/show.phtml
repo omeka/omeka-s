@@ -3,7 +3,10 @@ $this->htmlElement('body')->appendAttribute('class', 'media show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo sprintf($this->translate('Media: “%s”'), $escape($media->displayTitle())); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Media: “%s”'), $media->displayTitle())); ?>
+
+
 <div id="page-actions">
     <?php echo $media->link($this->translate('Edit media'), 'edit', array('class' => 'button')); ?>
 </div>

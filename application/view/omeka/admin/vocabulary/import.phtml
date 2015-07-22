@@ -2,7 +2,9 @@
 $this->htmlElement('body')->appendAttribute('class', 'vocabs import');
 $form->prepare(); 
 ?>
-<h1><?php echo $this->translate('Import Vocabulary'); ?></h1>
+
+<?php echo $this->pageTitle($this->translate('Import Vocabulary')); ?>
+
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <button><?php echo $this->translate('Import'); ?></button>

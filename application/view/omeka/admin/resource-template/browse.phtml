@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $this->translate('Resource Templates'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Resource Templates')); ?>
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>

@@ -12,7 +12,9 @@ $viewItemsLink = $this->url(
     )
 );
 ?>
-<h1><?php echo sprintf($this->translate('Item Set: “%s”'), $escape($itemSet->displayTitle())); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Item Set: “%s”'), $itemSet->displayTitle())); ?>
+
 <div id="page-actions">
     <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>

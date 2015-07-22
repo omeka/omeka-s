@@ -4,7 +4,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
 $deleteButton = '<a href="#" class="delete button sidebar-confirm" 
     data-sidebar-confirm-url="' . $escapeAttr($item->url('delete')) . 
-    '">' . $escape('Delete') . '</a>';
+    '">' . $this->translate('Delete') . '</a>';
 ?>
 
 <script type='text/javascript'>

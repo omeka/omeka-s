@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo sprintf($this->translate('Resource Template: “%s”'), $escape($resourceTemplate->label())); ?></h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Resource Template: “%s”'), $resourceTemplate->label())); ?>
 
 <div id="page-actions">
     <?php if ($resourceTemplate->userIsAllowed('update')): ?>

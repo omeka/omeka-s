@@ -27,13 +27,10 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        switch ($this->type()) {
-            case Value::TYPE_RESOURCE:
-                return $this->valueResource()->url();
-            case Value::TYPE_URI:
-            case Value::TYPE_LITERAL:
-            default:
-                return $this->getData()->getValue();
+        if (Value::TYPE_RESOURCE === $this->type()) {
+            return $this->valueResource()->url(null, true);
+        } else {
+            return $this->getData()->getValue();
         }
     }
 
@@ -42,7 +39,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function displayValue()
+    public function asHtml()
     {
         switch ($this->type()) {
             case Value::TYPE_RESOURCE:

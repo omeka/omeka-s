@@ -41,7 +41,8 @@ class ValueRepresentation extends AbstractRepresentation
                 if (!$uriLabel) {
                     $uriLabel = $uri;
                 }
-                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uriLabel) . '</a>';
+                $hyperlink = $this->getViewHelper('hyperlink');
+                return $hyperlink($uriLabel, $uri);
 
             case Value::TYPE_LITERAL:
             default:

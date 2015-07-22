@@ -4,9 +4,9 @@ $escape = $this->plugin('escapeHtml');
 <table>
     <thead>
         <tr>
-            <th><?php echo $escape($this->translate('Subject')); ?></th>
-            <th><?php echo $escape($this->translate('Predicate')); ?></th>
-            <th><?php echo $escape($this->translate('Object')); ?></th>
+            <th><?php echo $this->translate('Subject'); ?></th>
+            <th><?php echo $this->translate('Predicate'); ?></th>
+            <th><?php echo $this->translate('Object'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@ $escape = $this->plugin('escapeHtml');
         $property = $value->property();
         ?>
         <tr>
-            <td><?php echo $escape($this->translate('This')); ?></td>
+            <td><?php echo $this->translate('This'); ?></td>
             <td><?php echo $escape($property->label()); ?></td>
             <td><?php echo $resource->link($resource->displayTitle()); ?></td>
         </tr>
@@ -30,7 +30,7 @@ $escape = $this->plugin('escapeHtml');
         <tr>
             <td><?php echo $resource->link($resource->displayTitle()); ?></td>
             <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $escape($this->translate('This')); ?></td>
+            <td><?php echo $this->translate('This'); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

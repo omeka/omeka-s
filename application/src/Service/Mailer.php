@@ -80,35 +80,130 @@ class Mailer implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Send a create password message.
+     * Create and return a password creation entity.
      *
      * @param User $user
-     * @param string $subject
-     * @param string $body
      * @param bool $activate Whether to activate the user after setting a new
-     * password
+     *  password
+     * @return PasswordCreation
      */
-    public function sendCreatePassword(User $user, $subject, $body, $activate = true) {
-        $serviceLocator = $this->getServiceLocator();
-
+    public function getPasswordCreation(User $user, $activate)
+    {
         $passwordCreation = new PasswordCreation;
         $passwordCreation->setId();
         $passwordCreation->setUser($user);
         $passwordCreation->setActivate($activate);
-        $entityManager = $serviceLocator->get('Omeka\EntityManager');
+
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->persist($passwordCreation);
         $entityManager->flush();
+        return $passwordCreation;
+    }
 
-        $activationUrl = $serviceLocator->get('ControllerPluginManager')
+    /**
+     * Return an absolute URL to the create password page.
+     *
+     * @param PasswordCreation $passwordCreation
+     * @return string
+     */
+    public function getCreatePasswordUrl(PasswordCreation $passwordCreation)
+    {
+        return $this->getServiceLocator()->get('ControllerPluginManager')
             ->get('Url')->fromRoute(
                 'create-password',
                 array('key' => $passwordCreation->getId()),
                 array('force_canonical' => true)
             );
+    }
+
+    /**
+     * Return an absolute URL to the main public page.
+     *
+     * @return string
+     */
+    public function getSiteUrl()
+    {
+        return $this->getServiceLocator()->get('ControllerPluginManager')
+            ->get('Url')->fromRoute('top', array(), array('force_canonical' => true));
+    }
+
+    /**
+     * Return the expiration date.
+     *
+     * @param PasswordCreation $passwordCreation
+     * @return string
+     */
+    public function getExpiration(PasswordCreation $passwordCreation)
+    {
+        return $this->getServiceLocator()->get('ViewHelperManager')
+            ->get('i18n')->dateFormat($passwordCreation->getExpiration(), 'medium', 'medium');
+    }
+
+    /**
+     * Send a reset password email.
+     *
+     * @param User $user
+     */
+    public function sendResetPassword(User $user)
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $template = $translator->translate('Greetings, %1$s!
+
+It seems you have forgotten your password for %2$s.
+
+To reset your password, click this link:
+%3$s
+
+Your reset link will expire in %4$s.');
+
+        $passwordCreation = $this->getPasswordCreation($user, false);
+        $body = sprintf(
+            $template,
+            $user->getName(),
+            $this->getSiteUrl(),
+            $this->getCreatePasswordUrl($passwordCreation),
+            $this->getExpiration($passwordCreation)
+        );
+
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
-            ->setSubject($subject)
-            ->setBody(sprintf($body, $activationUrl));
+            ->setSubject($translator->translate('Reset your Omeka S password'))
+            ->setBody($body);
+        $this->send($message);
+    }
+
+    /**
+     * Send a user activation email.
+     *
+     * @param User $user
+     */
+    public function sendUserActivation(User $user)
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $template = $translator->translate('Greetings!
+
+A user has been created for you on %1$s.
+
+Your username is your email: %2$s
+
+Click this link to set a password and begin using Omeka S:
+%3$s
+
+Your activation link will expire in %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator.');
+
+        $passwordCreation = $this->getPasswordCreation($user, true);
+        $body = sprintf(
+            $template,
+            $this->getSiteUrl(),
+            $user->getEmail(),
+            $this->getCreatePasswordUrl($passwordCreation),
+            $this->getExpiration($passwordCreation)
+        );
+
+        $message = $this->createMessage();
+        $message->addTo($user->getEmail(), $user->getName())
+            ->setSubject($translator->translate('Omeka S User Activation'))
+            ->setBody($body);
         $this->send($message);
     }
 }

@@ -192,7 +192,8 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
                 'controller' => $controller,
                 'action' => $action,
                 'id' => $this->id(),
-            )
+            ),
+            array('force_canonical' => true)
         );
     }
 

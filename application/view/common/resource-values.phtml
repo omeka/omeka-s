@@ -19,11 +19,11 @@ $labelInfo = $this->setting('property_label_information');
         </h4>
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php if ('resource' == $value->type()): ?>
-            <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value; ?></div>
+            <div class="value <?php echo $escapeAttr($value->valueResource()->resourceName()); ?>"><?php echo $value->displayValue(); ?></div>
             <?php elseif ('uri' == $value->type()): ?>
-            <div class="value uri"><?php echo $value; ?></div>
+            <div class="value uri"><?php echo $value->displayValue(); ?></div>
             <?php else: ?>
-            <div class="value"><?php echo $escape($value); ?></div>
+            <div class="value"><?php echo $value->displayValue(); ?></div>
             <?php endif; ?>
         <?php endforeach; ?>
     </div>

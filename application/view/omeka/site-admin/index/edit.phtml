@@ -14,6 +14,7 @@ $form->prepare();
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
+        <li><a href="#permissions"><?php echo $this->translate('User permissions'); ?></a></li>
     </ul>
 </nav>
 <fieldset id="admin" class="section active">
@@ -53,6 +54,86 @@ if ($pages):
     </table>
 <?php endif; ?>
 </fieldset>
+<fieldset id="permissions" class="section">
+<?php $sitePermissions = $site->sitePermissions(); ?>
+    <table id="site-user-permissions" class="<?php echo (count($sitePermissions) > 0) ? '' : 'empty'; ?>">
+        <thead>
+            <tr>
+                <th scope="col"><?php echo $this->translate('User'); ?></th>
+                <th scope="col"><?php echo $this->translate('Admin'); ?></th>
+                <th scope="col"><?php echo $this->translate('Attach'); ?></th>
+                <th scope="col"><?php echo $this->translate('Edit'); ?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $index = 1;
+            foreach($sitePermissions as $sitePermission): 
+            $user = $sitePermission->user();
+            $admin = ($sitePermission->admin()) ? 'checked' : '';
+            $edit = ($sitePermission->edit()) ? 'checked' : '';
+            $attach = ($sitePermission->attach()) ? 'checked' : '';
+            ?>
+            <tr class="user value">
+                <td class="user-meta">
+                    <span class="restore-value"><?php echo $this->translate('User to be removed'); ?></span>
+                    <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
+                    <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
+                </td>
+                <td>
+                    <input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:admin]" <?php echo $admin; ?> value="1">
+                </td>
+                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:edit]" <?php echo $edit; ?> value="1"></td>
+                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:attach]" <?php echo $attach; ?> value="1"></td>
+                <td>
+                    <ul class="actions">
+                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
+                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
+                    </ul>
+                </td>
+                <?php $index++; ?>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <div class="no-resources">
+        <p><?php echo $this->translate('This site has no users. Add users using the interface to the right.'); ?></p>
+    </div>
+
+    <div id="site-user-selector" class="selector sidebar">
+        <p><?php echo $this->translate('Click on a user to add them to the site.'); ?></p>
+        <input type="text" class="selector-filter" placeholder="Filter users">
+        <ul id="new-site-user">
+            <li class="show"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
+                <ul>
+                <?php
+                    $usersByInitial = array();
+                    $initial = substr($users[0]->name(), 0, 1);
+                    foreach ($users as $user) {
+                        $userInitial = substr($user->name(), 0, 1);
+                        if ($userInitial !== $initial) {
+                            $initial = $userInitial;
+                        }
+                        $usersByInitial[$initial][] = $user;
+                    }
+                ?>
+                <?php foreach ($usersByInitial as $initial => $users): ?>
+                    <li class="selector-parent"><span>
+                        <?php echo $initial; ?></span> 
+                        (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
+                        <ul>
+                        <?php foreach($users as $user): ?>
+                            <li class="selector-child" data-child-search="<?php echo $escape($user->name() . ' (' . $user->email() . ')'); ?>" data-user-id="<?php echo $escape($user->id()); ?>"><span><?php echo $escape($user->name()); ?><br><?php echo $escape($user->email()); ?></span></li>
+                        <?php endforeach; ?>
+                        </ul>
+                <?php endforeach; ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</fieldset>
 <?php echo $this->form()->closeTag(); ?>
 
 <div class="sidebar">
@@ -67,3 +148,78 @@ if ($pages):
     </div>
     <div class="sidebar-content"></div>
 </div>
+
+<?php
+$userRowTemplate = '
+<tr class="user value">
+    <td class="user-meta">
+        <span class="restore-value">' . $this->translate('User to be removed') . '</span>
+        <span class="user-name"></span>
+        <input type="hidden">
+    </td>
+    <td>
+        <input type="checkbox" value="1" class="admin-permission">
+    </td>
+    <td><input type="checkbox" value="1" class="edit-permission"></td>
+    <td><input type="checkbox" value="1" class="attach-permission"></td>
+    <td>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete" aria-label="' . $this->translate('Delete') . '"></a></li>
+            <li><a href="#" class="o-icon-undo" aria-label="' . $this->translate('Restore') . '"></a></li>
+        </ul>
+    </td>
+</tr>
+';
+?>
+
+<span id="user-row-template" data-template="<?php echo $escapeAttr($userRowTemplate); ?>">
+
+<script>
+$('#permissions').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
+    e.preventDefault();
+    $(this).parents('tr').toggleClass('delete');
+});
+
+$('#permissions').on('click', '.o-icon-delete', function() {
+    $(this).parents('tr').find('input[type="hidden"]').prop('disabled', true);
+});
+
+$('#permissions').on('click', '.o-icon-undo', function() {
+    $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
+}); 
+
+$('#permissions .selector .selector-child').click(function() {
+    var user = $(this);
+    var userId = user.data('user-id');
+    var permissionsTable = $('#site-user-permissions');
+    if (permissionsTable.find('.user-meta [value="' + userId + '"]').length) {
+        return;
+    }
+    if ($('#site-user-permissions').hasClass('empty')) {
+        var index = 1;
+    } else {
+        var index = $('#permissions .user-meta input[type="hidden"]').length;
+        index++;
+    }
+    var template = $($.parseHTML($('#user-row-template').data('template')));
+    var templateUserMeta = template.find('td.user-meta');
+    var permissionPrefix = 'o:site_permission[' + index + ']';
+    template.find('.admin-permission').attr('name', permissionPrefix + '[o:admin]');
+    template.find('.edit-permission').attr('name', permissionPrefix + '[o:edit]');
+    template.find('.attach-permission').attr('name', permissionPrefix + '[o:attach]');
+    template.find('.user-name').text(user.data('child-search'));
+    templateUserMeta.find('input[type="hidden"]').val(userId).attr('name', permissionPrefix + '[o:user][o:id]');
+    $('#permissions tbody').append(template);
+    $('#site-user-permissions').removeClass('empty');
+});
+
+$('.section-nav a[href="#permissions"]').click(function() {
+    $('body').addClass('sidebar-open');
+    $('#permissions .sidebar').addClass('active');
+});
+
+$('.section-nav a:not([href="#permissions"])').click(function() {
+    $('body').removeClass('sidebar-open');
+    $('#permissions .sidebar').removeClass('active');
+});
+</script>

@@ -15,7 +15,7 @@ a collaboratively built pool of items, media, and their metadata.
 ### Installing from GitHub
 
 1. Clone this repository in your Apache web directory:
-   * `$ git clone git@github.com:omeka/omeka-s.git`
+   * `$ git clone https://github.com/omeka/omeka-s.git`
 1. Change into the Omeka S directory:
    * `$ cd omeka-s`
 1. Perform first-time setup:

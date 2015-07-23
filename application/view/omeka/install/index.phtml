@@ -4,9 +4,9 @@ $form->prepare();
 $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
 ?>
-<h1>Install Omeka S</h1>
+<h1><?php echo $this->translate('Install Omeka S'); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->formElements($form); ?>
-<button>Install</button>
+<button><?php echo $this->translate('Install'); ?></button>
 <?php echo $this->form()->closeTag(); ?>

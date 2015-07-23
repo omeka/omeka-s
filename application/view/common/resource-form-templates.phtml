@@ -6,10 +6,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <fieldset class="resource-values field template">
     <div class="field-meta">
         <legend class="field-label"></legend>
-        <a href="#" class="collapse o-icon-down" aria-label="Collapse"></a>
+        <a href="#" class="collapse o-icon-down" aria-label="<?php echo $escapeAttr($this->translate('Collapse')); ?>"></a>
         <div class="collapsible">
             <div class="field-description"></div>
-            <div class="field-term" title="Property term for development use"></div>
+            <div class="field-term" title="<?php echo $escapeAttr($this->translate('Property term for development use')); ?>"></div>
         </div>
     </div>
     <div class="inputs">
@@ -29,13 +29,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class="restore-value">Value to be removed</span>
+        <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">
             <li>
-                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
+                <a href="#" 
+                class="o-icon-delete remove-value" 
+                title="<?php echo $escapeAttr($this->translate('Remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Remove value')); ?>"></a>
             </li>
             <li>
-                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
+                <a href="#" 
+                class="o-icon-undo restore-value" 
+                title="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>"></a>
             </li>
         </ul>
     </div>
@@ -53,13 +59,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class="restore-value">Value to be removed</span>
+        <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">
             <li>
-                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
+                <a href="#" 
+                class="o-icon-delete remove-value" 
+                title="<?php echo $escapeAttr($this->translate('Remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Remove value')); ?>"></a>
             </li>
             <li>
-                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
+                <a href="#" 
+                class="o-icon-undo restore-value" 
+                title="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>"></a>
             </li>
         </ul>
     </div>
@@ -98,13 +110,19 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <input type="hidden" class="property">
     
     <div class="input-header">
-        <span class="restore-value">Value to be removed</span>
+        <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">
             <li>
-                <a class="o-icon-delete remove-value" href="#" title="Remove value" aria-label="Remove value"></a>
+                <a href="#" 
+                class="o-icon-delete remove-value" 
+                title="<?php echo $escapeAttr($this->translate('Remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Remove value')); ?>"></a>
             </li>
             <li>
-                <a class="o-icon-undo restore-value" href="#" title="Undo remove value" aria-label="Undo remove value"></a>
+                <a href="#" 
+                class="o-icon-undo restore-value" 
+                title="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>" 
+                aria-label="<?php echo $escapeAttr($this->translate('Undo remove value')); ?>"></a>
             </li>
         </ul>
     </div>

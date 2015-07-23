@@ -4,9 +4,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
     <p><?php echo $this->translate('Click on an item set to add it to the edit panel.'); ?></p>
-    <input type="text" class="selector-filter" placeholder="Filter item sets">
+    <input type="text" class="selector-filter" placeholder=" <?php echo $escapeAttr($this->translate('Filter item sets')); ?>">
     <ul>
-        <li class="show"><?php echo $escape($this->translate('All Item Sets')); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
+        <li class="show"><?php echo $this->translate('All Item Sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
             <ul>
                 <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
                 <?php
@@ -14,15 +14,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 $itemSets = $itemSetOwner['item_sets'];
                 ?>
                 <li class='selector-parent'>
-                    <span><?php echo $escape($owner->name()); ?></span> (<span class="selector-child-count"><?php echo $escape(count($itemSets)); ?></span>)
+                    <span><?php echo $escape($owner->name()); ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
                     <ul>
                         <?php foreach ($itemSets as $itemSet): ?>
                         <li class='selector-child'
-                            data-child-label="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
+                            data-child-search="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
                             data-item-set-id="<?php echo $escapeAttr($itemSet->id()); ?>"
                             data-owner-email="<?php echo $escapeAttr($email); ?>">
                             <div class="description">
-                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escape($this->translate('More Info')); ?></span></p>
+                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
                                 <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>
                             </div>
                             <span><?php echo $escape($itemSet->displayTitle()); ?></span>

@@ -21,31 +21,42 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
-     * Cast the value representation as a string.
+     * Return this value as an unescaped string.
      *
      * @return string
      */
     public function __toString()
     {
-        switch ($this->type()) {
+        if (Value::TYPE_RESOURCE === $this->type()) {
+            return $this->valueResource()->url(null, true);
+        } else {
+            return $this->getData()->getValue();
+        }
+    }
 
+    /**
+     * Return this value for display on a webpage.
+     *
+     * @return string
+     */
+    public function asHtml()
+    {
+        switch ($this->type()) {
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
                 return $valueResource->link($valueResource->displayTitle());
-
             case Value::TYPE_URI:
-                $escapeHtml = $this->getViewHelper('escapeHtml');
-                $escapeHtmlAttr = $this->getViewHelper('escapeHtmlAttr');
                 $uri = $this->getData()->getValue();
                 $uriLabel = $this->getData()->getUriLabel();
                 if (!$uriLabel) {
                     $uriLabel = $uri;
                 }
-                return '<a href="' . $escapeHtmlAttr($uri) . '">' . $escapeHtml($uriLabel) . '</a>';
-
+                $hyperlink = $this->getViewHelper('hyperlink');
+                return $hyperlink($uriLabel, $uri);
             case Value::TYPE_LITERAL:
             default:
-                return $this->getData()->getValue();
+                $escape = $this->getViewHelper('escapeHtml');
+                return $escape($this->getData()->getValue());
         }
     }
 

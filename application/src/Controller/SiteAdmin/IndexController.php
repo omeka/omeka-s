@@ -62,9 +62,9 @@ class IndexController extends AbstractActionController
         $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
             if ($form->isValid()) {
-                $formData = $form->getData();
                 $response = $this->api()->update('sites', $id, $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
@@ -79,8 +79,11 @@ class IndexController extends AbstractActionController
             }
         }
 
+        $users = $this->api()->search('users', array('sort_by' => 'name'));
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(

@@ -1626,7 +1626,7 @@ body.sidebar-open #content {
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: rhythm(.25);
+        padding: rhythm(.25) rhythm(.3125);
     }
 
     .value.delete > *:not(.input-header) {
@@ -2227,6 +2227,73 @@ body.show .sidebar img {
     color: #000;
     cursor: default;
 }
+
+    /* @group ----- User Permissions ----- */
+
+    .user.value .actions {
+        margin-right: -3px;
+    }
+
+    .user.value.delete {
+        position: relative;
+    }
+
+    .user.value.delete > td {
+        display: table-cell;
+    }
+
+    .user.value.delete .actions {
+        margin-right: 0;
+    }
+
+    .user.value .o-icon-undo,
+    .user.value.delete > td *:not(.restore-value),
+    .user.value.delete > td .actions .o-icon-delete {
+        display: none;
+    }
+
+    .user.value.delete > td .actions,
+    .user.value.delete > td .actions * {
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .user.value.delete .restore-value {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ffcccc;
+    }
+
+    td.user-meta {
+        width: 50%;
+    }
+
+    #permissions .selector li li {
+        cursor: pointer;
+    }
+
+    #site-user-permissions + .no-resources {
+        display: none;
+    }
+
+    #site-user-permissions.empty {
+        display: none;
+
+        & + .no-resources {
+            display: block;
+            padding: 0 rhythm();
+
+            &:before {
+                content: $fa-var-users;
+            }
+        }
+    }
+
+    /* @end */
 
 /* @end */
 

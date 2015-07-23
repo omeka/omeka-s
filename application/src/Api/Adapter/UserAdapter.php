@@ -72,8 +72,11 @@ class UserAdapter extends AbstractEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:is_active')) {
-            $this->authorize($entity, 'activate-user');
-            $entity->setIsActive($request->getValue('o:is_active'));
+            $isActive = (bool) $request->getValue('o:is_active', $entity->isActive());
+            if ($isActive !== $entity->isActive()) {
+                $this->authorize($entity, 'activate-user');
+                $entity->setIsActive($isActive);
+            }
         }
     }
 

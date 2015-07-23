@@ -177,9 +177,10 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @uses self::getControllerName()
      * @param string $action
+     * @param bool $canonical Whether to return an absolute URL
      * @return string|null
      */
-    public function url($action = null)
+    public function url($action = null, $canonical = false)
     {
         if (!($controller = $this->getControllerName())) {
             return null;
@@ -192,7 +193,8 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
                 'controller' => $controller,
                 'action' => $action,
                 'id' => $this->id(),
-            )
+            ),
+            array('force_canonical' => $canonical)
         );
     }
 

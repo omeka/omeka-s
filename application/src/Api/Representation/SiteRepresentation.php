@@ -8,7 +8,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function url($action = null)
+    public function url($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');
         return $url(
@@ -16,7 +16,8 @@ class SiteRepresentation extends AbstractEntityRepresentation
             array(
                 'site-slug' => $this->slug(),
                 'action' => $action,
-            )
+            ),
+            array('force_canonical' => $canonical)
         );
     }
     public function getJsonLd()

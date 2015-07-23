@@ -1,5 +1,7 @@
 <?php $form->prepare(); ?>
-<h1><?php echo sprintf($this->translate('Edit API Keys for “%s”'), $this->escapeHtml($user->email())); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Edit API Keys for “%s”'), $user->email())); ?>
+
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">

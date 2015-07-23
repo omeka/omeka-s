@@ -1,4 +1,5 @@
-<h1><?php echo $this->translate('404 Not Found'); ?></h1>
+<?php echo $this->pageTitle($this->translate('404 Not Found')); ?>
+
 <?php if (isset($this->message)): ?>
 <p><?php echo $this->message; ?></p>
 <?php endif; ?>

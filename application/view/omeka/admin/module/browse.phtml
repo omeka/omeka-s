@@ -6,7 +6,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $this->translate('Modules'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Modules')); ?>
 
 <form method="get" class="state-filter">
     <select name="state">

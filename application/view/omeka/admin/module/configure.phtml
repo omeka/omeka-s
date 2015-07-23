@@ -2,7 +2,7 @@
 $this->htmlElement('body')->appendAttribute('class', 'modules configure');
 ?>
 
-<h1><?php echo sprintf($this->translate('Configure “%s”'), $this->escapeHtml($module->getName())); ?></h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Configure “%s”'), $module->getName())); ?>
 
 <form method="post">
 <div id="page-actions">

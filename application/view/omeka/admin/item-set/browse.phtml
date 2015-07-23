@@ -5,7 +5,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $this->translate('Item Sets'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Item Sets')); ?>
 
 <?php echo $this->searchFilters(); ?>
 

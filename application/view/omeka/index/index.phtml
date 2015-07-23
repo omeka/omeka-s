@@ -1,4 +1,3 @@
-<h2><?php echo $this->translate('Omeka S'); ?></h2>
-<p>
-    <?php echo sprintf($this->translate('Go to the %s to start working with Omeka S.'), '<a href="' . $this->url('admin') . '">' . $this->translate('Admin Dashboard') . '</a>'); ?>
-</p>
+<?php echo $this->pageTitle($this->translate('Omeka S')); ?>
+
+<p><?php echo sprintf($this->translate('Go to the %s to start working with Omeka S.'), '<a href="' . $this->url('admin') . '">' . $this->translate('Admin Dashboard') . '</a>'); ?></p>

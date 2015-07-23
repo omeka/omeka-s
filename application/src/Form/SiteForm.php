@@ -29,14 +29,17 @@ class SiteForm extends AbstractForm
                 'required' => true,
             ),
         ));
+        $themeManager = $this->getServiceLocator()->get('Omeka\ThemeManager');
+        $themes = array();
+        foreach ($themeManager->getThemes() as $id => $theme) {
+            $themes[$id] = $theme['ini']['name'];
+        }
         $this->add(array(
             'name' => 'o:theme',
             'type' => 'Select',
             'options' => array(
                 'label' => $translator->translate('Theme'),
-                'value_options' => array(
-                    'default' => $translator->translate('Default')
-                )
+                'value_options' => $themes,
             ),
             'attributes' => array(
                 'id' => 'theme',

@@ -28,7 +28,7 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
 
     public function getConfig()
     {
-        if (is_null($this->config)) {
+        if ($this->config === null) {
             $this->config = \HTMLPurifier_Config::createDefault();
         }
         return $this->config;
@@ -36,7 +36,7 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
 
     protected function getPurifier()
     {
-        if (is_null($this->purifier)) {
+        if ($this->purifier === null) {
             $config = $this->getConfig();
             $config->set('Cache.DefinitionImpl', null);
             $this->purifier = new \HTMLPurifier($config);

@@ -14,7 +14,7 @@ $mediaForm = $this->media()->updateForm($media);
 var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
-<h1><?php echo $this->translate('Edit Media'); ?>: "<?php echo $escape($media->displayTitle()); ?>"</h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit Media: “%s”'), $media->displayTitle())); ?>
 
 <form method='post' id='edit-media'>
 <nav class="section-nav">

@@ -3,7 +3,9 @@
     $escape = $this->plugin('escapeHtml');
     $escapeAttr = $this->plugin('escapeHtmlAttr'); 
 ?>
-<h1><?php echo $this->translate('User'); ?>: &ldquo;<?php echo $escape($user->email()); ?>&rdquo;</h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('User: “%s”'), $user->email())); ?>
+
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>
         <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>"><?php echo $this->translate('Edit User'); ?></a>

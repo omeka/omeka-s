@@ -3,7 +3,8 @@ $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo $this->translate('Users'); ?></h1>
+
+<?php echo $this->pageTitle($this->translate('Users')); ?>
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>

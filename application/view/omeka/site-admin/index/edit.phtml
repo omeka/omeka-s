@@ -63,6 +63,7 @@ if ($pages):
                 <th scope="col"><?php echo $this->translate('Admin'); ?></th>
                 <th scope="col"><?php echo $this->translate('Attach'); ?></th>
                 <th scope="col"><?php echo $this->translate('Edit'); ?></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -75,13 +76,9 @@ if ($pages):
             $attach = ($sitePermission->attach()) ? 'checked' : '';
             ?>
             <tr class="user value">
-                <td data-user-id="<?php echo $escape($user->id()); ?>" data-permission-id="<?php echo $index; ?>">
+                <td class="user-meta">
                     <span class="restore-value"><?php echo $this->translate('User to be removed'); ?></span>
-                    <ul class="actions">
-                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
-                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
-                    </ul>
-                    <?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)
+                    <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
                     <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
                 <td>
@@ -89,6 +86,12 @@ if ($pages):
                 </td>
                 <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:edit]" <?php echo $edit; ?> value="1"></td>
                 <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:attach]" <?php echo $attach; ?> value="1"></td>
+                <td>
+                    <ul class="actions">
+                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
+                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
+                    </ul>
+                </td>
                 <?php $index++; ?>
             </tr>
             <?php endforeach; ?>
@@ -122,7 +125,7 @@ if ($pages):
                         (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
                         <ul>
                         <?php foreach($users as $user): ?>
-                            <li class="selector-child" data-child-label="<?php echo $escape($user->name() . ' (' . $user->email() . ')'); ?>" data-user-id="<?php echo $escape($user->id()); ?>"><span><?php echo $escape($user->name()); ?><br><?php echo $escape($user->email()); ?></span></li>
+                            <li class="selector-child" data-child-search="<?php echo $escape($user->name() . ' (' . $user->email() . ')'); ?>" data-user-id="<?php echo $escape($user->id()); ?>"><span><?php echo $escape($user->name()); ?><br><?php echo $escape($user->email()); ?></span></li>
                         <?php endforeach; ?>
                         </ul>
                 <?php endforeach; ?>
@@ -149,19 +152,22 @@ if ($pages):
 <?php
 $userRowTemplate = '
 <tr class="user value">
-    <td data-user-id="__user-id__" data-permission-id="__index__">
+    <td class="user-meta">
         <span class="restore-value">' . $this->translate('User to be removed') . '</span>
+        <span class="user-name"></span>
+        <input type="hidden">
+    </td>
+    <td>
+        <input type="checkbox" value="1" class="admin-permission">
+    </td>
+    <td><input type="checkbox" value="1" class="edit-permission"></td>
+    <td><input type="checkbox" value="1" class="attach-permission"></td>
+    <td>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete" aria-label="' . $this->translate('Delete') . '"></a></li>
             <li><a href="#" class="o-icon-undo" aria-label="' . $this->translate('Restore') . '"></a></li>
         </ul>
-        <input type="hidden" name="o:site_permission[__index__][o:user][o:id]" value="__user-id__">
     </td>
-    <td>
-        <input type="checkbox" name="o:site_permission[__index__][o:admin]" value="1">
-    </td>
-    <td><input type="checkbox" name="o:site_permission[__index__][o:edit]" value="1"></td>
-    <td><input type="checkbox" name="o:site_permission[__index__][o:attach]" value="1"></td>
 </tr>
 ';
 ?>
@@ -175,35 +181,35 @@ $('#permissions').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
 });
 
 $('#permissions').on('click', '.o-icon-delete', function() {
-    var userRow = $(this).parents('tr');
-    userRow.find('input[type="hidden"]').remove();
+    $(this).parents('tr').find('input[type="hidden"]').prop('disabled', true);
 });
 
 $('#permissions').on('click', '.o-icon-undo', function() {
-    var userCell = $(this).parents('td');
-    var userId = userCell.data('user-id');
-    var userHiddenInput = $('<input type="hidden" name="o:site_permission[2][o:user][o:id]">');
-    userHiddenInput.val(userId);
-    userCell.append(userHiddenInput);
-});
+    $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
+}); 
 
 $('#permissions .selector .selector-child').click(function() {
     var user = $(this);
     var userId = user.data('user-id');
-    if ($('td[data-user-id="' + userId + '"]').length == 0) {
-        if ($('#site-user-permissions').hasClass('empty')) {
-            var index = 1;
-        } else {
-            var index = $('#permissions tbody tr:last-of-type td:first-of-type').data('permission-id');
-            index++;
-        }
-        var template = $('#user-row-template').data('template');
-        template = template.replace(/__index__/g, index);
-        template = template.replace(/__user-id__/g, userId);
-        template = $($.parseHTML(template));
-        template.find('.actions').after(user.data('child-label'));
-        $('#permissions tbody').append(template);
+    var permissionsTable = $('#site-user-permissions');
+    if (permissionsTable.find('.user-meta [value="' + userId + '"]').length) {
+        return;
     }
+    if ($('#site-user-permissions').hasClass('empty')) {
+        var index = 1;
+    } else {
+        var index = $('#permissions .user-meta input[type="hidden"]').length;
+        index++;
+    }
+    var template = $($.parseHTML($('#user-row-template').data('template')));
+    var templateUserMeta = template.find('td.user-meta');
+    var permissionPrefix = 'o:site_permission[' + index + ']';
+    template.find('.admin-permission').attr('name', permissionPrefix + '[o:admin]');
+    template.find('.edit-permission').attr('name', permissionPrefix + '[o:edit]');
+    template.find('.attach-permission').attr('name', permissionPrefix + '[o:attach]');
+    template.find('.user-name').text(user.data('child-search'));
+    templateUserMeta.find('input[type="hidden"]').val(userId).attr('name', permissionPrefix + '[o:user][o:id]');
+    $('#permissions tbody').append(template);
     $('#site-user-permissions').removeClass('empty');
 });
 

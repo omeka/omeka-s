@@ -2638,6 +2638,10 @@ th {
     background-color: #ffcccc;
   }
 
+  td.user-meta {
+    width: 50%;
+  }
+
   #permissions .selector li li {
     cursor: pointer;
   }

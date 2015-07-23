@@ -1081,7 +1081,6 @@ body.sidebar-open #content {
 }
 
 #page-actions {
-    width: span(13 of 16) - gutter(10);
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
     z-index: 2;

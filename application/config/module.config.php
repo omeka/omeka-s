@@ -147,6 +147,7 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Cli'                 => 'Omeka\Service\Cli',
+            'Omeka\ThemeManager'        => 'Omeka\Service\ThemeManager',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',

@@ -15,8 +15,12 @@ class AssetUrlTest extends TestCase
             ->method('getModulesByState')
             ->with($this->equalTo('active'))
             ->will($this->returnValue(array('MyModule' => array())));
+        $themeManager = $this->getMock('Omeka\Service\ThemeManager');
         $serviceManager = $this->getServiceManager(
-            array('Omeka\ModuleManager' => $moduleManager)
+            array(
+                'Omeka\ModuleManager' => $moduleManager,
+                'Omeka\ThemeManager' => $themeManager,
+            )
         );
         $view = $this->getMock('Zend\View\Renderer\PhpRenderer');
         $this->assetUrl = new AssetUrl($serviceManager);

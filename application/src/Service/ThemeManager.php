@@ -12,9 +12,14 @@ class ThemeManager implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
-     * @var array Valid themes
+     * @var array All themes
      */
     protected $themes = array();
+
+    /**
+     * @var string The current theme
+     */
+    protected $current;
 
     /**
      * Validate and register themes.
@@ -57,5 +62,25 @@ class ThemeManager implements ServiceLocatorAwareInterface
     public function getTheme($id)
     {
         return isset($this->themes[$id]) ? $this->themes[$id] : false;
+    }
+
+    /**
+     * Set the current theme.
+     *
+     * @param string $id
+     */
+    public function setCurrent($id)
+    {
+        $this->current = $id;
+    }
+
+    /**
+     * Get the current theme.
+     *
+     * @return string
+     */
+    public function getCurrent()
+    {
+        return $this->current;
     }
 }

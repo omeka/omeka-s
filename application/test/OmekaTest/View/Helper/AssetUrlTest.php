@@ -15,7 +15,7 @@ class AssetUrlTest extends TestCase
             ->method('getModulesByState')
             ->with($this->equalTo('active'))
             ->will($this->returnValue(array('MyModule' => array())));
-        $themeManager = $this->getMock('Omeka\Service\ThemeManager');
+        $themeManager = $this->getMock('Omeka\Theme\Manager');
         $serviceManager = $this->getServiceManager(
             array(
                 'Omeka\ModuleManager' => $moduleManager,

@@ -100,7 +100,7 @@
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
-            });
+        });
 
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
@@ -246,6 +246,10 @@
                         href: valueObject['url'],
                         text: title
                     });
+                    if (valueObject['thumbnail_url'] !== undefined) {
+                        var thumbnail = '<img src="' + valueObject['thumbnail_url'] + '">';
+                        newResource.find('.o-title').prepend(thumbnail);
+                    }
 
                     newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
 

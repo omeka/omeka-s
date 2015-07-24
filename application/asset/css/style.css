@@ -2034,6 +2034,13 @@ th {
     margin: 0;
   }
 
+  .selected-resource img {
+    height: 1.5em;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.375em;
+  }
+
   .selected-resource .o-title a:after {
     font-family: "FontAwesome";
     margin-left: .5em;

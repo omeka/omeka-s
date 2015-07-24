@@ -1635,7 +1635,14 @@ body.sidebar-open #content {
     p.selected-resource {
         margin: 0;
     }
-    
+
+    .selected-resource img {
+        height: rhythm();
+        display: inline-block;
+        vertical-align: top;
+        margin-right: rhythm(.25);
+    }
+
     .selected-resource .o-title a:after {
         font-family: "FontAwesome";
         margin-left: .5em;

@@ -37,7 +37,7 @@ class MvcListeners extends AbstractListenerAggregate
             -1000
         );
         $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_DISPATCH,
+            MvcEvent::EVENT_ROUTE,
             array($this, 'setThemeTemplatePath')
         );
     }
@@ -241,7 +241,10 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
+        $theme = $site->getTheme();
+        $serviceLocator->get('Omeka\ThemeManager')->setCurrent($theme);
+
         $resolver = $serviceLocator->get('ViewTemplatePathStack');
-        $resolver->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $site->getTheme()));
+        $resolver->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
     }
 }

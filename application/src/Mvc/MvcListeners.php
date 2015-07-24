@@ -236,7 +236,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         if (!$site) {
             // Site not found, set minimal layout and 404 status
-            $event->getViewModel()->setTemplate('layout/minimal');
+            $event->getViewModel()->setTemplate('error/404');
             $event->getResponse()->setStatusCode(404);
             return;
         }

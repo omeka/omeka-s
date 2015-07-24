@@ -242,7 +242,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $theme = $site->getTheme();
-        $serviceLocator->get('Omeka\ThemeManager')->setCurrent($theme);
+        $serviceLocator->get('Omeka\ThemeManager')->setCurrentTheme($theme);
 
         $resolver = $serviceLocator->get('ViewTemplatePathStack');
         $resolver->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));

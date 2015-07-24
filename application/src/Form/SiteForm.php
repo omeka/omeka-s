@@ -32,7 +32,7 @@ class SiteForm extends AbstractForm
         $themeManager = $this->getServiceLocator()->get('Omeka\ThemeManager');
         $themes = array();
         foreach ($themeManager->getThemes() as $id => $theme) {
-            $themes[$id] = $theme['ini']['name'];
+            $themes[$id] = $theme->getName();
         }
         $this->add(array(
             'name' => 'o:theme',

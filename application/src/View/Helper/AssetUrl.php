@@ -1,7 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Service\ThemeManager;
+use Omeka\Theme\Theme;
+use Omeka\Theme\Manager as ThemeManager;
 use Omeka\Module\Manager as ModuleManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHtmlElement;
@@ -16,6 +17,11 @@ class AssetUrl extends AbstractHtmlElement
      * @var ThemeManager
      */
     protected $themeManager;
+
+    /**
+     * @var Theme
+     */
+    protected $currentTheme;
 
     /**
      * @var ModuleManager
@@ -35,6 +41,7 @@ class AssetUrl extends AbstractHtmlElement
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->themeManager = $serviceLocator->get('Omeka\ThemeManager');
+        $this->currentTheme = $this->themeManager->getCurrentTheme();
         $this->moduleManager = $serviceLocator->get('Omeka\ModuleManager');
         $this->activeModules = $this->moduleManager
             ->getModulesByState(ModuleManager::STATE_ACTIVE);
@@ -54,9 +61,9 @@ class AssetUrl extends AbstractHtmlElement
     public function __invoke($file, $module = null)
     {
         $basePath = $this->getView()->basePath();
-        if (null === $module) {
-            $theme = $this->themeManager->getCurrent();
-            return sprintf(self::THEME_ASSETS_PATH, $basePath, $theme, $file);
+        if (null === $module && $this->currentTheme) {
+            return sprintf(self::THEME_ASSETS_PATH, $basePath,
+                $this->currentTheme->getId(), $file);
         }
         if ('Omeka' == $module) {
             return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file);

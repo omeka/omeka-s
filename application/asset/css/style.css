@@ -1486,7 +1486,6 @@ th {
   }
 
   #page-actions {
-    width: 79.58333%;
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
     z-index: 2;
@@ -2033,6 +2032,13 @@ th {
 
   p.selected-resource {
     margin: 0;
+  }
+
+  .selected-resource img {
+    height: 1.5em;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.375em;
   }
 
   .selected-resource .o-title a:after {

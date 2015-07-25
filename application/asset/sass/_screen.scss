@@ -1081,7 +1081,6 @@ body.sidebar-open #content {
 }
 
 #page-actions {
-    width: span(13 of 16) - gutter(10);
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
     z-index: 2;
@@ -1636,7 +1635,14 @@ body.sidebar-open #content {
     p.selected-resource {
         margin: 0;
     }
-    
+
+    .selected-resource img {
+        height: rhythm();
+        display: inline-block;
+        vertical-align: top;
+        margin-right: rhythm(.25);
+    }
+
     .selected-resource .o-title a:after {
         font-family: "FontAwesome";
         margin-left: .5em;

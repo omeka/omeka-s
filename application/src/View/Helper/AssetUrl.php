@@ -14,22 +14,12 @@ class AssetUrl extends AbstractHtmlElement
     const THEME_ASSETS_PATH = '%s/themes/%s/assets/%s';
 
     /**
-     * @var ThemeManager
-     */
-    protected $themeManager;
-
-    /**
-     * @var Theme
+     * @var Theme The current theme, if any
      */
     protected $currentTheme;
 
     /**
-     * @var ModuleManager
-     */
-    protected $moduleManager;
-
-    /**
-     * @var array Cached array of all active modules
+     * @var array Array of all active modules
      */
     protected $activeModules;
 
@@ -40,10 +30,9 @@ class AssetUrl extends AbstractHtmlElement
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->themeManager = $serviceLocator->get('Omeka\ThemeManager');
-        $this->currentTheme = $this->themeManager->getCurrentTheme();
-        $this->moduleManager = $serviceLocator->get('Omeka\ModuleManager');
-        $this->activeModules = $this->moduleManager
+        $this->currentTheme = $serviceLocator->get('Omeka\ThemeManager')
+            ->getCurrentTheme();
+        $this->activeModules = $serviceLocator->get('Omeka\ModuleManager')
             ->getModulesByState(ModuleManager::STATE_ACTIVE);
     }
 

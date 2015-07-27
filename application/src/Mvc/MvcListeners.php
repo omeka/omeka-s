@@ -222,7 +222,7 @@ class MvcListeners extends AbstractListenerAggregate
         $routeMatch = $event->getRouteMatch();
         $routeNamespace = $routeMatch->getParam('__NAMESPACE__');
 
-        if ('Omeka\Controller\Site' !== $routeNamespace) {
+        if (!$routeMatch->getParam('__SITE__')) {
             return;
         }
 

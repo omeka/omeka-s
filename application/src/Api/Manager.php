@@ -255,18 +255,11 @@ class Manager implements ServiceLocatorAwareInterface
                 'response' => $response,
             ));
             $adapter->getEventManager()->trigger($event);
-
-        // Always return a Response object, regardless of exception.
         } catch (Exception\ValidationException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->mergeErrors($e->getErrorStore());
-        } catch (\Exception $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR);
-            $response->setException($e);
         }
 
         $response->setRequest($request);

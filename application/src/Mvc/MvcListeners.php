@@ -220,8 +220,6 @@ class MvcListeners extends AbstractListenerAggregate
     public function setCurrentTheme(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        $routeNamespace = $routeMatch->getParam('__NAMESPACE__');
-
         if (!$routeMatch->getParam('__SITE__')) {
             return;
         }
@@ -230,9 +228,9 @@ class MvcListeners extends AbstractListenerAggregate
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
 
         $sql = 'SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug';
-        $query = $entityManager->createQuery($sql);
-        $query->setParameter('slug', $routeMatch->getParam('site-slug'));
-        $site = $query->getOneOrNullResult();
+        $site = $entityManager->createQuery($sql)
+            ->setParameter('slug', $routeMatch->getParam('site-slug'))
+            ->getOneOrNullResult();
 
         if (!$site) {
             // Site not found, set minimal layout and 404 status
@@ -247,8 +245,8 @@ class MvcListeners extends AbstractListenerAggregate
         $themeManager->setCurrentTheme($theme);
 
         // Add the theme view templates to the path stack.
-        $resolver = $serviceLocator->get('ViewTemplatePathStack');
-        $resolver->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
+        $serviceLocator->get('ViewTemplatePathStack')
+            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
 
         // Load theme view helpers on-demand.
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');

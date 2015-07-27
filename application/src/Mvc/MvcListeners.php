@@ -38,7 +38,7 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'setThemeTemplatePath')
+            array($this, 'setCurrentTheme')
         );
     }
 
@@ -213,11 +213,11 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Set the site theme's template path.
+     * Set the current theme.
      *
      * @param MvcEvent $event
      */
-    public function setThemeTemplatePath(MvcEvent $event)
+    public function setCurrentTheme(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
         $routeNamespace = $routeMatch->getParam('__NAMESPACE__');

@@ -129,16 +129,9 @@ class Api extends AbstractPlugin
 
     /**
      * Detect and account for API response errors.
-     *
-     * @throws mixed
-     * @return Response
      */
     protected function detectError(Response $response)
     {
-        if ($e = $response->getException()) {
-            // Rethrow exceptions
-            throw $e;
-        }
         if ($response->getStatus() === Response::ERROR_VALIDATION) {
             $this->getController()->messenger()
                 ->addError('There was an error during validation');

@@ -73,28 +73,6 @@ class Response extends ZendResponse
     }
 
     /**
-     * Set an exception encountered while processing the request.
-     *
-     * Only one exception can be set at a time.
-     *
-     * @param Exception $e
-     */
-    public function setException(\Exception $exception)
-    {
-        $this->setMetadata('exception', $exception);
-    }
-
-    /**
-     * Get the previously set exception.
-     *
-     * @return Exception|null Returns null when no exception exists.
-     */
-    public function getException()
-    {
-        return $this->getMetadata('exception');
-    }
-
-    /**
      * Check whether a response status is valid.
      *
      * @return bool

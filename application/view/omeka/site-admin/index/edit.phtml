@@ -46,6 +46,7 @@ if ($pages):
                         'title' => $this->translate('Edit'),
                     )); ?></li>
                 </ul>
+                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escapeAttr($page->id()); ?>">
             </td>
             <td><?php echo $page->slug(); ?></td>
         </tr>

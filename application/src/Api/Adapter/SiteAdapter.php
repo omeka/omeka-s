@@ -55,6 +55,26 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
 
+        if ($this->shouldHydrate($request, 'o:page')) {
+            $pagesData = $request->getValue('o:page', array());
+            $adapter = $this->getAdapter('site_pages');
+            $retainPages = array();
+            foreach ($pagesData as $pageData) {
+                if (isset($pageData['o:id'])) {
+                    $page = $adapter->findEntity($pageData['o:id']);
+                    $retainPages[] = $page;
+                }
+            }
+
+            $pages = $entity->getPages();
+            // Remove pages not included in request.
+            foreach ($pages as $page) {
+                if (!in_array($page, $retainPages, true)) {
+                    $pages->removeElement($page);
+                }
+            }
+        }
+
         $sitePermissionsData = $request->getValue('o:site_permission');
         if ($this->shouldHydrate($request, 'o:site_permission')
             && is_array($sitePermissionsData)

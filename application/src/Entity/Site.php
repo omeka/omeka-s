@@ -46,7 +46,12 @@ class Site extends AbstractEntity
     protected $siteItems;
 
     /**
-     * @OneToMany(targetEntity="SitePage", mappedBy="site")
+     * @OneToMany(
+     *     targetEntity="SitePage",
+     *     mappedBy="site",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     protected $pages;
 

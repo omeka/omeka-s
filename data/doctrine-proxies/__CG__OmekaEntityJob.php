@@ -64,10 +64,10 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'owner', 'started', 'ended');
+            return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended');
         }
 
-        return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'owner', 'started', 'ended');
+        return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended');
     }
 
     /**
@@ -274,6 +274,39 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArgs', array());
 
         return parent::getArgs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLog($log)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLog', array($log));
+
+        return parent::setLog($log);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addLog($log)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLog', array($log));
+
+        return parent::addLog($log);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLog()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLog', array());
+
+        return parent::getLog();
     }
 
     /**

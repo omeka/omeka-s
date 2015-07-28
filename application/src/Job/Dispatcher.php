@@ -4,6 +4,7 @@ namespace Omeka\Job;
 use DateTime;
 use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Entity\Job;
+use Omeka\Log\Writer\Job as JobWriter;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -78,10 +79,12 @@ class Dispatcher implements ServiceLocatorAwareInterface
      */
     public function send(Job $job, StrategyInterface $strategy)
     {
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
+        $logger->addWriter(new JobWriter($job));
         try {
             $strategy->send($job);
         } catch (\Exception $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
+            $logger->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
             $job->setEnded(new DateTime('now'));
             $this->getServiceLocator()->get('Omeka\EntityManager')->flush();

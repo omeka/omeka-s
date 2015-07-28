@@ -35,6 +35,14 @@ $args = Json::prettyPrint(Json::encode($job->args()), array('indent' => ' '));
     <div class="value"><?php echo $this->escapeHtml($job->owner()->email()); ?></div>
 </div>
 <div class="meta-group">
+    <h4><?php echo $this->translate('Log'); ?></h4>
+    <?php if ($job->log()): ?>
+    <?php echo $this->hyperlink('View Log', $this->url(null, array('action' => 'log'), true), array('target' => '_blank')) ?>
+    <?php else: ?>
+    <p>this job has no log</p>
+    <?php endif; ?>
+</div>
+<div class="meta-group">
     <h4><?php echo $this->translate('Args'); ?></h4>
     <pre><?php echo $this->escapeHtml($args); ?></pre>
 </div>

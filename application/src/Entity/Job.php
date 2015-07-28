@@ -56,6 +56,11 @@ class Job extends AbstractEntity
     protected $args;
 
     /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $log;
+
+    /**
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(onDelete="SET NULL")
      */
@@ -114,6 +119,21 @@ class Job extends AbstractEntity
     public function getArgs()
     {
         return $this->args;
+    }
+
+    public function setLog($log)
+    {
+        $this->log = $log;
+    }
+
+    public function addLog($log)
+    {
+        $this->log .= $log . PHP_EOL;
+    }
+
+    public function getLog()
+    {
+        return $this->log;
     }
 
     public function setOwner(User $owner = null)

@@ -51,9 +51,15 @@ class DispatcherTest extends TestCase
         $entityManager->expects($this->once())
             ->method('flush');
 
+        $logger = $this->getMock('Omeka\Logger', array('addWriter'));
+        $logger->expects($this->once())
+            ->method('addWriter')
+            ->with($this->isInstanceOf('Omeka\Log\Writer\Job'));
+
         $serviceLocator = $this->getServiceManager(array(
             'Omeka\AuthenticationService' => $auth,
             'Omeka\EntityManager' => $entityManager,
+            'Omeka\Logger' => $logger,
         ));
 
         $this->dispatcher->setServiceLocator($serviceLocator);

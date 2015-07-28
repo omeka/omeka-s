@@ -34,6 +34,13 @@ class JobController extends AbstractActionController
         return $view;
     }
 
+    public function logAction()
+    {
+        $response = $this->api()->read('jobs', $this->params('id'));
+        $log = $response->getContent()->log();
+        return $this->getResponse()->setContent('<pre>' . $log . '</pre>');
+    }
+
     public function stopAction()
     {
         if ($this->getRequest()->isPost()) {

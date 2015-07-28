@@ -46,6 +46,15 @@
             });
         });
 
+        $('a.value-language:not(.active)').on('click', function(e) {
+            var button = $(this);
+            e.preventDefault();
+            button.next('input.value-language').addClass('active').focus();
+            if (!button.hasClass('active')) {
+                button.addClass('active');
+            }
+        });
+
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
@@ -383,6 +392,14 @@
                 console.log('fail');
             });
         }
+
+        $('input.value-language').each(function() {
+            var languageInput = $(this);
+            if (languageInput.val() !== "") {
+                languageInput.addClass('active');
+                languageInput.prev('a.value-language').addClass('active');
+            }
+        });
     };
 
     var scrollTo = function(wrapper) {

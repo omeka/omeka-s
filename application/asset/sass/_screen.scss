@@ -1115,32 +1115,50 @@ body.sidebar-open #content {
     font-size: .75 * $base-font-size;
 }
 
-.inputs .value label.value-language {
+.inputs .value a.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
-    border-bottom: 2px solid $gray-on-white;
-    top: rhythm(.25);
-    left: rhythm(2);
-    height: rhythm();
-    width: rhythm(.75);
-    background-color: transparent;
-    line-height: $base-line-height;
+    top: 0;
+    left: rhythm(1.5);
+    height: rhythm(1.5);
+    width: rhythm(1.5);
+    line-height: rhythm(1.5);
     overflow: hidden;
+    text-align: center;
+    color: $red;
+    opacity: .5;
+    z-index: 1;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &.active {
+        cursor: default;
+        opacity: 1;
+        color: #000;
+    }
 }
 
-.inputs input[type="text"].value-language {
+.inputs input[type="text"].value-language.active {
     position: absolute;
     top: rhythm(.25);
-    left: rhythm(2.5);
+    left: rhythm(1.5);
     margin: 0 0 0 rhythm(.25);
     background-color: transparent; 
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
     min-height: 0;
-    padding: 0;
+    padding: 0 0 0 rhythm(1.25);
     height: rhythm();
+    display: block;
+}
+
+input[type="text"].value-language,
+.delete input[type="text"].value-language.active {
+    display: none;
 }
 
 .non-properties {
@@ -1568,9 +1586,18 @@ body.sidebar-open #content {
         background-color: rgba(0,0,0,.15);
     }
 
+    .input-header .actions {
+        padding-right: rhythm(.25);
+    }
+
     .input-header .actions a:before {
         line-height: 1.5 * $base-line-height;
         height: 1.5 * $base-line-height;
+    }
+
+    .input-header .actions li:not(:last-child) {
+        margin-left: 0;
+        margin-right: -3px;
     }
     
     .value.delete {

@@ -1518,32 +1518,48 @@ th {
     font-size: 12px;
   }
 
-  .inputs .value label.value-language {
+  .inputs .value a.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
-    top: 0.375em;
-    left: 3em;
-    height: 1.5em;
-    width: 1.125em;
-    background-color: transparent;
-    line-height: 24px;
+    top: 0;
+    left: 2.25em;
+    height: 2.25em;
+    width: 2.25em;
+    line-height: 2.25em;
     overflow: hidden;
+    text-align: center;
+    color: #FF0000;
+    opacity: .5;
+    z-index: 1;
+  }
+  .inputs .value a.value-language:hover {
+    opacity: 1;
+  }
+  .inputs .value a.value-language.active {
+    cursor: default;
+    opacity: 1;
+    color: #000;
   }
 
-  .inputs input[type="text"].value-language {
+  .inputs input[type="text"].value-language.active {
     position: absolute;
     top: 0.375em;
-    left: 3.75em;
+    left: 2.25em;
     margin: 0 0 0 0.375em;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.08);
     width: 6em;
     min-height: 0;
-    padding: 0;
+    padding: 0 0 0 1.875em;
     height: 1.5em;
+    display: block;
+  }
+
+  input[type="text"].value-language,
+  .delete input[type="text"].value-language.active {
+    display: none;
   }
 
   .non-properties {
@@ -1958,9 +1974,18 @@ th {
     background-color: rgba(0, 0, 0, 0.15);
   }
 
+  .input-header .actions {
+    padding-right: 0.375em;
+  }
+
   .input-header .actions a:before {
     line-height: 36px;
     height: 36px;
+  }
+
+  .input-header .actions li:not(:last-child) {
+    margin-left: 0;
+    margin-right: -3px;
   }
 
   .value.delete {

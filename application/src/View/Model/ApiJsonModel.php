@@ -15,6 +15,11 @@ class ApiJsonModel extends JsonModel
     const API_RESPONSE_KEY = 'api_response';
 
     /**
+     * Key that stores the thrown exception, if any, in the view variables
+     */
+    const EXCEPTION_KEY = 'exception';
+
+    /**
      * Create a new model.
      *
      * The API response object can be passed here directly as the first
@@ -47,5 +52,25 @@ class ApiJsonModel extends JsonModel
     public function setApiResponse($apiResponse)
     {
         $this->setVariable(self::API_RESPONSE_KEY, $apiResponse);
+    }
+
+    /**
+     * Get the exception stored on the model.
+     *
+     * @return \Exception|null
+     */
+    public function getException()
+    {
+        return $this->getVariable(self::EXCEPTION_KEY);
+    }
+
+    /**
+     * Set the exception on this model.
+     *
+     * @param \Exception $exception
+     */
+    public function setException(\Exception $exception)
+    {
+        $this->setVariable(self::EXCEPTION_KEY, $exception);
     }
 }

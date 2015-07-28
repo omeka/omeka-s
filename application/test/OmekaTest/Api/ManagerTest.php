@@ -93,6 +93,9 @@ class ManagerTest extends TestCase
         $this->assertNull($response->getErrors());
     }
 
+    /**
+     * @expectedException \Omeka\Api\Exception\BadRequestException
+     */
     public function testExecuteRequiresValidRequestOperation()
     {
         $mockResponse = $this->getMockResponse(true);
@@ -100,11 +103,11 @@ class ManagerTest extends TestCase
 
         $mockRequest = $this->getMockRequest(Request::SEARCH, false);
         $response = $this->manager->execute($mockRequest);
-
-        $this->assertEquals(Response::ERROR, $response->getStatus());
-        $this->assertInstanceOf('Omeka\Api\Exception\BadRequestException', $response->getException());
     }
 
+    /**
+     * @expectedException \Omeka\Api\Exception\BadRequestException
+     */
     public function testExecuteRequiresValidResource()
     {
         $mockResponse = $this->getMockResponse(true);
@@ -112,11 +115,11 @@ class ManagerTest extends TestCase
 
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
-
-        $this->assertEquals(Response::ERROR, $response->getStatus());
-        $this->assertInstanceOf('Omeka\Api\Exception\BadRequestException', $response->getException());
     }
 
+    /**
+     * @expectedException \Omeka\Api\Exception\PermissionDeniedException
+     */
     public function testExecuteRequiresAccess()
     {
         $mockResponse = $this->getMockResponse(true);
@@ -124,11 +127,11 @@ class ManagerTest extends TestCase
 
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
-
-        $this->assertEquals(Response::ERROR, $response->getStatus());
-        $this->assertInstanceOf('Omeka\Api\Exception\PermissionDeniedException', $response->getException());
     }
 
+    /**
+     * @expectedException \Omeka\Api\Exception\BadResponseException
+     */
     public function testExecuteRequiresValidResponse()
     {
         $mockResponse = null;
@@ -136,11 +139,11 @@ class ManagerTest extends TestCase
 
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
-
-        $this->assertEquals(Response::ERROR, $response->getStatus());
-        $this->assertInstanceOf('Omeka\Api\Exception\BadResponseException', $response->getException());
     }
 
+    /**
+     * @expectedException \Omeka\Api\Exception\BadResponseException
+     */
     public function testExecuteRequiresValidResponseStatus()
     {
         $mockResponse = $this->getMockResponse(false);
@@ -148,9 +151,6 @@ class ManagerTest extends TestCase
 
         $mockRequest = $this->getMockRequest(Request::SEARCH, true);
         $response = $this->manager->execute($mockRequest);
-
-        $this->assertEquals(Response::ERROR, $response->getStatus());
-        $this->assertInstanceOf('Omeka\Api\Exception\BadResponseException', $response->getException());
     }
 
     protected function setServiceManager($requestOperation, $mockResponse,

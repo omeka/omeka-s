@@ -184,19 +184,20 @@ class ApiController extends AbstractRestfulController
         $response = new Response;
         $response->setStatus(Response::ERROR);
 
+        $options = array();
+
+        if ($httpStatusCode) {
+            $options['status_code'] = $httpStatusCode;
+        }
+
+        $result = new ApiJsonModel($response, $options);
+
         if ($error instanceof \Exception) {
-            $response->setException($error);
+            $result->setException($error);
         } else {
             $response->addError(Response::ERROR, $error);
         }
 
-        if ($httpStatusCode) {
-            $options = array('status_code' => $httpStatusCode);
-        } else {
-            $options = array();
-        }
-
-        $result = new ApiJsonModel($response, $options);
         $event->setResult($result);
         return $result;
     }

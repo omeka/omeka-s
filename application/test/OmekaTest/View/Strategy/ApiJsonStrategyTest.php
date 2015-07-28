@@ -75,14 +75,14 @@ class ApiJsonStrategyTest extends TestCase
         $apiResponse->expects($this->any())
                     ->method('getContent')
                     ->will($this->returnValue($apiContent));
-        $apiResponse->expects($this->any())
-                    ->method('getException')
-                    ->will($this->returnValue($apiException));
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
               ->method('getApiResponse')
               ->will($this->returnValue($apiResponse));
+        $model->expects($this->any())
+              ->method('getException')
+              ->will($this->returnValue($apiException));
 
         $this->event->setModel($model);
         $this->event->setRenderer($this->renderer);
@@ -95,18 +95,7 @@ class ApiJsonStrategyTest extends TestCase
      */
     public function testStrategyRespectsModelStatus($apiStatus, $apiContent, $apiException, $httpStatus)
     {
-        $apiResponse = $this->getMock('Omeka\Api\Response');
-        $apiResponse->expects($this->never())
-                    ->method('getStatus');
-        $apiResponse->expects($this->never())
-                    ->method('getContent');
-        $apiResponse->expects($this->never())
-                    ->method('getException');
-
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
-        $model->expects($this->once())
-              ->method('getApiResponse')
-              ->will($this->returnValue($apiResponse));
         $model->expects($this->once())
               ->method('getOption')
               ->with('status_code')

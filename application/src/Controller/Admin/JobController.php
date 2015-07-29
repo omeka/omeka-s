@@ -38,7 +38,8 @@ class JobController extends AbstractActionController
     {
         $response = $this->api()->read('jobs', $this->params('id'));
         $log = $response->getContent()->log();
-        return $this->getResponse()->setContent('<pre>' . $log . '</pre>');
+        $escape = $this->getServiceLocator()->get('ViewHelperManager')->get('EscapeHtml');
+        return $this->getResponse()->setContent('<pre>' . $escape($log) . '</pre>');
     }
 
     public function stopAction()

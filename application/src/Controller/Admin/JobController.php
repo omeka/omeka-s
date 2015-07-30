@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Entity\Job;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -34,12 +35,23 @@ class JobController extends AbstractActionController
         return $view;
     }
 
+    public function argsAction()
+    {
+        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
+        $args = Json::prettyPrint(Json::encode($job->args()), array('indent' => '  '));
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
+        $response->setContent($args);
+        return $response;
+    }
+
     public function logAction()
     {
-        $response = $this->api()->read('jobs', $this->params('id'));
-        $log = $response->getContent()->log();
-        $escape = $this->getServiceLocator()->get('ViewHelperManager')->get('EscapeHtml');
-        return $this->getResponse()->setContent('<pre>' . $escape($log) . '</pre>');
+        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
+        $response->setContent($job->log());
+        return $response;
     }
 
     public function stopAction()

@@ -23,30 +23,6 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </thead>
     <tbody>
         <?php foreach ($jobs as $job): ?>
-        <?php
-        switch ($job->status()) {
-            case Job::STATUS_STARTING:
-                $status = $this->translate('Starting');
-                break;
-            case Job::STATUS_STOPPING:
-                $status = $this->translate('Stopping');
-                break;
-            case Job::STATUS_IN_PROGRESS:
-                $status = $this->translate('In Progress');
-                break;
-            case Job::STATUS_COMPLETED:
-                $status = $this->translate('Completed');
-                break;
-            case Job::STATUS_STOPPED:
-                $status = $this->translate('Stopped');
-                break;
-            case Job::STATUS_ERROR:
-                $status = $this->translate('Error');
-                break;
-            default:
-                $status = $this->translate('Unknown');
-        }
-        ?>
         <tr>
             <td>
                 <span class="resource-name">
@@ -69,7 +45,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 </ul>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
-            <td><?php echo $escape($status); ?></td>
+            <td><?php echo $escape($job->statusLabel()); ?></td>
             <td><?php echo $this->hyperlink($job->owner()->email(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>

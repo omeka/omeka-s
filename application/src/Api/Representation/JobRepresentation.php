@@ -1,8 +1,22 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Entity\Job;
+
 class JobRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * @var array
+     */
+    protected $statusLabels = array(
+        Job::STATUS_STARTING    => 'Starting',
+        Job::STATUS_STOPPING    => 'Stopping',
+        Job::STATUS_IN_PROGRESS => 'In Progress',
+        Job::STATUS_COMPLETED   => 'Completed',
+        Job::STATUS_STOPPED     => 'Stopped',
+        Job::STATUS_ERROR       => 'Error',
+    );
+
     /**
      * {@inheritDoc}
      */
@@ -49,6 +63,13 @@ class JobRepresentation extends AbstractEntityRepresentation
     public function status()
     {
         return $this->getData()->getStatus();
+    }
+
+    public function statusLabel()
+    {
+        $status = $this->getData()->getStatus();
+        return isset($this->statusLabels[$status])
+            ? $this->statusLabels[$status] : 'Unknown';
     }
 
     public function jobClass()

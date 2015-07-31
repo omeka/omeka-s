@@ -18,8 +18,10 @@ $escape = $this->plugin('escapeHtml');
         <h4>Type</h4>
         <div class="value"><?php echo $media->type(); ?></div>
     </div>
-    <div class="property">
-        <h4><?php echo $this->translate('MIME Type'); ?></h4>
-        <div class="value"><?php echo $escape($media->mediaType()); ?></div>
-    </div>
+    <?php if ($media->mediaType()): ?>
+        <div class="property">
+            <h4><?php echo $this->translate('MIME Type'); ?></h4>
+            <div class="value"><?php echo $escape($media->mediaType()); ?></div>
+        </div>
+    <?php endif; ?>
 </div>

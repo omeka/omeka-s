@@ -5,5 +5,9 @@
     <h2 class="o-title"><?php echo $this->escapeHTML($itemSet->displayTitle()); ?></h2>
     <?php endif; ?>
     <div class="o-description"><?php echo $this->escapeHTML($itemSet->displayDescription()); ?></div>
-    <?php echo $itemSet->displayValues(); ?>
+    <div class="property">
+        <h4>Visibility</h4>
+        <div class="value"><?php echo ($itemSet->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <div class="value"><?php echo ($itemSet->isOpen()) ? $this->escapeHtmlAttr($this->translate('Open to additions')) : $this->escapeHtmlAttr($this->translate('Closed to additions')); ?></div>
+    </div>
 </div>

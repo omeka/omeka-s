@@ -4,10 +4,7 @@ $escape = $this->plugin('escapeHtml');
 
 <div class="resource-details" data-resource-values="<?php echo $this->escapeHtmlAttr($values); ?>">
     <h2 class="o-title"><?php echo $media->link($media->displayTitle()); ?></h2>
-    <div class="property">
-        <h4>Date Created</h4>
-        <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
-    </div>
+    
     <div class="property">
         <h4>Part of Item</h4>
         <?php $mediaItem = $media->item(); ?>
@@ -22,9 +19,7 @@ $escape = $this->plugin('escapeHtml');
         <div class="value"><?php echo $media->type(); ?></div>
     </div>
     <div class="property">
-        <h4>Owner</h4>
-        <div class="value"><?php echo $this->hyperlink($media->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $media->owner()->id()))); ?></div>
+        <h4><?php echo $this->translate('MIME Type'); ?></h4>
+        <div class="value"><?php echo $escape($media->mediaType()); ?></div>
     </div>
-
-    <?php echo $media->displayValues(); ?>
 </div>

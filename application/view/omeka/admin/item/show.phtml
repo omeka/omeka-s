@@ -1,9 +1,9 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
+$this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 ?>
-<h1><?php echo sprintf($this->translate('Item: “%s”'), $escape($item->displayTitle())); ?></h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
 <div id="page-actions">
     <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
@@ -12,16 +12,16 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <nav class="section-nav">
     <ul>
-        <li class="active"><a href="#item-metadata"><?php echo $escape('Metadata'); ?></a></li>
-        <li><a href="#item-linked"><?php echo $escape('Linked Resources'); ?></a></li>
+        <li class="active"><a href="#item-metadata"><?php echo $this->translate('Metadata'); ?></a></li>
+        <li><a href="#item-linked"><?php echo $this->translate('Linked Resources'); ?></a></li>
     </ul>
 </nav>
 
 <div id="item-metadata" class="active section sidebar-open">    
     <?php if ( $item->resourceClass()): ?>
         <div class="property">
-            <h4>Class</h4>
-            <div class="value"><?php echo $item->resourceClass()->label(); ?></div>
+            <h4><?php echo $this->translate('Class'); ?></h4>
+            <div class="value"><?php echo $escape($item->resourceClass()->label()); ?></div>
         </div>
     <?php endif; ?>
     <?php echo $item->displayValues(); ?>
@@ -34,7 +34,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <?php echo $item->displayLinkedResources(); ?>
     <?php else: ?>
         <div class="no-resources">
-            <p>There are no linked resources for this item.</p>
+            <p><?php echo $this->translate('There are no linked resources for this item.'); ?></p>
         </div>
     <?php endif; ?>
 </div>
@@ -51,36 +51,36 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="property">
-        <h4>Item Sets</h4>
+        <h4><?php echo $this->translate('Item Sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
     <div class="property">
-        <h4>Date Created</h4>
+        <h4><?php echo $this->translate('Date Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
     <div class="property">
-        <h4>Owner</h4>
-        <div class="value"><?php echo $item->owner()->name(); ?></div>
+        <h4><?php echo $this->translate('Owner'); ?></h4>
+        <div class="value"><?php echo $escape($item->owner()->name()); ?></div>
     </div>
     <div class="property">
-        <h4>Visibility</h4>
-        <div class="value"><?php echo ($item->isPublic()) ? $escapeAttr('Public') : $escapeAttr('Private'); ?></div>
+        <h4><?php echo $this->translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($item->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
     </div>
     <?php if ($item->media()): ?>
     <div class="property">
-        <h4>Media</h4>
+        <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
                 <img 
-                    src="<?php echo $media->thumbnailUrl('square'); ?>"
+                    src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>"
                 title="<?php echo $escapeAttr($media->displayTitle()); ?>" 
                 alt="<?php echo $escapeAttr($media->mediaType()); ?> thumbnail"
                 >
-                <span class="file-name"><?php echo $media->displayTitle(); ?>
+                <span class="file-name"><?php echo $escape($media->displayTitle()); ?>
             </a>
         </div>
         <?php endforeach; ?>

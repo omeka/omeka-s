@@ -3,13 +3,13 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1>Select Item</h1>
+<h1><?php echo $this->translate('Select Item'); ?></h1>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search">
-        <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
+        <input type="text" value="<?php echo $escapeAttr($searchValue); ?>" id="resource-list-search">
         <button 
         data-search-url="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'))); ?>" 
-        type="submit" class="o-icon-search">Search</button>
+        type="submit" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
 <?php echo $this->pagination(); ?>
 </div>

@@ -22,10 +22,18 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
         <ul class='actions'>
             <li>
             <?php if ($media->isPublic()): ?>
-            <a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a>
+            <a href="#" 
+            class="o-icon-public" 
+            aria-label="<?php echo $escapeAttr($this->translate('Make private')); ?>" 
+            title="<?php echo $escapeAttr($this->translate('Make private')); ?>">
+            </a>
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="1">
             <?php else: ?>
-            <a href="#" class="o-icon-private" aria-label="Make public" title="Make public"></a>
+            <a href="#" 
+            class="o-icon-private" 
+            aria-label="<?php echo $escapeAttr($this->translate('Make public')); ?>" 
+            title="<?php echo $escapeAttr($this->translate('Make public')); ?>">
+            </a>
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="0">
             <?php endif; ?>
             </li>
@@ -36,15 +44,23 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
                 'target'     => '_blank'
             )); ?></li>
             <li>
-                <a class='o-icon-delete remove-value' href='#' title='Remove value' aria-label='Remove value'></a>
+                <a href='#' 
+                class='o-icon-delete remove-value' 
+                title=' <?php echo $escapeAttr($this->translate('Remove value')); ?>' 
+                aria-label='<?php echo $escapeAttr($this->translate('Remove value')); ?>'>
+                </a>
             </li>
             <li>
-                <a class='o-icon-undo restore-value' href='#' title='Undo remove value' aria-label='Undo remove value'></a>
+                <a href='#' 
+                class='o-icon-undo restore-value' 
+                title='<?php echo $escapeAttr($this->translate('Undo remove value')); ?>' 
+                aria-label='<?php echo $escapeAttr($this->translate('Undo remove value')); ?>'>
+                </a>
             </li>
         </ul>
-        <span class='restore-value'>Media to be removed</span>
-        <img src="<?php echo $media->thumbnailUrl('square'); ?>">
-        <span class="resource-name"><?php echo $media->displayTitle(); ?></span>
+        <span class='restore-value'><?php echo $this->translate('Media to be removed'); ?></span>
+        <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+        <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
         <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
         <span class="sortable-handle"></span>
     </div>
@@ -54,7 +70,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     ?>
 <?php else: ?>
     <div class="no-resources">
-        <p>This resource has no media.<br>Start adding media using the sidebar to the right.</p>
+        <p><?php echo $this->translate('This resource has no media.<br>Start adding media using the sidebar to the right.'); ?></p>
     </div>
 <?php endif; ?>
 </div>

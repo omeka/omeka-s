@@ -5,6 +5,7 @@ use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
+use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
@@ -126,6 +127,7 @@ class AclFactory implements FactoryInterface
      */
     protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
     {
+        $this->addRulesForSites($acl);
         $this->addRulesForAllRoles($acl);
         $this->addRulesForResearcher($acl);
         $this->addRulesForAuthor($acl);
@@ -133,6 +135,112 @@ class AclFactory implements FactoryInterface
         $this->addRulesForEditor($acl);
         $this->addRulesForSiteAdmin($acl);
         $this->addRulesForGlobalAdmin($acl);
+    }
+
+    /**
+     * Add rules for sites.
+     *
+     * @param Acl $acl
+     */
+    protected function addRulesForSites(Acl $acl)
+    {
+        $acl->allow(
+            null,
+            array(
+                'Omeka\Controller\SiteAdmin\Index',
+                'Omeka\Controller\SiteAdmin\Page',
+            )
+        );
+        $acl->allow(
+            null,
+            array(
+                'Omeka\Api\Adapter\SiteAdapter',
+                'Omeka\Api\Adapter\SitePageAdapter',
+            )
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\Site',
+            'create'
+        );
+        $acl->allow(
+            array('author', 'reviewer', 'editor'),
+            'Omeka\Entity\SitePage',
+            'create'
+        );
+        $acl->allow(
+            array('author', 'reviewer'),
+            'Omeka\Entity\Site',
+            'add-page',
+            new HasSitePermissionAssertion(array('admin', 'edit'))
+        );
+        $allowAddPage = new AssertionAggregate;
+        $allowAddPage->addAssertions(array(
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion(array('admin', 'edit'))
+        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\Site',
+            'add-page',
+            $allowAddPage
+        );
+        $acl->allow(
+            null,
+            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
+            'read'
+        );
+        $acl->allow(
+            array('author', 'reviewer'),
+            'Omeka\Entity\Site',
+            'update',
+            new HasSitePermissionAssertion(array('admin'))
+        );
+        $allowSiteUpdate = new AssertionAggregate;
+        $allowSiteUpdate->addAssertions(array(
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion(array('admin'))
+        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\Site',
+            'update',
+            $allowSiteUpdate
+        );
+        $acl->allow(
+            array('author', 'reviewer'),
+            'Omeka\Entity\SitePage',
+            'update',
+            new HasSitePermissionAssertion(array('admin', 'edit', 'attach'))
+        );
+        $allowSitePageUpdate = new AssertionAggregate;
+        $allowSitePageUpdate->addAssertions(array(
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion(array('admin', 'edit', 'attach'))
+        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\SitePage',
+            'update',
+            $allowSitePageUpdate
+        );
+        $acl->allow(
+            array('author', 'reviewer', 'editor'),
+            'Omeka\Entity\SitePage',
+            'delete',
+            new HasSitePermissionAssertion(array('admin', 'edit'))
+        );
+        $allowSitePageDelete = new AssertionAggregate;
+        $allowSitePageUpdate->addAssertions(array(
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion(array('admin', 'edit'))
+        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\SitePage',
+            'delete',
+            $allowSitePageDelete
+        );
     }
 
     /**
@@ -209,10 +317,20 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'researcher',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'researcher',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'researcher',
@@ -260,11 +378,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'author',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'author',
@@ -366,11 +498,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'reviewer',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'reviewer',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'reviewer',
@@ -470,11 +616,25 @@ class AclFactory implements FactoryInterface
                 'browse',
                 'show',
                 'show-details',
-                'classes', // from Vocabulary controller
-                'properties', // from Vocabulary controller
-                'add-new-property-row', // from ResourceTemplate controller
-                'sidebar-select', // from resource entity controllers
             )
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\ResourceTemplate',
+            'add-new-property-row'
+        );
+        $acl->allow(
+            'editor',
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+            ),
+            'sidebar-select'
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\Vocabulary',
+            array('classes', 'properties')
         );
         $acl->allow(
             'editor',

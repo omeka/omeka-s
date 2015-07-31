@@ -9,6 +9,7 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     protected $config;
+    protected $purifier;
     protected $useHtmlPurifier;
 
     public function __construct($useHtmlPurifier)
@@ -19,9 +20,7 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
     public function purify($html)
     {
         if ($this->useHtmlPurifier) {
-            $config = $this->getConfig();
-            $config->set('Cache.DefinitionImpl', null);
-            $purifier = new \HTMLPurifier($config);
+            $purifier = $this->getPurifier();
             $html = $purifier->purify($html);
         }
         return $html;
@@ -29,9 +28,19 @@ class HtmlPurifier implements ServiceLocatorAwareInterface
 
     public function getConfig()
     {
-        if (is_null($this->config)) {
+        if ($this->config === null) {
             $this->config = \HTMLPurifier_Config::createDefault();
         }
         return $this->config;
+    }
+
+    protected function getPurifier()
+    {
+        if ($this->purifier === null) {
+            $config = $this->getConfig();
+            $config->set('Cache.DefinitionImpl', null);
+            $this->purifier = new \HTMLPurifier($config);
+        }
+        return $this->purifier;
     }
 }

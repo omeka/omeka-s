@@ -54,14 +54,15 @@ class ApiJsonRendererTest extends TestCase
         $response->expects($this->once())
                  ->method('getErrors')
                  ->will($this->returnValue($errors));
-        $response->expects($this->once())
-                 ->method('getException')
-                 ->will($this->returnValue(new \Exception('exception message')));
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
               ->method('getApiResponse')
               ->will($this->returnValue($response));
+        $model->expects($this->once())
+              ->method('getException')
+              ->will($this->returnValue(new \Exception('exception message')));
+
 
         $renderer = new ApiJsonRenderer;
 

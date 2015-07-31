@@ -1,0 +1,23 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'site-pages add');
+$form->prepare();
+?>
+<h1>
+<?php
+echo $this->escapeHtml(
+    sprintf($this->translate('Edit Page: "%s"'), $page->title())
+);
+?>
+</h1>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
+</div>
+
+<div class="breadcrumbs">
+    <?php echo $site->link($site->title(), null, array('class' => 'page-site')); ?>
+    <span class="page-title"><?php echo $page->title(); ?></span>
+</div>
+
+<?php echo $this->formElements($form); ?>
+<?php echo $this->form()->closeTag(); ?>

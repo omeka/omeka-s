@@ -15,10 +15,10 @@ class UserRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            'o:name'     => $entity->getName(),
-            'o:email'    => $entity->getEmail(),
-            'o:created'  => $this->getDateTime($entity->getCreated()),
-            'o:role'     => $entity->getRole(),
+            'o:name' => $entity->getName(),
+            'o:email' => $entity->getEmail(),
+            'o:created' => $this->getDateTime($entity->getCreated()),
+            'o:role' => $entity->getRole(),
             'o:is_active' => $entity->isActive(),
         );
     }

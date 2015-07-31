@@ -35,10 +35,7 @@ class UserController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $user = $response->getContent()->getEntity();
-                    $subject = 'Activate your new Omeka S account';
-                    $body = '%s';
-                    $serviceLocator->get('Omeka\Mailer')
-                        ->sendCreatePassword($user, $subject, $body);
+                    $serviceLocator->get('Omeka\Mailer')->sendUserActivation($user);
                     $this->messenger()->addSuccess('User created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }

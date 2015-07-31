@@ -1,10 +1,12 @@
 <?php
+use Omeka\Entity\Job;
+
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $escape($this->translate('Jobs')); ?></h1>
+<?php echo $this->pageTitle($this->translate('Jobs')); ?>
 
 <?php if (count($jobs)): ?>
 
@@ -43,7 +45,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 </ul>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
-            <td><?php echo $escape($job->status()); ?></td>
+            <td><?php echo $escape($job->statusLabel()); ?></td>
             <td><?php echo $this->hyperlink($job->owner()->email(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
@@ -58,8 +60,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Stop Job')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to attempt to stop this job?')); ?></p>
+        <h2><?php echo $this->translate('Stop Job'); ?></h2>
+        <p><?php echo $this->translate('Are you sure you would like to attempt to stop this job?'); ?></p>
         <?php echo $this->form($confirmForm); ?>
     </div>
     <div class="sidebar-content"></div>
@@ -68,7 +70,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $escape($this->translate('Omeka could not find any jobs.')); ?></p>
+    <p><?php echo $this->translate('Omeka could not find any jobs.'); ?></p>
 </div>
 
 <?php endif; ?>

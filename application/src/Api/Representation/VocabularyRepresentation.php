@@ -4,16 +4,6 @@ namespace Omeka\Api\Representation;
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var array Cache of property representation members
-     */
-    protected $properties;
-
-    /**
-     * @var array Cache of resource class representation members
-     */
-    protected $resourceClasses;
-
-    /**
      * {@inheritDoc}
      */
     public function getControllerName()
@@ -26,16 +16,16 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function getJsonLd()
     {
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->getReference();
+        }
         return array(
             'o:namespace_uri' => $this->namespaceUri(),
-            'o:prefix'        => $this->prefix(),
-            'o:label'         => $this->label(),
-            'o:comment'       => $this->comment(),
-            'o:owner'         => $this->getReference(
-                null,
-                $this->getData()->getOwner(),
-                $this->getAdapter('users')
-            ),
+            'o:prefix' => $this->prefix(),
+            'o:label' => $this->label(),
+            'o:comment' => $this->comment(),
+            'o:owner' => $owner,
         );
     }
 
@@ -92,6 +82,12 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         return $this->getData()->getComment();
     }
 
+    public function owner()
+    {
+        return $this->getAdapter('users')
+            ->getRepresentation(null, $this->getData()->getOwner());
+    }
+
     /**
      * Return property members.
      *
@@ -99,16 +95,12 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function properties()
     {
-        if (isset($this->properties)) {
-            return $this->properties;
-        }
-        $this->properties = array();
+        $properties = array();
         $propertyAdapter = $this->getAdapter('properties');
         foreach ($this->getData()->getProperties() as $propertyEntity) {
-            $this->properties[] = $propertyAdapter
-                ->getRepresentation(null, $propertyEntity);
+            $properties[] = $propertyAdapter->getRepresentation(null, $propertyEntity);
         }
-        return $this->properties;
+        return $properties;
     }
 
     /**
@@ -118,16 +110,12 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
      public function resourceClasses()
      {
-        if (isset($this->resourceClasses)) {
-            return $this->resourceClasses;
-        }
-        $this->resourceClasses = array();
+        $resourceClasses = array();
         $resourceClassAdapter = $this->getAdapter('resource_classes');
         foreach ($this->getData()->getResourceClasses() as $resourceClass) {
-            $this->resourceClasses[] = $resourceClassAdapter
-                ->getRepresentation(null, $resourceClass);
+            $resourceClasses[] = $resourceClassAdapter->getRepresentation(null, $resourceClass);
         }
-        return $this->resourceClasses;
+        return $resourceClasses;
      }
 
     /**

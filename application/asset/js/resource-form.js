@@ -46,6 +46,15 @@
             });
         });
 
+        $('a.value-language:not(.active)').on('click', function(e) {
+            var button = $(this);
+            e.preventDefault();
+            button.next('input.value-language').addClass('active').focus();
+            if (!button.hasClass('active')) {
+                button.addClass('active');
+            }
+        });
+
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
@@ -100,7 +109,7 @@
         $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
             var resourceId = $(this).data('resource-id');
             $('#select-item a').data('resource-id', resourceId);
-            });
+        });
 
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
@@ -246,6 +255,10 @@
                         href: valueObject['url'],
                         text: title
                     });
+                    if (valueObject['thumbnail_url'] !== undefined) {
+                        var thumbnail = '<img src="' + valueObject['thumbnail_url'] + '">';
+                        newResource.find('.o-title').prepend(thumbnail);
+                    }
 
                     newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
 
@@ -287,7 +300,7 @@
         var qName = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = propertyLi.data('child-label');
+        var fieldName = propertyLi.data('child-search');
         field.find('.field-label').text(fieldName);
         field.find('.field-term').text(qName);
         var fieldDesc = $('.description p', propertyLi).last();
@@ -379,6 +392,14 @@
                 console.log('fail');
             });
         }
+
+        $('input.value-language').each(function() {
+            var languageInput = $(this);
+            if (languageInput.val() !== "") {
+                languageInput.addClass('active');
+                languageInput.prev('a.value-language').addClass('active');
+            }
+        });
     };
 
     var scrollTo = function(wrapper) {

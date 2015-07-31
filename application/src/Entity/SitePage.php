@@ -39,7 +39,12 @@ class SitePage extends AbstractEntity
     protected $site;
 
     /**
-     * @OneToMany(targetEntity="SitePageBlock", mappedBy="page")
+     * @OneToMany(
+     *     targetEntity="SitePageBlock",
+     *     mappedBy="page",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      * @OrderBy({"position" = "ASC"})
      */
     protected $blocks;
@@ -87,5 +92,10 @@ class SitePage extends AbstractEntity
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    public function getOwner()
+    {
+        return $this->getSite()->getOwner();
     }
 }

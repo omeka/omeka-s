@@ -1,0 +1,26 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+matrix:
+  allow_failures:
+    - php: 7.0
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install: ant init
+
+before_script:
+  - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot
+  - sed -i 's/^host.*/host = "localhost"/' application/test/config/database.ini
+  - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
+  - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
+
+script: ant test

@@ -7,13 +7,26 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     {
         $entity = $this->getData();
         return array(
-            'o:slug'       => $entity->getSlug(),
-            'o:title'      => $entity->getTitle(),
-            'o:site'      => $this->getReference(
-                null,
-                $this->getData()->getSite(),
-                $this->getAdapter('sites')
+            'o:slug' => $this->slug(),
+            'o:title' => $this->title(),
+            'o:site' => $this->site()->getReference(),
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function url($action = null, $canonical = false)
+    {
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'admin/site/page',
+            array(
+                'site-slug' => $this->site()->slug(),
+                'page-slug' => $this->slug(),
+                'action' => $action,
             ),
+            array('force_canonical' => $canonical)
         );
     }
 

@@ -3,7 +3,10 @@ $this->htmlElement('body')->appendAttribute('class', 'media show sidebar-open');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
-<h1><?php echo sprintf($this->translate('Media: “%s”'), $escape($media->displayTitle())); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Media: “%s”'), $media->displayTitle())); ?>
+
+
 <div id="page-actions">
     <?php echo $media->link($this->translate('Edit media'), 'edit', array('class' => 'button')); ?>
 </div>
@@ -15,7 +18,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </div>
     <?php if ( $media->resourceClass()): ?>
         <div class="property">
-            <h4>Class</h4>
+            <h4><?php echo $this->translate('Class'); ?></h4>
             <div class="value"><?php echo $media->resourceClass()->label(); ?></div>
         </div>
     <?php endif; ?>
@@ -24,42 +27,42 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <div class="sidebar active">
     <div class="property">
-        <h4>Date Created</h4>
+        <h4><?php echo $this->translate('Date Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
     <div class="property">
-        <h4>Part of Item</h4>
+        <h4><?php echo $this->translate('Part of Item'); ?></h4>
         <?php $mediaItem = $media->item(); ?>
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="property">
-        <h4>Visibility</h4>
+        <h4><?php echo $this->translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <div class="property">
-        <h4>Type</h4>
-        <div class="value"><?php echo $media->type(); ?></div>
+        <h4><?php echo $this->translate('Type'); ?></h4>
+        <div class="value"><?php echo $escape($media->type()); ?></div>
     </div>
     <div class="property">
-        <h4>Source</h4>
-        <div class="value"><span class="source-type"><?php echo $media->type(); ?></span>: <?php echo $media->source(); ?></div>
+        <h4><?php echo $this->translate('Source'); ?></h4>
+        <div class="value"><span class="source-type"><?php echo $escape($media->type()); ?></span>: <?php echo $escape($media->source()); ?></div>
     </div>
     <?php if ($media->mediaType()): ?>
     <div class="property">
-        <h4>MIME Type</h4>
-        <div class="value"><?php echo $media->mediaType(); ?></div>
+        <h4><?php echo $this->translate('MIME Type'); ?></h4>
+        <div class="value"><?php echo $escape($media->mediaType()); ?></div>
     </div>
     <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="property">
         <h4>File Derivatives</h4>
         <?php if ($media->hasOriginal()): ?>
-            <div class="value"><a href="<?php echo $media->originalUrl(); ?>">original</a></div>
+            <div class="value"><a href="<?php echo $escapeAttr($media->originalUrl()); ?>">original</a></div>
         <?php endif; ?>
         <?php if ($media->hasThumbnails()): ?>
-            <div class="value"><a href="<?php echo $media->thumbnailUrl('large'); ?>">large</a></div>
-            <div class="value"><a href="<?php echo $media->thumbnailUrl('medium'); ?>">medium</a></div>
-            <div class="value"><a href="<?php echo $media->thumbnailUrl('square'); ?>">square</a></div>
+            <div class="value"><a href="<?php echo $escapeAttr($media->thumbnailUrl('large')); ?>"><?php echo $this->translate('large'); ?></a></div>
+            <div class="value"><a href="<?php echo $escapeAttr($media->thumbnailUrl('medium')); ?>"><?php echo $this->translate('medium'); ?></a></div>
+            <div class="value"><a href="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>"><?php echo $this->translate('square'); ?></a></div>
         <?php endif; ?>
     </div>
     <?php endif; ?>

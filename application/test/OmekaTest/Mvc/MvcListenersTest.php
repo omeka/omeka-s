@@ -42,8 +42,8 @@ class MvcListenersTest extends TestCase
                     $this->equalTo(-1000)
                 ),
                 array(
-                    $this->equalTo(MvcEvent::EVENT_DISPATCH),
-                    $this->equalTo(array($this->mvcListeners, 'setThemeTemplatePath'))
+                    $this->equalTo(MvcEvent::EVENT_ROUTE),
+                    $this->equalTo(array($this->mvcListeners, 'setCurrentTheme'))
                 )
             );
         $this->mvcListeners->attach($events);

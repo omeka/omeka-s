@@ -59,7 +59,7 @@ var Omeka = {
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
-                var label = child.data('child-label').toLowerCase();
+                var label = child.data('child-search').toLowerCase();
                 if (label.indexOf(filter) > -1) {
                     // Label contains the filter string. Show the child.
                     child.show();
@@ -81,6 +81,14 @@ var Omeka = {
             selector.find('li.selector-parent').removeClass('show');
         }
         selector.find('span.selector-total-count').text(totalCount);
+    },
+
+    updateSearch: function () {
+        var checkedOption = $("#advanced-options input[type='radio']:checked ");
+        var checkedLabel = checkedOption.next().text().toLowerCase();
+        var actionURL = checkedOption.data('action');
+        $("#search-form").attr("action", actionURL);
+        $("#search-form > input[type='text']").attr("placeholder", "Search " + checkedLabel);
     }
 };
 
@@ -215,6 +223,9 @@ var Omeka = {
             var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.outerHeight() + fieldDesc.outerHeight() - $(window).scrollTop();
             fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
         });
+
+        $('#search-form').change(Omeka.updateSearch);
+        Omeka.updateSearch();
     });
 
 }(window.jQuery, window, document));

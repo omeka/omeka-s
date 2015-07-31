@@ -48,7 +48,7 @@ abstract class Resource extends AbstractEntity
     /**
      * @Column(type="boolean")
      */
-    protected $isPublic = false;
+    protected $isPublic = true;
 
     /**
      * @Column(type="datetime")

@@ -5,7 +5,7 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
-<h1><?php echo $escape($this->translate('Items')); ?></h1>
+<?php echo $this->pageTitle($this->translate('Items')); ?>
 
 <?php echo $this->searchFilters(); ?>
 
@@ -87,7 +87,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $escape($this->translate('Omeka could not find any items.')); ?></p>
+    <p><?php echo $this->translate('Omeka could not find any items.'); ?></p>
 </div>
 
 <?php endif; ?>

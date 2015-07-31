@@ -37,8 +37,8 @@ class MvcListeners extends AbstractListenerAggregate
             -1000
         );
         $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_DISPATCH,
-            array($this, 'setThemeTemplatePath')
+            MvcEvent::EVENT_ROUTE,
+            array($this, 'setCurrentTheme')
         );
     }
 
@@ -213,16 +213,14 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Set the site theme's template path.
+     * Set the current theme.
      *
      * @param MvcEvent $event
      */
-    public function setThemeTemplatePath(MvcEvent $event)
+    public function setCurrentTheme(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        $routeNamespace = $routeMatch->getParam('__NAMESPACE__');
-
-        if ('Omeka\Controller\Site' !== $routeNamespace) {
+        if (!$routeMatch->getParam('__SITE__')) {
             return;
         }
 
@@ -230,18 +228,37 @@ class MvcListeners extends AbstractListenerAggregate
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
 
         $sql = 'SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug';
-        $query = $entityManager->createQuery($sql);
-        $query->setParameter('slug', $routeMatch->getParam('site-slug'));
-        $site = $query->getOneOrNullResult();
+        $site = $entityManager->createQuery($sql)
+            ->setParameter('slug', $routeMatch->getParam('site-slug'))
+            ->getOneOrNullResult();
 
         if (!$site) {
             // Site not found, set minimal layout and 404 status
-            $event->getViewModel()->setTemplate('layout/minimal');
+            $event->getViewModel()->setTemplate('error/404');
             $event->getResponse()->setStatusCode(404);
             return;
         }
 
-        $resolver = $serviceLocator->get('ViewTemplatePathStack');
-        $resolver->addPath(sprintf('%s/themes/%s', OMEKA_PATH, $site->getTheme()));
+        // Set the current theme.
+        $theme = $site->getTheme();
+        $themeManager = $serviceLocator->get('Omeka\ThemeManager');
+        $themeManager->setCurrentTheme($theme);
+
+        // Add the theme view templates to the path stack.
+        $serviceLocator->get('ViewTemplatePathStack')
+            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
+
+        // Load theme view helpers on-demand.
+        $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
+        if (is_array($helpers)) {
+            foreach ($helpers as $helper) {
+                $factory = function ($pluginManager) use ($theme, $helper) {
+                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $theme, $helper);
+                    $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
+                    return new $helperClass;
+                };
+                $serviceLocator->get('ViewHelperManager')->setFactory($helper, $factory);
+            }
+        }
     }
 }

@@ -1,2 +1,24 @@
 <?php
-return array();
+return array(
+    'loggers' => array(
+        'application' => array('log'  => false),
+        'sql' => array('log'  => false),
+    ),
+    'cli' => array(
+        'phpcli_path' => null,
+    ),
+    'file_manager' => array(
+        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'thumbnail_types' => array(
+            'large' => array('constraint' => 800),
+            'medium' => array('constraint' => 200),
+            'square' => array('constraint' => 200),
+        ),
+        'thumbnail_options' => array(
+            'imagemagick_dir' => null,
+        ),
+    ),
+    'translator' => array(
+        'locale' => 'en_US',
+    ),
+);

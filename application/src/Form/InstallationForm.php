@@ -8,17 +8,6 @@ class InstallationForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add(array(
-            'name' => 'name',
-            'type' => 'Text',
-            'options' => array(
-                'label' => $translator->translate('Name'),
-            ),
-            'attributes' => array(
-                'id' => 'name',
-                'required' => true,
-            ),
-        ));
-        $this->add(array(
             'name' => 'email',
             'type' => 'Email',
             'options' => array(
@@ -59,6 +48,17 @@ class InstallationForm extends AbstractForm
             ),
             'attributes' => array(
                 'id' => 'password-confirm',
+                'required' => true,
+            ),
+        ));
+        $this->add(array(
+            'name' => 'name',
+            'type' => 'Text',
+            'options' => array(
+                'label' => $translator->translate('Display Name'),
+            ),
+            'attributes' => array(
+                'id' => 'name',
                 'required' => true,
             ),
         ));

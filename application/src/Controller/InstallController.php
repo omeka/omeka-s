@@ -35,7 +35,7 @@ class InstallController extends AbstractActionController
                 );
                 if ($manager->install()) {
                     // Success. Redirect to login.
-                    $this->messenger()->addSuccess('Installation successful.');
+                    $this->messenger()->addSuccess('Installation successful. Please log in.');
                     return $this->redirect()->toRoute('login');
                 } else {
                     // Error during installation.

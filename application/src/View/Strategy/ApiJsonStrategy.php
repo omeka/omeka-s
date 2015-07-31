@@ -57,23 +57,24 @@ class ApiJsonStrategy extends JsonStrategy
         parent::injectResponse($e);
 
         $model = $e->getModel();
-        $apiResponse = $model->getApiResponse();
-
-        $statusCode = $model->getOption('status_code');
-        if ($statusCode === null) {
-            $statusCode = $this->getResponseStatusCode($apiResponse);
-        }
-        $e->getResponse()->setStatusCode($statusCode);
+        $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
     }
 
     /**
      * Get the HTTP status code for an API response.
      *
-     * @param \Omeka\Api\Response $response
+     * @param Omeka\View\Model\ApiJsonModel $response
      * @return integer
      */
-    protected function getResponseStatusCode(Response $response)
+    protected function getResponseStatusCode(ApiJsonModel $model)
     {
+        $statusCode = $model->getOption('status_code');
+        if ($statusCode !== null) {
+            return $statusCode;
+        }
+
+        $response = $model->getApiResponse();
+
         switch ($response->getStatus()) {
             case Response::SUCCESS:
                 if (null === $response->getContent()) {
@@ -84,7 +85,7 @@ class ApiJsonStrategy extends JsonStrategy
                 return 422; // Unprocessable Entity
             case Response::ERROR:
             default:
-                return $this->getStatusCodeForException($response->getException());
+                return $this->getStatusCodeForException($model->getException());
         }
     }
 

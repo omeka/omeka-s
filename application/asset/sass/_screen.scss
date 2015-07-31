@@ -713,7 +713,7 @@ div[role="main"] {
 .actions,
 .actions li {
     display: inline-block;
-    margin-left: -4px;
+    margin-left: -3px;
 }
 
 .actions a,
@@ -724,12 +724,13 @@ div[role="main"] {
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
-    text-align: center;
+    text-align: right;
 }
 
 .actions a,
 .actions button {
     opacity: .5;
+    text-align: left;
 }
 
 .actions a:hover,
@@ -926,6 +927,10 @@ body.sidebar-open #content {
     content: $fa-var-cube;
 }
 
+.item-sets .no-resources:before {
+    content: $fa-var-cubes;
+}
+
 .media .no-resources:before, #media-list .no-resources:before {
     content: $fa-var-image;
 }
@@ -1076,7 +1081,6 @@ body.sidebar-open #content {
 }
 
 #page-actions {
-    width: span(13 of 16) - gutter(10);
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
     z-index: 2;
@@ -1111,32 +1115,50 @@ body.sidebar-open #content {
     font-size: .75 * $base-font-size;
 }
 
-.inputs .value label.value-language {
+.inputs .value a.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
-    border-bottom: 2px solid $gray-on-white;
-    top: rhythm(.25);
-    left: rhythm(2);
-    height: rhythm();
-    width: rhythm(.75);
-    background-color: transparent;
-    line-height: $base-line-height;
+    top: 0;
+    left: rhythm(1.5);
+    height: rhythm(1.5);
+    width: rhythm(1.5);
+    line-height: rhythm(1.5);
     overflow: hidden;
+    text-align: center;
+    color: $red;
+    opacity: .5;
+    z-index: 1;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &.active {
+        cursor: default;
+        opacity: 1;
+        color: #000;
+    }
 }
 
-.inputs input[type="text"].value-language {
+.inputs input[type="text"].value-language.active {
     position: absolute;
     top: rhythm(.25);
-    left: rhythm(2.5);
+    left: rhythm(1.5);
     margin: 0 0 0 rhythm(.25);
     background-color: transparent; 
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
     min-height: 0;
-    padding: 0;
+    padding: 0 0 0 rhythm(1.25);
     height: rhythm();
+    display: block;
+}
+
+input[type="text"].value-language,
+.delete input[type="text"].value-language.active {
+    display: none;
 }
 
 .non-properties {
@@ -1564,9 +1586,18 @@ body.sidebar-open #content {
         background-color: rgba(0,0,0,.15);
     }
 
+    .input-header .actions {
+        padding-right: rhythm(.25);
+    }
+
     .input-header .actions a:before {
         line-height: 1.5 * $base-line-height;
         height: 1.5 * $base-line-height;
+    }
+
+    .input-header .actions li:not(:last-child) {
+        margin-left: 0;
+        margin-right: -3px;
     }
     
     .value.delete {
@@ -1621,7 +1652,7 @@ body.sidebar-open #content {
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: rhythm(.25);
+        padding: rhythm(.25) rhythm(.3125);
     }
 
     .value.delete > *:not(.input-header) {
@@ -1631,7 +1662,14 @@ body.sidebar-open #content {
     p.selected-resource {
         margin: 0;
     }
-    
+
+    .selected-resource img {
+        height: rhythm();
+        display: inline-block;
+        vertical-align: top;
+        margin-right: rhythm(.25);
+    }
+
     .selected-resource .o-title a:after {
         font-family: "FontAwesome";
         margin-left: .5em;
@@ -2066,9 +2104,7 @@ body.show .sidebar img {
 /* @group ----- Show Resource Template ----- */
     
 .class-row {
-    @include bleed-x(rhythm());
-    border-color: $gray-on-white;
-    @include trailing-border(1px, .5, $base-font-size, solid);
+    @include subhead-row;
 }
 
 .class-label {
@@ -2208,14 +2244,89 @@ body.show .sidebar img {
 
 /* @group ----- Sites ----- */
 
-#page-list {
-    padding: 0;
+.breadcrumbs {
+    @include subhead-row;
 }
 
-#page-list li {
-    @include field-row;
-    list-style-type: none;
+.breadcrumbs + .field {
+    @include leader();
 }
+
+.breadcrumbs > *:not(:last-child):after {
+    content: $fa-var-caret-right;
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin: 0 calc(#{rhythm(.5)} - 3px) 0 rhythm(.5);
+    color: #000;
+    cursor: default;
+}
+
+    /* @group ----- User Permissions ----- */
+
+    .user.value .actions {
+        margin-right: -3px;
+    }
+
+    .user.value.delete {
+        position: relative;
+    }
+
+    .user.value.delete > td {
+        display: table-cell;
+    }
+
+    .user.value.delete .actions {
+        margin-right: 0;
+    }
+
+    .user.value .o-icon-undo,
+    .user.value.delete > td *:not(.restore-value),
+    .user.value.delete > td .actions .o-icon-delete {
+        display: none;
+    }
+
+    .user.value.delete > td .actions,
+    .user.value.delete > td .actions * {
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .user.value.delete .restore-value {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ffcccc;
+    }
+
+    td.user-meta {
+        width: 50%;
+    }
+
+    #permissions .selector li li {
+        cursor: pointer;
+    }
+
+    #site-user-permissions + .no-resources {
+        display: none;
+    }
+
+    #site-user-permissions.empty {
+        display: none;
+
+        & + .no-resources {
+            display: block;
+            padding: 0 rhythm();
+
+            &:before {
+                content: $fa-var-users;
+            }
+        }
+    }
+
+    /* @end */
 
 /* @end */
 

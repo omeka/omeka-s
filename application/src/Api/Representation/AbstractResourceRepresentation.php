@@ -144,6 +144,17 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get a reference for this resource representation.
+     *
+     * @return ResourceReference
+     */
+    public function getReference()
+    {
+        return new ResourceReference(
+            $this->id(), $this->getData(), $this->getAdapter());
+    }
+
+    /**
      * Get the URL to the represented resource in the API
      *
      * @return string
@@ -166,9 +177,10 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @uses self::getControllerName()
      * @param string $action
+     * @param bool $canonical Whether to return an absolute URL
      * @return string|null
      */
-    public function url($action = null)
+    public function url($action = null, $canonical = false)
     {
         if (!($controller = $this->getControllerName())) {
             return null;
@@ -181,7 +193,8 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
                 'controller' => $controller,
                 'action' => $action,
                 'id' => $this->id(),
-            )
+            ),
+            array('force_canonical' => $canonical)
         );
     }
 

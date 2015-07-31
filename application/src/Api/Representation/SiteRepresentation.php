@@ -1,17 +1,14 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Api\Representation\SitePermissionRepresentation;
+
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var array
-     */
-    protected $pages;
-
-    /**
      * {@inheritDoc}
      */
-    public function url($action = null)
+    public function url($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');
         return $url(
@@ -19,30 +16,31 @@ class SiteRepresentation extends AbstractEntityRepresentation
             array(
                 'site-slug' => $this->slug(),
                 'action' => $action,
-            )
+            ),
+            array('force_canonical' => $canonical)
         );
     }
     public function getJsonLd()
     {
-        $entity = $this->getData();
-        $jsonLd = array(
-            'o:slug'       => $entity->getSlug(),
-            'o:theme'      => $entity->getTheme(),
-            'o:title'      => $entity->getTitle(),
-            'o:navigation' => $entity->getNavigation(),
-            'o:owner'      => $this->getReference(
-                null,
-                $this->getData()->getOwner(),
-                $this->getAdapter('users')
-            ),
-        );
-
-        $pageAdapter = $this->getAdapter('site_pages');
-        foreach ($entity->getPages() as $page) {
-            $jsonLd['o:page'][] = $this->getReference(
-                null, $page, $pageAdapter);
+        $pages = array();
+        foreach ($this->pages() as $pageRepresentation) {
+            $pages[] = $pageRepresentation->getReference();
         }
-        return $jsonLd;
+
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->getReference();
+        }
+
+        return array(
+            'o:slug' => $this->slug(),
+            'o:theme' => $this->theme(),
+            'o:title' => $this->title(),
+            'o:navigation' => $this->navigation(),
+            'o:owner' => $owner,
+            'o:page' => $pages,
+            'o:site_permission' => $this->sitePermissions(),
+        );
     }
 
     public function slug()
@@ -67,15 +65,27 @@ class SiteRepresentation extends AbstractEntityRepresentation
 
     public function pages()
     {
-        if (isset($this->pages)) {
-            return $this->pages;
-        }
-        $this->pages = array();
+        $pages = array();
         $pageAdapter = $this->getAdapter('site_pages');
-        foreach ($this->getData()->getPages() as $pageEntity) {
-            $this->pages[] = $pageAdapter->getRepresentation(null, $pageEntity);
+        foreach ($this->getData()->getPages() as $page) {
+            $pages[] = $pageAdapter->getRepresentation(null, $page);
         }
-        return $this->pages;
+        return $pages;
+    }
+
+    /**
+     * Return the permissions assigned to this site.
+     *
+     * @return array
+     */
+    public function sitePermissions()
+    {
+        $sitePermissions = array();
+        foreach ($this->getData()->getSitePermissions() as $sitePermission) {
+            $sitePermissions[]= new SitePermissionRepresentation(
+                $sitePermission, $this->getServiceLocator());
+        }
+        return $sitePermissions;
     }
 
     /**

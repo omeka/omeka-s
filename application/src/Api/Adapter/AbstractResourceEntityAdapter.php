@@ -105,7 +105,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
 
         if ($this->shouldHydrate($request, 'o:is_public')) {
-            $entity->setIsPublic($request->getValue('o:is_public'));
+            $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
         // Hydrate this resource's values.
@@ -147,6 +147,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 continue;
             }
             foreach ($values as $value) {
+                if (!is_string($value) || $value === '') {
+                    continue;
+                }
                 $valuesAlias = $this->createAlias();
                 if ('eq' == $queryType) {
                     $qb->innerJoin($valuesJoin, $valuesAlias);
@@ -214,6 +217,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     continue;
                 }
                 foreach ($values as $value) {
+                    if (!is_string($value) || $value === '') {
+                        continue;
+                    }
                     $valuesAlias = $this->createAlias();
                     if ('eq' == $queryType) {
                         $qb->innerJoin(

@@ -12,7 +12,9 @@ $viewItemsLink = $this->url(
     )
 );
 ?>
-<h1><?php echo sprintf($this->translate('Item Set: “%s”'), $escape($itemSet->displayTitle())); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Item Set: “%s”'), $itemSet->displayTitle())); ?>
+
 <div id="page-actions">
     <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
@@ -22,16 +24,16 @@ $viewItemsLink = $this->url(
 
 <nav class="section-nav">
     <ul>
-        <li class="active"><a href="#item-set-metadata"><?php echo $escape('Metadata'); ?></a></li>
-        <li><a href="#item-set-linked"><?php echo $escape('Linked Resources'); ?></a></li>
+        <li class="active"><a href="#item-set-metadata"><?php echo $this->translate('Metadata'); ?></a></li>
+        <li><a href="#item-set-linked"><?php echo $this->translate('Linked Resources'); ?></a></li>
     </ul>
 </nav>
 
 <div id="item-set-metadata" class="active section">
     <?php if ( $itemSet->resourceClass()): ?>
         <div class="property">
-            <h4>Class</h4>
-            <div class="value"><?php echo $itemSet->resourceClass()->label(); ?></div>
+            <h4><?php echo $this->translate('Class'); ?></h4>
+            <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>
         </div>
     <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
@@ -43,16 +45,16 @@ $viewItemsLink = $this->url(
 
 <div class="active sidebar">
     <div class="property">
-        <h4>Date Created</h4>
+        <h4><?php echo $this->translate('Date Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
     </div>
     <div class="property">
-        <h4>Owner</h4>
-        <div class="value"><?php echo $itemSet->owner()->name(); ?></div>
+        <h4><?php echo $this->translate('Owner'); ?></h4>
+        <div class="value"><?php echo $escape($itemSet->owner()->name()); ?></div>
     </div>
     <div class="property">
-        <h4>Visibility</h4>
-        <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr('Public') : $escapeAttr('Private'); ?></div>
-        <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr('Open to additions') : $escapeAttr('Closed to additions'); ?></div>
+        <h4><?php echo $this->translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
+        <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr($this->translate('Open to additions')) : $escapeAttr($this->translate('Closed to additions')); ?></div>
     </div>
 </div>

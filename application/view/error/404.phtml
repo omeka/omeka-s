@@ -1,11 +1,12 @@
-<h1>404 Not Found</h1>
+<?php echo $this->pageTitle($this->translate('404 Not Found')); ?>
+
 <?php if (isset($this->message)): ?>
 <p><?php echo $this->message; ?></p>
 <?php endif; ?>
 
 
 <?php if (isset($this->reason)): ?>
-<p>Reason: <tt><?php echo $this->reason; ?></tt></p>
+<p><?php echo sprintf($this->translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
 <?php endif; ?>
 
 <?php if ($this->exception): ?>

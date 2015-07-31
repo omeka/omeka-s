@@ -10,14 +10,18 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Response;
 use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 
 /**
  * MVC listener for handling specific exception types with "pretty" pages.
  */
-class ExceptionListener extends AbstractListenerAggregate
+class ExceptionListener extends AbstractListenerAggregate implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -46,6 +50,7 @@ class ExceptionListener extends AbstractListenerAggregate
         }
 
         $exception = $e->getParam('exception');
+        $this->getServiceLocator()->get('Omeka\Logger')->err((string) $exception);
 
         if ($exception instanceof AclException\PermissionDeniedException) {
             $template = 'error/403';

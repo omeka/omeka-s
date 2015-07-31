@@ -22,8 +22,8 @@ class AbstractRepresentationTest extends TestCase
             'Omeka\Api\Representation\AbstractRepresentation'
         );
         $protectedMethods = array(
-            'getData', 'setData', 'validateData', 'getAdapter', 'getReference',
-            'getDateTime', 'getTranslator',
+            'getData', 'setData', 'validateData', 'getAdapter', 'getDateTime',
+            'getTranslator',
         );
         foreach ($protectedMethods as $protectedMethod) {
             $this->assertTrue($class->getMethod($protectedMethod)->isProtected());

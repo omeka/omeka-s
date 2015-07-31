@@ -1116,7 +1116,7 @@ th {
   .actions,
   .actions li {
     display: inline-block;
-    margin-left: -4px;
+    margin-left: -3px;
   }
 
   .actions a,
@@ -1127,12 +1127,13 @@ th {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
-    text-align: center;
+    text-align: right;
   }
 
   .actions a,
   .actions button {
     opacity: .5;
+    text-align: left;
   }
 
   .actions a:hover,
@@ -1332,6 +1333,10 @@ th {
     content: "";
   }
 
+  .item-sets .no-resources:before {
+    content: "";
+  }
+
   .media .no-resources:before, #media-list .no-resources:before {
     content: "";
   }
@@ -1481,7 +1486,6 @@ th {
   }
 
   #page-actions {
-    width: 79.58333%;
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
     z-index: 2;
@@ -1514,32 +1518,48 @@ th {
     font-size: 12px;
   }
 
-  .inputs .value label.value-language {
+  .inputs .value a.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
-    top: 0.375em;
-    left: 3em;
-    height: 1.5em;
-    width: 1.125em;
-    background-color: transparent;
-    line-height: 24px;
+    top: 0;
+    left: 2.25em;
+    height: 2.25em;
+    width: 2.25em;
+    line-height: 2.25em;
     overflow: hidden;
+    text-align: center;
+    color: #FF0000;
+    opacity: .5;
+    z-index: 1;
+  }
+  .inputs .value a.value-language:hover {
+    opacity: 1;
+  }
+  .inputs .value a.value-language.active {
+    cursor: default;
+    opacity: 1;
+    color: #000;
   }
 
-  .inputs input[type="text"].value-language {
+  .inputs input[type="text"].value-language.active {
     position: absolute;
     top: 0.375em;
-    left: 3.75em;
+    left: 2.25em;
     margin: 0 0 0 0.375em;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.08);
     width: 6em;
     min-height: 0;
-    padding: 0;
+    padding: 0 0 0 1.875em;
     height: 1.5em;
+    display: block;
+  }
+
+  input[type="text"].value-language,
+  .delete input[type="text"].value-language.active {
+    display: none;
   }
 
   .non-properties {
@@ -1954,9 +1974,18 @@ th {
     background-color: rgba(0, 0, 0, 0.15);
   }
 
+  .input-header .actions {
+    padding-right: 0.375em;
+  }
+
   .input-header .actions a:before {
     line-height: 36px;
     height: 36px;
+  }
+
+  .input-header .actions li:not(:last-child) {
+    margin-left: 0;
+    margin-right: -3px;
   }
 
   .value.delete {
@@ -2019,7 +2048,7 @@ th {
 
   .value.delete span.restore-value {
     display: inline-block;
-    padding: 0.375em;
+    padding: 0.375em 0.46875em;
   }
 
   .value.delete > *:not(.input-header) {
@@ -2028,6 +2057,13 @@ th {
 
   p.selected-resource {
     margin: 0;
+  }
+
+  .selected-resource img {
+    height: 1.5em;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.375em;
   }
 
   .selected-resource .o-title a:after {
@@ -2567,19 +2603,96 @@ th {
 
   /* @end */
   /* @group ----- Sites ----- */
-  #page-list {
-    padding: 0;
+  .breadcrumbs {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -1.5em;
+    margin-left: -1.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
   }
 
-  #page-list li {
-    width: 100%;
-    background-color: #e7e7e7;
-    padding: 0.375em;
+  .breadcrumbs + .field {
+    margin-top: 1.5em;
+  }
+
+  .breadcrumbs > *:not(:last-child):after {
+    content: "";
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin: 0 calc(0.75em - 3px) 0 0.75em;
+    color: #000;
+    cursor: default;
+  }
+
+  /* @group ----- User Permissions ----- */
+  .user.value .actions {
+    margin-right: -3px;
+  }
+
+  .user.value.delete {
     position: relative;
-    margin-bottom: 0.375em;
-    list-style-type: none;
   }
 
+  .user.value.delete > td {
+    display: table-cell;
+  }
+
+  .user.value.delete .actions {
+    margin-right: 0;
+  }
+
+  .user.value .o-icon-undo,
+  .user.value.delete > td *:not(.restore-value),
+  .user.value.delete > td .actions .o-icon-delete {
+    display: none;
+  }
+
+  .user.value.delete > td .actions,
+  .user.value.delete > td .actions * {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+
+  .user.value.delete .restore-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffcccc;
+  }
+
+  td.user-meta {
+    width: 50%;
+  }
+
+  #permissions .selector li li {
+    cursor: pointer;
+  }
+
+  #site-user-permissions + .no-resources {
+    display: none;
+  }
+
+  #site-user-permissions.empty {
+    display: none;
+  }
+  #site-user-permissions.empty + .no-resources {
+    display: block;
+    padding: 0 1.5em;
+  }
+  #site-user-permissions.empty + .no-resources:before {
+    content: "";
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Advanced Search ----- */
   .advanced-search select,

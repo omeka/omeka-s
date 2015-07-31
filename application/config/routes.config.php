@@ -22,6 +22,7 @@ return array(
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Omeka\Controller\Site',
+                        '__SITE__'      => true,
                         'controller'    => 'Index',
                         'action'        => 'index',
                     ),

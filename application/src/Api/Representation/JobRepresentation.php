@@ -1,8 +1,22 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Entity\Job;
+
 class JobRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * @var array
+     */
+    protected $statusLabels = array(
+        Job::STATUS_STARTING    => 'Starting',
+        Job::STATUS_STOPPING    => 'Stopping',
+        Job::STATUS_IN_PROGRESS => 'In Progress',
+        Job::STATUS_COMPLETED   => 'Completed',
+        Job::STATUS_STOPPED     => 'Stopped',
+        Job::STATUS_ERROR       => 'Error',
+    );
+
     /**
      * {@inheritDoc}
      */
@@ -15,11 +29,47 @@ class JobRepresentation extends AbstractEntityRepresentation
      * {@inheritDoc}
      */
     public function getJsonLd()
-    {}
+    {
+        $dateTime = array(
+            'o:started' => array(
+                '@value' => $this->getDateTime($this->started()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            ),
+            'o:ended' => null,
+        );
+        if ($this->ended()) {
+            $dateTime['o:ended'] = array(
+               '@value' => $this->getDateTime($this->ended()),
+               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            );
+        }
+
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->getReference();
+        }
+
+        return array_merge(
+            array(
+                'o:status' => $this->status(),
+                'o:job_class' => $this->jobClass(),
+                'o:args' => $this->args(),
+                'o:owner' => $owner,
+            ),
+            $dateTime
+        );
+    }
     
     public function status()
     {
         return $this->getData()->getStatus();
+    }
+
+    public function statusLabel()
+    {
+        $status = $this->getData()->getStatus();
+        return isset($this->statusLabels[$status])
+            ? $this->statusLabels[$status] : 'Unknown';
     }
 
     public function jobClass()
@@ -40,6 +90,11 @@ class JobRepresentation extends AbstractEntityRepresentation
     public function args()
     {
         return $this->getData()->getArgs();
+    }
+
+    public function log()
+    {
+        return $this->getData()->getLog();
     }
 
     /**

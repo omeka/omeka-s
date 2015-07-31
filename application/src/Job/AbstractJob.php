@@ -54,15 +54,20 @@ abstract class AbstractJob implements JobInterface
      * is needed to gracefully clean up the job, in turn followed by a break out
      * of the iteration and no further work.
      *
-     * Refreshes the job entity since the process that sets STATUS_STOPPING is
-     * not necessarily the same process that this job is running on.
+     * Queries the database for the Job object since the process that sets
+     * STATUS_STOPPING is not necessarily the same process that this job is
+     * running on. We're not using the entity manager's refresh method because
+     * we can't assume a static Job state during the course of the job.
      *
      * @return bool
      */
     public function shouldStop()
     {
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $entityManager->refresh($this->job);
-        return Job::STATUS_STOPPING == $this->job->getStatus();
+        $dql = 'SELECT j.status FROM Omeka\Entity\Job j WHERE j.id = :id';
+        $status = $entityManager->createQuery($dql)
+            ->setParameter('id', $this->job->getId())
+            ->getSingleScalarResult();
+        return Job::STATUS_STOPPING === $status;
     }
 }

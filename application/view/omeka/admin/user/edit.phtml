@@ -1,8 +1,10 @@
 <?php $form->prepare(); ?>
-<h1><?php echo $this->escapeHtml($this->translate(sprintf('Edit User: "%s"', $user->email()))); ?></h1>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Edit User: “%s”'), $user->email())); ?>
+
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
+    <button><?php echo $this->translate('Save'); ?></button>
 </div>
 <nav class="section-nav">
     <?php echo $this->navigation('Zend\Navigation\User')->menu(); ?>

@@ -58,14 +58,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // Set the date time value objects.
         $dateTime = array(
             'o:created' => array(
-                '@value' => $this->getDateTime($this->getData()->getCreated()),
+                '@value' => $this->getDateTime($this->created()),
                 '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ),
             'o:modified' => null,
         );
-        if ($this->getData()->getModified()) {
+        if ($this->modified()) {
             $dateTime['o:modified'] = array(
-               '@value' => $this->getDateTime($this->getData()->getModified()),
+               '@value' => $this->getDateTime($this->modified()),
                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             );
         }
@@ -79,25 +79,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
         }
 
+        $owner = null;
+        if ($this->owner()) {
+            $owner = $this->owner()->getReference();
+        }
+        $resourceClass = null;
+        if ($this->resourceClass()) {
+            $resourceClass = $this->resourceClass()->getReference();
+        }
+        $resourceTemplate = null;
+        if ($this->resourceTemplate()) {
+            $resourceTemplate = $this->resourceTemplate()->getReference();
+        }
+
         return array_merge(
             $nodeType,
             array(
                 'o:is_public' => $this->isPublic(),
-                'o:owner' => $this->getReference(
-                    null,
-                    $this->getData()->getOwner(),
-                    $this->getAdapter('users')
-                ),
-                'o:resource_class' => $this->getReference(
-                    null,
-                    $this->getData()->getResourceClass(),
-                    $this->getAdapter('resource_classes')
-                ),
-                'o:resource_template' => $this->getReference(
-                    null,
-                    $this->getData()->getResourceTemplate(),
-                    $this->getAdapter('resource_templates')
-                ),
+                'o:owner' => $owner,
+                'o:resource_class' => $resourceClass,
+                'o:resource_template' => $resourceTemplate,
             ),
             $dateTime,
             $this->getResourceJsonLd(),
@@ -214,10 +215,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             // Set the custom template info.
             $templateInfo = array();
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
-                $term = $templateProperty['o:property']->getRepresentation()->term();
+                $term = $templateProperty->property()->term();
                 $templateInfo[$term] = array(
-                    'alternate_label' => $templateProperty['o:alternate_label'],
-                    'alternate_comment' => $templateProperty['o:alternate_comment'],
+                    'alternate_label' => $templateProperty->alternateLabel(),
+                    'alternate_comment' => $templateProperty->alternateComment(),
                 );
             }
         }
@@ -472,6 +473,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $representation['value_resource_name'] = $this->resourceName();
         $representation['url'] = $this->url();
         $representation['display_title'] = $this->displayTitle();
+        if ($primaryMedia = $this->primaryMedia()) {
+            $representation['thumbnail_url'] = $primaryMedia->thumbnailUrl('square');
+        }
 
         return $representation;
     }

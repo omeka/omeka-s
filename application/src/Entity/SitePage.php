@@ -39,7 +39,12 @@ class SitePage extends AbstractEntity
     protected $site;
 
     /**
-     * @OneToMany(targetEntity="SitePageBlock", mappedBy="page")
+     * @OneToMany(
+     *     targetEntity="SitePageBlock",
+     *     mappedBy="page",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      * @OrderBy({"position" = "ASC"})
      */
     protected $blocks;

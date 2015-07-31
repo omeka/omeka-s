@@ -45,7 +45,12 @@ class SitePageBlock extends AbstractEntity
     protected $page;
 
     /**
-     * @OneToMany(targetEntity="SiteBlockAttachment", mappedBy="block")
+     * @OneToMany(
+     *     targetEntity="SiteBlockAttachment",
+     *     mappedBy="block",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      * @OrderBy({"position" = "ASC"})
      */
     protected $attachments;

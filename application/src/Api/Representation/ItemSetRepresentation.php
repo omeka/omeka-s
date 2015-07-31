@@ -58,7 +58,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
             return null;
         }
         $item = $this->getAdapter('items')
-            ->getRepresentation(null, $itemEntities[0]);
+            ->getRepresentation(null, $itemEntities->slice(0, 1)[0]);
         return $item->primaryMedia();
     }
 }

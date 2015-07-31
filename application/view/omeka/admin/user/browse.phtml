@@ -29,7 +29,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
         <tr>
             <td>
                 <span class="resource-name">
-                    <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
+                    <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?><?php echo $this->hyperlink('foo', $this->url(null, array('controller' => 'item', 'action' => 'browse'), array('query' => array('user' => $user->id())))); ?>
                 </span>
                 <ul class="actions">
                     <?php if ($user->userIsAllowed('update')): ?>

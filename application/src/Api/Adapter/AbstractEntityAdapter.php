@@ -274,7 +274,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = array();
-        foreach ($request->getContent() as $datum) {
+        foreach ($request->getContent() as $key => $datum) {
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());
@@ -289,12 +289,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 throw $e;
             }
             $this->getEntityManager()->persist($entity);
-            $entities[] = $entity;
+            $entities[$key] = $entity;
         }
         $this->getEntityManager()->flush();
         $references = array();
-        foreach ($entities as $entity) {
-            $references[] = new ResourceReference($entity->getId(), null, $this);
+        foreach ($entities as $key => $entity) {
+            $references[$key] = new ResourceReference($entity->getId(), null, $this);
             $this->getEntityManager()->detach($entity);
         }
         return new Response($references);

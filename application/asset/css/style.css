@@ -1109,14 +1109,12 @@ th {
 
   .actions {
     margin: 0;
-    display: block;
     float: right;
+    display: inline-block;
   }
 
-  .actions,
   .actions li {
     display: inline-block;
-    margin-left: -3px;
   }
 
   .actions a,
@@ -1133,7 +1131,6 @@ th {
   .actions a,
   .actions button {
     opacity: .5;
-    text-align: left;
   }
 
   .actions a:hover,
@@ -2036,6 +2033,10 @@ th {
     display: block;
   }
 
+  .resource.value.delete .o-icon-undo:before {
+    padding-right: 0;
+  }
+
   .input-body {
     clear: both;
     background-color: #fff;
@@ -2631,36 +2632,37 @@ th {
   }
 
   /* @group ----- User Permissions ----- */
-  .user.value .actions {
+  tr.value .actions {
     margin-right: -3px;
   }
 
-  .user.value.delete {
+  tr.value.delete {
     position: relative;
   }
 
-  .user.value.delete > td {
+  tr.value.delete > td:not(.input-header) {
     display: table-cell;
   }
 
-  .user.value.delete .actions {
-    margin-right: 0;
-  }
-
-  .user.value .o-icon-undo,
-  .user.value.delete > td *:not(.restore-value),
-  .user.value.delete > td .actions .o-icon-delete {
+  tr.value .o-icon-undo,
+  tr.value.delete > td *:not(.restore-value),
+  tr.value.delete > td .actions .o-icon-delete {
     display: none;
   }
 
-  .user.value.delete > td .actions,
-  .user.value.delete > td .actions * {
+  .value.delete .o-icon-undo:before {
+    margin-left: -3px;
+    padding-right: 3px;
+  }
+
+  tr.value.delete > td .actions,
+  tr.value.delete > td .actions * {
     display: inline-block;
     position: relative;
     z-index: 1;
   }
 
-  .user.value.delete .restore-value {
+  tr.value.delete .restore-value {
     position: absolute;
     top: 0;
     left: 0;

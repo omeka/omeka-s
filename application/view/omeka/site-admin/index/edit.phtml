@@ -3,6 +3,8 @@ $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $form->prepare();
+$delete = $this->translate('Delete');
+$restore = $this->translate('Restore');
 ?>
 <h1><?php echo $this->escapeHtml(sprintf($this->translate('Edit Site: "%s"'), $site->title())); ?></h1>
 <?php echo $this->form()->openTag($form); ?>
@@ -33,22 +35,28 @@ if ($pages):
         <thead>
             <th><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Slug'); ?></th>
+            <th></th>
         </thead>
         <tbody>
 <?php foreach ($pages as $page): ?>
-        <tr>
+        <tr class="page value">
             <td>
+                <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
                 <?php echo $page->title(); ?>
+                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escapeAttr($page->id()); ?>">
+            </td>
+            <td><?php echo $page->slug(); ?></td>
+            <td>
                 <ul class="actions">
                     <li><?php echo $page->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
+                    <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
+                    <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
                 </ul>
-                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escapeAttr($page->id()); ?>">
             </td>
-            <td><?php echo $page->slug(); ?></td>
         </tr>
 <?php endforeach; ?>
         </tbody>
@@ -89,8 +97,8 @@ if ($pages):
                 <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:attach]" <?php echo $attach; ?> value="1"></td>
                 <td>
                     <ul class="actions">
-                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>"></a></li>
-                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $this->translate('Restore'); ?>"></a></li>
+                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
+                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
                     </ul>
                 </td>
                 <?php $index++; ?>
@@ -165,8 +173,8 @@ $userRowTemplate = '
     <td><input type="checkbox" value="1" class="attach-permission"></td>
     <td>
         <ul class="actions">
-            <li><a href="#" class="o-icon-delete" aria-label="' . $this->translate('Delete') . '"></a></li>
-            <li><a href="#" class="o-icon-undo" aria-label="' . $this->translate('Restore') . '"></a></li>
+            <li><a href="#" class="o-icon-delete" aria-label="' . $delete . '" title="' . $delete . '"></a></li>
+            <li><a href="#" class="o-icon-undo" aria-label="' . $restore . '" title="' . $restore . '"></a></li>
         </ul>
     </td>
 </tr>
@@ -176,16 +184,16 @@ $userRowTemplate = '
 <span id="user-row-template" data-template="<?php echo $escapeAttr($userRowTemplate); ?>">
 
 <script>
-$('#permissions').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
+$('#content').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
     e.preventDefault();
     $(this).parents('tr').toggleClass('delete');
 });
 
-$('#permissions').on('click', '.o-icon-delete', function() {
+$('#content').on('click', '.o-icon-delete', function() {
     $(this).parents('tr').find('input[type="hidden"]').prop('disabled', true);
 });
 
-$('#permissions').on('click', '.o-icon-undo', function() {
+$('#content').on('click', '.o-icon-undo', function() {
     $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
 }); 
 

@@ -286,6 +286,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                     $logger->err((string) $e);
                     continue;
                 }
+                // Remove previously persisted entities before re-throwing.
+                foreach ($entities as $entity) {
+                    $this->getEntityManager()->remove($entity);
+                }
+                $this->getEntityManager()->flush();
                 throw $e;
             }
             $this->getEntityManager()->persist($entity);

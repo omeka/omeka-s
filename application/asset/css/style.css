@@ -430,11 +430,11 @@ th {
     color: #FF0000;
   }
 
-  h1, h2, h3, h4, #item-media .sidebar label, h5, h6 {
+  h1, h2, h3, h4, h5, h6 {
     margin: 0;
   }
 
-  h3, h4, #item-media .sidebar label, h5, h6 {
+  h3, h4, h5, h6 {
     font-weight: bold;
   }
 
@@ -455,7 +455,7 @@ th {
     margin-bottom: 1em;
   }
 
-  h4, #item-media .sidebar label {
+  h4 {
     font-size: 20px;
     margin-bottom: 1.2em;
   }
@@ -2083,6 +2083,11 @@ th {
     height: auto;
   }
 
+  #item-media .sidebar label {
+    font-size: 20px;
+    margin-bottom: 1.2em;
+  }
+
   #item-media .sidebar select {
     width: 100%;
     display: block;
@@ -2304,6 +2309,75 @@ th {
   }
 
   /* @end */
+  /* @group ----- Show Views ----- */
+  .show .property,
+  .show .meta-group {
+    margin-bottom: 1.5em;
+  }
+  .show .property h4,
+  .show .meta-group h4 {
+    background-color: rgba(0, 0, 0, 0.08);
+    margin-bottom: 0em;
+    padding: 0.375em;
+  }
+  .show .property .value,
+  .show .meta-group .value {
+    padding: 0.375em;
+    margin-bottom: 0em;
+    word-break: break-word;
+  }
+  .show .property .value:not(:last-child),
+  .show .meta-group .value:not(:last-child) {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
+  /* @end */
+  /* @group ----- Show Item ----- */
+  .property .value a:after {
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin-left: .5em;
+  }
+
+  .property .value.uri a:after {
+    content: "";
+  }
+
+  .property .value.items a:after {
+    content: "";
+  }
+
+  .property .value.item_sets a:after {
+    content: "";
+  }
+
+  /* @end */
+  /* @group ----- Show Resource Template ----- */
+  .class-row {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -1.5em;
+    margin-left: -1.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+  }
+
+  .class-label {
+    font-weight: bold;
+  }
+  .class-label:after {
+    content: ": ";
+  }
+
+  /* @end */
   /* @group ----- Default Sidebar Views ----- */
   .sidebar {
     position: fixed;
@@ -2405,9 +2479,10 @@ th {
     margin-bottom: 0.75em;
   }
 
-  .sidebar .meta-group h4, #item-media .sidebar .meta-group label {
+  .sidebar .meta-group h4 {
     background-color: transparent;
     border-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em 0;
     border-bottom-width: 0.125em;
     border-bottom-style: solid;
     padding-bottom: 0.25em;
@@ -2433,49 +2508,6 @@ th {
 
   .source-type {
     font-weight: bold;
-  }
-
-  /* @group ----- Show Item ----- */
-  .property .value a:after {
-    font-family: "FontAwesome";
-    display: inline-block;
-    margin-left: .5em;
-  }
-
-  .property .value.uri a:after {
-    content: "";
-  }
-
-  .property .value.items a:after {
-    content: "";
-  }
-
-  .property .value.item_sets a:after {
-    content: "";
-  }
-
-  /* @end */
-  /* @end */
-  /* @group ----- Show Resource Template ----- */
-  .class-row {
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -1.5em;
-    margin-left: -1.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.6875em;
-  }
-
-  .class-label {
-    font-weight: bold;
-  }
-  .class-label:after {
-    content: ": ";
   }
 
   /* @end */

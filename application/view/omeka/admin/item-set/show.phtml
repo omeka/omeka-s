@@ -31,7 +31,7 @@ $viewItemsLink = $this->url(
 
 <div id="item-set-metadata" class="active section">
     <?php if ( $itemSet->resourceClass()): ?>
-        <div class="property">
+        <div class="meta-group">
             <h4><?php echo $this->translate('Class'); ?></h4>
             <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>
         </div>
@@ -44,15 +44,15 @@ $viewItemsLink = $this->url(
 </div>
 
 <div class="active sidebar">
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Date Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
     </div>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Owner'); ?></h4>
         <div class="value"><?php echo $escape($itemSet->owner()->name()); ?></div>
     </div>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
         <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr($this->translate('Open to additions')) : $escapeAttr($this->translate('Closed to additions')); ?></div>

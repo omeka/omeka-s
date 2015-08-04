@@ -1696,7 +1696,8 @@ input[type="text"].value-language,
     }
 
     #item-media .sidebar label {
-        @extend h4;
+        font-size: 1.25 * $base-font-size;
+        @include trailer(1, 1.25 * $base-font-size);
     }
 
     #item-media .sidebar select {
@@ -1949,6 +1950,70 @@ input[type="text"].value-language,
 
 /* @end */
 
+/* @group ----- Show Views ----- */
+
+.show .property,
+.show .meta-group {
+    @include trailer();
+
+    h4 {
+        background-color: $gray-on-white;
+        @include trailer(0);
+        padding: rhythm(.25);
+    }
+    
+    .value {
+        padding: rhythm(.25);
+        @include trailer(0);
+        word-break: break-word;
+        
+        &:not(:last-child) {
+            border-color: $gray-on-white;
+            @include trailing-border(1px, .25, $base-font-size, solid);
+        }
+    }
+}
+
+/* @end */
+
+/* @group ----- Show Item ----- */
+
+.property .value a:after {
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin-left: .5em;
+}
+
+.property .value.uri a:after {
+    content: $fa-var-external-link-square;
+}
+
+.property .value.items a:after {
+    content: $fa-var-cube;
+}
+
+.property .value.item_sets a:after {
+    content: $fa-var-cubes;
+}
+
+/* @end */
+
+/* @group ----- Show Resource Template ----- */
+    
+.class-row {
+    @include subhead-row;
+}
+
+.class-label {
+    font-weight: bold;
+    
+    &:after {
+        content: ": ";
+    }
+}
+
+/* @end */
+
 /* @group ----- Default Sidebar Views ----- */
 
 .sidebar {
@@ -2047,6 +2112,7 @@ body.sidebar-open #content {
 .sidebar .meta-group h4 {
     background-color: transparent;
     border-color: $gray-on-white;
+    padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
 }
@@ -2068,44 +2134,6 @@ body.sidebar-open #content {
 
 .source-type {
     font-weight: bold;
-}
-
-    /* @group ----- Show Item ----- */
-    
-    .property .value a:after {
-        font-family: "FontAwesome";
-        display: inline-block;
-        margin-left: .5em;
-    }
-    
-    .property .value.uri a:after {
-        content: $fa-var-external-link-square;
-    }
-    
-    .property .value.items a:after {
-        content: $fa-var-cube;
-    }
-
-    .property .value.item_sets a:after {
-        content: $fa-var-cubes;
-    }
-
-    /* @end */
-
-/* @end */
-
-/* @group ----- Show Resource Template ----- */
-    
-.class-row {
-    @include subhead-row;
-}
-
-.class-label {
-    font-weight: bold;
-    
-    &:after {
-        content: ": ";
-    }
 }
 
 /* @end */

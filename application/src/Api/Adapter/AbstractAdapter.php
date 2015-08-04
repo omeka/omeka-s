@@ -121,16 +121,10 @@ abstract class AbstractAdapter implements AdapterInterface
      * @return RepresentationInterface|null
      */
     public function getRepresentation($id, $data) {
-
-        // Do not attempt to compose a null representation.
         if (null === $data) {
+            // Do not attempt to compose a null representation.
             return null;
         }
-
-        if ($data instanceof EntityInterface) {
-            $id = $data->getId();
-        }
-
         $representationClass = $this->getRepresentationClass();
         return new $representationClass($id, $data, $this);
     }

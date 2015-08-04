@@ -373,6 +373,18 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getRepresentation($id, $data) {
+        $entityClass = $this->getEntityClass();
+        if (!$data instanceof $entityClass) {
+            // Do not attempt to compose a non-entity representation.
+            return null;
+        }
+        return parent::getRepresentation($data->getId(), $data);
+    }
+
+    /**
      * Hydrate an entity.
      *
      * Encapsulates hydration, authorization, pre-validation API events, and

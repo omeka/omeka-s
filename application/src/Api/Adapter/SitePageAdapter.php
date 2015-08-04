@@ -5,6 +5,8 @@ use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\SitePage;
+use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 
 class SitePageAdapter extends AbstractEntityAdapter
@@ -53,6 +55,11 @@ class SitePageAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:title')) {
             $entity->setTitle($request->getValue('o:title'));
         }
+
+        $appendBlocks = $request->getOperation() === Request::UPDATE
+            && $request->isPartial();
+        $this->hydrateBlocks($request->getValue('o:block', array()), $entity, $errorStore,
+            $appendBlocks);
     }
 
     /**
@@ -84,6 +91,74 @@ class SitePageAdapter extends AbstractEntityAdapter
 
         if (!$entity->getTitle()) {
             $errorStore->addError('o:title', 'A page must have a title.');
+        }
+    }
+
+    /**
+     * Hydrate block data for the page.
+     *
+     * @param array $blockData
+     * @param SitePage $page
+     * @param bool $append
+     */
+    private function hydrateBlocks(array $blockData, SitePage $page, ErrorStore $errorStore,
+        $append = false)
+    {
+        $blocks = $page->getBlocks();
+        $existingBlocks = $blocks->toArray();
+        $newBlocks = array();
+        $position = 1;
+        $fallbackBlock = array(
+            'o:layout' => null,
+            'o:data' => array()
+        );
+
+        foreach ($blockData as $inputBlock) {
+            if (!is_array($inputBlock)) {
+                continue;
+            }
+
+            $inputBlock = array_merge($fallbackBlock, $inputBlock);
+
+            $block = current($existingBlocks);
+            if ($block === false || $append) {
+                $block = new SitePageBlock;
+                $block->setPage($page);
+                $newBlocks[] = $block;
+            } else {
+                // Null out values as we re-use them
+                $existingBlocks[key($existingBlocks)] = null;
+                next($existingBlocks);
+            }
+
+            if (!is_string($inputBlock['o:layout']) || $inputBlock['o:layout'] === '') {
+                $errorStore->addError('o:block', 'All blocks must have a layout.');
+                return;
+            }
+            if (!is_array($inputBlock['o:data'])) {
+                $errorStore->addError('o:block', 'Block data must not be a scalar value.');
+                return;
+            }
+
+            $block->setLayout($inputBlock['o:layout']);
+            $block->setData($inputBlock['o:data']);
+
+            // (Re-)order blocks by their order in the input
+            $block->setPosition($position++);
+        }
+
+        // Remove any blocks that weren't reused
+        if (!$append) {
+            foreach ($existingBlocks as $key => $existingBlock) {
+                if ($existingBlock !== null) {
+                    $blocks->remove($key);
+                }
+            }
+        }
+
+        // Add any new blocks that had to be created
+        foreach ($newBlocks as $newBlock) {
+            $blocks->add($newBlock);
         }
     }
 }

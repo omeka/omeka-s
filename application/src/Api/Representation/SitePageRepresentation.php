@@ -9,6 +9,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         return array(
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
+            'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
         );
     }
@@ -38,6 +39,21 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function title()
     {
         return $this->getData()->getTitle();
+    }
+
+    /**
+     * Get the blocks assigned to this page.
+     *
+     * @return array
+     */
+    public function blocks()
+    {
+        $blocks = array();
+        foreach ($this->getData()->getBlocks() as $block) {
+            $blocks[]= new SitePageBlockRepresentation(
+                $block, $this->getServiceLocator());
+        }
+        return $blocks;
     }
 
     public function site()

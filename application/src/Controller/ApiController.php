@@ -2,6 +2,7 @@
 namespace Omeka\Controller;
 
 use Omeka\Api\Response;
+use Omeka\Mvc\Exception;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -87,24 +88,6 @@ class ApiController extends AbstractRestfulController
     {
         $request = $this->getRequest();
 
-        // Require application/json Content-Type for certain methods.
-        $method = strtolower($request->getMethod());
-        $contentType = $request->getHeader('content-type');
-        if (in_array($method, array('post', 'put', 'patch'))
-            && !$contentType->match(array(
-                'application/json',
-                'multipart/form-data'))
-        ) {
-            $contentType = $request->getHeader('Content-Type');
-            $errorMessage = sprintf(
-                'Invalid Content-Type header. Expecting "application/json", got "%s".',
-                $contentType ? $contentType->getMediaType() : 'none'
-            );
-
-            // Cause a 415 Unsupported Media Type response
-            return $this->getErrorResult($event, $errorMessage, 415);
-        }
-
         // Set pretty print.
         $prettyPrint = $request->getQuery('pretty_print');
         if (null !== $prettyPrint) {
@@ -119,6 +102,7 @@ class ApiController extends AbstractRestfulController
 
         try {
             // Finish dispatching the request.
+            $this->checkContentType($request);
             parent::onDispatch($event);
         } catch (\Exception $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
@@ -171,32 +155,44 @@ class ApiController extends AbstractRestfulController
     }
 
     /**
+     * Check request content-type header to require JSON for methods with payloads.
+     *
+     * @param Request $request
+     * @throws Exception\UnsupportedMediaTypeException
+     */
+    protected function checkContentType(Request $request)
+    {
+        // Require application/json Content-Type for certain methods.
+        $method = strtolower($request->getMethod());
+        $contentType = $request->getHeader('content-type');
+        if (in_array($method, array('post', 'put', 'patch'))
+            && !$contentType->match(array(
+                'application/json',
+                'multipart/form-data'))
+        ) {
+            $contentType = $request->getHeader('Content-Type');
+            $errorMessage = sprintf(
+                'Invalid Content-Type header. Expecting "application/json", got "%s".',
+                $contentType ? $contentType->getMediaType() : 'none'
+            );
+
+            throw new Exception\UnsupportedMediaTypeException($errorMessage);
+        }
+    }
+
+    /**
      * Set an error result to the MvcEvent and return the result.
      *
      * @param MvcEvent $event
-     * @param string|Exception $error
-     * @param integer $httpStatusCode Optional status code to explicitly set.
-     *  If not set, the status code will be inferred from the exception type
-     *  or set to 500 by default.
+     * @param Exception $error
      */
-    protected function getErrorResult(MvcEvent $event, $error, $httpStatusCode = null)
+    protected function getErrorResult(MvcEvent $event, \Exception $error)
     {
         $response = new Response;
         $response->setStatus(Response::ERROR);
 
-        $options = array();
-
-        if ($httpStatusCode) {
-            $options['status_code'] = $httpStatusCode;
-        }
-
-        $result = new ApiJsonModel($response, $options);
-
-        if ($error instanceof \Exception) {
-            $result->setException($error);
-        } else {
-            $response->addError(Response::ERROR, $error);
-        }
+        $result = new ApiJsonModel($response, $this->getViewOptions());
+        $result->setException($error);
 
         $event->setResult($result);
         return $result;

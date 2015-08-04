@@ -1094,7 +1094,7 @@ th {
     padding-bottom: 0.6875em;
   }
 
-  .browse img {
+  .browse table img {
     width: 2.25em;
     display: inline-block;
     margin: -0.375em 0.375em -0.375em 0;
@@ -1117,6 +1117,7 @@ th {
   .actions li {
     display: inline-block;
     margin-left: -3px;
+    vertical-align: middle;
   }
 
   .actions a,
@@ -1220,95 +1221,6 @@ th {
     z-index: 1;
   }
 
-  .sidebar {
-    position: fixed;
-    top: 5.25em;
-    left: 100%;
-    bottom: 0;
-    background-color: #f7f7f7;
-    z-index: 3;
-    padding: 0.75em 1.04167%;
-    border-left: 1px solid #d2d2d2;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: 24.47917%;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
-  }
-  .sidebar.active {
-    left: 75.52083%;
-  }
-  .sidebar .o-icon-close {
-    position: absolute;
-    right: 1.04167%;
-    top: 0.75em;
-  }
-  .sidebar h4, #item-media .sidebar label {
-    margin-bottom: 0.375em;
-    background-color: transparent;
-    padding: 0;
-  }
-  .sidebar h4 + .value, #item-media .sidebar label + .value {
-    margin-top: 0em;
-  }
-  .sidebar .vocabulary,
-  .sidebar .meta-group {
-    margin-bottom: 1.5em;
-  }
-  .sidebar .value {
-    margin-bottom: 0.375em;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.3125em;
-    vertical-align: middle;
-  }
-  .sidebar .value *:last-child {
-    margin-bottom: 0em;
-  }
-  .sidebar .value:last-child {
-    border-color: transparent;
-    margin-bottom: 1.5em;
-  }
-  .sidebar .value img {
-    vertical-align: middle;
-    margin-right: 0.375em;
-  }
-  .sidebar .file-name {
-    display: inline-block;
-    word-break: break-word;
-    max-width: calc(100% - 4.5em);
-    vertical-align: middle;
-  }
-
-  #sidebar-confirm {
-    display: block;
-    background-color: #ccc;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -16.66667%;
-    margin-left: -16.66667%;
-    padding-right: 17.70833%;
-    padding-left: 17.70833%;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-top: -1.5em;
-    margin-bottom: -1.5em;
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-    margin-bottom: 1.5em;
-  }
-  #sidebar-confirm button {
-    margin-bottom: 0em;
-  }
-
-  body.sidebar-open #content {
-    width: 56.25%;
-  }
-
   .no-resources {
     text-align: center;
     position: relative;
@@ -1327,6 +1239,13 @@ th {
     font-size: 24px;
     line-height: 48px;
     margin-top: 2em;
+  }
+
+  td .o-icon-private {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: .5em;
+    opacity: .5;
   }
 
   .items .no-resources:before {
@@ -2385,48 +2304,125 @@ th {
   }
 
   /* @end */
-  /* @group ----- Show Views ----- */
-  body.show .property {
+  /* @group ----- Default Sidebar Views ----- */
+  .sidebar {
+    position: fixed;
+    top: 5.25em;
+    left: 100%;
+    bottom: 0;
+    background-color: #f7f7f7;
+    z-index: 3;
+    padding: 0.75em 1.04167%;
+    border-left: 1px solid #d2d2d2;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 24.47917%;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+  }
+  .sidebar.active {
+    left: 75.52083%;
+  }
+  .sidebar .o-icon-close {
+    position: absolute;
+    right: 1.04167%;
+    top: 0.75em;
+  }
+  .sidebar .vocabulary,
+  .sidebar .meta-group {
     margin-bottom: 1.5em;
   }
-  body.show .property h4, body.show .property #item-media .sidebar label, #item-media .sidebar body.show .property label {
-    background-color: rgba(0, 0, 0, 0.08);
-    margin-bottom: 0em;
-    padding: 0.375em;
+  .sidebar .value {
+    margin-bottom: 0.375em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+    vertical-align: middle;
   }
-  body.show .property .value {
-    padding: 0.375em;
+  .sidebar .value *:last-child {
     margin-bottom: 0em;
+  }
+  .sidebar .value:last-child {
+    border-color: transparent;
+    margin-bottom: 1.5em;
+  }
+  .sidebar .value img {
+    vertical-align: middle;
+    margin-right: 0.375em;
+  }
+  .sidebar .file-name {
+    display: inline-block;
+    word-break: break-word;
+    max-width: calc(100% - 4.5em);
+    vertical-align: middle;
+  }
+
+  #sidebar-confirm {
+    display: block;
+    background-color: #ccc;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    padding-right: 17.70833%;
+    padding-left: 17.70833%;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-top: -1.5em;
+    margin-bottom: -1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  #sidebar-confirm button {
+    margin-bottom: 0em;
+  }
+
+  body.sidebar-open #content {
+    width: 56.25%;
+  }
+
+  .sidebar .meta-group {
+    margin-bottom: 1.5em;
+  }
+  .sidebar .meta-group .value {
+    padding: 0.375em 0;
+    margin: 0;
     word-break: break-word;
   }
-  body.show .property .value:not(:last-child) {
+  .sidebar .meta-group .value:not(:last-child) {
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
   }
 
-  body.show .sidebar .property {
+  .sidebar .meta-group {
     margin-bottom: 0.75em;
   }
 
-  body.show .sidebar .property h4, body.show #item-media .sidebar .property label, #item-media body.show .sidebar .property label {
+  .sidebar .meta-group h4, #item-media .sidebar .meta-group label {
     background-color: transparent;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.125em;
     border-bottom-style: solid;
     padding-bottom: 0.25em;
+    margin-bottom: 0;
   }
 
-  body.show .sidebar .media a:first-child img,
-  body.show .sidebar > img:first-child {
+  .sidebar .media a:first-child img,
+  .sidebar > img:first-child {
     height: 10.5em;
     width: auto;
     display: block;
     margin-bottom: 0.75em;
   }
 
-  body.show .sidebar img {
+  .sidebar .meta-group img {
     height: 3em;
     display: inline-block;
     border-color: rgba(0, 0, 0, 0.08);

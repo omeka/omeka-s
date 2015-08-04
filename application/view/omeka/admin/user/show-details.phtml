@@ -1,5 +1,11 @@
 <h2><a href="<?php echo $this->escapeHtmlAttr($user->url()); ?>"><?php echo $this->escapeHtml($user->name()); ?></a></h2>
 
-<p>Items: <?php echo $this->hyperlink($user->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></p>
+<div class="meta-group">
+    <h4><?php echo $this->translate('Items'); ?></h4>
+    <div class="value"><?php echo $this->hyperlink($user->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></div>
+</div>
 
-<p>Item Sets: <?php echo $this->hyperlink($user->itemSetCount(), $this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></p>
+<div class="meta-group">
+    <h4><?php echo $this->translate('Item Sets'); ?></h4>
+    <div class="value"><?php echo $this->hyperlink($user->itemSetCount(), $this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></div>
+</div>

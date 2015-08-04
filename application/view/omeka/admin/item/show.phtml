@@ -19,7 +19,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 
 <div id="item-metadata" class="active section sidebar-open">    
     <?php if ( $item->resourceClass()): ?>
-        <div class="property">
+        <div class="meta-group">
             <h4><?php echo $this->translate('Class'); ?></h4>
             <div class="value"><?php echo $escape($item->resourceClass()->label()); ?></div>
         </div>
@@ -50,27 +50,27 @@ $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
     <?php endif; ?>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Item Sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Date Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Owner'); ?></h4>
         <div class="value"><?php echo $escape($item->owner()->name()); ?></div>
     </div>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($item->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
     </div>
     <?php if ($item->media()): ?>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">

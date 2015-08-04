@@ -8,13 +8,13 @@ $escape = $this->plugin('escapeHtml');
     <h2 class="o-title"><?php echo $escape($item->displayTitle()); ?></h2>
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($item->displayDescription()); ?></div>
-    <div class="property">
+    <div class="meta-group">
         <h4>Visibility</h4>
         <div class="value"><?php echo ($item->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Item Sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
@@ -22,7 +22,7 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <?php endif; ?>
     <?php if ($item->media()): ?>
-    <div class="property">
+    <div class="meta-group">
         <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">

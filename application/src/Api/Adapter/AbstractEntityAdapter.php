@@ -263,6 +263,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Batch create entities.
      *
+     * Preserves the keys of the request content array as the keys of the
+     * response content array. This is helpful for implementations that need to
+     * map original identifiers to the newly created entity IDs.
+     *
+     * There are two outcomes if an exception is thrown during a batch. If
+     * continueOnError is set to the request, the current entity is thrown away
+     * but the operation continues. Otherwise, all previously created entities
+     * are removed.
+     *
      * Detaches entities after they've been created to minimize memory usage.
      * Because the entities are detached, this returns resource references
      * (containing only the entity ID) instead of full entity representations.

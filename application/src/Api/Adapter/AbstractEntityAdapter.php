@@ -378,8 +378,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function getRepresentation($id, $data) {
         $entityClass = $this->getEntityClass();
         if (!$data instanceof $entityClass) {
-            // Do not attempt to compose a non-entity representation.
-            return null;
+            if (null === $id) {
+                // Do not attempt to compose a non-entity representation.
+                return null;
+            }
+            // Find the entity using the passed ID if no entity was passed.
+            $data = $this->findEntity($id);
         }
         return parent::getRepresentation($data->getId(), $data);
     }

@@ -4,6 +4,7 @@ namespace Omeka\View\Strategy;
 
 use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Response;
+use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
 use Zend\Json\Exception as JsonException;
@@ -68,11 +69,6 @@ class ApiJsonStrategy extends JsonStrategy
      */
     protected function getResponseStatusCode(ApiJsonModel $model)
     {
-        $statusCode = $model->getOption('status_code');
-        if ($statusCode !== null) {
-            return $statusCode;
-        }
-
         $response = $model->getApiResponse();
 
         switch ($response->getStatus()) {
@@ -99,12 +95,16 @@ class ApiJsonStrategy extends JsonStrategy
     {
         if ($exception instanceof JsonException\RuntimeException) {
             return 400; // Bad Request
-        } else if ($exception instanceof ApiException\PermissionDeniedException) {
-            return 403; // Forbidden
-        } else if ($exception instanceof ApiException\NotFoundException) {
-            return 404; // Not Found
-        } else {
-            return 500; // Internal Server Error
         }
+        if ($exception instanceof ApiException\PermissionDeniedException) {
+            return 403; // Forbidden
+        }
+        if ($exception instanceof ApiException\NotFoundException) {
+            return 404; // Not Found
+        }
+        if ($exception instanceof MvcException\UnsupportedMediaTypeException) {
+            return 415; // Unsupported Media Type
+        }
+        return 500; // Internal Server Error
     }
 }

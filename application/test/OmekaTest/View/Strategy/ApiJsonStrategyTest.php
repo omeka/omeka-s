@@ -90,23 +90,6 @@ class ApiJsonStrategyTest extends TestCase
         $this->assertEquals($httpStatus, $this->event->getResponse()->getStatusCode());
     }
 
-    /**
-     * @dataProvider statusProvider
-     */
-    public function testStrategyRespectsModelStatus($apiStatus, $apiContent, $apiException, $httpStatus)
-    {
-        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
-        $model->expects($this->once())
-              ->method('getOption')
-              ->with('status_code')
-              ->will($this->returnValue(100));
-
-        $this->event->setModel($model);
-        $this->event->setRenderer($this->renderer);
-        $this->strategy->injectResponse($this->event);
-        $this->assertEquals(100, $this->event->getResponse()->getStatusCode());
-    }
-
     public function testStrategySetsContentType()
     {
         $apiResponse = $this->getMock('Omeka\Api\Response');

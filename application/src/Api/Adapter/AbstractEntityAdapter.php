@@ -263,6 +263,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     /**
      * Batch create entities.
      *
+     * Preserves the keys of the request content array as the keys of the
+     * response content array. This is helpful for implementations that need to
+     * map original identifiers to the newly created entity IDs.
+     *
+     * There are two outcomes if an exception is thrown during a batch. If
+     * continueOnError is set to the request, the current entity is thrown away
+     * but the operation continues. Otherwise, all previously created entities
+     * are removed.
+     *
      * Detaches entities after they've been created to minimize memory usage.
      * Because the entities are detached, this returns resource references
      * (containing only the entity ID) instead of full entity representations.
@@ -274,7 +283,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = array();
-        foreach ($request->getContent() as $datum) {
+        foreach ($request->getContent() as $key => $datum) {
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());
@@ -286,15 +295,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                     $logger->err((string) $e);
                     continue;
                 }
+                // Remove previously persisted entities before re-throwing.
+                foreach ($entities as $entity) {
+                    $this->getEntityManager()->remove($entity);
+                }
+                $this->getEntityManager()->flush();
                 throw $e;
             }
             $this->getEntityManager()->persist($entity);
-            $entities[] = $entity;
+            $entities[$key] = $entity;
         }
         $this->getEntityManager()->flush();
         $references = array();
-        foreach ($entities as $entity) {
-            $references[] = new ResourceReference($entity->getId(), null, $this);
+        foreach ($entities as $key => $entity) {
+            $references[$key] = new ResourceReference($entity->getId(), null, $this);
             $this->getEntityManager()->detach($entity);
         }
         return new Response($references);
@@ -356,6 +370,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function getEntityManager()
     {
         return $this->getServiceLocator()->get('Omeka\EntityManager');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRepresentation($id, $data) {
+        $entityClass = $this->getEntityClass();
+        if (!$data instanceof $entityClass) {
+            if (null === $id) {
+                // Do not attempt to compose a non-entity representation.
+                return null;
+            }
+            // Find the entity using the passed ID if no entity was passed.
+            $data = $this->findEntity($id);
+        }
+        return parent::getRepresentation($data->getId(), $data);
     }
 
     /**

@@ -57,4 +57,8 @@ $viewItemsLink = $this->url(
         <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
         <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr($this->translate('Open to additions')) : $escapeAttr($this->translate('Closed to additions')); ?></div>
     </div>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Items'); ?></h4>
+        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></div>
+    </div>
 </div>

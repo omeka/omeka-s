@@ -39,7 +39,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
                 <?php endif; ?>
                 <span class="resource-name">
-                    <?php echo $itemSet->link($itemSet->displayTitle()); ?> (<?php echo $this->hyperlink($itemSet->itemCount(), $this->url(null, array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?>)
+                    <?php echo $itemSet->link($itemSet->displayTitle()); ?>
                 </span>
                 <ul class="actions">
                     <?php if ($itemSet->userIsAllowed('update')): ?>

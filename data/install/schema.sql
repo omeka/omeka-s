@@ -164,6 +164,8 @@ CREATE TABLE `site` (
   `theme` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `navigation` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_694309E4989D9B62` (`slug`),
   KEY `IDX_694309E47E3C61F9` (`owner_id`),

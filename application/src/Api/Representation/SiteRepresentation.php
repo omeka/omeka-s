@@ -32,12 +32,26 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $owner = $this->owner()->getReference();
         }
 
+        $created = array(
+            '@value' => $this->getDateTime($this->created()),
+            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+        );
+        $modified = null;
+        if ($this->modified()) {
+            $modified = array(
+               '@value' => $this->getDateTime($this->modified()),
+               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            );
+        }
+
         return array(
             'o:slug' => $this->slug(),
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
             'o:owner' => $owner,
+            'o:created' => $created,
+            'o:modified' => $modified,
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
         );
@@ -61,6 +75,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function navigation()
     {
         return $this->getData()->getNavigation();
+    }
+
+    public function created()
+    {
+        return $this->getData()->getCreated();
+    }
+
+    public function modified()
+    {
+        return $this->getData()->getModified();
     }
 
     public function pages()

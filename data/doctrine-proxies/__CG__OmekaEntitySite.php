@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'siteItems', 'pages', 'sitePermissions');
+            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'siteItems', 'pages', 'sitePermissions');
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'siteItems', 'pages', 'sitePermissions');
+        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'siteItems', 'pages', 'sitePermissions');
     }
 
     /**
@@ -301,6 +301,50 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setCreated(\DateTime $dateTime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($dateTime));
+
+        return parent::setCreated($dateTime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreated()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+
+        return parent::getCreated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setModified(\DateTime $dateTime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+
+        return parent::setModified($dateTime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getModified()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+
+        return parent::getModified();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getSiteItems()
     {
 
@@ -329,6 +373,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSitePermissions', array());
 
         return parent::getSitePermissions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+
+        return parent::prePersist($eventArgs);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+
+        return parent::preUpdate($eventArgs);
     }
 
     /**

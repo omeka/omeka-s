@@ -268,6 +268,17 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function getOwner()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+
+        return parent::getOwner();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceId()
     {
 

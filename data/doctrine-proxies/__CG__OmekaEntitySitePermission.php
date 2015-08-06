@@ -301,6 +301,17 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
+    public function hasPrivilege($privilege)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasPrivilege', array($privilege));
+
+        return parent::hasPrivilege($privilege);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceId()
     {
 

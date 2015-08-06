@@ -257,6 +257,17 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     /**
      * {@inheritDoc}
      */
+    public function getExpiration()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExpiration', array());
+
+        return parent::getExpiration();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 

@@ -1,10 +1,14 @@
 <?php
 namespace Omeka\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * @Entity
+ * @HasLifecycleCallbacks
  */
 class Site extends AbstractEntity
 {
@@ -39,6 +43,16 @@ class Site extends AbstractEntity
      * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
     protected $owner;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @Column(type="datetime", nullable=true)
+     */
+    protected $modified;
 
     /**
      * @OneToMany(targetEntity="SiteItem", mappedBy="site")
@@ -127,6 +141,26 @@ class Site extends AbstractEntity
         return $this->owner;
     }
 
+    public function setCreated(DateTime $dateTime)
+    {
+        $this->created = $dateTime;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function setModified(DateTime $dateTime)
+    {
+        $this->modified = $dateTime;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
     public function getSiteItems()
     {
         return $this->siteItems;
@@ -140,5 +174,21 @@ class Site extends AbstractEntity
     public function getSitePermissions()
     {
         return $this->sitePermissions;
+    }
+
+    /**
+     * @PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->created = new DateTime('now');
+    }
+
+    /**
+     * @PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $this->modified = new DateTime('now');
     }
 }

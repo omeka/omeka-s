@@ -66,8 +66,9 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
             escapeshellarg($tempPath)
         );
 
-        exec($command, $output, $exitCode);
-        if (0 !== $exitCode) {
+        $cli = $this->getServiceLocator()->get('Omeka\Cli');
+        $output = $cli->execute($command);
+        if (false === $output) {
             throw new Exception\CannotCreateThumbnailException;
         }
 

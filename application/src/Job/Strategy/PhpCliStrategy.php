@@ -52,6 +52,6 @@ class PhpCliStrategy implements StrategyInterface
             escapeshellarg($basePath())
         );
 
-        exec(sprintf('%s > /dev/null 2>&1 &', $command));
+        $cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));
     }
 }

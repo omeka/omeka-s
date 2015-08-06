@@ -126,7 +126,7 @@ class Cli implements ServiceLocatorAwareInterface
         }
 
         $exitCode = proc_close($proc);
-        if (-1 === $exitCode) {
+        if (0 !== $exitCode) {
             // Log standard error
             $this->getServiceLocator()->get('Omeka\Logger')->err($errors);
             return false;

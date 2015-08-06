@@ -1066,7 +1066,7 @@ th {
   /* @group ----- Browse views ----- */
   .browse .resource-name {
     display: inline-block;
-    max-width: calc(100% - 8.5em);
+    max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-break: break-word;
   }
@@ -1127,12 +1127,16 @@ th {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
-    text-align: right;
   }
 
   .actions a,
   .actions button {
     opacity: .5;
+  }
+
+  .actions a:before,
+  .actions button:before {
+    text-align: right;
   }
 
   .actions a:hover,

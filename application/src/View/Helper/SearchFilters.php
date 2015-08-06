@@ -101,6 +101,13 @@ class SearchFilters extends AbstractHelper
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
+                    // Search user
+                    case 'owner_id':
+                        $filterLabel = $translate('User');
+                        $filterValue = $api->read('users', $value, array('label'))->getContent()->name();
+                        $filters[$filterLabel][] = $filterValue;
+                        break;
+
                     default:
                         $filters[$filterLabel][] = $filterValue;
                         break;

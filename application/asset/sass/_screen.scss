@@ -664,7 +664,7 @@ div[role="main"] {
 
 .browse .resource-name {
     display: inline-block;
-    max-width: calc(100% - 8.5em);
+    max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-break: break-word;
 }
@@ -724,12 +724,16 @@ div[role="main"] {
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
-    text-align: right;
 }
 
 .actions a,
 .actions button {
     opacity: .5;
+}
+
+.actions a:before,
+.actions button:before {
+    text-align: right;
 }
 
 .actions a:hover,

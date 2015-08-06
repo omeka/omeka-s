@@ -3,12 +3,6 @@ $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <h2><?php echo $this->translate($resourceTemplate->link($resourceTemplate->label())); ?></h2>
-<?php if ($resourceTemplate->resourceClass()): ?>
-<div class="meta-group">
-    <h4><?php echo $this->translate('Class'); ?></h4>
-    <div class="value"><?php echo $this->translate($resourceTemplate->resourceClass()->label()); ?></div>
-</div>
-<?php endif; ?>
 <?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
 <?php 
 $property = $resourceTemplateProperty->property();

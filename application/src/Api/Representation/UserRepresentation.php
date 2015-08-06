@@ -57,4 +57,34 @@ class UserRepresentation extends AbstractEntityRepresentation
         }
         return $roleIndex;
     }
+
+    /**
+     * Get the item count for this user.
+     *
+     * @return int
+     */
+    public function itemCount()
+    {
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('items', array(
+                'owner_id' => $this->id(),
+                'limit' => 0,
+            ));
+        return $response->getTotalResults();
+    }
+
+        /**
+     * Get the item set count for this user.
+     *
+     * @return int
+     */
+    public function itemSetCount()
+    {
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('item_sets', array(
+                'owner_id' => $this->id(),
+                'limit' => 0,
+            ));
+        return $response->getTotalResults();
+    }
 }

@@ -131,7 +131,6 @@ class Cli implements ServiceLocatorAwareInterface
             $this->getServiceLocator()->get('Omeka\Logger')->err($errors);
             return false;
         }
-
-        return $output;
+        return trim($output);
     }
 }

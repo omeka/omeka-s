@@ -154,4 +154,19 @@ class SiteAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:navigation', 'A site must have navigation data.');
         }
     }
+
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['owner_id'])) {
+            $userAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\Site.owner',
+                $userAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$userAlias.id",
+                $this->createNamedParameter($qb, $query['owner_id']))
+            );
+        }
+    }
 }

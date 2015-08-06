@@ -37,6 +37,26 @@ a collaboratively built pool of items, media, and their metadata.
    
 You can find Omeka-specific code under `application/`.
 
+## Updating
+
+*Make a backup copy of your entire site and its database!*
+
+### Updating from GitHub
+
+1. `git pull` as usual. Before the official release, latest code will be on branch 'develop'.
+2. From the Omeka S root directory, run `ant update-deps` to make sure dependencies are up to date.
+3. Compare changes in `/config/local.config.php` and `/config/local.config.php.dist`. Some default configurations might have changed, so you will need to reconcile changes to the distributed configuration with your local configuration (e.g., a path to PHP specific to your server, dev mode settings, etc.)
+4. In your web browser, go to your site and run any migrations that are needed.
+
+### Updating from released zip file
+1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases)
+2. Make a copy of your `/config/local.config.php` file.
+3. Make a copy of your `/modules` and `/themes` directories.
+4. Make a copy of your `/files` directory.
+5. Remove all Omeka S files, and replace them with the files from the updated zip file.
+6. Replace your original `/config/local.config.php` file, and the `/modules`, `/themes`, and `/files` directories that you copied.
+7. In your web browser, go to your site and run any migrations that are needed.
+
 ## Libraries
 
 Omeka uses the following libraries, among others:

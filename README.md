@@ -45,7 +45,7 @@ You can find Omeka-specific code under `application/`.
 
 1. `git pull` as usual. Before the official release, latest code will be on branch 'develop'.
 2. From the Omeka S root directory, run `ant update-deps` to make sure dependencies are up to date.
-3. Compare changes in `/config/local.config.php` and `/config/local.config.php.dist`. Some default configurations might have changed, so you will need to reconcile changes to the distributed configuration with your local configuration (e.g., a path to PHP specific to your server, dev mode settings, etc.)
+3. Compare changes in `/config/local.config.php` and `/config/local.config.php.dist`. Some default configurations might have changed, so you might need to reconcile changes to the distributed configuration with your local configuration (e.g., a path to PHP specific to your server, dev mode settings, etc.)
 4. In your web browser, go to your site and run any migrations that are needed.
 
 ### Updating from released zip file

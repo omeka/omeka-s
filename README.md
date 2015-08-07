@@ -12,6 +12,9 @@ a collaboratively built pool of items, media, and their metadata.
 * MySql 5.5.3+ and the MySQL driver for PDO
 * PHP 5.5.2+ (the latest stable version preferred) and the PHP extensions for PDO
 
+### Gotchas
+* The default library for generating thumbnails is ImageMagick, at least version 6.7.5. Older versions will not correctly produce thumbnails. See local.config.php options below. 
+
 ### Installing from GitHub
 
 1. Clone this repository in your Apache web directory:
@@ -56,6 +59,11 @@ You can find Omeka-specific code under `application/`.
 5. Remove all Omeka S files, and replace them with the files from the updated zip file.
 6. Replace your original `/config/local.config.php` file, and the `/modules`, `/themes`, and `/files` directories that you copied.
 7. In your web browser, go to your site and run any migrations that are needed.
+
+## local.config.php options
+
+* `thumbnailer` Default is `Omeka\File\ImageMagickThumbnailer`. Also available are `Omeka\File\IMagickThumbnailer` and `Omeka\File\GdThumbnailer`
+* `phpcli_path` Default is to attempt to detect correct path to PHP. Use this option to specify a path if needed in your server configuration.
 
 ## Libraries
 

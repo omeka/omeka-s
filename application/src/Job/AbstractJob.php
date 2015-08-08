@@ -68,6 +68,7 @@ abstract class AbstractJob implements JobInterface
         $status = $entityManager->createQuery($dql)
             ->setParameter('id', $this->job->getId())
             ->getSingleScalarResult();
+        $this->job->setStatus($status);
         return Job::STATUS_STOPPING === $status;
     }
 }

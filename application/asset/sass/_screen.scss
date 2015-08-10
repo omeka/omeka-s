@@ -225,7 +225,7 @@ body {
         position: relative;
 
         .field {
-            width:90%;
+            width: calc(100% - 5.5em);
             display:inline-block;
             margin:0 0 rhythm(.25);
             padding:0;

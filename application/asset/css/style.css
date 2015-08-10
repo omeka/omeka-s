@@ -642,7 +642,7 @@ th {
     position: relative;
   }
   .media-field-wrapper .field {
-    width: 90%;
+    width: calc(100% - 5.5em);
     display: inline-block;
     margin: 0 0 0.375em;
     padding: 0;

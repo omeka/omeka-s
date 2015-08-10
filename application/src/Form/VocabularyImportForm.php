@@ -12,7 +12,7 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'file',
             'options' => array(
                 'label' => $translator->translate('Vocabulary File'),
-                'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. Imports the following vocabulary members: rdfs:Class, owl:Class, rdf:Property, owl:ObjectProperty, owl:DatatypeProperty, owl:SymmetricProperty, owl:TransitiveProperty, owl:FunctionalProperty, owl:InverseFunctionalProperty'),
+                'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. Web Ontology Language (OWL) data will be simplified into their corresponding RDF Properties and Classes. See the Vocabulary Import Documentation for details.'),
             ),
             'attributes' => array(
                 'required' => true,

@@ -135,7 +135,8 @@ return array(
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
-            'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory'
+            'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
+            'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -320,5 +321,8 @@ return array(
         'default_message_options' => array(
             'encoding' => 'UTF-8',
         ),
+    ),
+    'block_layouts' => array(
+        'browse' => 'Browse',
     ),
 );

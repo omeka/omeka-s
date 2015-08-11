@@ -1,6 +1,9 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'site-pages add');
+$this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 $form->prepare();
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Page: “%s”'), $page->title())); ?>
 
@@ -15,4 +18,34 @@ $form->prepare();
 </div>
 
 <?php echo $this->formElements($form); ?>
+
+<div id="block-list">
+    <?php foreach ($page->blocks() as $block): ?>
+    <div class="block">
+        <div><?php echo $block->form(); ?></div>
+        <span class="sortable-handle">...</span>
+    </div>
+    <?php endforeach; ?>
+</div>
 <?php echo $this->form()->closeTag(); ?>
+
+<div class="active sidebar">
+    <label for="new-block-layout">
+        <?php echo $this->translate('Add New Block Layout'); ?>
+    </label>
+    <select id="new-block-layout">
+        <option value=""><?php echo $this->translate('Select layout'); ?></option>
+        <?php foreach ($blockLayouts as $layoutId => $layoutLabel): ?>
+        <option value="<?php echo $escapeAttr($layoutId); ?>"><?php echo $escape($layoutLabel); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+<script type="text/javascript">
+var list = document.getElementById('block-list');
+console.log(list);
+new Sortable(list, {
+    draggable: ".block",
+    handle: ".sortable-handle"
+});
+</script>

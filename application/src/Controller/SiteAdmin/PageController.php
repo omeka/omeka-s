@@ -49,6 +49,8 @@ class PageController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
+        $view->setVariable('blockLayouts', $this->getServiceLocator()
+            ->get('Omeka\BlockLayoutManager')->getBlockLayouts());
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),

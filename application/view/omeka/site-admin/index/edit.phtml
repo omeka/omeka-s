@@ -6,11 +6,11 @@ $form->prepare();
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
 ?>
-<h1><?php echo $this->escapeHtml(sprintf($this->translate('Edit Site: "%s"'), $site->title())); ?></h1>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($site->url('delete')); ?>">Delete</a>
-    <button><?php echo $this->escapeHtml($this->translate('Save')); ?></button>
+    <button><?php echo $this->translate('Save'); ?></button>
 </div>
 <nav class="section-nav">
     <ul>
@@ -151,8 +151,8 @@ if ($pages):
         aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
         title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Site')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this site?')); ?></p>
+        <h2><?php echo $this->translate('Delete Site'); ?></h2>
+        <p><?php echo $this->translate('Are you sure you would like to delete this site?'); ?></p>
         <?php echo $this->form($confirmForm); ?>
     </div>
     <div class="sidebar-content"></div>

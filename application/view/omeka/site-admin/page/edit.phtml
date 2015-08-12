@@ -19,33 +19,47 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 
 <?php echo $this->formElements($form); ?>
 
-<div id="block-list">
-    <?php foreach ($page->blocks() as $block): ?>
+<div id="blocks">
+    <?php foreach ($page->blocks() as $index => $block): ?>
     <div class="block">
-        <div><?php echo $block->form(); ?></div>
+        <div><?php echo $this->partial(
+            $blockLayoutManager->getFormViewName($block->layout()),
+            array('block' => $block, 'index' => $index)
+        ); ?></div>
         <span class="sortable-handle">...</span>
     </div>
     <?php endforeach; ?>
 </div>
+
 <?php echo $this->form()->closeTag(); ?>
 
 <div class="active sidebar">
-    <label for="new-block-layout">
-        <?php echo $this->translate('Add New Block Layout'); ?>
+    <label for="new-block">
+        <?php echo $this->translate('Add New Block'); ?>
     </label>
-    <select id="new-block-layout">
+    <select id="new-block">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
-        <?php foreach ($blockLayouts as $layoutId => $layoutLabel): ?>
-        <option value="<?php echo $escapeAttr($layoutId); ?>"><?php echo $escape($layoutLabel); ?></option>
+        <?php foreach ($blockLayoutManager->getBlockLayouts() as $id => $label): ?>
+        <option value="<?php echo $escapeAttr($id); ?>"><?php echo $escape($label); ?></option>
         <?php endforeach; ?>
     </select>
 </div>
 
 <script type="text/javascript">
-var list = document.getElementById('block-list');
-console.log(list);
+var list = document.getElementById('blocks');
 new Sortable(list, {
     draggable: ".block",
     handle: ".sortable-handle"
+});
+
+$('#new-block').change(function() {
+    var index = $('.block').length;
+    $.post(
+        '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
+        {index: index, layout: $(this).val()}
+    ).done(function(data) {
+        $('#blocks').append('<div class="block">' + data + '</div>');
+    });
+    $('#new-block').prop('selectedIndex', 0); // reset select
 });
 </script>

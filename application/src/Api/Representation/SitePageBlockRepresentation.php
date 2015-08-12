@@ -69,11 +69,4 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     {
         return $this->getData()->getData();
     }
-
-    public function form()
-    {
-        $manager = $this->getServiceLocator()->get('Omeka\BlockLayoutManager');
-        $partial = $this->getViewHelper('partial');
-        return $partial($manager->getFormViewName($this->layout()), $this->data());
-    }
 }

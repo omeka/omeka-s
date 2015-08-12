@@ -30,8 +30,7 @@ class PageController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $formData = $form->getData();
-                $response = $this->api()->update('site_pages', $id, $formData);
+                $response = $this->api()->update('site_pages', $id, $this->params()->fromPost());
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -49,13 +48,29 @@ class PageController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
-        $view->setVariable('blockLayouts', $this->getServiceLocator()
-            ->get('Omeka\BlockLayoutManager')->getBlockLayouts());
+        $view->setVariable('blockLayoutManager', $this->getServiceLocator()
+            ->get('Omeka\BlockLayoutManager'));
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
             )
         ));
         return $view;
+    }
+
+    public function blockAction()
+    {
+        $blockLayoutManager = $this->getServiceLocator()->get('Omeka\BlockLayoutManager');
+        $partial = $this->getServiceLocator()->get('ViewHelperManager')->get('partial');
+
+        $index = $this->params()->fromPost('index');
+        $layout = $this->params()->fromPost('layout');
+
+        $response = $this->getResponse();
+        $response->setContent($partial(
+            $blockLayoutManager->getFormViewName($layout),
+            array('index' => $index)
+        ));
+        return $response;
     }
 }

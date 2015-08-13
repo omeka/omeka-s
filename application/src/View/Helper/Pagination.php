@@ -89,6 +89,7 @@ class Pagination extends AbstractHelper
                 'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
                 'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
                 'lastPageUrl'     => $this->getUrl($pageCount),
+                'offset'          => $paginator->getOffset()
             )
         );
     }

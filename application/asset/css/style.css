@@ -1161,6 +1161,10 @@ th {
     left: 0;
   }
 
+  .row-count {
+    margin-left: .5em;
+  }
+
   th a.sortable,
   th .sorted-asc,
   th .sorted-desc {

@@ -27,4 +27,10 @@
     <?php else: ?>
     <span class="last o-icon-last button inactive"></span>
     <?php endif; ?>
+
+    <?php
+    $from = $offset + 1;
+    $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
+    ?>
+    <span class="row-count"><?php echo sprintf('Viewing %s–%s of %s', $from, $to, $totalCount); ?></span>
 </nav>

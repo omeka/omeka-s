@@ -367,6 +367,10 @@ table .icon-sortable {
     line-height: $base-line-height;
 }
 
+.o-description {
+    @include trailer();
+}
+
 /* @end */
 
 /* @group ----- Header ----- */

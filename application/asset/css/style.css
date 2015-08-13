@@ -773,6 +773,10 @@ th {
     line-height: 24px;
   }
 
+  .o-description {
+    margin-bottom: 1.5em;
+  }
+
   /* @end */
   /* @group ----- Header ----- */
   header {

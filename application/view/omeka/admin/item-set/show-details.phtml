@@ -7,14 +7,6 @@
     <?php endif; ?>
     <div class="o-description"><?php echo $this->escapeHTML($itemSet->displayDescription()); ?></div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date Created'); ?></h4>
-        <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
-    </div>
-    <div class="meta-group">
-        <h4><?php echo $this->translate('Owner'); ?></h4>
-        <div class="value"><?php echo $escape($itemSet->owner()->name()); ?></div>
-    </div>
-    <div class="meta-group">
         <h4>Visibility</h4>
         <div class="value"><?php echo ($itemSet->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
         <div class="value"><?php echo ($itemSet->isOpen()) ? $this->escapeHtmlAttr($this->translate('Open to additions')) : $this->escapeHtmlAttr($this->translate('Closed to additions')); ?></div>

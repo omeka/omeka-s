@@ -12,7 +12,7 @@ class VocabularyImportForm extends AbstractForm
             'type' => 'file',
             'options' => array(
                 'label' => $translator->translate('Vocabulary File'),
-                'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. Web Ontology Language (OWL) data will be simplified into their corresponding RDF Properties and Classes. See the Vocabulary Import Documentation for details.'),
+                'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.'),
             ),
             'attributes' => array(
                 'required' => true,

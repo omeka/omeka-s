@@ -88,6 +88,7 @@ class PaginationTest extends TestCase
                     'previousPageUrl' => null,
                     'nextPageUrl'     => null,
                     'lastPageUrl'     => null,
+                    'offset'          => null,
                 ))
             );
         $params = $this->getMockBuilder('Omeka\View\Helper\Params')

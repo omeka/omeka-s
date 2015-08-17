@@ -136,7 +136,7 @@ return array(
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
-            'Omeka\BlockManager'          => 'Omeka\Service\BlockManagerFactory',
+            'Omeka\BlockHandlerManager'   => 'Omeka\Service\BlockHandlerManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -233,6 +233,11 @@ return array(
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         ),
     ),
+    'block_handlers' => array(
+        'invokables' => array(
+            'html' => 'Omeka\Block\Handler\HtmlHandler',
+        ),
+    ),
     'media_handlers' => array(
         'invokables' => array(
             'upload'  => 'Omeka\Media\Handler\UploadHandler',
@@ -321,8 +326,5 @@ return array(
         'default_message_options' => array(
             'encoding' => 'UTF-8',
         ),
-    ),
-    'block_layouts' => array(
-        'browse' => 'Browse',
     ),
 );

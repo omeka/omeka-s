@@ -48,7 +48,6 @@ class PageController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
-        $view->setVariable('blockManager', $this->getServiceLocator()->get('Omeka\BlockManager'));
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
@@ -59,17 +58,12 @@ class PageController extends AbstractActionController
 
     public function blockAction()
     {
-        $blockManager = $this->getServiceLocator()->get('Omeka\BlockManager');
-        $partial = $this->getServiceLocator()->get('ViewHelperManager')->get('partial');
-
         $index = $this->params()->fromPost('index');
         $layout = $this->params()->fromPost('layout');
+        $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('block');
 
         $response = $this->getResponse();
-        $response->setContent($partial(
-            $blockManager->getFormViewName($layout),
-            array('index' => $index)
-        ));
+        $response->setContent($helper->form($index, $layout));
         return $response;
     }
 }

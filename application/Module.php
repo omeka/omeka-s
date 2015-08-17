@@ -28,9 +28,10 @@ class Module extends AbstractModule
         'media'      => 'Omeka\View\Helper\Media',
         'pagination' => 'Omeka\View\Helper\Pagination',
         'trigger'    => 'Omeka\View\Helper\Trigger',
+        'setting'    => 'Omeka\View\Helper\Setting',
+        'params'     => 'Omeka\View\Helper\Params',
+        'block'      => 'Omeka\View\Helper\Block',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
-        'setting' => 'Omeka\View\Helper\Setting',
-        'params' => 'Omeka\View\Helper\Params',
     );
 
     /**

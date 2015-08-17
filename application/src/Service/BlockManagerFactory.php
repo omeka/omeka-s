@@ -1,12 +1,12 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Service\BlockLayoutManager;
+use Omeka\Block\Manager;
 use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class BlockLayoutManagerFactory implements FactoryInterface
+class BlockManagerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -14,6 +14,6 @@ class BlockLayoutManagerFactory implements FactoryInterface
         if (!isset($config['block_layouts'])) {
             throw new Exception\ConfigException('Missing block layout configuration');
         }
-        return new BlockLayoutManager($config['block_layouts']);
+        return new Manager($config['block_layouts']);
     }
 }

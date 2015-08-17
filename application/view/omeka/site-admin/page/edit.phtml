@@ -23,7 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <?php foreach ($page->blocks() as $index => $block): ?>
     <div class="block">
         <div><?php echo $this->partial(
-            $blockLayoutManager->getFormViewName($block->layout()),
+            $blockManager->getFormViewName($block->layout()),
             array('block' => $block, 'index' => $index)
         ); ?></div>
         <span class="sortable-handle">...</span>
@@ -39,7 +39,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </label>
     <select id="new-block">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
-        <?php foreach ($blockLayoutManager->getBlockLayouts() as $id => $label): ?>
+        <?php foreach ($blockManager->getLayouts() as $id => $label): ?>
         <option value="<?php echo $escapeAttr($id); ?>"><?php echo $escape($label); ?></option>
         <?php endforeach; ?>
     </select>

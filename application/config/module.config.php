@@ -136,7 +136,7 @@ return array(
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
-            'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
+            'Omeka\BlockManager'          => 'Omeka\Service\BlockManagerFactory',
         ),
         'invokables' => array(
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',

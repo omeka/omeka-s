@@ -1,26 +1,26 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Block;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class BlockLayoutManager implements ServiceLocatorAwareInterface
+class Manager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const FORM_VIEW_NAME = 'block-layout/%s/form';
-    const RENDER_VIEW_NAME = 'block-layout/%s/render';
+    const FORM_VIEW_NAME = 'block/%s/form';
+    const RENDER_VIEW_NAME = 'block/%s/render';
 
-    protected $blockLayouts;
+    protected $layouts;
 
-    public function __construct(array $blockLayouts)
+    public function __construct(array $layouts)
     {
-        $this->blockLayouts = $blockLayouts;
+        $this->layouts = $layouts;
     }
 
-    public function getBlockLayouts()
+    public function getLayouts()
     {
-        return $this->blockLayouts;
+        return $this->layouts;
     }
 
     public function getFormViewName($layout)

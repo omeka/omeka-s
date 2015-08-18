@@ -36,6 +36,13 @@ class Block extends AbstractHelper
         return $this->manager->get($layout)->getLabel();
     }
 
+    public function prepare()
+    {
+        foreach ($this->getLayouts() as $layout) {
+            $this->manager->get($layout)->prepare($this->getView());
+        }
+    }
+
     /**
      * Return the HTML necessary to render a form.
      *

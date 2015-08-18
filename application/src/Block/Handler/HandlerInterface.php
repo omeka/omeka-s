@@ -19,6 +19,15 @@ interface HandlerInterface
     public function getLabel();
 
     /**
+     * Prepare the view renderer to enable the block layout.
+     *
+     * Can be used to append JavaScript files or scripts to the head.
+     *
+     * @param PhpRenderer $view
+     */
+    public function prepare(PhpRenderer $view);
+
+    /**
      * Render a form for adding/editing a block.
      *
      * @param PhpRenderer $view

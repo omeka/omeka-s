@@ -36,10 +36,13 @@ class BlockLayout extends AbstractHelper
         return $this->manager->get($layout)->getLabel();
     }
 
-    public function prepare()
+    /**
+     * Prepare the view to enable the block layout form.
+     */
+    public function prepareForm()
     {
         foreach ($this->getLayouts() as $layout) {
-            $this->manager->get($layout)->prepare($this->getView());
+            $this->manager->get($layout)->prepareForm($this->getView());
         }
     }
 

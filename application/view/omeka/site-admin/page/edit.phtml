@@ -1,7 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
-$this->blockLayout()->prepare();
+$this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');

@@ -16,13 +16,13 @@ interface BlockLayoutInterface
     public function getLabel();
 
     /**
-     * Prepare the view to enable the block layout.
+     * Prepare the view to enable the block layout form.
      *
-     * Can be used to append JavaScript to the head.
+     * Typically used to append JavaScript to the head.
      *
      * @param PhpRenderer $view
      */
-    public function prepare(PhpRenderer $view);
+    public function prepareForm(PhpRenderer $view);
 
     /**
      * Process and validate block data.

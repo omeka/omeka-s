@@ -14,7 +14,7 @@ class Html extends AbstractBlockLayout
         return 'HTML';
     }
 
-    public function prepare(PhpRenderer $view)
+    public function prepareForm(PhpRenderer $view)
     {
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));

@@ -29,6 +29,17 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'browse' => array(
+                        'type' => 'Regex',
+                        'options' => array(
+                            'regex' => '/browse(/.*)?',
+                            'spec' => '/browse',
+                            'defaults' => array(
+                                'controller' => 'Page',
+                                'action' => 'browse',
+                             ),
+                        ),
+                    ),
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(

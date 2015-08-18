@@ -39,7 +39,7 @@ interface BlockLayoutInterface
      * @param SitePageBlock $block
      * @param ErrorStore $errorStore
      */
-    public function ingest(SitePageBlock $block, ErrorStore $errorStore);
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore);
 
     /**
      * Render a form for adding/editing a block.

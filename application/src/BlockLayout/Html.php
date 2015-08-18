@@ -20,7 +20,7 @@ class Html extends AbstractBlockLayout
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
     }
 
-    public function ingest(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
         $htmlPurifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
         $data = $block->getData();

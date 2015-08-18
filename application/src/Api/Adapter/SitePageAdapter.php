@@ -149,7 +149,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             $handler = $this->getServiceLocator()
                 ->get('Omeka\BlockLayoutManager')
                 ->get($inputBlock['o:layout'])
-                ->ingest($block, $errorStore);
+                ->onHydrate($block, $errorStore);
         }
 
         // Remove any blocks that weren't reused

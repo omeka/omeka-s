@@ -25,6 +25,6 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     /**
      * {@inheritDoc}
      */
-    public function ingest(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {}
 }

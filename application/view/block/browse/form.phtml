@@ -1,9 +1,0 @@
-<?php
-$query = '';
-if (isset($block)) {
-    $data = $block->data();
-    $query = $data['query'];
-}
-?>
-<input type="hidden" name="o:block[<?php echo $index; ?>][o:layout]" value="browse">
-Browse query: <input type="text" name="o:block[<?php echo $index; ?>][o:data][query]" value="<?php echo $query; ?>">

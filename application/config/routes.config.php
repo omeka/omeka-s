@@ -29,25 +29,12 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'default' => array(
+                    'page' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:controller[/:action][/]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                        ),
-                    ),
-                    'id' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/:controller/:id',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'         => '\d+',
-                            ),
+                            'route' => '/:page-slug[/]',
                             'defaults' => array(
+                                'controller' => 'Page',
                                 'action' => 'show',
                             ),
                         ),

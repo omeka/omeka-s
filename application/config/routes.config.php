@@ -32,7 +32,7 @@ return array(
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/:page-slug[/]',
+                            'route' => '/page/:page-slug[/]',
                             'defaults' => array(
                                 'controller' => 'Page',
                                 'action' => 'show',

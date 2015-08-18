@@ -1,2 +1,5 @@
 <h1><?php echo $this->escapeHtml($site->title()); ?></h1>
 <h2><?php echo $this->escapeHtml($page->title()); ?></h2>
+<?php foreach ($page->blocks() as $block): ?>
+<?php echo $this->blockLayout()->render($block);?>
+<?php endforeach; ?>

@@ -1,17 +1,12 @@
 <?php
-namespace Omeka\Block\Handler;
+namespace Omeka\BlockLayout;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
-/**
- * Interface for site page block handlers.
- *
- * Each handler corresponds to one block layout.
- */
-interface HandlerInterface
+interface BlockLayoutInterface
 {
     /**
      * Get a human-readable label for the block layout.

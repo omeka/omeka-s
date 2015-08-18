@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Block\Handler;
+namespace Omeka\BlockLayout;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -34,7 +34,7 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\Block\Handler\HandlerInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\BlockLayout\BlockLayoutInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
                 'The block handler class "%s" does not implement Omeka\Block\Handler\HandlerInterface.',
                 get_class($plugin)

@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Block\Handler;
+namespace Omeka\BlockLayout;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
@@ -7,7 +7,7 @@ use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;
 
-class HtmlHandler extends AbstractHandler
+class Html extends AbstractBlockLayout
 {
     public function getLabel()
     {

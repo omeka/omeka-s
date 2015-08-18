@@ -6,13 +6,13 @@ use Zend\Form\Element\Hidden;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
-class Block extends AbstractHelper
+class BlockLayout extends AbstractHelper
 {
     protected $manager;
 
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->manager = $serviceLocator->get('Omeka\BlockHandlerManager');
+        $this->manager = $serviceLocator->get('Omeka\BlockLayoutManager');
     }
 
     /**

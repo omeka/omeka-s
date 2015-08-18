@@ -1,7 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
-$this->block()->prepare();
+$this->blockLayout()->prepare();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
@@ -23,7 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div id="blocks">
     <?php foreach ($page->blocks() as $index => $block): ?>
     <div class="block">
-        <div><?php echo $this->block()->form($index, $block); ?></div>
+        <div><?php echo $this->blockLayout()->form($index, $block); ?></div>
         <span class="sortable-handle">...</span>
     </div>
     <?php endforeach; ?>
@@ -37,9 +37,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </label>
     <select id="new-block">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
-        <?php foreach ($this->block()->getLayouts() as $layout): ?>
+        <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
         <option value="<?php echo $escapeAttr($layout); ?>">
-            <?php echo $escape($this->block()->getLayoutLabel($layout)); ?>
+            <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
         </option>
         <?php endforeach; ?>
     </select>

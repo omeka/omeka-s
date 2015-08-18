@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\Block\Handler;
+namespace Omeka\BlockLayout;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class AbstractHandler implements HandlerInterface
+abstract class AbstractBlockLayout implements BlockLayoutInterface
 {
     use ServiceLocatorAwareTrait;
 }

@@ -147,7 +147,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             $block->setPosition($position++);
 
             $handler = $this->getServiceLocator()
-                ->get('Omeka\BlockHandlerManager')
+                ->get('Omeka\BlockLayoutManager')
                 ->get($inputBlock['o:layout'])
                 ->ingest($block, $errorStore);
         }

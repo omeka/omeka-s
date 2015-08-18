@@ -60,7 +60,7 @@ class PageController extends AbstractActionController
     {
         $index = $this->params()->fromPost('index');
         $layout = $this->params()->fromPost('layout');
-        $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('block');
+        $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('blockLayout');
 
         $response = $this->getResponse();
         $response->setContent($helper->form($index, $layout));

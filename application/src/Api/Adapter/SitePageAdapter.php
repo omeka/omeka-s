@@ -145,6 +145,11 @@ class SitePageAdapter extends AbstractEntityAdapter
 
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);
+
+            $handler = $this->getServiceLocator()
+                ->get('Omeka\BlockHandlerManager')
+                ->get($inputBlock['o:layout'])
+                ->ingest($block, $errorStore);
         }
 
         // Remove any blocks that weren't reused

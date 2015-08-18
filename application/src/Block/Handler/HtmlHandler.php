@@ -2,6 +2,8 @@
 namespace Omeka\Block\Handler;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Entity\SitePageBlock;
+use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -16,6 +18,14 @@ class HtmlHandler extends AbstractHandler
     {
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
+    }
+
+    public function ingest(SitePageBlock $block, ErrorStore $errorStore)
+    {
+        $htmlPurifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
+        $data = $block->getData();
+        $data['html'] = $htmlPurifier->purify($data['html']);
+        $block->setData($data);
     }
 
     public function form(PhpRenderer $view, $index, SitePageBlockRepresentation $block = null)

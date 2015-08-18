@@ -2,6 +2,8 @@
 namespace Omeka\Block\Handler;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Entity\SitePageBlock;
+use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
@@ -19,13 +21,21 @@ interface HandlerInterface
     public function getLabel();
 
     /**
-     * Prepare the view renderer to enable the block layout.
+     * Prepare the view to enable the block layout.
      *
-     * Can be used to append JavaScript files or scripts to the head.
+     * Can be used to append JavaScript to the head.
      *
      * @param PhpRenderer $view
      */
     public function prepare(PhpRenderer $view);
+
+    /**
+     * Process and validate block data.
+     *
+     * @param SitePageBlock $block
+     * @param ErrorStore $errorStore
+     */
+    public function ingest(SitePageBlock $block, ErrorStore $errorStore);
 
     /**
      * Render a form for adding/editing a block.

@@ -25,6 +25,15 @@ interface BlockLayoutInterface
     public function prepareForm(PhpRenderer $view);
 
     /**
+     * Prepare the view to enable the block layout render.
+     *
+     * Typically used to append JavaScript to the head.
+     *
+     * @param PhpRenderer $view
+     */
+    public function prepareRender(PhpRenderer $view);
+
+    /**
      * Process and validate block data.
      *
      * @param SitePageBlock $block

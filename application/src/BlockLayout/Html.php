@@ -42,5 +42,7 @@ class Html extends AbstractBlockLayout
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
-    {}
+    {
+        return $block->data()['html'];
+    }
 }

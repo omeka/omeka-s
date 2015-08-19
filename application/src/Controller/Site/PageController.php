@@ -25,16 +25,4 @@ class PageController extends AbstractActionController
         $view->setVariable('page', $page);
         return $view;
     }
-
-    public function browseAction()
-    {
-        $siteResponse = $this->api()->read('sites', array(
-            'slug' => $this->params('site-slug')
-        ));
-        $site = $siteResponse->getContent();
-
-        $view = new ViewModel;
-        $view->setVariable('site', $site);
-        return $view;
-    }
 }

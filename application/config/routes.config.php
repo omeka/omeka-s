@@ -35,7 +35,7 @@ return array(
                             'regex' => '/browse(/.*)?',
                             'spec' => '/browse',
                             'defaults' => array(
-                                'controller' => 'Page',
+                                'controller' => 'Index',
                                 'action' => 'browse',
                              ),
                         ),

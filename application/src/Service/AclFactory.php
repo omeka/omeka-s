@@ -149,6 +149,8 @@ class AclFactory implements FactoryInterface
             array(
                 'Omeka\Controller\SiteAdmin\Index',
                 'Omeka\Controller\SiteAdmin\Page',
+                'Omeka\Controller\Site\Index',
+                'Omeka\Controller\Site\Page',
             )
         );
         $acl->allow(

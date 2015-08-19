@@ -28,7 +28,7 @@ class SiteBlockAttachment extends AbstractEntity
     protected $block;
 
     /**
-     * @ManyToOne(targetEntity="Item")
+     * @ManyToOne(targetEntity="Item", inversedBy="siteBlockAttachments")
      * @JoinColumn(nullable=false)
      */
     protected $item;

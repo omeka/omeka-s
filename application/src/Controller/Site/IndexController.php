@@ -30,13 +30,20 @@ class IndexController extends AbstractActionController
 
     public function browseAction()
     {
-        $siteResponse = $this->api()->read('sites', array(
+        $response = $this->api()->read('sites', array(
             'slug' => $this->params('site-slug')
         ));
-        $site = $siteResponse->getContent();
+        $site = $response->getContent();
+
+        $this->setBrowseDefaults('created');
+        $this->getRequest()->getQuery()->set('site_id', $site->id());
+        $response = $this->api()->search('items', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $items = $response->getContent();
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('items', $items);
         return $view;
     }
 }

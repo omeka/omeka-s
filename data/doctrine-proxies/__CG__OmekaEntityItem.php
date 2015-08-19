@@ -64,10 +64,10 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'media', 'siteItems', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'media', 'siteItems', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -213,12 +213,12 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getSiteItems()
+    public function getSiteBlockAttachments()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteItems', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteBlockAttachments', array());
 
-        return parent::getSiteItems();
+        return parent::getSiteBlockAttachments();
     }
 
     /**

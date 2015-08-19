@@ -62,6 +62,33 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $this->createNamedParameter($qb, $query['item_set_id']))
             );
         }
+
+        if (isset($query['site_id'])) {
+            $siteBlockAttachmentsAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\Item.siteBlockAttachments',
+                $siteBlockAttachmentsAlias
+            );
+            $sitePageBlockAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$siteBlockAttachmentsAlias.block",
+                $sitePageBlockAlias
+            );
+            $sitePageAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$sitePageBlockAlias.page",
+                $sitePageAlias
+            );
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$sitePageAlias.site",
+                $siteAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteAlias.id",
+                $this->createNamedParameter($qb, $query['site_id']))
+            );
+        }
     }
 
     /**

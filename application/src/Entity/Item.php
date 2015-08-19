@@ -26,9 +26,9 @@ class Item extends Resource
     protected $media;
 
     /**
-     * @OneToMany(targetEntity="SiteItem", mappedBy="item")
+     * @OneToMany(targetEntity="SiteBlockAttachment", mappedBy="item")
      */
-    protected $siteItems;
+    protected $siteBlockAttachments;
 
     /**
      * @ManyToMany(targetEntity="ItemSet", inversedBy="items", indexBy="id")
@@ -58,9 +58,9 @@ class Item extends Resource
         return $this->media;
     }
 
-    public function getSiteItems()
+    public function getSiteBlockAttachments()
     {
-        return $this->siteItems;
+        return $this->siteBlockAttachments;
     }
 
     public function getItemSets()

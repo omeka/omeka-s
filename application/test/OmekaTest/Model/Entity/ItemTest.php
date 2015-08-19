@@ -25,7 +25,7 @@ class ItemTest extends TestCase
         );
         $this->assertInstanceOf(
             'Doctrine\Common\Collections\ArrayCollection',
-            $this->item->getSiteItems()
+            $this->item->getSiteBlockAttachments()
         );
     }
 

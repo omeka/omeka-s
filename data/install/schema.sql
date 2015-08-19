@@ -187,19 +187,6 @@ CREATE TABLE `site_block_attachment` (
   CONSTRAINT `FK_236473FE126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
   CONSTRAINT `FK_236473FEE9ED820C` FOREIGN KEY (`block_id`) REFERENCES `site_page_block` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-CREATE TABLE `site_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `assigner_id` int(11) DEFAULT NULL,
-  `site_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_248198E794221246` (`assigner_id`),
-  KEY `IDX_248198E7F6BD1646` (`site_id`),
-  KEY `IDX_248198E7126F525E` (`item_id`),
-  CONSTRAINT `FK_248198E7126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
-  CONSTRAINT `FK_248198E794221246` FOREIGN KEY (`assigner_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_248198E7F6BD1646` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `site_id` int(11) NOT NULL,

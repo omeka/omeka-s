@@ -39,7 +39,7 @@ class Item extends Resource
     public function __construct() {
         parent::__construct();
         $this->media = new ArrayCollection;
-        $this->siteItems = new ArrayCollection;
+        $this->siteBlockAttachments = new ArrayCollection;
         $this->itemSets = new ArrayCollection;
     }
 

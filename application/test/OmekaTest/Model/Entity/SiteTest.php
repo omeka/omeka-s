@@ -18,10 +18,6 @@ class SiteTest extends TestCase
     {
         $this->assertNull($this->site->getId());
         $this->assertNull($this->site->getOwner());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->site->getSiteItems()
-        );
     }
 
     public function testSetOwner()

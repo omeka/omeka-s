@@ -55,11 +55,6 @@ class Site extends AbstractEntity
     protected $modified;
 
     /**
-     * @OneToMany(targetEntity="SiteItem", mappedBy="site")
-     */
-    protected $siteItems;
-
-    /**
      * @OneToMany(
      *     targetEntity="SitePage",
      *     mappedBy="site",
@@ -159,11 +154,6 @@ class Site extends AbstractEntity
     public function getModified()
     {
         return $this->modified;
-    }
-
-    public function getSiteItems()
-    {
-        return $this->siteItems;
     }
 
     public function getPages()

@@ -22,7 +22,7 @@ class BlockLayout extends AbstractHelper
      */
     public function getLayouts()
     {
-        return $this->manager->getCanonicalNames();
+        return array_unique($this->manager->getCanonicalNames());
     }
 
     /**
@@ -63,7 +63,7 @@ class BlockLayout extends AbstractHelper
         }
         $form = $this->manager->get($layout)->form($this->getView(), $index, $block);
         $hidden = new Hidden("o:block[$index][o:layout]");
-        $hidden->setAttribute('value', 'html');
+        $hidden->setAttribute('value', $layout);
         $form .= $this->getView()->formField($hidden);
         return $form;
     }

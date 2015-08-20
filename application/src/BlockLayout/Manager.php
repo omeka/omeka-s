@@ -11,7 +11,7 @@ class Manager extends AbstractPluginManager
     /**
      * Do not replace strings during canonicalization.
      *
-     * This prevents distinct yet similarly named media types from referencing
+     * This prevents distinct yet similarly named block layouts from referencing
      * the same handler instance.
      *
      * {@inheritDoc}
@@ -36,7 +36,7 @@ class Manager extends AbstractPluginManager
     {
         if (!is_subclass_of($plugin, 'Omeka\BlockLayout\BlockLayoutInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
-                'The block handler class "%s" does not implement Omeka\Block\Handler\HandlerInterface.',
+                'The block layout class "%s" does not implement Omeka\BlockLayout\BlockLayoutInterface.',
                 get_class($plugin)
             ));
         }

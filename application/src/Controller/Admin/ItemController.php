@@ -168,7 +168,7 @@ class ItemController extends AbstractActionController
         $services = $this->getServiceLocator();
         $mediaHelper = $services->get('ViewHelperManager')->get('media');
         $mediaManager = $services->get('Omeka\MediaHandlerManager');
-        $types = $mediaManager->getCanonicalNames();
+        $types = array_unique($mediaManager->getCanonicalNames());
 
         $forms = array();
         foreach ($types as $type) {

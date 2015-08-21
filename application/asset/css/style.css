@@ -659,7 +659,8 @@ th {
     margin-bottom: -0.375em;
   }
   .media-field-wrapper .actions {
-    margin: 0.375em 4px;
+    font-size: 16px;
+    margin: 0.31245em 4px;
   }
 
   select {

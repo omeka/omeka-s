@@ -34,16 +34,16 @@ class Media extends AbstractHelper
      */
     public function form($mediaType, array $options = array())
     {   
+        $mediaHandler = $this->manager->get($mediaType);
         $form = '<div class="media-field-wrapper">';
         $form .= '<div class="media-header">';
         $form .= '<ul class="actions"> <li><a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a>
             <input type="hidden" name="o:media[__index__][o:is_public]" value="1"></li>
             <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
             </ul>';
-        $form .= '<h4>' . strtoupper($this->getView()->escapeHtmlAttr($mediaType)) . '</h4>';
+        $form .= '<h4>' . $mediaHandler->getLabel() . '</h4>';
         $form .= '</div>';
-        $form .= $this->manager->get($mediaType)
-            ->form($this->getView(), $options);
+        $form .= $mediaHandler->form($this->getView(), $options);
         $form .= '<input type="hidden" name="o:media[__index__][o:type]" value="'
             . $this->getView()->escapeHtmlAttr($mediaType) . '">';
         $form .= '</div>';

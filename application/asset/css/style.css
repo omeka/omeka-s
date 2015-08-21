@@ -659,7 +659,7 @@ th {
     margin-bottom: -0.375em;
   }
   .media-field-wrapper .actions {
-    margin-right: 4px;
+    margin: 0.375em 4px;
   }
 
   select {
@@ -2082,6 +2082,13 @@ th {
 
   .media.value.delete span.restore-value {
     padding: 0;
+  }
+
+  .media-header h4 {
+    font-size: 16px;
+    margin: -0.75em -0.375em 0.375em;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em;
   }
 
   .value.delete > .actions {

@@ -247,7 +247,7 @@ body {
         }
 
         .actions {
-            margin-right: 4px;
+            margin: rhythm(.25) 4px;
         }
     }
 
@@ -1694,6 +1694,13 @@ input[type="text"].value-language,
 
     .media.value.delete span.restore-value {
         padding: 0;
+    }
+
+    .media-header h4 {
+        font-size: $base-font-size;
+        margin: rhythm(-.5) rhythm(-.25) rhythm(.25);
+        background-color: $gray-on-white;
+        padding: rhythm(.25);
     }
 
     .value.delete > .actions {

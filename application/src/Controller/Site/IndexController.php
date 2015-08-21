@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Site;
 
+use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -8,10 +9,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $response = $this->api()->read('sites', array(
-            'slug' => $this->params('site-slug')
-        ));
-        $site = $response->getContent();
+        $site = $this->getSite();
 
         // Redirect to the first page, if it exists
         $pages = $site->pages();
@@ -30,10 +28,7 @@ class IndexController extends AbstractActionController
 
     public function browseAction()
     {
-        $response = $this->api()->read('sites', array(
-            'slug' => $this->params('site-slug')
-        ));
-        $site = $response->getContent();
+        $site = $this->getSite();
 
         $this->setBrowseDefaults('created');
         $this->getRequest()->getQuery()->set('site_id', $site->id());
@@ -45,5 +40,29 @@ class IndexController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('items', $items);
         return $view;
+    }
+
+    public function showAction()
+    {
+        $site = $this->getSite();
+        $response = $this->api()->searchOne('items', array(
+            'id' => $this->params('id'),
+            'site_id' => $site->id(),
+        ));
+        if (!$response->getTotalResults()) {
+            throw new Exception\NotFoundException;
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('item', $response->getContent());
+        return $view;
+    }
+
+    protected function getSite()
+    {
+        return $this->api()->read('sites', array(
+            'slug' => $this->params('site-slug')
+        ))->getContent();
     }
 }

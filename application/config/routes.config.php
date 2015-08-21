@@ -40,6 +40,16 @@ return array(
                              ),
                         ),
                     ),
+                    'show' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/show/:id[/]',
+                            'defaults' => array(
+                                'controller' => 'Index',
+                                'action' => 'show',
+                            ),
+                        ),
+                    ),
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(

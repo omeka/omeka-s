@@ -40,16 +40,6 @@ return array(
                              ),
                         ),
                     ),
-                    'show' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/show/:id[/]',
-                            'defaults' => array(
-                                'controller' => 'Index',
-                                'action' => 'show',
-                            ),
-                        ),
-                    ),
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(
@@ -57,6 +47,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Page',
                                 'action' => 'show',
+                            ),
+                        ),
+                    ),
+                    'id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:action/:id',
+                            'constraints' => array(
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'         => '\d+',
                             ),
                         ),
                     ),

@@ -42,7 +42,7 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function showAction()
+    public function itemAction()
     {
         $site = $this->getSite();
         $response = $this->api()->searchOne('items', array(

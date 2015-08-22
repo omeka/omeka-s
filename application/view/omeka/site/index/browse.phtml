@@ -2,7 +2,7 @@
 <?php echo $this->pagination(); ?>
 <ul>
 <?php foreach ($items as $item): ?>
-    <li><?php echo $this->escapeHtml($item->displayTitle()); ?></li>
+    <li><?php echo $item->link($item->displayTitle()); ?></li>
 <?php endforeach; ?>
 </ul>
 <?php echo $this->pagination(); ?>

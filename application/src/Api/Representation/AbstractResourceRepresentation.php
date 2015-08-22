@@ -172,26 +172,60 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         );
     }
 
-    /**
-     * Get a web URL to the represented resource
-     *
-     * @uses self::getControllerName()
-     * @param string $action
-     * @param bool $canonical Whether to return an absolute URL
-     * @return string|null
-     */
-    public function url($action = null, $canonical = false)
+    public function url()
     {
-        if (!($controller = $this->getControllerName())) {
-            return null;
+        $numArgs = func_num_args();
+        $routeMatch = $this->getServiceLocator()->get('Application')
+            ->getMvcEvent()->getRouteMatch();
+        if ($routeMatch->getParam('__ADMIN__')) {
+            $action = null;
+            $canonical = false;
+            if (1 === $numArgs) {
+                $action = func_get_arg(0);
+            }
+            if (2 === $numArgs) {
+                $action = func_get_arg(0);
+                $canonical = func_get_arg(1);
+            }
+            return $this->adminUrl($action, $canonical);
         }
+        if ($routeMatch->getParam('__SITE__')) {
+            $siteSlug = $routeMatch->getParam('site-slug');
+            $canonical = false;
+            if (2 === $numArgs) {
+                $canonical = func_get_arg(1);
+            }
+            return $this->siteUrl($siteSlug, $canonical);
+        }
+        return null;
+    }
 
+    public function adminUrl($action = null, $canonical = false)
+    {
         $url = $this->getViewHelper('Url');
         return $url(
             'admin/id',
             array(
-                'controller' => $controller,
+                'controller' => $this->getControllerName(),
                 'action' => $action,
+                'id' => $this->id(),
+            ),
+            array('force_canonical' => $canonical)
+        );
+    }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->getServiceLocator()->get('Application')
+                ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site/id',
+            array(
+                'site-slug' => $siteSlug,
+                'action' => $this->getSiteActionName(),
                 'id' => $this->id(),
             ),
             array('force_canonical' => $canonical)
@@ -225,6 +259,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @return string|null
      */
     protected function getControllerName()
+    {
+        return null;
+    }
+
+    protected function getSiteActionName()
     {
         return null;
     }

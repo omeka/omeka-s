@@ -8,7 +8,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function url($action = null, $canonical = false)
+    public function adminUrl($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');
         return $url(

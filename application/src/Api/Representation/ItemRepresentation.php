@@ -11,6 +11,11 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         return 'item';
     }
 
+    protected function getSiteActionName()
+    {
+        return 'item';
+    }
+
     /**
      * {@inheritDoc}
      */

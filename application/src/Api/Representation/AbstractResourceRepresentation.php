@@ -172,32 +172,17 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         );
     }
 
-    public function url()
+    public function url($action = null, $canonical = false)
     {
-        $numArgs = func_num_args();
         $routeMatch = $this->getServiceLocator()->get('Application')
             ->getMvcEvent()->getRouteMatch();
+        $url = null;
         if ($routeMatch->getParam('__ADMIN__')) {
-            $action = null;
-            $canonical = false;
-            if (1 === $numArgs) {
-                $action = func_get_arg(0);
-            }
-            if (2 === $numArgs) {
-                $action = func_get_arg(0);
-                $canonical = func_get_arg(1);
-            }
-            return $this->adminUrl($action, $canonical);
+            $url = $this->adminUrl($action, $canonical);
+        } elseif ($routeMatch->getParam('__SITE__')) {
+            $url = $this->siteUrl($routeMatch->getParam('site-slug'), $canonical);
         }
-        if ($routeMatch->getParam('__SITE__')) {
-            $siteSlug = $routeMatch->getParam('site-slug');
-            $canonical = false;
-            if (2 === $numArgs) {
-                $canonical = func_get_arg(1);
-            }
-            return $this->siteUrl($siteSlug, $canonical);
-        }
-        return null;
+        return $url;
     }
 
     public function adminUrl($action = null, $canonical = false)

@@ -31,9 +31,34 @@ class ApiController extends AbstractRestfulController
      */
     public function getList()
     {
+        $this->setBrowseDefaults('id', 'asc');
         $resource = $this->params()->fromRoute('resource');
-        $data = $this->params()->fromQuery();
-        $response = $this->api()->search($resource, $data);
+        $query = $this->params()->fromQuery();
+        $response = $this->api()->search($resource, $query);
+
+        $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
+        $paginator->setCurrentPage($query['page']);
+        $paginator->setTotalCount($response->getTotalResults());
+
+        // Add Link header for pagination.
+        $links = array();
+        $pages = array(
+            'first' => 1,
+            'prev' => $paginator->getPreviousPage(),
+            'next' => $paginator->getNextPage(),
+            'last' => $paginator->getPageCount(),
+        );
+        foreach ($pages as $rel => $page) {
+            if ($page) {
+                $query['page'] = $page;
+                $url = $this->url()->fromRoute(null, array(),
+                    array('query' => $query, 'force_canonical' => true), true);
+                $links[] = sprintf('<%s>; rel="%s"', $url, $rel);
+            }
+        }
+
+        $this->getResponse()->getHeaders()
+            ->addHeaderLine('Link', implode(', ', $links));
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 

@@ -3,7 +3,6 @@ use Omeka\Entity\Job;
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Jobs')); ?>
@@ -31,17 +30,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <ul class="actions">
                     <?php if ('in_progress' == $job->status()): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($job->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escapeAttr($job->url('stop')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($job->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escape($job->url('stop')); ?>"
                         class="o-icon-stop sidebar-confirm"
-                        aria-label="<?php echo $escapeAttr($this->translate('Stop')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Stop')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Stop')); ?>"
+                        title="<?php echo $escape($this->translate('Stop')); ?>"></a></li>
                     <?php endif; ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($job->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($job->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
@@ -57,8 +56,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $this->translate('Stop Job'); ?></h2>
         <p><?php echo $this->translate('Are you sure you would like to attempt to stop this job?'); ?></p>

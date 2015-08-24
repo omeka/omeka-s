@@ -1,14 +1,13 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 
 ?>
 <legend><?php echo $this->translate('Media'); ?></legend>
 <?php foreach ($mediaForms as $type => $form): ?>
 <span
-    id="media-template-<?php echo $escapeAttr($type); ?>"
-    data-template="<?php echo $escapeAttr($form['form']); ?>"
+    id="media-template-<?php echo $escape($type); ?>"
+    data-template="<?php echo $escape($form['form']); ?>"
 ></span>
 <?php endforeach; ?>
 
@@ -24,15 +23,15 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
             <?php if ($media->isPublic()): ?>
             <a href="#" 
             class="o-icon-public" 
-            aria-label="<?php echo $escapeAttr($this->translate('Make private')); ?>" 
-            title="<?php echo $escapeAttr($this->translate('Make private')); ?>">
+            aria-label="<?php echo $escape($this->translate('Make private')); ?>" 
+            title="<?php echo $escape($this->translate('Make private')); ?>">
             </a>
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="1">
             <?php else: ?>
             <a href="#" 
             class="o-icon-private" 
-            aria-label="<?php echo $escapeAttr($this->translate('Make public')); ?>" 
-            title="<?php echo $escapeAttr($this->translate('Make public')); ?>">
+            aria-label="<?php echo $escape($this->translate('Make public')); ?>" 
+            title="<?php echo $escape($this->translate('Make public')); ?>">
             </a>
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="0">
             <?php endif; ?>
@@ -46,22 +45,22 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
             <li>
                 <a href='#' 
                 class='o-icon-delete remove-value' 
-                title=' <?php echo $escapeAttr($this->translate('Remove value')); ?>' 
-                aria-label='<?php echo $escapeAttr($this->translate('Remove value')); ?>'>
+                title=' <?php echo $escape($this->translate('Remove value')); ?>' 
+                aria-label='<?php echo $escape($this->translate('Remove value')); ?>'>
                 </a>
             </li>
             <li>
                 <a href='#' 
                 class='o-icon-undo restore-value' 
-                title='<?php echo $escapeAttr($this->translate('Undo remove value')); ?>' 
-                aria-label='<?php echo $escapeAttr($this->translate('Undo remove value')); ?>'>
+                title='<?php echo $escape($this->translate('Undo remove value')); ?>' 
+                aria-label='<?php echo $escape($this->translate('Undo remove value')); ?>'>
                 </a>
             </li>
         </ul>
         <span class='restore-value'><?php echo $this->translate('Media to be removed'); ?></span>
-        <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
         <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
-        <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escapeAttr($media->id()); ?>">
+        <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escape($media->id()); ?>">
         <span class="sortable-handle"></span>
     </div>
     <?php
@@ -82,7 +81,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <select id="new-media-type">
         <option value=""><?php echo $this->translate('Select media type'); ?></option>
         <?php foreach ($mediaForms as $type => $form): ?>
-        <option value="<?php echo $escapeAttr($type); ?>"><?php echo $escape($form['label']); ?></option>
+        <option value="<?php echo $escape($type); ?>"><?php echo $escape($form['label']); ?></option>
         <?php endforeach; ?>
     </select>
 </div>

@@ -1,7 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $form->prepare();
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
@@ -9,7 +8,7 @@ $restore = $this->translate('Restore');
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escapeAttr($site->url('delete')); ?>">Delete</a>
+    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>">Delete</a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 <nav class="section-nav">
@@ -43,7 +42,7 @@ if ($pages):
             <td>
                 <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
                 <?php echo $page->title(); ?>
-                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escapeAttr($page->id()); ?>">
+                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             </td>
             <td><?php echo $page->slug(); ?></td>
             <td>
@@ -148,8 +147,8 @@ if ($pages):
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $this->translate('Delete Site'); ?></h2>
         <p><?php echo $this->translate('Are you sure you would like to delete this site?'); ?></p>
@@ -181,7 +180,7 @@ $userRowTemplate = '
 ';
 ?>
 
-<span id="user-row-template" data-template="<?php echo $escapeAttr($userRowTemplate); ?>">
+<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>">
 
 <script>
 $('#content').on('click', '.o-icon-delete,.o-icon-undo', function(e) {

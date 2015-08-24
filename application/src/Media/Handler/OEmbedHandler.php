@@ -122,10 +122,10 @@ class OEmbedHandler extends AbstractHandler
             }
             return sprintf(
                 '<img src="%s" width="%s" height="%s" alt="%s">',
-                $view->escapeHtmlAttr($url),
-                $view->escapeHtmlAttr($width),
-                $view->escapeHtmlAttr($height),
-                $view->escapeHtmlAttr($title)
+                $view->escapeHtml($url),
+                $view->escapeHtml($width),
+                $view->escapeHtml($height),
+                $view->escapeHtml($title)
             );
         } else if (!empty($data['html'])) {
             return $data['html'];

@@ -8,7 +8,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
-    public function url($action = null, $canonical = false)
+    public function adminUrl($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');
         return $url(
@@ -121,5 +121,18 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         return $this->getAdapter('users')
             ->getRepresentation(null, $this->getData()->getOwner());
+    }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->slug();
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site',
+            array('site-slug' => $siteSlug),
+            array('force_canonical' => $canonical)
+        );
     }
 }

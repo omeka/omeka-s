@@ -173,29 +173,63 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
-     * Get a web URL to the represented resource
+     * Return the URL to this resource.
      *
-     * @uses self::getControllerName()
-     * @param string $action
+     * Automatically detects whether to compose an admin URL or site URL
+     * depending on the current route context. To compose URLs across contexts,
+     * use {@link self::adminUrl()} or {@link self::siteUrl()} directly.
+     *
+     * @param string $action The route action for an admin URL; does
+     *   nothing for a site URL.
      * @param bool $canonical Whether to return an absolute URL
-     * @return string|null
+     * @return string
      */
     public function url($action = null, $canonical = false)
     {
-        if (!($controller = $this->getControllerName())) {
-            return null;
+        $routeMatch = $this->getServiceLocator()->get('Application')
+            ->getMvcEvent()->getRouteMatch();
+        $url = null;
+        if ($routeMatch->getParam('__ADMIN__')) {
+            $url = $this->adminUrl($action, $canonical);
+        } elseif ($routeMatch->getParam('__SITE__')) {
+            $url = $this->siteUrl($routeMatch->getParam('site-slug'), $canonical);
         }
+        return $url;
+    }
 
+    /**
+     * Return the admin URL to this resource.
+     *
+     * @param string $action The route action
+     * @param bool $canonical Whether to return an absolute URL
+     * @return string
+     */
+    public function adminUrl($action = null, $canonical = false)
+    {
         $url = $this->getViewHelper('Url');
         return $url(
             'admin/id',
             array(
-                'controller' => $controller,
+                'controller' => $this->getControllerName(),
                 'action' => $action,
                 'id' => $this->id(),
             ),
             array('force_canonical' => $canonical)
         );
+    }
+
+    /**
+     * Return the site URL to this resource.
+     *
+     * Implement this method only for resources that have site URLs.
+     *
+     * @param string $siteSlug The site's slug
+     * @param bool $canonical Whether to return an absolute URL
+     * @return string
+     */
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        return null;
     }
 
     /**

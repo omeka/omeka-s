@@ -70,4 +70,22 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         $media = $this->media();
         return $media ? $media[0] : null;
     }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->getServiceLocator()->get('Application')
+                ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site/id',
+            array(
+                'site-slug' => $siteSlug,
+                'action' => 'item',
+                'id' => $this->id(),
+            ),
+            array('force_canonical' => $canonical)
+        );
+    }
 }

@@ -50,6 +50,50 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        parent::buildQuery($qb, $query);
+
+        if (isset($query['id'])) {
+            $qb->andWhere($qb->expr()->eq('Omeka\Entity\Media.id', $query['id']));
+        }
+
+        if (isset($query['site_id'])) {
+            $itemAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\Media.item',
+                $itemAlias
+            );
+            $siteBlockAttachmentsAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$itemAlias.siteBlockAttachments",
+                $siteBlockAttachmentsAlias
+            );
+            $sitePageBlockAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$siteBlockAttachmentsAlias.block",
+                $sitePageBlockAlias
+            );
+            $sitePageAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$sitePageBlockAlias.page",
+                $sitePageAlias
+            );
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                "$sitePageAlias.site",
+                $siteAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteAlias.id",
+                $this->createNamedParameter($qb, $query['site_id']))
+            );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();

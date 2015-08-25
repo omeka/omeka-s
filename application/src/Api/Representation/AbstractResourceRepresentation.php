@@ -172,6 +172,18 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         );
     }
 
+    /**
+     * Return the URL to this resource.
+     *
+     * Automatically detects whether to compose an admin URL or site URL
+     * depending on the current route context. To compose URLs across contexts,
+     * use {@link self::adminUrl()} or {@link self::siteUrl()} directly.
+     *
+     * @param string $action The route action for an admin URL; does
+     *   nothing for a site URL.
+     * @param bool $canonical Whether to return an absolute URL
+     * @return string
+     */
     public function url($action = null, $canonical = false)
     {
         $routeMatch = $this->getServiceLocator()->get('Application')
@@ -185,6 +197,13 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         return $url;
     }
 
+    /**
+     * Return the admin URL to this resource.
+     *
+     * @param string $action The route action
+     * @param bool $canonical Whether to return an absolute URL
+     * @return string
+     */
     public function adminUrl($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');
@@ -199,22 +218,18 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         );
     }
 
+    /**
+     * Return the site URL to this resource.
+     *
+     * Implement this method only for resources that have site URLs.
+     *
+     * @param string $siteSlug The site's slug
+     * @param bool $canonical Whether to return an absolute URL
+     * @return string
+     */
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
-            $siteSlug = $this->getServiceLocator()->get('Application')
-                ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
-        }
-        $url = $this->getViewHelper('Url');
-        return $url(
-            'site/id',
-            array(
-                'site-slug' => $siteSlug,
-                'action' => $this->getSiteActionName(),
-                'id' => $this->id(),
-            ),
-            array('force_canonical' => $canonical)
-        );
+        return null;
     }
 
     /**
@@ -244,11 +259,6 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @return string|null
      */
     protected function getControllerName()
-    {
-        return null;
-    }
-
-    protected function getSiteActionName()
     {
         return null;
     }

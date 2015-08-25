@@ -11,11 +11,6 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         return 'item';
     }
 
-    protected function getSiteActionName()
-    {
-        return 'item';
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -74,5 +69,23 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         // Return the first media if one exists.
         $media = $this->media();
         return $media ? $media[0] : null;
+    }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->getServiceLocator()->get('Application')
+                ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site/id',
+            array(
+                'site-slug' => $siteSlug,
+                'action' => 'item',
+                'id' => $this->id(),
+            ),
+            array('force_canonical' => $canonical)
+        );
     }
 }

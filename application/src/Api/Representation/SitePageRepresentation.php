@@ -61,4 +61,20 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         return $this->getAdapter('sites')
             ->getRepresentation(null, $this->getData()->getSite());
     }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->site()->slug();
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site/page',
+            array(
+                'site-slug' => $siteSlug,
+                'page-slug' => $this->slug(),
+            ),
+            array('force_canonical' => $canonical)
+        );
+    }
 }

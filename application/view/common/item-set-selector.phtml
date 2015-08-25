@@ -10,11 +10,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <ul>
                 <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
                 <?php
-                $owner = $itemSetOwner['owner'];
+                if ($itemSetOwner['owner']) {
+                    $ownerText = $escape($itemSetOwner['owner']->name());
+                } else {
+                    $ownerText = $this->translate('[no owner]');
+                }
                 $itemSets = $itemSetOwner['item_sets'];
                 ?>
                 <li class='selector-parent'>
-                    <span><?php echo $escape($owner->name()); ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
+                    <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
                     <ul>
                         <?php foreach ($itemSets as $itemSet): ?>
                         <li class='selector-child'

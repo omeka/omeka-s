@@ -13,9 +13,16 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <tbody>
     <?php if ($item && $item->itemSets()): ?>
     <?php foreach ($item->itemSets() as $itemSet): ?>
+    <?php
+    if ($owner = $itemSet->owner()) {
+        $ownerText = $escape($itemSet->owner()->name());
+    } else {
+        $ownerText = $this->translate('[no owner]');
+    }
+    ?>
     <tr>
         <td><?php echo $escape($itemSet->displayTitle()); ?></td>
-        <td><?php echo $escape($itemSet->owner()->name()); ?></td>
+        <td><?php echo $ownerText; ?></td>
         <td><ul class="actions">
             <li><a 
                 class="o-icon-delete" 

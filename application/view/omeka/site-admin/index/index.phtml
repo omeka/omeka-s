@@ -24,6 +24,20 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </thead>
     <tbody>
         <?php foreach ($sites as $site): ?>
+        <?php
+        if ($owner = $site->owner()) {
+            $ownerText = $this->hyperlink(
+                $owner->name(),
+                $this->url('admin/id', array(
+                    'controller' => 'user',
+                    'action' => 'show',
+                    'id' => $owner->id())
+                )
+            );
+        } else {
+            $ownerText = $this->translate('[no owner]');
+        }
+        ?>
         <tr>
             <td>
                 <span class="resource-name">
@@ -43,18 +57,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                         title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
                 </ul>
             </td>
-            <td>
-                <?php
-                $owner = $site->owner();
-                echo $this->hyperlink($owner->name(), $this->url(
-                    'admin/id',
-                    array(
-                        'controller' => 'user',
-                        'action' => 'show',
-                        'id' => $owner->id()
-                    )
-                )); ?>
-            </td>
+            <td><?php echo $ownerText; ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

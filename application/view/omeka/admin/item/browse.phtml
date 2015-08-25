@@ -32,6 +32,20 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     </thead>
     <tbody>
         <?php foreach ($items as $item): ?>
+        <?php
+        if ($owner = $item->owner()) {
+            $ownerText = $this->hyperlink(
+                $owner->name(),
+                $this->url('admin/id', array(
+                    'controller' => 'user',
+                    'action' => 'show',
+                    'id' => $owner->id())
+                )
+            );
+        } else {
+            $ownerText = $this->translate('[no owner]');
+        }
+        ?>
         <tr>
             <td>
                 <ul class="actions">
@@ -67,7 +81,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 <?php endif; ?>
             </td>
             <td><?php echo $escape($item->displayResourceClassLabel()); ?></td>
-            <td><?php echo $this->hyperlink($item->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $item->owner()->id()))); ?></td>
+            <td><?php echo $ownerText; ?></td>
             <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
         </tr>
         <?php endforeach; ?>

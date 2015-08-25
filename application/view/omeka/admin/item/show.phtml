@@ -2,6 +2,11 @@
 $escape = $this->plugin('escapeHtml');
 $escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
+if ($owner = $item->owner()) {
+    $ownerText = $escape($item->owner()->name());
+} else {
+    $ownerText = $this->translate('[no owner]');
+}
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
 <div id="page-actions">
@@ -63,7 +68,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Owner'); ?></h4>
-        <div class="value"><?php echo $escape($item->owner()->name()); ?></div>
+        <div class="value"><?php echo $ownerText; ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>

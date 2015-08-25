@@ -9,6 +9,11 @@ if ($job->ended()) {
 } else {
     $ended = $this->translate('[not ended]');
 }
+if ($owner = $job->owner()) {
+    $ownerText = $this->escapeHtml($owner->email());
+} else {
+    $ownerText = $this->translate('[no owner]');
+}
 ?>
 <h2><?php echo sprintf($this->translate('Job #%s'), $this->escapeHtml($job->id())); ?></h2>
 <div class="meta-group">
@@ -29,7 +34,7 @@ if ($job->ended()) {
 </div>
 <div class="meta-group">
     <h4><?php echo $this->translate('Owner'); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($job->owner()->email()); ?></div>
+    <div class="value"><?php echo $ownerText; ?></div>
 </div>
 <div class="meta-group">
     <h4><?php echo $this->translate('Args'); ?></h4>

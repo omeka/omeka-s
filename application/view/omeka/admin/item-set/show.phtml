@@ -11,6 +11,11 @@ $viewItemsLink = $this->url(
         )
     )
 );
+if ($owner = $itemSet->owner()) {
+    $ownerText = $escape($itemSet->owner()->name());
+} else {
+    $ownerText = $this->translate('[no owner]');
+}
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Item Set: “%s”'), $itemSet->displayTitle())); ?>
@@ -50,7 +55,7 @@ $viewItemsLink = $this->url(
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Owner'); ?></h4>
-        <div class="value"><?php echo $escape($itemSet->owner()->name()); ?></div>
+        <div class="value"><?php echo $ownerText; ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>

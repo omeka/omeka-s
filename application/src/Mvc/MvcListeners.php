@@ -38,7 +38,7 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'setCurrentTheme')
+            array($this, 'prepareSite')
         );
     }
 
@@ -213,11 +213,11 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Set the current theme.
+     * Prepare the site theme and navigation.
      *
      * @param MvcEvent $event
      */
-    public function setCurrentTheme(MvcEvent $event)
+    public function prepareSite(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
         if (!$routeMatch->getParam('__SITE__')) {
@@ -260,5 +260,68 @@ class MvcListeners extends AbstractListenerAggregate
                 $serviceLocator->get('ViewHelperManager')->setFactory($helper, $factory);
             }
         }
+
+        // Set the site navigation by preparing the navigation array and setting
+        // it to module configuration.
+        $sitePages = $site->getPages();
+        $siteSlug = $routeMatch->getParam('site-slug');
+        $buildNavigation = function ($pagesIn)
+            use (&$buildNavigation, $siteSlug, $sitePages
+        ) {
+            $pagesOut = array();
+            foreach ($pagesIn as $key => $page) {
+                if (!isset($page['type'])) {
+                    continue;
+                }
+                switch ($page['type']) {
+                    case 'home':
+                        $pagesOut[$key] = array(
+                            'label' => 'Home',
+                            'route' => 'site',
+                            'params' => array(
+                                'site-slug' => $siteSlug,
+                            ),
+                        );
+                        break;
+                    case 'browse':
+                        $pagesOut[$key] = array(
+                            'label' => 'Browse',
+                            'route' => 'site/browse',
+                            'params' => array(
+                                'site-slug' => $siteSlug,
+                            ),
+                        );
+                        break;
+                    case 'page':
+                        $sitePage = $sitePages->get($page['id']);
+                        if (!$sitePage) {
+                            continue;
+                        }
+                        $pagesOut[$key] = array(
+                            'label' => $sitePage->getTitle(),
+                            'route' => 'site/page',
+                            'params' => array(
+                                'site-slug' => $siteSlug,
+                                'page-slug' => $sitePage->getSlug(),
+                            ),
+                        );
+                        break;
+                    default:
+                        continue 2;
+                }
+                if (isset($page['pages'])) {
+                    $pagesOut[$key]['pages'] = $buildNavigation($page['pages']);
+                }
+            }
+            return $pagesOut;
+        };
+        $pages = $buildNavigation($site->getNavigation());
+
+        $config = $serviceLocator->get('Config');
+        $config['navigation']['site'] = $pages;
+        $allowOverride = $serviceLocator->getAllowOverride();
+        $serviceLocator->setAllowOverride(true);
+        $serviceLocator->setService('Config', $config);
+        $serviceLocator->setAllowOverride($allowOverride);
     }
 }

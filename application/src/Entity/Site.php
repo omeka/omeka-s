@@ -59,7 +59,8 @@ class Site extends AbstractEntity
      *     targetEntity="SitePage",
      *     mappedBy="site",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
+     *     cascade={"persist", "remove"},
+     *     indexBy="id"
      * )
      */
     protected $pages;

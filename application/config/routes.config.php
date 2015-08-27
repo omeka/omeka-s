@@ -105,7 +105,7 @@ return array(
                     'site' => array(
                         'type' => 'Literal',
                         'options' => array(
-                            'route' => '/manage',
+                            'route' => '/site',
                             'defaults' => array(
                                 '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
                                 'controller'    => 'Index',
@@ -117,7 +117,7 @@ return array(
                             'default' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/site/:site-slug[/:action]',
+                                    'route' => '/s/:site-slug[/:action]',
                                     'constraints' => array(
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -130,7 +130,7 @@ return array(
                             'add' => array(
                                 'type' => 'Literal',
                                 'options' => array(
-                                    'route' => '/add-site',
+                                    'route' => '/add',
                                     'defaults' => array(
                                         'action' => 'add',
                                     ),
@@ -139,7 +139,7 @@ return array(
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/page/:site-slug/:page-slug[/:action]',
+                                    'route' => '/s/:site-slug/page/:page-slug[/:action]',
                                     'constraints' => array(
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
                                         'page-slug'  => '[a-zA-Z0-9_-]+',

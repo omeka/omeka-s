@@ -294,17 +294,21 @@ class MvcListeners extends AbstractListenerAggregate
                         break;
                     case 'page':
                         $sitePage = $sitePages->get($page['id']);
-                        if (!$sitePage) {
-                            continue;
+                        if ($sitePage) {
+                            $pagesOut[$key] = array(
+                                'label' => $sitePage->getTitle(),
+                                'route' => 'site/page',
+                                'params' => array(
+                                    'site-slug' => $siteSlug,
+                                    'page-slug' => $sitePage->getSlug(),
+                                ),
+                            );
+                        } else {
+                            $pagesOut[$key] = array(
+                                'type' => 'uri',
+                                'label' => '[invalid page]',
+                            );
                         }
-                        $pagesOut[$key] = array(
-                            'label' => $sitePage->getTitle(),
-                            'route' => 'site/page',
-                            'params' => array(
-                                'site-slug' => $siteSlug,
-                                'page-slug' => $sitePage->getSlug(),
-                            ),
-                        );
                         break;
                     default:
                         continue 2;

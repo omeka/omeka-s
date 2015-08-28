@@ -320,6 +320,16 @@ class MvcListeners extends AbstractListenerAggregate
             return $pagesOut;
         };
         $pages = $buildNavigation($site->getNavigation());
+        if (!$pages) {
+            // The site must have at least one page for navigation to work.
+            $pages = array(array(
+                'label' => 'Home',
+                'route' => 'site',
+                'params' => array(
+                    'site-slug' => $siteSlug,
+                ),
+            ));
+        }
 
         $config = $serviceLocator->get('Config');
         $config['navigation']['site'] = $pages;

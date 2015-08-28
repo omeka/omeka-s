@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\SiteBlockAttachment;
 use Omeka\Entity\SitePage;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -146,6 +147,14 @@ class SitePageAdapter extends AbstractEntityAdapter
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);
 
+            $attachmentData = isset($inputBlock['o:attachment'])
+                ? $inputBlock['o:attachment'] : array();
+
+            // Hydrate attachments, and abort block hydration if there's an error
+            if (!$this->hydrateAttachments($attachmentData, $block, $errorStore)) {
+                return;
+            }
+
             $handler = $this->getServiceLocator()
                 ->get('Omeka\BlockLayoutManager')
                 ->get($inputBlock['o:layout'])
@@ -165,5 +174,75 @@ class SitePageAdapter extends AbstractEntityAdapter
         foreach ($newBlocks as $newBlock) {
             $blocks->add($newBlock);
         }
+    }
+
+    /**
+     * Hydrate attachment data for a block
+     *
+     * @param array $attachmentData
+     * @param SitePageBlock $block
+     * @param ErrorStore $errorStore
+     * @return boolean true on success, false on error
+     */
+    private function hydrateAttachments(array $attachmentData, SitePageBlock $block,
+        ErrorStore $errorStore)
+    {
+        $itemAdapter = $this->getAdapter('items');
+        $attachments = $block->getAttachments();
+        $existingAttachments = $attachments->toArray();
+        $newAttachments = array();
+        $position = 1;
+
+        foreach ($attachmentData as $inputAttachment) {
+            if (!is_array($inputAttachment)) {
+                continue;
+            }
+
+            $attachment = current($existingAttachments);
+            if ($attachment === false) {
+                $attachment = new SiteBlockAttachment;
+                $attachment->setBlock($block);
+                $newAttachments[] = $attachment;
+            } else {
+                // Null out values as we re-use them
+                $existingAttachments[key($existingAttachments)] = null;
+                next($existingAttachments);
+            }
+
+            if (!isset($inputAttachment['o:item']['o:id'])) {
+                $errorStore->addError('o:attachment', 'Attachments must specify an item to attach.');
+                return false;
+            }
+
+            $item = $itemAdapter->findEntity($inputAttachment['o:item']['o:id']);
+
+            if (isset($inputAttachment['o:media']['o:id'])) {
+                $itemMedia = $item->getMedia();
+                $media = $itemMedia->get($inputAttachment['o:media']['o:id']);
+            } else {
+                $media = null;
+            }
+
+            $caption = isset($inputAttachment['o:caption']) ? $inputAttachment['o:caption'] : '';
+
+            $attachment->setItem($item);
+            $attachment->setMedia($media);
+            $attachment->setCaption($caption);
+            $attachment->setPosition($position++);
+        }
+
+        // Remove any blocks that weren't reused
+        foreach ($existingAttachments as $key => $existingAttachment) {
+            if ($existingAttachment !== null) {
+                $attachments->remove($key);
+            }
+        }
+
+        // Add any new blocks that had to be created
+        foreach ($newAttachments as $newAttachment) {
+            $attachments->add($newAttachment);
+        }
+
+        return true;
     }
 }

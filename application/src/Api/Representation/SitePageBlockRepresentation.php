@@ -42,6 +42,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         return array(
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
+            'o:attachment' => $this->attachments(),
         );
     }
 
@@ -68,5 +69,15 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     public function data()
     {
         return $this->getData()->getData();
+    }
+
+    public function attachments()
+    {
+        $attachments = array();
+        foreach ($this->getData()->getAttachments() as $attachment) {
+            $attachments[]= new SiteBlockAttachmentRepresentation(
+                $attachment, $this->getServiceLocator());
+        }
+        return $attachments;
     }
 }

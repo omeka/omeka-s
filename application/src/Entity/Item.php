@@ -19,7 +19,8 @@ class Item extends Resource
      *     targetEntity="Media",
      *     mappedBy="item",
      *     orphanRemoval=true,
-     *     cascade={"persist", "remove", "detach"}
+     *     cascade={"persist", "remove", "detach"},
+     *     indexBy="id"
      * )
      * @OrderBy({"position" = "ASC"})
      */

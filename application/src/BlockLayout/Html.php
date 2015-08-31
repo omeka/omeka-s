@@ -24,7 +24,7 @@ class Html extends AbstractBlockLayout
     {
         $htmlPurifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
         $data = $block->getData();
-        $data['html'] = $htmlPurifier->purify($this->getHtml($data));
+        $data['html'] = $htmlPurifier->purify($this->getData($data, 'html'));
         $block->setData($data);
     }
 
@@ -33,7 +33,7 @@ class Html extends AbstractBlockLayout
         $textarea = new Textarea("o:block[$index][o:data][html]");
         $textarea->setAttribute('class', 'block-html');
         if ($block) {
-            $textarea->setAttribute('value', $this->getHtml($block->data()));
+            $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
         }
         $script = '<script type="text/javascript">
             $(".block-html").ckeditor({customConfig: "' . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . '"});
@@ -43,17 +43,6 @@ class Html extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return $this->getHtml($block->data());
-    }
-
-    /**
-     * Get the HTML from I/O arrays.
-     *
-     * @param array $data
-     * @return string
-     */
-    protected function getHtml(array $data)
-    {
-        return isset($data['html']) ? $data['html'] : null;
+        return $this->getData($block->data(), 'html');
     }
 }

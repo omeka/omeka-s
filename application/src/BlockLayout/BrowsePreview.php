@@ -21,18 +21,17 @@ class BrowsePreview extends AbstractBlockLayout
     {
         $text = new Text("o:block[$index][o:data][query]");
         if ($block) {
-            $text->setAttribute('value', $block->data()['query']);
+            $text->setAttribute('value', $this->getData($block->data(), 'query'));
         }
         return 'query: ' . $view->formField($text);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        parse_str($block->data()['query'], $query);
+        parse_str($this->getData($block->data(), 'query'), $query);
         $previewQuery = $query;
         $previewQuery['limit'] = 10;
         $previewQuery['site_id'] = $block->page()->site()->id();
-        
 
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', $previewQuery);

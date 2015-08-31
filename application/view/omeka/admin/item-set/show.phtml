@@ -1,7 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'item-sets show sidebar-open');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $viewItemsLink = $this->url(
     'admin/default', 
     array( 'controller' => 'item', 'action' => 'browse'), 
@@ -59,8 +58,8 @@ if ($owner = $itemSet->owner()) {
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($itemSet->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
-        <div class="value"><?php echo ($itemSet->isOpen()) ? $escapeAttr($this->translate('Open to additions')) : $escapeAttr($this->translate('Closed to additions')); ?></div>
+        <div class="value"><?php echo ($itemSet->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
+        <div class="value"><?php echo ($itemSet->isOpen()) ? $escape($this->translate('Open to additions')) : $escape($this->translate('Closed to additions')); ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Items'); ?></h4>

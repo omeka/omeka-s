@@ -1,6 +1,5 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <h1><?php echo $this->translate('Select Item Set'); ?></h1>
@@ -8,7 +7,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div id="sidebar-resource-search" class="resource-search">
         <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
         <button 
-        data-search-url="<?php echo $escapeAttr($this->url('admin/default', array('controller' => 'item-set', 'action' => 'sidebar-select'))); ?>" 
+        data-search-url="<?php echo $escape($this->url('admin/default', array('controller' => 'item-set', 'action' => 'sidebar-select'))); ?>" 
         type="submit" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
 <?php echo $this->pagination(); ?>
@@ -19,13 +18,13 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="resource item-set">
         <div class="placeholder"></div>
         <?php if ($media = $itemSet->primaryMedia()): ?>
-        <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
         <?php endif; ?>
         <span class="resource-name">
             <a href="#"
             class="sidebar-content"
-            data-resource-id="<?php echo $escapeAttr($itemSet->id()); ?>"
-            data-sidebar-content-url="<?php echo $escapeAttr($itemSet->url('show-details')); ?>"><?php echo $escape($itemSet->displayTitle()); ?></a></span>
+            data-resource-id="<?php echo $escape($itemSet->id()); ?>"
+            data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>"><?php echo $escape($itemSet->displayTitle()); ?></a></span>
     </div>
     <?php endforeach; ?>
 </div>

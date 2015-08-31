@@ -1,6 +1,5 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <table id="item-item-sets" class="<?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
     <thead>
@@ -27,10 +26,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
             <li><a 
                 class="o-icon-delete" 
                 href="#" 
-                title=" <?php echo $escapeAttr($this->translate('Remove item set')); ?>" 
-                aria-label=" <?php echo $escapeAttr($this->translate('Remove item set')); ?>">
+                title=" <?php echo $escape($this->translate('Remove item set')); ?>" 
+                aria-label=" <?php echo $escape($this->translate('Remove item set')); ?>">
             </a></li>
-        </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escapeAttr($itemSet->id()) ?>"></td>
+        </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escape($itemSet->id()) ?>"></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -50,13 +49,13 @@ $itemSetTemplate = '
     <td><ul class="actions">
         <li><a href="#" 
         class="o-icon-delete" 
-        title="' . $escapeAttr($this->translate('Remove item set')) . '" 
-        aria-label="' . $escapeAttr($this->translate('Remove item set')) . '">
+        title="' . $escape($this->translate('Remove item set')) . '" 
+        aria-label="' . $escape($this->translate('Remove item set')) . '">
         </a></li>
     </ul><input type="hidden" name="o:item_set[]"></td>
 </tr>';
 ?>
-<span id="item-set-template" data-template="<?php echo $escapeAttr($itemSetTemplate); ?>"></span>
+<span id="item-set-template" data-template="<?php echo $escape($itemSetTemplate); ?>"></span>
 
 <?php echo $this->itemSetSelector(); ?>
 

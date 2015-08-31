@@ -2,7 +2,6 @@
 $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Vocabularies')); ?>
@@ -38,24 +37,24 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', array(
                         'class' => 'o-icon-edit',
-                        'aria-label' => $escapeAttr($this->translate('Edit')),
-                        'title' => $escapeAttr($this->translate('Edit')),
+                        'aria-label' => $escape($this->translate('Edit')),
+                        'title' => $escape($this->translate('Edit')),
                     )); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escapeAttr($vocabulary->url('delete')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escape($vocabulary->url('delete')); ?>"
                         class="o-icon-delete sidebar-confirm"
-                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Delete')); ?>"
+                        title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
                     <?php endif; ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($vocabulary->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a>
                     </li>
                 </ul>
             </td>
@@ -72,8 +71,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $this->translate('Delete Vocabulary'); ?></h2>
         <p><?php echo $this->translate('Are you sure you would like to delete this vocabulary?'); ?></p>

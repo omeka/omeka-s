@@ -2,7 +2,6 @@
 use Zend\Form\Element\Textarea;
 $this->htmlElement('body')->appendAttribute('class', 'edit media sidebar-open');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formLabel = $this->plugin('formLabel');

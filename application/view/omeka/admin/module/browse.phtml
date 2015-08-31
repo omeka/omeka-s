@@ -3,7 +3,6 @@ use Omeka\Module\Manager;
 
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Modules')); ?>
@@ -12,7 +11,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <select name="state">
         <option value=""><?php echo $this->translate('All Modules'); ?></option>
         <?php foreach ($filterStates as $value => $option): ?>
-        <option value="<?php echo $escapeAttr($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+        <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
         <?php endforeach; ?>
     </select>
 </form>
@@ -44,8 +43,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                             ), true),
                             array(
                                 'class' => 'o-icon-configure',
-                                'title' => $escapeAttr($this->translate('Configure')),
-                                'aria-label' => $escapeAttr($this->translate('Configure'))
+                                'title' => $escape($this->translate('Configure')),
+                                'aria-label' => $escape($this->translate('Configure'))
                             )
                         ) . '</li>';
                     }
@@ -90,11 +89,11 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
                     ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
-                        data-sidebar-confirm-url="<?php echo $escapeAttr($this->url(null, array('action' => 'uninstall'), array('query' => array('id' => $module->getId())), true)); ?>"
+                        data-sidebar-content-url="<?php echo $escape($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
+                        data-sidebar-confirm-url="<?php echo $escape($this->url(null, array('action' => 'uninstall'), array('query' => array('id' => $module->getId())), true)); ?>"
                         class="o-icon-uninstall sidebar-confirm"
-                        aria-label="<?php echo $escapeAttr($this->translate('Uninstall')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Uninstall')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"
+                        title="<?php echo $escape($this->translate('Uninstall')); ?>"></a></li>
                     <?php endif; ?>
 
                     <?php
@@ -108,10 +107,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     ?>
 
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
+                        data-sidebar-content-url="<?php echo $escape($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
 
                 <?php if ($name = $module->getName()): ?>
@@ -135,8 +134,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $this->translate('Uninstall Module'); ?></h2>
         <p><?php echo $this->translate('Are you sure you would like to uninstall this module?'); ?></p>

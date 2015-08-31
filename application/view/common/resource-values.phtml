@@ -1,6 +1,5 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $labelInfo = $this->setting('property_label_information');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
@@ -21,7 +20,7 @@ $labelInfo = $this->setting('property_label_information');
             <?php
             $class = 'value';
             if ('resource' == $value->type()) {
-                $class .= ' ' . $escapeAttr($value->valueResource()->resourceName());
+                $class .= ' ' . $escape($value->valueResource()->resourceName());
             } elseif ('uri' == $value->type()) {
                 $class .= ' uri';
             }

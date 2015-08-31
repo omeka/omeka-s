@@ -2,7 +2,6 @@
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
 $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Items')); ?>
@@ -58,20 +57,20 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escapeAttr($item->url('delete')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
+                        data-sidebar-confirm-url="<?php echo $escape($item->url('delete')); ?>"
                         class="o-icon-delete sidebar-confirm"
-                        aria-label="<?php echo $escapeAttr($this->translate('Delete')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Delete')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Delete')); ?>"
+                        title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($item->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
                 <?php if ($media = $item->primaryMedia()): ?>
-                <img src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>">
+                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
                 <?php endif; ?>
                 <span class="resource-name">
                     <?php echo $item->link($item->displayTitle()); ?>
@@ -93,8 +92,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
         <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>

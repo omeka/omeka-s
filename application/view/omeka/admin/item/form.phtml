@@ -1,7 +1,6 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
@@ -58,15 +57,15 @@ $formElement = $this->plugin('formElement');
         <?php if ($item && $item->isPublic() || !isset($item)): ?>
         <a href="#"
         class="o-icon-public button"
-        aria-label=" <?php echo $escapeAttr($this->translate('Make private')); ?>"
-        title=" <?php echo $escapeAttr($this->translate('Make private')); ?>">
+        aria-label=" <?php echo $escape($this->translate('Make private')); ?>"
+        title=" <?php echo $escape($this->translate('Make private')); ?>">
         </a>
         <input type="hidden" name="o:is_public" value="1">
         <?php else: ?>
         <a href="#"
         class="o-icon-private button"
-        aria-label=" <?php echo $escapeAttr($this->translate('Make public')); ?>"
-        title=" <?php echo $escapeAttr($this->translate('Make public')); ?>">
+        aria-label=" <?php echo $escape($this->translate('Make public')); ?>"
+        title=" <?php echo $escape($this->translate('Make public')); ?>">
         </a>
         <input type="hidden" name="o:is_public" value="0">
         <?php endif; ?>

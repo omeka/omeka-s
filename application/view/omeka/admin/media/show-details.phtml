@@ -2,7 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<div class="resource-details" data-resource-values="<?php echo $this->escapeHtmlAttr($values); ?>">
+<div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <h2 class="o-title"><?php echo $media->link($media->displayTitle()); ?></h2>
     
     <div class="meta-group">

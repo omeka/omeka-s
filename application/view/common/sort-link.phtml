@@ -7,8 +7,8 @@ if ('sorted-asc' == $class) {
     $title = sprintf($this->translate('Sort by %s'), $label);
 }
 ?>
-<a href="<?php echo $this->escapeHtmlAttr($url); ?>"
-    class="<?php echo $this->escapeHtmlAttr($class); ?>"
-    title="<?php echo $this->escapeHtmlAttr($title); ?>">
+<a href="<?php echo $this->escapeHtml($url); ?>"
+    class="<?php echo $this->escapeHtml($class); ?>"
+    title="<?php echo $this->escapeHtml($title); ?>">
     <?php echo $this->escapeHtml($label); ?>
 </a>

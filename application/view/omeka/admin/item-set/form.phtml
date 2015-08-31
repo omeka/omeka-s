@@ -2,6 +2,7 @@
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 $formElement = $this->plugin('formElement');
+$escape = $this->plugin('escapeHtml');
 ?>
 
 

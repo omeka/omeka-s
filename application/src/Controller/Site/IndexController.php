@@ -14,7 +14,7 @@ class IndexController extends AbstractActionController
         // Redirect to the first page, if it exists
         $pages = $site->pages();
         if ($pages) {
-            $firstPage = $pages[0];
+            $firstPage = current($pages);
             return $this->redirect()->toRoute('site/page', array(
                 'site-slug' => $site->slug(),
                 'page-slug' => $firstPage->slug(),

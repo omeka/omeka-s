@@ -249,10 +249,10 @@ $('#navigation-tree').jstree({
 });
 $("form").submit(function(event) {
     var json = $('#navigation-tree').jstree(true).get_json();
-    $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "jstree")
-        .val(JSON.stringify(json))
-        .appendTo("form");
+    $("<input>", {
+        "type": "hidden",
+        "name": "jstree",
+        "val": JSON.stringify(json)
+    }).appendTo("form");
 });
 </script>

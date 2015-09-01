@@ -30,8 +30,8 @@
         <td>
             <input type="checkbox"
                 name="delete[]"
-                value="<?php echo $this->escapeHtmlAttr($id); ?>"
-                aria-label="Mark key &ldquo;<?php echo $this->escapeHtmlAttr($label); ?>&rdquo; for deletion">
+                value="<?php echo $this->escapeHtml($id); ?>"
+                aria-label="Mark key &ldquo;<?php echo $this->escapeHtml($label); ?>&rdquo; for deletion">
         </td>
     </tr>
     <?php endforeach; ?>

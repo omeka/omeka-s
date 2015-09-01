@@ -124,9 +124,9 @@ class YoutubeHandler extends AbstractHandler
         $url->setQuery(array('start' => $data['start'], 'end' => $data['end']));
         $embed = sprintf(
             '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
-            $view->escapeHtmlAttr($options['width']),
-            $view->escapeHtmlAttr($options['height']),
-            $view->escapeHtmlAttr($url),
+            $view->escapeHtml($options['width']),
+            $view->escapeHtml($options['height']),
+            $view->escapeHtml($url),
             $options['allowfullscreen'] ? ' allowfullscreen' : ''
         );
         return $embed;

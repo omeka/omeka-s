@@ -1,6 +1,5 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
 if ($owner = $item->owner()) {
     $ownerText = $escape($item->owner()->name());
@@ -48,9 +47,9 @@ if ($owner = $item->owner()) {
 <div class="sidebar active">
     <?php if ($primaryMedia = $item->primaryMedia()): ?>
     <img 
-        src="<?php echo $escapeAttr($primaryMedia->thumbnailUrl('square')); ?>" 
-        title="<?php echo $escapeAttr($primaryMedia->displayTitle()); ?>" 
-        alt="<?php echo $escapeAttr($primaryMedia->mediaType()); ?> thumbnail"
+        src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>" 
+        title="<?php echo $escape($primaryMedia->displayTitle()); ?>" 
+        alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
     >
     <?php endif; ?>
     <?php $itemsets = $item->itemSets(); ?>
@@ -72,7 +71,7 @@ if ($owner = $item->owner()) {
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($item->isPublic()) ? $escapeAttr($this->translate('Public')) : $escapeAttr($this->translate('Private')); ?></div>
+        <div class="value"><?php echo ($item->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
     </div>
     <?php if ($item->media()): ?>
     <div class="meta-group">
@@ -81,9 +80,9 @@ if ($owner = $item->owner()) {
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
                 <img 
-                    src="<?php echo $escapeAttr($media->thumbnailUrl('square')); ?>"
-                title="<?php echo $escapeAttr($media->displayTitle()); ?>" 
-                alt="<?php echo $escapeAttr($media->mediaType()); ?> thumbnail"
+                    src="<?php echo $escape($media->thumbnailUrl('square')); ?>"
+                title="<?php echo $escape($media->displayTitle()); ?>" 
+                alt="<?php echo $escape($media->mediaType()); ?> thumbnail"
                 >
                 <span class="file-name"><?php echo $escape($media->displayTitle()); ?>
             </a>

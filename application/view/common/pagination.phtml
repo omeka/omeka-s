@@ -5,25 +5,25 @@
     </form>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($firstPageUrl); ?>" class="first o-icon-first button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('First')); ?>"></a>
+    <a href="<?php echo $this->escapeHtml($firstPageUrl); ?>" class="first o-icon-first button" aria-label=" <?php echo $this->escapeHtml($this->translate('First')); ?>"></a>
     <?php else: ?>
     <span class="first o-icon-first button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Previous')); ?>"></a>
+    <a href="<?php echo $this->escapeHtml($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtml($this->translate('Previous')); ?>"></a>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($nextPageUrl); ?>" class="next o-icon-next button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Next')); ?>"></a>
+    <a href="<?php echo $this->escapeHtml($nextPageUrl); ?>" class="next o-icon-next button" aria-label=" <?php echo $this->escapeHtml($this->translate('Next')); ?>"></a>
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtmlAttr($lastPageUrl); ?>" class="last o-icon-last button" aria-label=" <?php echo $this->escapeHtmlAttr($this->translate('Last')); ?>"></a>
+    <a href="<?php echo $this->escapeHtml($lastPageUrl); ?>" class="last o-icon-last button" aria-label=" <?php echo $this->escapeHtml($this->translate('Last')); ?>"></a>
     <?php else: ?>
     <span class="last o-icon-last button inactive"></span>
     <?php endif; ?>

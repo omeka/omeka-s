@@ -1,7 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'browse');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Properties in “%s”'), $vocabulary->label())); ?>
@@ -31,10 +30,10 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 </span>
                 <ul class="actions">
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a>
                     </li>
                 </ul>
             </td>
@@ -50,8 +49,8 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
 

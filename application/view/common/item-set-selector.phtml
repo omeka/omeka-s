@@ -1,10 +1,9 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
     <p><?php echo $this->translate('Click on an item set to add it to the edit panel.'); ?></p>
-    <input type="text" class="selector-filter" placeholder=" <?php echo $escapeAttr($this->translate('Filter item sets')); ?>">
+    <input type="text" class="selector-filter" placeholder=" <?php echo $escape($this->translate('Filter item sets')); ?>">
     <ul>
         <li class="show"><?php echo $this->translate('All Item Sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
             <ul>
@@ -22,9 +21,9 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                     <ul>
                         <?php foreach ($itemSets as $itemSet): ?>
                         <li class='selector-child'
-                            data-child-search="<?php echo $escapeAttr($itemSet->displayTitle()); ?>"
-                            data-item-set-id="<?php echo $escapeAttr($itemSet->id()); ?>"
-                            data-owner-email="<?php echo $escapeAttr($email); ?>">
+                            data-child-search="<?php echo $escape($itemSet->displayTitle()); ?>"
+                            data-item-set-id="<?php echo $escape($itemSet->id()); ?>"
+                            data-owner-email="<?php echo $escape($email); ?>">
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
                                 <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>

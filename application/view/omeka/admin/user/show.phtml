@@ -1,14 +1,13 @@
 <?php 
     $this->htmlElement('body')->appendAttribute('class', 'users show');
     $escape = $this->plugin('escapeHtml');
-    $escapeAttr = $this->plugin('escapeHtmlAttr'); 
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('User: “%s”'), $user->email())); ?>
 
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>
-        <a class="button" href="<?php echo $escapeAttr($user->url('edit')); ?>"><?php echo $this->translate('Edit User'); ?></a>
+        <a class="button" href="<?php echo $escape($user->url('edit')); ?>"><?php echo $this->translate('Edit User'); ?></a>
     <?php endif; ?>
 </div>
 

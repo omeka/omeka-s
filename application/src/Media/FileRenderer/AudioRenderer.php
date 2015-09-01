@@ -14,7 +14,7 @@ class AudioRenderer implements RendererInterface
     ){
         return sprintf(
             '<audio src="%s" controls>%s</audio>',
-            $view->escapeHtmlAttr($media->originalUrl()),
+            $view->escapeHtml($media->originalUrl()),
             $view->hyperlink($media->filename(), $media->originalUrl())
         );
     }

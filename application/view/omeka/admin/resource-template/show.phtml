@@ -1,14 +1,13 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'resource-template show');
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Resource Template: “%s”'), $resourceTemplate->label())); ?>
 
 <div id="page-actions">
     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
-    <a class="button" href="<?php echo $escapeAttr($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
+    <a class="button" href="<?php echo $escape($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
     <?php endif; ?>
 </div>
 
@@ -30,15 +29,15 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <tbody>
     <?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
         <?php $property = $resourceTemplateProperty->property(); ?>
-        <tr data-property-id="<?php echo $escapeAttr($property->id()); ?>">
+        <tr data-property-id="<?php echo $escape($property->id()); ?>">
             <td>
                 <?php echo $escape($this->translate($property->label())); ?>
                 <ul class="actions">
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escapeAttr($property->url('show-details')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escapeAttr($this->translate('Details')); ?>"
-                        title="<?php echo $escapeAttr($this->translate('Details')); ?>"></a></li>
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
             <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
@@ -51,7 +50,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>

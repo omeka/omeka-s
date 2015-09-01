@@ -4,7 +4,6 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Page: “%s”'), $page->title())); ?>
 
@@ -38,7 +37,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <select id="new-block">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
         <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
-        <option value="<?php echo $escapeAttr($layout); ?>">
+        <option value="<?php echo $escape($layout); ?>">
             <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
         </option>
         <?php endforeach; ?>

@@ -1,9 +1,8 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
 $deleteButton = '<a href="#" class="delete button sidebar-confirm" 
-    data-sidebar-confirm-url="' . $escapeAttr($item->url('delete')) . 
+    data-sidebar-confirm-url="' . $escape($item->url('delete')) . 
     '">' . $this->translate('Delete') . '</a>';
 ?>
 
@@ -26,8 +25,8 @@ echo $this->partial('omeka/admin/item/form.phtml', array(
 <div id="delete" class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escapeAttr($this->translate('Close')); ?>"
-        title="<?php echo $escapeAttr($this->translate('Close')); ?>"></a>
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div id="sidebar-confirm">
         <h2><?php echo $this->translate('Delete Item'); ?></h2>
         <p><?php echo $this->translate('Are you sure you would like to delete this item?'); ?></p>

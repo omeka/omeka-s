@@ -1,6 +1,5 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 <div id="property-selector" class='selector sidebar active'>
     <?php if ($propertySelectorText) :?>
@@ -21,14 +20,14 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
                 }
                 ?>
                 <li class='selector-parent'
-                    data-vocabulary-id="<?php echo $escapeAttr($vocabulary->id()); ?>">
+                    data-vocabulary-id="<?php echo $escape($vocabulary->id()); ?>">
                     <span><?php echo $escape($vocabulary->label()); ?></span> (<span class="selector-child-count"><?php echo count($vocabulary->properties()); ?></span>)
                     <ul>
                         <?php foreach ($properties as $property): ?>
                         <li class='selector-child'
-                            data-child-search="<?php echo $escapeAttr($property->label()); ?>"
-                            data-property-id="<?php echo $escapeAttr($property->id()); ?>"
-                            data-property-term="<?php echo $escapeAttr($property->term()); ?>">
+                            data-child-search="<?php echo $escape($property->label()); ?>"
+                            data-property-id="<?php echo $escape($property->id()); ?>"
+                            data-property-term="<?php echo $escape($property->term()); ?>">
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
                                 <p class="field-comment"><?php echo $escape($property->comment()); ?></p>

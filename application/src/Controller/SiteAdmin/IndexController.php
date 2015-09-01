@@ -63,6 +63,7 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
+            $formData['o:navigation'] = $this->fromJstree($formData['jstree']);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData);
@@ -83,6 +84,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('jstree', $this->toJstree($site));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
@@ -91,6 +93,93 @@ class IndexController extends AbstractActionController
             )
         ));
         return $view;
+    }
+
+    /**
+     * Convert jsTree data to site o:navigation data.
+     *
+     * @param string $json
+     * @return array
+     */
+    public function fromJstree($json)
+    {
+        $buildNavigation = function ($pagesIn) use (&$buildNavigation) {
+            $pagesOut = array();
+            foreach ($pagesIn as $key => $page) {
+                $pagesOut[$key] = $page['data'];
+                if ($page['children']) {
+                    $pagesOut[$key]['pages'] = $buildNavigation($page['children']);
+                }
+            }
+            return $pagesOut;
+        };
+        $pages = $buildNavigation(json_decode($json, true));
+        return $pages;
+    }
+
+    /**
+     * Convert site o:navigation data to jsTree data.
+     *
+     * @param SiteRepresentation $site
+     * @return array
+     */
+    public function toJstree($site)
+    {
+        $sitePages = $site->pages();
+        $siteSlug = $site->slug();
+
+        $buildNavigation = function ($pagesIn)
+            use (&$buildNavigation, $siteSlug, $sitePages
+        ) {
+            $pagesOut = array();
+            foreach ($pagesIn as $key => $page) {
+                if (!isset($page['type'])) {
+                    continue;
+                }
+                switch ($page['type']) {
+                    case 'home':
+                        $pagesOut[$key] = array(
+                            'text' => 'Home',
+                            'data' => array(
+                                'type' => 'home',
+                            ),
+                        );
+                        break;
+                    case 'browse':
+                        $pagesOut[$key] = array(
+                            'text' => 'Browse',
+                            'data' => array(
+                                'type' => 'browse',
+                            ),
+                        );
+                        break;
+                    case 'page':
+                        if (isset($sitePages[$page['id']])) {
+                            $sitePage = $sitePages[$page['id']];
+                            $pagesOut[$key] = array(
+                                'text' => $sitePage->title(),
+                                'data' => array(
+                                    'type' => 'page',
+                                    'id' => $sitePage->id(),
+                                ),
+                            );
+                        } else {
+                            $pagesOut[$key] = array(
+                                'text' => '[invalid page]',
+                            );
+                        }
+                        break;
+                    default:
+                        continue 2;
+                }
+                if (isset($page['pages'])) {
+                    $pagesOut[$key]['children'] = $buildNavigation($page['pages']);
+                }
+            }
+            return $pagesOut;
+        };
+        $pages = $buildNavigation($site->navigation());
+        return json_encode($pages);
     }
 
     public function addPageAction()

@@ -68,7 +68,17 @@ if ($pages):
 
 <fieldset id="navigation" class="section">
     <div id="navigation-tree"></div>
-    <div id="navigation-selector" class="selector sidebar">
+    <div id="navigation-selector" class="selector sidebar active">
+        Special Pages
+        <ul>
+            <li><a href="#" class="navigation-selection"
+                data-type="home"
+                data-text="Home">Home</a></li>
+            <li><a href="#" class="navigation-selection"
+                data-type="browse"
+                data-text="Browse">Browse</a></li>
+        </ul>
+        Pages
         <ul>
             <?php foreach ($site->pages() as $page): ?>
             <li><a href="#" class="navigation-selection"

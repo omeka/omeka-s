@@ -66,9 +66,19 @@ if ($pages):
 <?php endif; ?>
 </fieldset>
 
-<div id="navigation" class="section">
+<fieldset id="navigation" class="section">
     <div id="navigation-tree"></div>
-</div>
+    <div id="navigation-selector" class="selector sidebar">
+        <ul>
+            <?php foreach ($site->pages() as $page): ?>
+            <li><a href="#" class="navigation-selection"
+                data-type="page"
+                data-id="<?php echo $page->id(); ?>"
+                data-text="<?php echo $this->escapeHtml($page->title()); ?>"><?php echo $page->title(); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</fieldset>
 
 <fieldset id="permissions" class="section">
 <?php $sitePermissions = $site->sitePermissions(); ?>
@@ -239,19 +249,33 @@ $('.section-nav a:not([href="#permissions"])').click(function() {
     $('#permissions .sidebar').removeClass('active');
 });
 
-$('#navigation-tree').jstree({
-    "core": {
-      "check_callback": true,
-      "data": <?php echo $jstree; ?>
+var navTree = $('#navigation-tree');
+navTree.jstree({
+    'core': {
+      'check_callback': true,
+      'data': <?php echo $jstree; ?>
     },
-    "plugins": ["dnd","wholerow"]
+    'plugins': ['dnd','wholerow']
 });
-$("form").submit(function(event) {
-    var json = $('#navigation-tree').jstree(true).get_json();
-    $("<input>", {
-        "type": "hidden",
-        "name": "jstree",
-        "val": JSON.stringify(json)
-    }).appendTo("form");
+$('form').submit(function(event) {
+    var json = navTree.jstree(true).get_json();
+    $('<input>', {
+        'type': 'hidden',
+        'name': 'jstree',
+        'val': JSON.stringify(json)
+    }).appendTo('form');
+});
+$('.navigation-selection').click(function(event) {
+    event.preventDefault();
+    var ref = navTree.jstree(true);
+    var sel = ref.get_selected();
+    var navPage = $(this);
+    ref.create_node(sel.length ? sel[0] : '#', {
+        'text': navPage.data('text'),
+        'data': {
+            'type': navPage.data('type'),
+            'id': navPage.data('id')
+        }
+    });
 });
 </script>

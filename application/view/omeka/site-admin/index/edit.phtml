@@ -17,7 +17,7 @@ $restore = $this->translate('Restore');
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
-        <li><a href="#navigation"><?php echo $this->translate('Navigation'); ?></a></li>
+        <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User permissions'); ?></a></li>
     </ul>
 </nav>
@@ -66,22 +66,22 @@ if ($pages):
 <?php endif; ?>
 </fieldset>
 
-<fieldset id="navigation" class="section">
-    <div id="navigation-tree"></div>
-    <div id="navigation-selector" class="selector sidebar active">
+<fieldset id="nav" class="section">
+    <div id="nav-container"></div>
+    <div id="nav-selector" class="selector sidebar active">
         Special Pages
         <ul>
-            <li><a href="#" class="navigation-selection"
+            <li><a href="#" class="nav-selection"
                 data-type="home"
                 data-text="Home">Home</a></li>
-            <li><a href="#" class="navigation-selection"
+            <li><a href="#" class="nav-selection"
                 data-type="browse"
                 data-text="Browse">Browse</a></li>
         </ul>
         Pages
         <ul>
             <?php foreach ($site->pages() as $page): ?>
-            <li><a href="#" class="navigation-selection"
+            <li><a href="#" class="nav-selection"
                 data-type="page"
                 data-id="<?php echo $page->id(); ?>"
                 data-text="<?php echo $this->escapeHtml($page->title()); ?>"><?php echo $page->title(); ?></a></li>
@@ -259,8 +259,8 @@ $('.section-nav a:not([href="#permissions"])').click(function() {
     $('#permissions .sidebar').removeClass('active');
 });
 
-var navTree = $('#navigation-tree');
-navTree.jstree({
+var navCon = $('#nav-container');
+navCon.jstree({
     'core': {
       'check_callback': true,
       'data': <?php echo $jstree; ?>
@@ -268,19 +268,19 @@ navTree.jstree({
     'plugins': ['dnd','wholerow']
 });
 $('form').submit(function(event) {
-    var json = navTree.jstree(true).get_json();
+    var json = navCon.jstree(true).get_json();
     $('<input>', {
         'type': 'hidden',
         'name': 'jstree',
         'val': JSON.stringify(json)
     }).appendTo('form');
 });
-$('.navigation-selection').click(function(event) {
+$('.nav-selection').click(function(event) {
     event.preventDefault();
-    var ref = navTree.jstree(true);
-    var sel = ref.get_selected();
+    var navTree = navCon.jstree(true);
+    var navSel = navTree.get_selected();
     var navPage = $(this);
-    ref.create_node(sel.length ? sel[0] : '#', {
+    navTree.create_node(navSel.length ? navSel[0] : '#', {
         'text': navPage.data('text'),
         'data': {
             'type': navPage.data('type'),

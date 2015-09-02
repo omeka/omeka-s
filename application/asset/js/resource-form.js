@@ -155,19 +155,6 @@
             Omeka.openSidebar(context, "#select-resource");
         });
 
-        $('.resource-name a').on('click', function(e) {
-            e.preventDefault();
-            var context = $(this);
-            $.ajax({
-                'url': context.data('show-details-action'),
-                'data': {'link-title' : 0},
-                'type': 'get'
-            }).done(function(data) {
-                $('#resource-details-content').html(data);
-            });
-            Omeka.openSidebar(context);
-        });
-
         $('.visibility [type="checkbox"]').on('click', function() {
             var publicCheck = $(this);
             if (publicCheck.prop("checked")) {

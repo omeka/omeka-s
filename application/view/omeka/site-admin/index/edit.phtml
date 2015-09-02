@@ -69,7 +69,9 @@ if ($pages):
 <fieldset id="nav" class="section">
     <div id="nav-container"></div>
     <div id="nav-selector" class="selector sidebar active">
-        Special Pages
+        <button id="nav-deselect">Deselect Selected</button>
+        <button id="nav-delete">Delete Selected</button>
+        <div>Special Pages</div>
         <ul>
             <li><a href="#" class="nav-selection"
                 data-type="home"
@@ -78,7 +80,7 @@ if ($pages):
                 data-type="browse"
                 data-text="Browse">Browse</a></li>
         </ul>
-        Pages
+        <div>Pages</div>
         <ul>
             <?php foreach ($site->pages() as $page): ?>
             <li><a href="#" class="nav-selection"
@@ -287,5 +289,15 @@ $('.nav-selection').click(function(event) {
             'id': navPage.data('id')
         }
     });
+});
+$('#nav-deselect').click(function(event) {
+    event.preventDefault();
+    navCon.jstree('deselect_all');
+});
+$('#nav-delete').click(function(event) {
+    event.preventDefault();
+    var navTree = navCon.jstree(true);
+    var navSel = navTree.get_selected();
+    navTree.delete_node(navSel);
 });
 </script>

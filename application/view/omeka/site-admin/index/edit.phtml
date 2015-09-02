@@ -264,8 +264,12 @@ $('.section-nav a:not([href="#permissions"])').click(function() {
 var navCon = $('#nav-container');
 navCon.jstree({
     'core': {
-      'check_callback': true,
-      'data': <?php echo $jstree; ?>
+        'check_callback': true,
+        'animation': false,
+        'themes': {
+            'icons': false,
+        },
+        'data': <?php echo $jstree; ?>
     },
     'plugins': ['dnd','wholerow']
 });

@@ -251,14 +251,16 @@ $('#permissions .selector .selector-child').click(function() {
     $('#site-user-permissions').removeClass('empty');
 });
 
-$('.section-nav a[href="#permissions"]').click(function() {
-    $('body').addClass('sidebar-open');
-    $('#permissions .sidebar').addClass('active');
-});
-
-$('.section-nav a:not([href="#permissions"])').click(function() {
-    $('body').removeClass('sidebar-open');
-    $('#permissions .sidebar').removeClass('active');
+$('.section-nav a').click(function() {
+    $('fieldset .sidebar').removeClass('active');
+    var sectionId = $(this).attr('href');
+    var section = $(sectionId);
+    if (section.find('.sidebar').length > 0 && !$('body').hasClass('sidebar-open')) {
+        $('body').addClass('sidebar-open');
+    } else if (section.find('.sidebar').length == 0 && $('.sidebar.active').length == 0) {
+        $('body').removeClass('sidebar-open');
+    }
+    section.find('.sidebar').addClass('active');
 });
 
 var navCon = $('#nav-container');

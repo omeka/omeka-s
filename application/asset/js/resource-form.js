@@ -106,11 +106,6 @@
             }
         });
 
-        $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
-            var resourceId = $(this).data('resource-id');
-            $('#select-item a').data('resource-id', resourceId);
-        });
-
         $('.sidebar').on('click', '.pagination a', function(e) {
             e.preventDefault();
             var sidebarContent = $(this).parents('div.sidebar-content');
@@ -163,14 +158,12 @@
         $('.resource-name a').on('click', function(e) {
             e.preventDefault();
             var context = $(this);
-            $('#resource-details').data('resource-id', $(this).data('resource-id'));
             $.ajax({
                 'url': context.data('show-details-action'),
                 'data': {'link-title' : 0},
                 'type': 'get'
             }).done(function(data) {
                 $('#resource-details-content').html(data);
-                $('#select-item a').data('resource-id', context.data('resource-id'));
             });
             Omeka.openSidebar(context);
         });

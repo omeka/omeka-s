@@ -24,7 +24,6 @@ $escape = $this->plugin('escapeHtml');
         <span class="resource-name">
             <a href="#"
             class="sidebar-content"
-            data-resource-id="<?php echo $item->id(); ?>"
             data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"><?php echo $escape($item->displayTitle()); ?></a></span>
     </div>
     <?php endforeach; ?>

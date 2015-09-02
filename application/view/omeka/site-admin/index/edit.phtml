@@ -69,8 +69,7 @@ if ($pages):
 <fieldset id="nav" class="section">
     <div id="nav-container"></div>
     <div id="nav-selector" class="selector sidebar active">
-        <button id="nav-deselect">Deselect Selected</button>
-        <button id="nav-delete">Delete Selected</button>
+        <button id="nav-remove">Remove Selected</button>
         <div>Special Pages</div>
         <ul>
             <li><a href="#" class="nav-selection"
@@ -296,11 +295,7 @@ $('.nav-selection').click(function(event) {
         }
     });
 });
-$('#nav-deselect').click(function(event) {
-    event.preventDefault();
-    navCon.jstree('deselect_all');
-});
-$('#nav-delete').click(function(event) {
+$('#nav-remove').click(function(event) {
     event.preventDefault();
     var navTree = navCon.jstree(true);
     var navSel = navTree.get_selected();

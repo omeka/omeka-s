@@ -9,6 +9,8 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    protected $navPages = array();
+
     public function indexAction()
     {
         $this->setBrowseDefaults('title');
@@ -82,9 +84,24 @@ class IndexController extends AbstractActionController
 
         $users = $this->api()->search('users', array('sort_by' => 'name'));
 
+        $navTree = $this->toJstree($site);
+        $pagesTree = array();
+        foreach ($site->pages() as $page) {
+            if (!in_array($page->id(), $this->navPages)) {
+                $pagesTree[] = array(
+                    'text' => $page->title(),
+                    'data' => array(
+                        'type' => 'page',
+                        'id' => $page->id(),
+                    ),
+                );
+            }
+        }
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('jstree', $this->toJstree($site));
+        $view->setVariable('navTree', json_encode($navTree));
+        $view->setVariable('pagesTree', json_encode($pagesTree));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
@@ -126,60 +143,29 @@ class IndexController extends AbstractActionController
     public function toJstree($site)
     {
         $sitePages = $site->pages();
-        $siteSlug = $site->slug();
-
         $buildNavigation = function ($pagesIn)
-            use (&$buildNavigation, $siteSlug, $sitePages
-        ) {
+            use (&$buildNavigation, $sitePages)
+        {
             $pagesOut = array();
             foreach ($pagesIn as $key => $page) {
-                if (!isset($page['type'])) {
-                    continue;
-                }
-                switch ($page['type']) {
-                    case 'home':
-                        $pagesOut[$key] = array(
-                            'text' => 'Home',
-                            'data' => array(
-                                'type' => 'home',
-                            ),
-                        );
-                        break;
-                    case 'browse':
-                        $pagesOut[$key] = array(
-                            'text' => 'Browse',
-                            'data' => array(
-                                'type' => 'browse',
-                            ),
-                        );
-                        break;
-                    case 'page':
-                        if (isset($sitePages[$page['id']])) {
-                            $sitePage = $sitePages[$page['id']];
-                            $pagesOut[$key] = array(
-                                'text' => $sitePage->title(),
-                                'data' => array(
-                                    'type' => 'page',
-                                    'id' => $sitePage->id(),
-                                ),
-                            );
-                        } else {
-                            $pagesOut[$key] = array(
-                                'text' => '[invalid page]',
-                            );
-                        }
-                        break;
-                    default:
-                        continue 2;
-                }
-                if (isset($page['pages'])) {
-                    $pagesOut[$key]['children'] = $buildNavigation($page['pages']);
+                if (isset($sitePages[$page['id']])) {
+                    $this->navPages[] = $page['id'];
+                    $sitePage = $sitePages[$page['id']];
+                    $pagesOut[$key] = array(
+                        'text' => $sitePage->title(),
+                        'data' => array(
+                            'type' => 'page',
+                            'id' => $sitePage->id(),
+                        ),
+                    );
+                    if (isset($page['pages'])) {
+                        $pagesOut[$key]['children'] = $buildNavigation($page['pages']);
+                    }
                 }
             }
             return $pagesOut;
         };
-        $pages = $buildNavigation($site->navigation());
-        return json_encode($pages);
+        return $buildNavigation($site->navigation());
     }
 
     public function addPageAction()

@@ -67,27 +67,9 @@ if ($pages):
 </fieldset>
 
 <fieldset id="nav" class="section">
-    <div id="nav-container"></div>
+    <div id="nav-tree"></div>
     <div id="nav-selector" class="selector sidebar">
-        <button id="nav-remove">Remove Selected</button>
-        <div>Special Pages</div>
-        <ul>
-            <li><a href="#" class="nav-selection"
-                data-type="home"
-                data-text="Home">Home</a></li>
-            <li><a href="#" class="nav-selection"
-                data-type="browse"
-                data-text="Browse">Browse</a></li>
-        </ul>
-        <div>Pages</div>
-        <ul>
-            <?php foreach ($site->pages() as $page): ?>
-            <li><a href="#" class="nav-selection"
-                data-type="page"
-                data-id="<?php echo $page->id(); ?>"
-                data-text="<?php echo $this->escapeHtml($page->title()); ?>"><?php echo $page->title(); ?></a></li>
-            <?php endforeach; ?>
-        </ul>
+        <div id="pages-tree"></div>
     </div>
 </fieldset>
 
@@ -262,43 +244,39 @@ $('.section-nav a').click(function() {
     section.find('.sidebar').addClass('active');
 });
 
-var navCon = $('#nav-container');
-navCon.jstree({
+var navTree = $('#nav-tree');
+var pagesTree = $('#pages-tree');
+var copyNodeData = function(e, data) {
+    // By default, jsTree strips data when moving a node to another tree.
+    // Calling this during the copy_node.jstree event prevents that.
+    // See: https://groups.google.com/forum/#!topic/jstree/_NvazSz1jJs
+    data.node.data = $.extend(true, {}, data.original.data);
+};
+navTree.jstree({
     'core': {
         'check_callback': true,
-        'animation': false,
-        'themes': {
-            'icons': false,
-        },
-        'data': <?php echo $jstree; ?>
+        'data': <?php echo $navTree; ?>
     },
     'plugins': ['dnd','wholerow']
-});
-$('form').submit(function(event) {
-    var json = navCon.jstree(true).get_json();
+}).on('copy_node.jstree', copyNodeData);
+pagesTree.jstree({
+    'core': {
+        'check_callback': true,
+        'data': <?php echo $pagesTree; ?>
+    },
+    'types': {
+        'default': {
+            'max_children': 0,
+        },
+    },
+    'plugins': ['dnd','wholerow','types']
+}).on('copy_node.jstree', copyNodeData);
+$('form').submit(function(e) {
+    var json = navTree.jstree(true).get_json();
     $('<input>', {
         'type': 'hidden',
         'name': 'jstree',
         'val': JSON.stringify(json)
     }).appendTo('form');
-});
-$('.nav-selection').click(function(event) {
-    event.preventDefault();
-    var navTree = navCon.jstree(true);
-    var navSel = navTree.get_selected();
-    var navPage = $(this);
-    navTree.create_node(navSel.length ? navSel[0] : '#', {
-        'text': navPage.data('text'),
-        'data': {
-            'type': navPage.data('type'),
-            'id': navPage.data('id')
-        }
-    });
-});
-$('#nav-remove').click(function(event) {
-    event.preventDefault();
-    var navTree = navCon.jstree(true);
-    var navSel = navTree.get_selected();
-    navTree.delete_node(navSel);
 });
 </script>

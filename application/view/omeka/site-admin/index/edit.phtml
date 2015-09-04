@@ -255,14 +255,14 @@ var copyNodeData = function(e, data) {
 navTree.jstree({
     'core': {
         'check_callback': true,
-        'data': <?php echo $navTree; ?>
+        'data': <?php echo json_encode($navTree); ?>
     },
     'plugins': ['dnd','wholerow']
 }).on('copy_node.jstree', copyNodeData);
 pagesTree.jstree({
     'core': {
         'check_callback': true,
-        'data': <?php echo $pagesTree; ?>
+        'data': <?php echo json_encode($pageTree); ?>
     },
     'types': {
         'default': {

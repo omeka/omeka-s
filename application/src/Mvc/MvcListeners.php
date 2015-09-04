@@ -2,6 +2,7 @@
 namespace Omeka\Mvc;
 
 use Omeka\Service\Exception\ConfigException;
+use Omeka\Theme\NavigationTranslator;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -261,78 +262,9 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
-        // Set the site navigation by preparing the navigation array and setting
-        // it to module configuration.
-        $sitePages = $site->getPages();
-        $siteSlug = $routeMatch->getParam('site-slug');
-        $buildNavigation = function ($pagesIn)
-            use (&$buildNavigation, $siteSlug, $sitePages
-        ) {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (!isset($page['type'])) {
-                    continue;
-                }
-                switch ($page['type']) {
-                    case 'home':
-                        $pagesOut[$key] = array(
-                            'label' => 'Home',
-                            'route' => 'site',
-                            'params' => array(
-                                'site-slug' => $siteSlug,
-                            ),
-                        );
-                        break;
-                    case 'browse':
-                        $pagesOut[$key] = array(
-                            'label' => 'Browse',
-                            'route' => 'site/browse',
-                            'params' => array(
-                                'site-slug' => $siteSlug,
-                            ),
-                        );
-                        break;
-                    case 'page':
-                        $sitePage = $sitePages->get($page['id']);
-                        if ($sitePage) {
-                            $pagesOut[$key] = array(
-                                'label' => $sitePage->getTitle(),
-                                'route' => 'site/page',
-                                'params' => array(
-                                    'site-slug' => $siteSlug,
-                                    'page-slug' => $sitePage->getSlug(),
-                                ),
-                            );
-                        } else {
-                            $pagesOut[$key] = array(
-                                'type' => 'uri',
-                                'label' => '[invalid page]',
-                            );
-                        }
-                        break;
-                    default:
-                        continue 2;
-                }
-                if (isset($page['pages'])) {
-                    $pagesOut[$key]['pages'] = $buildNavigation($page['pages']);
-                }
-            }
-            return $pagesOut;
-        };
-        $pages = $buildNavigation($site->getNavigation());
-        if (!$pages) {
-            // The site must have at least one page for navigation to work.
-            $pages = array(array(
-                'label' => 'Home',
-                'route' => 'site',
-                'params' => array(
-                    'site-slug' => $siteSlug,
-                ),
-            ));
-        }
-
+        $translator = new NavigationTranslator;
         $config = $serviceLocator->get('Config');
-        $config['navigation']['site'] = $pages;
+        $config['navigation']['site'] = $translator->toZend($site);
         $allowOverride = $serviceLocator->getAllowOverride();
         $serviceLocator->setAllowOverride(true);
         $serviceLocator->setService('Config', $config);

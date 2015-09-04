@@ -4,6 +4,7 @@ namespace Omeka\Controller\SiteAdmin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
+use Omeka\Theme\NavigationTranslator;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -53,6 +54,7 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
+        $translator = new NavigationTranslator;
         $form = new SiteForm($this->getServiceLocator());
         $readResponse = $this->api()->read('sites', array(
             'slug' => $this->params('site-slug')
@@ -65,7 +67,8 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $formData['o:navigation'] = $this->fromJstree($formData['jstree']);
+            $jstree = json_decode($formData['jstree'], true);
+            $formData['o:navigation'] = $translator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData);
@@ -84,24 +87,10 @@ class IndexController extends AbstractActionController
 
         $users = $this->api()->search('users', array('sort_by' => 'name'));
 
-        $navTree = $this->toJstree($site);
-        $pagesTree = array();
-        foreach ($site->pages() as $page) {
-            if (!in_array($page->id(), $this->navPages)) {
-                $pagesTree[] = array(
-                    'text' => $page->title(),
-                    'data' => array(
-                        'type' => 'page',
-                        'id' => $page->id(),
-                    ),
-                );
-            }
-        }
-
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('navTree', json_encode($navTree));
-        $view->setVariable('pagesTree', json_encode($pagesTree));
+        $view->setVariable('navTree', $translator->toJstreeNavTree($site));
+        $view->setVariable('pageTree', $translator->toJstreePageTree($site));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
@@ -110,62 +99,6 @@ class IndexController extends AbstractActionController
             )
         ));
         return $view;
-    }
-
-    /**
-     * Convert jsTree data to site o:navigation data.
-     *
-     * @param string $json
-     * @return array
-     */
-    public function fromJstree($json)
-    {
-        $buildNavigation = function ($pagesIn) use (&$buildNavigation) {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                $pagesOut[$key] = $page['data'];
-                if ($page['children']) {
-                    $pagesOut[$key]['pages'] = $buildNavigation($page['children']);
-                }
-            }
-            return $pagesOut;
-        };
-        $pages = $buildNavigation(json_decode($json, true));
-        return $pages;
-    }
-
-    /**
-     * Convert site o:navigation data to jsTree data.
-     *
-     * @param SiteRepresentation $site
-     * @return array
-     */
-    public function toJstree($site)
-    {
-        $sitePages = $site->pages();
-        $buildNavigation = function ($pagesIn)
-            use (&$buildNavigation, $sitePages)
-        {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (isset($sitePages[$page['id']])) {
-                    $this->navPages[] = $page['id'];
-                    $sitePage = $sitePages[$page['id']];
-                    $pagesOut[$key] = array(
-                        'text' => $sitePage->title(),
-                        'data' => array(
-                            'type' => 'page',
-                            'id' => $sitePage->id(),
-                        ),
-                    );
-                    if (isset($page['pages'])) {
-                        $pagesOut[$key]['children'] = $buildNavigation($page['pages']);
-                    }
-                }
-            }
-            return $pagesOut;
-        };
-        return $buildNavigation($site->navigation());
     }
 
     public function addPageAction()

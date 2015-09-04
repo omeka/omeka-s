@@ -11,7 +11,7 @@ class AssetUrl extends AbstractHtmlElement
 {
     const OMEKA_ASSETS_PATH = '%s/application/asset/%s';
     const MODULE_ASSETS_PATH = '%s/modules/%s/asset/%s';
-    const THEME_ASSETS_PATH = '%s/themes/%s/assets/%s';
+    const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s';
 
     /**
      * @var Theme The current theme, if any

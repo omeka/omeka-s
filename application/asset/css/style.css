@@ -2454,6 +2454,9 @@ th {
     max-width: calc(100% - 4.5em);
     vertical-align: middle;
   }
+  .sidebar select {
+    width: 100%;
+  }
 
   #sidebar-confirm {
     display: block;
@@ -2741,6 +2744,14 @@ th {
   }
   #site-user-permissions.empty + .no-resources:before {
     content: "";
+  }
+
+  /* @end */
+  /* @group ----- Pages ----- */
+  [for="new-block"] {
+    display: inline-block;
+    font-size: 20px;
+    margin-bottom: 0.6em;
   }
 
   /* @end */

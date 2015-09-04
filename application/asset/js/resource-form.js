@@ -106,41 +106,10 @@
             }
         });
 
-        $('.sidebar').on('click', '.pagination a', function(e) {
-            e.preventDefault();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).attr('href'),
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
-            });
-        });
-
-        $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
-            var searchValue = $('#resource-list-search').val();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).data('search-url'),
-                'data': {'value[in][]': searchValue},
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
-            });
-        });
-
-        $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
-            e.preventDefault();
+        $('#select-item a').on('o:resource-selected', function (e) {
             var propertyQname = $(this).data('property-term');
             var valuesData = $('.resource-details').data('resource-values');
             $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, valuesData));
-            Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {

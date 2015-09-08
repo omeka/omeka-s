@@ -140,6 +140,17 @@ class Mailer implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Return the title of this Omeka S installation.
+     *
+     * @return string
+     */
+    public function getInstallationTitle()
+    {
+        return $this->getServiceLocator()->get('Omeka\Settings')
+            ->get('installation_title', 'Omeka S');
+    }
+
+    /**
      * Send a reset password email.
      *
      * @param User $user
@@ -147,9 +158,10 @@ class Mailer implements ServiceLocatorAwareInterface
     public function sendResetPassword(User $user)
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $installationTitle = $this->getInstallationTitle();
         $template = $translator->translate('Greetings, %1$s!
 
-It seems you have forgotten your password for %2$s.
+It seems you have forgotten your password for %5$s at %2$s
 
 To reset your password, click this link:
 %3$s
@@ -162,12 +174,16 @@ Your reset link will expire in %4$s.');
             $user->getName(),
             $this->getSiteUrl(),
             $this->getCreatePasswordUrl($passwordCreation),
-            $this->getExpiration($passwordCreation)
+            $this->getExpiration($passwordCreation),
+            $installationTitle
         );
 
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
-            ->setSubject($translator->translate('Reset your Omeka S password'))
+            ->setSubject(sprintf(
+                $translator->translate('Reset your password for %s'),
+                $installationTitle
+            ))
             ->setBody($body);
         $this->send($message);
     }
@@ -180,9 +196,10 @@ Your reset link will expire in %4$s.');
     public function sendUserActivation(User $user)
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $installationTitle = $this->getInstallationTitle();
         $template = $translator->translate('Greetings!
 
-A user has been created for you on %1$s.
+A user has been created for you on %5$s at %1$s
 
 Your username is your email: %2$s
 
@@ -197,12 +214,16 @@ Your activation link will expire in %4$s. If you have not completed the user act
             $this->getSiteUrl(),
             $user->getEmail(),
             $this->getCreatePasswordUrl($passwordCreation),
-            $this->getExpiration($passwordCreation)
+            $this->getExpiration($passwordCreation),
+            $installationTitle
         );
 
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
-            ->setSubject($translator->translate('Omeka S User Activation'))
+            ->setSubject(sprintf(
+                $translator->translate('User Activation for %s'),
+                $installationTitle
+            ))
             ->setBody($body);
         $this->send($message);
     }

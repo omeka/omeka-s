@@ -31,7 +31,10 @@ class InstallController extends AbstractActionController
                 );
                 $manager->registerVars(
                     'Omeka\Installation\Task\AddDefaultSettingsTask',
-                    array('administrator_email' => $data['email'])
+                    array(
+                        'administrator_email' => $data['email'],
+                        'installation_title' => $data['installation_title'],
+                    )
                 );
                 if ($manager->install()) {
                     // Success. Redirect to login.

@@ -19,6 +19,18 @@ class SettingForm extends AbstractForm
         ));
 
         $this->add(array(
+            'name' => 'installation_title',
+            'type' => 'Text',
+            'options' => array(
+                'label' => $translator->translate('Installation Title'),
+            ),
+            'attributes' => array(
+                'id' => 'installation-title',
+                'required' => true,
+            ),
+        ));
+
+        $this->add(array(
             'name' => 'pagination_per_page',
             'type' => 'Text',
             'options' => array(

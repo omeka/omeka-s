@@ -1,5 +1,8 @@
-<?php echo $this->pageTitle($this->translate('Admin Dashboard')); ?>
+<?php
+$title = $this->setting('installation_title', 'Omeka S');
+echo $this->pageTitle($this->translate('Admin Dashboard'));
+?>
 
-<p><?php echo $this->translate('Welcome to the Omeka S admin dashboard!'); ?></p>
+<p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
 
 <p><?php echo $this->translate('Please navigate using the links to the left.'); ?></p>

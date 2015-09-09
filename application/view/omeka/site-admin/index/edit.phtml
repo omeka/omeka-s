@@ -8,6 +8,19 @@ $restore = $this->translate('Restore');
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+        <?php if ($site->isPublic()): ?>
+        <a href="#"
+        class="o-icon-public button"
+        aria-label=" <?php echo $this->translate('Make private'); ?>"
+        title=" <?php echo $this->translate('Make private'); ?>"></a>
+        <input type="hidden" name="o:is_public" value="1">
+        <?php else: ?>
+        <a href="#"
+        class="o-icon-private button"
+        aria-label=" <?php echo $this->translate('Make public'); ?>"
+        title=" <?php echo $this->translate('Make public'); ?>"></a>
+        <input type="hidden" name="o:is_public" value="0">
+        <?php endif; ?>
     <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>">Delete</a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>

@@ -54,6 +54,9 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
+        if ($this->shouldHydrate($request, 'o:is_public')) {
+            $entity->setIsPublic($request->getValue('o:is_public', true));
+        }
 
         if ($this->shouldHydrate($request, 'o:page')) {
             $pagesData = $request->getValue('o:page', array());

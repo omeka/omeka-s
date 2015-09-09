@@ -625,7 +625,7 @@ th {
 
   .field {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -756,7 +756,7 @@ th {
 
   .row {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -2611,7 +2611,7 @@ th {
   }
   .resource-template #properties > li:first-child {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -2752,6 +2752,10 @@ th {
     display: inline-block;
     font-size: 20px;
     margin-bottom: 0.6em;
+  }
+
+  .block {
+    margin-bottom: 0.375em;
   }
 
   /* @end */

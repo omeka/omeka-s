@@ -2384,6 +2384,10 @@ body.sidebar-open #content {
         @include trailer(.5, 1.25 * $base-font-size);
     }
 
+    .block {
+        @include trailer(.25);
+    }
+
     /* @end */
 
 /* @end */

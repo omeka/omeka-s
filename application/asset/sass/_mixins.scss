@@ -1,6 +1,6 @@
 @mixin field-row {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: $gray-on-white;
     padding: rhythm(.25);
     position: relative;
     @include trailer(.25);

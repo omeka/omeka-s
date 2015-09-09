@@ -239,6 +239,14 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
+        $acl = $serviceLocator->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($site, 'view')) {
+            // Site is restricted, set minimal layout and 404 status
+            $event->getViewModel()->setTemplate('error/404');
+            $event->getResponse()->setStatusCode(404);
+            return;
+        }
+
         // Set the current theme.
         $theme = $site->getTheme();
         $themeManager = $serviceLocator->get('Omeka\ThemeManager');

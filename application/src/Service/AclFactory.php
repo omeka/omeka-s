@@ -189,11 +189,6 @@ class AclFactory implements FactoryInterface
             $allowAddPage
         );
         $acl->allow(
-            null,
-            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
-            'read'
-        );
-        $acl->allow(
             array('author', 'reviewer'),
             'Omeka\Entity\Site',
             'update',
@@ -252,8 +247,8 @@ class AclFactory implements FactoryInterface
         ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
-            'Omeka\Entity\Site',
-            'view',
+            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
+            'read',
             $allowSiteView
         );
     }

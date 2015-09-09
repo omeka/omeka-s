@@ -240,7 +240,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $acl = $serviceLocator->get('Omeka\Acl');
-        if (!$acl->userIsAllowed($site, 'view')) {
+        if (!$acl->userIsAllowed($site, 'read')) {
             // Site is restricted, set minimal layout and 404 status
             $event->getViewModel()->setTemplate('error/404');
             $event->getResponse()->setStatusCode(404);

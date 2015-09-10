@@ -28,8 +28,7 @@ $(document).ready(function() {
     $("#select-item a").on("o:resource-selected", function(e) {
         var resource = $(".resource-details").data("resource-values");
         console.log(resource);
-        var html = "<a href=\'" + resource.url + "\' target=\'_blank\'>" +
-            "<h3>" + resource.display_title + "</h3>" +
+        var html = "<h3>" + resource.display_title + "</h3>" +
             "<img src=\'" + resource.thumbnail_url + "\'></a>";
         var selecting = $(".block-attachment.selecting-attachment");
         selecting.html(html);
@@ -46,16 +45,35 @@ $(document).ready(function() {
     {
         $hidden = new Hidden("o:block[$index][o:data][id]");
         if ($block) {
-            $hidden->setAttribute('value', $this->getData($block->data(), 'id'));
+            $id = $this->getData($block->data(), 'id');
+            $hidden->setAttribute('value', $id);
+            try {
+                $response = $this->getServiceLocator()
+                    ->get('Omeka\ApiManager')
+                    ->read('items', $id);
+                $item = $response->getContent();
+                $content = sprintf(
+                    '<h3>%s</h3><img src="%s">',
+                    $item->displayTitle(),
+                    $item->primaryMedia()->thumbnailUrl('square')
+                );
+            } catch (\Exception $e) {
+                $content = '[previously attached item is now invalid]';
+            }
+        } else {
+            $sidebarContentUrl = $view->url(
+                'admin/default',
+                array(
+                    'controller' => 'item',
+                    'action' => 'sidebar-select'
+                ),
+                false
+            );
+            $content = sprintf(
+                '<button class="item-select" data-sidebar-content-url="%s">Select Item</button>',
+                $view->escapeHtml($sidebarContentUrl)
+            );
         }
-        $sidebarContentUrl = $view->url(
-            'admin/default',
-            array(
-                'controller' => 'item',
-                'action' => 'sidebar-select'
-            ),
-            false
-        );
         $html = '
 <span class="sortable-handle"></span>
 <div class="input-header">
@@ -72,10 +90,7 @@ $(document).ready(function() {
     </div>
     <div class="inputs">
         <div class="block-attachment">
-            <button
-                class="item-select"
-                data-sidebar-content-url="' . $view->escapeHtml($sidebarContentUrl) . '"
-            >Select Item</button>
+            ' . $content . '
         </div>
         ' . $view->formField($hidden) . '
     </div>

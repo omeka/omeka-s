@@ -60,6 +60,8 @@ $('#new-block').change(function() {
     ).done(function(data) {
         $('#blocks').append('<div class="block ' + blockType + '">' + data + '</div>');
     });
+    Omeka.scrollTo($('.block').last());
     $('#new-block').prop('selectedIndex', 0); // reset select
 });
+
 </script>

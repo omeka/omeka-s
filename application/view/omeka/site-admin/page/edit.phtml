@@ -21,7 +21,7 @@ $escape = $this->plugin('escapeHtml');
 
 <div id="blocks">
     <?php foreach ($page->blocks() as $index => $block): ?>
-    <div class="block">
+    <div class="block <?php echo $escape($block->layout()); ?>">
         <span class="sortable-handle"></span>
         <div><?php echo $this->blockLayout()->form($index, $block); ?></div>
     </div>
@@ -53,11 +53,12 @@ new Sortable(list, {
 
 $('#new-block').change(function() {
     var index = $('.block').length;
+    var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
         {index: index, layout: $(this).val()}
     ).done(function(data) {
-        $('#blocks').append('<div class="block">' + data + '</div>');
+        $('#blocks').append('<div class="block ' + blockType + '">' + data + '</div>');
     });
     $('#new-block').prop('selectedIndex', 0); // reset select
 });

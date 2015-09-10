@@ -2759,24 +2759,57 @@ th {
     margin-bottom: 0.375em;
   }
 
-  .block .sortable-handle {
+  .block .input-header {
     position: relative;
     display: block;
     background-color: rgba(0, 0, 0, 0.16);
-    min-height: 36px;
-    line-height: 36px;
+    padding-right: 0.375em;
     padding-left: 2.25em;
     font-weight: bold;
+    line-height: 36px;
+  }
+  .block .input-header .actions li {
+    vertical-align: top;
+  }
+
+  .block .sortable-handle {
+    position: absolute;
+    z-index: 1;
   }
   .block .sortable-handle:before {
     top: 0;
     left: 0;
-    right: 0;
+    right: 2.25em;
     padding: 0.3em;
   }
 
   .block.html > div {
     border: 1px solid #f2f2f2;
+  }
+
+  .block .field {
+    clear: both;
+  }
+
+  .block.value.delete .input-header {
+    font-weight: normal;
+  }
+
+  .block.value.delete span.restore-value {
+    padding: 0 0.1875em;
+  }
+
+  .block.value.delete a.restore-value:before {
+    padding: 0;
+    margin-right: -3px;
+  }
+
+  .delete .block-type:before {
+    content: "'";
+  }
+
+  .delete .block-type:after {
+    content: "'";
   }
 
   /* @end */

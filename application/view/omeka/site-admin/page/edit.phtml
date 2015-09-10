@@ -21,8 +21,8 @@ $escape = $this->plugin('escapeHtml');
 
 <div id="blocks">
     <?php foreach ($page->blocks() as $index => $block): ?>
-    <div class="block <?php echo $escape($block->layout()); ?>">
-        <div><?php echo $this->blockLayout()->form($index, $block); ?></div>
+    <div class="block value <?php echo $escape($block->layout()); ?>">
+        <?php echo $this->blockLayout()->form($index, $block); ?>
     </div>
     <?php endforeach; ?>
 </div>
@@ -57,10 +57,18 @@ $('#new-block').change(function() {
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
         {index: index, layout: $(this).val()}
     ).done(function(data) {
-        $('#blocks').append('<div class="block ' + blockType + '">' + data + '</div>');
+        $('#blocks').append('<div class="block value ' + blockType + '">' + data + '</div>');
     });
     Omeka.scrollTo($('.block').last());
     $('#new-block').prop('selectedIndex', 0); // reset select
+});
+
+$('a.remove-value, a.restore-value').click(function(e) {
+    e.preventDefault();
+    var block = $(this).parents('.block');
+    block.toggleClass('delete');
+    block.find('a.remove-value, a.restore-value').show();
+    $(this).hide();
 });
 
 </script>

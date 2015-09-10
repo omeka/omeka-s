@@ -24,7 +24,14 @@ class BrowsePreview extends AbstractBlockLayout
         if ($block) {
             $text->setAttribute('value', $this->getData($block->data(), 'query'));
         }
-        $html  = '<div class="sortable-handle">' . $view->translate('Browse Preview') . '</div>';
+        $html  = '<span class="sortable-handle"></span>';
+        $html .= '<div class="input-header"><span class="block-type">' . $view->translate('Browse Preview') . '</span>';
+        $html .= '<ul class="actions">';
+        $html .= '<li><a href="#" class="o-icon-delete remove-value"></a></li>';
+        $html .= '<li><a href="#" class="o-icon-undo restore-value"></a></li>';
+        $html .= '</ul>';
+        $html .= '<span class="restore-value">block to be removed</span>';
+        $html .='</div>';
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Query') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Display resources using this search query') . '</div>';

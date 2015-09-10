@@ -39,7 +39,14 @@ class Html extends AbstractBlockLayout
             $(".block-html").ckeditor({customConfig: "' . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . '"});
         </script>';
 
-        $html  = '<div class="sortable-handle">' . $view->translate('HTML') . '</div>';
+        $html  = '<span class="sortable-handle"></span>';
+        $html .= '<div class="input-header"><span class="block-type">' . $view->translate('HTML') . '</span>';
+        $html .= '<ul class="actions">';
+        $html .= '<li><a href="#" class="o-icon-delete remove-value"></a></li>';
+        $html .= '<li><a href="#" class="o-icon-undo restore-value"></a></li>';
+        $html .= '</ul>';
+        $html .= '<span class="restore-value">block to be removed</span>';
+        $html .= '</div>';
         $html .= $view->formField($textarea) . $script;
         return $html;
     }

@@ -2388,6 +2388,20 @@ body.sidebar-open #content {
         @include trailer(.25);
     }
 
+    .block .sortable-handle {
+        position: relative;
+        display: block;
+        background-color: opacify($gray-on-white, .08);
+        min-height: 1.5 * $base-line-height;
+
+        &:before {
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: rhythm(.25, 1.25 * $base-font-size);
+        }
+    }
+
     /* @end */
 
 /* @end */

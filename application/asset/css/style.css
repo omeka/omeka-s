@@ -2758,6 +2758,19 @@ th {
     margin-bottom: 0.375em;
   }
 
+  .block .sortable-handle {
+    position: relative;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.16);
+    min-height: 36px;
+  }
+  .block .sortable-handle:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0.3em;
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Advanced Search ----- */

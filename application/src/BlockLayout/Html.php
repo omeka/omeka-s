@@ -38,7 +38,10 @@ class Html extends AbstractBlockLayout
         $script = '<script type="text/javascript">
             $(".block-html").ckeditor({customConfig: "' . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . '"});
         </script>';
-        return $view->formField($textarea) . $script;
+
+        $html  = '<div class="sortable-handle">' . $view->translate('HTML') . '</div>';
+        $html .= $view->formField($textarea) . $script;
+        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

@@ -22,7 +22,6 @@ $escape = $this->plugin('escapeHtml');
 <div id="blocks">
     <?php foreach ($page->blocks() as $index => $block): ?>
     <div class="block <?php echo $escape($block->layout()); ?>">
-        <span class="sortable-handle"><?php echo $this->blockLayout()->getLayoutLabel($block->layout()); ?></span>
         <div><?php echo $this->blockLayout()->form($index, $block); ?></div>
     </div>
     <?php endforeach; ?>

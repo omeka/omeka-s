@@ -24,7 +24,8 @@ class BrowsePreview extends AbstractBlockLayout
         if ($block) {
             $text->setAttribute('value', $this->getData($block->data(), 'query'));
         }
-        $html  = '<div class="field"><div class="field-meta">';
+        $html  = '<div class="sortable-handle">' . $view->translate('Browse Preview') . '</div>';
+        $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Query') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Display resources using this search query') . '</div>';
         $html .= '</div>';

@@ -646,6 +646,7 @@ th {
     display: inline-block;
     margin: 0 0 0.375em;
     padding: 0;
+    background-color: transparent;
   }
   .media-field-wrapper .field:last-of-type {
     margin-bottom: 0;

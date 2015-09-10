@@ -57,7 +57,15 @@ $(document).ready(function() {
             false
         );
         $html = '
-<div class="sortable-handle">One Item</div>
+<span class="sortable-handle"></span>
+<div class="input-header">
+    <span class="block-type">One Item</span>
+    <ul class="actions">
+        <li><a href="#" class="o-icon-delete remove-value"></a></li>
+        <li><a href="#" class="o-icon-undo restore-value"></a></li>
+    </ul>
+    <span class="restore-value">block to be removed</span>
+</div>
 <div class="field">
     <div class="field-meta">
         <label>Item</label>

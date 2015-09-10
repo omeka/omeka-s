@@ -2394,6 +2394,9 @@ body.sidebar-open #content {
         display: block;
         background-color: opacify($gray-on-white, .08);
         min-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $base-line-height;
+        padding-left: rhythm(1.5);
+        font-weight: bold;
 
         &:before {
             top: 0;

@@ -2764,6 +2764,9 @@ th {
     display: block;
     background-color: rgba(0, 0, 0, 0.16);
     min-height: 36px;
+    line-height: 36px;
+    padding-left: 2.25em;
+    font-weight: bold;
   }
   .block .sortable-handle:before {
     top: 0;

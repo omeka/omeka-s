@@ -43,6 +43,8 @@ $escape = $this->plugin('escapeHtml');
     </select>
 </div>
 
+<?php echo $this->partial('common/resource-select-sidebar'); ?>
+
 <script type="text/javascript">
 var list = document.getElementById('blocks');
 new Sortable(list, {

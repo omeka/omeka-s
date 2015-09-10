@@ -238,6 +238,7 @@ return array(
         'invokables' => array(
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
+            'oneItem' => 'Omeka\BlockLayout\OneItem',
         ),
     ),
     'media_handlers' => array(

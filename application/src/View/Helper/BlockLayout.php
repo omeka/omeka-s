@@ -61,7 +61,17 @@ class BlockLayout extends AbstractHelper
             $block = $layout;
             $layout = $block->layout();
         }
-        $form = $this->manager->get($layout)->form($this->getView(), $index, $block);
+        $form = '
+<span class="sortable-handle"></span>
+<div class="input-header">
+    <span class="block-type">' . $this->getLayoutLabel($layout) . '</span>
+    <ul class="actions">
+        <li><a href="#" class="o-icon-delete remove-value"></a></li>
+        <li><a href="#" class="o-icon-undo restore-value"></a></li>
+    </ul>
+    <span class="restore-value">block to be removed</span>
+</div>';
+        $form .= $this->manager->get($layout)->form($this->getView(), $index, $block);
         $hidden = new Hidden("o:block[$index][o:layout]");
         $hidden->setAttribute('value', $layout);
         $form .= $this->getView()->formField($hidden);

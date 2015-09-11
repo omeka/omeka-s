@@ -5,6 +5,7 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Hidden;
+use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;
 
 class OneItem extends AbstractBlockLayout
@@ -27,9 +28,7 @@ $(document).ready(function() {
     });
     $("#select-item a").on("o:resource-selected", function(e) {
         var resource = $(".resource-details").data("resource-values");
-        console.log(resource);
-        var html = "<h3>" + resource.display_title + "</h3>" +
-            "<img src=\'" + resource.thumbnail_url + "\'></a>";
+        var html = "<h4>" + resource.display_title + "</h4>";
         var selecting = $(".block-attachment.selecting-attachment");
         selecting.html(html);
         selecting.siblings("input").val(resource.value_resource_id);
@@ -43,32 +42,18 @@ $(document).ready(function() {
 
     public function form(PhpRenderer $view, $index, SitePageBlockRepresentation $block = null)
     {
-        $hidden = new Hidden("o:block[$index][o:attachment][][o:item][o:id]");
+        $caption = new Textarea("o:block[$index][o:attachment][0][o:caption]");
+        $hidden = new Hidden("o:block[$index][o:attachment][0][o:item][o:id]");
         if ($block) {
-            $id = $block->attachments()[0]->item()->id();
-            $hidden->setAttribute('value', $id);
-            try {
-                $response = $this->getServiceLocator()
-                    ->get('Omeka\ApiManager')
-                    ->read('items', $id);
-                $item = $response->getContent();
-                $content = sprintf(
-                    '<h3>%s</h3><img src="%s">',
-                    $item->displayTitle(),
-                    $item->primaryMedia()->thumbnailUrl('square')
-                );
-            } catch (\Exception $e) {
-                $content = '[previously attached item is now invalid]';
-            }
+            $attachment = $block->attachments()[0];
+            $hidden->setAttribute('value', $attachment->item()->id());
+            $caption->setAttribute('value', $attachment->caption());
+            $content = sprintf('<h4>%s</h4>',$attachment->item()->displayTitle());
         } else {
-            $sidebarContentUrl = $view->url(
-                'admin/default',
-                array(
-                    'controller' => 'item',
-                    'action' => 'sidebar-select'
-                ),
-                false
-            );
+            $sidebarContentUrl = $view->url('admin/default', array(
+                'controller' => 'item',
+                'action' => 'sidebar-select',
+            ));
             $content = sprintf(
                 '<button class="item-select" data-sidebar-content-url="%s">Select Item</button>',
                 $view->escapeHtml($sidebarContentUrl)
@@ -80,10 +65,16 @@ $(document).ready(function() {
         <label>Item</label>
     </div>
     <div class="inputs">
-        <div class="block-attachment">
-            ' . $content . '
-        </div>
+        <div class="block-attachment">' . $content . '</div>
         ' . $view->formField($hidden) . '
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label>Caption</label>
+    </div>
+    <div class="inputs">
+        ' . $view->formField($caption) . '
     </div>
 </div>';
         return $html;

@@ -135,16 +135,18 @@ class Settings implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Cache settings
+     * Cache settings if Omeka is installed
      */
     protected function cacheSettings()
     {
-        $rows = $this->getEntityManager()
-            ->getRepository('Omeka\Entity\Setting')
-            ->findAll();
         $this->settings = array();
-        foreach ($rows as $row) {
-            $this->settings[$row->getId()] = $row->getValue();
+        if ($this->getServiceLocator()->get('Omeka\Status')->isInstalled()) {
+            $rows = $this->getEntityManager()
+                ->getRepository('Omeka\Entity\Setting')
+                ->findAll();
+            foreach ($rows as $row) {
+                $this->settings[$row->getId()] = $row->getValue();
+            }
         }
     }
 

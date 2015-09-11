@@ -43,9 +43,9 @@ $(document).ready(function() {
 
     public function form(PhpRenderer $view, $index, SitePageBlockRepresentation $block = null)
     {
-        $hidden = new Hidden("o:block[$index][o:data][id]");
+        $hidden = new Hidden("o:block[$index][o:attachment][][o:item][o:id]");
         if ($block) {
-            $id = $this->getData($block->data(), 'id');
+            $id = $block->attachments()[0]->item()->id();
             $hidden->setAttribute('value', $id);
             try {
                 $response = $this->getServiceLocator()

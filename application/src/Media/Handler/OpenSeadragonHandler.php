@@ -19,7 +19,16 @@ class OpenSeadragonHandler extends AbstractHandler
 
 	public function ingest(Media $media, Request $request, ErrorStore $errorStore)
 	{
+		$data = $request->getContent();
 
+        if (!isset($data['o:source'])) {
+            $errorStore->addError('o:source', 'No Open Seadragon Image URL specified');
+            return;
+        }
+
+        $source = $data['o:source'];
+
+        $media->setSource($source);
 	}
 
 	public function form(PhpRenderer $view, array $options = array())
@@ -34,6 +43,22 @@ class OpenSeadragonHandler extends AbstractHandler
 
 	public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
 	{
+		$source = $view->escapeJs($media->source());
 
+		$view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
+		$prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
+
+		$image =
+			'<div id="openseadragon1" style="width: 800px; height: 600px;"></div>
+			<script type="text/javascript">
+			    var viewer = OpenSeadragon({
+			        id: "openseadragon1",
+			        prefixUrl: "'. $prefixUrl . '",
+			        tileSources: "' . $source . '"
+			    });
+			</script>'
+		;
+
+		return $image;
 	}
 }

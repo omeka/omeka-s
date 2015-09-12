@@ -247,7 +247,7 @@ return array(
             'oembed'  => 'Omeka\Media\Handler\OEmbedHandler',
             'youtube' => 'Omeka\Media\Handler\YoutubeHandler',
             'html'    => 'Omeka\Media\Handler\HtmlHandler',
-            'openseadragon' => 'Omeka\Media\Handler\OpenSeadragonHandler'
+            'iiif' => 'Omeka\Media\Handler\IIIFHandler'
         ),
     ),
     'file_renderers' => array(

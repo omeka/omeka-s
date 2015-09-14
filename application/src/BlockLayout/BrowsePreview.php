@@ -19,11 +19,17 @@ class BrowsePreview extends AbstractBlockLayout
 
     public function form(PhpRenderer $view, $index, SitePageBlockRepresentation $block = null)
     {
+
         $text = new Text("o:block[$index][o:data][query]");
         if ($block) {
             $text->setAttribute('value', $this->getData($block->data(), 'query'));
         }
-        return 'query: ' . $view->formField($text);
+        $html = '<div class="field"><div class="field-meta">';
+        $html .= '<label>' . $view->translate('Query') . '</label>';
+        $html .= '<div class="field-description">' . $view->translate('Display resources using this search query') . '</div>';
+        $html .= '</div>';
+        $html .= '<div class="inputs">' . $view->formField($text) . '</div></div>';
+        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

@@ -1,0 +1,21 @@
+<?php
+$title = $this->setting('installation_title', 'Omeka S');
+echo $this->pageTitle($title);
+?>
+
+<?php echo $this->pagination(); ?>
+
+<?php if ($sites): ?>
+<ul>
+<?php foreach ($sites as $site): ?>
+<li>
+    <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
+</li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+<p><?php echo sprintf(
+    $this->translate('Go to the %s to start working with %s.'),
+    $this->hyperlink($this->translate('Admin Dashboard'), $this->url('admin')),
+    $title
+); ?></p>

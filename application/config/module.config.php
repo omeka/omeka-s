@@ -12,7 +12,7 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_path_stack'      => array(
-            OMEKA_PATH . '/application/view',
+            OMEKA_PATH . '/application/view-shared',
         ),
         'strategies' => array(
             'Omeka\ViewApiJsonStrategy',

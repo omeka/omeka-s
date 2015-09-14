@@ -22,5 +22,8 @@ CKEDITOR.editorConfig = function( config ) {
                           ]
                       }
                      ];
+
+    // Use the 'flat' skin.
+    config.skin = 'flat';
 };
 

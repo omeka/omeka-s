@@ -10,12 +10,12 @@
             var count = propertyField.length;
             // If property has already been set, scroll to its field
             if (count > 0) {
-                scrollTo(propertyField.first());
+                Omeka.scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
                 var wrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values');
                 wrapper.append(makeNewValue(qName));
-                scrollTo(wrapper);
+                Omeka.scrollTo(wrapper);
             }
         });
 
@@ -350,12 +350,5 @@
             }
         });
     };
-
-    var scrollTo = function(wrapper) {
-        //focus on the value being edited
-        $('html, body').animate({
-            scrollTop: (wrapper.offset().top -100)
-        },200);
-    }
 })(jQuery);
 

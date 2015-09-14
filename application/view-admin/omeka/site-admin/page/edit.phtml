@@ -81,4 +81,31 @@ $('a.remove-value, a.restore-value').click(function(e) {
     $(this).hide();
 });
 
+$('form').submit(function(e) {
+    var blocks = [];
+    $('#blocks .block').each(function() {
+        var thisBlock = $(this);
+        var layout = thisBlock.find('[data-name="o:layout"]').val();
+        var block = {
+            'o:layout': layout,
+            'o:attachment': []
+        };
+        thisBlock.find('.attachments .attachment').each(function() {
+            var thisAttachment = $(this);
+            var itemId = thisAttachment.find('[data-name="o:item"]').val();
+            var caption = thisAttachment.find('[data-name="o:caption"]').val();
+            var attachment = {
+                'o:item': {'o:id': itemId},
+                'o:caption': caption
+            };
+            block['o:attachment'].push(attachment);
+        });
+        blocks.push(block);
+    });
+    var hidden = $('<input type="hidden" name="o:block">');
+    hidden.val(JSON.stringify(blocks));
+    $(this).append(hidden);
+    return true;
+});
+
 </script>

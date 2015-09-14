@@ -28,9 +28,11 @@ class PageController extends AbstractActionController
         $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $post = $this->params()->fromPost();
+            $post['o:block'] = json_decode($post['o:block'], true);
+            $form->setData($post);
             if ($form->isValid()) {
-                $response = $this->api()->update('site_pages', $id, $this->params()->fromPost());
+                $response = $this->api()->update('site_pages', $id, $post);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {

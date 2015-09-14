@@ -65,51 +65,37 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentForm(PhpRenderer $view,
         SiteBlockAttachmentRepresentation $attachment = null
     ) {
-        $html = '<div class="attachment">';
+        $id = null;
+        $caption = null;
+        $sidebarContentUrl = $view->url('admin/default', array(
+            'controller' => 'item', 'action' => 'sidebar-select',
+        ));
+        $title = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
         if ($attachment) {
-            $item = $attachment->item();
-            $html .= '
-<div class="field">
-    <div class="field-meta">
-        <label>Item</label>
-    </div>
-    <div class="inputs">
-        ' . $item->displayTitle() . '
-    </div>
-</div>
-<div class="field">
-    <div class="field-meta">
-        <label>Caption</label>
-    </div>
-    <div class="inputs">
-        <textarea class="caption" data-name="o:caption">' . $attachment->caption() . '</textarea>
-    </div>
-</div>
-<input type="hidden" class="item" data-name="o:item" value="' . $item->id() . '">';
-        } else {
-            $sidebarContentUrl = $view->url('admin/default', array(
-                'controller' => 'item', 'action' => 'sidebar-select',
-            ));
-            $html .= '
-<div class="field">
-    <div class="field-meta">
-        <label>Item</label>
-    </div>
-    <div class="inputs">
-        <button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>
-    </div>
-</div>
-<div class="field">
-    <div class="field-meta">
-        <label>Caption</label>
-    </div>
-    <div class="inputs">
-        <textarea class="caption" data-name="o:caption"></textarea>
-    </div>
-</div>
-<input type="hidden" class="item" data-name="o:item">';
+            $id = $attachment->item()->id();
+            $title = $attachment->item()->displayTitle();
+            $caption = $attachment->caption();
         }
-        $html .= '</div>';
+        $html = '
+<div class="attachment">
+    <div class="field">
+        <div class="field-meta">
+            <label>Item</label>
+        </div>
+        <div class="inputs">
+            <div class="item-title">' . $title . '</div>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label>Caption</label>
+        </div>
+        <div class="inputs">
+            <textarea class="caption" data-name="o:caption">' . $caption . '</textarea>
+        </div>
+    </div>
+    <input type="hidden" class="item" data-name="o:item" value="' . $id . '">
+</div>';
         return $html;
     }
 

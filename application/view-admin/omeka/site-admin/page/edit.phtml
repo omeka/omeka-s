@@ -47,11 +47,10 @@ new Sortable(list, {
 });
 
 $('#new-block').change(function() {
-    var index = $('.block').length;
     var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {index: index, layout: $(this).val()}
+        {layout: $(this).val()}
     ).done(function(data) {
         $('#blocks').append(data);
     });
@@ -69,10 +68,9 @@ $('body').on('click', '.item-select', function(e) {
 
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
-    var html = '<h4>' + resource.display_title + '</h4>';
     var selecting = $('.attachment.selecting-attachment');
-    selecting.html(html);
-    selecting.siblings('input').val(resource.value_resource_id);
+    selecting.find('.item').val(resource.value_resource_id);
+    selecting.find('.item-title').html(resource.display_title);
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {

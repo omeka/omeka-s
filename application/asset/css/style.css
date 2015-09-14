@@ -2775,6 +2775,7 @@ th {
   .block .sortable-handle {
     position: absolute;
     z-index: 1;
+    left: 0;
   }
   .block .sortable-handle:before {
     top: 0;
@@ -2785,6 +2786,7 @@ th {
 
   .block.html > div {
     border: 1px solid #f2f2f2;
+    clear: both;
   }
 
   .block .field {

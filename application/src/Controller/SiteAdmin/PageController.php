@@ -58,12 +58,11 @@ class PageController extends AbstractActionController
 
     public function blockAction()
     {
-        $index = $this->params()->fromPost('index');
         $layout = $this->params()->fromPost('layout');
         $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('blockLayout');
 
         $response = $this->getResponse();
-        $response->setContent($helper->form($index, $layout));
+        $response->setContent($helper->form($layout));
         return $response;
     }
 }

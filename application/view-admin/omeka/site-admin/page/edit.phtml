@@ -19,13 +19,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->formElements($form); ?>
 
-<div id="blocks">
-    <?php foreach ($page->blocks() as $index => $block): ?>
-    <div class="block value <?php echo $escape($block->layout()); ?>">
-        <?php echo $this->blockLayout()->form($index, $block); ?>
-    </div>
-    <?php endforeach; ?>
-</div>
+<?php echo $this->blockLayout()->forms($page); ?>
 
 <?php echo $this->form()->closeTag(); ?>
 
@@ -59,10 +53,26 @@ $('#new-block').change(function() {
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
         {index: index, layout: $(this).val()}
     ).done(function(data) {
-        $('#blocks').append('<div class="block value ' + blockType + '">' + data + '</div>');
+        $('#blocks').append(data);
     });
     Omeka.scrollTo($('.block').last());
     $('#new-block').prop('selectedIndex', 0); // reset select
+});
+
+$('body').on('click', '.item-select', function(e) {
+    e.preventDefault();
+    var context = $(this);
+    $('.selecting-attachment').removeClass('selecting-attachment');
+    context.parents('.attachment').addClass('selecting-attachment');
+    Omeka.openSidebar(context, '#select-resource');
+});
+
+$('#select-item a').on('o:resource-selected', function(e) {
+    var resource = $('.resource-details').data('resource-values');
+    var html = '<h4>' + resource.display_title + '</h4>';
+    var selecting = $('.attachment.selecting-attachment');
+    selecting.html(html);
+    selecting.siblings('input').val(resource.value_resource_id);
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {

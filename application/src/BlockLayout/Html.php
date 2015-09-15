@@ -30,7 +30,7 @@ class Html extends AbstractBlockLayout
 
     public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
     {
-        $textarea = new Textarea("o:block[$index][o:data][html]");
+        $textarea = new Textarea("o:block[blockIndex][o:data][html]");
         $textarea->setAttribute('class', 'block-html');
         if ($block) {
             $textarea->setAttribute('value', $this->getData($block->data(), 'html'));

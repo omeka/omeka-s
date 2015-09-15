@@ -91,10 +91,10 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <label>Caption</label>
         </div>
         <div class="inputs">
-            <textarea class="caption" data-name="o:caption">' . $caption . '</textarea>
+            <textarea class="caption" name="o:block[blockIndex][o:attachment][attachmentIndex][o:caption]">' . $caption . '</textarea>
         </div>
     </div>
-    <input type="hidden" class="item" data-name="o:item" value="' . $id . '">
+    <input type="hidden" class="item" name="o:block[blockIndex][o:attachment][attachmentIndex][o:item][o:id]" value="' . $id . '">
 </div>';
         return $html;
     }

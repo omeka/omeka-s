@@ -29,7 +29,6 @@ class PageController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $post = $this->params()->fromPost();
-            $post['o:block'] = json_decode($post['o:block'], true);
             $form->setData($post);
             if ($form->isValid()) {
                 $response = $this->api()->update('site_pages', $id, $post);

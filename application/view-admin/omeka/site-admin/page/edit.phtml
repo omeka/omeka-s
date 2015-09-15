@@ -82,30 +82,21 @@ $('a.remove-value, a.restore-value').click(function(e) {
 });
 
 $('form').submit(function(e) {
-    var blocks = [];
-    $('#blocks .block').each(function() {
+    $('#blocks .block').each(function(blockIndex) {
         var thisBlock = $(this);
-        var layout = thisBlock.find('[data-name="o:layout"]').val();
-        var block = {
-            'o:layout': layout,
-            'o:attachment': []
-        };
-        thisBlock.find('.attachments .attachment').each(function() {
+        replaceIndex(thisBlock, 'blockIndex', blockIndex);
+        thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
             var thisAttachment = $(this);
-            var itemId = thisAttachment.find('[data-name="o:item"]').val();
-            var caption = thisAttachment.find('[data-name="o:caption"]').val();
-            var attachment = {
-                'o:item': {'o:id': itemId},
-                'o:caption': caption
-            };
-            block['o:attachment'].push(attachment);
+            replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
         });
-        blocks.push(block);
     });
-    var hidden = $('<input type="hidden" name="o:block">');
-    hidden.val(JSON.stringify(blocks));
-    $(this).append(hidden);
-    return true;
 });
+function replaceIndex(context, find, index) {
+    context.find(':input').each(function() {
+        var thisInput = $(this);
+        var name = thisInput.attr('name').replace('[' + find + ']', '[' + index + ']');
+        thisInput.attr('name', name);
+    });
+}
 
 </script>

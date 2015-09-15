@@ -84,11 +84,15 @@ $('a.remove-value, a.restore-value').click(function(e) {
 $('form').submit(function(e) {
     $('#blocks .block').each(function(blockIndex) {
         var thisBlock = $(this);
-        replaceIndex(thisBlock, 'blockIndex', blockIndex);
-        thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
-            var thisAttachment = $(this);
-            replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
-        });
+        if (thisBlock.hasClass('delete')) {
+            thisBlock.remove();
+        } else {
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
+                var thisAttachment = $(this);
+                replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
+            });
+        }
     });
 });
 function replaceIndex(context, find, index) {

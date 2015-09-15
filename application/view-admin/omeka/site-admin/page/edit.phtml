@@ -85,7 +85,7 @@ $('form').submit(function(e) {
     $('#blocks .block').each(function(blockIndex) {
         var thisBlock = $(this);
         if (thisBlock.hasClass('delete')) {
-            thisBlock.remove();
+            thisBlock.find(':input').prop('disabled', true);
         } else {
             replaceIndex(thisBlock, 'blockIndex', blockIndex);
             thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {

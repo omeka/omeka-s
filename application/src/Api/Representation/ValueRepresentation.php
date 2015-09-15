@@ -56,7 +56,15 @@ class ValueRepresentation extends AbstractRepresentation
             case Value::TYPE_LITERAL:
             default:
                 $escape = $this->getViewHelper('escapeHtml');
-                return $escape($this->getData()->getValue());
+                $value = $this->value();
+                $eventManager = $this->getEventManager();
+                $valueCollection = $eventManager->trigger('filterLiteralValue', $this, array('value' => $value));
+                if ($valueCollection->isEmpty()) {
+                    return $escape($value);
+                } else {
+                    return $escape($valueCollection->last());
+                }
+                
         }
     }
 

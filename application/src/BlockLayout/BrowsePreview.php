@@ -20,7 +20,7 @@ class BrowsePreview extends AbstractBlockLayout
     public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
     {
 
-        $text = new Text("o:block[blockIndex][o:data][query]");
+        $text = new Text("o:block[__blockIndex__][o:data][query]");
         if ($block) {
             $text->setAttribute('value', $this->getData($block->data(), 'query'));
         }

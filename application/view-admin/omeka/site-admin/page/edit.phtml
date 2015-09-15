@@ -94,7 +94,7 @@ $('form').submit(function(e) {
 function replaceIndex(context, find, index) {
     context.find(':input').each(function() {
         var thisInput = $(this);
-        var name = thisInput.attr('name').replace('[' + find + ']', '[' + index + ']');
+        var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
         thisInput.attr('name', name);
     });
 }

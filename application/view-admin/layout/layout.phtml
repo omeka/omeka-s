@@ -7,7 +7,7 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro');
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
-$this->headScript()->prependFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js');
+$this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>

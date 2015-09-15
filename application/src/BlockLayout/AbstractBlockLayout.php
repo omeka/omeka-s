@@ -65,14 +65,18 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentForm(PhpRenderer $view,
         SiteBlockAttachmentRepresentation $attachment = null
     ) {
-        $id = null;
+        $itemId = null;
+        $mediaId = null;
         $caption = null;
         $sidebarContentUrl = $view->url('admin/default', array(
             'controller' => 'item', 'action' => 'sidebar-select',
         ));
         $title = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
         if ($attachment) {
-            $id = $attachment->item()->id();
+            $itemId = $attachment->item()->id();
+            if ($attachment->media()) {
+                $mediaId = $attachment->media()->id();
+            }
             $title = $attachment->item()->displayTitle();
             $caption = $attachment->caption();
         }
@@ -94,7 +98,8 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <textarea class="caption" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:caption]">' . $caption . '</textarea>
         </div>
     </div>
-    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:item][o:id]" value="' . $id . '">
+    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:item][o:id]" value="' . $itemId . '">
+    <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:media][o:id]" value="' . $mediaId . '">
 </div>';
         return $html;
     }

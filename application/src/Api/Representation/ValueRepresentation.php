@@ -57,14 +57,12 @@ class ValueRepresentation extends AbstractRepresentation
             default:
                 $escape = $this->getViewHelper('escapeHtml');
                 $value = $this->value();
+                $args = array('value' => $value);
                 $eventManager = $this->getEventManager();
-                $valueCollection = $eventManager->trigger('filterLiteralValue', $this, array('value' => $value));
-                if ($valueCollection->isEmpty()) {
-                    return $escape($value);
-                } else {
-                    return $escape($valueCollection->last());
-                }
-                
+                $args = $eventManager->prepareArgs($args);
+                $eventManager->trigger('filterLiteralValue', $this, $args);
+                $value = isset( $args['value']) ? $args['value'] : $value;
+                return $value;
         }
     }
 

@@ -89,6 +89,12 @@ var Omeka = {
         var actionURL = checkedOption.data('action');
         $("#search-form").attr("action", actionURL);
         $("#search-form > input[type='text']").attr("placeholder", "Search " + checkedLabel);
+    },
+
+    scrollTo: function(wrapper) {
+        $('html, body').animate({
+            scrollTop: (wrapper.offset().top -100)
+        },200);
     }
 };
 

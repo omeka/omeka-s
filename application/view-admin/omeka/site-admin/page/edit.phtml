@@ -1,0 +1,106 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->blockLayout()->prepareForm();
+$form->prepare();
+$escape = $this->plugin('escapeHtml');
+?>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit Page: “%s”'), $page->title())); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<div class="breadcrumbs">
+    <?php echo $site->link($site->title(), null, array('class' => 'page-site')); ?>
+    <span class="page-title"><?php echo $page->title(); ?></span>
+</div>
+
+<?php echo $this->formElements($form); ?>
+
+<?php echo $this->blockLayout()->forms($page); ?>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<div class="active sidebar">
+    <label for="new-block">
+        <?php echo $this->translate('Add New Block'); ?>
+    </label>
+    <select id="new-block">
+        <option value=""><?php echo $this->translate('Select layout'); ?></option>
+        <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
+        <option value="<?php echo $escape($layout); ?>">
+            <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
+        </option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+<?php echo $this->partial('common/resource-select-sidebar'); ?>
+
+<script type="text/javascript">
+var list = document.getElementById('blocks');
+new Sortable(list, {
+    draggable: ".block",
+    handle: ".sortable-handle"
+});
+
+$('#new-block').change(function() {
+    var blockType = this.value;
+    $.post(
+        '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
+        {layout: $(this).val()}
+    ).done(function(data) {
+        $('#blocks').append(data);
+    });
+    Omeka.scrollTo($('.block').last());
+    $('#new-block').prop('selectedIndex', 0); // reset select
+});
+
+$('body').on('click', '.item-select', function(e) {
+    e.preventDefault();
+    var context = $(this);
+    $('.selecting-attachment').removeClass('selecting-attachment');
+    context.parents('.attachment').addClass('selecting-attachment');
+    Omeka.openSidebar(context, '#select-resource');
+});
+
+$('#select-item a').on('o:resource-selected', function(e) {
+    var resource = $('.resource-details').data('resource-values');
+    var selecting = $('.attachment.selecting-attachment');
+    selecting.find('.item').val(resource.value_resource_id);
+    selecting.find('.item-title').html(resource.display_title);
+});
+
+$('a.remove-value, a.restore-value').click(function(e) {
+    e.preventDefault();
+    var block = $(this).parents('.block');
+    block.toggleClass('delete');
+    block.find('a.remove-value, a.restore-value').show();
+    $(this).hide();
+});
+
+$('form').submit(function(e) {
+    $('#blocks .block').each(function(blockIndex) {
+        var thisBlock = $(this);
+        if (thisBlock.hasClass('delete')) {
+            thisBlock.find(':input').prop('disabled', true);
+        } else {
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
+                var thisAttachment = $(this);
+                replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
+            });
+        }
+    });
+});
+function replaceIndex(context, find, index) {
+    context.find(':input').each(function() {
+        var thisInput = $(this);
+        var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
+        thisInput.attr('name', name);
+    });
+}
+
+</script>

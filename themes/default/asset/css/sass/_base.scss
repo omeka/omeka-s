@@ -1,0 +1,18 @@
+// Susy
+
+$susy: (
+    columns:                            12,
+    container:                          1120px,
+    global-box-sizing:                  border-box,
+);
+
+// Colors
+
+$active:                                #ababab;
+$highlight:                             darken($active, 20%);
+$visited:                               lighten($active, 20%);
+
+// Typography
+
+$base-font-size:                        20px;
+$base-line-height:                      30px;

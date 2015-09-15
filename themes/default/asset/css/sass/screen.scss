@@ -1,0 +1,117 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "normalize";
+@import "compass/css3";
+@import "compass/typography";
+@import "susy";
+@import "base";
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Open Sans", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    border-left: 50px solid $visited;
+    border-right: 50px solid transparent;
+    padding: 0px span(1 of 16);
+    height: 100%;
+}
+
+body {
+    @include container;
+}
+
+a:link {
+    text-decoration: none;
+    color: $active;
+}
+
+a:visited {
+    color: $visited;
+}
+
+a:active,
+a:hover {
+    color: $highlight;
+}
+
+h1 {
+    font-size: 2 * $base-font-size;
+    line-height: 2 * $base-line-height;
+}
+
+h2 {
+    font-size: 1.75 * $base-font-size;
+    line-height: 2 * $base-line-height;
+}
+
+h3 {
+    font-size: 1.5 * $base-font-size;
+    line-height: 2 * $base-line-height;
+}
+
+h4 {
+    font-size: 1.25 * $base-font-size;
+}
+
+/* @group ----- Navigation ----- */
+
+ul.navigation {
+    padding-left: 0;
+    list-style: none;
+    border-color: $active;
+    @include trailing-border(1px, 0, $base-font-size, solid);
+    position: relative;
+
+    & > li {
+        @include padding-trailer(.5);
+        display: inline-block;
+    }
+
+    & > li:not(:last-child) {
+        margin-right: rhythm(.5);
+    }
+
+    & > li > ul {
+        position: absolute;
+        top: 100%;
+        left: -9999px;
+        background-color: #fff;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        border-color: $active;
+        @include leading-border(1px, .5, $base-font-size, solid);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+    }
+
+    & > li:hover > ul {
+        left: 0;
+    }
+
+    & > li > ul > li {
+        border-color: $visited;
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        @include trailer(.25);
+        width: 25%;
+        font-size: .75 * $base-font-size;
+        font-weight: bold;
+    }
+
+    & > li > ul > li ul {
+        font-weight: normal;
+        padding: 0;
+        list-style-type: none;
+    }
+}
+
+/* @end */

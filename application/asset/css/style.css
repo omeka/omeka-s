@@ -625,7 +625,7 @@ th {
 
   .field {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -646,6 +646,7 @@ th {
     display: inline-block;
     margin: 0 0 0.375em;
     padding: 0;
+    background-color: transparent;
   }
   .media-field-wrapper .field:last-of-type {
     margin-bottom: 0;
@@ -756,7 +757,7 @@ th {
 
   .row {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -2611,7 +2612,7 @@ th {
   }
   .resource-template #properties > li:first-child {
     width: 100%;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -2752,6 +2753,65 @@ th {
     display: inline-block;
     font-size: 20px;
     margin-bottom: 0.6em;
+  }
+
+  .block {
+    margin-bottom: 0.375em;
+  }
+
+  .block .input-header {
+    position: relative;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.16);
+    padding-right: 0.375em;
+    padding-left: 2.25em;
+    font-weight: bold;
+    line-height: 36px;
+  }
+  .block .input-header .actions li {
+    vertical-align: top;
+  }
+
+  .block .sortable-handle {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+  }
+  .block .sortable-handle:before {
+    top: 0;
+    left: 0;
+    right: 2.25em;
+    padding: 0.3em;
+  }
+
+  .block.html > div {
+    border: 1px solid #f2f2f2;
+    clear: both;
+  }
+
+  .block .field {
+    clear: both;
+  }
+
+  .block.value.delete .input-header {
+    font-weight: normal;
+  }
+
+  .block.value.delete span.restore-value {
+    padding: 0 0.1875em;
+  }
+
+  .block.value.delete a.restore-value:before {
+    padding: 0;
+    margin-right: -3px;
+  }
+
+  .delete .block-type:before {
+    content: "'";
+  }
+
+  .delete .block-type:after {
+    content: "'";
   }
 
   /* @end */

@@ -38,6 +38,10 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
+            array($this, 'prepareAdmin')
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
             array($this, 'prepareSite')
         );
     }
@@ -213,7 +217,24 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Prepare the site theme and navigation.
+     * Prepare the administrative interface.
+     *
+     * @param MvcEvent $event
+     */
+    public function prepareAdmin(MvcEvent $event)
+    {
+        $routeMatch = $event->getRouteMatch();
+        if (!$routeMatch->getParam('__ADMIN__')) {
+            return;
+        }
+        $event->getApplication()
+            ->getServiceManager()
+            ->get('ViewTemplatePathStack')
+            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
+    }
+
+    /**
+     * Prepare the site interface.
      *
      * @param MvcEvent $event
      */

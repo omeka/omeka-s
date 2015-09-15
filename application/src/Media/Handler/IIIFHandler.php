@@ -79,6 +79,7 @@ class IIIFHandler extends AbstractHandler
         }
 
         $media->setSource($source);
+        $media->setData($IIIFData);
 	}
 
 	public function form(PhpRenderer $view, array $options = array())
@@ -95,6 +96,8 @@ class IIIFHandler extends AbstractHandler
 	{
 		$source = $view->escapeJs($media->source());
 
+		$IIIFData = $view->escapeJs($media->data());
+
 		$view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
 		$prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
 		if ($themeheight){
@@ -105,7 +108,7 @@ class IIIFHandler extends AbstractHandler
 		};
 
 		$image =
-			'<div id="openseadragon1" style="width: 100%; height:' . $height . ';"></div>
+			'<div class="openseadragon"></div>
 			<script type="text/javascript">
 			    var viewer = OpenSeadragon({
 			        id: "openseadragon1",

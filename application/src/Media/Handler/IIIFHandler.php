@@ -95,25 +95,26 @@ class IIIFHandler extends AbstractHandler
 	public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
 	{
 		$source = $view->escapeJs($media->source());
-
-		$IIIFData = $view->escapeJs($media->data());
+		$IIIFData = $media->mediaData();
 
 		$view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
 		$prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
-		if ($themeheight){
-			$height = $themeheight;
-			}
-		else{
-			$height = '600px';
-		};
+
+		var_dump ($IIIFData);
 
 		$image =
-			'<div class="openseadragon"></div>
+			'<div class="openseadragon" id="iiif-'.$media->id().'"></div>
 			<script type="text/javascript">
 			    var viewer = OpenSeadragon({
-			        id: "openseadragon1",
+			        id: "iiif-'.$media->id().'",
 			        prefixUrl: "'. $prefixUrl . '",
-			        tileSources: "' . $source . '"
+			        tileSources: [{
+			        	"@context": "'. $IIIFData['@context']. '",
+			        	"@id": "'. $IIIFData['@id']. '",
+			        	"profile": "'. $IIIFData['profile'][0] .'",
+			        	"height": '. $IIIFData['height'] .',
+			        	"width": '. $IIIFData['width'] .',
+			        }]
 			    });
 			</script>'
 		;

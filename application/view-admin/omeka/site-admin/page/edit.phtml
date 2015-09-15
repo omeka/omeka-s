@@ -19,13 +19,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->formElements($form); ?>
 
-<div id="blocks">
-    <?php foreach ($page->blocks() as $index => $block): ?>
-    <div class="block value <?php echo $escape($block->layout()); ?>">
-        <?php echo $this->blockLayout()->form($index, $block); ?>
-    </div>
-    <?php endforeach; ?>
-</div>
+<?php echo $this->blockLayout()->forms($page); ?>
 
 <?php echo $this->form()->closeTag(); ?>
 
@@ -43,6 +37,8 @@ $escape = $this->plugin('escapeHtml');
     </select>
 </div>
 
+<?php echo $this->partial('common/resource-select-sidebar'); ?>
+
 <script type="text/javascript">
 var list = document.getElementById('blocks');
 new Sortable(list, {
@@ -51,16 +47,30 @@ new Sortable(list, {
 });
 
 $('#new-block').change(function() {
-    var index = $('.block').length;
     var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {index: index, layout: $(this).val()}
+        {layout: $(this).val()}
     ).done(function(data) {
-        $('#blocks').append('<div class="block value ' + blockType + '">' + data + '</div>');
+        $('#blocks').append(data);
     });
     Omeka.scrollTo($('.block').last());
     $('#new-block').prop('selectedIndex', 0); // reset select
+});
+
+$('body').on('click', '.item-select', function(e) {
+    e.preventDefault();
+    var context = $(this);
+    $('.selecting-attachment').removeClass('selecting-attachment');
+    context.parents('.attachment').addClass('selecting-attachment');
+    Omeka.openSidebar(context, '#select-resource');
+});
+
+$('#select-item a').on('o:resource-selected', function(e) {
+    var resource = $('.resource-details').data('resource-values');
+    var selecting = $('.attachment.selecting-attachment');
+    selecting.find('.item').val(resource.value_resource_id);
+    selecting.find('.item-title').html(resource.display_title);
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {
@@ -70,5 +80,27 @@ $('a.remove-value, a.restore-value').click(function(e) {
     block.find('a.remove-value, a.restore-value').show();
     $(this).hide();
 });
+
+$('form').submit(function(e) {
+    $('#blocks .block').each(function(blockIndex) {
+        var thisBlock = $(this);
+        if (thisBlock.hasClass('delete')) {
+            thisBlock.find(':input').prop('disabled', true);
+        } else {
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
+                var thisAttachment = $(this);
+                replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
+            });
+        }
+    });
+});
+function replaceIndex(context, find, index) {
+    context.find(':input').each(function() {
+        var thisInput = $(this);
+        var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
+        thisInput.attr('name', name);
+    });
+}
 
 </script>

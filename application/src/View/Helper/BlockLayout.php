@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Form\Element\Hidden;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -47,35 +48,48 @@ class BlockLayout extends AbstractHelper
     }
 
     /**
-     * Return the HTML necessary to render a form.
+     * Return the HTML necessary to render all block forms.
      *
-     * @param int $index The block index on the form
+     * @param SitePageRepresentation $sitePage
+     */
+    public function forms(SitePageRepresentation $sitePage)
+    {
+        $html = '<div id="blocks">';
+        foreach ($sitePage->blocks() as $block) {
+            $html .= $this->form($block);
+        }
+        $html .= '</div>';
+        return $html;
+    }
+
+    /**
+     * Return the HTML necessary to render a block form.
+     *
      * @param string|SitePageBlockRepresentation $layout The layout for add or
      *   a block representation for edit
      * @return string
      */
-    public function form($index, $layout)
+    public function form($layout)
     {
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
         }
-        $form = '
-<span class="sortable-handle"></span>
-<div class="input-header">
-    <span class="block-type">' . $this->getLayoutLabel($layout) . '</span>
-    <ul class="actions">
-        <li><a href="#" class="o-icon-delete remove-value"></a></li>
-        <li><a href="#" class="o-icon-undo restore-value"></a></li>
-    </ul>
-    <span class="restore-value">block to be removed</span>
-</div>';
-        $form .= $this->manager->get($layout)->form($this->getView(), $index, $block);
-        $hidden = new Hidden("o:block[$index][o:layout]");
-        $hidden->setAttribute('value', $layout);
-        $form .= $this->getView()->formField($hidden);
-        return $form;
+        return '
+<div class="block value">
+    <span class="sortable-handle"></span>
+    <div class="input-header">
+        <span class="block-type">' . $this->getLayoutLabel($layout) . '</span>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete remove-value"></a></li>
+            <li><a href="#" class="o-icon-undo restore-value"></a></li>
+        </ul>
+        <span class="restore-value">block to be removed</span>
+    </div>
+    <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="' . $layout . '">' .
+    $this->manager->get($layout)->form($this->getView(), $block) .
+'</div>';
     }
 
     /**

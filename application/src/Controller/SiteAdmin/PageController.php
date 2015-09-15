@@ -28,9 +28,10 @@ class PageController extends AbstractActionController
         $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $post = $this->params()->fromPost();
+            $form->setData($post);
             if ($form->isValid()) {
-                $response = $this->api()->update('site_pages', $id, $this->params()->fromPost());
+                $response = $this->api()->update('site_pages', $id, $post);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -58,12 +59,11 @@ class PageController extends AbstractActionController
 
     public function blockAction()
     {
-        $index = $this->params()->fromPost('index');
         $layout = $this->params()->fromPost('layout');
         $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('blockLayout');
 
         $response = $this->getResponse();
-        $response->setContent($helper->form($index, $layout));
+        $response->setContent($helper->form($layout));
         return $response;
     }
 }

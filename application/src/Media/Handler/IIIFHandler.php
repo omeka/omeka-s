@@ -49,10 +49,39 @@ class IIIFHandler extends AbstractHandler
         }
 
         $IIIFData = json_decode($response->getBody(), true);
+
         if(!$IIIFData) {
         	$errorStore->addError('o:source', 'Error decoding IIIF JSON');
         	return;
         }
+        if ($IIIFData['protocol'] && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
+            $media->setData($IIIFData);
+        // Version 1.1
+        } else if ( $IIIFData['@context'] && (
+            $IIIFData['@context'] == "http://library.stanford.edu/iiif/image-api/1.1/context.json" ||
+            $IIIFData['@context'] == "http://iiif.io/api/image/1/context.json") ) {
+            // N.B. the iiif.io context is wrong, but where the representation lives so likely to be used
+            $media->setData($IIIFData);
+
+        // Version 1.0
+        } else if ( $IIIFData['profile'] &&
+            $IIIFData['profile'][0]("http://library.stanford.edu/iiif/image-api/compliance.html") === 0) {
+            $media->setData($IIIFData);
+        } else if ( $IIIFData['identifier'] && $IIIFData['width'] && $IIIFData['height'] ) {
+            $media->setData($IIIFData);
+        } else if ( $IIIFData['documentElement'] &&
+            "info" == $IIIFData['documentElement']['tagName'] &&
+            "http://library.stanford.edu/iiif/image-api/ns/" ==
+                $IIIFData['documentElement']['namespaceURI']) {
+            $media->setData($IIIFData);
+
+        // Not IIIF
+        } else {
+        	$errorStore->addError('o:source', 'URL does not link to IIIF JSON');
+        	return;
+        }
+
+        
 
         //Check API version and generate a thumbnail
 
@@ -77,9 +106,6 @@ class IIIFHandler extends AbstractHandler
                 $media->setHasThumbnails(true);
             }
         }
-
-        $media->setSource($source);
-        $media->setData($IIIFData);
 	}
 
 	public function form(PhpRenderer $view, array $options = array())
@@ -98,6 +124,8 @@ class IIIFHandler extends AbstractHandler
 
 		$view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
 		$prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
+
+		var_dump($IIIFData);
 
 		$image =
 			'<div class="openseadragon" id="iiif-'.$media->id().'"></div>

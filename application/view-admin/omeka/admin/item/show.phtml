@@ -91,4 +91,5 @@ if ($owner = $item->owner()) {
     </div>
     <?php endif; ?>
 </div>
+<?php echo $item->embeddedJsonLd(); ?>
 <?php $this->trigger('view.show.after'); ?>

@@ -2791,6 +2791,8 @@ th {
 
   .block .field {
     clear: both;
+    margin-bottom: 0;
+    border-color: transparent;
   }
 
   .block.value.delete .input-header {
@@ -2812,6 +2814,10 @@ th {
 
   .delete .block-type:after {
     content: "'";
+  }
+
+  .block .item-title {
+    margin: 0.375em 0;
   }
 
   /* @end */

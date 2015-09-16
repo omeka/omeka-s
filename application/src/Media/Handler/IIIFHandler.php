@@ -124,7 +124,9 @@ class IIIFHandler extends AbstractHandler
         return $image;
     }
 
+    //This check comes from Open Seadragon's own validation check
     public function validate($IIIFData) {
+
         // Version 2.0
         if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
                 return true;

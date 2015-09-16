@@ -11,15 +11,15 @@ use Zend\View\Renderer\PhpRenderer;
 
 class IIIFHandler extends AbstractHandler
 {
-	public function getLabel()
-	{
-		$translator = $this->getServiceLocator()->get('MvcTranslator');
+    public function getLabel()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('IIIF Image');
-	}
+    }
 
-	public function ingest(Media $media, Request $request, ErrorStore $errorStore)
-	{
-		$data = $request->getContent();
+    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
+    {
+        $data = $request->getContent();
 
         if (!isset($data['o:source'])) {
             $errorStore->addError('o:source', 'No IIIF Image URL specified');
@@ -28,7 +28,7 @@ class IIIFHandler extends AbstractHandler
 
         $source = $data['o:source'];
 
-	    //Make a request and handle any errors that might occur.
+        //Make a request and handle any errors that might occur.
 
         $uri = new HttpUri($source);
         if (!($uri->isValid() && $uri->isAbsolute())) {
@@ -51,8 +51,8 @@ class IIIFHandler extends AbstractHandler
         $IIIFData = json_decode($response->getBody(), true);
 
         if(!$IIIFData) {
-        	$errorStore->addError('o:source', 'Error decoding IIIF JSON');
-        	return;
+            $errorStore->addError('o:source', 'Error decoding IIIF JSON');
+            return;
         }
 
         //Check if valid IIIF data
@@ -61,8 +61,8 @@ class IIIFHandler extends AbstractHandler
             $media->setData($IIIFData);
         // Not IIIF
         } else {
-        	$errorStore->addError('o:source', 'URL does not link to IIIF JSON');
-        	return;
+            $errorStore->addError('o:source', 'URL does not link to IIIF JSON');
+            return;
         }
   
 
@@ -73,7 +73,7 @@ class IIIFHandler extends AbstractHandler
             $URLString = '/full/full/0/default.jpg';
         // Earlier versions
         } else  {
-        	$URLString = '/full/full/0/native.jpg';
+            $URLString = '/full/full/0/native.jpg';
         }
 
 
@@ -89,63 +89,63 @@ class IIIFHandler extends AbstractHandler
                 $media->setHasThumbnails(true);
             }
         }
-	}
+    }
 
-	public function form(PhpRenderer $view, array $options = array())
-	{
-		$urlInput = new Text('o:media[__index__][o:source]');
+    public function form(PhpRenderer $view, array $options = array())
+    {
+        $urlInput = new Text('o:media[__index__][o:source]');
         $urlInput->setOptions(array(
             'label' => $view->translate('IIIF Image URL'),
             'info' => $view->translate('URL for the image to embed.'),
         ));
         return $view->formField($urlInput);
-	}
+    }
 
-	public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
-	{
-		$IIIFData = $media->mediaData();
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
+    {
+        $IIIFData = $media->mediaData();
 
-		$view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
-		$prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
+        $view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
+        $prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
 
-		$image =
-			'<div class="openseadragon" id="iiif-'.$media->id().'"></div>
-			<script type="text/javascript">
-			    var viewer = OpenSeadragon({
-			        id: "iiif-'.$media->id().'",
-			        prefixUrl: "'. $prefixUrl . '",
-			        tileSources: [
-			        	'. json_encode($IIIFData) .'
-			        ]
-			    });
-			</script>'
-		;
+        $image =
+            '<div class="openseadragon" id="iiif-'.$media->id().'"></div>
+            <script type="text/javascript">
+                var viewer = OpenSeadragon({
+                    id: "iiif-'.$media->id().'",
+                    prefixUrl: "'. $prefixUrl . '",
+                    tileSources: [
+                        '. json_encode($IIIFData) .'
+                    ]
+                });
+            </script>'
+        ;
 
-		return $image;
-	}
+        return $image;
+    }
 
-	public function validate($IIIFData) {
-		// Version 2.0
-		if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
-				return true;
+    public function validate($IIIFData) {
+        // Version 2.0
+        if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
+                return true;
         // Version 1.1
         } else if ( isset($IIIFData['@context']) && (
             $IIIFData['@context'] == "http://library.stanford.edu/iiif/image-api/1.1/context.json" ||
             $IIIFData['@context'] == "http://iiif.io/api/image/1/context.json") ) {
             // N.B. the iiif.io context is wrong, but where the representation lives so likely to be used
-				return true;
+                return true;
 
-        // Version 1.0
+        // Version 1.0 
         } else if ( isset($IIIFData['profile']) &&
             $IIIFData['profile'][0]("http://library.stanford.edu/iiif/image-api/compliance.html") === 0) {
-				return true;
+                return true;
         } else if ( isset($IIIFData['identifier']) && $IIIFData['width'] && $IIIFData['height'] ) {
-				return true;
+                return true;
         } else if ( isset($IIIFData['documentElement']) &&
             "info" == $IIIFData['documentElement']['tagName'] &&
             "http://library.stanford.edu/iiif/image-api/ns/" ==
                 $IIIFData['documentElement']['namespaceURI']) {
-				return true;
-		}
-	}
+                return true;
+        }
+    }
 }

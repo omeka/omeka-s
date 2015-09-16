@@ -41,10 +41,12 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function asHtml()
     {
+        
         switch ($this->type()) {
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
-                return $valueResource->link($valueResource->displayTitle());
+                $html = $valueResource->link($valueResource->displayTitle());
+                break;
             case Value::TYPE_URI:
                 $uri = $this->getData()->getValue();
                 $uriLabel = $this->getData()->getUriLabel();
@@ -52,18 +54,18 @@ class ValueRepresentation extends AbstractRepresentation
                     $uriLabel = $uri;
                 }
                 $hyperlink = $this->getViewHelper('hyperlink');
-                return $hyperlink($uriLabel, $uri);
+                $html = $hyperlink($uriLabel, $uri);
+                break;
             case Value::TYPE_LITERAL:
             default:
                 $escape = $this->getViewHelper('escapeHtml');
-                $value = $this->value();
-                $args = array('value' => $value);
-                $eventManager = $this->getEventManager();
-                $args = $eventManager->prepareArgs($args);
-                $eventManager->trigger('filterLiteralValue', $this, $args);
-                $value = isset( $args['value']) ? $args['value'] : $value;
-                return $value;
+                $html = $escape($this->value());
         }
+        $args = array('html' => $html);
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs($args);
+        $eventManager->trigger('filterValue', $this, $args);
+        return $args['html'];
     }
 
     /**

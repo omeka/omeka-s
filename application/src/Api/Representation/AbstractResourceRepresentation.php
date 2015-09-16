@@ -261,4 +261,16 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     {
         return null;
     }
+
+    /**
+     * Get markup for embedding the JSON-LD representation of this resource in HTML.
+     *
+     * @return string
+     */
+    public function embeddedJsonLd()
+    {
+        echo '<script type="application/ld+json">'
+            . json_encode($this)
+            . '</script>';
+    }
 }

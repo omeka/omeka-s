@@ -64,8 +64,7 @@ class IIIFHandler extends AbstractHandler
         	$errorStore->addError('o:source', 'URL does not link to IIIF JSON');
         	return;
         }
-
-        
+  
 
         //Check API version and generate a thumbnail
 
@@ -127,22 +126,22 @@ class IIIFHandler extends AbstractHandler
 
 	public function validate($IIIFData) {
 		// Version 2.0
-		if ($IIIFData['protocol'] && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
+		if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
 				return true;
         // Version 1.1
-        } else if ( $IIIFData['@context'] && (
+        } else if ( isset($IIIFData['@context']) && (
             $IIIFData['@context'] == "http://library.stanford.edu/iiif/image-api/1.1/context.json" ||
             $IIIFData['@context'] == "http://iiif.io/api/image/1/context.json") ) {
             // N.B. the iiif.io context is wrong, but where the representation lives so likely to be used
 				return true;
 
         // Version 1.0
-        } else if ( $IIIFData['profile'] &&
+        } else if ( isset($IIIFData['profile']) &&
             $IIIFData['profile'][0]("http://library.stanford.edu/iiif/image-api/compliance.html") === 0) {
 				return true;
-        } else if ( $IIIFData['identifier'] && $IIIFData['width'] && $IIIFData['height'] ) {
+        } else if ( isset($IIIFData['identifier']) && $IIIFData['width'] && $IIIFData['height'] ) {
 				return true;
-        } else if ( $IIIFData['documentElement'] &&
+        } else if ( isset($IIIFData['documentElement']) &&
             "info" == $IIIFData['documentElement']['tagName'] &&
             "http://library.stanford.edu/iiif/image-api/ns/" ==
                 $IIIFData['documentElement']['namespaceURI']) {

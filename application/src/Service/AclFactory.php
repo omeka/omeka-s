@@ -6,6 +6,7 @@ use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
+use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
@@ -174,12 +175,12 @@ class AclFactory implements FactoryInterface
             array('author', 'reviewer'),
             'Omeka\Entity\Site',
             'add-page',
-            new HasSitePermissionAssertion(array('admin', 'edit'))
+            new HasSitePermissionAssertion('editor')
         );
         $allowAddPage = new AssertionAggregate;
         $allowAddPage->addAssertions(array(
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion(array('admin', 'edit'))
+            new HasSitePermissionAssertion('editor')
         ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
@@ -188,20 +189,15 @@ class AclFactory implements FactoryInterface
             $allowAddPage
         );
         $acl->allow(
-            null,
-            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
-            'read'
-        );
-        $acl->allow(
             array('author', 'reviewer'),
             'Omeka\Entity\Site',
             'update',
-            new HasSitePermissionAssertion(array('admin'))
+            new HasSitePermissionAssertion('admin')
         );
         $allowSiteUpdate = new AssertionAggregate;
         $allowSiteUpdate->addAssertions(array(
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion(array('admin'))
+            new HasSitePermissionAssertion('admin')
         ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
@@ -213,12 +209,12 @@ class AclFactory implements FactoryInterface
             array('author', 'reviewer'),
             'Omeka\Entity\SitePage',
             'update',
-            new HasSitePermissionAssertion(array('admin', 'edit', 'attach'))
+            new HasSitePermissionAssertion('editor')
         );
         $allowSitePageUpdate = new AssertionAggregate;
         $allowSitePageUpdate->addAssertions(array(
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion(array('admin', 'edit', 'attach'))
+            new HasSitePermissionAssertion('editor')
         ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
@@ -230,18 +226,30 @@ class AclFactory implements FactoryInterface
             array('author', 'reviewer', 'editor'),
             'Omeka\Entity\SitePage',
             'delete',
-            new HasSitePermissionAssertion(array('admin', 'edit'))
+            new HasSitePermissionAssertion('editor')
         );
         $allowSitePageDelete = new AssertionAggregate;
         $allowSitePageUpdate->addAssertions(array(
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion(array('admin', 'edit'))
+            new HasSitePermissionAssertion('editor')
         ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
             'Omeka\Entity\SitePage',
             'delete',
             $allowSitePageDelete
+        );
+        $allowSiteView = new AssertionAggregate;
+        $allowSiteView->addAssertions(array(
+            new SiteIsPublicAssertion,
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion('viewer')
+        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            null,
+            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
+            'read',
+            $allowSiteView
         );
     }
 

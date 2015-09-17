@@ -64,10 +64,10 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'site', 'user', 'admin', 'attach', 'edit');
+            return array('__isInitialized__', 'id', 'site', 'user', 'role');
         }
 
-        return array('__isInitialized__', 'id', 'site', 'user', 'admin', 'attach', 'edit');
+        return array('__isInitialized__', 'id', 'site', 'user', 'role');
     }
 
     /**
@@ -235,78 +235,23 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function setAdmin($admin)
+    public function setRole($role)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAdmin', array($admin));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', array($role));
 
-        return parent::setAdmin($admin);
+        return parent::setRole($role);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAdmin()
+    public function getRole()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAdmin', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', array());
 
-        return parent::getAdmin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAttach($attach)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAttach', array($attach));
-
-        return parent::setAttach($attach);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAttach()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAttach', array());
-
-        return parent::getAttach();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEdit($edit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEdit', array($edit));
-
-        return parent::setEdit($edit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEdit()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEdit', array());
-
-        return parent::getEdit();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function hasPrivilege($privilege)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasPrivilege', array($privilege));
-
-        return parent::hasPrivilege($privilege);
+        return parent::getRole();
     }
 
     /**

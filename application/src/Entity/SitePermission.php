@@ -13,6 +13,10 @@ namespace Omeka\Entity;
  */
 class SitePermission extends AbstractEntity
 {
+    const ROLE_ADMIN = 'admin';
+    const ROLE_EDITOR = 'editor';
+    const ROLE_VIEWER = 'viewer';
+
     /**
      * @Id
      * @Column(type="integer")
@@ -33,19 +37,9 @@ class SitePermission extends AbstractEntity
     protected $user;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @Column(length=80)
      */
-    protected $admin = false;
-
-    /**
-     * @Column(type="boolean", nullable=false)
-     */
-    protected $attach = false;
-
-    /**
-     * @Column(type="boolean", nullable=false)
-     */
-    protected $edit = false;
+    protected $role;
 
     public function getId()
     {
@@ -72,47 +66,13 @@ class SitePermission extends AbstractEntity
         return $this->user;
     }
 
-    public function setAdmin($admin)
+    public function setRole($role)
     {
-        $this->admin = (bool) $admin;
+        $this->role = $role;
     }
 
-    public function getAdmin()
+    public function getRole()
     {
-        return $this->admin;
-    }
-
-    public function setAttach($attach)
-    {
-        $this->attach = (bool) $attach;
-    }
-
-    public function getAttach()
-    {
-        return $this->attach;
-    }
-
-    public function setEdit($edit)
-    {
-        $this->edit = (bool) $edit;
-    }
-
-    public function getEdit()
-    {
-        return $this->edit;
-    }
-
-    public function hasPrivilege($privilege)
-    {
-        switch ($privilege) {
-            case 'admin':
-                return $this->getAdmin();
-            case 'edit':
-                return $this->getEdit();
-            case 'attach':
-                return $this->getAttach();
-            default:
-                return false;
-        }
+        return $this->role;
     }
 }

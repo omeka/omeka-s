@@ -54,6 +54,9 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', array()));
         }
+        if ($this->shouldHydrate($request, 'o:is_public')) {
+            $entity->setIsPublic($request->getValue('o:is_public', true));
+        }
 
         if ($this->shouldHydrate($request, 'o:page')) {
             $pagesData = $request->getValue('o:page', array());
@@ -89,13 +92,9 @@ class SiteAdapter extends AbstractEntityAdapter
                 if (!isset($sitePermissionData['o:user']['o:id'])) {
                     continue;
                 }
-
-                $admin = isset($sitePermissionData['o:admin'])
-                    ? $sitePermissionData['o:admin'] : false;
-                $attach = isset($sitePermissionData['o:attach'])
-                    ? $sitePermissionData['o:attach'] : false;
-                $edit = isset($sitePermissionData['o:edit'])
-                    ? $sitePermissionData['o:edit'] : false;
+                if (!isset($sitePermissionData['o:role'])) {
+                    continue;
+                }
 
                 $user = $userAdapter->findEntity($sitePermissionData['o:user']['o:id']);
                 $criteria = Criteria::create()
@@ -109,9 +108,7 @@ class SiteAdapter extends AbstractEntityAdapter
                     $entity->getSitePermissions()->add($sitePermission);
                 }
 
-                $sitePermission->setAdmin($admin);
-                $sitePermission->setAttach($attach);
-                $sitePermission->setEdit($edit);
+                $sitePermission->setRole($sitePermissionData['o:role']);
                 $sitePermissionsToRetain[] = $sitePermission;
             }
             foreach ($sitePermissions as $sitePermissionId => $sitePermission) {

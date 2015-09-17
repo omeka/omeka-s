@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'pages', 'sitePermissions');
+            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'pages', 'sitePermissions');
+        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
     }
 
     /**
@@ -340,6 +340,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
 
         return parent::getModified();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+
+        return parent::isPublic();
     }
 
     /**

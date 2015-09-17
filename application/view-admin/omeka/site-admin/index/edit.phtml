@@ -4,7 +4,11 @@ $escape = $this->plugin('escapeHtml');
 $form->prepare();
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
-$roles = array('viewer' => 'Viewer', 'editor' => 'Editor', 'admin' => 'Admin');
+$roles = array(
+    'viewer' => $this->translate('Viewer'),
+    'editor' => $this->translate('Editor'),
+    'admin' => $this->translate('Admin'),
+);
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>

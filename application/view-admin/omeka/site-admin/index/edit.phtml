@@ -291,6 +291,8 @@ navTree.jstree({
         'data': <?php echo json_encode($navTree); ?>
     },
     'plugins': ['dnd','wholerow']
+}).on('loaded.jstree', function() {
+    navTree.jstree('open_all');
 });
 $('form').submit(function(e) {
     var json = navTree.jstree(true).get_json();

@@ -5,7 +5,7 @@ $this->headLink()->appendStylesheet('//fonts.googleapis.com/css?family=Source+Sa
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
 $this->headLink()->appendStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
-$this->headScript()->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js');
+$this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
 ?>
 <?php echo $this->doctype(); ?>

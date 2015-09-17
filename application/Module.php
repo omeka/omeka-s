@@ -23,7 +23,6 @@ class Module extends AbstractModule
      */
     protected $viewHelpers = array(
         'api'        => 'Omeka\View\Helper\Api',
-        'assetUrl'   => 'Omeka\View\Helper\AssetUrl',
         'i18n'       => 'Omeka\View\Helper\I18n',
         'media'      => 'Omeka\View\Helper\Media',
         'pagination' => 'Omeka\View\Helper\Pagination',

@@ -10,20 +10,12 @@ class AssetUrlTest extends TestCase
 
     public function setUp()
     {
-        $moduleManager = $this->getMock('Omeka\Module\Manager');
-        $moduleManager->expects($this->once())
-            ->method('getModulesByState')
-            ->with($this->equalTo('active'))
-            ->will($this->returnValue(array('MyModule' => array())));
-        $themeManager = $this->getMock('Omeka\Theme\Manager');
-        $serviceManager = $this->getServiceManager(
-            array(
-                'Omeka\ModuleManager' => $moduleManager,
-                'Omeka\ThemeManager' => $themeManager,
-            )
-        );
         $view = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $this->assetUrl = new AssetUrl($serviceManager);
+        $this->assetUrl = new AssetUrl(
+            'foo-theme',
+            array('MyModule' => array()),
+            array('Omeka' => array('foo-internal' => 'foo-external'))
+        );
         $this->assetUrl->setView($view);
     }
 
@@ -36,5 +28,13 @@ class AssetUrlTest extends TestCase
         
         $url = $assetUrl('baz/bat', 'MyModule');
         $this->assertEquals('/modules/MyModule/asset/baz/bat', $url);
+    }
+
+    public function testExternals()
+    {
+        $assetUrl = $this->assetUrl;
+
+        $this->assertEquals('foo-external', $assetUrl('foo-internal', 'Omeka'));
+        $this->assertEquals('/modules/MyModule/asset/foo-internal', $assetUrl('foo-internal', 'MyModule'));
     }
 }

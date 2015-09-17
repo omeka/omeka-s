@@ -10,8 +10,6 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-    protected $navPages = array();
-
     public function indexAction()
     {
         $this->setBrowseDefaults('title');
@@ -89,8 +87,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('navTree', $translator->toJstreeNavTree($site));
-        $view->setVariable('pageTree', $translator->toJstreePageTree($site));
+        $view->setVariable('navTree', $translator->toJstree($site));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(

@@ -72,7 +72,7 @@ class NavigationTranslator
         return $pages;
     }
 
-    public function toJstreeNavTree(SiteRepresentation $site)
+    public function toJstree(SiteRepresentation $site)
     {
         $sitePages = $site->pages();
         $buildPages = function ($pagesIn) use (&$buildPages, $sitePages) {
@@ -95,37 +95,6 @@ class NavigationTranslator
             return $pagesOut;
         };
         return $buildPages($site->navigation());
-    }
-
-    public function toJstreePageTree(SiteRepresentation $site)
-    {
-        $sitePages = $site->pages();
-        $navPages = array();
-        $buildPages = function ($pagesIn) use (&$buildPages, &$navPages, $sitePages) {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (isset($sitePages[$page['id']])) {
-                    $navPages[] = $page['id'];
-                    if (isset($page['pages'])) {
-                        $buildPages($page['pages']);
-                    }
-                }
-            }
-        };
-        $buildPages($site->navigation());
-        $pageTree = array();
-        foreach ($sitePages as $id => $page) {
-            if (!in_array($id, $navPages)) {
-                $pageTree[] = array(
-                    'text' => $page->title(),
-                    'data' => array(
-                        'type' => 'page',
-                        'id' => $page->id(),
-                    ),
-                );
-            }
-        }
-        return $pageTree;
     }
 
     public function fromJstree(array $jstree)

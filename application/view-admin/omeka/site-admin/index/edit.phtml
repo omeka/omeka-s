@@ -86,9 +86,7 @@ if ($pages):
 
 <fieldset id="nav" class="section">
     <div id="nav-tree"></div>
-    <div id="nav-selector" class="selector sidebar">
-        <div id="pages-tree"></div>
-    </div>
+    <div id="nav-selector" class="selector sidebar"></div>
 </fieldset>
 
 <fieldset id="permissions" class="section">
@@ -261,32 +259,13 @@ $('.section-nav a').click(function() {
 });
 
 var navTree = $('#nav-tree');
-var pagesTree = $('#pages-tree');
-var copyNodeData = function(e, data) {
-    // By default, jsTree strips data when moving a node to another tree.
-    // Calling this during the copy_node.jstree event prevents that.
-    // See: https://groups.google.com/forum/#!topic/jstree/_NvazSz1jJs
-    data.node.data = $.extend(true, {}, data.original.data);
-};
 navTree.jstree({
     'core': {
         'check_callback': true,
         'data': <?php echo json_encode($navTree); ?>
     },
     'plugins': ['dnd','wholerow']
-}).on('copy_node.jstree', copyNodeData);
-pagesTree.jstree({
-    'core': {
-        'check_callback': true,
-        'data': <?php echo json_encode($pageTree); ?>
-    },
-    'types': {
-        'default': {
-            'max_children': 0,
-        },
-    },
-    'plugins': ['dnd','wholerow','types']
-}).on('copy_node.jstree', copyNodeData);
+});
 $('form').submit(function(e) {
     var json = navTree.jstree(true).get_json();
     $('<input>', {

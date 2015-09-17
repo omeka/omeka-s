@@ -86,7 +86,24 @@ if ($pages):
 
 <fieldset id="nav" class="section">
     <div id="nav-tree"></div>
-    <div id="nav-selector" class="selector sidebar"></div>
+    <div id="nav-selector" class="selector sidebar">
+    <p>Click on a page to add it to the navigation.</p>
+    <?php if ($pages): ?>
+    <ul id="nav-pages">
+    <?php foreach ($pages as $page): ?>
+        <li class="nav-page"
+            data-type="page"
+            data-id="<?php echo $page->id(); ?>"
+            data-title="<?php echo $page->title(); ?>"
+            data-slug="<?php echo $page->slug(); ?>">
+            <?php echo $page->title(); ?> (<?php echo $page->slug(); ?>)
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?php else: ?>
+    <p>This site has no pages</p>
+    <?php endif; ?>
+    </div>
 </fieldset>
 
 <fieldset id="permissions" class="section">
@@ -259,6 +276,15 @@ $('.section-nav a').click(function() {
 });
 
 var navTree = $('#nav-tree');
+$('#nav-pages').on('click', '.nav-page', function(e) {
+    var thisPage = $(this);
+    var data = {
+        type: thisPage.data('type'),
+        id: thisPage.data('id')
+    };
+    var text = thisPage.data('title') + ' (' + thisPage.data('slug') + ')';
+    navTree.jstree('create_node', '#', {data: data, text: text});
+});
 navTree.jstree({
     'core': {
         'check_callback': true,

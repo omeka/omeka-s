@@ -81,7 +81,7 @@ class NavigationTranslator
                 if (isset($sitePages[$page['id']])) {
                     $sitePage = $sitePages[$page['id']];
                     $pagesOut[$key] = array(
-                        'text' => $sitePage->title(),
+                        'text' => sprintf('%s (%s)', $sitePage->title(), $sitePage->slug()),
                         'data' => array(
                             'type' => 'page',
                             'id' => $sitePage->id(),

@@ -51,15 +51,14 @@ class HasSitePermissionAssertion implements AssertionInterface
      */
     public function getRoleNumber($role)
     {
-        if (SitePermission::ROLE_ADMIN === $role) {
-            return 1;
+        switch ($role) {
+            case SitePermission::ROLE_ADMIN:
+                return 1;
+            case SitePermission::ROLE_EDITOR:
+                return 2;
+            case SitePermission::ROLE_VIEWER:
+            default:
+                return 3;
         }
-        if (SitePermission::ROLE_EDITOR === $role) {
-            return 2;
-        }
-        if (SitePermission::ROLE_VIEWER === $role) {
-            return 3;
-        }
-        return 4;
     }
 }

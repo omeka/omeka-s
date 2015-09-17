@@ -181,11 +181,11 @@ $userRowTemplate = '
         <span class="user-name"></span>
         <input type="hidden" class="user-id" name="o:site_permission[__index__][o:user][o:id]">
     </td>
-    <td><select name="o:site_permission[__index__][o:role]">
-        <option value="viewer">Viewer</option>
-        <option value="editor">Editor</option>
-        <option value="admin">Admin</option>
-    </select></td>
+    <td><select name="o:site_permission[__index__][o:role]">';
+foreach ($roles as $key => $value) {
+    $userRowTemplate .= '<option value="' . $key . '">' . $value . '</option>';
+}
+$userRowTemplate .= '</select></td>
     <td>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete" aria-label="' . $delete . '" title="' . $delete . '"></a></li>

@@ -39,6 +39,10 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
+            array($this, 'prepareAdmin')
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
             array($this, 'prepareSite')
         );
     }
@@ -214,7 +218,27 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Prepare the site theme and navigation.
+     * Prepare the administrative interface.
+     *
+     * @param MvcEvent $event
+     */
+    public function prepareAdmin(MvcEvent $event)
+    {
+        $routeMatch = $event->getRouteMatch();
+        if (!$routeMatch->getParam('__ADMIN__')
+            && 'migrate' !== $routeMatch->getMatchedRouteName()
+        ) {
+            // Not an admin route; do nothing.
+            return;
+        }
+        $event->getApplication()
+            ->getServiceManager()
+            ->get('ViewTemplatePathStack')
+            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
+    }
+
+    /**
+     * Prepare the site interface.
      *
      * @param MvcEvent $event
      */
@@ -235,6 +259,14 @@ class MvcListeners extends AbstractListenerAggregate
 
         if (!$site) {
             // Site not found, set minimal layout and 404 status
+            $event->getViewModel()->setTemplate('error/404');
+            $event->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        $acl = $serviceLocator->get('Omeka\Acl');
+        if (!$acl->userIsAllowed($site, 'read')) {
+            // Site is restricted, set minimal layout and 404 status
             $event->getViewModel()->setTemplate('error/404');
             $event->getResponse()->setStatusCode(404);
             return;

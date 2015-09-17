@@ -12,7 +12,7 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_path_stack'      => array(
-            OMEKA_PATH . '/application/view',
+            OMEKA_PATH . '/application/view-shared',
         ),
         'strategies' => array(
             'Omeka\ViewApiJsonStrategy',
@@ -238,6 +238,7 @@ return array(
         'invokables' => array(
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
+            'oneItem' => 'Omeka\BlockLayout\OneItem',
         ),
     ),
     'media_handlers' => array(

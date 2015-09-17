@@ -10,12 +10,12 @@
             var count = propertyField.length;
             // If property has already been set, scroll to its field
             if (count > 0) {
-                scrollTo(propertyField.first());
+                Omeka.scrollTo(propertyField.first());
             } else {
                 makeNewField(propertyLi);
                 var wrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values');
                 wrapper.append(makeNewValue(qName));
-                scrollTo(wrapper);
+                Omeka.scrollTo(wrapper);
             }
         });
 
@@ -106,46 +106,10 @@
             }
         });
 
-        $('.sidebar').on('click', 'div.resource-list a.sidebar-content', function() {
-            var resourceId = $(this).data('resource-id');
-            $('#select-item a').data('resource-id', resourceId);
-        });
-
-        $('.sidebar').on('click', '.pagination a', function(e) {
-            e.preventDefault();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).attr('href'),
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
-            });
-        });
-
-        $('.sidebar').on('click', '#sidebar-resource-search .o-icon-search', function() {
-            var searchValue = $('#resource-list-search').val();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).data('search-url'),
-                'data': {'value[in][]': searchValue},
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
-            });
-        });
-
-        $('.sidebar .sidebar').on('click', '#select-item a', function(e) {
-            e.preventDefault();
+        $('#select-item a').on('o:resource-selected', function (e) {
             var propertyQname = $(this).data('property-term');
             var valuesData = $('.resource-details').data('resource-values');
             $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, valuesData));
-            Omeka.closeSidebar($('.sidebar .sidebar'));
         });
 
         $('.button.resource-select').on('click', function(e) {
@@ -158,21 +122,6 @@
             var qName = context.parents('.resource-values').data('property-term');
             $('#select-item a').data('property-term', qName);
             Omeka.openSidebar(context, "#select-resource");
-        });
-
-        $('.resource-name a').on('click', function(e) {
-            e.preventDefault();
-            var context = $(this);
-            $('#resource-details').data('resource-id', $(this).data('resource-id'));
-            $.ajax({
-                'url': context.data('show-details-action'),
-                'data': {'link-title' : 0},
-                'type': 'get'
-            }).done(function(data) {
-                $('#resource-details-content').html(data);
-                $('#select-item a').data('resource-id', context.data('resource-id'));
-            });
-            Omeka.openSidebar(context);
         });
 
         $('.visibility [type="checkbox"]').on('click', function() {
@@ -401,12 +350,5 @@
             }
         });
     };
-
-    var scrollTo = function(wrapper) {
-        //focus on the value being edited
-        $('html, body').animate({
-            scrollTop: (wrapper.offset().top -100)
-        },200);
-    }
 })(jQuery);
 

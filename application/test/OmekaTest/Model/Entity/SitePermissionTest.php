@@ -18,8 +18,6 @@ class SitePermissionTest extends TestCase
         $this->assertNull($this->sitePermission->getId());
         $this->assertNull($this->sitePermission->getSite());
         $this->assertNull($this->sitePermission->getUser());
-        $this->assertFalse($this->sitePermission->getAdmin());
-        $this->assertFalse($this->sitePermission->getAttach());
-        $this->assertFalse($this->sitePermission->getEdit());
+        $this->assertNull($this->sitePermission->getRole());
     }
 }

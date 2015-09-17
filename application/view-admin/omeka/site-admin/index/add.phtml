@@ -1,0 +1,16 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'sites add');
+$form->prepare();
+?>
+<?php echo $this->pageTitle('Add Site'); ?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <a href="#"
+    class="o-icon-private button"
+    aria-label=" <?php echo $this->translate('Make public'); ?>"
+    title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <input type="hidden" name="o:is_public" value="0">
+    <button><?php echo $this->translate('Add'); ?></button>
+</div>
+<?php echo $this->formElements($form); ?>
+<?php echo $this->form()->closeTag(); ?>

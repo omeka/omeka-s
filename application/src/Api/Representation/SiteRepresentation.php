@@ -52,6 +52,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
+            'o:is_public' => $this->isPublic(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
         );
@@ -85,6 +86,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function modified()
     {
         return $this->getData()->getModified();
+    }
+
+    public function isPublic()
+    {
+        return $this->getData()->isPublic();
     }
 
     public function pages()

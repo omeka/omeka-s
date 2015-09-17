@@ -103,7 +103,7 @@ class LoginController extends AbstractActionController
                 }
                 $entityManager->remove($passwordCreation);
                 $entityManager->flush();
-                $this->messenger()->addSuccess('Successfully created your Omeka S password. Please log in.');
+                $this->messenger()->addSuccess('Successfully created your password. Please log in.');
                 return $this->redirect()->toRoute('login');
             } else {
                 $this->messenger()->addError('Password creation unsuccessful');

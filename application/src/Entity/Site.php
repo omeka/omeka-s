@@ -55,6 +55,11 @@ class Site extends AbstractEntity
     protected $modified;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = true;
+
+    /**
      * @OneToMany(
      *     targetEntity="SitePage",
      *     mappedBy="site",
@@ -155,6 +160,16 @@ class Site extends AbstractEntity
     public function getModified()
     {
         return $this->modified;
+    }
+
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function isPublic()
+    {
+        return (bool) $this->isPublic;
     }
 
     public function getPages()

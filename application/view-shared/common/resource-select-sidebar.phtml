@@ -1,0 +1,17 @@
+<?php $this->headScript()->appendFile($this->assetUrl('js/resource-selector.js', 'Omeka')); ?>
+<div id="select-resource" class='sidebar'>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+    <div class="sidebar-content">
+    </div>
+    <div id="resource-details" class="sidebar">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+
+        <div class='sidebar-content'>
+            <div id="resource-details-content">
+            </div>
+        </div>
+        <div id="select-item">
+            <a href="#" class="button"><?php echo $this->translate('Select resource'); ?></a>
+        </div>
+    </div>
+</div>

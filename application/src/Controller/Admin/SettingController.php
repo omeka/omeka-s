@@ -15,6 +15,7 @@ class SettingController extends AbstractActionController
         $form = new SettingForm($serviceLocator);
         $data = array(
             'administrator_email' => $settings->get('administrator_email'),
+            'installation_title' => $settings->get('installation_title'),
             'pagination_per_page' => $settings->get('pagination_per_page'),
             'property_label_information' => $settings->get('property_label_information'),
             'use_htmlpurifier' => $settings->get('use_htmlpurifier')

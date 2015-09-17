@@ -229,6 +229,7 @@ body {
             display:inline-block;
             margin:0 0 rhythm(.25);
             padding:0;
+            background-color: transparent;
         }
 
         .field:last-of-type {
@@ -2094,6 +2095,10 @@ input[type="text"].value-language,
         max-width: calc(100% - #{rhythm(3)});
         vertical-align: middle;
     }
+
+    select {
+        width: 100%;
+    }
 }
 
 #sidebar-confirm {
@@ -2368,6 +2373,83 @@ body.sidebar-open #content {
                 content: $fa-var-users;
             }
         }
+    }
+
+    /* @end */
+
+    /* @group ----- Pages ----- */
+
+    [for="new-block"] {
+        display: inline-block;
+        font-size: 1.25 * $base-font-size;
+        @include trailer(.5, 1.25 * $base-font-size);
+    }
+
+    .block {
+        @include trailer(.25);
+    }
+
+    .block .input-header {
+        position: relative;
+        display: block;
+        background-color: opacify($gray-on-white, .08);
+        padding-right: rhythm(.25);
+        padding-left: rhythm(1.5);
+        font-weight: bold;
+        line-height: 1.5 * $base-line-height;
+
+        .actions li {
+            vertical-align: top;
+        }
+    }
+
+    .block .sortable-handle {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+
+        &:before {
+            top: 0;
+            left: 0;
+            right: rhythm(1.5);
+            padding: rhythm(.25, 1.25 * $base-font-size);
+        }
+    }
+
+    .block.html > div {
+        border: 1px solid #f2f2f2;
+        clear: both;
+    }
+
+    .block .field {
+        clear: both;
+        margin-bottom: 0;
+        border-color: transparent;
+    }
+
+    .block.value.delete .input-header {
+        font-weight: normal;
+    }
+
+    .block.value.delete span.restore-value {
+        padding: 0 rhythm(.125);
+    }
+
+    .block.value.delete a.restore-value:before {
+        padding: 0;
+        margin-right: -3px;
+    }
+
+    .delete .block-type:before {
+        content: "'";
+    }
+
+    .delete .block-type:after {
+        content: "'";
+    }
+
+    .block .item-title {
+        margin: rhythm(.25) 0;
     }
 
     /* @end */

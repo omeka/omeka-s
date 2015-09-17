@@ -4,6 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $form->prepare();
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
+$roles = array('viewer' => 'Viewer', 'editor' => 'Editor', 'admin' => 'Admin');
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>
@@ -77,13 +78,11 @@ if ($pages):
 </fieldset>
 <fieldset id="permissions" class="section">
 <?php $sitePermissions = $site->sitePermissions(); ?>
-    <table id="site-user-permissions" class="<?php echo (count($sitePermissions) > 0) ? '' : 'empty'; ?>">
+    <table id="site-user-permissions" class="<?php echo count($sitePermissions) ? '' : 'empty'; ?>">
         <thead>
             <tr>
                 <th scope="col"><?php echo $this->translate('User'); ?></th>
-                <th scope="col"><?php echo $this->translate('Admin'); ?></th>
-                <th scope="col"><?php echo $this->translate('Attach'); ?></th>
-                <th scope="col"><?php echo $this->translate('Edit'); ?></th>
+                <th scope="col"><?php echo $this->translate('Role'); ?></th>
                 <th></th>
             </tr>
         </thead>
@@ -92,21 +91,21 @@ if ($pages):
             $index = 1;
             foreach($sitePermissions as $sitePermission): 
             $user = $sitePermission->user();
-            $admin = ($sitePermission->admin()) ? 'checked' : '';
-            $edit = ($sitePermission->edit()) ? 'checked' : '';
-            $attach = ($sitePermission->attach()) ? 'checked' : '';
             ?>
             <tr class="user value">
                 <td class="user-meta">
                     <span class="restore-value"><?php echo $this->translate('User to be removed'); ?></span>
                     <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
-                    <input type="hidden" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
+                    <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
-                <td>
-                    <input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:admin]" <?php echo $admin; ?> value="1">
-                </td>
-                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:edit]" <?php echo $edit; ?> value="1"></td>
-                <td><input type="checkbox" name="o:site_permission[<?php echo $index; ?>][o:attach]" <?php echo $attach; ?> value="1"></td>
+                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]">
+                    <?php
+                    foreach ($roles as $key => $value):
+                    $selected = $key === $sitePermission->role() ? true : false;
+                    ?>
+                    <option value="<?php echo $key; ?>"<?php echo $selected ? ' selected' : null; ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select></td>
                 <td>
                     <ul class="actions">
                         <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
@@ -176,13 +175,13 @@ $userRowTemplate = '
     <td class="user-meta">
         <span class="restore-value">' . $this->translate('User to be removed') . '</span>
         <span class="user-name"></span>
-        <input type="hidden">
+        <input type="hidden" class="user-id" name="o:site_permission[__index__][o:user][o:id]">
     </td>
-    <td>
-        <input type="checkbox" value="1" class="admin-permission">
-    </td>
-    <td><input type="checkbox" value="1" class="edit-permission"></td>
-    <td><input type="checkbox" value="1" class="attach-permission"></td>
+    <td><select name="o:site_permission[__index__][o:role]">
+        <option value="viewer">Viewer</option>
+        <option value="editor">Editor</option>
+        <option value="admin">Admin</option>
+    </select></td>
     <td>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete" aria-label="' . $delete . '" title="' . $delete . '"></a></li>
@@ -207,31 +206,31 @@ $('#content').on('click', '.o-icon-delete', function() {
 
 $('#content').on('click', '.o-icon-undo', function() {
     $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
-}); 
+});
 
 $('#permissions .selector .selector-child').click(function() {
     var user = $(this);
     var userId = user.data('user-id');
+    var userText = user.data('child-search');
     var permissionsTable = $('#site-user-permissions');
-    if (permissionsTable.find('.user-meta [value="' + userId + '"]').length) {
+    if (permissionsTable.find('.user-id[value="' + userId + '"]').length) {
+        // Do not add existing users.
         return;
     }
-    if ($('#site-user-permissions').hasClass('empty')) {
-        var index = 1;
-    } else {
-        var index = $('#permissions .user-meta input[type="hidden"]').length;
-        index++;
+    var index = permissionsTable.find('.user').length;
+    if (!index) {
+        permissionsTable.removeClass('empty');
     }
     var template = $($.parseHTML($('#user-row-template').data('template')));
-    var templateUserMeta = template.find('td.user-meta');
-    var permissionPrefix = 'o:site_permission[' + index + ']';
-    template.find('.admin-permission').attr('name', permissionPrefix + '[o:admin]');
-    template.find('.edit-permission').attr('name', permissionPrefix + '[o:edit]');
-    template.find('.attach-permission').attr('name', permissionPrefix + '[o:attach]');
-    template.find('.user-name').text(user.data('child-search'));
-    templateUserMeta.find('input[type="hidden"]').val(userId).attr('name', permissionPrefix + '[o:user][o:id]');
-    $('#permissions tbody').append(template);
-    $('#site-user-permissions').removeClass('empty');
+    template.find('.user-name').text(userText);
+    template.find('.user-id').val(userId);
+    template.find(':input').each(function() {
+        // Find and replace indexes for all inputs.
+        var thisInput = $(this);
+        var name = thisInput.attr('name').replace('[__index__]', '[' + index + ']');
+        thisInput.attr('name', name);
+    });
+    permissionsTable.find('tbody').append(template);
 });
 
 $('.section-nav a[href="#permissions"]').click(function() {

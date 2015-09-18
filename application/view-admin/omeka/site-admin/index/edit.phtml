@@ -85,6 +85,7 @@ if ($pages):
 </fieldset>
 
 <fieldset id="nav" class="section">
+    <button id="page-remove">Remove</button>
     <div id="nav-tree"></div>
     <div id="nav-selector" class="selector sidebar">
     <p>Click on a page to add it to the navigation.</p>
@@ -276,6 +277,21 @@ $('.section-nav a').click(function() {
 });
 
 var navTree = $('#nav-tree');
+navTree.jstree({
+    'core': {
+        'check_callback': true,
+        'data': <?php echo json_encode($navTree); ?>,
+        // With checkbox.three_state, select one node at a time.
+        'multiple': false
+    },
+    'checkbox': {
+        // With core.multiple, select one node at a time.
+        'three_state': false
+    },
+    'plugins': ['dnd','checkbox']
+}).on('loaded.jstree', function() {
+    navTree.jstree('open_all');
+});
 $('#nav-pages').on('click', '.nav-page', function(e) {
     var thisPage = $(this);
     var data = {
@@ -285,14 +301,10 @@ $('#nav-pages').on('click', '.nav-page', function(e) {
     var text = thisPage.data('title') + ' (' + thisPage.data('slug') + ')';
     navTree.jstree('create_node', '#', {data: data, text: text});
 });
-navTree.jstree({
-    'core': {
-        'check_callback': true,
-        'data': <?php echo json_encode($navTree); ?>
-    },
-    'plugins': ['dnd','wholerow']
-}).on('loaded.jstree', function() {
-    navTree.jstree('open_all');
+$('#page-remove').click(function(e) {
+    e.preventDefault();
+    var selected = navTree.jstree(true).get_selected();
+    navTree.jstree(true).delete_node(selected);
 });
 $('form').submit(function(e) {
     var json = navTree.jstree(true).get_json();

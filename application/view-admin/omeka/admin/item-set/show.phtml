@@ -66,5 +66,4 @@ if ($owner = $itemSet->owner()) {
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></div>
     </div>
 </div>
-
-<?php echo $itemSet->embeddedJsonLd(); ?>
+<?php $this->trigger('view.show.after'); ?>

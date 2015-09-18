@@ -106,6 +106,22 @@ class Module extends AbstractModule
             array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
             array($this, 'filterMedia')
         );
+
+        $viewResourceVars = array(
+            'Omeka\Controller\Admin\Item' => 'item',
+            'Omeka\Controller\Admin\ItemSet' => 'itemSet',
+            'Omeka\Controller\Admin\Media' => 'media',
+        );
+        foreach($viewResourceVars as $resource => $var) {
+            $sharedEventManager->attach(
+                $resource,
+                'view.show.after',
+                function (OmekaEvent $event) use ($var) {
+                    $resource = $event->getTarget()->$var;
+                    echo $resource->embeddedJsonLd();
+                }
+            );
+        }
     }
 
     /**

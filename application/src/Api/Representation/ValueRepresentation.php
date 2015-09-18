@@ -41,15 +41,19 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function asHtml()
     {
-        
+        $args = array();
         switch ($this->type()) {
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
+                $args['targetUrl'] = $valueResource->url();
+                $args['label'] = $valueResource->displayTitle();
                 $html = $valueResource->link($valueResource->displayTitle());
                 break;
             case Value::TYPE_URI:
                 $uri = $this->getData()->getValue();
                 $uriLabel = $this->getData()->getUriLabel();
+                $args['targetUrl'] = $uri;
+                $args['label'] = $uriLabel;
                 if (!$uriLabel) {
                     $uriLabel = $uri;
                 }
@@ -61,7 +65,7 @@ class ValueRepresentation extends AbstractRepresentation
                 $escape = $this->getViewHelper('escapeHtml');
                 $html = $escape($this->value());
         }
-        $args = array('html' => $html);
+        $args['html'] = $html;
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs($args);
         $eventManager->trigger('filterValue', $this, $args);

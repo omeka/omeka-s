@@ -4,6 +4,7 @@ namespace Omeka\Permissions\Assertion;
 use Doctrine\Common\Collections\Criteria;
 use Omeka\Entity\Site;
 use Omeka\Entity\SitePage;
+use Omeka\Entity\SitePermission;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
@@ -11,11 +12,11 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 class HasSitePermissionAssertion implements AssertionInterface
 {
-    protected $sitePrivileges;
+    protected $roleNumber;
 
-    public function __construct(array $sitePrivileges)
+    public function __construct($role)
     {
-        $this->sitePrivileges = $sitePrivileges;
+        $this->roleNumber = $this->getRoleNumber($role);
     }
 
     public function assert(Acl $acl, RoleInterface $role = null,
@@ -35,14 +36,29 @@ class HasSitePermissionAssertion implements AssertionInterface
         $sitePermission =  $site->getSitePermissions()
             ->matching($criteria)->first();
         if (!$sitePermission) {
-            // This user has no site permissions
+            // This user has no site permission
             return false;
         }
-        foreach ($this->sitePrivileges as $sitePrivilege) {
-            if ($sitePermission->hasPrivilege($sitePrivilege)) {
-                return true;
-            }
+        $userRoleNumber = $this->getRoleNumber($sitePermission->getRole());
+        return $userRoleNumber <= $this->roleNumber;
+    }
+
+    /**
+     * Assign incrementing numbers to site roles, starting at admin.
+     *
+     * @param string
+     * @return int
+     */
+    public function getRoleNumber($role)
+    {
+        switch ($role) {
+            case SitePermission::ROLE_ADMIN:
+                return 1;
+            case SitePermission::ROLE_EDITOR:
+                return 2;
+            case SitePermission::ROLE_VIEWER:
+            default:
+                return 3;
         }
-        return false;
     }
 }

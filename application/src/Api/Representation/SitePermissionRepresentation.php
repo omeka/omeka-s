@@ -41,9 +41,8 @@ class SitePermissionRepresentation extends AbstractRepresentation
     {
         return array(
             'o:user' => $this->user()->getReference(),
-            'o:admin' => $this->admin(),
-            'o:attach' => $this->attach(),
-            'o:edit' => $this->edit(),
+            'o:role' => $this->role(),
+
         );
     }
 
@@ -66,26 +65,10 @@ class SitePermissionRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function admin()
+    public function role()
     {
-        return $this->getData()->getAdmin();
-    }
-
-    /**
-     * @return bool
-     */
-    public function edit()
-    {
-        return $this->getData()->getEdit();
-    }
-
-    /**
-     * @return bool
-     */
-    public function attach()
-    {
-        return $this->getData()->getAttach();
+        return $this->getData()->getRole();
     }
 }

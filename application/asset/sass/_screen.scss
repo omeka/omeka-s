@@ -2423,6 +2423,8 @@ body.sidebar-open #content {
 
     .block .field {
         clear: both;
+        margin-bottom: 0;
+        border-color: transparent;
     }
 
     .block.value.delete .input-header {
@@ -2444,6 +2446,10 @@ body.sidebar-open #content {
 
     .delete .block-type:after {
         content: "'";
+    }
+
+    .block .item-title {
+        margin: rhythm(.25) 0;
     }
 
     /* @end */

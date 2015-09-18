@@ -52,6 +52,10 @@ if ($owner = $item->owner()) {
         alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
     >
     <?php endif; ?>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($item->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
+    </div>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
@@ -68,10 +72,6 @@ if ($owner = $item->owner()) {
     <div class="meta-group">
         <h4><?php echo $this->translate('Owner'); ?></h4>
         <div class="value"><?php echo $ownerText; ?></div>
-    </div>
-    <div class="meta-group">
-        <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($item->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
     </div>
     <?php if ($item->media()): ?>
     <div class="meta-group">

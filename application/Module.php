@@ -16,14 +16,13 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.2.3-alpha';
+    const VERSION = '0.2.6-alpha';
 
     /**
      * @var array View helpers that need service manager injection
      */
     protected $viewHelpers = array(
         'api'        => 'Omeka\View\Helper\Api',
-        'assetUrl'   => 'Omeka\View\Helper\AssetUrl',
         'i18n'       => 'Omeka\View\Helper\I18n',
         'media'      => 'Omeka\View\Helper\Media',
         'pagination' => 'Omeka\View\Helper\Pagination',
@@ -105,6 +104,12 @@ class Module extends AbstractModule
             'Omeka\Api\Adapter\MediaAdapter',
             array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
             array($this, 'filterMedia')
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\SiteAdapter',
+            array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
+            array($this, 'filterSites')
         );
     }
 
@@ -227,6 +232,47 @@ class Module extends AbstractModule
                 $expression,
                 $qb->expr()->eq(
                     "$itemAlias.owner",
+                    $adapter->createNamedParameter($qb, $identity)
+                )
+            );
+        }
+        $qb->andWhere($expression);
+    }
+
+    /**
+     * Filter private sites.
+     *
+     * @param Event $event
+     */
+    public function filterSites(Event $event)
+    {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            return;
+        }
+
+        $adapter = $event->getTarget();
+        $qb = $event->getParam('queryBuilder');
+
+        // Users can view sites they do not own that are public.
+        $expression = $qb->expr()->eq("Omeka\Entity\Site.isPublic", true);
+
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity) {
+            $sitePermissionAlias = $adapter->createAlias();
+            $qb->leftJoin('Omeka\Entity\Site.sitePermissions', $sitePermissionAlias);
+
+            $expression = $qb->expr()->orX(
+                $expression,
+                // Users can view all sites they own.
+                $qb->expr()->eq(
+                    "Omeka\Entity\Site.owner",
+                    $adapter->createNamedParameter($qb, $identity)
+                ),
+                // Users can view sites where they have a role (any role).
+                $qb->expr()->eq(
+                    "$sitePermissionAlias.user",
                     $adapter->createNamedParameter($qb, $identity)
                 )
             );

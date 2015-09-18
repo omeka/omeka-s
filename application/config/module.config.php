@@ -18,6 +18,14 @@ return array(
             'Omeka\ViewApiJsonStrategy',
         ),
     ),
+    'assets' => array(
+        'use_externals' => true,
+        'externals' => array(
+            'Omeka' => array(
+                'js/jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
+            ),
+        ),
+    ),
     'permissions' => array(
         'acl_resources' => array(
             'Omeka\Module\Manager',
@@ -233,11 +241,15 @@ return array(
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
         ),
+        'factories' => array(
+            'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
+        ),
     ),
     'block_layouts' => array(
         'invokables' => array(
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
+            'oneItem' => 'Omeka\BlockLayout\OneItem',
         ),
     ),
     'media_handlers' => array(

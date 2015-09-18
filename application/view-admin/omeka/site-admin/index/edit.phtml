@@ -281,12 +281,11 @@ navTree.jstree({
     'core': {
         'check_callback': true,
         'data': <?php echo json_encode($navTree); ?>,
-        // With checkbox.three_state, select one node at a time.
-        'multiple': false
+        'multiple': false // With checkbox.three_state, select one node at a time.
     },
     'checkbox': {
-        // With core.multiple, select one node at a time.
-        'three_state': false
+        'three_state': false, // With core.multiple, select one node at a time.
+        'visible': false // Do not show the checkboxes.
     },
     'plugins': ['dnd','checkbox']
 }).on('loaded.jstree', function() {

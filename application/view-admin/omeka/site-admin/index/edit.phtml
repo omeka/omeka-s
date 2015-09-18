@@ -290,7 +290,12 @@ navTree.jstree({
     },
     'plugins': ['dnd','checkbox']
 }).on('loaded.jstree', function() {
-    navTree.jstree('open_all');
+    // Open all nodes by default.
+    navTree.jstree(true).open_all();
+}).on('move_node.jstree', function(e, data) {
+    // Open node after moving it.
+    var parent = navTree.jstree(true).get_node(data.parent);
+    navTree.jstree(true).open_all(parent);
 });
 $('#nav-pages').on('click', '.nav-page', function(e) {
     var thisPage = $(this);
@@ -299,7 +304,7 @@ $('#nav-pages').on('click', '.nav-page', function(e) {
         id: thisPage.data('id')
     };
     var text = thisPage.data('title') + ' (' + thisPage.data('slug') + ')';
-    navTree.jstree('create_node', '#', {data: data, text: text});
+    navTree.jstree(true).create_node('#', {data: data, text: text});
 });
 $('#page-remove').click(function(e) {
     e.preventDefault();

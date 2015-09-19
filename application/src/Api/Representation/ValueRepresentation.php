@@ -53,10 +53,10 @@ class ValueRepresentation extends AbstractRepresentation
                 $uri = $this->getData()->getValue();
                 $uriLabel = $this->getData()->getUriLabel();
                 $args['targetUrl'] = $uri;
-                $args['label'] = $uriLabel;
                 if (!$uriLabel) {
                     $uriLabel = $uri;
                 }
+                $args['label'] = $uriLabel;
                 $hyperlink = $this->getViewHelper('hyperlink');
                 $html = $hyperlink($uriLabel, $uri);
                 break;

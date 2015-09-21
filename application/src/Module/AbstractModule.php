@@ -101,7 +101,9 @@ abstract class AbstractModule implements ConfigProviderInterface
      * {@inheritDoc}
      */
     public function getConfig()
-    {}
+    {
+        return array();
+    }
 
     /**
      * {@inheritDoc}

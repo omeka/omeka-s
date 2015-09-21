@@ -71,6 +71,7 @@ class Event extends ZendEvent
      * trigger these events.
      */
     const REP_RESOURCE_JSON = 'rep.resource.json';
+    const REP_VALUE_HTML = 'rep.value.html';
 
     /**#@+
      * Events triggered by views.

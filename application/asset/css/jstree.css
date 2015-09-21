@@ -1,0 +1,65 @@
+@charset "UTF-8";
+.jstree-container-ul,
+.jstree-container-ul ul {
+  list-style-type: none;
+}
+
+.jstree-children {
+  padding-left: 36px;
+}
+
+.jstree-container-ul,
+.jstree-container-ul > li {
+  padding-left: 0;
+}
+
+.jstree-anchor {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 0.375em;
+  position: relative;
+  margin-bottom: 0.375em;
+  display: block;
+}
+
+.jstree-clicked {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+.jstree-hovered {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+i.jstree-icon {
+  font-style: normal;
+  position: absolute;
+  right: 0;
+}
+
+.jstree-icon:before {
+  font-family: "FontAwesome";
+}
+
+.jstree-open,
+.jstree-closed {
+  position: relative;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  background-color: rgba(0, 0, 0, 0.24);
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.jstree-open > .jstree-ocl:before {
+  content: "";
+}
+
+.jstree-closed > .jstree-ocl:before {
+  content: "";
+}

@@ -1,0 +1,66 @@
+@import "base";
+@import "mixins";
+@import "font-awesome/variables";
+@import "compass/css3";
+@import "compass/typography";
+
+.jstree-container-ul,
+.jstree-container-ul ul {
+    list-style-type: none;
+}
+
+.jstree-children {
+    padding-left: 1.5 * $base-line-height;
+}
+
+.jstree-container-ul,
+.jstree-container-ul > li{
+    padding-left: 0;
+}
+
+.jstree-anchor {
+    @include field-row;
+    display: block;
+}
+
+.jstree-clicked {
+    background-color: opacify($gray-on-white, .08);
+}
+
+.jstree-hovered {
+    background-color: transparentize($gray-on-white, .04);
+}
+
+i.jstree-icon {
+    font-style: normal;
+    position: absolute;
+    right: 0;
+}
+
+.jstree-icon:before {
+    font-family: "FontAwesome";
+}
+
+.jstree-open,
+.jstree-closed {
+    position: relative;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl, {
+    width: 1.5 * $base-line-height;
+    height: 1.5 * $base-line-height;
+    line-height: 1.5 * $base-line-height;
+    background-color: opacify($gray-on-white, .16);
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.jstree-open > .jstree-ocl:before {
+    content: $fa-var-caret-down;
+}
+
+.jstree-closed > .jstree-ocl:before {
+    content: $fa-var-caret-right;
+}

@@ -94,7 +94,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         );
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs($args);
-        $eventManager->trigger(Event::JSON_LD_FILTER, $this, $args);
+        $eventManager->trigger(Event::REP_RESOURCE_JSON, $this, $args);
         return $args['jsonLd'];
     }
 

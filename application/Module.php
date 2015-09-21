@@ -90,13 +90,13 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
-            OmekaEvent::JSON_LD_FILTER,
+            OmekaEvent::REP_RESOURCE_JSON,
             array($this, 'filterHtmlMediaJsonLd')
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
-            OmekaEvent::JSON_LD_FILTER,
+            OmekaEvent::REP_RESOURCE_JSON,
             array($this, 'filterYoutubeMediaJsonLd')
         );
 

@@ -4,6 +4,7 @@ namespace Omeka\Api\Representation;
 use Omeka\Api\Exception;
 use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Omeka\Event\Event;
 
 class ValueRepresentation extends AbstractRepresentation
 {
@@ -41,23 +42,35 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function asHtml()
     {
+        $args = array();
         switch ($this->type()) {
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
-                return $valueResource->link($valueResource->displayTitle());
+                $args['targetUrl'] = $valueResource->url();
+                $args['label'] = $valueResource->displayTitle();
+                $html = $valueResource->link($valueResource->displayTitle());
+                break;
             case Value::TYPE_URI:
                 $uri = $this->getData()->getValue();
                 $uriLabel = $this->getData()->getUriLabel();
+                $args['targetUrl'] = $uri;
                 if (!$uriLabel) {
                     $uriLabel = $uri;
                 }
+                $args['label'] = $uriLabel;
                 $hyperlink = $this->getViewHelper('hyperlink');
-                return $hyperlink($uriLabel, $uri);
+                $html = $hyperlink($uriLabel, $uri);
+                break;
             case Value::TYPE_LITERAL:
             default:
                 $escape = $this->getViewHelper('escapeHtml');
-                return $escape($this->getData()->getValue());
+                $html = $escape($this->value());
         }
+        $args['html'] = $html;
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs($args);
+        $eventManager->trigger(Event::REP_VALUE_HTML, $this, $args);
+        return $args['html'];
     }
 
     /**

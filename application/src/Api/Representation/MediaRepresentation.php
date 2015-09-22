@@ -17,7 +17,8 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function getResourceJsonLd()
     {
         return array(
-            'o:type' => $this->type(),
+            'o:ingester' => $this->ingester(),
+            'o:renderer' => $this->renderer(),
             'o:item' => $this->item()->getReference(),
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
@@ -79,13 +80,23 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
-     * Get the media type
+     * Get the media ingester
      *
      * @return string
      */
-    public function type()
+    public function ingester()
     {
-        return $this->getData()->getType();
+        return $this->getData()->getIngester();
+    }
+
+    /**
+     * Get the media renderer
+     *
+     * @return string
+     */
+    public function renderer()
+    {
+        return $this->getData()->getRenderer();
     }
 
     /**

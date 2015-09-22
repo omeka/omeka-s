@@ -1,20 +1,30 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
-use Zend\Http\Exception\ExceptionInterface as HttpExceptionInterface;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class UrlHandler extends AbstractFileHandler
+class Url extends AbstractIngester
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('URL');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRenderer()
+    {
+        return 'file';
     }
 
     /**
@@ -32,8 +42,9 @@ class UrlHandler extends AbstractFileHandler
      *
      * {@inheritDoc}
      */
-    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
-    {
+    public function ingest(Media $media, Request $request,
+        ErrorStore $errorStore
+    ) {
         $data = $request->getContent();
         if (!isset($data['ingest_url'])) {
             $errorStore->addError('error', 'No ingest URL specified');

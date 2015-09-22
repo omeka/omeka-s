@@ -1,13 +1,11 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Renderer;
 
-use finfo;
 use Omeka\Api\Representation\MediaRepresentation;
-use Zend\Math\Rand;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\View\Renderer\PhpRenderer;
 
-abstract class AbstractFileHandler extends AbstractHandler
+class File extends AbstractRenderer
 {
     /**
      * {@inheritDoc}

@@ -1,10 +1,8 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Zend\Form\Element\Hidden;
-
 use Zend\Db\Sql\Ddl\Column\Text;
-
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Media\Handler\AbstractHandler;
@@ -14,7 +12,7 @@ use Zend\View\Renderer\PhpRenderer;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Element\Text as TextInput;
 
-class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
+class Html extends AbstractIngester implements MutableIngesterInterface
 {
     public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = array())
     {
@@ -95,6 +93,11 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         return $translator->translate('HTML');
     }
 
+    public function getRenderer()
+    {
+        return 'html';
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -119,14 +122,5 @@ class HtmlHandler extends AbstractHandler implements MutableHandlerInterface
         $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
         $html = $purifier->purify($html);
         $media->setData(array('html' => $html));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
-    {
-        $data = $media->mediaData();
-        return $data['html'];
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
@@ -8,9 +8,9 @@ use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
- * Interface for media handlers that allow updating.
+ * Interface for media ingesters that allow updating.
  */
-interface MutableHandlerInterface extends HandlerInterface
+interface MutableIngesterInterface extends IngesterInterface
 {
     /**
      * Process an update request.
@@ -19,7 +19,8 @@ interface MutableHandlerInterface extends HandlerInterface
      * @param Request $request
      * @param ErrorStore $errorStore
      */
-    public function update(Media $media, Request $request, ErrorStore $errorStore);
+    public function update(Media $media, Request $request,
+        ErrorStore $errorStore);
 
     /**
      * Render a form for updating media.
@@ -29,5 +30,6 @@ interface MutableHandlerInterface extends HandlerInterface
      * @param array $options
      * @return string
      */
-    public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = array());
+    public function updateForm(PhpRenderer $view, MediaRepresentation $media,
+        array $options = array());
 }

@@ -45,12 +45,16 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <?php endif; ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Type'); ?></h4>
-        <div class="value"><?php echo $escape($media->type()); ?></div>
+        <h4><?php echo $this->translate('Ingester'); ?></h4>
+        <div class="value"><?php echo $escape($media->ingester()); ?></div>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Renderer'); ?></h4>
+        <div class="value"><?php echo $escape($media->renderer()); ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Source'); ?></h4>
-        <div class="value"><span class="source-type"><?php echo $escape($media->type()); ?></span>: <?php echo $escape($media->source()); ?></div>
+        <div class="value"><span class="source-type"><?php echo $escape($media->ingester()); ?></span>: <?php echo $escape($media->source()); ?></div>
     </div>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="meta-group">

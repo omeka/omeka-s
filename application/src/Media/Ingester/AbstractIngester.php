@@ -1,14 +1,11 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Request;
-use Omeka\Entity\Media;
-use Omeka\Stdlib\ErrorStore;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
 
-abstract class AbstractHandler implements HandlerInterface
+abstract class AbstractIngester implements IngesterInterface
 {
     use ServiceLocatorAwareTrait;
 

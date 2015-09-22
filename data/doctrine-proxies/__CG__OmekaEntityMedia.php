@@ -64,10 +64,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return array('__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
         }
 
-        return array('__isInitialized__', 'id', 'type', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return array('__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
     }
 
     /**
@@ -202,23 +202,45 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setType($type)
+    public function setIngester($ingester)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', array($type));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIngester', array($ingester));
 
-        return parent::setType($type);
+        return parent::setIngester($ingester);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getType()
+    public function getIngester()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIngester', array());
 
-        return parent::getType();
+        return parent::getIngester();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRenderer($renderer)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRenderer', array($renderer));
+
+        return parent::setRenderer($renderer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRenderer()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRenderer', array());
+
+        return parent::getRenderer();
     }
 
     /**

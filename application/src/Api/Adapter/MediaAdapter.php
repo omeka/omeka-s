@@ -3,8 +3,8 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\MutableHandlerInterface;
-use Omeka\Media\Handler\HandlerInterface;
+use Omeka\Media\Ingester\IngesterInterface;
+use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Item;
 use Omeka\Entity\ResourceClass;
@@ -17,7 +17,8 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      */
     protected $sortFields = array(
         'id'        => 'id',
-        'type'      => 'type',
+        'ingester'  => 'ingester',
+        'renderer'  => 'renderer',
         'is_public' => 'isPublic',
         'created'   => 'created',
         'modified'  => 'modified',
@@ -97,11 +98,13 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-
-        if ($request->getOperation() === Request::CREATE
-            && !$request->getValue('o:type')
-        ) {
-            $errorStore->addError('o:type', 'Media must have a type.');
+        if (Request::CREATE === $request->getOperation()) {
+            if (!$request->getValue('o:ingester')) {
+                $errorStore->addError('o:ingester', 'Media must set an ingester.');
+            }
+            if (!$request->getValue('o:renderer')) {
+                $errorStore->addError('o:renderer', 'Media must set a renderer.');
+            }
         }
     }
 
@@ -112,13 +115,16 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
-        $type = $entity->getType();
+        $ingester = $entity->getIngester();
 
-        if ($request->getOperation() === Request::CREATE) {
-            // Accept the passed type only on CREATE to prevent overwriting
-            // on subsequent UPDATE requests.
-            $type = $request->getValue('o:type');
-            $entity->setType($data['o:type']);
+        if (Request::CREATE === $request->getOperation()) {
+            // Accept the passed ingester and renderer only on CREATE to prevent
+            // overwriting on subsequent UPDATE requests.
+            $ingester = $request->getValue('o:ingester');
+            $entity->setIngester($data['o:ingester']);
+            $renderer = $request->getValue('o:renderer');
+            $entity->setRenderer($data['o:renderer']);
+
             if (isset($data['o:item']['o:id'])) {
                 $item = $this->getAdapter('items')
                     ->findEntity($data['o:item']['o:id']);
@@ -134,12 +140,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         parent::hydrate($request, $entity, $errorStore);
 
-        $handler = $this->getServiceLocator()
-            ->get('Omeka\MediaHandlerManager')->get($type);
-        if ($request->getOperation() === Request::CREATE) {
-            $handler->ingest($entity, $request, $errorStore);
-        } elseif ($handler instanceof MutableHandlerInterface) {
-            $handler->update($entity, $request, $errorStore);
+        $ingester = $this->getServiceLocator()
+            ->get('Omeka\MediaIngesterManager')->get($ingester);
+        if (Request::CREATE === $request->getOperation()) {
+            $ingester->ingest($entity, $request, $errorStore);
+        } elseif ($ingester instanceof MutableIngesterInterface) {
+            $ingester->update($entity, $request, $errorStore);
         }
     }
 

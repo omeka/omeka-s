@@ -1,19 +1,13 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager extends AbstractPluginManager
 {
     /**
-     * Do not replace strings during canonicalization.
-     *
-     * This prevents distinct yet similarly named media types from referencing
-     * the same handler instance.
-     *
      * {@inheritDoc}
      */
     protected $canonicalNamesReplacements = array();
@@ -34,9 +28,9 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\Media\Handler\HandlerInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\Media\Renderer\RendererInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
-                'The media handler class "%1$s" does not implement Omeka\Media\Handler\HandlerInterface.',
+                'The media renderer class "%1$s" does not implement Omeka\Media\Renderer\RendererInterface.',
                 get_class($plugin)
             ));
         }

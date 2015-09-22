@@ -2,8 +2,9 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\MediaRepresentation;
-use Omeka\Media\Handler\Manager;
-use Omeka\Media\Handler\MutableHandlerInterface;
+use Omeka\Media\Ingester\Manager as IngesterManager;
+use Omeka\Media\Renderer\Manager as RendererManager;
+use Omeka\Media\Handler\MutableIngesterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
@@ -11,9 +12,14 @@ use Zend\View\Helper\AbstractHelper;
 class Media extends AbstractHelper
 {
     /**
-     * @var Manager
+     * @var IngesterManager
      */
-    protected $manager;
+    protected $ingesterManager;
+
+    /**
+     * @var RendererManager
+     */
+    protected $rendererManager;
 
     /**
      * Construct the helper.
@@ -22,30 +28,33 @@ class Media extends AbstractHelper
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->manager = $serviceLocator->get('Omeka\MediaHandlerManager');
+        $this->ingesterManager = $serviceLocator->get('Omeka\MediaIngesterManager');
+        $this->rendererManager = $serviceLocator->get('Omeka\MediaRendererManager');
     }
 
     /**
      * Return the HTML necessary to render an add form.
      *
-     * @param string $mediaType
-     * @param array $options Global options for the media type
+     * @param string $ingesterName
+     * @param array $options Global options for the media form
      * @return string
      */
-    public function form($mediaType, array $options = array())
+    public function form($ingesterName, array $options = array())
     {   
-        $mediaHandler = $this->manager->get($mediaType);
+        $ingester = $this->ingesterManager->get($ingesterName);
         $form = '<div class="media-field-wrapper">';
         $form .= '<div class="media-header">';
         $form .= '<ul class="actions"> <li><a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a>
             <input type="hidden" name="o:media[__index__][o:is_public]" value="1"></li>
             <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
             </ul>';
-        $form .= '<h4>' . $mediaHandler->getLabel() . '</h4>';
+        $form .= '<h4>' . $ingester->getLabel() . '</h4>';
         $form .= '</div>';
-        $form .= $mediaHandler->form($this->getView(), $options);
-        $form .= '<input type="hidden" name="o:media[__index__][o:type]" value="'
-            . $this->getView()->escapeHtml($mediaType) . '">';
+        $form .= $ingester->form($this->getView(), $options);
+        $form .= '<input type="hidden" name="o:media[__index__][o:ingester]" value="'
+            . $this->getView()->escapeHtml($ingesterName) . '">';
+        $form .= '<input type="hidden" name="o:media[__index__][o:renderer]" value="'
+            . $ingester->getRenderer() . '">';
         $form .= '</div>';
         return $form;
     }
@@ -54,15 +63,15 @@ class Media extends AbstractHelper
      * Return the HTML necessary to render an edit form.
      *
      * @param MediaRepresentation $media
-     * @param array $options Global options for the media type
+     * @param array $options Global options for the media update form
      * @return string
      */
     public function updateForm(MediaRepresentation $media, array $options = array())
     {
-        $handler = $this->manager->get($media->type());
+        $ingester = $this->ingesterManager->get($media->ingester());
 
-        if ($handler instanceof MutableHandlerInterface) {
-            return $handler->updateForm($this->getView(), $media, $options);
+        if ($ingester instanceof MutableHandlerInterface) {
+            return $ingester->updateForm($this->getView(), $media, $options);
         } else {
             return '';
         }
@@ -72,12 +81,12 @@ class Media extends AbstractHelper
      * Return the HTML necessary to render the provided media.
      *
      * @param MediaRepresentation $media
-     * @param array $options Global options for the media type
+     * @param array $options Global options for the media render
      * @return string
      */
     public function render(MediaRepresentation $media, array $options = array())
     {
-        return $this->manager->get($media->type())
+        return $this->rendererManager->get($media->renderer())
             ->render($this->getView(), $media, $options);
     }
 }

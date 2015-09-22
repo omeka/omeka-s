@@ -34,6 +34,7 @@ i.jstree-icon {
   font-style: normal;
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 .jstree-icon:before {
@@ -62,4 +63,45 @@ i.jstree-icon {
 
 .jstree-closed > .jstree-ocl:before {
   content: "";
+}
+
+i.jstree-icon.jstree-ok,
+i.jstree-icon.jstree-er {
+  left: 100%;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  background-color: rgba(0, 0, 0, 0.16);
+  text-align: center;
+}
+
+.jstree-ok:before {
+  content: "";
+}
+
+.jstree-er:before {
+  content: "";
+}
+
+#jstree-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: -5px 0 0 0;
+  padding: 0;
+  border-right: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+#jstree-dnd {
+  z-index: 1;
+  padding: 0.375em 0.75em;
+  background-color: rgba(0, 0, 0, 0.08);
+  line-height: 24px;
 }

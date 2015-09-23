@@ -53,8 +53,6 @@ class Media extends AbstractHelper
         $form .= $ingester->form($this->getView(), $options);
         $form .= '<input type="hidden" name="o:media[__index__][o:ingester]" value="'
             . $this->getView()->escapeHtml($ingesterName) . '">';
-        $form .= '<input type="hidden" name="o:media[__index__][o:renderer]" value="'
-            . $ingester->getRenderer() . '">';
         $form .= '</div>';
         return $form;
     }

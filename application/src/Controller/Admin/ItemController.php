@@ -23,7 +23,9 @@ class ItemController extends AbstractActionController
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $view->setVariable('items', $response->getContent());
+        $items = $response->getContent();
+        $view->setVariable('items', $items);
+        $view->setVariable('resources', $items);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
@@ -37,7 +39,9 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $this->params('id'));
 
         $view = new ViewModel;
-        $view->setVariable('item', $response->getContent());
+        $item = $response->getContent();
+        $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         return $view;
     }
 

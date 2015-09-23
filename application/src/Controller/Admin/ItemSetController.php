@@ -80,7 +80,9 @@ class ItemSetController extends AbstractActionController
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $view->setVariable('itemSets', $response->getContent());
+        $itemSets = $response->getContent();
+        $view->setVariable('itemSets', $itemSets);
+        $view->setVariable('resources', $itemSets);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
@@ -94,7 +96,9 @@ class ItemSetController extends AbstractActionController
         $response = $this->api()->read('item_sets', $this->params('id'));
 
         $view = new ViewModel;
-        $view->setVariable('itemSet', $response->getContent());
+        $itemSet = $response->getContent();
+        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('resource', $itemSet);
         return $view;
     }
 

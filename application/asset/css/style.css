@@ -422,7 +422,7 @@ th {
   }
 
   a:visited {
-    color: #e61919;
+    color: #e61a1a;
   }
 
   a:active,
@@ -709,13 +709,13 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe5e5;
+    background-color: #ffe6e6;
   }
   div[role="main"] > .messages .success {
-    background-color: #ccffcc;
+    background-color: #cdffcd;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e5;
+    background-color: #fff6e6;
   }
 
   .messages {
@@ -2821,6 +2821,30 @@ th {
   }
 
   /* @end */
+  /* @group ----- Navigation ----- */
+  #nav-pages {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1.37505em;
+  }
+
+  .page-selector-filter {
+    width: 100%;
+  }
+
+  .nav-page {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+    cursor: pointer;
+  }
+  .nav-page:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Advanced Search ----- */
   .advanced-search select,
@@ -3083,7 +3107,7 @@ th {
     content: "";
   }
   #current-user p a {
-    color: #ffe5e5;
+    color: #ffe6e6;
   }
 
   #page-actions {

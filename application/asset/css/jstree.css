@@ -13,6 +13,10 @@
   padding-left: 0;
 }
 
+.jstree-node {
+  position: relative;
+}
+
 .jstree-anchor {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.08);
@@ -22,12 +26,12 @@
   display: block;
 }
 
-.jstree-clicked {
-  background-color: rgba(0, 0, 0, 0.16);
-}
-
 .jstree-hovered {
   background-color: rgba(0, 0, 0, 0.04);
+}
+
+.jstree-clicked {
+  background-color: rgba(0, 0, 0, 0.16);
 }
 
 i.jstree-icon {
@@ -47,7 +51,8 @@ i.jstree-icon {
 }
 
 .jstree-open > .jstree-ocl,
-.jstree-closed > .jstree-ocl {
+.jstree-closed > .jstree-ocl,
+.jstree-remove {
   width: 36px;
   height: 36px;
   line-height: 36px;
@@ -55,14 +60,6 @@ i.jstree-icon {
   text-align: center;
   cursor: pointer;
   z-index: 1;
-}
-
-.jstree-open > .jstree-ocl:before {
-  content: "";
-}
-
-.jstree-closed > .jstree-ocl:before {
-  content: "";
 }
 
 i.jstree-icon.jstree-ok,
@@ -75,11 +72,38 @@ i.jstree-icon.jstree-er {
   text-align: center;
 }
 
+.jstree-remove {
+  background-color: transparent;
+  color: gray;
+  display: none;
+}
+
+.jstree-open > .jstree-anchor .jstree-remove,
+.jstree-closed > .jstree-anchor .jstree-remove {
+  right: 36px;
+}
+
+.jstree-anchor:hover > .jstree-remove {
+  display: block;
+}
+
+.jstree-open > .jstree-ocl:before {
+  content: "";
+}
+
+.jstree-closed > .jstree-ocl:before {
+  content: "";
+}
+
 .jstree-ok:before {
   content: "";
 }
 
 .jstree-er:before {
+  content: "";
+}
+
+.jstree-remove:before {
   content: "";
 }
 

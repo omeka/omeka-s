@@ -18,17 +18,21 @@
     padding-left: 0;
 }
 
+.jstree-node {
+    position: relative;
+}
+
 .jstree-anchor {
     @include field-row;
     display: block;
 }
 
-.jstree-clicked {
-    background-color: opacify($gray-on-white, .08);
-}
-
 .jstree-hovered {
     background-color: transparentize($gray-on-white, .04);
+}
+
+.jstree-clicked {
+    background-color: opacify($gray-on-white, .08);
 }
 
 i.jstree-icon {
@@ -48,7 +52,8 @@ i.jstree-icon {
 }
 
 .jstree-open > .jstree-ocl,
-.jstree-closed > .jstree-ocl, {
+.jstree-closed > .jstree-ocl,
+.jstree-remove {
     width: 1.5 * $base-line-height;
     height: 1.5 * $base-line-height;
     line-height: 1.5 * $base-line-height;
@@ -56,14 +61,6 @@ i.jstree-icon {
     text-align: center;
     cursor: pointer;
     z-index: 1;
-}
-
-.jstree-open > .jstree-ocl:before {
-    content: $fa-var-caret-down;
-}
-
-.jstree-closed > .jstree-ocl:before {
-    content: $fa-var-caret-right;
 }
 
 i.jstree-icon.jstree-ok,
@@ -76,11 +73,38 @@ i.jstree-icon.jstree-er {
     text-align: center;
 }
 
+.jstree-remove {
+    background-color: transparent;
+    color: lighten(#000, 50%);
+    display: none;
+}
+
+.jstree-open > .jstree-anchor .jstree-remove,
+.jstree-closed > .jstree-anchor .jstree-remove {
+    right: 1.5 * $base-line-height;
+}
+
+.jstree-anchor:hover > .jstree-remove {
+    display: block;
+}
+
+.jstree-open > .jstree-ocl:before {
+    content: $fa-var-caret-down;
+}
+
+.jstree-closed > .jstree-ocl:before {
+    content: $fa-var-caret-right;
+}
+
 .jstree-ok:before {
     content: $fa-var-check;
 }
 
 .jstree-er:before {
+    content: $fa-var-close;
+}
+
+.jstree-remove:before {
     content: $fa-var-close;
 }
 

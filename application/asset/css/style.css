@@ -422,7 +422,7 @@ th {
   }
 
   a:visited {
-    color: #e61919;
+    color: #e61a1a;
   }
 
   a:active,
@@ -709,13 +709,13 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe5e5;
+    background-color: #ffe6e6;
   }
   div[role="main"] > .messages .success {
-    background-color: #ccffcc;
+    background-color: #cdffcd;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e5;
+    background-color: #fff6e6;
   }
 
   .messages {
@@ -2117,6 +2117,11 @@ th {
     margin-top: 0.75em;
   }
 
+  .openseadragon {
+    width: 500px;
+    height: 600px;
+  }
+
   /* @end */
   /* @group ----- Item Sets ----- */
   #item-item-sets + .no-resources {
@@ -3083,7 +3088,7 @@ th {
     content: "";
   }
   #current-user p a {
-    color: #ffe5e5;
+    color: #ffe6e6;
   }
 
   #page-actions {

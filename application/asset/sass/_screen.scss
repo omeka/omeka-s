@@ -1729,6 +1729,11 @@ input[type="text"].value-language,
         @include leader(.5);
     }
 
+    .openseadragon {
+        width:500px;
+        height:600px;
+    }
+
     /* @end */
 
     /* @group ----- Item Sets ----- */

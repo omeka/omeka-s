@@ -31,7 +31,7 @@ class Manager extends AbstractPluginManager
         $usePeeringServiceManagers = true
     ){
         if (!$this->has($name)) {
-            $instance = new Fallback;
+            $instance = new Fallback($name);
             $instance->setServiceLocator($this->getServiceLocator());
             return $instance;
         }

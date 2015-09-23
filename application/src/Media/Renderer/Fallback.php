@@ -11,5 +11,7 @@ class Fallback implements RendererInterface
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = array()
-    ) {}
+    ) {
+        return '';
+    }
 }

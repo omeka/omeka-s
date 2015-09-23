@@ -12,10 +12,26 @@ class Fallback implements IngesterInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * @var string The name of the unknown ingester
+     */
+    protected $name;
+
+    /**
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getLabel()
-    {}
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return sprintf('%s [%s]', $translator->translate('Unknown'), $this->name);
+    }
 
     /**
      * {@inheritDoc}
@@ -36,5 +52,7 @@ class Fallback implements IngesterInterface
      * {@inheritDoc}
      */
     public function form(PhpRenderer $view, array $options = array())
-    {}
+    {
+        return '';
+    }
 }

@@ -8,6 +8,7 @@ use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Item;
 use Omeka\Entity\ResourceClass;
+use Omeka\Media\Ingester\Fallback;
 use Omeka\Stdlib\ErrorStore;
 
 class MediaAdapter extends AbstractResourceEntityAdapter
@@ -125,6 +126,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             ->get($ingesterName);
 
         if (Request::CREATE === $request->getOperation()) {
+            if ($ingester instanceof Fallback) {
+                $errorStore->addError('o:ingester', 'Media must set a valid ingester.');
+                return;
+            }
             $entity->setIngester($ingesterName);
             $entity->setRenderer($ingester->getRenderer());
 

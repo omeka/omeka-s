@@ -23,8 +23,10 @@ class MediaController extends AbstractActionController
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $view->setVariable('medias', $response->getContent());
-         $view->setVariable('confirmForm', new ConfirmForm(
+        $medias = $response->getContent();
+        $view->setVariable('medias', $medias);
+        $view->setVariable('resources', $medias);
+        $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
             )
@@ -63,11 +65,13 @@ class MediaController extends AbstractActionController
 
     public function showAction()
     {
-    $response = $this->api()->read('media', $this->params('id'));
+        $response = $this->api()->read('media', $this->params('id'));
 
-    $view = new ViewModel;
-    $view->setVariable('media', $response->getContent());
-    return $view;
+        $view = new ViewModel;
+        $media = $response->getContent();
+        $view->setVariable('media', $media);
+        $view->setVariable('resource', $media);
+        return $view;
     }
 
     public function showDetailsAction()

@@ -107,21 +107,33 @@ class Module extends AbstractModule
             array($this, 'filterMedia')
         );
 
-        $viewResourceVars = array(
-            'Omeka\Controller\Admin\Item' => 'item',
-            'Omeka\Controller\Admin\ItemSet' => 'itemSet',
-            'Omeka\Controller\Admin\Media' => 'media',
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ),
+            'view.show.after',
+            function (OmekaEvent $event) {
+                $resource = $event->getTarget()->resource;
+                echo $resource->embeddedJsonLd();
+            }
         );
-        foreach($viewResourceVars as $resource => $var) {
-            $sharedEventManager->attach(
-                $resource,
-                'view.show.after',
-                function (OmekaEvent $event) use ($var) {
-                    $resource = $event->getTarget()->$var;
+
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ),
+            'view.browse.after',
+            function (OmekaEvent $event) {
+                $resources = $event->getTarget()->resources;
+                foreach ($resources as $resource) {
                     echo $resource->embeddedJsonLd();
                 }
-            );
-        }
+            }
+        );
     }
 
     /**

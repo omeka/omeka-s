@@ -2,6 +2,7 @@
 namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Exception;
+use Omeka\Media\Ingester\Fallback;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 
@@ -21,6 +22,20 @@ class Manager extends AbstractPluginManager
         $this->addInitializer(function($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($name, $options = array(),
+        $usePeeringServiceManagers = true
+    ){
+        if (!$this->has($name)) {
+            $instance = new Fallback;
+            $instance->setServiceLocator($this->getServiceLocator());
+            return $instance;
+        }
+        return parent::get($name, $options, $usePeeringServiceManagers);
     }
 
     /**

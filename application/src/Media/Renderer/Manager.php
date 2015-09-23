@@ -5,6 +5,7 @@ use Omeka\Api\Exception;
 use Omeka\Media\Renderer\Fallback;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
@@ -30,12 +31,13 @@ class Manager extends AbstractPluginManager
     public function get($name, $options = array(),
         $usePeeringServiceManagers = true
     ){
-        if (!$this->has($name)) {
+        try {
+            $instance = parent::get($name, $options, $usePeeringServiceManagers);
+        } catch (ServiceNotFoundException $e) {
             $instance = new Fallback;
             $instance->setServiceLocator($this->getServiceLocator());
-            return $instance;
         }
-        return parent::get($name, $options, $usePeeringServiceManagers);
+        return $instance;
     }
 
     /**

@@ -50,7 +50,7 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Source'); ?></h4>
-        <div class="value"><span class="source-type"><?php echo $escape($media->ingester()); ?></span>: <?php echo $escape($media->source()); ?></div>
+        <div class="value"><?php echo $escape($media->source()); ?></div>
     </div>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="meta-group">

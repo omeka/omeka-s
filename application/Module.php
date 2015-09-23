@@ -196,7 +196,7 @@ class Module extends AbstractModule
      */
     public function filterHtmlMediaJsonLd(Event $event)
     {
-        if ('html' !== $event->getTarget()->type()) {
+        if ('html' !== $event->getTarget()->ingester()) {
             return;
         }
         $data = $event->getTarget()->mediaData();
@@ -215,7 +215,7 @@ class Module extends AbstractModule
      */
     public function filterYoutubeMediaJsonLd(Event $event)
     {
-        if ('youtube' !== $event->getTarget()->type()) {
+        if ('youtube' !== $event->getTarget()->ingester()) {
             return;
         }
         $data = $event->getTarget()->mediaData();

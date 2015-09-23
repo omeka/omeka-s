@@ -48,7 +48,8 @@ CREATE TABLE `job` (
 CREATE TABLE `media` (
   `id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ingester` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `renderer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json_array)',
   `source` longtext COLLATE utf8mb4_unicode_ci,
   `media_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,

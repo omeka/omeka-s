@@ -18,19 +18,13 @@ class MediaTest extends TestCase
     public function testInitialState()
     {
         $this->assertNull($this->media->getId());
-        $this->assertNull($this->media->getType());
+        $this->assertNull($this->media->getIngester());
+        $this->assertNull($this->media->getRenderer());
         $this->assertNull($this->media->getData());
         $this->assertTrue($this->media->isPublic());
         $this->assertNull($this->media->getFilename());
         $this->assertNull($this->media->getSource());
         $this->assertNull($this->media->getItem());
-    }
-
-    public function testSetType()
-    {
-        $type = 'test-type';
-        $this->media->setType($type);
-        $this->assertEquals($type, $this->media->getType());
     }
 
     public function testSetData()

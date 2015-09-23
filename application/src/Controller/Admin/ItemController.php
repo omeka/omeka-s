@@ -167,17 +167,16 @@ class ItemController extends AbstractActionController
     {
         $services = $this->getServiceLocator();
         $mediaHelper = $services->get('ViewHelperManager')->get('media');
-        $mediaManager = $services->get('Omeka\MediaHandlerManager');
-        $types = array_unique($mediaManager->getCanonicalNames());
+        $mediaIngester = $services->get('Omeka\MediaIngesterManager');
+        $ingesters = array_unique($mediaIngester->getCanonicalNames());
 
         $forms = array();
-        foreach ($types as $type) {
-            $forms[$type] = array(
-                'label' => $mediaManager->get($type)->getLabel(),
-                'form' => $mediaHelper->form($type)
+        foreach ($ingesters as $ingester) {
+            $forms[$ingester] = array(
+                'label' => $mediaIngester->get($ingester)->getLabel(),
+                'form' => $mediaHelper->form($ingester)
             );
         }
-
         return $forms;
     }
 }

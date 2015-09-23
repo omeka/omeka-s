@@ -1,19 +1,16 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Media\Handler\Manager;
+use Omeka\Media\Renderer\Manager;
 use Omeka\Service\Exception;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-/**
- * Media manager factory.
- */
-class MediaHandlerManagerFactory implements FactoryInterface
+class MediaRendererManagerFactory implements FactoryInterface
 {
     /**
-     * Create the media handler manager service.
+     * Create the media renderer manager service.
      * 
      * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
@@ -21,9 +18,9 @@ class MediaHandlerManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        if (!isset($config['media_handlers'])) {
-            throw new Exception\ConfigException('Missing media handler configuration');
+        if (!isset($config['media_renderers'])) {
+            throw new Exception\ConfigException('Missing media renderer configuration');
         }
-        return new Manager(new Config($config['media_handlers']));
+        return new Manager(new Config($config['media_renderers']));
     }
 }

@@ -133,7 +133,8 @@ return array(
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
             'Omeka\Installer'             => 'Omeka\Service\InstallerFactory',
             'Omeka\Logger'                => 'Omeka\Service\LoggerFactory',
-            'Omeka\MediaHandlerManager'   => 'Omeka\Service\MediaHandlerManagerFactory',
+            'Omeka\MediaIngesterManager'  => 'Omeka\Service\MediaIngesterManagerFactory',
+            'Omeka\MediaRendererManager'  => 'Omeka\Service\MediaRendererManagerFactory',
             'Omeka\MigrationManager'      => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
@@ -252,13 +253,21 @@ return array(
             'oneItem' => 'Omeka\BlockLayout\OneItem',
         ),
     ),
-    'media_handlers' => array(
+    'media_ingesters' => array(
         'invokables' => array(
-            'upload'  => 'Omeka\Media\Handler\UploadHandler',
-            'url'     => 'Omeka\Media\Handler\UrlHandler',
-            'oembed'  => 'Omeka\Media\Handler\OEmbedHandler',
-            'youtube' => 'Omeka\Media\Handler\YoutubeHandler',
-            'html'    => 'Omeka\Media\Handler\HtmlHandler'
+            'upload'  => 'Omeka\Media\Ingester\Upload',
+            'url'     => 'Omeka\Media\Ingester\Url',
+            'oembed'  => 'Omeka\Media\Ingester\OEmbed',
+            'youtube' => 'Omeka\Media\Ingester\Youtube',
+            'html'    => 'Omeka\Media\Ingester\Html'
+        ),
+    ),
+    'media_renderers' => array(
+        'invokables' => array(
+            'file'    => 'Omeka\Media\Renderer\File',
+            'oembed'  => 'Omeka\Media\Renderer\OEmbed',
+            'youtube' => 'Omeka\Media\Renderer\Youtube',
+            'html'    => 'Omeka\Media\Renderer\Html'
         ),
     ),
     'file_renderers' => array(

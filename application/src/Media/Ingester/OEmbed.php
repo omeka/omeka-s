@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
@@ -10,12 +10,17 @@ use Zend\Form\Element\Text;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class OEmbedHandler extends AbstractHandler
+class OEmbed extends AbstractIngester
 {
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate('oEmbed');
+    }
+
+    public function getRenderer()
+    {
+        return 'oembed';
     }
 
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
@@ -104,40 +109,6 @@ class OEmbedHandler extends AbstractHandler
             'required' => true
         ));
         return $view->formField($urlInput);
-    }
-
-    public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
-    ) {
-        $data = $media->mediaData();
-
-        if ($data['type'] == 'photo') {
-            $url = $data['url'];
-            $width = $data['width'];
-            $height = $data['height'];
-            if (!empty($data['title'])) {
-                $title = $data['title'];
-            } else {
-                $title = $url;
-            }
-            return sprintf(
-                '<img src="%s" width="%s" height="%s" alt="%s">',
-                $view->escapeHtml($url),
-                $view->escapeHtml($width),
-                $view->escapeHtml($height),
-                $view->escapeHtml($title)
-            );
-        } else if (!empty($data['html'])) {
-            return $data['html'];
-        } else {
-            $source = $media->source();
-            if (!$empty($data['title'])) {
-                $title = $data['title'];
-            } else {
-                $title = $source;
-            }
-            return $view->hyperlink($title, $source);
-        }
     }
 
     /**

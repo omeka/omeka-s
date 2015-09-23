@@ -90,6 +90,19 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Get the ingester's label
+     *
+     * @return string
+     */
+    public function ingesterLabel()
+    {
+        $ingester = $this->getServiceLocator()
+            ->get('Omeka\MediaIngesterManager')
+            ->get($this->ingester());
+        return $ingester->getLabel();
+    }
+
+    /**
      * Get the media renderer
      *
      * @return string

@@ -46,11 +46,7 @@ $escape = $this->plugin('escapeHtml');
     <?php endif; ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Ingester'); ?></h4>
-        <div class="value"><?php echo $escape($media->ingester()); ?></div>
-    </div>
-    <div class="meta-group">
-        <h4><?php echo $this->translate('Renderer'); ?></h4>
-        <div class="value"><?php echo $escape($media->renderer()); ?></div>
+        <div class="value"><?php echo $escape($media->ingesterLabel()); ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Source'); ?></h4>

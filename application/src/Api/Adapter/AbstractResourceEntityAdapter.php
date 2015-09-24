@@ -185,6 +185,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $qb->andWhere($qb->expr()->isNull(
                         "$valuesAlias.value"
                     ));
+                } elseif ('res' == $queryType) {
+                    $qb->innerJoin($valuesJoin, $valuesAlias);
+                    $qb->andWhere($qb->expr()->eq(
+                        "$valuesAlias.valueResource",
+                        $this->createNamedParameter($qb, $value)
+                    ));
                 }
             }
         }
@@ -278,6 +284,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         );
                         $qb->andWhere($qb->expr()->isNull(
                             "$valuesAlias.value"
+                        ));
+                    } elseif ('res' == $queryType) {
+                        $qb->innerJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->eq(
+                                "$valuesAlias.property",
+                                (int) $propertyId
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->eq(
+                            "$valuesAlias.valueResource",
+                            $this->createNamedParameter($qb, $value)
                         ));
                     }
                 }

@@ -50,6 +50,9 @@ class SearchFilters extends AbstractHelper
                     // Search all properties
                     case 'value':
                         foreach ($value as $queryTypeKey => $filterValues) {
+                            if (!isset($queryTypes[$queryTypeKey])) {
+                                break;
+                            }
                             $filterLabel = $translate('Property ') . ' ' . $queryTypes[$queryTypeKey];
                             foreach ($filterValues as $filterValue) {
                                 if (is_string($filterValue) && $filterValue !== '') {
@@ -64,6 +67,9 @@ class SearchFilters extends AbstractHelper
                         foreach ($value as $propertyRow => $propertyQuery) {
                             $propertyLabel = $api->read('properties', $propertyRow, array('label'))->getContent()->label();
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
+                                if (!isset($queryTypes[$queryTypeKey])) {
+                                    break;
+                                }
                                 $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryTypeKey];
                                 foreach ($filterValues as $filterValue) {
                                     if (is_string($filterValue) && $filterValue !== '') {

@@ -191,6 +191,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         "$valuesAlias.valueResource",
                         $this->createNamedParameter($qb, $value)
                     ));
+                } elseif ('nres' == $queryType) {
+                    $qb->leftJoin(
+                        $valuesJoin, $valuesAlias, 'WITH',
+                        $qb->expr()->eq(
+                            "$valuesAlias.valueResource",
+                            $this->createNamedParameter($qb, $value)
+                        )
+                    );
+                    $qb->andWhere($qb->expr()->isNull(
+                        "$valuesAlias.valueResource"
+                    ));
                 }
             }
         }
@@ -296,6 +307,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         $qb->andWhere($qb->expr()->eq(
                             "$valuesAlias.valueResource",
                             $this->createNamedParameter($qb, $value)
+                        ));
+                    } elseif ('nres' == $queryType) {
+                        $qb->leftJoin(
+                            $valuesJoin, $valuesAlias, 'WITH',
+                            $qb->expr()->andX(
+                                $qb->expr()->eq(
+                                    "$valuesAlias.valueResource",
+                                    $this->createNamedParameter($qb, $value)
+                                ),
+                                $qb->expr()->eq(
+                                    "$valuesAlias.property",
+                                    (int) $propertyId
+                                )
+                            )
+                        );
+                        $qb->andWhere($qb->expr()->isNull(
+                            "$valuesAlias.valueResource"
                         ));
                     }
                 }

@@ -16,7 +16,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.2.6-alpha';
+    const VERSION = '0.2.8-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -111,6 +111,34 @@ class Module extends AbstractModule
             array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
             array($this, 'filterSites')
         );
+
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ),
+            'view.show.after',
+            function (OmekaEvent $event) {
+                $resource = $event->getTarget()->resource;
+                echo $resource->embeddedJsonLd();
+            }
+        );
+
+        $sharedEventManager->attach(
+            array(
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ),
+            'view.browse.after',
+            function (OmekaEvent $event) {
+                $resources = $event->getTarget()->resources;
+                foreach ($resources as $resource) {
+                    echo $resource->embeddedJsonLd();
+                }
+            }
+        );
     }
 
     /**
@@ -168,7 +196,7 @@ class Module extends AbstractModule
      */
     public function filterHtmlMediaJsonLd(Event $event)
     {
-        if ('html' !== $event->getTarget()->type()) {
+        if ('html' !== $event->getTarget()->ingester()) {
             return;
         }
         $data = $event->getTarget()->mediaData();
@@ -187,7 +215,7 @@ class Module extends AbstractModule
      */
     public function filterYoutubeMediaJsonLd(Event $event)
     {
-        if ('youtube' !== $event->getTarget()->type()) {
+        if ('youtube' !== $event->getTarget()->ingester()) {
             return;
         }
         $data = $event->getTarget()->mediaData();

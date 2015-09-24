@@ -23,7 +23,12 @@ class Media extends Resource
     /**
      * @Column
      */
-    protected $type;
+    protected $ingester;
+
+    /**
+     * @Column
+     */
+    protected $renderer;
     
     /**
      * @Column(type="json_array", nullable=true)
@@ -76,14 +81,24 @@ class Media extends Resource
         return $this->id;
     }
 
-    public function setType($type)
+    public function setIngester($ingester)
     {
-        $this->type = $type;
+        $this->ingester = $ingester;
     }
 
-    public function getType()
+    public function getIngester()
     {
-        return $this->type;
+        return $this->ingester;
+    }
+
+    public function setRenderer($renderer)
+    {
+        $this->renderer = $renderer;
+    }
+
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
 
     public function setData($data)

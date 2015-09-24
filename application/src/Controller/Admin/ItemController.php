@@ -23,7 +23,9 @@ class ItemController extends AbstractActionController
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $view->setVariable('items', $response->getContent());
+        $items = $response->getContent();
+        $view->setVariable('items', $items);
+        $view->setVariable('resources', $items);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, array(
                 'button_value' => $this->translate('Confirm Delete'),
@@ -37,7 +39,9 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $this->params('id'));
 
         $view = new ViewModel;
-        $view->setVariable('item', $response->getContent());
+        $item = $response->getContent();
+        $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         return $view;
     }
 
@@ -167,17 +171,16 @@ class ItemController extends AbstractActionController
     {
         $services = $this->getServiceLocator();
         $mediaHelper = $services->get('ViewHelperManager')->get('media');
-        $mediaManager = $services->get('Omeka\MediaHandlerManager');
-        $types = array_unique($mediaManager->getCanonicalNames());
+        $mediaIngester = $services->get('Omeka\MediaIngesterManager');
+        $ingesters = array_unique($mediaIngester->getCanonicalNames());
 
         $forms = array();
-        foreach ($types as $type) {
-            $forms[$type] = array(
-                'label' => $mediaManager->get($type)->getLabel(),
-                'form' => $mediaHelper->form($type)
+        foreach ($ingesters as $ingester) {
+            $forms[$ingester] = array(
+                'label' => $mediaIngester->get($ingester)->getLabel(),
+                'form' => $mediaHelper->form($ingester)
             );
         }
-
         return $forms;
     }
 }

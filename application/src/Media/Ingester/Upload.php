@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Media\Handler;
+namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
@@ -10,8 +10,11 @@ use Zend\InputFilter\FileInput;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class UploadHandler extends AbstractFileHandler
+class Upload extends AbstractIngester
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
@@ -21,8 +24,17 @@ class UploadHandler extends AbstractFileHandler
     /**
      * {@inheritDoc}
      */
-    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
+    public function getRenderer()
     {
+        return 'file';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function ingest(Media $media, Request $request,
+        ErrorStore $errorStore
+    ) {
         $data = $request->getContent();
         $fileData = $request->getFileData();
         if (!isset($fileData['file'])) {

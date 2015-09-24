@@ -422,7 +422,7 @@ th {
   }
 
   a:visited {
-    color: #e61919;
+    color: #e61a1a;
   }
 
   a:active,
@@ -709,13 +709,13 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe5e5;
+    background-color: #ffe6e6;
   }
   div[role="main"] > .messages .success {
-    background-color: #ccffcc;
+    background-color: #cdffcd;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e5;
+    background-color: #fff6e6;
   }
 
   .messages {
@@ -809,7 +809,7 @@ th {
     padding: -0.0625em;
   }
 
-  #current-user {
+  #user {
     display: block;
     margin: 0;
     position: fixed;
@@ -823,11 +823,11 @@ th {
     z-index: 1000;
   }
 
-  #current-user p {
+  #user p {
     margin: 0;
     display: inline-block;
   }
-  #current-user p:not(:first-of-type):before {
+  #user p:not(:first-of-type):before {
     content: "\2022";
     display: inline-block;
     margin: 0 .5em 0 .25em;
@@ -3003,10 +3003,9 @@ th {
     background-color: #e7e7e7;
   }
 
-  #current-user,
+  #user,
   #menu,
-  #search,
-  footer {
+  #search {
     position: fixed;
     top: -9999px;
     left: -9999px;
@@ -3014,7 +3013,7 @@ th {
   }
 
   #menu.active,
-  #current-user.active,
+  #user.active,
   #search.active {
     top: 2.25em;
     left: 8.33333%;
@@ -3023,6 +3022,12 @@ th {
     background-color: #fff;
     width: intrinsic;
     margin: 0;
+  }
+
+  footer {
+    position: static;
+    width: 100%;
+    text-align: center;
   }
 
   /* @end */
@@ -3052,11 +3057,7 @@ th {
 
   #menu a {
     display: block;
-    padding: 0.75em 1.38889%;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.6875em;
+    padding: 0.375em 0.75em;
     background-color: #fff;
   }
 
@@ -3068,22 +3069,22 @@ th {
     background-color: #990000;
   }
 
-  #current-user {
+  #user {
     text-align: center;
   }
 
-  #current-user p {
+  #user p {
     display: block;
     margin: 0.75em 0;
     background-color: #ff4d4d;
     padding: 0.375em 0;
     border-radius: 3px;
   }
-  #current-user p:last-of-type:before {
+  #user p:last-of-type:before {
     content: "";
   }
-  #current-user p a {
-    color: #ffe5e5;
+  #user p a {
+    color: #ffe6e6;
   }
 
   #page-actions {
@@ -3313,7 +3314,7 @@ th {
 
   header,
   #menu.active,
-  #current-user.active,
+  #user.active,
   #search.active {
     left: 0;
     right: 0;

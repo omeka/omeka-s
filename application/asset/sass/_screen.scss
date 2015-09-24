@@ -404,7 +404,7 @@ header {
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
-#current-user {
+#user {
     display: block;
     margin: 0;
     position: fixed;
@@ -418,7 +418,7 @@ header {
     z-index: 1000;
 }
 
-#current-user p {
+#user p {
     margin: 0;
     display: inline-block;
     

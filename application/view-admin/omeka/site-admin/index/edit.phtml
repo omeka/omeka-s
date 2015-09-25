@@ -85,7 +85,6 @@ if ($pages):
 </fieldset>
 
 <fieldset id="nav" class="section">
-    <button id="page-remove">Remove</button>
     <div id="nav-tree"></div>
     <div id="nav-selector" class="sidebar">
     <p>Click on a page to add it to the navigation.</p>
@@ -311,8 +310,34 @@ var pageFilterSelector = function() {
 }
 
 /**
- * jsTree Navigation Interface
+ * The jsTree RemoveNode Plugin
  */
+$.jstree.plugins.removenode = function (options, parent) {
+    var foo = $('<i>', {
+        class: 'jstree-icon jstree-remove',
+        attr:{role:'presentation'}
+    })[0];
+    this.bind = function () {
+        parent.bind.call(this);
+        this.element.on('click.jstree', '.jstree-remove', $.proxy(function(e) {
+            this.delete_node(e.currentTarget);
+        }, this));
+    };
+    this.teardown = function () {
+        this.element.find(".jstree-remove").remove();
+        parent.teardown.call(this);
+    };
+    this.redraw_node = function(obj, deep, callback, force_draw) {
+        obj = parent.redraw_node.apply(this, arguments);
+        if (obj) {
+            var tmp = foo.cloneNode(true);
+            $(obj).find('.jstree-anchor').append(tmp);
+        }
+        return obj;
+    };
+};
+
+// Initialize the jsTree tree
 var navTree = $('#nav-tree');
 navTree.jstree({
     'core': {
@@ -324,7 +349,7 @@ navTree.jstree({
         'three_state': false, // With core.multiple, select one node at a time.
         'visible': false // Do not show the checkboxes.
     },
-    'plugins': ['dnd','checkbox']
+    'plugins': ['dnd','checkbox','removenode']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();
@@ -342,11 +367,6 @@ $('#nav-pages').on('click', '.nav-page', function(e) {
     var text = thisPage.data('title') + ' (' + thisPage.data('slug') + ')';
     navTree.jstree(true).create_node('#', {data: data, text: text});
     Omeka.scrollTo($('#nav-tree').find('[role="treeitem"]').last());
-});
-$('#page-remove').click(function(e) {
-    e.preventDefault();
-    var selected = navTree.jstree(true).get_selected();
-    navTree.jstree(true).delete_node(selected);
 });
 $('form').submit(function(e) {
     var json = navTree.jstree(true).get_json();

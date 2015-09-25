@@ -310,30 +310,31 @@ var pageFilterSelector = function() {
 }
 
 /**
- * The jsTree RemoveNode Plugin
+ * jsTree RemoveNode Plugin
  */
-$.jstree.plugins.removenode = function (options, parent) {
-    var foo = $('<i>', {
+$.jstree.plugins.removenode = function(options, parent) {
+    var removeIcon = $('<i>', {
         class: 'jstree-icon jstree-remove',
         attr:{role:'presentation'}
-    })[0];
-    this.bind = function () {
+    });
+    this.bind = function() {
         parent.bind.call(this);
+        // Remove the node when the remove icon is clicked
         this.element.on('click.jstree', '.jstree-remove', $.proxy(function(e) {
             this.delete_node(e.currentTarget);
         }, this));
     };
-    this.teardown = function () {
-        this.element.find(".jstree-remove").remove();
-        parent.teardown.call(this);
-    };
-    this.redraw_node = function(obj, deep, callback, force_draw) {
-        obj = parent.redraw_node.apply(this, arguments);
-        if (obj) {
-            var tmp = foo.cloneNode(true);
-            $(obj).find('.jstree-anchor').append(tmp);
+    this.redraw_node = function(node, deep, is_callback, force_render) {
+        node = parent.redraw_node.apply(this, arguments);
+        if (node) {
+            // Add the remove node icon to the node
+            $(node).find('.jstree-anchor').append(removeIcon.clone());
         }
-        return obj;
+        return node;
+    };
+    this.teardown = function() {
+        this.element.find('.jstree-remove').remove();
+        parent.teardown.call(this);
     };
 };
 

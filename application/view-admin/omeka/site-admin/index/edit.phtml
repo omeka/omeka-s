@@ -277,6 +277,42 @@ $('.section-nav a').click(function() {
     section.find('.sidebar').addClass('active');
 });
 
+$('.page-selector-filter').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+});
+
+// Property selector, filter properties.
+$('.page-selector-filter').on('keyup', (function() {
+    var timer = 0;
+    return function() {
+        clearTimeout(timer);
+        timer = setTimeout(pageFilterSelector.bind(this), 400);
+    }
+})())
+
+var pageFilterSelector = function() {
+    var filter = $(this).val().toLowerCase();
+    var selector = $(this).closest('.selector');
+    var parent = $("#nav-pages");
+    parent.find('li.nav-page').each(function() {
+        var child = $(this);
+        var label = child.data('title').toLowerCase();
+        if (label.indexOf(filter) > -1) {
+            // Label contains the filter string. Show the child.
+            child.show();
+        } else {
+            // Label doesn't contain the filter string. Hide the child.
+            child.hide();
+        }
+    });
+}
+
+/**
+ * jsTree Navigation Interface
+ */
 var navTree = $('#nav-tree');
 navTree.jstree({
     'core': {
@@ -297,41 +333,6 @@ navTree.jstree({
     var parent = navTree.jstree(true).get_node(data.parent);
     navTree.jstree(true).open_all(parent);
 });
-
-$('.page-selector-filter').on('keydown', function(e) {
-    if (e.keyCode == 13) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
-});
-
-// Property selector, filter properties.
-$('.page-selector-filter').on('keyup', (function() {
-    var timer = 0;
-    return function() {
-        clearTimeout(timer);
-        timer = setTimeout(pageFilterSelector.bind(this), 400);
-    }
-})())
-
-
-var pageFilterSelector = function() {
-    var filter = $(this).val().toLowerCase();
-    var selector = $(this).closest('.selector');
-    var parent = $("#nav-pages");
-    parent.find('li.nav-page').each(function() {
-        var child = $(this);
-        var label = child.data('title').toLowerCase();
-        if (label.indexOf(filter) > -1) {
-            // Label contains the filter string. Show the child.
-            child.show();
-        } else {
-            // Label doesn't contain the filter string. Hide the child.
-            child.hide();
-        }
-    });
-}
-
 $('#nav-pages').on('click', '.nav-page', function(e) {
     var thisPage = $(this);
     var data = {

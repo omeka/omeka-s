@@ -74,7 +74,7 @@ i.jstree-icon.jstree-er {
 
 .jstree-remove {
   background-color: transparent;
-  color: gray;
+  color: #FF0000;
   display: none;
 }
 
@@ -104,7 +104,7 @@ i.jstree-icon.jstree-er {
 }
 
 .jstree-remove:before {
-  content: "";
+  content: "";
 }
 
 #jstree-marker {

@@ -75,7 +75,7 @@ i.jstree-icon.jstree-er {
 
 .jstree-remove {
     background-color: transparent;
-    color: lighten(#000, 50%);
+    color: $red;
     display: none;
 }
 
@@ -105,7 +105,7 @@ i.jstree-icon.jstree-er {
 }
 
 .jstree-remove:before {
-    content: $fa-var-close;
+    content: $fa-var-trash-o;
 }
 
 #jstree-marker {

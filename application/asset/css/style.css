@@ -937,10 +937,19 @@ th {
   /* @end */
   /* @group ----- Footer ----- */
   footer {
-    position: fixed;
-    left: 1.04167%;
-    bottom: 1.5em;
-    width: 18.75%;
+    position: relative;
+    padding-right: 81.25%;
+    margin-top: -4.5em;
+    z-index: -1;
+  }
+  footer:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(18.75% + 1.04167%);
+    right: -1.04167%;
+    bottom: 0;
+    background: #fff;
   }
 
   /* @end */

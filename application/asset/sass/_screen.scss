@@ -530,10 +530,20 @@ div[role="main"] > h1:first-of-type {
 /* @group ----- Footer ----- */
 
 footer {
-    position: fixed;
-    left: gutter();
-    bottom: rhythm();
-    width: span(3 of 16);
+    position: relative;
+    padding-right: span(13 of 16);
+    margin-top: -(rhythm(3));
+    z-index: -1;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: calc(#{span(3 of 16)} + #{gutter()});
+        right: -(gutter());
+        bottom: 0;
+        background: #fff;
+    }
 }
 
 /* @end */

@@ -28,6 +28,14 @@ class JobRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getJsonLdType()
+    {
+        return 'o:Job';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getJsonLd()
     {
         $dateTime = array(

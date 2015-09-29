@@ -19,7 +19,7 @@ class AbstractResourceRepresentationTest extends TestCase
 
         $abstractResourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array('getJsonLd', 'apiUrl'),
+            array('getJsonLd', 'apiUrl', 'getJsonLdType'),
             array($id, $data, $adapter)
         );
         $abstractResourceRep->expects($this->once())
@@ -28,6 +28,9 @@ class AbstractResourceRepresentationTest extends TestCase
         $abstractResourceRep->expects($this->once())
             ->method('apiUrl')
             ->will($this->returnValue($url));
+        $abstractResourceRep->expects($this->once())
+            ->method('getJsonLdType')
+            ->will($this->returnValue('o:fooType'));
 
         // test getId()
         $this->assertEquals($id,  $abstractResourceRep->id());
@@ -39,6 +42,7 @@ class AbstractResourceRepresentationTest extends TestCase
                 => AbstractResourceRepresentation::OMEKA_VOCABULARY_IRI
             ),
             '@id' => $url,
+            '@type' => 'o:fooType',
             'o:id' => $id,
             'foo' => 'bar',
         ), $abstractResourceRep->jsonSerialize());

@@ -14,6 +14,14 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getResourceJsonLdType()
+    {
+        return 'o:ItemSet';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceJsonLd()
     {
         return array(

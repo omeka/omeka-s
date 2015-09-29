@@ -46,6 +46,13 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     abstract public function getJsonLd();
 
     /**
+     * Get the linked data type or types for this resource
+     *
+     * @return string|array|null
+     */
+     abstract public function getJsonLdType();
+
+    /**
      * Construct the resource representation object.
      *
      * @param string|int $id The unique identifier of this resource
@@ -78,13 +85,17 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
+        $childJsonLd = $this->getJsonLd();
+        $type = $this->getJsonLdType();
+
         $jsonLd = array_merge(
             array(
                 '@context' => $this->context,
                 '@id' => $this->apiUrl(),
+                '@type' => $type,
                 'o:id' => $this->id(),
             ),
-            $this->getJsonLd()
+            $childJsonLd
         );
 
         // Filter the JSON-LD.

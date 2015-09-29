@@ -11,6 +11,14 @@ class UserRepresentation extends AbstractEntityRepresentation
         return 'user';
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getJsonLdType()
+    {
+        return 'o:User';
+    }
+
     public function getJsonLd()
     {
         $entity = $this->getData();

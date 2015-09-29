@@ -3,6 +3,14 @@ namespace Omeka\Api\Representation;
 
 class SitePageRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getJsonLdType()
+    {
+        return 'o:SitePage';
+    }
+
     public function getJsonLd()
     {
         $entity = $this->getData();

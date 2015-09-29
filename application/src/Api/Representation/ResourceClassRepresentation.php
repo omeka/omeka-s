@@ -12,6 +12,14 @@ class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getJsonLdType()
+    {
+        return 'o:ResourceClass';
+    }
+
+    /**
      * Get the resource count of this resource class.
      *
      * @return int

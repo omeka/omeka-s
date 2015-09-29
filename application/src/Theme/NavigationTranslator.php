@@ -102,6 +102,10 @@ class NavigationTranslator
         $buildPages = function ($pagesIn) use (&$buildPages) {
             $pagesOut = array();
             foreach ($pagesIn as $key => $page) {
+                if (isset($page['data']['remove']) && $page['data']['remove']) {
+                    // Remove pages set to be removed.
+                    continue;
+                }
                 $pagesOut[$key] = $page['data'];
                 if ($page['children']) {
                     $pagesOut[$key]['pages'] = $buildPages($page['children']);

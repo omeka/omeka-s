@@ -53,7 +53,8 @@ i.jstree-icon {
 
 .jstree-open > .jstree-ocl,
 .jstree-closed > .jstree-ocl,
-.jstree-remove {
+.jstree-removenode-remove,
+.jstree-removenode-undo {
     width: 1.5 * $base-line-height;
     height: 1.5 * $base-line-height;
     line-height: 1.5 * $base-line-height;
@@ -73,18 +74,24 @@ i.jstree-icon.jstree-er {
     text-align: center;
 }
 
-.jstree-remove {
+.jstree-removenode-remove,
+.jstree-removenode-undo {
     background-color: transparent;
-    color: $red;
-    display: none;
+    color: lighten($red, 20%);
+
+    &:hover {
+        color: $red;
+    }
 }
 
-.jstree-open > .jstree-anchor .jstree-remove,
-.jstree-closed > .jstree-anchor .jstree-remove {
+.jstree-open > .jstree-anchor .jstree-removenode-remove,
+.jstree-closed > .jstree-anchor .jstree-removenode-remove,
+.jstree-open > .jstree-anchor .jstree-removenode-undo,
+.jstree-closed > .jstree-anchor .jstree-removenode-undo {
     right: 1.5 * $base-line-height;
 }
 
-.jstree-anchor:hover > .jstree-remove {
+.jstree-anchor:hover > .jstree-removenode-remove {
     display: block;
 }
 
@@ -104,8 +111,26 @@ i.jstree-icon.jstree-er {
     content: $fa-var-close;
 }
 
-.jstree-remove:before {
+.jstree-removenode-remove:before {
     content: $fa-var-trash-o;
+}
+
+.jstree-removenode-undo:before {
+    content: $fa-var-undo;
+}
+
+.jstree-removenode-removed .jstree-anchor {
+    background-color: #ffcccc;
+}
+
+.jstree-removenode-removed .jstree-children .jstree-removenode-remove,
+.jstree-removenode-removed .jstree-children .jstree-removenode-undo {
+    display: none;
+}
+
+.jstree-removenode-removed.jstree-open > .jstree-ocl,
+.jstree-removenode-removed.jstree-closed > .jstree-ocl {
+    background-color: rgba(255, 0, 0, .24);
 }
 
 #jstree-marker {

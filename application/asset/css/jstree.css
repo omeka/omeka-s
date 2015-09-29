@@ -52,7 +52,8 @@ i.jstree-icon {
 
 .jstree-open > .jstree-ocl,
 .jstree-closed > .jstree-ocl,
-.jstree-remove {
+.jstree-removenode-remove,
+.jstree-removenode-undo {
   width: 36px;
   height: 36px;
   line-height: 36px;
@@ -72,18 +73,24 @@ i.jstree-icon.jstree-er {
   text-align: center;
 }
 
-.jstree-remove {
+.jstree-removenode-remove,
+.jstree-removenode-undo {
   background-color: transparent;
+  color: #ff6666;
+}
+.jstree-removenode-remove:hover,
+.jstree-removenode-undo:hover {
   color: #FF0000;
-  display: none;
 }
 
-.jstree-open > .jstree-anchor .jstree-remove,
-.jstree-closed > .jstree-anchor .jstree-remove {
+.jstree-open > .jstree-anchor .jstree-removenode-remove,
+.jstree-closed > .jstree-anchor .jstree-removenode-remove,
+.jstree-open > .jstree-anchor .jstree-removenode-undo,
+.jstree-closed > .jstree-anchor .jstree-removenode-undo {
   right: 36px;
 }
 
-.jstree-anchor:hover > .jstree-remove {
+.jstree-anchor:hover > .jstree-removenode-remove {
   display: block;
 }
 
@@ -103,8 +110,26 @@ i.jstree-icon.jstree-er {
   content: "";
 }
 
-.jstree-remove:before {
+.jstree-removenode-remove:before {
   content: "";
+}
+
+.jstree-removenode-undo:before {
+  content: "";
+}
+
+.jstree-removenode-removed .jstree-anchor {
+  background-color: #ffcccc;
+}
+
+.jstree-removenode-removed .jstree-children .jstree-removenode-remove,
+.jstree-removenode-removed .jstree-children .jstree-removenode-undo {
+  display: none;
+}
+
+.jstree-removenode-removed.jstree-open > .jstree-ocl,
+.jstree-removenode-removed.jstree-closed > .jstree-ocl {
+  background-color: rgba(255, 0, 0, 0.24);
 }
 
 #jstree-marker {

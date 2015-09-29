@@ -31,6 +31,14 @@ class ResourceReference extends AbstractResourceRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getJsonLdType()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getJsonLd()
     {}
 }

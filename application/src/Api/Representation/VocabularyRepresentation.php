@@ -14,6 +14,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getJsonLdType()
+    {
+        return 'o:Vocabulary';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getJsonLd()
     {
         $owner = null;

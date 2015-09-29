@@ -40,21 +40,37 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    abstract function getResourceJsonLd();
+    abstract public function getResourceJsonLd();
+
+    /**
+     * Get the JSON-LD type for this specific kind of resource.
+     *
+     * @return string
+     */
+    abstract public function getResourceJsonLdType();
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getJsonLdType()
+    {
+        $type = $this->getResourceJsonLdType();
+
+        $resourceClass = $this->resourceClass();
+        if ($resourceClass) {
+            $this->addVocabularyToContext($resourceClass->vocabulary());
+            $type = (array) $type;
+            $type[] = $resourceClass->term();
+        }
+
+        return $type;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function getJsonLd()
     {
-        // Set the JSON-LD node type.
-        $nodeType = array();
-        $resourceClass = $this->resourceClass();
-        if ($resourceClass) {
-            $this->addVocabularyToContext($resourceClass->vocabulary());
-            $nodeType['@type'] = $resourceClass->term();
-        }
-
         // Set the date time value objects.
         $dateTime = array(
             'o:created' => array(
@@ -93,7 +109,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         return array_merge(
-            $nodeType,
             array(
                 'o:is_public' => $this->isPublic(),
                 'o:owner' => $owner,

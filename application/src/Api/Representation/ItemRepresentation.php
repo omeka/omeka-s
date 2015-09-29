@@ -14,6 +14,14 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * {@inheritDoc}
      */
+    public function getResourceJsonLdType()
+    {
+        return 'o:Item';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceJsonLd()
     {
         $media = array();

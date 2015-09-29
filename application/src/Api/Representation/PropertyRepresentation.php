@@ -12,6 +12,14 @@ class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getJsonLdType()
+    {
+        return 'o:Property';
+    }
+
+    /**
      * Get the resource count of this property.
      *
      * @return int

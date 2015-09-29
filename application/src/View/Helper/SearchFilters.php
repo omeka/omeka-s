@@ -30,7 +30,9 @@ class SearchFilters extends AbstractHelper
             'eq' => $translate('has exact value(s)'),
             'neq' => $translate('does not have exact value(s)'),
             'in' => $translate('contains value(s)'),
-            'nin' => $translate('does not contain value(s)')
+            'nin' => $translate('does not contain value(s)'),
+            'res' => $translate('has resource'),
+            'nres' => $translate('does not have resource')
         );
         
         foreach($query as $key => $value) {

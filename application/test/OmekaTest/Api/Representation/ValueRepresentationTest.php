@@ -50,7 +50,7 @@ class ValueRepresentationTest extends TestCase
 
         $resourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            array('getJsonLd', 'valueRepresentation', 'getResourceJsonLd'), array(), '',
+            array('getJsonLd', 'valueRepresentation', 'getResourceJsonLd', 'getResourceJsonLdType'), array(), '',
             false
         );
         $resourceRep->expects($this->once())

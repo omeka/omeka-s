@@ -3,9 +3,13 @@ namespace Omeka\Site\Navigation;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Translator
+class Translator implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * Translate site navigation to Zend navigation.
      *

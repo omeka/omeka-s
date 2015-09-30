@@ -274,7 +274,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Set the current theme.
         $theme = $site->getTheme();
-        $themeManager = $serviceLocator->get('Omeka\ThemeManager');
+        $themeManager = $serviceLocator->get('Omeka\Site\ThemeManager');
         $themeManager->setCurrentTheme($theme);
 
         // Add the theme view templates to the path stack.

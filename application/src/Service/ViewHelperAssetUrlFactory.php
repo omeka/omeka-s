@@ -21,7 +21,7 @@ class ViewHelperAssetUrlFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $viewServiceLocator)
     {
         $serviceLocator = $viewServiceLocator->getServiceLocator();
-        $currentTheme = $serviceLocator->get('Omeka\ThemeManager')->getCurrentTheme();
+        $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')->getCurrentTheme();
         $activeModules = $serviceLocator->get('Omeka\ModuleManager')
             ->getModulesByState(ModuleManager::STATE_ACTIVE);
 

@@ -139,7 +139,7 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
-            'Omeka\ThemeManager'          => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\ThemeManager'     => 'Omeka\Service\ThemeManagerFactory',
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',

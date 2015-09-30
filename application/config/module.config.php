@@ -140,6 +140,7 @@ return array(
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
             'Omeka\Site\ThemeManager'     => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
@@ -251,6 +252,11 @@ return array(
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
             'oneItem' => 'Omeka\BlockLayout\OneItem',
+        ),
+    ),
+    'navigation_links' => array(
+        'invokables' => array(
+            'page' => 'Omeka\Site\Navigation\Link\Page',
         ),
     ),
     'media_ingesters' => array(

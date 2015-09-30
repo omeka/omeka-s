@@ -87,7 +87,7 @@ if ($pages):
 <fieldset id="nav" class="section">
     <div id="nav-tree"></div>
     <div id="nav-selector" class="sidebar">
-    <p>Click on a page to add it to the navigation.</p>
+    <p>Add a link to a site page:</p>
     <input type="text" class="page-selector-filter" placeholder="Filter pages">
     <?php if ($pages): ?>
     <ul id="nav-pages">
@@ -370,7 +370,41 @@ $.jstree.plugins.removenode = function(options, parent) {
     };
 };
 
-// Initialize the jsTree tree
+/**
+ * EditLink plugin for jsTree
+ */
+$.jstree.plugins.editlink = function(options, parent) {
+    var container = $('<div>', {
+        class: 'jstree-editlink-container'
+    });
+    this.bind = function() {
+        parent.bind.call(this);
+        $(document).on(
+            // When a drag starts.
+            'dnd_start.vakata.jstree',
+            $.proxy(function(e, data) {
+                // Set the container and its contents to the node object.
+                var node = $(data.element).closest('.jstree-node');
+                var nodeObj = this.get_node(data.element);
+                nodeObj.editlink_container = node.find('.jstree-editlink-container');
+            }, this)
+        );
+    };
+    this.redraw_node = function(node, deep, is_callback, force_render) {
+        node = parent.redraw_node.apply(this, arguments);
+        if (node) {
+            var nodeObj = this.get_node(node);
+            if (typeof nodeObj.editlink_container === 'undefined') {
+                // The container has not been drawn. Draw it and its contents.
+                nodeObj.editlink_container = container.clone();
+            }
+            $(node).children('.jstree-anchor').after(nodeObj.editlink_container);
+        }
+        return node;
+    };
+};
+
+// Initialize the navigation tree
 var navTree = $('#nav-tree');
 navTree.jstree({
     'core': {
@@ -386,22 +420,24 @@ navTree.jstree({
     var parent = navTree.jstree(true).get_node(data.parent);
     navTree.jstree(true).open_all(parent);
 });
+// Add site pages to navigation tree.
 $('#nav-pages').on('click', '.nav-page', function(e) {
     var thisPage = $(this);
+    var label = thisPage.data('title');
     var data = {
         type: thisPage.data('type'),
-        id: thisPage.data('id')
+        id: thisPage.data('id'),
+        label: label,
     };
-    var text = thisPage.data('title') + ' (' + thisPage.data('slug') + ')';
-    navTree.jstree(true).create_node('#', {data: data, text: text});
-    Omeka.scrollTo($('#nav-tree').find('[role="treeitem"]').last());
+    navTree.jstree(true).create_node('#', {data: data, text: label});
 });
+// Prepare the navigation tree data for submission.
 $('form').submit(function(e) {
-    var json = navTree.jstree(true).get_json();
+    var instance = navTree.jstree(true);
     $('<input>', {
         'type': 'hidden',
         'name': 'jstree',
-        'val': JSON.stringify(json)
+        'val': JSON.stringify(instance.get_json())
     }).appendTo('form');
 });
 </script>

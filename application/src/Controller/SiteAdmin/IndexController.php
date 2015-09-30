@@ -4,7 +4,7 @@ namespace Omeka\Controller\SiteAdmin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
-use Omeka\Theme\NavigationTranslator;
+use Omeka\Site\Navigation\Translator;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -52,7 +52,7 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
-        $translator = new NavigationTranslator;
+        $translator = new Translator;
         $form = new SiteForm($this->getServiceLocator());
         $readResponse = $this->api()->read('sites', array(
             'slug' => $this->params('site-slug')

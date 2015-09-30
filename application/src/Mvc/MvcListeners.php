@@ -2,7 +2,7 @@
 namespace Omeka\Mvc;
 
 use Omeka\Service\Exception\ConfigException;
-use Omeka\Theme\NavigationTranslator;
+use Omeka\Site\Navigation\Translator;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -294,7 +294,7 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
-        $translator = new NavigationTranslator;
+        $translator = new Translator;
         $config = $serviceLocator->get('Config');
         $config['navigation']['site'] = $translator->toZend($site);
         $allowOverride = $serviceLocator->getAllowOverride();

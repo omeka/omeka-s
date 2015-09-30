@@ -1,10 +1,10 @@
 <?php
-namespace Omeka\Theme;
+namespace Omeka\Site\Navigation;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 
-class NavigationTranslator
+class Translator
 {
     /**
      * Translate site navigation to Zend navigation.

@@ -404,7 +404,7 @@ header {
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
-#current-user {
+#user {
     display: block;
     margin: 0;
     position: fixed;
@@ -418,7 +418,7 @@ header {
     z-index: 1000;
 }
 
-#current-user p {
+#user p {
     margin: 0;
     display: inline-block;
     
@@ -530,10 +530,20 @@ div[role="main"] > h1:first-of-type {
 /* @group ----- Footer ----- */
 
 footer {
-    position: fixed;
-    left: gutter();
-    bottom: rhythm();
-    width: span(3 of 16);
+    position: relative;
+    padding-right: span(13 of 16);
+    margin-top: -(rhythm(3));
+    z-index: -1;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: calc(#{span(3 of 16)} + #{gutter()});
+        right: -(gutter());
+        bottom: 0;
+        background: #fff;
+    }
 }
 
 /* @end */

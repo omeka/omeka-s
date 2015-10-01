@@ -29,17 +29,6 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'browse' => array(
-                        'type' => 'Regex',
-                        'options' => array(
-                            'regex' => '/browse(/.*)?',
-                            'spec' => '/browse',
-                            'defaults' => array(
-                                'controller' => 'Index',
-                                'action' => 'browse',
-                             ),
-                        ),
-                    ),
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(
@@ -50,11 +39,28 @@ return array(
                             ),
                         ),
                     ),
-                    'id' => array(
+                    'resource' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/:action/:id',
+                            'route' => '/:controller[/[:action]]',
+                            'defaults' => array(
+                                'action'    => 'browse',
+                            ),
                             'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                        ),
+                    ),
+                    'resource-id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:controller/:id[/[:action]]',
+                            'defaults' => array(
+                                'action'     => 'show',
+                            ),
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'id'         => '\d+',
                             ),

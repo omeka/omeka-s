@@ -8,7 +8,7 @@ $escape = $this->plugin('escapeHtml');
         <a href="#" class="o-icon-search button"><span class="screen-reader-text"><?php echo $this->translate('Search Site'); ?></span></a>
         <a href="#" class="o-icon-user button"><span class="screen-reader-text"><?php echo $this->translate('User Menu'); ?></span></a>
     </div>
-    <div id="current-user">
+    <div id="user">
         <?php if ($this->identity()): ?>
         <p><?php echo sprintf($this->translate('Welcome, %s'),  '<a href="' . $this->url('admin/id', array(
             'controller' => 'user',
@@ -35,7 +35,6 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <nav id="menu" role="navigation"><?php echo $this->navigation('Zend\Navigation\Admin')->menu(); ?></nav>
     </nav>
-    <p class="site-version"><span class="version-label"><?php echo $this->translate('Omeka S version'); ?></span><span class="version-number"><?php echo Omeka\Module::VERSION; ?></span></p>
 </header>
 
 <script>

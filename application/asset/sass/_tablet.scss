@@ -47,10 +47,9 @@ header {
     background-color: #e7e7e7;
 }
 
-#current-user,
+#user,
 #menu,
-#search,
-footer {
+#search {
     position: fixed;
     top: -9999px;
     left: -9999px;
@@ -58,7 +57,7 @@ footer {
 }
 
 #menu.active,
-#current-user.active,
+#user.active,
 #search.active {
     top: rhythm(1.5);
     left: gutter(2);
@@ -67,6 +66,12 @@ footer {
     background-color: #fff;
     width: intrinsic;
     margin: 0;
+}
+
+footer {
+    position: static;
+    width: 100%;
+    text-align: center;
 }
 
 /* @end */
@@ -101,9 +106,7 @@ div[role="main"] {
 
 #menu a {
     display: block;
-    padding: rhythm(.5) gutter(12);
-    border-color: rgba(0,0,0,.08);
-    @include trailing-border(1px, .5, $base-font-size, solid);
+    padding: rhythm(.25) rhythm(.5);
     background-color: #fff;
 }
 
@@ -115,11 +118,11 @@ div[role="main"] {
     background-color: darken($red, 20%);
 }
 
-#current-user {
+#user {
     text-align: center;
 }
 
-#current-user p {
+#user p {
     display: block;
     margin: rhythm(.5) 0;
     background-color: lighten($red, 15%);

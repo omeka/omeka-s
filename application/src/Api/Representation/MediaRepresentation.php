@@ -10,6 +10,14 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     {
         return 'media';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceJsonLdType()
+    {
+        return 'o:Media';
+    }
     
     /**
      * {@inheritDoc}

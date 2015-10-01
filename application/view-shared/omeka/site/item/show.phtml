@@ -2,3 +2,4 @@
 <h1><?php echo $this->escapeHtml($site->title()); ?></h1>
 <h2><?php echo $this->escapeHtml($item->displayTitle()); ?></h2>
 <?php echo $item->displayValues(); ?>
+<?php $this->trigger('view.show.after'); ?>

@@ -71,6 +71,11 @@ class Media extends Resource
      */
     protected $item;
 
+    /**
+     * @Column(nullable=true, length=190)
+     */
+    protected $lang;
+
     public function getResourceName()
     {
         return 'media';
@@ -179,5 +184,15 @@ class Media extends Resource
     public function getItem()
     {
         return $this->item;
+    }
+
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    public function getLang()
+    {
+        return $this->lang;
     }
 }

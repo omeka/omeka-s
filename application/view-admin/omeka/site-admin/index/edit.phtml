@@ -87,6 +87,17 @@ if ($pages):
 <fieldset id="nav" class="section">
     <div id="nav-tree"></div>
     <div id="nav-selector" class="sidebar">
+    <p>Add a custom link:</p>
+    <select id="nav-custom-pages">
+        <option value="">Select below...</option>
+        <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
+        <?php $label = $this->navigationLink()->getLabel($type); ?>
+        <option
+            data-type="<?php echo $escape($type); ?>"
+            data-label="<?php echo $escape($label); ?>"
+            value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+        <?php endforeach; ?>
+    </select>
     <p>Add a link to a site page:</p>
     <input type="text" class="page-selector-filter" placeholder="Filter pages">
     <?php if ($pages): ?>
@@ -105,6 +116,12 @@ if ($pages):
     <p>This site has no pages</p>
     <?php endif; ?>
     </div>
+    <?php foreach ($this->navigationLink()->getTypes() as $type): ?>
+    <span
+        class="nav-link-template"
+        data-type="<?php echo $escape($type); ?>"
+        data-template="<?php echo $escape($this->navigationLink()->getTemplate($type)); ?>"></span>
+    <?php endforeach; ?>
 </fieldset>
 
 <fieldset id="permissions" class="section">
@@ -223,7 +240,7 @@ $userRowTemplate .= '</select></td>
 ';
 ?>
 
-<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>">
+<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>"></span>
 
 <script>
 $('#content').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
@@ -419,6 +436,17 @@ navTree.jstree({
     // Open node after moving it.
     var parent = navTree.jstree(true).get_node(data.parent);
     navTree.jstree(true).open_all(parent);
+});
+// Add custom pages to the navigation tree.
+$('#nav-custom-pages').on('change', function(e) {
+    console.log(this.value);
+    var thisLink = $(this).children(':selected');
+    var label = thisLink.data('label');
+    var data = {
+        type: thisLink.data('type'),
+        label: label,
+    };
+    navTree.jstree(true).create_node('#', {data: data, text: label});
 });
 // Add site pages to navigation tree.
 $('#nav-pages').on('click', '.nav-page', function(e) {

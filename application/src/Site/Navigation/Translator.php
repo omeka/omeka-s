@@ -18,54 +18,22 @@ class Translator implements ServiceLocatorAwareInterface
      */
     public function toZend(Site $site)
     {
-        $buildPages = function ($pagesIn) use (&$buildPages, $site)
+        $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
+        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
         {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (!isset($page['type'])) {
-                    continue;
-                }
-                switch ($page['type']) {
-                    case 'browse':
-                        $pagesOut[$key] = array(
-                            'label' => 'Browse',
-                            'route' => 'site/browse',
-                            'params' => array(
-                                'site-slug' => $site->getSlug(),
-                            ),
-                        );
-                        break;
-                    case 'page':
-                        $sitePage = $site->getPages()->get($page['id']);
-                        if ($sitePage) {
-                            $pagesOut[$key] = array(
-                                'label' => $sitePage->getTitle(),
-                                'route' => 'site/page',
-                                'params' => array(
-                                    'site-slug' => $site->getSlug(),
-                                    'page-slug' => $sitePage->getSlug(),
-                                ),
-                            );
-                        } else {
-                            $pagesOut[$key] = array(
-                                'type' => 'uri',
-                                'label' => '[invalid page]',
-                            );
-                        }
-                        break;
-                    default:
-                        continue 2;
-                }
-                if (isset($page['pages'])) {
-                    $pagesOut[$key]['pages'] = $buildPages($page['pages']);
+            $linksOut = array();
+            foreach ($linksIn as $key => $data) {
+                $linksOut[$key] = $manager->get($data['type'])->toZend($data, $site);
+                if (isset($data['links'])) {
+                    $linksOut[$key]['pages'] = $buildLinks($data['links']);
                 }
             }
-            return $pagesOut;
+            return $linksOut;
         };
-        $pages = $buildPages($site->getNavigation());
-        if (!$pages) {
+        $links = $buildLinks($site->getNavigation());
+        if (!$links) {
             // The site must have at least one page for navigation to work.
-            $pages = array(array(
+            $links = array(array(
                 'label' => 'Home',
                 'route' => 'site',
                 'params' => array(
@@ -73,33 +41,25 @@ class Translator implements ServiceLocatorAwareInterface
                 ),
             ));
         }
-        return $pages;
+        return $links;
     }
 
     public function toJstree(SiteRepresentation $site)
     {
-        $sitePages = $site->pages();
-        $buildPages = function ($pagesIn) use (&$buildPages, $sitePages) {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (isset($sitePages[$page['id']])) {
-                    $sitePage = $sitePages[$page['id']];
-                    $pagesOut[$key] = array(
-                        'text' => $sitePage->title(),
-                        'data' => array(
-                            'type' => 'page',
-                            'id' => $sitePage->id(),
-                            'label' => $page['label'],
-                        ),
-                    );
-                    if (isset($page['pages'])) {
-                        $pagesOut[$key]['children'] = $buildPages($page['pages']);
-                    }
+        $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
+        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
+        {
+            $linksOut = array();
+            foreach ($linksIn as $key => $data) {
+                $linksOut[$key] = $manager->get($data['type'])->toJstree($data, $site);
+                if (isset($data['links'])) {
+                    $linksOut[$key]['children'] = $buildLinks($data['links']);
                 }
             }
-            return $pagesOut;
+            return $linksOut;
         };
-        return $buildPages($site->navigation());
+        $links = $buildLinks($site->navigation());
+        return $links;
     }
 
     public function fromJstree(array $jstree)
@@ -113,7 +73,7 @@ class Translator implements ServiceLocatorAwareInterface
                 }
                 $pagesOut[$key] = $page['data'];
                 if ($page['children']) {
-                    $pagesOut[$key]['pages'] = $buildPages($page['children']);
+                    $pagesOut[$key]['links'] = $buildPages($page['children']);
                 }
             }
             return $pagesOut;

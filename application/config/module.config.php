@@ -258,6 +258,7 @@ return array(
     'navigation_links' => array(
         'invokables' => array(
             'page' => 'Omeka\Site\Navigation\Link\Page',
+            'url' => 'Omeka\Site\Navigation\Link\Url',
         ),
     ),
     'media_ingesters' => array(

@@ -31,6 +31,7 @@ class Module extends AbstractModule
         'params'     => 'Omeka\View\Helper\Params',
         'blockLayout' => 'Omeka\View\Helper\BlockLayout',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
+        'navigationLink' => 'Omeka\View\Helper\NavigationLink',
     );
 
     /**

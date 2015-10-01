@@ -5,41 +5,41 @@ use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class ItemController extends AbstractActionController
 {
-    public function indexAction()
+    public function browseAction()
     {
         $site = $this->getSite();
 
-        // Redirect to the first page, if it exists
-        $pages = $site->pages();
-        if ($pages) {
-            $firstPage = $pages[0];
-            return $this->redirect()->toRoute('site/page', array(
-                'site-slug' => $site->slug(),
-                'page-slug' => $firstPage->slug(),
-            ));
-        }
+        $this->setBrowseDefaults('created');
+        $this->getRequest()->getQuery()->set('site_id', $site->id());
+        $response = $this->api()->search('items', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $items = $response->getContent();
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('items', $items);
+        $view->setVariable('resources', $items);
         return $view;
     }
 
-    public function mediaAction()
+    public function showAction()
     {
         $site = $this->getSite();
-        $response = $this->api()->searchOne('media', array(
+        $response = $this->api()->searchOne('items', array(
             'id' => $this->params('id'),
             'site_id' => $site->id(),
         ));
         if (!$response->getTotalResults()) {
             throw new Exception\NotFoundException;
         }
+        $item = $response->getContent();
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('media', $response->getContent());
+        $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         return $view;
     }
 

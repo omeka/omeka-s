@@ -117,6 +117,7 @@ class Module extends AbstractModule
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Site\Item',
             ),
             'view.show.after',
             function (OmekaEvent $event) {
@@ -130,6 +131,7 @@ class Module extends AbstractModule
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Site\Item',
             ),
             'view.browse.after',
             function (OmekaEvent $event) {

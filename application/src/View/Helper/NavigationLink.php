@@ -36,9 +36,4 @@ class NavigationLink extends AbstractHelper
     {
         return $this->manager->get($type)->getLabel();
     }
-
-    public function getTemplate($type)
-    {
-        return $this->manager->get($type)->getTemplate();
-    }
 }

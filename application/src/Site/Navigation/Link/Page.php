@@ -11,9 +11,9 @@ class Page extends AbstractLink
         return 'Page';
     }
 
-    public function getTemplate()
+    public function getForm($data)
     {
-        return '<label>Label<input type="text" value="__label__"></label>';
+        return '<label>Label <input type="text" value="' . $data['label'] . '"></label>';
     }
 
     public function toZend(array $data, Site $site)

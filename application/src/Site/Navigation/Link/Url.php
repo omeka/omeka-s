@@ -11,9 +11,27 @@ class Url extends AbstractLink
         return 'Custom URL';
     }
 
-    public function getTemplate()
+    /**
+     * Get the data needed for a newly created link form.
+     *
+     * @return array
+     */
+    public function getData()
     {
-        return '<label>Label<input type="text" value="__label__"></label>';
+        return array();
+    }
+
+    /**
+     * Populate the link form using the passed data.
+     *
+     * @param array $data
+     * @return string
+     */
+    public function getForm(array $data)
+    {
+        $url = isset($data['url']) ? $data['url'] : null;
+        return '<label>Label <input type="text" value="' . $data['label'] . '"></label>'
+            . '<label>URL <input type="text" value="' . $url . '"></label>';
     }
 
     public function toZend(array $data, Site $site)

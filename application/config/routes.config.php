@@ -136,6 +136,24 @@ return array(
                                     ),
                                 ),
                             ),
+                            'navigation-link-form' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/navigation-link-form',
+                                    'defaults' => array(
+                                        'action' => 'navigation-link-form',
+                                    ),
+                                ),
+                            ),
+                            'navigation-link-data' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/navigation-link-data',
+                                    'defaults' => array(
+                                        'action' => 'navigation-link-data',
+                                    ),
+                                ),
+                            ),
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(

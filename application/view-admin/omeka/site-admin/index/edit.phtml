@@ -116,12 +116,6 @@ if ($pages):
     <p>This site has no pages</p>
     <?php endif; ?>
     </div>
-    <?php foreach ($this->navigationLink()->getTypes() as $type): ?>
-    <span
-        class="nav-link-template"
-        data-type="<?php echo $escape($type); ?>"
-        data-template="<?php echo $escape($this->navigationLink()->getTemplate($type)); ?>"></span>
-    <?php endforeach; ?>
 </fieldset>
 
 <fieldset id="permissions" class="section">
@@ -388,34 +382,25 @@ $.jstree.plugins.removenode = function(options, parent) {
 };
 
 /**
- * EditLink plugin for jsTree
+ * LinkForm plugin for jsTree
  */
-$.jstree.plugins.editlink = function(options, parent) {
+$.jstree.plugins.linkform = function(options, parent) {
     var container = $('<div>', {
         class: 'jstree-editlink-container'
     });
-    this.bind = function() {
-        parent.bind.call(this);
-        $(document).on(
-            // When a drag starts.
-            'dnd_start.vakata.jstree',
-            $.proxy(function(e, data) {
-                // Set the container and its contents to the node object.
-                var node = $(data.element).closest('.jstree-node');
-                var nodeObj = this.get_node(data.element);
-                nodeObj.editlink_container = node.find('.jstree-editlink-container');
-            }, this)
-        );
-    };
     this.redraw_node = function(node, deep, is_callback, force_render) {
         node = parent.redraw_node.apply(this, arguments);
         if (node) {
             var nodeObj = this.get_node(node);
-            if (typeof nodeObj.editlink_container === 'undefined') {
+            if (typeof nodeObj.linkform_container === 'undefined') {
                 // The container has not been drawn. Draw it and its contents.
-                nodeObj.editlink_container = container.clone();
+                nodeObj.linkform_container = container.clone();
+                $.post('<?php echo $this->url('admin/site/navigation-link-form'); ?>', nodeObj.data)
+                    .done(function(data) {
+                        nodeObj.linkform_container.append(data);
+                    });
             }
-            $(node).children('.jstree-anchor').after(nodeObj.editlink_container);
+            $(node).children('.jstree-anchor').after(nodeObj.linkform_container);
         }
         return node;
     };
@@ -428,7 +413,7 @@ navTree.jstree({
         'check_callback': true,
         'data': <?php echo json_encode($navTree); ?>,
     },
-    'plugins': ['dnd','removenode']
+    'plugins': ['dnd','removenode','linkform']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();
@@ -439,14 +424,13 @@ navTree.jstree({
 });
 // Add custom pages to the navigation tree.
 $('#nav-custom-pages').on('change', function(e) {
-    console.log(this.value);
     var thisLink = $(this).children(':selected');
-    var label = thisLink.data('label');
-    var data = {
-        type: thisLink.data('type'),
-        label: label,
-    };
-    navTree.jstree(true).create_node('#', {data: data, text: label});
+    $.post('<?php echo $this->url('admin/site/navigation-link-data'); ?>', thisLink.data())
+        .done(function(data) {
+            data.type = thisLink.data('type');
+            data.label = thisLink.data('label');
+            navTree.jstree(true).create_node('#', {data: data, text: data.label});
+        });
 });
 // Add site pages to navigation tree.
 $('#nav-pages').on('click', '.nav-page', function(e) {

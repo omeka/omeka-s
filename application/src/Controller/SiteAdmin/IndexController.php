@@ -6,6 +6,7 @@ use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -163,5 +164,31 @@ class IndexController extends AbstractActionController
 
         $view->setVariable('site', $site);
         return $view;
+    }
+
+    public function navigationLinkFormAction()
+    {
+        $link = $this->getServiceLocator()
+            ->get('Omeka\Site\NavigationLinkManager')
+            ->get($this->params()->fromPost('type'));
+        $form = $link->getForm($this->params()->fromPost());
+
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
+        $response->setContent($form);
+        return $response;
+    }
+
+    public function navigationLinkDataAction()
+    {
+        $link = $this->getServiceLocator()
+            ->get('Omeka\Site\NavigationLinkManager')
+            ->get($this->params()->fromPost('type'));
+        $data = $link->getData($this->params()->fromPost());
+
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+        $response->setContent(json_encode($data, JSON_FORCE_OBJECT));
+        return $response;
     }
 }

@@ -11,27 +11,12 @@ class Url extends AbstractLink
         return 'Custom URL';
     }
 
-    /**
-     * Get the data needed for a newly created link form.
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        return array();
-    }
-
-    /**
-     * Populate the link form using the passed data.
-     *
-     * @param array $data
-     * @return string
-     */
     public function getForm(array $data)
     {
+        $label = isset($data['label']) ? $data['label'] : $this->getLabel();
         $url = isset($data['url']) ? $data['url'] : null;
-        return '<label>Label <input type="text" value="' . $data['label'] . '"></label>'
-            . '<label>URL <input type="text" value="' . $url . '"></label>';
+        return '<label>Label <input type="text" data-name="label" value="' . $label . '"></label>'
+            . '<label>URL <input type="text" data-name="url" value="' . $url . '"></label>';
     }
 
     public function toZend(array $data, Site $site)
@@ -50,7 +35,7 @@ class Url extends AbstractLink
             'data' => array(
                 'type' => 'url',
                 'label' => $data['label'],
-                //'url' => $data['url'],
+                'url' => $data['url'],
             ),
         );
     }

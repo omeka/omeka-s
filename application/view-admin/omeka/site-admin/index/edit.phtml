@@ -105,8 +105,8 @@ if ($pages):
     <?php foreach ($pages as $page): ?>
         <li class="nav-page"
             data-type="page"
+            data-label="<?php echo $page->title(); ?>"
             data-id="<?php echo $page->id(); ?>"
-            data-title="<?php echo $page->title(); ?>"
             data-slug="<?php echo $page->slug(); ?>">
             <?php echo $page->title(); ?> (<?php echo $page->slug(); ?>)
         </li>
@@ -382,25 +382,65 @@ $.jstree.plugins.removenode = function(options, parent) {
 };
 
 /**
- * LinkForm plugin for jsTree
+ * SiteNavigation plugin for jsTree
  */
-$.jstree.plugins.linkform = function(options, parent) {
+$.jstree.plugins.sitenavigation = function(options, parent) {
     var container = $('<div>', {
         class: 'jstree-editlink-container'
     });
+    this.bind = function() {
+        parent.bind.call(this);
+        // Add a custom page link to the navigation tree.
+        $('#nav-custom-pages').on('change', function(e) {
+            var thisLink = $(this).children(':selected');
+            navTree.jstree(true).create_node('#', {
+                data: {
+                    type: thisLink.data('type'),
+                    label: thisLink.data('label'),
+                },
+                text: thisLink.data('label')
+            });
+        });
+        // Add a site page link to the navigation tree.
+        $('#nav-pages').on('click', '.nav-page', function(e) {
+            var thisLink = $(this);
+            navTree.jstree(true).create_node('#', {
+                data: {
+                    type: thisLink.data('type'),
+                    label: thisLink.data('label'),
+                    id: thisLink.data('id'),
+                },
+                text: thisLink.data('label')
+            });
+        });
+        // Prepare the navigation tree data for submission.
+        $('form').submit(function(e) {
+            var instance = navTree.jstree(true);
+            navTree.find(':input').each(function(index, element) {
+                var nodeObj = instance.get_node(element);
+                var element = $(element);
+                nodeObj.data[element.data('name')] = element.val()
+            });
+            $('<input>', {
+                'type': 'hidden',
+                'name': 'jstree',
+                'val': JSON.stringify(instance.get_json())
+            }).appendTo('form');
+        });
+    };
     this.redraw_node = function(node, deep, is_callback, force_render) {
         node = parent.redraw_node.apply(this, arguments);
         if (node) {
             var nodeObj = this.get_node(node);
-            if (typeof nodeObj.linkform_container === 'undefined') {
+            if (typeof nodeObj.sitenavigation_container === 'undefined') {
                 // The container has not been drawn. Draw it and its contents.
-                nodeObj.linkform_container = container.clone();
+                nodeObj.sitenavigation_container = container.clone();
                 $.post('<?php echo $this->url('admin/site/navigation-link-form'); ?>', nodeObj.data)
                     .done(function(data) {
-                        nodeObj.linkform_container.append(data);
+                        nodeObj.sitenavigation_container.append(data);
                     });
             }
-            $(node).children('.jstree-anchor').after(nodeObj.linkform_container);
+            $(node).children('.jstree-anchor').after(nodeObj.sitenavigation_container);
         }
         return node;
     };
@@ -413,7 +453,7 @@ navTree.jstree({
         'check_callback': true,
         'data': <?php echo json_encode($navTree); ?>,
     },
-    'plugins': ['dnd','removenode','linkform']
+    'plugins': ['dnd','removenode','sitenavigation']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();
@@ -421,35 +461,5 @@ navTree.jstree({
     // Open node after moving it.
     var parent = navTree.jstree(true).get_node(data.parent);
     navTree.jstree(true).open_all(parent);
-});
-// Add custom pages to the navigation tree.
-$('#nav-custom-pages').on('change', function(e) {
-    var thisLink = $(this).children(':selected');
-    $.post('<?php echo $this->url('admin/site/navigation-link-data'); ?>', thisLink.data())
-        .done(function(data) {
-            data.type = thisLink.data('type');
-            data.label = thisLink.data('label');
-            navTree.jstree(true).create_node('#', {data: data, text: data.label});
-        });
-});
-// Add site pages to navigation tree.
-$('#nav-pages').on('click', '.nav-page', function(e) {
-    var thisPage = $(this);
-    var label = thisPage.data('title');
-    var data = {
-        type: thisPage.data('type'),
-        id: thisPage.data('id'),
-        label: label,
-    };
-    navTree.jstree(true).create_node('#', {data: data, text: label});
-});
-// Prepare the navigation tree data for submission.
-$('form').submit(function(e) {
-    var instance = navTree.jstree(true);
-    $('<input>', {
-        'type': 'hidden',
-        'name': 'jstree',
-        'val': JSON.stringify(instance.get_json())
-    }).appendTo('form');
 });
 </script>

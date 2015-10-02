@@ -151,15 +151,6 @@ return array(
                                     ),
                                 ),
                             ),
-                            'navigation-link-data' => array(
-                                'type' => 'Literal',
-                                'options' => array(
-                                    'route' => '/navigation-link-data',
-                                    'defaults' => array(
-                                        'action' => 'navigation-link-data',
-                                    ),
-                                ),
-                            ),
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(

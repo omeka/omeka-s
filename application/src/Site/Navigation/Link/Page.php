@@ -11,27 +11,21 @@ class Page extends AbstractLink
         return 'Page';
     }
 
-    public function getForm($data)
+    public function getForm(array $data)
     {
-        return '<label>Label <input type="text" value="' . $data['label'] . '"></label>';
+        return '<label>Label <input type="text" data-name="label" value="' . $data['label'] . '"></label>';
     }
 
     public function toZend(array $data, Site $site)
     {
         $sitePage = $site->getPages()->get($data['id']);
-        if ($sitePage) {
-            return array(
-                'label' => $sitePage->getTitle(),
-                'route' => 'site/page',
-                'params' => array(
-                    'site-slug' => $site->getSlug(),
-                    'page-slug' => $sitePage->getSlug(),
-                ),
-            );
-        }
         return array(
-            'type' => 'uri',
-            'label' => '[invalid page]',
+            'label' => $data['label'],
+            'route' => 'site/page',
+            'params' => array(
+                'site-slug' => $site->getSlug(),
+                'page-slug' => $sitePage->getSlug(),
+            ),
         );
     }
 

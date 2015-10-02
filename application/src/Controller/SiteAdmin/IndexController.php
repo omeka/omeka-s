@@ -178,17 +178,4 @@ class IndexController extends AbstractActionController
         $response->setContent($form);
         return $response;
     }
-
-    public function navigationLinkDataAction()
-    {
-        $link = $this->getServiceLocator()
-            ->get('Omeka\Site\NavigationLinkManager')
-            ->get($this->params()->fromPost('type'));
-        $data = $link->getData($this->params()->fromPost());
-
-        $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
-        $response->setContent(json_encode($data, JSON_FORCE_OBJECT));
-        return $response;
-    }
 }

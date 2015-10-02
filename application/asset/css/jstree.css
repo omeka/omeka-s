@@ -26,6 +26,30 @@
   display: block;
 }
 
+.jstree-editlink-container {
+  margin: -0.375em 0 0.375em;
+  border-color: rgba(0, 0, 0, 0.08);
+  border-width: 0.0625em;
+  border-style: solid;
+  padding: 0.6875em;
+  overflow: hidden;
+  line-height: 36px;
+  font-weight: bold;
+}
+.jstree-editlink-container input,
+.jstree-editlink-container textarea,
+.jstree-editlink-container select {
+  float: right;
+  width: 70%;
+  font-weight: normal;
+}
+.jstree-editlink-container label {
+  display: block;
+}
+.jstree-editlink-container label:not(:last-child) {
+  margin-bottom: 0.375em;
+}
+
 .jstree-hovered {
   background-color: rgba(0, 0, 0, 0.04);
 }

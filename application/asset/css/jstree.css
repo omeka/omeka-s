@@ -83,7 +83,7 @@ i.jstree-icon {
 .jstree-closed > .jstree-ocl,
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editnode {
+.jstree-editlink-edit {
   width: 24px;
   height: 36px;
   line-height: 36px;
@@ -112,13 +112,13 @@ i.jstree-icon.jstree-er {
 
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editnode {
+.jstree-editlink-edit {
   background-color: transparent;
   color: #ff6666;
 }
 .jstree-removenode-remove:hover,
 .jstree-removenode-undo:hover,
-.jstree-editnode:hover {
+.jstree-editlink-edit:hover {
   color: #FF0000;
 }
 
@@ -129,12 +129,12 @@ i.jstree-icon.jstree-er {
   right: 48px;
 }
 
-.jstree-open > .jstree-anchor .jstree-editnode,
-.jstree-closed > .jstree-anchor .jstree-editnode {
+.jstree-open > .jstree-anchor .jstree-editlink-edit,
+.jstree-closed > .jstree-anchor .jstree-editlink-edit {
   right: 72px;
 }
 
-i.jstree-editnode {
+i.jstree-editlink-edit {
   right: 36px;
 }
 
@@ -166,7 +166,7 @@ i.jstree-editnode {
   content: "";
 }
 
-.jstree-editnode:before {
+.jstree-editlink-edit:before {
   content: "";
 }
 
@@ -184,7 +184,7 @@ i.jstree-editnode {
   background-color: rgba(255, 0, 0, 0.24);
 }
 
-.jstree-editmode .jstree-editnode {
+.jstree-editlink-editmode .jstree-editlink-edit {
   opacity: .35;
 }
 

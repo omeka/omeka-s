@@ -16,19 +16,12 @@ $.jstree.plugins.removenode = function(options, parent) {
         parent.bind.call(this);
         this.element.on(
             'click.jstree',
-            '.jstree-removenode-remove, .jstree-removenode-undo, .jstree-editnode',
+            '.jstree-removenode-remove, .jstree-removenode-undo',
             $.proxy(function(e) {
                 var icon = $(e.currentTarget);
                 var node = icon.closest('.jstree-node');
                 var nodeObj = this.get_node(node);
-                var editFields = node.find('.jstree-editlink-container');
-                if (icon.hasClass('jstree-editnode')) {
-                    node.toggleClass('jstree-editmode');
-                    editFields.slideToggle();
-                    return;
-                } else {
-                    icon.hide();
-                }
+                icon.hide();
                 if (icon.hasClass('jstree-removenode-remove')) {
                     // Handle node removal.
                     icon.siblings('.jstree-removenode-undo').show();
@@ -69,18 +62,28 @@ $.jstree.plugins.removenode = function(options, parent) {
 };
 
 /**
- * SiteNavigation plugin for jsTree
+ * EditLink plugin for jsTree
  */
-$.jstree.plugins.sitenavigation = function(options, parent) {
+$.jstree.plugins.editlink = function(options, parent) {
     var container = $('<div>', {
         class: 'jstree-editlink-container'
     });
-    var editNodeIcon = $('<i>', {
-        class: 'jstree-icon jstree-editnode',
+    var editIcon = $('<i>', {
+        class: 'jstree-icon jstree-editlink-edit',
         attr:{role:'presentation'},
     });
     this.bind = function() {
         parent.bind.call(this);
+        // Toggle link edit
+        this.element.on(
+            'click.jstree',
+            '.jstree-editlink-edit',
+            $.proxy(function(e) {
+                var node = $(e.currentTarget).closest('.jstree-node');
+                node.toggleClass('jstree-editlink-editmode');
+                node.children('.jstree-editlink-container').slideToggle();
+            }, this)
+        );
         // Add a custom page link to the navigation tree.
         $('#nav-custom-pages').on('change', function(e) {
             var thisLink = $(this).children(':selected');
@@ -123,18 +126,18 @@ $.jstree.plugins.sitenavigation = function(options, parent) {
         node = parent.redraw_node.apply(this, arguments);
         if (node) {
             var nodeObj = this.get_node(node);
-            if (typeof nodeObj.sitenavigation_container === 'undefined') {
+            if (typeof nodeObj.editlink_container === 'undefined') {
                 // The container has not been drawn. Draw it and its contents.
-                nodeObj.sitenavigation_container = container.clone();
+                nodeObj.editlink_container = container.clone();
                 $.post(navTree.data('link-form-url'), nodeObj.data)
                     .done(function(data) {
-                        nodeObj.sitenavigation_container.append(data);
+                        nodeObj.editlink_container.append(data);
                     });
             }
             var nodeJq = $(node);
             var anchor = nodeJq.children('.jstree-anchor');
-            anchor.append(editNodeIcon.clone());
-            nodeJq.children('.jstree-anchor').after(nodeObj.sitenavigation_container);
+            anchor.append(editIcon.clone());
+            nodeJq.children('.jstree-anchor').after(nodeObj.editlink_container);
         }
         return node;
     };
@@ -147,7 +150,7 @@ navTree.jstree({
         'check_callback': true,
         'data': navTree.data('jstree-data'),
     },
-    'plugins': ['dnd','removenode','sitenavigation']
+    'plugins': ['dnd','removenode','editlink']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();

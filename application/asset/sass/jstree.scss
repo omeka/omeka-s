@@ -86,7 +86,7 @@ i.jstree-icon {
 .jstree-closed > .jstree-ocl,
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editnode {
+.jstree-editlink-edit {
     width: $base-line-height;
     height: 1.5 * $base-line-height;
     line-height: 1.5 * $base-line-height;
@@ -116,7 +116,7 @@ i.jstree-icon.jstree-er {
 
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editnode {
+.jstree-editlink-edit {
     background-color: transparent;
     color: lighten($red, 20%);
 
@@ -132,12 +132,12 @@ i.jstree-icon.jstree-er {
     right: 2 * $base-line-height;
 }
 
-.jstree-open > .jstree-anchor .jstree-editnode,
-.jstree-closed > .jstree-anchor .jstree-editnode {
+.jstree-open > .jstree-anchor .jstree-editlink-edit,
+.jstree-closed > .jstree-anchor .jstree-editlink-edit {
     right: 3 * $base-line-height;
 }
 
-i.jstree-editnode {
+i.jstree-editlink-edit {
     right: 1.5 * $base-line-height;
 }
 
@@ -169,7 +169,7 @@ i.jstree-editnode {
     content: $fa-var-undo;
 }
 
-.jstree-editnode:before {
+.jstree-editlink-edit:before {
     content: $fa-var-pencil;
 }
 
@@ -187,7 +187,7 @@ i.jstree-editnode {
     background-color: rgba(255, 0, 0, .24);
 }
 
-.jstree-editmode .jstree-editnode {
+.jstree-editlink-editmode .jstree-editlink-edit {
     opacity: .35;
 }
 

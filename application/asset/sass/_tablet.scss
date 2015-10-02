@@ -76,6 +76,20 @@ footer {
 
 /* @end */
 
+/* @group ----- Footer ----- */
+
+footer {
+    margin-top: 0;
+    padding: 0;
+
+    &:after {
+        position: static;
+        background: transparent;
+    }
+}
+
+/* @end */
+
 /* @group ----- Global content ----- */
 
 div[role="main"] {

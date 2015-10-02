@@ -3040,6 +3040,17 @@ th {
   }
 
   /* @end */
+  /* @group ----- Footer ----- */
+  footer {
+    margin-top: 0;
+    padding: 0;
+  }
+  footer:after {
+    position: static;
+    background: transparent;
+  }
+
+  /* @end */
   /* @group ----- Global content ----- */
   div[role="main"] {
     margin: 2.25em 0 0 0;

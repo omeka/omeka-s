@@ -174,7 +174,6 @@ class IndexController extends AbstractActionController
         $form = $link->getForm($this->params()->fromPost());
 
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
         $response->setContent($form);
         return $response;
     }

@@ -68,6 +68,10 @@ $.jstree.plugins.sitenavigation = function(options, parent) {
     var container = $('<div>', {
         class: 'jstree-editlink-container'
     });
+    var editNodeIcon = $('<i>', {
+        class: 'jstree-icon jstree-editnode',
+        attr:{role:'presentation'},
+    });
     this.bind = function() {
         parent.bind.call(this);
         // Add a custom page link to the navigation tree.
@@ -120,7 +124,10 @@ $.jstree.plugins.sitenavigation = function(options, parent) {
                         nodeObj.sitenavigation_container.append(data);
                     });
             }
-            $(node).children('.jstree-anchor').after(nodeObj.sitenavigation_container);
+            var nodeJq = $(node);
+            var anchor = nodeJq.children('.jstree-anchor');
+            anchor.append(editNodeIcon.clone());
+            nodeJq.children('.jstree-anchor').after(nodeObj.sitenavigation_container);
         }
         return node;
     };

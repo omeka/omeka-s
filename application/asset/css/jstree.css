@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.jstree-container-ul {
+  margin: 0;
+}
+
 .jstree-container-ul,
 .jstree-container-ul ul {
   list-style-type: none;
@@ -24,10 +28,11 @@
   position: relative;
   margin-bottom: 0.375em;
   display: block;
+  margin: 0.375em 0 0;
 }
 
 .jstree-editlink-container {
-  margin: -0.375em 0 0.375em;
+  display: none;
   border-color: rgba(0, 0, 0, 0.08);
   border-width: 0.0625em;
   border-style: solid;
@@ -61,7 +66,7 @@
 i.jstree-icon {
   font-style: normal;
   position: absolute;
-  right: 0;
+  right: 0.75em;
   top: 0;
 }
 
@@ -77,14 +82,22 @@ i.jstree-icon {
 .jstree-open > .jstree-ocl,
 .jstree-closed > .jstree-ocl,
 .jstree-removenode-remove,
-.jstree-removenode-undo {
-  width: 36px;
+.jstree-removenode-undo,
+.jstree-editnode {
+  width: 24px;
   height: 36px;
   line-height: 36px;
   background-color: rgba(0, 0, 0, 0.24);
-  text-align: center;
+  text-align: right;
   cursor: pointer;
   z-index: 1;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl {
+  width: 36px;
+  right: 0;
+  text-align: center;
 }
 
 i.jstree-icon.jstree-ok,
@@ -98,12 +111,14 @@ i.jstree-icon.jstree-er {
 }
 
 .jstree-removenode-remove,
-.jstree-removenode-undo {
+.jstree-removenode-undo,
+.jstree-editnode {
   background-color: transparent;
   color: #ff6666;
 }
 .jstree-removenode-remove:hover,
-.jstree-removenode-undo:hover {
+.jstree-removenode-undo:hover,
+.jstree-editnode:hover {
   color: #FF0000;
 }
 
@@ -111,6 +126,15 @@ i.jstree-icon.jstree-er {
 .jstree-closed > .jstree-anchor .jstree-removenode-remove,
 .jstree-open > .jstree-anchor .jstree-removenode-undo,
 .jstree-closed > .jstree-anchor .jstree-removenode-undo {
+  right: 48px;
+}
+
+.jstree-open > .jstree-anchor .jstree-editnode,
+.jstree-closed > .jstree-anchor .jstree-editnode {
+  right: 72px;
+}
+
+i.jstree-editnode {
   right: 36px;
 }
 
@@ -142,6 +166,10 @@ i.jstree-icon.jstree-er {
   content: "";
 }
 
+.jstree-editnode:before {
+  content: "";
+}
+
 .jstree-removenode-removed .jstree-anchor {
   background-color: #ffcccc;
 }
@@ -154,6 +182,10 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-removed.jstree-open > .jstree-ocl,
 .jstree-removenode-removed.jstree-closed > .jstree-ocl {
   background-color: rgba(255, 0, 0, 0.24);
+}
+
+.jstree-editmode .jstree-editnode {
+  opacity: .35;
 }
 
 #jstree-marker {

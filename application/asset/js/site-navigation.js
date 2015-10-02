@@ -16,12 +16,19 @@ $.jstree.plugins.removenode = function(options, parent) {
         parent.bind.call(this);
         this.element.on(
             'click.jstree',
-            '.jstree-removenode-remove, .jstree-removenode-undo',
+            '.jstree-removenode-remove, .jstree-removenode-undo, .jstree-editnode',
             $.proxy(function(e) {
                 var icon = $(e.currentTarget);
                 var node = icon.closest('.jstree-node');
                 var nodeObj = this.get_node(node);
-                icon.hide();
+                var editFields = node.find('.jstree-editlink-container');
+                if (icon.hasClass('jstree-editnode')) {
+                    node.toggleClass('jstree-editmode');
+                    editFields.slideToggle();
+                    return;
+                } else {
+                    icon.hide();
+                }
                 if (icon.hasClass('jstree-removenode-remove')) {
                     // Handle node removal.
                     icon.siblings('.jstree-removenode-undo').show();

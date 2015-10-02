@@ -5,6 +5,10 @@
 @import "compass/css3";
 @import "compass/typography";
 
+.jstree-container-ul {
+    margin: 0;
+}
+
 .jstree-container-ul,
 .jstree-container-ul ul {
     list-style-type: none;
@@ -26,10 +30,11 @@
 .jstree-anchor {
     @include field-row;
     display: block;
+    margin: rhythm(.25) 0 0;
 }
 
 .jstree-editlink-container {
-    margin: rhythm(-.25) 0 rhythm(.25);
+    display: none;
     border-color: $gray-on-white;
     @include rhythm-borders(1px, .5, $base-font-size, solid);
     overflow: hidden;
@@ -64,7 +69,7 @@
 i.jstree-icon {
     font-style: normal;
     position: absolute;
-    right: 0;
+    right: rhythm(.5);
     top: 0;
 }
 
@@ -80,15 +85,24 @@ i.jstree-icon {
 .jstree-open > .jstree-ocl,
 .jstree-closed > .jstree-ocl,
 .jstree-removenode-remove,
-.jstree-removenode-undo {
-    width: 1.5 * $base-line-height;
+.jstree-removenode-undo,
+.jstree-editnode {
+    width: $base-line-height;
     height: 1.5 * $base-line-height;
     line-height: 1.5 * $base-line-height;
     background-color: opacify($gray-on-white, .16);
-    text-align: center;
+    text-align: right;
     cursor: pointer;
     z-index: 1;
 }
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl {
+    width: 1.5 * $base-line-height;
+    right: 0;
+    text-align: center;
+}
+
 
 i.jstree-icon.jstree-ok,
 i.jstree-icon.jstree-er {
@@ -101,7 +115,8 @@ i.jstree-icon.jstree-er {
 }
 
 .jstree-removenode-remove,
-.jstree-removenode-undo {
+.jstree-removenode-undo,
+.jstree-editnode {
     background-color: transparent;
     color: lighten($red, 20%);
 
@@ -114,6 +129,15 @@ i.jstree-icon.jstree-er {
 .jstree-closed > .jstree-anchor .jstree-removenode-remove,
 .jstree-open > .jstree-anchor .jstree-removenode-undo,
 .jstree-closed > .jstree-anchor .jstree-removenode-undo {
+    right: 2 * $base-line-height;
+}
+
+.jstree-open > .jstree-anchor .jstree-editnode,
+.jstree-closed > .jstree-anchor .jstree-editnode {
+    right: 3 * $base-line-height;
+}
+
+i.jstree-editnode {
     right: 1.5 * $base-line-height;
 }
 
@@ -145,6 +169,10 @@ i.jstree-icon.jstree-er {
     content: $fa-var-undo;
 }
 
+.jstree-editnode:before {
+    content: $fa-var-pencil;
+}
+
 .jstree-removenode-removed .jstree-anchor {
     background-color: #ffcccc;
 }
@@ -157,6 +185,10 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-removed.jstree-open > .jstree-ocl,
 .jstree-removenode-removed.jstree-closed > .jstree-ocl {
     background-color: rgba(255, 0, 0, .24);
+}
+
+.jstree-editmode .jstree-editnode {
+    opacity: .35;
 }
 
 #jstree-marker {

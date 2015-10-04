@@ -85,42 +85,52 @@ $.jstree.plugins.editlink = function(options, parent) {
             }, this)
         );
         // Add a custom page link to the navigation tree.
-        $('#nav-custom-pages').on('change', function(e) {
-            var thisLink = $(this).children(':selected');
-            navTree.jstree(true).create_node('#', {
-                data: {
-                    type: thisLink.data('type'),
-                    label: thisLink.data('label'),
-                },
-                text: thisLink.data('label')
-            });
-        });
+        $('#nav-custom-pages').on(
+            'change',
+            $.proxy(function(e) {
+                var link = $(e.currentTarget).children(':selected');
+                this.create_node('#', {
+                    data: {
+                        type: link.data('type'),
+                        label: link.data('label'),
+                    },
+                    text: link.data('label')
+                });
+            }, this)
+        );
         // Add a site page link to the navigation tree.
-        $('#nav-pages').on('click', '.nav-page', function(e) {
-            var thisLink = $(this);
-            navTree.jstree(true).create_node('#', {
-                data: {
-                    type: thisLink.data('type'),
-                    label: thisLink.data('label'),
-                    id: thisLink.data('id'),
-                },
-                text: thisLink.data('label')
-            });
-        });
+        $('#nav-pages').on(
+            'click',
+            '.nav-page',
+            $.proxy(function(e) {
+                var link = $(e.currentTarget);
+                this.create_node('#', {
+                    data: {
+                        type: link.data('type'),
+                        label: link.data('label'),
+                        id: link.data('id'),
+                    },
+                    text: link.data('label')
+                });
+            }, this)
+        );
         // Prepare the navigation tree data for submission.
-        $('form').submit(function(e) {
-            var instance = navTree.jstree(true);
-            navTree.find(':input').each(function(index, element) {
-                var nodeObj = instance.get_node(element);
-                var element = $(element);
-                nodeObj.data[element.data('name')] = element.val()
-            });
-            $('<input>', {
-                'type': 'hidden',
-                'name': 'jstree',
-                'val': JSON.stringify(instance.get_json())
-            }).appendTo('form');
-        });
+        $('form').on(
+            'submit',
+            $.proxy(function(e) {
+                var instance = this;
+                $('#nav-tree :input').each(function(index, element) {
+                    var nodeObj = instance.get_node(element);
+                    var element = $(element);
+                    nodeObj.data[element.data('name')] = element.val()
+                });
+                $('<input>', {
+                    'type': 'hidden',
+                    'name': 'jstree',
+                    'val': JSON.stringify(instance.get_json())
+                }).appendTo('form');
+            }, this)
+        );
     };
     this.redraw_node = function(node, deep, is_callback, force_render) {
         node = parent.redraw_node.apply(this, arguments);
@@ -129,7 +139,7 @@ $.jstree.plugins.editlink = function(options, parent) {
             if (typeof nodeObj.editlink_container === 'undefined') {
                 // The container has not been drawn. Draw it and its contents.
                 nodeObj.editlink_container = container.clone();
-                $.post(navTree.data('link-form-url'), nodeObj.data)
+                $.post($('#nav-tree').data('link-form-url'), nodeObj.data)
                     .done(function(data) {
                         nodeObj.editlink_container.append(data);
                     });

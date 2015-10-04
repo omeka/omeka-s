@@ -32,12 +32,13 @@ class Page extends AbstractLink
     public function toJstree(array $data, SiteRepresentation $site)
     {
         $sitePage = $site->pages()[$data['id']];
+        $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         return array(
-            'text' => $sitePage->title(),
+            'text' => $label,
             'data' => array(
                 'type' => 'page',
                 'id' => $sitePage->id(),
-                'label' => $data['label'],
+                'label' => $label,
             ),
         );
     }

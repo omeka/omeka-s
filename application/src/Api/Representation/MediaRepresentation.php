@@ -219,10 +219,10 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         }
         $url = $this->getViewHelper('Url');
         return $url(
-            'site/id',
+            'site/resource-id',
             array(
                 'site-slug' => $siteSlug,
-                'action' => 'media',
+                'controller' => 'media',
                 'id' => $this->id(),
             ),
             array('force_canonical' => $canonical)

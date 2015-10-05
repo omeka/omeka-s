@@ -26,23 +26,6 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function mediaAction()
-    {
-        $site = $this->getSite();
-        $response = $this->api()->searchOne('media', array(
-            'id' => $this->params('id'),
-            'site_id' => $site->id(),
-        ));
-        if (!$response->getTotalResults()) {
-            throw new Exception\NotFoundException;
-        }
-
-        $view = new ViewModel;
-        $view->setVariable('site', $site);
-        $view->setVariable('media', $response->getContent());
-        return $view;
-    }
-
     protected function getSite()
     {
         return $this->api()->read('sites', array(

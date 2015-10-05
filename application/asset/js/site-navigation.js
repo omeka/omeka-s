@@ -72,16 +72,21 @@ $.jstree.plugins.editlink = function(options, parent) {
         class: 'jstree-icon jstree-editlink-edit',
         attr:{role:'presentation'},
     });
+    // Toggle edit link container.
+    this.toggleLinkEdit = function(node) {
+        var container = node.children('.jstree-editlink-container');
+        node.toggleClass('jstree-editlink-editmode');
+        container.toggleClass('jstree-editlink-editmode');
+        container.slideToggle();
+    };
     this.bind = function() {
         parent.bind.call(this);
-        // Toggle link edit
+        // Toggle edit link container when icon is clicked.
         this.element.on(
             'click.jstree',
             '.jstree-editlink-edit',
             $.proxy(function(e) {
-                var node = $(e.currentTarget).closest('.jstree-node');
-                node.toggleClass('jstree-editlink-editmode');
-                node.children('.jstree-editlink-container').slideToggle();
+                this.toggleLinkEdit($(e.currentTarget).closest('.jstree-node'));
             }, this)
         );
         // Add a custom page link to the navigation tree.
@@ -89,13 +94,14 @@ $.jstree.plugins.editlink = function(options, parent) {
             'change',
             $.proxy(function(e) {
                 var link = $(e.currentTarget).children(':selected');
-                this.create_node('#', {
+                var nodeId = this.create_node('#', {
                     data: {
                         type: link.data('type'),
                         label: link.data('label'),
                     },
                     text: link.data('label')
                 });
+                this.toggleLinkEdit($('#' + nodeId));
             }, this)
         );
         // Add a site page link to the navigation tree.
@@ -104,7 +110,7 @@ $.jstree.plugins.editlink = function(options, parent) {
             '.nav-page',
             $.proxy(function(e) {
                 var link = $(e.currentTarget);
-                this.create_node('#', {
+                var nodeId = this.create_node('#', {
                     data: {
                         type: link.data('type'),
                         label: link.data('label'),
@@ -112,6 +118,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                     },
                     text: link.data('label')
                 });
+                this.toggleLinkEdit($('#' + nodeId));
             }, this)
         );
         // Prepare the navigation tree data for submission.
@@ -145,6 +152,10 @@ $.jstree.plugins.editlink = function(options, parent) {
                     });
             }
             var nodeJq = $(node);
+            if (nodeObj.editlink_container.hasClass('jstree-editlink-editmode')) {
+                // Node should retain the editmode class.
+                nodeJq.addClass('jstree-editlink-editmode');
+            }
             var anchor = nodeJq.children('.jstree-anchor');
             anchor.append(editIcon.clone());
             nodeJq.children('.jstree-anchor').after(nodeObj.editlink_container);

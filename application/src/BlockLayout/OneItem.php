@@ -27,5 +27,26 @@ class OneItem extends AbstractBlockLayout
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
-    {}
+    {
+        $html = '';
+        $attachments = $block->attachments();
+        if ($attachments) {
+            $attachment = $attachments[0];
+            $item = $attachment->item();
+
+            $html .= $item->link($item->displayTitle());
+
+            $media = $item->primaryMedia();
+            if ($media) {
+                $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl('square')) . '">';
+            }
+
+            $caption = $attachment->caption();
+            if ($caption) {
+                $html .= '<span class="caption">' . $caption . '</span>';
+            }
+        }
+
+        return $html;
+    }
 }

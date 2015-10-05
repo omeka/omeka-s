@@ -2,12 +2,10 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 12, sass/screen.scss */
 * {
   box-sizing: border-box;
 }
 
-/* line 16, sass/screen.scss */
 html {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
@@ -17,7 +15,6 @@ html {
   margin: 0;
 }
 
-/* line 25, sass/screen.scss */
 body {
   border-left: 50px solid #dedede;
   border-right: 50px solid transparent;
@@ -26,54 +23,45 @@ body {
   margin: 0;
 }
 
-/* line 33, sass/screen.scss */
 a:link {
   text-decoration: none;
   color: #ababab;
 }
 
-/* line 38, sass/screen.scss */
 a:visited {
   color: #dedede;
 }
 
-/* line 42, sass/screen.scss */
 a:active,
 a:hover {
   color: #787878;
 }
 
-/* line 47, sass/screen.scss */
 h1 {
   font-size: 40px;
   line-height: 60px;
 }
 
-/* line 52, sass/screen.scss */
 h2 {
   font-size: 35px;
   line-height: 60px;
 }
 
-/* line 57, sass/screen.scss */
 h3 {
   font-size: 30px;
   line-height: 60px;
 }
 
-/* line 62, sass/screen.scss */
 h4 {
   font-size: 25px;
 }
 
-/* line 66, sass/screen.scss */
 img {
   max-width: 100%;
   height: auto;
 }
 
 /* @group ----- Navigation ----- */
-/* line 73, sass/screen.scss */
 ul.navigation {
   padding-left: 0;
   list-style: none;
@@ -83,16 +71,13 @@ ul.navigation {
   padding-bottom: -0.05em;
   position: relative;
 }
-/* line 80, sass/screen.scss */
 ul.navigation > li {
   padding-bottom: 0.75em;
   display: inline-block;
 }
-/* line 85, sass/screen.scss */
 ul.navigation > li:not(:last-child) {
   margin-right: 0.75em;
 }
-/* line 89, sass/screen.scss */
 ul.navigation > li > ul {
   position: absolute;
   top: 100%;
@@ -112,11 +97,9 @@ ul.navigation > li > ul {
   flex-direction: row;
   flex-flow: row wrap;
 }
-/* line 105, sass/screen.scss */
 ul.navigation > li:hover > ul {
   left: 0;
 }
-/* line 109, sass/screen.scss */
 ul.navigation > li > ul > li {
   border-color: #dedede;
   border-bottom-width: 0.05em;
@@ -127,7 +110,6 @@ ul.navigation > li > ul > li {
   font-size: 15px;
   font-weight: bold;
 }
-/* line 118, sass/screen.scss */
 ul.navigation > li > ul > li ul {
   font-weight: normal;
   padding: 0;

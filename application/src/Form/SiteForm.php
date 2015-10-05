@@ -6,6 +6,7 @@ class SiteForm extends AbstractForm
     public function buildForm()
     {
         $translator = $this->getTranslator();
+        $this->setAttribute('id', 'site-form');
 
         $this->add(array(
             'name' => 'o:slug',

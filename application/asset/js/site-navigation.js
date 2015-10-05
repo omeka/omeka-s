@@ -122,7 +122,7 @@ $.jstree.plugins.editlink = function(options, parent) {
             }, this)
         );
         // Prepare the navigation tree data for submission.
-        $('form').on(
+        $('#site-form').on(
             'submit',
             $.proxy(function(e) {
                 var instance = this;
@@ -135,7 +135,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                     'type': 'hidden',
                     'name': 'jstree',
                     'val': JSON.stringify(instance.get_json())
-                }).appendTo('form');
+                }).appendTo('#site-form');
             }, this)
         );
     };

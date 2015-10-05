@@ -27,13 +27,7 @@ class ItemController extends AbstractActionController
     public function showAction()
     {
         $site = $this->getSite();
-        $response = $this->api()->searchOne('items', array(
-            'id' => $this->params('id'),
-            'site_id' => $site->id(),
-        ));
-        if (!$response->getTotalResults()) {
-            throw new Exception\NotFoundException;
-        }
+        $response = $this->api()->read('items', $this->params('id'));
         $item = $response->getContent();
 
         $view = new ViewModel;

@@ -3,7 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Exception;
 use Omeka\Media\Ingester\Fallback;
-use Zend\ServiceManager\AbstractPluginManager;
+use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 

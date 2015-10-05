@@ -24,7 +24,7 @@ class NavigationLink extends AbstractHelper
 
     public function getTypes()
     {
-        return array_unique($this->manager->getCanonicalNames());
+        return $this->manager->getRegisteredNames();
     }
 
     public function getCustomTypes()

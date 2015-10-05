@@ -260,6 +260,7 @@ return array(
         'invokables' => array(
             'page' => 'Omeka\Site\Navigation\Link\Page',
             'url' => 'Omeka\Site\Navigation\Link\Url',
+            'browse' => 'Omeka\Site\Navigation\Link\Browse',
         ),
     ),
     'media_ingesters' => array(

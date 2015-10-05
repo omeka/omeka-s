@@ -12,67 +12,68 @@ html {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   line-height: 30px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 25, sass/screen.scss */
+body {
   border-left: 50px solid #dedede;
   border-right: 50px solid transparent;
-  padding: 0px 5.06329%;
-  height: 100%;
+  min-height: 100%;
+  padding: 0.75em 5.06329%;
+  margin: 0;
 }
 
-/* line 26, sass/screen.scss */
-body {
-  max-width: 1120px;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* line 12, ../../../../../../.rvm/gems/ruby-2.0.0-p0/gems/susy-2.2.5/sass/susy/output/support/_clearfix.scss */
-body:after {
-  content: " ";
-  display: block;
-  clear: both;
-}
-
-/* line 30, sass/screen.scss */
+/* line 33, sass/screen.scss */
 a:link {
   text-decoration: none;
   color: #ababab;
 }
 
-/* line 35, sass/screen.scss */
+/* line 38, sass/screen.scss */
 a:visited {
   color: #dedede;
 }
 
-/* line 39, sass/screen.scss */
+/* line 42, sass/screen.scss */
 a:active,
 a:hover {
   color: #787878;
 }
 
-/* line 44, sass/screen.scss */
+/* line 47, sass/screen.scss */
 h1 {
   font-size: 40px;
   line-height: 60px;
 }
 
-/* line 49, sass/screen.scss */
+/* line 52, sass/screen.scss */
 h2 {
   font-size: 35px;
   line-height: 60px;
 }
 
-/* line 54, sass/screen.scss */
+/* line 57, sass/screen.scss */
 h3 {
   font-size: 30px;
   line-height: 60px;
 }
 
-/* line 59, sass/screen.scss */
+/* line 62, sass/screen.scss */
 h4 {
   font-size: 25px;
 }
 
+/* line 66, sass/screen.scss */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* @group ----- Navigation ----- */
-/* line 65, sass/screen.scss */
+/* line 73, sass/screen.scss */
 ul.navigation {
   padding-left: 0;
   list-style: none;
@@ -82,16 +83,16 @@ ul.navigation {
   padding-bottom: -0.05em;
   position: relative;
 }
-/* line 72, sass/screen.scss */
+/* line 80, sass/screen.scss */
 ul.navigation > li {
   padding-bottom: 0.75em;
   display: inline-block;
 }
-/* line 77, sass/screen.scss */
+/* line 85, sass/screen.scss */
 ul.navigation > li:not(:last-child) {
   margin-right: 0.75em;
 }
-/* line 81, sass/screen.scss */
+/* line 89, sass/screen.scss */
 ul.navigation > li > ul {
   position: absolute;
   top: 100%;
@@ -111,11 +112,11 @@ ul.navigation > li > ul {
   flex-direction: row;
   flex-flow: row wrap;
 }
-/* line 97, sass/screen.scss */
+/* line 105, sass/screen.scss */
 ul.navigation > li:hover > ul {
   left: 0;
 }
-/* line 101, sass/screen.scss */
+/* line 109, sass/screen.scss */
 ul.navigation > li > ul > li {
   border-color: #dedede;
   border-bottom-width: 0.05em;
@@ -126,7 +127,7 @@ ul.navigation > li > ul > li {
   font-size: 15px;
   font-weight: bold;
 }
-/* line 110, sass/screen.scss */
+/* line 118, sass/screen.scss */
 ul.navigation > li > ul > li ul {
   font-weight: normal;
   padding: 0;

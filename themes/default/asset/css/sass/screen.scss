@@ -17,14 +17,17 @@ html {
     font-family: "Open Sans", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    border-left: 50px solid $visited;
-    border-right: 50px solid transparent;
-    padding: 0px span(1 of 16);
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 body {
-    @include container;
+    border-left: 50px solid $visited;
+    border-right: 50px solid transparent;
+    min-height: 100%;
+    padding: rhythm(.5) span(1 of 16);
+    margin: 0;
 }
 
 a:link {
@@ -60,6 +63,11 @@ h4 {
     font-size: 1.25 * $base-font-size;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* @group ----- Navigation ----- */
 
 ul.navigation {
@@ -68,7 +76,7 @@ ul.navigation {
     border-color: $active;
     @include trailing-border(1px, 0, $base-font-size, solid);
     position: relative;
-
+    
     & > li {
         @include padding-trailer(.5);
         display: inline-block;

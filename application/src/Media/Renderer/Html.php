@@ -2,7 +2,6 @@
 namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 

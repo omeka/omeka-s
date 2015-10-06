@@ -6,6 +6,7 @@ use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -51,7 +52,9 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new SiteForm($this->getServiceLocator());
+        $serviceLocator = $this->getServiceLocator();
+        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
+        $form = new SiteForm($serviceLocator);
         $readResponse = $this->api()->read('sites', array(
             'slug' => $this->params('site-slug')
         ));
@@ -63,6 +66,8 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
+            $jstree = json_decode($formData['jstree'], true);
+            $formData['o:navigation'] = $translator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData);
@@ -83,6 +88,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('navTree', $translator->toJstree($site));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
@@ -158,5 +164,17 @@ class IndexController extends AbstractActionController
 
         $view->setVariable('site', $site);
         return $view;
+    }
+
+    public function navigationLinkFormAction()
+    {
+        $link = $this->getServiceLocator()
+            ->get('Omeka\Site\NavigationLinkManager')
+            ->get($this->params()->fromPost('type'));
+        $form = $link->getForm($this->params()->fromPost('data'));
+
+        $response = $this->getResponse();
+        $response->setContent($form);
+        return $response;
     }
 }

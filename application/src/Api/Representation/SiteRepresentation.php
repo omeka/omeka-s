@@ -105,7 +105,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $pages = array();
         $pageAdapter = $this->getAdapter('site_pages');
         foreach ($this->getData()->getPages() as $page) {
-            $pages[] = $pageAdapter->getRepresentation(null, $page);
+            $pages[$page->getId()] = $pageAdapter->getRepresentation(null, $page);
         }
         return $pages;
     }

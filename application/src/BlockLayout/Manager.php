@@ -2,7 +2,7 @@
 namespace Omeka\BlockLayout;
 
 use Omeka\Api\Exception;
-use Zend\ServiceManager\AbstractPluginManager;
+use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 
 class Manager extends AbstractPluginManager

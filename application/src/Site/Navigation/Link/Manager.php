@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Media\Ingester;
+namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Api\Exception;
-use Omeka\Media\Ingester\Fallback;
+use Omeka\Site\Navigation\Link\Fallback;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
@@ -45,9 +45,9 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\Media\Ingester\IngesterInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\Site\Navigation\Link\LinkInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
-                'The media ingester class "%1$s" does not implement Omeka\Media\Ingester\IngesterInterface.',
+                'The navigation link class "%1$s" does not implement Omeka\Site\Navigation\Link\LinkInterface.',
                 get_class($plugin)
             ));
         }

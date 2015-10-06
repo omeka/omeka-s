@@ -3,8 +3,8 @@ namespace Omeka\Service;
 
 use DirectoryIterator;
 use SplFileInfo;
-use Omeka\Theme\Manager as ThemeManager;
-use Omeka\Theme\Theme;
+use Omeka\Site\Theme\Manager as ThemeManager;
+use Omeka\Site\Theme\Theme;
 use Zend\Config\Reader\Ini as IniReader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

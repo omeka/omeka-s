@@ -6,6 +6,7 @@ class SiteForm extends AbstractForm
     public function buildForm()
     {
         $translator = $this->getTranslator();
+        $this->setAttribute('id', 'site-form');
 
         $this->add(array(
             'name' => 'o:slug',
@@ -29,7 +30,7 @@ class SiteForm extends AbstractForm
                 'required' => true,
             ),
         ));
-        $themeManager = $this->getServiceLocator()->get('Omeka\ThemeManager');
+        $themeManager = $this->getServiceLocator()->get('Omeka\Site\ThemeManager');
         $themes = array();
         foreach ($themeManager->getThemes() as $id => $theme) {
             $themes[$id] = $theme->getName();

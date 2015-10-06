@@ -142,6 +142,15 @@ return array(
                                     ),
                                 ),
                             ),
+                            'navigation-link-form' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/navigation-link-form',
+                                    'defaults' => array(
+                                        'action' => 'navigation-link-form',
+                                    ),
+                                ),
+                            ),
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(

@@ -139,7 +139,8 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
-            'Omeka\ThemeManager'          => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\ThemeManager'     => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
@@ -158,6 +159,7 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Cli'                 => 'Omeka\Service\Cli',
+            'Omeka\Site\NavigationTranslator' => 'Omeka\Site\Navigation\Translator',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
@@ -253,6 +255,13 @@ return array(
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
             'oneItem' => 'Omeka\BlockLayout\OneItem',
+        ),
+    ),
+    'navigation_links' => array(
+        'invokables' => array(
+            'page' => 'Omeka\Site\Navigation\Link\Page',
+            'url' => 'Omeka\Site\Navigation\Link\Url',
+            'browse' => 'Omeka\Site\Navigation\Link\Browse',
         ),
     ),
     'media_ingesters' => array(

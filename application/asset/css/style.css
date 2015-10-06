@@ -2835,6 +2835,30 @@ th {
   }
 
   /* @end */
+  /* @group ----- Navigation ----- */
+  #nav-pages {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1.37505em;
+  }
+
+  .page-selector-filter {
+    width: 100%;
+  }
+
+  .nav-page {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+    cursor: pointer;
+  }
+  .nav-page:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+
+  /* @end */
   /* @end */
   /* @group ----- Advanced Search ----- */
   .advanced-search select,
@@ -3108,6 +3132,7 @@ th {
   #user p:last-of-type:before {
     content: "";
   }
+
   #user p a {
     color: #ffe6e6;
   }

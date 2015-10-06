@@ -171,10 +171,9 @@ class ItemController extends AbstractActionController
         $services = $this->getServiceLocator();
         $mediaHelper = $services->get('ViewHelperManager')->get('media');
         $mediaIngester = $services->get('Omeka\MediaIngesterManager');
-        $ingesters = array_unique($mediaIngester->getCanonicalNames());
 
         $forms = array();
-        foreach ($ingesters as $ingester) {
+        foreach ($mediaIngester->getRegisteredNames() as $ingester) {
             $forms[$ingester] = array(
                 'label' => $mediaIngester->get($ingester)->getLabel(),
                 'form' => $mediaHelper->form($ingester)

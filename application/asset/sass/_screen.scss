@@ -2469,6 +2469,29 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Navigation ----- */
+
+    #nav-pages {
+        list-style: none;
+        padding-left: 0;
+        @include leader(.9167);
+    }
+
+    .page-selector-filter {
+        width: 100%;
+    }
+
+    .nav-page {
+        @include field-row;
+        cursor: pointer;
+
+        &:hover {
+            background-color: opacify($gray-on-white, .08);
+        }
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @group ----- Advanced Search ----- */

@@ -59,7 +59,7 @@ class Acl extends ZendAcl
     /**
      * Get role names and their labels.
      *
-     * @param boolean $excludeAdminRoles Whether to only return the non-admin
+     * @param bool $excludeAdminRoles Whether to only return the non-admin
      *  roles. False by default, so all roles are returned.
      * @return array
      */
@@ -96,7 +96,7 @@ class Acl extends ZendAcl
      * Determine whether the admin role is an "admin" role that carries
      * restrictions beyond other roles.
      *
-     * @return boolean
+     * @return bool
      */
     public function isAdminRole($role)
     {

@@ -111,11 +111,11 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         return $properties;
     }
 
-    /**
-     * Return resource class members.
-     *
-     * @return array
-     */
+     /**
+      * Return resource class members.
+      *
+      * @return array
+      */
      public function resourceClasses()
      {
         $resourceClasses = [];

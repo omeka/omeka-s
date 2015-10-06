@@ -2,7 +2,6 @@
 /**
  * Perform a job.
  */
-
 use Omeka\Entity\Job;
 
 require dirname(dirname(__DIR__)) . '/bootstrap.php';

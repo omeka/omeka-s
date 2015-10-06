@@ -19,7 +19,7 @@ class UserPasswordForm extends AbstractForm
                     'label' => $translator->translate('Current Password'),
                 ],
             ]);
-        }      
+        }
 
         $this->add([
             'name' => 'password',

@@ -57,7 +57,7 @@ class UserRepresentation extends AbstractEntityRepresentation
     }
 
     public function displayRole()
-    {   
+    {
         $roleIndex = $this->getData()->getRole();
         $roleLabels = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
         if (isset($roleLabels[$roleIndex])) {
@@ -81,7 +81,7 @@ class UserRepresentation extends AbstractEntityRepresentation
         return $response->getTotalResults();
     }
 
-        /**
+    /**
      * Get the item set count for this user.
      *
      * @return int

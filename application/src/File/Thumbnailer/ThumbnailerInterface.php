@@ -3,7 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-interface ThumbnailerInterface extends ServiceLocatorAwareInterface 
+interface ThumbnailerInterface extends ServiceLocatorAwareInterface
 {
     /**
      * Set the file source (typically path to temporary file).

@@ -745,7 +745,7 @@ class AclFactory implements FactoryInterface
             'Omeka\Entity\User',
             'change-role-admin'
         );
-        $acl->deny (
+        $acl->deny(
             'site_admin',
             'Omeka\Entity\User',
             ['change-role', 'activate-user', 'delete'],
@@ -775,7 +775,7 @@ class AclFactory implements FactoryInterface
     protected function addRulesForGlobalAdmin(Acl $acl)
     {
         $acl->allow('global_admin');
-        $acl->deny (
+        $acl->deny(
             'global_admin',
             'Omeka\Entity\User',
             ['change-role', 'activate-user', 'delete'],

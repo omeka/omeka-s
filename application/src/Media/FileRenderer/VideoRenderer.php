@@ -11,7 +11,7 @@ class VideoRenderer implements RendererInterface
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
-    ){
+    ) {
         return sprintf(
             '<video src="%s" controls>%s</audio>',
             $view->escapeHtml($media->originalUrl()),

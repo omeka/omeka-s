@@ -10,4 +10,3 @@ interface TaskInterface
      */
     public function perform(Installer $installer);
 }
-

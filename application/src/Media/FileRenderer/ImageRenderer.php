@@ -11,7 +11,7 @@ class ImageRenderer implements RendererInterface
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
-    ){
+    ) {
         return sprintf('<img src="%s">', $view->escapeHtml($media->originalUrl()));
     }
 }

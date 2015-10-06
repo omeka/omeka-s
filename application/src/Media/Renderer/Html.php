@@ -16,4 +16,3 @@ class Html extends AbstractRenderer
         return $data['html'];
     }
 }
-

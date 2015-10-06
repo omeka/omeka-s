@@ -48,7 +48,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         if (is_string($query['sort_by'])) {
             if ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
-                $qb ->leftJoin(
+                $qb->leftJoin(
                     'Omeka\Entity\ResourceTemplate.resourceClass',
                     $resourceClassAlias
                 )->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
@@ -64,7 +64,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateRequest(Request $request, ErrorStore $errorStore){
+    public function validateRequest(Request $request, ErrorStore $errorStore) {
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties.

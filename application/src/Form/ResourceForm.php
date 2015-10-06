@@ -59,4 +59,3 @@ class ResourceForm extends AbstractForm
         ]);
     }
 }
-

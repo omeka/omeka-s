@@ -15,7 +15,7 @@ class SearchFilters extends AbstractHelper
      *
      * @return array
      */
-    function __invoke($partialName = null) 
+    public function __invoke($partialName = null)
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
@@ -130,4 +130,3 @@ class SearchFilters extends AbstractHelper
         );
     }
 }
-?>

@@ -1,5 +1,6 @@
 <?php
 namespace Omeka\Api;
+
 use Zend\Stdlib\Request as ZendRequest;
 
 /**
@@ -151,7 +152,7 @@ class Request extends ZendRequest
      * Set whether this is a partial request (used for partial update, aka
      * PATCH)
      *
-     * @param boolean isPartial
+     * @param bool isPartial
      */
     public function setIsPartial($isPartial)
     {
@@ -161,7 +162,7 @@ class Request extends ZendRequest
     /**
      * Whether this is a partial request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPartial()
     {

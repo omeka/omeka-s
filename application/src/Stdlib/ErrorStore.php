@@ -83,4 +83,4 @@ class ErrorStore
     {
         return (bool) count($this->errors);
     }
-} 
+}

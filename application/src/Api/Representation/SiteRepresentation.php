@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Representation;
 
-
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**

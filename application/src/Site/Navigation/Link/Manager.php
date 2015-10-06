@@ -2,7 +2,6 @@
 namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Api\Exception;
-use Omeka\Site\Navigation\Link\Fallback;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
@@ -20,7 +19,7 @@ class Manager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        $this->addInitializer(function($instance, $serviceLocator) {
+        $this->addInitializer(function ($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);
     }
@@ -30,7 +29,7 @@ class Manager extends AbstractPluginManager
      */
     public function get($name, $options = [],
         $usePeeringServiceManagers = true
-    ){
+    ) {
         try {
             $instance = parent::get($name, $options, $usePeeringServiceManagers);
         } catch (ServiceNotFoundException $e) {

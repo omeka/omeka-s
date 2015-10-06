@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-
 /**
  * Entity API adapter interface.
  */

@@ -20,4 +20,3 @@ class ForgotPasswordForm extends AbstractForm
         ]);
     }
 }
-

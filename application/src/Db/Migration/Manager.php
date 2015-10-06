@@ -89,7 +89,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param string $path Path to the migration
      * @param string $class Fully-qualified name of the migration class
      * @return MigrationInterface
-     */ 
+     */
     public function loadMigration($path, $class)
     {
         require_once $path;

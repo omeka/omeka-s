@@ -100,7 +100,7 @@ class Api extends AbstractPlugin
      * @param mixed $id
      * @param array $data
      * @param array $fileData
-     * @param boolean $partial
+     * @param bool $partial
      * @return Response
      */
     public function update($resource, $id, $data = [], $fileData = [],

@@ -7,7 +7,6 @@
  * optimized SQL. That, along with toggling off foreign key checks, greatly
  * reduces installation time.
  */
-
 require dirname(dirname(__DIR__)) . '/bootstrap.php';
 
 // Initialize the Omeka application using the test database.

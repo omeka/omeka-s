@@ -6,7 +6,6 @@ use Zend\View\Renderer\PhpRenderer;
 
 class IIIF extends AbstractRenderer
 {
-
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         $IIIFData = $media->mediaData();

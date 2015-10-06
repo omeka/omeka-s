@@ -36,7 +36,7 @@ class OEmbed extends AbstractIngester
         
         $whitelisted = false;
         foreach ($whitelist as $regex) {
-            if (preg_match($regex, $data['o:source']) === 1 ) {
+            if (preg_match($regex, $data['o:source']) === 1) {
                 $whitelisted = true;
                 break;
             }

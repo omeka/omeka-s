@@ -23,7 +23,7 @@ class Manager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        $this->addInitializer(function($instance, $serviceLocator) {
+        $this->addInitializer(function ($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);
     }

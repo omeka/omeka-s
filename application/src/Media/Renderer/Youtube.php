@@ -38,4 +38,3 @@ class Youtube extends AbstractRenderer
         return $embed;
     }
 }
-

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Entity;
 
-
 /**
  * A resource class.
  * 

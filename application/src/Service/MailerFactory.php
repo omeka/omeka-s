@@ -31,4 +31,3 @@ class MailerFactory implements FactoryInterface
         return new Mailer($transport, $defaultOptions);
     }
 }
-

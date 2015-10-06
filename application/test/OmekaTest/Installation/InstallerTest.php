@@ -25,7 +25,7 @@ class InstallerTest extends TestCase
     {
         $this->installer->setServiceLocator($this->getServiceManager());
         $this->assertInstanceOf(
-            'Zend\ServiceManager\ServiceLocatorInterface', 
+            'Zend\ServiceManager\ServiceLocatorInterface',
             $this->installer->getServiceLocator()
         );
     }

@@ -28,14 +28,14 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
             ->method('get')
-            ->with($this->callback(function($subject) use ($services) {
+            ->with($this->callback(function ($subject) use ($services) {
                 return array_key_exists($subject, $services);
             }))
-            ->will($this->returnCallback(function($subject) use ($services) {
+            ->will($this->returnCallback(function ($subject) use ($services) {
                 return $services[$subject];
             }));
         return $serviceManager;
-    }   
+    }
 
     /**
      * Get a mock Doctrine\ORM\EntityManager object.

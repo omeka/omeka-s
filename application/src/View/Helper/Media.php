@@ -38,7 +38,7 @@ class Media extends AbstractHelper
      * @return string
      */
     public function form($ingesterName, array $options = [])
-    {   
+    {
         $ingester = $this->ingesterManager->get($ingesterName);
         $form = '<div class="media-field-wrapper">';
         $form .= '<div class="media-header">';

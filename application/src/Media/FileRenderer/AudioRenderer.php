@@ -11,7 +11,7 @@ class AudioRenderer implements RendererInterface
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
-    ){
+    ) {
         return sprintf(
             '<audio src="%s" controls>%s</audio>',
             $view->escapeHtml($media->originalUrl()),

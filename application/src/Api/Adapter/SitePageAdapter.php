@@ -180,7 +180,7 @@ class SitePageAdapter extends AbstractEntityAdapter
      * @param array $attachmentData
      * @param SitePageBlock $block
      * @param ErrorStore $errorStore
-     * @return boolean true on success, false on error
+     * @return bool true on success, false on error
      */
     private function hydrateAttachments(array $attachmentData, SitePageBlock $block,
         ErrorStore $errorStore)

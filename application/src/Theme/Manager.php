@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Theme;
 
-use Omeka\Theme\Theme;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

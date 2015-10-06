@@ -6,7 +6,6 @@ use Omeka\Form\ResourceForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
-use Zend\Form\Element\Csrf;
 
 class MediaController extends AbstractActionController
 {

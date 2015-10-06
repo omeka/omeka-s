@@ -3,11 +3,9 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
-use Omeka\Media\Ingester\IngesterInterface;
 use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Item;
-use Omeka\Entity\ResourceClass;
 use Omeka\Media\Ingester\Fallback;
 use Omeka\Stdlib\ErrorStore;
 

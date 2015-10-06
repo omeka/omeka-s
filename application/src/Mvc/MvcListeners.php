@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Mvc;
 
-use Omeka\Service\Exception\ConfigException;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;

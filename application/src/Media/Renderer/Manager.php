@@ -2,7 +2,6 @@
 namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Exception;
-use Omeka\Media\Renderer\Fallback;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;

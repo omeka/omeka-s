@@ -2,7 +2,6 @@
 namespace Omeka\File;
 
 use finfo;
-use Omeka\File\Manager as FileManager;
 use Omeka\Service\Exception\ConfigException;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;

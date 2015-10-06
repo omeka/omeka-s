@@ -2,7 +2,6 @@
 namespace Omeka\Service;
 
 use Omeka\BlockLayout\Manager;
-use Omeka\Service\Exception;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

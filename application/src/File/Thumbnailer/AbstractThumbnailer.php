@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
-use Omeka\File\Thumbnailer\ThumbnailerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 abstract class AbstractThumbnailer implements ThumbnailerInterface

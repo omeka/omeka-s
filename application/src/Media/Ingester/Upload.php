@@ -7,7 +7,6 @@ use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
 use Zend\Form\Element\File;
 use Zend\InputFilter\FileInput;
-use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
 class Upload extends AbstractIngester

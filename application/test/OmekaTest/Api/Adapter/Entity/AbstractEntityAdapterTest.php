@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Api\Adapter\Entity;
 
-use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Test\TestCase;

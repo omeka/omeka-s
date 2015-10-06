@@ -6,7 +6,6 @@ use Omeka\Form\ItemForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
-use Zend\Form\Element\Csrf;
 
 class ItemController extends AbstractActionController
 {

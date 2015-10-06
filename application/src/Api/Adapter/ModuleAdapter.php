@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Representation\ModuleRepresentation;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 

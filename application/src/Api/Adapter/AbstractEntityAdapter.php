@@ -2,14 +2,10 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\UnitOfWork;
-use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Entity\ResourceClass;
-use Omeka\Entity\ResourceTemplate;
 use Omeka\Entity\User;
 use Omeka\Event\Event;
 use Omeka\Entity\EntityInterface;

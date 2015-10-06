@@ -1,7 +1,5 @@
 <?php
 namespace Omeka\Api;
-
-use Omeka\Api\Exception;
 use Zend\Stdlib\Request as ZendRequest;
 
 /**

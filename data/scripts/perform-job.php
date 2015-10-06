@@ -3,7 +3,6 @@
  * Perform a job.
  */
 
-use Omeka\Job\Strategy\SynchronousStrategy;
 use Omeka\Entity\Job;
 
 require dirname(dirname(__DIR__)) . '/bootstrap.php';

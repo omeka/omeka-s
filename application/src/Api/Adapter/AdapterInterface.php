@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;

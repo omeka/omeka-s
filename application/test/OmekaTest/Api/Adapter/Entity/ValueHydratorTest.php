@@ -2,7 +2,6 @@
 namespace OmekaTest\Api\Adapter\Entity;
 
 use Omeka\Api\Adapter\ValueHydrator;
-use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Test\TestCase;

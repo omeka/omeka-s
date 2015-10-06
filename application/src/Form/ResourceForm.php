@@ -2,8 +2,6 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceSelect;
-use Omeka\Api\Representation\PropertyRepresentation;
-use Zend\Form\Fieldset;
 
 class ResourceForm extends AbstractForm
 {

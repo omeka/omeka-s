@@ -4,7 +4,6 @@ namespace Omeka\Media\FileRenderer;
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager extends AbstractPluginManager
 {

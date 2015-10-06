@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Service\Mailer;
 use Zend\Mail\Transport\Factory as TransportFactory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

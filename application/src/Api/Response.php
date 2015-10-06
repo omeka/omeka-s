@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api;
 
-use Omeka\Api\Request;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Stdlib\Response as ZendResponse;
 

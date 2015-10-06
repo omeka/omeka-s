@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Db\Migration\Exception;
 use Omeka\Db\Migration\Manager as MigrationManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

@@ -3,7 +3,6 @@ namespace Omeka\Test;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query\Expr;
 use Zend\ServiceManager\ServiceManager;
 
 /**

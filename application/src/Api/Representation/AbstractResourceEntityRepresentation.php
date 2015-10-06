@@ -2,8 +2,6 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\ResourceClassRepresentation;
-use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Entity\Vocabulary;

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 
 class ErrorStoreTest extends TestCase

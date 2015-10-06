@@ -2,7 +2,6 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\Request;
-use Omeka\Api\Response;
 use Omeka\Api\Manager;
 use Omeka\Test\TestCase;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;

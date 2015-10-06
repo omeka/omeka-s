@@ -4,9 +4,7 @@ namespace Omeka\View\Helper;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Ingester\Manager as IngesterManager;
 use Omeka\Media\Renderer\Manager as RendererManager;
-use Omeka\Media\Handler\MutableIngesterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
 
 class Media extends AbstractHelper

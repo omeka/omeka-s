@@ -5,7 +5,6 @@ use Imagick;
 use ImagickException;
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
-use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class ImagickThumbnailer extends AbstractThumbnailer
 {

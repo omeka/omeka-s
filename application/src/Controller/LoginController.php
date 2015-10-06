@@ -1,12 +1,10 @@
 <?php
 namespace Omeka\Controller;
 
-use DateInterval;
 use DateTime;
 use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
 use Omeka\Form\ForgotPasswordForm;
-use Omeka\Form\ResetPasswordForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;

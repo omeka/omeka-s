@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Entity;
 
-use Omeka\Entity\Property;
-use Omeka\Entity\ResourceTemplate;
 
 /**
  * @Entity

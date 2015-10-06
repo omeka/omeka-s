@@ -5,7 +5,6 @@ use Zend\Form\Element\Hidden;
 use Zend\Db\Sql\Ddl\Column\Text;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;

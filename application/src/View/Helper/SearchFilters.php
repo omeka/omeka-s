@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class SearchFilters extends AbstractHelper

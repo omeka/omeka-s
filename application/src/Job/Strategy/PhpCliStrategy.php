@@ -1,9 +1,7 @@
 <?php
 namespace Omeka\Job\Strategy;
 
-use Omeka\Installation\Task\CheckEnvironmentTask;
 use Omeka\Job\Exception;
-use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

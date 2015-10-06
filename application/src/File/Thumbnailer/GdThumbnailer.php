@@ -2,7 +2,6 @@
 namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
-use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class GdThumbnailer extends AbstractThumbnailer
 {

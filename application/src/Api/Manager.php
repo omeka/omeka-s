@@ -2,7 +2,6 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
-use Omeka\Api\Exception;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
 use Zend\I18n\Translator\TranslatorInterface;

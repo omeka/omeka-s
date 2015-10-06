@@ -2,8 +2,6 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
-use Omeka\Api\Representation\ResourceReference;
-use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;

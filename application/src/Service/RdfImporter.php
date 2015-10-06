@@ -5,7 +5,6 @@ use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
 use Omeka\Entity\Property;
-use Omeka\Entity\ResourceClass;
 use Omeka\Entity\Vocabulary;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;

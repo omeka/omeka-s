@@ -2,7 +2,6 @@
 namespace Omeka\Db\Event\Listener;
 
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Load the resource discriminator map dynamically.

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
@@ -10,7 +9,6 @@ use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
-use Omeka\Service\Exception;
 use Zend\Permissions\Acl\Assertion\AssertionAggregate;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

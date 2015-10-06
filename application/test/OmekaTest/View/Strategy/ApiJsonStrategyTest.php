@@ -3,7 +3,6 @@ namespace OmekaTest\View\Strategy;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Response as ApiResponse;
-use Omeka\View\Renderer\ApiJsonRenderer;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
 use Zend\Json\Exception as JsonException;

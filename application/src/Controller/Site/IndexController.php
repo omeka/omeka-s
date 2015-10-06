@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Site;
 
-use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 

@@ -2,7 +2,6 @@
 namespace Omeka\Module;
 
 use Doctrine\ORM\EntityManager;
-use Omeka\Event\Event;
 use Omeka\Entity\Module as ModuleEntity;
 use Omeka\Permissions\Exception as AclException;
 use Zend\I18n\Translator\TranslatorInterface;

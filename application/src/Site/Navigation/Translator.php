@@ -51,10 +51,10 @@ class Translator implements ServiceLocatorAwareInterface
         {
             $linksOut = array();
             foreach ($linksIn as $key => $data) {
+                $children = isset($data['links']) ? $buildLinks($data['links']) : null;
+                unset($data['links']);
                 $linksOut[$key] = $manager->get($data['type'])->toJstree($data, $site);
-                if (isset($data['links'])) {
-                    $linksOut[$key]['children'] = $buildLinks($data['links']);
-                }
+                $linksOut[$key]['children'] = $children;
             }
             return $linksOut;
         };

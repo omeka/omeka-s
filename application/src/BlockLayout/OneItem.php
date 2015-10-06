@@ -27,6 +27,7 @@ class OneItem extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $html = '';
+        $html .= '<div class="item resource">';
         $attachments = $block->attachments();
         if ($attachments) {
             $attachment = $attachments[0];
@@ -44,6 +45,7 @@ class OneItem extends AbstractBlockLayout
                 $html .= '<span class="caption">' . $caption . '</span>';
             }
         }
+        $html .= '</div>';
 
         return $html;
     }

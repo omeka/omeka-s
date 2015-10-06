@@ -261,7 +261,8 @@ return array(
             'url'     => 'Omeka\Media\Ingester\Url',
             'oembed'  => 'Omeka\Media\Ingester\OEmbed',
             'youtube' => 'Omeka\Media\Ingester\Youtube',
-            'html'    => 'Omeka\Media\Ingester\Html'
+            'html'    => 'Omeka\Media\Ingester\Html',
+            'iiif'    => 'Omeka\Media\Ingester\IIIF'
         ),
     ),
     'media_renderers' => array(
@@ -269,7 +270,8 @@ return array(
             'file'    => 'Omeka\Media\Renderer\File',
             'oembed'  => 'Omeka\Media\Renderer\OEmbed',
             'youtube' => 'Omeka\Media\Renderer\Youtube',
-            'html'    => 'Omeka\Media\Renderer\Html'
+            'html'    => 'Omeka\Media\Renderer\Html',
+            'iiif'    => 'Omeka\Media\Renderer\IIIF'
         ),
     ),
     'file_renderers' => array(

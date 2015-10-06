@@ -2126,6 +2126,11 @@ th {
     margin-top: 0.75em;
   }
 
+  .openseadragon {
+    width: 500px;
+    height: 600px;
+  }
+
   /* @end */
   /* @group ----- Item Sets ----- */
   #item-item-sets + .no-resources {

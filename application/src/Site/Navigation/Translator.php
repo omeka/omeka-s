@@ -23,7 +23,7 @@ class Translator implements ServiceLocatorAwareInterface
         {
             $linksOut = array();
             foreach ($linksIn as $key => $data) {
-                $linksOut[$key] = $manager->get($data['type'])->toZend($data, $site);
+                $linksOut[$key] = $manager->get($data['type'])->toZend($data['data'], $site);
                 if (isset($data['links'])) {
                     $linksOut[$key]['pages'] = $buildLinks($data['links']);
                 }
@@ -51,10 +51,15 @@ class Translator implements ServiceLocatorAwareInterface
         {
             $linksOut = array();
             foreach ($linksIn as $key => $data) {
-                $children = isset($data['links']) ? $buildLinks($data['links']) : null;
-                unset($data['links']);
-                $linksOut[$key] = $manager->get($data['type'])->toJstree($data, $site);
-                $linksOut[$key]['children'] = $children;
+                $linkData = $manager->get($data['type'])->toJstree($data['data'], $site);
+                $linksOut[$key] = array(
+                    'text' => $linkData['label'],
+                    'data' => array(
+                        'type' => $data['type'],
+                        'data' => $linkData,
+                    ),
+                    'children' => $data['links'] ? $buildLinks($data['links']) : array(),
+                );
             }
             return $linksOut;
         };
@@ -71,10 +76,11 @@ class Translator implements ServiceLocatorAwareInterface
                     // Remove pages set to be removed.
                     continue;
                 }
-                $pagesOut[$key] = $page['data'];
-                if ($page['children']) {
-                    $pagesOut[$key]['links'] = $buildPages($page['children']);
-                }
+                $pagesOut[$key] = array(
+                    'type' => $page['data']['type'],
+                    'data' => $page['data']['data'],
+                    'links' => $page['children'] ? $buildPages($page['children']) : array(),
+                );
             }
             return $pagesOut;
         };

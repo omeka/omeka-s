@@ -31,12 +31,8 @@ class Url extends AbstractLink
     public function toJstree(array $data, SiteRepresentation $site)
     {
         return array(
-            'text' => $data['label'],
-            'data' => array(
-                'type' => 'url',
-                'label' => $data['label'],
-                'url' => $data['url'],
-            ),
+            'label' => $data['label'],
+            'url' => $data['url'],
         );
     }
 }

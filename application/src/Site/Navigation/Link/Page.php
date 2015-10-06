@@ -34,12 +34,8 @@ class Page extends AbstractLink
         $sitePage = $site->pages()[$data['id']];
         $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         return array(
-            'text' => $label,
-            'data' => array(
-                'type' => 'page',
-                'id' => $sitePage->id(),
-                'label' => $label,
-            ),
+            'label' => $label,
+            'id' => $sitePage->id(),
         );
     }
 }

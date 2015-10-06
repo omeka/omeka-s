@@ -39,9 +39,6 @@ class Fallback extends AbstractLink
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
-        return array(
-            'text' => $data['label'],
-            'data' => $data,
-        );
+        return $data;
     }
 }

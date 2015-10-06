@@ -95,11 +95,13 @@ $.jstree.plugins.editlink = function(options, parent) {
             $.proxy(function(e) {
                 var link = $(e.currentTarget).children(':selected');
                 var nodeId = this.create_node('#', {
+                    text: link.data('label'),
                     data: {
                         type: link.data('type'),
-                        label: link.data('label'),
-                    },
-                    text: link.data('label')
+                        data: {
+                            label: link.data('label')
+                        }
+                    }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
             }, this)
@@ -111,12 +113,14 @@ $.jstree.plugins.editlink = function(options, parent) {
             $.proxy(function(e) {
                 var link = $(e.currentTarget);
                 var nodeId = this.create_node('#', {
+                    text: link.data('label'),
                     data: {
                         type: link.data('type'),
-                        label: link.data('label'),
-                        id: link.data('id'),
-                    },
-                    text: link.data('label')
+                        data: {
+                            label: link.data('label'),
+                            id: link.data('id')
+                        }
+                    }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
             }, this)
@@ -129,7 +133,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                 $('#nav-tree :input').each(function(index, element) {
                     var nodeObj = instance.get_node(element);
                     var element = $(element);
-                    nodeObj.data[element.data('name')] = element.val()
+                    nodeObj.data['data'][element.data('name')] = element.val()
                 });
                 $('<input>', {
                     'type': 'hidden',

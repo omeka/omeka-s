@@ -39,12 +39,8 @@ class Browse extends AbstractLink
         $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         $query = isset($data['query']) ? $data['query'] : null;
         return array(
-            'text' => $label,
-            'data' => array(
-                'type' => 'browse',
-                'label' => $label,
-                'query' => $query,
-            ),
+            'label' => $label,
+            'query' => $query,
         );
     }
 }

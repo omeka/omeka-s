@@ -12,14 +12,14 @@ class UserAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'        => 'id',
         'email'     => 'email',
         'name'      => 'name',
         'created'   => 'created',
         'modified'  => 'modified',
         'role'      => 'role',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -100,7 +100,7 @@ class UserAdapter extends AbstractEntityAdapter
         if (!$validator->isValid($email)) {
             $errorStore->addValidatorMessages('o:email', $validator->getMessages());
         }
-        if (!$this->isUnique($entity, array('email' => $email))) {
+        if (!$this->isUnique($entity, ['email' => $email])) {
             $errorStore->addError('o:email', sprintf(
                 'The email "%s" is already taken.',
                 $email

@@ -10,10 +10,10 @@ class ManagerTest extends TestCase
 {
     const TEST_RESOURCE = 'test_resource';
 
-    protected $requestOperations = array(
+    protected $requestOperations = [
         Request::SEARCH, Request::CREATE, Request::READ,
         Request::UPDATE, Request::DELETE
-    );
+    ];
 
     public function setUp()
     {
@@ -24,7 +24,7 @@ class ManagerTest extends TestCase
     {
             $mockResponse = $this->getMockResponse(true);
             $this->setServiceManager('search', $mockResponse);
-            $response = $this->manager->search(self::TEST_RESOURCE, array());
+            $response = $this->manager->search(self::TEST_RESOURCE, []);
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
     }
@@ -33,7 +33,7 @@ class ManagerTest extends TestCase
     {
             $mockResponse = $this->getMockResponse(true);
             $this->setServiceManager('create', $mockResponse);
-            $response = $this->manager->create(self::TEST_RESOURCE, array());
+            $response = $this->manager->create(self::TEST_RESOURCE, []);
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
     }
@@ -42,7 +42,7 @@ class ManagerTest extends TestCase
     {
             $mockResponse = $this->getMockResponse(true);
             $this->setServiceManager('read', $mockResponse);
-            $response = $this->manager->read(self::TEST_RESOURCE, 'test-id', array());
+            $response = $this->manager->read(self::TEST_RESOURCE, 'test-id', []);
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
     }
@@ -51,7 +51,7 @@ class ManagerTest extends TestCase
     {
             $mockResponse = $this->getMockResponse(true);
             $this->setServiceManager('update', $mockResponse);
-            $response = $this->manager->update(self::TEST_RESOURCE, 'test-id', array());
+            $response = $this->manager->update(self::TEST_RESOURCE, 'test-id', []);
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
     }
@@ -60,7 +60,7 @@ class ManagerTest extends TestCase
     {
             $mockResponse = $this->getMockResponse(true);
             $this->setServiceManager('delete', $mockResponse);
-            $response = $this->manager->delete(self::TEST_RESOURCE, 'test-id', array());
+            $response = $this->manager->delete(self::TEST_RESOURCE, 'test-id', []);
             $this->assertInstanceOf('Omeka\Api\Response', $response);
             $this->assertNull($response->getErrors());
     }
@@ -214,12 +214,12 @@ class ManagerTest extends TestCase
             )
             ->will($this->returnValue($isAllowed));
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Omeka\Logger' => $mockLogger,
             'MvcTranslator' => $mockTranslator,
             'Omeka\ApiAdapterManager' => $mockAdapterManager,
             'Omeka\Acl' => $mockAcl,
-        ));
+        ]);
         $this->manager->setServiceLocator($serviceManager);
     }
 
@@ -261,7 +261,7 @@ class ManagerTest extends TestCase
             ->will($this->returnValue(self::TEST_RESOURCE));
         $request->expects($this->any())
             ->method('getContent')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         return $request;
     }
 }

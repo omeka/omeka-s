@@ -24,18 +24,18 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
-        $media = array();
+        $media = [];
         foreach ($this->media() as $mediaRepresentation) {
             $media[] = $mediaRepresentation->getReference();
         }
-        $itemSets = array();
+        $itemSets = [];
         foreach ($this->itemSets() as $itemSetRepresentation) {
             $itemSets[] = $itemSetRepresentation->getReference();
         }
-        return array(
+        return [
             'o:media' => $media,
             'o:item_set' => $itemSets,
-        );
+        ];
     }
 
     /**
@@ -45,7 +45,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function media()
     {
-        $media = array();
+        $media = [];
         $mediaAdapter = $this->getAdapter('media');
         foreach ($this->getData()->getMedia() as $mediaEntity) {
             $media[] = $mediaAdapter->getRepresentation(null, $mediaEntity);
@@ -60,7 +60,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
      */
     public function itemSets()
     {
-        $itemSets = array();
+        $itemSets = [];
         $itemSetAdapter = $this->getAdapter('item_sets');
         foreach ($this->getData()->getItemSets() as $itemSetEntity) {
             $itemSets[$itemSetEntity->getId()] =
@@ -88,12 +88,12 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'site/resource-id',
-            array(
+            [
                 'site-slug' => $siteSlug,
                 'controller' => 'item',
                 'id' => $this->id(),
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
 }

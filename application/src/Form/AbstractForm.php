@@ -29,22 +29,22 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
      * @param array $options Optional options for the form
      */
     public function __construct(ServiceLocatorInterface $serviceLocator,
-        $name = null, $options = array()
+        $name = null, $options = []
     ) {
         $this->setServiceLocator($serviceLocator);
         parent::__construct($name, array_merge($this->options, $options));
 
         // All forms should have CSRF protection. Must add this before building
         // the form so getInputFilter() knows about it.
-        $this->add(array(
+        $this->add([
             'type' => 'csrf',
             'name' => $name ? $name . '_csrf' : 'csrf',
-            'options' => array(
-                'csrf_options' => array(
+            'options' => [
+                'csrf_options' => [
                     'timeout' => 3600,
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $this->buildForm();
     }

@@ -9,7 +9,7 @@ class ApiJsonRendererTest extends TestCase
 {
     public function testRendererUsesApiResponse()
     {
-        $testValue = array('test' => 'foo');
+        $testValue = ['test' => 'foo'];
         $response = $this->getMock('Omeka\Api\Response');
         $response->expects($this->once())
                  ->method('getContent')
@@ -42,7 +42,7 @@ class ApiJsonRendererTest extends TestCase
 
     public function testRendererShowsErrors()
     {
-        $errors = array('foo' => 'bar');
+        $errors = ['foo' => 'bar'];
 
         $response = $this->getMock('Omeka\Api\Response');
         $response->expects($this->once())
@@ -67,6 +67,6 @@ class ApiJsonRendererTest extends TestCase
         $renderer = new ApiJsonRenderer;
 
         $errors['status'] = 'exception message';
-        $this->assertEquals(Json::encode(array('errors' => $errors)), $renderer->render($model));
+        $this->assertEquals(Json::encode(['errors' => $errors]), $renderer->render($model));
     }
 }

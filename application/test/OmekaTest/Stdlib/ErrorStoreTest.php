@@ -15,28 +15,28 @@ class ErrorStoreTest extends TestCase
         $this->errorStore->addError('foo', 'foo_message_one');
         $this->errorStore->addError('foo', 'foo_message_two');
         $this->errorStore->addError('bar', 'bar_message');
-        $this->assertEquals(array(
-            'foo' => array(
+        $this->assertEquals([
+            'foo' => [
                 'foo_message_one',
                 'foo_message_two',
-            ),
-            'bar' => array('bar_message'),
-        ), $this->errorStore->getErrors());
+            ],
+            'bar' => ['bar_message'],
+        ], $this->errorStore->getErrors());
     }
 
     public function testAddsValidatorMessages()
     {
-        $validatorMessages = array(
+        $validatorMessages = [
             'foo_one' => 'foo_one_message',
             'foo_two' => 'foo_two_message',
-        );
+        ];
         $this->errorStore->addValidatorMessages('bar', $validatorMessages);
-        $this->assertEquals(array(
-            'bar' => array(
+        $this->assertEquals([
+            'bar' => [
                 'foo_one_message',
                 'foo_two_message',
-            )
-        ), $this->errorStore->getErrors());
+            ]
+        ], $this->errorStore->getErrors());
     }
 
     public function testMergesErrors()
@@ -44,22 +44,22 @@ class ErrorStoreTest extends TestCase
         $errorStore = $this->getMock('Omeka\Stdlib\ErrorStore');
         $errorStore->expects($this->once())
             ->method('getErrors')
-            ->will($this->returnValue(array('foo' => array('foo_message_two'))));
+            ->will($this->returnValue(['foo' => ['foo_message_two']]));
         $this->errorStore->addError('foo', 'foo_message_one');
         $this->errorStore->mergeErrors($errorStore);
-        $this->assertEquals(array(
-            'foo' => array(
+        $this->assertEquals([
+            'foo' => [
                 'foo_message_one',
                 'foo_message_two',
-            )
-        ), $this->errorStore->getErrors());
+            ]
+        ], $this->errorStore->getErrors());
     }
 
     public function testClearsErrors()
     {
         $this->errorStore->addError('foo', 'foo_message');
         $this->errorStore->clearErrors();
-        $this->assertEquals(array(), $this->errorStore->getErrors());
+        $this->assertEquals([], $this->errorStore->getErrors());
     }
 
     public function testHasErrors()

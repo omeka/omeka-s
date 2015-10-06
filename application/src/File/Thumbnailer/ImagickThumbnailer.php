@@ -23,7 +23,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = array())
+    public function create($strategy, $constraint, array $options = [])
     {
         try {
             $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));

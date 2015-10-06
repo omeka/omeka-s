@@ -15,6 +15,6 @@ class DestroySessionTask implements TaskInterface
         $sessionManager->start();
         // Must explicitly clear storage since the session manager will
         // repopulate the session with old storage data.
-        $sessionManager->destroy(array('clear_storage' => true));
+        $sessionManager->destroy(['clear_storage' => true]);
     }
 }

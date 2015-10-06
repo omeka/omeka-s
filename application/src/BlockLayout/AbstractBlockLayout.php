@@ -41,7 +41,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentForms(PhpRenderer $view, $numAttachments,
         SitePageBlockRepresentation $block = null
     ) {
-        $attachments = $block ? $block->attachments() : array();
+        $attachments = $block ? $block->attachments() : [];
         $html = '<div class="attachments">';
         for ($i = 1; $i <= $numAttachments; $i++) {
             if ($attachment = current($attachments)) {
@@ -68,9 +68,9 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
         $itemId = null;
         $mediaId = null;
         $caption = null;
-        $sidebarContentUrl = $view->url('admin/default', array(
+        $sidebarContentUrl = $view->url('admin/default', [
             'controller' => 'item', 'action' => 'sidebar-select',
-        ));
+        ]);
         $title = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
         if ($attachment) {
             $itemId = $attachment->item()->id();

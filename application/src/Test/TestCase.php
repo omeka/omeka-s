@@ -23,7 +23,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * is the mock service object
      * @return ServiceManager
      */
-    public function getServiceManager(array $services = array())
+    public function getServiceManager(array $services = [])
     {
         $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
@@ -80,7 +80,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * @param array $methods
      * @return stdClass
      */
-    public function getQuery(array $methods = array())
+    public function getQuery(array $methods = [])
     {
         $query = $this->getMock('stdClass', $methods);
         return $query;

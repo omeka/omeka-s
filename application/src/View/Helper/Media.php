@@ -37,7 +37,7 @@ class Media extends AbstractHelper
      * @param array $options Global options for the media form
      * @return string
      */
-    public function form($ingesterName, array $options = array())
+    public function form($ingesterName, array $options = [])
     {   
         $ingester = $this->ingesterManager->get($ingesterName);
         $form = '<div class="media-field-wrapper">';
@@ -62,7 +62,7 @@ class Media extends AbstractHelper
      * @param array $options Global options for the media update form
      * @return string
      */
-    public function updateForm(MediaRepresentation $media, array $options = array())
+    public function updateForm(MediaRepresentation $media, array $options = [])
     {
         $ingester = $this->ingesterManager->get($media->ingester());
 
@@ -80,7 +80,7 @@ class Media extends AbstractHelper
      * @param array $options Global options for the media render
      * @return string
      */
-    public function render(MediaRepresentation $media, array $options = array())
+    public function render(MediaRepresentation $media, array $options = [])
     {
         return $this->rendererManager->get($media->renderer())
             ->render($this->getView(), $media, $options);

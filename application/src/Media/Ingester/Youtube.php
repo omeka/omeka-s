@@ -61,11 +61,11 @@ class Youtube extends AbstractIngester
         $this->downloadFile($url, $file->getTempPath());
         $hasThumbnails = $fileManager->storeThumbnails($file);
 
-        $media->setData(array(
+        $media->setData([
             'id' => $youtubeId,
             'start' => $request->getValue('start'),
             'end' => $request->getValue('end'),
-        ));
+        ]);
         if ($hasThumbnails) {
             $media->setFilename($file->getStorageName());
             $media->setHasThumbnails(true);
@@ -75,31 +75,31 @@ class Youtube extends AbstractIngester
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new Text('o:media[__index__][o:source]');
-        $urlInput->setOptions(array(
+        $urlInput->setOptions([
             'label' => $view->translate('Video URL'),
             'info' => $view->translate('URL for the video to embed.'),
-        ));
-        $urlInput->setAttributes(array(
+        ]);
+        $urlInput->setAttributes([
             'id' => 'media-youtube-source-__index__',
             'required' => true
-        ));
-        $urlInput->setAttributes(array(
+        ]);
+        $urlInput->setAttributes([
             'id' => 'media-youtube-source-__index__',
             'required' => true
-        ));
+        ]);
         $startInput = new Text('o:media[__index__][start]');
-        $startInput->setOptions(array(
+        $startInput->setOptions([
             'label' => $view->translate('Start'),
             'info' => $view->translate('Begin playing the video at the given number of seconds from the start of the video.'),
-        ));
+        ]);
         $endInput = new Text('o:media[__index__][end]');
-        $endInput->setOptions(array(
+        $endInput->setOptions([
             'label' => $view->translate('End'),
             'info' => $view->translate('End playing the video at the given number of seconds from the start of the video.'),
-        ));
+        ]);
         return $view->formField($urlInput)
             . $view->formField($startInput)
             . $view->formField($endInput);

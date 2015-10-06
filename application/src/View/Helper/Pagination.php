@@ -77,7 +77,7 @@ class Pagination extends AbstractHelper
 
         return $this->getView()->partial(
             $this->partialName,
-            array(
+            [
                 'totalCount'      => $paginator->getTotalCount(),
                 'perPage'         => $paginator->getPerPage(),
                 'currentPage'     => $paginator->getCurrentPage(),
@@ -90,7 +90,7 @@ class Pagination extends AbstractHelper
                 'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
                 'lastPageUrl'     => $this->getUrl($pageCount),
                 'offset'          => $paginator->getOffset()
-            )
+            ]
         );
     }
 
@@ -109,6 +109,6 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
-        return $this->getView()->url(null, array(), array('query' => $query), true);
+        return $this->getView()->url(null, [], ['query' => $query], true);
     }
 }

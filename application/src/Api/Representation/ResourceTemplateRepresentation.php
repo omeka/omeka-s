@@ -32,12 +32,12 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
         if ($this->resourceClass()) {
             $resourceClass = $this->resourceClass()->getReference();
         }
-        return array(
+        return [
             'o:label' => $this->label(),
             'o:owner' => $owner,
             'o:resource_class' => $resourceClass,
             'o:resource_template_property' => $this->resourceTemplateProperties(),
-        );
+        ];
     }
 
     /**
@@ -79,7 +79,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      */
     public function resourceTemplateProperties()
     {
-        $resTemProps = array();
+        $resTemProps = [];
         foreach ($this->getData()->getResourceTemplateProperties() as $resTemProp) {
             $resTemProps[]= new ResourceTemplatePropertyRepresentation(
                 $resTemProp, $this->getServiceLocator());
@@ -107,10 +107,10 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function itemCount()
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items', array(
+            ->search('items', [
                 'resource_template_id' => $this->id(),
                 'limit' => 0,
-            ));
+            ]);
         return $response->getTotalResults();
     }
 }

@@ -11,7 +11,7 @@ class Manager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    protected $canonicalNamesReplacements = array();
+    protected $canonicalNamesReplacements = [];
 
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ class Manager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    public function get($name, $options = array(),
+    public function get($name, $options = [],
         $usePeeringServiceManagers = true
     ){
         try {

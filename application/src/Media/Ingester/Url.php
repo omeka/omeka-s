@@ -81,17 +81,17 @@ class Url extends AbstractIngester
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new Text('o:media[__index__][ingest_url]');
-        $urlInput->setOptions(array(
+        $urlInput->setOptions([
             'label' => $view->translate('URL'),
             'info' => $view->translate('A URL to the media.'),
-        ));
-        $urlInput->setAttributes(array(
+        ]);
+        $urlInput->setAttributes([
             'id' => 'media-url-ingest-url-__index__',
             'required' => true
-        ));
+        ]);
         return $view->formField($urlInput);
     }
 }

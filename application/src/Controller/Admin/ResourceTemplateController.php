@@ -18,9 +18,9 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -60,7 +60,7 @@ class ResourceTemplateController extends AbstractActionController
                 $this->messenger()->addError('Resource template could not be deleted');
             }
         }
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     public function addAction()
@@ -124,9 +124,9 @@ class ResourceTemplateController extends AbstractActionController
         if ('edit' == $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
             $view->setVariable('confirmForm', new ConfirmForm(
-                $this->getServiceLocator(), null, array(
+                $this->getServiceLocator(), null, [
                     'button_value' => $this->translate('Confirm Delete'),
-                )
+                ]
             ));
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());
@@ -162,40 +162,40 @@ class ResourceTemplateController extends AbstractActionController
 
         // Set default property rows.
         } else {
-            $propertyRows = array();
+            $propertyRows = [];
             if ('edit' == $action) {
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
                 $resTemProps = $resourceTemplate->resourceTemplateProperties();
                 foreach ($resTemProps as $key => $resTemProp) {
-                    $propertyRows[$key] = array(
+                    $propertyRows[$key] = [
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
-                    );
+                    ];
                 }
             } else {
                 // For the add action, determs:title and dcterms:description are
                 // the only default property rows.
                 $titleProperty = $this->api()->searchOne(
-                    'properties', array('term' => 'dcterms:title')
+                    'properties', ['term' => 'dcterms:title']
                 )->getContent();
                 $descriptionProperty = $this->api()->searchOne(
-                    'properties', array('term' => 'dcterms:description')
+                    'properties', ['term' => 'dcterms:description']
                 )->getContent();
-                $propertyRows = array(
-                    array(
+                $propertyRows = [
+                    [
                         'o:property' => $titleProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                    ),
-                    array(
+                    ],
+                    [
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                    ),
-                );
+                    ],
+                ];
             }
         }
 
@@ -214,11 +214,11 @@ class ResourceTemplateController extends AbstractActionController
         $property = $this->api()
             ->read('properties', $this->params()->fromQuery('property_id'))
             ->getContent();
-        $propertyRow = array(
+        $propertyRow = [
             'o:property' => $property,
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
-        );
+        ];
 
         $view = new ViewModel;
         $view->setTerminal(true);

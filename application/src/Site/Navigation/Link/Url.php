@@ -21,18 +21,18 @@ class Url extends AbstractLink
 
     public function toZend(array $data, Site $site)
     {
-        return array(
+        return [
             'type' => 'uri',
             'uri' => $data['url'],
             'label' => $data['label'],
-        );
+        ];
     }
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
-        return array(
+        return [
             'label' => $data['label'],
             'url' => $data['url'],
-        );
+        ];
     }
 }

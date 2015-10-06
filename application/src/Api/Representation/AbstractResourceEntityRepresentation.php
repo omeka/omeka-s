@@ -70,22 +70,22 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function getJsonLd()
     {
         // Set the date time value objects.
-        $dateTime = array(
-            'o:created' => array(
+        $dateTime = [
+            'o:created' => [
                 '@value' => $this->getDateTime($this->created()),
                 '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ),
+            ],
             'o:modified' => null,
-        );
+        ];
         if ($this->modified()) {
-            $dateTime['o:modified'] = array(
+            $dateTime['o:modified'] = [
                '@value' => $this->getDateTime($this->modified()),
                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            );
+            ];
         }
 
         // Set the values as JSON-LD value objects.
-        $values = array();
+        $values = [];
         foreach ($this->values() as $term => $property) {
             $this->addVocabularyToContext($property['property']->vocabulary());
             foreach ($property['values'] as $value) {
@@ -107,12 +107,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         return array_merge(
-            array(
+            [
                 'o:is_public' => $this->isPublic(),
                 'o:owner' => $owner,
                 'o:resource_class' => $resourceClass,
                 'o:resource_template' => $resourceTemplate,
-            ),
+            ],
             $dateTime,
             $this->getResourceJsonLd(),
             $values
@@ -218,26 +218,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         // Set the default template info.
-        $templateInfo = array(
-            'dcterms:title' => array(),
-            'dcterms:description' => array(),
-        );
+        $templateInfo = [
+            'dcterms:title' => [],
+            'dcterms:description' => [],
+        ];
 
         $template = $this->resourceTemplate();
         if ($template) {
             // Set the custom template info.
-            $templateInfo = array();
+            $templateInfo = [];
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
                 $term = $templateProperty->property()->term();
-                $templateInfo[$term] = array(
+                $templateInfo[$term] = [
                     'alternate_label' => $templateProperty->alternateLabel(),
                     'alternate_comment' => $templateProperty->alternateComment(),
-                );
+                ];
             }
         }
 
         // Get this resource's values.
-        $values = array();
+        $values = [];
         foreach ($this->getData()->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ('resource' === $value->type() && null === $value->valueResource()) {
@@ -255,7 +255,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         // Order this resource's values according to the template order.
-        $sortedValues = array();
+        $sortedValues = [];
         foreach ($values as $term => $valueInfo) {
             foreach ($templateInfo as $templateTerm => $templateAlternates) {
                 if (array_key_exists($templateTerm, $values)) {
@@ -284,7 +284,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *   languages by default.
      * @return RepresentationInterface|mixed
      */
-    public function value($term, array $options = array())
+    public function value($term, array $options = [])
     {
         // Set defaults.
         if (!isset($options['type'])) {
@@ -309,7 +309,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         // Match only the representations that fit all the criteria.
-        $matchingValues = array();
+        $matchingValues = [];
         foreach ($this->values()[$term]['values'] as $value) {
             if (!is_null($options['type'])
                 && $value->type() !== $options['type']
@@ -340,7 +340,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $subjectResourceValues = $this->getAdapter()
             ->getSubjectValues($this->getData());
-        $valueRepresentations = array();
+        $valueRepresentations = [];
         foreach ($subjectResourceValues as $subjectResourceValue) {
             $valueRepresentations[] = new ValueRepresentation(
                 $subjectResourceValue,
@@ -357,7 +357,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function objectValues()
     {
-        $objectValues = array();
+        $objectValues = [];
         foreach ($this->values() as $term => $property) {
             foreach ($property['values'] as $value) {
                 if ('resource' == $value->type()) {
@@ -380,7 +380,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param array $options
      * @return string
      */
-    public function displayValues(array $options = array())
+    public function displayValues(array $options = [])
     {
         if (!isset($options['hideVocabulary'])) {
             $options['hideVocabulary'] = false;
@@ -410,7 +410,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param array $options
      * @return string
      */
-    public function displayLinkedResources(array $options = array())
+    public function displayLinkedResources(array $options = [])
     {
         if (!isset($options['viewName'])) {
             $options['viewName'] = 'common/linked-resources';
@@ -429,10 +429,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null)
     {
-        $title = $this->value('dcterms:title', array(
+        $title = $this->value('dcterms:title', [
             'type' => 'literal',
             'default' => null,
-        ));
+        ]);
 
         if ($title !== null) {
             return (string) $title;
@@ -454,10 +454,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayDescription($default = null)
     {
-        return (string) $this->value('dcterms:description', array(
+        return (string) $this->value('dcterms:description', [
             'type' => 'literal',
             'default' => $default,
-        ));
+        ]);
     }
 
     /**
@@ -480,7 +480,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function valueRepresentation()
     {
-        $representation = array();
+        $representation = [];
         $representation['@id'] = $this->apiUrl();
         $representation['value_resource_id'] = $this->id();
         $representation['value_resource_name'] = $this->resourceName();
@@ -500,11 +500,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     protected function addVocabularyToContext(VocabularyRepresentation $vocabulary)
     {
-        $this->addTermDefinitionToContext($vocabulary->prefix(), array(
+        $this->addTermDefinitionToContext($vocabulary->prefix(), [
             '@id' => $vocabulary->namespaceUri(),
             'vocabulary_id' => $vocabulary->id(),
             'vocabulary_label' => $vocabulary->label(),
-        ));
+        ]);
     }
 
     /**

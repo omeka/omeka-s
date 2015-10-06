@@ -12,7 +12,7 @@ class Manager implements ServiceLocatorAwareInterface
     /**
      * @var array Registered themes
      */
-    protected $themes = array();
+    protected $themes = [];
 
     /**
      * @var Theme|null The current theme

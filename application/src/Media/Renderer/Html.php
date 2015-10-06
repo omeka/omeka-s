@@ -10,7 +10,7 @@ class Html extends AbstractRenderer
      * {@inheritDoc}
      */
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
+        array $options = []
     ) {
         $data = $media->mediaData();
         return $data['html'];

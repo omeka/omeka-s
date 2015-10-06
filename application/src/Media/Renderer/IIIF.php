@@ -7,7 +7,7 @@ use Zend\View\Renderer\PhpRenderer;
 class IIIF extends AbstractRenderer
 {
 
-    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = array())
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         $IIIFData = $media->mediaData();
         $view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));

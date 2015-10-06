@@ -42,7 +42,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function asHtml()
     {
-        $args = array();
+        $args = [];
         switch ($this->type()) {
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
@@ -93,7 +93,7 @@ class ValueRepresentation extends AbstractRepresentation
     public function jsonSerialize()
     {
         $value = $this->getData();
-        $valueObject = array();
+        $valueObject = [];
 
         switch ($this->type()) {
 

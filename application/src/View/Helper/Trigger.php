@@ -24,7 +24,7 @@ class Trigger extends AbstractHelper
      * @param string $name The event name
      * @param array $params The event parameters
      */
-    public function __invoke($name, array $params = array())
+    public function __invoke($name, array $params = [])
     {
         $params['services'] = $this->serviceLocator;
         $event = new Event($name, $this->getView(), $params);

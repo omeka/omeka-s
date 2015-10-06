@@ -14,12 +14,12 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function getJsonLd()
     {
         $entity = $this->getData();
-        return array(
+        return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
-        );
+        ];
     }
 
     /**
@@ -30,12 +30,12 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'admin/site/page',
-            array(
+            [
                 'site-slug' => $this->site()->slug(),
                 'page-slug' => $this->slug(),
                 'action' => $action,
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
 
@@ -56,7 +56,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
      */
     public function blocks()
     {
-        $blocks = array();
+        $blocks = [];
         foreach ($this->getData()->getBlocks() as $block) {
             $blocks[]= new SitePageBlockRepresentation(
                 $block, $this->getServiceLocator());
@@ -78,11 +78,11 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'site/page',
-            array(
+            [
                 'site-slug' => $siteSlug,
                 'page-slug' => $this->slug(),
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
 }

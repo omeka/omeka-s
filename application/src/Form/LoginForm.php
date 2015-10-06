@@ -7,42 +7,42 @@ class LoginForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'email',
             'type' => 'Email',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Email'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'password',
             'type' => 'Password',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Password'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'submit',
             'type'  => 'Submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => $translator->translate('Log in'),
-            ),
-        ));
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'email',
             'required' => true,
-        ));
-        $inputFilter->add(array(
+        ]);
+        $inputFilter->add([
             'name' => 'password',
             'required' => true,
-        ));
+        ]);
     }
 }

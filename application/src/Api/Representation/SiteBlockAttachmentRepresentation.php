@@ -40,11 +40,11 @@ class SiteBlockAttachmentRepresentation extends AbstractRepresentation
     public function jsonSerialize()
     {
         $media = $this->media();
-        return array(
+        return [
             'o:item' => $this->item()->getReference(),
             'o:media' => $media ? $media->getReference() : null,
             'o:caption' => $this->caption(),
-        );
+        ];
     }
 
     /**

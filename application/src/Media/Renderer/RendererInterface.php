@@ -15,5 +15,5 @@ interface RendererInterface
      * @return string
      */
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array());
+        array $options = []);
 }

@@ -9,7 +9,7 @@ class ErrorStore
     /**
      * @var array
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Add an error.
@@ -71,7 +71,7 @@ class ErrorStore
      */
     public function clearErrors()
     {
-        $this->errors = array();
+        $this->errors = [];
     }
 
     /**

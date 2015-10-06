@@ -11,11 +11,11 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'       => 'id',
         'created'  => 'created',
         'modified' => 'modified',
-    );
+    ];
 
     /**
      * {@inheritDoc}

@@ -20,11 +20,11 @@ class UserController extends AbstractActionController
         $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
         $activateUser = $acl->userIsAllowed('Omeka\Entity\User', 'activate-user');
-        $form = new UserForm($serviceLocator, null, array(
+        $form = new UserForm($serviceLocator, null, [
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
-        ));
+        ]);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
@@ -58,9 +58,9 @@ class UserController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -96,11 +96,11 @@ class UserController extends AbstractActionController
         $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
         $activateUser = $acl->userIsAllowed($userEntity, 'activate-user');
-        $form = new UserForm($this->getServiceLocator(), null, array(
+        $form = new UserForm($this->getServiceLocator(), null, [
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
-        ));
+        ]);
         $data = $user->jsonSerialize();
         $form->setData($data);
 
@@ -135,7 +135,7 @@ class UserController extends AbstractActionController
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $currentUser = $user === $this->identity();
-        $form = new UserPasswordForm($this->getServiceLocator(), null, array('current_password' => $currentUser));
+        $form = new UserPasswordForm($this->getServiceLocator(), null, ['current_password' => $currentUser]);
 
         $view = new ViewModel;
         $view->setVariable('user', $userRepresentation);
@@ -158,7 +158,7 @@ class UserController extends AbstractActionController
                 $user->setPassword($values['password']);
                 $em->flush();
                 $this->messenger()->addSuccess('Password changed.');
-                return $this->redirect()->toRoute(null, array('action' => 'edit'), array(), true);
+                return $this->redirect()->toRoute(null, ['action' => 'edit'], [], true);
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }
@@ -207,7 +207,7 @@ class UserController extends AbstractActionController
         }
 
         // Only expose key IDs and values to the view
-        $viewKeys = array();
+        $viewKeys = [];
         foreach ($keys as $id => $key) {
             $viewKeys[$id] = $key->getLabel();
         }
@@ -237,7 +237,7 @@ class UserController extends AbstractActionController
         }
         return $this->redirect()->toRoute(
             'admin/default',
-            array('action' => 'browse'),
+            ['action' => 'browse'],
             true
         );
     }

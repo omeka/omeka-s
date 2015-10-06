@@ -17,8 +17,8 @@ class AbstractEntityAdapterTest extends TestCase
     {
         $this->adapter = $this->getMock(
             'Omeka\Api\Adapter\AbstractEntityAdapter',
-            array('hydrate', 'getResourceName', 'getRepresentationClass',
-                'getEntityClass', 'getEventManager')
+            ['hydrate', 'getResourceName', 'getRepresentationClass',
+                'getEntityClass', 'getEventManager']
         );
     }
 
@@ -57,11 +57,11 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,
             'MvcTranslator' => $translator,
             'Omeka\Acl' => $acl,
-        ));
+        ]);
         $this->adapter->setServiceLocator($serviceManager);
 
         /** Adapter **/

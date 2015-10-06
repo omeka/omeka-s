@@ -19,9 +19,9 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -55,9 +55,9 @@ class IndexController extends AbstractActionController
         $serviceLocator = $this->getServiceLocator();
         $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
         $form = new SiteForm($serviceLocator);
-        $readResponse = $this->api()->read('sites', array(
+        $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
 
         $site = $readResponse->getContent();
         $id = $site->id();
@@ -84,7 +84,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $users = $this->api()->search('users', array('sort_by' => 'name'));
+        $users = $this->api()->search('users', ['sort_by' => 'name']);
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
@@ -92,9 +92,9 @@ class IndexController extends AbstractActionController
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -103,9 +103,9 @@ class IndexController extends AbstractActionController
     {
         $form = new SitePageForm($this->getServiceLocator());
 
-        $readResponse = $this->api()->read('sites', array(
+        $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $readResponse->getContent();
         $id = $site->id();
 
@@ -138,8 +138,8 @@ class IndexController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('sites', array(
-                    'slug' => $this->params('site-slug'))
+                $response = $this->api()->delete('sites', [
+                    'slug' => $this->params('site-slug')]
                 );
                 if ($response->isError()) {
                     $this->messenger()->addError('Site could not be deleted');
@@ -155,9 +155,9 @@ class IndexController extends AbstractActionController
 
     public function showDetailsAction()
     {
-        $response = $this->api()->read('sites', array(
+        $response = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $response->getContent();
         $view = new ViewModel;
         $view->setTerminal(true);

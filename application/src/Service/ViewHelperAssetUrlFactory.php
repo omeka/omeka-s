@@ -29,7 +29,7 @@ class ViewHelperAssetUrlFactory implements FactoryInterface
         if ($assetConfig['use_externals']) {
             $externals = $assetConfig['externals'];
         } else {
-            $externals = array();
+            $externals = [];
         }
 
         $helper = new AssetUrl($currentTheme, $activeModules, $externals);

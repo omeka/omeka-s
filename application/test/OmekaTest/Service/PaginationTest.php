@@ -15,9 +15,9 @@ class PaginatorTest extends TestCase
             ->method('get')
             ->with($this->equalTo('pagination_per_page'), $this->equalTo(25))
             ->will($this->returnValue($perPage));
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Omeka\Settings' => $settings,
-        ));
+        ]);
 
         $paginator = new Paginator;
         $paginator->setServiceLocator($serviceManager);

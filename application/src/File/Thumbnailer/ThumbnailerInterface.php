@@ -31,5 +31,5 @@ interface ThumbnailerInterface extends ServiceLocatorAwareInterface
      * @param array $options Options for this strategy
      * @return string Path to temporary thumbnail file
      */
-    public function create($strategy, $constraint, array $options = array());
+    public function create($strategy, $constraint, array $options = []);
 }

@@ -13,13 +13,13 @@ class RequestTest extends TestCase
         $this->request = new Request;
     }
     
-    protected $validOperations = array(
+    protected $validOperations = [
         'search','create','read','update','delete',
-    );
+    ];
 
     public function testInitialState()
     {
-        $this->assertEquals(array(), $this->request->getContent());
+        $this->assertEquals([], $this->request->getContent());
         $this->assertNull($this->request->getOperation());
         $this->assertNull($this->request->getResource());
         $this->assertNull($this->request->getId());

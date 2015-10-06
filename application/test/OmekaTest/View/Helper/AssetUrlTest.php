@@ -13,8 +13,8 @@ class AssetUrlTest extends TestCase
         $view = $this->getMock('Zend\View\Renderer\PhpRenderer');
         $this->assetUrl = new AssetUrl(
             'foo-theme',
-            array('MyModule' => array()),
-            array('Omeka' => array('foo-internal' => 'foo-external'))
+            ['MyModule' => []],
+            ['Omeka' => ['foo-internal' => 'foo-external']]
         );
         $this->assetUrl->setView($view);
     }

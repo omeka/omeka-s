@@ -50,16 +50,16 @@ class ApiJsonStrategyTest extends TestCase
 
     public function statusProvider()
     {
-        return array(
-            array(ApiResponse::SUCCESS, 'bar', null, 200),
-            array(ApiResponse::SUCCESS, null, null, 204),
-            array(ApiResponse::ERROR_VALIDATION, 'bar', null, 422),
-            array(ApiResponse::ERROR, 'bar', new Exception\NotFoundException, 404),
-            array(ApiResponse::ERROR, 'bar', new Exception\PermissionDeniedException, 403),
-            array(ApiResponse::ERROR, 'bar', new \Exception, 500),
-            array(ApiResponse::ERROR, 'bar', new JsonException\RuntimeException, 400),
-            array('foo', 'bar', null, 500)
-        );
+        return [
+            [ApiResponse::SUCCESS, 'bar', null, 200],
+            [ApiResponse::SUCCESS, null, null, 204],
+            [ApiResponse::ERROR_VALIDATION, 'bar', null, 422],
+            [ApiResponse::ERROR, 'bar', new Exception\NotFoundException, 404],
+            [ApiResponse::ERROR, 'bar', new Exception\PermissionDeniedException, 403],
+            [ApiResponse::ERROR, 'bar', new \Exception, 500],
+            [ApiResponse::ERROR, 'bar', new JsonException\RuntimeException, 400],
+            ['foo', 'bar', null, 500]
+        ];
     }
 
     /**

@@ -66,10 +66,10 @@ class AbstractAdapterTest extends TestCase
             ->with($this->equalTo('test_adapter'))
             ->will($this->returnValue('return_test_adapter'));
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'MvcTranslator' => $mockTranslator,
             'Omeka\ApiAdapterManager' => $mockAdapterManager,
-        ));
+        ]);
         $this->adapter->setServiceLocator($serviceManager);
     }
 }

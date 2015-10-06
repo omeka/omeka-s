@@ -8,16 +8,16 @@ class PageController extends AbstractActionController
 {
     public function showAction()
     {
-        $siteResponse = $this->api()->read('sites', array(
+        $siteResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $siteResponse->getContent();
         $siteId = $site->id();
 
-        $pageResponse = $this->api()->read('site_pages', array(
+        $pageResponse = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),
             'site' => $siteId
-        ));
+        ]);
         $page = $pageResponse->getContent();
 
         $view = new ViewModel;

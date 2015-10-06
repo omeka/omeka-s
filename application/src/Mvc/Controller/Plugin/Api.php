@@ -22,7 +22,7 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function search($resource, $data = array())
+    public function search($resource, $data = [])
     {
         $response = $this->getApiManager()->search($resource, $data);
         $this->detectError($response);
@@ -39,7 +39,7 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function searchOne($resource, $data = array())
+    public function searchOne($resource, $data = [])
     {
         $data['limit'] = 1;
         $response = $this->search($resource, $data);
@@ -57,7 +57,7 @@ class Api extends AbstractPlugin
      * @param array $files
      * @return Response
      */
-    public function create($resource, $data = array(), $fileData = array())
+    public function create($resource, $data = [], $fileData = [])
     {
         $response = $this->getApiManager()->create($resource, $data, $fileData);
         $this->detectError($response);
@@ -71,7 +71,7 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function batchCreate($resource, $data = array())
+    public function batchCreate($resource, $data = [])
     {
         $response = $this->getApiManager()->batchCreate($resource, $data);
         $this->detectError($response);
@@ -86,7 +86,7 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function read($resource, $id, $data = array())
+    public function read($resource, $id, $data = [])
     {
         $response = $this->getApiManager()->read($resource, $id, $data);
         $this->detectError($response);
@@ -103,7 +103,7 @@ class Api extends AbstractPlugin
      * @param boolean $partial
      * @return Response
      */
-    public function update($resource, $id, $data = array(), $fileData = array(),
+    public function update($resource, $id, $data = [], $fileData = [],
         $partial = false
     ) {
         $response = $this->getApiManager()->update($resource, $id, $data,
@@ -120,7 +120,7 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function delete($resource, $id, $data = array())
+    public function delete($resource, $id, $data = [])
     {
         $response = $this->getApiManager()->delete($resource, $id, $data);
         $this->detectError($response);

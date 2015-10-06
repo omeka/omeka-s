@@ -28,7 +28,7 @@ class VisibilityFilter extends SQLFilter
         }
 
         // Users can view public resources they do not own.
-        $constraints = array("$targetTableAlias.is_public = 1");
+        $constraints = ["$targetTableAlias.is_public = 1"];
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {

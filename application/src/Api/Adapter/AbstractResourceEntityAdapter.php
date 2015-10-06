@@ -390,10 +390,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         AND v.prefix = :prefix';
         return $this->getEntityManager()
             ->createQuery($dql)
-            ->setParameters(array(
+            ->setParameters([
                 'localName' => $localName,
                 'prefix' => $prefix
-            ))->getOneOrNullResult();
+            ])->getOneOrNullResult();
     }
 
     /**
@@ -406,6 +406,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     {
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(array('valueResource' => $resource));
+            ->findBy(['valueResource' => $resource]);
     }
 }

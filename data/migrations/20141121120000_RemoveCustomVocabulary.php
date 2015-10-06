@@ -7,6 +7,6 @@ class RemoveCustomVocabulary extends AbstractMigration
 {
     public function up()
     {
-        $this->getConnection()->delete('vocabulary', array('prefix' => 'omeka'));
+        $this->getConnection()->delete('vocabulary', ['prefix' => 'omeka']);
     }
 }

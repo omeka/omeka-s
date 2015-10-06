@@ -30,11 +30,11 @@ class Fallback extends AbstractLink
 
     public function toZend(array $data, Site $site)
     {
-        return array(
+        return [
             'type' => 'uri',
             'uri' => null,
             'label' => $data['label'],
-        );
+        ];
     }
 
     public function toJstree(array $data, SiteRepresentation $site)

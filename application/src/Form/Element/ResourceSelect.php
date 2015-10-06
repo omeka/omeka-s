@@ -17,7 +17,7 @@ class ResourceSelect extends Select
      * @param array $options Optional options for the form
      */
     public function __construct(ServiceLocatorInterface $serviceLocator,
-        $name = null, $options = array()
+        $name = null, $options = []
     ) {
         $this->setServiceLocator($serviceLocator);
         parent::__construct($name, $options);
@@ -46,7 +46,7 @@ class ResourceSelect extends Select
             return;
         }
 
-        $valueOptions = array();
+        $valueOptions = [];
         foreach ($response->getContent() as $representation) {
             $value = $callback($representation, $serviceLocator);
             if (is_array($value)) {

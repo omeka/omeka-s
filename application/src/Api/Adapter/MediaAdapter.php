@@ -14,14 +14,14 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'        => 'id',
         'ingester'  => 'ingester',
         'renderer'  => 'renderer',
         'is_public' => 'isPublic',
         'created'   => 'created',
         'modified'  => 'modified',
-    );
+    ];
 
     /**
      * {@inheritDoc}

@@ -22,25 +22,25 @@ class Browse extends AbstractLink
     public function toZend(array $data, Site $site)
     {
         parse_str($data['query'], $query);
-        return array(
+        return [
             'label' => $data['label'],
             'route' => 'site/resource',
-            'params' => array(
+            'params' => [
                 'site-slug' => $site->getSlug(),
                 'controller' => 'item',
                 'action' => 'browse',
-            ),
+            ],
             'query' => $query,
-        );
+        ];
     }
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
         $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         $query = isset($data['query']) ? $data['query'] : null;
-        return array(
+        return [
             'label' => $label,
             'query' => $query,
-        );
+        ];
     }
 }

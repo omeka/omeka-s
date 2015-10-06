@@ -9,7 +9,7 @@ class ApiTest extends TestCase
     public function testSearch()
     {
         $resource = 'test-resource';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -17,9 +17,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -32,7 +32,7 @@ class ApiTest extends TestCase
     public function testCreate()
     {
         $resource = 'test-resource';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -40,9 +40,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -55,7 +55,7 @@ class ApiTest extends TestCase
     public function testBatchCreate()
     {
         $resource = 'test-resource';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -63,9 +63,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -79,7 +79,7 @@ class ApiTest extends TestCase
     {
         $resource = 'test-resource';
         $id = 'test-id';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -87,9 +87,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -103,7 +103,7 @@ class ApiTest extends TestCase
     {
         $resource = 'test-resource';
         $id = 'test-id';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -111,9 +111,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -127,7 +127,7 @@ class ApiTest extends TestCase
     {
         $resource = 'test-resource';
         $id = 'test-id';
-        $data = array('foo' => 'bar');
+        $data = ['foo' => 'bar'];
 
         $mockApiManager = $this->getMock('Omeka\Api\Manager');
         $mockApiManager->expects($this->once())
@@ -135,9 +135,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->getMock('Omeka\Api\Response')));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -150,9 +150,9 @@ class ApiTest extends TestCase
     public function testSearchOneWithContent()
     {
         $resource = 'test-resource';
-        $data = array('foo' => 'bar');
-        $content = array('foobar', 'bazbat');
-        $dataWithLimit = $data + array('limit' => 1);
+        $data = ['foo' => 'bar'];
+        $content = ['foobar', 'bazbat'];
+        $dataWithLimit = $data + ['limit' => 1];
 
         $response = new \Omeka\Api\Response;
         $response->setContent($content);
@@ -163,9 +163,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))
             ->will($this->returnValue($response));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);
@@ -179,9 +179,9 @@ class ApiTest extends TestCase
     public function testSearchOneWithoutContent()
     {
         $resource = 'test-resource';
-        $data = array('foo' => 'bar');
-        $content = array();
-        $dataWithLimit = $data + array('limit' => 1);
+        $data = ['foo' => 'bar'];
+        $content = [];
+        $dataWithLimit = $data + ['limit' => 1];
 
         $response = new \Omeka\Api\Response;
         $response->setContent($content);
@@ -192,9 +192,9 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))
             ->will($this->returnValue($response));
 
-        $mockServiceManager = $this->getServiceManager(array(
+        $mockServiceManager = $this->getServiceManager([
             'Omeka\ApiManager' => $mockApiManager,
-        ));
+        ]);
 
         $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $mockController->setServiceLocator($mockServiceManager);

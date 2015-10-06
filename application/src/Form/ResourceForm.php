@@ -16,13 +16,13 @@ class ResourceForm extends AbstractForm
             ->setName('o:resource_template[o:id]')
             ->setAttribute('id', 'resource-template-select')
             ->setAttribute('data-api-base-url', $url('api/default',
-                array('resource' => 'resource_templates')))
+                ['resource' => 'resource_templates']))
             ->setLabel($translator->translate('Resource Template'))
             ->setEmptyOption($translator->translate('Select Template'))
             ->setOption('info', $translator->translate('A pre-defined template for resource creation.'))
             ->setResourceValueOptions(
                 'resource_templates',
-                array(),
+                [],
                 function ($template, $serviceLocator) {
                     return $template->label();
                 }
@@ -38,25 +38,25 @@ class ResourceForm extends AbstractForm
             ->setOption('info', $translator->translate('A type for the resource. Different types have different default properties attached to them.'))
             ->setResourceValueOptions(
                 'resource_classes',
-                array(),
+                [],
                 function ($resourceClass, $serviceLocator) {
-                    return array(
+                    return [
                         $resourceClass->vocabulary()->label(),
                         $resourceClass->label()
-                    );
+                    ];
                 }
             );
         $this->add($classSelect);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'o:resource_template[o:id]',
             'required' => false,
-        ));
-        $inputFilter->add(array(
+        ]);
+        $inputFilter->add([
             'name' => 'o:resource_class[o:id]',
             'required' => false,
-        ));
+        ]);
     }
 }
 

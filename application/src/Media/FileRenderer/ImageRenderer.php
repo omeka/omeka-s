@@ -10,7 +10,7 @@ class ImageRenderer implements RendererInterface
     use ServiceLocatorAwareTrait;
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
+        array $options = []
     ){
         return sprintf('<img src="%s">', $view->escapeHtml($media->originalUrl()));
     }

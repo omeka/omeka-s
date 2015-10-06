@@ -82,13 +82,13 @@ class IIIF extends AbstractIngester
         }
     }
 
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new Text('o:media[__index__][o:source]');
-        $urlInput->setOptions(array(
+        $urlInput->setOptions([
             'label' => $view->translate('IIIF Image URL'),
             'info' => $view->translate('URL for the image to embed.'),
-        ));
+        ]);
         return $view->formField($urlInput);
     }
 

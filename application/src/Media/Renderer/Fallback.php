@@ -10,7 +10,7 @@ class Fallback implements RendererInterface
     use ServiceLocatorAwareTrait;
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
+        array $options = []
     ) {
         return '';
     }

@@ -51,16 +51,16 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setTitle($request->getValue('o:title'));
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
-            $entity->setNavigation($request->getValue('o:navigation', array()));
+            $entity->setNavigation($request->getValue('o:navigation', []));
         }
         if ($this->shouldHydrate($request, 'o:is_public')) {
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
         if ($this->shouldHydrate($request, 'o:page')) {
-            $pagesData = $request->getValue('o:page', array());
+            $pagesData = $request->getValue('o:page', []);
             $adapter = $this->getAdapter('site_pages');
-            $retainPages = array();
+            $retainPages = [];
             foreach ($pagesData as $pageData) {
                 if (isset($pageData['o:id'])) {
                     $page = $adapter->findEntity($pageData['o:id']);
@@ -84,7 +84,7 @@ class SiteAdapter extends AbstractEntityAdapter
 
             $userAdapter = $this->getAdapter('users');
             $sitePermissions = $entity->getSitePermissions();
-            $sitePermissionsToRetain = array();
+            $sitePermissionsToRetain = [];
 
             foreach ($sitePermissionsData as $sitePermissionData) {
 
@@ -131,7 +131,7 @@ class SiteAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:slug',
                 'A slug can only contain letters, numbers, and hyphens.');
         }
-        if (!$this->isUnique($entity, array('slug' => $slug))) {
+        if (!$this->isUnique($entity, ['slug' => $slug])) {
             $errorStore->addError('o:slug', sprintf(
                 'The slug "%s" is already taken.',
                 $slug

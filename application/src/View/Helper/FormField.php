@@ -31,8 +31,8 @@ class FormField extends AbstractHelper
             return $this->getView()->formElement($element);
         }
 
-        return $this->getView()->partial($partialName, array(
+        return $this->getView()->partial($partialName, [
             'element' => $element,
-        ));
+        ]);
     }
 }

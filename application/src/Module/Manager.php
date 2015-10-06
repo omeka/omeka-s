@@ -24,7 +24,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
     /**
      * @var array Valid module states
      */
-    protected $validStates = array(
+    protected $validStates = [
         // A module that is valid, installed, and active
         self::STATE_ACTIVE,
         // A module that is valid, installed, and not active
@@ -39,12 +39,12 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
         self::STATE_INVALID_INI,
         // A module where the filesystem version is newer than the installed version
         self::STATE_NEEDS_UPGRADE,
-    );
+    ];
 
     /**
      * @var array Registered modules
      */
-    protected $modules = array();
+    protected $modules = [];
 
     /**
      * @var EntityManager
@@ -127,7 +127,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
      */
     public function getModulesByState($state)
     {
-        $modules = array();
+        $modules = [];
         foreach ($this->modules as $id => $module) {
             if ($state == $module->getState()) {
                 $modules[$id] = $module;
@@ -245,10 +245,10 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
         $t = $this->getTranslator();
 
         // Only an installed and upgraded module can be uninstalled
-        if (!in_array($module->getState(), array(
+        if (!in_array($module->getState(), [
             self::STATE_ACTIVE,
             self::STATE_NOT_ACTIVE,
-        ))) {
+        ])) {
             throw new Exception\ModuleStateInvalidException(sprintf(
                 $t->translate('Module "%s" is marked as "%s" and cannot be uninstalled'),
                 $module->getId(), $module->getState()

@@ -16,32 +16,32 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToInstallation')
+            [$this, 'redirectToInstallation']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToMigration')
+            [$this, 'redirectToMigration']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToLogin')
+            [$this, 'redirectToLogin']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'authenticateApiKey')
+            [$this, 'authenticateApiKey']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'authorizeUserAgainstRoute'),
+            [$this, 'authorizeUserAgainstRoute'],
             -1000
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'prepareAdmin')
+            [$this, 'prepareAdmin']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'prepareSite')
+            [$this, 'prepareSite']
         );
     }
 
@@ -63,7 +63,7 @@ class MvcListeners extends AbstractListenerAggregate
             // On the install route
             return;
         }
-        $url = $event->getRouter()->assemble(array(), array('name' => 'install'));
+        $url = $event->getRouter()->assemble([], ['name' => 'install']);
         $response = $event->getResponse();
         $response->getHeaders()->addHeaderLine('Location', $url);
         $response->setStatusCode(302);
@@ -111,9 +111,9 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         if ($routeMatch->getParam('__ADMIN__')) {
-            $url = $event->getRouter()->assemble(array(), array('name' => 'migrate'));
+            $url = $event->getRouter()->assemble([], ['name' => 'migrate']);
         } else {
-            $url = $event->getRouter()->assemble(array(), array('name' => 'maintenance'));
+            $url = $event->getRouter()->assemble([], ['name' => 'maintenance']);
         }
         $response = $event->getResponse();
         $response->getHeaders()->addHeaderLine('Location', $url);
@@ -141,10 +141,10 @@ class MvcListeners extends AbstractListenerAggregate
         $routeMatch = $event->getRouteMatch();
         if ($routeMatch->getParam('__ADMIN__')) {
             // This is an admin request.
-            $url = $event->getRouter()->assemble(array(), array(
+            $url = $event->getRouter()->assemble([], [
                 'name' => 'login',
-                'query' => array('redirect' => $event->getRequest()->getUriString())
-            ));
+                'query' => ['redirect' => $event->getRequest()->getUriString()]
+            ]);
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);

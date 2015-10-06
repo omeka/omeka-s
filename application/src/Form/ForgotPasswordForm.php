@@ -7,17 +7,17 @@ class ForgotPasswordForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'email',
             'type' => 'Email',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Email'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'email',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
     }
 }
 

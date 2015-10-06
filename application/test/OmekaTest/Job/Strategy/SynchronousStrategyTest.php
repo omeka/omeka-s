@@ -15,9 +15,9 @@ class SynchronousStrategyTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $serviceLocator = $this->getServiceManager(array(
+        $serviceLocator = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,
-        ));
+        ]);
         $synchronousStrategy = new SynchronousStrategy;
         $synchronousStrategy->setServiceLocator($serviceLocator);
         $this->synchronousStrategy = $synchronousStrategy;
@@ -35,8 +35,8 @@ class SynchronousStrategyTest extends TestCase
         $job->expects($this->exactly(2))
             ->method('setStatus')
             ->withConsecutive(
-                array($this->equalTo(Job::STATUS_IN_PROGRESS)),
-                array($this->equalTo(Job::STATUS_COMPLETED))
+                [$this->equalTo(Job::STATUS_IN_PROGRESS)],
+                [$this->equalTo(Job::STATUS_COMPLETED)]
             );
         $job->expects($this->once())
             ->method('setEnded')

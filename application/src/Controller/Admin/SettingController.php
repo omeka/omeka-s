@@ -13,13 +13,13 @@ class SettingController extends AbstractActionController
         $settings = $serviceLocator->get('Omeka\Settings');
 
         $form = new SettingForm($serviceLocator);
-        $data = array(
+        $data = [
             'administrator_email' => $settings->get('administrator_email'),
             'installation_title' => $settings->get('installation_title'),
             'pagination_per_page' => $settings->get('pagination_per_page'),
             'property_label_information' => $settings->get('property_label_information'),
             'use_htmlpurifier' => $settings->get('use_htmlpurifier')
-        );
+        ];
         $form->setData($data);
 
         $request = $this->getRequest();
@@ -31,7 +31,7 @@ class SettingController extends AbstractActionController
                     $settings->set($key, $value);
                 }
                 $this->messenger()->addSuccess('Settings updated');
-                return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

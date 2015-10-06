@@ -107,11 +107,11 @@ class Cli implements ServiceLocatorAwareInterface
      */
     public function procOpen($command)
     {
-        $descriptorSpec = array(
-            0 => array('pipe', 'r'), // STDIN
-            1 => array('pipe', 'w'), // STDOUT
-            2 => array('pipe', 'w'), // STDERR
-        );
+        $descriptorSpec = [
+            0 => ['pipe', 'r'], // STDIN
+            1 => ['pipe', 'w'], // STDOUT
+            2 => ['pipe', 'w'], // STDERR
+        ];
 
         $proc = proc_open($command, $descriptorSpec, $pipes, getcwd());
         if (!is_resource($proc)) {

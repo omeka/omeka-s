@@ -150,7 +150,7 @@ class File implements ServiceLocatorAwareInterface
         $extension = substr(strrchr($this->sourceName, '.'), 1);
 
         if (isset($mediaTypeMap[$mediaType][0])
-            && !in_array($mediaType, array('application/octet-stream'))
+            && !in_array($mediaType, ['application/octet-stream'])
         ) {
             if ($extension) {
                 if (!in_array($extension, $mediaTypeMap[$mediaType])) {

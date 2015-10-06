@@ -15,7 +15,7 @@ class Manager extends AbstractPluginManager
      *
      * {@inheritDoc}
      */
-    protected $canonicalNamesReplacements = array();
+    protected $canonicalNamesReplacements = [];
 
     /**
      * {@inheritDoc}

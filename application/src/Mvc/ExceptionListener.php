@@ -27,7 +27,7 @@ class ExceptionListener extends AbstractListenerAggregate implements ServiceLoca
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'handleException'), -5000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'handleException'], -5000);
     }
 
     /**
@@ -63,9 +63,9 @@ class ExceptionListener extends AbstractListenerAggregate implements ServiceLoca
             return;
         }
 
-        $model = new ViewModel(array(
+        $model = new ViewModel([
             'exception' => $exception,
-        ));
+        ]);
         $model->setTemplate($template);
 
         $response = $e->getResponse();

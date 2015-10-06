@@ -130,14 +130,14 @@ class LoginController extends AbstractActionController
             if ($form->isValid()) {
                 $entityManager = $serviceLocator->get('Omeka\EntityManager');
                 $user =  $entityManager->getRepository('Omeka\Entity\User')
-                    ->findOneBy(array(
+                    ->findOneBy([
                         'email' => $data['email'],
                         'isActive' => true,
-                    ));
+                    ]);
                 if ($user) {
                     $passwordCreation = $entityManager
                         ->getRepository('Omeka\Entity\PasswordCreation')
-                        ->findOneBy(array('user' => $user));
+                        ->findOneBy(['user' => $user]);
                     if ($passwordCreation) {
                         $entityManager->remove($passwordCreation);
                         $entityManager->flush();

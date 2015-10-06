@@ -9,7 +9,7 @@ class MessagesTest extends TestCase
     public function testGet()
     {
         $messages = new Messages;
-        $this->assertEquals(array(), $messages->get());
+        $this->assertEquals([], $messages->get());
     }
 
     public function testInvoke()

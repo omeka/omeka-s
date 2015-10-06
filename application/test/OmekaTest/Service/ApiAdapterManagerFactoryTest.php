@@ -12,17 +12,17 @@ class ApiAdapterManagerFactoryTest extends TestCase
 {
     public function testCreatesService()
     {
-        $config = array(
-            'api_adapters' => array(
-                'invokables' => array(
+        $config = [
+            'api_adapters' => [
+                'invokables' => [
                     'test_adapter' => 'OmekaTest\Service\TestAdapter',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Config' => $config,
-        ));
+        ]);
         $factory = new ApiAdapterManagerFactory;
         $service = $factory->createService($serviceManager);
 

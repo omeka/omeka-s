@@ -12,14 +12,14 @@ class ItemSetSelector extends AbstractHelper
      */
     public function __invoke()
     {
-        $query = array('is_open' => true);
+        $query = ['is_open' => true];
         $response = $this->getView()->api()->search('item_sets', $query);
         if ($response->isError()) {
             return;
         }
 
         // Organize items sets by owner.
-        $itemSetOwners = array();
+        $itemSetOwners = [];
         foreach ($response->getContent() as $itemSet) {
             $owner = $itemSet->owner();
             $email = $owner ? $owner->email() : null;
@@ -30,10 +30,10 @@ class ItemSetSelector extends AbstractHelper
 
         return $this->getView()->partial(
             'common/item-set-selector',
-            array(
+            [
                 'itemSetOwners' => $itemSetOwners,
                 'totalItemSetCount' => $response->getTotalResults(),
-            )
+            ]
         );
     }
 }

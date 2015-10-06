@@ -21,7 +21,7 @@ class Module extends AbstractModule
     /**
      * @var array View helpers that need service manager injection
      */
-    protected $viewHelpers = array(
+    protected $viewHelpers = [
         'api'        => 'Omeka\View\Helper\Api',
         'i18n'       => 'Omeka\View\Helper\I18n',
         'media'      => 'Omeka\View\Helper\Media',
@@ -32,7 +32,7 @@ class Module extends AbstractModule
         'blockLayout' => 'Omeka\View\Helper\BlockLayout',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'navigationLink' => 'Omeka\View\Helper\NavigationLink',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -80,47 +80,47 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             'Zend\View\Helper\Navigation\AbstractHelper',
             'isAllowed',
-            array($this, 'navigationPageIsAllowed')
+            [$this, 'navigationPageIsAllowed']
         );
 
         $sharedEventManager->attach(
             'Omeka\Entity\Media',
             OmekaEvent::ENTITY_REMOVE_POST,
-            array($this, 'deleteMediaFiles')
+            [$this, 'deleteMediaFiles']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
             OmekaEvent::REP_RESOURCE_JSON,
-            array($this, 'filterHtmlMediaJsonLd')
+            [$this, 'filterHtmlMediaJsonLd']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
             OmekaEvent::REP_RESOURCE_JSON,
-            array($this, 'filterYoutubeMediaJsonLd')
+            [$this, 'filterYoutubeMediaJsonLd']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
-            array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
-            array($this, 'filterMedia')
+            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            [$this, 'filterMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SiteAdapter',
-            array(OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY),
-            array($this, 'filterSites')
+            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            [$this, 'filterSites']
         );
 
         $sharedEventManager->attach(
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Site\Item',
                 'Omeka\Controller\Site\Media',
-            ),
+            ],
             'view.show.after',
             function (OmekaEvent $event) {
                 $resource = $event->getTarget()->resource;
@@ -129,12 +129,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Site\Item',
-            ),
+            ],
             'view.browse.after',
             function (OmekaEvent $event) {
                 $resources = $event->getTarget()->resources;
@@ -225,14 +225,14 @@ class Module extends AbstractModule
         $data = $event->getTarget()->mediaData();
         $jsonLd = $event->getParam('jsonLd');
         $jsonLd['@context']['time'] = 'http://www.w3.org/2006/time#';
-        $jsonLd['time:hasBeginning'] = array(
+        $jsonLd['time:hasBeginning'] = [
             '@value' => $data['start'],
             '@type' => 'time:seconds',
-        );
-        $jsonLd['time:hasEnd'] = array(
+        ];
+        $jsonLd['time:hasEnd'] = [
             '@value' => $data['end'],
             '@type' => 'time:seconds',
-        );
+        ];
         $event->setParam('jsonLd', $jsonLd);
     }
 
@@ -319,11 +319,11 @@ class Module extends AbstractModule
     {
         $sessionManager = Container::getDefaultManager();
         $config = $sessionManager->getConfig();
-        $config->setOptions(array(
+        $config->setOptions([
             'name' => md5(OMEKA_PATH),
             'cookie_httponly' => true,
             'use_strict_mode' => true,
             'use_only_cookies' => true,
-        ));
+        ]);
     }
 }

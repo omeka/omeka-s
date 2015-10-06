@@ -17,7 +17,7 @@ class Installer implements ServiceLocatorAwareInterface
     /**
      * @var array Error messages
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Install Omeka.

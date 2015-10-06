@@ -11,7 +11,7 @@ class PageTitleTest extends TestCase
         $title = 'A Title';
 
         $view = $this->getMock('Zend\View\Renderer\PhpRenderer',
-            array('escapeHtml', 'headTitle')
+            ['escapeHtml', 'headTitle']
         );
         $view->expects($this->once())
             ->method('escapeHtml')

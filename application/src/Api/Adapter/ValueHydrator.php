@@ -45,7 +45,7 @@ class ValueHydrator implements HydrationInterface
      */
     public function hydrate(array $nodeObject, $resource, $append = false)
     {
-        $newValues = array();
+        $newValues = [];
         $valueCollection = $resource->getValues();
         $existingValues = $valueCollection->toArray();
 

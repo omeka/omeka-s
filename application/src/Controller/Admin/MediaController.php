@@ -26,9 +26,9 @@ class MediaController extends AbstractActionController
         $view->setVariable('medias', $medias);
         $view->setVariable('resources', $medias);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -106,7 +106,7 @@ class MediaController extends AbstractActionController
         }
         return $this->redirect()->toRoute(
             'admin/default',
-            array('action' => 'browse'),
+            ['action' => 'browse'],
             true
         );
     }

@@ -38,17 +38,17 @@ class ResourceReferenceTest extends TestCase
 
         $resourceReference = $this->getMock(
             'Omeka\Api\Representation\ResourceReference',
-            array('apiUrl'),
-            array($this->id, $this->data, $this->adapter)
+            ['apiUrl'],
+            [$this->id, $this->data, $this->adapter]
         );
         $resourceReference->expects($this->once())
             ->method('apiUrl')
             ->will($this->returnValue($jsonLdId));
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             '@id' => $jsonLdId,
             'o:id' => $this->id,
-        ), $resourceReference->jsonSerialize());
+        ], $resourceReference->jsonSerialize());
     }
 
     public function testGetJsonLd()

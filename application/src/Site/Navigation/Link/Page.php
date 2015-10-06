@@ -19,23 +19,23 @@ class Page extends AbstractLink
     public function toZend(array $data, Site $site)
     {
         $sitePage = $site->getPages()->get($data['id']);
-        return array(
+        return [
             'label' => $data['label'],
             'route' => 'site/page',
-            'params' => array(
+            'params' => [
                 'site-slug' => $site->getSlug(),
                 'page-slug' => $sitePage->getSlug(),
-            ),
-        );
+            ],
+        ];
     }
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
         $sitePage = $site->pages()[$data['id']];
         $label = isset($data['label']) ? $data['label'] : $sitePage->title();
-        return array(
+        return [
             'label' => $label,
             'id' => $sitePage->id(),
-        );
+        ];
     }
 }

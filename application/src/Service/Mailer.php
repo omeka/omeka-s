@@ -32,7 +32,7 @@ class Mailer implements ServiceLocatorAwareInterface
      * @var array $defaultOptions
      */
     public function __construct(TransportInterface $transport,
-        array $defaultOptions = array()
+        array $defaultOptions = []
     ) {
         $this->transport = $transport;
         $this->defaultOptions = $defaultOptions;
@@ -56,7 +56,7 @@ class Mailer implements ServiceLocatorAwareInterface
      * @param array|Traversable $options
      * @return Message
      */
-    public function createMessage($options = array())
+    public function createMessage($options = [])
     {
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
@@ -111,8 +111,8 @@ class Mailer implements ServiceLocatorAwareInterface
         return $this->getServiceLocator()->get('ControllerPluginManager')
             ->get('Url')->fromRoute(
                 'create-password',
-                array('key' => $passwordCreation->getId()),
-                array('force_canonical' => true)
+                ['key' => $passwordCreation->getId()],
+                ['force_canonical' => true]
             );
     }
 
@@ -124,7 +124,7 @@ class Mailer implements ServiceLocatorAwareInterface
     public function getSiteUrl()
     {
         return $this->getServiceLocator()->get('ControllerPluginManager')
-            ->get('Url')->fromRoute('top', array(), array('force_canonical' => true));
+            ->get('Url')->fromRoute('top', [], ['force_canonical' => true]);
     }
 
     /**

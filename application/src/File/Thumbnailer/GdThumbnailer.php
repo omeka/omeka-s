@@ -51,7 +51,7 @@ class GdThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = array())
+    public function create($strategy, $constraint, array $options = [])
     {
         switch ($strategy) {
             case 'square':

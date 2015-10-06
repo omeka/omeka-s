@@ -26,9 +26,9 @@ class ItemController extends AbstractActionController
         $view->setVariable('items', $items);
         $view->setVariable('resources', $items);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -91,7 +91,7 @@ class ItemController extends AbstractActionController
         }
         return $this->redirect()->toRoute(
             'admin/default',
-            array('action' => 'browse'),
+            ['action' => 'browse'],
             true
         );
     }
@@ -140,9 +140,9 @@ class ItemController extends AbstractActionController
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
 
         if ($this->getRequest()->isPost()) {
@@ -172,12 +172,12 @@ class ItemController extends AbstractActionController
         $mediaHelper = $services->get('ViewHelperManager')->get('media');
         $mediaIngester = $services->get('Omeka\MediaIngesterManager');
 
-        $forms = array();
+        $forms = [];
         foreach ($mediaIngester->getRegisteredNames() as $ingester) {
-            $forms[$ingester] = array(
+            $forms[$ingester] = [
                 'label' => $mediaIngester->get($ingester)->getLabel(),
                 'form' => $mediaHelper->form($ingester)
-            );
+            ];
         }
         return $forms;
     }

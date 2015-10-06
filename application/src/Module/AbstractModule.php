@@ -102,7 +102,7 @@ abstract class AbstractModule implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -119,12 +119,12 @@ abstract class AbstractModule implements ConfigProviderInterface
         }
 
         $autoloadPath = sprintf('%1$s/modules/%2$s/src', OMEKA_PATH, $namespace);
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     $namespace => $autoloadPath,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

@@ -24,9 +24,9 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
-        return array(
+        return [
             'o:is_open' => $this->isOpen(),
-        );
+        ];
     }
 
     /**
@@ -37,10 +37,10 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
     public function itemCount()
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items', array(
+            ->search('items', [
                 'item_set_id' => $this->id(),
                 'limit' => 0,
-            ));
+            ]);
         return $response->getTotalResults();
     }
 

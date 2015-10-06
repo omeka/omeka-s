@@ -39,11 +39,11 @@ class SitePageBlockRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
             'o:attachment' => $this->attachments(),
-        );
+        ];
     }
 
     /**
@@ -73,7 +73,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
 
     public function attachments()
     {
-        $attachments = array();
+        $attachments = [];
         foreach ($this->getData()->getAttachments() as $attachment) {
             $attachments[]= new SiteBlockAttachmentRepresentation(
                 $attachment, $this->getServiceLocator());

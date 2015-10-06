@@ -96,17 +96,17 @@ class OEmbed extends AbstractIngester
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new Text('o:media[__index__][o:source]');
-        $urlInput->setOptions(array(
+        $urlInput->setOptions([
             'label' => $view->translate('oEmbed URL'),
             'info' => $view->translate('URL for the media to embed.'),
-        ));
-        $urlInput->setAttributes(array(
+        ]);
+        $urlInput->setAttributes([
             'id' => 'media-oembed-source-__index__',
             'required' => true
-        ));
+        ]);
         return $view->formField($urlInput);
     }
 

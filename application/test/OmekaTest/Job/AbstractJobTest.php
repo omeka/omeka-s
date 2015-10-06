@@ -7,7 +7,7 @@ class AbstractJobTest extends TestCase
 {
     public function testGetArg()
     {
-        $args = array('foo' => 'bar', 'baz' => 'bat');
+        $args = ['foo' => 'bar', 'baz' => 'bat'];
 
         $job = $this->getMock('Omeka\Entity\Job');
         $job->expects($this->any())
@@ -17,7 +17,7 @@ class AbstractJobTest extends TestCase
 
         $this->abstractJob = $this->getMockForAbstractClass(
             'Omeka\Job\AbstractJob',
-            array($job, $serviceLocator)
+            [$job, $serviceLocator]
         );
 
         $this->assertEquals($args['foo'], $this->abstractJob->getArg('foo'));

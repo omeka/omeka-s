@@ -20,46 +20,46 @@ class MvcListenersTest extends TestCase
         $events->expects($this->exactly(7))
             ->method('attach')
             ->withConsecutive(
-                array(
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'redirectToInstallation'))
-                ),
-                array(
+                    $this->equalTo([$this->mvcListeners, 'redirectToInstallation'])
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'redirectToMigration'))
-                ),
-                array(
+                    $this->equalTo([$this->mvcListeners, 'redirectToMigration'])
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'redirectToLogin'))
-                ),
-                array(
+                    $this->equalTo([$this->mvcListeners, 'redirectToLogin'])
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'authenticateApiKey'))
-                ),
-                array(
+                    $this->equalTo([$this->mvcListeners, 'authenticateApiKey'])
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'authorizeUserAgainstRoute')),
+                    $this->equalTo([$this->mvcListeners, 'authorizeUserAgainstRoute']),
                     $this->equalTo(-1000)
-                ),
-                array(
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'prepareAdmin'))
-                ),
-                array(
+                    $this->equalTo([$this->mvcListeners, 'prepareAdmin'])
+                ],
+                [
                     $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo(array($this->mvcListeners, 'prepareSite'))
-                )
+                    $this->equalTo([$this->mvcListeners, 'prepareSite'])
+                ]
             );
         $this->mvcListeners->attach($events);
     }
 
     public function testRedirectToInstallation()
     {
-        $event = $this->getEventForRedirectToInstallation(array('is_installed' => true));
+        $event = $this->getEventForRedirectToInstallation(['is_installed' => true]);
         $return = $this->mvcListeners->redirectToInstallation($event);
         $this->assertNull($return);
 
-        $event = $this->getEventForRedirectToInstallation(array('is_install_route' => true));
+        $event = $this->getEventForRedirectToInstallation(['is_install_route' => true]);
         $return = $this->mvcListeners->redirectToInstallation($event);
         $this->assertNull($return);
 
@@ -68,7 +68,7 @@ class MvcListenersTest extends TestCase
         $this->assertInstanceOf('Zend\Http\PhpEnvironment\Response', $return);
     }
 
-    protected function getEventForRedirectToInstallation(array $options = array())
+    protected function getEventForRedirectToInstallation(array $options = [])
     {
         $options['is_installed'] = isset($options['is_installed']) ? true : false;
         $options['is_install_route'] = isset($options['is_install_route']) ? true : false;
@@ -83,9 +83,9 @@ class MvcListenersTest extends TestCase
         $status->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($options['is_installed'] ? true : false));
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Omeka\Status' => $status,
-        ));
+        ]);
         $application->expects($this->any())
             ->method('getServiceManager')
             ->will($this->returnValue($serviceManager));
@@ -108,7 +108,7 @@ class MvcListenersTest extends TestCase
         $router = $this->getMock('Zend\Mvc\Router\RouteStackInterface');
         $router->expects($this->any())
             ->method('assemble')
-            ->with($this->equalTo(array()), $this->equalTo(array('name' => 'install')));
+            ->with($this->equalTo([]), $this->equalTo(['name' => 'install']));
         $event->expects($this->any())
             ->method('getRouter')
             ->will($this->returnValue($router));

@@ -19,7 +19,7 @@ class ResourceClassSelect extends AbstractHelper
      * @param string $emptyOption
      * @return string
      */
-    public function __invoke($name, array $attributes = array(),
+    public function __invoke($name, array $attributes = [],
         $emptyOption = 'Select Class'
     ) {
         if ($this->selectMarkup) {
@@ -32,19 +32,19 @@ class ResourceClassSelect extends AbstractHelper
             return;
         }
 
-        $valueOptions = array();
+        $valueOptions = [];
         foreach ($response->getContent() as $vocabulary) {
-            $options = array();
+            $options = [];
             foreach ($vocabulary->resourceClasses() as $resourceClass) {
                 $options[$resourceClass->id()] = $resourceClass->label();
             }
             if (!$options) {
                 continue;
             }
-            $valueOptions[] = array(
+            $valueOptions[] = [
                 'label' => $vocabulary->label(),
                 'options' => $options,
-            );
+            ];
         }
 
         if (! isset($attributes['id'])) {

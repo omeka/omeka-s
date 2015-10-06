@@ -80,7 +80,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function recordMigration($version)
     {
         $this->getServiceLocator()->get('Omeka\Connection')
-            ->insert('migration', array('version' => $version));
+            ->insert('migration', ['version' => $version]);
     }
 
     /**
@@ -132,7 +132,7 @@ class Manager implements ServiceLocatorAwareInterface
             ->executeQuery("SELECT version FROM migration")
             ->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
-            $completed = array();
+            $completed = [];
         }
         return $completed;
     }
@@ -144,7 +144,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getAvailableMigrations()
     {
-        $migrations = array();
+        $migrations = [];
         $globPattern = $this->path . DIRECTORY_SEPARATOR . '*.php';
         $regexPattern = '/^(\d+)_(\w+)\.php$/';
         $iterator = new GlobIterator($globPattern);
@@ -153,10 +153,10 @@ class Manager implements ServiceLocatorAwareInterface
             if (preg_match($regexPattern, $fileInfo->getFilename(), $matches)) {
                 $version = $matches[1];
                 $class = $this->namespace . '\\' . $matches[2];
-                $migrations[$version] = array(
+                $migrations[$version] = [
                     'path' => $fileInfo->getPathname(),
                     'class' => $class,
-                );
+                ];
             }
         }
 

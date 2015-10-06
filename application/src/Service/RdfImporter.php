@@ -17,10 +17,10 @@ class RdfImporter implements ServiceLocatorAwareInterface
      * 
      * @var array
      */
-    protected $classTypes = array(
+    protected $classTypes = [
         'rdfs:Class',
         'owl:Class',
-    );
+    ];
 
     /**
      * The property types to import.
@@ -31,7 +31,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
      * 
      * @var array
      */
-    protected $propertyTypes = array(
+    protected $propertyTypes = [
         'rdf:Property',
         'owl:ObjectProperty',
         'owl:DatatypeProperty',
@@ -39,7 +39,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
         'owl:TransitiveProperty',
         'owl:FunctionalProperty',
         'owl:InverseFunctionalProperty',
-    );
+    ];
 
     /**
      * Get the members of the specified vocabulary.
@@ -56,7 +56,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
      *   property comment (defaults to "rdfs:comment")
      * @return array
      */
-    public function getMembers($strategy, $namespaceUri, array $options = array())
+    public function getMembers($strategy, $namespaceUri, array $options = [])
     {
         if (!isset($options['format'])) {
             // EasyRDF should guess the format if none given.
@@ -78,7 +78,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
      * @param array $options See self::getMembers()
      * @return Omeka\Api\Response
      */
-    public function import($strategy, array $vocabularyArray, array $options = array())
+    public function import($strategy, array $vocabularyArray, array $options = [])
     {
         // Get the RDF members.
         $members = $this->getMembers(
@@ -138,10 +138,10 @@ class RdfImporter implements ServiceLocatorAwareInterface
         $namespaceUri,
         array $options
     ) {
-        $members = array(
-            'o:class' => array(),
-            'o:property' => array(),
-        );
+        $members = [
+            'o:class' => [],
+            'o:property' => [],
+        ];
         // Iterate through all resources of the graph instead of selectively by 
         // rdf:type becuase a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
@@ -156,19 +156,19 @@ class RdfImporter implements ServiceLocatorAwareInterface
             }
             // Get the vocabulary's classes.
             if (in_array($resource->type(), $this->classTypes)) {
-                $members['o:class'][] = array(
+                $members['o:class'][] = [
                     'o:local_name' => $resource->localName(),
                     'o:label' => $this->getLabel($resource, $resource->localName()),
                     'o:comment' => $this->getComment($resource, $options['comment_property']),
-                );
+                ];
             }
             // Get the vocabulary's properties.
             if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['o:property'][] = array(
+                $members['o:property'][] = [
                     'o:local_name' => $resource->localName(),
                     'o:label' => $this->getLabel($resource, $resource->localName()),
                     'o:comment' => $this->getComment($resource, $options['comment_property']),
-                );
+                ];
             }
         }
         return $members;

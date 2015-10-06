@@ -14,10 +14,10 @@ class IndexController extends AbstractActionController
         $pages = $site->pages();
         if ($pages) {
             $firstPage = current($pages);
-            return $this->redirect()->toRoute('site/page', array(
+            return $this->redirect()->toRoute('site/page', [
                 'site-slug' => $site->slug(),
                 'page-slug' => $firstPage->slug(),
-            ));
+            ]);
         }
 
         $view = new ViewModel;
@@ -27,8 +27,8 @@ class IndexController extends AbstractActionController
 
     protected function getSite()
     {
-        return $this->api()->read('sites', array(
+        return $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ))->getContent();
+        ])->getContent();
     }
 }

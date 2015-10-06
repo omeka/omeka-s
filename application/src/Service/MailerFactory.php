@@ -20,7 +20,7 @@ class MailerFactory implements FactoryInterface
             throw new Exception\ConfigException('Missing mail transport configuration');
         }
         $transport = TransportFactory::create($config['mail']['transport']);
-        $defaultOptions = array();
+        $defaultOptions = [];
         if (isset($config['mail']['default_message_options'])) {
             $defaultOptions = $config['mail']['default_message_options'];
         }

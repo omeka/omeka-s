@@ -21,18 +21,18 @@ class SearchFilters extends AbstractHelper
 
         $translate = $this->getView()->plugin('translate');
 
-        $filters = array();
-        $exclude = array('submit', 'page', 'sort_by', 'sort_order', 'resource-type');
+        $filters = [];
+        $exclude = ['submit', 'page', 'sort_by', 'sort_order', 'resource-type'];
         $api = $this->getView()->api();
         $query = $this->getView()->params()->fromQuery();
-        $queryTypes = array(
+        $queryTypes = [
             'eq' => $translate('has exact value(s)'),
             'neq' => $translate('does not have exact value(s)'),
             'in' => $translate('contains value(s)'),
             'nin' => $translate('does not contain value(s)'),
             'res' => $translate('has resource'),
             'nres' => $translate('does not have resource')
-        );
+        ];
         
         foreach($query as $key => $value) {
         
@@ -44,7 +44,7 @@ class SearchFilters extends AbstractHelper
                     // Search by class
                     case 'resource_class_id':
                         $filterLabel = 'Resource class';
-                        $filterValue = $api->read('resource_classes', $value, array('label'))->getContent()->label();
+                        $filterValue = $api->read('resource_classes', $value, ['label'])->getContent()->label();
                         $filters[$filterLabel][] = $filterValue;
                         break;
         
@@ -66,7 +66,7 @@ class SearchFilters extends AbstractHelper
                     // Search specific property
                     case 'property':
                         foreach ($value as $propertyRow => $propertyQuery) {
-                            $propertyLabel = $api->read('properties', $propertyRow, array('label'))->getContent()->label();
+                            $propertyLabel = $api->read('properties', $propertyRow, ['label'])->getContent()->label();
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
                                 if (!isset($queryTypes[$queryTypeKey])) {
                                     break;
@@ -84,7 +84,7 @@ class SearchFilters extends AbstractHelper
                     // Search resources
                     case 'has_property':
                         foreach ($value as $propertyId => $status) {
-                            $propertyLabel = $api->read('properties', $propertyId, array('label'))->getContent()->label();
+                            $propertyLabel = $api->read('properties', $propertyId, ['label'])->getContent()->label();
                             if ($status == 0) {
                                 $filterLabel = $translate('Has properties');
                             } else {
@@ -97,21 +97,21 @@ class SearchFilters extends AbstractHelper
                     // Search resource template
                     case 'resource_template_id':
                             $filterLabel = $translate('Resource Template');
-                            $filterValue = $api->read('resource_templates', $value, array('label'))->getContent()->label();
+                            $filterValue = $api->read('resource_templates', $value, ['label'])->getContent()->label();
                             $filters[$filterLabel][] = $filterValue;
                         break;
 
                     // Search item set
                     case 'item_set_id':
                         $filterLabel = $translate('Item Set');
-                        $filterValue = $api->read('item_sets', $value, array('label'))->getContent()->displayTitle();
+                        $filterValue = $api->read('item_sets', $value, ['label'])->getContent()->displayTitle();
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
                     // Search user
                     case 'owner_id':
                         $filterLabel = $translate('User');
-                        $filterValue = $api->read('users', $value, array('label'))->getContent()->name();
+                        $filterValue = $api->read('users', $value, ['label'])->getContent()->name();
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
@@ -124,9 +124,9 @@ class SearchFilters extends AbstractHelper
 
         return $this->getView()->partial(
             $partialName,
-            array(
+            [
                 'filters'     => $filters
-            )
+            ]
         );
     }
 }

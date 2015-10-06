@@ -38,8 +38,8 @@ class ItemController extends AbstractActionController
 
     protected function getSite()
     {
-        return $this->api()->read('sites', array(
+        return $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ))->getContent();
+        ])->getContent();
     }
 }

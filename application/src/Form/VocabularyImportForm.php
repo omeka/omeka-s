@@ -7,61 +7,61 @@ class VocabularyImportForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'file',
             'type' => 'file',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Vocabulary File'),
                 'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:prefix',
             'type' => 'text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Prefix'),
                 'info' => $translator->translate('A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:namespace_uri',
             'type' => 'text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Namespace URI'),
                 'info' => $translator->translate('The unique namespace URI used by the vocabulary to identify local member classes and properties.'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:label',
             'type' => 'text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Label'),
                 'info' => $translator->translate('A human-readable title of the vocabulary.'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:comment',
             'type' => 'textarea',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Comment'),
                 'info' => $translator->translate('A human-readable description of the vocabulary.'),
-            ),
-        ));
+            ],
+        ]);
     }
 }

@@ -7,7 +7,7 @@ use Zend\View\Renderer\PhpRenderer;
 class OEmbed extends AbstractRenderer
 {
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
+        array $options = []
     ) {
         $data = $media->mediaData();
 

@@ -30,7 +30,7 @@ class ApiJsonModel extends JsonModel
      */
     public function __construct($apiResponse = null, $options = null)
     {
-        $variables = array(self::API_RESPONSE_KEY => $apiResponse);
+        $variables = [self::API_RESPONSE_KEY => $apiResponse];
         parent::__construct($variables, $options);
     }
 

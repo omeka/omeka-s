@@ -6,25 +6,25 @@ use Omeka\Test\TestCase;
 
 class ManagerTest extends TestCase
 {
-    public $migrations = array(
-        '1' => array(
+    public $migrations = [
+        '1' => [
             'path' => '/path/1',
             'class' => 'Migration1'
-        ),
-        '2' => array(
+        ],
+        '2' => [
             'path' => '/path/2',
             'class' => 'Migration2'
-        )
-    );
+        ]
+    ];
 
     public function testGetMigrationsWithNoneCompleted()
     {
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getCompletedMigrations', 'getAvailableMigrations'),
-            array(), '', false);
+            ['getCompletedMigrations', 'getAvailableMigrations'],
+            [], '', false);
         $manager->expects($this->once())
             ->method('getCompletedMigrations')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $manager->expects($this->once())
             ->method('getAvailableMigrations')
             ->will($this->returnValue($this->migrations));
@@ -35,8 +35,8 @@ class ManagerTest extends TestCase
     public function testGetMigrationsWithAllCompleted()
     {
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getCompletedMigrations', 'getAvailableMigrations'),
-            array(), '', false);
+            ['getCompletedMigrations', 'getAvailableMigrations'],
+            [], '', false);
         $manager->expects($this->once())
             ->method('getCompletedMigrations')
             ->will($this->returnValue(array_keys($this->migrations)));
@@ -44,7 +44,7 @@ class ManagerTest extends TestCase
             ->method('getAvailableMigrations')
             ->will($this->returnValue($this->migrations));
 
-        $this->assertEquals(array(), $manager->getMigrationsToPerform());
+        $this->assertEquals([], $manager->getMigrationsToPerform());
     }
 
     public function testLoadMigrationWithProperClass()
@@ -54,7 +54,7 @@ class ManagerTest extends TestCase
 
         $sl = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getServiceLocator'), array(), '', false);
+            ['getServiceLocator'], [], '', false);
         $manager->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($sl));
@@ -78,7 +78,7 @@ class ManagerTest extends TestCase
             ->will($this->returnArgument(0));
 
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getTranslator'), array(), '', false);
+            ['getTranslator'], [], '', false);
         $manager->expects($this->once())
             ->method('getTranslator')
             ->will($this->returnValue($translator));
@@ -100,7 +100,7 @@ class ManagerTest extends TestCase
             ->will($this->returnArgument(0));
 
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getTranslator'), array(), '', false);
+            ['getTranslator'], [], '', false);
         $manager->expects($this->once())
             ->method('getTranslator')
             ->will($this->returnValue($translator));
@@ -114,19 +114,19 @@ class ManagerTest extends TestCase
         $tableName = 'migration';
 
         $connection = $this->getMock('Doctrine\DBAL\Connection',
-            array(), array(), '', false);
+            [], [], '', false);
         $connection->expects($this->once())
             ->method('insert')
             ->with(
                 $this->equalTo($tableName),
-                $this->equalTo(array('version' => $version))
+                $this->equalTo(['version' => $version])
             );
 
-        $sm = $this->getServiceManager(array(
+        $sm = $this->getServiceManager([
             'Omeka\Connection' => $connection
-        ));
+        ]);
 
-        $manager = new MigrationManager(array('entity' => 'Entity'));
+        $manager = new MigrationManager(['entity' => 'Entity']);
         $manager->setServiceLocator($sm);
         $manager->recordMigration($version);
     }
@@ -136,18 +136,18 @@ class ManagerTest extends TestCase
         $path = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $namespace = 'BogusNamespace';
 
-        $migrations = array(
-            '1' => array(
+        $migrations = [
+            '1' => [
                 'path' => $path . DIRECTORY_SEPARATOR . '1_MockMigration.php',
                 'class' => $namespace . '\MockMigration'
-            ),
-            '2' => array(
+            ],
+            '2' => [
                 'path' => $path . DIRECTORY_SEPARATOR . '2_MockInvalidMigration.php',
                 'class' => $namespace . '\MockInvalidMigration'
-            )
-        );
+            ]
+        ];
 
-        $manager = new MigrationManager(array('path' => $path, 'namespace' => $namespace));
+        $manager = new MigrationManager(['path' => $path, 'namespace' => $namespace]);
         $this->assertEquals($migrations, $manager->getAvailableMigrations());
     }
 
@@ -162,9 +162,9 @@ class ManagerTest extends TestCase
             ->method('up');
 
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            array('getMigrationsToPerform', 'loadMigration', 'recordMigration',
-                'clearDoctrineCache'),
-            array(), '', false);
+            ['getMigrationsToPerform', 'loadMigration', 'recordMigration',
+                'clearDoctrineCache'],
+            [], '', false);
         $manager->expects($this->once())
             ->method('getMigrationsToPerform')
             ->will($this->returnValue($this->migrations));

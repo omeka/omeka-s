@@ -20,16 +20,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'admin/site/default',
-            array(
+            [
                 'site-slug' => $this->slug(),
                 'action' => $action,
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
     public function getJsonLd()
     {
-        $pages = array();
+        $pages = [];
         foreach ($this->pages() as $pageRepresentation) {
             $pages[] = $pageRepresentation->getReference();
         }
@@ -39,19 +39,19 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $owner = $this->owner()->getReference();
         }
 
-        $created = array(
+        $created = [
             '@value' => $this->getDateTime($this->created()),
             '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-        );
+        ];
         $modified = null;
         if ($this->modified()) {
-            $modified = array(
+            $modified = [
                '@value' => $this->getDateTime($this->modified()),
                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            );
+            ];
         }
 
-        return array(
+        return [
             'o:slug' => $this->slug(),
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
@@ -62,7 +62,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:is_public' => $this->isPublic(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
-        );
+        ];
     }
 
     public function slug()
@@ -102,7 +102,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
 
     public function pages()
     {
-        $pages = array();
+        $pages = [];
         $pageAdapter = $this->getAdapter('site_pages');
         foreach ($this->getData()->getPages() as $page) {
             $pages[$page->getId()] = $pageAdapter->getRepresentation(null, $page);
@@ -117,7 +117,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
      */
     public function sitePermissions()
     {
-        $sitePermissions = array();
+        $sitePermissions = [];
         foreach ($this->getData()->getSitePermissions() as $sitePermission) {
             $sitePermissions[]= new SitePermissionRepresentation(
                 $sitePermission, $this->getServiceLocator());
@@ -144,8 +144,8 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'site',
-            array('site-slug' => $siteSlug),
-            array('force_canonical' => $canonical)
+            ['site-slug' => $siteSlug],
+            ['force_canonical' => $canonical]
         );
     }
 }

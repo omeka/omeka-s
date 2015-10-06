@@ -1,275 +1,275 @@
 <?php
-return array(
-    'router' => array(
-        'routes' => array(
-            'top' => array(
+return [
+    'router' => [
+        'routes' => [
+            'top' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
-                    ),
-                ),
-            ),
-            'site' => array(
+                    ],
+                ],
+            ],
+            'site' => [
                 'type' => 'Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/s/:site-slug',
-                    'constraints' => array(
+                    'constraints' => [
                         'site-slug'  => '[a-zA-Z0-9_-]+',
-                    ),
-                    'defaults' => array(
+                    ],
+                    'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller\Site',
                         '__SITE__'      => true,
                         'controller'    => 'Index',
                         'action'        => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'page' => array(
+                'child_routes' => [
+                    'page' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/page/:page-slug[/]',
-                            'defaults' => array(
+                            'defaults' => [
                                 'controller' => 'Page',
                                 'action' => 'show',
-                            ),
-                        ),
-                    ),
-                    'resource' => array(
+                            ],
+                        ],
+                    ],
+                    'resource' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/:controller[/[:action]]',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action'    => 'browse',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                        ),
-                    ),
-                    'resource-id' => array(
+                            ],
+                        ],
+                    ],
+                    'resource-id' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/:controller/:id[/[:action]]',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action'     => 'show',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'id'         => '\d+',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'admin' => array(
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'admin' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/admin',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller\Admin',
                         '__ADMIN__'     => true,
                         'controller'    => 'Index',
                         'action'        => 'browse',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
+                'child_routes' => [
+                    'default' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/[:controller[/:action]]',
-                            'constraints' => array(
+                            'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
+                            ],
+                            'defaults' => [
                                 'action' => 'browse',
-                            ),
-                        ),
-                    ),
-                    'id' => array(
+                            ],
+                        ],
+                    ],
+                    'id' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/:controller/:id[/[:action]]',
-                            'constraints' => array(
+                            'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'id'         => '\d+',
-                            ),
-                            'defaults' => array(
+                            ],
+                            'defaults' => [
                                 'action' => 'show',
-                            ),
-                        ),
-                    ),
-                    'site' => array(
+                            ],
+                        ],
+                    ],
+                    'site' => [
                         'type' => 'Literal',
-                        'options' => array(
+                        'options' => [
                             'route' => '/site',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
                                 'controller'    => 'Index',
                                 'action'        => 'index',
-                            ),
-                        ),
+                            ],
+                        ],
                         'may_terminate' => true,
-                        'child_routes' => array(
-                            'default' => array(
+                        'child_routes' => [
+                            'default' => [
                                 'type' => 'Segment',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/s/:site-slug[/:action]',
-                                    'constraints' => array(
+                                    'constraints' => [
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ),
-                                    'defaults' => array(
+                                    ],
+                                    'defaults' => [
                                         'action' => 'edit',
-                                    ),
-                                ),
-                            ),
-                            'add' => array(
+                                    ],
+                                ],
+                            ],
+                            'add' => [
                                 'type' => 'Literal',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/add',
-                                    'defaults' => array(
+                                    'defaults' => [
                                         'action' => 'add',
-                                    ),
-                                ),
-                            ),
-                            'navigation-link-form' => array(
+                                    ],
+                                ],
+                            ],
+                            'navigation-link-form' => [
                                 'type' => 'Literal',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/navigation-link-form',
-                                    'defaults' => array(
+                                    'defaults' => [
                                         'action' => 'navigation-link-form',
-                                    ),
-                                ),
-                            ),
-                            'page' => array(
+                                    ],
+                                ],
+                            ],
+                            'page' => [
                                 'type' => 'Segment',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/s/:site-slug/page/:page-slug[/:action]',
-                                    'constraints' => array(
+                                    'constraints' => [
                                         'site-slug'  => '[a-zA-Z0-9_-]+',
                                         'page-slug'  => '[a-zA-Z0-9_-]+',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ),
-                                    'defaults' => array(
+                                    ],
+                                    'defaults' => [
                                         'controller' => 'Page',
                                         'action' => 'edit',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'api' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'api' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/api',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Api',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
+                'child_routes' => [
+                    'default' => [
                         'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '[/:resource[/:id]][/]',
-                            'constraints' => array(
+                            'constraints' => [
                                 'resource' => '[a-zA-Z0-9_-]+',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'install' => array(
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'install' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/install(/.*)?',
                     'spec' => '/install',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Install',
                         'action' => 'index',
-                     ),
-                ),
-            ),
-            'migrate' => array(
+                     ],
+                ],
+            ],
+            'migrate' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/migrate(/.*)?',
                     'spec' => '/migrate',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Migrate',
                         'action' => 'index',
-                     ),
-                ),
-            ),
-            'maintenance' => array(
+                     ],
+                ],
+            ],
+            'maintenance' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/maintenance(/.*)?',
                     'spec' => '/maintenance',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Maintenance',
                         'action' => 'index',
-                     ),
-                ),
-            ),
-            'login' => array(
+                     ],
+                ],
+            ],
+            'login' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/login(/.*)?',
                     'spec' => '/login',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'login',
-                     ),
-                ),
-            ),
-            'logout' => array(
+                     ],
+                ],
+            ],
+            'logout' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/logout(/.*)?',
                     'spec' => '/logout',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'logout',
-                     ),
-                ),
-            ),
-            'create-password' => array(
+                     ],
+                ],
+            ],
+            'create-password' => [
                 'type' => 'Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/create-password/:key',
-                    'constraints' => array(
+                    'constraints' => [
                         'key' => '[a-zA-Z0-9]+',
-                    ),
-                    'defaults' => array(
+                    ],
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'create-password',
-                    ),
-                ),
-            ),
-            'forgot-password' => array(
+                    ],
+                ],
+            ],
+            'forgot-password' => [
                 'type' => 'Regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/forgot-password(/.*)?',
                     'spec' => '/forgot-password',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'forgot-password',
-                     ),
-                ),
-            ),
-        ),
-    ),
-);
+                     ],
+                ],
+            ],
+        ],
+    ],
+];

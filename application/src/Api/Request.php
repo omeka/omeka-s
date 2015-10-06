@@ -17,19 +17,19 @@ class Request extends ZendRequest
     /**
      * @var array
      */
-    protected $validOperations = array(
+    protected $validOperations = [
         self::SEARCH,
         self::CREATE,
         self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
         self::DELETE,
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $content = array();
+    protected $content = [];
 
     /**
      * Construct an API request.

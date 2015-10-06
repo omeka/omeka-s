@@ -4,11 +4,11 @@
 <h2><?php echo $this->escapeHtml($item->displayTitle()); ?></h2>
 <?php echo $item->displayValues(); ?>
 <?php if ($item->media()): ?>
-<div class="media">
+<div class="media-list">
     <?php foreach ($item->media() as $media): ?>
-        <a href="<?php echo $media->url(); ?>">
+        <a href="<?php echo $media->url(); ?>" class="media resource">
             <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>" alt="">
-            <?php echo $escape($media->displayTitle()); ?>
+            <span class="media-title"><?php echo $escape($media->displayTitle()); ?></span>
         </a>
     <?php endforeach; ?>
 </div>

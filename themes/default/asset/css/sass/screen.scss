@@ -157,4 +157,23 @@ ul.navigation {
     font-size: .75 * $base-font-size;
 }
 
+.media.resource {
+    display: inline-block;
+    text-align: center;
+    width: -moz-min-content;
+    width: -webkit-min-content;
+    width: min-content;
+    vertical-align: top;
+}
+
+.media.resource img {
+    max-width: none;
+}
+
+.media-title {
+    font-size: .75 * $base-font-size;
+    display: inline-block;
+    margin-bottom: rhythm(.5, .75 * $base-font-size);
+}
+
 /* @end */

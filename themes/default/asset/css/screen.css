@@ -150,4 +150,23 @@ ul.navigation > li > ul > li ul {
   font-size: 15px;
 }
 
+.media.resource {
+  display: inline-block;
+  text-align: center;
+  width: -moz-min-content;
+  width: -webkit-min-content;
+  width: min-content;
+  vertical-align: top;
+}
+
+.media.resource img {
+  max-width: none;
+}
+
+.media-title {
+  font-size: 15px;
+  display: inline-block;
+  margin-bottom: 1em;
+}
+
 /* @end */

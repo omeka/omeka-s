@@ -43,17 +43,17 @@ h1 {
 }
 
 h2 {
-  font-size: 35px;
-  line-height: 60px;
+  font-size: 30px;
+  line-height: 45px;
 }
 
 h3 {
-  font-size: 30px;
-  line-height: 60px;
+  font-size: 25px;
+  line-height: 45px;
 }
 
 h4 {
-  font-size: 25px;
+  font-size: 22.5px;
 }
 
 img {
@@ -114,6 +114,40 @@ ul.navigation > li > ul > li ul {
   font-weight: normal;
   padding: 0;
   list-style-type: none;
+}
+
+/* @end */
+/* @group ----- Page ----- */
+.resource.item {
+  width: 50%;
+  margin: 1.5em auto;
+  text-align: center;
+  border-color: #dedede;
+  border-top-width: 0.05em;
+  border-top-style: solid;
+  padding-top: 1.45em;
+  border-bottom-width: 0.05em;
+  border-bottom-style: solid;
+  padding-bottom: 1.45em;
+}
+.resource.item img {
+  display: block;
+  margin: 0.75em auto;
+}
+.resource.item .caption {
+  font-size: 15px;
+  line-height: 30px;
+}
+
+/* @end */
+/* @group ----- Show ----- */
+.property {
+  margin-bottom: 1.5em;
+}
+
+.property h4 {
+  margin-bottom: 0;
+  font-size: 15px;
 }
 
 /* @end */

@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    border-left: 50px solid $visited;
+    border-left: 50px solid $light;
     border-right: 50px solid transparent;
     min-height: 100%;
     padding: rhythm(.5) span(1 of 16);
@@ -32,16 +32,16 @@ body {
 
 a:link {
     text-decoration: none;
-    color: $active;
+    color: $gray;
 }
 
 a:visited {
-    color: $visited;
+    color: $light;
 }
 
 a:active,
 a:hover {
-    color: $highlight;
+    color: $bold;
 }
 
 h1 {
@@ -50,17 +50,17 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75 * $base-font-size;
-    line-height: 2 * $base-line-height;
+    font-size: 1.5 * $base-font-size;
+    line-height: 1.5 * $base-line-height;
 }
 
 h3 {
-    font-size: 1.5 * $base-font-size;
-    line-height: 2 * $base-line-height;
+    font-size: 1.25 * $base-font-size;
+    line-height: 1.5 * $base-line-height;
 }
 
 h4 {
-    font-size: 1.25 * $base-font-size;
+    font-size: 1.125 * $base-font-size;
 }
 
 img {
@@ -73,7 +73,7 @@ img {
 ul.navigation {
     padding-left: 0;
     list-style: none;
-    border-color: $active;
+    border-color: $gray;
     @include trailing-border(1px, 0, $base-font-size, solid);
     position: relative;
     
@@ -94,7 +94,7 @@ ul.navigation {
         padding: 0;
         list-style: none;
         width: 100%;
-        border-color: $active;
+        border-color: $gray;
         @include leading-border(1px, .5, $base-font-size, solid);
         @include trailing-border(1px, .25, $base-font-size, solid);
         display: flex;
@@ -107,7 +107,7 @@ ul.navigation {
     }
 
     & > li > ul > li {
-        border-color: $visited;
+        border-color: $light;
         @include trailing-border(1px, .25, $base-font-size, solid);
         @include trailer(.25);
         width: 25%;
@@ -120,6 +120,41 @@ ul.navigation {
         padding: 0;
         list-style-type: none;
     }
+}
+
+/* @end */
+
+/* @group ----- Page ----- */
+
+.resource.item {
+    width: 50%;
+    margin: rhythm() auto;
+    text-align: center;
+    border-color: $light;
+    @include horizontal-borders(1px, 1, $base-font-size, solid);
+
+    img {
+        display: block;
+        margin: rhythm(.5) auto;
+    }
+
+    .caption {
+        font-size: .75 * $base-font-size;
+        line-height: $base-line-height;
+    }
+}
+
+/* @end */
+
+/* @group ----- Show ----- */
+
+.property {
+    margin-bottom: rhythm();
+}
+
+.property h4 {
+    margin-bottom: 0;
+    font-size: .75 * $base-font-size;
 }
 
 /* @end */

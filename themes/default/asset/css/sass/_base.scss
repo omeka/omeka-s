@@ -8,9 +8,9 @@ $susy: (
 
 // Colors
 
-$active:                                #ababab;
-$highlight:                             darken($active, 20%);
-$visited:                               lighten($active, 20%);
+$gray:                                  #ababab;
+$bold:                                  darken($gray, 20%);
+$light:                                 lighten($gray, 20%);
 
 // Typography
 

@@ -17,8 +17,8 @@ class Url extends AbstractLink
         $label = isset($data['label']) ? $data['label'] : $this->getLabel();
         $url = isset($data['url']) ? $data['url'] : null;
         return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
-            . '<label>Label <input type="text" data-name="label" value="' . $label . '"></label>'
-            . '<label>URL <input type="text" data-name="url" value="' . $url . '"></label>';
+            . '<label>Label <input type="text" data-name="label" value="' . $escape($label) . '"></label>'
+            . '<label>URL <input type="text" data-name="url" value="' . $escape($url) . '"></label>';
     }
 
     public function toZend(array $data, Site $site)

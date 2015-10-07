@@ -111,10 +111,10 @@ if ($pages):
     <?php foreach ($pages as $page): ?>
         <li class="nav-page"
             data-type="page"
-            data-label="<?php echo $page->title(); ?>"
-            data-id="<?php echo $page->id(); ?>"
-            data-slug="<?php echo $page->slug(); ?>">
-            <?php echo $page->title(); ?> (<?php echo $page->slug(); ?>)
+            data-label="<?php echo $escape($page->title()); ?>"
+            data-id="<?php echo $escape($page->id()); ?>"
+            data-slug="<?php echo $escape($page->slug()); ?>">
+            <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
         </li>
     <?php endforeach; ?>
     </ul>

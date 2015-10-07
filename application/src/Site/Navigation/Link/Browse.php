@@ -17,8 +17,8 @@ class Browse extends AbstractLink
         $label = isset($data['label']) ? $data['label'] : $this->getLabel();
         $query = isset($data['query']) ? $data['query'] : null;
         return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
-            . '<label>Label <input type="text" data-name="label" value="' . $label . '"></label>'
-            . '<label>Query <input type="text" data-name="query" value="' . $query . '"></label>';
+            . '<label>Label <input type="text" data-name="label" value="' . $escape($label) . '"></label>'
+            . '<label>Query <input type="text" data-name="query" value="' . $escape($query) . '"></label>';
     }
 
     public function toZend(array $data, Site $site)

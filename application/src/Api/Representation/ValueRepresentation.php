@@ -47,6 +47,7 @@ class ValueRepresentation extends AbstractRepresentation
             case Value::TYPE_RESOURCE:
                 $valueResource = $this->valueResource();
                 $args['targetUrl'] = $valueResource->url();
+                $args['targetId'] = $valueResource->id();
                 $args['label'] = $valueResource->displayTitle();
                 $html = $valueResource->link($valueResource->displayTitle());
                 break;

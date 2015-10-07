@@ -23,13 +23,6 @@ interface AdapterInterface extends
     public function getResourceName();
 
     /**
-     * Get the fully qualified name of the corresponding representation class.
-     *
-     * @return string
-     */
-    public function getRepresentationClass();
-
-    /**
      * Search a set of resources.
      *
      * @param Request $request

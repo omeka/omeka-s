@@ -20,6 +20,13 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $translator;
 
     /**
+     * Get the fully qualified name of the corresponding representation class.
+     *
+     * @return string
+     */
+    abstract public function getRepresentationClass();
+
+    /**
      * {@inheritDoc}
      */
     public function search(Request $request)

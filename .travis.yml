@@ -23,4 +23,4 @@ before_script:
   - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
   - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
 
-script: ant test
+script: ant test-all

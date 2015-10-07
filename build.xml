@@ -74,7 +74,8 @@
             <arg value="orm:generate-proxies"/>
         </exec>
     </target>
-    <target name="test" description="Run automated tests.">
+    <target name="test-all" description="Run all automated tests" depends="test,test-cs"/>
+    <target name="test" description="Run PHPUnit automated tests.">
         <condition property="phpunit.coverage.arg"
                    value="--coverage-html ${phpunit.coverage.html.path}"
                    else="">
@@ -88,6 +89,14 @@
             <arg value="--log-junit"/>
             <arg file="${build.dir}/test-results.xml"/>
             <arg line="${phpunit.coverage.arg}"/>
+        </exec>
+    </target>
+    <target name="test-cs" description="Run automated code style checker">
+        <exec executable="${composer.bin.path}/php-cs-fixer" failonerror="true">
+            <arg value="fix"/>
+            <arg value="--dry-run"/>
+            <arg value="--verbose"/>
+            <arg value="--diff"/>
         </exec>
     </target>
     <target name="init"

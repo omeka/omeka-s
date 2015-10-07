@@ -57,6 +57,9 @@ class SearchFilters extends AbstractHelper
                             $filterLabel = $translate('Property ') . ' ' . $queryTypes[$queryTypeKey];
                             foreach ($filterValues as $filterValue) {
                                 if (is_string($filterValue) && $filterValue !== '') {
+                                    if ($queryTypeKey == 'res' || $queryTypeKey == 'nres') {
+                                        $filterValue = $api->read('resources', $filterValue, ['label'])->getContent()->displayTitle();
+                                    } 
                                     $filters[$filterLabel][] = $filterValue;
                                 }
                             }

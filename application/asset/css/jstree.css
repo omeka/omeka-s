@@ -184,7 +184,7 @@ i.jstree-editlink-edit {
   background-color: rgba(255, 0, 0, 0.24);
 }
 
-.jstree-editlink-editmode .jstree-editlink-edit {
+.jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
   opacity: .35;
 }
 

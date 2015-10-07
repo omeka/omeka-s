@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Doctrine\ORM\QueryBuilder;
-use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SiteBlockAttachment;
@@ -59,7 +57,7 @@ class SitePageAdapter extends AbstractEntityAdapter
 
         $appendBlocks = $request->getOperation() === Request::UPDATE
             && $request->isPartial();
-        $this->hydrateBlocks($request->getValue('o:block', array()), $entity, $errorStore,
+        $this->hydrateBlocks($request->getValue('o:block', []), $entity, $errorStore,
             $appendBlocks);
     }
 
@@ -80,10 +78,10 @@ class SitePageAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:slug',
                 'A slug can only contain letters, numbers, and hyphens.');
         }
-        if ($entity->getSite() && !$this->isUnique($entity, array(
+        if ($entity->getSite() && !$this->isUnique($entity, [
                 'slug' => $slug,
                 'site' => $entity->getSite()
-        ))) {
+        ])) {
             $errorStore->addError('o:slug', sprintf(
                 'The slug "%s" is already taken.',
                 $slug
@@ -107,12 +105,12 @@ class SitePageAdapter extends AbstractEntityAdapter
     {
         $blocks = $page->getBlocks();
         $existingBlocks = $blocks->toArray();
-        $newBlocks = array();
+        $newBlocks = [];
         $position = 1;
-        $fallbackBlock = array(
+        $fallbackBlock = [
             'o:layout' => null,
-            'o:data' => array()
-        );
+            'o:data' => []
+        ];
 
         foreach ($blockData as $inputBlock) {
             if (!is_array($inputBlock)) {
@@ -148,7 +146,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             $block->setPosition($position++);
 
             $attachmentData = isset($inputBlock['o:attachment'])
-                ? $inputBlock['o:attachment'] : array();
+                ? $inputBlock['o:attachment'] : [];
 
             // Hydrate attachments, and abort block hydration if there's an error
             if (!$this->hydrateAttachments($attachmentData, $block, $errorStore)) {
@@ -182,7 +180,7 @@ class SitePageAdapter extends AbstractEntityAdapter
      * @param array $attachmentData
      * @param SitePageBlock $block
      * @param ErrorStore $errorStore
-     * @return boolean true on success, false on error
+     * @return bool true on success, false on error
      */
     private function hydrateAttachments(array $attachmentData, SitePageBlock $block,
         ErrorStore $errorStore)
@@ -190,7 +188,7 @@ class SitePageAdapter extends AbstractEntityAdapter
         $itemAdapter = $this->getAdapter('items');
         $attachments = $block->getAttachments();
         $existingAttachments = $attachments->toArray();
-        $newAttachments = array();
+        $newAttachments = [];
         $position = 1;
 
         foreach ($attachmentData as $inputAttachment) {

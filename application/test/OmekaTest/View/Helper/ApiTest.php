@@ -9,7 +9,7 @@ class ApiTest extends TestCase
     public function testSearch()
     {
         $resource = 'resource';
-        $data = array('data');
+        $data = ['data'];
         $expectedReturnValue = 'search_return_value';
 
         $apiManager = $this->getMock('Omeka\Api\Manager');
@@ -18,7 +18,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($expectedReturnValue));
         $serviceManager = $this->getServiceManager(
-            array('Omeka\ApiManager' => $apiManager)
+            ['Omeka\ApiManager' => $apiManager]
         );
 
         $apiHelper = new Api($serviceManager);
@@ -30,7 +30,7 @@ class ApiTest extends TestCase
     {
         $resource = 'resource';
         $id = 'test-id';
-        $data = array('data');
+        $data = ['data'];
         $expectedReturnValue = 'read_return_value';
 
         $apiManager = $this->getMock('Omeka\Api\Manager');
@@ -43,7 +43,7 @@ class ApiTest extends TestCase
             )
             ->will($this->returnValue($expectedReturnValue));
         $serviceManager = $this->getServiceManager(
-            array('Omeka\ApiManager' => $apiManager)
+            ['Omeka\ApiManager' => $apiManager]
         );
 
         $apiHelper = new Api($serviceManager);

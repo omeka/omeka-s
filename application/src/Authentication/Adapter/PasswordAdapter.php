@@ -30,16 +30,16 @@ class PasswordAdapter extends AbstractAdapter
      */
     public function authenticate()
     {
-        $user = $this->repository->findOneBy(array('email' => $this->identity));
+        $user = $this->repository->findOneBy(['email' => $this->identity]);
 
         if (!$user || !$user->isActive()) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
-                array('User not found.'));
+                ['User not found.']);
         }
 
         if (!$user->verifyPassword($this->credential)) {
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, null,
-                array('Invalid password.'));
+                ['Invalid password.']);
         }
 
         return new Result(Result::SUCCESS, $user);

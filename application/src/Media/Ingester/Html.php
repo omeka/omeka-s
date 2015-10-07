@@ -5,7 +5,6 @@ use Zend\Form\Element\Hidden;
 use Zend\Db\Sql\Ddl\Column\Text;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
-use Omeka\Media\Handler\AbstractHandler;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
@@ -14,7 +13,7 @@ use Zend\Form\Element\Text as TextInput;
 
 class Html extends AbstractIngester implements MutableIngesterInterface
 {
-    public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = array())
+    public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
@@ -25,20 +24,20 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         ";
         $view->headscript()->appendScript($js);
         $textarea = new Textarea('o:media[__index__][html]');
-        $textarea->setOptions(array(
+        $textarea->setOptions([
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
-        ));
+        ]);
         $data = $media->mediaData();
         $html = $data['html'];
         $textarea->setAttributes(
-                array(
+                [
                     'rows'     => 15,
                     'id'       => 'media-html-__index__',
                     'required' => true,
                     'class'    => 'media-html',
                     'value' => $html
-                ));
+                ]);
         $field = $view->formField($textarea);
         return $field;
     }
@@ -46,7 +45,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
@@ -54,27 +53,27 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $titlePropertyInput = new Hidden('o:media[__index__][dcterms:title][0][property_id]');
         //make sure we have correct dcterms:title id
         $api = $view->api();
-        $dctermsTitle = $api->search('properties', array('term'=> 'dcterms:title'))->getContent()[0];
+        $dctermsTitle = $api->search('properties', ['term'=> 'dcterms:title'])->getContent()[0];
         $titlePropertyInput->setValue($dctermsTitle->id());
-        $titleInput->setOptions(array(
+        $titleInput->setOptions([
             'label' => $view->translate('Title'),
             'info'  => $view->translate('A title for the HTML content')
-        ));
+        ]);
         $html = $view->formField($titleInput);
         $html .= $view->formField($titlePropertyInput);
         $textarea = new Textarea('o:media[__index__][html]');
-        $textarea->setOptions(array(
+        $textarea->setOptions([
             'label' => $view->translate('HTML'),
             'info'  => $view->translate('HTML or plain text.'),
-        ));
+        ]);
 
         $textarea->setAttributes(
-                array(
+                [
                     'rows'     => 15,
                     'id'       => 'media-html-__index__',
                     'required' => true,
                     'class'    => 'media-html'
-                ));
+                ]);
         $field = $view->formField($textarea);
         $html .= $field . "
             <script type='text/javascript'>
@@ -121,6 +120,6 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $serviceLocator = $this->getServiceLocator();
         $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
         $html = $purifier->purify($html);
-        $media->setData(array('html' => $html));
+        $media->setData(['html' => $html]);
     }
 }

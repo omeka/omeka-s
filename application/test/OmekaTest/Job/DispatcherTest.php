@@ -13,7 +13,7 @@ class DispatcherTest extends TestCase
     {
         $strategy = $this->getMock(
             'Omeka\Job\Strategy\StrategyInterface',
-            array('send', 'setServiceLocator', 'getServiceLocator')
+            ['send', 'setServiceLocator', 'getServiceLocator']
         );
         $this->dispatcher = new Dispatcher($strategy);
     }
@@ -51,16 +51,16 @@ class DispatcherTest extends TestCase
         $entityManager->expects($this->once())
             ->method('flush');
 
-        $logger = $this->getMock('Omeka\Logger', array('addWriter'));
+        $logger = $this->getMock('Omeka\Logger', ['addWriter']);
         $logger->expects($this->once())
             ->method('addWriter')
             ->with($this->isInstanceOf('Omeka\Log\Writer\Job'));
 
-        $serviceLocator = $this->getServiceManager(array(
+        $serviceLocator = $this->getServiceManager([
             'Omeka\AuthenticationService' => $auth,
             'Omeka\EntityManager' => $entityManager,
             'Omeka\Logger' => $logger,
-        ));
+        ]);
 
         $this->dispatcher->setServiceLocator($serviceLocator);
         $this->dispatcher->getDispatchStrategy()->expects($this->once())
@@ -68,7 +68,7 @@ class DispatcherTest extends TestCase
             ->with($this->isInstanceOf('Omeka\Entity\Job'));
 
         $class = 'Omeka\Job\AbstractJob';
-        $args = array('foo' => 'bar');
+        $args = ['foo' => 'bar'];
 
         $job = $this->dispatcher->dispatch($class, $args);
 

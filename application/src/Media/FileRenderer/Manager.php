@@ -4,7 +4,6 @@ namespace Omeka\Media\FileRenderer;
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager extends AbstractPluginManager
 {
@@ -16,7 +15,7 @@ class Manager extends AbstractPluginManager
      *
      * {@inheritDoc}
      */
-    protected $canonicalNamesReplacements = array();
+    protected $canonicalNamesReplacements = [];
 
     /**
      * {@inheritDoc}
@@ -24,7 +23,7 @@ class Manager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        $this->addInitializer(function($instance, $serviceLocator) {
+        $this->addInitializer(function ($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);
     }

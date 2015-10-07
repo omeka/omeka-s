@@ -16,9 +16,9 @@ class ModuleRepresentation extends AbstractResourceRepresentation
      */
     public function getJsonLd()
     {
-        return array(
+        return [
             'o:state' => $this->getData()->getState(),
             'o:ini' => $this->getData()->getIni(),
-        );
+        ];
     }
 }

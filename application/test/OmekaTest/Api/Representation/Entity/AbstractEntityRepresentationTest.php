@@ -7,9 +7,9 @@ class AbstractEntityRepresentationTest extends TestCase
 {
     public function testValidateData()
     {
-        $serviceLocator = $this->getServiceManager(array(
+        $serviceLocator = $this->getServiceManager([
             'MvcTranslator' => $this->getMock('Zend\I18n\Translator\TranslatorInterface'),
-        ));
+        ]);
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
         $adapter->expects($this->once())
@@ -19,7 +19,7 @@ class AbstractEntityRepresentationTest extends TestCase
         $this->setExpectedException('Omeka\Api\Exception\InvalidArgumentException');
         $abstractEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractEntityRepresentation',
-            array('id', 'invalid_data', $adapter)
+            ['id', 'invalid_data', $adapter]
         );
     }
 }

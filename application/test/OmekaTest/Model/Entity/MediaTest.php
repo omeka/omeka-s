@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Entity\File;
 use Omeka\Entity\Item;
 use Omeka\Entity\Media;
 use Omeka\Test\TestCase;

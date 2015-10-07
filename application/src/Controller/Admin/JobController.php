@@ -18,9 +18,9 @@ class JobController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Attempt Stop'),
-            )
+            ]
         ));
         return $view;
     }
@@ -38,7 +38,7 @@ class JobController extends AbstractActionController
     public function argsAction()
     {
         $job = $this->api()->read('jobs', $this->params('id'))->getContent();
-        $args = Json::prettyPrint(Json::encode($job->args()), array('indent' => '  '));
+        $args = Json::prettyPrint(Json::encode($job->args()), ['indent' => '  ']);
         $response = $this->getResponse();
         $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
         $response->setContent($args);
@@ -73,6 +73,6 @@ class JobController extends AbstractActionController
                 $this->messenger()->addError('The job could not be stopped.');
             }
         }
-        return $this->redirect()->toRoute('admin/default', array('action' => 'browse'), true);
+        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
     }
 }

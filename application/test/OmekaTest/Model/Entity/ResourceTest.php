@@ -5,7 +5,6 @@ use DateTime;
 use Omeka\Entity\ResourceTemplate;
 use Omeka\Entity\ResourceClass;
 use Omeka\Entity\User;
-use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
 
 class ResourceTest extends TestCase

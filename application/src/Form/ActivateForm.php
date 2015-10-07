@@ -7,54 +7,54 @@ class ActivateForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'password',
             'type' => 'Password',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Password'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'password',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'password-confirm',
             'type' => 'Password',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Confirm Password'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'password-confirm',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'password',
             'required' => true,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'StringLength',
-                    'options' => array(
+                    'options' => [
                         'min' => 6,
-                    ),
-                ),
-            ),
-        ));
-        $inputFilter->add(array(
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
             'name' => 'password-confirm',
             'required' => true,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'Identical',
-                    'options' => array(
+                    'options' => [
                         'token' => 'password',
-                    ),
-                ),
-            ),
-        ));
+                    ],
+                ],
+            ],
+        ]);
     }
 }

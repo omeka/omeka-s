@@ -15,12 +15,12 @@ class PaginationTest extends TestCase
         $previousPage = 49;
         $nextPage     = 51;
         $name         = 'name';
-        $query        = array('foo' => 'bar');
+        $query        = ['foo' => 'bar'];
 
         // Request
         $request = $this->getMock(
             'Zend\Http\PhpEnvironment\Request',
-            array('getQuery', 'toArray')
+            ['getQuery', 'toArray']
         );
         $request->expects($this->any())
             ->method('getQuery')
@@ -60,15 +60,15 @@ class PaginationTest extends TestCase
             ->will($this->returnValue($nextPage));
 
         // ServiceManager
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Request' => $request,
             'Omeka\Paginator' => $paginator,
-        ));
+        ]);
 
         // View
         $view = $this->getMock(
             'Zend\View\Renderer\PhpRenderer',
-            array('partial', 'url', 'params')
+            ['partial', 'url', 'params']
         );
         $view->expects($this->any())
             ->method('url');
@@ -76,7 +76,7 @@ class PaginationTest extends TestCase
             ->method('partial')
             ->with(
                 $this->equalTo($name),
-                $this->equalTo(array(
+                $this->equalTo([
                     'totalCount'      => $totalCount,
                     'perPage'         => $perPage,
                     'currentPage'     => $currentPage,
@@ -89,7 +89,7 @@ class PaginationTest extends TestCase
                     'nextPageUrl'     => null,
                     'lastPageUrl'     => null,
                     'offset'          => null,
-                ))
+                ])
             );
         $params = $this->getMockBuilder('Omeka\View\Helper\Params')
             ->disableOriginalConstructor()

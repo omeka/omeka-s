@@ -12,9 +12,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'label' => 'label',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -48,7 +48,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         if (is_string($query['sort_by'])) {
             if ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
-                $qb ->leftJoin(
+                $qb->leftJoin(
                     'Omeka\Entity\ResourceTemplate.resourceClass',
                     $resourceClassAlias
                 )->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
@@ -64,14 +64,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateRequest(Request $request, ErrorStore $errorStore){
+    public function validateRequest(Request $request, ErrorStore $errorStore) {
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-            $propertyIds = array();
+            $propertyIds = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (!isset($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
@@ -98,7 +98,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         if (false == trim($label)) {
             $errorStore->addError('o:label', 'The label cannot be empty.');
         }
-        if (!$this->isUnique($entity, array('label' => $label))) {
+        if (!$this->isUnique($entity, ['label' => $label])) {
             $errorStore->addError('o:label', 'The label is already taken.');
         }
     }
@@ -133,7 +133,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
 
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
-            $resTemPropsToRetain = array();
+            $resTemPropsToRetain = [];
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
 

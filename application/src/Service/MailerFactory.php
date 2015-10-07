@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Service\Mailer;
 use Zend\Mail\Transport\Factory as TransportFactory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -21,7 +20,7 @@ class MailerFactory implements FactoryInterface
             throw new Exception\ConfigException('Missing mail transport configuration');
         }
         $transport = TransportFactory::create($config['mail']['transport']);
-        $defaultOptions = array();
+        $defaultOptions = [];
         if (isset($config['mail']['default_message_options'])) {
             $defaultOptions = $config['mail']['default_message_options'];
         }
@@ -32,4 +31,3 @@ class MailerFactory implements FactoryInterface
         return new Mailer($transport, $defaultOptions);
     }
 }
-

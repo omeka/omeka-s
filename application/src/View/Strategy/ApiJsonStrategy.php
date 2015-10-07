@@ -65,7 +65,7 @@ class ApiJsonStrategy extends JsonStrategy
      * Get the HTTP status code for an API response.
      *
      * @param Omeka\View\Model\ApiJsonModel $response
-     * @return integer
+     * @return int
      */
     protected function getResponseStatusCode(ApiJsonModel $model)
     {
@@ -89,7 +89,7 @@ class ApiJsonStrategy extends JsonStrategy
      * Get a status code based on the type of an exception (or lack thereof).
      *
      * @param \Exception|null $exception
-     * @return integer
+     * @return int
      */
     protected function getStatusCodeForException(\Exception $exception = null)
     {

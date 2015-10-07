@@ -1,10 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Doctrine\ORM\QueryBuilder;
-use Omeka\Stdlib\ErrorStore;
-use Omeka\Entity\EntityInterface;
-
 /**
  * Entity API adapter interface.
  */

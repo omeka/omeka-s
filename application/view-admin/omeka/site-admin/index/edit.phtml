@@ -1,5 +1,8 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->headScript()->appendFile($this->assetUrl('js/jstree/jstree.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
 $escape = $this->plugin('escapeHtml');
 $form->prepare();
 $delete = $this->translate('Delete');
@@ -33,6 +36,7 @@ $roles = array(
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
+        <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User permissions'); ?></a></li>
     </ul>
 </nav>
@@ -80,6 +84,44 @@ if ($pages):
     </table>
 <?php endif; ?>
 </fieldset>
+
+<fieldset id="nav" class="section">
+    <div id="nav-tree"
+        data-link-form-url="<?php echo $escape($this->url('admin/site/navigation-link-form')); ?>"
+        data-jstree-data="<?php echo $escape(json_encode($navTree)); ?>">
+    </div>
+    <div id="nav-selector" class="sidebar">
+    <p>Add a custom link:</p>
+    <select id="nav-custom-pages">
+        <option value="">Select below...</option>
+        <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
+        <?php $label = $this->navigationLink()->getLabel($type); ?>
+        <option
+            data-type="<?php echo $escape($type); ?>"
+            data-label="<?php echo $escape($label); ?>"
+            value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <p>Add a link to a site page:</p>
+    <input type="text" class="page-selector-filter" placeholder="Filter pages">
+    <?php if ($pages): ?>
+    <ul id="nav-pages">
+    <?php foreach ($pages as $page): ?>
+        <li class="nav-page"
+            data-type="page"
+            data-label="<?php echo $page->title(); ?>"
+            data-id="<?php echo $page->id(); ?>"
+            data-slug="<?php echo $page->slug(); ?>">
+            <?php echo $page->title(); ?> (<?php echo $page->slug(); ?>)
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?php else: ?>
+    <p>This site has no pages</p>
+    <?php endif; ?>
+    </div>
+</fieldset>
+
 <fieldset id="permissions" class="section">
 <?php $sitePermissions = $site->sitePermissions(); ?>
     <table id="site-user-permissions" class="<?php echo count($sitePermissions) ? '' : 'empty'; ?>">
@@ -196,7 +238,7 @@ $userRowTemplate .= '</select></td>
 ';
 ?>
 
-<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>">
+<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>"></span>
 
 <script>
 $('#content').on('click', '.o-icon-delete,.o-icon-undo', function(e) {
@@ -237,13 +279,48 @@ $('#permissions .selector .selector-child').click(function() {
     permissionsTable.find('tbody').append(template);
 });
 
-$('.section-nav a[href="#permissions"]').click(function() {
-    $('body').addClass('sidebar-open');
-    $('#permissions .sidebar').addClass('active');
+$('.section-nav a').click(function() {
+    $('fieldset .sidebar').removeClass('active');
+    var sectionId = $(this).attr('href');
+    var section = $(sectionId);
+    if (section.find('.sidebar').length > 0 && !$('body').hasClass('sidebar-open')) {
+        $('body').addClass('sidebar-open');
+    } else if (section.find('.sidebar').length == 0 && $('.sidebar.active').length == 0) {
+        $('body').removeClass('sidebar-open');
+    }
+    section.find('.sidebar').addClass('active');
 });
 
-$('.section-nav a:not([href="#permissions"])').click(function() {
-    $('body').removeClass('sidebar-open');
-    $('#permissions .sidebar').removeClass('active');
+$('.page-selector-filter').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
 });
+
+// Property selector, filter properties.
+$('.page-selector-filter').on('keyup', (function() {
+    var timer = 0;
+    return function() {
+        clearTimeout(timer);
+        timer = setTimeout(pageFilterSelector.bind(this), 400);
+    }
+})())
+
+var pageFilterSelector = function() {
+    var filter = $(this).val().toLowerCase();
+    var selector = $(this).closest('.selector');
+    var parent = $("#nav-pages");
+    parent.find('li.nav-page').each(function() {
+        var child = $(this);
+        var label = child.data('title').toLowerCase();
+        if (label.indexOf(filter) > -1) {
+            // Label contains the filter string. Show the child.
+            child.show();
+        } else {
+            // Label doesn't contain the filter string. Hide the child.
+            child.hide();
+        }
+    });
+}
 </script>

@@ -38,12 +38,12 @@ class KeyAdapter extends AbstractAdapter
 
         if (!$key || !$key->getOwner()->isActive()) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
-                array('Key identity not found.'));
+                ['Key identity not found.']);
         }
 
         if (!$key->verifyCredential($this->getCredential())) {
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, null,
-                array('Invalid key credential.'));
+                ['Invalid key credential.']);
         }
 
         // Update the last IP address and datetime accessed.

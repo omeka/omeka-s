@@ -11,16 +11,16 @@ class PageController extends AbstractActionController
     public function editAction()
     {
         $form = new SitePageForm($this->getServiceLocator());
-        $readResponse = $this->api()->read('sites', array(
+        $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $readResponse->getContent();
         $siteId = $site->id();
 
-        $readResponse = $this->api()->read('site_pages', array(
+        $readResponse = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),
             'site' => $siteId
-        ));
+        ]);
         $page = $readResponse->getContent();
         $id = $page->id();
 
@@ -50,9 +50,9 @@ class PageController extends AbstractActionController
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }

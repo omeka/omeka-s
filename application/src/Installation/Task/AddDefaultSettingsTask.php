@@ -7,10 +7,10 @@ use Omeka\Service\Paginator;
 
 class AddDefaultSettingsTask implements TaskInterface
 {
-    protected $defaultSettings = array(
+    protected $defaultSettings = [
         'version' => Module::VERSION,
         'pagination_per_page' => Paginator::PER_PAGE,
-    );
+    ];
 
     public function perform(Installer $installer)
     {

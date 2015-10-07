@@ -15,12 +15,12 @@ class ConfirmForm extends AbstractForm
             $value = $translator->translate('Confirm');
         }
 
-        $this->add(array(
+        $this->add([
             'type' => 'submit',
             'name' => 'submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => $value,
-            ),
-        ));
+            ],
+        ]);
     }
 }

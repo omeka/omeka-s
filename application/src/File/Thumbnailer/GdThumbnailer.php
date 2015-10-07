@@ -2,7 +2,6 @@
 namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
-use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class GdThumbnailer extends AbstractThumbnailer
 {
@@ -52,7 +51,7 @@ class GdThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = array())
+    public function create($strategy, $constraint, array $options = [])
     {
         switch ($strategy) {
             case 'square':

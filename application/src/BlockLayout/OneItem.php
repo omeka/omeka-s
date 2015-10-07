@@ -4,8 +4,6 @@ namespace Omeka\BlockLayout;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Element\Hidden;
-use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;
 
 class OneItem extends AbstractBlockLayout
@@ -29,6 +27,7 @@ class OneItem extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $html = '';
+        $html .= '<div class="item resource">';
         $attachments = $block->attachments();
         if ($attachments) {
             $attachment = $attachments[0];
@@ -46,6 +45,7 @@ class OneItem extends AbstractBlockLayout
                 $html .= '<span class="caption">' . $caption . '</span>';
             }
         }
+        $html .= '</div>';
 
         return $html;
     }

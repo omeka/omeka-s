@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
-use Omeka\Entity\ResourceClass;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 
@@ -13,12 +12,12 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'         => 'id',
         'local_name' => 'localName',
         'label'      => 'label',
         'comment'    => 'comment',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -170,10 +169,10 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if ($entity->getVocabulary() instanceof Vocabulary) {
             if ($entity->getVocabulary()->getId()) {
                 // Vocabulary is persistent. Check for unique local name.
-                $criteria = array(
+                $criteria = [
                     'vocabulary' => $entity->getVocabulary(),
                     'localName' => $entity->getLocalName(),
-                );
+                ];
                 if (!$this->isUnique($entity, $criteria)) {
                     $errorStore->addError('o:local_name', sprintf(
                         'The local name "%s" is already taken.',

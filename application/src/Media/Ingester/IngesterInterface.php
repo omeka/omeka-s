@@ -42,5 +42,5 @@ interface IngesterInterface
      * @param array $options
      * @return string
      */
-    public function form(PhpRenderer $view, array $options = array());
+    public function form(PhpRenderer $view, array $options = []);
 }

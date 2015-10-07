@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api;
 
-use Omeka\Api\Exception;
 use Zend\Stdlib\Request as ZendRequest;
 
 /**
@@ -19,19 +18,19 @@ class Request extends ZendRequest
     /**
      * @var array
      */
-    protected $validOperations = array(
+    protected $validOperations = [
         self::SEARCH,
         self::CREATE,
         self::BATCH_CREATE,
         self::READ,
         self::UPDATE,
         self::DELETE,
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $content = array();
+    protected $content = [];
 
     /**
      * Construct an API request.
@@ -153,7 +152,7 @@ class Request extends ZendRequest
      * Set whether this is a partial request (used for partial update, aka
      * PATCH)
      *
-     * @param boolean isPartial
+     * @param bool isPartial
      */
     public function setIsPartial($isPartial)
     {
@@ -163,7 +162,7 @@ class Request extends ZendRequest
     /**
      * Whether this is a partial request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPartial()
     {

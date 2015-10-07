@@ -3,7 +3,6 @@ namespace Omeka\Entity;
 
 use DateInterval;
 use DateTime;
-use Omeka\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**

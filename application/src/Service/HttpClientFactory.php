@@ -16,7 +16,7 @@ class HttpClientFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $options = array();
+        $options = [];
         if (isset($config['http_client']) && is_array($config['http_client'])) {
             $options = $config['http_client'];
         }

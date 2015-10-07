@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Mvc;
 
-use Omeka\Service\Exception\ConfigException;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -17,32 +16,32 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToInstallation')
+            [$this, 'redirectToInstallation']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToMigration')
+            [$this, 'redirectToMigration']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'redirectToLogin')
+            [$this, 'redirectToLogin']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'authenticateApiKey')
+            [$this, 'authenticateApiKey']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'authorizeUserAgainstRoute'),
+            [$this, 'authorizeUserAgainstRoute'],
             -1000
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'prepareAdmin')
+            [$this, 'prepareAdmin']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            array($this, 'prepareSite')
+            [$this, 'prepareSite']
         );
     }
 
@@ -64,7 +63,7 @@ class MvcListeners extends AbstractListenerAggregate
             // On the install route
             return;
         }
-        $url = $event->getRouter()->assemble(array(), array('name' => 'install'));
+        $url = $event->getRouter()->assemble([], ['name' => 'install']);
         $response = $event->getResponse();
         $response->getHeaders()->addHeaderLine('Location', $url);
         $response->setStatusCode(302);
@@ -112,9 +111,9 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         if ($routeMatch->getParam('__ADMIN__')) {
-            $url = $event->getRouter()->assemble(array(), array('name' => 'migrate'));
+            $url = $event->getRouter()->assemble([], ['name' => 'migrate']);
         } else {
-            $url = $event->getRouter()->assemble(array(), array('name' => 'maintenance'));
+            $url = $event->getRouter()->assemble([], ['name' => 'maintenance']);
         }
         $response = $event->getResponse();
         $response->getHeaders()->addHeaderLine('Location', $url);
@@ -142,10 +141,10 @@ class MvcListeners extends AbstractListenerAggregate
         $routeMatch = $event->getRouteMatch();
         if ($routeMatch->getParam('__ADMIN__')) {
             // This is an admin request.
-            $url = $event->getRouter()->assemble(array(), array(
+            $url = $event->getRouter()->assemble([], [
                 'name' => 'login',
-                'query' => array('redirect' => $event->getRequest()->getUriString())
-            ));
+                'query' => ['redirect' => $event->getRequest()->getUriString()]
+            ]);
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);
@@ -273,7 +272,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Set the current theme.
         $theme = $site->getTheme();
-        $themeManager = $serviceLocator->get('Omeka\ThemeManager');
+        $themeManager = $serviceLocator->get('Omeka\Site\ThemeManager');
         $themeManager->setCurrentTheme($theme);
 
         // Add the theme view templates to the path stack.
@@ -293,78 +292,9 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
-        // Set the site navigation by preparing the navigation array and setting
-        // it to module configuration.
-        $sitePages = $site->getPages();
-        $siteSlug = $routeMatch->getParam('site-slug');
-        $buildNavigation = function ($pagesIn)
-            use (&$buildNavigation, $siteSlug, $sitePages
-        ) {
-            $pagesOut = array();
-            foreach ($pagesIn as $key => $page) {
-                if (!isset($page['type'])) {
-                    continue;
-                }
-                switch ($page['type']) {
-                    case 'home':
-                        $pagesOut[$key] = array(
-                            'label' => 'Home',
-                            'route' => 'site',
-                            'params' => array(
-                                'site-slug' => $siteSlug,
-                            ),
-                        );
-                        break;
-                    case 'browse':
-                        $pagesOut[$key] = array(
-                            'label' => 'Browse',
-                            'route' => 'site/browse',
-                            'params' => array(
-                                'site-slug' => $siteSlug,
-                            ),
-                        );
-                        break;
-                    case 'page':
-                        $sitePage = $sitePages->get($page['id']);
-                        if ($sitePage) {
-                            $pagesOut[$key] = array(
-                                'label' => $sitePage->getTitle(),
-                                'route' => 'site/page',
-                                'params' => array(
-                                    'site-slug' => $siteSlug,
-                                    'page-slug' => $sitePage->getSlug(),
-                                ),
-                            );
-                        } else {
-                            $pagesOut[$key] = array(
-                                'type' => 'uri',
-                                'label' => '[invalid page]',
-                            );
-                        }
-                        break;
-                    default:
-                        continue 2;
-                }
-                if (isset($page['pages'])) {
-                    $pagesOut[$key]['pages'] = $buildNavigation($page['pages']);
-                }
-            }
-            return $pagesOut;
-        };
-        $pages = $buildNavigation($site->getNavigation());
-        if (!$pages) {
-            // The site must have at least one page for navigation to work.
-            $pages = array(array(
-                'label' => 'Home',
-                'route' => 'site',
-                'params' => array(
-                    'site-slug' => $siteSlug,
-                ),
-            ));
-        }
-
+        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
         $config = $serviceLocator->get('Config');
-        $config['navigation']['site'] = $pages;
+        $config['navigation']['site'] = $translator->toZend($site);
         $allowOverride = $serviceLocator->getAllowOverride();
         $serviceLocator->setAllowOverride(true);
         $serviceLocator->setService('Config', $config);

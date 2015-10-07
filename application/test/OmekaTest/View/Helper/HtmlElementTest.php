@@ -22,7 +22,7 @@ class HtmlElementTest extends TestCase
     public function testToString()
     {
         $element = 'test-element';
-        $attributes = array('foo' => 'bar', 'baz' => 'bat');
+        $attributes = ['foo' => 'bar', 'baz' => 'bat'];
 
         $htmlElement = $this->htmlElement;
         $htmlElement($element)->setAttributes($attributes);

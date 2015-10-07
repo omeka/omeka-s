@@ -16,7 +16,7 @@ class InstallerTest extends TestCase
 
     public function testRegistersAndGetsVars()
     {
-        $vars = array('baz' => 'bat');
+        $vars = ['baz' => 'bat'];
         $this->installer->registerVars('foo', $vars);
         $this->assertEquals($this->installer->getVars('foo'), $vars);
     }
@@ -25,7 +25,7 @@ class InstallerTest extends TestCase
     {
         $this->installer->setServiceLocator($this->getServiceManager());
         $this->assertInstanceOf(
-            'Zend\ServiceManager\ServiceLocatorInterface', 
+            'Zend\ServiceManager\ServiceLocatorInterface',
             $this->installer->getServiceLocator()
         );
     }
@@ -33,29 +33,29 @@ class InstallerTest extends TestCase
     public function testInstallSuccessfulTask()
     {
         $this->installer->setServiceLocator($this->getServiceManager(
-            array(
+            [
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
                 'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            )
+            ]
         ));
         $this->installer->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $this->installer->install();
         $this->assertTrue($result);
-        $this->assertEquals(array(), $this->installer->getErrors());
+        $this->assertEquals([], $this->installer->getErrors());
     }
 
     public function testInstallErrorTask()
     {
         $this->installer->setServiceLocator($this->getServiceManager(
-            array(
+            [
                 'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
                 'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            )
+            ]
         ));
         $this->installer->registerTask('OmekaTest\Installation\ErrorTask');
         $result = $this->installer->install();
         $this->assertFalse($result);
-        $this->assertEquals(array('error_message'), $this->installer->getErrors());
+        $this->assertEquals(['error_message'], $this->installer->getErrors());
     }
 }
 

@@ -18,12 +18,12 @@ class Utf8mb4 extends AbstractMigration
         $connection->query('ALTER TABLE module CHANGE id id VARCHAR(190) NOT NULL');
         $connection->query('ALTER TABLE site_page CHANGE slug slug VARCHAR(190) NOT NULL, CHANGE title title VARCHAR(190) NOT NULL');
 
-        $tables = array(
+        $tables = [
             'api_key','item','item_set','job','media','migration','module',
             'resource','resource_template','resource_template_property',
             'setting','site','site_block_attachment','site_item','site_page',
             'site_page_block','site_permission','user','value','vocabulary',
-        );
+        ];
 
         foreach ($tables as $table) {
             $connection->query("ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");

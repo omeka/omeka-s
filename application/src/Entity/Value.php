@@ -15,11 +15,11 @@ class Value extends AbstractEntity
     /**
      * @var array
      */
-    protected $validTypes = array(
+    protected $validTypes = [
         self::TYPE_LITERAL,
         self::TYPE_RESOURCE,
         self::TYPE_URI,
-    );
+    ];
 
     /**
      * @Id

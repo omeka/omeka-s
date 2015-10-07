@@ -2,8 +2,6 @@
 namespace OmekaTest\Model;
 
 use Omeka\Entity\Item;
-use Omeka\Entity\ItemSet;
-use Omeka\Entity\Media;
 use Omeka\Test\TestCase;
 
 class ItemTest extends TestCase

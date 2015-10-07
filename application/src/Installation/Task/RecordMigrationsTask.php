@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Installation\Task;
 
-use Doctrine\DBAL\DBALException;
 use Omeka\Installation\Installer;
 
 /**

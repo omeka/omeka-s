@@ -6,45 +6,46 @@ class SiteForm extends AbstractForm
     public function buildForm()
     {
         $translator = $this->getTranslator();
+        $this->setAttribute('id', 'site-form');
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:slug',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('URL slug')
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'slug',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'o:title',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Title'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'title',
                 'required' => true,
-            ),
-        ));
-        $themeManager = $this->getServiceLocator()->get('Omeka\ThemeManager');
-        $themes = array();
+            ],
+        ]);
+        $themeManager = $this->getServiceLocator()->get('Omeka\Site\ThemeManager');
+        $themes = [];
         foreach ($themeManager->getThemes() as $id => $theme) {
             $themes[$id] = $theme->getName();
         }
-        $this->add(array(
+        $this->add([
             'name' => 'o:theme',
             'type' => 'Select',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Theme'),
                 'value_options' => $themes,
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'theme',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
     }
 }

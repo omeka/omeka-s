@@ -11,13 +11,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'            => 'id',
         'namespace_uri' => 'namespaceUri',
         'prefix'        => 'prefix',
         'label'         => 'label',
         'comment'       => 'comment',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -100,11 +100,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:class')) {
-            $classesData = $request->getValue('o:class', array());
+            $classesData = $request->getValue('o:class', []);
             $adapter = $this->getAdapter('resource_classes');
             $class = $adapter->getEntityClass();
-            $retainResourceClasses = array();
-            $retainResourceClassIds = array();
+            $retainResourceClasses = [];
+            $retainResourceClassIds = [];
             foreach ($classesData as $classData) {
                 if (isset($classData['o:id'])) {
                     // Do not update existing resource classes.
@@ -131,11 +131,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:property')) {
-            $propertiesData = $request->getValue('o:property', array());
+            $propertiesData = $request->getValue('o:property', []);
             $adapter = $this->getAdapter('properties');
             $class = $adapter->getEntityClass();
-            $retainProperties = array();
-            $retainPropertyIds = array();
+            $retainProperties = [];
+            $retainPropertyIds = [];
             foreach ($propertiesData as $propertyData) {
                 if (isset($propertyData['o:id'])) {
                     // Do not update existing properties.
@@ -203,7 +203,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (false == $entity->getNamespaceUri()) {
             $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
         }
-        if (!$this->isUnique($entity, array('namespaceUri' => $namespaceUri))) {
+        if (!$this->isUnique($entity, ['namespaceUri' => $namespaceUri])) {
             $errorStore->addError('o:namespace_uri', sprintf(
                 'The namespace URI "%s" is already taken.',
                 $namespaceUri
@@ -215,7 +215,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (false == $entity->getPrefix()) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
         }
-        if (!$this->isUnique($entity, array('prefix' => $prefix))) {
+        if (!$this->isUnique($entity, ['prefix' => $prefix])) {
             $errorStore->addError('o:prefix', sprintf(
                 'The prefix "%s" is already taken.',
                 $prefix
@@ -228,7 +228,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
 
         // Check for uniqueness of resource class local names.
-        $uniqueLocalNames = array();
+        $uniqueLocalNames = [];
         foreach ($entity->getResourceClasses() as $resourceClass) {
             if (in_array($resourceClass->getLocalName(), $uniqueLocalNames)) {
                 $errorStore->addError('o:resource_class', sprintf(
@@ -241,7 +241,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
 
         // Check for uniqueness of property local names.
-        $uniqueLocalNames = array();
+        $uniqueLocalNames = [];
         foreach ($entity->getProperties() as $property) {
             if (in_array($property->getLocalName(), $uniqueLocalNames)) {
                 $errorStore->addError('o:resource_class', sprintf(

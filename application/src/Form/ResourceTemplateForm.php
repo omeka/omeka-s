@@ -3,27 +3,27 @@ namespace Omeka\Form;
 
 class ResourceTemplateForm extends AbstractForm
 {
-    protected $options = array('include_role' => false);
+    protected $options = ['include_role' => false];
 
     public function buildForm()
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:label',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Label'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'o:label',
             'required' => true,
-        ));
+        ]);
     }
 }

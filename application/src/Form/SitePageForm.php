@@ -7,27 +7,27 @@ class SitePageForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:slug',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('URL slug')
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'slug',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'o:title',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Title'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'title',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
     }
 }

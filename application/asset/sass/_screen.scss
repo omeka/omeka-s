@@ -1739,6 +1739,11 @@ input[type="text"].value-language,
         @include leader(.5);
     }
 
+    .openseadragon {
+        width:100%;
+        height:600px;
+    }
+
     /* @end */
 
     /* @group ----- Item Sets ----- */
@@ -2460,6 +2465,29 @@ body.sidebar-open #content {
 
     .block .item-title {
         margin: rhythm(.25) 0;
+    }
+
+    /* @end */
+
+    /* @group ----- Navigation ----- */
+
+    #nav-pages {
+        list-style: none;
+        padding-left: 0;
+        @include leader(.9167);
+    }
+
+    .page-selector-filter {
+        width: 100%;
+    }
+
+    .nav-page {
+        @include field-row;
+        cursor: pointer;
+
+        &:hover {
+            background-color: opacify($gray-on-white, .08);
+        }
     }
 
     /* @end */

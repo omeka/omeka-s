@@ -36,11 +36,11 @@ class Entity implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             DoctrineEvent::preRemove, DoctrineEvent::postRemove,
             DoctrineEvent::prePersist, DoctrineEvent::postPersist,
             DoctrineEvent::preUpdate, DoctrineEvent::postUpdate,
-        );
+        ];
     }
 
     /**
@@ -112,15 +112,15 @@ class Entity implements EventSubscriber
     protected function trigger($eventName, LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        $identifiers = array(get_class($entity));
+        $identifiers = [get_class($entity)];
         if ($entity instanceof OmekaResource) {
             // Add the identifier for a generic resource entity.
             $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
-        $event = new OmekaEvent($eventName, $entity, array(
+        $event = new OmekaEvent($eventName, $entity, [
             'services' => $this->services,
-        ));
+        ]);
         $this->events->trigger($event);
     }
 }

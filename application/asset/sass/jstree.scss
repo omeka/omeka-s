@@ -1,0 +1,215 @@
+@import "base";
+@import "mixins";
+@import "font-awesome/variables";
+@import "susy";
+@import "compass/css3";
+@import "compass/typography";
+
+.jstree-container-ul {
+    margin: 0;
+}
+
+.jstree-container-ul,
+.jstree-container-ul ul {
+    list-style-type: none;
+}
+
+.jstree-children {
+    padding-left: 1.5 * $base-line-height;
+}
+
+.jstree-container-ul,
+.jstree-container-ul > li{
+    padding-left: 0;
+}
+
+.jstree-node {
+    position: relative;
+}
+
+.jstree-anchor {
+    @include field-row;
+    display: block;
+    margin: rhythm(.25) 0 0;
+}
+
+.jstree-editlink-container {
+    display: none;
+    border-color: $gray-on-white;
+    @include rhythm-borders(1px, .5, $base-font-size, solid);
+    overflow: hidden;
+    line-height: 1.5 * $base-line-height;
+    font-weight: bold;
+
+    input,
+    textarea,
+    select{
+        float: right;
+        width: span(7 of 10);
+        font-weight: normal;
+    }
+
+    label {
+        display: block;
+
+        &:not(:last-child) {
+            margin-bottom: rhythm(.25);
+        }
+    }
+}
+
+.jstree-hovered {
+    background-color: transparentize($gray-on-white, .04);
+}
+
+.jstree-clicked {
+    background-color: opacify($gray-on-white, .08);
+}
+
+i.jstree-icon {
+    font-style: normal;
+    position: absolute;
+    right: rhythm(.5);
+    top: 0;
+}
+
+.jstree-icon:before {
+    font-family: "FontAwesome";
+}
+
+.jstree-open,
+.jstree-closed {
+    position: relative;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl,
+.jstree-removenode-remove,
+.jstree-removenode-undo,
+.jstree-editlink-edit {
+    width: $base-line-height;
+    height: 1.5 * $base-line-height;
+    line-height: 1.5 * $base-line-height;
+    background-color: opacify($gray-on-white, .16);
+    text-align: right;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl {
+    width: 1.5 * $base-line-height;
+    right: 0;
+    text-align: center;
+}
+
+
+i.jstree-icon.jstree-ok,
+i.jstree-icon.jstree-er {
+    left: 100%;
+    width: 1.5 * $base-line-height;
+    height: 1.5 * $base-line-height;
+    line-height: 1.5 * $base-line-height;
+    background-color: opacify($gray-on-white, .08);
+    text-align: center;
+}
+
+.jstree-removenode-remove,
+.jstree-removenode-undo,
+.jstree-editlink-edit {
+    background-color: transparent;
+    color: lighten($red, 20%);
+
+    &:hover {
+        color: $red;
+    }
+}
+
+.jstree-open > .jstree-anchor .jstree-removenode-remove,
+.jstree-closed > .jstree-anchor .jstree-removenode-remove,
+.jstree-open > .jstree-anchor .jstree-removenode-undo,
+.jstree-closed > .jstree-anchor .jstree-removenode-undo {
+    right: 2 * $base-line-height;
+}
+
+.jstree-open > .jstree-anchor .jstree-editlink-edit,
+.jstree-closed > .jstree-anchor .jstree-editlink-edit {
+    right: 3 * $base-line-height;
+}
+
+i.jstree-editlink-edit {
+    right: 1.5 * $base-line-height;
+}
+
+.jstree-anchor:hover > .jstree-removenode-remove {
+    display: block;
+}
+
+.jstree-open > .jstree-ocl:before {
+    content: $fa-var-caret-down;
+}
+
+.jstree-closed > .jstree-ocl:before {
+    content: $fa-var-caret-right;
+}
+
+.jstree-ok:before {
+    content: $fa-var-check;
+}
+
+.jstree-er:before {
+    content: $fa-var-close;
+}
+
+.jstree-removenode-remove:before {
+    content: $fa-var-trash-o;
+}
+
+.jstree-removenode-undo:before {
+    content: $fa-var-undo;
+}
+
+.jstree-editlink-edit:before {
+    content: $fa-var-pencil;
+}
+
+.jstree-removenode-removed .jstree-anchor {
+    background-color: #ffcccc;
+}
+
+.jstree-removenode-removed .jstree-children .jstree-removenode-remove,
+.jstree-removenode-removed .jstree-children .jstree-removenode-undo {
+    display: none;
+}
+
+.jstree-removenode-removed.jstree-open > .jstree-ocl,
+.jstree-removenode-removed.jstree-closed > .jstree-ocl {
+    background-color: rgba(255, 0, 0, .24);
+}
+
+.jstree-editlink-editmode .jstree-editlink-edit {
+    opacity: .35;
+}
+
+#jstree-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: -5px 0 0 0;
+    padding: 0;
+    border-right: 0;
+    border-top: 5px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+#jstree-dnd {
+    z-index: 1;
+    padding: rhythm(.25) rhythm(.5);
+    background-color: $gray-on-white;
+    line-height: $base-line-height;
+}

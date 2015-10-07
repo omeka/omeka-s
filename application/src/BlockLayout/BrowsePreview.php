@@ -49,7 +49,7 @@ class BrowsePreview extends AbstractBlockLayout
         $preview .= '</ul>';
 
         $link = $view->hyperlink('browse this', $view->url(
-            'site/browse', array(), array('query' => $query), true
+            'site/browse', [], ['query' => $query], true
         ));
 
         return $preview . $link;

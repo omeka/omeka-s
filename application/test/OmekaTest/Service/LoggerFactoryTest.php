@@ -8,12 +8,12 @@ class LoggerFactoryTest extends TestCase
 {
     protected $factory;
 
-    protected $validConfig = array(
-        'logger' => array(
+    protected $validConfig = [
+        'logger' => [
             'log' => true,
             'path' => '/',
-        ),
-    );
+        ],
+    ];
 
     public function setUp()
     {

@@ -2,7 +2,6 @@
 namespace OmekaTest\Api\Adapter\Entity;
 
 use Omeka\Api\Adapter\ValueHydrator;
-use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Test\TestCase;
@@ -16,14 +15,14 @@ class ValueHydratorTest extends TestCase
     {
         $this->adapter = $this->getMockForAbstractClass(
             'Omeka\Api\Adapter\AbstractEntityAdapter',
-                array(), '', true, true, true,
-                array('getEntityManager', 'getAdapter')
+                [], '', true, true, true,
+                ['getEntityManager', 'getAdapter']
         );
 
         $collection = $this->getMock('Doctrine\Common\Collections\ArrayCollection');
         $collection->expects($this->any())
             ->method('toArray')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->resource = $this->getMock('Omeka\Entity\Resource');
         $this->resource->expects($this->any())
@@ -33,15 +32,15 @@ class ValueHydratorTest extends TestCase
 
     public function testHydrateLiteral()
     {
-        $nodeObject = array(
-            'term' => array(
-                array(
+        $nodeObject = [
+            'term' => [
+                [
                     '@value' => 'test-@value',
                     '@language' => 'test-@language',
                     'property_id' => 'test-property_id',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();
@@ -62,14 +61,14 @@ class ValueHydratorTest extends TestCase
 
     public function testHydrateResource()
     {
-        $nodeObject = array(
-            'term' => array(
-                array(
+        $nodeObject = [
+            'term' => [
+                [
                     'property_id' => 'test-property_id',
                     'value_resource_id' => 'test-value_resource_id',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $valueResource = $this->getMock('Omeka\Entity\Resource');
         $property = $this->getMock('Omeka\Entity\Property');
@@ -81,14 +80,14 @@ class ValueHydratorTest extends TestCase
 
     public function testHydrateUri()
     {
-        $nodeObject = array(
-            'term' => array(
-                array(
+        $nodeObject = [
+            'term' => [
+                [
                     '@id' => 'test-@id',
                     'property_id' => 'test-property_id',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $property = $this->getMock('Omeka\Entity\Property');
         $entityManager = $this->getEntityManager();

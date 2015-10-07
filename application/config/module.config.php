@@ -1,50 +1,50 @@
 <?php
-return array(
-    'listeners' => array(
+return [
+    'listeners' => [
         'ModuleRouteListener',
         'Omeka\MvcExceptionListener',
         'Omeka\MvcListeners',
-    ),
-    'view_manager' => array(
+    ],
+    'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_path_stack'      => array(
+        'template_path_stack'      => [
             OMEKA_PATH . '/application/view-shared',
-        ),
-        'strategies' => array(
+        ],
+        'strategies' => [
             'Omeka\ViewApiJsonStrategy',
-        ),
-    ),
-    'assets' => array(
+        ],
+    ],
+    'assets' => [
         'use_externals' => true,
-        'externals' => array(
-            'Omeka' => array(
+        'externals' => [
+            'Omeka' => [
                 'js/jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
-            ),
-        ),
-    ),
-    'permissions' => array(
-        'acl_resources' => array(
+            ],
+        ],
+    ],
+    'permissions' => [
+        'acl_resources' => [
             'Omeka\Module\Manager',
-        ),
-    ),
+        ],
+    ],
     'temp_dir' => sys_get_temp_dir(),
-    'entity_manager' => array(
+    'entity_manager' => [
         'is_dev_mode' => false,
-        'mapping_classes_paths' => array(
+        'mapping_classes_paths' => [
             OMEKA_PATH . '/application/src/Entity',
-        ),
-        'resource_discriminator_map' => array(
+        ],
+        'resource_discriminator_map' => [
             'Omeka\Entity\Item'    => 'Omeka\Entity\Item',
             'Omeka\Entity\Media'   => 'Omeka\Entity\Media',
             'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
-        ),
-    ),
-    'installer' => array(
-        'tasks' => array(
+        ],
+    ],
+    'installer' => [
+        'tasks' => [
             'Omeka\Installation\Task\CheckEnvironmentTask',
             'Omeka\Installation\Task\CheckDirPermissionsTask',
             'Omeka\Installation\Task\DestroySessionTask',
@@ -55,77 +55,77 @@ return array(
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
             'Omeka\Installation\Task\AddDefaultSettingsTask',
-        ),
-    ),
-    'translator' => array(
+        ],
+    ],
+    'translator' => [
         'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
+        'translation_file_patterns' => [
+            [
                 'type'        => 'gettext',
                 'base_dir'    => OMEKA_PATH . '/application/language',
                 'pattern'     => '%s.mo',
                 'text_domain' => null,
-            ),
-        ),
-    ),
-    'loggers' => array(
-        'application' => array(
+            ],
+        ],
+    ],
+    'loggers' => [
+        'application' => [
             'log'  => false,
             'path' => OMEKA_PATH . '/data/logs/application.log',
-        ),
-        'sql' => array(
+        ],
+        'sql' => [
             'log'  => false,
             'path' => OMEKA_PATH . '/data/logs/sql.log',
-        ),
-    ),
-    'http_client' => array(
+        ],
+    ],
+    'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
         'sslcapath' => '/etc/ssl/certs',
-    ),
-    'cli' => array(
+    ],
+    'cli' => [
         'execute_strategy' => 'exec',
         'phpcli_path' => null,
-    ),
-    'file_manager' => array(
+    ],
+    'file_manager' => [
         'store' => 'Omeka\File\LocalStore',
         'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
-        'thumbnail_types' => array(
-            'large' => array(
+        'thumbnail_types' => [
+            'large' => [
                 'strategy' => 'default',
                 'constraint' => 800,
-                'options' => array(),
-            ),
-            'medium' => array(
+                'options' => [],
+            ],
+            'medium' => [
                 'strategy' => 'default',
                 'constraint' => 200,
-                'options' => array(),
-            ),
-            'square' => array(
+                'options' => [],
+            ],
+            'square' => [
                 'strategy' => 'square',
                 'constraint' => 200,
-                'options' => array(
+                'options' => [
                     'gravity' => 'center',
-                ),
-            ),
-        ),
-        'thumbnail_options' => array(
+                ],
+            ],
+        ],
+        'thumbnail_options' => [
             'imagemagick_dir' => null,
             'page' => 0,
-        ),
-        'thumbnail_fallbacks' => array(
-            'default' => array('thumbnails/default.png', 'Omeka'),
-            'fallbacks' => array(
-                'image' => array('thumbnails/image.png', 'Omeka'),
-                'video' => array('thumbnails/video.png', 'Omeka'),
-                'audio' => array('thumbnails/audio.png', 'Omeka'),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'abstract_factories' => array(
+        ],
+        'thumbnail_fallbacks' => [
+            'default' => ['thumbnails/default.png', 'Omeka'],
+            'fallbacks' => [
+                'image' => ['thumbnails/image.png', 'Omeka'],
+                'video' => ['thumbnails/video.png', 'Omeka'],
+                'audio' => ['thumbnails/audio.png', 'Omeka'],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
             'Zend\Navigation\Service\NavigationAbstractServiceFactory',
-        ),
-        'factories' => array(
+        ],
+        'factories' => [
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
@@ -139,15 +139,16 @@ return array(
             'Omeka\ViewApiJsonStrategy'   => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\JobDispatcher'         => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient'            => 'Omeka\Service\HttpClientFactory',
-            'Omeka\ThemeManager'          => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\ThemeManager'     => 'Omeka\Service\ThemeManagerFactory',
+            'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
-        ),
-        'invokables' => array(
+        ],
+        'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\ApiManager'          => 'Omeka\Api\Manager',
             'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
@@ -158,25 +159,26 @@ return array(
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Cli'                 => 'Omeka\Service\Cli',
+            'Omeka\Site\NavigationTranslator' => 'Omeka\Site\Navigation\Translator',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
             'Omeka\JobDispatchStrategy\PhpCli'      => 'Omeka\Job\Strategy\PhpCliStrategy',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
-        ),
-        'aliases' => array(
+        ],
+        'aliases' => [
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
-        ),
-        'shared' => array(
+        ],
+        'shared' => [
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
             'Omeka\File\GdThumbnailer' => false,
             'Omeka\File' => false,
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
             'Omeka\Controller\Api'                    => 'Omeka\Controller\ApiController',
             'Omeka\Controller\Index'                  => 'Omeka\Controller\IndexController',
             'Omeka\Controller\Install'                => 'Omeka\Controller\InstallController',
@@ -201,19 +203,19 @@ return array(
             'Omeka\Controller\Admin\Setting'          => 'Omeka\Controller\Admin\SettingController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
             'Omeka\Controller\SiteAdmin\Page'         => 'Omeka\Controller\SiteAdmin\PageController',
-        ),
-    ),
-    'controller_plugins' => array(
-        'invokables' => array(
+        ],
+    ],
+    'controller_plugins' => [
+        'invokables' => [
             'api'       => 'Omeka\Mvc\Controller\Plugin\Api',
             'translate' => 'Omeka\Mvc\Controller\Plugin\Translate',
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
             'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
-        ),
-    ),
-    'api_adapters' => array(
-        'invokables' => array(
+        ],
+    ],
+    'api_adapters' => [
+        'invokables' => [
             'users'              => 'Omeka\Api\Adapter\UserAdapter',
             'vocabularies'       => 'Omeka\Api\Adapter\VocabularyAdapter',
             'resource_classes'   => 'Omeka\Api\Adapter\ResourceClassAdapter',
@@ -226,10 +228,10 @@ return array(
             'sites'              => 'Omeka\Api\Adapter\SiteAdapter',
             'site_pages'         => 'Omeka\Api\Adapter\SitePageAdapter',
             'jobs'               => 'Omeka\Api\Adapter\JobAdapter',
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'pageTitle'              => 'Omeka\View\Helper\PageTitle',
             'htmlElement'            => 'Omeka\View\Helper\HtmlElement',
             'hyperlink'              => 'Omeka\View\Helper\Hyperlink',
@@ -243,42 +245,51 @@ return array(
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
-        ),
-        'factories' => array(
+        ],
+        'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
-        ),
-    ),
-    'block_layouts' => array(
-        'invokables' => array(
+        ],
+    ],
+    'block_layouts' => [
+        'invokables' => [
             'html' => 'Omeka\BlockLayout\Html',
             'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
             'oneItem' => 'Omeka\BlockLayout\OneItem',
-        ),
-    ),
-    'media_ingesters' => array(
-        'invokables' => array(
+        ],
+    ],
+    'navigation_links' => [
+        'invokables' => [
+            'page' => 'Omeka\Site\Navigation\Link\Page',
+            'url' => 'Omeka\Site\Navigation\Link\Url',
+            'browse' => 'Omeka\Site\Navigation\Link\Browse',
+        ],
+    ],
+    'media_ingesters' => [
+        'invokables' => [
             'upload'  => 'Omeka\Media\Ingester\Upload',
             'url'     => 'Omeka\Media\Ingester\Url',
             'oembed'  => 'Omeka\Media\Ingester\OEmbed',
             'youtube' => 'Omeka\Media\Ingester\Youtube',
-            'html'    => 'Omeka\Media\Ingester\Html'
-        ),
-    ),
-    'media_renderers' => array(
-        'invokables' => array(
+            'html'    => 'Omeka\Media\Ingester\Html',
+            'iiif'    => 'Omeka\Media\Ingester\IIIF'
+        ],
+    ],
+    'media_renderers' => [
+        'invokables' => [
             'file'    => 'Omeka\Media\Renderer\File',
             'oembed'  => 'Omeka\Media\Renderer\OEmbed',
             'youtube' => 'Omeka\Media\Renderer\Youtube',
-            'html'    => 'Omeka\Media\Renderer\Html'
-        ),
-    ),
-    'file_renderers' => array(
-        'invokables' => array(
+            'html'    => 'Omeka\Media\Renderer\Html',
+            'iiif'    => 'Omeka\Media\Renderer\IIIF'
+        ],
+    ],
+    'file_renderers' => [
+        'invokables' => [
             'image' => 'Omeka\Media\FileRenderer\ImageRenderer',
             'audio' => 'Omeka\Media\FileRenderer\AudioRenderer',
             'video' => 'Omeka\Media\FileRenderer\VideoRenderer',
-        ),
-        'aliases' => array(
+        ],
+        'aliases' => [
             'image/png' => 'image',
             'image/jpeg' => 'image',
             'image/gif' => 'image',
@@ -305,10 +316,10 @@ return array(
             'video/mpeg' => 'video',
             'video/x-mpeg' => 'video',
             'video/x-mpeq2a' => 'video',
-        ),
-    ),
-    'oembed' => array(
-        'whitelist' => array(
+        ],
+    ],
+    'oembed' => [
+        'whitelist' => [
             '#^https?://(www\.)?youtube\.com/watch.*$#i',
             '#^https?://(www\.)?youtube\.com/playlist.*$#i',
             '#^https?://youtu\.be/.*$#i',
@@ -341,15 +352,15 @@ return array(
             '#^https?://(www\.)?mixcloud\.com/.*$#i',
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
-        )
-    ),
-    'mail' => array(
-        'transport' => array(
+        ]
+    ],
+    'mail' => [
+        'transport' => [
             'type' => 'sendmail',
-            'options' => array(),
-        ),
-        'default_message_options' => array(
+            'options' => [],
+        ],
+        'default_message_options' => [
             'encoding' => 'UTF-8',
-        ),
-    ),
-);
+        ],
+    ],
+];

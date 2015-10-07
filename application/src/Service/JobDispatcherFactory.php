@@ -2,7 +2,6 @@
 namespace Omeka\Service;
 
 use Omeka\Job\Dispatcher;
-use Omeka\Service\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

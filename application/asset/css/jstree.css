@@ -1,0 +1,212 @@
+@charset "UTF-8";
+.jstree-container-ul {
+  margin: 0;
+}
+
+.jstree-container-ul,
+.jstree-container-ul ul {
+  list-style-type: none;
+}
+
+.jstree-children {
+  padding-left: 36px;
+}
+
+.jstree-container-ul,
+.jstree-container-ul > li {
+  padding-left: 0;
+}
+
+.jstree-node {
+  position: relative;
+}
+
+.jstree-anchor {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 0.375em;
+  position: relative;
+  margin-bottom: 0.375em;
+  display: block;
+  margin: 0.375em 0 0;
+}
+
+.jstree-editlink-container {
+  display: none;
+  border-color: rgba(0, 0, 0, 0.08);
+  border-width: 0.0625em;
+  border-style: solid;
+  padding: 0.6875em;
+  overflow: hidden;
+  line-height: 36px;
+  font-weight: bold;
+}
+.jstree-editlink-container input,
+.jstree-editlink-container textarea,
+.jstree-editlink-container select {
+  float: right;
+  width: 70%;
+  font-weight: normal;
+}
+.jstree-editlink-container label {
+  display: block;
+}
+.jstree-editlink-container label:not(:last-child) {
+  margin-bottom: 0.375em;
+}
+
+.jstree-hovered {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.jstree-clicked {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+i.jstree-icon {
+  font-style: normal;
+  position: absolute;
+  right: 0.75em;
+  top: 0;
+}
+
+.jstree-icon:before {
+  font-family: "FontAwesome";
+}
+
+.jstree-open,
+.jstree-closed {
+  position: relative;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl,
+.jstree-removenode-remove,
+.jstree-removenode-undo,
+.jstree-editlink-edit {
+  width: 24px;
+  height: 36px;
+  line-height: 36px;
+  background-color: rgba(0, 0, 0, 0.24);
+  text-align: right;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.jstree-open > .jstree-ocl,
+.jstree-closed > .jstree-ocl {
+  width: 36px;
+  right: 0;
+  text-align: center;
+}
+
+i.jstree-icon.jstree-ok,
+i.jstree-icon.jstree-er {
+  left: 100%;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  background-color: rgba(0, 0, 0, 0.16);
+  text-align: center;
+}
+
+.jstree-removenode-remove,
+.jstree-removenode-undo,
+.jstree-editlink-edit {
+  background-color: transparent;
+  color: #ff6666;
+}
+.jstree-removenode-remove:hover,
+.jstree-removenode-undo:hover,
+.jstree-editlink-edit:hover {
+  color: #FF0000;
+}
+
+.jstree-open > .jstree-anchor .jstree-removenode-remove,
+.jstree-closed > .jstree-anchor .jstree-removenode-remove,
+.jstree-open > .jstree-anchor .jstree-removenode-undo,
+.jstree-closed > .jstree-anchor .jstree-removenode-undo {
+  right: 48px;
+}
+
+.jstree-open > .jstree-anchor .jstree-editlink-edit,
+.jstree-closed > .jstree-anchor .jstree-editlink-edit {
+  right: 72px;
+}
+
+i.jstree-editlink-edit {
+  right: 36px;
+}
+
+.jstree-anchor:hover > .jstree-removenode-remove {
+  display: block;
+}
+
+.jstree-open > .jstree-ocl:before {
+  content: "";
+}
+
+.jstree-closed > .jstree-ocl:before {
+  content: "";
+}
+
+.jstree-ok:before {
+  content: "";
+}
+
+.jstree-er:before {
+  content: "";
+}
+
+.jstree-removenode-remove:before {
+  content: "";
+}
+
+.jstree-removenode-undo:before {
+  content: "";
+}
+
+.jstree-editlink-edit:before {
+  content: "";
+}
+
+.jstree-removenode-removed .jstree-anchor {
+  background-color: #ffcccc;
+}
+
+.jstree-removenode-removed .jstree-children .jstree-removenode-remove,
+.jstree-removenode-removed .jstree-children .jstree-removenode-undo {
+  display: none;
+}
+
+.jstree-removenode-removed.jstree-open > .jstree-ocl,
+.jstree-removenode-removed.jstree-closed > .jstree-ocl {
+  background-color: rgba(255, 0, 0, 0.24);
+}
+
+.jstree-editlink-editmode .jstree-editlink-edit {
+  opacity: .35;
+}
+
+#jstree-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: -5px 0 0 0;
+  padding: 0;
+  border-right: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+#jstree-dnd {
+  z-index: 1;
+  padding: 0.375em 0.75em;
+  background-color: rgba(0, 0, 0, 0.08);
+  line-height: 24px;
+}

@@ -51,9 +51,9 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -84,9 +84,9 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('itemSets', $itemSets);
         $view->setVariable('resources', $itemSets);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -149,7 +149,7 @@ class ItemSetController extends AbstractActionController
         }
         return $this->redirect()->toRoute(
             'admin/default',
-            array('action' => 'browse'),
+            ['action' => 'browse'],
             true
         );
     }

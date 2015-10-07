@@ -19,9 +19,9 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('vocabularies', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -52,13 +52,13 @@ class VocabularyController extends AbstractActionController
                 $importer = $this->getServiceLocator()->get('Omeka\RdfImporter');
                 try {
                     $response = $importer->import(
-                        'file', $data, array('file' => $data['file']['tmp_name'])
+                        'file', $data, ['file' => $data['file']['tmp_name']]
                     );
                     if ($response->isError()) {
                         $form->setMessages($response->getErrors());
                     } else {
                         $this->messenger()->addSuccess('The vocabulary was successfully imported.');
-                        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+                        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (\Exception $e) {
                     $this->messenger()->addError($e->getMessage());
@@ -98,7 +98,7 @@ class VocabularyController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Vocabulary updated.');
-                    return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');
@@ -127,7 +127,7 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addError('Vocabulary could not be deleted');
             }
         }
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     public function propertiesAction()

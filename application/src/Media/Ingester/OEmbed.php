@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Media\Ingester;
 
-use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
@@ -37,7 +36,7 @@ class OEmbed extends AbstractIngester
         
         $whitelisted = false;
         foreach ($whitelist as $regex) {
-            if (preg_match($regex, $data['o:source']) === 1 ) {
+            if (preg_match($regex, $data['o:source']) === 1) {
                 $whitelisted = true;
                 break;
             }
@@ -97,17 +96,17 @@ class OEmbed extends AbstractIngester
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new Text('o:media[__index__][o:source]');
-        $urlInput->setOptions(array(
+        $urlInput->setOptions([
             'label' => $view->translate('oEmbed URL'),
             'info' => $view->translate('URL for the media to embed.'),
-        ));
-        $urlInput->setAttributes(array(
+        ]);
+        $urlInput->setAttributes([
             'id' => 'media-oembed-source-__index__',
             'required' => true
-        ));
+        ]);
         return $view->formField($urlInput);
     }
 

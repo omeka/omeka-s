@@ -69,7 +69,7 @@ class ModuleManagerFactory implements FactoryInterface
         }
 
         // Get all modules from the database, if installed.
-        $dbModules = array();
+        $dbModules = [];
         if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
             $statement = $connection->prepare("SELECT * FROM module");
             $statement->execute();

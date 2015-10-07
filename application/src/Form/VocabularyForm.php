@@ -7,25 +7,25 @@ class VocabularyForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:label',
             'type' => 'text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Label'),
                 'info' => $translator->translate('A human-readable title of the vocabulary.'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'o:comment',
             'type' => 'textarea',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Comment'),
                 'info' => $translator->translate('A human-readable description of the vocabulary.'),
-            ),
-        ));
+            ],
+        ]);
     }
 }

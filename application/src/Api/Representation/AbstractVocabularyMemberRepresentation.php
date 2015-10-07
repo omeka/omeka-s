@@ -11,13 +11,13 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
      */
     public function getJsonLd()
     {
-        return array(
+        return [
             'o:local_name' => $this->localName(),
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
             'o:term' => $this->term(),
             'o:vocabulary' => $this->vocabulary()->getReference(),
-        );
+        ];
     }
 
     /**

@@ -7,109 +7,109 @@ class InstallationForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'email',
             'type' => 'Email',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Email'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'email',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'email-confirm',
             'type' => 'Email',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Confirm Email'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'email-confirm',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'password',
             'type' => 'Password',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Password'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'password',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'password-confirm',
             'type' => 'Password',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Confirm Password'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'password-confirm',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'name',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Display Name'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'name',
                 'required' => true,
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'installation_title',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('Installation Title'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'installation-title',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'password',
             'required' => true,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'StringLength',
-                    'options' => array(
+                    'options' => [
                         'min' => 6,
-                    ),
-                ),
-            ),
-        ));
-        $inputFilter->add(array(
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
             'name' => 'password-confirm',
             'required' => true,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'Identical',
-                    'options' => array(
+                    'options' => [
                         'token' => 'password',
-                    ),
-                ),
-            ),
-        ));
-        $inputFilter->add(array(
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
             'name' => 'email-confirm',
             'required' => true,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'Identical',
-                    'options' => array(
+                    'options' => [
                         'token' => 'email',
-                    ),
-                ),
-            ),
-        ));
+                    ],
+                ],
+            ],
+        ]);
     }
 }

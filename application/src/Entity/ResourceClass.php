@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * A resource class.
  * 

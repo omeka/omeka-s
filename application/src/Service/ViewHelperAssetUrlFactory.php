@@ -21,7 +21,7 @@ class ViewHelperAssetUrlFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $viewServiceLocator)
     {
         $serviceLocator = $viewServiceLocator->getServiceLocator();
-        $currentTheme = $serviceLocator->get('Omeka\ThemeManager')->getCurrentTheme();
+        $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')->getCurrentTheme();
         $activeModules = $serviceLocator->get('Omeka\ModuleManager')
             ->getModulesByState(ModuleManager::STATE_ACTIVE);
 
@@ -29,7 +29,7 @@ class ViewHelperAssetUrlFactory implements FactoryInterface
         if ($assetConfig['use_externals']) {
             $externals = $assetConfig['externals'];
         } else {
-            $externals = array();
+            $externals = [];
         }
 
         $helper = new AssetUrl($currentTheme, $activeModules, $externals);

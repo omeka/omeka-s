@@ -6,9 +6,8 @@
  * projects. We use this map when a file's media type is known but there is no
  * file extension.
  */
-
 $url = 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types';
-$mediaTypes = array();
+$mediaTypes = [];
 foreach (explode(PHP_EOL, file_get_contents($url)) as $mt) {
     if ('#' == substr($mt, 0, 1) || !$mt) continue;
     preg_match_all('/[^\s]+/', $mt, $matches);

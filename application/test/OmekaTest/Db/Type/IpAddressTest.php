@@ -30,7 +30,7 @@ class IpAddressTest extends TestCase
     public function testSqlDeclaration()
     {
         $sqlDeclaration = $this->ipAddress->getSqlDeclaration(
-            array(), $this->platform
+            [], $this->platform
         );
         $this->assertEquals('VARBINARY(16)', $sqlDeclaration);
     }

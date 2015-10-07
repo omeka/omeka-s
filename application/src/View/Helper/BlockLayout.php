@@ -23,7 +23,7 @@ class BlockLayout extends AbstractHelper
      */
     public function getLayouts()
     {
-        return array_unique($this->manager->getCanonicalNames());
+        return $this->manager->getRegisteredNames();
     }
 
     /**

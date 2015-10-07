@@ -3,7 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-interface ThumbnailerInterface extends ServiceLocatorAwareInterface 
+interface ThumbnailerInterface extends ServiceLocatorAwareInterface
 {
     /**
      * Set the file source (typically path to temporary file).
@@ -31,5 +31,5 @@ interface ThumbnailerInterface extends ServiceLocatorAwareInterface
      * @param array $options Options for this strategy
      * @return string Path to temporary thumbnail file
      */
-    public function create($strategy, $constraint, array $options = array());
+    public function create($strategy, $constraint, array $options = []);
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api;
 
-use Omeka\Api\Request;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Stdlib\Response as ZendResponse;
 
@@ -17,19 +16,19 @@ class Response extends ZendResponse
     /**
      * @var array
      */
-    protected $validStatuses = array(
+    protected $validStatuses = [
         self::SUCCESS,
         self::ERROR,
         self::ERROR_VALIDATION,
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $errorStatuses = array(
+    protected $errorStatuses = [
         self::ERROR,
         self::ERROR_VALIDATION,
-    );
+    ];
 
     /**
      * @var mixed

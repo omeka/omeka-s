@@ -1,7 +1,6 @@
 <?php 
 namespace Omeka\Form;
 
-use Omeka\Form\ResourceForm;
 use Omeka\Form\Element\ResourceSelect;
 
 class ItemForm extends ResourceForm
@@ -25,7 +24,7 @@ class ItemForm extends ResourceForm
             ->setOption('info', $translator->translate('Select Items Sets for this resource.'))
             ->setResourceValueOptions(
                 'item_sets',
-                array(),
+                [],
                 function ($itemSet, $serviceLocator) {
                     return $itemSet->displayTitle();
                 }
@@ -39,9 +38,9 @@ class ItemForm extends ResourceForm
         $this->add($itemSetSelect);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'o:item_set',
             'required' => false,
-        ));
+        ]);
     }
 }

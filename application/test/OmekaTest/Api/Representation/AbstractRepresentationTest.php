@@ -21,10 +21,10 @@ class AbstractRepresentationTest extends TestCase
         $class = new ReflectionClass(
             'Omeka\Api\Representation\AbstractRepresentation'
         );
-        $protectedMethods = array(
+        $protectedMethods = [
             'getData', 'setData', 'validateData', 'getAdapter', 'getDateTime',
             'getTranslator',
-        );
+        ];
         foreach ($protectedMethods as $protectedMethod) {
             $this->assertTrue($class->getMethod($protectedMethod)->isProtected());
         }

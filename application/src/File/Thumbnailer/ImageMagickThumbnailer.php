@@ -3,7 +3,6 @@ namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
-use Omeka\File\Thumbnailer\AbstractThumbnailer;
 
 class ImageMagickThumbnailer extends AbstractThumbnailer
 {
@@ -28,30 +27,30 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = array())
+    public function create($strategy, $constraint, array $options = [])
     {
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
 
         switch ($strategy) {
             case 'square':
                 $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
-                $args = array(
+                $args = [
                     '-background white',
                     '+repage',
                     '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s^', $constraint, $constraint)),
                     '-gravity ' .  escapeshellarg($gravity),
                     '-crop ' . escapeshellarg(sprintf('%sx%s+0+0', $constraint, $constraint)),
-                );
+                ];
                 break;
             case 'default':
             default:
-                $args = array(
+                $args = [
                     '-background white',
                     '+repage',
                     '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s>', $constraint, $constraint)),
-                );
+                ];
         }
 
         $file = $this->getServiceLocator()->get('Omeka\File');

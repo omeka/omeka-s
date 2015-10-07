@@ -2,9 +2,6 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Omeka\Entity\ResourceTemplateProperty;
-use Omeka\Entity\ResourceClass;
-use Omeka\Entity\User;
 
 /**
  * @Entity

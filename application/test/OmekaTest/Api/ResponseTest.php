@@ -9,10 +9,10 @@ class ResponseTest extends TestCase
 {
     protected $response;
 
-    protected $validStatuses = array(
+    protected $validStatuses = [
         'success', 'error_internal', 'error_validation', 'error_not_found',
         'error_bad_request', 'error_bad_response', 'error_permission_denied',
-    );
+    ];
 
     public function setUp()
     {
@@ -53,10 +53,10 @@ class ResponseTest extends TestCase
         $this->response->addError('foo', 'foo_message_one');
         $this->response->addError('foo', 'foo_message_two');
         $this->response->addError('bar', 'bar_message');
-        $this->assertEquals($this->response->getErrors(), array(
-            'foo' => array('foo_message_one', 'foo_message_two'),
-            'bar' => array('bar_message'),
-        ));
+        $this->assertEquals($this->response->getErrors(), [
+            'foo' => ['foo_message_one', 'foo_message_two'],
+            'bar' => ['bar_message'],
+        ]);
     }
 
     public function testMergesErrors()
@@ -67,13 +67,13 @@ class ResponseTest extends TestCase
         $errorStore->addError('bar', 'bar_message');
         $this->response->mergeErrors($errorStore);
         $this->assertEquals(
-            array(
-                'foo' => array(
+            [
+                'foo' => [
                     'foo_message_one',
                     'foo_message_two',
-                ),
-                'bar' => array('bar_message'),
-            ),
+                ],
+                'bar' => ['bar_message'],
+            ],
             $this->response->getErrors()
         );
     }

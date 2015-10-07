@@ -11,13 +11,13 @@ class JobAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'      => 'id',
         'status'  => 'status',
         'class'   => 'class',
         'started' => 'started',
         'ended'   => 'ended',
-    );
+    ];
 
     /**
      * {@inheritDoc}

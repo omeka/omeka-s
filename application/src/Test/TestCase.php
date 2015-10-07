@@ -3,7 +3,6 @@ namespace Omeka\Test;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query\Expr;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -24,19 +23,19 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * is the mock service object
      * @return ServiceManager
      */
-    public function getServiceManager(array $services = array())
+    public function getServiceManager(array $services = [])
     {
         $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
             ->method('get')
-            ->with($this->callback(function($subject) use ($services) {
+            ->with($this->callback(function ($subject) use ($services) {
                 return array_key_exists($subject, $services);
             }))
-            ->will($this->returnCallback(function($subject) use ($services) {
+            ->will($this->returnCallback(function ($subject) use ($services) {
                 return $services[$subject];
             }));
         return $serviceManager;
-    }   
+    }
 
     /**
      * Get a mock Doctrine\ORM\EntityManager object.
@@ -81,7 +80,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * @param array $methods
      * @return stdClass
      */
-    public function getQuery(array $methods = array())
+    public function getQuery(array $methods = [])
     {
         $query = $this->getMock('stdClass', $methods);
         return $query;

@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Omeka\Service\HtmlPurifier;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

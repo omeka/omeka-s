@@ -12,17 +12,17 @@ class ApiAdapterManagerFactoryTest extends TestCase
 {
     public function testCreatesService()
     {
-        $config = array(
-            'api_adapters' => array(
-                'invokables' => array(
+        $config = [
+            'api_adapters' => [
+                'invokables' => [
                     'test_adapter' => 'OmekaTest\Service\TestAdapter',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Config' => $config,
-        ));
+        ]);
         $factory = new ApiAdapterManagerFactory;
         $service = $factory->createService($serviceManager);
 
@@ -39,17 +39,17 @@ class ApiAdapterManagerFactoryTest extends TestCase
 
 class TestAdapter implements AdapterInterface
 {
-    public function getResourceName(){}
-    public function getRepresentationClass(){}
-    public function search(Request $request){}
-    public function create(Request $request){}
-    public function batchCreate(Request $request){}
-    public function read(Request $request){}
-    public function update(Request $request){}
-    public function delete(Request $request){}
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator){}
-    public function getServiceLocator(){}
-    public function setEventManager(EventManagerInterface $events){}
-    public function getEventManager(){}
-    public function getResourceId(){}
+    public function getResourceName() {}
+    public function getRepresentationClass() {}
+    public function search(Request $request) {}
+    public function create(Request $request) {}
+    public function batchCreate(Request $request) {}
+    public function read(Request $request) {}
+    public function update(Request $request) {}
+    public function delete(Request $request) {}
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {}
+    public function getServiceLocator() {}
+    public function setEventManager(EventManagerInterface $events) {}
+    public function getEventManager() {}
+    public function getResourceId() {}
 }

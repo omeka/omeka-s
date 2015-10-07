@@ -2,7 +2,6 @@
 namespace Omeka\Db\Logging;
 
 use Doctrine\DBAL\Logging\SQLLogger;
-use PDO;
 use SplFileObject;
 
 class FileSqlLogger implements SQLLogger

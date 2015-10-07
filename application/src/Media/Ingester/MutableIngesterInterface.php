@@ -31,5 +31,5 @@ interface MutableIngesterInterface extends IngesterInterface
      * @return string
      */
     public function updateForm(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array());
+        array $options = []);
 }

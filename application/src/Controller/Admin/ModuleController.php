@@ -29,21 +29,21 @@ class ModuleController extends AbstractActionController
         }
 
         // Order modules by name.
-        uasort($modules, function($a, $b) {
+        uasort($modules, function ($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
 
         $view = new ViewModel;
         $view->setVariable('modules', $modules);
         $view->setVariable('filterState', $state);
-        $view->setVariable('filterStates', array(
+        $view->setVariable('filterStates', [
             'active'        => $this->translate('Active'),
             'not_active'    => $this->translate('Not Active'),
             'not_installed' => $this->translate('Not Installed'),
             'needs_upgrade' => $this->translate('Needs Upgrade'),
             'error'         => $this->translate('Error'),
-        ));
-        $view->setVariable('states', array(
+        ]);
+        $view->setVariable('states', [
             'active'         => $this->translate('Active'),
             'not_active'     => $this->translate('Not Active'),
             'not_installed'  => $this->translate('Not Installed'),
@@ -51,10 +51,10 @@ class ModuleController extends AbstractActionController
             'not_found'      => $this->translate('Not Found'),
             'invalid_module' => $this->translate('Invalid Module'),
             'invalid_ini'    => $this->translate('Invalid Ini'),
-        ));
+        ]);
         $view->setVariable('stateChangeForm', function ($action, $id) {
             return new ModuleStateChangeForm($this->getServiceLocator(), $action,
-                array('module_action' => $action, 'module_id' => $id)
+                ['module_action' => $action, 'module_id' => $id]
             );
         });
         $view->setVariable('uninstallForm', new ModuleUninstallForm(
@@ -69,11 +69,11 @@ class ModuleController extends AbstractActionController
     public function installAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), 'install',
-            array('module_action' => 'install', 'module_id' => $id)
+            ['module_action' => 'install', 'module_id' => $id]
         );
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
@@ -88,16 +88,16 @@ class ModuleController extends AbstractActionController
             $manager->install($module);
         } catch (ModuleCannotInstallException $e) {
             $this->messenger()->addError($e->getMessage());
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $this->messenger()->addSuccess($this->translate('The module was successfully installed'));
         if ($module->isConfigurable()) {
             return $this->redirect()->toRoute(
-                null, array('action' => 'configure'),
-                array('query' => array('id' => $module->getId())), true
+                null, ['action' => 'configure'],
+                ['query' => ['id' => $module->getId()]], true
             );
         }
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -106,7 +106,7 @@ class ModuleController extends AbstractActionController
     public function uninstallAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = new ModuleUninstallForm($this->getServiceLocator(), 'uninstall');
@@ -121,7 +121,7 @@ class ModuleController extends AbstractActionController
         }
         $manager->uninstall($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully uninstalled'));
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -130,11 +130,11 @@ class ModuleController extends AbstractActionController
     public function activateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), 'activate',
-            array('module_action' => 'activate', 'module_id' => $id)
+            ['module_action' => 'activate', 'module_id' => $id]
         );
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
@@ -147,7 +147,7 @@ class ModuleController extends AbstractActionController
         }
         $manager->activate($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully activated'));
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -156,11 +156,11 @@ class ModuleController extends AbstractActionController
     public function deactivateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), 'deactivate',
-            array('module_action' => 'deactivate', 'module_id' => $id)
+            ['module_action' => 'deactivate', 'module_id' => $id]
         );
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
@@ -173,7 +173,7 @@ class ModuleController extends AbstractActionController
         }
         $manager->deactivate($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully deactivated'));
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -182,11 +182,11 @@ class ModuleController extends AbstractActionController
     public function upgradeAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = new ModuleStateChangeForm($this->getServiceLocator(), 'upgrade',
-            array('module_action' => 'upgrade', 'module_id' => $id)
+            ['module_action' => 'upgrade', 'module_id' => $id]
         );
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
@@ -199,7 +199,7 @@ class ModuleController extends AbstractActionController
         }
         $manager->upgrade($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully upgraded'));
-        return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -224,7 +224,7 @@ class ModuleController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             if (false !== $moduleObject->handleConfigForm($this)) {
                 $this->messenger()->addSuccess($this->translate('The module was successfully configured'));
-                return $this->redirect()->toRoute(null, array('action' => 'browse'), true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             }
             $this->messenger()->addError($this->translate('There was a problem during configuration'));
         }

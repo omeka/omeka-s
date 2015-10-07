@@ -2,8 +2,6 @@
 /**
  * Perform a job.
  */
-
-use Omeka\Job\Strategy\SynchronousStrategy;
 use Omeka\Entity\Job;
 
 require dirname(dirname(__DIR__)) . '/bootstrap.php';
@@ -13,7 +11,7 @@ $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
 $logger = $serviceLocator->get('Omeka\Logger');
 
-$options = getopt(null, array('job-id:', 'base-path:'));
+$options = getopt(null, ['job-id:', 'base-path:']);
 if (!isset($options['job-id'])) {
     $logger->err('No job ID given; use --job-id <id>');
     exit;

@@ -40,12 +40,12 @@ class ValueHydrator implements HydrationInterface
      *
      * @param array $nodeObject A JSON-LD node object representing a resource
      * @param Resource $resource The owning resource entity instance
-     * @param boolean $append Whether to simply append instead of replacing
+     * @param bool $append Whether to simply append instead of replacing
      *  existing values
      */
     public function hydrate(array $nodeObject, $resource, $append = false)
     {
-        $newValues = array();
+        $newValues = [];
         $valueCollection = $resource->getValues();
         $existingValues = $valueCollection->toArray();
 

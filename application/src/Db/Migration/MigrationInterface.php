@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Db\Migration;
 
-use Doctrine\DBAL\Connection;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**

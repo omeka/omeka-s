@@ -22,13 +22,13 @@ class UserRepresentation extends AbstractEntityRepresentation
     public function getJsonLd()
     {
         $entity = $this->getData();
-        return array(
+        return [
             'o:name' => $entity->getName(),
             'o:email' => $entity->getEmail(),
             'o:created' => $this->getDateTime($entity->getCreated()),
             'o:role' => $entity->getRole(),
             'o:is_active' => $entity->isActive(),
-        );
+        ];
     }
 
     public function name()
@@ -57,7 +57,7 @@ class UserRepresentation extends AbstractEntityRepresentation
     }
 
     public function displayRole()
-    {   
+    {
         $roleIndex = $this->getData()->getRole();
         $roleLabels = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
         if (isset($roleLabels[$roleIndex])) {
@@ -74,14 +74,14 @@ class UserRepresentation extends AbstractEntityRepresentation
     public function itemCount()
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items', array(
+            ->search('items', [
                 'owner_id' => $this->id(),
                 'limit' => 0,
-            ));
+            ]);
         return $response->getTotalResults();
     }
 
-        /**
+    /**
      * Get the item set count for this user.
      *
      * @return int
@@ -89,10 +89,10 @@ class UserRepresentation extends AbstractEntityRepresentation
     public function itemSetCount()
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('item_sets', array(
+            ->search('item_sets', [
                 'owner_id' => $this->id(),
                 'limit' => 0,
-            ));
+            ]);
         return $response->getTotalResults();
     }
 }

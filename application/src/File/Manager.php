@@ -107,7 +107,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function storeThumbnails(File $file)
     {
         $thumbnailer = $this->getThumbnailer();
-        $tempPaths = array();
+        $tempPaths = [];
 
         try {
             $thumbnailer->setSource($file->getTempPath());
@@ -200,7 +200,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getThumbnailUrls(Media $media)
     {
-        $urls = array();
+        $urls = [];
         foreach ($this->getThumbnailTypes() as $type) {
             $urls[$type] = $this->getThumbnailUrl($type, $media);
         }

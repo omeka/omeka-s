@@ -13,7 +13,7 @@ class Hyperlink extends AbstractHtmlElement
      * @param array $attributes The hyperlink attributes
      * @return string
      */
-    public function __invoke($text, $href, array $attributes = array())
+    public function __invoke($text, $href, array $attributes = [])
     {
         $escape = $this->getView()->plugin('escapehtml');
 

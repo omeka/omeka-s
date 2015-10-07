@@ -36,7 +36,7 @@ class Messenger extends AbstractPlugin
     public function add($type, $message)
     {
         if (!isset($this->container->messages)) {
-            $this->container->messages = array();
+            $this->container->messages = [];
         }
         $this->container->messages[$type][] = $message;
     }
@@ -107,7 +107,7 @@ class Messenger extends AbstractPlugin
     public function get()
     {
         if (!isset($this->container->messages)) {
-            return array();
+            return [];
         }
         return $this->container->messages;
     }

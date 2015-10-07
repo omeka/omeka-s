@@ -51,7 +51,7 @@ class Fallback implements IngesterInterface
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         return '';
     }

@@ -14,7 +14,7 @@ class ApiController extends AbstractRestfulController
     /**
      * @var array
      */
-    protected $viewOptions = array();
+    protected $viewOptions = [];
 
     /**
      * {@inheritDoc}
@@ -41,18 +41,18 @@ class ApiController extends AbstractRestfulController
         $paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.
-        $links = array();
-        $pages = array(
+        $links = [];
+        $pages = [
             'first' => 1,
             'prev' => $paginator->getPreviousPage(),
             'next' => $paginator->getNextPage(),
             'last' => $paginator->getPageCount(),
-        );
+        ];
         foreach ($pages as $rel => $page) {
             if ($page) {
                 $query['page'] = $page;
-                $url = $this->url()->fromRoute(null, array(),
-                    array('query' => $query, 'force_canonical' => true), true);
+                $url = $this->url()->fromRoute(null, [],
+                    ['query' => $query, 'force_canonical' => true], true);
                 $links[] = sprintf('<%s>; rel="%s"', $url, $rel);
             }
         }
@@ -67,7 +67,7 @@ class ApiController extends AbstractRestfulController
      *
      * @param array $fileData PHP file upload data
      */
-    public function create($data, $fileData = array())
+    public function create($data, $fileData = [])
     {
         $resource = $this->params()->fromRoute('resource');
         $response = $this->api()->create($resource, $data, $fileData);
@@ -90,7 +90,7 @@ class ApiController extends AbstractRestfulController
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data, array(), true);
+        $response = $this->api()->update($resource, $id, $data, [], true);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -190,10 +190,10 @@ class ApiController extends AbstractRestfulController
         // Require application/json Content-Type for certain methods.
         $method = strtolower($request->getMethod());
         $contentType = $request->getHeader('content-type');
-        if (in_array($method, array('post', 'put', 'patch'))
-            && !$contentType->match(array(
+        if (in_array($method, ['post', 'put', 'patch'])
+            && !$contentType->match([
                 'application/json',
-                'multipart/form-data'))
+                'multipart/form-data'])
         ) {
             $contentType = $request->getHeader('Content-Type');
             $errorMessage = sprintf(

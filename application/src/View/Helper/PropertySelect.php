@@ -19,7 +19,7 @@ class PropertySelect extends AbstractHelper
      * @param string $emptyOption
      * @return string
      */
-    public function __invoke($name, array $attributes = array(),
+    public function __invoke($name, array $attributes = [],
         $emptyOption = 'Select Property'
     ) {
         if ($this->selectMarkup) {
@@ -32,19 +32,19 @@ class PropertySelect extends AbstractHelper
             return;
         }
 
-        $valueOptions = array();
+        $valueOptions = [];
         foreach ($response->getContent() as $vocabulary) {
-            $options = array();
+            $options = [];
             foreach ($vocabulary->properties() as $property) {
                 $options[$property->id()] = $property->label();
             }
             if (!$options) {
                 continue;
             }
-            $valueOptions[] = array(
+            $valueOptions[] = [
                 'label' => $vocabulary->label(),
                 'options' => $options,
-            );
+            ];
         }
 
         $select = new Select;

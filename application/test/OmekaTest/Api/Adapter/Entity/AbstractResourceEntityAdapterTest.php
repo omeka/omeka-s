@@ -10,11 +10,11 @@ class AbstractResourceEntityAdapterTest extends TestCase
         $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
-        $query = array('foo', 'bar');
+        $query = ['foo', 'bar'];
         $adapter = $this->getMockForAbstractClass(
             'Omeka\Api\Adapter\AbstractResourceEntityAdapter',
-            array(), '', true, true, true,
-            array('buildValueQuery', 'buildPropertyQuery', 'buildHasPropertyQuery')
+            [], '', true, true, true,
+            ['buildValueQuery', 'buildPropertyQuery', 'buildHasPropertyQuery']
         );
         $adapter->expects($this->once())
             ->method('buildValueQuery')

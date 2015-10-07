@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Site;
 
-use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -39,8 +38,8 @@ class ItemController extends AbstractActionController
 
     protected function getSite()
     {
-        return $this->api()->read('sites', array(
+        return $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ))->getContent();
+        ])->getContent();
     }
 }

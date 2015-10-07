@@ -29,9 +29,9 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             ->method('get')
             ->will($this->returnValue($resourceClassAdapter));
 
-        $serviceLocator = $this->getServiceManager(array(
+        $serviceLocator = $this->getServiceManager([
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
-        ));
+        ]);
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
         $adapter->expects($this->once())
@@ -40,7 +40,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            array($resourceId, $resource, $adapter)
+            [$resourceId, $resource, $adapter]
         );
         $this->assertNull($abstractResourceEntityRep->resourceClass());
     }
@@ -64,7 +64,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            array($resourceId, $resource, $adapter)
+            [$resourceId, $resource, $adapter]
         );
         $this->assertEquals($resourceCreated, $abstractResourceEntityRep->created());
     }
@@ -88,7 +88,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            array($resourceId, $resource, $adapter)
+            [$resourceId, $resource, $adapter]
         );
         $this->assertEquals($resourceModified, $abstractResourceEntityRep->modified());
     }

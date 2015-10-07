@@ -2,14 +2,10 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\UnitOfWork;
-use Omeka\Api\Adapter\AbstractAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Entity\ResourceClass;
-use Omeka\Entity\ResourceTemplate;
 use Omeka\Entity\User;
 use Omeka\Event\Event;
 use Omeka\Entity\EntityInterface;
@@ -37,7 +33,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @see self::sortQuery()
      * @var array
      */
-    protected $sortFields = array();
+    protected $sortFields = [];
 
     /**
      * Hydrate an entity with the provided array.
@@ -192,7 +188,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $query['sort_by'] = null;
         }
         if (isset($query['sort_order'])
-            && in_array(strtoupper($query['sort_order']), array('ASC', 'DESC'))
+            && in_array(strtoupper($query['sort_order']), ['ASC', 'DESC'])
         ) {
             $query['sort_order'] = strtoupper($query['sort_order']);
         } else {
@@ -209,11 +205,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->groupBy("$entityClass.id");
 
         // Trigger the search.query event.
-        $event = new Event(Event::API_SEARCH_QUERY, $this, array(
+        $event = new Event(Event::API_SEARCH_QUERY, $this, [
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
-        ));
+        ]);
         $this->getEventManager()->trigger($event);
 
         // Get the total results.
@@ -226,7 +222,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Do not make the request if the max results (limit) is 0. Useful if
         // the only information needed is total results.
-        $representations = array();
+        $representations = [];
         if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
             // Finish building the search query. In addition to any sorting the
             // adapters add, always sort by entity ID.
@@ -282,7 +278,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $entities = array();
+        $entities = [];
         foreach ($request->getContent() as $key => $datum) {
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
@@ -306,7 +302,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $entities[$key] = $entity;
         }
         $this->getEntityManager()->flush();
-        $references = array();
+        $references = [];
         foreach ($entities as $key => $entity) {
             $references[$key] = new ResourceReference($entity->getId(), null, $this);
             $this->getEntityManager()->detach($entity);
@@ -321,11 +317,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::READ);
-        $event = new Event(Event::API_FIND_POST, $this, array(
+        $event = new Event(Event::API_FIND_POST, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
-        ));
+        ]);
         $this->getEventManager()->trigger($event);
         $representation = $this->getRepresentation($entity->getId(), $entity);
         return new Response($representation);
@@ -350,11 +346,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::DELETE);
-        $event = new Event(Event::API_FIND_POST, $this, array(
+        $event = new Event(Event::API_FIND_POST, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
-        ));
+        ]);
         $this->getEventManager()->trigger($event);
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
@@ -408,12 +404,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->authorize($entity, $operation);
 
         // Trigger the operation's api.validate.data.pre event.
-        $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, array(
+        $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
-        ));
+        ]);
         $this->getEventManager()->trigger($event);
 
         // Validate the request.
@@ -428,12 +424,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->hydrate($request, $entity, $errorStore);
 
         // Trigger the operation's api.validate.entity.pre event.
-        $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, array(
+        $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
-        ));
+        ]);
         $this->getEventManager()->trigger($event);
 
         // Validate the entity.
@@ -482,7 +478,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     protected function findEntity($criteria, $request = null)
     {
         if (!is_array($criteria)) {
-            $criteria = array('id' => $criteria);
+            $criteria = ['id' => $criteria];
         }
 
         $entityClass = $this->getEntityClass();
@@ -496,11 +492,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         }
         $qb->setMaxResults(1);
 
-        $event = new Event(Event::API_FIND_QUERY, $this, array(
+        $event = new Event(Event::API_FIND_QUERY, $this, [
             'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
-        ));
+        ]);
 
         $this->getEventManager()->trigger($event);
         $entity = $qb->getQuery()->getOneOrNullResult();

@@ -34,9 +34,9 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     /**
      * @var array The JSON-LD context.
      */
-    protected $context = array(
+    protected $context = [
         self::OMEKA_VOCABULARY_TERM => self::OMEKA_VOCABULARY_IRI,
-    );
+    ];
 
     /**
      * Get an array representation of this resource using JSON-LD notation.
@@ -45,11 +45,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     abstract public function getJsonLd();
 
-    /**
-     * Get the linked data type or types for this resource
-     *
-     * @return string|array|null
-     */
+     /**
+      * Get the linked data type or types for this resource
+      *
+      * @return string|array|null
+      */
      abstract public function getJsonLdType();
 
     /**
@@ -89,20 +89,20 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         $type = $this->getJsonLdType();
 
         $jsonLd = array_merge(
-            array(
+            [
                 '@context' => $this->context,
                 '@id' => $this->apiUrl(),
                 '@type' => $type,
                 'o:id' => $this->id(),
-            ),
+            ],
             $childJsonLd
         );
 
         // Filter the JSON-LD.
-        $args = array(
+        $args = [
             'jsonLd' => $jsonLd,
             'services' => $this->getServiceLocator(),
-        );
+        ];
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs($args);
         $eventManager->trigger(Event::REP_RESOURCE_JSON, $this, $args);
@@ -175,11 +175,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'api/default',
-            array(
+            [
                 'resource' => $this->getAdapter()->getResourceName(),
                 'id' => $this->id()
-            ),
-            array('force_canonical' => true)
+            ],
+            ['force_canonical' => true]
         );
     }
 
@@ -220,12 +220,12 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'admin/id',
-            array(
+            [
                 'controller' => $this->getControllerName(),
                 'action' => $action,
                 'id' => $this->id(),
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
 
@@ -251,7 +251,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @param array $attributes HTML attributes, key and value
      * @return string
      */
-    public function link($text, $action = null, $attributes = array())
+    public function link($text, $action = null, $attributes = [])
     {
         $escapeHtml = $this->getViewHelper('escapeHtml');
 

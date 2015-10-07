@@ -1,0 +1,37 @@
+<?php
+
+return Symfony\CS\Config\Config::create()
+    ->setUsingCache(true)
+    ->level(Symfony\CS\FixerInterface::PSR2_LEVEL)
+    ->fixers([
+        '-psr0',
+        '-elseif',
+        '-braces',
+        'include',
+        //'multiline_array_trailing_comma',
+        'namespace_no_leading_whitespace',
+        'no_blank_lines_after_class_opening',
+        'no_empty_lines_after_phpdocs',
+        'object_operator',
+        'phpdoc_indent',
+        'phpdoc_no_empty_return',
+        'phpdoc_scalar',
+        'phpdoc_to_comment',
+        'phpdoc_trim',
+        'remove_leading_slash_use',
+        'remove_lines_between_uses',
+        'self_accessor',
+        //'single_array_no_trailing_comma',
+        'spaces_cast',
+        'unused_use',
+        //'ordered_use',
+    ])
+    ->finder(
+        Symfony\CS\Finder\DefaultFinder::create()
+            ->exclude('application/asset')
+            ->exclude('data/doctrine-proxies')
+            ->exclude('data/media-types')
+            ->exclude('modules')
+            ->in(__DIR__)
+    )
+;

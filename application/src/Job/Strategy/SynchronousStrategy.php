@@ -2,8 +2,6 @@
 namespace Omeka\Job\Strategy;
 
 use DateTime;
-use Omeka\Job\Exception;
-use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

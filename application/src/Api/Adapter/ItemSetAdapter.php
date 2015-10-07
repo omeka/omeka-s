@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
-use Omeka\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemSetAdapter extends AbstractResourceEntityAdapter
@@ -12,11 +11,11 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'       => 'id',
         'created'  => 'created',
         'modified' => 'modified',
-    );
+    ];
 
     /**
      * {@inheritDoc}

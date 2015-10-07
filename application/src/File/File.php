@@ -2,7 +2,6 @@
 namespace Omeka\File;
 
 use finfo;
-use Omeka\File\Manager as FileManager;
 use Omeka\Service\Exception\ConfigException;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -151,7 +150,7 @@ class File implements ServiceLocatorAwareInterface
         $extension = substr(strrchr($this->sourceName, '.'), 1);
 
         if (isset($mediaTypeMap[$mediaType][0])
-            && !in_array($mediaType, array('application/octet-stream'))
+            && !in_array($mediaType, ['application/octet-stream'])
         ) {
             if ($extension) {
                 if (!in_array($extension, $mediaTypeMap[$mediaType])) {

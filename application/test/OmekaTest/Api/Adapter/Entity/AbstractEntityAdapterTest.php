@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Api\Adapter\Entity;
 
-use Doctrine\ORM\UnitOfWork;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Test\TestCase;
@@ -18,8 +17,8 @@ class AbstractEntityAdapterTest extends TestCase
     {
         $this->adapter = $this->getMock(
             'Omeka\Api\Adapter\AbstractEntityAdapter',
-            array('hydrate', 'getResourceName', 'getRepresentationClass',
-                'getEntityClass', 'getEventManager')
+            ['hydrate', 'getResourceName', 'getRepresentationClass',
+                'getEntityClass', 'getEventManager']
         );
     }
 
@@ -28,7 +27,7 @@ class AbstractEntityAdapterTest extends TestCase
 
     public function testCreate()
     {
-        /** ServiceManager **/
+        /* ServiceManager **/
 
         // Service: Omeka\EntityManager
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -58,14 +57,14 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
 
-        $serviceManager = $this->getServiceManager(array(
+        $serviceManager = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,
             'MvcTranslator' => $translator,
             'Omeka\Acl' => $acl,
-        ));
+        ]);
         $this->adapter->setServiceLocator($serviceManager);
 
-        /** Adapter **/
+        /* Adapter **/
         $this->adapter->expects($this->exactly(2))
              ->method('getEventManager')
              ->will($this->returnValue($eventManager));
@@ -76,14 +75,14 @@ class AbstractEntityAdapterTest extends TestCase
             ->method('getRepresentationClass')
             ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
-        /** Request **/
+        /* Request **/
 
         $request = $this->getMock('Omeka\Api\Request');
         $request->expects($this->once())
             ->method('getOperation')
             ->will($this->returnValue(\Omeka\Api\Request::CREATE));
 
-        /** ASSERTIONS **/
+        /* ASSERTIONS **/
 
         $response = $this->adapter->create($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
@@ -97,15 +96,15 @@ class AbstractEntityAdapterTest extends TestCase
 
 class TestEntity extends AbstractEntity
 {
-    public function getId(){}
+    public function getId() {}
 }
 
 class TestRepresentation implements RepresentationInterface
 {
-    public function setData($data){}
-    public function jsonSerialize(){}
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator){}
-    public function getServiceLocator(){}
-    public function setEventManager(EventManagerInterface $eventManager){}
-    public function getEventManager(){}
+    public function setData($data) {}
+    public function jsonSerialize() {}
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {}
+    public function getServiceLocator() {}
+    public function setEventManager(EventManagerInterface $eventManager) {}
+    public function getEventManager() {}
 }

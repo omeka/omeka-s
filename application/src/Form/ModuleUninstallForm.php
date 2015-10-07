@@ -7,12 +7,12 @@ class ModuleUninstallForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'type' => 'submit',
             'name' => 'submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => $translator->translate('Confirm Uninstall'),
-            ),
-        ));
+            ],
+        ]);
     }
 }

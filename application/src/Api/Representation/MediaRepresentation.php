@@ -24,7 +24,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
-        return array(
+        return [
             'o:ingester' => $this->ingester(),
             'o:renderer' => $this->renderer(),
             'o:item' => $this->item()->getReference(),
@@ -34,7 +34,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:original_url' => $this->originalUrl(),
             'o:thumbnail_urls' => $this->thumbnailUrls(),
             'data' => $this->mediaData(),
-        );
+        ];
     }
 
     /**
@@ -42,7 +42,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      *
      * @return string
      */
-    public function render(array $options = array())
+    public function render(array $options = [])
     {
         return $this->getViewHelper('Media')->render($this, $options);
     }
@@ -81,7 +81,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function thumbnailUrls()
     {
         if (!$this->hasThumbnails()) {
-            return array();
+            return [];
         }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         return $fileManager->getThumbnailUrls($this->getData());
@@ -220,12 +220,12 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         $url = $this->getViewHelper('Url');
         return $url(
             'site/resource-id',
-            array(
+            [
                 'site-slug' => $siteSlug,
                 'controller' => 'media',
                 'id' => $this->id(),
-            ),
-            array('force_canonical' => $canonical)
+            ],
+            ['force_canonical' => $canonical]
         );
     }
 }

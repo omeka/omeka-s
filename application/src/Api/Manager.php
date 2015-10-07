@@ -2,7 +2,6 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
-use Omeka\Api\Exception;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -29,7 +28,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function search($resource, $data = array())
+    public function search($resource, $data = [])
     {
         $request = new Request(Request::SEARCH, $resource);
         $request->setContent($data);
@@ -44,7 +43,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $fileData
      * @return Response
      */
-    public function create($resource, $data = array(), $fileData = array())
+    public function create($resource, $data = [], $fileData = [])
     {
         $request = new Request(Request::CREATE, $resource);
         $request->setContent($data);
@@ -61,7 +60,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param bool $continueOnError
      * @return Response
      */
-    public function batchCreate($resource, $data = array(), $fileData = array(),
+    public function batchCreate($resource, $data = [], $fileData = [],
         $continueOnError = false
     ) {
         $request = new Request(Request::BATCH_CREATE, $resource);
@@ -78,7 +77,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function read($resource, $id, $data = array())
+    public function read($resource, $id, $data = [])
     {
         $request = new Request(Request::READ, $resource);
         $request->setId($id);
@@ -96,7 +95,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param bool $partial
      * @return Response
      */
-    public function update($resource, $id, $data = array(), $fileData = array(),
+    public function update($resource, $id, $data = [], $fileData = [],
         $partial = false
     ) {
         $request = new Request(Request::UPDATE, $resource);
@@ -115,7 +114,7 @@ class Manager implements ServiceLocatorAwareInterface
      * @param array $data
      * @return Response
      */
-    public function delete($resource, $id, $data = array())
+    public function delete($resource, $id, $data = [])
     {
         $request = new Request(Request::DELETE, $resource);
         $request->setId($id);
@@ -171,19 +170,19 @@ class Manager implements ServiceLocatorAwareInterface
             }
 
             // Trigger the api.execute.pre event.
-            $event = new Event(Event::API_EXECUTE_PRE, $adapter, array(
+            $event = new Event(Event::API_EXECUTE_PRE, $adapter, [
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
-            ));
+            ]);
             $adapter->getEventManager()->trigger($event);
 
             // Trigger the api.{operation}.pre event.
             $event = new Event(
                 'api.' . $request->getOperation() . '.pre',
-                $adapter, array(
+                $adapter, [
                     'services' => $this->getServiceLocator(),
                     'request' => $request,
-                )
+                ]
             );
             $adapter->getEventManager()->trigger($event);
 
@@ -240,20 +239,20 @@ class Manager implements ServiceLocatorAwareInterface
             $event = new Event(
                 'api.' . $request->getOperation() . '.post',
                 $adapter,
-                array(
+                [
                     'services' => $this->getServiceLocator(),
                     'request' => $request,
                     'response' => $response,
-                )
+                ]
             );
             $adapter->getEventManager()->trigger($event);
 
             // Trigger the api.execute.post event.
-            $event = new Event(Event::API_EXECUTE_POST, $adapter, array(
+            $event = new Event(Event::API_EXECUTE_POST, $adapter, [
                 'services' => $this->getServiceLocator(),
                 'request' => $request,
                 'response' => $response,
-            ));
+            ]);
             $adapter->getEventManager()->trigger($event);
         } catch (Exception\ValidationException $e) {
             $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
@@ -317,9 +316,9 @@ class Manager implements ServiceLocatorAwareInterface
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {
             $createRequest->setContent($content);
-            $createEvent = new Event(Event::API_CREATE_PRE, $adapter, array(
+            $createEvent = new Event(Event::API_CREATE_PRE, $adapter, [
                 'request' => $createRequest,
-            ));
+            ]);
             $adapter->getEventManager()->trigger($createEvent);
         }
 
@@ -334,10 +333,10 @@ class Manager implements ServiceLocatorAwareInterface
         // Trigger the create.post event for every created resource.
         foreach ($response->getContent() as $resource) {
             $createRequest->setContent($resource);
-            $createEvent = new Event(Event::API_CREATE_POST, $adapter, array(
+            $createEvent = new Event(Event::API_CREATE_POST, $adapter, [
                 'request' => $createRequest,
                 'response' => new Response($resource),
-            ));
+            ]);
             $adapter->getEventManager()->trigger($createEvent);
         }
 

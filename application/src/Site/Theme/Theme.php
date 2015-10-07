@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Theme;
+namespace Omeka\Site\Theme;
 
 class Theme
 {

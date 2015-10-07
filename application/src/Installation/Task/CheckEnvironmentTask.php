@@ -10,10 +10,10 @@ class CheckEnvironmentTask implements TaskInterface
 {
     const PHP_MINIMUM_VERSION = '5.5';
 
-    public static $requiredExtensions = array(
+    public static $requiredExtensions = [
         'PDO',
         'pdo_mysql',
-    );
+    ];
 
     public function perform(Installer $installer)
     {

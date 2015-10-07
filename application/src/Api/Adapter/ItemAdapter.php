@@ -5,7 +5,6 @@ use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
-use Omeka\Entity\ResourceClass;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemAdapter extends AbstractResourceEntityAdapter
@@ -13,12 +12,12 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    protected $sortFields = array(
+    protected $sortFields = [
         'id'           => 'id',
         'is_public'    => 'isPublic',
         'created'      => 'created',
         'modified'     => 'modified',
-    );
+    ];
 
     /**
      * {@inheritDoc}
@@ -123,11 +122,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         parent::hydrate($request, $entity, $errorStore);
 
         if ($this->shouldHydrate($request, 'o:item_set')) {
-            $itemSetsData = $request->getValue('o:item_set', array());
+            $itemSetsData = $request->getValue('o:item_set', []);
 
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
-            $itemSetsToRetain = array();
+            $itemSetsToRetain = [];
 
             foreach ($itemSetsData as $itemSetData) {
                 if (is_array($itemSetData)
@@ -159,10 +158,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:media')) {
-            $mediasData = $request->getValue('o:media', array());
+            $mediasData = $request->getValue('o:media', []);
             $adapter = $this->getAdapter('media');
             $class = $adapter->getEntityClass();
-            $retainMedia = array();
+            $retainMedia = [];
             $position = 1;
             foreach ($mediasData as $mediaData) {
                 $subErrorStore = new ErrorStore;

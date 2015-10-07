@@ -13,39 +13,39 @@ class SortLinkTest extends TestCase
 
         $view = $this->getMock(
             'Zend\View\Renderer\PhpRenderer',
-            array('partial', 'url', 'params')
+            ['partial', 'url', 'params']
         );
         $view->expects($this->once())
             ->method('url')
             ->with(
                 $this->equalTo(null),
-                $this->equalTo(array()),
-                $this->equalTo(array(
-                    'query' => array(
+                $this->equalTo([]),
+                $this->equalTo([
+                    'query' => [
                         'sort_by' => $sortBy,
                         'sort_order' => 'asc'
-                    )
-                )),
+                    ]
+                ]),
                 $this->equalTo(true)
             );
         $view->expects($this->once())
             ->method('partial')
             ->with(
                 $this->equalTo('common/sort-link'),
-                $this->equalTo(array(
+                $this->equalTo([
                     'label' => $label,
                     'url' => null,
                     'class' => 'sortable',
                     'sortBy' => $sortBy,
                     'sortOrder' => 'asc',
-                ))
+                ])
             );
         $params = $this->getMockBuilder('Omeka\View\Helper\Params')
             ->disableOriginalConstructor()
             ->getMock();
         $params->expects($this->exactly(3))
             ->method('fromQuery')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $view->expects($this->once())
             ->method('params')
             ->will($this->returnValue($params));

@@ -7,29 +7,29 @@ class UserKeyForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
-        $this->add(array(
+        $this->add([
             'name' => 'new-key-label',
             'type' => 'Text',
-            'options' => array(
+            'options' => [
                 'label' => $translator->translate('New Key Label'),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'id' => 'new-key-label',
-            ),
-        ));
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'new-key-label',
             'required' => false,
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'StringLength',
-                    'options' => array(
+                    'options' => [
                         'max' => 255,
-                    ),
-                ),
-            ),
-        ));
+                    ],
+                ],
+            ],
+        ]);
     }
 }

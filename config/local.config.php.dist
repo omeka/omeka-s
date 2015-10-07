@@ -1,24 +1,24 @@
 <?php
-return array(
-    'loggers' => array(
-        'application' => array('log'  => false),
-        'sql' => array('log'  => false),
-    ),
-    'cli' => array(
+return [
+    'loggers' => [
+        'application' => ['log'  => false],
+        'sql' => ['log'  => false],
+    ],
+    'cli' => [
         'phpcli_path' => null,
-    ),
-    'file_manager' => array(
+    ],
+    'file_manager' => [
         'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
-        'thumbnail_types' => array(
-            'large' => array('constraint' => 800),
-            'medium' => array('constraint' => 200),
-            'square' => array('constraint' => 200),
-        ),
-        'thumbnail_options' => array(
+        'thumbnail_types' => [
+            'large' => ['constraint' => 800],
+            'medium' => ['constraint' => 200],
+            'square' => ['constraint' => 200],
+        ],
+        'thumbnail_options' => [
             'imagemagick_dir' => null,
-        ),
-    ),
-    'translator' => array(
+        ],
+    ],
+    'translator' => [
         'locale' => 'en_US',
-    ),
-);
+    ],
+];

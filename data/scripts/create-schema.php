@@ -7,14 +7,13 @@
  * optimized SQL. That, along with toggling off foreign key checks, greatly
  * reduces installation time.
  */
-
 require dirname(dirname(__DIR__)) . '/bootstrap.php';
 
 // Initialize the Omeka application using the test database.
 $config = require OMEKA_PATH . '/config/application.config.php';
-$testConfig = array('connection' => parse_ini_file(
+$testConfig = ['connection' => parse_ini_file(
     OMEKA_PATH . '/application/test/config/database.ini'
-));
+)];
 $application = Omeka\Mvc\Application::init(array_merge($config, $testConfig));
 $entityManager = $application->getServiceManager()->get('Omeka\EntityManager');
 

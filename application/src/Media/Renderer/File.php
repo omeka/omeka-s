@@ -11,7 +11,7 @@ class File extends AbstractRenderer
      * {@inheritDoc}
      */
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
+        array $options = []
     ) {
         try {
             $renderer = $this->getServiceLocator()

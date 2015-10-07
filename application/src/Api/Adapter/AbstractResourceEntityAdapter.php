@@ -84,7 +84,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 $qb->addOrderBy("$valuesAlias.value", $query['sort_order']);
             } elseif ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
-                $qb ->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
+                $qb->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
                     ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('owner_name' == $query['sort_by']) {
                 $ownerAlias = $this->createAlias();
@@ -390,10 +390,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         AND v.prefix = :prefix';
         return $this->getEntityManager()
             ->createQuery($dql)
-            ->setParameters(array(
+            ->setParameters([
                 'localName' => $localName,
                 'prefix' => $prefix
-            ))->getOneOrNullResult();
+            ])->getOneOrNullResult();
     }
 
     /**
@@ -406,6 +406,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     {
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(array('valueResource' => $resource));
+            ->findBy(['valueResource' => $resource]);
     }
 }

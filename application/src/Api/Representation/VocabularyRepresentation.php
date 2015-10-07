@@ -28,13 +28,13 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         if ($this->owner()) {
             $owner = $this->owner()->getReference();
         }
-        return array(
+        return [
             'o:namespace_uri' => $this->namespaceUri(),
             'o:prefix' => $this->prefix(),
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
             'o:owner' => $owner,
-        );
+        ];
     }
 
     /**
@@ -47,7 +47,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function isPermanent()
     {
-        return in_array($this->prefix(), array('dcterms', 'dctype'));
+        return in_array($this->prefix(), ['dcterms', 'dctype']);
     }
 
     /**
@@ -103,7 +103,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function properties()
     {
-        $properties = array();
+        $properties = [];
         $propertyAdapter = $this->getAdapter('properties');
         foreach ($this->getData()->getProperties() as $propertyEntity) {
             $properties[] = $propertyAdapter->getRepresentation(null, $propertyEntity);
@@ -111,14 +111,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
         return $properties;
     }
 
-    /**
-     * Return resource class members.
-     *
-     * @return array
-     */
+     /**
+      * Return resource class members.
+      *
+      * @return array
+      */
      public function resourceClasses()
      {
-        $resourceClasses = array();
+        $resourceClasses = [];
         $resourceClassAdapter = $this->getAdapter('resource_classes');
         foreach ($this->getData()->getResourceClasses() as $resourceClass) {
             $resourceClasses[] = $resourceClassAdapter->getRepresentation(null, $resourceClass);

@@ -8,7 +8,7 @@ class HtmlElement extends AbstractHtmlElement
     /**
      * @var array Cached elements and their attributes
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * @var string The current element
@@ -25,7 +25,7 @@ class HtmlElement extends AbstractHtmlElement
     {
         $this->element = $element;
         if (!isset($this->elements[$element])) {
-            $this->elements[$element] = array();
+            $this->elements[$element] = [];
         }
         return $this;
     }
@@ -69,7 +69,7 @@ class HtmlElement extends AbstractHtmlElement
             if (is_array($current)) {
                 $this->elements[$this->element][$key][] = $value;
             } else {
-                $this->elements[$this->element][$key] = array($current, $value);
+                $this->elements[$this->element][$key] = [$current, $value];
             }
         } else {
             $this->elements[$this->element][$key] = $value;
@@ -111,7 +111,7 @@ class HtmlElement extends AbstractHtmlElement
     public function removeAttributes()
     {
         if (isset($this->elements[$this->element])) {
-            $this->elements[$this->element] = array();
+            $this->elements[$this->element] = [];
         }
         return $this;
     }

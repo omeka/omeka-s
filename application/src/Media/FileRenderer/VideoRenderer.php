@@ -10,8 +10,8 @@ class VideoRenderer implements RendererInterface
     use ServiceLocatorAwareTrait;
 
     public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = array()
-    ){
+        array $options = []
+    ) {
         return sprintf(
             '<video src="%s" controls>%s</audio>',
             $view->escapeHtml($media->originalUrl()),

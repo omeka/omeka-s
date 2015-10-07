@@ -2,7 +2,6 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\AbstractResourceRepresentation;
 use Omeka\Entity\EntityInterface;
 
 /**

@@ -19,12 +19,12 @@ class AbstractResourceRepresentationTest extends TestCase
 
         $abstractResourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceRepresentation',
-            array('getJsonLd', 'apiUrl', 'getJsonLdType'),
-            array($id, $data, $adapter)
+            ['getJsonLd', 'apiUrl', 'getJsonLdType'],
+            [$id, $data, $adapter]
         );
         $abstractResourceRep->expects($this->once())
             ->method('getJsonLd')
-            ->will($this->returnValue(array('foo' => 'bar')));
+            ->will($this->returnValue(['foo' => 'bar']));
         $abstractResourceRep->expects($this->once())
             ->method('apiUrl')
             ->will($this->returnValue($url));
@@ -36,16 +36,16 @@ class AbstractResourceRepresentationTest extends TestCase
         $this->assertEquals($id,  $abstractResourceRep->id());
 
         // test jsonSerialize()
-        $this->assertEquals(array(
-            '@context' => array(
+        $this->assertEquals([
+            '@context' => [
                 AbstractResourceRepresentation::OMEKA_VOCABULARY_TERM
                 => AbstractResourceRepresentation::OMEKA_VOCABULARY_IRI
-            ),
+            ],
             '@id' => $url,
             '@type' => 'o:fooType',
             'o:id' => $id,
             'foo' => 'bar',
-        ), $abstractResourceRep->jsonSerialize());
+        ], $abstractResourceRep->jsonSerialize());
     }
 
     public function testMethodsAreProtected()
@@ -53,9 +53,9 @@ class AbstractResourceRepresentationTest extends TestCase
         $class = new ReflectionClass(
             'Omeka\Api\Representation\AbstractResourceRepresentation'
         );
-        $protectedMethods = array(
+        $protectedMethods = [
             'addTermDefinitionToContext', 'setId', 'setAdapter', 'getAdapter',
-        );
+        ];
         foreach ($protectedMethods as $protectedMethod) {
             $this->assertTrue($class->getMethod($protectedMethod)->isProtected());
         }

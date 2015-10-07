@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Model;
 
-use Omeka\Entity\Item;
 use Omeka\Entity\ItemSet;
 use Omeka\Test\TestCase;
 

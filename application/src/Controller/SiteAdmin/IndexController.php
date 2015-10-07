@@ -18,9 +18,9 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -51,10 +51,12 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new SiteForm($this->getServiceLocator());
-        $readResponse = $this->api()->read('sites', array(
+        $serviceLocator = $this->getServiceLocator();
+        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
+        $form = new SiteForm($serviceLocator);
+        $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
 
         $site = $readResponse->getContent();
         $id = $site->id();
@@ -63,6 +65,8 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
+            $jstree = json_decode($formData['jstree'], true);
+            $formData['o:navigation'] = $translator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData);
@@ -79,16 +83,17 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $users = $this->api()->search('users', array('sort_by' => 'name'));
+        $users = $this->api()->search('users', ['sort_by' => 'name']);
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('navTree', $translator->toJstree($site));
         $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, array(
+            $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),
-            )
+            ]
         ));
         return $view;
     }
@@ -97,9 +102,9 @@ class IndexController extends AbstractActionController
     {
         $form = new SitePageForm($this->getServiceLocator());
 
-        $readResponse = $this->api()->read('sites', array(
+        $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $readResponse->getContent();
         $id = $site->id();
 
@@ -132,8 +137,8 @@ class IndexController extends AbstractActionController
             $form = new ConfirmForm($this->getServiceLocator());
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('sites', array(
-                    'slug' => $this->params('site-slug'))
+                $response = $this->api()->delete('sites', [
+                    'slug' => $this->params('site-slug')]
                 );
                 if ($response->isError()) {
                     $this->messenger()->addError('Site could not be deleted');
@@ -149,14 +154,26 @@ class IndexController extends AbstractActionController
 
     public function showDetailsAction()
     {
-        $response = $this->api()->read('sites', array(
+        $response = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
-        ));
+        ]);
         $site = $response->getContent();
         $view = new ViewModel;
         $view->setTerminal(true);
 
         $view->setVariable('site', $site);
         return $view;
+    }
+
+    public function navigationLinkFormAction()
+    {
+        $link = $this->getServiceLocator()
+            ->get('Omeka\Site\NavigationLinkManager')
+            ->get($this->params()->fromPost('type'));
+        $form = $link->getForm($this->params()->fromPost('data'));
+
+        $response = $this->getResponse();
+        $response->setContent($form);
+        return $response;
     }
 }

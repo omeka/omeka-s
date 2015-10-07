@@ -26,18 +26,18 @@ class PropertySelector extends AbstractHelper
         if ($vocabResponse->isError()) {
             return;
         }
-        $propResponse = $this->getView()->api()->search('properties', array('limit' => 0));
+        $propResponse = $this->getView()->api()->search('properties', ['limit' => 0]);
         if ($propResponse->isError()) {
             return;
         }
 
         return $this->getView()->partial(
             'common/property-selector',
-            array(
+            [
                 'vocabularies'       => $vocabResponse->getContent(),
                 'totalPropertyCount' => $propResponse->getTotalResults(),
                 'propertySelectorText'               => $propertySelectorText
-            )
+            ]
         );
     }
 }

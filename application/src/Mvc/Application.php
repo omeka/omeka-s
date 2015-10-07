@@ -19,9 +19,9 @@ class Application
      * @see ZendApplication::init()
      * @return ZendApplication
      */
-    public static function init($configuration = array())
+    public static function init($configuration = [])
     {
-        $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : array();
+        $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : [];
         $serviceManager = new ServiceManager(new Service\ServiceManagerConfig($smConfig));
         $serviceManager->setService('ApplicationConfig', $configuration);
         $moduleManager = $serviceManager->get('ModuleManager');
@@ -31,9 +31,9 @@ class Application
         $moduleManager->setModules(array_merge($configuration['modules'], array_keys($activeModules)));
         $moduleManager->loadModules();
 
-        $listenersFromAppConfig = isset($configuration['listeners']) ? $configuration['listeners'] : array();
+        $listenersFromAppConfig = isset($configuration['listeners']) ? $configuration['listeners'] : [];
         $config = $serviceManager->get('Config');
-        $listenersFromConfigService = isset($config['listeners']) ? $config['listeners'] : array();
+        $listenersFromConfigService = isset($config['listeners']) ? $config['listeners'] : [];
         $listeners = array_unique(array_merge($listenersFromConfigService, $listenersFromAppConfig));
         return $serviceManager->get('Application')->bootstrap($listeners);
     }

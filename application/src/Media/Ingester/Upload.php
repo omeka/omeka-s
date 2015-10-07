@@ -7,7 +7,6 @@ use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
 use Zend\Form\Element\File;
 use Zend\InputFilter\FileInput;
-use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
 class Upload extends AbstractIngester
@@ -57,10 +56,10 @@ class Upload extends AbstractIngester
         $file = $this->getServiceLocator()->get('Omeka\File');
 
         $fileInput = new FileInput('file');
-        $fileInput->getFilterChain()->attach(new RenameUpload(array(
+        $fileInput->getFilterChain()->attach(new RenameUpload([
             'target' => $file->getTempPath(),
             'overwrite' => true
-        )));
+        ]));
 
         $fileData = $fileData['file'][$index];
         $fileInput->setValue($fileData);
@@ -90,15 +89,15 @@ class Upload extends AbstractIngester
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, array $options = array())
+    public function form(PhpRenderer $view, array $options = [])
     {
         $fileInput = new File('file[__index__]');
-        $fileInput->setOptions(array(
+        $fileInput->setOptions([
             'label' => $view->translate('Upload File'),
-        ));
-        $fileInput->setAttributes(array(
+        ]);
+        $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',
-        ));
+        ]);
         $field = $view->formField($fileInput);
         return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
     }

@@ -39,11 +39,11 @@ class SitePermissionRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'o:user' => $this->user()->getReference(),
             'o:role' => $this->role(),
 
-        );
+        ];
     }
 
     /**

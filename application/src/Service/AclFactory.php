@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Api\Request as ApiRequest;
 use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
@@ -10,7 +9,6 @@ use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
-use Omeka\Service\Exception;
 use Zend\Permissions\Acl\Assertion\AssertionAggregate;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -39,7 +37,7 @@ class AclFactory implements FactoryInterface
         if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
             // Omeka is installed. Set rules and trigger the acl event.
             $this->addRules($acl, $serviceLocator);
-            $event = new Event(Event::ACL, $acl, array('services' => $serviceLocator));
+            $event = new Event(Event::ACL, $acl, ['services' => $serviceLocator]);
             $serviceLocator->get('EventManager')->trigger($event);
         } else {
             // Allow all privileges during installation.
@@ -147,19 +145,19 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             null,
-            array(
+            [
                 'Omeka\Controller\SiteAdmin\Index',
                 'Omeka\Controller\SiteAdmin\Page',
                 'Omeka\Controller\Site\Index',
                 'Omeka\Controller\Site\Page',
-            )
+            ]
         );
         $acl->allow(
             null,
-            array(
+            [
                 'Omeka\Api\Adapter\SiteAdapter',
                 'Omeka\Api\Adapter\SitePageAdapter',
-            )
+            ]
         );
         $acl->allow(
             'editor',
@@ -167,21 +165,21 @@ class AclFactory implements FactoryInterface
             'create'
         );
         $acl->allow(
-            array('author', 'reviewer', 'editor'),
+            ['author', 'reviewer', 'editor'],
             'Omeka\Entity\SitePage',
             'create'
         );
         $acl->allow(
-            array('author', 'reviewer'),
+            ['author', 'reviewer'],
             'Omeka\Entity\Site',
             'add-page',
             new HasSitePermissionAssertion('editor')
         );
         $allowAddPage = new AssertionAggregate;
-        $allowAddPage->addAssertions(array(
+        $allowAddPage->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
-        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
             'Omeka\Entity\Site',
@@ -189,16 +187,16 @@ class AclFactory implements FactoryInterface
             $allowAddPage
         );
         $acl->allow(
-            array('author', 'reviewer'),
+            ['author', 'reviewer'],
             'Omeka\Entity\Site',
             'update',
             new HasSitePermissionAssertion('admin')
         );
         $allowSiteUpdate = new AssertionAggregate;
-        $allowSiteUpdate->addAssertions(array(
+        $allowSiteUpdate->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('admin')
-        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
             'Omeka\Entity\Site',
@@ -206,16 +204,16 @@ class AclFactory implements FactoryInterface
             $allowSiteUpdate
         );
         $acl->allow(
-            array('author', 'reviewer'),
+            ['author', 'reviewer'],
             'Omeka\Entity\SitePage',
             'update',
             new HasSitePermissionAssertion('editor')
         );
         $allowSitePageUpdate = new AssertionAggregate;
-        $allowSitePageUpdate->addAssertions(array(
+        $allowSitePageUpdate->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
-        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
             'Omeka\Entity\SitePage',
@@ -223,16 +221,16 @@ class AclFactory implements FactoryInterface
             $allowSitePageUpdate
         );
         $acl->allow(
-            array('author', 'reviewer', 'editor'),
+            ['author', 'reviewer', 'editor'],
             'Omeka\Entity\SitePage',
             'delete',
             new HasSitePermissionAssertion('editor')
         );
         $allowSitePageDelete = new AssertionAggregate;
-        $allowSitePageUpdate->addAssertions(array(
+        $allowSitePageUpdate->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
-        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             'editor',
             'Omeka\Entity\SitePage',
@@ -240,14 +238,14 @@ class AclFactory implements FactoryInterface
             $allowSitePageDelete
         );
         $allowSiteView = new AssertionAggregate;
-        $allowSiteView->addAssertions(array(
+        $allowSiteView->addAssertions([
             new SiteIsPublicAssertion,
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('viewer')
-        ))->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
-            array('Omeka\Entity\Site', 'Omeka\Entity\SitePage'),
+            ['Omeka\Entity\Site', 'Omeka\Entity\SitePage'],
             'read',
             $allowSiteView
         );
@@ -262,17 +260,17 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             null,
-            array(
+            [
                 'Omeka\Controller\Api',
                 'Omeka\Controller\Index',
                 'Omeka\Controller\Login',
                 'Omeka\Controller\Maintenance',
                 'Omeka\Controller\Migrate',
-            )
+            ]
         );
         $acl->allow(
             null,
-            array(
+            [
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
@@ -280,15 +278,15 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\ResourceClassAdapter',
                 'Omeka\Api\Adapter\PropertyAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
-            ),
-            array(
+            ],
+            [
                 'search',
                 'read',
-            )
+            ]
         );
         $acl->allow(
             null,
-            array(
+            [
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Item',
                 'Omeka\Entity\Media',
@@ -296,10 +294,10 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\ResourceClass',
                 'Omeka\Entity\Property',
                 'Omeka\Entity\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'read',
-            )
+            ]
         );
     }
 
@@ -312,7 +310,7 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'researcher',
-            array(
+            [
                 'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -321,26 +319,26 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Vocabulary',
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
-            ),
-            array(
+            ],
+            [
                 'index',
                 'browse',
                 'show',
                 'show-details',
-            )
+            ]
         );
         $acl->allow(
             'researcher',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
-            ),
+            ],
             'sidebar-select'
         );
         $acl->allow(
             'researcher',
             'Omeka\Controller\Admin\Vocabulary',
-            array('classes', 'properties')
+            ['classes', 'properties']
         );
         $acl->allow(
             'researcher',
@@ -349,7 +347,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'researcher',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update', 'search')
+            ['read', 'update', 'search']
         );
         $acl->allow(
             'researcher',
@@ -359,7 +357,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'researcher',
             'Omeka\Entity\User',
-            array('update', 'change-password', 'edit-keys'),
+            ['update', 'change-password', 'edit-keys'],
             new IsSelfAssertion
         );
     }
@@ -373,7 +371,7 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -382,13 +380,13 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Vocabulary',
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
-            ),
-            array(
+            ],
+            [
                 'index',
                 'browse',
                 'show',
                 'show-details',
-            )
+            ]
         );
         $acl->allow(
             'author',
@@ -397,69 +395,69 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
-            ),
+            ],
             'sidebar-select'
         );
         $acl->allow(
             'author',
             'Omeka\Controller\Admin\Vocabulary',
-            array('classes', 'properties')
+            ['classes', 'properties']
         );
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Admin\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'add',
                 'edit',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
-            ),
-            array(
+            ],
+            [
                 'create',
                 'update',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'create',
-            )
+            ]
         );
         $acl->allow(
             'author',
-            array(
+            [
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'update',
                 'delete',
-            ),
+            ],
             new OwnsEntityAssertion
         );
         $acl->allow(
@@ -469,7 +467,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update', 'search')
+            ['read', 'update', 'search']
         );
         $acl->allow(
             'author',
@@ -479,7 +477,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Entity\User',
-            array('update', 'change-password', 'edit-keys'),
+            ['update', 'change-password', 'edit-keys'],
             new IsSelfAssertion
         );
     }
@@ -493,7 +491,7 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -502,13 +500,13 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Vocabulary',
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
-            ),
-            array(
+            ],
+            [
                 'index',
                 'browse',
                 'show',
                 'show-details',
-            )
+            ]
         );
         $acl->allow(
             'reviewer',
@@ -517,67 +515,67 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
-            ),
+            ],
             'sidebar-select'
         );
         $acl->allow(
             'reviewer',
             'Omeka\Controller\Admin\Vocabulary',
-            array('classes', 'properties')
+            ['classes', 'properties']
         );
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Admin\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'add',
                 'edit',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
-            ),
-            array(
+            ],
+            [
                 'create',
                 'update',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
-            ),
-            array(
+            ],
+            [
                 'create',
                 'update',
-            )
+            ]
         );
         $acl->allow(
             'reviewer',
-            array(
+            [
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
-            ),
-            array(
+            ],
+            [
                 'delete',
-            ),
+            ],
             new OwnsEntityAssertion
         );
         $acl->allow(
@@ -587,7 +585,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             'Omeka\Api\Adapter\UserAdapter',
-            array('read', 'update', 'search')
+            ['read', 'update', 'search']
         );
         $acl->allow(
             'reviewer',
@@ -597,7 +595,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             'Omeka\Entity\User',
-            array('update', 'change-password', 'edit-keys'),
+            ['update', 'change-password', 'edit-keys'],
             new IsSelfAssertion
         );
     }
@@ -611,7 +609,7 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'editor',
-            array(
+            [
                 'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -620,13 +618,13 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Vocabulary',
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
-            ),
-            array(
+            ],
+            [
                 'index',
                 'browse',
                 'show',
                 'show-details',
-            )
+            ]
         );
         $acl->allow(
             'editor',
@@ -635,58 +633,58 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
-            ),
+            ],
             'sidebar-select'
         );
         $acl->allow(
             'editor',
             'Omeka\Controller\Admin\Vocabulary',
-            array('classes', 'properties')
+            ['classes', 'properties']
         );
         $acl->allow(
             'editor',
-            array(
+            [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Admin\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'add',
                 'edit',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'editor',
-            array(
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
-            ),
-            array(
+            ],
+            [
                 'create',
                 'update',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'editor',
-            array(
+            [
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
-            ),
-            array(
+            ],
+            [
                 'create',
                 'update',
                 'delete',
-            )
+            ]
         );
         $acl->allow(
             'editor',
@@ -699,12 +697,12 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            array('read')
+            ['read']
         );
         $acl->allow(
             'editor',
             'Omeka\Entity\User',
-            array('update', 'change-password', 'edit-keys'),
+            ['update', 'change-password', 'edit-keys'],
             new IsSelfAssertion
         );
     }
@@ -719,13 +717,13 @@ class AclFactory implements FactoryInterface
         $acl->allow('site_admin');
         $acl->deny(
             'site_admin',
-            array('Omeka\Module\Manager', 'Omeka\Controller\Admin\Module'),
-            array('activate', 'deactivate', 'install', 'uninstall', 'upgrade', 'configure')
+            ['Omeka\Module\Manager', 'Omeka\Controller\Admin\Module'],
+            ['activate', 'deactivate', 'install', 'uninstall', 'upgrade', 'configure']
         );
         $acl->deny(
             'site_admin',
             'Omeka\Controller\Admin\Vocabulary',
-            array('import')
+            ['import']
         );
         $acl->deny(
             'site_admin',
@@ -734,12 +732,12 @@ class AclFactory implements FactoryInterface
         $acl->deny(
             'site_admin',
             'Omeka\Api\Adapter\VocabularyAdapter',
-            array('create', 'update', 'delete')
+            ['create', 'update', 'delete']
         );
         $acl->deny(
             'site_admin',
             'Omeka\Entity\Media',
-            array('create', 'update', 'delete')
+            ['create', 'update', 'delete']
         );
 
         $acl->deny(
@@ -747,24 +745,24 @@ class AclFactory implements FactoryInterface
             'Omeka\Entity\User',
             'change-role-admin'
         );
-        $acl->deny (
+        $acl->deny(
             'site_admin',
             'Omeka\Entity\User',
-            array('change-role', 'activate-user', 'delete'),
+            ['change-role', 'activate-user', 'delete'],
             new IsSelfAssertion
         );
 
         // Site admins should not be able to edit other admin users but should
         // be able to edit themselves
         $denyEdit = new AssertionAggregate;
-        $denyEdit->addAssertions(array(
+        $denyEdit->addAssertions([
             new UserIsAdminAssertion,
             new AssertionNegation(new IsSelfAssertion),
-        ));
+        ]);
         $acl->deny(
             'site_admin',
             'Omeka\Entity\User',
-            array('update', 'delete', 'change-password', 'edit-keys'),
+            ['update', 'delete', 'change-password', 'edit-keys'],
             $denyEdit
         );
     }
@@ -777,10 +775,10 @@ class AclFactory implements FactoryInterface
     protected function addRulesForGlobalAdmin(Acl $acl)
     {
         $acl->allow('global_admin');
-        $acl->deny (
+        $acl->deny(
             'global_admin',
             'Omeka\Entity\User',
-            array('change-role', 'activate-user', 'delete'),
+            ['change-role', 'activate-user', 'delete'],
             new IsSelfAssertion
         );
     }

@@ -9,6 +9,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <a href="<?php echo $site->siteUrl(); ?>/page/<?php echo $page->slug(); ?>/" class="button"><?php echo $this->translate('View'); ?></a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 

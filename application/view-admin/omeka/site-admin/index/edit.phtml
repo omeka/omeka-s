@@ -16,19 +16,20 @@ $roles = array(
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Site: “%s”'), $site->title())); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-        <?php if ($site->isPublic()): ?>
-        <a href="#"
-        class="o-icon-public button"
-        aria-label=" <?php echo $this->translate('Make private'); ?>"
-        title=" <?php echo $this->translate('Make private'); ?>"></a>
-        <input type="hidden" name="o:is_public" value="1">
-        <?php else: ?>
-        <a href="#"
-        class="o-icon-private button"
-        aria-label=" <?php echo $this->translate('Make public'); ?>"
-        title=" <?php echo $this->translate('Make public'); ?>"></a>
-        <input type="hidden" name="o:is_public" value="0">
-        <?php endif; ?>
+    <?php if ($site->isPublic()): ?>
+    <a href="#"
+    class="o-icon-public button"
+    aria-label=" <?php echo $this->translate('Make private'); ?>"
+    title=" <?php echo $this->translate('Make private'); ?>"></a>
+    <input type="hidden" name="o:is_public" value="1">
+    <?php else: ?>
+    <a href="#"
+    class="o-icon-private button"
+    aria-label=" <?php echo $this->translate('Make public'); ?>"
+    title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <input type="hidden" name="o:is_public" value="0">
+    <?php endif; ?>
+    <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
     <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>">Delete</a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
@@ -69,6 +70,7 @@ if ($pages):
             <td><?php echo $page->slug(); ?></td>
             <td>
                 <ul class="actions">
+                    <li><a href="<?php echo $site->siteUrl(); ?>/page/<?php echo $page->slug(); ?>/" class="o-icon-view" aria-label="<?php echo $this->translate('View'); ?>" title="<?php echo $this->translate('View'); ?>"></a></li>
                     <li><?php echo $page->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),

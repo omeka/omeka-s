@@ -26,7 +26,11 @@ class Fallback extends AbstractLink
     }
 
     public function getForm(array $data)
-    {}
+    {
+        $escape = $this->getViewHelper('escapeHtml');
+        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
+            . '<label>Data <textarea disabled>' . $escape(json_encode($data)) . '</textarea></label>';
+    }
 
     public function toZend(array $data, Site $site)
     {

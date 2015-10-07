@@ -13,9 +13,11 @@ class Browse extends AbstractLink
 
     public function getForm(array $data)
     {
+        $escape = $this->getViewHelper('escapeHtml');
         $label = isset($data['label']) ? $data['label'] : $this->getLabel();
         $query = isset($data['query']) ? $data['query'] : null;
-        return '<label>Label <input type="text" data-name="label" value="' . $label . '"></label>'
+        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
+            . '<label>Label <input type="text" data-name="label" value="' . $label . '"></label>'
             . '<label>Query <input type="text" data-name="query" value="' . $query . '"></label>';
     }
 

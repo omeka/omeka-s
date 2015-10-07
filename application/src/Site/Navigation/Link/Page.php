@@ -15,7 +15,8 @@ class Page extends AbstractLink
     {
         $escape = $this->getViewHelper('escapeHtml');
         $page = sprintf('%s (%s)', $data['pageTitle'], $data['pageSlug']);
-        return  '<label>Page <input type="text" value="' . $escape($page) . '" disabled></label>'
+        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
+            . '<label>Page <input type="text" value="' . $escape($page) . '" disabled></label>'
             . '<label>Label <input type="text" data-name="label" value="' . $escape($data['label']) . '"></label>';
     }
 

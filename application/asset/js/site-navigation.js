@@ -130,7 +130,7 @@ $.jstree.plugins.editlink = function(options, parent) {
             'submit',
             $.proxy(function(e) {
                 var instance = this;
-                $('#nav-tree :input').each(function(index, element) {
+                $('#nav-tree :input[data-name]').each(function(index, element) {
                     var nodeObj = instance.get_node(element);
                     var element = $(element);
                     nodeObj.data['data'][element.data('name')] = element.val()

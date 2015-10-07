@@ -18,11 +18,6 @@ abstract class AbstractRepresentation implements RepresentationInterface
     use EventManagerAwareTrait, ServiceLocatorAwareTrait;
 
     /**
-     * @var mixed The information from which to derive this representation.
-     */
-    protected $data;
-
-    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -36,41 +31,6 @@ abstract class AbstractRepresentation implements RepresentationInterface
      * @var ServiceLocatorInterface
      */
     protected $services;
-
-    /**
-     * Validate and set the data.
-     *
-     * @param mixed $data
-     */
-    protected function setData($data)
-    {
-        $this->validateData($data);
-        $this->data = $data;
-    }
-
-    /**
-     * Get the data.
-     *
-     * To ensure encapsulation and prevent unwanted modifications, the data is
-     * not directly accessible outside this scope.
-     *
-     * @return mixed
-     */
-    protected function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Validate the data.
-     *
-     * When the data needs to be validated, override this method and throw an
-     * exception when the data is invalid for the representation.
-     *
-     * @param mixed $data
-     */
-    protected function validateData($data)
-    {}
 
     /**
      * Get an adapter by resource name.

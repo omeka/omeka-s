@@ -21,7 +21,7 @@ class UserRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $entity = $this->getData();
+        $entity = $this->resource;
         return [
             'o:name' => $entity->getName(),
             'o:email' => $entity->getEmail(),
@@ -33,32 +33,32 @@ class UserRepresentation extends AbstractEntityRepresentation
 
     public function name()
     {
-        return $this->getData()->getName();
+        return $this->resource->getName();
     }
 
     public function email()
     {
-        return $this->getData()->getEmail();
+        return $this->resource->getEmail();
     }
 
     public function role()
     {
-        return $this->getData()->getRole();
+        return $this->resource->getRole();
     }
 
     public function created()
     {
-        return $this->getData()->getCreated();
+        return $this->resource->getCreated();
     }
 
     public function getEntity()
     {
-        return $this->getData();
+        return $this->resource;
     }
 
     public function displayRole()
     {
-        $roleIndex = $this->getData()->getRole();
+        $roleIndex = $this->resource->getRole();
         $roleLabels = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels();
         if (isset($roleLabels[$roleIndex])) {
             return $roleLabels[$roleIndex];

@@ -57,7 +57,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function prefix()
     {
-        return $this->getData()->getPrefix();
+        return $this->resource->getPrefix();
     }
 
     /**
@@ -67,7 +67,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function namespaceUri()
     {
-        return $this->getData()->getNamespaceUri();
+        return $this->resource->getNamespaceUri();
     }
 
     /**
@@ -77,7 +77,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function label()
     {
-        return $this->getData()->getLabel();
+        return $this->resource->getLabel();
     }
     
     /**
@@ -87,13 +87,13 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function comment()
     {
-        return $this->getData()->getComment();
+        return $this->resource->getComment();
     }
 
     public function owner()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getOwner());
+            ->getRepresentation($this->resource->getOwner());
     }
 
     /**
@@ -105,8 +105,8 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         $properties = [];
         $propertyAdapter = $this->getAdapter('properties');
-        foreach ($this->getData()->getProperties() as $propertyEntity) {
-            $properties[] = $propertyAdapter->getRepresentation(null, $propertyEntity);
+        foreach ($this->resource->getProperties() as $propertyEntity) {
+            $properties[] = $propertyAdapter->getRepresentation($propertyEntity);
         }
         return $properties;
     }
@@ -120,8 +120,8 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      {
         $resourceClasses = [];
         $resourceClassAdapter = $this->getAdapter('resource_classes');
-        foreach ($this->getData()->getResourceClasses() as $resourceClass) {
-            $resourceClasses[] = $resourceClassAdapter->getRepresentation(null, $resourceClass);
+        foreach ($this->resource->getResourceClasses() as $resourceClass) {
+            $resourceClasses[] = $resourceClassAdapter->getRepresentation($resourceClass);
         }
         return $resourceClasses;
      }
@@ -133,7 +133,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function propertyCount()
     {
-        return count($this->getData()->getProperties());
+        return count($this->resource->getProperties());
     }
 
     /**
@@ -143,6 +143,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function resourceClassCount()
     {
-        return count($this->getData()->getResourceClasses());
+        return count($this->resource->getResourceClasses());
     }
 }

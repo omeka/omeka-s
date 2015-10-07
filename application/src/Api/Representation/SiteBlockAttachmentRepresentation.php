@@ -1,37 +1,27 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\SiteBlockAttachment;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SiteBlockAttachmentRepresentation extends AbstractRepresentation
 {
     /**
+     * @var SiteBlockAttachment
+     */
+    protected $attachment;
+
+    /**
      * Construct the attachment object.
      *
-     * @param mixed $data
+     * @param SiteBlockAttachment $attachment
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct($data, ServiceLocatorInterface $serviceLocator)
+    public function __construct(SiteBlockAttachment $attachment, ServiceLocatorInterface $serviceLocator)
     {
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
-        $this->setData($data);
-    }
-
-    /**
-     * @var array
-     */
-    public function validateData($data)
-    {
-        if (!$data instanceof SiteBlockAttachment) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        $this->attachment = $attachment;
     }
 
     /**
@@ -53,7 +43,7 @@ class SiteBlockAttachmentRepresentation extends AbstractRepresentation
     public function item()
     {
         return $this->getAdapter('items')
-            ->getRepresentation(null, $this->getData()->getItem());
+            ->getRepresentation($this->attachment->getItem());
     }
 
     /**
@@ -62,7 +52,7 @@ class SiteBlockAttachmentRepresentation extends AbstractRepresentation
     public function media()
     {
         return $this->getAdapter('media')
-            ->getRepresentation(null, $this->getData()->getMedia());
+            ->getRepresentation($this->attachment->getMedia());
     }
 
     /**
@@ -70,6 +60,6 @@ class SiteBlockAttachmentRepresentation extends AbstractRepresentation
      */
     public function caption()
     {
-        return $this->getData()->getCaption();
+        return $this->attachment->getCaption();
     }
 }

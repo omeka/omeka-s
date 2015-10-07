@@ -47,7 +47,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      */
     public function label()
     {
-        return $this->getData()->getLabel();
+        return $this->resource->getLabel();
     }
 
     /**
@@ -58,7 +58,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function owner()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getOwner());
+            ->getRepresentation($this->resource->getOwner());
     }
 
     /**
@@ -69,7 +69,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function resourceClass()
     {
         return $this->getAdapter('resource_classes')
-            ->getRepresentation(null, $this->getData()->getResourceClass());
+            ->getRepresentation($this->resource->getResourceClass());
     }
 
     /**
@@ -80,7 +80,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function resourceTemplateProperties()
     {
         $resTemProps = [];
-        foreach ($this->getData()->getResourceTemplateProperties() as $resTemProp) {
+        foreach ($this->resource->getResourceTemplateProperties() as $resTemProp) {
             $resTemProps[]= new ResourceTemplatePropertyRepresentation(
                 $resTemProp, $this->getServiceLocator());
         }

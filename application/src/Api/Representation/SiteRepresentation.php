@@ -66,45 +66,45 @@ class SiteRepresentation extends AbstractEntityRepresentation
 
     public function slug()
     {
-        return $this->getData()->getSlug();
+        return $this->resource->getSlug();
     }
 
     public function title()
     {
-        return $this->getData()->getTitle();
+        return $this->resource->getTitle();
     }
 
     public function theme()
     {
-        return $this->getData()->getTheme();
+        return $this->resource->getTheme();
     }
 
     public function navigation()
     {
-        return $this->getData()->getNavigation();
+        return $this->resource->getNavigation();
     }
 
     public function created()
     {
-        return $this->getData()->getCreated();
+        return $this->resource->getCreated();
     }
 
     public function modified()
     {
-        return $this->getData()->getModified();
+        return $this->resource->getModified();
     }
 
     public function isPublic()
     {
-        return $this->getData()->isPublic();
+        return $this->resource->isPublic();
     }
 
     public function pages()
     {
         $pages = [];
         $pageAdapter = $this->getAdapter('site_pages');
-        foreach ($this->getData()->getPages() as $page) {
-            $pages[$page->getId()] = $pageAdapter->getRepresentation(null, $page);
+        foreach ($this->resource->getPages() as $page) {
+            $pages[$page->getId()] = $pageAdapter->getRepresentation($page);
         }
         return $pages;
     }
@@ -117,7 +117,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function sitePermissions()
     {
         $sitePermissions = [];
-        foreach ($this->getData()->getSitePermissions() as $sitePermission) {
+        foreach ($this->resource->getSitePermissions() as $sitePermission) {
             $sitePermissions[]= new SitePermissionRepresentation(
                 $sitePermission, $this->getServiceLocator());
         }
@@ -132,7 +132,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function owner()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getOwner());
+            ->getRepresentation($this->resource->getOwner());
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

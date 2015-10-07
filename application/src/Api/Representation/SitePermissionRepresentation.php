@@ -1,37 +1,26 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\SitePermission;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SitePermissionRepresentation extends AbstractRepresentation
 {
     /**
-     * Construct the site permission representation object.
-     *
-     * @param mixed $data
-     * @param ServiceLocatorInterface $serviceLocator
+     * @var SitePermission
      */
-    public function __construct($data, ServiceLocatorInterface $serviceLocator)
-    {
-        // Set the service locator first.
-        $this->setServiceLocator($serviceLocator);
-        $this->setData($data);
-    }
+    protected $permission;
 
     /**
-     * @var array
+     * Construct the site permission representation object.
+     *
+     * @param SitePermission $permission
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function validateData($data)
+    public function __construct(SitePermission $permission, ServiceLocatorInterface $serviceLocator)
     {
-        if (!$data instanceof SitePermission) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        $this->setServiceLocator($serviceLocator);
+        $this->permission = $permission;
     }
 
     /**
@@ -52,7 +41,7 @@ class SitePermissionRepresentation extends AbstractRepresentation
     public function site()
     {
         return $this->getAdapter('sites')
-            ->getRepresentation(null, $this->getData()->getSite());
+            ->getRepresentation($this->permission->getSite());
     }
 
     /**
@@ -61,7 +50,7 @@ class SitePermissionRepresentation extends AbstractRepresentation
     public function user()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getUser());
+            ->getRepresentation($this->permission->getUser());
     }
 
     /**
@@ -69,6 +58,6 @@ class SitePermissionRepresentation extends AbstractRepresentation
      */
     public function role()
     {
-        return $this->getData()->getRole();
+        return $this->permission->getRole();
     }
 }

@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
+use Omeka\Api\ResourceInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -124,13 +125,14 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return RepresentationInterface|null
      */
-    public function getRepresentation($id, $data) {
+    public function getRepresentation(ResourceInterface $data = null)
+    {
         if (null === $data) {
             // Do not attempt to compose a null representation.
             return null;
         }
         $representationClass = $this->getRepresentationClass();
-        return new $representationClass($id, $data, $this);
+        return new $representationClass($data, $this);
     }
 
     /**

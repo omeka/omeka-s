@@ -58,7 +58,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             return null;
         }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getOriginalUrl($this->getData());
+        return $fileManager->getOriginalUrl($this->resource);
     }
 
     /**
@@ -70,7 +70,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function thumbnailUrl($type)
     {
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getThumbnailUrl($type, $this->getData());
+        return $fileManager->getThumbnailUrl($type, $this->resource);
     }
 
     /**
@@ -84,7 +84,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             return [];
         }
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getThumbnailUrls($this->getData());
+        return $fileManager->getThumbnailUrls($this->resource);
     }
 
     /**
@@ -94,7 +94,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function ingester()
     {
-        return $this->getData()->getIngester();
+        return $this->resource->getIngester();
     }
 
     /**
@@ -117,7 +117,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function renderer()
     {
-        return $this->getData()->getRenderer();
+        return $this->resource->getRenderer();
     }
 
     /**
@@ -129,7 +129,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function mediaData()
     {
-        return $this->getData()->getData();
+        return $this->resource->getData();
     }
 
     /**
@@ -139,7 +139,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function source()
     {
-        return $this->getData()->getSource();
+        return $this->resource->getSource();
     }
 
     /**
@@ -149,7 +149,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function mediaType()
     {
-        return $this->getData()->getMediaType();
+        return $this->resource->getMediaType();
     }
 
     /**
@@ -159,7 +159,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function filename()
     {
-        return $this->getData()->getFilename();
+        return $this->resource->getFilename();
     }
 
     /**
@@ -169,7 +169,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function hasOriginal()
     {
-        return $this->getData()->hasOriginal();
+        return $this->resource->hasOriginal();
     }
 
     /**
@@ -179,7 +179,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function hasThumbnails()
     {
-        return $this->getData()->hasThumbnails();
+        return $this->resource->hasThumbnails();
     }
 
     /**
@@ -190,7 +190,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function item()
     {
         return $this->getAdapter('items')
-            ->getRepresentation(null, $this->getData()->getItem());
+            ->getRepresentation($this->resource->getItem());
     }
 
     /**

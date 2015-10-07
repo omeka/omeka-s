@@ -28,7 +28,7 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
     public function vocabulary()
     {
         return $this->getAdapter('vocabularies')
-            ->getRepresentation(null, $this->getData()->getVocabulary());
+            ->getRepresentation($this->resource->getVocabulary());
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
      */
     public function localName()
     {
-        return $this->getData()->getLocalName();
+        return $this->resource->getLocalName();
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
      */
     public function label()
     {
-        return $this->getData()->getLabel();
+        return $this->resource->getLabel();
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepr
      */
     public function comment()
     {
-        return $this->getData()->getComment();
+        return $this->resource->getComment();
     }
 
     /**

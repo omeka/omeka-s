@@ -14,7 +14,7 @@ class ResourceReference extends AbstractResourceRepresentation
     public function getRepresentation()
     {
         return $this->getAdapter()
-            ->getRepresentation($this->id(), $this->getData());
+            ->getRepresentation($this->resource);
     }
 
     /**

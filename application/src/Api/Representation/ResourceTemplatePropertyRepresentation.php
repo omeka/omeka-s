@@ -1,37 +1,27 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\ResourceTemplateProperty;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
 {
     /**
+     * @var ResourceTemplateProperty
+     */
+    protected $templateProperty;
+
+    /**
      * Construct the resource template property representation object.
      *
-     * @param mixed $data
+     * @param ResourceTemplateProperty $templateProperty
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct($data, ServiceLocatorInterface $serviceLocator)
+    public function __construct(ResourceTemplateProperty $templateProperty, ServiceLocatorInterface $serviceLocator)
     {
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
-        $this->setData($data);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validateData($data)
-    {
-        if (!$data instanceof ResourceTemplateProperty) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        $this->templateProperty = $templateProperty;
     }
 
     /**
@@ -49,10 +39,10 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     /**
      * @return ResourceTemplateRepresentation
      */
-    public function site()
+    public function template()
     {
         return $this->getAdapter('resource_templates')
-            ->getRepresentation(null, $this->getData()->getResourceTemplate());
+            ->getRepresentation($this->templateProperty->getResourceTemplate());
     }
 
     /**
@@ -61,7 +51,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function property()
     {
         return $this->getAdapter('properties')
-            ->getRepresentation(null, $this->getData()->getProperty());
+            ->getRepresentation($this->templateProperty->getProperty());
     }
 
     /**
@@ -69,7 +59,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
      */
     public function alternateLabel()
     {
-        return $this->getData()->getAlternateLabel();
+        return $this->templateProperty->getAlternateLabel();
     }
 
     /**
@@ -77,7 +67,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
      */
     public function alternateComment()
     {
-        return $this->getData()->getAlternateComment();
+        return $this->templateProperty->getAlternateComment();
     }
 
     /**
@@ -85,6 +75,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
      */
     public function position()
     {
-        return $this->getData()->getPosition();
+        return $this->templateProperty->getPosition();
     }
 }

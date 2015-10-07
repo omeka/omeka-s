@@ -1,7 +1,8 @@
 <?php
 namespace Omeka\Entity;
 
-use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Omeka\Api\ResourceInterface as OmekaApiResourceInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface as ZendAclResourceInterface;
 
 /**
  * Entity interface.
@@ -15,12 +16,6 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  *
  * @link http://docs.doctrine-project.org/en/latest/reference/annotations-reference.html
  */
-interface EntityInterface extends ResourceInterface
+interface EntityInterface extends OmekaApiResourceInterface, ZendAclResourceInterface
 {
-    /**
-     * Get the unique identifier.
-     *
-     * @return mixed
-     */
-    public function getId();
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Omeka\Event\Event;
@@ -9,16 +8,21 @@ use Omeka\Event\Event;
 class ValueRepresentation extends AbstractRepresentation
 {
     /**
+     * @var Value
+     */
+    protected $value;
+
+    /**
      * Construct the value representation object.
      *
-     * @param mixed $data
+     * @param Value $value
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct($data, ServiceLocatorInterface $serviceLocator)
+    public function __construct(Value $value, ServiceLocatorInterface $serviceLocator)
     {
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
-        $this->setData($data);
+        $this->value = $value;
     }
 
     /**
@@ -31,7 +35,7 @@ class ValueRepresentation extends AbstractRepresentation
         if (Value::TYPE_RESOURCE === $this->type()) {
             return $this->valueResource()->url(null, true);
         } else {
-            return $this->getData()->getValue();
+            return $this->value->getValue();
         }
     }
 
@@ -52,8 +56,8 @@ class ValueRepresentation extends AbstractRepresentation
                 $html = $valueResource->link($valueResource->displayTitle());
                 break;
             case Value::TYPE_URI:
-                $uri = $this->getData()->getValue();
-                $uriLabel = $this->getData()->getUriLabel();
+                $uri = $this->value->getValue();
+                $uriLabel = $this->value->getUriLabel();
                 $args['targetUrl'] = $uri;
                 if (!$uriLabel) {
                     $uriLabel = $uri;
@@ -75,25 +79,11 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @var array
-     */
-    public function validateData($data)
-    {
-        if (!$data instanceof Value) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function jsonSerialize()
     {
-        $value = $this->getData();
+        $value = $this->value;
         $valueObject = [];
 
         switch ($this->type()) {
@@ -134,9 +124,9 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function resource()
     {
-        $resource = $this->getData()->getResource();
+        $resource = $this->value->getResource();
         return $this->getAdapter($resource->getResourceName())
-            ->getRepresentation(null, $resource);
+            ->getRepresentation($resource);
     }
 
     /**
@@ -149,7 +139,7 @@ class ValueRepresentation extends AbstractRepresentation
     public function property()
     {
         return $this->getAdapter('properties')
-            ->getRepresentation(null, $this->getData()->getProperty());
+            ->getRepresentation($this->value->getProperty());
     }
 
     /**
@@ -159,7 +149,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function type()
     {
-        return $this->getData()->getType();
+        return $this->value->getType();
     }
 
     /**
@@ -171,7 +161,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function value()
     {
-        return $this->getData()->getValue();
+        return $this->value->getValue();
     }
 
     /**
@@ -181,7 +171,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function lang()
     {
-        return $this->getData()->getLang();
+        return $this->value->getLang();
     }
 
     /**
@@ -191,7 +181,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function uriLabel()
     {
-        return $this->getData()->getUriLabel();
+        return $this->value->getUriLabel();
     }
 
     /**
@@ -203,11 +193,11 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function valueResource()
     {
-        $resource = $this->getData()->getValueResource();
+        $resource = $this->value->getValueResource();
         if (!$resource) {
             return null;
         }
         $resourceAdapter = $this->getAdapter($resource->getResourceName());
-        return $resourceAdapter->getRepresentation($resource->getId(), $resource);
+        return $resourceAdapter->getRepresentation($resource);
     }
 }

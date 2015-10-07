@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Api\ResourceInterface;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Event\Event;
 
@@ -25,6 +26,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @var string|int
      */
     protected $id;
+
+    /**
+     * @var ResourceInterface
+     */
+    protected $resource;
 
     /**
      * @var AdapterInterface
@@ -59,13 +65,13 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @param mixed $data The data from which to derive a representation
      * @param ServiceLocatorInterface $adapter The corresponsing adapter
      */
-    public function __construct($id, $data, AdapterInterface $adapter)
+    public function __construct(ResourceInterface $resource, AdapterInterface $adapter)
     {
         // Set the service locator first.
         $this->setServiceLocator($adapter->getServiceLocator());
-        $this->setId($id);
-        $this->setData($data);
+        $this->setId($resource->getId());
         $this->setAdapter($adapter);
+        $this->resource = $resource;
     }
 
     /**
@@ -161,8 +167,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function getReference()
     {
-        return new ResourceReference(
-            $this->id(), $this->getData(), $this->getAdapter());
+        return new ResourceReference($this->resource, $this->getAdapter());
     }
 
     /**

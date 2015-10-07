@@ -34,7 +34,7 @@ class ModuleAdapter extends AbstractAdapter
         $response = new Response;
         $representations = [];
         foreach ($manager->getModules() as $id => $module) {
-            $representations[$id] = $this->getRepresentation($id, $module);
+            $representations[$id] = $this->getRepresentation($module);
         }
         $response->setContent($representations);
         return $response;
@@ -47,10 +47,7 @@ class ModuleAdapter extends AbstractAdapter
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
         $response = new Response;
-        $representation = $this->getRepresentation(
-            $request->getId(),
-            $manager->getModule($request->getId())
-        );
+        $representation = $this->getRepresentation($manager->getModule($request->getId()));
         $response->setContent($representation);
         return $response;
     }

@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Module;
 
+use Omeka\Api\ResourceInterface;
+
 /**
  * A module registered in the module manager.
  */
-class Module
+class Module implements ResourceInterface
 {
     /** @var string */
     protected $id;

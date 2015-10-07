@@ -12,6 +12,12 @@ class AbstractResourceRepresentationTest extends TestCase
         $id = 'test_id';
         $data = 'test_data';
         $url = 'test_url';
+
+        $resource = $this->getMockForAbstractClass('Omeka\Api\ResourceInterface');
+        $resource->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($id));
+
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
         $adapter->expects($this->once())
             ->method('getServiceLocator')
@@ -20,7 +26,7 @@ class AbstractResourceRepresentationTest extends TestCase
         $abstractResourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceRepresentation',
             ['getJsonLd', 'apiUrl', 'getJsonLdType'],
-            [$id, $data, $adapter]
+            [$resource, $adapter]
         );
         $abstractResourceRep->expects($this->once())
             ->method('getJsonLd')

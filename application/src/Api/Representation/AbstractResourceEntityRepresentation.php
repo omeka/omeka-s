@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
+use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Entity\Vocabulary;
@@ -46,6 +46,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @return string
      */
     abstract public function getResourceJsonLdType();
+
+    public function __construct(Resource $resource, AdapterInterface $adapter)
+    {
+        parent::__construct($resource, $adapter);
+    }
 
     /**
      * {@inheritDoc}
@@ -126,7 +131,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function resourceName()
     {
-        return $this->getData()->getResourceName();
+        return $this->resource->getResourceName();
     }
 
     /**
@@ -137,7 +142,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function resourceClass()
     {
         return $this->getAdapter('resource_classes')
-            ->getRepresentation(null, $this->getData()->getResourceClass());
+            ->getRepresentation($this->resource->getResourceClass());
     }
     
     /**
@@ -148,7 +153,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function resourceTemplate()
     {
         return $this->getAdapter('resource_templates')
-            ->getRepresentation(null, $this->getData()->getResourceTemplate());
+            ->getRepresentation($this->resource->getResourceTemplate());
     }
 
     /**
@@ -159,7 +164,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function owner()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getOwner());
+            ->getRepresentation($this->resource->getOwner());
     }
 
     /**
@@ -169,7 +174,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function isPublic()
     {
-        return $this->getData()->isPublic();
+        return $this->resource->isPublic();
     }
 
     /**
@@ -179,7 +184,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function created()
     {
-        return $this->getData()->getCreated();
+        return $this->resource->getCreated();
     }
 
     /**
@@ -189,7 +194,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function modified()
     {
-        return $this->getData()->getModified();
+        return $this->resource->getModified();
     }
 
     /**
@@ -238,7 +243,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         // Get this resource's values.
         $values = [];
-        foreach ($this->getData()->getValues() as $valueEntity) {
+        foreach ($this->resource->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ('resource' === $value->type() && null === $value->valueResource()) {
                 // Skip this resource value if the resource is not available
@@ -339,7 +344,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function subjectValues()
     {
         $subjectResourceValues = $this->getAdapter()
-            ->getSubjectValues($this->getData());
+            ->getSubjectValues($this->resource);
         $valueRepresentations = [];
         foreach ($subjectResourceValues as $subjectResourceValue) {
             $valueRepresentations[] = new ValueRepresentation(
@@ -505,19 +510,5 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'vocabulary_id' => $vocabulary->id(),
             'vocabulary_label' => $vocabulary->label(),
         ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function validateData($data)
-    {
-        if (!$data instanceof Resource) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
     }
 }

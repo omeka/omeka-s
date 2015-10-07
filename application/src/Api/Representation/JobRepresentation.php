@@ -70,39 +70,39 @@ class JobRepresentation extends AbstractEntityRepresentation
     
     public function status()
     {
-        return $this->getData()->getStatus();
+        return $this->resource->getStatus();
     }
 
     public function statusLabel()
     {
-        $status = $this->getData()->getStatus();
+        $status = $this->resource->getStatus();
         return isset($this->statusLabels[$status])
             ? $this->statusLabels[$status] : 'Unknown';
     }
 
     public function jobClass()
     {
-        return $this->getData()->getClass();
+        return $this->resource->getClass();
     }
 
     public function started()
     {
-        return $this->getData()->getStarted();
+        return $this->resource->getStarted();
     }
 
     public function ended()
     {
-        return $this->getData()->getEnded();
+        return $this->resource->getEnded();
     }
 
     public function args()
     {
-        return $this->getData()->getArgs();
+        return $this->resource->getArgs();
     }
 
     public function log()
     {
-        return $this->getData()->getLog();
+        return $this->resource->getLog();
     }
 
     /**
@@ -113,6 +113,6 @@ class JobRepresentation extends AbstractEntityRepresentation
     public function owner()
     {
         return $this->getAdapter('users')
-            ->getRepresentation(null, $this->getData()->getOwner());
+            ->getRepresentation($this->resource->getOwner());
     }
 }

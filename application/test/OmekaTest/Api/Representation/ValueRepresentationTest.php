@@ -29,21 +29,9 @@ class ValueRepresentationTest extends TestCase
         $this->assertEquals($literal, $valueRep->__toString());
     }
 
-    public function testValidateData()
-    {
-        $data = 'invalid_data';
-        $serviceLocator = $this->getServiceManager([
-            'MvcTranslator' => $this->getMock('Zend\I18n\Translator\TranslatorInterface'),
-        ]);
-
-        $this->setExpectedException('Omeka\Api\Exception\InvalidArgumentException');
-        $valueRep = new ValueRepresentation($data, $serviceLocator);
-    }
-
     public function testJsonSerializeResource()
     {
         $valueResourceName   = 'test-value_resource_name';
-        $valueResourceId     = 'test-value_resource_id';
         $valueResourceApiUrl = 'test-value_resource_api_url';
         $propertyId          = 'test-property_id';
         $propertyLabel       = 'test-property_label';
@@ -62,7 +50,6 @@ class ValueRepresentationTest extends TestCase
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
             ->method('getRepresentation')
-            ->with($valueResourceId)
             ->will($this->returnValue($resourceRep));
 
         $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
@@ -75,16 +62,10 @@ class ValueRepresentationTest extends TestCase
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
         ]);
 
-        $valueResource = $this->getMockForAbstractClass(
-            'Omeka\Entity\Resource',
-            [], '', true, true, true, ['getId'], false
-        );
+        $valueResource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
         $valueResource->expects($this->once())
             ->method('getResourceName')
             ->will($this->returnValue($valueResourceName));
-        $valueResource->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($valueResourceId));
 
         $property = $this->getMock('Omeka\Entity\Property');
         $property->expects($this->once())
@@ -235,24 +216,16 @@ class ValueRepresentationTest extends TestCase
     public function testGetValueResource()
     {
         $valueResourceName = 'test-value_resource_name';
-        $valueResourceId = 'test-value_resource_id';
 
-        $valueResource = $this->getMockForAbstractClass(
-            'Omeka\Entity\Resource',
-            [], '', true, true, true, ['getId'], false
-        );
+        $valueResource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
         $valueResource->expects($this->once())
             ->method('getResourceName')
             ->will($this->returnValue($valueResourceName));
-        $valueResource->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($valueResourceId));
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $adapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->equalTo($valueResourceId),
                 $this->identicalTo($valueResource)
             );
 
@@ -292,7 +265,6 @@ class ValueRepresentationTest extends TestCase
         $adapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->isNull(),
                 $this->identicalTo($resource)
             );
 
@@ -325,7 +297,6 @@ class ValueRepresentationTest extends TestCase
         $adapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->isNull(),
                 $this->identicalTo($property)
             );
 

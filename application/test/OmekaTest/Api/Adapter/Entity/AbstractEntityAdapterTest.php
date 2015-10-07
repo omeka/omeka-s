@@ -68,7 +68,7 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter->expects($this->exactly(2))
              ->method('getEventManager')
              ->will($this->returnValue($eventManager));
-        $this->adapter->expects($this->exactly(2))
+        $this->adapter->expects($this->exactly(1))
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
         $this->adapter->expects($this->once())

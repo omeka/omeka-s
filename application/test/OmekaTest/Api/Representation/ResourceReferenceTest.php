@@ -13,7 +13,10 @@ class ResourceReferenceTest extends TestCase
     public function setUp()
     {
         $this->id = 'test_id';
-        $this->data = 'test_data';
+        $this->resource = $this->getMockForAbstractClass('Omeka\Api\ResourceInterface');
+        $this->resource->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($this->id));
         $this->adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $this->adapter->expects($this->once())
             ->method('getServiceLocator')
@@ -24,10 +27,10 @@ class ResourceReferenceTest extends TestCase
     {
         $this->adapter->expects($this->once())
             ->method('getRepresentation')
-            ->with($this->equalTo($this->id), $this->equalTo($this->data));
+            ->with($this->equalTo($this->resource));
 
         $resourceReference = new ResourceReference(
-            $this->id, $this->data, $this->adapter
+            $this->resource, $this->adapter
         );
         $representation = $resourceReference->getRepresentation();
     }
@@ -39,7 +42,7 @@ class ResourceReferenceTest extends TestCase
         $resourceReference = $this->getMock(
             'Omeka\Api\Representation\ResourceReference',
             ['apiUrl'],
-            [$this->id, $this->data, $this->adapter]
+            [$this->resource, $this->adapter]
         );
         $resourceReference->expects($this->once())
             ->method('apiUrl')
@@ -54,7 +57,7 @@ class ResourceReferenceTest extends TestCase
     public function testGetJsonLd()
     {
         $resourceReference = new ResourceReference(
-            $this->id, $this->data, $this->adapter
+            $this->resource, $this->adapter
         );
         $this->assertNull($resourceReference->getJsonLd());
     }

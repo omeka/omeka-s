@@ -7,8 +7,6 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 {
     public function testGetResourceClass()
     {
-        $resourceId = 'test-resource_id';
-
         $resourceClass = $this->getMock('Omeka\Entity\ResourceClass');
 
         $resource = $this->getMock('Omeka\Entity\Resource');
@@ -20,7 +18,6 @@ class AbstractResourceEntityRepresentationTest extends TestCase
         $resourceClassAdapter->expects($this->once())
             ->method('getRepresentation')
             ->with(
-                $this->equalTo(null),
                 $this->equalTo($resourceClass)
             );
 
@@ -40,14 +37,13 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            [$resourceId, $resource, $adapter]
+            [$resource, $adapter]
         );
         $this->assertNull($abstractResourceEntityRep->resourceClass());
     }
 
     public function testGetCreated()
     {
-        $resourceId = 'test-resource_id';
         $resourceCreated = 'test-resource_created';
 
         $resource = $this->getMock('Omeka\Entity\Resource');
@@ -64,14 +60,13 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            [$resourceId, $resource, $adapter]
+            [$resource, $adapter]
         );
         $this->assertEquals($resourceCreated, $abstractResourceEntityRep->created());
     }
 
     public function testGetModified()
     {
-        $resourceId = 'test-resource_id';
         $resourceModified = 'test-resource_modified';
 
         $resource = $this->getMock('Omeka\Entity\Resource');
@@ -88,7 +83,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $abstractResourceEntityRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractResourceEntityRepresentation',
-            [$resourceId, $resource, $adapter]
+            [$resource, $adapter]
         );
         $this->assertEquals($resourceModified, $abstractResourceEntityRep->modified());
     }

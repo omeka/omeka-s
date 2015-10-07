@@ -51,7 +51,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function isOpen()
     {
-        return $this->getData()->isOpen();
+        return $this->resource->isOpen();
     }
 
     /**
@@ -61,12 +61,12 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function primaryMedia()
     {
-        $itemEntities = $this->getData()->getItems();
+        $itemEntities = $this->resource->getItems();
         if ($itemEntities->isEmpty()) {
             return null;
         }
         $item = $this->getAdapter('items')
-            ->getRepresentation(null, $itemEntities->slice(0, 1)[0]);
+            ->getRepresentation($itemEntities->slice(0, 1)[0]);
         return $item->primaryMedia();
     }
 }

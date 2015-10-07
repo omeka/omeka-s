@@ -13,7 +13,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $entity = $this->getData();
+        $entity = $this->resource;
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
@@ -41,12 +41,12 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function slug()
     {
-        return $this->getData()->getSlug();
+        return $this->resource->getSlug();
     }
 
     public function title()
     {
-        return $this->getData()->getTitle();
+        return $this->resource->getTitle();
     }
 
     /**
@@ -57,7 +57,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function blocks()
     {
         $blocks = [];
-        foreach ($this->getData()->getBlocks() as $block) {
+        foreach ($this->resource->getBlocks() as $block) {
             $blocks[]= new SitePageBlockRepresentation(
                 $block, $this->getServiceLocator());
         }
@@ -67,7 +67,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function site()
     {
         return $this->getAdapter('sites')
-            ->getRepresentation(null, $this->getData()->getSite());
+            ->getRepresentation($this->resource->getSite());
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

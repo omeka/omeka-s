@@ -1,37 +1,27 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\SitePageBlock;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SitePageBlockRepresentation extends AbstractRepresentation
 {
     /**
+     * @var SitePageBlock
+     */
+    protected $block;
+
+    /**
      * Construct the block object.
      *
-     * @param mixed $data
+     * @param SitePageBlock $block
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct($data, ServiceLocatorInterface $serviceLocator)
+    public function __construct(SitePageBlock $block, ServiceLocatorInterface $serviceLocator)
     {
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
-        $this->setData($data);
-    }
-
-    /**
-     * @var array
-     */
-    public function validateData($data)
-    {
-        if (!$data instanceof SitePageBlock) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        $this->block = $block;
     }
 
     /**
@@ -52,7 +42,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     public function page()
     {
         return $this->getAdapter('site_pages')
-            ->getRepresentation(null, $this->getData()->getPage());
+            ->getRepresentation($this->block->getPage());
     }
 
     /**
@@ -60,7 +50,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
      */
     public function layout()
     {
-        return $this->getData()->getLayout();
+        return $this->block->getLayout();
     }
 
     /**
@@ -68,13 +58,13 @@ class SitePageBlockRepresentation extends AbstractRepresentation
      */
     public function data()
     {
-        return $this->getData()->getData();
+        return $this->block->getData();
     }
 
     public function attachments()
     {
         $attachments = [];
-        foreach ($this->getData()->getAttachments() as $attachment) {
+        foreach ($this->block->getAttachments() as $attachment) {
             $attachments[]= new SiteBlockAttachmentRepresentation(
                 $attachment, $this->getServiceLocator());
         }

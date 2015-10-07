@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
+use Omeka\Api\ResourceInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Resource as ResourceEntity;
 use Omeka\Stdlib\ErrorStore;
@@ -48,7 +49,7 @@ class ResourceAdapter extends AbstractEntityAdapter
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return RepresentationInterface|null
      */
-    public function getRepresentation($id, $data)
+    public function getRepresentation(ResourceInterface $data = null)
     {
         if (!$data instanceof ResourceEntity) {
             // Do not attempt to compose a null representation.
@@ -56,7 +57,7 @@ class ResourceAdapter extends AbstractEntityAdapter
         }
 
         $adapter = $this->getAdapter($data->getResourceName());
-        return $adapter->getRepresentation($id, $data);
+        return $adapter->getRepresentation($data);
     }
 
     /**

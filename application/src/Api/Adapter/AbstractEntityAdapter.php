@@ -230,7 +230,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             $qb->addOrderBy("$entityClass.id", $query['sort_order']);
             $this->limitQuery($qb, $query);
             foreach ($qb->getQuery()->getResult() as $entity) {
-                $representations[] = $this->getRepresentation(null, $entity);
+                $representations[] = $this->getRepresentation($entity);
             }
         }
 
@@ -252,7 +252,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // Refresh the entity on the chance that it contains associations that
         // have not been loaded.
         $this->getEntityManager()->refresh($entity);
-        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $representation = $this->getRepresentation($entity);
         return new Response($representation);
     }
 
@@ -323,7 +323,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
             'request' => $request,
         ]);
         $this->getEventManager()->trigger($event);
-        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $representation = $this->getRepresentation($entity);
         return new Response($representation);
     }
 
@@ -335,7 +335,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = $this->findEntity($request->getId(), $request);
         $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $representation = $this->getRepresentation($entity);
         return new Response($representation);
     }
 
@@ -354,7 +354,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEventManager()->trigger($event);
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity->getId(), $entity);
+        $representation = $this->getRepresentation($entity);
         return new Response($representation);
     }
 
@@ -366,22 +366,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function getEntityManager()
     {
         return $this->getServiceLocator()->get('Omeka\EntityManager');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRepresentation($id, $data) {
-        $entityClass = $this->getEntityClass();
-        if (!$data instanceof $entityClass) {
-            if (null === $id) {
-                // Do not attempt to compose a non-entity representation.
-                return null;
-            }
-            // Find the entity using the passed ID if no entity was passed.
-            $data = $this->findEntity($id);
-        }
-        return parent::getRepresentation($data->getId(), $data);
     }
 
     /**

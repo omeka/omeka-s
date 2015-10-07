@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Api\Exception;
+use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Entity\EntityInterface;
 
 /**
@@ -11,18 +11,9 @@ use Omeka\Entity\EntityInterface;
  */
 abstract class AbstractEntityRepresentation extends AbstractResourceRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function validateData($data)
+    public function __construct(EntityInterface $resource, AdapterInterface $adapter)
     {
-        if (!$data instanceof EntityInterface) {
-            throw new Exception\InvalidArgumentException(
-                $this->getTranslator()->translate(sprintf(
-                    'Invalid data sent to %s.', get_called_class()
-                ))
-            );
-        }
+        parent::__construct($resource, $adapter);
     }
 
     /**
@@ -39,6 +30,6 @@ abstract class AbstractEntityRepresentation extends AbstractResourceRepresentati
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         return $acl->userIsAllowed($this->getAdapter(), $privilege)
-            && $acl->userIsAllowed($this->getData(), $privilege);
+            && $acl->userIsAllowed($this->resource, $privilege);
     }
 }

@@ -59,7 +59,7 @@ class SearchFilters extends AbstractHelper
                                 if (is_string($filterValue) && $filterValue !== '') {
                                     if ($queryTypeKey == 'res' || $queryTypeKey == 'nres') {
                                         $filterValue = $api->read('resources', $filterValue, ['label'])->getContent()->displayTitle();
-                                    } 
+                                    }
                                     $filters[$filterLabel][] = $filterValue;
                                 }
                             }

@@ -13,7 +13,10 @@ class Page extends AbstractLink
 
     public function getForm(array $data)
     {
-        return '<label>Label <input type="text" data-name="label" value="' . $data['label'] . '"></label>';
+        $escape = $this->getViewHelper('escapeHtml');
+        $page = sprintf('%s (%s)', $data['pageTitle'], $data['pageSlug']);
+        return  '<label>Page <input type="text" value="' . $escape($page) . '" disabled></label>'
+            . '<label>Label <input type="text" data-name="label" value="' . $escape($data['label']) . '"></label>';
     }
 
     public function toZend(array $data, Site $site)
@@ -36,6 +39,8 @@ class Page extends AbstractLink
         return [
             'label' => $label,
             'id' => $sitePage->id(),
+            'pageSlug' => $sitePage->slug(),
+            'pageTitle' => $sitePage->title(),
         ];
     }
 }

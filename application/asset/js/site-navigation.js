@@ -118,7 +118,9 @@ $.jstree.plugins.editlink = function(options, parent) {
                         type: link.data('type'),
                         data: {
                             label: link.data('label'),
-                            id: link.data('id')
+                            id: link.data('id'),
+                            pageSlug: link.data('slug'),
+                            pageTitle: link.data('label')
                         }
                     }
                 });

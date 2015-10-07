@@ -313,7 +313,7 @@ var pageFilterSelector = function() {
     var parent = $("#nav-pages");
     parent.find('li.nav-page').each(function() {
         var child = $(this);
-        var label = child.data('title').toLowerCase();
+        var label = child.data('label').toLowerCase();
         if (label.indexOf(filter) > -1) {
             // Label contains the filter string. Show the child.
             child.show();

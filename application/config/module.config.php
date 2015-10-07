@@ -228,6 +228,7 @@ return [
             'sites'              => 'Omeka\Api\Adapter\SiteAdapter',
             'site_pages'         => 'Omeka\Api\Adapter\SitePageAdapter',
             'jobs'               => 'Omeka\Api\Adapter\JobAdapter',
+            'resources'          => 'Omeka\Api\Adapter\ResourceAdapter',
         ],
     ],
     'view_helpers' => [

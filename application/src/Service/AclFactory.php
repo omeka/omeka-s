@@ -287,6 +287,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             null,
             [
+                'Omeka\Api\Adapter\ResourceAdapter',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Item',
                 'Omeka\Entity\Media',

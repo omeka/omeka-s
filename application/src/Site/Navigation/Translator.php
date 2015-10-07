@@ -11,7 +11,7 @@ class Translator implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
-     * Translate site navigation to Zend navigation.
+     * Translate Omeka site navigation to Zend Navigation format.
      *
      * @param Site $site
      * @return array
@@ -44,6 +44,12 @@ class Translator implements ServiceLocatorAwareInterface
         return $links;
     }
 
+    /**
+     * Translate Omeka site navigation to jsTree node format.
+     *
+     * @param SiteRepresentation $site
+     * @return array
+     */
     public function toJstree(SiteRepresentation $site)
     {
         $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
@@ -67,6 +73,12 @@ class Translator implements ServiceLocatorAwareInterface
         return $links;
     }
 
+    /**
+     * Translate jsTree node format to Omeka site navigation.
+     *
+     * @param array $jstree
+     * @return array
+     */
     public function fromJstree(array $jstree)
     {
         $buildPages = function ($pagesIn) use (&$buildPages) {

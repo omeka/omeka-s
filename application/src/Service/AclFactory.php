@@ -227,7 +227,7 @@ class AclFactory implements FactoryInterface
             new HasSitePermissionAssertion('editor')
         );
         $allowSitePageDelete = new AssertionAggregate;
-        $allowSitePageUpdate->addAssertions([
+        $allowSitePageDelete->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);

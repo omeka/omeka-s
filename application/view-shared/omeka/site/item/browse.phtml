@@ -1,6 +1,6 @@
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-<h1><?php echo $this->escapeHtml($site->title()); ?></h1>
-<?php echo $site->link($site->title()); ?>
+<?php echo $this->pageTitle($site->title()); ?>
+<?php echo $this->pageTitle($this->translate('Items'), 2); ?>
 <ul>
     <?php foreach ($site->pages() as $page): ?>
     <li><?php echo $page->link($page->title()); ?></li>
@@ -10,11 +10,6 @@
 <ul>
     <?php foreach ($items as $item): ?>
     <li><?php echo $item->link($item->displayTitle()); ?></li>
-    <ul>
-        <?php foreach ($item->media() as $media): ?>
-        <li><?php echo $media->link($media->displayTitle()); ?></li>
-        <?php endforeach; ?>
-    </ul>
     <?php endforeach; ?>
 </ul>
 <?php echo $this->pagination(); ?>

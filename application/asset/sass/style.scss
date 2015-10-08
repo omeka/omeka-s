@@ -8,10 +8,7 @@
     @import "screen";
 }
 
-@media screen and (max-width:980px) {
+@media screen and (max-width:640px) {
     @import "tablet";
-}
-
-@media screen and (max-width:480px) {
-    @import "mobile";
+    @import "tablesaw";
 }

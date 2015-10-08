@@ -1,0 +1,51 @@
+.tablesaw tr .actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: rhythm(1.5);
+    background-color: $gray-on-white;
+    padding: rhythm(.25) rhythm(.5);
+    line-height: 0;
+    border-bottom: 1px solid $gray-on-white;
+
+    li {
+        margin: 0;
+    }
+
+    a:before {
+        text-align: left;
+    }
+}
+
+.browse .tablesaw-cell-content {
+    width: 70%;
+    max-width: 70%;
+}
+
+.browse .tablesaw-cell-content img {
+    float: right;
+    margin: 0;
+}
+
+
+.tablesaw .tablesaw-cell-label .mobile-heading {
+    display: block;
+}
+
+.tablesaw-cell-label a {
+    display: none;
+}
+
+.items .tablesaw tr td:first-of-type,
+.item-sets .tablesaw tr td:first-of-type,
+.media .tablesaw tr td:first-of-type {
+    padding-top: rhythm(1.75);
+    position: relative;
+}
+
+.tablesaw th,
+.tablesaw td {
+    padding: rhythm(.25) rhythm(.5);
+    vertical-align: top;
+}

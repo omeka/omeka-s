@@ -1,19 +1,18 @@
 body {
-    padding: 0 gutter(2);
-    height: intrinsic;
+    padding: 0;
 }
 
 /* @group ----- Header ----- */
 
 header {
-    width: calc(100% - #{(2 * gutter(2))});
+    width: 100%;
     float: none;
     text-align: center;
     position: fixed;
     top: 0;
-    left: gutter(2);
+    left: 0;
     padding: 0;
-    right: gutter(2);
+    right: 0;
     z-index: 1000;
     
     .button {
@@ -60,18 +59,12 @@ header {
 #user.active,
 #search.active {
     top: rhythm(1.5);
-    left: gutter(2);
+    left: 0;
     bottom: 0;
-    right: gutter(2);
+    right: 0;
     background-color: #fff;
     width: intrinsic;
     margin: 0;
-}
-
-footer {
-    position: static;
-    width: 100%;
-    text-align: center;
 }
 
 /* @end */
@@ -81,11 +74,34 @@ footer {
 footer {
     margin-top: 0;
     padding: 0;
+    position: static;
+    width: 100%;
+    text-align: center;
 
     &:after {
         position: static;
         background: transparent;
     }
+}
+
+/* @end */
+
+/* @group ----- Tables ----- */
+
+.browse td:first-child, 
+.browse th:first-child {
+    width: 100%;
+}
+
+td .o-icon-private {
+    vertical-align: top;
+    margin: 0;
+}
+
+.browse .resource-name {
+    max-width: 100%;
+    display: inline;
+    vertical-align: top;
 }
 
 /* @end */
@@ -360,12 +376,17 @@ div[role="main"] {
 /* @group ----- Minimalist views ----- */
 
 body.minimal {
-    width: span(12);
+    width: 100%;
+    margin: 0;
     
     .logo {
         background-color: transparent;
     }
     
+    div[role="main"] {
+        padding: rhythm() span(1 of 16);
+    }
+
     div[role="main"] > .messages {
         @include trailer();
     }

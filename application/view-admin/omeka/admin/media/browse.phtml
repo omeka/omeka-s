@@ -14,13 +14,25 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->pagination(); ?>
 
-<table>
+<table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
+            <th>
+                <?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?>
+                <span class="mobile-heading"><?php echo $this->translate('Title'); ?></span>
+            </th>
+            <th>
+                <?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?>
+                <span class="mobile-heading"><?php echo $this->translate('Class'); ?></span>
+            </th>
+            <th>
+                <?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?>
+                <span class="mobile-heading"><?php echo $this->translate('Owner'); ?></span>
+            </th>
+            <th>
+                <?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?>
+                <span class="mobile-heading"><?php echo $this->translate('Date Created'); ?></span>
+            </th>
         </tr>
     </thead>
     <tbody>

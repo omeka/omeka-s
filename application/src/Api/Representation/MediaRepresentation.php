@@ -31,6 +31,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
             'o:filename' => $this->filename(),
+            'o:lang' => $this->lang(),
             'o:original_url' => $this->originalUrl(),
             'o:thumbnail_urls' => $this->thumbnailUrls(),
             'data' => $this->mediaData(),
@@ -180,6 +181,16 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function hasThumbnails()
     {
         return $this->resource->hasThumbnails();
+    }
+
+    /**
+     * Get the language code of the media.
+     *
+     * @return string|null
+     */
+    public function lang()
+    {
+        return $this->resource->getLang();
     }
 
     /**

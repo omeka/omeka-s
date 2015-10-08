@@ -146,6 +146,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         parent::hydrate($request, $entity, $errorStore);
 
+        if ($this->shouldHydrate($request, 'o:lang')) {
+            $entity->setLang($request->getValue('o:lang', null));
+        }
+
         if (Request::CREATE === $request->getOperation()) {
             $ingester->ingest($entity, $request, $errorStore);
         } elseif ($ingester instanceof MutableIngesterInterface) {

@@ -40,10 +40,9 @@ $escape = $this->plugin('escapeHtml');
         <tr>
             <td>
                 <span class="resource-name">
-                    <?php echo $site->link($site->title()); ?>
+                    <a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a>
                 </span>
                 <ul class="actions">
-                    <li><a href="<?php echo $site->siteUrl(); ?>" class="o-icon-view" aria-label="<?php echo $this->translate('View'); ?>" title="<?php echo $this->translate('View'); ?>"></a></li>
                     <li><?php echo $site->link('', null, array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),

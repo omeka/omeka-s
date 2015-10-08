@@ -40,7 +40,7 @@ $escape = $this->plugin('escapeHtml');
         <tr>
             <td>
                 <span class="resource-name">
-                    <a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a>
+                    <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
                 </span>
                 <ul class="actions">
                     <li><?php echo $site->link('', null, array(

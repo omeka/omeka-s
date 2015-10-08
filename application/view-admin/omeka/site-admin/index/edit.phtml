@@ -74,7 +74,7 @@ $roles = array(
         <tr class="page value">
             <td>
                 <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
-                <a href="<?php echo $site->siteUrl(); ?>/page/<?php echo $page->slug(); ?>/"><?php echo $page->title(); ?></a>
+                <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
                 <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             </td>
             <td><?php echo $page->slug(); ?></td>

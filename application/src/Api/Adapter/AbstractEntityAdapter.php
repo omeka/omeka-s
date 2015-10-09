@@ -304,7 +304,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->getEntityManager()->flush();
         $references = [];
         foreach ($entities as $key => $entity) {
-            $references[$key] = new ResourceReference($entity->getId(), null, $this);
+            $references[$key] = new ResourceReference($entity, $this);
             $this->getEntityManager()->detach($entity);
         }
         return new Response($references);

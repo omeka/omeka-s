@@ -61,9 +61,8 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     /**
      * Construct the resource representation object.
      *
-     * @param string|int $id The unique identifier of this resource
-     * @param mixed $data The data from which to derive a representation
-     * @param ServiceLocatorInterface $adapter The corresponsing adapter
+     * @param ResourceInterface $resource
+     * @param AdapterInterface $adapter
      */
     public function __construct(ResourceInterface $resource, AdapterInterface $adapter)
     {

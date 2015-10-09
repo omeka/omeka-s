@@ -2,8 +2,6 @@
 namespace Omeka\BlockLayout;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Omeka\Entity\SitePageBlock;
-use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
 class Fallback extends AbstractBlockLayout

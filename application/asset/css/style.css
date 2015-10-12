@@ -893,7 +893,7 @@ th {
     font-size: 24px;
     position: fixed;
     padding: 0 30% 0 1.04167%;
-    z-index: 2;
+    z-index: 3;
     top: 1.5em;
     height: 2em;
     right: 0;
@@ -1428,7 +1428,7 @@ th {
   #page-actions {
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
-    z-index: 2;
+    z-index: 4;
     top: 2.25em;
     height: 2.625em;
     right: 0;
@@ -3132,7 +3132,6 @@ th {
   #user p:last-of-type:before {
     content: "";
   }
-
   #user p a {
     color: #ffe6e6;
   }

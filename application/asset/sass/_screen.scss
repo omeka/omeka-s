@@ -492,7 +492,7 @@ div[role="main"] > h1:first-of-type {
     font-size: 1.5 * $base-font-size;
     position: fixed;
     padding: 0 30% 0 gutter();
-    z-index: 2;
+    z-index: 3;
     top: rhythm(1.5, 1.5 * $base-font-size);
     height: rhythm(2, 1.5 * $base-font-size);
     right: 0;
@@ -1029,7 +1029,7 @@ td .o-icon-private {
 #page-actions {
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
-    z-index: 2;
+    z-index: 4;
     top: rhythm(1.5);
     height: rhythm(1.75);
     right: 0;

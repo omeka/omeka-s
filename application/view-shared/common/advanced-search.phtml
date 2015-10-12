@@ -9,6 +9,23 @@
         </div>
     </div>
 
+    <div id="item-sets" class="field removable">
+        <div class="field-meta">
+            <legend><?php echo $this->translate('Search by item set'); ?></legend>
+        </div>
+        <div class="inputs">
+            <div class="value">
+                <?php echo $this->itemSetSelect('item_set_id'); ?>
+                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+            </div>
+            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+            <select class="query-type">
+                <option value="and"><?php echo $this->translate('In all the above item sets'); ?></option>
+                <option value="or"><?php echo $this->translate('In any of the above item sets'); ?></option>
+            </select>
+        </div>
+    </div>
+
     <div id="value-queries" class="field removable">
         <div class="field-meta">
             <legend><?php echo $this->translate('Search all properties'); ?></legend>
@@ -76,37 +93,18 @@
 $('.query-type, .query-text, .query-property').attr('name', null);
 
 // Remove individual values.
-$('#advanced-search').on('click', '.remove-value', function(event) {
-    event.preventDefault();
+$('#advanced-search').on('click', '.remove-value', function(e) {
+    e.preventDefault();
     var values = $(this).parents('.inputs').children('.value');
     $(this).parent('.value').remove();
 });
 
-$('#value-queries').find('.add-value').click(function(event) {
-    event.preventDefault();
-    var first = $('#value-queries').find('.value').first();
+$('#advanced-search').on('click', '.add-value', function(e) {
+    e.preventDefault();
+    var first = $(this).parents('.field').find('.value').first();
     var clone = first.clone();
-    clone.children('.query-type').val('eq');
-    clone.children('.query-text').val(null);
-    clone.insertBefore($(this));
-});
-
-$('#property-queries').find('.add-value').click(function(event) {
-    event.preventDefault();
-    var first = $('#property-queries').find('.value').first();
-    var clone = first.clone();
-    clone.children('.query-type').val('eq');
-    clone.children('.query-property').val(null);
-    clone.children('.query-text').val(null);
-    clone.insertBefore($(this));
-});
-
-$('#has-property-queries').find('.add-value').click(function(event) {
-    event.preventDefault();
-    var first = $('#has-property-queries').find('.value').first();
-    var clone = first.clone();
-    clone.children('.query-type').val('1');
-    clone.children('.query-property').val(null);
+    clone.children('input[type="text"]').val(null);
+    clone.children('select').prop('selectedIndex', 0);
     clone.insertBefore($(this));
 });
 

@@ -2866,6 +2866,10 @@ th {
     display: inline-block;
   }
 
+  #item-sets select {
+    width: calc(100% - 36px - 5px);
+  }
+
   #value-queries select,
   #value-queries input[type="text"],
   .class-names select,
@@ -2873,13 +2877,13 @@ th {
   #has-property-queries select,
   #has-property-queries input[type="text"] {
     width: 46.5%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
   }
 
   #property-queries select,
   #property-queries input[type="text"] {
     width: 30.66%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
   }
 
   #advanced-search .field.removable .value:only-of-type .remove-value {
@@ -2903,7 +2907,7 @@ th {
   }
 
   #advanced-search .value {
-    margin-bottom: 0.75em;
+    margin-bottom: 0;
   }
 
   /* @end */

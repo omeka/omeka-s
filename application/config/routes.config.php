@@ -29,20 +29,10 @@ return [
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
-                    'page' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => '/page/:page-slug[/]',
-                            'defaults' => [
-                                'controller' => 'Page',
-                                'action' => 'show',
-                            ],
-                        ],
-                    ],
                     'resource' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/:controller[/[:action]]',
+                            'route' => '/:controller[/:action]',
                             'defaults' => [
                                 'action'    => 'browse',
                             ],
@@ -55,7 +45,7 @@ return [
                     'resource-id' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/:controller/:id[/[:action]]',
+                            'route' => '/:controller/:id[/:action]',
                             'defaults' => [
                                 'action'     => 'show',
                             ],
@@ -63,6 +53,16 @@ return [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'id'         => '\d+',
+                            ],
+                        ],
+                    ],
+                    'page' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/page/:page-slug',
+                            'defaults' => [
+                                'controller' => 'Page',
+                                'action' => 'show',
                             ],
                         ],
                     ],
@@ -84,7 +84,7 @@ return [
                     'default' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/[:controller[/:action]]',
+                            'route' => '/:controller[/:action]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -97,7 +97,7 @@ return [
                     'id' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/:controller/:id[/[:action]]',
+                            'route' => '/:controller/:id[/:action]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -183,7 +183,7 @@ return [
                     'default' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '[/:resource[/:id]][/]',
+                            'route' => '[/:resource[/:id]]',
                             'constraints' => [
                                 'resource' => '[a-zA-Z0-9_-]+',
                             ],

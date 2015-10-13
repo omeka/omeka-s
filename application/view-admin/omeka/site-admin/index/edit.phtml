@@ -17,7 +17,6 @@ $roles = array(
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
-    <?php if ($site->userIsAllowed('update')): ?>
     <?php if ($site->isPublic()): ?>
     <a href="#" class="o-icon-public button" aria-label=" <?php echo $this->translate('Make private'); ?>" title=" <?php echo $this->translate('Make private'); ?>"></a>
     <input type="hidden" name="o:is_public" value="1">
@@ -25,43 +24,28 @@ $roles = array(
     <a href="#" class="o-icon-private button" aria-label=" <?php echo $this->translate('Make public'); ?>" title=" <?php echo $this->translate('Make public'); ?>"></a>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
-    <?php endif; ?>
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
-    <?php if ($site->userIsAllowed('delete')): ?>
     <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
-    <?php endif; ?>
-    <?php if ($site->userIsAllowed('update')): ?>
     <button><?php echo $this->translate('Save'); ?></button>
-    <?php endif; ?>
 </div>
 
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
-        <?php if ($site->userIsAllowed('update')): ?>
         <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User Permissions'); ?></a></li>
-        <?php endif; ?>
     </ul>
 </nav>
 
 <fieldset id="admin" class="section active">
     <legend><?php echo $this->translate('Admin'); ?></legend>
-    <?php if ($site->userIsAllowed('update')): ?>
     <?php echo $this->formElements($form); ?>
-    <?php else: ?>
-    URL slug: <?php echo $escape($site->slug()); ?><br>
-    Title: <?php echo $escape($site->title()); ?><br>
-    Theme: <?php echo $escape($site->theme()); ?>
-    <?php endif; ?>
 </fieldset>
 
 <fieldset id="pages" class="section">
     <legend><?php echo $this->translate('Pages'); ?></legend>
-    <?php if ($site->userIsAllowed('add-page')): ?>
     <?php echo $site->link($this->translate('Add a Page'), 'add-page', array('class' => 'button')); ?>
-    <?php endif; ?>
     <?php $pages = $site->pages(); if ($pages): ?>
     <table id="page-list">
         <thead>
@@ -80,16 +64,12 @@ $roles = array(
             <td><?php echo $page->slug(); ?></td>
             <td>
                 <ul class="actions">
-                    <?php if ($page->userIsAllowed('update')): ?>
                     <li><?php echo $page->link('', 'edit', array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     )); ?></li>
-                    <?php endif; ?>
-                    <?php if ($page->userIsAllowed('delete')): ?>
                     <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
-                    <?php endif; ?>
                     <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
                 </ul>
             </td>
@@ -100,7 +80,6 @@ $roles = array(
     <?php endif; ?>
 </fieldset>
 
-<?php if ($site->userIsAllowed('update')): ?>
 <fieldset id="nav" class="section">
     <div id="nav-tree"
         data-link-form-url="<?php echo $escape($this->url('admin/site/navigation-link-form')); ?>"
@@ -137,9 +116,7 @@ $roles = array(
     <?php endif; ?>
     </div>
 </fieldset>
-<?php endif; ?>
 
-<?php if ($site->userIsAllowed('update')): ?>
 <fieldset id="permissions" class="section">
 <?php $sitePermissions = $site->sitePermissions(); ?>
     <table id="site-user-permissions" class="<?php echo count($sitePermissions) ? '' : 'empty'; ?>">
@@ -216,7 +193,6 @@ $roles = array(
         </ul>
     </div>
 </fieldset>
-<?php endif; ?>
 
 <?php echo $this->form()->closeTag(); ?>
 

@@ -152,6 +152,18 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('admin/site');
     }
 
+    public function showAction()
+    {
+        $response = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $view = new ViewModel;
+        $site = $response->getContent();
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
     public function showDetailsAction()
     {
         $response = $this->api()->read('sites', [

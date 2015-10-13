@@ -29,12 +29,13 @@ class SiteBlockAttachment extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Item", inversedBy="siteBlockAttachments")
-     * @JoinColumn(nullable=false)
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $item;
 
     /**
      * @ManyToOne(targetEntity="Media")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $media;
 

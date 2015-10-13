@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
+use Zend\View\Helper\Placeholder\Container\AbstractContainer;
 
 class PageTitle extends AbstractHelper
 {
@@ -12,12 +13,20 @@ class PageTitle extends AbstractHelper
      * returned inside an h1 for printing on the page.
      *
      * @param string $title
+     * @param int $level "h" level of the heading tag to print. A level of zero
+     *  or a negative value will omit the heading tag.
      * @return string
      */
-    public function __invoke($title)
+    public function __invoke($title, $level = 1)
     {
         $view = $this->getView();
-        $view->headTitle($title);
-        return '<h1>' . $view->escapeHtml($title) . '</h1>';
+        $view->headTitle($title, AbstractContainer::PREPEND);
+
+        $level = (int) $level;
+        if ($level > 0) {
+            return "<h$level>" . $view->escapeHtml($title) . "</h$level>";
+        }
+
+        return $view->escapeHtml($title);
     }
 }

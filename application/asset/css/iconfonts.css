@@ -294,7 +294,7 @@
   content: "";
 }
 
-.fa-download:before {
+.fa-download:before, .o-icon-install:before {
   content: "";
 }
 
@@ -733,7 +733,7 @@
   content: "";
 }
 
-.fa-sign-out:before, .o-icon-uninstall:before {
+.fa-sign-out:before {
   content: "";
 }
 
@@ -749,7 +749,7 @@
   content: "";
 }
 
-.fa-sign-in:before, .o-icon-install:before {
+.fa-sign-in:before {
   content: "";
 }
 
@@ -761,7 +761,7 @@
   content: "";
 }
 
-.fa-upload:before, .o-icon-upload:before {
+.fa-upload:before, .o-icon-upload:before, .o-icon-uninstall:before {
   content: "";
 }
 

@@ -7,6 +7,11 @@ RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
+
+# Strip any trailing slashes from incoming requests
+RewriteCond %{REQUEST_URI} ^(.+)/+$
+RewriteRule .* %1 [R=301,L]
+
 # The following rewrites all other queries to index.php. The 
 # condition ensures that if you are using Apache aliases to do
 # mass virtual hosting, the base path will be prepended to 

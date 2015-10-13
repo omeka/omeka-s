@@ -899,7 +899,7 @@ th {
     font-size: 24px;
     position: fixed;
     padding: 0 30% 0 1.04167%;
-    z-index: 2;
+    z-index: 3;
     top: 1.5em;
     height: 2em;
     right: 0;
@@ -1434,7 +1434,7 @@ th {
   #page-actions {
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
-    z-index: 2;
+    z-index: 4;
     top: 2.25em;
     height: 2.625em;
     right: 0;
@@ -2393,6 +2393,14 @@ th {
     content: "";
   }
 
+  .property .value img {
+    width: auto;
+    height: 2.25em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.375em;
+  }
+
   .property .value.item_sets a:after {
     content: "";
   }
@@ -2872,6 +2880,10 @@ th {
     display: inline-block;
   }
 
+  #item-sets select {
+    width: calc(100% - 36px - 5px);
+  }
+
   #value-queries select,
   #value-queries input[type="text"],
   .class-names select,
@@ -2879,13 +2891,13 @@ th {
   #has-property-queries select,
   #has-property-queries input[type="text"] {
     width: 46.5%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
   }
 
   #property-queries select,
   #property-queries input[type="text"] {
     width: 30.66%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
   }
 
   #advanced-search .field.removable .value:only-of-type .remove-value {
@@ -2909,7 +2921,7 @@ th {
   }
 
   #advanced-search .value {
-    margin-bottom: 0.75em;
+    margin-bottom: 0;
   }
 
   /* @end */

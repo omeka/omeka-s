@@ -498,7 +498,7 @@ div[role="main"] > h1:first-of-type {
     font-size: 1.5 * $base-font-size;
     position: fixed;
     padding: 0 30% 0 gutter();
-    z-index: 2;
+    z-index: 3;
     top: rhythm(1.5, 1.5 * $base-font-size);
     height: rhythm(2, 1.5 * $base-font-size);
     right: 0;
@@ -1035,7 +1035,7 @@ td .o-icon-private {
 #page-actions {
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
-    z-index: 2;
+    z-index: 4;
     top: rhythm(1.5);
     height: rhythm(1.75);
     right: 0;
@@ -2036,6 +2036,14 @@ input[type="text"].value-language,
     content: $fa-var-cube;
 }
 
+.property .value img {
+    width: auto;
+    height: rhythm(1.5);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: rhythm(.25);
+}
+
 .property .value.item_sets a:after {
     content: $fa-var-cubes;
 }
@@ -2507,6 +2515,10 @@ body.sidebar-open #content {
     display: inline-block;
 }
 
+#item-sets select {
+    width: calc(100% - #{1.5 * $base-line-height} - 5px);
+}
+
 #value-queries select,
 #value-queries input[type="text"],
 .class-names select,
@@ -2514,13 +2526,13 @@ body.sidebar-open #content {
 #has-property-queries select,
 #has-property-queries input[type="text"] {
     width: 46.5%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
 }
 
 #property-queries select,
 #property-queries input[type="text"] {
     width: 30.66%;
-    margin-right: calc(1% - 4px);
+    margin-right: calc(1% - 5px);
 }
 
 #advanced-search .field.removable .value:only-of-type .remove-value {
@@ -2545,7 +2557,7 @@ body.sidebar-open #content {
 }
 
 #advanced-search .value {
-    @include trailer(.5);
+    margin-bottom: 0;
 }
 
 /* @end */

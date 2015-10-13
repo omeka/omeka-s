@@ -20,12 +20,22 @@ $labelInfo = $this->setting('property_label_information');
             <?php
             $class = 'value';
             if ('resource' == $value->type()) {
-                $class .= ' ' . $escape($value->valueResource()->resourceName());
+                $valueResource = $value->valueResource();
+                $class .= ' ' . $escape($valueResource->resourceName());
             } elseif ('uri' == $value->type()) {
                 $class .= ' uri';
             }
             ?>
-            <div class="<?php echo $class; ?>"><?php echo $value->asHtml(); ?></div>
+            <div class="<?php echo $class; ?>">
+                <?php if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()): ?>
+                    <img 
+                        src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>" 
+                        title="<?php echo $escape($thumbnail->displayTitle()); ?>" 
+                        alt="<?php echo $escape($thumbnail->mediaType()); ?> thumbnail"
+                    >
+                <?php endif; ?>
+                <?php echo $value->asHtml(); ?>
+            </div>
         <?php endforeach; ?>
     </div>
 <?php endforeach; ?>

@@ -243,6 +243,7 @@ return [
             'formField'              => 'Omeka\View\Helper\FormField',
             'propertySelector'       => 'Omeka\View\Helper\PropertySelector',
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
+            'itemSetSelect'          => 'Omeka\View\Helper\ItemSetSelect',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',

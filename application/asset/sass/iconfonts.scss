@@ -133,11 +133,11 @@
 }
 
 .o-icon-uninstall {
-    @extend .fa-sign-out;
+    @extend .fa-upload;
 }
 
 .o-icon-install {
-    @extend .fa-sign-in;
+    @extend .fa-download;
 }
 
 .o-icon-upgrade {

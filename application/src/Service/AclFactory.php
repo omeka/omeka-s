@@ -227,7 +227,7 @@ class AclFactory implements FactoryInterface
             new HasSitePermissionAssertion('editor')
         );
         $allowSitePageDelete = new AssertionAggregate;
-        $allowSitePageUpdate->addAssertions([
+        $allowSitePageDelete->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
@@ -334,7 +334,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
             ],
-            'sidebar-select'
+            ['sidebar-select', 'search']
         );
         $acl->allow(
             'researcher',
@@ -400,7 +400,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
             ],
-            'sidebar-select'
+            ['sidebar-select', 'search']
         );
         $acl->allow(
             'author',
@@ -520,7 +520,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
             ],
-            'sidebar-select'
+            ['sidebar-select', 'search']
         );
         $acl->allow(
             'reviewer',
@@ -638,7 +638,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
             ],
-            'sidebar-select'
+            ['sidebar-select', 'search']
         );
         $acl->allow(
             'editor',

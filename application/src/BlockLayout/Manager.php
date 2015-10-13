@@ -4,6 +4,7 @@ namespace Omeka\BlockLayout;
 use Omeka\Api\Exception;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
@@ -26,6 +27,22 @@ class Manager extends AbstractPluginManager
         $this->addInitializer(function ($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($name, $options = [],
+        $usePeeringServiceManagers = true
+    ) {
+        try {
+            $instance = parent::get($name, $options, $usePeeringServiceManagers);
+        } catch (ServiceNotFoundException $e) {
+            $instance = new Fallback($name);
+            $instance->setServiceLocator($this->getServiceLocator());
+        }
+        return $instance;
     }
 
     /**

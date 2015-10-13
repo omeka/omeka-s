@@ -43,11 +43,21 @@ $escape = $this->plugin('escapeHtml');
                     <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
                 </span>
                 <ul class="actions">
-                    <li><?php echo $site->link('', null, array(
+                    <li>
+                    <?php if ($site->userIsAllowed('update')): ?>
+                        <?php echo $site->link('', null, array(
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
-                    )); ?></li>
+                    )); ?>
+                    <?php else: ?>
+                        <?php echo $site->link('', 'show', array(
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    )); ?>
+                    <?php endif; ?>
+                    </li>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escape($site->url('show-details')); ?>"
                         data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>"

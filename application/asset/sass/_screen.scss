@@ -2030,6 +2030,14 @@ input[type="text"].value-language,
     content: $fa-var-cube;
 }
 
+.property .value img {
+    width: auto;
+    height: rhythm(1.5);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: rhythm(.25);
+}
+
 .property .value.item_sets a:after {
     content: $fa-var-cubes;
 }

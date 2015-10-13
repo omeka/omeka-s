@@ -2387,6 +2387,14 @@ th {
     content: "";
   }
 
+  .property .value img {
+    width: auto;
+    height: 2.25em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.375em;
+  }
+
   .property .value.item_sets a:after {
     content: "";
   }

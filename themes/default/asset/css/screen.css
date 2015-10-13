@@ -150,6 +150,23 @@ ul.navigation > li > ul > li ul {
   font-size: 15px;
 }
 
+.property .value img {
+  width: auto;
+  height: 2.25em;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.375em;
+}
+
+.property .value a {
+  display: inline-block;
+}
+
+.property .value:not(:last-child) * {
+  margin-bottom: 0.375em;
+  vertical-align: middle;
+}
+
 .media.resource {
   display: inline-block;
   text-align: center;

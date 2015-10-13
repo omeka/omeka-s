@@ -157,6 +157,23 @@ ul.navigation {
     font-size: .75 * $base-font-size;
 }
 
+.property .value img {
+    width: auto;
+    height: rhythm(1.5);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: rhythm(.25);
+}
+
+.property .value a {
+    display: inline-block;
+}
+
+.property .value:not(:last-child) * {
+    margin-bottom: rhythm(.25);
+    vertical-align: middle;
+}
+
 .media.resource {
     display: inline-block;
     text-align: center;

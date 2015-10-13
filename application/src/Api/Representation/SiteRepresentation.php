@@ -55,6 +55,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
+            'o:query' => $this->query(),
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
@@ -82,6 +83,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function navigation()
     {
         return $this->resource->getNavigation();
+    }
+
+    public function query()
+    {
+        return $this->resource->getQuery();
     }
 
     public function created()

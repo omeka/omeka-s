@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'query', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'query', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
     }
 
     /**
@@ -274,6 +274,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNavigation', array());
 
         return parent::getNavigation();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setQuery($query)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setQuery', array($query));
+
+        return parent::setQuery($query);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getQuery()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuery', array());
+
+        return parent::getQuery();
     }
 
     /**

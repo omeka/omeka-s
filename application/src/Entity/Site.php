@@ -40,6 +40,11 @@ class Site extends AbstractEntity
     protected $navigation;
 
     /**
+     * @Column(type="json_array")
+     */
+    protected $query;
+
+    /**
      * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
     protected $owner;
@@ -130,6 +135,16 @@ class Site extends AbstractEntity
     public function getNavigation()
     {
         return $this->navigation;
+    }
+
+    public function setQuery($query)
+    {
+        $this->query = $query;
+    }
+
+    public function getQuery()
+    {
+        return $this->query;
     }
 
     public function setOwner(User $owner = null)

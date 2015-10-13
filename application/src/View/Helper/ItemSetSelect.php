@@ -4,7 +4,7 @@ namespace Omeka\View\Helper;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
-class ItemSetSelect extends AbstractHelper 
+class ItemSetSelect extends AbstractHelper
 {
     /**
      * @var string Select element markup cache

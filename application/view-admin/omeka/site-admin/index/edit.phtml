@@ -32,6 +32,7 @@ $roles = array(
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
+        <li><a href="#item-pool"><?php echo $this->translate('Item Pool'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
         <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User Permissions'); ?></a></li>
@@ -41,6 +42,11 @@ $roles = array(
 <fieldset id="admin" class="section active">
     <legend><?php echo $this->translate('Admin'); ?></legend>
     <?php echo $this->formElements($form); ?>
+</fieldset>
+
+<fieldset id="item-pool" class="section">
+    <legend><?php echo $this->translate('Item Pool'); ?></legend>
+    <?php /* echo $this->partial('common/advanced-search'); */ ?>
 </fieldset>
 
 <fieldset id="pages" class="section">

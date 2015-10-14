@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'item-sets search');
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 ?>
 <?php echo $this->pageTitle($this->translate('Advanced Item Set Search')); ?>
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, array('action' => 'browse'), true)); ?>">

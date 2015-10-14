@@ -80,7 +80,8 @@ return [
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
-        'sslcapath' => '/etc/ssl/certs',
+        'sslcapath' => null,
+        'sslcafile' => null,
     ],
     'cli' => [
         'execute_strategy' => 'exec',

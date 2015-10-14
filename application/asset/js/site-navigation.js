@@ -104,6 +104,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                     }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
+                $(e.currentTarget)[0].selectedIndex = 0; // reset select
             }, this)
         );
         // Add a site page link to the navigation tree.

@@ -33,21 +33,21 @@ class SearchFilters extends AbstractHelper
             'res' => $translate('has resource'),
             'nres' => $translate('does not have resource')
         ];
-        
+
         foreach($query as $key => $value) {
-        
+
             if ($value != null && in_array($key, $exclude) == false) {
                 $filterLabel = ucfirst($key);
                 $filterValue = null;
                 switch ($key) {
-        
+
                     // Search by class
                     case 'resource_class_id':
                         $filterLabel = 'Resource class';
                         $filterValue = $api->read('resource_classes', $value, ['label'])->getContent()->label();
                         $filters[$filterLabel][] = $filterValue;
                         break;
-        
+
                     // Search all properties
                     case 'value':
                         foreach ($value as $queryTypeKey => $filterValues) {
@@ -65,7 +65,7 @@ class SearchFilters extends AbstractHelper
                             }
                         }
                         break;
-        
+
                     // Search specific property
                     case 'property':
                         foreach ($value as $propertyRow => $propertyQuery) {
@@ -83,7 +83,7 @@ class SearchFilters extends AbstractHelper
                             }
                         }
                         break;
-        
+
                     // Search resources
                     case 'has_property':
                         foreach ($value as $propertyId => $status) {

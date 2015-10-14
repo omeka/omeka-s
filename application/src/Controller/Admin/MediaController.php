@@ -14,7 +14,7 @@ class MediaController extends AbstractActionController
         $view = new ViewModel;
         return $view;
     }
-    
+
     public function browseAction()
     {
         $this->setBrowseDefaults('created');
@@ -32,14 +32,14 @@ class MediaController extends AbstractActionController
         ));
         return $view;
     }
-    
+
     public function editAction()
     {
         $form = new ResourceForm($this->getServiceLocator());
         $id = $this->params('id');
         $response = $this->api()->read('media', $id);
         $media = $response->getContent();
-        
+
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('media', $media);

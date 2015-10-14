@@ -55,7 +55,7 @@ class SettingForm extends AbstractForm
                 ],
             ]
         ]);
-        
+
         $this->add([
             'name'    => 'use_htmlpurifier',
             'type'    => 'Checkbox',
@@ -63,7 +63,7 @@ class SettingForm extends AbstractForm
                 'label' => $translator->translate('Use HTMLPurifier'),
                 'info'  => $translator->translate('Clean up user-entered HTML.')
             ]
-                
+
         ]);
 
         $inputFilter = $this->getInputFilter();

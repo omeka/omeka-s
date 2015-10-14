@@ -13,7 +13,7 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         return $view;
     }
-    
+
     public function addAction()
     {
         $form = new ResourceForm($this->getServiceLocator());
@@ -38,7 +38,7 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('form', $form);
         return $view;
     }
-    
+
     public function editAction()
     {
         $form = new ResourceForm($this->getServiceLocator());
@@ -46,7 +46,7 @@ class ItemSetController extends AbstractActionController
         $id = $this->params('id');
         $response = $this->api()->read('item_sets', $id);
         $itemSet = $response->getContent();
-        
+
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
@@ -72,7 +72,7 @@ class ItemSetController extends AbstractActionController
         }
         return $view;
     }
-    
+
     public function browseAction()
     {
         $this->setBrowseDefaults('created');
@@ -130,7 +130,7 @@ class ItemSetController extends AbstractActionController
         $view->setTerminal(true);
         return $view;
     }
-    
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

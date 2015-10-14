@@ -29,7 +29,7 @@ class Media extends Resource
      * @Column
      */
     protected $renderer;
-    
+
     /**
      * @Column(type="json_array", nullable=true)
      */

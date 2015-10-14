@@ -21,9 +21,10 @@ return Symfony\CS\Config\Config::create()
         'remove_leading_slash_use',
         'remove_lines_between_uses',
         'self_accessor',
-        //'single_array_no_trailing_comma',
+        'single_array_no_trailing_comma',
         'spaces_cast',
         'unused_use',
+        'whitespacy_lines',
         //'ordered_use',
     ])
     ->finder(

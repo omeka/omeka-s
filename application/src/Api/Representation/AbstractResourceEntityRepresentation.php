@@ -144,7 +144,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return $this->getAdapter('resource_classes')
             ->getRepresentation($this->resource->getResourceClass());
     }
-    
+
     /**
      * Get the resource template of this resource.
      * 
@@ -399,7 +399,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if ($template) {
             $options['templateProperties'] = $template->resourceTemplateProperties();
         }
-        
+
         return $partial($options['viewName'], $options);
     }
 

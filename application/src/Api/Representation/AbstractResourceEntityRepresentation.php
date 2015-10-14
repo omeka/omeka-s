@@ -493,6 +493,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $representation['display_title'] = $this->displayTitle();
         if ($primaryMedia = $this->primaryMedia()) {
             $representation['thumbnail_url'] = $primaryMedia->thumbnailUrl('square');
+            $representation['thumbnail_title'] = $primaryMedia->displayTitle();
+            $representation['thumbnail_type'] = $primaryMedia->mediaType();
         }
 
         return $representation;

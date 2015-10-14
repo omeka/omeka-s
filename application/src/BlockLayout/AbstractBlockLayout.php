@@ -65,19 +65,26 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentForm(PhpRenderer $view,
         SiteBlockAttachmentRepresentation $attachment = null
     ) {
+        
         $itemId = null;
         $mediaId = null;
         $caption = null;
         $sidebarContentUrl = $view->url('admin/default', [
             'controller' => 'item', 'action' => 'sidebar-select',
         ]);
-        $title = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
+        $title = '';
+        $selectButton = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
         if ($attachment) {
-            $itemId = $attachment->item()->id();
+            $item = $attachment->item();
+            $itemId = $item->id();
             if ($attachment->media()) {
                 $mediaId = $attachment->media()->id();
+            } 
+            if ($item->primaryMedia()) {
+                $thumbnail = '<img src="' . $item->primaryMedia()->thumbnailUrl('square') . '" title="' .  $item->primaryMedia()->displayTitle() . '" alt="' . $item->primaryMedia()->mediaType() . ' thumbnail">';
+                $title = $thumbnail;
             }
-            $title = $attachment->item()->displayTitle();
+            $title = $title . $item->displayTitle();
             $caption = $attachment->caption();
         }
         $html = '
@@ -87,7 +94,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <label>Item</label>
         </div>
         <div class="inputs">
-            <div class="item-title">' . $title . '</div>
+            <div class="item-title">' . $title . '</div>' . $selectButton .'
         </div>
     </div>
     <div class="field">

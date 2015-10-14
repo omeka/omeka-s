@@ -2475,6 +2475,14 @@ body.sidebar-open #content {
         margin: rhythm(.25) 0;
     }
 
+    .block .item-title img {
+        height: rhythm(1.5);
+        width: auto;
+        display: inline-block;
+        margin-right: rhythm(.25);
+        vertical-align: middle;
+    }
+
     /* @end */
 
     /* @group ----- Navigation ----- */

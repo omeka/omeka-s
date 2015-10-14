@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/jstree/jstree.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
@@ -46,7 +47,7 @@ $roles = array(
 
 <fieldset id="item-pool" class="section">
     <legend><?php echo $this->translate('Item Pool'); ?></legend>
-    <?php /* echo $this->partial('common/advanced-search'); */ ?>
+    <div id="advanced-search"><?php echo $this->partial('common/advanced-search'); ?></div>
 </fieldset>
 
 <fieldset id="pages" class="section">

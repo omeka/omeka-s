@@ -65,7 +65,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentForm(PhpRenderer $view,
         SiteBlockAttachmentRepresentation $attachment = null
     ) {
-        
+
         $itemId = null;
         $mediaId = null;
         $caption = null;
@@ -79,7 +79,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             $itemId = $item->id();
             if ($attachment->media()) {
                 $mediaId = $attachment->media()->id();
-            } 
+            }
             if ($item->primaryMedia()) {
                 $thumbnail = '<img src="' . $item->primaryMedia()->thumbnailUrl('square') . '" title="' .  $item->primaryMedia()->displayTitle() . '" alt="' . $item->primaryMedia()->mediaType() . ' thumbnail">';
                 $title = $thumbnail;

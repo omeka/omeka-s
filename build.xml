@@ -37,8 +37,14 @@
     <target name="install-deps"
             depends="get-composer,update-composer"
             description="Install dependencies.">
+        <condition property="composer.nodev.arg"
+                   value="--no-dev"
+                   else="">
+            <isset property="composer.nodev"/>
+        </condition>
         <exec executable="${php.path}" failonerror="true">
             <arg file="${composer.path}"/>
+            <arg line="${composer.nodev.arg}"/>
             <arg value="install"/>
         </exec>
     </target>

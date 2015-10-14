@@ -58,7 +58,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('values', json_encode($values));
         return $view;
     }
-    
+
     public function sidebarSelectAction()
     {
         $this->setBrowseDefaults('created');
@@ -134,7 +134,7 @@ class ItemController extends AbstractActionController
         $item = $response->getContent();
 
         $form->get('o:item_set')->setValue(array_keys($item->itemSets()));
-        
+
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);

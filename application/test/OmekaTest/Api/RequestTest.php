@@ -7,12 +7,12 @@ use Omeka\Test\TestCase;
 class RequestTest extends TestCase
 {
     protected $request;
-    
+
     public function setUp()
     {
         $this->request = new Request;
     }
-    
+
     protected $validOperations = [
         'search','create','read','update','delete',
     ];

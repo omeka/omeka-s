@@ -69,9 +69,11 @@ $('body').on('click', '.item-select', function(e) {
 
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
+    var resourceThumbnail = '<img src="' + resource.thumbnail_url + '" title="' + resource.thumbnail_title + '" alt="' + resource.thumbnail_type + ' thumbnail">';
     var selecting = $('.attachment.selecting-attachment');
     selecting.find('.item').val(resource.value_resource_id);
-    selecting.find('.item-title').html(resource.display_title);
+    selecting.find('.item-title').html(resourceThumbnail + resource.display_title);
+    $('#select-resource').removeClass('active');
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {
@@ -99,6 +101,9 @@ $('form').submit(function(e) {
 function replaceIndex(context, find, index) {
     context.find(':input').each(function() {
         var thisInput = $(this);
+        if ($(this).attr('name') == undefined) {
+            return;
+        }
         var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
         thisInput.attr('name', name);
     });

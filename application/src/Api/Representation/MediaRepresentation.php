@@ -18,7 +18,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     {
         return 'o:Media';
     }
-    
+
     /**
      * {@inheritDoc}
      */

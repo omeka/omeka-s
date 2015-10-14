@@ -66,7 +66,7 @@ class JobAdapter extends AbstractEntityAdapter
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */

@@ -72,7 +72,7 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('form', $form);
         return $view;
     }
-    
+
     public function editAction()
     {
         $form = new VocabularyForm($this->getServiceLocator());

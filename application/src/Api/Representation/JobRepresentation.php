@@ -67,7 +67,7 @@ class JobRepresentation extends AbstractEntityRepresentation
             $dateTime
         );
     }
-    
+
     public function status()
     {
         return $this->resource->getStatus();

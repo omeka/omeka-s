@@ -99,6 +99,12 @@
             <arg value="--diff"/>
         </exec>
     </target>
+    <target name="fix-cs" description="Automatically fix code style issues">
+        <exec executable="${composer.bin.path}/php-cs-fixer" failonerror="true">
+            <arg value="fix"/>
+            <arg value="--verbose"/>
+        </exec>
+    </target>
     <target name="init"
             description="Set up this Omeka install."
             depends="dedist,install-deps"

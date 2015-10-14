@@ -9,23 +9,6 @@
         </div>
     </div>
 
-    <div id="item-sets" class="field removable">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search by item set'); ?></legend>
-        </div>
-        <div class="inputs">
-            <div class="value">
-                <?php echo $this->itemSetSelect('item_set_id'); ?>
-                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-            </div>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
-            <select class="query-type">
-                <option value="and"><?php echo $this->translate('In all the above item sets'); ?></option>
-                <option value="or"><?php echo $this->translate('In any of the above item sets'); ?></option>
-            </select>
-        </div>
-    </div>
-
     <div id="value-queries" class="field removable">
         <div class="field-meta">
             <legend><?php echo $this->translate('Search all properties'); ?></legend>

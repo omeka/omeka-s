@@ -2,7 +2,6 @@
 namespace Omeka\Media\Ingester;
 
 use Zend\Form\Element\Hidden;
-use Zend\Db\Sql\Ddl\Column\Text;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
@@ -15,31 +14,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
 {
     public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
-        $js = "
-            $(document).ready(function() {
-                $('textarea.media-html').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
-            });
-        ";
-        $view->headscript()->appendScript($js);
-        $textarea = new Textarea('o:media[__index__][html]');
-        $textarea->setOptions([
-            'label' => $view->translate('HTML'),
-            'info'  => $view->translate('HTML or plain text.'),
-        ]);
-        $data = $media->mediaData();
-        $html = $data['html'];
-        $textarea->setAttributes(
-                [
-                    'rows'     => 15,
-                    'id'       => 'media-html-__index__',
-                    'required' => true,
-                    'class'    => 'media-html',
-                    'value' => $html
-                ]);
-        $field = $view->formField($textarea);
-        return $field;
+        return $this->getForm($view, 'media-html', $media->mediaData()['html']);
     }
 
     /**
@@ -47,8 +22,6 @@ class Html extends AbstractIngester implements MutableIngesterInterface
      */
     public function form(PhpRenderer $view, array $options = [])
     {
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
         $titleInput = new TextInput('o:media[__index__][dcterms:title][0][@value]');
         $titlePropertyInput = new Hidden('o:media[__index__][dcterms:title][0][property_id]');
         //make sure we have correct dcterms:title id
@@ -61,25 +34,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         ]);
         $html = $view->formField($titleInput);
         $html .= $view->formField($titlePropertyInput);
-        $textarea = new Textarea('o:media[__index__][html]');
-        $textarea->setOptions([
-            'label' => $view->translate('HTML'),
-            'info'  => $view->translate('HTML or plain text.'),
-        ]);
-
-        $textarea->setAttributes(
-                [
-                    'rows'     => 15,
-                    'id'       => 'media-html-__index__',
-                    'required' => true,
-                    'class'    => 'media-html'
-                ]);
-        $field = $view->formField($textarea);
-        $html .= $field . "
-            <script type='text/javascript'>
-                    $('#media-html-__index__').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
-            </script>
-        ";
+        $html .= $this->getForm($view, 'media-html-__index__');
         return $html;
     }
 
@@ -121,5 +76,39 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
         $html = $purifier->purify($html);
         $media->setData(['html' => $html]);
+    }
+
+    /**
+     * Get the HTML editor textarea markup.
+     *
+     * @param PhpRenderer $view
+     * @param string $id HTML ID for the textarea
+     * @param string $value Value to pre-fill
+     *
+     * @return string
+     */
+    protected function getForm(PhpRenderer $view, $id, $value = '')
+    {
+        $view->headScript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
+        $textarea = new Textarea('o:media[__index__][html]');
+        $textarea->setOptions([
+            'label' => $view->translate('HTML'),
+            'info'  => $view->translate('HTML or plain text.'),
+        ]);
+        $textarea->setAttributes([
+            'rows'     => 15,
+            'id'       => $id,
+            'required' => true,
+            'class'    => 'media-html',
+            'value'    => $value
+        ]);
+        $field = $view->formField($textarea);
+        $field .= "
+            <script type='text/javascript'>
+                $('#$id').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
+            </script>
+        ";
+        return $field;
     }
 }

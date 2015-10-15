@@ -55,8 +55,8 @@ $('#new-block').change(function() {
     ).done(function(data) {
         $('#blocks').append(data);
     });
+    $(this)[0].selectedIndex = 0; // reset select
     Omeka.scrollTo($('.block').last());
-    $('#new-block').prop('selectedIndex', 0); // reset select
 });
 
 $('body').on('click', '.item-select', function(e) {

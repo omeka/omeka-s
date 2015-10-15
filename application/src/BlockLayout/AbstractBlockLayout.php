@@ -75,7 +75,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
         $caption = null;
         $sidebarContentUrl = $view->url('admin/default',
             ['controller' => 'item', 'action' => 'sidebar-select'],
-            ['query' => $site->query()]
+            ['query' => $site->itemPool()]
         );
         $title = '';
         $selectButton = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';

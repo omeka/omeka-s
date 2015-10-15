@@ -67,7 +67,7 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $jstree = json_decode($formData['jstree'], true);
             $formData['o:navigation'] = $translator->fromJstree($jstree);
-            $formData['o:query'] = json_decode($formData['query'], true);
+            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData);

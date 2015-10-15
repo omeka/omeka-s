@@ -42,7 +42,7 @@ class Site extends AbstractEntity
     /**
      * @Column(type="json_array")
      */
-    protected $query;
+    protected $itemPool;
 
     /**
      * @ManyToOne(targetEntity="User", inversedBy="sites")
@@ -137,14 +137,14 @@ class Site extends AbstractEntity
         return $this->navigation;
     }
 
-    public function setQuery($query)
+    public function setItemPool($itemPool)
     {
-        $this->query = $query;
+        $this->itemPool = $itemPool;
     }
 
-    public function getQuery()
+    public function getItemPool()
     {
-        return $this->query;
+        return $this->itemPool;
     }
 
     public function setOwner(User $owner = null)

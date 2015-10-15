@@ -126,7 +126,7 @@ $('#site-form').on('submit', function(e) {
     });
 
     // Append the query object to the form
-    $('<input>', {type: 'hidden', name: 'query'})
+    $('<input>', {type: 'hidden', name: 'item_pool'})
         .val(JSON.stringify(query))
         .appendTo('#site-form');
 });

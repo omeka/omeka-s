@@ -166,7 +166,7 @@ CREATE TABLE `site` (
   `theme` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `navigation` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
-  `query` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  `item_pool` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,

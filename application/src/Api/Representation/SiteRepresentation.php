@@ -55,7 +55,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
-            'o:query' => $this->query(),
+            'o:item_pool' => $this->itemPool(),
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
@@ -85,9 +85,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
         return $this->resource->getNavigation();
     }
 
-    public function query()
+    public function itemPool()
     {
-        return $this->resource->getQuery();
+        return $this->resource->getItemPool();
     }
 
     public function created()

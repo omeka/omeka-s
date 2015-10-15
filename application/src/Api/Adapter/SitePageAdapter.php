@@ -222,6 +222,8 @@ class SitePageAdapter extends AbstractEntityAdapter
             }
 
             $caption = isset($inputAttachment['o:caption']) ? $inputAttachment['o:caption'] : '';
+            $purifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
+            $caption = $purifier->purify($caption);
 
             $attachment->setItem($item);
             $attachment->setMedia($media);

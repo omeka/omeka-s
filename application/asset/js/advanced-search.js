@@ -76,12 +76,6 @@ $('#site-form').on('submit', function(e) {
         query['resource_class_id'] = Number(resourceClassId);
     }
 
-    // Handle the item set
-    var itemSetId = $('#advanced-search select[name="item_set_id"]').val();
-    if (itemSetId) {
-        query['item_set_id'] = Number(itemSetId);
-    }
-
     // Handle the value queries
     $('#value-queries').find('.value').each(function(index) {
         var textVal = $(this).children('.query-text').val();

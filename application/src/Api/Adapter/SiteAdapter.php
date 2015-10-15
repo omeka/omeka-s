@@ -53,6 +53,9 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', []));
         }
+        if ($this->shouldHydrate($request, 'o:item_pool')) {
+            $entity->setItemPool($request->getValue('o:item_pool', []));
+        }
         if ($this->shouldHydrate($request, 'o:is_public')) {
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
@@ -148,6 +151,9 @@ class SiteAdapter extends AbstractEntityAdapter
 
         if (!is_array($entity->getNavigation())) {
             $errorStore->addError('o:navigation', 'A site must have navigation data.');
+        }
+        if (!is_array($entity->getItemPool())) {
+            $errorStore->addError('o:item_pool', 'A site must have item pool data.');
         }
     }
 

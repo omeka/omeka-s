@@ -92,9 +92,11 @@ var Omeka = {
     },
 
     scrollTo: function(wrapper) {
-        $('html, body').animate({
-            scrollTop: (wrapper.offset().top -100)
-        },200);
+        if (wrapper.length) {
+            $('html, body').animate({
+                scrollTop: (wrapper.offset().top -100)
+            },200);
+        }
     }
 };
 

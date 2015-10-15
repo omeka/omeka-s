@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
     }
 
     /**
@@ -274,6 +274,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNavigation', array());
 
         return parent::getNavigation();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setItemPool($itemPool)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItemPool', array($itemPool));
+
+        return parent::setItemPool($itemPool);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getItemPool()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemPool', array());
+
+        return parent::getItemPool();
     }
 
     /**

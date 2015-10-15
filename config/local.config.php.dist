@@ -4,6 +4,10 @@ return [
         'application' => ['log'  => false],
         'sql' => ['log'  => false],
     ],
+    'http_client' => [
+        'sslcapath' => null,
+        'sslcafile' => null,
+    ],
     'cli' => [
         'phpcli_path' => null,
     ],

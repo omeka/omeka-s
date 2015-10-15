@@ -3,6 +3,7 @@ namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Ingester\Manager as IngesterManager;
+use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Media\Renderer\Manager as RendererManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
@@ -66,7 +67,7 @@ class Media extends AbstractHelper
     {
         $ingester = $this->ingesterManager->get($media->ingester());
 
-        if ($ingester instanceof MutableHandlerInterface) {
+        if ($ingester instanceof MutableIngesterInterface) {
             return $ingester->updateForm($this->getView(), $media, $options);
         } else {
             return '';

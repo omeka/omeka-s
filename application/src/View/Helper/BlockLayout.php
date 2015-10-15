@@ -68,15 +68,16 @@ class BlockLayout extends AbstractHelper
      *
      * @param string|SitePageBlockRepresentation $layout The layout for add or
      *   a block representation for edit
-     * @param SiteRepresentation $site This layout/block's site
+     * @param null|SiteRepresentation $site This layout/block's site
      * @return string
      */
-    public function form($layout, SiteRepresentation $site)
+    public function form($layout, SiteRepresentation $site = null)
     {
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
+            $site = $block->page()->site();
         }
         return '
 <div class="block value">

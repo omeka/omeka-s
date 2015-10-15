@@ -51,7 +51,7 @@ $('#new-block').change(function() {
     var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {layout: $(this).val()}
+        {layout: $(this).val(), siteId: <?php echo $site->id(); ?>}
     ).done(function(data) {
         $('#blocks').append(data);
     });

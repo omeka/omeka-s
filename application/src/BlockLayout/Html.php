@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\BlockLayout;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -28,8 +29,9 @@ class Html extends AbstractBlockLayout
         $block->setData($data);
     }
 
-    public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
-    {
+    public function form(PhpRenderer $view,
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    ) {
         $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
         $textarea->setAttribute('class', 'block-html');
         if ($block) {

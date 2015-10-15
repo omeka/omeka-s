@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\BlockLayout;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -45,10 +46,12 @@ interface BlockLayoutInterface
      * Render a form for adding/editing a block.
      *
      * @param PhpRenderer $view
-     * @param SitePageBlockRepresentation $block
+     * @param null|SitePageBlockRepresentation $block
+     * @param SiteRepresentation $site
      * @return string
      */
-    public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null);
+    public function form(PhpRenderer $view,
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site);
 
     /**
      * Render the provided block.

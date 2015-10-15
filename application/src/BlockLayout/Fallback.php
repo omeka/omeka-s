@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\BlockLayout;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -31,8 +32,9 @@ class Fallback extends AbstractBlockLayout
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
-    {
+    public function form(PhpRenderer $view,
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    ) {
         return 'This layout is invalid.';
     }
 

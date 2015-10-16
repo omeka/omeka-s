@@ -3,7 +3,7 @@
         <legend><?php echo $this->translate('Search by class'); ?></legend>
     </div>
     <div class="inputs">
-        <?php echo $this->resourceClassSelect('resource_class_id'); ?>
+        <?php echo $this->resourceClassSelect()->render('resource_class_id'); ?>
     </div>
 </div>
 
@@ -32,7 +32,7 @@
     </div>
     <div class="inputs">
         <div class="value">
-            <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
+            <?php echo $this->propertySelect()->setAttributes(array('class' => 'query-property'))->render('property'); ?>
             <select class="query-type">
                 <option value="eq"><?php echo $this->translate('has exact value'); ?></option>
                 <option value="neq"><?php echo $this->translate('does not have exact value'); ?></option>
@@ -56,7 +56,7 @@
                 <option value="1"><?php echo $this->translate('has property'); ?></option>
                 <option value="0"><?php echo $this->translate('does not have property'); ?></option>
             </select>
-            <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
+            <?php echo $this->propertySelect()->setAttributes(array('class' => 'query-property'))->render('property'); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
         <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>

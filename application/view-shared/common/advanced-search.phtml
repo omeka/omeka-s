@@ -1,9 +1,76 @@
+<?php
+// Prepare the resource class query.
+if (isset($query['resource_class_id'])) {
+    $resourceClassId = $query['resource_class_id'] ;
+} else {
+    $resourceClassId = null;
+}
+
+// Prepare the value queries.
+$values = [[]];
+if (isset($query['value'])) {
+    $values = [];
+    $types = ['eq', 'neq', 'in', 'nin'];
+    foreach ($types as $type) {
+        if (isset($query['value'][$type])) {
+            foreach ($query['value'][$type] as $text) {
+                $values[] = ['type' => $type, 'text' => $text];
+            }
+        }
+    }
+}
+
+// Prepare the property queries.
+$properties = [[]];
+if (isset($query['property'])) {
+    $properties = [];
+    $types = ['eq', 'neq', 'in', 'nin'];
+    foreach ($query['property'] as $id => $null) {
+        foreach ($types as $type) {
+            if (isset($query['property'][$id][$type])) {
+                foreach ($query['property'][$id][$type] as $text) {
+                    $properties[] = ['type' => $type, 'text' => $text, 'id' => $id];
+                }
+            }
+        }
+    }
+}
+
+// Prepare the has property queries.
+$hasProperties = [[]];
+if (isset($query['has_property'])) {
+    $hasProperties = [];
+    foreach ($query['has_property'] as $id => $type) {
+        $hasProperties[] = ['id' => $id, 'type' => $type];
+    }
+}
+
+// Convenience functions to minimize inline code.
+$getSelected = function($type, array $search) {
+    if (isset($search['type']) && $type === $search['type']) {
+        return ' selected';
+    }
+    return null;
+};
+$getText = function(array $search) {
+    if (isset($search['text'])) {
+        return ' value="' . $this->escapeHtml($search['text']) . '"';
+    }
+    return null;
+};
+$getId = function(array $search) {
+    if (isset($search['id'])) {
+        return $search['id'];
+    }
+    return null;
+};
+?>
 <div class="field">
     <div class="field-meta">
         <legend><?php echo $this->translate('Search by class'); ?></legend>
     </div>
     <div class="inputs">
-        <?php echo $this->resourceClassSelect()->render('resource_class_id'); ?>
+        <?php echo $this->resourceClassSelect()->setValue($resourceClassId)->render('resource_class_id'); ?>
     </div>
 </div>
 
@@ -12,16 +79,18 @@
         <legend><?php echo $this->translate('Search all properties'); ?></legend>
     </div>
     <div class="inputs">
+        <?php foreach ($values as $value): ?>
         <div class="value">
             <select class="query-type">
-                <option value="eq"><?php echo $this->translate('has exact value'); ?></option>
-                <option value="neq"><?php echo $this->translate('does not have exact value'); ?></option>
-                <option value="in"><?php echo $this->translate('contains value'); ?></option>
-                <option value="nin"><?php echo $this->translate('does not contain value'); ?></option>
+                <option value="eq"<?php echo $getSelected('eq', $value); ?>><?php echo $this->translate('has exact value'); ?></option>
+                <option value="neq"<?php echo $getSelected('neq', $value); ?>><?php echo $this->translate('does not have exact value'); ?></option>
+                <option value="in"<?php echo $getSelected('in', $value); ?>><?php echo $this->translate('contains value'); ?></option>
+                <option value="nin"<?php echo $getSelected('nin', $value); ?>><?php echo $this->translate('does not contain value'); ?></option>
             </select>
-            <input type="text" class="query-text">
+            <input type="text" class="query-text"<?php echo $getText($value); ?>>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
+        <?php endforeach; ?>
         <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
     </div>
 </div>
@@ -31,17 +100,19 @@
         <legend><?php echo $this->translate('Search specific property'); ?></legend>
     </div>
     <div class="inputs">
+        <?php foreach ($properties as $property): ?>
         <div class="value">
-            <?php echo $this->propertySelect()->setAttributes(array('class' => 'query-property'))->render('property'); ?>
+            <?php echo $this->propertySelect()->setValue($getId($property))->setAttributes(array('class' => 'query-property'))->render('property'); ?>
             <select class="query-type">
-                <option value="eq"><?php echo $this->translate('has exact value'); ?></option>
-                <option value="neq"><?php echo $this->translate('does not have exact value'); ?></option>
-                <option value="in"><?php echo $this->translate('contains value'); ?></option>
-                <option value="nin"><?php echo $this->translate('does not contain value'); ?></option>
+                <option value="eq"<?php echo $getSelected('eq', $property); ?>><?php echo $this->translate('has exact value'); ?></option>
+                <option value="neq"<?php echo $getSelected('neq', $property); ?>><?php echo $this->translate('does not have exact value'); ?></option>
+                <option value="in"<?php echo $getSelected('in', $property); ?>><?php echo $this->translate('contains value'); ?></option>
+                <option value="nin"<?php echo $getSelected('nin', $property); ?>><?php echo $this->translate('does not contain value'); ?></option>
             </select>
-            <input type="text" class="query-text">
+            <input type="text" class="query-text"<?php echo $getText($property); ?>>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
+        <?php endforeach; ?>
         <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
     </div>
 </div>
@@ -51,14 +122,16 @@
         <legend><?php echo $this->translate('Search resources'); ?></legend>
     </div>
     <div class="inputs">
+        <?php foreach ($hasProperties as $hasProperty): ?>
         <div class="value">
             <select class="query-type">
-                <option value="1"><?php echo $this->translate('has property'); ?></option>
-                <option value="0"><?php echo $this->translate('does not have property'); ?></option>
+                <option value="1"<?php echo $getSelected(1, $hasProperty); ?>><?php echo $this->translate('has property'); ?></option>
+                <option value="0"<?php echo $getSelected(0, $hasProperty); ?>><?php echo $this->translate('does not have property'); ?></option>
             </select>
-            <?php echo $this->propertySelect()->setAttributes(array('class' => 'query-property'))->render('property'); ?>
+            <?php echo $this->propertySelect()->setValue($getId($hasProperty))->setAttributes(array('class' => 'query-property'))->render('property'); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
+        <?php endforeach; ?>
         <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
     </div>
 </div>

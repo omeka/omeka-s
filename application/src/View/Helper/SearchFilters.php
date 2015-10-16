@@ -106,9 +106,17 @@ class SearchFilters extends AbstractHelper
 
                     // Search item set
                     case 'item_set_id':
-                        $filterLabel = $translate('Item Set');
-                        $filterValue = $api->read('item_sets', $value, ['label'])->getContent()->displayTitle();
-                        $filters[$filterLabel][] = $filterValue;
+                        if (!is_array($value)) {
+                            $value = [$value];
+                        }
+                        foreach ($value as $subValue) {
+                            if (!is_numeric($subValue)) {
+                                continue;
+                            }
+                            $filterLabel = $translate('Item Set');
+                            $filterValue = $api->read('item_sets', $subValue, ['label'])->getContent()->displayTitle();
+                            $filters[$filterLabel][] = $filterValue;
+                        }
                         break;
 
                     // Search user

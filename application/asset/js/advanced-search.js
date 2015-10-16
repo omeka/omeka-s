@@ -105,11 +105,14 @@ $('#site-form').on('submit', function(e) {
         if (!query.hasOwnProperty('property')) {
             query['property'] = {};
         }
-        var typeVal = $(this).children('.query-type').val();
-        if (!query.property.hasOwnProperty(typeVal)) {
-            query.property[typeVal] = [];
+        if (!query.property.hasOwnProperty(propertyVal)) {
+            query.property[propertyVal] = {};
         }
-        query.property[typeVal].push(textVal);
+        var typeVal = $(this).children('.query-type').val();
+        if (!query.property[propertyVal].hasOwnProperty(typeVal)) {
+            query.property[propertyVal][typeVal] = [];
+        }
+        query.property[propertyVal][typeVal].push(textVal);
     });
 
     // Handle the has_property queries

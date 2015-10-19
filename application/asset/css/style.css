@@ -2907,6 +2907,8 @@ th {
   }
 
   #advanced-search .remove-value {
+    background-color: transparent;
+    color: #ff6666;
     display: inline-block;
     text-indent: -9999px;
     position: relative;
@@ -2920,6 +2922,9 @@ th {
     width: 36px;
     line-height: 36px;
     text-indent: 0;
+  }
+  #advanced-search .remove-value:hover {
+    color: #FF0000;
   }
 
   #advanced-search .value {

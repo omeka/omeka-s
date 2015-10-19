@@ -2542,6 +2542,8 @@ body.sidebar-open #content {
 }
 
 #advanced-search .remove-value {
+    background-color: transparent;
+    color: lighten($red, 20%);
     display: inline-block;
     text-indent: -9999px;
     position: relative;
@@ -2555,6 +2557,10 @@ body.sidebar-open #content {
         width: 1.5 * $base-line-height;
         line-height: 1.5 * $base-line-height;
         text-indent: 0;
+    }
+
+    &:hover {
+        color: $red;
     }
 }
 

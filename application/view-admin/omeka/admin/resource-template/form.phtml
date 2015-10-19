@@ -27,10 +27,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
         <label for="o:resource_class[o:id]"><?php echo $this->translate('Suggested Class'); ?></label>
     </div>
     <div class="inputs">
-        <?php echo $this->resourceClassSelect(
-            'o:resource_class[o:id]',
-            array('value' => $resourceClassId)
-        ); ?>
+        <?php echo $this->resourceClassSelect()->setValue($resourceClassId)->render('o:resource_class[o:id]'); ?>
     </div>
 </div>
 <ul id="properties">

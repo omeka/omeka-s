@@ -1,39 +1,18 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\Form\Element\Select;
-use Zend\View\Helper\AbstractHelper;
-
-class PropertySelect extends AbstractHelper
+/**
+ * A select menu containing all properties.
+ */
+class PropertySelect extends AbstractSelect
 {
-    /**
-     * @var string Select element markup cache
-     */
-    protected $selectMarkup;
+    protected $emptyOption = 'Select Property...';
 
-    /**
-     * Return the property select element markup.
-     *
-     * @param string $name
-     * @param array $attributes
-     * @param string $emptyOption
-     * @return string
-     */
-    public function __invoke($name, array $attributes = [],
-        $emptyOption = 'Select Property'
-    ) {
-        if ($this->selectMarkup) {
-            // Build the select markup only once.
-            return $this->selectMarkup;
-        }
-
-        $response = $this->getView()->api()->search('vocabularies');
-        if ($response->isError()) {
-            return;
-        }
-
+    public function getValueOptions()
+    {
+        $vocabularies = $this->getView()->api()->search('vocabularies')->getContent();
         $valueOptions = [];
-        foreach ($response->getContent() as $vocabulary) {
+        foreach ($vocabularies as $vocabulary) {
             $options = [];
             foreach ($vocabulary->properties() as $property) {
                 $options[$property->id()] = $property->label();
@@ -46,15 +25,6 @@ class PropertySelect extends AbstractHelper
                 'options' => $options,
             ];
         }
-
-        $select = new Select;
-        $select->setValueOptions($valueOptions)
-            ->setName($name)
-            ->setAttributes($attributes)
-            ->setEmptyOption($emptyOption);
-
-        // Cache the select markup.
-        $this->selectMarkup = $this->getView()->formSelect($select);
-        return $this->selectMarkup;
+        return $valueOptions;
     }
 }

@@ -1,69 +1,46 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\Form\Element\Select;
-use Zend\View\Helper\AbstractHelper;
+use Omeka\Api\Representation\UserRepresentation;
 
-class ItemSetSelect extends AbstractHelper
+/**
+ * A select menu containing all item sets.
+ */
+class ItemSetSelect extends AbstractSelect
 {
-    /**
-     * @var string Select element markup cache
-     */
-    protected $selectMarkup;
+    protected $emptyOption = 'Select Item Set...';
 
-    /**
-     * Return the property select element markup.
-     *
-     * @param string $name
-     * @param array $attributes
-     * @param string $emptyOption
-     * @return string
-     */
-    public function __invoke($name, array $attributes = [],
-        $emptyOption = 'Select Item Set'
-    ) {
-        if ($this->selectMarkup) {
-            // Build the select markup only once.
-            return $this->selectMarkup;
-        }
+    public function getValueOptions()
+    {
+        $itemSets = $this->getView()->api()->search('item_sets')->getContent();
 
-        $response = $this->getView()->api()->search('item_sets');
-        if ($response->isError()) {
-            return;
-        }
-
-        foreach ($response->getContent() as $itemSet) {
+        // Group alphabetically by owner email.
+        $itemSetOwners = [];
+        foreach ($itemSets as $itemSet) {
             $owner = $itemSet->owner();
-            $email = $owner ? $owner->email() : null;
-            $options = [];
-            $itemSetOwners[$email]['owner'] = $owner;
-            $itemSetOwners[$email]['item_sets'][] = $itemSet;
+            $index = $owner ? $owner->email() : null;
+            $itemSetOwners[$index]['owner'] = $owner;
+            $itemSetOwners[$index]['item_sets'][] = $itemSet;
         }
         ksort($itemSetOwners);
 
         $valueOptions = [];
         foreach ($itemSetOwners as $itemSetOwner) {
+            $options = [];
             foreach ($itemSetOwner['item_sets'] as $itemSet) {
                 $options[$itemSet->id()] = $itemSet->displayTitle();
                 if (!$options) {
                     continue;
                 }
             }
-            $valueOptions[] = [
-                'label' => $itemSetOwner['owner']->name() . ' (' . $itemSetOwner['owner']->email() . ')',
-                'options' => $options,
-            ];
-            $options = [];
+            $owner = $itemSetOwner['owner'];
+            if ($owner instanceof UserRepresentation) {
+                $label = sprintf('%s (%s)', $owner->name(), $owner->email());
+            } else {
+                $label = '[No owner]';
+            }
+            $valueOptions[] = ['label' => $label, 'options' => $options];
         }
-
-        $select = new Select;
-        $select->setValueOptions($valueOptions)
-            ->setName($name)
-            ->setAttributes($attributes)
-            ->setEmptyOption($emptyOption);
-
-        // Cache the select markup.
-        $this->selectMarkup = $this->getView()->formSelect($select);
-        return $this->selectMarkup;
+        return $valueOptions;
     }
 }

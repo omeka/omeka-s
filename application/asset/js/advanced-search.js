@@ -76,6 +76,17 @@ $('#site-form').on('submit', function(e) {
         query['resource_class_id'] = Number(resourceClassId);
     }
 
+    // Handle the item sets
+    $('#item-sets').find('select[name="item_set_id[]"] option:selected').each(function(index) {
+        var itemSetId = $(this).val();
+        if (itemSetId) {
+            if (!query.hasOwnProperty('item_set_id')) {
+                query['item_set_id'] = [];
+            }
+            query['item_set_id'].push(Number(itemSetId));
+        }
+    });
+
     // Handle the value queries
     $('#value-queries').find('.value').each(function(index) {
         var textVal = $(this).children('.query-text').val();

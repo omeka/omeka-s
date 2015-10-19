@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Api\Exception\NotFoundException;
 use Zend\View\Helper\AbstractHelper;
 
 class SearchFilters extends AbstractHelper
@@ -44,7 +45,11 @@ class SearchFilters extends AbstractHelper
                     // Search by class
                     case 'resource_class_id':
                         $filterLabel = 'Resource class';
-                        $filterValue = $api->read('resource_classes', $value, ['label'])->getContent()->label();
+                        try {
+                            $filterValue = $api->read('resource_classes', $value)->getContent()->label();
+                        } catch (NotFoundException $e) {
+                            $filterValue = 'Unknown';
+                        }
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
@@ -58,7 +63,11 @@ class SearchFilters extends AbstractHelper
                             foreach ($filterValues as $filterValue) {
                                 if (is_string($filterValue) && $filterValue !== '') {
                                     if ($queryTypeKey == 'res' || $queryTypeKey == 'nres') {
-                                        $filterValue = $api->read('resources', $filterValue, ['label'])->getContent()->displayTitle();
+                                        try {
+                                            $filterValue = $api->read('resources', $filterValue)->getContent()->displayTitle();
+                                        } catch (NotFoundException $e) {
+                                            $filterValue = 'Unknown';
+                                        }
                                     }
                                     $filters[$filterLabel][] = $filterValue;
                                 }
@@ -69,7 +78,11 @@ class SearchFilters extends AbstractHelper
                     // Search specific property
                     case 'property':
                         foreach ($value as $propertyRow => $propertyQuery) {
-                            $propertyLabel = $api->read('properties', $propertyRow, ['label'])->getContent()->label();
+                            try {
+                                $propertyLabel = $api->read('properties', $propertyRow)->getContent()->label();
+                            } catch (NotFoundException $e) {
+                                $propertyLabel = 'Unknown property';
+                            }
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
                                 if (!isset($queryTypes[$queryTypeKey])) {
                                     break;
@@ -87,7 +100,11 @@ class SearchFilters extends AbstractHelper
                     // Search resources
                     case 'has_property':
                         foreach ($value as $propertyId => $status) {
-                            $propertyLabel = $api->read('properties', $propertyId, ['label'])->getContent()->label();
+                            try {
+                                $propertyLabel = $api->read('properties', $propertyId)->getContent()->label();
+                            } catch (NotFoundException $e) {
+                                $propertyLabel = 'Unknown property';
+                            }
                             if ($status == 0) {
                                 $filterLabel = $translate('Has properties');
                             } else {
@@ -100,7 +117,11 @@ class SearchFilters extends AbstractHelper
                     // Search resource template
                     case 'resource_template_id':
                             $filterLabel = $translate('Resource Template');
-                            $filterValue = $api->read('resource_templates', $value, ['label'])->getContent()->label();
+                            try {
+                                $filterValue = $api->read('resource_templates', $value)->getContent()->label();
+                            } catch (NotFoundException $e) {
+                                $filterValue = 'Unknown resource template';
+                            }
                             $filters[$filterLabel][] = $filterValue;
                         break;
 
@@ -114,7 +135,11 @@ class SearchFilters extends AbstractHelper
                                 continue;
                             }
                             $filterLabel = $translate('Item Set');
-                            $filterValue = $api->read('item_sets', $subValue, ['label'])->getContent()->displayTitle();
+                            try {
+                                $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
+                            } catch (NotFoundException $e) {
+                                $filterValue = 'Unknown item set';
+                            }
                             $filters[$filterLabel][] = $filterValue;
                         }
                         break;
@@ -122,7 +147,11 @@ class SearchFilters extends AbstractHelper
                     // Search user
                     case 'owner_id':
                         $filterLabel = $translate('User');
-                        $filterValue = $api->read('users', $value, ['label'])->getContent()->name();
+                        try {
+                            $filterValue = $api->read('users', $value)->getContent()->name();
+                        } catch (NotFoundException $e) {
+                            $filterValue = 'Unknown user';
+                        }
                         $filters[$filterLabel][] = $filterValue;
                         break;
 

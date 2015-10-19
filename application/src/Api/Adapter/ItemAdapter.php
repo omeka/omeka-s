@@ -54,15 +54,18 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $qb->andWhere($qb->expr()->eq('Omeka\Entity\Item.id', $query['id']));
         }
 
-        if (isset($query['item_set_id']) && is_numeric($query['item_set_id'])) {
+        if (isset($query['item_set_id'])) {
+            $itemSets = $query['item_set_id'];
+            if (!is_array($itemSets)) {
+                $itemSets = [$itemSets];
+            }
+            $itemSets = array_filter($itemSets, 'is_numeric');
+
             $itemSetAlias = $this->createAlias();
             $qb->innerJoin(
                 $this->getEntityClass() . '.itemSets',
-                $itemSetAlias
-            );
-            $qb->andWhere($qb->expr()->eq(
-                "$itemSetAlias.id",
-                $this->createNamedParameter($qb, $query['item_set_id']))
+                $itemSetAlias, 'WITH',
+                $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
             );
         }
 

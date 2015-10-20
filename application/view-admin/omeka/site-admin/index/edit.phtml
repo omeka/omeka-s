@@ -135,9 +135,9 @@ $roles = array(
             </tr>
         </thead>
         <tbody>
-            <?php 
+            <?php
             $index = 1;
-            foreach($sitePermissions as $sitePermission): 
+            foreach($sitePermissions as $sitePermission):
             $user = $sitePermission->user();
             ?>
             <tr class="user value">
@@ -187,7 +187,7 @@ $roles = array(
                 ?>
                 <?php foreach ($usersByInitial as $initial => $users): ?>
                     <li class="selector-parent"><span>
-                        <?php echo $initial; ?></span> 
+                        <?php echo $initial; ?></span>
                         (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
                         <ul>
                         <?php foreach($users as $user): ?>

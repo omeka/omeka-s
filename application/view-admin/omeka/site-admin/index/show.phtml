@@ -10,6 +10,9 @@ $roles = array(
 <?php echo $this->pageTitle(sprintf($this->translate('Site: “%s”'), $site->title())); ?>
 
 <div id="page-actions">
+    <?php if ($site->userIsAllowed('update')): ?>
+        <?php echo $site->link($this->translate('Edit'), null, array('class' => 'button')); ?>
+    <?php endif; ?>
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
 </div>
 

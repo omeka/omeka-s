@@ -44,11 +44,11 @@ class SearchFilters extends AbstractHelper
 
                     // Search by class
                     case 'resource_class_id':
-                        $filterLabel = 'Resource class';
+                        $filterLabel = $translate('Resource class');
                         try {
                             $filterValue = $api->read('resource_classes', $value)->getContent()->label();
                         } catch (NotFoundException $e) {
-                            $filterValue = 'Unknown';
+                            $filterValue = $translate('Unknown');
                         }
                         $filters[$filterLabel][] = $filterValue;
                         break;
@@ -66,7 +66,7 @@ class SearchFilters extends AbstractHelper
                                         try {
                                             $filterValue = $api->read('resources', $filterValue)->getContent()->displayTitle();
                                         } catch (NotFoundException $e) {
-                                            $filterValue = 'Unknown';
+                                            $filterValue = $translate('Unknown');
                                         }
                                     }
                                     $filters[$filterLabel][] = $filterValue;
@@ -81,7 +81,7 @@ class SearchFilters extends AbstractHelper
                             try {
                                 $propertyLabel = $api->read('properties', $propertyRow)->getContent()->label();
                             } catch (NotFoundException $e) {
-                                $propertyLabel = 'Unknown property';
+                                $propertyLabel = $translate('Unknown property');
                             }
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
                                 if (!isset($queryTypes[$queryTypeKey])) {
@@ -103,7 +103,7 @@ class SearchFilters extends AbstractHelper
                             try {
                                 $propertyLabel = $api->read('properties', $propertyId)->getContent()->label();
                             } catch (NotFoundException $e) {
-                                $propertyLabel = 'Unknown property';
+                                $propertyLabel = $translate('Unknown property');
                             }
                             if ($status == 0) {
                                 $filterLabel = $translate('Has properties');
@@ -120,7 +120,7 @@ class SearchFilters extends AbstractHelper
                             try {
                                 $filterValue = $api->read('resource_templates', $value)->getContent()->label();
                             } catch (NotFoundException $e) {
-                                $filterValue = 'Unknown resource template';
+                                $filterValue = $translate('Unknown resource template');
                             }
                             $filters[$filterLabel][] = $filterValue;
                         break;
@@ -138,7 +138,7 @@ class SearchFilters extends AbstractHelper
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {
-                                $filterValue = 'Unknown item set';
+                                $filterValue = $translate('Unknown item set');
                             }
                             $filters[$filterLabel][] = $filterValue;
                         }
@@ -150,7 +150,7 @@ class SearchFilters extends AbstractHelper
                         try {
                             $filterValue = $api->read('users', $value)->getContent()->name();
                         } catch (NotFoundException $e) {
-                            $filterValue = 'Unknown user';
+                            $filterValue = $translate('Unknown user');
                         }
                         $filters[$filterLabel][] = $filterValue;
                         break;

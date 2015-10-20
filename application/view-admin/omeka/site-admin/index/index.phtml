@@ -40,22 +40,16 @@ $escape = $this->plugin('escapeHtml');
         <tr>
             <td>
                 <span class="resource-name">
-                    <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
+                    <?php echo $site->link($site->title(), 'show'); ?>
                 </span>
                 <ul class="actions">
                     <li>
                     <?php if ($site->userIsAllowed('update')): ?>
                         <?php echo $site->link('', null, array(
-                        'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
-                        'title' => $this->translate('Edit'),
-                    )); ?>
-                    <?php else: ?>
-                        <?php echo $site->link('', 'show', array(
-                        'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
-                        'title' => $this->translate('Edit'),
-                    )); ?>
+                            'class' => 'o-icon-edit',
+                            'aria-label' => $this->translate('Edit'),
+                            'title' => $this->translate('Edit'),
+                        )); ?>
                     <?php endif; ?>
                     </li>
                     <li><a href="#"

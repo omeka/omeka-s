@@ -2487,7 +2487,7 @@ body.sidebar-open #content {
 
     /* @group ----- Navigation ----- */
 
-    #nav-pages {
+    #nav-page-links {
         list-style: none;
         padding-left: 0;
         @include leader(.9167);
@@ -2497,7 +2497,7 @@ body.sidebar-open #content {
         width: 100%;
     }
 
-    .nav-page {
+    .nav-page-link {
         @include field-row;
         cursor: pointer;
 

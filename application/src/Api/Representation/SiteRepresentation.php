@@ -116,6 +116,42 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Return pages that are linked in site navigation.
+     *
+     * @return array
+     */
+    public function linkedPages()
+    {
+        $linked = [];
+        $pages = $this->pages();
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveArrayIterator(
+                $this->navigation()),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+        foreach ($iterator as $key => $value) {
+            if (is_int($key)
+                && isset($value['type'])
+                && 'page' === $value['type']
+                && isset($pages[$value['data']['id']])
+            ) {
+                $linked[$value['data']['id']] = $pages[$value['data']['id']];
+            }
+        }
+        return $linked;
+    }
+
+    /**
+     * Return pages that are not linked in site navigation.
+     *
+     * @return array
+     */
+    public function notLinkedPages()
+    {
+        return array_diff_key($this->pages(), $this->linkedPages());
+    }
+
+    /**
      * Return the permissions assigned to this site.
      *
      * @return array

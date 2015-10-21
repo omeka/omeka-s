@@ -422,7 +422,7 @@ th {
   }
 
   a:visited {
-    color: #e61a1a;
+    color: #e61919;
   }
 
   a:active,
@@ -709,13 +709,13 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe6e6;
+    background-color: #ffe5e5;
   }
   div[role="main"] > .messages .success {
-    background-color: #cdffcd;
+    background-color: #ccffcc;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e6;
+    background-color: #fff6e5;
   }
 
   .messages {
@@ -2852,7 +2852,7 @@ th {
 
   /* @end */
   /* @group ----- Navigation ----- */
-  #nav-pages {
+  #nav-page-links {
     list-style: none;
     padding-left: 0;
     margin-top: 1.37505em;
@@ -2862,7 +2862,7 @@ th {
     width: 100%;
   }
 
-  .nav-page {
+  .nav-page-link {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.08);
     padding: 0.375em;
@@ -2870,7 +2870,7 @@ th {
     margin-bottom: 0.375em;
     cursor: pointer;
   }
-  .nav-page:hover {
+  .nav-page-link:hover {
     background-color: rgba(0, 0, 0, 0.16);
   }
 
@@ -3158,7 +3158,7 @@ th {
     content: "";
   }
   #user p a {
-    color: #ffe6e6;
+    color: #ffe5e5;
   }
 
   #page-actions {

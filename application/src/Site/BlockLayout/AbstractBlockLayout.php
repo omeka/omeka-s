@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Omeka\Api\Representation\SiteRepresentation;

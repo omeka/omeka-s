@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;

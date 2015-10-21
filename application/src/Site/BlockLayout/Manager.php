@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Exception;
 use Omeka\ServiceManager\AbstractPluginManager;
@@ -50,7 +50,7 @@ class Manager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
-        if (!is_subclass_of($plugin, 'Omeka\BlockLayout\BlockLayoutInterface')) {
+        if (!is_subclass_of($plugin, 'Omeka\Site\BlockLayout\BlockLayoutInterface')) {
             throw new Exception\InvalidAdapterException(sprintf(
                 'The block layout class "%s" does not implement Omeka\BlockLayout\BlockLayoutInterface.',
                 get_class($plugin)

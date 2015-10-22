@@ -15,12 +15,6 @@ class Html extends AbstractBlockLayout
         return 'HTML';
     }
 
-    public function prepareForm(PhpRenderer $view)
-    {
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
-        $view->headscript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
-    }
-
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
         $htmlPurifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
@@ -33,14 +27,11 @@ class Html extends AbstractBlockLayout
         SitePageBlockRepresentation $block = null, SiteRepresentation $site
     ) {
         $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
-        $textarea->setAttribute('class', 'block-html');
+        $textarea->setAttribute('class', 'block-html wysiwyg');
         if ($block) {
             $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
         }
-        $script = '<script type="text/javascript">
-            $(".block-html").ckeditor({customConfig: "' . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . '"});
-        </script>';
-        return $view->formField($textarea) . $script;
+        return $view->formField($textarea);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

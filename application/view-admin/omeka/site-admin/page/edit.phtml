@@ -1,6 +1,8 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
@@ -41,6 +43,11 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
 
 <script type="text/javascript">
+function wysiwyg(context) {
+    var ckEditorConfigUrl = "<?php echo $this->escapeJs($this->assetUrl('js/ckeditor_config.js', 'Omeka')); ?>";
+    context.find('textarea.wysiwyg').ckeditor({customConfig: ckEditorConfigUrl});
+}
+
 var list = document.getElementById('blocks');
 new Sortable(list, {
     draggable: ".block",
@@ -48,16 +55,21 @@ new Sortable(list, {
 });
 
 $('#new-block').change(function() {
-    var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
         {layout: $(this).val(), siteId: <?php echo $site->id(); ?>}
     ).done(function(data) {
-        $('#blocks').append(data);
+        var newBlock = $(data).appendTo('#blocks');
+        newBlock.trigger('o:block-added');
+        Omeka.scrollTo(newBlock);
     });
-    $(this)[0].selectedIndex = 0; // reset select
-    Omeka.scrollTo($('.block').last());
+    $(this).val(''); // reset select
 });
+
+$('#blocks').on('o:block-added', '.block', function () {
+    wysiwyg($(this));
+});
+wysiwyg($('#blocks'));
 
 $('body').on('click', '.item-select', function(e) {
     e.preventDefault();

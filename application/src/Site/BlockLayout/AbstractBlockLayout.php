@@ -107,7 +107,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <label>Caption</label>
         </div>
         <div class="inputs">
-            <textarea class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">' . $caption . '</textarea>
+            <textarea class="caption wysiwyg" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">' . $caption . '</textarea>
         </div>
     </div>
     <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="' . $itemId . '">

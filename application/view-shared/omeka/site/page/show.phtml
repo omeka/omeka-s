@@ -1,6 +1,7 @@
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
 <?php echo $this->pageTitle($site->title()); ?>
 <?php echo $this->pageTitle($page->title(), 2); ?>
+<?php echo $this->sitePagePagination($page); ?>
 <?php foreach ($page->blocks() as $block): ?>
 <?php echo $this->blockLayout()->render($block);?>
 <?php endforeach; ?>

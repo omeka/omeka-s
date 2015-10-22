@@ -2,11 +2,57 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageRepresentation;
+use Omeka\Api\Exception\NotFoundException;
+use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
 
 class SitePagePagination extends AbstractHelper
 {
-    public function __invoke(SitePageRepresentation $page)
+    /**
+     * @var SitePageRepresentation
+     */
+    protected $page;
+
+    /**
+     * @var null|SitePageRepresentation
+     */
+    protected $prevPage;
+
+    /**
+     * @var null|SitePageRepresentation
+     */
+    protected $nextPage;
+
+    /**
+     * Return the pagination markup.
+     *
+     * @throws Exception\RuntimeException
+     * @return string
+     */
+    public function __invoke()
+    {
+        if (null === $this->page) {
+            throw new Exception\RuntimeException('No site page provided');
+        }
+        return $this->getView()->partial(
+            'common/site-page-pagination',
+            [
+                'page' => $this->page,
+                'prevPage' => $this->prevPage,
+                'nextPage' => $this->nextPage,
+            ]
+        );
+    }
+
+    /**
+     * Set the current page.
+     *
+     * Automatically sets the prev/next pages if any.
+     *
+     * @throws Exception\InvalidArgumentException
+     * @param SitePageRepresentation $page
+     */
+    public function setPage(SitePageRepresentation $page)
     {
         // Build an array containing all page IDs in navigation in the order
         // they appear.
@@ -26,26 +72,25 @@ class SitePagePagination extends AbstractHelper
 
         $key = array_search($page->id(), $pageIds);
         if (false === $key) {
-            // This page is not in navigation.
-            return null;
+            throw new Exception\InvalidArgumentException('Page is not in site navigation');
         }
+
         $api = $this->getView()->api();
         $prevPage = null;
         if (isset($pageIds[$key - 1])) {
-            $prevPage = $api->read('site_pages', $pageIds[$key - 1])->getContent();
+            try {
+                $prevPage = $api->read('site_pages', $pageIds[$key - 1])->getContent();
+            } catch (NotFoundException $e) {}
         }
         $nextPage = null;
         if (isset($pageIds[$key + 1])) {
-            $nextPage = $api->read('site_pages', $pageIds[$key + 1])->getContent();
+            try {
+                $nextPage = $api->read('site_pages', $pageIds[$key + 1])->getContent();
+            } catch (NotFoundException $e) {}
         }
 
-        return $this->getView()->partial(
-            'common/site-page-pagination',
-            [
-                'currentPage' => $page,
-                'prevPage' => $prevPage,
-                'nextPage' => $nextPage,
-            ]
-        );
+        $this->page = $page;
+        $this->prevPage = $prevPage;
+        $this->nextPage = $nextPage;
     }
 }

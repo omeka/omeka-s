@@ -20,6 +20,9 @@ class PageController extends AbstractActionController
         ]);
         $page = $pageResponse->getContent();
 
+        $this->getServiceLocator()->get('ViewHelperManager')
+            ->get('sitePagePagination')->setPage($page);
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);

@@ -20,7 +20,7 @@ class InstallerTest extends TestCase
         $this->installer->registerVars('foo', $vars);
         $this->assertEquals($this->installer->getVars('foo'), $vars);
     }
-    
+
     public function testSetsAndGetsServiceLocator()
     {
         $this->installer->setServiceLocator($this->getServiceManager());
@@ -29,7 +29,7 @@ class InstallerTest extends TestCase
             $this->installer->getServiceLocator()
         );
     }
-    
+
     public function testInstallSuccessfulTask()
     {
         $this->installer->setServiceLocator($this->getServiceManager(

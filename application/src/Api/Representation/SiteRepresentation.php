@@ -55,6 +55,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
+            'o:item_pool' => $this->itemPool(),
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
@@ -84,6 +85,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
         return $this->resource->getNavigation();
     }
 
+    public function itemPool()
+    {
+        return $this->resource->getItemPool();
+    }
+
     public function created()
     {
         return $this->resource->getCreated();
@@ -107,6 +113,41 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $pages[$page->getId()] = $pageAdapter->getRepresentation($page);
         }
         return $pages;
+    }
+
+    /**
+     * Return pages that are linked in site navigation.
+     *
+     * @return array
+     */
+    public function linkedPages()
+    {
+        $linked = [];
+        $pages = $this->pages();
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveArrayIterator($this->navigation()),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+        foreach ($iterator as $key => $value) {
+            if (is_int($key)
+                && isset($value['type'])
+                && 'page' === $value['type']
+                && isset($pages[$value['data']['id']])
+            ) {
+                $linked[$value['data']['id']] = $pages[$value['data']['id']];
+            }
+        }
+        return $linked;
+    }
+
+    /**
+     * Return pages that are not linked in site navigation.
+     *
+     * @return array
+     */
+    public function notLinkedPages()
+    {
+        return array_diff_key($this->pages(), $this->linkedPages());
     }
 
     /**

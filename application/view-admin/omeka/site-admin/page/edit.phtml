@@ -9,7 +9,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="<?php echo $site->siteUrl(); ?>/page/<?php echo $page->slug(); ?>/" class="button"><?php echo $this->translate('View'); ?></a>
+    <a href="<?php echo $page->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
@@ -51,12 +51,12 @@ $('#new-block').change(function() {
     var blockType = this.value;
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {layout: $(this).val()}
+        {layout: $(this).val(), siteId: <?php echo $site->id(); ?>}
     ).done(function(data) {
         $('#blocks').append(data);
     });
+    $(this)[0].selectedIndex = 0; // reset select
     Omeka.scrollTo($('.block').last());
-    $('#new-block').prop('selectedIndex', 0); // reset select
 });
 
 $('body').on('click', '.item-select', function(e) {
@@ -69,9 +69,11 @@ $('body').on('click', '.item-select', function(e) {
 
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
+    var resourceThumbnail = '<img src="' + resource.thumbnail_url + '" title="' + resource.thumbnail_title + '" alt="' + resource.thumbnail_type + ' thumbnail">';
     var selecting = $('.attachment.selecting-attachment');
     selecting.find('.item').val(resource.value_resource_id);
-    selecting.find('.item-title').html(resource.display_title);
+    selecting.find('.item-title').html(resourceThumbnail + resource.display_title);
+    $('#select-resource').removeClass('active');
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {
@@ -99,6 +101,9 @@ $('form').submit(function(e) {
 function replaceIndex(context, find, index) {
     context.find(':input').each(function() {
         var thisInput = $(this);
+        if ($(this).attr('name') == undefined) {
+            return;
+        }
         var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
         thisInput.attr('name', name);
     });

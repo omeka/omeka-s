@@ -1,11 +1,6 @@
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
 <?php echo $this->pageTitle($site->title()); ?>
 <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
-<ul>
-    <?php foreach ($site->pages() as $page): ?>
-    <li><?php echo $page->link($page->title()); ?></li>
-    <?php endforeach; ?>
-</ul>
 <?php echo $this->pagination(); ?>
 <ul>
     <?php foreach ($items as $item): ?>

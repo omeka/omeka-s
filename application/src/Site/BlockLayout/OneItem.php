@@ -1,6 +1,7 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -19,9 +20,10 @@ class OneItem extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {}
 
-    public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
-    {
-        return $this->attachmentForms($view, 1, $block);
+    public function form(PhpRenderer $view,
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    ) {
+        return $this->attachmentForms($view, 1, $block, $site);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

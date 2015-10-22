@@ -1,7 +1,8 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SiteBlockAttachmentRepresentation;
 use Omeka\Entity\SitePageBlock;
@@ -36,10 +37,11 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
      * @param PhpRenderer $view
      * @param int $numAttachments The number of attachments this layout holds
      * @param SitePageBlockRepresentation|null $block
+     * @param SiteRepresentation $site
      * @return string
      */
     public function attachmentForms(PhpRenderer $view, $numAttachments,
-        SitePageBlockRepresentation $block = null
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site
     ) {
         $attachments = $block ? $block->attachments() : [];
         $html = '<div class="attachments">';
@@ -49,7 +51,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             } else {
                 $attachment = null;
             }
-            $html .= $this->attachmentForm($view, $attachment);
+            $html .= $this->attachmentForm($view, $attachment, $site);
         }
         $html .= '</div>';
         return $html;
@@ -60,24 +62,34 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
      *
      * @param PhpRenderer $view
      * @param SiteBlockAttachmentRepresentation|null $block
+     * @param SiteRepresentation $site
      * @return string
      */
     public function attachmentForm(PhpRenderer $view,
-        SiteBlockAttachmentRepresentation $attachment = null
+        SiteBlockAttachmentRepresentation $attachment = null,
+        SiteRepresentation $site
     ) {
+
         $itemId = null;
         $mediaId = null;
         $caption = null;
-        $sidebarContentUrl = $view->url('admin/default', [
-            'controller' => 'item', 'action' => 'sidebar-select',
-        ]);
-        $title = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
+        $sidebarContentUrl = $view->url('admin/default',
+            ['controller' => 'item', 'action' => 'sidebar-select'],
+            ['query' => $site->itemPool()]
+        );
+        $title = '';
+        $selectButton = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
         if ($attachment) {
-            $itemId = $attachment->item()->id();
+            $item = $attachment->item();
+            $itemId = $item->id();
             if ($attachment->media()) {
                 $mediaId = $attachment->media()->id();
             }
-            $title = $attachment->item()->displayTitle();
+            if ($item->primaryMedia()) {
+                $thumbnail = '<img src="' . $item->primaryMedia()->thumbnailUrl('square') . '" title="' .  $item->primaryMedia()->displayTitle() . '" alt="' . $item->primaryMedia()->mediaType() . ' thumbnail">';
+                $title = $thumbnail;
+            }
+            $title = $title . $item->displayTitle();
             $caption = $attachment->caption();
         }
         $html = '
@@ -87,7 +99,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <label>Item</label>
         </div>
         <div class="inputs">
-            <div class="item-title">' . $title . '</div>
+            <div class="item-title">' . $title . '</div>' . $selectButton .'
         </div>
     </div>
     <div class="field">
@@ -95,11 +107,11 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <label>Caption</label>
         </div>
         <div class="inputs">
-            <textarea class="caption" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:caption]">' . $caption . '</textarea>
+            <textarea class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">' . $caption . '</textarea>
         </div>
     </div>
-    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:item][o:id]" value="' . $itemId . '">
-    <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][attachmentIndex][o:media][o:id]" value="' . $mediaId . '">
+    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="' . $itemId . '">
+    <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="' . $mediaId . '">
 </div>';
         return $html;
     }

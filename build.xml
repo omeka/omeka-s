@@ -37,8 +37,14 @@
     <target name="install-deps"
             depends="get-composer,update-composer"
             description="Install dependencies.">
+        <condition property="composer.nodev.arg"
+                   value="--no-dev"
+                   else="">
+            <isset property="composer.nodev"/>
+        </condition>
         <exec executable="${php.path}" failonerror="true">
             <arg file="${composer.path}"/>
+            <arg line="${composer.nodev.arg}"/>
             <arg value="install"/>
         </exec>
     </target>
@@ -97,6 +103,12 @@
             <arg value="--dry-run"/>
             <arg value="--verbose"/>
             <arg value="--diff"/>
+        </exec>
+    </target>
+    <target name="fix-cs" description="Automatically fix code style issues">
+        <exec executable="${composer.bin.path}/php-cs-fixer" failonerror="true">
+            <arg value="fix"/>
+            <arg value="--verbose"/>
         </exec>
     </target>
     <target name="init"

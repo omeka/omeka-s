@@ -15,7 +15,7 @@ class PropertySelector extends AbstractHelper
      *
      * @return string
      */
-    public function __invoke($propertySelectorText = null)
+    public function __invoke($propertySelectorText = null, $active = true)
     {
         if ($this->selectorMarkup) {
             // Build the selector markup only once.
@@ -36,7 +36,8 @@ class PropertySelector extends AbstractHelper
             [
                 'vocabularies'       => $vocabResponse->getContent(),
                 'totalPropertyCount' => $propResponse->getTotalResults(),
-                'propertySelectorText'               => $propertySelectorText
+                'propertySelectorText'               => $propertySelectorText,
+                'state'              => $active ? 'active' : ''
             ]
         );
     }

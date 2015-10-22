@@ -3,12 +3,26 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Stdlib\ErrorStore;
 
 class Url extends AbstractLink
 {
     public function getLabel()
     {
         return 'Custom URL';
+    }
+
+    public function isValid(array $data, ErrorStore $errorStore)
+    {
+        if (!isset($data['label'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing label');
+            return false;
+        }
+        if (!isset($data['url'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL');
+            return false;
+        }
+        return true;
     }
 
     public function getForm(array $data)

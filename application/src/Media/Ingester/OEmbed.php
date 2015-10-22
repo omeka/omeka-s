@@ -33,7 +33,7 @@ class OEmbed extends AbstractIngester
 
         $config = $this->getServiceLocator()->get('Config');
         $whitelist = $config['oembed']['whitelist'];
-        
+
         $whitelisted = false;
         foreach ($whitelist as $regex) {
             if (preg_match($regex, $data['o:source']) === 1) {

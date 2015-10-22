@@ -1,7 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 ?>
-<div id="property-selector" class='selector sidebar active'>
+<div id="property-selector" class='selector sidebar <?php echo $state; ?>'>
     <?php if ($propertySelectorText) :?>
     <p><?php echo $escape($propertySelectorText); ?></p>
     <?php else: ?>

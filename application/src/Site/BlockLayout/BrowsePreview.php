@@ -1,6 +1,7 @@
 <?php
-namespace Omeka\BlockLayout;
+namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -17,8 +18,9 @@ class BrowsePreview extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {}
 
-    public function form(PhpRenderer $view, SitePageBlockRepresentation $block = null)
-    {
+    public function form(PhpRenderer $view,
+        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    ) {
 
         $text = new Text("o:block[__blockIndex__][o:data][query]");
         if ($block) {
@@ -49,7 +51,7 @@ class BrowsePreview extends AbstractBlockLayout
         $preview .= '</ul>';
 
         $link = $view->hyperlink('browse this', $view->url(
-            'site/browse', [], ['query' => $query], true
+            'site/resource', ['controller' => 'item'], ['query' => $query], true
         ));
 
         return $preview . $link;

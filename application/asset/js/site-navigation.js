@@ -90,7 +90,7 @@ $.jstree.plugins.editlink = function(options, parent) {
             }, this)
         );
         // Add a custom page link to the navigation tree.
-        $('#nav-custom-pages').on(
+        $('#nav-custom-links').on(
             'change',
             $.proxy(function(e) {
                 var link = $(e.currentTarget).children(':selected');
@@ -104,12 +104,13 @@ $.jstree.plugins.editlink = function(options, parent) {
                     }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
+                $(e.currentTarget)[0].selectedIndex = 0; // reset select
             }, this)
         );
         // Add a site page link to the navigation tree.
-        $('#nav-pages').on(
+        $('#nav-page-links').on(
             'click',
-            '.nav-page',
+            '.nav-page-link',
             $.proxy(function(e) {
                 var link = $(e.currentTarget);
                 var nodeId = this.create_node('#', {
@@ -124,6 +125,14 @@ $.jstree.plugins.editlink = function(options, parent) {
                         }
                     }
                 });
+                // There cannot be duplicate page links in navigation. Remove
+                // page links from the available list after they are added.
+                link.hide();
+                var pageLinks = $(e.delegateTarget);
+                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
+                    pageLinks.siblings('.page-selector-filter').hide();
+                    pageLinks.after('<p>There are no available pages.</p>');
+                }
                 this.toggleLinkEdit($('#' + nodeId));
             }, this)
         );

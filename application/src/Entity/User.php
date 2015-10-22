@@ -136,7 +136,7 @@ class User extends AbstractEntity implements RoleInterface
     {
         $this->created = $created;
     }
-    
+
     public function setModified(DateTime $dateTime)
     {
         $this->modified = $dateTime;

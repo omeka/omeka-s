@@ -53,6 +53,9 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $entity->setNavigation($request->getValue('o:navigation', []));
         }
+        if ($this->shouldHydrate($request, 'o:item_pool')) {
+            $entity->setItemPool($request->getValue('o:item_pool', []));
+        }
         if ($this->shouldHydrate($request, 'o:is_public')) {
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
@@ -146,8 +149,9 @@ class SiteAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:theme', 'A site must have a theme.');
         }
 
-        if (!is_array($entity->getNavigation())) {
-            $errorStore->addError('o:navigation', 'A site must have navigation data.');
+        $this->validateNavigation($entity, $errorStore);
+        if (!is_array($entity->getItemPool())) {
+            $errorStore->addError('o:item_pool', 'A site must have item pool data.');
         }
     }
 
@@ -164,5 +168,59 @@ class SiteAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['owner_id']))
             );
         }
+    }
+
+    /**
+     * Validate navigation.
+     *
+     * Prevent corrupt navigation data by validating prior to saving.
+     *
+     * @param EntityInterface $entity
+     * @param ErrorStore $errorStore
+     */
+    protected function validateNavigation(EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
+        $navigation = $entity->getNavigation();
+
+        if (!is_array($navigation)) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: navigation must be an array');
+            return;
+        }
+
+        $pagesInNavigation = [];
+        $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
+        $validateLinks = function ($linksIn) use (&$validateLinks, $manager, $errorStore, $pagesInNavigation)
+        {
+            foreach ($linksIn as $key => $data) {
+                if (!isset($data['type'])) {
+                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing type');
+                    return;
+                }
+                if (!isset($data['data'])) {
+                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing data');
+                    return;
+                }
+                if (!$manager->get($data['type'])->isValid($data['data'], $errorStore)) {
+                    $errorStore->addError('o:navigation', 'Invalid navigation: invalid link data');
+                    return;
+                }
+                if ('page' === $data['type']) {
+                    if (in_array($data['data']['id'], $pagesInNavigation)) {
+                        $errorStore->addError('o:navigation', 'Invalid navigation: page links must be unique');
+                        return;
+                    }
+                    $pagesInNavigation[] = $data['data']['id'];
+                }
+                if (isset($data['links'])) {
+                    if (!is_array($data['links'])) {
+                        $errorStore->addError('o:navigation', 'Invalid navigation: links must be an array');
+                        return;
+                    }
+                    $validateLinks($data['links']);
+                }
+            }
+        };
+        $validateLinks($navigation);
     }
 }

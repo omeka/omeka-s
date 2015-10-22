@@ -60,7 +60,7 @@ class IIIF extends AbstractIngester
             $errorStore->addError('o:source', 'URL does not link to IIIF JSON');
             return;
         }
-  
+
         //Check API version and generate a thumbnail
         //Version 2.0
         if (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/2/context.json') {

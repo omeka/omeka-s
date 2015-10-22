@@ -27,7 +27,7 @@ a:visited {
     color: desaturate($red, 20%);
 }
 
-a:active, 
+a:active,
 a:hover {
     color: $red;
 }
@@ -85,16 +85,16 @@ body {
 }
 
     /* @group ----- Tables ----- */
-    
+
     table {
         width: 100%;
     }
-    
+
     th {
         font-weight: bold;
         text-align: left;
     }
-    
+
     th,
     td {
         padding: rhythm(.5) gutter();
@@ -102,28 +102,28 @@ body {
         @include leading-border(1px, .5, $base-font-size, solid);
         vertical-align: middle;
     }
-    
+
     thead + tbody tr:first-child {
         border-color: #d7d7d7;
     }
-    
+
     table {
         @include trailer(.5);
     }
-    
+
     tr {
         background-color: #f2f2f2;
     }
-    
+
     td,
     th,
-    .tablesaw-sortable th.tablesaw-sortable-head, 
+    .tablesaw-sortable th.tablesaw-sortable-head,
     .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
         padding: rhythm(.25) .5em;
         position: relative;
         vertical-align: top;
     }
-    
+
     tr:last-of-type td,
     tr:last-of-type th,
      {
@@ -135,13 +135,13 @@ body {
     }
 
     /* @end */
-    
+
     /* @group ----- Form elements ----- */
-    
+
     textarea {
         clear: both;
     }
-    
+
     input,
     textarea,
     button {
@@ -150,7 +150,7 @@ body {
         line-height: $base-line-height;
         margin: 0;
     }
-    
+
     input[type="text"],
     input[type="password"],
     input[type="email"] {
@@ -162,30 +162,30 @@ body {
         padding: rhythm(.25) gutter();
         margin: 0;
     }
-    
+
     ::-webkit-input-placeholder {
        font-style: italic;
     }
-    
+
     :-moz-placeholder { /* Firefox 18- */
        font-style: italic;
     }
-    
+
     ::-moz-placeholder {  /* Firefox 19+ */
        font-style: italic;
     }
-    
-    :-ms-input-placeholder {  
+
+    :-ms-input-placeholder {
        font-style: italic;
     }
-    
+
     textarea {
         border-color: rgba(0,0,0,.15);
         @include rhythm-borders(1px, 0, $base-font-size, solid);
         margin: 0;
         display: block;
     }
-    
+
     input[type="submit"],
     button,
     a.button,
@@ -200,24 +200,24 @@ body {
         text-align: center;
         cursor: pointer;
         margin: 0 0 rhythm(.5) 0;
-        
+
         &:hover {
             background-color: $red;
         }
-        
+
         &:active, &.active {
-            background-color: $red; 
+            background-color: $red;
         }
-        
+
         &.inactive {
             background-color: #d2d2d2;
             cursor: default;
         }
     }
-    
+
     .field {
         @include field-row;
-        
+
         &:first-child {
             border-color: transparent;
         }
@@ -269,31 +269,31 @@ body {
         @include border-radius(3px);
         vertical-align: top;
     }
-    
+
     label input {
         margin-right: .5em;
     }
-        
+
     fieldset {
         margin: 0 0 rhythm();
         border: 0;
         padding: 0;
     }
-    
+
     .selector input[type="text"],
     .selector > ul {
         width: 100%;
     }
-    
+
     .selector > ul {
         margin: 0;
         overflow: hidden;
     }
-    
+
     .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
-    
+
     /* @end */
 
 /* @end */
@@ -302,7 +302,7 @@ body {
 
 div[role="main"] > .messages {
     @include trailer(.5);
-    
+
     li {
         margin: 0 0 rhythm(.25);
     }
@@ -310,11 +310,11 @@ div[role="main"] > .messages {
     .error {
         background-color: lighten($red, 45%);
     }
-    
+
     .success {
         background-color: lighten(green, 65%);
     }
-    
+
     .warning {
         background-color: lighten(orange, 45%);
     }
@@ -362,7 +362,7 @@ table .icon-sortable {
     @include field-row;
 }
 
-        
+
 .sortable-handle:before {
     cursor: move;
     content: $fa-var-reorder;
@@ -393,7 +393,7 @@ header {
 .skip {
     position: absolute;
     left: -9999px;
-    
+
 }
 
 .skip:focus {
@@ -427,7 +427,7 @@ header {
 #user p {
     margin: 0;
     display: inline-block;
-    
+
     &:not(:first-of-type):before {
         content: "\2022";
         display: inline-block;
@@ -465,16 +465,16 @@ header {
     @include border-radius(0px);
     position: relative;
     height: rhythm(1.5);
-    
+
     &:last-of-type {
         border-left: 1px solid rgba(255,255,255,.2);
         @include border-radius(0 3px 3px 0);
-        
+
         &:after {
             content: $fa-var-search;
         }
     }
-    
+
     &:after {
         content: $fa-var-ellipsis-h;
         font-family: "FontAwesome";
@@ -586,34 +586,34 @@ nav.pagination form input[type="text"] {
 }
 
     /* @group ----- Top-level navigation ----- */
-    
+
     #menu .navigation > li:not(:first-of-type) {
         @include leader(.25);
     }
-    
+
     #menu .navigation > li:not(:last-of-type) {
         border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
-    
+
     #menu .navigation li li {
         display: none;
     }
-    
+
     #menu .navigation li.active li {
         display: block;
         margin-left: rhythm();
     }
-    
+
     #menu .navigation li.active {
         font-weight: bold;
-        
-        a:before,        
+
+        a:before,
         li:not(.active) {
             font-weight: normal;
         }
     }
-    
+
     #menu a:before {
         font-family: "FontAwesome";
         display: inline-block;
@@ -631,7 +631,7 @@ nav.pagination form input[type="text"] {
     #menu .item-sets:before {
         content: $fa-var-cubes;
     }
-    
+
     #menu .vocabularies:before {
         content: $fa-var-book;
     }
@@ -643,11 +643,11 @@ nav.pagination form input[type="text"] {
     #menu .users:before {
         content: $fa-var-users;
     }
-    
+
     #menu .modules:before {
         content: $fa-var-plus-square;
     }
-    
+
     #menu .jobs:before {
         content: $fa-var-tasks;
     }
@@ -655,7 +655,7 @@ nav.pagination form input[type="text"] {
     #menu .sites:before {
         content: $fa-var-laptop;
     }
-    
+
     #menu .settings:before {
         content: $fa-var-gears;
     }
@@ -663,7 +663,7 @@ nav.pagination form input[type="text"] {
     #menu li li a:before {
         content: $fa-var-caret-right;
     }
-    
+
     /* @end */
 
 /* @end */
@@ -772,7 +772,7 @@ div[role="main"] {
     position: relative;
     padding: 0;
     min-height: 0;
-    
+
     &:before {
         text-indent: 0;
         position: absolute;
@@ -849,7 +849,7 @@ th .sorted-desc:before {
     text-align: center;
     position: relative;
     @include leader(4);
-    
+
     &:before {
         font-family: "FontAwesome";
         font-size: 6 * $base-font-size;
@@ -859,12 +859,12 @@ th .sorted-desc:before {
         width: 100%;
         opacity: .08;
     }
-    
+
     p {
         font-size: 1.5 * $base-font-size;
         line-height: 2 * $base-line-height;
         @include leader(2, 1.5 * $base-font-size);
-        
+
     }
 }
 
@@ -990,7 +990,7 @@ td .o-icon-private {
     position: relative;
     @include trailer();
     clear: both;
-    
+
     &:before {
         content: "";
         height: rhythm(.125);
@@ -1003,7 +1003,7 @@ td .o-icon-private {
         border: 1px solid #e7e7e7;
         border-width: 1px 0;
     }
-    
+
     a {
         display: block;
         float: left;
@@ -1017,7 +1017,7 @@ td .o-icon-private {
         border: 1px solid #e7e7e7;
         margin-left: .25em;
     }
-    
+
     .active a {
         font-weight: bold;
         border-bottom-color: #fff;
@@ -1098,7 +1098,7 @@ td .o-icon-private {
     top: rhythm(.25);
     left: rhythm(1.5);
     margin: 0 0 0 rhythm(.25);
-    background-color: transparent; 
+    background-color: transparent;
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
@@ -1134,7 +1134,7 @@ input[type="text"].value-language,
 }
 
     /* @group ----- Metadata ----- */
-    
+
     #add-item .remove.field {
         background-color: lighten($red, 30%);
         opacity: .6;
@@ -1147,13 +1147,13 @@ input[type="text"].value-language,
         width: 100%;
         float: left;
     }
-    
+
     .field-meta {
         width: span(3 of 10);
         padding-right: rhythm(.25);
         position: relative;
         display: inline-block;
-        
+
         legend,
         label {
             max-width: 80%;
@@ -1170,7 +1170,7 @@ input[type="text"].value-language,
         .error {
             float: left;
         }
-        
+
         ul {
             padding: 0;
             list-style-type: none;
@@ -1180,7 +1180,7 @@ input[type="text"].value-language,
     .field-label-text {
         display: block;
     }
-    
+
     .template {
         display: none;
     }
@@ -1204,11 +1204,11 @@ input[type="text"].value-language,
             border-right: rhythm(.25) solid transparent;
             border-bottom: rhythm(.5) solid #fff;
         }
-        
+
         &.above {
             bottom: 100%;
             top: auto;
-            
+
             &:before {
                 top: calc(100% - #{rhythm(.25)});
                 @include transform(rotate(180deg));
@@ -1216,52 +1216,52 @@ input[type="text"].value-language,
 
         }
     }
-    
+
     .selector ul {
         list-style: none;
         padding-left: 0;
 
         .description {
             display: inline-block;
-            
+
             .o-icon-info {
                 display: inline-block;
                 margin: 0 1em 0 0;
                 opacity: .75;
                 width: 1em;
             }
-            
+
             .o-icon-info + .field-comment {
                 position: absolute;
                 top: -9999px;
                 left: -9999px;
                 width: 100%;
-                
+
                 &:empty {
                     padding: 0;
                 }
             }
         }
     }
-    
+
     .selector > ul,
     .properties > ul {
         list-style: none;
         padding-left: 0;
-        
+
         li {
             position: relative;
-    
+
             &:hover {
                 background-color: rgba(0,0,0,.1);
             }
         }
-        
+
         & > li.show {
             background-color: #575757;
             color: #f9f9f9;
             @include border-radius(3px);
-            
+
             & > ul {
                 background-color: #c7c7c7;
                 color: #000;
@@ -1270,18 +1270,18 @@ input[type="text"].value-language,
                 @include border-radius(0px 0px 3px 3px);
             }
         }
-    
+
         & > li {
             font-weight: bold;
             position: relative;
             @include leader(.25);
             padding: rhythm(.25) 10px;
             background-color: rgba(0,0,0,.1);
-            
+
             &:last-of-type li:last-of-type {
                 @include trailer(0);
             }
-            
+
             & > ul > .selector-parent:after {
                 content: $fa-var-caret-right;
                 font-family: "FontAwesome";
@@ -1289,11 +1289,11 @@ input[type="text"].value-language,
                 right: rhythm(.625);
                 top: rhythm(.25);
             }
-            
+
             & > ul > li {
                 padding: rhythm(.25) 10px;
             }
-            
+
             .selector-child {
                 @include border-radius(0);
                 font-weight: normal;
@@ -1309,14 +1309,14 @@ input[type="text"].value-language,
         li.selector-parent.show:after {
             content: $fa-var-caret-down;
         }
-        
+
         & > li ul,
         & > li ul ul {
             position: absolute;
             top: -9999px;
             left: -9999px;
         }
-        
+
         li.show > ul {
             position: relative;
             top: 0;
@@ -1360,7 +1360,7 @@ input[type="text"].value-language,
         text-align: right;
         left: 0;
     }
-    
+
     .field-description .o-icon-info {
         margin: 0;
         cursor: pointer;
@@ -1378,7 +1378,7 @@ input[type="text"].value-language,
         @include adjust-font-size-to(14px, 1, $base-font-size);
         padding: rhythm(.25) 5px;
         margin: rhythm(.5) 0;
-        
+
         &.above {
             top: auto;
             bottom: rhythm(1.25);
@@ -1399,7 +1399,7 @@ input[type="text"].value-language,
         border-right: rhythm(.25) solid transparent;
         border-bottom: rhythm(.5) solid #333;
     }
-    
+
     .field-description .field-comment.open.above:before {
         top: auto;
         bottom: rhythm(-.5);
@@ -1438,7 +1438,7 @@ input[type="text"].value-language,
         vertical-align: top;
         position: relative;
         margin-left: -4px;
-        
+
         &:only-child {
             width: 100%;
         }
@@ -1450,7 +1450,7 @@ input[type="text"].value-language,
         label {
             margin-right: 1em;
         }
-        
+
         select,
         textarea,
         input[type="text"],
@@ -1462,7 +1462,7 @@ input[type="text"].value-language,
             margin: rhythm(.25) 0;
             resize: vertical;
         }
-        
+
         select:only-child,
         textarea:only-child,
         input[type="text"]:only-child,
@@ -1477,14 +1477,14 @@ input[type="text"].value-language,
             margin: rhythm(.25) 0;
         }
     }
-    
+
     .value {
         @include trailer();
         position: relative;
-        
+
         &:last-of-type {
             @include trailer(0);
-            
+
             .remove-value {
                 @include trailer(0);
             }
@@ -1551,7 +1551,7 @@ input[type="text"].value-language,
         margin-left: 0;
         margin-right: -3px;
     }
-    
+
     .value.delete {
         background-color: #ffcccc;
         overflow: hidden;
@@ -1562,7 +1562,7 @@ input[type="text"].value-language,
     .value.delete a.tab {
         display: none;
     }
-    
+
     .value.delete .input-header {
         background-color: transparent;
     }
@@ -1668,19 +1668,19 @@ input[type="text"].value-language,
     }
 
     /* @end */
-    
+
     /* @group ----- Media ----- */
-    
+
     .upload-zone {
         background-color: $gray-on-white;
         padding: rhythm(2) gutter() rhythm() gutter();
         text-align: center;
-        
+
         p {
             @include trailer(0);
         }
     }
-    
+
     #resource-files button {
         margin: rhythm() 0 0;
     }
@@ -1800,18 +1800,18 @@ input[type="text"].value-language,
 
 .search-nav {
     width: 100%;
-    
+
     .resource-search {
         width: 100%;
         position: relative;
         overflow: hidden;
         @include trailer();
     }
-    
+
     #resource-list-search {
         float: left;
     }
-    
+
     button.o-icon-search {
         height: rhythm(1.5);
         width: rhythm(1.5);
@@ -1823,7 +1823,7 @@ input[type="text"].value-language,
         top: 0;
         right: 0;
         text-indent: -9999px;
-        
+
         &:before {
             text-indent: 0px;
             position: absolute;
@@ -1837,39 +1837,39 @@ input[type="text"].value-language,
     .resource-search > input[type="text"] {
         width: calc(100% - #{rhythm(1.5)});
     }
-    
+
     .expand:after {
         content: $fa-var-caret-right;
         font-family: "FontAwesome";
         margin-left: 3px;
-    } 
-    
+    }
+
     .collapse:after {
         content: $fa-var-caret-down;
         font-family: "FontAwesome";
         margin-left: 3px;
     }
-    
+
     .pagination {
         border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);
         overflow: hidden;
-        
+
         li {
             float: left;
         }
-        
+
         li:first-of-type {
             padding-right: 10px;
         }
-        
+
         input {
             width: 3em;
             text-align: center;
             color: #333;
             margin: 0 3px;
         }
-        
+
         a.button {
             margin-right: 5px;
         }
@@ -1878,17 +1878,17 @@ input[type="text"].value-language,
 
 .resource-list {
     width: 100%;
-    
+
     img {
         width: rhythm(1.5);
         float: left;
         margin-left: rhythm(.25);
     }
-    
+
     .placeholder.no-image {
         background-color: #fff;
         border: 1px solid rgba(0,0,0,.08);
-        
+
         &:after {
             content: $fa-var-cubes;
             font-family: "FontAwesome";
@@ -1899,7 +1899,7 @@ input[type="text"].value-language,
             color: #d2d2d2;
         }
     }
-    
+
     .resource-name {
         display: inline-block;
         vertical-align: top;
@@ -1909,7 +1909,7 @@ input[type="text"].value-language,
     img + .resource-name {
         width: calc(100% - #{rhythm(2.5)});
     }
-    
+
     .resource {
         padding: rhythm(.25) 0;
         border-color: rgba(0,0,0,.08);
@@ -1917,11 +1917,11 @@ input[type="text"].value-language,
         position: relative;
         width: 100%;
         overflow: hidden;
-        
+
         &:hover {
             background-color: rgba(255,255,255,.8);
         }
-        
+
         &:hover .select {
             right: 0px;
         }
@@ -1932,14 +1932,14 @@ input[type="text"].value-language,
     background-color: #fff;
     overflow-y: scroll;
     @include padding-trailer(2.25);
-    
+
     h1 {
         font-size: 2 * $base-font-size;
         line-height: 2 * $base-line-height;
         @include trailer(1, 2 * $base-font-size);
         padding: 0;
     }
-    
+
     .o-description,
     .property {
         @include trailer();
@@ -1960,7 +1960,7 @@ input[type="text"].value-language,
     @include leading-border(1px, .25, $base-font-size, solid);
     border-left: 1px solid #d2d2d2;
     @include transition-duration(.5s);
-    
+
     .button {
         width: 100%;
     }
@@ -2005,12 +2005,12 @@ input[type="text"].value-language,
         @include trailer(0);
         padding: rhythm(.25);
     }
-    
+
     .value {
         padding: rhythm(.25);
         @include trailer(0);
         word-break: break-word;
-        
+
         &:not(:last-child) {
             border-color: $gray-on-white;
             @include trailing-border(1px, .25, $base-font-size, solid);
@@ -2051,14 +2051,14 @@ input[type="text"].value-language,
 /* @end */
 
 /* @group ----- Show Resource Template ----- */
-    
+
 .class-row {
     @include subhead-row;
 }
 
 .class-label {
     font-weight: bold;
-    
+
     &:after {
         content: ": ";
     }
@@ -2081,32 +2081,32 @@ input[type="text"].value-language,
     overflow-x: hidden;
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
-    
+
     &.active {
         left: span(12 of 16) + gutter(32);
     }
-    
+
     .o-icon-close {
         position: absolute;
         right: gutter();
         top: rhythm(.5);
     }
-    
+
     .vocabulary,
     .meta-group {
         @include trailer();
     }
-    
+
     .value {
         @include trailer(.25);
         border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
         vertical-align: middle;
-        
+
         *:last-child {
             @include trailer(0);
         }
-        
+
         &:last-child {
             border-color: transparent;
             @include trailer();
@@ -2136,7 +2136,7 @@ input[type="text"].value-language,
     @include bleed-x(gutter(1));
     @include bleed-y(rhythm());
     @include trailer();
-    
+
     button {
         @include trailer(0);
     }
@@ -2153,7 +2153,7 @@ body.sidebar-open #content {
         padding: rhythm(.25) 0;
         margin: 0;
         word-break: break-word;
-        
+
         &:not(:last-child) {
             border-color: $gray-on-white;
             @include trailing-border(1px, .25, $base-font-size, solid);
@@ -2250,7 +2250,7 @@ body.sidebar-open #content {
         vertical-align: top;
         resize: vertical;
     }
-    
+
     label:first-child {
         padding: rhythm(.25) 0 rhythm(.25) rhythm(1.5);
     }
@@ -2272,7 +2272,7 @@ body.sidebar-open #content {
     margin: rhythm() 0 0;
     clear: both;
     padding: 0;
-    
+
     & > li:first-child {
         @include field-row;
     }
@@ -2481,11 +2481,19 @@ body.sidebar-open #content {
         margin: rhythm(.25) 0;
     }
 
+    .block .item-title img {
+        height: rhythm(1.5);
+        width: auto;
+        display: inline-block;
+        margin-right: rhythm(.25);
+        vertical-align: middle;
+    }
+
     /* @end */
 
     /* @group ----- Navigation ----- */
 
-    #nav-pages {
+    #nav-page-links {
         list-style: none;
         padding-left: 0;
         @include leader(.9167);
@@ -2495,7 +2503,7 @@ body.sidebar-open #content {
         width: 100%;
     }
 
-    .nav-page {
+    .nav-page-link {
         @include field-row;
         cursor: pointer;
 
@@ -2540,6 +2548,8 @@ body.sidebar-open #content {
 }
 
 #advanced-search .remove-value {
+    background-color: transparent;
+    color: lighten($red, 20%);
     display: inline-block;
     text-indent: -9999px;
     position: relative;
@@ -2553,6 +2563,10 @@ body.sidebar-open #content {
         width: 1.5 * $base-line-height;
         line-height: 1.5 * $base-line-height;
         text-indent: 0;
+    }
+
+    &:hover {
+        color: $red;
     }
 }
 
@@ -2602,7 +2616,7 @@ body.minimal {
         font-size: 2 * $base-font-size;
         line-height: 2 * $base-line-height;
     }
-    
+
     div[role="main"] {
         width: 100%;
         min-height: 0;
@@ -2612,7 +2626,7 @@ body.minimal {
         overflow: hidden;
         @include rhythm-borders(1px, 0, $base-font-size, solid);
     }
-    
+
     .inputs {
         width: span(7 of 10);
     }
@@ -2621,17 +2635,17 @@ body.minimal {
           width: calc(66.66% - 6px);
           vertical-align: top;
     }
-    
+
     .inputs *:only-child {
         width: 100%;
     }
-    
+
     button[type="submit"] {
         display: block;
         margin: auto;
         clear: both;
     }
-    
+
     .field:last-of-type {
         @include trailer();
     }

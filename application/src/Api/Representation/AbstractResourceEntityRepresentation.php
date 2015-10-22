@@ -144,7 +144,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return $this->getAdapter('resource_classes')
             ->getRepresentation($this->resource->getResourceClass());
     }
-    
+
     /**
      * Get the resource template of this resource.
      * 
@@ -399,7 +399,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if ($template) {
             $options['templateProperties'] = $template->resourceTemplateProperties();
         }
-        
+
         return $partial($options['viewName'], $options);
     }
 
@@ -493,6 +493,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $representation['display_title'] = $this->displayTitle();
         if ($primaryMedia = $this->primaryMedia()) {
             $representation['thumbnail_url'] = $primaryMedia->thumbnailUrl('square');
+            $representation['thumbnail_title'] = $primaryMedia->displayTitle();
+            $representation['thumbnail_type'] = $primaryMedia->mediaType();
         }
 
         return $representation;

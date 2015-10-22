@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/jstree/jstree.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
@@ -32,6 +33,7 @@ $roles = array(
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
+        <li><a href="#item-pool"><?php echo $this->translate('Item Pool'); ?></a></li>
         <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
         <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User Permissions'); ?></a></li>
@@ -43,10 +45,15 @@ $roles = array(
     <?php echo $this->formElements($form); ?>
 </fieldset>
 
+<fieldset id="item-pool" class="section">
+    <legend><?php echo $this->translate('Item Pool'); ?></legend>
+    <div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item', 'query' => $site->itemPool()]); ?></div>
+</fieldset>
+
 <fieldset id="pages" class="section">
     <legend><?php echo $this->translate('Pages'); ?></legend>
     <?php echo $site->link($this->translate('Add a Page'), 'add-page', array('class' => 'button')); ?>
-    <?php $pages = $site->pages(); if ($pages): ?>
+    <?php if ($pages = $site->pages()): ?>
     <table id="page-list">
         <thead>
             <th><?php echo $this->translate('Title'); ?></th>
@@ -86,34 +93,34 @@ $roles = array(
         data-jstree-data="<?php echo $escape(json_encode($navTree)); ?>">
     </div>
     <div id="nav-selector" class="sidebar">
-    <p>Add a custom link:</p>
-    <select id="nav-custom-pages">
-        <option value="">Select below...</option>
-        <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
-        <?php $label = $this->navigationLink()->getLabel($type); ?>
-        <option
-            data-type="<?php echo $escape($type); ?>"
-            data-label="<?php echo $escape($label); ?>"
-            value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+        <p>Add a custom link:</p>
+        <select id="nav-custom-links">
+            <option value="">Select below...</option>
+            <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
+            <?php $label = $this->navigationLink()->getLabel($type); ?>
+            <option
+                data-type="<?php echo $escape($type); ?>"
+                data-label="<?php echo $escape($label); ?>"
+                value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <p>Add a link to a site page:</p>
+        <?php if ($pages = $site->notLinkedPages()): ?>
+        <input type="text" class="page-selector-filter" placeholder="Filter pages">
+        <ul id="nav-page-links">
+        <?php foreach ($pages as $page): ?>
+            <li class="nav-page-link"
+                data-type="page"
+                data-label="<?php echo $escape($page->title()); ?>"
+                data-id="<?php echo $escape($page->id()); ?>"
+                data-slug="<?php echo $escape($page->slug()); ?>">
+                <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
+            </li>
         <?php endforeach; ?>
-    </select>
-    <p>Add a link to a site page:</p>
-    <input type="text" class="page-selector-filter" placeholder="Filter pages">
-    <?php if ($pages): ?>
-    <ul id="nav-pages">
-    <?php foreach ($pages as $page): ?>
-        <li class="nav-page"
-            data-type="page"
-            data-label="<?php echo $escape($page->title()); ?>"
-            data-id="<?php echo $escape($page->id()); ?>"
-            data-slug="<?php echo $escape($page->slug()); ?>">
-            <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-    <?php else: ?>
-    <p>This site has no pages</p>
-    <?php endif; ?>
+        </ul>
+        <?php else: ?>
+        <p>There are no available pages.</p>
+        <?php endif; ?>
     </div>
 </fieldset>
 
@@ -305,7 +312,7 @@ var pageFilterSelector = function() {
     var filter = $(this).val().toLowerCase();
     var selector = $(this).closest('.selector');
     var parent = $("#nav-pages");
-    parent.find('li.nav-page').each(function() {
+    parent.find('li.nav-page-link').each(function() {
         var child = $(this);
         var label = child.data('label').toLowerCase();
         if (label.indexOf(filter) > -1) {

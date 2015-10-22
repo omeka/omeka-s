@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Form\Element\Hidden;
@@ -67,14 +68,16 @@ class BlockLayout extends AbstractHelper
      *
      * @param string|SitePageBlockRepresentation $layout The layout for add or
      *   a block representation for edit
+     * @param null|SiteRepresentation $site This layout/block's site
      * @return string
      */
-    public function form($layout)
+    public function form($layout, SiteRepresentation $site = null)
     {
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
+            $site = $block->page()->site();
         }
         return '
 <div class="block value">
@@ -88,7 +91,7 @@ class BlockLayout extends AbstractHelper
         <span class="restore-value">block to be removed</span>
     </div>
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="' . $layout . '">' .
-    $this->manager->get($layout)->form($this->getView(), $block) .
+    $this->manager->get($layout)->form($this->getView(), $block, $site) .
 '</div>';
     }
 

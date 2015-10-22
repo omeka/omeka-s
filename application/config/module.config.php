@@ -80,7 +80,8 @@ return [
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',
-        'sslcapath' => '/etc/ssl/certs',
+        'sslcapath' => null,
+        'sslcafile' => null,
     ],
     'cli' => [
         'execute_strategy' => 'exec',
@@ -254,9 +255,9 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
-            'html' => 'Omeka\BlockLayout\Html',
-            'browsePreview' => 'Omeka\BlockLayout\BrowsePreview',
-            'oneItem' => 'Omeka\BlockLayout\OneItem',
+            'html' => 'Omeka\Site\BlockLayout\Html',
+            'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
+            'oneItem' => 'Omeka\Site\BlockLayout\OneItem',
         ],
     ],
     'navigation_links' => [

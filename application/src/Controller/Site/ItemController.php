@@ -11,8 +11,11 @@ class ItemController extends AbstractActionController
         $site = $this->getSite();
 
         $this->setBrowseDefaults('created');
-        $this->getRequest()->getQuery()->set('site_id', $site->id());
-        $response = $this->api()->search('items', $this->params()->fromQuery());
+
+        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
+        $query = array_merge($itemPool, $this->params()->fromQuery());
+
+        $response = $this->api()->search('items', $query);
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
         $items = $response->getContent();
 

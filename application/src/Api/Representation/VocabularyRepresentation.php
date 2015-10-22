@@ -79,7 +79,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         return $this->resource->getLabel();
     }
-    
+
     /**
      * Return the vocabulary comment.
      *

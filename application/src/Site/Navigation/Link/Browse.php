@@ -3,12 +3,26 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Stdlib\ErrorStore;
 
 class Browse extends AbstractLink
 {
     public function getLabel()
     {
         return 'Browse';
+    }
+
+    public function isValid(array $data, ErrorStore $errorStore)
+    {
+        if (!isset($data['label'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: browse link missing label');
+            return false;
+        }
+        if (!isset($data['query'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: browse link missing query');
+            return false;
+        }
+        return true;
     }
 
     public function getForm(array $data)

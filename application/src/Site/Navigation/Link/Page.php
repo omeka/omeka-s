@@ -3,12 +3,34 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Stdlib\ErrorStore;
 
 class Page extends AbstractLink
 {
     public function getLabel()
     {
         return 'Page';
+    }
+
+    public function isValid(array $data, ErrorStore $errorStore)
+    {
+        if (!isset($data['label'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing label');
+            return false;
+        }
+        if (!isset($data['id'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page ID');
+            return false;
+        }
+        if (!isset($data['pageSlug'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page slug');
+            return false;
+        }
+        if (!isset($data['pageTitle'])) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page title');
+            return false;
+        }
+        return true;
     }
 
     public function getForm(array $data)

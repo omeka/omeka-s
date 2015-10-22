@@ -3,6 +3,7 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Stdlib\ErrorStore;
 
 class Fallback extends AbstractLink
 {
@@ -23,6 +24,11 @@ class Fallback extends AbstractLink
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return sprintf('%s [%s]', $translator->translate('Unknown'), $this->name);
+    }
+
+    public function isValid(array $data, ErrorStore $errorStore)
+    {
+        return true;
     }
 
     public function getForm(array $data)

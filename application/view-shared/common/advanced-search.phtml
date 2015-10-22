@@ -1,154 +1,169 @@
-<form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, array('action' => 'browse'), true)); ?>">
+<?php
+// Prepare the resource class query.
+if (isset($query['resource_class_id'])) {
+    $resourceClassId = $query['resource_class_id'] ;
+} else {
+    $resourceClassId = null;
+}
 
-    <div class="field">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search by class'); ?></legend>
-        </div>
-        <div class="inputs">
-            <?php echo $this->resourceClassSelect('resource_class_id'); ?>
-        </div>
+// Prepare the item set queries
+$itemSetIds = [[]];
+if (isset($query['item_set_id'])) {
+    $itemSetIds = [];
+    foreach ($query['item_set_id'] as $id) {
+        $itemSetIds[] = ['id' => $id];
+    }
+}
+
+// Prepare the value queries.
+$values = [[]];
+if (isset($query['value'])) {
+    $values = [];
+    $types = ['eq', 'neq', 'in', 'nin'];
+    foreach ($types as $type) {
+        if (isset($query['value'][$type])) {
+            foreach ($query['value'][$type] as $text) {
+                $values[] = ['type' => $type, 'text' => $text];
+            }
+        }
+    }
+}
+
+// Prepare the property queries.
+$properties = [[]];
+if (isset($query['property'])) {
+    $properties = [];
+    $types = ['eq', 'neq', 'in', 'nin'];
+    foreach ($query['property'] as $id => $null) {
+        foreach ($types as $type) {
+            if (isset($query['property'][$id][$type])) {
+                foreach ($query['property'][$id][$type] as $text) {
+                    $properties[] = ['type' => $type, 'text' => $text, 'id' => $id];
+                }
+            }
+        }
+    }
+}
+
+// Prepare the has property queries.
+$hasProperties = [[]];
+if (isset($query['has_property'])) {
+    $hasProperties = [];
+    foreach ($query['has_property'] as $id => $type) {
+        $hasProperties[] = ['id' => $id, 'type' => $type];
+    }
+}
+
+// Convenience functions to minimize inline code.
+$getId = function(array $search) {
+    if (isset($search['id'])) {
+        return $search['id'];
+    }
+    return null;
+};
+$queryOption = function($type, array $search, $text) {
+    $selected = null;
+    if (isset($search['type']) && $type === $search['type']) {
+        $selected = ' selected';
+    }
+    return sprintf('<option value="%s"%s>%s</option>', $type, $selected, $text);
+};
+$queryText = function(array $search) {
+    $text = null;
+    if (isset($search['text'])) {
+        $text = $search['text'];
+    }
+    return sprintf('<input type="text" class="query-text" value="%s">',  $this->escapeHtml($text));
+}
+?>
+<div class="field">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search by class'); ?></legend>
     </div>
+    <div class="inputs">
+        <?php echo $this->resourceClassSelect()->setValue($resourceClassId)->render('resource_class_id'); ?>
+    </div>
+</div>
 
-    <div id="item-sets" class="field removable">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search by item set'); ?></legend>
-        </div>
-        <div class="inputs">
-            <div class="value">
-                <?php echo $this->itemSetSelect('item_set_id'); ?>
-                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-            </div>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+<div id="value-queries" class="field removable">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search all properties'); ?></legend>
+    </div>
+    <div class="inputs">
+        <?php foreach ($values as $value): ?>
+        <div class="value">
             <select class="query-type">
-                <option value="and"><?php echo $this->translate('In all the above item sets'); ?></option>
-                <option value="or"><?php echo $this->translate('In any of the above item sets'); ?></option>
+                <?php echo $queryOption('eq', $value, $this->translate('has exact value')); ?>
+                <?php echo $queryOption('neq', $value, $this->translate('does not have exact value')); ?>
+                <?php echo $queryOption('in', $value, $this->translate('contains value')); ?>
+                <?php echo $queryOption('nin', $value, $this->translate('does not contain value')); ?>
             </select>
+            <?php echo $queryText($value); ?>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+        </div>
+        <?php endforeach; ?>
+        <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+    </div>
+</div>
+
+<div id="property-queries" class="field removable">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search specific property'); ?></legend>
+    </div>
+    <div class="inputs">
+        <?php foreach ($properties as $property): ?>
+        <div class="value">
+            <?php echo $this->propertySelect()->setValue($getId($property))->setAttributes(array('class' => 'query-property'))->render('property'); ?>
+            <select class="query-type">
+                <?php echo $queryOption('eq', $property, $this->translate('has exact value')); ?>
+                <?php echo $queryOption('neq', $property, $this->translate('does not have exact value')); ?>
+                <?php echo $queryOption('in', $property, $this->translate('contains value')); ?>
+                <?php echo $queryOption('nin', $property, $this->translate('does not contain value')); ?>
+            </select>
+            <?php echo $queryText($property); ?>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+        </div>
+        <?php endforeach; ?>
+        <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+    </div>
+</div>
+
+<div id="has-property-queries" class="field removable">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search resources'); ?></legend>
+    </div>
+    <div class="inputs">
+        <?php foreach ($hasProperties as $hasProperty): ?>
+        <div class="value">
+            <select class="query-type">
+                <?php echo $queryOption(1, $hasProperty, $this->translate('has property')); ?>
+                <?php echo $queryOption(0, $hasProperty, $this->translate('does not have property')); ?>
+            </select>
+            <?php echo $this->propertySelect()->setValue($getId($hasProperty))->setAttributes(array('class' => 'query-property'))->render('property'); ?>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+        </div>
+        <?php endforeach; ?>
+        <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+    </div>
+</div>
+
+<?php if (isset($resourceType) && 'item' === $resourceType): ?>
+<div id="item-sets" class="field removable">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search by item set'); ?></legend>
+        <a href="#" class="expand o-icon-right" aria-label=" Expand"></a>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>
     </div>
-
-    <div id="value-queries" class="field removable">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search all properties'); ?></legend>
+    <div class="inputs">
+        <?php foreach ($itemSetIds as $itemSetId): ?>
+        <div class="value">
+            <?php echo $this->itemSetSelect()->setValue($getId($itemSetId))->render('item_set_id[]'); ?>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
-        <div class="inputs">
-            <div class="value">
-                <select class="query-type">
-                    <option value="eq"><?php echo $this->translate('has exact value'); ?></option>
-                    <option value="neq"><?php echo $this->translate('does not have exact value'); ?></option>
-                    <option value="in"><?php echo $this->translate('contains value'); ?></option>
-                    <option value="nin"><?php echo $this->translate('does not contain value'); ?></option>
-                </select>
-                <input type="text" class="query-text">
-                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-            </div>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
-        </div>
+        <?php endforeach; ?>
+        <a href="#" class="add-value button"><?php echo $this->translate('Add new item set'); ?></a>
     </div>
-
-    <div id="property-queries" class="field removable">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search specific property'); ?></legend>
-        </div>
-        <div class="inputs">
-            <div class="value">
-                <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
-                <select class="query-type">
-                    <option value="eq"><?php echo $this->translate('has exact value'); ?></option>
-                    <option value="neq"><?php echo $this->translate('does not have exact value'); ?></option>
-                    <option value="in"><?php echo $this->translate('contains value'); ?></option>
-                    <option value="nin"><?php echo $this->translate('does not contain value'); ?></option>
-                </select>
-                <input type="text" class="query-text">
-                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-            </div>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
-        </div>
-    </div>
-
-    <div id="has-property-queries" class="field removable">
-        <div class="field-meta">
-            <legend><?php echo $this->translate('Search resources'); ?></legend>
-        </div>
-        <div class="inputs">
-            <div class="value">
-                <select class="query-type">
-                    <option value="1"><?php echo $this->translate('has property'); ?></option>
-                    <option value="0"><?php echo $this->translate('does not have property'); ?></option>
-                </select>
-                <?php echo $this->propertySelect('property', array('class' => 'query-property')); ?>
-                <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-            </div>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
-        </div>
-    </div>
-
-    <div id="page-actions">
-        <input type="submit" name="submit" value="<?php echo $this->escapeHtml($this->translate('Search')); ?>">
-    </div>
-
-</form>
-
-<script>
-// Remove all names from query form elements.
-$('.query-type, .query-text, .query-property').attr('name', null);
-
-// Remove individual values.
-$('#advanced-search').on('click', '.remove-value', function(e) {
-    e.preventDefault();
-    var values = $(this).parents('.inputs').children('.value');
-    $(this).parent('.value').remove();
-});
-
-$('#advanced-search').on('click', '.add-value', function(e) {
-    e.preventDefault();
-    var first = $(this).parents('.field').find('.value').first();
-    var clone = first.clone();
-    clone.children('input[type="text"]').val(null);
-    clone.children('select').prop('selectedIndex', 0);
-    clone.insertBefore($(this));
-});
-
-// Bypass regular form handling for value, property, and has property queries.
-$('#advanced-search').submit(function(event) {
-
-    $('#value-queries').find('.value').each(function(index) {
-        var text = $(this).children('.query-text');
-        if (!$.trim(text.val())) {
-            return; // do not process an empty query
-        }
-        var type = $(this).children('.query-type');
-        $('<input>').attr('type', 'hidden')
-            .attr('name', 'value[' + type.val() + '][]')
-            .val(text.val())
-            .appendTo('#advanced-search');
-    });
-
-    $('#property-queries').find('.value').each(function(index) {
-        var text = $(this).children('.query-text');
-        if (!$.trim(text.val())) {
-            return; // do not process an empty query
-        }
-        var property = $(this).children('.query-property');
-        if (!$.isNumeric(property.val())) {
-            return; // do not process an invalid property
-        }
-        var type = $(this).children('.query-type');
-        $('<input>').attr('type', 'hidden')
-            .attr('name', 'property[' + property.val() + '][' + type.val() + '][]')
-            .val(text.val())
-            .appendTo('#advanced-search');
-    });
-
-    $('#has-property-queries').find('.value').each(function(index) {
-        var property = $(this).children('.query-property');
-        if (!$.isNumeric(property.val())) {
-            return; // do not process an invalid property
-        }
-        var type = $(this).children('.query-type');
-        $('<input>').attr('type', 'hidden')
-            .attr('name', 'has_property[' + property.val() + ']')
-            .val(type.val())
-            .appendTo('#advanced-search');
-    });
-});
-</script>
+</div>
+<?php endif; ?>

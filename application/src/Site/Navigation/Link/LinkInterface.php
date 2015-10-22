@@ -3,6 +3,7 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Stdlib\ErrorStore;
 
 interface LinkInterface
 {
@@ -12,6 +13,14 @@ interface LinkInterface
      * @return string
      */
     public function getLabel();
+
+    /**
+     * Validate link data.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function isValid(array $data, ErrorStore $errorStore);
 
     /**
      * Get the link form.

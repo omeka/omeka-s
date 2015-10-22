@@ -125,10 +125,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $linked = [];
         $pages = $this->pages();
         $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveArrayIterator(
-                $this->navigation()),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
+            new \RecursiveArrayIterator($this->navigation()),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
         foreach ($iterator as $key => $value) {
             if (is_int($key)
                 && isset($value['type'])

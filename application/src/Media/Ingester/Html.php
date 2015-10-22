@@ -89,8 +89,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
      */
     protected function getForm(PhpRenderer $view, $id, $value = '')
     {
-        $view->headScript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
-        $view->headScript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
+        $view->ckEditor();
         $textarea = new Textarea('o:media[__index__][html]');
         $textarea->setOptions([
             'label' => $view->translate('HTML'),
@@ -106,7 +105,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $field = $view->formField($textarea);
         $field .= "
             <script type='text/javascript'>
-                $('#$id').ckeditor({'customConfig' : '" . $view->assetUrl('js/ckeditor_config.js', 'Omeka') . "'});
+                $('#$id').ckeditor();
             </script>
         ";
         return $field;

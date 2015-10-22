@@ -248,6 +248,7 @@ return [
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
+            'ckEditor' => 'Omeka\View\Helper\CkEditor'
         ],
         'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',

@@ -1,8 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
+$this->ckEditor();
 $this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
@@ -44,8 +43,7 @@ $escape = $this->plugin('escapeHtml');
 
 <script type="text/javascript">
 function wysiwyg(context) {
-    var ckEditorConfigUrl = "<?php echo $this->escapeJs($this->assetUrl('js/ckeditor_config.js', 'Omeka')); ?>";
-    context.find('textarea.wysiwyg').ckeditor({customConfig: ckEditorConfigUrl});
+    context.find('textarea.wysiwyg').ckeditor();
 }
 
 var list = document.getElementById('blocks');

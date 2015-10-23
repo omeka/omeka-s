@@ -14,12 +14,6 @@ class OneItem extends AbstractBlockLayout
         return 'One Item';
     }
 
-    public function prepareForm(PhpRenderer $view)
-    {}
-
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
-    {}
-
     public function form(PhpRenderer $view,
         SitePageBlockRepresentation $block = null, SiteRepresentation $site
     ) {

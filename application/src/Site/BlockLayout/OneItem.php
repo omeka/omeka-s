@@ -3,8 +3,6 @@ namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Omeka\Entity\SitePageBlock;
-use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
 class OneItem extends AbstractBlockLayout

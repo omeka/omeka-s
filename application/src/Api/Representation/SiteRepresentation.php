@@ -116,34 +116,33 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Return pages that are linked in site navigation.
+     * Return pages that are linked in site navigation, in the order they appear.
      *
-     * @return array
+     * @return array An array of page representations
      */
     public function linkedPages()
     {
-        $linked = [];
+        $linkedPages = [];
         $pages = $this->pages();
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveArrayIterator($this->navigation()),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($iterator as $key => $value) {
-            if (is_int($key)
-                && isset($value['type'])
-                && 'page' === $value['type']
-                && isset($pages[$value['data']['id']])
-            ) {
-                $linked[$value['data']['id']] = $pages[$value['data']['id']];
+        $iterate = function ($linksIn) use (&$iterate, &$linkedPages, $pages)
+        {
+            foreach ($linksIn as $key => $data) {
+                if ('page' === $data['type']) {
+                    $linkedPages[$data['data']['id']] = $pages[$data['data']['id']];
+                }
+                if (isset($data['links'])) {
+                    $iterate($data['links']);
+                }
             }
-        }
-        return $linked;
+        };
+        $iterate($this->navigation());
+        return $linkedPages;
     }
 
     /**
      * Return pages that are not linked in site navigation.
      *
-     * @return array
+     * @return array An array of page represenatations
      */
     public function notLinkedPages()
     {

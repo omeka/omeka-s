@@ -10,10 +10,10 @@ class IndexController extends AbstractActionController
     {
         $site = $this->getSite();
 
-        // Redirect to the first page, if it exists
-        $pages = $site->pages();
-        if ($pages) {
-            $firstPage = current($pages);
+        // Redirect to the first linked page, if it exists.
+        $linkedPages = $site->linkedPages();
+        if ($linkedPages) {
+            $firstPage = current($linkedPages);
             return $this->redirect()->toRoute('site/page', [
                 'site-slug' => $site->slug(),
                 'page-slug' => $firstPage->slug(),

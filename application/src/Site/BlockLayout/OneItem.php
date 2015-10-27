@@ -9,7 +9,8 @@ class OneItem extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'One Item';
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('One Item');
     }
 
     public function form(PhpRenderer $view,
@@ -36,7 +37,7 @@ class OneItem extends AbstractBlockLayout
 
             $caption = $attachment->caption();
             if ($caption) {
-                $html .= '<span class="caption">' . $caption . '</span>';
+                $html .= '<input type="hidden" name="item-caption" data-item-caption="' . $caption . '">';
             }
         }
         $html .= '</div>';

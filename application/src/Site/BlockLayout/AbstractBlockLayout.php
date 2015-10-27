@@ -69,7 +69,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
         SiteBlockAttachmentRepresentation $attachment = null,
         SiteRepresentation $site
     ) {
-
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
         $itemId = null;
         $mediaId = null;
         $caption = null;
@@ -77,8 +77,8 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             ['controller' => 'item', 'action' => 'sidebar-select'],
             ['query' => $site->itemPool()]
         );
-        $title = '';
-        $selectButton = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
+        $title = $translator->translate('No item selected');
+        $selectButton = '<a href="#" class="o-icon-configure item-options button" aria-label"' . $translator->translate('Configure item') . '" title="' . $translator->translate('Configure item') . '"></a>';
         if ($attachment) {
             $item = $attachment->item();
             $itemId = $item->id();
@@ -102,14 +102,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
             <div class="item-title">' . $title . '</div>' . $selectButton .'
         </div>
     </div>
-    <div class="field">
-        <div class="field-meta">
-            <label>Caption</label>
-        </div>
-        <div class="inputs">
-            <textarea class="caption wysiwyg" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">' . $caption . '</textarea>
-        </div>
-    </div>
+    <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="' . $caption . '">
     <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="' . $itemId . '">
     <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="' . $mediaId . '">
 </div>';

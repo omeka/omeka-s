@@ -41,9 +41,22 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
 
+<?php echo $this->partial('common/item-options-sidebar'); ?>
+
 <script type="text/javascript">
 function wysiwyg(context) {
-    context.find('textarea.wysiwyg').ckeditor();
+    var config = {
+        toolbar:
+        [
+            ['Source', 'Undo', 'Redo', 'PasteFromWord'],
+            '/',
+            ['Bold', 'Italic', 'Underline', 'Link', 'Unlink']
+        ],
+        height: '96px'
+    };
+    context.find('textarea.full.wysiwyg').ckeditor();
+    context.find('textarea.caption.wysiwyg').ckeditor(config);
+    $('textarea.caption.wysiwyg').ckeditor(config);
 }
 
 var list = document.getElementById('blocks');
@@ -69,21 +82,49 @@ $('#blocks').on('o:block-added', '.block', function () {
 });
 wysiwyg($('#blocks'));
 
-$('body').on('click', '.item-select', function(e) {
+$('body').on('click', '.item-options', function(e) {
     e.preventDefault();
     var context = $(this);
     $('.selecting-attachment').removeClass('selecting-attachment');
     context.parents('.attachment').addClass('selecting-attachment');
+    Omeka.openSidebar(context, '#item-options');
+    var itemThumbnail = $('.selecting-attachment .item-title img').clone();
+    var itemTitle = $('.selecting-attachment .item-title').text();
+    $('#item-options .current-item').attr('data-item-id', $('.selecting-attachment .item').val());
+    $('#item-options').find('.item-title').text(itemTitle);
+    if ($('#item-options .current-item img').length < 1) {
+        itemThumbnail.insertBefore($('#item-options .item-title'));
+    } else {
+        $('#item-options .current-item img').replaceWith(itemThumbnail);
+    }
+    $('#item-options .caption.wysiwyg').val($('.selecting-attachment .caption').val());
+});
+
+$('body').on('click', '.item-select', function(e) {
+    e.preventDefault();
+    var context = $(this);
     Omeka.openSidebar(context, '#select-resource');
+    $('#select-resource').css('z-index', $('#item-options').css('z-index') + 1);
 });
 
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
     var resourceThumbnail = '<img src="' + resource.thumbnail_url + '" title="' + resource.thumbnail_title + '" alt="' + resource.thumbnail_type + ' thumbnail">';
-    var selecting = $('.attachment.selecting-attachment');
-    selecting.find('.item').val(resource.value_resource_id);
-    selecting.find('.item-title').html(resourceThumbnail + resource.display_title);
+    var itemOptions = $('#item-options');
+    itemOptions.find('.current-item').attr('data-item-id', resource.value_resource_id);
+    itemOptions.find('img').remove();
+    itemOptions.find('.item-title').html(resource.display_title).before(resourceThumbnail);
     $('#select-resource').removeClass('active');
+});
+
+$('.confirm-panel button').on('click', function(e) {
+    e.preventDefault();
+    var selecting = $('.attachment.selecting-attachment');
+    var currentItem = $('#item-options .current-item');
+    selecting.find('.item').val(currentItem.attr('data-item-id'));
+    selecting.find('.item-title').text(currentItem.find('.item-title').text()).prepend(currentItem.find('img'));
+    selecting.find('.caption').val($('#item-options .caption').val());
+    $('#item-options').removeClass('active');
 });
 
 $('a.remove-value, a.restore-value').click(function(e) {

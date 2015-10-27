@@ -422,7 +422,7 @@ th {
   }
 
   a:visited {
-    color: #e61919;
+    color: #e61a1a;
   }
 
   a:active,
@@ -709,13 +709,13 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe5e5;
+    background-color: #ffe6e6;
   }
   div[role="main"] > .messages .success {
-    background-color: #ccffcc;
+    background-color: #cdffcd;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e5;
+    background-color: #fff6e6;
   }
 
   .messages {
@@ -2301,7 +2301,8 @@ th {
     margin-bottom: 1.5em;
   }
 
-  #select-item {
+  #select-item,
+  .confirm-panel {
     position: fixed;
     width: 24.47917%;
     bottom: 0;
@@ -2319,11 +2320,15 @@ th {
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  #select-item .button {
+  #select-item button,
+  #select-item .button,
+  .confirm-panel button,
+  .confirm-panel .button {
     width: 100%;
   }
 
-  #resource-details.active #select-item {
+  #resource-details.active #select-item,
+  .sidebar.active .confirm-panel {
     left: 75.52083%;
   }
 
@@ -2840,6 +2845,7 @@ th {
 
   .block .item-title {
     margin: 0.375em 0;
+    display: inline-block;
   }
 
   .block .item-title img {
@@ -2848,6 +2854,43 @@ th {
     display: inline-block;
     margin-right: 0.375em;
     vertical-align: middle;
+  }
+
+  .block .item-options.button {
+    display: inline-block;
+    background-color: transparent;
+    color: #ff6666;
+    padding: 0.375em;
+  }
+  .block .item-options.button:hover {
+    color: #FF0000;
+  }
+
+  #item-options .current-item {
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.75em;
+    text-align: center;
+    margin-bottom: 1.5em;
+  }
+  #item-options .current-item button {
+    margin: 0.75em auto 0;
+    display: block;
+  }
+  #item-options .current-item img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #item-options .item-title {
+    font-size: 20px;
+    margin-bottom: 0.6em;
+    display: block;
+  }
+
+  #item-options label {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em;
   }
 
   /* @end */
@@ -3158,7 +3201,7 @@ th {
     content: "";
   }
   #user p a {
-    color: #ffe5e5;
+    color: #ffe6e6;
   }
 
   #page-actions {

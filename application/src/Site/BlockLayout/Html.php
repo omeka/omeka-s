@@ -27,7 +27,7 @@ class Html extends AbstractBlockLayout
         SitePageBlockRepresentation $block = null, SiteRepresentation $site
     ) {
         $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
-        $textarea->setAttribute('class', 'block-html wysiwyg');
+        $textarea->setAttribute('class', 'block-html full wysiwyg');
         if ($block) {
             $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
         }

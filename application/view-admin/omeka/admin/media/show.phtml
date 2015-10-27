@@ -48,10 +48,12 @@ $escape = $this->plugin('escapeHtml');
         <h4><?php echo $this->translate('Ingester'); ?></h4>
         <div class="value"><?php echo $escape($media->ingesterLabel()); ?></div>
     </div>
+    <?php if ($media->source()): ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Source'); ?></h4>
         <div class="value"><?php echo $escape($media->source()); ?></div>
     </div>
+    <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="meta-group">
         <h4>File Derivatives</h4>

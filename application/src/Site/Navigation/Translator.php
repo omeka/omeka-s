@@ -56,9 +56,9 @@ class Translator implements ServiceLocatorAwareInterface
         $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
         {
             $linksOut = [];
-            foreach ($linksIn as $key => $data) {
+            foreach ($linksIn as $data) {
                 $linkData = $manager->get($data['type'])->toJstree($data['data'], $site);
-                $linksOut[$key] = [
+                $linksOut[] = [
                     'text' => $linkData['label'],
                     'data' => [
                         'type' => $data['type'],
@@ -83,12 +83,12 @@ class Translator implements ServiceLocatorAwareInterface
     {
         $buildPages = function ($pagesIn) use (&$buildPages) {
             $pagesOut = [];
-            foreach ($pagesIn as $key => $page) {
+            foreach ($pagesIn as $page) {
                 if (isset($page['data']['remove']) && $page['data']['remove']) {
                     // Remove pages set to be removed.
                     continue;
                 }
-                $pagesOut[$key] = [
+                $pagesOut[] = [
                     'type' => $page['data']['type'],
                     'data' => $page['data']['data'],
                     'links' => $page['children'] ? $buildPages($page['children']) : [],

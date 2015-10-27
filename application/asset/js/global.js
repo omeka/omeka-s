@@ -197,6 +197,22 @@ var Omeka = {
                 $($(this).attr('href')).addClass('active');
             }
         });
+
+        // Automatically switch to sections containing invalid elements on submit
+        // (Use a capturing event listener because 'invalid' doesn't bubble)
+        document.body.addEventListener('invalid', function (e) {
+            var target, section;
+            target = $(e.target);
+            if (!target.is(':input')) {
+                return;
+            }
+            section = target.parents('.section');
+            if (section.length && !section.hasClass('active')) {
+                $('.section.active, .section-nav li.active').removeClass('active');
+                section.addClass('active');
+                $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+            }
+        }, true);
         
         // Property selector toggle children
         $('.selector li.selector-parent').on('click', function(e) {

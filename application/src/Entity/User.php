@@ -5,7 +5,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Zend\Crypt\Password\Bcrypt;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
@@ -150,13 +149,11 @@ class User extends AbstractEntity implements RoleInterface
     /**
      * Update the user's password, storing it hashed.
      *
-     * @see Zend\Crypt\Password\Bcrypt
      * @param string $password Password to set.
      */
     public function setPassword($password)
     {
-        $bcrypt = new Bcrypt;
-        $this->passwordHash = $bcrypt->create($password);
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
@@ -172,8 +169,7 @@ class User extends AbstractEntity implements RoleInterface
             return false;
         }
 
-        $bcrypt = new Bcrypt;
-        return $bcrypt->verify($possiblePassword, $this->passwordHash);
+        return password_verify($possiblePassword, $this->passwordHash);
     }
 
     public function setRole($role)

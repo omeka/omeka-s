@@ -1,16 +1,32 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $form->prepare();
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>
 <?php echo $this->form()->openTag($form); ?>
+
 <div id="page-actions">
-    <a href="#"
-    class="o-icon-private button"
-    aria-label=" <?php echo $this->translate('Make public'); ?>"
-    title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <a href="#" class="o-icon-private button" aria-label=" <?php echo $this->translate('Make public'); ?>" title=" <?php echo $this->translate('Make public'); ?>"></a>
     <input type="hidden" name="o:is_public" value="0">
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
-<?php echo $this->formElements($form); ?>
+
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
+        <li><a href="#item-pool"><?php echo $this->translate('Item Pool'); ?></a></li>
+    </ul>
+</nav>
+
+<fieldset id="admin" class="section active">
+    <legend><?php echo $this->translate('Admin'); ?></legend>
+    <?php echo $this->formElements($form); ?>
+</fieldset>
+
+<fieldset id="item-pool" class="section">
+    <legend><?php echo $this->translate('Item Pool'); ?></legend>
+    <div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item']); ?></div>
+</fieldset>
+
 <?php echo $this->form()->closeTag(); ?>

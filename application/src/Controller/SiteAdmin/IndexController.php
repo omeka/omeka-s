@@ -29,9 +29,10 @@ class IndexController extends AbstractActionController
     {
         $form = new SiteForm($this->getServiceLocator());
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $formData = $this->params()->fromPost();
+            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $form->setData($formData);
             if ($form->isValid()) {
-                $formData = $form->getData();
                 $response = $this->api()->create('sites', $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());

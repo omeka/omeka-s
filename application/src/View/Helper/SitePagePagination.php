@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageRepresentation;
-use Omeka\Api\Exception\NotFoundException;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
 

@@ -91,7 +91,7 @@ class BlockLayout extends AbstractHelper
         <span class="restore-value">block to be removed</span>
     </div>
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="' . $layout . '">' .
-    $this->manager->get($layout)->form($this->getView(), $block, $site) .
+    $this->manager->get($layout)->form($this->getView(), $site, $block) .
 '</div>';
     }
 

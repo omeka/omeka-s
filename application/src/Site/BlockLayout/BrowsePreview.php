@@ -18,10 +18,9 @@ class BrowsePreview extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {}
 
-    public function form(PhpRenderer $view,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    public function form(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
-
         $text = new Text("o:block[__blockIndex__][o:data][query]");
         if ($block) {
             $text->setAttribute('value', $this->getData($block->data(), 'query'));

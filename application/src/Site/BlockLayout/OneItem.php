@@ -13,8 +13,8 @@ class OneItem extends AbstractBlockLayout
         return $translator->translate('One Item');
     }
 
-    public function form(PhpRenderer $view,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    public function form(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
         return $this->attachmentForms($view, 1, $block, $site);
     }

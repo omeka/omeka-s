@@ -147,7 +147,8 @@ body {
 
     input[type="text"],
     input[type="password"],
-    input[type="email"] {
+    input[type="email"],
+    input[type="url"] {
         @include appearance(none);
         @include border-radius(0px);
         height: rhythm(1.5);
@@ -1449,20 +1450,17 @@ input[type="text"].value-language,
         textarea,
         input[type="text"],
         input[type="password"],
-        input[type="email"] {
+        input[type="email"],
+        input[type="url"] {
             width: 100%;
             min-height: rhythm(1.5);
             padding: rhythm(.25);
             margin: rhythm(.25) 0;
             resize: vertical;
-        }
 
-        select:only-child,
-        textarea:only-child,
-        input[type="text"]:only-child,
-        input[type="password"]:only-child,
-        input[type="email"]:only-child {
-            margin: 0;
+            &:only-child {
+                margin: 0;
+            }
         }
 
         .button,

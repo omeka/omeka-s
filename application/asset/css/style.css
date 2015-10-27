@@ -545,7 +545,8 @@ th {
 
   input[type="text"],
   input[type="password"],
-  input[type="email"] {
+  input[type="email"],
+  input[type="url"] {
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 0px;
@@ -1838,7 +1839,8 @@ th {
   .inputs textarea,
   .inputs input[type="text"],
   .inputs input[type="password"],
-  .inputs input[type="email"] {
+  .inputs input[type="email"],
+  .inputs input[type="url"] {
     width: 100%;
     min-height: 2.25em;
     padding: 0.375em;
@@ -1849,7 +1851,8 @@ th {
   .inputs textarea:only-child,
   .inputs input[type="text"]:only-child,
   .inputs input[type="password"]:only-child,
-  .inputs input[type="email"]:only-child {
+  .inputs input[type="email"]:only-child,
+  .inputs input[type="url"]:only-child {
     margin: 0;
   }
   .inputs .button,

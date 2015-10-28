@@ -32,81 +32,20 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     {}
 
     /**
-     * Render all forms for adding/editing block attachments.
+     * Render a form for adding/editing block attachments.
      *
      * @param PhpRenderer $view
-     * @param int $numAttachments The number of attachments this layout holds
-     * @param SitePageBlockRepresentation|null $block
      * @param SiteRepresentation $site
-     * @return string
-     */
-    public function attachmentForms(PhpRenderer $view, $numAttachments,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site
-    ) {
-        $attachments = $block ? $block->attachments() : [];
-        $html = '<div class="attachments">';
-        for ($i = 1; $i <= $numAttachments; $i++) {
-            if ($attachment = current($attachments)) {
-                next($attachments);
-            } else {
-                $attachment = null;
-            }
-            $html .= $this->attachmentForm($view, $attachment, $site);
-        }
-        $html .= '</div>';
-        return $html;
-    }
-
-    /**
-     * Render a form for adding/editing a block attachment.
-     *
-     * @param PhpRenderer $view
      * @param SiteBlockAttachmentRepresentation|null $block
-     * @param SiteRepresentation $site
      * @return string
      */
-    public function attachmentForm(PhpRenderer $view,
-        SiteBlockAttachmentRepresentation $attachment = null,
-        SiteRepresentation $site
+    public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        $itemId = null;
-        $mediaId = null;
-        $caption = null;
-        $sidebarContentUrl = $view->url('admin/default',
-            ['controller' => 'item', 'action' => 'sidebar-select'],
-            ['query' => $site->itemPool()]
-        );
-        $title = $translator->translate('No item selected');
-        $selectButton = '<a href="#" class="o-icon-configure item-options button" aria-label"' . $translator->translate('Configure item') . '" title="' . $translator->translate('Configure item') . '"></a>';
-        if ($attachment) {
-            $item = $attachment->item();
-            $itemId = $item->id();
-            if ($attachment->media()) {
-                $mediaId = $attachment->media()->id();
-            }
-            if ($item->primaryMedia()) {
-                $thumbnail = '<img src="' . $item->primaryMedia()->thumbnailUrl('square') . '" title="' .  $item->primaryMedia()->displayTitle() . '" alt="' . $item->primaryMedia()->mediaType() . ' thumbnail">';
-                $title = $thumbnail;
-            }
-            $title = $title . $item->displayTitle();
-            $caption = $attachment->caption();
-        }
-        $html = '
-<div class="attachment">
-    <div class="field">
-        <div class="field-meta">
-            <label>Item</label>
-        </div>
-        <div class="inputs">
-            <div class="item-title">' . $title . '</div>' . $selectButton .'
-        </div>
-    </div>
-    <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="' . $caption . '">
-    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="' . $itemId . '">
-    <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="' . $mediaId . '">
-</div>';
-        return $html;
+        $attachments = $block ? $block->attachments() : [[]];
+        return $view->partial('common/attachments-form', [
+            'attachments' => $attachments,
+        ]);
     }
 
     /**

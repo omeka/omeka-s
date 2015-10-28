@@ -16,7 +16,7 @@ class OneItem extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        return $this->attachmentForms($view, 1, $block, $site);
+        return $this->attachmentsForm($view, $site, $block);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

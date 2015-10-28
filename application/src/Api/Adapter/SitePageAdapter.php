@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SiteBlockAttachment;
@@ -212,7 +213,12 @@ class SitePageAdapter extends AbstractEntityAdapter
                 return false;
             }
 
-            $item = $itemAdapter->findEntity($inputAttachment['o:item']['o:id']);
+            try {
+                $item = $itemAdapter->findEntity($inputAttachment['o:item']['o:id']);
+            } catch (NotFoundException $e) {
+                $errorStore->addError('o:attachment', 'The attached item was not found.');
+                return false;
+            }
 
             if (isset($inputAttachment['o:media']['o:id'])) {
                 $itemMedia = $item->getMedia();

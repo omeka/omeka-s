@@ -68,7 +68,7 @@ new Sortable(list, {
 $('#new-block').change(function() {
     $.post(
         '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {layout: $(this).val(), siteId: <?php echo $site->id(); ?>}
+        {layout: $(this).val()}
     ).done(function(data) {
         var newBlock = $(data).appendTo('#blocks');
         newBlock.trigger('o:block-added');

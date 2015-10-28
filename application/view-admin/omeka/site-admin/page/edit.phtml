@@ -174,12 +174,12 @@ $('.attachments').each(function() {
     });
 });
 
-// Add attachment.
+// Append attachment.
 $('#blocks').on('click', '.attachment-add', function(e) {
-    var thisButton = $(this);
-    var clone = $(this).siblings('.attachment').first().clone();
+    var attachments = $(this).siblings('.attachments');
+    var clone = attachments.children('.attachment').first().clone();
     clone.find('.item-title').text('No item selected');
     clone.find('input').val(null);
-    thisButton.before(clone);
+    attachments.append(clone);
 });
 </script>

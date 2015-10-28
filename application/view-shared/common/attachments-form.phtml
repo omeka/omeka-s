@@ -1,38 +1,40 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 ?>
-<div class="attachments">
-    <?php foreach ($attachments as $attachment): ?>
-    <?php
-    $itemId    = null;
-    $mediaId   = null;
-    $caption   = null;
-    $thumbnail = null;
-    $title     = $this->translate('No item selected');
-    if ($attachment) {
-        $item    = $attachment->item();
-        $media = $attachment->media();
-        $itemId  = $item->id();
-        $caption = $attachment->caption();
-        $title   = $item->displayTitle();
-        if ($media) {
-            $mediaId = $media->id();
-        } else {
-            $media = $item->primaryMedia();
+<div class="attachments-form">
+    <div class="attachments">
+        <?php foreach ($attachments as $attachment): ?>
+        <?php
+        $itemId    = null;
+        $mediaId   = null;
+        $caption   = null;
+        $thumbnail = null;
+        $title     = $this->translate('No item selected');
+        if ($attachment) {
+            $item    = $attachment->item();
+            $media = $attachment->media();
+            $itemId  = $item->id();
+            $caption = $attachment->caption();
+            $title   = $item->displayTitle();
+            if ($media) {
+                $mediaId = $media->id();
+            } else {
+                $media = $item->primaryMedia();
+            }
+            if ($media) {
+                $thumbnail = '<img src="' . $escape($media->thumbnailUrl('square')) . '" title="' .  $escape($media->displayTitle()) . '" alt="' . $escape($media->mediaType()) . ' thumbnail">';
+            }
         }
-        if ($media) {
-            $thumbnail = '<img src="' . $escape($media->thumbnailUrl('square')) . '" title="' .  $escape($media->displayTitle()) . '" alt="' . $escape($media->mediaType()) . ' thumbnail">';
-        }
-    }
-    ?>
-    <div class="attachment">
-        <span class="sortable-handle"></span>
-        <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
-        <a href="#" class="o-icon-configure item-options button" aria-label="<?php echo $escape($this->translate('Configure item')); ?>" title="<?php echo $escape($this->translate('Configure item')); ?>"></a>
-        <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="<?php echo $escape($itemId); ?>">
-        <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="<?php echo $escape($mediaId); ?>">
-        <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
+        ?>
+        <div class="attachment">
+            <span class="sortable-handle"></span>
+            <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
+            <a href="#" class="o-icon-configure item-options button" aria-label="<?php echo $escape($this->translate('Configure item')); ?>" title="<?php echo $escape($this->translate('Configure item')); ?>"></a>
+            <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="<?php echo $escape($itemId); ?>">
+            <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="<?php echo $escape($mediaId); ?>">
+            <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
+        </div>
+        <?php endforeach; ?>
     </div>
-    <?php endforeach; ?>
     <button type="button" class="attachment-add">Add Attachment</button>
 </div>

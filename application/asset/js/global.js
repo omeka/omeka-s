@@ -35,6 +35,12 @@ var Omeka = {
         }
     },
 
+    switchActiveSection: function (section) {
+        $('.section.active, .section-nav li.active').removeClass('active');
+        section.addClass('active');
+        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+    },
+
     populateSidebarContent : function(context, sidebar) {
         var url = context.data('sidebar-content-url');
         var sidebarContent = sidebar.find('.sidebar-content');
@@ -190,12 +196,7 @@ var Omeka = {
         // Switch between section tabs.
         $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
-            var tab = $(this).parent();
-            if (!tab.hasClass('active')) {
-                $('.section.active, .section-nav li.active').removeClass('active');
-                tab.addClass('active');
-                $($(this).attr('href')).addClass('active');
-            }
+            Omeka.switchActiveSection($($(this).attr('href')));
         });
 
         // Automatically switch to sections containing invalid elements on submit
@@ -208,9 +209,7 @@ var Omeka = {
             }
             section = target.parents('.section');
             if (section.length && !section.hasClass('active')) {
-                $('.section.active, .section-nav li.active').removeClass('active');
-                section.addClass('active');
-                $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+                Omeka.switchActiveSection(section);
             }
         }, true);
         

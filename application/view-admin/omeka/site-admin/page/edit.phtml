@@ -21,9 +21,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->formElements($form); ?>
 
-<div id="blocks">
-    <?php echo $this->blockLayout()->forms($page); ?>
-</div>
+<?php echo $this->blockLayout()->forms($page); ?>
 
 <?php echo $this->form()->closeTag(); ?>
 

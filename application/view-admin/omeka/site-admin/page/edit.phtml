@@ -21,7 +21,9 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->formElements($form); ?>
 
-<?php echo $this->blockLayout()->forms($page); ?>
+<div id="blocks">
+    <?php echo $this->blockLayout()->forms($page); ?>
+</div>
 
 <?php echo $this->form()->closeTag(); ?>
 
@@ -160,4 +162,26 @@ function replaceIndex(context, find, index) {
     });
 }
 
+// Make attachments sortable.
+$('#blocks').on('o:block-added', '.block', function () {
+    new Sortable($(this).children('.attachments')[0], {
+        draggable: ".attachment",
+        handle: ".sortable-handle"
+    });
+});
+$('.attachments').each(function() {
+    new Sortable(this, {
+        draggable: ".attachment",
+        handle: ".sortable-handle"
+    });
+});
+
+// Add attachment.
+$('#blocks').on('click', '.attachment-add', function(e) {
+    var thisButton = $(this);
+    var clone = $(this).siblings('.attachment').first().clone();
+    clone.find('.item-title').text('No item selected');
+    clone.find('input').val(null);
+    thisButton.before(clone);
+});
 </script>

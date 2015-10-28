@@ -2,7 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 <div class="attachments">
-<?php foreach ($attachments as $attachment): ?>
+    <?php foreach ($attachments as $attachment): ?>
     <?php
     $itemId    = null;
     $mediaId   = null;
@@ -26,18 +26,13 @@ $escape = $this->plugin('escapeHtml');
     }
     ?>
     <div class="attachment">
-        <div class="field">
-            <div class="field-meta">
-                <label>Item</label>
-            </div>
-            <div class="inputs">
-                <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
-                <a href="#" class="o-icon-configure item-options button" aria-label="<?php echo $escape($this->translate('Configure item')); ?>" title="<?php echo $escape($this->translate('Configure item')); ?>"></a>
-            </div>
-        </div>
+        <span class="sortable-handle"></span>
+        <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
+        <a href="#" class="o-icon-configure item-options button" aria-label="<?php echo $escape($this->translate('Configure item')); ?>" title="<?php echo $escape($this->translate('Configure item')); ?>"></a>
         <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="<?php echo $escape($itemId); ?>">
         <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="<?php echo $escape($mediaId); ?>">
         <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
     </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+    <button type="button" class="attachment-add">Add Attachment</button>
 </div>

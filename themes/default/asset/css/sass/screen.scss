@@ -8,21 +8,33 @@
 @import "compass/typography";
 @import "susy";
 @import "base";
+@import "../../../../../application/asset/sass/iconfonts";
 
 * {
     box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../../../../application/asset/fonts/fontawesome-webfont.eot?v=4.2.0");
+  src: url("../../../../application/asset/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0") format("embedded-opentype"),
+       url("../../../../application/asset/fonts/fontawesome-webfont.woff?v=4.2.0") format("woff"),
+       url("../../../../application/asset/fonts/fontawesome-webfont.ttf?v=4.2.0") format("truetype"),
+       url("../../../../application/asset/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html {
-    font-family: "Open Sans", sans-serif;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
     height: 100%;
     padding: 0;
     margin: 0;
 }
 
 body {
+    font-family: "Open Sans", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
     border-left: 50px solid $light;
     border-right: 50px solid transparent;
     min-height: 100%;
@@ -68,6 +80,52 @@ img {
     height: auto;
 }
 
+/* @group ----- Forms ----- */
+
+nav.pagination {
+    margin-bottom: rhythm();
+}
+
+input,
+textarea,
+button {
+    font-family: "Open Sans", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    margin: 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"] {
+    @include appearance(none);
+    @include border-radius(0px);
+    height: rhythm(1.5);
+    border-color: rgba(0,0,0,.15);
+    @include rhythm-borders(1px, 0, $base-font-size, solid);
+    padding: rhythm(.25) gutter();
+    margin: 0;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   font-style: italic;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+:-ms-input-placeholder {
+   font-style: italic;
+}
+
+/* @end */
+
 /* @group ----- Navigation ----- */
 
 ul.navigation {
@@ -76,7 +134,7 @@ ul.navigation {
     border-color: $gray;
     @include trailing-border(1px, 0, $base-font-size, solid);
     position: relative;
-    
+
     & > li {
         @include padding-trailer(.5);
         display: inline-block;
@@ -122,11 +180,67 @@ ul.navigation {
     }
 }
 
+.pagination input {
+    text-align: center;
+}
+
+.pagination {
+    border-color: $light;
+    @include trailing-border(1px, 1, $base-font-size, solid);
+}
+
+.resource-list + .pagination {
+    border-color: transparent;
+}
+
+.pagination form {
+    min-width: rhythm(3);
+}
+
+.pagination form,
+.pagination .button,
+.pagination button,
+.pagination .row-count {
+    display: inline-block;
+}
+
+.pagination .button {
+    border: 1px solid $light;
+    background-color: $light;
+    width: rhythm(1.5);
+    text-align: center;
+    padding: rhythm(.25);
+    border-radius: 2px;
+    color: $gray;
+
+    &:hover {
+        background-color: $bold;
+    }
+}
+
+.pagination .inactive.button {
+    opacity: .5;
+    background-color: white;
+
+    &:hover {
+        background-color: white;
+    }
+}
+
+.pagination form,
+.pagination .last {
+    margin-right: rhythm(.25);
+}
+
+.pagination input {
+    width: rhythm(2);
+}
+
 /* @end */
 
 /* @group ----- Page ----- */
 
-.resource.item {
+.page .resource.item {
     width: 50%;
     margin: rhythm() auto;
     text-align: center;
@@ -191,6 +305,54 @@ ul.navigation {
     font-size: .75 * $base-font-size;
     display: inline-block;
     margin-bottom: rhythm(.5, .75 * $base-font-size);
+}
+
+/* @end */
+
+/* @group ----- Browse ----- */
+
+.browse ul.resource-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.browse .resource {
+    border-color: $light;
+    @include trailing-border(1px, 1, $base-font-size, solid);
+    margin-bottom: rhythm();
+    overflow: hidden;
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: rhythm();
+        left: 0;
+        height: rhythm(1.25);
+        background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+    }
+}
+
+.browse .resource img {
+    height: rhythm(5);
+    width: auto;
+    float: right;
+    margin-left: rhythm(.5);
+}
+
+.browse .resource h4 {
+    margin-top: 0;
+}
+
+.browse .resource .description {
+    max-height: rhythm(3);
+    overflow: hidden;
+}
+
+.browse .resource:after,
+.browse .resource h4,
+.browse .resource .description {
+    width: calc(100% - #{rhythm(5.5)});
 }
 
 /* @end */

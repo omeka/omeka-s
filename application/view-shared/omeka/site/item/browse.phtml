@@ -1,10 +1,23 @@
+<?php $escape = $this->plugin('escapeHtml');?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'browse items'); ?>
+
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
 <?php echo $this->pageTitle($site->title()); ?>
 <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
 <?php echo $this->pagination(); ?>
-<ul>
+<ul class="resource-list">
     <?php foreach ($items as $item): ?>
-    <li><?php echo $item->link($item->displayTitle()); ?></li>
+    <li class="item resource">
+        <?php if ($primaryMedia = $item->primaryMedia()): ?>
+        <img
+            src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>"
+            title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
+            alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
+        >
+        <?php endif; ?>
+        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
+        <div class="description"><?php echo $item->displayDescription(); ?></div>
+    </li>
     <?php endforeach; ?>
 </ul>
 <?php echo $this->pagination(); ?>

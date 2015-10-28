@@ -4,7 +4,7 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Element\Url;
+use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -83,7 +83,7 @@ class IIIF extends AbstractIngester
 
     public function form(PhpRenderer $view, array $options = [])
     {
-        $urlInput = new Url('o:media[__index__][o:source]');
+        $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
             'label' => $view->translate('IIIF Image URL'),
             'info' => $view->translate('URL for the image to embed.'),

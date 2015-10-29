@@ -8,7 +8,8 @@
         "zendframework/zendframework": "~2.3",
         "easyrdf/easyrdf": "~0.8",
         "ml/json-ld": "~1.0",
-        "ezyang/htmlpurifier": "~4.6.0"
+        "ezyang/htmlpurifier": "~4.6.0",
+        "composer/semver": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",

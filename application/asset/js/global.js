@@ -141,7 +141,7 @@ var Omeka = {
                 isPublicHiddenValue.attr('value', 0);
             }
         });
-        
+
         if ($('.active.sidebar').length > 0) {
             $('#content').addClass('sidebar-open');
         }
@@ -150,7 +150,7 @@ var Omeka = {
             e.preventDefault();
             Omeka.closeSidebar($(this));
         });
-        
+
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
             $('#main').attr('tabindex', -1).on('blur focusout', function() {
@@ -212,7 +212,7 @@ var Omeka = {
                 Omeka.switchActiveSection(section);
             }
         }, true);
-        
+
         // Property selector toggle children
         $('.selector li.selector-parent').on('click', function(e) {
             e.stopPropagation();
@@ -220,7 +220,7 @@ var Omeka = {
                 $(this).toggleClass('show');
             }
         });
-        
+
         $('.selector-filter').on('keydown', function(e) {
             if (e.keyCode == 13) {
                 e.stopPropagation();
@@ -245,6 +245,12 @@ var Omeka = {
             fieldDesc.toggleClass('open');
             var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.outerHeight() + fieldDesc.outerHeight() - $(window).scrollTop();
             fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
+        });
+
+        // Add class to required fields.
+
+        $(':required').each(function() {
+            $(this).parents('.field').addClass('required').attr('title', 'required');
         });
 
         $('#search-form').change(Omeka.updateSearch);

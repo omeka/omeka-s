@@ -210,6 +210,22 @@ body {
         }
     }
 
+    .required .field-meta {
+        position: relative;
+        padding-right: rhythm(1.5);
+
+        &:after {
+            font-family: "FontAwesome";
+            content: $fa-var-asterisk;
+            font-size: .75 * $base-font-size;
+            position: absolute;
+            right: rhythm(.5);
+            color: lighten($red, 20%);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
     .field {
         @include field-row;
 

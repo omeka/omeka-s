@@ -185,8 +185,6 @@ $('.attachments').each(function() {
 $('#blocks').on('click', '.attachment-add', function(e) {
     var attachments = $(this).siblings('.attachments');
     var template = $(attachments.data('template'));
-    template.find('.item-title').text('No item selected');
-    template.find('input').val(null);
     attachments.append(template);
 });
 </script>

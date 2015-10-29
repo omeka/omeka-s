@@ -160,6 +160,13 @@ function replaceIndex(context, find, index) {
     });
 }
 
+// Toggle attachment status
+
+$('#blocks').on('click', '.delete,.undo', function(e) {
+    e.preventDefault();
+    $(this).parents('.attachment').toggleClass('delete');
+});
+
 // Make attachments sortable.
 $('#blocks').on('o:block-added', '.block', function () {
     new Sortable($(this).children('.attachments')[0], {
@@ -177,9 +184,9 @@ $('.attachments').each(function() {
 // Append attachment.
 $('#blocks').on('click', '.attachment-add', function(e) {
     var attachments = $(this).siblings('.attachments');
-    var clone = attachments.children('.attachment').first().clone();
-    clone.find('.item-title').text('No item selected');
-    clone.find('input').val(null);
-    attachments.append(clone);
+    var template = $(attachments.data('template'));
+    template.find('.item-title').text('No item selected');
+    template.find('input').val(null);
+    attachments.append(template);
 });
 </script>

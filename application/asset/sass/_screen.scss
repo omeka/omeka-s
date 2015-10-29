@@ -1545,7 +1545,7 @@ input[type="text"].value-language,
     }
 
     .value.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
         overflow: hidden;
     }
 
@@ -1764,7 +1764,7 @@ input[type="text"].value-language,
     }
 
     #item-item-sets tr.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     #page-actions [class*="o-icon-"].button {
@@ -2235,7 +2235,7 @@ body.sidebar-open #content {
 .resource-template .property.row {
 
     &.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     label:first-child,
@@ -2371,7 +2371,7 @@ body.sidebar-open #content {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     td.user-meta {
@@ -2475,6 +2475,7 @@ body.sidebar-open #content {
     .block .item-title {
         margin: rhythm(.25) 0;
         display: inline-block;
+        width: calc(100% - #{rhythm(3)});
     }
 
     .block .item-title img {
@@ -2485,15 +2486,73 @@ body.sidebar-open #content {
         vertical-align: middle;
     }
 
-    .block .item-options.button {
+    .block .delete.attachment {
+        background-color: $delete-bg;
+    }
+
+    .block .delete.attachment .actions .undo {
+        display: inline-block;
+    }
+
+    .block .delete.attachment .actions .delete {
+        display: none;
+    }
+
+    .block .attachment .actions {
+        position: absolute;
+        right: rhythm(.5);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .block .attachment .actions li {
+        height: $base-line-height;
+    }
+
+    .block .attachment .actions .button {
         display: inline-block;
         background-color: transparent;
         color: lighten($red, 20%);
-        padding: rhythm(.25);
+        padding: 0;
 
         &:hover {
             color: $red;
         }
+    }
+
+    .block .attachment .actions .undo {
+        display: none;
+    }
+
+    .block .attachments-form {
+        clear: both;
+        background-color: $gray-on-white;
+        padding: 0;
+    }
+
+    .block .attachment {
+        padding: 0 rhythm(.25) 0 rhythm(1.5);
+        border-color: $gray-on-white;
+        @include trailing-border(1px, 0, $base-font-size, solid);
+        position: relative;
+    }
+
+    .block .attachment .sortable-handle {
+        top: 0;
+        bottom: 0;
+
+        &:before {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .block .attachment .button {
+        margin-bottom: 0;
+    }
+
+    .block .attachment-add {
+        margin: rhythm(.25);
     }
 
     #item-options .current-item {

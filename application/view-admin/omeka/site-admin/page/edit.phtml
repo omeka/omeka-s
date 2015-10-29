@@ -164,7 +164,17 @@ function replaceIndex(context, find, index) {
 
 $('#blocks').on('click', '.delete,.undo', function(e) {
     e.preventDefault();
-    $(this).parents('.attachment').toggleClass('delete');
+    var attachment = $(this).parents('.attachment');
+    attachment.toggleClass('delete');
+    if (attachment.hasClass('delete')) {
+        attachment.find('input[type="hidden"]').each(function() {
+            $(this).attr('disabled', 'disabled');
+        });
+    } else {
+        attachment.find('input[type="hidden"]').each(function() {
+            $(this).removeAttr('disabled');
+        });
+    }
 });
 
 // Make attachments sortable.

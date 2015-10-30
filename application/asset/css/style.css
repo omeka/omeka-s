@@ -639,6 +639,10 @@ th {
     transform: translateY(-50%);
   }
 
+  *:invalid {
+    outline-color: #FF0000;
+  }
+
   .field {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.08);

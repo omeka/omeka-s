@@ -226,6 +226,10 @@ body {
         }
     }
 
+    *:invalid {
+        outline-color: $red;
+    }
+
     .field {
         @include field-row;
 

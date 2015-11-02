@@ -182,7 +182,7 @@ var Omeka = {
         $(document).on('click', 'a.expand, a.collapse', function(e) {
             e.preventDefault();
             var toggle = $(this);
-            toggle.toggleClass('collapse').toggleClass('expand').toggleClass('o-icon-right').toggleClass('o-icon-down');
+            toggle.toggleClass('collapse').toggleClass('expand');
             if ($('.expand-collapse-parent').length > 0) {
                 toggle.parent().toggleClass('collapse').toggleClass('expand');
             }

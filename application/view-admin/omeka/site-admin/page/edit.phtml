@@ -41,7 +41,7 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
 
-<?php echo $this->partial('common/item-options-sidebar'); ?>
+<?php echo $this->partial('common/attachment-sidebar'); ?>
 
 <script type="text/javascript">
 function wysiwyg(context) {
@@ -160,4 +160,41 @@ function replaceIndex(context, find, index) {
     });
 }
 
+// Toggle attachment status
+
+$('#blocks').on('click', '.delete,.undo', function(e) {
+    e.preventDefault();
+    var attachment = $(this).parents('.attachment');
+    attachment.toggleClass('delete');
+    if (attachment.hasClass('delete')) {
+        attachment.find('input[type="hidden"]').each(function() {
+            $(this).attr('disabled', 'disabled');
+        });
+    } else {
+        attachment.find('input[type="hidden"]').each(function() {
+            $(this).removeAttr('disabled');
+        });
+    }
+});
+
+// Make attachments sortable.
+$('#blocks').on('o:block-added', '.block', function () {
+    new Sortable($(this).children('.attachments')[0], {
+        draggable: ".attachment",
+        handle: ".sortable-handle"
+    });
+});
+$('.attachments').each(function() {
+    new Sortable(this, {
+        draggable: ".attachment",
+        handle: ".sortable-handle"
+    });
+});
+
+// Append attachment.
+$('#blocks').on('click', '.attachment-add', function(e) {
+    var attachments = $(this).siblings('.attachments');
+    var template = $(attachments.data('template'));
+    attachments.append(template);
+});
 </script>

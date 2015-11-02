@@ -1951,7 +1951,7 @@ th {
   }
 
   .value.delete {
-    background-color: #ffcccc;
+    background-color: #FFCCCC;
     overflow: hidden;
   }
 
@@ -2171,7 +2171,7 @@ th {
   }
 
   #item-item-sets tr.delete {
-    background-color: #ffcccc;
+    background-color: #FFCCCC;
   }
 
   #page-actions [class*="o-icon-"].button {
@@ -2629,7 +2629,7 @@ th {
   }
 
   .resource-template .property.row.delete {
-    background-color: #ffcccc;
+    background-color: #FFCCCC;
   }
   .resource-template .property.row label:first-child,
   .resource-template .property.row input[type="text"],
@@ -2770,7 +2770,7 @@ th {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ffcccc;
+    background-color: #FFCCCC;
   }
 
   td.user-meta {
@@ -2868,6 +2868,7 @@ th {
   .block .item-title {
     margin: 0.375em 0;
     display: inline-block;
+    width: calc(100% - 4.5em);
   }
 
   .block .item-title img {
@@ -2878,14 +2879,73 @@ th {
     vertical-align: middle;
   }
 
-  .block .item-options.button {
+  .block .delete.attachment {
+    background-color: #FFCCCC;
+  }
+
+  .block .delete.attachment .actions .undo {
+    display: inline-block;
+  }
+
+  .block .delete.attachment .actions .delete {
+    display: none;
+  }
+
+  .block .attachment .actions {
+    position: absolute;
+    right: 0.75em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .block .attachment .actions li {
+    height: 24px;
+  }
+
+  .block .attachment .actions .button {
     display: inline-block;
     background-color: transparent;
     color: #ff6666;
-    padding: 0.375em;
+    padding: 0;
   }
-  .block .item-options.button:hover {
+  .block .attachment .actions .button:hover {
     color: #FF0000;
+  }
+
+  .block .attachment .actions .undo {
+    display: none;
+  }
+
+  .block .attachments-form {
+    clear: both;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0;
+  }
+
+  .block .attachment {
+    padding: 0 0.375em 0 2.25em;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
+    position: relative;
+  }
+
+  .block .attachment .sortable-handle {
+    top: 0;
+    bottom: 0;
+  }
+  .block .attachment .sortable-handle:before {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .block .attachment .button {
+    margin-bottom: 0;
+  }
+
+  .block .attachment-add {
+    margin: 0.375em;
   }
 
   #item-options .current-item {

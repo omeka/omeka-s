@@ -247,6 +247,12 @@ var Omeka = {
             fieldDesc.toggleClass('above', fieldDescBottom > $(window).height());
         });
 
+        // Add class to required fields.
+
+        $(':required').each(function() {
+            $(this).parents('.field').addClass('required').attr('title', 'required');
+        });
+
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
     });

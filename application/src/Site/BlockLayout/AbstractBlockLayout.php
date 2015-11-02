@@ -42,12 +42,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        if (!$block || !($attachments = $block->attachments())) {
-            $attachments = [[]];
-        }
-        return $view->partial('common/attachments-form', [
-            'attachments' => $attachments,
-        ]);
+        return $view->partial('common/attachments-form', ['block' => $block]);
     }
 
     /**

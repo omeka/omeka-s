@@ -183,9 +183,6 @@ var Omeka = {
             e.preventDefault();
             var toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');
-            if ($('.expand-collapse-parent').length > 0) {
-                toggle.parent().toggleClass('collapse').toggleClass('expand');
-            }
             if (toggle.hasClass('expand')) {
                 toggle.attr('aria-label','Expand');
             } else {

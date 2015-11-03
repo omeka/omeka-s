@@ -16,6 +16,13 @@ return [
                         'controller' => 'item',
                         'visible'    => false,
                     ],
+                    [
+                        'label'      => 'Advanced Search',
+                        'route'      => 'admin/default',
+                        'action'     => 'search',
+                        'controller' => 'item',
+                        'visible'    => true
+                    ]
                 ],
             ],
             [

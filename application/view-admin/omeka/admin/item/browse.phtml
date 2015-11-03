@@ -16,29 +16,39 @@ $escape = $this->plugin('escapeHtml');
 
 <?php if (count($items) > 0): ?>
 
-<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
-
 <?php echo $this->pagination(); ?>
+
+<form class="sorting">
+    <label><?php echo $this->translate('Sort by'); ?></label>
+    <?php
+    $queryOption = function($type, $search, $text) {
+        $selected = null;
+        if (isset($_GET[$search]) && $_GET[$search] === $type) {
+            $selected = ' selected';
+        }
+        return sprintf('<option value="%s"%s>%s</option>', $type, $selected, $text);
+    };
+    ?>
+    <select name="sort_by">
+        <?php echo $queryOption('dcterms:title', 'sort_by', $this->translate('Title')); ?>
+        <?php echo $queryOption('resource_class_label', 'sort_by', $this->translate('Class')); ?>
+        <?php echo $queryOption('owner_name', 'sort_by', $this->translate('Owner')); ?>
+        <?php echo $queryOption('created', 'sort_by', $this->translate('Date created')); ?>
+    </select>
+    <select name="sort_order">
+        <?php echo $queryOption('asc', 'sort_order', $this->translate('Ascending')); ?>
+        <?php echo $queryOption('desc', 'sort_order', $this->translate('Descending')); ?>
+    </select>
+    <button type="submit"><?php echo $this->translate('Sort'); ?></button>
+</form>
 
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th>
-                <?php echo $this->sortLink($this->translate('Title'), 'dcterms:title'); ?>
-                <span class="mobile-heading"><?php echo $this->translate('Title'); ?></span>
-            </th>
-            <th>
-                <?php echo $this->sortLink($this->translate('Class'), 'resource_class_label'); ?>
-                <span class="mobile-heading"><?php echo $this->translate('Class'); ?></span>
-            </th>
-            <th>
-                <?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?>
-                <span class="mobile-heading"><?php echo $this->translate('Owner'); ?></span>
-            </th>
-            <th>
-                <?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?>
-                <span class="mobile-heading"><?php echo $this->translate('Date Created'); ?></span>
-            </th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Class'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
+            <th><?php echo $this->translate('Date Created'); ?></th>
         </tr>
     </thead>
     <tbody>

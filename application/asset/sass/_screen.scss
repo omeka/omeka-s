@@ -130,10 +130,6 @@ body {
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
-    .tablesaw .mobile-heading {
-        display: none;
-    }
-
     /* @end */
 
     /* @group ----- Form elements ----- */
@@ -562,6 +558,11 @@ nav ul {
     margin: 0;
 }
 
+nav.pagination {
+    float: right;
+    clear: left;
+}
+
 nav.pagination form {
     display: inline-block;
     margin-right: 1em;
@@ -721,9 +722,22 @@ div[role="main"] {
 }
 
 .browse .advanced-search {
-    float: right;
-    padding: rhythm(.25) 0;
+    float: left;
+    width: 100%;
     display: block;
+    border-color: $gray-on-white;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+    margin-bottom: rhythm(.5);
+}
+
+.browse .sorting label {
+    padding: rhythm(.25) 0;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.browse .sorting button {
+    margin-bottom: 0;
 }
 
 .actions {

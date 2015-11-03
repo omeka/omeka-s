@@ -530,10 +530,6 @@ th {
     padding-bottom: 0.3125em;
   }
 
-  .tablesaw .mobile-heading {
-    display: none;
-  }
-
   /* @end */
   /* @group ----- Form elements ----- */
   textarea {
@@ -966,6 +962,11 @@ th {
     margin: 0;
   }
 
+  nav.pagination {
+    float: right;
+    clear: left;
+  }
+
   nav.pagination form {
     display: inline-block;
     margin-right: 1em;
@@ -1123,9 +1124,24 @@ th {
   }
 
   .browse .advanced-search {
-    float: right;
-    padding: 0.375em 0;
+    float: left;
+    width: 100%;
     display: block;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.6875em;
+    margin-bottom: 0.75em;
+  }
+
+  .browse .sorting label {
+    padding: 0.375em 0;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .browse .sorting button {
+    margin-bottom: 0;
   }
 
   .actions {
@@ -3426,10 +3442,6 @@ th {
   .browse .tablesaw-cell-content img {
     float: right;
     margin: 0;
-  }
-
-  .tablesaw .tablesaw-cell-label .mobile-heading {
-    display: block;
   }
 
   .tablesaw-cell-label a {

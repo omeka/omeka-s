@@ -141,7 +141,7 @@
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
-        if (typeof valueObject != 'undefined' && typeof valueType === 'undefined') {
+        if (typeof valueObject !== 'undefined' && typeof valueType === 'undefined') {
             valueType = valueObjectType(valueObject);
         }
 
@@ -152,7 +152,7 @@
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
 
-        if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
+        if (typeof valueObject !== 'undefined' && typeof valueObject['property_id'] !== 'undefined') {
             propertyInput.val(valueObject['property_id']);
         } else {
             propertyInput.val(propertyId);
@@ -197,7 +197,7 @@
                     }
 
                     newResource.prev('.default').hide();
-                    if (typeof title == 'undefined') {
+                    if (typeof title === 'undefined') {
                         title = '[Untitled]';
                     }
                     var link = $('<a></a>', {
@@ -298,10 +298,10 @@
      * Figure out if a valueObject is a literal, internal resource, or external resource
      */
     var valueObjectType = function(valueObject) {
-        if (typeof valueObject['@value'] == 'string') {
+        if (typeof valueObject['@value'] === 'string') {
             return 'literal';
         } else {
-            if (typeof valueObject['value_resource_id'] == 'undefined') {
+            if (typeof valueObject['value_resource_id'] === 'undefined') {
                 return 'uri';
             } else {
                 return 'resource';

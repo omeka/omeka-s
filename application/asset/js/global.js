@@ -6,7 +6,7 @@ var Omeka = {
         } else {
             var sidebar = $('.sidebar > .sidebar');
         }
-        if (target !== undefined) {
+        if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
         sidebar.addClass('active');

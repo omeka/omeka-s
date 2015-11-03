@@ -1,3 +1,4 @@
+/.ant-targets-build.xml
 /.htaccess
 /.php_cs.cache
 /build/

@@ -1,10 +1,9 @@
 <?php
 namespace Omeka\Controller\Site;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class IndexController extends AbstractSiteController
 {
     public function indexAction()
     {
@@ -23,12 +22,5 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('site', $site);
         return $view;
-    }
-
-    protected function getSite()
-    {
-        return $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
     }
 }

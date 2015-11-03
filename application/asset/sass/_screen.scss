@@ -394,6 +394,18 @@ table .icon-sortable {
     @include trailer();
 }
 
+.expand:after {
+    content: $fa-var-caret-right;
+    font-family: "FontAwesome";
+    margin-left: 3px;
+}
+
+.collapse:after {
+    content: $fa-var-caret-down;
+    font-family: "FontAwesome";
+    margin-left: 3px;
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -1848,18 +1860,6 @@ input[type="text"].value-language,
 
     .resource-search > input[type="text"] {
         width: calc(100% - #{rhythm(1.5)});
-    }
-
-    .expand:after {
-        content: $fa-var-caret-right;
-        font-family: "FontAwesome";
-        margin-left: 3px;
-    }
-
-    .collapse:after {
-        content: $fa-var-caret-down;
-        font-family: "FontAwesome";
-        margin-left: 3px;
     }
 
     .pagination {

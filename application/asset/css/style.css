@@ -799,6 +799,18 @@ th {
     margin-bottom: 1.5em;
   }
 
+  .expand:after {
+    content: "";
+    font-family: "FontAwesome";
+    margin-left: 3px;
+  }
+
+  .collapse:after {
+    content: "";
+    font-family: "FontAwesome";
+    margin-left: 3px;
+  }
+
   /* @end */
   /* @group ----- Header ----- */
   header {
@@ -2227,16 +2239,6 @@ th {
   }
   .search-nav .resource-search > input[type="text"] {
     width: calc(100% - 2.25em);
-  }
-  .search-nav .expand:after {
-    content: "";
-    font-family: "FontAwesome";
-    margin-left: 3px;
-  }
-  .search-nav .collapse:after {
-    content: "";
-    font-family: "FontAwesome";
-    margin-left: 3px;
   }
   .search-nav .pagination {
     border-color: rgba(0, 0, 0, 0.08);

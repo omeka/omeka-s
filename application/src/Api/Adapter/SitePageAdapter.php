@@ -208,19 +208,13 @@ class SitePageAdapter extends AbstractEntityAdapter
                 next($existingAttachments);
             }
 
-            if (!isset($inputAttachment['o:item']['o:id'])) {
-                $errorStore->addError('o:attachment', 'Attachments must specify an item to attach.');
-                return false;
-            }
-
             try {
                 $item = $itemAdapter->findEntity($inputAttachment['o:item']['o:id']);
             } catch (NotFoundException $e) {
-                $errorStore->addError('o:attachment', 'The attached item was not found.');
-                return false;
+                $item = null;
             }
 
-            if (isset($inputAttachment['o:media']['o:id'])) {
+            if ($item && isset($inputAttachment['o:media']['o:id'])) {
                 $itemMedia = $item->getMedia();
                 $media = $itemMedia->get($inputAttachment['o:media']['o:id']);
             } else {

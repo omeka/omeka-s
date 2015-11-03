@@ -34,7 +34,7 @@ $attachmentRowTemplate = '
         $media = $attachment->media();
         if ($media) {
             $mediaId = $media->id();
-        } else {
+        } else if ($item) {
             $media = $item->primaryMedia();
         }
         if ($media) {

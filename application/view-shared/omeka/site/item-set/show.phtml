@@ -1,0 +1,6 @@
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
+<?php echo $this->pageTitle($site->title()); ?>
+<?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
+<?php echo $itemSet->displayValues(); ?>
+<?php $this->trigger('view.show.after'); ?>

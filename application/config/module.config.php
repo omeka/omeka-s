@@ -188,6 +188,7 @@ return [
             'Omeka\Controller\Migrate'                => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Site\Index'             => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Site\Item'              => 'Omeka\Controller\Site\ItemController',
+            'Omeka\Controller\Site\ItemSet'           => 'Omeka\Controller\Site\ItemSetController',
             'Omeka\Controller\Site\Media'             => 'Omeka\Controller\Site\MediaController',
             'Omeka\Controller\Site\Page'              => 'Omeka\Controller\Site\PageController',
             'Omeka\Controller\Admin\Index'            => 'Omeka\Controller\Admin\IndexController',

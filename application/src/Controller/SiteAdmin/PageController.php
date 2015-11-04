@@ -16,6 +16,7 @@ class PageController extends AbstractActionController
         ]);
         $site = $readResponse->getContent();
         $siteId = $site->id();
+        $this->layout()->setVariable('site', $site);
 
         $readResponse = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),

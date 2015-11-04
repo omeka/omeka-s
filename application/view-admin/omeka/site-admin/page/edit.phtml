@@ -39,21 +39,20 @@ $escape = $this->plugin('escapeHtml');
     </select>
 </div>
 
-<div id="item-options" class="sidebar">
+<div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
-    <h2><?php echo $this->translate('Item Options'); ?></h2>
-    <div class="current-item" data-item-id="">
-        <span class="item-title"></span>
-        <button class="item-select" data-sidebar-content-url="<?php echo $this->url('admin/default',
-            ['controller' => 'item', 'action' => 'sidebar-select'],
-            ['query' => $site->itemPool()]
-        ); ?>"><?php echo $this->translate('Select item'); ?></button>
-    </div>
-    <div>
-        <label><?php echo $this->translate('Caption'); ?></label>
+    <h2><?php echo $this->translate('Attachment'); ?></h2>
+    <div id="attachment-item"></div>
+    <button id="attachment-item-select" data-sidebar-content-url="<?php echo $escape($this->url(
+        'admin/default',
+        ['controller' => 'item', 'action' => 'sidebar-select'],
+        ['query' => $site->itemPool()]
+    )); ?>"><?php echo $this->translate('Select item'); ?></button>
+    <div id="attachment-caption">
+        <h3><?php echo $this->translate('Caption'); ?></h3>
         <textarea class="caption wysiwyg"></textarea>
     </div>
-    <div class="confirm-panel">
+    <div id="attachment-confirm-panel">
         <button><?php echo $this->translate('Apply changes'); ?></button>
     </div>
 </div>
@@ -98,51 +97,6 @@ $('#blocks').on('o:block-added', '.block', function () {
     wysiwyg($(this));
 });
 wysiwyg($('#blocks'));
-
-$('body').on('click', '.item-options', function(e) {
-    e.preventDefault();
-    var context = $(this);
-    $('.selecting-attachment').removeClass('selecting-attachment');
-    context.parents('.attachment').addClass('selecting-attachment');
-    Omeka.openSidebar(context, '#item-options');
-    var itemThumbnail = $('.selecting-attachment .item-title img').clone();
-    var itemTitle = $('.selecting-attachment .item-title').text();
-    $('#item-options .current-item').attr('data-item-id', $('.selecting-attachment .item').val());
-    $('#item-options').find('.item-title').text(itemTitle);
-    if ($('#item-options .current-item img').length < 1) {
-        itemThumbnail.insertBefore($('#item-options .item-title'));
-    } else {
-        $('#item-options .current-item img').replaceWith(itemThumbnail);
-    }
-    $('#item-options .caption.wysiwyg').val($('.selecting-attachment .caption').val());
-});
-
-$('body').on('click', '.item-select', function(e) {
-    e.preventDefault();
-    var context = $(this);
-    Omeka.openSidebar(context, '#select-resource');
-    $('#select-resource').css('z-index', $('#item-options').css('z-index') + 1);
-});
-
-$('#select-item a').on('o:resource-selected', function(e) {
-    var resource = $('.resource-details').data('resource-values');
-    var resourceThumbnail = '<img src="' + resource.thumbnail_url + '" title="' + resource.thumbnail_title + '" alt="' + resource.thumbnail_type + ' thumbnail">';
-    var itemOptions = $('#item-options');
-    itemOptions.find('.current-item').attr('data-item-id', resource.value_resource_id);
-    itemOptions.find('img').remove();
-    itemOptions.find('.item-title').html(resource.display_title).before(resourceThumbnail);
-    $('#select-resource').removeClass('active');
-});
-
-$('.confirm-panel button').on('click', function(e) {
-    e.preventDefault();
-    var selecting = $('.attachment.selecting-attachment');
-    var currentItem = $('#item-options .current-item');
-    selecting.find('.item').val(currentItem.attr('data-item-id'));
-    selecting.find('.item-title').text(currentItem.find('.item-title').text()).prepend(currentItem.find('img'));
-    selecting.find('.caption').val($('#item-options .caption').val());
-    $('#item-options').removeClass('active');
-});
 
 $('a.remove-value, a.restore-value').click(function(e) {
     e.preventDefault();
@@ -213,5 +167,78 @@ $('#blocks').on('click', '.attachment-add', function(e) {
     var attachments = $(this).siblings('.attachments');
     var template = $(attachments.data('template'));
     attachments.append(template);
+});
+
+/**
+ * Open the attachment options sidebar.
+ *
+ * @param int itemId The attached item ID, if any
+ * @param int mediaId The attached media ID, if any
+ * @param str caption The attachment caption, if any
+ */
+function openAttachmentOptions(itemId, mediaId, caption)
+{
+    var attachmentItem = $('#attachment-item');
+    attachmentItem.data('itemId', itemId);
+    attachmentItem.data('mediaId', mediaId);
+    $.post(
+        $('#attachment-options').data('url'),
+        {itemId: itemId, mediaId: mediaId}
+    ).done(function(data) {
+        attachmentItem.html(data);
+        $('#attachment-caption .caption').val(caption);
+        Omeka.openSidebar($(this), '#attachment-options');
+    });
+}
+
+// Open attachment options sidebar after selecting attachment.
+$('body').on('click', '.attachment-options-icon', function(e) {
+    e.preventDefault();
+    var attachment = $(this).closest('.attachment');
+    $('.selecting-attachment').removeClass('selecting-attachment');
+    attachment.addClass('selecting-attachment');
+    openAttachmentOptions(
+        attachment.find('input.item').val(),
+        attachment.find('input.media').val(),
+        attachment.find('input.caption').val()
+    );
+});
+
+// Enable item selection for attachments.
+$('#attachment-item-select').on('click', function(e) {
+    e.preventDefault();
+    Omeka.openSidebar($(this), '#select-resource');
+});
+
+// Update attachment options sidebar after selecting item.
+$('#select-item a').on('o:resource-selected', function(e) {
+    var resource = $('.resource-details').data('resource-values');
+    openAttachmentOptions(resource.value_resource_id);
+    $('#select-resource').removeClass('active');
+});
+
+// Apply changes to the attachments form.
+$('#attachment-confirm-panel button').on('click', function(e) {
+    e.preventDefault();
+    $('#attachment-options').removeClass('active');
+    var item = $('#attachment-item');
+    var caption = $('#attachment-caption .caption').val();
+    var attachment = $('.selecting-attachment');
+
+    // Set hidden data.
+    attachment.find('input.item').val(item.data('itemId'));
+    attachment.find('input.media').val(item.data('mediaId'));
+    attachment.find('input.caption').val(caption);
+
+    // Set visual elements.
+    var title = item.find('.item-title').text();
+    if (title) {
+        var thumbnail;
+        var thumbnailUrl = item.find('.item-thumbnail').attr('src');
+        if (thumbnailUrl) {
+            thumbnail = $('<img>', {src: thumbnailUrl});
+        }
+        attachment.find('.item-title').empty().append(thumbnail).append(title);
+    }
 });
 </script>

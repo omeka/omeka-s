@@ -22,7 +22,7 @@ if ($attachedItem) {
 <?php if ($allMedia): ?>
 <ul>
     <?php foreach ($allMedia as $media): ?>
-    <li><?php echo $escape($media->displayTitle()); ?></li>
+    <li><img src="<?php echo $escape($media->thumbnailUrl('square')); ?>"> <?php echo $escape($media->displayTitle()); ?></li>
     <?php endforeach; ?>
 </ul>
 <?php endif; ?>

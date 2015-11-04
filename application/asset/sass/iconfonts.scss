@@ -16,7 +16,7 @@
 
 .o-icon-user {
     @extend .fa-user;
-} 
+}
 
 .o-icon-items {
     @extend .fa-cube;
@@ -194,6 +194,10 @@
 
 .o-icon-unlock {
     @extend .fa-unlock;
+}
+
+.o-icon-external {
+    @extend .fa-external-link;
 }
 
 .screen-reader-text {

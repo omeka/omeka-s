@@ -57,6 +57,19 @@ class PageController extends AbstractActionController
         return $view;
     }
 
+    public function indexAction()
+    {
+        $response = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $response->getContent();
+        $this->layout()->setVariable('site', $site);
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
     public function blockAction()
     {
         $layout = $this->params()->fromPost('layout');

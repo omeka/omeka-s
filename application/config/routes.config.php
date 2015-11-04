@@ -154,15 +154,27 @@ return [
                             'page' => [
                                 'type' => 'Segment',
                                 'options' => [
-                                    'route' => '/s/:site-slug/page/:page-slug[/:action]',
-                                    'constraints' => [
-                                        'site-slug'  => '[a-zA-Z0-9_-]+',
-                                        'page-slug'  => '[a-zA-Z0-9_-]+',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ],
+                                    'route' => '/s/:site-slug/page',
                                     'defaults' => [
-                                        'controller' => 'Page',
-                                        'action' => 'edit',
+                                        '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                                        'controller'    => 'Page',
+                                        'action'        => 'index',
+                                    ],
+                                ],
+                                'may_terminate' => true,
+                                'child_routes' => [
+                                    'default' => [
+                                        'type' => 'Segment',
+                                        'options' => [
+                                            'route' => '/:page-slug[/:action]',
+                                            'constraints' => [
+                                                'page-slug'  => '[a-zA-Z0-9_-]+',
+                                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                            ],
+                                            'defaults' => [
+                                                'action' => 'edit',
+                                            ],
+                                        ],
                                     ],
                                 ],
                             ],

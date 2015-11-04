@@ -745,7 +745,7 @@
   content: "";
 }
 
-.fa-external-link:before {
+.fa-external-link:before, .o-icon-external:before {
   content: "";
 }
 

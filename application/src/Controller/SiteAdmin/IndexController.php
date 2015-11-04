@@ -63,6 +63,7 @@ class IndexController extends AbstractActionController
         $id = $site->id();
         $data = $site->jsonSerialize();
         $form->setData($data);
+        $this->layout()->setVariable('site', $site);
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -108,6 +109,7 @@ class IndexController extends AbstractActionController
             'slug' => $this->params('site-slug')
         ]);
         $site = $readResponse->getContent();
+        $this->layout()->setVariable('site', $site);
         $id = $site->id();
 
         if ($this->getRequest()->isPost()) {
@@ -162,6 +164,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $site = $response->getContent();
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         return $view;
     }

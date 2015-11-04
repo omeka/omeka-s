@@ -16,62 +16,15 @@ $roles = array(
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
 </div>
 
-<nav class="section-nav">
-    <ul>
-        <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
-        <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
-    </ul>
-</nav>
-
-<div id="admin" class="section active">
-    <div class="property">
-        <h4>URL slug</h4>
-        <div class="value"><?php echo $escape($site->slug()); ?></div>
-    </div>
-    <div class="property">
-        <h4>Title</h4>
-        <div class="value"><?php echo $escape($site->title()); ?></div>
-    </div>
-    <div class="property">
-        <h4>Theme</h4>
-        <div class="value"><?php echo $escape($site->theme()); ?></div>
-    </div>
+<div class="property">
+    <h4>URL slug</h4>
+    <div class="value"><?php echo $escape($site->slug()); ?></div>
 </div>
-
-<div id="pages" class="section">
-    <?php if ($site->userIsAllowed('add-page')): ?>
-    <?php echo $site->link($this->translate('Add a Page'), 'add-page', array('class' => 'button')); ?>
-    <?php endif; ?>
-    <?php $pages = $site->pages(); if ($pages): ?>
-    <table id="page-list">
-        <thead>
-            <th><?php echo $this->translate('Title'); ?></th>
-            <th><?php echo $this->translate('Slug'); ?></th>
-            <th></th>
-        </thead>
-        <tbody>
-        <?php foreach ($pages as $page): ?>
-        <tr class="page value">
-            <td>
-                <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
-                <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
-                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
-            </td>
-            <td><?php echo $page->slug(); ?></td>
-            <td>
-                <ul class="actions">
-                    <?php if ($page->userIsAllowed('update')): ?>
-                    <li><?php echo $page->link('', 'edit', array(
-                        'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
-                        'title' => $this->translate('Edit'),
-                    )); ?></li>
-                    <?php endif; ?>
-                </ul>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-        </tbody>
-    </table>
-    <?php endif; ?>
+<div class="property">
+    <h4>Title</h4>
+    <div class="value"><?php echo $escape($site->title()); ?></div>
+</div>
+<div class="property">
+    <h4>Theme</h4>
+    <div class="value"><?php echo $escape($site->theme()); ?></div>
 </div>

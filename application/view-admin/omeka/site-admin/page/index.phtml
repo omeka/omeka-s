@@ -1,0 +1,40 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'site page browse');
+$escape = $this->plugin('escapeHtml');
+?>
+
+<?php echo $this->pageTitle($this->translate('Pages')); ?>
+<?php echo $site->link($this->translate('Add a new page'), 'add-page', array('class' => 'button')); ?>
+
+<?php if ($pages = $site->pages()): ?>
+<table id="page-list">
+    <thead>
+        <th><?php echo $this->translate('Title'); ?></th>
+        <th><?php echo $this->translate('Slug'); ?></th>
+        <th></th>
+    </thead>
+    <tbody>
+    <?php foreach ($pages as $page): ?>
+    <tr class="page value">
+        <td>
+            <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
+            <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
+            <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
+        </td>
+        <td><?php echo $page->slug(); ?></td>
+        <td>
+            <ul class="actions">
+                <li><?php echo $page->link('', 'edit', array(
+                    'class' => 'o-icon-edit',
+                    'aria-label' => $this->translate('Edit'),
+                    'title' => $this->translate('Edit'),
+                )); ?></li>
+                <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
+                <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
+            </ul>
+        </td>
+    </tr>
+<?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>

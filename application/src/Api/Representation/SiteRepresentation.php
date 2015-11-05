@@ -127,7 +127,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $iterate = function ($linksIn) use (&$iterate, &$linkedPages, $pages)
         {
             foreach ($linksIn as $key => $data) {
-                if ('page' === $data['type']) {
+                if ('page' === $data['type'] && isset($pages[$data['data']['id']])) {
                     $linkedPages[$data['data']['id']] = $pages[$data['data']['id']];
                 }
                 if (isset($data['links'])) {

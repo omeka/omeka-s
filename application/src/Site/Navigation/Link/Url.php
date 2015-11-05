@@ -25,7 +25,7 @@ class Url extends AbstractLink
         return true;
     }
 
-    public function getForm(array $data)
+    public function getForm(array $data, SiteRepresentation $site)
     {
         $escape = $this->getViewHelper('escapeHtml');
         $label = isset($data['label']) ? $data['label'] : $this->getLabel();

@@ -22,7 +22,15 @@ if ($attachedItem) {
 <?php if ($allMedia): ?>
 <ul>
     <?php foreach ($allMedia as $media): ?>
-    <li><img src="<?php echo $escape($media->thumbnailUrl('square')); ?>"> <?php echo $escape($media->displayTitle()); ?></li>
+    <?php
+    $attached = null;
+    if ($attachedMedia && ($attachedMedia->id() === $media->id())) {
+        $attached = 'attached';
+    }
+    ?>
+    <li class="media <?php echo $attached; ?>" data-media-id="<?php echo $escape($media->id()); ?>">
+        <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>"> <?php echo $escape($media->displayTitle()); ?>
+    </li>
     <?php endforeach; ?>
 </ul>
 <?php endif; ?>

@@ -217,6 +217,20 @@ $('#select-item a').on('o:resource-selected', function(e) {
     $('#select-resource').removeClass('active');
 });
 
+// Change attached media.
+$('#attachment-item').on('click', 'li.media', function(e) {
+    var media = $(this);
+    var attachmentItem = $('#attachment-item');
+
+    // Set hidden data.
+    attachmentItem.data('mediaId', media.data('media-id'));
+
+    // Set visual elements.
+    attachmentItem.find('li.media').removeClass('attached');
+    media.addClass('attached');
+    attachmentItem.find('img.item-thumbnail').attr('src', media.find('img.media-thumbnail').attr('src'));
+});
+
 // Apply changes to the attachments form.
 $('#attachment-confirm-panel button').on('click', function(e) {
     e.preventDefault();

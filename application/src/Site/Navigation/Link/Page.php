@@ -33,13 +33,14 @@ class Page extends AbstractLink
         return true;
     }
 
-    public function getForm(array $data)
+    public function getForm(array $data, SiteRepresentation $site)
     {
-        if (isset($data['invalidPage'])) {
+        $pages = $site->pages();
+        if (!isset($pages[$data['id']])) {
             // Handle an invalid page.
             $fallback = new Fallback('page');
             $fallback->setServiceLocator($this->getServiceLocator());
-            return $fallback->getForm($data);
+            return $fallback->getForm($data, $site);
         }
 
         $escape = $this->getViewHelper('escapeHtml');
@@ -74,7 +75,6 @@ class Page extends AbstractLink
         $pages = $site->pages();
         if (!isset($pages[$data['id']])) {
             // Handle an invalid page.
-            $data['invalidPage'] = true;
             return $data;
         }
 

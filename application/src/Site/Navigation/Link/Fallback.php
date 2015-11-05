@@ -31,7 +31,7 @@ class Fallback extends AbstractLink
         return true;
     }
 
-    public function getForm(array $data)
+    public function getForm(array $data, SiteRepresentation $site)
     {
         $escape = $this->getViewHelper('escapeHtml');
         return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'

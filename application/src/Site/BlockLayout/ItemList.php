@@ -16,7 +16,8 @@ class ItemList extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        return $this->attachmentsForm($view, $site, $block);
+        return $this->thumbnailTypeSelect($view, $site, $block)
+            . $this->attachmentsForm($view, $site, $block);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
@@ -37,8 +38,9 @@ class ItemList extends AbstractBlockLayout
                     $media = $item->primaryMedia();
                 }
                 if ($media) {
+                    $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
                     $html .= '<h3>' . $media->link($media->displayTitle()) . '</h3>';
-                    $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl('square')) . '">';
+                    $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl($thumbnailType)) . '">';
                 }
             }
             $caption = $attachment->caption();

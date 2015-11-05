@@ -35,6 +35,13 @@ class Page extends AbstractLink
 
     public function getForm(array $data)
     {
+        if (isset($data['invalidPage'])) {
+            // Handle an invalid page.
+            $fallback = new Fallback('page');
+            $fallback->setServiceLocator($this->getServiceLocator());
+            return $fallback->getForm($data);
+        }
+
         $escape = $this->getViewHelper('escapeHtml');
         $page = sprintf('%s (%s)', $data['pageTitle'], $data['pageSlug']);
         return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
@@ -45,6 +52,13 @@ class Page extends AbstractLink
     public function toZend(array $data, Site $site)
     {
         $sitePage = $site->getPages()->get($data['id']);
+        if (!$sitePage) {
+            // Handle an invalid page.
+            $fallback = new Fallback('page');
+            $fallback->setServiceLocator($this->getServiceLocator());
+            return $fallback->toZend($data, $site);
+        }
+
         return [
             'label' => $data['label'],
             'route' => 'site/page',
@@ -57,7 +71,14 @@ class Page extends AbstractLink
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
-        $sitePage = $site->pages()[$data['id']];
+        $pages = $site->pages();
+        if (!isset($pages[$data['id']])) {
+            // Handle an invalid page.
+            $data['invalidPage'] = true;
+            return $data;
+        }
+
+        $sitePage = $pages[$data['id']];
         $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         return [
             'label' => $label,

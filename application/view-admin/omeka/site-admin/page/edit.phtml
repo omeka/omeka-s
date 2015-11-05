@@ -188,6 +188,7 @@ function openAttachmentOptions(itemId, mediaId, caption)
         attachmentItem.html(data);
         $('#attachment-caption .caption').val(caption);
         Omeka.openSidebar($(this), '#attachment-options');
+        $('#attachment-options').scrollTop(0);
     });
 }
 

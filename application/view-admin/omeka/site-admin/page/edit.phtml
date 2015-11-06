@@ -217,7 +217,7 @@ $('#attachment-item-select').on('click', function(e) {
 // Update attachment options sidebar after selecting item.
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
-    openAttachmentOptions(resource.value_resource_id);
+    openAttachmentOptions(resource.value_resource_id, resource.primary_media_id);
     $('#select-resource').removeClass('active');
 });
 

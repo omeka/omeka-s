@@ -73,9 +73,14 @@ function wysiwyg(context) {
         ],
         height: '96px'
     };
-    context.find('textarea.full.wysiwyg').ckeditor();
-    context.find('textarea.caption.wysiwyg').ckeditor(config);
-    $('textarea.caption.wysiwyg').ckeditor(config);
+
+    context.find('.wysiwyg').each(function () {
+        if ($(this).is('.caption')) {
+            $(this).ckeditor(config);
+        } else {
+            $(this).ckeditor();
+        }
+    })
 }
 
 var list = document.getElementById('blocks');
@@ -99,7 +104,7 @@ $('#new-block').change(function() {
 $('#blocks').on('o:block-added', '.block', function () {
     wysiwyg($(this));
 });
-wysiwyg($('#blocks'));
+wysiwyg($('body'));
 
 $('a.remove-value, a.restore-value').click(function(e) {
     e.preventDefault();

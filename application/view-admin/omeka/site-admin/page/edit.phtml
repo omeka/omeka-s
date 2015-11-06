@@ -249,7 +249,7 @@ $('#attachment-confirm-panel button').on('click', function(e) {
     attachment.find('input.caption').val(caption);
 
     // Set visual elements.
-    var title = item.find('.item-title').text();
+    var title = item.find('.item-title').html();
     if (title) {
         var thumbnail;
         var thumbnailUrl = item.find('.item-thumbnail').attr('src');

@@ -7,8 +7,10 @@ if ($attachedItem) {
     $primaryMedia = $attachedItem->primaryMedia();
     if ($attachedMedia) {
         $thumbnailUrl = $attachedMedia->thumbnailUrl('square');
+        $thumbnailTitle = $attachedMedia->displayTitle();
     } elseif ($primaryMedia) {
         $thumbnailUrl = $primaryMedia->thumbnailUrl('square');
+        $thumbnailTitle = $primaryMedia->displayTitle();
     }
 }
 ?>
@@ -17,6 +19,7 @@ if ($attachedItem) {
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php if ($thumbnailUrl): ?>
     <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
+    <span class="media-title"><?php echo $thumbnailTitle; ?></span>
     <?php endif; ?>
 </div>
 <?php if ($allMedia): ?>
@@ -34,8 +37,7 @@ if ($attachedItem) {
             }
             ?>
             <li class="media <?php echo $attached; ?>" data-media-id="<?php echo $escape($media->id()); ?>">
-                <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <span class="media-title"><?php echo $escape($media->displayTitle()); ?></span>
+                <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>" title="<?php echo $escape($media->displayTitle()); ?>">
             </li>
             <?php endforeach; ?>
         </ul>

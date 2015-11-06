@@ -2143,6 +2143,16 @@ input[type="text"].value-language,
     select {
         width: 100%;
     }
+
+    h2 {
+        font-size: 1.5 * $base-font-size;
+        @include trailer(.5, 1.5 * $base-font-size);
+    }
+
+    h3 {
+        font-size: 1.25 * $base-font-size;
+        @include trailer(.5, 1.25 * $base-font-size);
+    }
 }
 
 #sidebar-confirm {
@@ -2501,6 +2511,9 @@ body.sidebar-open #content {
         margin: rhythm(.25) 0;
         display: inline-block;
         width: calc(100% - #{rhythm(3)});
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .block .item-title img {
@@ -2508,7 +2521,7 @@ body.sidebar-open #content {
         width: auto;
         display: inline-block;
         margin-right: rhythm(.25);
-        vertical-align: middle;
+        vertical-align: top;
     }
 
     .block .delete.attachment {
@@ -2561,6 +2574,8 @@ body.sidebar-open #content {
         @include trailing-border(1px, 0, $base-font-size, solid);
         position: relative;
         clear: both;
+        height: rhythm(2);
+        line-height: 1.5 * $base-line-height;
     }
 
     .block .attachment .sortable-handle {
@@ -2602,7 +2617,7 @@ body.sidebar-open #content {
 
     #attachment-options .option {
         position: relative;
-        @include trailer();
+        @include trailer(.5);
     }
 
     #attachment-options .expand,
@@ -2622,28 +2637,42 @@ body.sidebar-open #content {
 
     #attachment-options .selected-attachment {
         background-color: $gray-on-white;
-        text-align: center;
-        @include trailer();
+        @include trailer(.5);
         @include bleed-x(rhythm(.5));
         padding-top: rhythm(.5);
         padding-bottom: rhythm(.5);
+        overflow: hidden;
 
         img {
-            max-width: 100%;
-            height: auto;
+            height: rhythm(4);
+            width: auto;
+            float: left;
+        }
+
+        p:only-child {
+            margin: 0;
+            text-align: center;
         }
     }
 
-    #attachment-options .item-title {
+    #attachment-options h3.item-title {
         font-size: 1.25 * $base-font-size;
-        @include trailer(.5, 1.25 * $base-font-size);
+        margin-bottom: 0;
         display: block;
+        float: right;
+        width: calc(100% - #{rhythm(4.5, 1.25 * $base-font-size)});
+        border-color: transparent;
+    }
+
+    #attachment-options .media-title {
+        display: block;
+        float: right;
+        width: calc(100% - #{rhythm(4.5)});
     }
 
     #attachment-options h3 {
         border-color: $gray-on-white;
-        @include trailing-border(3px, .25, 1.5 * $base-font-size, solid);
-        margin-bottom: 0;
+        @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
     }
 
     #attachment-options .media-list {
@@ -2653,13 +2682,13 @@ body.sidebar-open #content {
 
         li.media {
             position: relative;
-            min-height: rhythm(2);
+            height: rhythm(2);
+            width: rhythm(2);
             cursor: pointer;
+            display: inline-block;
+            padding: rhythm(.125);
+            border: 1px solid $gray-on-white;
 
-            &:not(:last-child) {
-                border-color: $gray-on-white;
-                @include trailing-border(1px, 0, $base-font-size, solid);
-            }
 
             &.attached, &:hover {
                 background-color: $gray-on-white;
@@ -2667,17 +2696,8 @@ body.sidebar-open #content {
         }
 
         img {
-            width: rhythm(1.5);
+            width: 100%;
             height: auto;
-            vertical-align: middle;
-            margin: rhythm(.25);
-            display: inline-block;
-        }
-
-        .media-title {
-            display: inline-block;
-            max-width: calc(100% - #{rhythm(2)});
-            vertical-align: middle;
         }
     }
 

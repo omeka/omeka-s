@@ -67,9 +67,7 @@ function wysiwyg(context) {
     var config = {
         toolbar:
         [
-            ['Source', 'Undo', 'Redo', 'PasteFromWord'],
-            '/',
-            ['Bold', 'Italic', 'Underline', 'Link', 'Unlink']
+            ['Source', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
         ],
         height: '96px'
     };
@@ -233,6 +231,7 @@ $('#attachment-item').on('click', 'li.media', function(e) {
     attachmentItem.find('li.media').removeClass('attached');
     media.addClass('attached');
     attachmentItem.find('img.item-thumbnail').attr('src', media.find('img.media-thumbnail').attr('src'));
+    attachmentItem.find('span.media-title').text(media.find('img.media-thumbnail').attr('title'));
 });
 
 // Apply changes to the attachments form.

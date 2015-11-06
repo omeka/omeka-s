@@ -65,7 +65,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
 
         $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
         $select->setValueOptions(array_combine($types, $types))->setValue($type);
-        return '<label>Thumbnail Type ' . $view->formSelect($select) . '</label>';
+        return '<label class="thumbnail-option">Thumbnail Type ' . $view->formSelect($select) . '</label>';
     }
 
     /**

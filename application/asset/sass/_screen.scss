@@ -2090,7 +2090,7 @@ input[type="text"].value-language,
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: rhythm(.5) gutter();
+    padding: rhythm(.5);
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -2460,6 +2460,10 @@ body.sidebar-open #content {
         }
     }
 
+    .block .attachment .sortable-handle:before {
+        padding: 0;
+    }
+
     .block.html > div {
         border: 1px solid #f2f2f2;
         clear: both;
@@ -2467,8 +2471,9 @@ body.sidebar-open #content {
 
     .block .field {
         clear: both;
-        margin-bottom: 0;
+        padding: 0;
         border-color: transparent;
+        background-color: transparent;
     }
 
     .block.value.delete .input-header {
@@ -2520,7 +2525,7 @@ body.sidebar-open #content {
 
     .block .attachment .actions {
         position: absolute;
-        right: rhythm(.5);
+        right: rhythm(.25);
         top: 50%;
         transform: translateY(-50%);
     }
@@ -2544,17 +2549,18 @@ body.sidebar-open #content {
         display: none;
     }
 
-    .block .attachments-form {
+    .block .block-content {
         clear: both;
         background-color: $gray-on-white;
-        padding: 0;
+        padding: rhythm(.25);
     }
 
     .block .attachment {
-        padding: 0 rhythm(.25) 0 rhythm(1.5);
+        padding-left: rhythm(1.25);
         border-color: $gray-on-white;
         @include trailing-border(1px, 0, $base-font-size, solid);
         position: relative;
+        clear: both;
     }
 
     .block .attachment .sortable-handle {
@@ -2572,19 +2578,55 @@ body.sidebar-open #content {
     }
 
     .block .attachment-add {
-        margin: rhythm(.25);
+        margin: rhythm(.25) 0 0;
     }
 
-    #item-options .current-item {
+    .block label.thumbnail-option {
+        overflow: hidden;
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        display: block;
+        line-height: 1.5 * $base-line-height;
+        font-weight: bold;
+    }
+
+    .block .thumbnail-option select {
+        width: 70%;
+        float: right;
+        font-weight: normal;
+    }
+
+    #attachment-options {
+        padding-bottom: rhythm(3);
+    }
+
+    #attachment-options .option {
+        position: relative;
+        @include trailer();
+    }
+
+    #attachment-options .expand,
+    #attachment-options .collapse {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #attachment-item-select {
+        display: block;
+        width: 100%;
+        border-radius: 0px;
+        margin: 0;
+        @include bleed-x(rhythm(.5));
+    }
+
+    #attachment-options .selected-attachment {
         background-color: $gray-on-white;
-        padding: rhythm(.5);
         text-align: center;
         @include trailer();
-
-        button {
-            margin: rhythm(.5) auto 0;
-            display: block;
-        }
+        @include bleed-x(rhythm(.5));
+        padding-top: rhythm(.5);
+        padding-bottom: rhythm(.5);
 
         img {
             max-width: 100%;
@@ -2592,16 +2634,51 @@ body.sidebar-open #content {
         }
     }
 
-    #item-options .item-title {
+    #attachment-options .item-title {
         font-size: 1.25 * $base-font-size;
         @include trailer(.5, 1.25 * $base-font-size);
         display: block;
     }
 
-    #item-options label {
-        display: block;
-        background-color: $gray-on-white;
-        padding: rhythm(.25);
+    #attachment-options h3 {
+        border-color: $gray-on-white;
+        @include trailing-border(3px, .25, 1.5 * $base-font-size, solid);
+        margin-bottom: 0;
+    }
+
+    #attachment-options .media-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 0;
+
+        li.media {
+            position: relative;
+            min-height: rhythm(2);
+            cursor: pointer;
+
+            &:not(:last-child) {
+                border-color: $gray-on-white;
+                @include trailing-border(1px, 0, $base-font-size, solid);
+            }
+
+            &.attached, &:hover {
+                background-color: $gray-on-white;
+            }
+        }
+
+        img {
+            width: rhythm(1.5);
+            height: auto;
+            vertical-align: middle;
+            margin: rhythm(.25);
+            display: inline-block;
+        }
+
+        .media-title {
+            display: inline-block;
+            max-width: calc(100% - #{rhythm(2)});
+            vertical-align: middle;
+        }
     }
 
     /* @end */

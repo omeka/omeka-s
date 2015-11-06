@@ -2460,7 +2460,7 @@ th {
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: 0.75em 1.04167%;
+    padding: 0.75em;
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -2835,6 +2835,10 @@ th {
     padding: 0.3em;
   }
 
+  .block .attachment .sortable-handle:before {
+    padding: 0;
+  }
+
   .block.html > div {
     border: 1px solid #f2f2f2;
     clear: both;
@@ -2842,8 +2846,9 @@ th {
 
   .block .field {
     clear: both;
-    margin-bottom: 0;
+    padding: 0;
     border-color: transparent;
+    background-color: transparent;
   }
 
   .block.value.delete .input-header {
@@ -2895,7 +2900,7 @@ th {
 
   .block .attachment .actions {
     position: absolute;
-    right: 0.75em;
+    right: 0.375em;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -2918,19 +2923,20 @@ th {
     display: none;
   }
 
-  .block .attachments-form {
+  .block .block-content {
     clear: both;
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 0;
+    padding: 0.375em;
   }
 
   .block .attachment {
-    padding: 0 0.375em 0 2.25em;
+    padding-left: 1.875em;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: -0.0625em;
     position: relative;
+    clear: both;
   }
 
   .block .attachment .sortable-handle {
@@ -2947,34 +2953,119 @@ th {
   }
 
   .block .attachment-add {
-    margin: 0.375em;
+    margin: 0.375em 0 0;
   }
 
-  #item-options .current-item {
-    background-color: rgba(0, 0, 0, 0.08);
-    padding: 0.75em;
-    text-align: center;
+  .block label.thumbnail-option {
+    overflow: hidden;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+    display: block;
+    line-height: 36px;
+    font-weight: bold;
+  }
+
+  .block .thumbnail-option select {
+    width: 70%;
+    float: right;
+    font-weight: normal;
+  }
+
+  #attachment-options {
+    padding-bottom: 4.5em;
+  }
+
+  #attachment-options .option {
+    position: relative;
     margin-bottom: 1.5em;
   }
-  #item-options .current-item button {
-    margin: 0.75em auto 0;
-    display: block;
+
+  #attachment-options .expand,
+  #attachment-options .collapse {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
-  #item-options .current-item img {
+
+  #attachment-item-select {
+    display: block;
+    width: 100%;
+    border-radius: 0px;
+    margin: 0;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.75em;
+    margin-left: -0.75em;
+    padding-right: 0.75em;
+    padding-left: 0.75em;
+  }
+
+  #attachment-options .selected-attachment {
+    background-color: rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin-bottom: 1.5em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.75em;
+    margin-left: -0.75em;
+    padding-right: 0.75em;
+    padding-left: 0.75em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+  }
+  #attachment-options .selected-attachment img {
     max-width: 100%;
     height: auto;
   }
 
-  #item-options .item-title {
+  #attachment-options .item-title {
     font-size: 20px;
     margin-bottom: 0.6em;
     display: block;
   }
 
-  #item-options label {
-    display: block;
+  #attachment-options h3 {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.125em;
+    border-bottom-style: solid;
+    padding-bottom: 0.125em;
+    margin-bottom: 0;
+  }
+
+  #attachment-options .media-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+  }
+  #attachment-options .media-list li.media {
+    position: relative;
+    min-height: 3em;
+    cursor: pointer;
+  }
+  #attachment-options .media-list li.media:not(:last-child) {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
+  }
+  #attachment-options .media-list li.media.attached, #attachment-options .media-list li.media:hover {
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 0.375em;
+  }
+  #attachment-options .media-list img {
+    width: 2.25em;
+    height: auto;
+    vertical-align: middle;
+    margin: 0.375em;
+    display: inline-block;
+  }
+  #attachment-options .media-list .media-title {
+    display: inline-block;
+    max-width: calc(100% - 3em);
+    vertical-align: middle;
   }
 
   /* @end */

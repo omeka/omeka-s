@@ -13,28 +13,35 @@ if ($attachedItem) {
 }
 ?>
 <?php if ($attachedItem): ?>
-<h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
-<div>
+<div class="selected-attachment">
+    <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php if ($thumbnailUrl): ?>
     <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
     <?php endif; ?>
 </div>
 <?php if ($allMedia): ?>
-<h3><?php echo $this->translate('Media'); ?></h3>
-<ul>
-    <?php foreach ($allMedia as $media): ?>
-    <?php
-    $attached = null;
-    if ($attachedMedia && ($attachedMedia->id() === $media->id())) {
-        $attached = 'attached';
-    }
-    ?>
-    <li class="media <?php echo $attached; ?>" data-media-id="<?php echo $escape($media->id()); ?>">
-        <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>"> <?php echo $escape($media->displayTitle()); ?>
-    </li>
-    <?php endforeach; ?>
-</ul>
+<div class="select-media option">
+    <h3><?php echo $this->translate('Media'); ?></h3><a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"></a>
+    <div class="collapsible">
+        <ul class="media-list">
+            <?php foreach ($allMedia as $media): ?>
+            <?php
+            $attached = null;
+            if ($attachedMedia && ($attachedMedia->id() === $media->id())) {
+                $attached = 'attached';
+            }
+            ?>
+            <li class="media <?php echo $attached; ?>" data-media-id="<?php echo $escape($media->id()); ?>">
+                <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                <span class="media-title"><?php echo $escape($media->displayTitle()); ?></span>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
 <?php endif; ?>
 <?php else: ?>
-<p><?php echo $this->translate('No item selected.'); ?></p>
+<div class="selected-attachment">
+    <p><?php echo $this->translate('No item selected.'); ?></p>
+</div>
 <?php endif; ?>

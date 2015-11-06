@@ -96,22 +96,4 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             ['force_canonical' => $canonical]
         );
     }
-
-    /**
-     * {@inheritDoc}
-     *
-     * Adds this item's primary media ID to the value representation.
-     */
-    public function valueRepresentation()
-    {
-        $primaryMediaId = null;
-        $primaryMedia = $this->primaryMedia();
-        if ($primaryMedia) {
-            $primaryMediaId = $primaryMedia->id();
-        }
-
-        $representation = parent::valueRepresentation();
-        $representation['primary_media_id'] = $primaryMediaId;
-        return $representation;
-    }
 }

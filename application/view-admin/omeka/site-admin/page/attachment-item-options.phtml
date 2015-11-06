@@ -27,7 +27,9 @@ if ($attachedItem) {
             <?php foreach ($allMedia as $media): ?>
             <?php
             $attached = null;
-            if ($attachedMedia && ($attachedMedia->id() === $media->id())) {
+            if (($attachedMedia && ($attachedMedia->id() === $media->id()))
+                || (!$attachedMedia && ($primaryMedia->id() === $media->id()))
+            ) {
                 $attached = 'attached';
             }
             ?>

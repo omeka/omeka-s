@@ -183,7 +183,6 @@ function openAttachmentOptions(itemId, mediaId, caption)
 {
     var attachmentItem = $('#attachment-item');
     attachmentItem.data('itemId', itemId);
-    attachmentItem.data('mediaId', mediaId);
     $.post(
         $('#attachment-options').data('url'),
         {itemId: itemId, mediaId: mediaId}
@@ -217,7 +216,7 @@ $('#attachment-item-select').on('click', function(e) {
 // Update attachment options sidebar after selecting item.
 $('#select-item a').on('o:resource-selected', function(e) {
     var resource = $('.resource-details').data('resource-values');
-    openAttachmentOptions(resource.value_resource_id, resource.primary_media_id);
+    openAttachmentOptions(resource.value_resource_id);
     $('#select-resource').removeClass('active');
 });
 
@@ -226,10 +225,6 @@ $('#attachment-item').on('click', 'li.media', function(e) {
     var media = $(this);
     var attachmentItem = $('#attachment-item');
 
-    // Set hidden data.
-    attachmentItem.data('mediaId', media.data('media-id'));
-
-    // Set visual elements.
     attachmentItem.find('li.media').removeClass('attached');
     media.addClass('attached');
     attachmentItem.find('img.item-thumbnail').attr('src', media.find('img.media-thumbnail').attr('src'));
@@ -245,7 +240,7 @@ $('#attachment-confirm-panel button').on('click', function(e) {
 
     // Set hidden data.
     attachment.find('input.item').val(item.data('itemId'));
-    attachment.find('input.media').val(item.data('mediaId'));
+    attachment.find('input.media').val(item.find('li.media.attached').data('mediaId'));
     attachment.find('input.caption').val(caption);
 
     // Set visual elements.

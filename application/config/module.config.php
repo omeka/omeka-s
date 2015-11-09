@@ -260,7 +260,7 @@ return [
         'invokables' => [
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
-            'oneItem' => 'Omeka\Site\BlockLayout\OneItem',
+            'itemList' => 'Omeka\Site\BlockLayout\ItemList',
         ],
     ],
     'navigation_links' => [

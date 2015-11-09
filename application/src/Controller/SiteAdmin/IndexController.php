@@ -184,10 +184,13 @@ class IndexController extends AbstractActionController
 
     public function navigationLinkFormAction()
     {
+        $site = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ])->getContent();
         $link = $this->getServiceLocator()
             ->get('Omeka\Site\NavigationLinkManager')
             ->get($this->params()->fromPost('type'));
-        $form = $link->getForm($this->params()->fromPost('data'));
+        $form = $link->getForm($this->params()->fromPost('data'), $site);
 
         $response = $this->getResponse();
         $response->setContent($form);

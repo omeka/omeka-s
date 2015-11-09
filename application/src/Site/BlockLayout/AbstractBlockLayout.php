@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Zend\Form\Element\Select;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
@@ -43,6 +44,28 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
         SitePageBlockRepresentation $block = null
     ) {
         return $view->partial('common/attachments-form', ['block' => $block]);
+    }
+
+    /**
+     * Return a thumbnail type select element.
+     *
+     * @param PhpRenderer $view
+     * @param SiteRepresentation $site
+     * @param SiteBlockAttachmentRepresentation|null $block
+     * @return string
+     */
+    public function thumbnailTypeSelect(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
+    ) {
+        $types = $this->getServiceLocator()->get('Omeka\File\Manager')->getThumbnailTypes();
+        $type = null;
+        if ($block) {
+            $type = $this->getData($block->data(), 'thumbnail_type');
+        }
+
+        $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
+        $select->setValueOptions(array_combine($types, $types))->setValue($type);
+        return '<label class="thumbnail-option">Thumbnail Type ' . $view->formSelect($select) . '</label>';
     }
 
     /**

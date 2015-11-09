@@ -142,15 +142,6 @@ return [
                                     ],
                                 ],
                             ],
-                            'navigation-link-form' => [
-                                'type' => 'Literal',
-                                'options' => [
-                                    'route' => '/navigation-link-form',
-                                    'defaults' => [
-                                        'action' => 'navigation-link-form',
-                                    ],
-                                ],
-                            ],
                             'page' => [
                                 'type' => 'Segment',
                                 'options' => [

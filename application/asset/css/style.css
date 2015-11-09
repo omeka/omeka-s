@@ -2495,7 +2495,7 @@ th {
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: 0.75em 1.04167%;
+    padding: 0.75em;
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -2543,6 +2543,14 @@ th {
   }
   .sidebar select {
     width: 100%;
+  }
+  .sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 0.5em;
+  }
+  .sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 0.6em;
   }
 
   #sidebar-confirm {
@@ -2870,6 +2878,10 @@ th {
     padding: 0.3em;
   }
 
+  .block .attachment .sortable-handle:before {
+    padding: 0;
+  }
+
   .block.html > div {
     border: 1px solid #f2f2f2;
     clear: both;
@@ -2877,8 +2889,9 @@ th {
 
   .block .field {
     clear: both;
-    margin-bottom: 0;
+    padding: 0;
     border-color: transparent;
+    background-color: transparent;
   }
 
   .block.value.delete .input-header {
@@ -2906,6 +2919,9 @@ th {
     margin: 0.375em 0;
     display: inline-block;
     width: calc(100% - 4.5em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .block .item-title img {
@@ -2913,7 +2929,7 @@ th {
     width: auto;
     display: inline-block;
     margin-right: 0.375em;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   .block .delete.attachment {
@@ -2930,7 +2946,7 @@ th {
 
   .block .attachment .actions {
     position: absolute;
-    right: 0.75em;
+    right: 0.375em;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -2953,19 +2969,22 @@ th {
     display: none;
   }
 
-  .block .attachments-form {
+  .block .block-content {
     clear: both;
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 0;
+    padding: 0.375em;
   }
 
   .block .attachment {
-    padding: 0 0.375em 0 2.25em;
+    padding-left: 1.875em;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: -0.0625em;
     position: relative;
+    clear: both;
+    height: 3em;
+    line-height: 36px;
   }
 
   .block .attachment .sortable-handle {
@@ -2982,34 +3001,122 @@ th {
   }
 
   .block .attachment-add {
-    margin: 0.375em;
+    margin: 0.375em 0 0;
   }
 
-  #item-options .current-item {
+  .block label.thumbnail-option {
+    overflow: hidden;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+    display: block;
+    line-height: 36px;
+    font-weight: bold;
+  }
+
+  .block .thumbnail-option select {
+    width: 70%;
+    float: right;
+    font-weight: normal;
+  }
+
+  #attachment-options {
+    padding-bottom: 4.5em;
+  }
+
+  #attachment-options .option {
+    position: relative;
+    margin-bottom: 0.75em;
+  }
+
+  #attachment-options .expand,
+  #attachment-options .collapse {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #attachment-item-select {
+    display: block;
+    width: 100%;
+    border-radius: 0px;
+    margin: 0;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.75em;
+    margin-left: -0.75em;
+    padding-right: 0.75em;
+    padding-left: 0.75em;
+  }
+
+  #attachment-options .selected-attachment {
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 0.75em;
+    margin-bottom: 0.75em;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -0.75em;
+    margin-left: -0.75em;
+    padding-right: 0.75em;
+    padding-left: 0.75em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    overflow: hidden;
+  }
+  #attachment-options .selected-attachment img {
+    height: 6em;
+    width: auto;
+    float: left;
+  }
+  #attachment-options .selected-attachment p:only-child {
+    margin: 0;
     text-align: center;
-    margin-bottom: 1.5em;
-  }
-  #item-options .current-item button {
-    margin: 0.75em auto 0;
-    display: block;
-  }
-  #item-options .current-item img {
-    max-width: 100%;
-    height: auto;
   }
 
-  #item-options .item-title {
+  #attachment-options h3.item-title {
     font-size: 20px;
-    margin-bottom: 0.6em;
+    margin-bottom: 0;
     display: block;
+    float: right;
+    width: calc(100% - 5.4em);
+    border-color: transparent;
   }
 
-  #item-options label {
+  #attachment-options .media-title {
     display: block;
+    float: right;
+    width: calc(100% - 6.75em);
+  }
+
+  #attachment-options h3 {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.15em;
+    border-bottom-style: solid;
+    padding-bottom: 0.15em;
+  }
+
+  #attachment-options .media-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+  }
+  #attachment-options .media-list li.media {
+    position: relative;
+    height: 3em;
+    width: 3em;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.1875em;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  #attachment-options .media-list li.media.attached, #attachment-options .media-list li.media:hover {
     background-color: rgba(0, 0, 0, 0.08);
-    padding: 0.375em;
+  }
+  #attachment-options .media-list img {
+    width: 100%;
+    height: auto;
   }
 
   /* @end */

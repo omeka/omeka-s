@@ -83,4 +83,25 @@ class PageController extends AbstractActionController
         $response->setContent($helper->form($layout, $site));
         return $response;
     }
+
+    public function attachmentItemOptionsAction()
+    {
+        $attachedItem = null;
+        $attachedMedia = null;
+
+        $itemId = $this->params()->fromPost('itemId');
+        if ($itemId) {
+            $attachedItem = $this->api()->read('items', $itemId)->getContent();
+        }
+        $mediaId = $this->params()->fromPost('mediaId');
+        if ($mediaId) {
+            $attachedMedia = $this->api()->read('media', $mediaId)->getContent();
+        }
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('attachedItem', $attachedItem);
+        $view->setVariable('attachedMedia', $attachedMedia);
+        return $view;
+    }
 }

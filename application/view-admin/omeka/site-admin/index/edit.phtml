@@ -51,7 +51,7 @@ $roles = array(
 
 <fieldset id="nav" class="section">
     <div id="nav-tree"
-        data-link-form-url="<?php echo $escape($this->url('admin/site/navigation-link-form')); ?>"
+        data-link-form-url="<?php echo $escape($this->url('admin/site/default', ['action' => 'navigation-link-form'], true)); ?>"
         data-jstree-data="<?php echo $escape(json_encode($navTree)); ?>">
     </div>
     <div id="nav-selector" class="sidebar">

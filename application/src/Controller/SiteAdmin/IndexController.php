@@ -122,7 +122,11 @@ class IndexController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Page created.');
-                    return $this->redirect()->toUrl($site->url());
+                    return $this->redirect()->toRoute(
+                        'admin/site/page',
+                        ['action' => 'index'],
+                        true
+                    );
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');

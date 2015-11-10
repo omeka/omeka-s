@@ -68,7 +68,35 @@ class PageController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, [
+                'button_value' => $this->translate('Confirm Delete'),
+            ]
+        ));
         return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('site_pages', ['slug' => $this->params('page-slug')]);
+                if ($response->isError()) {
+                    $this->messenger()->addError('Page could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Page successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Page could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute(
+            'admin/site/page',
+            ['action' => 'index'],
+            true
+        );
     }
 
     public function blockAction()

@@ -29,12 +29,34 @@ $escape = $this->plugin('escapeHtml');
                     'aria-label' => $this->translate('Edit'),
                     'title' => $this->translate('Edit'),
                 )); ?></li>
-                <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
-                <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
+                <li><a href="#" class="o-icon-delete sidebar-confirm" aria-label="#" title="<?php echo $this->translate('Delete page'); ?>" data-page-title="<?php echo $escape($page->title()); ?>" data-sidebar-confirm-url="<?php echo $escape($page->url('delete')); ?>"></a></li>
             </ul>
         </td>
     </tr>
 <?php endforeach; ?>
     </tbody>
 </table>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $this->translate('Delete page'); ?></h2>
+        <p><?php echo $this->translate(sprintf('Are you sure you would like to delete %s?', '"page-title"')); ?></p>
+        <?php echo $this->form($confirmForm); ?>
+    </div>
+</div>
 <?php endif; ?>
+
+<script type="text/javascript">
+var deleteText = $('#sidebar-confirm p');
+var deleteTemplate = deleteText.text();
+$('.sidebar-confirm').click(function() {
+    deleteText.text(deleteTemplate);
+    var pageTitle = $(this).data('page-title');
+    console.log(deleteText.text());
+    deleteText.text(deleteText.text().replace('page-title', pageTitle));
+});
+</script>

@@ -1,5 +1,9 @@
 var Omeka = {
     openSidebar : function(context,target) {
+        //close delete sidebar if open
+        if ($('#delete').hasClass('active')) {
+            $('#delete').removeClass('active');
+        }
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');

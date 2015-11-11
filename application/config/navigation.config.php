@@ -155,8 +155,19 @@ return [
                 'class'         => 'pages',
                 'route'         => 'admin/site/page',
                 'action'        => 'index',
-                'useRouteMatch' => true
-            ]
+                'useRouteMatch' => true,
+                'pages'         => [
+                    [
+                        'route'      => 'admin/site/default',
+                        'action'     => 'add-page',
+                        'visible'    => false,
+                    ],
+                    [
+                        'route'      => 'admin/site/page/default',
+                        'visible'    => false,
+                    ],
+                ],
+            ],
         ]
     ],
 ];

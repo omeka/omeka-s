@@ -4,7 +4,10 @@ $escape = $this->plugin('escapeHtml');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Pages')); ?>
-<?php echo $site->link($this->translate('Add a new page'), 'add-page', array('class' => 'button')); ?>
+
+<div id="page-actions">
+    <?php echo $site->link($this->translate('Add new page'), 'add-page', array('class' => 'button')); ?>
+</div>
 
 <?php if ($pages = $site->pages()): ?>
 <table id="page-list">

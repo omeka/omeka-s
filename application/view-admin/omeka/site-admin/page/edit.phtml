@@ -12,6 +12,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <a href="<?php echo $page->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
+    <a href="#" class="sidebar-confirm delete button" data-sidebar-confirm-url="<?php echo $escape($page->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
@@ -53,6 +54,18 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <div id="attachment-confirm-panel" class="confirm-panel">
         <button><?php echo $this->translate('Apply changes'); ?></button>
+    </div>
+</div>
+
+<div id="delete" class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div id="sidebar-confirm">
+        <h2><?php echo $this->translate('Delete Item'); ?></h2>
+        <p><?php echo $this->translate('Are you sure you would like to delete this page?'); ?></p>
+        <?php echo $this->form($confirmForm); ?>
     </div>
 </div>
 

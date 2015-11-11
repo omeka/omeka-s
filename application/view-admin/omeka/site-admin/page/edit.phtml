@@ -104,7 +104,7 @@ $('#blocks').on('o:block-added', '.block', function () {
 });
 wysiwyg($('body'));
 
-$('a.remove-value, a.restore-value').click(function(e) {
+$('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
     e.preventDefault();
     var block = $(this).parents('.block');
     block.toggleClass('delete');

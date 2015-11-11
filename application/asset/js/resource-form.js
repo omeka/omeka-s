@@ -27,7 +27,7 @@
             if (templateId == '') {
                 return;
             }
-            var url = $(this).data('api-base-url') + templateId;
+            var url = $(this).data('api-base-url') + '/' + templateId;
             $.ajax({
                 'url': url,
                 'type': 'get'

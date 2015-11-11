@@ -118,6 +118,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:resource_template_property')
+            && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
 

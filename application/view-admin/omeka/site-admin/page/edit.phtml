@@ -156,9 +156,11 @@ $('#blocks').on('click', '.delete,.undo', function(e) {
 
 // Make attachments sortable.
 $('#blocks').on('o:block-added', '.block', function () {
-    new Sortable($(this).children('.attachments')[0], {
-        draggable: ".attachment",
-        handle: ".sortable-handle"
+    $(this).find('.attachments').each(function () {
+        new Sortable(this, {
+            draggable: ".attachment",
+            handle: ".sortable-handle"
+        });
     });
 });
 $('.attachments').each(function() {

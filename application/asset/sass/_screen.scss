@@ -614,25 +614,31 @@ nav.pagination form input[type="text"] {
 
     /* @group ----- Top-level navigation ----- */
 
-    #menu .navigation > li:not(:first-of-type) {
+    header nav h4 {
+        border-color: $gray-on-white;
+        @include trailing-border(3px, .25, $base-font-size, solid);
+        margin-bottom: rhythm(.25);
+    }
+
+    header nav .navigation > li:not(:first-of-type) {
         @include leader(.25);
     }
 
-    #menu .navigation > li:not(:last-of-type) {
+    header nav .navigation > li:not(:last-of-type) {
         border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
-    #menu .navigation li li {
+    header nav .navigation li li {
         display: none;
     }
 
-    #menu .navigation li.active li {
+    header nav .navigation li.active li {
         display: block;
         margin-left: rhythm();
     }
 
-    #menu .navigation li.active {
+    header nav .navigation li.active {
         font-weight: bold;
 
         a:before,
@@ -641,54 +647,83 @@ nav.pagination form input[type="text"] {
         }
     }
 
-    #menu a:before {
+    header nav a:before {
         font-family: "FontAwesome";
         display: inline-block;
         width: rhythm();
     }
 
-    #menu .items:before {
+    header nav .items:before {
         content: $fa-var-cube;
     }
 
-    #menu .media:before {
+    header nav .media:before {
         content: $fa-var-image;
     }
 
-    #menu .item-sets:before {
+    header nav .item-sets:before {
         content: $fa-var-cubes;
     }
 
-    #menu .vocabularies:before {
+    header nav .vocabularies:before {
         content: $fa-var-book;
     }
 
-    #menu .resource-templates:before {
+    header nav .resource-templates:before {
         content: $fa-var-pencil-square;
     }
 
-    #menu .users:before {
+    header nav .users:before {
         content: $fa-var-users;
     }
 
-    #menu .modules:before {
+    header nav .modules:before {
         content: $fa-var-plus-square;
     }
 
-    #menu .jobs:before {
+    header nav .jobs:before {
         content: $fa-var-tasks;
     }
 
-    #menu .sites:before {
+    header nav .sites:before {
         content: $fa-var-laptop;
     }
 
-    #menu .settings:before {
+    header nav .settings:before {
         content: $fa-var-gears;
     }
 
-    #menu li li a:before {
+    header nav li li a:before {
         content: $fa-var-caret-right;
+    }
+
+    #menu {
+        position: relative;
+    }
+
+    #menu .expand,
+    #menu .collapse {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    /* @end */
+
+    /* @group ----- Site-level navigation ----- */
+
+    #site-menu {
+        margin-bottom: rhythm();
+    }
+
+    #site-menu .pages:before {
+        content: $fa-var-file-o;
+    }
+
+    #site-menu a.public {
+        float: right;
+        text-align: right;
+        font-size: $base-font-size;
     }
 
     /* @end */

@@ -142,5 +142,21 @@ return [
                 'useRouteMatch' => true,
             ],
         ],
+        'site' => [
+            [
+                'label'         => 'Settings',
+                'class'         => 'settings',
+                'route'         => 'admin/site/default',
+                'action'        => 'edit',
+                'useRouteMatch' => true
+            ],
+            [
+                'label'         => 'Pages',
+                'class'         => 'pages',
+                'route'         => 'admin/site/page',
+                'action'        => 'index',
+                'useRouteMatch' => true
+            ]
+        ]
     ],
 ];

@@ -16,6 +16,7 @@ class PageController extends AbstractActionController
         ]);
         $site = $readResponse->getContent();
         $siteId = $site->id();
+        $this->layout()->setVariable('site', $site);
 
         $readResponse = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),
@@ -55,6 +56,47 @@ class PageController extends AbstractActionController
             ]
         ));
         return $view;
+    }
+
+    public function indexAction()
+    {
+        $response = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $response->getContent();
+        $this->layout()->setVariable('site', $site);
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('confirmForm', new ConfirmForm(
+            $this->getServiceLocator(), null, [
+                'button_value' => $this->translate('Confirm Delete'),
+            ]
+        ));
+        return $view;
+    }
+
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $form = new ConfirmForm($this->getServiceLocator());
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $response = $this->api()->delete('site_pages', ['slug' => $this->params('page-slug')]);
+                if ($response->isError()) {
+                    $this->messenger()->addError('Page could not be deleted');
+                } else {
+                    $this->messenger()->addSuccess('Page successfully deleted');
+                }
+            } else {
+                $this->messenger()->addError('Page could not be deleted');
+            }
+        }
+        return $this->redirect()->toRoute(
+            'admin/site/page',
+            ['action' => 'index'],
+            true
+        );
     }
 
     public function blockAction()

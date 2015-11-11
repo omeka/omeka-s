@@ -34,7 +34,6 @@ $roles = array(
     <ul>
         <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
         <li><a href="#item-pool"><?php echo $this->translate('Item Pool'); ?></a></li>
-        <li><a href="#pages"><?php echo $this->translate('Pages'); ?></a></li>
         <li><a href="#nav"><?php echo $this->translate('Navigation'); ?></a></li>
         <li><a href="#permissions"><?php echo $this->translate('User Permissions'); ?></a></li>
     </ul>
@@ -48,43 +47,6 @@ $roles = array(
 <fieldset id="item-pool" class="section">
     <legend><?php echo $this->translate('Item Pool'); ?></legend>
     <div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item', 'query' => $site->itemPool()]); ?></div>
-</fieldset>
-
-<fieldset id="pages" class="section">
-    <legend><?php echo $this->translate('Pages'); ?></legend>
-    <?php echo $site->link($this->translate('Add a Page'), 'add-page', array('class' => 'button')); ?>
-    <?php if ($pages = $site->pages()): ?>
-    <table id="page-list">
-        <thead>
-            <th><?php echo $this->translate('Title'); ?></th>
-            <th><?php echo $this->translate('Slug'); ?></th>
-            <th></th>
-        </thead>
-        <tbody>
-        <?php foreach ($pages as $page): ?>
-        <tr class="page value">
-            <td>
-                <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
-                <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
-                <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
-            </td>
-            <td><?php echo $page->slug(); ?></td>
-            <td>
-                <ul class="actions">
-                    <li><?php echo $page->link('', 'edit', array(
-                        'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
-                        'title' => $this->translate('Edit'),
-                    )); ?></li>
-                    <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
-                    <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
-                </ul>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-        </tbody>
-    </table>
-    <?php endif; ?>
 </fieldset>
 
 <fieldset id="nav" class="section">

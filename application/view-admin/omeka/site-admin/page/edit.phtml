@@ -89,7 +89,7 @@ new Sortable(list, {
 
 $('#new-block').change(function() {
     $.post(
-        '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
+        '<?php echo $this->url('admin/site/page/default', array('action' => 'block'), true); ?>',
         {layout: $(this).val()}
     ).done(function(data) {
         var newBlock = $(data).appendTo('#blocks');

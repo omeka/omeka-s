@@ -53,6 +53,7 @@ return [
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\InstallDefaultTemplatesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
             'Omeka\Installation\Task\AddDefaultSettingsTask',
         ],

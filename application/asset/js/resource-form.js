@@ -275,7 +275,7 @@
         }
 
         var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label'] != "") {
+        if (template['o:alternate_label']) {
             var altLabel = originalLabel.clone();
             altLabel.addClass('alternate');
             altLabel.text(template['o:alternate_label']);
@@ -284,7 +284,7 @@
         }
 
         var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment'] != "") {
+        if (template['o:alternate_comment']) {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);

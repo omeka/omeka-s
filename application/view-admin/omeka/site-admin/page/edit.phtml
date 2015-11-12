@@ -29,7 +29,7 @@ $escape = $this->plugin('escapeHtml');
     <label for="new-block">
         <?php echo $this->translate('Add New Block'); ?>
     </label>
-    <select id="new-block">
+    <select id="new-block" data-url="<?php echo $this->url('admin/site/page/default', array('action' => 'block'), true); ?>">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
         <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
         <option value="<?php echo $escape($layout); ?>">
@@ -89,7 +89,7 @@ new Sortable(list, {
 
 $('#new-block').change(function() {
     $.post(
-        '<?php echo $this->url('admin/site/page/default', array('action' => 'block'), true); ?>',
+        $(this).data('url'),
         {layout: $(this).val()}
     ).done(function(data) {
         var newBlock = $(data).appendTo('#blocks');

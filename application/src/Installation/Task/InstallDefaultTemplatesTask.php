@@ -34,7 +34,7 @@ class InstallDefaultTemplatesTask implements TaskInterface
      * @var array
      */
     protected $templates = [
-        /**
+        /*
          * The "Base Resource" resource template, comprising recommended
          * properties for a dpla:SourceResource as described by DPLA's Metadata
          * Application Profile (MAP) version 4.0. These properties are roughly

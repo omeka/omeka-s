@@ -15,11 +15,6 @@ $escape = $this->plugin('escapeHtml');
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
-<div class="breadcrumbs">
-    <?php echo $site->link($site->title(), null, array('class' => 'page-site')); ?>
-    <span class="page-title"><?php echo $page->title(); ?></span>
-</div>
-
 <?php echo $this->formElements($form); ?>
 
 <?php echo $this->blockLayout()->forms($page); ?>

@@ -9,12 +9,18 @@ class ItemSetController extends AbstractSiteController
     {
         $site = $this->getSite();
         $response = $this->api()->read('item_sets', $this->params('id'));
-        $item = $response->getContent();
+        $itemSet = $response->getContent();
+        $itemsResponse = $this->api()->search('items', [
+            'item_set_id' => $itemSet->id(),
+            'limit' => 5
+        ]);
+        $items = $itemsResponse->getContent();
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('itemSet', $item);
-        $view->setVariable('resource', $item);
+        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('items', $items);
+        $view->setVariable('resource', $itemSet);
         return $view;
     }
 }

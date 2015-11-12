@@ -62,10 +62,6 @@ img {
 }
 
 /* @group ----- Forms ----- */
-nav.pagination {
-  margin-bottom: 1.5em;
-}
-
 input,
 textarea,
 button {
@@ -73,6 +69,7 @@ button {
   font-size: 20px;
   line-height: 30px;
   margin: 0;
+  vertical-align: top;
 }
 
 input[type="text"],
@@ -167,6 +164,12 @@ ul.navigation > li > ul > li ul {
   list-style-type: none;
 }
 
+nav.pagination {
+  margin-bottom: 1.5em;
+  font-size: 20px;
+  line-height: 45px;
+}
+
 .pagination input {
   text-align: center;
 }
@@ -189,8 +192,10 @@ ul.navigation > li > ul > li ul {
 .pagination form,
 .pagination .button,
 .pagination button,
-.pagination .row-count {
+.pagination .page-count {
   display: inline-block;
+  vertical-align: top;
+  height: 45px;
 }
 
 .pagination .button {
@@ -201,6 +206,7 @@ ul.navigation > li > ul > li ul {
   padding: 0.375em;
   border-radius: 2px;
   color: #ababab;
+  line-height: 30px;
 }
 .pagination .button:hover {
   background-color: #787878;
@@ -247,6 +253,76 @@ ul.navigation > li > ul > li ul {
 }
 
 /* @end */
+/* @group ----- Resource List ----- */
+ul.resource-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.resource-list .resource {
+  border-color: #dedede;
+  border-bottom-width: 0.05em;
+  border-bottom-style: solid;
+  padding-bottom: 1.45em;
+  margin-bottom: 1.5em;
+  overflow: hidden;
+  position: relative;
+}
+ul.resource-list .resource:after {
+  content: "";
+  position: absolute;
+  bottom: 1.5em;
+  left: 0;
+  height: 1.875em;
+  background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0));
+}
+
+ul.resource-list .resource img {
+  height: 7.5em;
+  width: auto;
+  float: right;
+  margin-left: 0.75em;
+}
+
+ul.resource-list .resource h4 {
+  margin-top: 0;
+}
+
+ul.resource-list .resource .description {
+  max-height: 4.5em;
+  overflow: hidden;
+}
+
+ul.resource-list .resource:after,
+ul.resource-list .resource h4,
+ul.resource-list .resource .description {
+  width: calc(100% - 8.25em);
+}
+
+/* @end */
+/* @group ----- Browse ---- */
+.search-filters {
+  margin-bottom: 1.5em;
+}
+
+.filter-label,
+.filter-value {
+  display: inline-block;
+  border-color: #dedede;
+  border-width: 0.05em;
+  border-style: solid;
+  padding: 0.325em;
+}
+
+.filter-label {
+  background-color: #dedede;
+}
+
+.filter-value {
+  margin-left: -5px;
+}
+
+/* @end */
 /* @group ----- Show ----- */
 .property {
   margin-bottom: 1.5em;
@@ -267,11 +343,15 @@ ul.navigation > li > ul > li ul {
 
 .property .value a {
   display: inline-block;
+  vertical-align: middle;
 }
 
-.property .value:not(:last-child) * {
+.property .value:not(:last-child) img {
   margin-bottom: 0.375em;
-  vertical-align: middle;
+}
+
+.property .value:not(:last-child) img + a {
+  margin-bottom: 0.375em;
 }
 
 .media.resource {
@@ -294,50 +374,26 @@ ul.navigation > li > ul > li ul {
 }
 
 /* @end */
-/* @group ----- Browse ----- */
-.browse ul.resource-list {
-  list-style-type: none;
-  padding-left: 0;
+/* @group ----- Item Set ----- */
+.item-set .items h3 {
+  float: left;
 }
 
-.browse .resource {
-  border-color: #dedede;
-  border-bottom-width: 0.05em;
-  border-bottom-style: solid;
-  padding-bottom: 1.45em;
-  margin-bottom: 1.5em;
-  overflow: hidden;
-  position: relative;
-}
-.browse .resource:after {
-  content: "";
-  position: absolute;
-  bottom: 1.5em;
-  left: 0;
-  height: 1.875em;
-  background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0));
-}
-
-.browse .resource img {
-  height: 7.5em;
-  width: auto;
+.item-set .items > a:first-of-type {
+  margin-top: 1.5em;
   float: right;
-  margin-left: 0.75em;
+  line-height: 45px;
+  height: 45px;
 }
 
-.browse .resource h4 {
-  margin-top: 0;
+.item-set ul.resource-list {
+  clear: both;
 }
 
-.browse .resource .description {
-  max-height: 4.5em;
-  overflow: hidden;
-}
-
-.browse .resource:after,
-.browse .resource h4,
-.browse .resource .description {
-  width: calc(100% - 8.25em);
+.item-set ul.resource-list .resource:first-child {
+  border-top-width: 0.05em;
+  border-top-style: solid;
+  padding-top: 1.45em;
 }
 
 /* @end */

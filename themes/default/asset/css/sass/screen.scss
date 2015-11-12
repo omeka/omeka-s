@@ -70,10 +70,6 @@ img {
 
 /* @group ----- Forms ----- */
 
-nav.pagination {
-    margin-bottom: rhythm();
-}
-
 input,
 textarea,
 button {
@@ -81,6 +77,7 @@ button {
     font-size: $base-font-size;
     line-height: $base-line-height;
     margin: 0;
+    vertical-align: top;
 }
 
 input[type="text"],
@@ -168,6 +165,12 @@ ul.navigation {
     }
 }
 
+nav.pagination {
+    margin-bottom: rhythm();
+    font-size: $base-font-size;
+    line-height: 1.5 * $base-line-height;
+}
+
 .pagination input {
     text-align: center;
 }
@@ -188,8 +191,10 @@ ul.navigation {
 .pagination form,
 .pagination .button,
 .pagination button,
-.pagination .row-count {
+.pagination .page-count {
     display: inline-block;
+    vertical-align: top;
+    height: 1.5 * $base-line-height;
 }
 
 .pagination .button {
@@ -200,6 +205,7 @@ ul.navigation {
     padding: rhythm(.25);
     border-radius: 2px;
     color: $gray;
+    line-height: $base-line-height;
 
     &:hover {
         background-color: $bold;
@@ -248,6 +254,77 @@ ul.navigation {
 
 /* @end */
 
+/* @group ----- Resource List ----- */
+
+ul.resource-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.resource-list .resource {
+    border-color: $light;
+    @include trailing-border(1px, 1, $base-font-size, solid);
+    margin-bottom: rhythm();
+    overflow: hidden;
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: rhythm();
+        left: 0;
+        height: rhythm(1.25);
+        background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+    }
+}
+
+ul.resource-list .resource img {
+    height: rhythm(5);
+    width: auto;
+    float: right;
+    margin-left: rhythm(.5);
+}
+
+ul.resource-list .resource h4 {
+    margin-top: 0;
+}
+
+ul.resource-list .resource .description {
+    max-height: rhythm(3);
+    overflow: hidden;
+}
+
+ul.resource-list .resource:after,
+ul.resource-list .resource h4,
+ul.resource-list .resource .description {
+    width: calc(100% - #{rhythm(5.5)});
+}
+
+/* @end */
+
+/* @group ----- Browse ---- */
+
+.search-filters {
+    margin-bottom: rhythm();
+}
+
+.filter-label,
+.filter-value {
+    display: inline-block;
+    border-color: $light;
+    @include rhythm-borders(1px, .25, $base-font-size, solid);
+}
+
+.filter-label {
+    background-color: $light;
+}
+
+.filter-value {
+    margin-left: -5px;
+}
+
+/* @end */
+
 /* @group ----- Show ----- */
 
 .property {
@@ -269,11 +346,15 @@ ul.navigation {
 
 .property .value a {
     display: inline-block;
+    vertical-align: middle;
 }
 
-.property .value:not(:last-child) * {
+.property .value:not(:last-child) img {
     margin-bottom: rhythm(.25);
-    vertical-align: middle;
+}
+
+.property .value:not(:last-child) img + a {
+    margin-bottom: rhythm(.25);
 }
 
 .media.resource {
@@ -297,50 +378,25 @@ ul.navigation {
 
 /* @end */
 
-/* @group ----- Browse ----- */
+/* @group ----- Item Set ----- */
 
-.browse ul.resource-list {
-    list-style-type: none;
-    padding-left: 0;
+.item-set .items h3 {
+    float: left;
 }
 
-.browse .resource {
-    border-color: $light;
-    @include trailing-border(1px, 1, $base-font-size, solid);
-    margin-bottom: rhythm();
-    overflow: hidden;
-    position: relative;
-
-    &:after {
-        content: "";
-        position: absolute;
-        bottom: rhythm();
-        left: 0;
-        height: rhythm(1.25);
-        background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
-    }
-}
-
-.browse .resource img {
-    height: rhythm(5);
-    width: auto;
+.item-set .items > a:first-of-type {
+    margin-top: rhythm();
     float: right;
-    margin-left: rhythm(.5);
+    line-height: 1.5 * $base-line-height;
+    height: 1.5 * $base-line-height;
 }
 
-.browse .resource h4 {
-    margin-top: 0;
+.item-set ul.resource-list {
+    clear: both;
 }
 
-.browse .resource .description {
-    max-height: rhythm(3);
-    overflow: hidden;
-}
-
-.browse .resource:after,
-.browse .resource h4,
-.browse .resource .description {
-    width: calc(100% - #{rhythm(5.5)});
+.item-set ul.resource-list .resource:first-child {
+    @include leading-border(1px, 1, $base-font-size, solid);
 }
 
 /* @end */

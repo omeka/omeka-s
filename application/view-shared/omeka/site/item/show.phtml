@@ -3,6 +3,12 @@
 <?php echo $this->pageTitle($site->title()); ?>
 <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
 <?php echo $item->displayValues(); ?>
+<div class="property">
+    <h4><?php echo $this->translate('Item Sets'); ?></h4>
+    <?php foreach ($item->itemSets() as $itemSet): ?>
+    <div class="value"><a href="<?php echo $escape($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
+    <?php endforeach; ?>
+</div>
 <?php if ($item->media()): ?>
 <div class="media-list">
     <?php foreach ($item->media() as $media): ?>

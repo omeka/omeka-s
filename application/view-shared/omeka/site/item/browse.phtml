@@ -1,9 +1,10 @@
 <?php $escape = $this->plugin('escapeHtml');?>
-<?php $this->htmlElement('body')->appendAttribute('class', 'browse items'); ?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'item browse'); ?>
 
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
 <?php echo $this->pageTitle($site->title()); ?>
 <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
+<?php echo $this->searchFilters(); ?>
 <?php echo $this->pagination(); ?>
 <ul class="resource-list">
     <?php foreach ($items as $item): ?>

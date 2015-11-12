@@ -33,7 +33,36 @@ class InstallDefaultTemplatesTask implements TaskInterface
      *
      * @var array
      */
-    protected $templates = [];
+    protected $templates = [
+        /**
+         * The "Base Resource" resource template, comprising recommended
+         * properties for a dpla:SourceResource as described by DPLA's Metadata
+         * Application Profile (MAP) version 4.0. These properties are roughly
+         * ordered by importance (required, recommended, and optional).
+         */
+        'Base Resource' => [
+            ['prefix' => 'dcterms', 'local_name' => 'title'],
+            ['prefix' => 'dcterms', 'local_name' => 'rights'],
+            ['prefix' => 'dcterms', 'local_name' => 'type'],
+            ['prefix' => 'dcterms', 'local_name' => 'creator'],
+            ['prefix' => 'dcterms', 'local_name' => 'date'],
+            ['prefix' => 'dcterms', 'local_name' => 'description'],
+            ['prefix' => 'dcterms', 'local_name' => 'format'],
+            ['prefix' => 'dcterms', 'local_name' => 'language'],
+            ['prefix' => 'dcterms', 'local_name' => 'spatial', 'alternate_label' => 'Place'],
+            ['prefix' => 'dcterms', 'local_name' => 'publisher'],
+            ['prefix' => 'dcterms', 'local_name' => 'alternative'],
+            ['prefix' => 'dcterms', 'local_name' => 'contributor'],
+            ['prefix' => 'dcterms', 'local_name' => 'extent'],
+            ['prefix' => 'dcterms', 'local_name' => 'identifier'],
+            ['prefix' => 'dcterms', 'local_name' => 'relation'],
+            ['prefix' => 'dcterms', 'local_name' => 'isReplacedBy'],
+            ['prefix' => 'dcterms', 'local_name' => 'replaces'],
+            ['prefix' => 'dcterms', 'local_name' => 'rightsHolder'],
+            ['prefix' => 'dcterms', 'local_name' => 'subject'],
+            ['prefix' => 'dcterms', 'local_name' => 'temporal'],
+        ],
+    ];
 
     public function perform(Installer $installer)
     {

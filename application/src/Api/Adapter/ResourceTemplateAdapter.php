@@ -143,10 +143,18 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 }
 
                 $propertyId = $resTemPropData['o:property']['o:id'];
-                $altLabel = isset($resTemPropData['o:alternate_label'])
-                    ? $resTemPropData['o:alternate_label'] : null;
-                $altComment = isset($resTemPropData['o:alternate_comment'])
-                    ? $resTemPropData['o:alternate_comment'] : null;
+                $altLabel = null;
+                if (isset($resTemPropData['o:alternate_label'])
+                    && '' !== trim($resTemPropData['o:alternate_label'])
+                ) {
+                    $altLabel = $resTemPropData['o:alternate_label'];
+                }
+                $altComment = null;
+                if (isset($resTemPropData['o:alternate_comment'])
+                    && '' !== trim($resTemPropData['o:alternate_comment'])
+                ) {
+                    $altComment = $resTemPropData['o:alternate_comment'];
+                }
 
                 // Check whether a passed property is already assigned to this
                 // resource template.

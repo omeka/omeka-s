@@ -39,6 +39,17 @@
         });
     }
 
+    /**
+     * Set the selecting attachment.
+     *
+     * @param object attachment The selecting attachment element
+     */
+    function setSelectingAttachment(attachment)
+    {
+        $('.selecting-attachment').removeClass('selecting-attachment');
+        attachment.addClass('selecting-attachment');
+    }
+
     function replaceIndex(context, find, index) {
         context.find(':input').each(function() {
             var thisInput = $(this);
@@ -131,17 +142,16 @@
 
         // Append attachment.
         $('#blocks').on('click', '.attachment-add', function(e) {
-            var attachments = $(this).siblings('.attachments');
-            var template = $(attachments.data('template'));
-            attachments.append(template);
+            setSelectingAttachment($(this));
+            openAttachmentOptions();
+            Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
         });
 
         // Open attachment options sidebar after selecting attachment.
         $('body').on('click', '.attachment-options-icon', function(e) {
             e.preventDefault();
             var attachment = $(this).closest('.attachment');
-            $('.selecting-attachment').removeClass('selecting-attachment');
-            attachment.addClass('selecting-attachment');
+            setSelectingAttachment(attachment);
             openAttachmentOptions(
                 attachment.find('input.item').val(),
                 attachment.find('input.media').val(),
@@ -180,6 +190,11 @@
             var item = $('#attachment-item');
             var caption = $('#attachment-caption .caption').val();
             var attachment = $('.selecting-attachment');
+            if (attachment.hasClass('attachment-add')) {
+                var attachments = attachment.siblings('.attachments');
+                attachment = $(attachments.data('template'));
+                attachments.append(attachment);
+            }
 
             // Set hidden data.
             attachment.find('input.item').val(item.data('itemId'));

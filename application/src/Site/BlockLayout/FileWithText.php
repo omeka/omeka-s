@@ -24,20 +24,17 @@ class FileWithText extends AbstractBlockLayout
         $block->setData($data);
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, 
+    public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        // return $this->thumbnailTypeSelect($view,$site,$block)
-        //     . $this->attachmentsForm($view,$site,$block);
-
         $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
         $textarea->setAttribute('class', 'block-html full wysiwyg');
         if ($block) {
             $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
         }
 
-        return $this->thumbnailTypeSelect($view,$site,$block)
-            . $this->attachmentsForm($view,$site,$block)
+        return $this->thumbnailTypeSelect($view, $site, $block)
+            . $this->attachmentsForm($view, $site, $block)
             . $view->formField($textarea);
 
     }

@@ -261,6 +261,7 @@ return [
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
             'itemList' => 'Omeka\Site\BlockLayout\ItemList',
+            'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
         ],
     ],
     'navigation_links' => [

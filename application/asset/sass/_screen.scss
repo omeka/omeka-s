@@ -149,7 +149,8 @@ body {
 
     input[type="text"],
     input[type="password"],
-    input[type="email"] {
+    input[type="email"],
+    input[type="url"] {
         @include appearance(none);
         @include border-radius(0px);
         height: rhythm(1.5);
@@ -209,6 +210,26 @@ body {
             background-color: #d2d2d2;
             cursor: default;
         }
+    }
+
+    .required .field-meta {
+        position: relative;
+        padding-right: rhythm(1.5);
+
+        &:after {
+            font-family: "FontAwesome";
+            content: $fa-var-asterisk;
+            font-size: .75 * $base-font-size;
+            position: absolute;
+            right: rhythm(.5);
+            color: lighten($red, 20%);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    *:invalid {
+        outline-color: $red;
     }
 
     .field {
@@ -373,6 +394,18 @@ table .icon-sortable {
 
 .o-description {
     @include trailer();
+}
+
+.expand:after {
+    content: $fa-var-caret-right;
+    font-family: "FontAwesome";
+    margin-left: 3px;
+}
+
+.collapse:after {
+    content: $fa-var-caret-down;
+    font-family: "FontAwesome";
+    margin-left: 3px;
 }
 
 /* @end */
@@ -588,25 +621,31 @@ nav.pagination form input[type="text"] {
 
     /* @group ----- Top-level navigation ----- */
 
-    #menu .navigation > li:not(:first-of-type) {
+    header nav h4 {
+        border-color: $gray-on-white;
+        @include trailing-border(3px, .25, $base-font-size, solid);
+        margin-bottom: rhythm(.25);
+    }
+
+    header nav .navigation > li:not(:first-of-type) {
         @include leader(.25);
     }
 
-    #menu .navigation > li:not(:last-of-type) {
+    header nav .navigation > li:not(:last-of-type) {
         border-color: $gray-on-white;
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
-    #menu .navigation li li {
+    header nav .navigation li li {
         display: none;
     }
 
-    #menu .navigation li.active li {
+    header nav .navigation li.active li {
         display: block;
         margin-left: rhythm();
     }
 
-    #menu .navigation li.active {
+    header nav .navigation li.active {
         font-weight: bold;
 
         a:before,
@@ -615,56 +654,84 @@ nav.pagination form input[type="text"] {
         }
     }
 
-    #menu a:before {
+    header nav a:before {
         font-family: "FontAwesome";
         display: inline-block;
         width: rhythm();
     }
 
-    #menu .items:before {
+    header nav .items:before {
         content: $fa-var-cube;
     }
 
-    #menu .media:before {
+    header nav .media:before {
         content: $fa-var-image;
     }
 
-    #menu .item-sets:before {
+    header nav .item-sets:before {
         content: $fa-var-cubes;
     }
 
-    #menu .vocabularies:before {
+    header nav .vocabularies:before {
         content: $fa-var-book;
     }
 
-    #menu .resource-templates:before {
+    header nav .resource-templates:before {
         content: $fa-var-pencil-square;
     }
 
-    #menu .users:before {
+    header nav .users:before {
         content: $fa-var-users;
     }
 
-    #menu .modules:before {
+    header nav .modules:before {
         content: $fa-var-plus-square;
     }
 
-    #menu .jobs:before {
+    header nav .jobs:before {
         content: $fa-var-tasks;
     }
 
-    #menu .sites:before {
+    header nav .sites:before {
         content: $fa-var-laptop;
     }
 
-    #menu .settings:before {
+    header nav .settings:before {
         content: $fa-var-gears;
     }
 
-    #menu li li a:before {
+    header nav li li a:before {
         content: $fa-var-caret-right;
     }
 
+    #menu {
+        position: relative;
+    }
+
+    #menu .expand,
+    #menu .collapse {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    /* @end */
+
+    /* @group ----- Site-level navigation ----- */
+
+    #site-menu {
+        margin-bottom: rhythm();
+    }
+
+    #site-menu .pages:before {
+        content: $fa-var-file-o;
+    }
+
+    #site-menu a.public {
+        float: right;
+        text-align: right;
+        font-size: $base-font-size;
+    }
     /* @end */
 
 /* @end */
@@ -1469,20 +1536,17 @@ input[type="text"].value-language,
         textarea,
         input[type="text"],
         input[type="password"],
-        input[type="email"] {
+        input[type="email"],
+        input[type="url"] {
             width: 100%;
             min-height: rhythm(1.5);
             padding: rhythm(.25);
             margin: rhythm(.25) 0;
             resize: vertical;
-        }
 
-        select:only-child,
-        textarea:only-child,
-        input[type="text"]:only-child,
-        input[type="password"]:only-child,
-        input[type="email"]:only-child {
-            margin: 0;
+            &:only-child {
+                margin: 0;
+            }
         }
 
         .button,
@@ -1567,7 +1631,7 @@ input[type="text"].value-language,
     }
 
     .value.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
         overflow: hidden;
     }
 
@@ -1786,7 +1850,7 @@ input[type="text"].value-language,
     }
 
     #item-item-sets tr.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     #page-actions [class*="o-icon-"].button {
@@ -1850,18 +1914,6 @@ input[type="text"].value-language,
 
     .resource-search > input[type="text"] {
         width: calc(100% - #{rhythm(1.5)});
-    }
-
-    .expand:after {
-        content: $fa-var-caret-right;
-        font-family: "FontAwesome";
-        margin-left: 3px;
-    }
-
-    .collapse:after {
-        content: $fa-var-caret-down;
-        font-family: "FontAwesome";
-        margin-left: 3px;
     }
 
     .pagination {
@@ -1961,7 +2013,8 @@ input[type="text"].value-language,
 }
 
 
-#select-item {
+#select-item,
+.confirm-panel {
     position: fixed;
     width: span(4 of 16) - gutter(32);
     bottom: 0;
@@ -1975,12 +2028,14 @@ input[type="text"].value-language,
     border-left: 1px solid #d2d2d2;
     @include transition-duration(.5s);
 
+    button,
     .button {
         width: 100%;
     }
 }
 
-#resource-details.active #select-item {
+#resource-details.active #select-item,
+.sidebar.active .confirm-panel {
     left: span(12 of 16) + gutter(32);
 }
 
@@ -2089,7 +2144,7 @@ input[type="text"].value-language,
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: rhythm(.5) gutter();
+    padding: rhythm(.5);
     border-left: 1px solid #d2d2d2;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -2141,6 +2196,16 @@ input[type="text"].value-language,
 
     select {
         width: 100%;
+    }
+
+    h2 {
+        font-size: 1.5 * $base-font-size;
+        @include trailer(.5, 1.5 * $base-font-size);
+    }
+
+    h3 {
+        font-size: 1.25 * $base-font-size;
+        @include trailer(.5, 1.25 * $base-font-size);
     }
 }
 
@@ -2254,7 +2319,7 @@ body.sidebar-open #content {
 .resource-template .property.row {
 
     &.delete {
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     label:first-child,
@@ -2390,7 +2455,7 @@ body.sidebar-open #content {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #ffcccc;
+        background-color: $delete-bg;
     }
 
     td.user-meta {
@@ -2459,6 +2524,10 @@ body.sidebar-open #content {
         }
     }
 
+    .block .attachment .sortable-handle:before {
+        padding: 0;
+    }
+
     .block.html > div {
         border: 1px solid #f2f2f2;
         clear: both;
@@ -2466,8 +2535,9 @@ body.sidebar-open #content {
 
     .block .field {
         clear: both;
-        margin-bottom: 0;
+        padding: 0;
         border-color: transparent;
+        background-color: transparent;
     }
 
     .block.value.delete .input-header {
@@ -2493,6 +2563,196 @@ body.sidebar-open #content {
 
     .block .item-title {
         margin: rhythm(.25) 0;
+        display: inline-block;
+        width: calc(100% - #{rhythm(3)});
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .block .item-title img {
+        height: rhythm(1.5);
+        width: auto;
+        display: inline-block;
+        margin-right: rhythm(.25);
+        vertical-align: top;
+    }
+
+    .block .delete.attachment {
+        background-color: $delete-bg;
+    }
+
+    .block .delete.attachment .actions .undo {
+        display: inline-block;
+    }
+
+    .block .delete.attachment .actions .delete {
+        display: none;
+    }
+
+    .block .attachment .actions {
+        position: absolute;
+        right: rhythm(.25);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .block .attachment .actions li {
+        height: $base-line-height;
+    }
+
+    .block .attachment .actions .button {
+        display: inline-block;
+        background-color: transparent;
+        color: lighten($red, 20%);
+        padding: 0;
+
+        &:hover {
+            color: $red;
+        }
+    }
+
+    .block .attachment .actions .undo {
+        display: none;
+    }
+
+    .block .block-content {
+        clear: both;
+        background-color: $gray-on-white;
+        padding: rhythm(.25);
+    }
+
+    .block .attachment {
+        padding-left: rhythm(1.25);
+        border-color: $gray-on-white;
+        @include trailing-border(1px, 0, $base-font-size, solid);
+        position: relative;
+        clear: both;
+        height: rhythm(2);
+        line-height: 1.5 * $base-line-height;
+    }
+
+    .block .attachment .sortable-handle {
+        top: 0;
+        bottom: 0;
+
+        &:before {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .block .attachment .button {
+        margin-bottom: 0;
+    }
+
+    .block .attachment-add {
+        margin: rhythm(.25) 0 0;
+    }
+
+    .block label.thumbnail-option {
+        overflow: hidden;
+        border-color: $gray-on-white;
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        display: block;
+        line-height: 1.5 * $base-line-height;
+        font-weight: bold;
+    }
+
+    .block .thumbnail-option select {
+        width: 70%;
+        float: right;
+        font-weight: normal;
+    }
+
+    #attachment-options {
+        padding-bottom: rhythm(3);
+    }
+
+    #attachment-options .option {
+        position: relative;
+        @include trailer(.5);
+    }
+
+    #attachment-options .expand,
+    #attachment-options .collapse {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #attachment-item-select {
+        display: block;
+        width: 100%;
+        border-radius: 0px;
+        margin: 0;
+        @include bleed-x(rhythm(.5));
+    }
+
+    #attachment-options .selected-attachment {
+        background-color: $gray-on-white;
+        @include trailer(.5);
+        @include bleed-x(rhythm(.5));
+        padding-top: rhythm(.5);
+        padding-bottom: rhythm(.5);
+        overflow: hidden;
+
+        img {
+            height: rhythm(4);
+            width: auto;
+            float: left;
+        }
+
+        p:only-child {
+            margin: 0;
+            text-align: center;
+        }
+    }
+
+    #attachment-options h3.item-title {
+        font-size: 1.25 * $base-font-size;
+        margin-bottom: 0;
+        display: block;
+        float: right;
+        width: calc(100% - #{rhythm(4.5, 1.25 * $base-font-size)});
+        border-color: transparent;
+    }
+
+    #attachment-options .media-title {
+        display: block;
+        float: right;
+        width: calc(100% - #{rhythm(4.5)});
+    }
+
+    #attachment-options h3 {
+        border-color: $gray-on-white;
+        @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
+    }
+
+    #attachment-options .media-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 0;
+
+        li.media {
+            position: relative;
+            height: rhythm(2);
+            width: rhythm(2);
+            cursor: pointer;
+            display: inline-block;
+            padding: rhythm(.125);
+            border: 1px solid $gray-on-white;
+
+
+            &.attached, &:hover {
+                background-color: $gray-on-white;
+            }
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
     }
 
     .block .item-title img {

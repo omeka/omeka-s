@@ -1,12 +1,16 @@
 var Omeka = {
     openSidebar : function(context,target) {
+        //close delete sidebar if open
+        if ($('#delete').hasClass('active')) {
+            $('#delete').removeClass('active');
+        }
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');
         } else {
             var sidebar = $('.sidebar > .sidebar');
         }
-        if (target !== undefined) {
+        if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
         sidebar.addClass('active');
@@ -33,6 +37,12 @@ var Omeka = {
         if ($('.active.sidebar').length < 1) {
             $('body').removeClass('sidebar-open');
         }
+    },
+
+    switchActiveSection: function (section) {
+        $('.section.active, .section-nav li.active').removeClass('active');
+        section.addClass('active');
+        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
     },
 
     populateSidebarContent : function(context, sidebar) {
@@ -135,7 +145,7 @@ var Omeka = {
                 isPublicHiddenValue.attr('value', 0);
             }
         });
-        
+
         if ($('.active.sidebar').length > 0) {
             $('#content').addClass('sidebar-open');
         }
@@ -144,7 +154,7 @@ var Omeka = {
             e.preventDefault();
             Omeka.closeSidebar($(this));
         });
-        
+
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
         $('.skip').click(function(e) {
             $('#main').attr('tabindex', -1).on('blur focusout', function() {
@@ -176,10 +186,7 @@ var Omeka = {
         $(document).on('click', 'a.expand, a.collapse', function(e) {
             e.preventDefault();
             var toggle = $(this);
-            toggle.toggleClass('collapse').toggleClass('expand').toggleClass('o-icon-right').toggleClass('o-icon-down');
-            if ($('.expand-collapse-parent').length > 0) {
-                toggle.parent().toggleClass('collapse').toggleClass('expand');
-            }
+            toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
                 toggle.attr('aria-label','Expand');
             } else {
@@ -190,14 +197,23 @@ var Omeka = {
         // Switch between section tabs.
         $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
-            var tab = $(this).parent();
-            if (!tab.hasClass('active')) {
-                $('.section.active, .section-nav li.active').removeClass('active');
-                tab.addClass('active');
-                $($(this).attr('href')).addClass('active');
-            }
+            Omeka.switchActiveSection($($(this).attr('href')));
         });
-        
+
+        // Automatically switch to sections containing invalid elements on submit
+        // (Use a capturing event listener because 'invalid' doesn't bubble)
+        document.body.addEventListener('invalid', function (e) {
+            var target, section;
+            target = $(e.target);
+            if (!target.is(':input')) {
+                return;
+            }
+            section = target.parents('.section');
+            if (section.length && !section.hasClass('active')) {
+                Omeka.switchActiveSection(section);
+            }
+        }, true);
+
         // Property selector toggle children
         $('.selector li.selector-parent').on('click', function(e) {
             e.stopPropagation();
@@ -205,7 +221,7 @@ var Omeka = {
                 $(this).toggleClass('show');
             }
         });
-        
+
         $('.selector-filter').on('keydown', function(e) {
             if (e.keyCode == 13) {
                 e.stopPropagation();

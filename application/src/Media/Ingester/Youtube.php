@@ -5,6 +5,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
+use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -77,7 +78,7 @@ class Youtube extends AbstractIngester
      */
     public function form(PhpRenderer $view, array $options = [])
     {
-        $urlInput = new Text('o:media[__index__][o:source]');
+        $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
             'label' => $view->translate('Video URL'),
             'info' => $view->translate('URL for the video to embed.'),

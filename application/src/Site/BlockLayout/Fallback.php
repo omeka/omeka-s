@@ -32,8 +32,8 @@ class Fallback extends AbstractBlockLayout
     /**
      * {@inheritDoc}
      */
-    public function form(PhpRenderer $view,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    public function form(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
         return 'This layout is invalid.';
     }

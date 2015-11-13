@@ -14,15 +14,15 @@
 }
 
 html {
-    font-family: "Open Sans", sans-serif;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
     height: 100%;
     padding: 0;
     margin: 0;
 }
 
 body {
+    font-family: "Open Sans", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
     border-left: 50px solid $light;
     border-right: 50px solid transparent;
     min-height: 100%;
@@ -68,6 +68,49 @@ img {
     height: auto;
 }
 
+/* @group ----- Forms ----- */
+
+input,
+textarea,
+button {
+    font-family: "Open Sans", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    margin: 0;
+    vertical-align: top;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"] {
+    @include appearance(none);
+    @include border-radius(0px);
+    height: rhythm(1.5);
+    border-color: rgba(0,0,0,.15);
+    @include rhythm-borders(1px, 0, $base-font-size, solid);
+    padding: rhythm(.25) gutter();
+    margin: 0;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   font-style: italic;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+:-ms-input-placeholder {
+   font-style: italic;
+}
+
+/* @end */
+
 /* @group ----- Navigation ----- */
 
 ul.navigation {
@@ -76,7 +119,7 @@ ul.navigation {
     border-color: $gray;
     @include trailing-border(1px, 0, $base-font-size, solid);
     position: relative;
-    
+
     & > li {
         @include padding-trailer(.5);
         display: inline-block;
@@ -122,11 +165,76 @@ ul.navigation {
     }
 }
 
+nav.pagination {
+    margin-bottom: rhythm();
+    font-size: $base-font-size;
+    line-height: 1.5 * $base-line-height;
+}
+
+.pagination input {
+    text-align: center;
+}
+
+.pagination {
+    border-color: $light;
+    @include trailing-border(1px, 1, $base-font-size, solid);
+}
+
+.resource-list + .pagination {
+    border-color: transparent;
+}
+
+.pagination form {
+    min-width: rhythm(3);
+}
+
+.pagination form,
+.pagination .button,
+.pagination button,
+.pagination .page-count {
+    display: inline-block;
+    vertical-align: top;
+    height: 1.5 * $base-line-height;
+}
+
+.pagination .button {
+    border: 1px solid $light;
+    background-color: $light;
+    width: rhythm(1.5);
+    text-align: center;
+    padding: rhythm(.25);
+    border-radius: 2px;
+    color: $gray;
+    line-height: $base-line-height;
+
+    &:hover {
+        background-color: $bold;
+    }
+}
+
+.pagination .inactive.button {
+    opacity: .5;
+    background-color: white;
+
+    &:hover {
+        background-color: white;
+    }
+}
+
+.pagination form,
+.pagination .last {
+    margin-right: rhythm(.25);
+}
+
+.pagination input {
+    width: rhythm(2);
+}
+
 /* @end */
 
 /* @group ----- Page ----- */
 
-.resource.item {
+.page .resource.item {
     width: 50%;
     margin: rhythm() auto;
     text-align: center;
@@ -142,6 +250,77 @@ ul.navigation {
         font-size: .75 * $base-font-size;
         line-height: $base-line-height;
     }
+}
+
+/* @end */
+
+/* @group ----- Resource List ----- */
+
+ul.resource-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.resource-list .resource {
+    border-color: $light;
+    @include trailing-border(1px, 1, $base-font-size, solid);
+    margin-bottom: rhythm();
+    overflow: hidden;
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: rhythm();
+        left: 0;
+        height: rhythm(1.25);
+        background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+    }
+}
+
+ul.resource-list .resource img {
+    height: rhythm(5);
+    width: auto;
+    float: right;
+    margin-left: rhythm(.5);
+}
+
+ul.resource-list .resource h4 {
+    margin-top: 0;
+}
+
+ul.resource-list .resource .description {
+    max-height: rhythm(3);
+    overflow: hidden;
+}
+
+ul.resource-list .resource:after,
+ul.resource-list .resource h4,
+ul.resource-list .resource .description {
+    width: calc(100% - #{rhythm(5.5)});
+}
+
+/* @end */
+
+/* @group ----- Browse ---- */
+
+.search-filters {
+    margin-bottom: rhythm();
+}
+
+.filter-label,
+.filter-value {
+    display: inline-block;
+    border-color: $light;
+    @include rhythm-borders(1px, .25, $base-font-size, solid);
+}
+
+.filter-label {
+    background-color: $light;
+}
+
+.filter-value {
+    margin-left: -5px;
 }
 
 /* @end */
@@ -167,11 +346,15 @@ ul.navigation {
 
 .property .value a {
     display: inline-block;
+    vertical-align: middle;
 }
 
-.property .value:not(:last-child) * {
+.property .value:not(:last-child) img {
     margin-bottom: rhythm(.25);
-    vertical-align: middle;
+}
+
+.property .value:not(:last-child) img + a {
+    margin-bottom: rhythm(.25);
 }
 
 .media.resource {
@@ -191,6 +374,29 @@ ul.navigation {
     font-size: .75 * $base-font-size;
     display: inline-block;
     margin-bottom: rhythm(.5, .75 * $base-font-size);
+}
+
+/* @end */
+
+/* @group ----- Item Set ----- */
+
+.item-set .items h3 {
+    float: left;
+}
+
+.item-set .items > a:first-of-type {
+    margin-top: rhythm();
+    float: right;
+    line-height: 1.5 * $base-line-height;
+    height: 1.5 * $base-line-height;
+}
+
+.item-set ul.resource-list {
+    clear: both;
+}
+
+.item-set ul.resource-list .resource:first-child {
+    @include leading-border(1px, 1, $base-font-size, solid);
 }
 
 /* @end */

@@ -53,6 +53,7 @@ return [
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',
             'Omeka\Installation\Task\InstallDefaultVocabulariesTask',
+            'Omeka\Installation\Task\InstallDefaultTemplatesTask',
             'Omeka\Installation\Task\CreateFirstUserTask',
             'Omeka\Installation\Task\AddDefaultSettingsTask',
         ],
@@ -188,6 +189,7 @@ return [
             'Omeka\Controller\Migrate'                => 'Omeka\Controller\MigrateController',
             'Omeka\Controller\Site\Index'             => 'Omeka\Controller\Site\IndexController',
             'Omeka\Controller\Site\Item'              => 'Omeka\Controller\Site\ItemController',
+            'Omeka\Controller\Site\ItemSet'           => 'Omeka\Controller\Site\ItemSetController',
             'Omeka\Controller\Site\Media'             => 'Omeka\Controller\Site\MediaController',
             'Omeka\Controller\Site\Page'              => 'Omeka\Controller\Site\PageController',
             'Omeka\Controller\Admin\Index'            => 'Omeka\Controller\Admin\IndexController',
@@ -248,6 +250,8 @@ return [
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
+            'ckEditor' => 'Omeka\View\Helper\CkEditor',
+            'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
         ],
         'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
@@ -257,7 +261,8 @@ return [
         'invokables' => [
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
-            'oneItem' => 'Omeka\Site\BlockLayout\OneItem',
+            'itemList' => 'Omeka\Site\BlockLayout\ItemList',
+            'navigation' => 'Omeka\Site\BlockLayout\Navigation',
         ],
     ],
     'navigation_links' => [

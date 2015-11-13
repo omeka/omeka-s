@@ -29,9 +29,10 @@ class IndexController extends AbstractActionController
     {
         $form = new SiteForm($this->getServiceLocator());
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $formData = $this->params()->fromPost();
+            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $form->setData($formData);
             if ($form->isValid()) {
-                $formData = $form->getData();
                 $response = $this->api()->create('sites', $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
@@ -62,6 +63,7 @@ class IndexController extends AbstractActionController
         $id = $site->id();
         $data = $site->jsonSerialize();
         $form->setData($data);
+        $this->layout()->setVariable('site', $site);
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -107,6 +109,7 @@ class IndexController extends AbstractActionController
             'slug' => $this->params('site-slug')
         ]);
         $site = $readResponse->getContent();
+        $this->layout()->setVariable('site', $site);
         $id = $site->id();
 
         if ($this->getRequest()->isPost()) {
@@ -119,7 +122,11 @@ class IndexController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $this->messenger()->addSuccess('Page created.');
-                    return $this->redirect()->toUrl($site->url());
+                    return $this->redirect()->toRoute(
+                        'admin/site/page',
+                        ['action' => 'index'],
+                        true
+                    );
                 }
             } else {
                 $this->messenger()->addError('There was an error during validation');
@@ -161,6 +168,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $site = $response->getContent();
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         return $view;
     }
@@ -180,10 +188,13 @@ class IndexController extends AbstractActionController
 
     public function navigationLinkFormAction()
     {
+        $site = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ])->getContent();
         $link = $this->getServiceLocator()
             ->get('Omeka\Site\NavigationLinkManager')
             ->get($this->params()->fromPost('type'));
-        $form = $link->getForm($this->params()->fromPost('data'));
+        $form = $link->getForm($this->params()->fromPost('data'), $site);
 
         $response = $this->getResponse();
         $response->setContent($form);

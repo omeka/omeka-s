@@ -5,10 +5,11 @@
     "require": {
         "php": ">=5.5.2",
         "doctrine/orm": "~2.4",
-        "zendframework/zendframework": "~2.3",
-        "easyrdf/easyrdf": "~0.8",
+        "zendframework/zendframework": "~2.5",
+        "easyrdf/easyrdf": "~0.9",
         "ml/json-ld": "~1.0",
-        "ezyang/htmlpurifier": "~4.6.0"
+        "ezyang/htmlpurifier": "~4.7.0",
+        "composer/semver": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",

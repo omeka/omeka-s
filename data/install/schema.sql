@@ -178,7 +178,7 @@ CREATE TABLE `site` (
 CREATE TABLE `site_block_attachment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
+  `item_id` int(11) DEFAULT NULL,
   `media_id` int(11) DEFAULT NULL,
   `caption` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `position` int(11) NOT NULL,
@@ -187,9 +187,9 @@ CREATE TABLE `site_block_attachment` (
   KEY `IDX_236473FE126F525E` (`item_id`),
   KEY `IDX_236473FEEA9FDD75` (`media_id`),
   KEY `block_position` (`block_id`,`position`),
-  CONSTRAINT `FK_236473FEEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_236473FE126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_236473FEE9ED820C` FOREIGN KEY (`block_id`) REFERENCES `site_page_block` (`id`)
+  CONSTRAINT `FK_236473FE126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_236473FEE9ED820C` FOREIGN KEY (`block_id`) REFERENCES `site_page_block` (`id`),
+  CONSTRAINT `FK_236473FEEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -27,7 +27,7 @@
             if (templateId == '') {
                 return;
             }
-            var url = $(this).data('api-base-url') + templateId;
+            var url = $(this).data('api-base-url') + '/' + templateId;
             $.ajax({
                 'url': url,
                 'type': 'get'
@@ -141,7 +141,7 @@
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
         var languageElementName = qName + '[' + count + '][@language]';
-        if (typeof valueObject != 'undefined' && typeof valueType === 'undefined') {
+        if (typeof valueObject !== 'undefined' && typeof valueType === 'undefined') {
             valueType = valueObjectType(valueObject);
         }
 
@@ -152,7 +152,7 @@
         var propertyInput = newValue.find('input.property');
         propertyInput.attr('name', qName + '[' + count + '][property_id]');
 
-        if (typeof valueObject != 'undefined' && typeof valueObject['property_id'] != 'undefined') {
+        if (typeof valueObject !== 'undefined' && typeof valueObject['property_id'] !== 'undefined') {
             propertyInput.val(valueObject['property_id']);
         } else {
             propertyInput.val(propertyId);
@@ -197,7 +197,7 @@
                     }
 
                     newResource.prev('.default').hide();
-                    if (typeof title == 'undefined') {
+                    if (typeof title === 'undefined') {
                         title = '[Untitled]';
                     }
                     var link = $('<a></a>', {
@@ -275,7 +275,7 @@
         }
 
         var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label'] != "") {
+        if (template['o:alternate_label']) {
             var altLabel = originalLabel.clone();
             altLabel.addClass('alternate');
             altLabel.text(template['o:alternate_label']);
@@ -284,7 +284,7 @@
         }
 
         var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment'] != "") {
+        if (template['o:alternate_comment']) {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);
@@ -298,10 +298,10 @@
      * Figure out if a valueObject is a literal, internal resource, or external resource
      */
     var valueObjectType = function(valueObject) {
-        if (typeof valueObject['@value'] == 'string') {
+        if (typeof valueObject['@value'] === 'string') {
             return 'literal';
         } else {
-            if (typeof valueObject['value_resource_id'] == 'undefined') {
+            if (typeof valueObject['value_resource_id'] === 'undefined') {
                 return 'uri';
             } else {
                 return 'resource';

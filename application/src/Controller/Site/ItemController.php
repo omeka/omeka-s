@@ -1,10 +1,9 @@
 <?php
 namespace Omeka\Controller\Site;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ItemController extends AbstractActionController
+class ItemController extends AbstractSiteController
 {
     public function browseAction()
     {
@@ -37,12 +36,5 @@ class ItemController extends AbstractActionController
         $view->setVariable('item', $item);
         $view->setVariable('resource', $item);
         return $view;
-    }
-
-    protected function getSite()
-    {
-        return $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
     }
 }

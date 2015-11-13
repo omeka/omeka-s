@@ -2,6 +2,7 @@
 namespace Omeka\Service;
 
 use DirectoryIterator;
+use Composer\Semver\Comparator;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
 use Zend\Config\Reader\Ini as IniReader;
@@ -95,7 +96,7 @@ class ModuleManagerFactory implements FactoryInterface
             }
 
             $moduleIni = $module->getIni();
-            if (version_compare($moduleIni['version'], $moduleRow['version'], '>')) {
+            if (Comparator::greaterThan($moduleIni['version'], $moduleRow['version'])) {
                 // Module in filesystem is newer version than the installed one.
                 $module->setState(ModuleManager::STATE_NEEDS_UPGRADE);
                 continue;

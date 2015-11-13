@@ -1,6 +1,8 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add sidebar-open');
+$this->ckEditor();
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-page-edit.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
@@ -13,11 +15,6 @@ $escape = $this->plugin('escapeHtml');
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
-<div class="breadcrumbs">
-    <?php echo $site->link($site->title(), null, array('class' => 'page-site')); ?>
-    <span class="page-title"><?php echo $page->title(); ?></span>
-</div>
-
 <?php echo $this->formElements($form); ?>
 
 <?php echo $this->blockLayout()->forms($page); ?>
@@ -28,7 +25,7 @@ $escape = $this->plugin('escapeHtml');
     <label for="new-block">
         <?php echo $this->translate('Add New Block'); ?>
     </label>
-    <select id="new-block">
+    <select id="new-block" data-url="<?php echo $this->url('admin/site/page/default', array('action' => 'block'), true); ?>">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
         <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
         <option value="<?php echo $escape($layout); ?>">
@@ -39,74 +36,25 @@ $escape = $this->plugin('escapeHtml');
 </div>
 
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
+<div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+    <h2><?php echo $this->translate('Attachment'); ?></h2>
+    <button id="attachment-item-select" data-sidebar-content-url="<?php echo $escape($this->url(
+        'admin/default',
+        ['controller' => 'item', 'action' => 'sidebar-select'],
+        ['query' => $site->itemPool()]
+    )); ?>"><?php echo $this->translate('Select item'); ?></button>
+    <div id="attachment-item"></div>
+    <div id="attachment-caption" class="option">
+        <h3><?php echo $this->translate('Caption'); ?></h3>
+        <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"></a>
+        <div class="collapsible">
+            <textarea class="caption wysiwyg"></textarea>
+        </div>
+    </div>
+    <div id="attachment-confirm-panel" class="confirm-panel">
+        <button><?php echo $this->translate('Apply changes'); ?></button>
+    </div>
+</div>
 
-<script type="text/javascript">
-var list = document.getElementById('blocks');
-new Sortable(list, {
-    draggable: ".block",
-    handle: ".sortable-handle"
-});
-
-$('#new-block').change(function() {
-    var blockType = this.value;
-    $.post(
-        '<?php echo $this->url('admin/site/page', array('action' => 'block'), true); ?>',
-        {layout: $(this).val(), siteId: <?php echo $site->id(); ?>}
-    ).done(function(data) {
-        $('#blocks').append(data);
-    });
-    $(this)[0].selectedIndex = 0; // reset select
-    Omeka.scrollTo($('.block').last());
-});
-
-$('body').on('click', '.item-select', function(e) {
-    e.preventDefault();
-    var context = $(this);
-    $('.selecting-attachment').removeClass('selecting-attachment');
-    context.parents('.attachment').addClass('selecting-attachment');
-    Omeka.openSidebar(context, '#select-resource');
-});
-
-$('#select-item a').on('o:resource-selected', function(e) {
-    var resource = $('.resource-details').data('resource-values');
-    var resourceThumbnail = '<img src="' + resource.thumbnail_url + '" title="' + resource.thumbnail_title + '" alt="' + resource.thumbnail_type + ' thumbnail">';
-    var selecting = $('.attachment.selecting-attachment');
-    selecting.find('.item').val(resource.value_resource_id);
-    selecting.find('.item-title').html(resourceThumbnail + resource.display_title);
-    $('#select-resource').removeClass('active');
-});
-
-$('a.remove-value, a.restore-value').click(function(e) {
-    e.preventDefault();
-    var block = $(this).parents('.block');
-    block.toggleClass('delete');
-    block.find('a.remove-value, a.restore-value').show();
-    $(this).hide();
-});
-
-$('form').submit(function(e) {
-    $('#blocks .block').each(function(blockIndex) {
-        var thisBlock = $(this);
-        if (thisBlock.hasClass('delete')) {
-            thisBlock.find(':input').prop('disabled', true);
-        } else {
-            replaceIndex(thisBlock, 'blockIndex', blockIndex);
-            thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
-                var thisAttachment = $(this);
-                replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
-            });
-        }
-    });
-});
-function replaceIndex(context, find, index) {
-    context.find(':input').each(function() {
-        var thisInput = $(this);
-        if ($(this).attr('name') == undefined) {
-            return;
-        }
-        var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
-        thisInput.attr('name', name);
-    });
-}
-
-</script>
+<?php echo $this->partial('common/resource-select-sidebar'); ?>

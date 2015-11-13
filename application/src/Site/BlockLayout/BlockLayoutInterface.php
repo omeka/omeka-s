@@ -46,12 +46,12 @@ interface BlockLayoutInterface
      * Render a form for adding/editing a block.
      *
      * @param PhpRenderer $view
-     * @param null|SitePageBlockRepresentation $block
      * @param SiteRepresentation $site
+     * @param null|SitePageBlockRepresentation $block
      * @return string
      */
-    public function form(PhpRenderer $view,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site);
+    public function form(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null);
 
     /**
      * Render the provided block.

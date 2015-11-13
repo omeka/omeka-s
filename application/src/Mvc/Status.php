@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc;
 
+use Composer\Semver\Comparator;
 use Omeka\Module as OmekaModule;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -84,10 +85,7 @@ class Status implements ServiceLocatorAwareInterface
      */
     public function needsVersionUpdate()
     {
-        if (version_compare($this->getVersion(), $this->getInstalledVersion(), '=')) {
-            return false;
-        }
-        return true;
+        return Comparator::greaterThan($this->getVersion(), $this->getInstalledVersion());
     }
 
     /**

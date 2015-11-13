@@ -26,9 +26,10 @@ interface LinkInterface
      * Get the link form.
      *
      * @param array $data
+     * @param SiteRepresentation $site
      * @return string
      */
-    public function getForm(array $data);
+    public function getForm(array $data, SiteRepresentation $site);
 
     /**
      * Translate from site navigation data to Zend Navigation configuration.

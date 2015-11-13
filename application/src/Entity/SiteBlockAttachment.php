@@ -29,7 +29,7 @@ class SiteBlockAttachment extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Item", inversedBy="siteBlockAttachments")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $item;
 
@@ -74,7 +74,7 @@ class SiteBlockAttachment extends AbstractEntity
         return $this->position;
     }
 
-    public function setItem(Item $item)
+    public function setItem(Item $item = null)
     {
         $this->item = $item;
     }

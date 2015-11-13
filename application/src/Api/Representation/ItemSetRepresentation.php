@@ -69,4 +69,22 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
             ->getRepresentation($itemEntities->slice(0, 1)[0]);
         return $item->primaryMedia();
     }
+
+    public function siteUrl($siteSlug = null, $canonical = false)
+    {
+        if (!$siteSlug) {
+            $siteSlug = $this->getServiceLocator()->get('Application')
+                ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
+        }
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'site/resource-id',
+            [
+                'site-slug' => $siteSlug,
+                'controller' => 'item-set',
+                'id' => $this->id(),
+            ],
+            ['force_canonical' => $canonical]
+        );
+    }
 }

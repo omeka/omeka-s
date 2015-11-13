@@ -1,8 +1,11 @@
-<div class="field">
+<?php
+$class = $element->getAttribute('required') ? 'field required' : 'field';
+?>
+<div class="<?php echo $class ?>">
     <div class="field-meta">
         <?php echo $this->formLabel($element); ?>
         <?php if ($info = $element->getOption('info')): ?>
-        <a href="#" class="expand o-icon-right" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
+        <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
         <div class="collapsible">
             <div class="field-description"><?php echo $this->escapeHtml($info); ?></div>
         </div>

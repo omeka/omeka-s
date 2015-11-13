@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Zend\Form\Element\Select;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
@@ -32,88 +33,39 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     {}
 
     /**
-     * Render all forms for adding/editing block attachments.
+     * Render a form for adding/editing block attachments.
      *
      * @param PhpRenderer $view
-     * @param int $numAttachments The number of attachments this layout holds
-     * @param SitePageBlockRepresentation|null $block
      * @param SiteRepresentation $site
+     * @param SiteBlockAttachmentRepresentation|null $block
      * @return string
      */
-    public function attachmentForms(PhpRenderer $view, $numAttachments,
-        SitePageBlockRepresentation $block = null, SiteRepresentation $site
+    public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
-        $attachments = $block ? $block->attachments() : [];
-        $html = '<div class="attachments">';
-        for ($i = 1; $i <= $numAttachments; $i++) {
-            if ($attachment = current($attachments)) {
-                next($attachments);
-            } else {
-                $attachment = null;
-            }
-            $html .= $this->attachmentForm($view, $attachment, $site);
-        }
-        $html .= '</div>';
-        return $html;
+        return $view->partial('common/attachments-form', ['block' => $block]);
     }
 
     /**
-     * Render a form for adding/editing a block attachment.
+     * Return a thumbnail type select element.
      *
      * @param PhpRenderer $view
-     * @param SiteBlockAttachmentRepresentation|null $block
      * @param SiteRepresentation $site
+     * @param SiteBlockAttachmentRepresentation|null $block
      * @return string
      */
-    public function attachmentForm(PhpRenderer $view,
-        SiteBlockAttachmentRepresentation $attachment = null,
-        SiteRepresentation $site
+    public function thumbnailTypeSelect(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
     ) {
-
-        $itemId = null;
-        $mediaId = null;
-        $caption = null;
-        $sidebarContentUrl = $view->url('admin/default',
-            ['controller' => 'item', 'action' => 'sidebar-select'],
-            ['query' => $site->itemPool()]
-        );
-        $title = '';
-        $selectButton = '<button class="item-select" data-sidebar-content-url="' . $sidebarContentUrl . '">Select Item</button>';
-        if ($attachment) {
-            $item = $attachment->item();
-            $itemId = $item->id();
-            if ($attachment->media()) {
-                $mediaId = $attachment->media()->id();
-            }
-            if ($item->primaryMedia()) {
-                $thumbnail = '<img src="' . $item->primaryMedia()->thumbnailUrl('square') . '" title="' .  $item->primaryMedia()->displayTitle() . '" alt="' . $item->primaryMedia()->mediaType() . ' thumbnail">';
-                $title = $thumbnail;
-            }
-            $title = $title . $item->displayTitle();
-            $caption = $attachment->caption();
+        $types = $this->getServiceLocator()->get('Omeka\File\Manager')->getThumbnailTypes();
+        $type = null;
+        if ($block) {
+            $type = $this->getData($block->data(), 'thumbnail_type');
         }
-        $html = '
-<div class="attachment">
-    <div class="field">
-        <div class="field-meta">
-            <label>Item</label>
-        </div>
-        <div class="inputs">
-            <div class="item-title">' . $title . '</div>' . $selectButton .'
-        </div>
-    </div>
-    <div class="field">
-        <div class="field-meta">
-            <label>Caption</label>
-        </div>
-        <div class="inputs">
-            <textarea class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">' . $caption . '</textarea>
-        </div>
-    </div>
-    <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="' . $itemId . '">
-    <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="' . $mediaId . '">
-</div>';
-        return $html;
+
+        $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
+        $select->setValueOptions(array_combine($types, $types))->setValue($type);
+        return '<label class="thumbnail-option">Thumbnail Type ' . $view->formSelect($select) . '</label>';
     }
 
     /**

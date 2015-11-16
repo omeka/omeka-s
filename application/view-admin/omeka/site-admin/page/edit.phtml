@@ -42,7 +42,7 @@ $escape = $this->plugin('escapeHtml');
     <button id="attachment-item-select" data-sidebar-content-url="<?php echo $escape($this->url(
         'admin/default',
         ['controller' => 'item', 'action' => 'sidebar-select'],
-        ['query' => $site->itemPool()]
+        ['query' => array_merge($site->itemPool(), ['show_details' => false])]
     )); ?>"><?php echo $this->translate('Select item'); ?></button>
     <div id="attachment-item"></div>
     <div id="attachment-caption" class="option">

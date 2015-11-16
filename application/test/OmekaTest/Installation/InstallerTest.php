@@ -57,6 +57,49 @@ class InstallerTest extends TestCase
         $this->assertFalse($result);
         $this->assertEquals(['error_message'], $this->installer->getErrors());
     }
+
+    public function testPreInstallSuccessfulTask()
+    {
+        $this->installer->setServiceLocator($this->getServiceManager(
+            [
+                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
+            ]
+        ));
+        $this->installer->registerPreTask('OmekaTest\Installation\SuccessTask');
+        $result = $this->installer->preInstall();
+        $this->assertTrue($result);
+        $this->assertEquals([], $this->installer->getErrors());
+    }
+
+    public function testPreInstallErrorTask()
+    {
+        $this->installer->setServiceLocator($this->getServiceManager(
+            [
+                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
+            ]
+        ));
+        $this->installer->registerPreTask('OmekaTest\Installation\ErrorTask');
+        $result = $this->installer->preInstall();
+        $this->assertFalse($result);
+        $this->assertEquals(['error_message'], $this->installer->getErrors());
+    }
+
+    public function testPreInstallErrorInstallSuccessTask()
+    {
+        $this->installer->setServiceLocator($this->getServiceManager(
+            [
+                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
+                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
+            ]
+        ));
+        $this->installer->registerPreTask('OmekaTest\Installation\ErrorTask');
+        $this->installer->registerTask('OmekaTest\Installation\SuccessTask');
+        $result = $this->installer->preInstall();
+        $this->assertFalse($result);
+        $this->assertEquals(['error_message'], $this->installer->getErrors());
+    }
 }
 
 class SuccessTask implements TaskInterface

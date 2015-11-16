@@ -166,8 +166,8 @@
         });
 
         // Update attachment options sidebar after selecting item.
-        $('#select-item a').on('o:resource-selected', function(e) {
-            var resource = $('.resource-details').data('resource-values');
+        $('#select-resource').on('o:resource-selected', '.select-resource', function(e) {
+            var resource = $(this).closest('.resource').data('resource-values');
             openAttachmentOptions(resource.value_resource_id);
             $('#select-resource').removeClass('active');
         });

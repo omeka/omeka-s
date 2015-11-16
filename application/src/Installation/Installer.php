@@ -10,14 +10,38 @@ class Installer implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * @var array Registered pre-installation tasks.
+     */
+    protected $preTasks = [];
+
+    /**
      * @var array Registered installation tasks.
      */
-    protected $tasks;
+    protected $tasks = [];
 
     /**
      * @var array Error messages
      */
     protected $errors = [];
+
+    /**
+     * Run pre-installation checks.
+     *
+     * @return bool Whether the pre-installation checks passed.
+     */
+    public function preInstall()
+    {
+        foreach($this->getPreTasks() as $taskName) {
+            try {
+                $task = new $taskName;
+                $task->perform($this);
+            } catch (\Exception $e) {
+                $this->addError($e->getMessage());
+            }
+        }
+
+        return !($this->getErrors());
+    }
 
     /**
      * Install Omeka.
@@ -26,8 +50,12 @@ class Installer implements ServiceLocatorAwareInterface
      */
     public function install()
     {
-        foreach ($this->getTasks() as $taskName) {
+        // Even if checked before, run the "pre" checks again before the actual install tasks
+        if (!$this->preInstall()) {
+            return false;
+        }
 
+        foreach($this->getTasks() as $taskName) {
             try {
                 $task = new $taskName;
                 $task->perform($this);
@@ -35,14 +63,12 @@ class Installer implements ServiceLocatorAwareInterface
                 $this->addError($e->getMessage());
             }
 
-            // Tasks are dependent on previously run tasks. If there is an
-            // error, stop installation immediately and return false.
+            // Stop immediately upon any error
             if ($this->getErrors()) {
                 return false;
             }
         }
 
-        // Installation successful.
         return true;
     }
 
@@ -57,13 +83,33 @@ class Installer implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get registered installation tasks.
+     * Register an pre-installation task to occur before the installation begins.
      * 
+     * @param string $task
+     */
+    public function registerPreTask($task)
+    {
+        $this->preTasks[] = $task;
+    }
+
+    /**
+     * Get registered installation tasks.
+     *
      * @return array
      */
     public function getTasks()
     {
         return $this->tasks;
+    }
+
+    /**
+     * Get registered pre-installation tasks.
+     *
+     * @return array
+     */
+    public function getPreTasks()
+    {
+        return $this->preTasks;
     }
 
     /**

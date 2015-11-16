@@ -12,7 +12,8 @@ class Html extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'HTML';
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('HTML');
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)

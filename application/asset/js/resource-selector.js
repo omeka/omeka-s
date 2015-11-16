@@ -31,8 +31,16 @@
 
         $('#select-item a').on('click', function (e) {
             e.preventDefault();
-            Omeka.closeSidebar($('#select-item'));
-            $(this).trigger('o:resource-selected');
+            var context = $(this);
+            Omeka.closeSidebar(context);
+            context.trigger('o:resource-selected');
+        });
+
+        $('#select-resource').on('click', '.select-resource', function(e) {
+            e.preventDefault();
+            var context = $(this);
+            Omeka.closeSidebar(context);
+            context.trigger('o:resource-selected');
         });
     });
 })(jQuery);

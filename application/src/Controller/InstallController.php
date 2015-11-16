@@ -14,12 +14,13 @@ class InstallController extends AbstractActionController
         }
 
         $form = new InstallationForm($this->getServiceLocator());
+        $manager = $this->getServiceLocator()->get('Omeka\Installer');
+        $view = new ViewModel;
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $manager = $this->getServiceLocator()->get('Omeka\Installer');
                 $manager->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
                     [
@@ -49,10 +50,13 @@ class InstallController extends AbstractActionController
             } else {
                 $this->messenger()->addError('There was an error during validation.');
             }
+        } else {
+            if (!$manager->preInstall()) {
+                $view->setVariable('preErrors', $manager->getErrors());
+            }
         }
 
         $this->layout('layout/minimal');
-        $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
     }

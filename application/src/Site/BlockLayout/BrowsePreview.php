@@ -12,7 +12,8 @@ class BrowsePreview extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Browse Preview';
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate('Browse Preview');
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)

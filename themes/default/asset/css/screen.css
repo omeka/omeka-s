@@ -361,6 +361,7 @@ ul.resource-list .resource .description {
   width: -webkit-min-content;
   width: min-content;
   vertical-align: top;
+  word-break: break-word;
 }
 
 .media.resource img {

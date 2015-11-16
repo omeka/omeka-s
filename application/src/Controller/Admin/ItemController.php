@@ -69,6 +69,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('items', $response->getContent());
         $value = $this->params()->fromQuery('value');
         $view->setVariable('searchValue', $value ? $value['in'][0] : '');
+        $view->setVariable('showDetails', (bool) $this->params()->fromQuery('show_details', true));
         $view->setTerminal(true);
         return $view;
     }

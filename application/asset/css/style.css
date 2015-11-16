@@ -994,14 +994,14 @@ th {
     margin: 0;
   }
 
-  nav.pagination {
-    float: right;
-    clear: left;
+  nav.pagination form,
+  nav.pagination .button,
+  nav.pagination .row-count {
+    float: left;
   }
 
   nav.pagination form {
-    display: inline-block;
-    margin-right: 1em;
+    margin-right: 0.75em;
   }
 
   nav.pagination form * {
@@ -1010,8 +1010,40 @@ th {
     text-align: center;
   }
 
+  nav.pagination .button {
+    border-radius: 0px;
+    margin: 0;
+    border-right: 1px solid #fff;
+  }
+
+  nav.pagination .button,
+  nav.pagination input[type="text"],
+  .sorting button,
+  .sorting select {
+    font-size: 13.08px;
+    min-height: 0;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: top;
+  }
+
+  nav.pagination .button:before {
+    vertical-align: top;
+  }
+
+  nav.pagination .previous.button {
+    border-radius: 3px 0px 0px 3px;
+  }
+
+  nav.pagination .next.button {
+    border-radius: 0px 3px 3px 0px;
+  }
+
   nav.pagination form input[type="text"] {
     margin-right: .25em;
+    border-width: 0.07645em;
+    border-style: solid;
+    padding: -0.07645em;
   }
 
   #mobile-nav {
@@ -1190,25 +1222,43 @@ th {
     vertical-align: middle;
   }
 
-  .browse .advanced-search {
+  .browse .sorting,
+  .browse .advanced-search,
+  .browse .pagination {
+    margin: 0 0 0.91743em 0;
+    vertical-align: middle;
+    font-size: 13.08px;
+  }
+
+  .browse .advanced-search,
+  .browse nav.pagination {
     float: left;
-    width: 100%;
-    display: block;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.6875em;
-    margin-bottom: 0.75em;
+    clear: left;
+  }
+
+  .browse .advanced-search {
+    vertical-align: top;
+    margin-right: 0.85714em;
+  }
+
+  .browse .sorting {
+    float: right;
   }
 
   .browse .sorting label {
-    padding: 0.375em 0;
+    padding: 0.45872em 0;
     display: inline-block;
     font-weight: bold;
   }
 
-  .browse .sorting button {
+  .browse .sorting button,
+  .browse .sorting select {
+    font-size: 13.08px;
     margin-bottom: 0;
+  }
+
+  .browse .sorting button {
+    padding: 0 10px;
   }
 
   .actions {
@@ -1266,7 +1316,7 @@ th {
   }
 
   .row-count {
-    margin-left: .5em;
+    margin: 0 0.375em;
   }
 
   th a.sortable,
@@ -1423,31 +1473,29 @@ th {
   }
 
   .search-filters {
-    margin-bottom: 0.375em;
+    margin-bottom: 0.45872em;
+    display: inline-block;
   }
 
   .filter {
     display: inline-block;
-    margin: 0 0.375em 0.375em 0;
+    font-size: 13.08px;
+    margin: 0 0.45872em 0.45872em 0;
     border-radius: 3px;
     background-color: #f0f0f0;
-    padding: 0.375em;
+    padding: 0;
+    vertical-align: top;
   }
 
   .filter-label {
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.08);
     border-radius: 3px 0 0 3px;
-    padding: 0.375em;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-top: -0.375em;
-    margin-bottom: -0.375em;
-    margin-left: -0.375em;
-    padding-top: 0.375em;
-    padding-bottom: 0.375em;
-    padding-left: 0.375em;
+  }
+
+  .filter-label,
+  .filter-value {
+    padding: 0 0.45872em;
   }
 
   .filter-value:not(:last-child):after {
@@ -3485,11 +3533,6 @@ th {
     padding-bottom: -0.0625em;
     height: auto;
     margin-bottom: 0.75em;
-  }
-
-  .pagination {
-    float: none;
-    width: 100%;
   }
 
   /* @end */

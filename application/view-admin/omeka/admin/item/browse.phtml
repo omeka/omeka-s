@@ -6,20 +6,21 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->pageTitle($this->translate('Items')); ?>
 
-<?php echo $this->searchFilters(); ?>
-
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
     <?php endif; ?>
 </div>
 
+<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
+
+<?php echo $this->searchFilters(); ?>
+
 <?php if (count($items) > 0): ?>
 
 <?php echo $this->pagination(); ?>
 
 <form class="sorting">
-    <label><?php echo $this->translate('Sort by'); ?></label>
     <?php
     $queryOption = function($type, $search, $text) {
         $selected = null;

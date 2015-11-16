@@ -17,14 +17,17 @@ $escape = $this->plugin('escapeHtml');
 
 <!-- here to let me work on the javascript and ajax for showing resource details -->
     <?php foreach ($items as $item):?>
-    <div class="resource item">
+    <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
         <?php if ($media = $item->primaryMedia()): ?>
         <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
         <?php endif; ?>
         <span class="resource-name">
-            <a href="#"
-            class="sidebar-content"
-            data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"><?php echo $escape($item->displayTitle()); ?></a></span>
+            <?php if ($showDetails): ?>
+            <a href="#" class="sidebar-content" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"><?php echo $escape($item->displayTitle()); ?></a>
+            <?php else: ?>
+            <a href="#" class="select-resource"><?php echo $escape($item->displayTitle()); ?></a>
+            <?php endif; ?>
+        </span>
     </div>
     <?php endforeach; ?>
 </div>

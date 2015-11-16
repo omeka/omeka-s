@@ -44,11 +44,13 @@ return [
         ],
     ],
     'installer' => [
-        'tasks' => [
+        'pre_tasks' => [
             'Omeka\Installation\Task\CheckEnvironmentTask',
             'Omeka\Installation\Task\CheckDirPermissionsTask',
-            'Omeka\Installation\Task\DestroySessionTask',
             'Omeka\Installation\Task\CheckDbConfigurationTask',
+        ],
+        'tasks' => [
+            'Omeka\Installation\Task\DestroySessionTask',
             'Omeka\Installation\Task\ClearCacheTask',
             'Omeka\Installation\Task\InstallSchemaTask',
             'Omeka\Installation\Task\RecordMigrationsTask',

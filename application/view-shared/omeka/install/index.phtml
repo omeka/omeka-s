@@ -5,8 +5,18 @@ $form->setAttribute('action', $this->url('install'));
 $form->setAttribute('method', 'post');
 ?>
 <h1><?php echo $this->translate('Install Omeka S'); ?></h1>
+
+<?php if (isset($preErrors)): ?>
+<p><?php echo $this->translate('Some installation requirements were not satisifed.'); ?></p>
+<ul class="pre-errors">
+    <?php foreach ($preErrors as $error): ?>
+        <li><?php echo $this->escapeHtml($error); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php else: ?>
 <?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->formElements($form); ?>
 <button><?php echo $this->translate('Install'); ?></button>
 <?php echo $this->form()->closeTag(); ?>
+<?php endif; ?>

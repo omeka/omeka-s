@@ -10,9 +10,14 @@ class Installer implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * @var array Registered pre-installation tasks.
+     */
+    protected $preTasks = [];
+
+    /**
      * @var array Registered installation tasks.
      */
-    protected $tasks;
+    protected $tasks = [];
 
     /**
      * @var array Error messages

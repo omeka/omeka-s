@@ -72,7 +72,7 @@ class IndexController extends AbstractActionController
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $id, $formData);
+                $response = $this->api()->update('sites', $id, $formData, [], true);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {

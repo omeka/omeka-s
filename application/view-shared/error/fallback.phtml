@@ -1,0 +1,23 @@
+<?php
+$escape = function ($text) {
+    return htmlspecialchars($text, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8');
+};
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Omeka S encountered an error</title>
+</head>
+<body>
+
+<h1>Omeka S encountered an error</h1>
+<p>
+    <strong><?php echo $escape(get_class($e)); ?></strong><br>
+    <?php echo $escape($e->getMessage()); ?>
+</p>
+<p>Details:</p>
+<pre>
+<?php echo $escape($e); ?>
+</pre>
+</body>
+</html>

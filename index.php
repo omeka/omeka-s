@@ -13,4 +13,10 @@ if ((isset($_SERVER['APPLICATION_ENV'])
 
 require 'bootstrap.php';
 
-Omeka\Mvc\Application::init(require 'config/application.config.php')->run();
+try {
+    Omeka\Mvc\Application::init(require 'config/application.config.php')->run();
+} catch (\Exception $e) {
+    http_response_code(500);
+    error_log($e);
+    include OMEKA_PATH . '/application/view-shared/error/fallback.phtml';
+}

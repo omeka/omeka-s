@@ -48,7 +48,7 @@ class FileWithText extends AbstractBlockLayout
             return '';
         }
 
-        $aligmentClass = $this->getData($block->data(), 'alignment');
+        $aligmentClass = $this->getData($block->data(), 'alignment', 'left');
         $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
         $html = '<div class="' . $aligmentClass . ' ' . $thumbnailType . '">';
         foreach($attachments as $attachment) {

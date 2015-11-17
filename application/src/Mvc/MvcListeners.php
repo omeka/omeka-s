@@ -319,7 +319,6 @@ class MvcListeners extends AbstractListenerAggregate
      */
     protected function getSite($serviceLocator, $slug)
     {
-        var_dump(get_class($serviceLocator));exit;
         return $serviceLocator->get('Omeka\EntityManager')
             ->createQuery('SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug')
             ->setParameter('slug', $slug)

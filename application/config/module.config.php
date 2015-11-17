@@ -245,6 +245,7 @@ return [
             'messages'               => 'Omeka\View\Helper\Messages',
             'propertySelect'         => 'Omeka\View\Helper\PropertySelect',
             'sortLink'               => 'Omeka\View\Helper\SortLink',
+            'sortSelector'           => 'Omeka\View\Helper\SortSelector',
             'formElements'           => 'Omeka\View\Helper\FormElements',
             'formField'              => 'Omeka\View\Helper\FormField',
             'propertySelector'       => 'Omeka\View\Helper\PropertySelector',

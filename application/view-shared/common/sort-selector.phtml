@@ -1,0 +1,14 @@
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<form class="sorting" action="">
+    <select name="sort_by">
+    <?php foreach($sortBy as $sortByHeading): ?>
+        <?php $selected = ($sortByQuery === $sortByHeading['value']) ? 'selected' : ''; ?>
+        <option value="<?php echo $escape($sortByHeading['value']); ?>" <?php echo $selected; ?>><?php echo $sortByHeading['label']; ?></option>
+    <?php endforeach; ?>
+    </select>
+    <select name="sort_order">
+        <option value="asc" <?php echo ($sortOrderQuery === 'asc') ? 'selected' : ''; ?>><?php echo $this->translate('Ascending'); ?></option>
+        <option value="desc" <?php echo ($sortOrderQuery === 'desc') ? 'selected' : ''; ?>><?php echo $this->translate('Descending'); ?></option>
+    </select>
+    <button type="submit"><?php echo $this->translate('Sort'); ?></button>
+</form>

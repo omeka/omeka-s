@@ -5,12 +5,6 @@
     </form>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtml($firstPageUrl); ?>" class="first o-icon-first button" aria-label=" <?php echo $this->escapeHtml($this->translate('First')); ?>"></a>
-    <?php else: ?>
-    <span class="first o-icon-first button inactive"></span>
-    <?php endif; ?>
-
-    <?php if ($currentPage != 1): ?>
     <a href="<?php echo $this->escapeHtml($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtml($this->translate('Previous')); ?>"></a>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
@@ -22,15 +16,9 @@
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>
 
-    <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtml($lastPageUrl); ?>" class="last o-icon-last button" aria-label=" <?php echo $this->escapeHtml($this->translate('Last')); ?>"></a>
-    <?php else: ?>
-    <span class="last o-icon-last button inactive"></span>
-    <?php endif; ?>
-
     <?php
     $from = $offset + 1;
     $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
     ?>
-    <span class="row-count"><?php echo sprintf('Viewing %s–%s of %s', $from, $to, $totalCount); ?></span>
+    <span class="row-count"><?php echo sprintf('%s–%s of %s', $from, $to, $totalCount); ?></span>
 </nav>

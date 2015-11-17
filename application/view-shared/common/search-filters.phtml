@@ -1,4 +1,5 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
+<?php if (count($filters) > 0): ?>
 <div class="search-filters">
     <?php foreach ($filters as $filterLabel => $filterValues): ?>
     <div class="filter">
@@ -9,3 +10,4 @@
     </div>
     <?php endforeach; ?>
 </div>
+<?php endif; ?>

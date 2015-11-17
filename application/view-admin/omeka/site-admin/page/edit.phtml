@@ -36,6 +36,7 @@ $escape = $this->plugin('escapeHtml');
     </select>
 </div>
 
+<?php echo $this->partial('common/resource-select-sidebar'); ?>
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
     <h2><?php echo $this->translate('Attachment'); ?></h2>

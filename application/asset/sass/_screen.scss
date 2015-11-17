@@ -116,7 +116,9 @@ body {
     }
 
     td,
-    th{
+    th,
+    .tablesaw-sortable th.tablesaw-sortable-head,
+    .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
         padding: rhythm(.25) .5em;
         position: relative;
         vertical-align: top;
@@ -589,9 +591,14 @@ nav ul {
     margin: 0;
 }
 
+nav.pagination form,
+nav.pagination .button,
+nav.pagination .row-count {
+    float: left;
+}
+
 nav.pagination form {
-    display: inline-block;
-    margin-right: 1em;
+    margin-right: rhythm(.5);
 }
 
 nav.pagination form * {
@@ -600,8 +607,38 @@ nav.pagination form * {
     text-align: center;
 }
 
+nav.pagination .button {
+    @include border-radius(0px);
+    margin: 0;
+    border-right: 1px solid #fff;
+}
+
+nav.pagination .button,
+nav.pagination input[type="text"],
+.sorting button,
+.sorting select {
+    font-size: .8175 * $base-font-size;
+    min-height: 0;
+    height: $base-line-height;
+    line-height: $base-line-height;
+    vertical-align: top;
+}
+
+nav.pagination .button:before {
+    vertical-align: top;
+}
+
+nav.pagination .previous.button {
+    @include border-radius(3px 0px 0px 3px);
+}
+
+nav.pagination .next.button {
+    @include border-radius(0px 3px 3px 0px);
+}
+
 nav.pagination form input[type="text"] {
     margin-right: .25em;
+    @include rhythm-borders(1px, 0, .8175 * $base-font-size, solid);
 }
 
 #mobile-nav {
@@ -727,7 +764,6 @@ nav.pagination form input[type="text"] {
         text-align: right;
         font-size: $base-font-size;
     }
-
     /* @end */
 
 /* @end */
@@ -784,10 +820,43 @@ div[role="main"] {
     vertical-align: middle;
 }
 
+.browse .sorting,
+.browse .advanced-search,
+.browse .pagination {
+    margin: 0 0 rhythm(.5,.8175 * $base-font-size) 0;
+    vertical-align: middle;
+    font-size: .8175 * $base-font-size;
+}
+
+.browse .advanced-search,
+.browse nav.pagination {
+    float: left;
+    clear: left;
+}
+
 .browse .advanced-search {
+    vertical-align: top;
+    margin-right: rhythm(.5, .875 * $base-font-size);
+}
+
+.browse .sorting {
     float: right;
-    padding: rhythm(.25) 0;
-    display: block;
+}
+
+.browse .sorting label {
+    padding: rhythm(.25, .8175 * $base-font-size) 0;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.browse .sorting button,
+.browse .sorting select {
+    font-size: .8175 * $base-font-size;
+    margin-bottom: 0;
+}
+
+.browse .sorting button {
+    padding: 0 10px;
 }
 
 .actions {
@@ -846,7 +915,7 @@ div[role="main"] {
 }
 
 .row-count {
-    margin-left: .5em;
+    margin: 0 rhythm(.25);
 }
 
 th a.sortable,
@@ -1007,23 +1076,29 @@ td .o-icon-private {
     }
 
     .search-filters {
-        @include trailer(.25);
+        @include trailer(.25, .8175 * $base-font-size);
+        display: inline-block;
     }
 
     .filter {
         display: inline-block;
-        margin: 0 rhythm(.25) rhythm(.25) 0;
+        font-size: .8175 * $base-font-size;
+        margin: 0 rhythm(.25, .8175 * $base-font-size) rhythm(.25, .8175 * $base-font-size) 0;
         @include border-radius(3px);
         background-color: #f0f0f0;
-        padding: rhythm(.25);
+        padding: 0;
+        vertical-align: top;
     }
 
     .filter-label {
         display: inline-block;
         background-color: $gray-on-white;
         @include border-radius(3px 0 0 3px);
-        padding: rhythm(.25);
-        @include bleed(rhythm(.25) 0 rhythm(.25) rhythm(.25));
+    }
+
+    .filter-label,
+    .filter-value {
+        padding: 0 rhythm(.25, .8175 * $base-font-size);
     }
 
     .filter-value:not(:last-child):after {
@@ -2736,6 +2811,14 @@ body.sidebar-open #content {
             width: 100%;
             height: auto;
         }
+    }
+
+    .block .item-title img {
+        height: rhythm(1.5);
+        width: auto;
+        display: inline-block;
+        margin-right: rhythm(.25);
+        vertical-align: middle;
     }
 
     /* @end */

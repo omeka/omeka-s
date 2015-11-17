@@ -515,7 +515,9 @@ th {
   }
 
   td,
-  th {
+  th,
+  .tablesaw-sortable th.tablesaw-sortable-head,
+  .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
     padding: 0.375em 0.5em;
     position: relative;
     vertical-align: top;
@@ -992,9 +994,14 @@ th {
     margin: 0;
   }
 
+  nav.pagination form,
+  nav.pagination .button,
+  nav.pagination .row-count {
+    float: left;
+  }
+
   nav.pagination form {
-    display: inline-block;
-    margin-right: 1em;
+    margin-right: 0.75em;
   }
 
   nav.pagination form * {
@@ -1003,8 +1010,40 @@ th {
     text-align: center;
   }
 
+  nav.pagination .button {
+    border-radius: 0px;
+    margin: 0;
+    border-right: 1px solid #fff;
+  }
+
+  nav.pagination .button,
+  nav.pagination input[type="text"],
+  .sorting button,
+  .sorting select {
+    font-size: 13.08px;
+    min-height: 0;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: top;
+  }
+
+  nav.pagination .button:before {
+    vertical-align: top;
+  }
+
+  nav.pagination .previous.button {
+    border-radius: 3px 0px 0px 3px;
+  }
+
+  nav.pagination .next.button {
+    border-radius: 0px 3px 3px 0px;
+  }
+
   nav.pagination form input[type="text"] {
     margin-right: .25em;
+    border-width: 0.07645em;
+    border-style: solid;
+    padding: -0.07645em;
   }
 
   #mobile-nav {
@@ -1185,10 +1224,43 @@ th {
     vertical-align: middle;
   }
 
+  .browse .sorting,
+  .browse .advanced-search,
+  .browse .pagination {
+    margin: 0 0 0.91743em 0;
+    vertical-align: middle;
+    font-size: 13.08px;
+  }
+
+  .browse .advanced-search,
+  .browse nav.pagination {
+    float: left;
+    clear: left;
+  }
+
   .browse .advanced-search {
+    vertical-align: top;
+    margin-right: 0.85714em;
+  }
+
+  .browse .sorting {
     float: right;
-    padding: 0.375em 0;
-    display: block;
+  }
+
+  .browse .sorting label {
+    padding: 0.45872em 0;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .browse .sorting button,
+  .browse .sorting select {
+    font-size: 13.08px;
+    margin-bottom: 0;
+  }
+
+  .browse .sorting button {
+    padding: 0 10px;
   }
 
   .actions {
@@ -1246,7 +1318,7 @@ th {
   }
 
   .row-count {
-    margin-left: .5em;
+    margin: 0 0.375em;
   }
 
   th a.sortable,
@@ -1403,31 +1475,29 @@ th {
   }
 
   .search-filters {
-    margin-bottom: 0.375em;
+    margin-bottom: 0.45872em;
+    display: inline-block;
   }
 
   .filter {
     display: inline-block;
-    margin: 0 0.375em 0.375em 0;
+    font-size: 13.08px;
+    margin: 0 0.45872em 0.45872em 0;
     border-radius: 3px;
     background-color: #f0f0f0;
-    padding: 0.375em;
+    padding: 0;
+    vertical-align: top;
   }
 
   .filter-label {
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.08);
     border-radius: 3px 0 0 3px;
-    padding: 0.375em;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-top: -0.375em;
-    margin-bottom: -0.375em;
-    margin-left: -0.375em;
-    padding-top: 0.375em;
-    padding-bottom: 0.375em;
-    padding-left: 0.375em;
+  }
+
+  .filter-label,
+  .filter-value {
+    padding: 0 0.45872em;
   }
 
   .filter-value:not(:last-child):after {
@@ -3121,6 +3191,14 @@ th {
     height: auto;
   }
 
+  .block .item-title img {
+    height: 2.25em;
+    width: auto;
+    display: inline-block;
+    margin-right: 0.375em;
+    vertical-align: middle;
+  }
+
   /* @end */
   /* @group ----- Navigation ----- */
   #nav-page-links {
@@ -3292,22 +3370,21 @@ th {
 
   /* @end */
 }
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 640px) {
   body {
-    padding: 0 8.33333%;
-    height: intrinsic;
+    padding: 0;
   }
 
   /* @group ----- Header ----- */
   header {
-    width: calc(100% - 16.66667%);
+    width: 100%;
     float: none;
     text-align: center;
     position: fixed;
     top: 0;
-    left: 8.33333%;
+    left: 0;
     padding: 0;
-    right: 8.33333%;
+    right: 0;
     z-index: 1000;
   }
   header .button {
@@ -3350,18 +3427,12 @@ th {
   #user.active,
   #search.active {
     top: 2.25em;
-    left: 8.33333%;
+    left: 0;
     bottom: 0;
-    right: 8.33333%;
+    right: 0;
     background-color: #fff;
     width: intrinsic;
     margin: 0;
-  }
-
-  footer {
-    position: static;
-    width: 100%;
-    text-align: center;
   }
 
   /* @end */
@@ -3369,10 +3440,31 @@ th {
   footer {
     margin-top: 0;
     padding: 0;
+    position: static;
+    width: 100%;
+    text-align: center;
   }
   footer:after {
     position: static;
     background: transparent;
+  }
+
+  /* @end */
+  /* @group ----- Tables ----- */
+  .browse td:first-child,
+  .browse th:first-child {
+    width: 100%;
+  }
+
+  td .o-icon-private {
+    vertical-align: top;
+    margin: 0;
+  }
+
+  .browse .resource-name {
+    max-width: 100%;
+    display: inline;
+    vertical-align: top;
   }
 
   /* @end */
@@ -3443,11 +3535,6 @@ th {
     padding-bottom: -0.0625em;
     height: auto;
     margin-bottom: 0.75em;
-  }
-
-  .pagination {
-    float: none;
-    width: 100%;
   }
 
   /* @end */
@@ -3633,10 +3720,14 @@ th {
   /* @end */
   /* @group ----- Minimalist views ----- */
   body.minimal {
-    width: 75%;
+    width: 100%;
+    margin: 0;
   }
   body.minimal .logo {
     background-color: transparent;
+  }
+  body.minimal div[role="main"] {
+    padding: 1.5em 6.25%;
   }
   body.minimal div[role="main"] > .messages {
     margin-bottom: 1.5em;
@@ -3647,29 +3738,48 @@ th {
   }
 
   /* @end */
-}
-@media screen and (max-width: 480px) {
-  body {
-    padding: 0;
-  }
-
-  header {
-    width: 100%;
-  }
-
-  header,
-  #menu.active,
-  #user.active,
-  #search.active {
+  .tablesaw tr .actions {
+    position: absolute;
+    top: 0;
     left: 0;
-    right: 0;
-  }
-
-  body.minimal {
     width: 100%;
+    height: 2.25em;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 0.375em 0.75em;
+    line-height: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .tablesaw tr .actions li {
     margin: 0;
   }
-  body.minimal div[role="main"] {
-    padding: 1.5em 6.25%;
+  .tablesaw tr .actions a:before {
+    text-align: left;
+  }
+
+  .browse .tablesaw-cell-content {
+    width: 70%;
+    max-width: 70%;
+  }
+
+  .browse .tablesaw-cell-content img {
+    float: right;
+    margin: 0;
+  }
+
+  .tablesaw-cell-label a {
+    display: none;
+  }
+
+  .items .tablesaw tr td:first-of-type,
+  .item-sets .tablesaw tr td:first-of-type,
+  .media .tablesaw tr td:first-of-type {
+    padding-top: 2.625em;
+    position: relative;
+  }
+
+  .tablesaw th,
+  .tablesaw td {
+    padding: 0.375em 0.75em;
+    vertical-align: top;
   }
 }

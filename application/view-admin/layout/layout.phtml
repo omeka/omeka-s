@@ -5,8 +5,10 @@ $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1')
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
 $this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/tablesaw.bare.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro');
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/tablesaw.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
 $this->trigger('view.layout');
 ?>

@@ -15,7 +15,7 @@ return [
                         'route'      => 'admin/id',
                         'controller' => 'item',
                         'visible'    => false,
-                    ],
+                    ]
                 ],
             ],
             [
@@ -31,7 +31,7 @@ return [
                         'route'      => 'admin/id',
                         'controller' => 'item-set',
                         'visible'    => false,
-                    ],
+                    ]
                 ],
             ],
             [

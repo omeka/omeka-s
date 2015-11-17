@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Zend\Form\Element\Select;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
@@ -34,6 +35,7 @@ class FileWithText extends AbstractBlockLayout
         }
 
         return $this->thumbnailTypeSelect($view, $site, $block)
+            . $this->alignmentClassSelect($view, $site, $block)
             . $this->attachmentsForm($view, $site, $block)
             . $view->formField($textarea);
 
@@ -46,7 +48,9 @@ class FileWithText extends AbstractBlockLayout
             return '';
         }
 
-        $html = '<div>';
+        $aligmentClass = $this->getData($block->data(), 'alignment');
+        $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
+        $html = '<div class="' . $aligmentClass . ' ' . $thumbnailType . '">';
         foreach($attachments as $attachment) {
             $html .= '<div>';
             $item = $attachment->item();
@@ -56,7 +60,6 @@ class FileWithText extends AbstractBlockLayout
                     $media = $item->primaryMedia();
                 }
                 if ($media) {
-                    $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
                     $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl($thumbnailType)) . '">';
                 }
             }
@@ -71,5 +74,18 @@ class FileWithText extends AbstractBlockLayout
 
         return $html;
 
+    }
+
+    public function alignmentClassSelect(PhpRenderer $view, SiteRepresentation $site,
+        SitePageBlockRepresentation $block = null
+    ) {
+        $alignments = array('left', 'right');
+        if ($block) {
+            $alignment = $this->getData($block->data(), 'alignment');
+        }
+
+        $select = new Select('o:block[__blockIndex__][o:data][alignment]');
+        $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
+        return '<label class="thumbnail-option">Thumbnail Alignment ' . $view->formSelect($select) . '</label>';
     }
 }

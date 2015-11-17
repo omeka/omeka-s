@@ -3,6 +3,7 @@ namespace Omeka\Settings;
 
 use Omeka\Entity\Site;
 use Omeka\Entity\SiteSetting as Setting;
+use Omeka\Service\Exception;
 
 class SiteSettings extends AbstractSettings
 {
@@ -11,6 +12,11 @@ class SiteSettings extends AbstractSettings
      */
     protected $site;
 
+    /**
+     * Set the site entity from which to get settings.
+     *
+     * @param Site $site
+     */
     public function setSite(Site $site)
     {
         $this->site = $site;
@@ -18,6 +24,9 @@ class SiteSettings extends AbstractSettings
 
     protected function setCache()
     {
+        if (!$this->site instanceof Site) {
+            throw new Exception\RuntimeException('Cannot use site settings when no site is set');
+        }
         $settings = $this->getEntityManager()
             ->getRepository('Omeka\Entity\SiteSetting')->findBy(['site' => $this->site]);
         foreach ($settings as $setting) {

@@ -187,9 +187,9 @@ CREATE TABLE `site_block_attachment` (
   KEY `IDX_236473FE126F525E` (`item_id`),
   KEY `IDX_236473FEEA9FDD75` (`media_id`),
   KEY `block_position` (`block_id`,`position`),
+  CONSTRAINT `FK_236473FEEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_236473FE126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_236473FEE9ED820C` FOREIGN KEY (`block_id`) REFERENCES `site_page_block` (`id`),
-  CONSTRAINT `FK_236473FEEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE SET NULL
+  CONSTRAINT `FK_236473FEE9ED820C` FOREIGN KEY (`block_id`) REFERENCES `site_page_block` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -223,6 +223,14 @@ CREATE TABLE `site_permission` (
   KEY `IDX_C0401D6FA76ED395` (`user_id`),
   CONSTRAINT `FK_C0401D6FA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_C0401D6FF6BD1646` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `site_setting` (
+  `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `site_id` int(11) NOT NULL,
+  `value` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_64D05A53F6BD1646` (`site_id`),
+  CONSTRAINT `FK_64D05A53F6BD1646` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

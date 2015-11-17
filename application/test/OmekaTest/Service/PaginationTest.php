@@ -10,7 +10,7 @@ class PaginatorTest extends TestCase
     {
         $perPage = 10;
 
-        $settings = $this->getMock('Omeka\Service\Settings');
+        $settings = $this->getMock('Omeka\Settings\Settings');
         $settings->expects($this->once())
             ->method('get')
             ->with($this->equalTo('pagination_per_page'), $this->equalTo(25))

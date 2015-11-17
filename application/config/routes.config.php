@@ -114,6 +114,7 @@ return [
                             'route' => '/site',
                             'defaults' => [
                                 '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
+                                '__SITEADMIN__'  => true,
                                 'controller'    => 'Index',
                                 'action'        => 'index',
                             ],

@@ -31,13 +31,6 @@ return [
                         'route'      => 'admin/id',
                         'controller' => 'item-set',
                         'visible'    => false,
-                    ],
-                    [
-                        'label'      => 'Advanced Search',
-                        'route'      => 'admin/default',
-                        'action'     => 'search',
-                        'controller' => 'item-set',
-                        'visible'    => true
                     ]
                 ],
             ],

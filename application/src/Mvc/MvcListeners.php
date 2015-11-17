@@ -229,9 +229,19 @@ class MvcListeners extends AbstractListenerAggregate
             // Not an admin route; do nothing.
             return;
         }
-        $event->getApplication()
-            ->getServiceManager()
-            ->get('ViewTemplatePathStack')
+
+        $serviceLocator = $event->getApplication()->getServiceManager();
+
+        if ($routeMatch->getParam('__SITEADMIN__')) {
+            $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
+            if ($site) {
+                // Set the current site as the default site for site settings.
+                $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
+                $siteSettings->setSite($site);
+            }
+        }
+
+        $serviceLocator->get('ViewTemplatePathStack')
             ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
     }
 
@@ -248,19 +258,18 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $serviceLocator = $event->getApplication()->getServiceManager();
-        $entityManager = $serviceLocator->get('Omeka\EntityManager');
 
-        $sql = 'SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug';
-        $site = $entityManager->createQuery($sql)
-            ->setParameter('slug', $routeMatch->getParam('site-slug'))
-            ->getOneOrNullResult();
-
+        $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
         if (!$site) {
             // Site not found, set minimal layout and 404 status
             $event->getViewModel()->setTemplate('error/404');
             $event->getResponse()->setStatusCode(404);
             return;
         }
+
+        // Set the current site as the default site for site settings.
+        $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
+        $siteSettings->setSite($site);
 
         $acl = $serviceLocator->get('Omeka\Acl');
         if (!$acl->userIsAllowed($site, 'read')) {
@@ -299,5 +308,21 @@ class MvcListeners extends AbstractListenerAggregate
         $serviceLocator->setAllowOverride(true);
         $serviceLocator->setService('Config', $config);
         $serviceLocator->setAllowOverride($allowOverride);
+    }
+
+    /**
+     * Get a site entity by slug.
+     *
+     * @param ServiceManager $serviceLocator
+     * @param string $slug
+     * @return Site|null
+     */
+    protected function getSite($serviceLocator, $slug)
+    {
+        var_dump(get_class($serviceLocator));exit;
+        return $serviceLocator->get('Omeka\EntityManager')
+            ->createQuery('SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getOneOrNullResult();
     }
 }

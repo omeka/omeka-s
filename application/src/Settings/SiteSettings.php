@@ -11,7 +11,7 @@ class SiteSettings extends AbstractSettings
      */
     protected $site;
 
-    public function __construct(Site $site)
+    public function setSite(Site $site)
     {
         $this->site = $site;
     }

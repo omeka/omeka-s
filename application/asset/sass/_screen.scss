@@ -117,7 +117,7 @@ body {
 
     td,
     th,
-    .tablesaw-sortable th.tablesaw-sortable-head,
+    .tablesaw-sortable th.tablesaw-sortable-head, 
     .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
         padding: rhythm(.25) .5em;
         position: relative;
@@ -764,6 +764,7 @@ nav.pagination form input[type="text"] {
         text-align: right;
         font-size: $base-font-size;
     }
+
     /* @end */
 
 /* @end */
@@ -2811,14 +2812,6 @@ body.sidebar-open #content {
             width: 100%;
             height: auto;
         }
-    }
-
-    .block .item-title img {
-        height: rhythm(1.5);
-        width: auto;
-        display: inline-block;
-        margin-right: rhythm(.25);
-        vertical-align: middle;
     }
 
     /* @end */

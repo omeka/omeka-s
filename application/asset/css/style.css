@@ -3191,14 +3191,6 @@ th {
     height: auto;
   }
 
-  .block .item-title img {
-    height: 2.25em;
-    width: auto;
-    display: inline-block;
-    margin-right: 0.375em;
-    vertical-align: middle;
-  }
-
   /* @end */
   /* @group ----- Navigation ----- */
   #nav-page-links {

@@ -58,6 +58,12 @@ class Module extends AbstractModule
         $acl = $serviceManager->get('Omeka\Acl');
         $navigation = $viewHelperManager->get('Navigation');
         $navigation->setAcl($acl);
+
+        // Set the timezone.
+        if ($serviceManager->get('Omeka\Status')->isInstalled()) {
+            $settings = $serviceManager->get('Omeka\Settings');
+            date_default_timezone_set($settings->get('time_zone', 'UTC'));
+        };
     }
 
     /**

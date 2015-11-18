@@ -268,6 +268,7 @@ return [
             'itemList' => 'Omeka\Site\BlockLayout\ItemList',
             'navigation' => 'Omeka\Site\BlockLayout\Navigation',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
+            'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],
     ],
     'navigation_links' => [

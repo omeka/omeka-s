@@ -30,6 +30,22 @@ class SettingForm extends AbstractForm
             ],
         ]);
 
+        $timeZones = \DateTimeZone::listIdentifiers();
+        $timeZones = array_combine($timeZones, $timeZones);
+        $this->add([
+            'name' => 'time_zone',
+            'type' => 'Select',
+            'options' => [
+                'label' => $translator->translate('Time Zone'),
+                'value_options' => $timeZones,
+            ],
+            'attributes' => [
+                'id' => 'time-zone',
+                'required' => true,
+                'value' => date_default_timezone_get(),
+            ],
+        ]);
+
         $this->add([
             'name' => 'pagination_per_page',
             'type' => 'Text',

@@ -34,8 +34,10 @@ class InstallController extends AbstractActionController
                     [
                         'administrator_email' => $data['email'],
                         'installation_title' => $data['installation_title'],
+                        'time_zone' => $data['time_zone'],
                     ]
                 );
+                date_default_timezone_set($data['time_zone']);
                 if ($manager->install()) {
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful. Please log in.');

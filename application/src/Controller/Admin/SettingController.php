@@ -16,6 +16,7 @@ class SettingController extends AbstractActionController
         $data = [
             'administrator_email' => $settings->get('administrator_email'),
             'installation_title' => $settings->get('installation_title'),
+            'time_zone' => $settings->get('time_zone'),
             'pagination_per_page' => $settings->get('pagination_per_page'),
             'property_label_information' => $settings->get('property_label_information'),
             'use_htmlpurifier' => $settings->get('use_htmlpurifier')

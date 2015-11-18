@@ -33,16 +33,14 @@ $escape = $this->plugin('escapeHtml');
             </fieldset>
         </form>
     </div>
+    <nav id="menu" role="navigation">
     <?php if (isset($site)): ?>
-    <nav id="site-menu" role="navigation">
         <h4>
             <?php echo $site->link($site->title(), 'show'); ?>
-            <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         </h4>
+        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-    </nav>
     <?php endif; ?>
-    <nav id="menu" role="navigation">
         <?php $globalNav = $this->navigation('Zend\Navigation\Admin')->menu(); ?>
         <?php if (isset($site)): ?>
             <h4><?php echo $this->translate('Global navigation'); ?></h4>
@@ -51,7 +49,6 @@ $escape = $this->plugin('escapeHtml');
         <?php else: ?>
             <?php echo $globalNav; ?>
         <?php endif; ?>
-    </nav>
     </nav>
 </header>
 

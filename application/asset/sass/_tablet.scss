@@ -47,8 +47,8 @@ header {
 }
 
 #user,
-#menu,
-#search {
+#search,
+header nav {
     position: fixed;
     top: -9999px;
     left: -9999px;
@@ -63,7 +63,6 @@ header {
     bottom: 0;
     right: 0;
     background-color: #fff;
-    width: intrinsic;
     margin: 0;
 }
 
@@ -132,12 +131,27 @@ div[role="main"] {
 
 #menu {
     text-align: left;
+    background-color: #fff;
+    position: fixed;
+    overflow: scroll;
 }
 
 #menu a {
     display: block;
     padding: rhythm(.25) rhythm(.5);
-    background-color: #fff;
+}
+
+#menu h4 {
+    padding: rhythm(.25, 1.25 * $base-font-size) rhythm(.5, 1.25 * $base-font-size);
+
+    a,
+    & + a {
+        padding: 0 rhythm(.5) 0 0;
+    }
+}
+
+#menu a.public {
+    height: $base-line-height;
 }
 
 #mobile-nav {

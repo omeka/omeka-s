@@ -1141,33 +1141,42 @@ th {
     content: "";
   }
 
+  header .navigation {
+    margin-bottom: 1.5em;
+  }
+
   #menu {
     position: relative;
   }
 
+  #menu h4 + a,
   #menu .expand,
   #menu .collapse {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
+    position: relative;
+    margin-top: -2.4375em;
     text-align: right;
+    display: block;
+  }
+
+  #menu .expand,
+  #menu .collapse {
+    width: 100%;
+    z-index: 1;
+    padding-bottom: 0.375em;
+    margin-bottom: 0.375em;
   }
 
   /* @end */
   /* @group ----- Site-level navigation ----- */
-  #site-menu {
-    margin-bottom: 1.5em;
-  }
-
-  #site-menu .pages:before {
+  #menu .pages:before {
     content: "";
   }
 
-  #site-menu a.public {
+  #menu a.public {
     float: right;
     text-align: right;
     font-size: 16px;
+    line-height: 30px;
   }
 
   /* @end */
@@ -3407,8 +3416,8 @@ th {
   }
 
   #user,
-  #menu,
-  #search {
+  #search,
+  header nav {
     position: fixed;
     top: -9999px;
     left: -9999px;
@@ -3423,7 +3432,6 @@ th {
     bottom: 0;
     right: 0;
     background-color: #fff;
-    width: intrinsic;
     margin: 0;
   }
 
@@ -3482,12 +3490,25 @@ th {
   /* @group ----- Navigation ----- */
   #menu {
     text-align: left;
+    background-color: #fff;
+    position: fixed;
+    overflow: scroll;
   }
 
   #menu a {
     display: block;
     padding: 0.375em 0.75em;
-    background-color: #fff;
+  }
+
+  #menu h4 {
+    padding: 0.3em 0.6em;
+  }
+  #menu h4 a, #menu h4 + a {
+    padding: 0 0.75em 0 0;
+  }
+
+  #menu a.public {
+    height: 24px;
   }
 
   #mobile-nav {

@@ -117,7 +117,7 @@ body {
 
     td,
     th,
-    .tablesaw-sortable th.tablesaw-sortable-head, 
+    .tablesaw-sortable th.tablesaw-sortable-head,
     .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
         padding: rhythm(.25) .5em;
         position: relative;
@@ -734,35 +734,44 @@ nav.pagination form input[type="text"] {
         content: $fa-var-caret-right;
     }
 
+    header .navigation {
+        margin-bottom: rhythm();
+    }
+
     #menu {
         position: relative;
     }
 
+    #menu h4 + a,
     #menu .expand,
     #menu .collapse {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
+        position: relative;
+        margin-top: rhythm(-1.625);
         text-align: right;
+        display: block;
+    }
+
+    #menu .expand,
+    #menu .collapse {
+        width: 100%;
+        z-index: 1;
+        padding-bottom: rhythm(.25);
+        margin-bottom: rhythm(.25);
     }
 
     /* @end */
 
     /* @group ----- Site-level navigation ----- */
 
-    #site-menu {
-        margin-bottom: rhythm();
-    }
-
-    #site-menu .pages:before {
+    #menu .pages:before {
         content: $fa-var-file-o;
     }
 
-    #site-menu a.public {
+    #menu a.public {
         float: right;
         text-align: right;
         font-size: $base-font-size;
+        line-height: 1.25 * $base-line-height;
     }
 
     /* @end */

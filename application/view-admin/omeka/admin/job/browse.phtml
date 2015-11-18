@@ -3,6 +3,24 @@ use Omeka\Entity\Job;
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 $escape = $this->plugin('escapeHtml');
+$sortHeadings = [
+    [
+        'label' => $this->translate('ID'),
+        'value' => 'id'
+    ],
+    [
+        'label' => $this->translate('Class'),
+        'value' => 'class'
+    ],
+    [
+        'label' => $this->translate('Status'),
+        'value' => 'status'
+    ],
+    [
+        'label' => $this->translate('Owner'),
+        'value' => 'owner'
+    ]
+];
 ?>
 
 <?php echo $this->pageTitle($this->translate('Jobs')); ?>
@@ -11,13 +29,15 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->pagination(); ?>
 
-<table>
+<?php echo $this->sortSelector($sortHeadings); ?>
+
+<table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->sortLink($this->translate('ID'), 'id'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Class'), 'class'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Status'), 'status'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_email'); ?></th>
+            <th><?php echo $this->translate('ID'); ?></th>
+            <th><?php echo $this->translate('Class'); ?></th>
+            <th><?php echo $this->translate('Status'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
         </tr>
     </thead>
     <tbody>

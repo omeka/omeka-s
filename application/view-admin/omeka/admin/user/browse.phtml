@@ -1,6 +1,20 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $escape = $this->plugin('escapeHtml');
+$sortHeadings = [
+    [
+        'label' => $this->translate('Email'),
+        'value' => 'email'
+    ],
+    [
+        'label' => $this->translate('Role'),
+        'value' => 'role'
+    ],
+    [
+        'label' => $this->translate('Date Created'),
+        'value' => 'created'
+    ]
+]
 ?>
 
 <?php echo $this->pageTitle($this->translate('Users')); ?>
@@ -15,12 +29,14 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->pagination(); ?>
 
-<table>
+<?php echo $this->sortSelector($sortHeadings); ?>
+
+<table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->sortLink($this->translate('Email'), 'email'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Role'), 'role'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Date Created'), 'created'); ?></th>
+            <th><?php echo $this->translate('Email'); ?></th>
+            <th><?php echo $this->translate('Role'); ?></th>
+            <th><?php echo $this->translate('Date Created'); ?></th>
         </tr>
     </thead>
     <tbody>

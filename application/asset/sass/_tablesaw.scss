@@ -1,20 +1,37 @@
+.tablesaw-stack tbody tr {
+    border-bottom: 0;
+}
+
 .tablesaw tr .actions {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: rhythm(1.5);
-    background-color: $gray-on-white;
-    padding: rhythm(.25) rhythm(.5);
-    line-height: 0;
-    border-bottom: 1px solid $gray-on-white;
+    right: rhythm(.5);
+    top: 50%;
+    transform: translateY(-50%);
 
     li {
         margin: 0;
     }
+}
 
-    a:before {
-        text-align: left;
+.tablesaw td:first-of-type {
+    background-color: $gray-on-white;
+    position: relative;
+
+    .tablesaw-cell-label {
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .tablesaw-cell-content {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .resource-name {
+        display: inline-block;
+        max-width: calc(100% - #{rhythm(6)});
+        vertical-align: middle;
     }
 }
 
@@ -24,22 +41,11 @@
 }
 
 .browse .tablesaw-cell-content img {
-    float: right;
-    margin: 0;
+    margin: 0 rhythm(.25) 0 0;
 }
 
-
-.tablesaw-cell-label a {
-    display: none;
-}
-
-.items .tablesaw tr td:first-of-type,
-.item-sets .tablesaw tr td:first-of-type,
-.media .tablesaw tr td:first-of-type {
-    padding-top: rhythm(1.75);
-    position: relative;
-}
-
+.browse .tablesaw tr:last-of-type td,
+.browse .tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
     padding: rhythm(.25) rhythm(.5);

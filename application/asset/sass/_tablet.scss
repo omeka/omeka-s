@@ -202,51 +202,16 @@ div[role="main"] {
     position: relative;
 }
 
-.browse .batch-edit + .mobile-container:before {
-    content: "";
-    height: rhythm(1.5);
-    background-color: rgba(0, 0, 0, 0.5);
-    display: block;
-    position: absolute;
-    @include leader(-1.5);
-    left: gutter();
-    right: gutter();
-    z-index: 0;
+.browse .sorting {
+    float: left;
 }
 
-.mobile-container td:nth-of-type(2),
-.mobile-container th:nth-of-type(2) {
-    width: 100%;
+.browse .pagination {
+    margin-right: rhythm(2);
 }
 
-.mobile-container {
-    width: 100%;
-    overflow: hidden;
-}
-
-.mobile-container table {
-    width: min-intrinsic;
-    margin-bottom: 0;
-    position: static;
-}
-
-.mobile-container th,
-.mobile-container td {
-    position: absolute;
-    left: -9999px;
-}
-
-.mobile-container th:first-of-type,
-.mobile-container td:first-of-type,
-.mobile-container th:nth-of-type(2),
-.mobile-container td:nth-of-type(2) {
-    position: relative;
-    left: auto;
-}
-
-.modal.small {
-    width: 80%;
-    min-height: 40%;
+.browse tr:last-of-type td:not(:last-of-type) {
+    @include trailing-border(0px, 0, $base-font-size, solid);
 }
 
 #sidebar {

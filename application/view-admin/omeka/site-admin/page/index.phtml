@@ -10,7 +10,7 @@ $escape = $this->plugin('escapeHtml');
 </div>
 
 <?php if ($pages = $site->pages()): ?>
-<table id="page-list">
+<table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <th><?php echo $this->translate('Title'); ?></th>
         <th><?php echo $this->translate('Slug'); ?></th>

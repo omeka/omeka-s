@@ -51,3 +51,23 @@
     padding: rhythm(.25) rhythm(.5);
     vertical-align: top;
 }
+
+/* @group ----- Special cases ----- */
+
+.page.browse .tablesaw {
+    border-color: $gray-on-white;
+    @include trailing-border(1px, 0, $base-font-size, solid);
+}
+
+.page.browse .tablesaw tr {
+    position: relative;
+}
+
+.page.browse .tablesaw td:last-of-type {
+    position: absolute;
+    right: 0;
+    height: rhythm(1.5);
+    border: 0;
+}
+
+/* @end */

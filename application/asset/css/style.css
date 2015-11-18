@@ -3746,4 +3746,25 @@ th {
     padding: 0.375em 0.75em;
     vertical-align: top;
   }
+
+  /* @group ----- Special cases ----- */
+  .page.browse .tablesaw {
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
+  }
+
+  .page.browse .tablesaw tr {
+    position: relative;
+  }
+
+  .page.browse .tablesaw td:last-of-type {
+    position: absolute;
+    right: 0;
+    height: 2.25em;
+    border: 0;
+  }
+
+  /* @end */
 }

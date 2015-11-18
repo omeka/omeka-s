@@ -2,6 +2,16 @@
 $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 $confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
+$sortHeadings = [
+    [
+        'label' => $this->translate('Title'),
+        'value' => 'title'
+    ],
+    [
+        'label' => $this->translate('Owner'),
+        'value' => 'owner_name'
+    ]
+];
 ?>
 
 <?php echo $this->pageTitle($this->translate('Sites')); ?>
@@ -14,11 +24,13 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->pagination(); ?>
 
-<table>
+<?php echo $this->sortSelector($sortHeadings); ?>
+
+<table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->sortLink($this->translate('Title'), 'title'); ?></th>
-            <th><?php echo $this->sortLink($this->translate('Owner'), 'owner_name'); ?></th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
         </tr>
     </thead>
     <tbody>

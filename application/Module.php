@@ -46,6 +46,11 @@ class Module extends AbstractModule
         $serviceManager = $this->getServiceLocator();
         $viewHelperManager = $serviceManager->get('ViewHelperManager');
 
+        // Set the form row partial.
+        $formCollection = $viewHelperManager->get('formCollection');
+        $formRow = $viewHelperManager->get('formRow');
+        $formCollection->setElementHelper($formRow->setPartial('common/form-row'));
+
         // Inject the service manager into view helpers that need it.
         foreach ($this->viewHelpers as $helperName => $helperClass) {
             $viewHelperManager->setFactory($helperName,

@@ -32,8 +32,8 @@ class Html extends AbstractIngester implements MutableIngesterInterface
             'label' => $view->translate('Title'),
             'info'  => $view->translate('A title for the HTML content')
         ]);
-        $html = $view->formField($titleInput);
-        $html .= $view->formField($titlePropertyInput);
+        $html = $view->formRow($titleInput);
+        $html .= $view->formRow($titlePropertyInput);
         $html .= $this->getForm($view, 'media-html-__index__');
         return $html;
     }
@@ -102,7 +102,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
             'class'    => 'media-html',
             'value'    => $value
         ]);
-        $field = $view->formField($textarea);
+        $field = $view->formRow($textarea);
         $field .= "
             <script type='text/javascript'>
                 $('#$id').ckeditor();

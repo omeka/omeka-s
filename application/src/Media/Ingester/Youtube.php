@@ -101,8 +101,8 @@ class Youtube extends AbstractIngester
             'label' => $view->translate('End'),
             'info' => $view->translate('End playing the video at the given number of seconds from the start of the video.'),
         ]);
-        return $view->formField($urlInput)
-            . $view->formField($startInput)
-            . $view->formField($endInput);
+        return $view->formRow($urlInput)
+            . $view->formRow($startInput)
+            . $view->formRow($endInput);
     }
 }

@@ -98,7 +98,7 @@ class Upload extends AbstractIngester
         $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',
         ]);
-        $field = $view->formField($fileInput);
+        $field = $view->formRow($fileInput);
         return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
     }
 }

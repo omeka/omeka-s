@@ -92,6 +92,6 @@ class Url extends AbstractIngester
             'id' => 'media-url-ingest-url-__index__',
             'required' => true
         ]);
-        return $view->formField($urlInput);
+        return $view->formRow($urlInput);
     }
 }

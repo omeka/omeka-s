@@ -8,6 +8,28 @@ class InstallationForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add([
+            'name' => 'user',
+            'type' => 'fieldset',
+            'options' => [
+                'label' => 'Create the first user',
+            ],
+        ]);
+        $this->add([
+            'name' => 'settings',
+            'type' => 'fieldset',
+             'options' => [
+                'label' => 'Settings',
+            ],
+       ]);
+        $this->add([
+            'name' => 'submit',
+            'type' => 'submit',
+            'attributes' => [
+                'value' => $translator->translate('Submit'),
+            ],
+        ]);
+
+        $this->get('user')->add([
             'name' => 'email',
             'type' => 'Email',
             'options' => [
@@ -18,7 +40,7 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ],
         ]);
-        $this->add([
+        $this->get('user')->add([
             'name' => 'email-confirm',
             'type' => 'Email',
             'options' => [
@@ -29,7 +51,7 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ],
         ]);
-        $this->add([
+        $this->get('user')->add([
             'name' => 'password',
             'type' => 'Password',
             'options' => [
@@ -40,7 +62,7 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ],
         ]);
-        $this->add([
+        $this->get('user')->add([
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
@@ -51,7 +73,7 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ],
         ]);
-        $this->add([
+        $this->get('user')->add([
             'name' => 'name',
             'type' => 'Text',
             'options' => [
@@ -62,7 +84,7 @@ class InstallationForm extends AbstractForm
                 'required' => true,
             ],
         ]);
-        $this->add([
+        $this->get('settings')->add([
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
@@ -76,7 +98,7 @@ class InstallationForm extends AbstractForm
 
         $timeZones = \DateTimeZone::listIdentifiers();
         $timeZones = array_combine($timeZones, $timeZones);
-        $this->add([
+        $this->get('settings')->add([
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
@@ -91,7 +113,7 @@ class InstallationForm extends AbstractForm
         ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
+        $inputFilter->get('user')->add([
             'name' => 'password',
             'required' => true,
             'validators' => [
@@ -103,7 +125,7 @@ class InstallationForm extends AbstractForm
                 ],
             ],
         ]);
-        $inputFilter->add([
+        $inputFilter->get('user')->add([
             'name' => 'password-confirm',
             'required' => true,
             'validators' => [
@@ -111,11 +133,12 @@ class InstallationForm extends AbstractForm
                     'name' => 'Identical',
                     'options' => [
                         'token' => 'password',
+                        'message' => $translator->translate('The passwords did not match'),
                     ],
                 ],
             ],
         ]);
-        $inputFilter->add([
+        $inputFilter->get('user')->add([
             'name' => 'email-confirm',
             'required' => true,
             'validators' => [
@@ -123,6 +146,7 @@ class InstallationForm extends AbstractForm
                     'name' => 'Identical',
                     'options' => [
                         'token' => 'email',
+                        'message' => $translator->translate('The emails did not match'),
                     ],
                 ],
             ],

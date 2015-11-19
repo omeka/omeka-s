@@ -14,9 +14,5 @@ $form->setAttribute('method', 'post');
     <?php endforeach; ?>
 </ul>
 <?php else: ?>
-<?php echo $this->form()->openTag($form); ?>
-
-<?php echo $this->formElements($form); ?>
-<button><?php echo $this->translate('Install'); ?></button>
-<?php echo $this->form()->closeTag(); ?>
+<?php echo $this->form($form); ?>
 <?php endif; ?>

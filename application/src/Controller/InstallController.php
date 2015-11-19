@@ -23,21 +23,17 @@ class InstallController extends AbstractActionController
                 $data = $form->getData();
                 $manager->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
-                    [
-                        'password' => $data['password'],
-                        'name'     => $data['name'],
-                        'email'    => $data['email']
-                    ]
+                    $data['user']
                 );
                 $manager->registerVars(
                     'Omeka\Installation\Task\AddDefaultSettingsTask',
                     [
-                        'administrator_email' => $data['email'],
-                        'installation_title' => $data['installation_title'],
-                        'time_zone' => $data['time_zone'],
+                        'administrator_email' => $data['user']['email'],
+                        'installation_title'  => $data['settings']['installation_title'],
+                        'time_zone'           => $data['settings']['time_zone'],
                     ]
                 );
-                date_default_timezone_set($data['time_zone']);
+                date_default_timezone_set($data['settings']['time_zone']);
                 if ($manager->install()) {
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful. Please log in.');

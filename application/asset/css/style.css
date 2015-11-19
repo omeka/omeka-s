@@ -994,6 +994,11 @@ th {
     margin: 0;
   }
 
+  nav.pagination {
+    margin-bottom: 0.91743em;
+    overflow: hidden;
+  }
+
   nav.pagination form,
   nav.pagination .button,
   nav.pagination .row-count {
@@ -1041,9 +1046,14 @@ th {
 
   nav.pagination form input[type="text"] {
     margin-right: .25em;
+    width: 3em;
     border-width: 0.07645em;
     border-style: solid;
     padding: -0.07645em;
+  }
+
+  nav.pagination + *:not(.sorting) {
+    clear: left;
   }
 
   #mobile-nav {
@@ -2358,9 +2368,11 @@ th {
   }
   .search-nav .pagination {
     border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
+    font-size: 13.08px;
+    border-bottom-width: 0.07645em;
     border-bottom-style: solid;
-    padding-bottom: 0.3125em;
+    padding-bottom: 0.84098em;
+    margin-bottom: 0;
     overflow: hidden;
   }
   .search-nav .pagination li {
@@ -2375,8 +2387,18 @@ th {
     color: #333;
     margin: 0 3px;
   }
-  .search-nav .pagination a.button {
+  .search-nav .pagination .next.button {
     margin-right: 5px;
+  }
+  .search-nav .pagination input[type="text"] {
+    float: left;
+    line-height: 19.62px;
+    height: 1.83486em;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .search-nav .pagination .page-count {
+    float: left;
+    margin-right: 0.91743em;
   }
 
   .resource-list {

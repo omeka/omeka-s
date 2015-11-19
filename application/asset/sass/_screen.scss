@@ -591,6 +591,11 @@ nav ul {
     margin: 0;
 }
 
+nav.pagination {
+    margin-bottom: rhythm(.5, .8175 * $base-font-size);
+    overflow: hidden;
+}
+
 nav.pagination form,
 nav.pagination .button,
 nav.pagination .row-count {
@@ -638,7 +643,12 @@ nav.pagination .next.button {
 
 nav.pagination form input[type="text"] {
     margin-right: .25em;
+    width: rhythm(2);
     @include rhythm-borders(1px, 0, .8175 * $base-font-size, solid);
+}
+
+nav.pagination + *:not(.sorting) {
+    clear: left;
 }
 
 #mobile-nav {
@@ -1986,7 +1996,9 @@ input[type="text"].value-language,
 
     .pagination {
         border-color: rgba(0,0,0,.08);
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        font-size: .8175 * $base-font-size;
+        @include trailing-border(1px, .5, .8175 * $base-font-size, solid);
+        margin-bottom: 0;
         overflow: hidden;
 
         li {
@@ -2004,8 +2016,20 @@ input[type="text"].value-language,
             margin: 0 3px;
         }
 
-        a.button {
+        .next.button {
             margin-right: 5px;
+        }
+
+        input[type="text"] {
+            float: left;
+            line-height: .8175 * $base-line-height;
+            height: rhythm(1, .8175 * $base-font-size);
+            border: 1px solid $gray-on-white;
+        }
+
+        .page-count {
+            float: left;
+            margin-right: rhythm(.5, .8175 * $base-font-size);
         }
     }
 }

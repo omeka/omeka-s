@@ -1,0 +1,11 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'sites settings');
+$form->prepare();
+?>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit Settings for Site: “%s”'), $site->title())); ?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+<?php echo $this->formElements($form); ?>
+<?php echo $this->form()->closeTag(); ?>

@@ -84,4 +84,7 @@ class Event extends ZendEvent
 
     // ACL event
     const ACL = 'acl';
+
+    // Site settings event
+    const SITE_SETTINGS_FORM = 'site_settings.form';
 }

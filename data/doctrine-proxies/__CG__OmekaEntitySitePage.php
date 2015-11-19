@@ -64,10 +64,10 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'title', 'site', 'blocks');
+            return array('__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks');
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'title', 'site', 'blocks');
+        return array('__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks');
     }
 
     /**
@@ -257,6 +257,50 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function setCreated(\DateTime $dateTime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($dateTime));
+
+        return parent::setCreated($dateTime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreated()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+
+        return parent::getCreated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setModified(\DateTime $dateTime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+
+        return parent::setModified($dateTime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getModified()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+
+        return parent::getModified();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getBlocks()
     {
 
@@ -274,6 +318,28 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
 
         return parent::getOwner();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+
+        return parent::prePersist($eventArgs);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+
+        return parent::preUpdate($eventArgs);
     }
 
     /**

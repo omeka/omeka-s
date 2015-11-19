@@ -14,6 +14,15 @@ class SitePageAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
+    protected $sortFields = [
+        'id'       => 'id',
+        'created'  => 'created',
+        'modified' => 'modified',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
     public function getResourceName()
     {
         return 'site_pages';

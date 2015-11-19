@@ -13,12 +13,24 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $entity = $this->resource;
+        $created = [
+            '@value' => $this->getDateTime($this->created()),
+            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+        ];
+        $modified = null;
+        if ($this->modified()) {
+            $modified = [
+               '@value' => $this->getDateTime($this->modified()),
+               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            ];
+        }
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
+            'o:created' => $created,
+            'o:modified' => $modified,
         ];
     }
 
@@ -68,6 +80,16 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     {
         return $this->getAdapter('sites')
             ->getRepresentation($this->resource->getSite());
+    }
+
+    public function created()
+    {
+        return $this->resource->getCreated();
+    }
+
+    public function modified()
+    {
+        return $this->resource->getModified();
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

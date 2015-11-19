@@ -1,10 +1,14 @@
 <?php
 namespace Omeka\Entity;
 
+use DateTime;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
+ * @HasLifecycleCallbacks
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
@@ -37,6 +41,16 @@ class SitePage extends AbstractEntity
      * @JoinColumn(nullable=false)
      */
     protected $site;
+
+    /**
+     * @Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @Column(type="datetime", nullable=true)
+     */
+    protected $modified;
 
     /**
      * @OneToMany(
@@ -89,6 +103,26 @@ class SitePage extends AbstractEntity
         return $this->site;
     }
 
+    public function setCreated(DateTime $dateTime)
+    {
+        $this->created = $dateTime;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function setModified(DateTime $dateTime)
+    {
+        $this->modified = $dateTime;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
     public function getBlocks()
     {
         return $this->blocks;
@@ -97,5 +131,21 @@ class SitePage extends AbstractEntity
     public function getOwner()
     {
         return $this->getSite()->getOwner();
+    }
+
+    /**
+     * @PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->created = new DateTime('now');
+    }
+
+    /**
+     * @PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $this->modified = new DateTime('now');
     }
 }

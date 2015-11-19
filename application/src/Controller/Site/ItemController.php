@@ -12,6 +12,10 @@ class ItemController extends AbstractSiteController
         $this->setBrowseDefaults('created');
 
         $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
+        $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
+        if ($settings->get('browse_attached_items', false)) {
+            $itemPool['site_id'] = $site->id();
+        }
         $query = array_merge($itemPool, $this->params()->fromQuery());
 
         $response = $this->api()->search('items', $query);

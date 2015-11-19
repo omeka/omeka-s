@@ -39,9 +39,5 @@
 <?php endif; ?>
 
 <h2 id="keys-add-heading"><?php echo $this->translate('Add a New Key'); ?></h2>
-<?php
-foreach ($form as $element) {
-    echo $this->formRow($element);
-}
-?>
+<?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

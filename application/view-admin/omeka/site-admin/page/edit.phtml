@@ -16,11 +16,7 @@ $escape = $this->plugin('escapeHtml');
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
-<?php
-foreach ($form as $element) {
-    echo $this->formRow($element);
-}
-?>
+<?php echo $this->formCollection($form, false); ?>
 
 <?php echo $this->blockLayout()->forms($page); ?>
 

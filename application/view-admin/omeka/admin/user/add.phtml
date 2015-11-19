@@ -6,9 +6,5 @@
 <div id="page-actions">
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
-<?php
-foreach ($form as $element) {
-    echo $this->formRow($element);
-}
-?>
+<?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

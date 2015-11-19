@@ -41,11 +41,7 @@ $roles = array(
 
 <fieldset id="admin" class="section active">
     <legend><?php echo $this->translate('Admin'); ?></legend>
-    <?php
-    foreach ($form as $element) {
-        echo $this->formRow($element);
-    }
-    ?>
+    <?php echo $this->formCollection($form, false); ?>
 </fieldset>
 
 <fieldset id="item-pool" class="section">

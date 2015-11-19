@@ -31,13 +31,15 @@ class ItemWithMetadata extends AbstractBlockLayout
             $item = $attachment->item();
             $translator = $this->getServiceLocator()->get('MvcTranslator');
             $html .= $item->displayValues();
-            $html .= '<div class="property">';
-                $html .= '<h4>' . $translator->translate('Item Sets') . '</h4>';
+            if($item->itemSets()) {
+                $html .= '<div class="property">';
+                    $html .= '<h4>' . $translator->translate('Item Sets') . '</h4>';
 
-                foreach ($item->itemSets() as $itemSet) {
-                    $html .= '<div class="value"><a href="' . $view->escapeHtml(($itemSet->url())) . '">' . $itemSet->displayTitle() . '</a></div>';
-                }
-            $html .= '</div>';
+                    foreach ($item->itemSets() as $itemSet) {
+                        $html .= '<div class="value"><a href="' . $view->escapeHtml(($itemSet->url())) . '">' . $itemSet->displayTitle() . '</a></div>';
+                    }
+                $html .= '</div>';
+            }
         }
 
         if($item->media()) {
@@ -50,9 +52,8 @@ class ItemWithMetadata extends AbstractBlockLayout
                 $html .= '</a>';
             }
         }
-        
-        $html .= '</div>';
 
+        $html .= '</div>';
         return $html;
     }
 }

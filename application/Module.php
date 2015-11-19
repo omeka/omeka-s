@@ -149,18 +149,6 @@ class Module extends AbstractModule
                 }
             }
         );
-
-        $sharedEventManager->attach(
-            '*',
-            OmekaEvent::SITE_SETTINGS_FORM,
-            function (OmekaEvent $event) {
-                $settings = $event->getParam('services')->get('Omeka\SiteSettings');
-                $checkbox = new \Zend\Form\Element\Checkbox('browse_attached_items');
-                $checkbox->setLabel('Restrict browse to attached items')
-                    ->setValue((bool) $settings->get('browse_attached_items', false));
-                $event->getParam('form')->add($checkbox);
-            }
-        );
     }
 
     /**

@@ -23,11 +23,7 @@ class InstallController extends AbstractActionController
                 $data = $form->getData();
                 $manager->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
-                    [
-                        'password' => $data['user']['password'],
-                        'name'     => $data['user']['name'],
-                        'email'    => $data['user']['email']
-                    ]
+                    $data['user']
                 );
                 $manager->registerVars(
                     'Omeka\Installation\Task\AddDefaultSettingsTask',

@@ -144,8 +144,8 @@ return [
         ],
         'site' => [
             [
-                'label'         => 'Global',
-                'class'         => 'global',
+                'label'         => 'General',
+                'class'         => 'general',
                 'route'         => 'admin/site/default',
                 'action'        => 'edit',
                 'useRouteMatch' => true

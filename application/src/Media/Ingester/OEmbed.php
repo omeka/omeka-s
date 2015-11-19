@@ -107,7 +107,7 @@ class OEmbed extends AbstractIngester
             'id' => 'media-oembed-source-__index__',
             'required' => true
         ]);
-        return $view->formField($urlInput);
+        return $view->formRow($urlInput);
     }
 
     /**

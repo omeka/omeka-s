@@ -30,7 +30,7 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<label>' . $view->translate('Query') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Display resources using this search query') . '</div>';
         $html .= '</div>';
-        $html .= '<div class="inputs">' . $view->formField($text) . '</div></div>';
+        $html .= '<div class="inputs">' . $view->formRow($text) . '</div></div>';
         return $html;
     }
 

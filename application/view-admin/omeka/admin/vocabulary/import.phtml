@@ -9,5 +9,9 @@ $form->prepare();
 <div id="page-actions">
     <button><?php echo $this->translate('Import'); ?></button>
 </div>
-<?php echo $this->formElements($form); ?>
+<?php
+foreach ($form as $element) {
+    echo $this->formRow($element);
+}
+?>
 <?php echo $this->form()->closeTag(); ?>

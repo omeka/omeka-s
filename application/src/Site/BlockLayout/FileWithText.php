@@ -35,7 +35,7 @@ class FileWithText extends AbstractBlockLayout
 
         return $this->thumbnailTypeSelect($view, $site, $block)
             . $this->attachmentsForm($view, $site, $block)
-            . $view->formField($textarea);
+            . $view->formRow($textarea);
 
     }
 

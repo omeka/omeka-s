@@ -88,7 +88,7 @@ class IIIF extends AbstractIngester
             'label' => $view->translate('IIIF Image URL'),
             'info' => $view->translate('URL for the image to embed.'),
         ]);
-        return $view->formField($urlInput);
+        return $view->formRow($urlInput);
     }
 
     //This check comes from Open Seadragon's own validation check

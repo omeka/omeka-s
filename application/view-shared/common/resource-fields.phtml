@@ -6,14 +6,14 @@
         $resourceTemplateSelect->setValue($resource->resourceTemplate()->id());
     endif;
     if ($resourceTemplateSelect->getValueOptions()):
-        echo $this->formField($resourceTemplateSelect);
+        echo $this->formRow($resourceTemplateSelect);
     endif;
 
     $resourceClassSelect = $form->get('o:resource_class[o:id]');
     if (isset($resource) && $resource->resourceClass()):
         $resourceClassSelect->setValue($resource->resourceClass()->id());
     endif;
-    echo $this->formField($resourceClassSelect);
+    echo $this->formRow($resourceClassSelect);
     ?>
     </div>
     <div id='properties'>

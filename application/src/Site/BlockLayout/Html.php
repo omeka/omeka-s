@@ -32,7 +32,7 @@ class Html extends AbstractBlockLayout
         if ($block) {
             $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
         }
-        return $view->formField($textarea);
+        return $view->formRow($textarea);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

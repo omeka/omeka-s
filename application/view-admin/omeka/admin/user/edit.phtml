@@ -9,5 +9,9 @@
 <nav class="section-nav">
     <?php echo $this->navigation('Zend\Navigation\User')->menu(); ?>
 </nav>
-<?php echo $this->formElements($form); ?>
+<?php
+foreach ($form as $element) {
+    echo $this->formRow($element);
+}
+?>
 <?php echo $this->form()->closeTag(); ?>

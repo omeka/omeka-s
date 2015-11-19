@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Controller\SiteAdmin;
 
+use Omeka\Event\Event;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
+use Omeka\Form\SiteSettingsForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -98,6 +100,40 @@ class IndexController extends AbstractActionController
                 'button_value' => $this->translate('Confirm Delete'),
             ]
         ));
+        return $view;
+    }
+
+    public function settingsAction()
+    {
+        $site = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug'),
+        ])->getContent();
+
+        $form = new SiteSettingsForm($this->getServiceLocator());
+        $event = new Event(Event::SITE_SETTINGS_FORM, $this, [
+            'services' => $this->getServiceLocator(),
+            'form' => $form,
+        ]);
+        $this->getEventManager()->trigger($event);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
+                $data = $form->getData();
+                unset($data['csrf']);
+                foreach ($data as $id => $value) {
+                    $settings->set($id, $value);
+                }
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('form', $form);
+        $this->layout()->setVariable('site', $site);
         return $view;
     }
 

@@ -144,10 +144,17 @@ return [
         ],
         'site' => [
             [
+                'label'         => 'General',
+                'class'         => 'general',
+                'route'         => 'admin/site/default',
+                'action'        => 'edit',
+                'useRouteMatch' => true
+            ],
+            [
                 'label'         => 'Settings',
                 'class'         => 'settings',
                 'route'         => 'admin/site/default',
-                'action'        => 'edit',
+                'action'        => 'settings',
                 'useRouteMatch' => true
             ],
             [

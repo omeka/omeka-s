@@ -14,9 +14,8 @@ $form->setAttribute('method', 'post');
     <?php endforeach; ?>
 </ul>
 <?php else: ?>
-<?php echo $this->form()->openTag($form); ?>
-
-<?php echo $this->formElements($form); ?>
-<button><?php echo $this->translate('Install'); ?></button>
-<?php echo $this->form()->closeTag(); ?>
+<?php
+$this->formCollection()->setElementHelper($this->formRow()->setPartial('common/form-row'));
+echo $this->form($form);
+?>
 <?php endif; ?>

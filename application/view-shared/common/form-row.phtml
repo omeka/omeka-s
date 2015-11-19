@@ -1,0 +1,22 @@
+<?php
+$class = $element->getAttribute('required') ? 'field required' : 'field';
+?>
+<?php if (null === $label || 'hidden' === $element->getAttribute('type')): ?>
+<?php echo $this->formElement($element); ?>
+<?php else: ?>
+<div class="<?php echo $class ?>">
+    <div class="field-meta">
+        <?php echo $label; ?>
+        <?php if ($info = $element->getOption('info')): ?>
+        <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->escapeHtml($info); ?></div>
+        </div>
+        <?php endif; ?>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formElement($element); ?>
+    </div>
+    <?php echo $this->formElementErrors($element, array('class' => 'messages')); ?>
+</div>
+<?php endif; ?>

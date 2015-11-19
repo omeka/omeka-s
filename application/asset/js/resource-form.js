@@ -329,7 +329,7 @@
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         if ($.isNumeric(templateId)) {
-            var url = templateSelect.data('api-base-url') + templateId;
+            var url = templateSelect.data('api-base-url') + '/' + templateId;
             $.ajax({
                 'url': url,
                 'type': 'get'

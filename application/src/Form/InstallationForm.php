@@ -5,6 +5,10 @@ class InstallationForm extends AbstractForm
 {
     public function buildForm()
     {
+        // By removing CSRF protection we're removing the need to use session
+        // data during installation. This is needed for databse session storage.
+        $this->remove('csrf');
+
         $translator = $this->getTranslator();
 
         $this->add([

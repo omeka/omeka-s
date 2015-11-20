@@ -1,8 +1,10 @@
 <?php
 namespace Omeka;
 
+use Composer\Semver\Comparator;
 use Omeka\Event\Event as OmekaEvent;
 use Omeka\Module\AbstractModule;
+use Omeka\Session\SaveHandler\Db;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
@@ -16,7 +18,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.3.7-alpha';
+    const VERSION = '0.3.8-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -39,9 +41,9 @@ class Module extends AbstractModule
      */
     public function onBootstrap(MvcEvent $event)
     {
-        $this->configureSession();
-
         parent::onBootstrap($event);
+
+        $this->configureSession();
 
         $serviceManager = $this->getServiceLocator();
         $viewHelperManager = $serviceManager->get('ViewHelperManager');
@@ -334,5 +336,11 @@ class Module extends AbstractModule
             'use_strict_mode' => true,
             'use_only_cookies' => true,
         ]);
+
+        $serviceLocator = $this->getServiceLocator();
+        $settings = $serviceLocator->get('Omeka\Settings');
+        if (Comparator::greaterThanOrEqualTo($settings->get('version'), '0.3.8-alpha')) {
+            $sessionManager->setSaveHandler(new Db($serviceLocator));
+        }
     }
 }

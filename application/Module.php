@@ -338,9 +338,9 @@ class Module extends AbstractModule
         ]);
 
         $serviceLocator = $this->getServiceLocator();
-        $settings = $serviceLocator->get('Omeka\Settings');
-        if (Comparator::greaterThanOrEqualTo($settings->get('version'), '0.3.8-alpha')) {
-            $sessionManager->setSaveHandler(new Db($serviceLocator));
+        $currentVersion = $serviceLocator->get('Omeka\Settings')->get('version');
+        if (Comparator::greaterThanOrEqualTo($currentVersion, '0.3.8-alpha')) {
+            $sessionManager->setSaveHandler(new Db($serviceLocator->get('Omeka\Connection')));
         }
     }
 }

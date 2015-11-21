@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Session\SaveHandler;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Doctrine\DBAL\Connection;
 use Zend\Session\SaveHandler\SaveHandlerInterface;
 
 class Db implements SaveHandlerInterface
@@ -19,11 +19,11 @@ class Db implements SaveHandlerInterface
     /**
      * Constructor
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Connection $conn
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Connection $conn)
     {
-        $this->conn = $serviceLocator->get('Omeka\Connection');
+        $this->conn = $conn;
     }
 
     /**

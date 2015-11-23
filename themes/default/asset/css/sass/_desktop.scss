@@ -1,0 +1,14 @@
+/* @group ----- Resource List ----- */
+
+ul.resource-list .resource img {
+    height: rhythm(5);
+    width: auto;
+    float: right;
+    margin-left: rhythm(.5);
+}
+
+ul.resource-list .resource img ~ * {
+    width: calc(100% - #{rhythm(5.5)});
+}
+
+/* @end */

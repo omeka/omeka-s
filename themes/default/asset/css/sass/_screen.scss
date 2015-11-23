@@ -1,14 +1,3 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
-@import "normalize";
-@import "compass/css3";
-@import "compass/typography";
-@import "susy";
-@import "base";
-
 * {
     box-sizing: border-box;
 }
@@ -20,28 +9,26 @@ html {
 }
 
 body {
+    background-color: $bg;
     font-family: "Open Sans", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    border-left: 50px solid $light;
-    border-right: 50px solid transparent;
-    min-height: 100%;
-    padding: rhythm(.5) span(1 of 16);
     margin: 0;
 }
 
 a:link {
     text-decoration: none;
-    color: $gray;
+    color: #000;
 }
 
 a:visited {
-    color: $light;
+    color: $gray;
 }
 
 a:active,
 a:hover {
     color: $bold;
+    border-bottom: 3px solid;
 }
 
 h1 {
@@ -113,12 +100,11 @@ input[type="url"] {
 
 /* @group ----- Navigation ----- */
 
-ul.navigation {
+header ul.navigation {
     padding-left: 0;
     list-style: none;
-    border-color: $gray;
-    @include trailing-border(1px, 0, $base-font-size, solid);
     position: relative;
+    margin: 0 auto;
 
     & > li {
         @include padding-trailer(.5);
@@ -133,7 +119,7 @@ ul.navigation {
         position: absolute;
         top: 100%;
         left: -9999px;
-        background-color: #fff;
+        background-color: $bg;
         padding: 0;
         list-style: none;
         width: 100%;
@@ -232,7 +218,35 @@ nav.pagination {
 
 /* @end */
 
+/* @group ----- Header ----- */
+
+header {
+    background-color: #fff;
+    margin-top: 0;
+    border-color: $light;
+    padding-top: rhythm(.5);
+    @include trailing-border(1px, .5, $base-font-size, solid);
+
+    & > * {
+        @include container;
+        padding: 0 gutter();
+        display: block;
+    }
+}
+
+.site-title:hover,
+.site-title:active {
+    border-bottom: 0;
+}
+
+/* @end */
+
 /* @group ----- Page ----- */
+
+#content {
+    @include container;
+    padding: 0 gutter();
+}
 
 .page .resource.item {
     width: 50%;
@@ -264,22 +278,17 @@ ul.resource-list {
 ul.resource-list .resource {
     border-color: $light;
     @include trailing-border(1px, 1, $base-font-size, solid);
-    margin-bottom: rhythm();
+    margin: rhythm() 0;
     overflow: hidden;
     position: relative;
 
-    &:after {
-        content: "";
-        position: absolute;
-        bottom: rhythm();
-        left: 0;
-        height: rhythm(1.25);
-        background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+    & > *:last-child {
+        margin-bottom: 0;
     }
 }
 
 ul.resource-list .resource img {
-    height: rhythm(5);
+    height: rhythm(2);
     width: auto;
     float: right;
     margin-left: rhythm(.5);
@@ -292,12 +301,21 @@ ul.resource-list .resource h4 {
 ul.resource-list .resource .description {
     max-height: rhythm(3);
     overflow: hidden;
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: rhythm(1.25);
+        background: linear-gradient(to top, rgba(248,248,248,1), rgba(248,248,248,0));
+    }
 }
 
-ul.resource-list .resource:after,
-ul.resource-list .resource h4,
-ul.resource-list .resource .description {
-    width: calc(100% - #{rhythm(5.5)});
+ul.resource-list .resource img ~ * {
+    width: calc(100% - #{rhythm(2.5)});
 }
 
 /* @end */
@@ -375,29 +393,6 @@ ul.resource-list .resource .description {
     font-size: .75 * $base-font-size;
     display: inline-block;
     margin-bottom: rhythm(.5, .75 * $base-font-size);
-}
-
-/* @end */
-
-/* @group ----- Item Set ----- */
-
-.item-set .items h3 {
-    float: left;
-}
-
-.item-set .items > a:first-of-type {
-    margin-top: rhythm();
-    float: right;
-    line-height: 1.5 * $base-line-height;
-    height: 1.5 * $base-line-height;
-}
-
-.item-set ul.resource-list {
-    clear: both;
-}
-
-.item-set ul.resource-list .resource:first-child {
-    @include leading-border(1px, 1, $base-font-size, solid);
 }
 
 /* @end */

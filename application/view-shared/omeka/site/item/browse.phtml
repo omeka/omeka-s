@@ -3,7 +3,15 @@
 
 <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
 <?php echo $this->pageTitle($site->title()); ?>
-<?php echo $this->pageTitle($this->translate('Items'), 2); ?>
+
+<?php if (isset($itemSet)): ?>
+    <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
+    <?php echo $itemSet->displayValues(); ?>
+    <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
+<?php else: ?>
+    <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
+<?php endif; ?>
+
 <?php echo $this->searchFilters(); ?>
 <?php echo $this->pagination(); ?>
 <ul class="resource-list">

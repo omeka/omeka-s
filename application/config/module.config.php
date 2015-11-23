@@ -1,5 +1,9 @@
 <?php
 return [
+    'session' => [
+        'config' => [],
+        'save_handler' => null,
+    ],
     'listeners' => [
         'ModuleRouteListener',
         'Omeka\MvcExceptionListener',

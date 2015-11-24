@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.4.0-alpha';
+    const VERSION = '0.4.1-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -346,7 +346,7 @@ class Module extends AbstractModule
         $sessionSaveHandler = null;
         if (empty($config['session']['save_handler'])) {
             $currentVersion = $serviceLocator->get('Omeka\Settings')->get('version');
-            if (Comparator::greaterThanOrEqualTo($currentVersion, '0.3.8-alpha')) {
+            if (Comparator::greaterThanOrEqualTo($currentVersion, '0.4.1-alpha')) {
                 $sessionSaveHandler = new Db($serviceLocator->get('Omeka\Connection'));
             }
         } else {

@@ -27,42 +27,36 @@ class SiteSettings extends AbstractSettings
         if (!$this->site instanceof Site) {
             throw new Exception\RuntimeException('Cannot use site settings when no site is set');
         }
-        $settings = $this->getEntityManager()
-            ->getRepository('Omeka\Entity\SiteSetting')->findBy(['site' => $this->site]);
+        $conn = $this->getConnection();
+        $settings = $conn->fetchAll('SELECT * FROM site_setting');
         foreach ($settings as $setting) {
-            $this->cache[$setting->getId()] = $setting->getValue();
+            $this->cache[$setting['id']] = $conn->convertToPHPValue($setting['value'], 'json_array');
         }
     }
 
     protected function setSetting($id, $value)
     {
-        $setting = $this->getSetting($id);
-        if ($setting instanceof Setting) {
-            $setting->setValue($value);
+        $conn = $this->getConnection();
+        $setting = $conn->fetchAssoc(
+            'SELECT * FROM site_setting WHERE id = ? AND site_id = ?',
+            [$id, $this->site->getId()]
+        );
+        if ($setting) {
+            $conn->update('site_setting', ['value' => $value], ['id' => $id], ['json_array']);
         } else {
-            $setting = new Setting;
-            $setting->setId($id);
-            $setting->setValue($value);
-            $setting->setSite($this->site);
-            $this->getEntityManager()->persist($setting);
+            $conn->insert('site_setting', [
+                'value' => $value,
+                'site_id' => $this->site->getId(),
+                'id' => $id,
+            ], ['json_array', \PDO::PARAM_INT]);
         }
-        $this->getEntityManager()->flush();
     }
 
     protected function deleteSetting($id)
     {
-        $setting = $this->getSetting($id);
-        if ($setting instanceof Setting) {
-            $this->getEntityManager()->remove($setting);
-            $this->getEntityManager()->flush();
-        }
+        $this->getConnection()->delete('setting', [
+            'site_id' => $this->site->getId(),
+            'id' => $id,
+        ], [\PDO::PARAM_INT]);
     }
-
-    protected function getSetting($id)
-    {
-        return $this->getEntityManager()
-            ->getRepository('Omeka\Entity\SiteSetting')
-            ->findOneBy(['site' => $this->site, 'id' => $id]);
-    }
-
 }

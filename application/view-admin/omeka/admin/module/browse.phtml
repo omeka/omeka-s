@@ -3,6 +3,7 @@ use Omeka\Module\Manager;
 
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $escape = $this->plugin('escapeHtml');
+$this->plugin('formRow')->setPartial(null);
 ?>
 
 <?php echo $this->pageTitle($this->translate('Modules')); ?>

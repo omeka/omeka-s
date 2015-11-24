@@ -7,40 +7,25 @@ class Settings extends AbstractSettings
 {
     protected function setCache()
     {
-        $settings = $this->getEntityManager()
-            ->getRepository('Omeka\Entity\Setting')->findAll();
+        $settings = $this->getConnection()->fetchAll('SELECT * FROM setting');
         foreach ($settings as $setting) {
-            $this->cache[$setting->getId()] = $setting->getValue();
+            $this->cache[$setting['id']] = json_decode($setting['value']);
         }
     }
 
     protected function setSetting($id, $value)
     {
-        $setting = $this->getSetting($id);
-        if ($setting instanceof Setting) {
-            $setting->setValue($value);
+        $conn = $this->getConnection();
+        $setting = $conn->fetchAssoc('SELECT * FROM setting WHERE id = ?', [$id]);
+        if ($setting) {
+            $conn->update('setting', ['value' => json_encode($value)], ['id' => $id]);
         } else {
-            $setting = new Setting;
-            $setting->setId($id);
-            $setting->setValue($value);
-            $this->getEntityManager()->persist($setting);
+            $conn->insert('setting', ['id' => $id, 'value' => json_encode($value)]);
         }
-        $this->getEntityManager()->flush();
     }
 
     protected function deleteSetting($id)
     {
-        $setting = $this->getSetting($id);
-        if ($setting instanceof Setting) {
-            $this->getEntityManager()->remove($setting);
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    protected function getSetting($id)
-    {
-        return $this->getEntityManager()
-            ->getRepository('Omeka\Entity\Setting')
-            ->findOneById($id);
+        $this->getConnection()->delete('setting', ['id' => $id]);
     }
 }

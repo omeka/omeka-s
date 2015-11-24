@@ -7,9 +7,10 @@ class Settings extends AbstractSettings
 {
     protected function setCache()
     {
-        $settings = $this->getConnection()->fetchAll('SELECT * FROM setting');
+        $conn = $this->getConnection();
+        $settings = $conn->fetchAll('SELECT * FROM setting');
         foreach ($settings as $setting) {
-            $this->cache[$setting['id']] = json_decode($setting['value']);
+            $this->cache[$setting['id']] = $conn->convertToPHPValue($setting['value'], 'json_array');
         }
     }
 
@@ -18,14 +19,14 @@ class Settings extends AbstractSettings
         $conn = $this->getConnection();
         $setting = $conn->fetchAssoc('SELECT * FROM setting WHERE id = ?', [$id]);
         if ($setting) {
-            $conn->update('setting', ['value' => json_encode($value)], ['id' => $id]);
+            $conn->update('setting', ['value' => $value], ['id' => $id], ['json_array']);
         } else {
-            $conn->insert('setting', ['id' => $id, 'value' => json_encode($value)]);
+            $conn->insert('setting', ['id' => $id, 'value' => $value], [\PDO::PARAM_STR, 'json_array']);
         }
     }
 
     protected function deleteSetting($id)
     {
-        $this->getConnection()->delete('setting', ['id' => $id]);
+        $this->getConnection()->delete('setting', ['id' => $id], [\PDO::PARAM_STR]);
     }
 }

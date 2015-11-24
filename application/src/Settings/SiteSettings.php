@@ -27,9 +27,10 @@ class SiteSettings extends AbstractSettings
         if (!$this->site instanceof Site) {
             throw new Exception\RuntimeException('Cannot use site settings when no site is set');
         }
-        $settings = $this->getConnection()->fetchAll('SELECT * FROM site_setting');
+        $conn = $this->getConnection();
+        $settings = $conn->fetchAll('SELECT * FROM site_setting');
         foreach ($settings as $setting) {
-            $this->cache[$setting['id']] = json_decode($setting['value']);
+            $this->cache[$setting['id']] = $conn->convertToPHPValue($setting['value'], 'json_array');
         }
     }
 
@@ -41,13 +42,13 @@ class SiteSettings extends AbstractSettings
             [$id, $this->site->getId()]
         );
         if ($setting) {
-            $conn->update('site_setting', ['value' => json_encode($value)], ['id' => $id]);
+            $conn->update('site_setting', ['value' => $value], ['id' => $id], ['json_array']);
         } else {
             $conn->insert('site_setting', [
                 'id' => $id,
                 'site_id' => $this->site->getId(),
-                'value' => json_encode($value),
-            ]);
+                'value' => $value,
+            ], [\PDO::PARAM_STR, \PDO::PARAM_INT, 'json_array']);
         }
     }
 
@@ -56,6 +57,6 @@ class SiteSettings extends AbstractSettings
         $this->getConnection()->delete('setting', [
             'id' => $id,
             'site_id' => $this->site->getId(),
-        ]);
+        ], [\PDO::PARAM_STR, \PDO::PARAM_INT]);
     }
 }

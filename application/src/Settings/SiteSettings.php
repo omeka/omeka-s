@@ -45,18 +45,18 @@ class SiteSettings extends AbstractSettings
             $conn->update('site_setting', ['value' => $value], ['id' => $id], ['json_array']);
         } else {
             $conn->insert('site_setting', [
-                'id' => $id,
-                'site_id' => $this->site->getId(),
                 'value' => $value,
-            ], [\PDO::PARAM_STR, \PDO::PARAM_INT, 'json_array']);
+                'site_id' => $this->site->getId(),
+                'id' => $id,
+            ], ['json_array', \PDO::PARAM_INT]);
         }
     }
 
     protected function deleteSetting($id)
     {
         $this->getConnection()->delete('setting', [
-            'id' => $id,
             'site_id' => $this->site->getId(),
-        ], [\PDO::PARAM_STR, \PDO::PARAM_INT]);
+            'id' => $id,
+        ], [\PDO::PARAM_INT]);
     }
 }

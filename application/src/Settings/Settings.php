@@ -21,12 +21,12 @@ class Settings extends AbstractSettings
         if ($setting) {
             $conn->update('setting', ['value' => $value], ['id' => $id], ['json_array']);
         } else {
-            $conn->insert('setting', ['id' => $id, 'value' => $value], [\PDO::PARAM_STR, 'json_array']);
+            $conn->insert('setting', ['value' => $value, 'id' => $id], ['json_array']);
         }
     }
 
     protected function deleteSetting($id)
     {
-        $this->getConnection()->delete('setting', ['id' => $id], [\PDO::PARAM_STR]);
+        $this->getConnection()->delete('setting', ['id' => $id]);
     }
 }

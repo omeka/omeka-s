@@ -154,6 +154,12 @@ CREATE TABLE `resource_template_property` (
   CONSTRAINT `FK_4689E2F1549213EC` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_4689E2F116131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `resource_template` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `session` (
+  `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `modified` int(11) NOT NULL,
+  `data` longblob NOT NULL,
+  PRIMARY KEY (`id`,`modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `setting` (
   `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',

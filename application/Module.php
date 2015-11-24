@@ -1,12 +1,16 @@
 <?php
 namespace Omeka;
 
+use Composer\Semver\Comparator;
 use Omeka\Event\Event as OmekaEvent;
 use Omeka\Module\AbstractModule;
+use Omeka\Session\SaveHandler\Db;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
+use Zend\Session\SessionManager;
 
 /**
  * The Omeka module.
@@ -39,9 +43,9 @@ class Module extends AbstractModule
      */
     public function onBootstrap(MvcEvent $event)
     {
-        $this->configureSession();
-
         parent::onBootstrap($event);
+
+        $this->bootstrapSession();
 
         $serviceManager = $this->getServiceLocator();
         $viewHelperManager = $serviceManager->get('ViewHelperManager');
@@ -322,17 +326,34 @@ class Module extends AbstractModule
     }
 
     /**
-     * Configure Zend's default session manager.
+     * Bootstrap the session manager.
      */
-    private function configureSession()
+    private function bootstrapSession()
     {
-        $sessionManager = Container::getDefaultManager();
-        $config = $sessionManager->getConfig();
-        $config->setOptions([
+        $serviceLocator = $this->getServiceLocator();
+        $config = $serviceLocator->get('Config');
+
+        $sessionConfig = new SessionConfig;
+        $defaultOptions = [
             'name' => md5(OMEKA_PATH),
             'cookie_httponly' => true,
             'use_strict_mode' => true,
             'use_only_cookies' => true,
-        ]);
+        ];
+        $userOptions = isset($config['session']['config']) ? $config['session']['config'] : [];
+        $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
+
+        $sessionSaveHandler = null;
+        if (empty($config['session']['save_handler'])) {
+            $currentVersion = $serviceLocator->get('Omeka\Settings')->get('version');
+            if (Comparator::greaterThanOrEqualTo($currentVersion, '0.3.8-alpha')) {
+                $sessionSaveHandler = new Db($serviceLocator->get('Omeka\Connection'));
+            }
+        } else {
+            $sessionSaveHandler = $serviceLocator->get($config['session']['save_handler']);
+        }
+
+        $sessionManager = new SessionManager($sessionConfig, null, $sessionSaveHandler, []);
+        Container::setDefaultManager($sessionManager);
     }
 }

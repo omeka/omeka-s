@@ -45,32 +45,14 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($event);
 
-        $this->bootstrapSession();
-
-        $serviceManager = $this->getServiceLocator();
-        $viewHelperManager = $serviceManager->get('ViewHelperManager');
-
-        // Set the custom form row partial.
-        $viewHelperManager->get('formRow')->setPartial('common/form-row');
-
-        // Inject the service manager into view helpers that need it.
-        foreach ($this->viewHelpers as $helperName => $helperClass) {
-            $viewHelperManager->setFactory($helperName,
-                function ($helperPluginManager) use ($helperClass, $serviceManager) {
-                    return new $helperClass($serviceManager);
-                });
-        }
-
-        // Set the ACL to navigation.
-        $acl = $serviceManager->get('Omeka\Acl');
-        $navigation = $viewHelperManager->get('Navigation');
-        $navigation->setAcl($acl);
-
         // Set the timezone.
-        if ($serviceManager->get('Omeka\Status')->isInstalled()) {
-            $settings = $serviceManager->get('Omeka\Settings');
-            date_default_timezone_set($settings->get('time_zone', 'UTC'));
+        $services = $this->getServiceLocator();
+        if ($services->get('Omeka\Status')->isInstalled()) {
+            date_default_timezone_set($services->get('Omeka\Settings')->get('time_zone', 'UTC'));
         };
+
+        $this->bootstrapSession();
+        $this->bootstrapViewHelpers();
     }
 
     /**
@@ -355,5 +337,27 @@ class Module extends AbstractModule
 
         $sessionManager = new SessionManager($sessionConfig, null, $sessionSaveHandler, []);
         Container::setDefaultManager($sessionManager);
+    }
+
+    /**
+     * Bootstrap view helpers.
+     */
+    private function bootstrapViewHelpers()
+    {
+        $services = $this->getServiceLocator();
+        $manager = $services->get('ViewHelperManager');
+
+        // Inject the service manager into view helpers that need it.
+        foreach ($this->viewHelpers as $name => $class) {
+            $manager->setFactory($name, function ($manager) use ($class, $services) {
+                return new $class($services);
+            });
+        }
+
+        // Set the custom form row partial.
+        $manager->get('FormRow')->setPartial('common/form-row');
+
+        // Set the ACL to the navigation helper.
+        $manager->get('Navigation')->setAcl($services->get('Omeka\Acl'));
     }
 }

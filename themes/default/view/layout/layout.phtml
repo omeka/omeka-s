@@ -13,6 +13,8 @@ $this->trigger('view.layout');
         <?php echo $this->headLink()->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic,700'); ?>
         <?php $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka')); ?>
         <?php echo $this->headLink()->appendStylesheet($this->assetUrl('css/style.css')); ?>
+        <?php $this->headScript()->appendFile($this->assetUrl('js/jquery.js', 'Omeka')); ?>
+        <?php $this->headScript()->appendFile($this->assetUrl('js/default.js')); ?>
         <?php echo $this->headStyle(); ?>
         <?php echo $this->headScript(); ?>
     </head>

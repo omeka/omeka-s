@@ -1,3 +1,135 @@
+/* @group ----- Header ----- */
+
+header {
+    position: relative;
+    padding: rhythm(.5) 0 0 0;
+}
+
+/* @end */
+
+/* @group ----- Navigation ----- */
+
+header nav {
+    margin: 0 auto;
+    position: static;
+}
+
+header nav:before {
+    content: "";
+    border: 0;
+}
+
+header nav ul a {
+    padding: 0;
+}
+
+header nav ul li {
+    position: static;
+}
+
+header nav.closed ul,
+header nav ul ul li {
+    height: auto;
+    overflow: visible;
+}
+
+header nav ul a:hover {
+    background-color: transparent;
+}
+
+header nav ul li,
+header nav > ul li:last-child {
+    border: 0;
+}
+
+header nav ul.navigation {
+    margin: 0 auto;
+    position: static;
+
+    li ul:before {
+        display: none;
+    }
+
+    & > li {
+        display: inline-block;
+    }
+
+    & > li:not(:last-child) {
+        margin-right: rhythm(.5);
+    }
+
+    & > li > ul {
+        position: absolute;
+        top: 100%;
+        left: -9999px;
+        background-color: #fff;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        border-color: $gray;
+        @include leading-border(1px, .5, $base-font-size, solid);
+        @include trailing-border(1px, .25, $base-font-size, solid);
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        z-index: 1;
+    }
+
+    & > li:hover > ul {
+        @include container;
+        padding: rhythm(.5) gutter();
+        left: 0;
+        right: 0;
+        border-bottom: 0;
+        border-color: $light;
+
+        &:after {
+            content: "";
+            left: -9999px;
+            right: -9999px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-bottom: 1px solid $light;
+            z-index: -1;
+        }
+    }
+
+    & > li > ul > li {
+        width: 25%;
+        font-size: .75 * $base-font-size;
+        font-weight: bold;
+    }
+
+    & > li > ul > li ul {
+        font-weight: normal;
+        padding: 0;
+        list-style-type: none;
+        height: auto;
+    }
+}
+
+/* All top-level nav items with siblings are parent items and get an arrow. */
+header nav > ul > li > a:not(:only-child):after {
+    font-family: "FontAwesome";
+    content: "\f107";
+    display: inline-block;
+    margin: rhythm(.25);
+}
+
+header nav > ul li:hover ul li {
+    height: auto;
+}
+
+/* Second and Third level items */
+header nav > ul > li > ul > li a,
+header nav > ul > li > ul > li > ul > li a {
+    padding-left: 0;
+}
+
+/* @end */
+
 /* @group ----- Resource List ----- */
 
 ul.resource-list .resource img {

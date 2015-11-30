@@ -100,55 +100,110 @@ input[type="url"] {
 
 /* @group ----- Navigation ----- */
 
-header ul.navigation {
+header nav {
+    position: relative;
+    margin: rhythm(.5) 0 rhythm(-.5);
+}
+
+header nav.closed ul {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+header nav:before {
+    font-family: "FontAwesome";
+    content: "\f0c9";
+    display: block;
+    width: rhythm(1.25);
+    height: rhythm(1.25);
+    border: 1px solid $light;
+    text-align: center;
+    border-radius: 2px;
+    position: absolute;
+    right: gutter();
+    top: rhythm(-2.25);
+    cursor: pointer;
+    line-height: 1.25 * $base-line-height;
+}
+
+header nav.open:before {
+    content: "\f00d";
+}
+
+header nav ul {
     padding-left: 0;
     list-style: none;
     position: relative;
     margin: 0 auto;
 
-    & > li {
-        @include padding-trailer(.5);
+    a {
         display: inline-block;
-    }
-
-    & > li:not(:last-child) {
-        margin-right: rhythm(.5);
-    }
-
-    & > li > ul {
-        position: absolute;
-        top: 100%;
-        left: -9999px;
-        background-color: $bg;
-        padding: 0;
-        list-style: none;
         width: 100%;
-        border-color: $gray;
-        @include leading-border(1px, .5, $base-font-size, solid);
-        @include trailing-border(1px, .25, $base-font-size, solid);
-        display: flex;
-        flex-direction: row;
-        flex-flow: row wrap;
+        padding: rhythm(.25);
     }
 
-    & > li:hover > ul {
-        left: 0;
+    a:hover {
+        border-bottom: 0;
+        background-color: $light;
     }
 
-    & > li > ul > li {
+    li {
         border-color: $light;
-        @include trailing-border(1px, .25, $base-font-size, solid);
-        @include trailer(.25);
-        width: 25%;
-        font-size: .75 * $base-font-size;
-        font-weight: bold;
+        @include leading-border(1px, 0, $base-font-size, solid);
+        position: relative;
     }
 
-    & > li > ul > li ul {
-        font-weight: normal;
-        padding: 0;
-        list-style-type: none;
+    li li:last-of-type {
+        padding-bottom: 0;
     }
+
+    li > ul:before {
+        font-family: "FontAwesome";
+        content: "\f105";
+        position: absolute;
+        right: 0;
+        top: rhythm(-1.5);
+        color: $light;
+        width: rhythm();
+        height: rhythm(1.5);
+        line-height: 1.5 * $base-line-height;
+        text-align: center;
+    }
+
+    li > ul:hover:before {
+        content: "\f107";
+    }
+
+    a:hover ~ ul:before {
+        color: $gray;
+    }
+}
+
+header nav > ul > li:last-child {
+    @include trailing-border(1px, 0, $base-font-size, solid);
+}
+
+header nav > ul ul li {
+    height: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+header nav > ul ul:hover > li {
+    height: auto;
+    border-color: $light;
+    @include leading-border(1px, 0, $base-font-size, solid);
+}
+
+/* Second level items */
+header nav > ul > li > ul > li a {
+    padding-left: rhythm();
+}
+
+/* Third level items */
+header nav > ul > li > ul > li > ul > li a {
+    padding-left: rhythm(2);
 }
 
 nav.pagination {
@@ -237,6 +292,10 @@ header {
 .site-title:hover,
 .site-title:active {
     border-bottom: 0;
+}
+
+.site-title h1 {
+    margin: 0;
 }
 
 /* @end */

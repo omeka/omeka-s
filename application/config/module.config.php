@@ -75,11 +75,9 @@ return [
             ],
         ],
     ],
-    'loggers' => [
-        'application' => [
-            'log'  => false,
-            'path' => OMEKA_PATH . '/data/logs/application.log',
-        ],
+    'logger' => [
+        'log'  => false,
+        'path' => OMEKA_PATH . '/data/logs/application.log',
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',

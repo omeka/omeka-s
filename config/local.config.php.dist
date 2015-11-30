@@ -1,8 +1,7 @@
 <?php
 return [
-    'loggers' => [
-        'application' => ['log'  => false],
-        'sql' => ['log'  => false],
+    'logger' => [
+        'log' => false,
     ],
     'http_client' => [
         'sslcapath' => null,

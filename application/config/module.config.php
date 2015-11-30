@@ -80,10 +80,6 @@ return [
             'log'  => false,
             'path' => OMEKA_PATH . '/data/logs/application.log',
         ],
-        'sql' => [
-            'log'  => false,
-            'path' => OMEKA_PATH . '/data/logs/sql.log',
-        ],
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',

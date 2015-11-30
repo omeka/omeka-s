@@ -4,3 +4,4 @@ dbname   =
 host     = 
 ;port     = 
 ;unix_socket = 
+;log_path = 

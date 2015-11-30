@@ -9,7 +9,6 @@ use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\Utf8mb4;
 use Omeka\Db\Event\Subscriber\Entity;
-use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -75,16 +74,6 @@ class EntityManagerFactory implements FactoryInterface
 
         // Register a custom mapping type for an IP address.
         Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
-
-        if (isset($config['loggers']['sql']['log'])
-            && $config['loggers']['sql']['log']
-            && isset($config['loggers']['sql']['path'])
-            && is_file($config['loggers']['sql']['path'])
-            && is_writable($config['loggers']['sql']['path'])
-        ) {
-            $connection->getConfiguration()
-                ->setSQLLogger(new FileSqlLogger($config['loggers']['sql']['path']));
-        }
 
         return $em;
     }

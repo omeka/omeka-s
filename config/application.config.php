@@ -1,6 +1,5 @@
 <?php
 $reader = new Zend\Config\Reader\Ini;
-$config = $reader->fromFile(OMEKA_PATH . '/config/database.ini');
 return [
     'modules' => [
         'Omeka',
@@ -23,5 +22,5 @@ return [
             'Omeka\Status' => 'Omeka\Mvc\Status',
         ],
     ],
-    'connection' => $config,
+    'connection' => $reader->fromFile(OMEKA_PATH . '/config/database.ini'),
 ];

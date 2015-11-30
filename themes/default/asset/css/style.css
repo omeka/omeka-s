@@ -1,0 +1,618 @@
+@media screen {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    background-color: #f8f8f8;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0;
+  }
+
+  a:link {
+    text-decoration: none;
+    color: #000;
+  }
+
+  a:visited {
+    color: #ababab;
+  }
+
+  a:active,
+  a:hover {
+    color: #787878;
+    border-bottom: 3px solid;
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: 60px;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 45px;
+  }
+
+  h3 {
+    font-size: 25px;
+    line-height: 45px;
+  }
+
+  h4 {
+    font-size: 22.5px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* @group ----- Forms ----- */
+  input,
+  textarea,
+  button {
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0;
+    vertical-align: top;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="url"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    height: 2.25em;
+    border-color: rgba(0, 0, 0, 0.15);
+    border-width: 0.05em;
+    border-style: solid;
+    padding: -0.05em;
+    padding: 0.375em 1.69492%;
+    margin: 0;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+  }
+
+  :-moz-placeholder {
+    /* Firefox 18- */
+    font-style: italic;
+  }
+
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    font-style: italic;
+  }
+
+  :-ms-input-placeholder {
+    font-style: italic;
+  }
+
+  /* @end */
+  /* @group ----- Navigation ----- */
+  header nav {
+    position: relative;
+    margin: 0.75em 0 -0.75em;
+  }
+
+  header nav.closed ul {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  header nav:before {
+    font-family: "FontAwesome";
+    content: "\f0c9";
+    display: block;
+    width: 1.875em;
+    height: 1.875em;
+    border: 1px solid #dedede;
+    text-align: center;
+    border-radius: 2px;
+    position: absolute;
+    right: 1.69492%;
+    top: -3.375em;
+    cursor: pointer;
+    line-height: 37.5px;
+  }
+
+  header nav.open:before {
+    content: "\f00d";
+  }
+
+  header nav ul {
+    padding-left: 0;
+    list-style: none;
+    position: relative;
+    margin: 0 auto;
+  }
+  header nav ul a {
+    display: inline-block;
+    width: 100%;
+    padding: 0.375em;
+  }
+  header nav ul a:hover {
+    border-bottom: 0;
+    background-color: #dedede;
+  }
+  header nav ul li {
+    border-color: #dedede;
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: -0.05em;
+    position: relative;
+  }
+  header nav ul li li:last-of-type {
+    padding-bottom: 0;
+  }
+  header nav ul li > ul:before {
+    font-family: "FontAwesome";
+    content: "\f105";
+    position: absolute;
+    right: 0;
+    top: -2.25em;
+    color: #dedede;
+    width: 1.5em;
+    height: 2.25em;
+    line-height: 45px;
+    text-align: center;
+  }
+  header nav ul li > ul:hover:before {
+    content: "\f107";
+  }
+  header nav ul a:hover ~ ul:before {
+    color: #ababab;
+  }
+
+  header nav > ul > li:last-child {
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: -0.05em;
+  }
+
+  header nav > ul ul li {
+    height: 0;
+    overflow: hidden;
+    border: 0;
+  }
+
+  header nav > ul ul:hover > li {
+    height: auto;
+    border-color: #dedede;
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: -0.05em;
+  }
+
+  /* Second level items */
+  header nav > ul > li > ul > li a {
+    padding-left: 1.5em;
+  }
+
+  /* Third level items */
+  header nav > ul > li > ul > li > ul > li a {
+    padding-left: 3em;
+  }
+
+  nav.pagination {
+    margin-bottom: 1.5em;
+    font-size: 20px;
+    line-height: 45px;
+  }
+
+  .pagination input {
+    text-align: center;
+  }
+
+  .pagination {
+    border-color: #dedede;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 1.45em;
+  }
+
+  .resource-list + .pagination {
+    border-color: transparent;
+  }
+
+  .pagination form {
+    min-width: 4.5em;
+  }
+
+  .pagination form,
+  .pagination .button,
+  .pagination button,
+  .pagination .page-count {
+    display: inline-block;
+    vertical-align: top;
+    height: 45px;
+  }
+
+  .pagination .button {
+    border: 1px solid #dedede;
+    background-color: #dedede;
+    width: 2.25em;
+    text-align: center;
+    padding: 0.375em;
+    border-radius: 2px;
+    color: #ababab;
+    line-height: 30px;
+  }
+  .pagination .button:hover {
+    background-color: #787878;
+  }
+
+  .pagination .inactive.button {
+    opacity: .5;
+    background-color: white;
+  }
+  .pagination .inactive.button:hover {
+    background-color: white;
+  }
+
+  .pagination form,
+  .pagination .last {
+    margin-right: 0.375em;
+  }
+
+  .pagination input {
+    width: 3em;
+  }
+
+  /* @end */
+  /* @group ----- Header ----- */
+  header {
+    background-color: #fff;
+    margin-top: 0;
+    border-color: #dedede;
+    padding-top: 0.75em;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 0.7em;
+  }
+  header > * {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.69492%;
+    display: block;
+  }
+  header > *:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+
+  .site-title:hover,
+  .site-title:active {
+    border-bottom: 0;
+  }
+
+  .site-title h1 {
+    margin: 0;
+  }
+
+  /* @end */
+  /* @group ----- Page ----- */
+  #content {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.69492%;
+  }
+  #content:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+
+  .page .resource.item {
+    width: 50%;
+    margin: 1.5em auto;
+    text-align: center;
+    border-color: #dedede;
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: 1.45em;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 1.45em;
+  }
+  .page .resource.item img {
+    display: block;
+    margin: 0.75em auto;
+  }
+  .page .resource.item .caption {
+    font-size: 15px;
+    line-height: 30px;
+  }
+
+  /* @end */
+  /* @group ----- Resource List ----- */
+  ul.resource-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  ul.resource-list .resource {
+    border-color: #dedede;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 1.45em;
+    margin: 1.5em 0;
+    overflow: hidden;
+    position: relative;
+  }
+  ul.resource-list .resource > *:last-child {
+    margin-bottom: 0;
+  }
+
+  ul.resource-list .resource img {
+    height: 3em;
+    width: auto;
+    float: right;
+    margin-left: 0.75em;
+  }
+
+  ul.resource-list .resource h4 {
+    margin-top: 0;
+  }
+
+  ul.resource-list .resource .description {
+    max-height: 4.5em;
+    overflow: hidden;
+    position: relative;
+  }
+  ul.resource-list .resource .description:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.875em;
+    background: linear-gradient(to top, #f8f8f8, rgba(248, 248, 248, 0));
+  }
+
+  ul.resource-list .resource img ~ * {
+    width: calc(100% - 3.75em);
+  }
+
+  /* @end */
+  /* @group ----- Browse ---- */
+  .search-filters {
+    margin-bottom: 1.5em;
+  }
+
+  .filter-label,
+  .filter-value {
+    display: inline-block;
+    border-color: #dedede;
+    border-width: 0.05em;
+    border-style: solid;
+    padding: 0.325em;
+  }
+
+  .filter-label {
+    background-color: #dedede;
+  }
+
+  .filter-value {
+    margin-left: -5px;
+  }
+
+  /* @end */
+  /* @group ----- Show ----- */
+  .property {
+    margin-bottom: 1.5em;
+  }
+
+  .property h4 {
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+
+  .property .value img {
+    width: auto;
+    height: 2.25em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.375em;
+  }
+
+  .property .value a {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .property .value:not(:last-child) img {
+    margin-bottom: 0.375em;
+  }
+
+  .property .value:not(:last-child) img + a {
+    margin-bottom: 0.375em;
+  }
+
+  .media.resource {
+    display: inline-block;
+    text-align: center;
+    width: -moz-min-content;
+    width: -webkit-min-content;
+    width: min-content;
+    vertical-align: top;
+    word-break: break-word;
+  }
+
+  .media.resource img {
+    max-width: none;
+  }
+
+  .media-title {
+    font-size: 15px;
+    display: inline-block;
+    margin-bottom: 1em;
+  }
+
+  /* @end */
+}
+@media screen and (min-width: 800px) {
+  /* @group ----- Header ----- */
+  header {
+    position: relative;
+    padding: 0.75em 0 0 0;
+  }
+
+  /* @end */
+  /* @group ----- Navigation ----- */
+  header nav {
+    margin: 0 auto;
+    position: static;
+  }
+
+  header nav:before {
+    content: "";
+    border: 0;
+  }
+
+  header nav ul a {
+    padding: 0;
+  }
+
+  header nav ul li {
+    position: static;
+  }
+
+  header nav.closed ul,
+  header nav ul ul li {
+    height: auto;
+    overflow: visible;
+  }
+
+  header nav ul a:hover {
+    background-color: transparent;
+  }
+
+  header nav ul li,
+  header nav > ul li:last-child {
+    border: 0;
+  }
+
+  header nav ul.navigation {
+    margin: 0 auto;
+    position: static;
+  }
+  header nav ul.navigation li ul:before {
+    display: none;
+  }
+  header nav ul.navigation > li {
+    display: inline-block;
+  }
+  header nav ul.navigation > li:not(:last-child) {
+    margin-right: 0.75em;
+  }
+  header nav ul.navigation > li > ul {
+    position: absolute;
+    top: 100%;
+    left: -9999px;
+    background-color: #fff;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    border-color: #ababab;
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: 0.7em;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 0.325em;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+    z-index: 1;
+  }
+  header nav ul.navigation > li:hover > ul {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.75em 1.69492%;
+    left: 0;
+    right: 0;
+    border-bottom: 0;
+    border-color: #dedede;
+  }
+  header nav ul.navigation > li:hover > ul:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+  header nav ul.navigation > li:hover > ul:after {
+    content: "";
+    left: -9999px;
+    right: -9999px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-bottom: 1px solid #dedede;
+    z-index: -1;
+  }
+  header nav ul.navigation > li > ul > li {
+    width: 25%;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  header nav ul.navigation > li > ul > li ul {
+    font-weight: normal;
+    padding: 0;
+    list-style-type: none;
+    height: auto;
+  }
+
+  /* All top-level nav items with siblings are parent items and get an arrow. */
+  header nav > ul > li > a:not(:only-child):after {
+    font-family: "FontAwesome";
+    content: "\f107";
+    display: inline-block;
+    margin: 0.375em;
+  }
+
+  header nav > ul li:hover ul li {
+    height: auto;
+  }
+
+  /* Second and Third level items */
+  header nav > ul > li > ul > li a,
+  header nav > ul > li > ul > li > ul > li a {
+    padding-left: 0;
+  }
+
+  /* @end */
+  /* @group ----- Resource List ----- */
+  ul.resource-list .resource img {
+    height: 7.5em;
+    width: auto;
+    float: right;
+    margin-left: 0.75em;
+  }
+
+  ul.resource-list .resource img ~ * {
+    width: calc(100% - 8.25em);
+  }
+
+  /* @end */
+}

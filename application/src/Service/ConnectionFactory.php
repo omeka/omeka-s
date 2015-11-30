@@ -3,6 +3,7 @@ namespace Omeka\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -30,7 +31,16 @@ class ConnectionFactory implements FactoryInterface
 
         $config['connection']['driver'] = self::DRIVER;
         $config['connection']['charset'] = self::CHARSET;
+        $connection = DriverManager::getConnection($config['connection']);
 
-        return DriverManager::getConnection($config['connection']);
+        if (isset($config['connection']['log_path'])
+            && is_file($config['connection']['log_path'])
+            && is_writable($config['connection']['log_path'])
+        ) {
+            $connection->getConfiguration()
+                ->setSQLLogger(new FileSqlLogger($config['connection']['log_path']));
+        }
+
+        return $connection;
     }
 }

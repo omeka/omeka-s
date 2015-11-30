@@ -15,9 +15,9 @@ abstract class AbstractSettings implements SettingsInterface,
     protected $cache;
 
     /**
-     * @var EntityManager
+     * @var Doctrine\DBAL\Connection
      */
-    protected $entityManager;
+    protected $connection;
 
     /**
      * Cache all settings from a data store.
@@ -151,15 +151,15 @@ abstract class AbstractSettings implements SettingsInterface,
     }
 
     /**
-     * Get the entity manager
+     * Get the DBAL connection
      *
-     * @return EntityManager
+     * @return Doctrine\DBAL\Connection
      */
-    protected function getEntityManager()
+    protected function getConnection()
     {
-        if (null === $this->entityManager) {
-            $this->entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        if (null === $this->connection) {
+            $this->connection = $this->getServiceLocator()->get('Omeka\Connection');
         }
-        return $this->entityManager;
+        return $this->connection;
     }
 }

@@ -2965,6 +2965,12 @@ body.minimal {
         margin: 0 0 rhythm(1, 2 * $base-font-size) 0;
     }
 
+    fieldset legend {
+        font-weight: bold;
+        font-size: 1.25 * $base-font-size;
+        @include trailer(.5, 1.25 * $base-font-size);
+    }
+
     .logo {
         position: static;
         width: auto;

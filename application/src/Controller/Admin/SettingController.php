@@ -27,9 +27,12 @@ class SettingController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $formData = $form->getData();
-                foreach ($formData as $key => $value) {
-                    $settings->set($key, $value);
+                foreach ($form->getData() as $key => $value) {
+                    // Set whitelisted settings only, otherwise this would set
+                    // the CSRF value and any other element passed by the form.
+                    if (array_key_exists($key, $data)) {
+                        $settings->set($key, $value);
+                    }
                 }
                 $this->messenger()->addSuccess('Settings updated');
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);

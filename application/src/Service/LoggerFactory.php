@@ -21,13 +21,13 @@ class LoggerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        if (isset($config['loggers']['application']['log'])
-            && $config['loggers']['application']['log']
-            && isset($config['loggers']['application']['path'])
-            && is_file($config['loggers']['application']['path'])
-            && is_writable($config['loggers']['application']['path'])
+        if (isset($config['logger']['log'])
+            && $config['logger']['log']
+            && isset($config['logger']['path'])
+            && is_file($config['logger']['path'])
+            && is_writable($config['logger']['path'])
         ) {
-            $writer = new Stream($config['loggers']['application']['path']);
+            $writer = new Stream($config['logger']['path']);
         } else {
             $writer = new Noop;
         }

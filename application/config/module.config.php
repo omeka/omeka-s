@@ -1,5 +1,9 @@
 <?php
 return [
+    'session' => [
+        'config' => [],
+        'save_handler' => null,
+    ],
     'listeners' => [
         'ModuleRouteListener',
         'Omeka\MvcExceptionListener',
@@ -71,15 +75,9 @@ return [
             ],
         ],
     ],
-    'loggers' => [
-        'application' => [
-            'log'  => false,
-            'path' => OMEKA_PATH . '/data/logs/application.log',
-        ],
-        'sql' => [
-            'log'  => false,
-            'path' => OMEKA_PATH . '/data/logs/sql.log',
-        ],
+    'logger' => [
+        'log'  => false,
+        'path' => OMEKA_PATH . '/data/logs/application.log',
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',

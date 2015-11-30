@@ -1,12 +1,16 @@
 <?php
 namespace Omeka;
 
+use Composer\Semver\Comparator;
 use Omeka\Event\Event as OmekaEvent;
 use Omeka\Module\AbstractModule;
+use Omeka\Session\SaveHandler\Db;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
+use Zend\Session\SessionManager;
 
 /**
  * The Omeka module.
@@ -16,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.3.7-alpha';
+    const VERSION = '0.4.2-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -39,34 +43,16 @@ class Module extends AbstractModule
      */
     public function onBootstrap(MvcEvent $event)
     {
-        $this->configureSession();
-
         parent::onBootstrap($event);
 
-        $serviceManager = $this->getServiceLocator();
-        $viewHelperManager = $serviceManager->get('ViewHelperManager');
-
-        // Set the custom form row partial.
-        $viewHelperManager->get('formRow')->setPartial('common/form-row');
-
-        // Inject the service manager into view helpers that need it.
-        foreach ($this->viewHelpers as $helperName => $helperClass) {
-            $viewHelperManager->setFactory($helperName,
-                function ($helperPluginManager) use ($helperClass, $serviceManager) {
-                    return new $helperClass($serviceManager);
-                });
-        }
-
-        // Set the ACL to navigation.
-        $acl = $serviceManager->get('Omeka\Acl');
-        $navigation = $viewHelperManager->get('Navigation');
-        $navigation->setAcl($acl);
-
         // Set the timezone.
-        if ($serviceManager->get('Omeka\Status')->isInstalled()) {
-            $settings = $serviceManager->get('Omeka\Settings');
-            date_default_timezone_set($settings->get('time_zone', 'UTC'));
+        $services = $this->getServiceLocator();
+        if ($services->get('Omeka\Status')->isInstalled()) {
+            date_default_timezone_set($services->get('Omeka\Settings')->get('time_zone', 'UTC'));
         };
+
+        $this->bootstrapSession();
+        $this->bootstrapViewHelpers();
     }
 
     /**
@@ -322,17 +308,56 @@ class Module extends AbstractModule
     }
 
     /**
-     * Configure Zend's default session manager.
+     * Bootstrap the session manager.
      */
-    private function configureSession()
+    private function bootstrapSession()
     {
-        $sessionManager = Container::getDefaultManager();
-        $config = $sessionManager->getConfig();
-        $config->setOptions([
+        $serviceLocator = $this->getServiceLocator();
+        $config = $serviceLocator->get('Config');
+
+        $sessionConfig = new SessionConfig;
+        $defaultOptions = [
             'name' => md5(OMEKA_PATH),
             'cookie_httponly' => true,
             'use_strict_mode' => true,
             'use_only_cookies' => true,
-        ]);
+        ];
+        $userOptions = isset($config['session']['config']) ? $config['session']['config'] : [];
+        $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
+
+        $sessionSaveHandler = null;
+        if (empty($config['session']['save_handler'])) {
+            $currentVersion = $serviceLocator->get('Omeka\Settings')->get('version');
+            if (Comparator::greaterThanOrEqualTo($currentVersion, '0.4.1-alpha')) {
+                $sessionSaveHandler = new Db($serviceLocator->get('Omeka\Connection'));
+            }
+        } else {
+            $sessionSaveHandler = $serviceLocator->get($config['session']['save_handler']);
+        }
+
+        $sessionManager = new SessionManager($sessionConfig, null, $sessionSaveHandler, []);
+        Container::setDefaultManager($sessionManager);
+    }
+
+    /**
+     * Bootstrap view helpers.
+     */
+    private function bootstrapViewHelpers()
+    {
+        $services = $this->getServiceLocator();
+        $manager = $services->get('ViewHelperManager');
+
+        // Inject the service manager into view helpers that need it.
+        foreach ($this->viewHelpers as $name => $class) {
+            $manager->setFactory($name, function ($manager) use ($class, $services) {
+                return new $class($services);
+            });
+        }
+
+        // Set the custom form row partial.
+        $manager->get('FormRow')->setPartial('common/form-row');
+
+        // Set the ACL to the navigation helper.
+        $manager->get('Navigation')->setAcl($services->get('Omeka\Acl'));
     }
 }

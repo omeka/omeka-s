@@ -3,7 +3,7 @@
 $susy: (
     columns:                            12,
     container:                          1120px,
-    global-box-sizing:                  border-box,
+    global-box-sizing:                  border-box
 );
 
 // Colors
@@ -11,6 +11,7 @@ $susy: (
 $gray:                                  #ababab;
 $bold:                                  darken($gray, 20%);
 $light:                                 lighten($gray, 20%);
+$bg:                                    lighten($gray, 30%);
 
 // Typography
 

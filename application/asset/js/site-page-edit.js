@@ -27,6 +27,10 @@
     function openAttachmentOptions(itemId, mediaId, caption)
     {
         var attachmentItem = $('#attachment-item');
+
+        // Explicitly reset selected item (setting an undefined "new" item ID will actually leave
+        // the old value unchanged).
+        attachmentItem.removeData('itemId');
         attachmentItem.data('itemId', itemId);
         $.post(
             $('#attachment-options').data('url'),

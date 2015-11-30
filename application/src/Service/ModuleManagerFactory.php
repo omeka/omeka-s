@@ -3,6 +3,7 @@ namespace Omeka\Service;
 
 use DirectoryIterator;
 use Composer\Semver\Comparator;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
 use Zend\Config\Reader\Ini as IniReader;
@@ -71,10 +72,16 @@ class ModuleManagerFactory implements FactoryInterface
 
         // Get all modules from the database, if installed.
         $dbModules = [];
-        if ($serviceLocator->get('Omeka\Status')->isInstalled()) {
+        $status = $serviceLocator->get('Omeka\Status');
+        try {
             $statement = $connection->prepare("SELECT * FROM module");
             $statement->execute();
             $dbModules = $statement->fetchAll();
+            $status->setIsInstalled(true);
+        } catch (TableNotFoundException $e) {
+            // If the module table is not found we can assume that the
+            // application is not installed.
+            $status->setIsInstalled(false);
         }
 
         foreach ($dbModules as $moduleRow) {

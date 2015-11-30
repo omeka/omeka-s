@@ -156,9 +156,9 @@ CREATE TABLE `resource_template_property` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `session` (
   `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `modified` int(11) NOT NULL,
   `data` longblob NOT NULL,
-  PRIMARY KEY (`id`,`modified`)
+  `modified` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `setting` (
   `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,

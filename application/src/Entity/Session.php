@@ -18,7 +18,6 @@ class Session
     protected $data;
 
     /**
-     * @Id
      * @Column(type="integer")
      */
     protected $modified;

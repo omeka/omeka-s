@@ -1,8 +1,14 @@
 <?php $this->htmlElement('body')->appendAttribute('class', 'page'); ?>
-<?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-<?php echo $this->pageTitle($site->title()); ?>
-<?php echo $this->pageTitle($page->title(), 2); ?>
-<?php echo $this->sitePagePagination(); ?>
-<?php foreach ($page->blocks() as $block): ?>
-<?php echo $this->blockLayout()->render($block);?>
-<?php endforeach; ?>
+
+<header>
+    <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
+    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
+</header>
+
+<div id="content" role="main">
+    <?php echo $this->pageTitle($page->title(), 2); ?>
+    <?php echo $this->sitePagePagination(); ?>
+    <?php foreach ($page->blocks() as $block): ?>
+    <?php echo $this->blockLayout()->render($block);?>
+    <?php endforeach; ?>
+</div>

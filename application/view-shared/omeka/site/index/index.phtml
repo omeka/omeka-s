@@ -1,4 +1,8 @@
-<?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-<?php echo $this->pageTitle($site->title()); ?>
+<header>
+    <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
+    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
+</header>
 
-This site has no pages.
+<div id="content" role="main">
+    <p>This site has no pages.</p>
+</div>

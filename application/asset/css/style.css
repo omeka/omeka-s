@@ -3348,6 +3348,11 @@ th {
     display: inline-block;
     margin: 0 0 0.75em 0;
   }
+  body.minimal fieldset legend {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0.6em;
+  }
   body.minimal .logo {
     position: static;
     width: auto;

@@ -11,11 +11,6 @@ class Status implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
-     * Table against which to check for an Omeka installation
-     */
-    const CHECK_TABLE = 'user';
-
-    /**
      * @var bool
      */
     protected $isInstalled;
@@ -28,25 +23,25 @@ class Status implements ServiceLocatorAwareInterface
     /**
      * Check whether Omeka is currently installed.
      *
-     * The heuristic for determining an installed state is the existence of a
-     * critical table in the database.
-     *
-     * If Omeka is found to be installed, we assume it will continue to be
-     * installed for the duration of the process. Otherwise, we assume that
-     * Omeka continues to be uninstalled and check against the database each
-     * time this method is called.
-     *
      * @return bool
      */
     public function isInstalled()
     {
-        if (true === $this->isInstalled) {
-            return true;
-        }
-        $tables = $this->getServiceLocator()->get('Omeka\Connection')
-            ->getSchemaManager()->listTableNames();
-        $this->isInstalled = in_array(self::CHECK_TABLE, $tables);
-        return $this->isInstalled;
+        return (bool) $this->isInstalled;
+    }
+
+    /**
+     * Set whether Omeka is currently installed.
+     *
+     * Since it's invoked so early in the application's initialization, the
+     * module manager is responsible for determining an installed state. The
+     * heuristic is the existence of the module table.
+     *
+     * @param bool $isInstalled
+     */
+    public function setIsInstalled($isInstalled)
+    {
+        $this->isInstalled = (bool) $isInstalled;
     }
 
     /**

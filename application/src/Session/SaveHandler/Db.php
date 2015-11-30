@@ -76,17 +76,10 @@ class Db implements SaveHandlerInterface
      */
     public function write($id, $data)
     {
-        $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
-        if ($session) {
-            return (bool) $this->conn->update('session', [
-                'data' => $data,
-                'modified' => time(),
-            ], ['id' => $id]);
-        }
-        return (bool) $this->conn->insert('session', [
-            'id' => $id,
-            'data' => $data,
-            'modified' => time(),
+        $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
+             . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
+        return (bool) $this->conn->executeUpdate($sql, [
+            'id' => $id, 'modified' => time(), 'data' => $data,
         ]);
     }
 

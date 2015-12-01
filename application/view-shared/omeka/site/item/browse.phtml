@@ -1,32 +1,36 @@
 <?php $escape = $this->plugin('escapeHtml');?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'item browse'); ?>
-<?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-<?php echo $this->pageTitle($site->title()); ?>
+<header>
+    <?php echo $this->pageTitle($site->title()); ?>
+    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
+</header>
 
-<?php if (isset($itemSet)): ?>
-    <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
-    <?php echo $itemSet->displayValues(); ?>
-    <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
-<?php else: ?>
-    <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
-<?php endif; ?>
+<div id="content" role="main">
+    <?php if (isset($itemSet)): ?>
+        <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
+        <?php echo $itemSet->displayValues(); ?>
+        <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
+    <?php else: ?>
+        <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
+    <?php endif; ?>
 
-<?php echo $this->searchFilters(); ?>
-<?php echo $this->pagination(); ?>
-<ul class="resource-list">
-    <?php foreach ($items as $item): ?>
-    <li class="item resource">
-        <?php if ($primaryMedia = $item->primaryMedia()): ?>
-        <img
-            src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>"
-            title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
-            alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
-        >
-        <?php endif; ?>
-        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
-        <div class="description"><?php echo $item->displayDescription(); ?></div>
-    </li>
-    <?php endforeach; ?>
-</ul>
-<?php echo $this->pagination(); ?>
-<?php $this->trigger('view.browse.after'); ?>
+    <?php echo $this->searchFilters(); ?>
+    <?php echo $this->pagination(); ?>
+    <ul class="resource-list">
+        <?php foreach ($items as $item): ?>
+        <li class="item resource">
+            <?php if ($primaryMedia = $item->primaryMedia()): ?>
+            <img
+                src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>"
+                title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
+                alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
+            >
+            <?php endif; ?>
+            <h4><?php echo $item->link($item->displayTitle()); ?></h4>
+            <div class="description"><?php echo $item->displayDescription(); ?></div>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->pagination(); ?>
+    <?php $this->trigger('view.browse.after'); ?>
+</div>

@@ -144,3 +144,34 @@ ul.resource-list .resource img ~ * {
 }
 
 /* @end */
+
+/* @group ----- Item Set ----- */
+
+body.item-set .metadata {
+    @include span(3 of 12 alpha);
+    border-left: 5px solid $light;
+    padding-left: gutter();
+    clear: left;
+}
+
+body.item-set .metadata h4:first-of-type {
+    margin-top: 0;
+}
+
+body.item-set .metadata ~ * {
+    @include span(9 of 12 omega);
+    border-left: 1px solid $light;
+    padding-left: gutter();
+}
+
+body.item-set .metadata ~ h3,
+body.item-set .metadata ~ .resource-list {
+    margin: 0;
+    padding-bottom: rhythm(1, 1.25 * $base-font-size);
+}
+
+body.item-set .metadata ~ nav.pagination:first-of-type {
+    margin-bottom: 0;
+}
+
+/* @end */

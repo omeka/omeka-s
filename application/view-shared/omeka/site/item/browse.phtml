@@ -1,5 +1,8 @@
 <?php $escape = $this->plugin('escapeHtml');?>
-<?php $this->htmlElement('body')->appendAttribute('class', 'item browse'); ?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'item resource browse'); ?>
+<?php if (isset($itemSet)): ?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'item-set'); ?>
+<?php endif; ?>
 <header>
     <?php echo $this->pageTitle($site->title()); ?>
     <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
@@ -8,7 +11,10 @@
 <div id="content" role="main">
     <?php if (isset($itemSet)): ?>
         <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
-        <?php echo $itemSet->displayValues(); ?>
+        <h3><?php echo $this->translate('Item Set'); ?></h3>
+        <div class="metadata">
+            <?php echo $itemSet->displayValues(); ?>
+        </div>
         <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
     <?php else: ?>
         <?php echo $this->pageTitle($this->translate('Items'), 2); ?>

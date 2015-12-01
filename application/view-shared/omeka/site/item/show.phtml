@@ -1,4 +1,5 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'item resource show'); ?>
 
 <header>
     <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
@@ -7,6 +8,7 @@
 
 <div id="content" role="navigation">
     <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
+    <h3><?php echo $this->translate('Item'); ?></h3>
     <?php echo $item->displayValues(); ?>
     <div class="property">
         <h4><?php echo $this->translate('Item Sets'); ?></h4>

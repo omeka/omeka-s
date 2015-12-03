@@ -148,7 +148,7 @@ ul.resource-list .resource img ~ * {
 /* @group ----- Item Set ----- */
 
 body.item-set .metadata {
-    @include span(3 of 12 alpha);
+    @include span(4 of 12 alpha);
     border-left: 5px solid $light;
     padding-left: gutter();
     clear: left;
@@ -159,7 +159,7 @@ body.item-set .metadata h4:first-of-type {
 }
 
 body.item-set .metadata ~ * {
-    @include span(9 of 12 omega);
+    @include span(8 of 12 omega);
     border-left: 1px solid $light;
     padding-left: gutter();
 }

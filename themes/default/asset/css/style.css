@@ -621,7 +621,7 @@
   /* @end */
   /* @group ----- Item Set ----- */
   body.item-set .metadata {
-    width: 23.72881%;
+    width: 32.20339%;
     float: left;
     margin-right: 1.69492%;
     border-left: 5px solid #dedede;
@@ -634,7 +634,7 @@
   }
 
   body.item-set .metadata ~ * {
-    width: 74.57627%;
+    width: 66.10169%;
     float: right;
     margin-right: 0;
     border-left: 1px solid #dedede;

@@ -81,7 +81,7 @@ body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    padding: 0 gutter();
+    padding-left: gutter();
 }
 
     /* @group ----- Tables ----- */
@@ -523,13 +523,13 @@ header {
 
 div[role="main"] > h1:first-of-type {
     background-color: #fff;
-    width: span(13 of 16) - gutter(10);
     font-size: 1.5 * $base-font-size;
     position: fixed;
     padding: 0 30% 0 gutter();
     z-index: 3;
     top: rhythm(1.5, 1.5 * $base-font-size);
     height: rhythm(2, 1.5 * $base-font-size);
+    left: span(3 of 16) + gutter() * 2;
     right: 0;
     margin-bottom: 0;
     border-color: #e7e7e7;
@@ -575,7 +575,7 @@ footer {
         position: absolute;
         top: 0;
         left: calc(#{span(3 of 16)} + #{gutter()});
-        right: -(gutter());
+        right: 0;
         bottom: 0;
         background: #fff;
     }
@@ -791,7 +791,7 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    width: span(13 of 16);
+    width: span(13 of 16) - gutter();
     margin-left: gutter() + span(3);
     padding: rhythm(4) gutter() rhythm();
     background-color: #fff;
@@ -2314,7 +2314,7 @@ input[type="text"].value-language,
 }
 
 body.sidebar-open #content {
-    width: span(9 of 16);
+    width: span(9 of 16) - gutter() / 2;
 }
 
 .sidebar .meta-group {

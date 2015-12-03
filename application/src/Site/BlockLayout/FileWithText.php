@@ -80,10 +80,8 @@ class FileWithText extends AbstractBlockLayout
         SitePageBlockRepresentation $block = null
     ) {
         $alignments = array('left', 'right');
-        if ($block) {
-            $alignment = $this->getData($block->data(), 'alignment');
-        }
-
+        $data = $block ? $block->data() : [];
+        $alignment = $this->getData($data, 'alignment', 'left');
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
         return '<label class="thumbnail-option">Thumbnail Alignment ' . $view->formSelect($select) . '</label>';

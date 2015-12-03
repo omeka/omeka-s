@@ -479,7 +479,7 @@ th {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     line-height: 24px;
-    padding: 0 1.04167%;
+    padding-left: 1.04167%;
   }
 
   /* @group ----- Tables ----- */
@@ -923,13 +923,13 @@ th {
 
   div[role="main"] > h1:first-of-type {
     background-color: #fff;
-    width: 79.58333%;
     font-size: 24px;
     position: fixed;
     padding: 0 30% 0 1.04167%;
     z-index: 3;
     top: 1.5em;
     height: 2em;
+    left: 20.83333%;
     right: 0;
     margin-bottom: 0;
     border-color: #e7e7e7;
@@ -981,7 +981,7 @@ th {
     position: absolute;
     top: 0;
     left: calc(18.75% + 1.04167%);
-    right: -1.04167%;
+    right: 0;
     bottom: 0;
     background: #fff;
   }
@@ -1193,7 +1193,7 @@ th {
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
-    width: 81.25%;
+    width: 80.20833%;
     margin-left: 19.79167%;
     padding: 6em 1.04167% 1.5em;
     background-color: #fff;
@@ -2680,7 +2680,7 @@ th {
   }
 
   body.sidebar-open #content {
-    width: 56.25%;
+    width: 55.72917%;
   }
 
   .sidebar .meta-group {

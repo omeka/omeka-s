@@ -69,7 +69,7 @@ class ValueRepresentation extends AbstractRepresentation
             case Value::TYPE_LITERAL:
             default:
                 $escape = $this->getViewHelper('escapeHtml');
-                $html = $escape($this->value());
+                $html = nl2br($escape($this->value()));
         }
         $args['html'] = $html;
         $eventManager = $this->getEventManager();

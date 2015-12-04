@@ -27,28 +27,29 @@ class ItemList extends AbstractBlockLayout
             return '';
         }
 
-        $html = '';
+        $html = '<div class="item-list">';
         foreach ($attachments as $attachment) {
-            $html .= '<div>';
+            $html .= '<div class="item resource">';
             $item = $attachment->item();
             if ($item) {
-                $html .= '<h2>' . $item->link($item->displayTitle()) . '</h2>';
                 $media = $attachment->media();
                 if (!$media) {
                     $media = $item->primaryMedia();
                 }
                 if ($media) {
                     $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
-                    $html .= '<h3>' . $media->link($media->displayTitle()) . '</h3>';
-                    $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl($thumbnailType)) . '">';
+                    $html .= '<a href="' . $item->url() . '">';
+                    $html .= '<img src="' . $view->escapeHtml($media->thumbnailUrl($thumbnailType)) . '"></a>';
                 }
+                $html .= '<h3>' . $item->link($item->displayTitle()) . '</h3>';
             }
             $caption = $attachment->caption();
             if ($caption) {
-                $html .= '<p>' . $caption . '</p>';
+                $html .= '<div class="caption">' . $caption . '</div>';
             }
             $html .= '</div>';
         }
+        $html .= "</div>";
         return $html;
     }
 }

@@ -14,6 +14,7 @@ body {
     font-size: $base-font-size;
     line-height: $base-line-height;
     margin: 0;
+    word-break: break-word;
 }
 
 a:link {
@@ -295,29 +296,77 @@ header {
 
 /* @end */
 
-/* @group ----- Page ----- */
+/* @group ----- Page and Blocks ----- */
 
 #content {
     @include container;
-    padding: 0 gutter();
+    padding: 0 gutter() rhythm();
 }
 
-.page .resource.item {
-    width: 50%;
-    margin: rhythm() auto;
-    text-align: center;
+.item-list {
+    margin: rhythm() 0;
     border-color: $light;
-    @include horizontal-borders(1px, 1, $base-font-size, solid);
+    @include leading-border(1px, 1, $base-font-size, solid);
+    @include trailing-border(1px, 0, $base-font-size, solid);
+    overflow: hidden;
+    text-align: center;
+}
+
+.item.resource .caption {
+    font-size: .75 * $base-font-size;
+    line-height: $base-line-height;
+
+    * {
+        margin: rhythm(.5, .75 * $base-font-size) 0;
+    }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.item-list .resource.item {
+    display: inline-block;
+    vertical-align: top;
+
+    &:not(:last-child) {
+        margin-bottom: rhythm();
+    }
 
     img {
-        display: block;
-        margin: rhythm(.5) auto;
+        margin-right: rhythm(.5);
     }
 
-    .caption {
+    &:not(:only-child) {
+        width: 25%;
+        clear: none;
+        padding: 0 gutter();
+    }
+
+    &:not(:only-child) h3 {
+        clear: left;
         font-size: .75 * $base-font-size;
         line-height: $base-line-height;
+        margin: rhythm(.5, .75 * $base-font-size) 0 0;
     }
+
+    &:not(:only-child) img {
+        max-height: rhythm(7);
+        width: auto;
+        float: none;
+        margin-right: 0;
+        vertical-align: top;
+    }
+}
+
+.left .item.resource {
+    float: left;
+    margin-right: rhythm();
+}
+
+.right .item.resource {
+    float: right;
+    margin-left: rhythm();
 }
 
 /* @end */

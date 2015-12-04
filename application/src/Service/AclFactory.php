@@ -152,6 +152,9 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\SiteAdmin\Index',
                 'Omeka\Controller\SiteAdmin\Page',
                 'Omeka\Controller\Site\Index',
+                'Omeka\Controller\Site\Item',
+                'Omeka\Controller\Site\ItemSet',
+                'Omeka\Controller\Site\Media',
                 'Omeka\Controller\Site\Page',
             ]
         );

@@ -414,7 +414,7 @@ ul.resource-list .resource .description {
     &:after {
         content: "";
         position: absolute;
-        bottom: 0;
+        top: rhythm(1.75);
         left: 0;
         right: 0;
         height: rhythm(1.25);

@@ -423,7 +423,7 @@
   ul.resource-list .resource .description:after {
     content: "";
     position: absolute;
-    bottom: 0;
+    top: 2.625em;
     left: 0;
     right: 0;
     height: 1.875em;

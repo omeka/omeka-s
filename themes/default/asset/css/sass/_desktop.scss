@@ -1,8 +1,16 @@
+#content {
+    padding: 0 (2 * gutter());
+}
+
 /* @group ----- Header ----- */
 
 header {
     position: relative;
     padding: rhythm(.5) 0 0 0;
+}
+
+header > * {
+    padding: 0 (2 * gutter());
 }
 
 /* @end */
@@ -77,7 +85,7 @@ header nav ul.navigation {
 
     & > li:hover > ul {
         @include container;
-        padding: rhythm(.5) gutter();
+        padding: rhythm(.5) (2 * gutter());
         left: 0;
         right: 0;
         border-bottom: 0;
@@ -133,14 +141,14 @@ header nav > ul > li > ul > li > ul > li a {
 /* @group ----- Resource List ----- */
 
 ul.resource-list .resource img {
-    height: rhythm(5);
+    height: rhythm(4);
     width: auto;
     float: right;
     margin-left: rhythm(.5);
 }
 
 ul.resource-list .resource img ~ * {
-    width: calc(100% - #{rhythm(5.5)});
+    width: calc(100% - #{rhythm(4.5)});
 }
 
 /* @end */

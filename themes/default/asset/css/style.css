@@ -452,6 +452,11 @@
     margin: 0;
   }
 
+  .preview-block {
+    margin: 1.5em 0;
+    overflow: hidden;
+  }
+
   /* @end */
   /* @group ----- Resource List ----- */
   ul.resource-list {
@@ -739,6 +744,18 @@
 
   ul.resource-list .resource img ~ * {
     width: calc(100% - 8.25em);
+  }
+
+  /* @end */
+  /* @group ----- Page and blocks ----- */
+  .preview-block {
+    clear: both;
+  }
+
+  ul.preview.resource-list li:first-of-type {
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: 1.45em;
   }
 
   /* @end */

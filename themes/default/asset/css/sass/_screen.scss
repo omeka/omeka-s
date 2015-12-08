@@ -433,6 +433,11 @@ header {
     margin: 0;
 }
 
+.preview-block {
+    margin: rhythm() 0;
+    overflow: hidden;
+}
+
 /* @end */
 
 /* @group ----- Resource List ----- */

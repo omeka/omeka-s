@@ -161,3 +161,15 @@ ul.resource-list .resource img ~ * {
 }
 
 /* @end */
+
+/* @group ----- Page and blocks ----- */
+
+.preview-block {
+    clear: both;
+}
+
+ul.preview.resource-list li:first-of-type {
+    @include leading-border(1px, 1, $base-font-size, solid);
+}
+
+/* @end */

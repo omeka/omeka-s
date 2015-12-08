@@ -86,7 +86,7 @@ class BrowsePreview extends AbstractBlockLayout
             $linkText = $view->translate('Browse all');
         }
         $preview .= $view->hyperlink($linkText, $view->url(
-            'site/resource', ['controller' => 'item'], ['query' => $query], true
+            'site/resource', ['controller' => 'item', 'action' => 'browse'], ['query' => $query], true
         ));
         $preview .= '</div>';
 

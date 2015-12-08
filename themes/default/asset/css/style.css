@@ -362,7 +362,7 @@
     line-height: 30px;
   }
   .item.resource .caption * {
-    margin: 1em 0;
+    margin: 0 0 2em 0;
   }
   .item.resource .caption > *:last-child {
     margin-bottom: 0;
@@ -397,14 +397,59 @@
     vertical-align: top;
   }
 
+  .left .item.resource,
+  .right .item.resource {
+    max-width: 50%;
+    border-color: #dedede;
+    margin: 0 0 1.5em 0;
+    width: -moz-min-content;
+    width: -webkit-min-content;
+    width: min-content;
+  }
+  .left .item.resource:first-of-type,
+  .right .item.resource:first-of-type {
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: 1.45em;
+    margin-top: 0;
+  }
+  .left .item.resource:last-of-type,
+  .right .item.resource:last-of-type {
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: 1.45em;
+  }
+  .left .item.resource img,
+  .right .item.resource img {
+    max-width: none;
+  }
+
   .left .item.resource {
     float: left;
     margin-right: 1.5em;
+    clear: left;
   }
 
   .right .item.resource {
     float: right;
     margin-left: 1.5em;
+    clear: right;
+  }
+
+  .left .item.resource > a:first-child,
+  .right .item.resource > a:first-child {
+    vertical-align: top;
+  }
+
+  .medium .item.resource > h3,
+  .square .item.resource > h3 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .left .item.resource > h3,
+  .right .item.resource > h3 {
+    margin: 0;
   }
 
   /* @end */

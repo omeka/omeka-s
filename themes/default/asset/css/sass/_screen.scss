@@ -340,7 +340,7 @@ header {
     line-height: $base-line-height;
 
     * {
-        margin: rhythm(.5, .75 * $base-font-size) 0;
+        margin: 0 0 rhythm(1, .75 * $base-font-size) 0;
     }
 
     & > *:last-child {
@@ -382,14 +382,55 @@ header {
     }
 }
 
+.left .item.resource,
+.right .item.resource {
+    max-width: 50%;
+    border-color: $light;
+    margin: 0 0 rhythm() 0;
+    width: -moz-min-content;
+    width: -webkit-min-content;
+    width: min-content;
+
+    &:first-of-type {
+        @include leading-border(1px, 1, $base-font-size, solid);
+        margin-top: 0;
+    }
+
+    &:last-of-type {
+        @include trailing-border(1px, 1, $base-font-size, solid);
+    }
+
+    img {
+        max-width: none;
+    }
+}
+
 .left .item.resource {
     float: left;
     margin-right: rhythm();
+    clear: left;
 }
 
 .right .item.resource {
     float: right;
     margin-left: rhythm();
+    clear: right;
+}
+
+.left .item.resource > a:first-child,
+.right .item.resource > a:first-child {
+    vertical-align: top;
+}
+
+.medium .item.resource > h3,
+.square .item.resource > h3 {
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+}
+
+.left .item.resource > h3,
+.right .item.resource > h3 {
+    margin: 0;
 }
 
 /* @end */

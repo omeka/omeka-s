@@ -42,6 +42,19 @@ class File implements ServiceLocatorAwareInterface
     protected $extension;
 
     /**
+     * Set the path to the temporary file.
+     *
+     * Typically needed only when the temporary file already exists on the
+     * server. Otherwise, use self::getTempPath() to seed a new temporary file.
+     *
+     * @param string $tempPath
+     */
+    public function setTempPath($tempPath)
+    {
+        $this->tempPath = $tempPath;
+    }
+
+    /**
      * Get the path to the temporary file.
      *
      * @param null|string $tempDir

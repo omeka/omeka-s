@@ -87,4 +87,12 @@ class Event extends ZendEvent
 
     // Site settings event
     const SITE_SETTINGS_FORM = 'site_settings.form';
+
+    /**
+     * Event triggered by service managers.
+     *
+     * All classes that extend {@link Omeka\ServiceManager\AbstractPluginManager}
+     * trigger this event.
+     */
+    const SERVICE_REGISTERED_NAMES = 'service.registered_names';
 }

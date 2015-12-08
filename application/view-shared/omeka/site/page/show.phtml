@@ -7,8 +7,8 @@
 
 <div id="content" role="main">
     <?php echo $this->pageTitle($page->title(), 2); ?>
-    <?php echo $this->sitePagePagination(); ?>
     <?php foreach ($page->blocks() as $block): ?>
     <?php echo $this->blockLayout()->render($block);?>
     <?php endforeach; ?>
+    <?php echo $this->sitePagePagination(); ?>
 </div>

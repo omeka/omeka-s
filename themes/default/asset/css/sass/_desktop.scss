@@ -128,6 +128,23 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: 0;
 }
 
+.navigation-block ul {
+    border-color: $light;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+}
+
+.navigation-block li {
+    display: inline-block;
+    border: 0;
+    padding: 0;
+    margin-right: rhythm(.5, .75 * $base-font-size);
+
+    &:first-of-type {
+        border: 0;
+        padding: 0;
+    }
+}
+
 /* @end */
 
 /* @group ----- Resource List ----- */

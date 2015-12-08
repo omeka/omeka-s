@@ -207,6 +207,24 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: rhythm(2);
 }
 
+.navigation-block ul {
+    padding-left: 0;
+    list-style-type: none;
+    margin-top: rhythm(-.5);
+}
+
+.navigation-block li {
+    border-color: $light;
+    font-size: .75 * $base-font-size;
+    font-weight: bold;
+    @include trailing-border(1px, .25, .75 * $base-font-size, solid);
+    padding-top: rhythm(.25, .75 * $base-font-size);
+
+    &:first-of-type {
+        @include leading-border(1px, .25, .75 * $base-font-size, solid);
+    }
+}
+
 nav.pagination {
     margin-bottom: rhythm();
     font-size: $base-font-size;

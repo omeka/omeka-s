@@ -38,7 +38,8 @@ header nav ul a:hover {
 }
 
 header nav ul li,
-header nav > ul li:last-child {
+header nav > ul li:last-child,
+header nav > ul ul:hover > li {
     border: 0;
 }
 

@@ -387,6 +387,8 @@ header {
     max-width: 50%;
     border-color: $light;
     margin: 0 0 rhythm() 0;
+    display: -ms-grid;
+    -ms-grid-columns: min-content;
     width: -moz-min-content;
     width: -webkit-min-content;
     width: min-content;
@@ -402,6 +404,18 @@ header {
 
     img {
         max-width: none;
+    }
+
+    & > * {
+        display: -ms-grid;
+
+        &:nth-child(2) {
+            -ms-grid-row: 2;
+        }
+
+        &:nth-child(3) {
+            -ms-grid-row: 3;
+        }
     }
 }
 

@@ -242,13 +242,6 @@
     text-align: center;
   }
 
-  .pagination {
-    border-color: #dedede;
-    border-bottom-width: 0.05em;
-    border-bottom-style: solid;
-    padding-bottom: 1.45em;
-  }
-
   .resource-list + .pagination {
     border-color: transparent;
   }
@@ -309,7 +302,7 @@
     padding-bottom: 0.7em;
   }
   header > * {
-    max-width: 1120px;
+    max-width: 1700px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 1.69492%;
@@ -333,7 +326,7 @@
   /* @end */
   /* @group ----- Page and Blocks ----- */
   #content {
-    max-width: 1120px;
+    max-width: 1700px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 1.69492% 1.5em;
@@ -490,6 +483,11 @@
   ul.resource-list .resource > *:last-child {
     margin-bottom: 0;
   }
+  ul.resource-list .resource:first-child {
+    border-top-width: 0.05em;
+    border-top-style: solid;
+    padding-top: 1.45em;
+  }
 
   ul.resource-list .resource img {
     height: 3em;
@@ -546,6 +544,12 @@
 
   /* @end */
   /* @group ----- Show ----- */
+  body.resource #content > h2:first-of-type + h3 {
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: -2em 0 2em;
+  }
+
   .property {
     margin-bottom: 1.5em;
   }
@@ -576,7 +580,7 @@
     margin-bottom: 0.375em;
   }
 
-  .media.resource {
+  #content .media.resource {
     display: inline-block;
     text-align: center;
     width: -moz-min-content;
@@ -586,7 +590,7 @@
     word-break: break-word;
   }
 
-  .media.resource img {
+  #content .media.resource img {
     max-width: none;
   }
 
@@ -599,10 +603,18 @@
   /* @end */
 }
 @media screen and (min-width: 800px) {
+  #content {
+    padding: 0 3.38983%;
+  }
+
   /* @group ----- Header ----- */
   header {
     position: relative;
     padding: 0.75em 0 0 0;
+  }
+
+  header > * {
+    padding: 0 3.38983%;
   }
 
   /* @end */
@@ -675,10 +687,10 @@
     z-index: 1;
   }
   header nav ul.navigation > li:hover > ul {
-    max-width: 1120px;
+    max-width: 1700px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0.75em 1.69492%;
+    padding: 0.75em 3.38983%;
     left: 0;
     right: 0;
     border-bottom: 0;
@@ -751,14 +763,47 @@
   /* @end */
   /* @group ----- Resource List ----- */
   ul.resource-list .resource img {
-    height: 7.5em;
+    height: 6em;
     width: auto;
     float: right;
     margin-left: 0.75em;
   }
 
   ul.resource-list .resource img ~ * {
-    width: calc(100% - 8.25em);
+    width: calc(100% - 6.75em);
+  }
+
+  /* @end */
+  /* @group ----- Item Set ----- */
+  body.item-set .metadata {
+    width: 32.20339%;
+    float: left;
+    margin-right: 1.69492%;
+    border-left: 5px solid #dedede;
+    padding-left: 1.69492%;
+    clear: left;
+  }
+
+  body.item-set .metadata h4:first-of-type {
+    margin-top: 0;
+  }
+
+  body.item-set .metadata ~ * {
+    width: 66.10169%;
+    float: right;
+    margin-right: 0;
+    border-left: 1px solid #dedede;
+    padding-left: 1.69492%;
+  }
+
+  body.item-set .metadata ~ h3,
+  body.item-set .metadata ~ .resource-list {
+    margin: 0;
+    padding-bottom: 1.2em;
+  }
+
+  body.item-set .metadata ~ nav.pagination:first-of-type {
+    margin-bottom: 0;
   }
 
   /* @end */

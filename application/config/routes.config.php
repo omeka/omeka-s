@@ -56,6 +56,16 @@ return [
                             ],
                         ],
                     ],
+                    'item-set' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/item-set/:item-set-id',
+                            'defaults' => [
+                                'controller' => 'Item',
+                                'action'     => 'browse',
+                            ],
+                        ],
+                    ],
                     'page' => [
                         'type' => 'Segment',
                         'options' => [

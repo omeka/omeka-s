@@ -1,3 +1,5 @@
+<?php $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
+
 <header>
     <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
     <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
@@ -5,6 +7,7 @@
 
 <div id="content" role="main">
     <?php echo $this->pageTitle($media->displayTitle(), 2); ?>
+    <h3><?php echo $this->translate('Media'); ?></h3>
     <?php echo $media->render(); ?>
     <?php echo $media->displayValues(); ?>
 </div>

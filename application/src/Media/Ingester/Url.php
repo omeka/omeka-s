@@ -59,7 +59,9 @@ class Url extends AbstractIngester
 
         $file = $this->getServiceLocator()->get('Omeka\File');
         $file->setSourceName($uri->getPath());
-        $this->downloadFile($uri, $file->getTempPath());
+        if (!$this->downloadFile($uri, $file->getTempPath(), $errorStore)) {
+            return;
+        }
 
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $hasThumbnails = $fileManager->storeThumbnails($file);

@@ -12,12 +12,15 @@ abstract class AbstractIngester implements IngesterInterface
     /**
      * Download a file.
      *
+     * Pass the $errorStore object if an error should raise an API validation
+     * error. Returns true on success, false on error.
+     *
      * @param HttpUri|string $uri
      * @param string $tempPath
-     * @param ErrorStore $errorStore
-     * @return bool True on success, false on error
+     * @param ErrorStore|null $errorStore
+     * @return bool
      */
-    public function downloadFile($uri, $tempPath, ErrorStore $errorStore)
+    public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
     {
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $client->setUri($uri)->setStream($tempPath);
@@ -30,19 +33,25 @@ abstract class AbstractIngester implements IngesterInterface
                 break;
             } catch (\Exception $e) {
                 if (++$attempt === 3) {
+                    if ($errorStore) {
+                        $errorStore->addError('error', $e->getMessage());
+                    }
                     $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
-                    $errorStore->addError('error', $e->getMessage());
                     return false;
                 }
             }
         }
 
         if (!$response->isOk()) {
-            $errorStore->addError('error', sprintf(
-                'Error ingesting from URI: %s (%s)',
+            $message = sprintf(
+                'Error downloading from URI: %s (%s)',
                 $response->getReasonPhrase(),
                 $response->getStatusCode()
-            ));
+            );
+            if ($errorStore) {
+                $errorStore->addError('error', $message);
+            }
+            $this->getServiceLocator()->get('Omeka\Logger')->err($message);
             return false;
         }
 

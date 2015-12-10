@@ -55,22 +55,21 @@ class Youtube extends AbstractIngester
                 return;
         }
 
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $file = $this->getServiceLocator()->get('Omeka\File');
-
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
-        $this->downloadFile($url, $file->getTempPath());
-        $hasThumbnails = $fileManager->storeThumbnails($file);
+        if ($this->downloadFile($url, $file->getTempPath())) {
+            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            if ($fileManager->storeThumbnails($file)) {
+                $media->setFilename($file->getStorageName());
+                $media->setHasThumbnails(true);
+            }
+        }
 
         $media->setData([
             'id' => $youtubeId,
             'start' => $request->getValue('start'),
             'end' => $request->getValue('end'),
         ]);
-        if ($hasThumbnails) {
-            $media->setFilename($file->getStorageName());
-            $media->setHasThumbnails(true);
-        }
     }
 
     /**

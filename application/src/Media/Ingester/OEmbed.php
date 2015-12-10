@@ -76,16 +76,13 @@ class OEmbed extends AbstractIngester
         }
 
         if (isset($mediaData['thumbnail_url'])) {
-
-            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
             $file = $this->getServiceLocator()->get('Omeka\File');
-
-            $this->downloadFile($mediaData['thumbnail_url'], $file->getTempPath());
-            $hasThumbnails = $fileManager->storeThumbnails($file);
-
-            if ($hasThumbnails) {
-                $media->setFilename($file->getStorageName());
-                $media->setHasThumbnails(true);
+            if ($this->downloadFile($mediaData['thumbnail_url'], $file->getTempPath())) {
+                $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+                if ($fileManager->storeThumbnails($file)) {
+                    $media->setFilename($file->getStorageName());
+                    $media->setHasThumbnails(true);
+                }
             }
         }
 

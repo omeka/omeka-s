@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Media\Ingester;
 
-use Omeka\Api\Exception;
 use Omeka\Stdlib\ErrorStore;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Uri\Http as HttpUri;
@@ -23,7 +22,7 @@ abstract class AbstractIngester implements IngesterInterface
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $client->setUri($uri)->setStream($tempPath);
 
-        // Attempt three requests before throwing a Zend HTTP exception.
+        // Attempt three requests before handling an exception.
         $attempt = 0;
         while (true) {
             try {
@@ -31,6 +30,7 @@ abstract class AbstractIngester implements IngesterInterface
                 break;
             } catch (\Exception $e) {
                 if (++$attempt === 3) {
+                    $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
                     $errorStore->addError('error', $e->getMessage());
                     return false;
                 }

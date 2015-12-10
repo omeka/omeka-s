@@ -39,12 +39,13 @@ $escape = $this->plugin('escapeHtml');
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
     <h2><?php echo $this->translate('Attachment'); ?></h2>
-    <button id="attachment-item-select" data-sidebar-content-url="<?php echo $escape($this->url(
-        'admin/default',
-        ['controller' => 'item', 'action' => 'sidebar-select'],
-        ['query' => array_merge($site->itemPool(), ['show_details' => false])]
-    )); ?>"><?php echo $this->translate('Select item'); ?></button>
-    <div id="attachment-item"></div>
+    <div id="attachment-item">
+        <button id="attachment-item-select" data-sidebar-content-url="<?php echo $escape($this->url(
+            'admin/default',
+            ['controller' => 'item', 'action' => 'sidebar-select'],
+            ['query' => array_merge($site->itemPool(), ['show_details' => false])]
+        )); ?>"><?php echo $this->translate('Change item'); ?></button>
+    </div>
     <div id="attachment-caption" class="option">
         <h3><?php echo $this->translate('Caption'); ?></h3>
         <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"></a>

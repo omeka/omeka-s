@@ -164,7 +164,7 @@
         });
 
         // Enable item selection for attachments.
-        $('#attachment-item-select').on('click', function(e) {
+        $('#blocks').on('click', '#attachment-item-select', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this), '#select-resource');
         });

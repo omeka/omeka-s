@@ -251,5 +251,22 @@ var Omeka = {
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
     });
+    
+    $(window).load(function() {
+        var orginalFormData = $('form[method=POST]').serialize();
+
+        $('form[method=POST]').submit(function(event) {
+            $('form[method=POST]').data('submitted', 'true');
+        });
+
+        $(window).on('beforeunload', function() {
+            if (!$('form[method=POST]').data('submitted')) {
+                var checkFormData = $('form[method=POST]').serialize();
+                if (orginalFormData !== checkFormData) {
+                    return 'You have unsaved changes.';
+                }
+            }
+        });
+    });
 
 }(window.jQuery, window, document));

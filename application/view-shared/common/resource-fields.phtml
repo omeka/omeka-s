@@ -1,4 +1,5 @@
-<fieldset id='<?php echo $id; ?>' class='<?php echo $class; ?>'>
+<fieldset id='<?php echo $id; ?>' class='mobile-active <?php echo $class; ?>'>
+    <legend><?php echo $this->translate('Values'); ?></legend>
     <div class="non-properties">
     <?php
     $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
@@ -18,13 +19,15 @@
     </div>
     <div id='properties'>
     </div>
-<?php 
+<?php
     if (isset($propertySelectorText)) {
         echo $this->propertySelector($propertySelectorText);
     } else {
         echo $this->propertySelector();
     }
 ?>
-
+<div class="mobile-only always active">
+    <button><?php echo $this->translate('Add Property'); ?></button>
+</div>
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>

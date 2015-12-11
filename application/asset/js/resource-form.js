@@ -1,6 +1,12 @@
 (function($) {
 
     $(document).ready( function() {
+        //Open property selector on mobile
+        $('#resource-values .mobile-only button').on('click', function(e) {
+            e.preventDefault();
+            $('#property-selector').addClass('mobile');
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -10,6 +16,7 @@
             if (!field.length) {
                 field = makeNewField(property);
             }
+            $('#property-selector').removeClass('mobile');
             Omeka.scrollTo(field);
         });
 

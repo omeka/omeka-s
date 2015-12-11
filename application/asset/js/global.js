@@ -2,7 +2,7 @@ var Omeka = {
     openSidebar : function(context,target) {
         //close delete sidebar if open
         if ($('#delete').hasClass('active')) {
-            $('#delete').removeClass('active');
+            $('#delete').removeClass('mobile active');
         }
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
@@ -13,7 +13,7 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        sidebar.addClass('active');
+        sidebar.addClass('mobile active');
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
         }
@@ -32,8 +32,8 @@ var Omeka = {
     },
 
     closeSidebar : function(context) {
-        context.removeClass('active');
-        context.closest('.active').removeClass('active');
+        context.removeClass('mobile active');
+        context.closest('.active').removeClass('mobile active');
         if ($('.active.sidebar').length < 1) {
             $('body').removeClass('sidebar-open');
         }
@@ -198,6 +198,11 @@ var Omeka = {
         $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
             Omeka.switchActiveSection($($(this).attr('href')));
+        });
+
+        $('.section > legend').click(function() {
+            $('.mobile-active').removeClass('mobile-active');
+            $(this).parent().addClass('mobile-active');
         });
 
         // Automatically switch to sections containing invalid elements on submit

@@ -1,6 +1,12 @@
 (function($) {
 
     $(document).ready( function() {
+        //Open property selector on mobile
+        $('#resource-values .mobile-only button').on('click', function(e) {
+            e.preventDefault();
+            $('#property-selector').addClass('mobile');
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -17,6 +23,7 @@
                 wrapper.append(makeNewValue(qName));
                 Omeka.scrollTo(wrapper);
             }
+            $('#property-selector').removeClass('mobile');
         });
 
         //handle changing the resource template
@@ -39,7 +46,7 @@
                 //in case people have added fields, reverse the template so
                 //I can prepend everything and keep the order, and then drop
                 //back to what people have added
-                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                var propertyTemplates = data['o:resource_template_property'].reverse();
                 propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
             }).error(function() {
                 console.log('fail');
@@ -157,13 +164,13 @@
         } else {
             propertyInput.val(propertyId);
         }
-        
+
         // set up text inputs
         var valueTextarea = newValue.find('textarea');
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
         valueTextarea.attr('name', qName + '[' + count + '][@value]');
-        languageLabel.attr('for', languageElementName); // 
+        languageLabel.attr('for', languageElementName); //
         languageInput.attr('name', languageElementName).attr('id', languageElementName);
 
         //set up uri inputs
@@ -222,7 +229,7 @@
             }
         }
 
-        return newValue; 
+        return newValue;
     };
 
     var makeNewField = function(property) {
@@ -258,7 +265,7 @@
         field.data('property-term', qName);
         field.data('property-id', propertyId);
         //adding the att because selectors need them to find the correct field and count when adding more
-        //should I put a class with the 
+        //should I put a class with the
         field.attr('data-property-term', qName);
         field.attr('data-property-id', propertyId);
         return field;
@@ -289,7 +296,7 @@
             altDescription.addClass('alternate');
             altDescription.text(template['o:alternate_comment']);
             altDescription.insertAfter(originalDescription);
-            originalDescription.hide();            
+            originalDescription.hide();
         }
         propertiesContainer.prepend(field);
     };
@@ -335,7 +342,7 @@
                 'type': 'get'
             }).done(function(data) {
                 //reverse the templates because the need to be prepended
-                var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                var propertyTemplates = data['o:resource_template_property'].reverse();
                 propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
             }).error(function() {
                 console.log('fail');

@@ -1,5 +1,13 @@
+script {
+    display: none !important;
+}
+
 body {
     padding: 0;
+}
+
+.mobile-only {
+    display: block;
 }
 
 /* @group ----- Header ----- */
@@ -107,21 +115,18 @@ td .o-icon-private {
 
 /* @group ----- Global content ----- */
 
-div[role="main"] {
+#content {
     margin: rhythm(1.5) 0 0 0;
     width: 100%;
     min-height: calc(100% - #{rhythm(3)});
     position: relative;
-    padding-top: rhythm(2.5);
+    padding-top: rhythm(2);
 
     & > h1:first-of-type {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        position: static;
+        margin-top: 0;
+        padding: 0;
+        height: auto;
     }
 }
 
@@ -183,14 +188,60 @@ div[role="main"] {
 }
 
 #page-actions {
-    position: static;
-    text-align: left;
-    padding: 0;
+    top: rhythm(1.5);
+    background-color: #fff;
     width: 100%;
     border-color: rgba(0,0,0,.08);
-    @include trailing-border(1px, 0, $base-font-size, solid);
-    height: auto;
-    @include trailer(.5);
+    height: rhythm(2);
+    @include trailing-border(1px, .25, $base-font-size, solid);
+}
+
+/* @end */
+
+/* @group ----- Sidebars ----- */
+
+#sidebar {
+    position: fixed;
+    top: rhythm(1.5);
+    z-index: 100;
+    width: 100%;
+
+    #content.sidebar-open {
+        left: 0;
+    }
+}
+
+body.sidebar-open #content {
+    width: 100%;
+}
+
+.sidebar {
+    width: 100%;
+}
+
+.sidebar.active {
+    left: 100%;
+}
+
+.sidebar.mobile.active {
+    left: 0;
+}
+
+fieldset.section > .always.active {
+    content: "";
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: rhythm(2);
+    background-color: #fff;
+    position: fixed;
+    border-top: 1px solid $gray-on-white;
+    z-index: 2;
+
+    button {
+        width: 100%;
+        margin: rhythm(.25);
+    }
 }
 
 /* @end */
@@ -228,43 +279,32 @@ div[role="main"] {
     @include trailing-border(0px, 0, $base-font-size, solid);
 }
 
-#sidebar {
-    position: fixed;
-    top: rhythm(1.5);
-    z-index: 100;
-    width: 100%;
-
-    #content.sidebar-open & {
-        left: 0;
-    }
-}
-
 /* @end */
 
 /* @group ----- Add/Edit views ----- */
 
-.add fieldset,
-.edit fieldset {
+fieldset.section,
+fieldset.section {
     margin-bottom: 0;
+    position: relative;
+    z-index: 1;
 }
 
-.add legend,
-.edit legend {
+fieldset.section > legend:first-child {
     position: relative;
     left: auto;
-    font-size: 1.5 * $base-font-size;
     background-color: lighten($red, 20%);
     display: block;
     width: 100%;
-    padding: rhythm(.5, 1.5 * $base-font-size) rhythm(.375, 1.5 * $base-font-size);
+    padding: rhythm(.25) rhythm(.375);
     color: #fff;
     cursor: pointer;
     border-color: rgba(0,0,0,.08);
     @include trailing-border(1px, 0, $base-font-size, solid);
+    margin-bottom: rhythm(.5);
 }
 
-.add legend:after,
-.edit legend:after {
+fieldset.section > legend:after {
     content: "\f0da";
     font-family: "FontAwesome";
     position: absolute;
@@ -272,23 +312,28 @@ div[role="main"] {
     top: rhythm(.5, 1.5 * $base-font-size);
 }
 
-.add .active legend:after,
-.edit .active legend:after {
+fieldset.section.mobile-active {
+    z-index: 2;
+}
+
+fieldset.section.mobile-active > legend:after{
     content: "\f0d7";
 }
 
-.add .section,
-.edit .section,
-.add .active.section > *:not(legend),
-.edit .active.section > *:not(legend) {
+fieldset.section > *:not(legend) {
+    display: none;
+}
+
+fieldset.section.mobile-active > *:not(legend) {
     display: block;
 }
 
-.add .section > *:not(legend),
-.edit .section > *:not(legend),
-.add .section .field.template,
-.edit .section .field.template {
-    display: none;
+fieldset.section.mobile-active > table {
+    display: table;
+}
+
+fieldset.section:not(a) {
+    display: block;
 }
 
 .add .active.section > .button,
@@ -334,13 +379,6 @@ div[role="main"] {
     font-weight: bold;
 }
 
-.field-description {
-    height: $base-line-height;
-    float: none;
-    display: inline-block;
-    margin-left: .25em;
-    position: absolute;
-}
 
 .unset .field-meta {
     width: 100%;

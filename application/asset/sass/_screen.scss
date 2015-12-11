@@ -317,6 +317,10 @@ body {
 
 /* @group ----- Reusable classes ----- */
 
+.mobile-only {
+    display: none;
+}
+
 div[role="main"] > .messages {
     @include trailer(.5);
 
@@ -1137,8 +1141,7 @@ td .o-icon-private {
     padding-top: rhythm(4);
 }
 
-.add legend,
-.edit legend {
+fieldset.section > legend {
     position: absolute;
     left: -9999px;
 }

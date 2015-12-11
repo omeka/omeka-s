@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Renderer;
 
-use Zend\Json\Json;
 use Zend\View\Renderer\JsonRenderer;
 
 /**
@@ -29,19 +28,16 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
-        $jsonpCallback = $model->getOption('callback');
-        if (null !== $jsonpCallback) {
-            // Wrap the JSON in a JSONP callback.
-            $this->setJsonpCallback($jsonpCallback);
-        }
-
-        $output = parent::render($payload);
-
+        $options = 0;
         if (null !== $model->getOption('pretty_print')) {
-            // Pretty print the JSON.
-            $output = Json::prettyPrint($output);
+            $options = JSON_PRETTY_PRINT;
         }
-
+        $output = json_encode($payload, $options);
+        $callback = $model->getOption('callback');
+        if (null !== $callback) {
+            // Wrap JSON in JSONP callback.
+            $output = $callback . '(' . $output . ');';
+        }
         return $output;
     }
 }

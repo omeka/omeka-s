@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Renderer;
 
-use Zend\Json\Json;
 use Zend\View\Renderer\JsonRenderer;
 
 /**

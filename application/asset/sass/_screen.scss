@@ -2714,6 +2714,10 @@ body.sidebar-open #content {
         padding: rhythm(.25);
     }
 
+    .block.sortable-ghost .block-content {
+        display: none;
+    }
+
     .block .attachment {
         padding-left: rhythm(1.25);
         border-color: $gray-on-white;

@@ -3078,6 +3078,10 @@ th {
     padding: 0.375em;
   }
 
+  .block.sortable-ghost .block-content {
+    display: none;
+  }
+
   .block .attachment {
     padding-left: 1.875em;
     border-color: rgba(0, 0, 0, 0.08);

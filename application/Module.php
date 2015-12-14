@@ -321,6 +321,7 @@ class Module extends AbstractModule
             'cookie_httponly' => true,
             'use_strict_mode' => true,
             'use_only_cookies' => true,
+            'gc_maxlifetime' => 1209600,
         ];
         $userOptions = isset($config['session']['config']) ? $config['session']['config'] : [];
         $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));

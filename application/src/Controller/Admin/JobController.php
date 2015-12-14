@@ -3,7 +3,6 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Entity\Job;
-use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -38,7 +37,7 @@ class JobController extends AbstractActionController
     public function argsAction()
     {
         $job = $this->api()->read('jobs', $this->params('id'))->getContent();
-        $args = Json::prettyPrint(Json::encode($job->args()), ['indent' => '  ']);
+        $args = json_encode($job->args(), JSON_PRETTY_PRINT);
         $response = $this->getResponse();
         $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
         $response->setContent($args);

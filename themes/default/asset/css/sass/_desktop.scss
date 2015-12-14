@@ -1,8 +1,16 @@
+#content {
+    padding: 0 (2 * gutter());
+}
+
 /* @group ----- Header ----- */
 
 header {
     position: relative;
     padding: rhythm(.5) 0 0 0;
+}
+
+header > * {
+    padding: 0 (2 * gutter());
 }
 
 /* @end */
@@ -78,7 +86,7 @@ header nav ul.navigation {
 
     & > li:hover > ul {
         @include container;
-        padding: rhythm(.5) gutter();
+        padding: rhythm(.5) (2 * gutter());
         left: 0;
         right: 0;
         border-bottom: 0;
@@ -151,14 +159,45 @@ header nav > ul > li > ul > li > ul > li a {
 /* @group ----- Resource List ----- */
 
 ul.resource-list .resource img {
-    height: rhythm(5);
+    height: rhythm(4);
     width: auto;
     float: right;
     margin-left: rhythm(.5);
 }
 
 ul.resource-list .resource img ~ * {
-    width: calc(100% - #{rhythm(5.5)});
+    width: calc(100% - #{rhythm(4.5)});
+}
+
+/* @end */
+
+/* @group ----- Item Set ----- */
+
+body.item-set .metadata {
+    @include span(4 of 12 alpha);
+    border-left: 5px solid $light;
+    padding-left: gutter();
+    clear: left;
+}
+
+body.item-set .metadata h4:first-of-type {
+    margin-top: 0;
+}
+
+body.item-set .metadata ~ * {
+    @include span(8 of 12 omega);
+    border-left: 1px solid $light;
+    padding-left: gutter();
+}
+
+body.item-set .metadata ~ h3,
+body.item-set .metadata ~ .resource-list {
+    margin: 0;
+    padding-bottom: rhythm(1, 1.25 * $base-font-size);
+}
+
+body.item-set .metadata ~ nav.pagination:first-of-type {
+    margin-bottom: 0;
 }
 
 /* @end */

@@ -31,23 +31,27 @@ class BrowsePreview extends AbstractBlockLayout
             $heading->setAttribute('value', $this->getData($block->data(), 'heading'));
             $linkText->setAttribute('value', $this->getData($block->data(), 'link-text'));
         }
+
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Query') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Display resources using this search query') . '</div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($text) . '</div>';
+        $html .= '</div>';
 
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Preview Title') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Heading above resource list') . '</div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($heading) . '</div>';
+        $html .= '</div>';
 
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Browse link text') . '</label>';
         $html .= '<div class="field-description">' . $view->translate('Text for link to full browse view') . '</div>';
         $html .= '</div>';
-        $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div></div>';
+        $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div>';
+        $html .= '</div>';
 
         return $html;
     }

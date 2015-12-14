@@ -2954,6 +2954,7 @@ th {
 
   .block {
     margin-bottom: 0.375em;
+    overflow: hidden;
   }
 
   .block .input-header {

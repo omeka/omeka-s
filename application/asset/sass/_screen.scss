@@ -2587,6 +2587,7 @@ body.sidebar-open #content {
 
     .block {
         @include trailer(.25);
+        overflow: hidden;
     }
 
     .block .input-header {

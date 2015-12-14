@@ -69,7 +69,16 @@
         var list = document.getElementById('blocks');
         new Sortable(list, {
             draggable: ".block",
-            handle: ".sortable-handle"
+            handle: ".sortable-handle",
+            onStart: function (e) {
+                var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
+                if (editor) {
+                    editor.destroy();
+                }
+            },
+            onEnd: function (e) {
+                wysiwyg($(e.item));
+            },
         });
 
         $('#new-block').change(function() {

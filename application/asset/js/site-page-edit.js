@@ -32,7 +32,7 @@
         // the old value unchanged).
         attachmentItem.removeData('itemId');
         attachmentItem.data('itemId', itemId);
-        $.post(
+        return $.post(
             $('#attachment-options').data('url'),
             {itemId: itemId, mediaId: mediaId}
         ).done(function(data) {
@@ -156,8 +156,9 @@
         // Append attachment.
         $('#blocks').on('click', '.attachment-add', function(e) {
             setSelectingAttachment($(this));
-            openAttachmentOptions();
-            Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
+            openAttachmentOptions().done(function () {
+                Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
+            });
         });
 
         // Open attachment options sidebar after selecting attachment.

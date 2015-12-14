@@ -173,7 +173,7 @@
         });
 
         // Enable item selection for attachments.
-        $('#blocks').on('click', '#attachment-item-select', function(e) {
+        $('#content').on('click', '#attachment-item-select', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this), '#select-resource');
         });

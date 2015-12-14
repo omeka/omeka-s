@@ -3174,9 +3174,8 @@ th {
     float: left;
     margin: 0 0.75em 0.375em 0;
   }
-  #attachment-options .selected-attachment p:only-child {
+  #attachment-options .selected-attachment p:first-child {
     margin: 0;
-    text-align: center;
   }
 
   #attachment-options h3.item-title {
@@ -3190,12 +3189,20 @@ th {
     float: right;
   }
 
-  #attachment-options .media-title,
+  #attachment-options .media-title {
+    font-size: 12px;
+    display: block;
+    width: 8em;
+    margin-right: 1em;
+    float: left;
+    word-break: break-word;
+  }
+
   #attachment-options .item-thumbnail ~ #attachment-item-select {
     font-size: 12px;
     display: block;
     width: calc(100% - 9em);
-    float: right;
+    word-break: break-word;
   }
 
   #attachment-options h3 {
@@ -3203,6 +3210,7 @@ th {
     border-bottom-width: 0.15em;
     border-bottom-style: solid;
     padding-bottom: 0.15em;
+    word-break: break-word;
   }
 
   #attachment-options .media-list {

@@ -2802,9 +2802,8 @@ body.sidebar-open #content {
             margin: 0 rhythm(.5) rhythm(.25) 0;
         }
 
-        p:only-child {
+        p:first-child {
             margin: 0;
-            text-align: center;
         }
     }
 
@@ -2819,17 +2818,26 @@ body.sidebar-open #content {
         float: right;
     }
 
-    #attachment-options .media-title,
+    #attachment-options .media-title {
+        font-size: .75 * $base-font-size;
+        display: block;
+        width: rhythm(4, .75 * $base-font-size);
+        margin-right: rhythm(.5, .75 * $base-font-size);
+        float: left;
+        word-break: break-word;
+    }
+
     #attachment-options .item-thumbnail ~ #attachment-item-select {
         font-size: .75 * $base-font-size;
         display: block;
         width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
-        float: right;
+        word-break: break-word;
     }
 
     #attachment-options h3 {
         border-color: $gray-on-white;
         @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
+        word-break: break-word;
     }
 
     #attachment-options .media-list {

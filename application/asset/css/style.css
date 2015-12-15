@@ -3200,6 +3200,7 @@ th {
     float: left;
     word-wrap: break-word;
     text-align: left;
+    clear: left;
   }
 
   #attachment-options .item-thumbnail ~ #attachment-item-select {

@@ -32,8 +32,10 @@ class i18n extends AbstractHelper
     {
         $this->timezone = $serviceLocator->get('Omeka\Settings')
             ->get('time_zone', 'UTC');
-        $this->dateFormat = $serviceLocator->get('ViewHelperManager')
-            ->get('dateFormat')->setTimezone($this->timezone);
+        if (extension_loaded('intl')) {
+            $this->dateFormat = $serviceLocator->get('ViewHelperManager')
+                ->get('dateFormat')->setTimezone($this->timezone);
+        }
     }
 
     /**

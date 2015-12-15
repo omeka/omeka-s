@@ -2,6 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 <div id="property-selector" class='selector sidebar <?php echo $state; ?>'>
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
     <?php if ($propertySelectorText) :?>
     <p><?php echo $escape($propertySelectorText); ?></p>
     <?php else: ?>

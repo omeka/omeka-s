@@ -127,7 +127,7 @@ class i18n extends AbstractHelper
                 break;
         }
 
-        $date->setTimeZone(new \DateTimeZone($this->timezone));
+        $date->setTimezone(new \DateTimeZone($this->timezone));
         return $date->format(trim("$dateFormat $timeFormat"));
     }
 }

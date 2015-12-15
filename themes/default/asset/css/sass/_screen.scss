@@ -14,7 +14,7 @@ body {
     font-size: $base-font-size;
     line-height: $base-line-height;
     margin: 0;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 a:link {
@@ -584,7 +584,7 @@ body.resource #content > h2:first-of-type + h3 {
     width: -webkit-min-content;
     width: min-content;
     vertical-align: top;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 #content .media.resource img {

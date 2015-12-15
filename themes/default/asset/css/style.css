@@ -15,7 +15,7 @@
     font-size: 20px;
     line-height: 30px;
     margin: 0;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   a:link {
@@ -599,7 +599,7 @@
     width: -webkit-min-content;
     width: min-content;
     vertical-align: top;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   #content .media.resource img {

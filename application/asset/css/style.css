@@ -3607,8 +3607,11 @@ th {
     left: 100%;
   }
 
-  .sidebar.mobile.active {
+  .sidebar.mobile.active,
+  #resource-details.active #select-item,
+  .confirm-panel {
     left: 0;
+    width: 100%;
   }
 
   fieldset.section > .always.active {

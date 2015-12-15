@@ -13,6 +13,7 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
+        sidebar.removeClass('mobile');
         sidebar.addClass('mobile active');
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
@@ -32,10 +33,13 @@ var Omeka = {
     },
 
     closeSidebar : function(context) {
-        context.removeClass('mobile active');
-        context.closest('.active').removeClass('mobile active');
-        if ($('.active.sidebar').length < 1) {
-            $('body').removeClass('sidebar-open');
+        if (context.hasClass('mobile-only')) {
+            context.closest('.active').removeClass('mobile');
+        } else {
+            context.closest('.active').removeClass('mobile active');
+            if ($('.active.sidebar').length < 1) {
+                $('body').removeClass('sidebar-open');
+            }
         }
     },
 

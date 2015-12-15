@@ -1210,7 +1210,7 @@ th {
     display: inline-block;
     max-width: calc(100% - 9.5em);
     vertical-align: middle;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   .browse .add.button,
@@ -2195,7 +2195,7 @@ th {
     z-index: 1;
     width: 3.375em;
     font-weight: bold;
-    word-break: break-word;
+    word-wrap: break-word;
     color: rgba(0, 0, 0, 0.35);
   }
 
@@ -2248,7 +2248,7 @@ th {
     display: inline-block;
     vertical-align: middle;
     max-width: 80%;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   .media.value.delete span.restore-value {
@@ -2528,7 +2528,7 @@ th {
   .show .meta-group .value {
     padding: 0.375em;
     margin-bottom: 0em;
-    word-break: break-word;
+    word-wrap: break-word;
   }
   .show .property .value:not(:last-child),
   .show .meta-group .value:not(:last-child) {
@@ -2640,7 +2640,7 @@ th {
   }
   .sidebar .file-name {
     display: inline-block;
-    word-break: break-word;
+    word-wrap: break-word;
     max-width: calc(100% - 4.5em);
     vertical-align: middle;
   }
@@ -2689,7 +2689,7 @@ th {
   .sidebar .meta-group .value {
     padding: 0.375em 0;
     margin: 0;
-    word-break: break-word;
+    word-wrap: break-word;
   }
   .sidebar .meta-group .value:not(:last-child) {
     border-color: rgba(0, 0, 0, 0.08);

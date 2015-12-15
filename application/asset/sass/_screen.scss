@@ -808,7 +808,7 @@ div[role="main"] {
     display: inline-block;
     max-width: calc(100% - 9.5em);
     vertical-align: middle;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .browse .add.button,
@@ -1807,7 +1807,7 @@ input[type="text"].value-language,
         z-index: 1;
         width: rhythm(2.25);
         font-weight: bold;
-        word-break: break-word;
+        word-wrap: break-word;
         color: rgba(0,0,0,.35);
     }
 
@@ -1863,7 +1863,7 @@ input[type="text"].value-language,
         display: inline-block;
         vertical-align: middle;
         max-width: 80%;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .media.value.delete span.restore-value {
@@ -2170,7 +2170,7 @@ input[type="text"].value-language,
     .value {
         padding: rhythm(.25);
         @include trailer(0);
-        word-break: break-word;
+        word-wrap: break-word;
 
         &:not(:last-child) {
             border-color: $gray-on-white;
@@ -2281,7 +2281,7 @@ input[type="text"].value-language,
 
     .file-name {
         display: inline-block;
-        word-break: break-word;
+        word-wrap: break-word;
         max-width: calc(100% - #{rhythm(3)});
         vertical-align: middle;
     }
@@ -2323,7 +2323,7 @@ body.sidebar-open #content {
     .value {
         padding: rhythm(.25) 0;
         margin: 0;
-        word-break: break-word;
+        word-wrap: break-word;
 
         &:not(:last-child) {
             border-color: $gray-on-white;

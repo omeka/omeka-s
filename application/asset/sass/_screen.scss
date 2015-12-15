@@ -2795,6 +2795,7 @@ body.sidebar-open #content {
         padding-top: rhythm(.5);
         padding-bottom: rhythm(.5);
         overflow: hidden;
+        text-align: right;
 
         img {
             height: rhythm(4);
@@ -2812,6 +2813,7 @@ body.sidebar-open #content {
         font-size: 1.25 * $base-font-size;
         margin-bottom: 0;
         border-color: transparent;
+        text-align: left;
     }
 
     #attachment-options .item-thumbnail ~ h3.item-title {
@@ -2826,11 +2828,12 @@ body.sidebar-open #content {
         margin-right: rhythm(.5, .75 * $base-font-size);
         float: left;
         word-wrap: break-word;
+        text-align: left;
     }
 
     #attachment-options .item-thumbnail ~ #attachment-item-select {
         font-size: .75 * $base-font-size;
-        display: block;
+        display: inline-block;
         width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
         word-wrap: break-word;
     }

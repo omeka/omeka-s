@@ -3168,6 +3168,7 @@ th {
     padding-top: 0.75em;
     padding-bottom: 0.75em;
     overflow: hidden;
+    text-align: right;
   }
   #attachment-options .selected-attachment img {
     height: 6em;
@@ -3183,6 +3184,7 @@ th {
     font-size: 20px;
     margin-bottom: 0;
     border-color: transparent;
+    text-align: left;
   }
 
   #attachment-options .item-thumbnail ~ h3.item-title {
@@ -3197,11 +3199,12 @@ th {
     margin-right: 1em;
     float: left;
     word-wrap: break-word;
+    text-align: left;
   }
 
   #attachment-options .item-thumbnail ~ #attachment-item-select {
     font-size: 12px;
-    display: block;
+    display: inline-block;
     width: calc(100% - 9em);
     word-wrap: break-word;
   }

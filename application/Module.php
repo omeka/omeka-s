@@ -48,7 +48,7 @@ class Module extends AbstractModule
         // Set the timezone.
         $services = $this->getServiceLocator();
         if ($services->get('Omeka\Status')->isInstalled()) {
-            date_default_timezone_set($services->get('Omeka\Settings')->get('time_zone', 'UTC'));
+            date_default_timezone_set('UTC');
         };
 
         $this->bootstrapSession();

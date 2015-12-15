@@ -42,7 +42,7 @@ class SettingForm extends AbstractForm
             'attributes' => [
                 'id' => 'time-zone',
                 'required' => true,
-                'value' => date_default_timezone_get(),
+                'value' => $this->getServiceLocator()->get('Omeka\Settings')->get('time_zone', 'UTC'),
             ],
         ]);
 

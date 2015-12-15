@@ -3196,14 +3196,14 @@ th {
     width: 8em;
     margin-right: 1em;
     float: left;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   #attachment-options .item-thumbnail ~ #attachment-item-select {
     font-size: 12px;
     display: block;
     width: calc(100% - 9em);
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   #attachment-options h3 {
@@ -3211,7 +3211,7 @@ th {
     border-bottom-width: 0.15em;
     border-bottom-style: solid;
     padding-bottom: 0.15em;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   #attachment-options .media-list {

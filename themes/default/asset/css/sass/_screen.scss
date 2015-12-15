@@ -207,12 +207,14 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: rhythm(2);
 }
 
+.sub-menu ul,
 .navigation-block ul {
     padding-left: 0;
     list-style-type: none;
     margin-top: rhythm(-.5);
 }
 
+.sub-menu li,
 .navigation-block li {
     border-color: $light;
     font-size: .75 * $base-font-size;
@@ -283,6 +285,11 @@ nav.pagination {
 
 .pagination input {
     width: rhythm(2);
+}
+
+.breadcrumbs {
+    font-size: .75 * $base-font-size;
+    margin: rhythm(1, .75 * $base-font-size) 0 rhythm(-.5, .75 * $base-font-size);
 }
 
 /* @end */
@@ -445,6 +452,10 @@ header {
 .preview-block {
     margin: rhythm() 0;
     overflow: hidden;
+}
+
+.navigation-block ul {
+    margin: rhythm(1, .75 * $base-font-size) 0;
 }
 
 /* @end */

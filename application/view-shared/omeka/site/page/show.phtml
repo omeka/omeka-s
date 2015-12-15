@@ -6,7 +6,13 @@
 </header>
 
 <div id="content" role="main">
+    <?php if ($breadcrumbs = $this->navigation()->breadcrumbs()): ?>
+    <nav class="breadcrumbs"><?php echo $breadcrumbs; ?></nav>
+    <?php endif; ?>
     <?php echo $this->pageTitle($page->title(), 2); ?>
+    <?php if ($subpages = $this->navigation()->menu()->renderSubMenu()): ?>
+    <nav class="sub-menu"><?php echo $subpages; ?></nav>
+    <?php endif; ?>
     <?php foreach ($page->blocks() as $block): ?>
     <?php echo $this->blockLayout()->render($block);?>
     <?php endforeach; ?>

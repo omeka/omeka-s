@@ -137,12 +137,12 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: 0;
 }
 
-.navigation-block ul {
+.sub-menu ul {
     border-color: $light;
     @include trailing-border(1px, .5, $base-font-size, solid);
 }
 
-.navigation-block li {
+.sub-menu li {
     display: inline-block;
     border: 0;
     padding: 0;
@@ -210,6 +210,12 @@ body.item-set .metadata ~ nav.pagination:first-of-type {
 
 ul.preview.resource-list li:first-of-type {
     @include leading-border(1px, 1, $base-font-size, solid);
+}
+
+.navigation-block ul {
+    min-width: 25%;
+    float: left;
+    margin: rhythm(.5, .75 * $base-font-size) rhythm(1, .75 * $base-font-size) rhythm(.5, .75 * $base-font-size) 0;
 }
 
 /* @end */

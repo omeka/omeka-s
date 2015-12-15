@@ -127,7 +127,9 @@ class i18n extends AbstractHelper
                 break;
         }
 
-        $date->setTimezone(new \DateTimeZone($this->timezone));
-        return $date->format(trim("$dateFormat $timeFormat"));
+        // Clone the date object to prevent the timezone change from leaking.
+        $date = clone $date;
+        return $date->setTimezone(new \DateTimeZone($this->timezone))
+            ->format(trim("$dateFormat $timeFormat"));
     }
 }

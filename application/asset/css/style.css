@@ -3019,7 +3019,7 @@ th {
     content: "'";
   }
 
-  .block .item-title {
+  .block div.item-title {
     margin: 0.375em 0;
     display: inline-block;
     width: calc(100% - 4.5em);
@@ -3145,18 +3145,14 @@ th {
     top: 0;
   }
 
+  #attachment-options h3 {
+    overflow: visible;
+    white-space: normal;
+  }
+
   #attachment-item-select {
     display: block;
-    width: 100%;
-    border-radius: 0px;
-    margin: 0;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -0.75em;
-    margin-left: -0.75em;
-    padding-right: 0.75em;
-    padding-left: 0.75em;
+    margin: 0.75em 0 0;
   }
 
   #attachment-options .selected-attachment {
@@ -3172,30 +3168,46 @@ th {
     padding-top: 0.75em;
     padding-bottom: 0.75em;
     overflow: hidden;
+    text-align: right;
   }
   #attachment-options .selected-attachment img {
     height: 6em;
     width: auto;
     float: left;
+    margin: 0 0.75em 0.375em 0;
   }
-  #attachment-options .selected-attachment p:only-child {
+  #attachment-options .selected-attachment p:first-child {
     margin: 0;
-    text-align: center;
   }
 
   #attachment-options h3.item-title {
     font-size: 20px;
     margin-bottom: 0;
-    display: block;
-    float: right;
-    width: calc(100% - 5.4em);
     border-color: transparent;
+    text-align: left;
+  }
+
+  #attachment-options .item-thumbnail ~ h3.item-title {
+    width: calc(100% - 5.4em);
+    float: right;
   }
 
   #attachment-options .media-title {
+    font-size: 12px;
     display: block;
-    float: right;
-    width: calc(100% - 6.75em);
+    width: 8em;
+    margin-right: 1em;
+    float: left;
+    word-wrap: break-word;
+    text-align: left;
+    clear: left;
+  }
+
+  #attachment-options .item-thumbnail ~ #attachment-item-select {
+    font-size: 12px;
+    display: inline-block;
+    width: calc(100% - 9em);
+    word-wrap: break-word;
   }
 
   #attachment-options h3 {
@@ -3203,6 +3215,7 @@ th {
     border-bottom-width: 0.15em;
     border-bottom-style: solid;
     padding-bottom: 0.15em;
+    word-wrap: break-word;
   }
 
   #attachment-options .media-list {

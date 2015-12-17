@@ -14,7 +14,7 @@ body {
     font-size: $base-font-size;
     line-height: $base-line-height;
     margin: 0;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 a:link {
@@ -207,12 +207,14 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: rhythm(2);
 }
 
+.sub-menu ul,
 .navigation-block ul {
     padding-left: 0;
     list-style-type: none;
     margin-top: rhythm(-.5);
 }
 
+.sub-menu li,
 .navigation-block li {
     border-color: $light;
     font-size: .75 * $base-font-size;
@@ -285,6 +287,11 @@ nav.pagination {
     width: rhythm(2);
 }
 
+.breadcrumbs {
+    font-size: .75 * $base-font-size;
+    margin: rhythm(1, .75 * $base-font-size) 0 rhythm(-.5, .75 * $base-font-size);
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -328,6 +335,7 @@ header {
     @include trailing-border(1px, 0, $base-font-size, solid);
     overflow: hidden;
     text-align: center;
+    clear: both;
 }
 
 .item.resource .caption {
@@ -375,6 +383,11 @@ header {
         margin-right: 0;
         vertical-align: top;
     }
+}
+
+.right,
+.left {
+    overflow: hidden;
 }
 
 .left .item.resource,
@@ -442,9 +455,18 @@ header {
     margin: 0;
 }
 
+.left .item.resource + p,
+.right .item.resource + p {
+    margin-top: 0;
+}
+
 .preview-block {
     margin: rhythm() 0;
     overflow: hidden;
+}
+
+.navigation-block ul {
+    margin: rhythm(1, .75 * $base-font-size) 0;
 }
 
 /* @end */
@@ -573,7 +595,7 @@ body.resource #content > h2:first-of-type + h3 {
     width: -webkit-min-content;
     width: min-content;
     vertical-align: top;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 #content .media.resource img {

@@ -13,14 +13,24 @@ if ($attachedItem) {
         $thumbnailTitle = $primaryMedia->displayTitle();
     }
 }
+$changeItemButton = '<button id="attachment-item-select" data-sidebar-content-url="' .
+    $escape($this->url(
+        'admin/default',
+        ['controller' => 'item', 'action' => 'sidebar-select'],
+        ['query' => array_merge($site->itemPool(), ['show_details' => false])]
+    )) .
+    '">' . $this->translate('Change item') . '</button>';
 ?>
 <?php if ($attachedItem): ?>
 <div class="selected-attachment">
-    <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php if ($thumbnailUrl): ?>
     <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
+    <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <span class="media-title"><?php echo $thumbnailTitle; ?></span>
+    <?php else: ?>
+    <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php endif; ?>
+    <?php echo $changeItemButton; ?>
 </div>
 <?php if ($allMedia): ?>
 <div class="select-media option">
@@ -47,5 +57,6 @@ if ($attachedItem) {
 <?php else: ?>
 <div class="selected-attachment">
     <p><?php echo $this->translate('No item selected.'); ?></p>
+    <?php echo $changeItemButton; ?>
 </div>
 <?php endif; ?>

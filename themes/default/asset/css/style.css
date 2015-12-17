@@ -15,7 +15,7 @@
     font-size: 20px;
     line-height: 30px;
     margin: 0;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   a:link {
@@ -211,12 +211,14 @@
     padding-left: 3em;
   }
 
+  .sub-menu ul,
   .navigation-block ul {
     padding-left: 0;
     list-style-type: none;
     margin-top: -0.75em;
   }
 
+  .sub-menu li,
   .navigation-block li {
     border-color: #dedede;
     font-size: 15px;
@@ -226,6 +228,7 @@
     padding-bottom: 0.43333em;
     padding-top: 0.5em;
   }
+  .sub-menu li:first-of-type,
   .navigation-block li:first-of-type {
     border-top-width: 0.06667em;
     border-top-style: solid;
@@ -290,6 +293,11 @@
     width: 3em;
   }
 
+  .breadcrumbs {
+    font-size: 15px;
+    margin: 2em 0 -1em;
+  }
+
   /* @end */
   /* @group ----- Header ----- */
   header {
@@ -348,6 +356,7 @@
     padding-bottom: -0.05em;
     overflow: hidden;
     text-align: center;
+    clear: both;
   }
 
   .item.resource .caption {
@@ -388,6 +397,11 @@
     float: none;
     margin-right: 0;
     vertical-align: top;
+  }
+
+  .right,
+  .left {
+    overflow: hidden;
   }
 
   .left .item.resource,
@@ -459,9 +473,18 @@
     margin: 0;
   }
 
+  .left .item.resource + p,
+  .right .item.resource + p {
+    margin-top: 0;
+  }
+
   .preview-block {
     margin: 1.5em 0;
     overflow: hidden;
+  }
+
+  .navigation-block ul {
+    margin: 2em 0;
   }
 
   /* @end */
@@ -587,7 +610,7 @@
     width: -webkit-min-content;
     width: min-content;
     vertical-align: top;
-    word-break: break-word;
+    word-wrap: break-word;
   }
 
   #content .media.resource img {
@@ -742,20 +765,20 @@
     padding-left: 0;
   }
 
-  .navigation-block ul {
+  .sub-menu ul {
     border-color: #dedede;
     border-bottom-width: 0.05em;
     border-bottom-style: solid;
     padding-bottom: 0.7em;
   }
 
-  .navigation-block li {
+  .sub-menu li {
     display: inline-block;
     border: 0;
     padding: 0;
     margin-right: 1em;
   }
-  .navigation-block li:first-of-type {
+  .sub-menu li:first-of-type {
     border: 0;
     padding: 0;
   }
@@ -816,6 +839,12 @@
     border-top-width: 0.05em;
     border-top-style: solid;
     padding-top: 1.45em;
+  }
+
+  .navigation-block ul {
+    min-width: 25%;
+    float: left;
+    margin: 1em 2em 1em 0;
   }
 
   /* @end */

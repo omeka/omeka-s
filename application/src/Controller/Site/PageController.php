@@ -20,6 +20,7 @@ class PageController extends AbstractSiteController
             ->get('sitePagePagination')->setPage($page);
 
         $view = new ViewModel;
+
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         return $view;

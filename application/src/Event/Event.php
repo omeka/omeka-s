@@ -9,16 +9,6 @@ use Zend\EventManager\Event as ZendEvent;
 class Event extends ZendEvent
 {
     /**#@+
-     * Events triggered by Omeka modules.
-     */
-    const MODULE_INSTALL    = 'module.install';
-    const MODULE_UNINSTALL  = 'module.uninstall';
-    const MODULE_ACTIVATE   = 'module.activate';
-    const MODULE_DEACTIVATE = 'module.deactivate';
-    const MODULE_UPGRADE    = 'module.upgrade';
-     /**#@-*/
-
-    /**#@+
      * Events triggered by all API adapters.
      *
      * All classes that extend {@link Omeka\Api\Adapter\AbstractAdapter} trigger

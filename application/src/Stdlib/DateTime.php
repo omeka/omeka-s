@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Zend\Stdlib\JsonSerializable;
+use JsonSerializable;
 
 /**
  * A wrapper of PHP's DateTime that can be serialized as JSON.

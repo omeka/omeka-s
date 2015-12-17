@@ -32,7 +32,7 @@
         // the old value unchanged).
         attachmentItem.removeData('itemId');
         attachmentItem.data('itemId', itemId);
-        $.post(
+        return $.post(
             $('#attachment-options').data('url'),
             {itemId: itemId, mediaId: mediaId}
         ).done(function(data) {
@@ -69,7 +69,16 @@
         var list = document.getElementById('blocks');
         new Sortable(list, {
             draggable: ".block",
-            handle: ".sortable-handle"
+            handle: ".sortable-handle",
+            onStart: function (e) {
+                var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
+                if (editor) {
+                    editor.destroy();
+                }
+            },
+            onEnd: function (e) {
+                wysiwyg($(e.item));
+            },
         });
 
         $('#new-block').change(function() {
@@ -147,8 +156,9 @@
         // Append attachment.
         $('#blocks').on('click', '.attachment-add', function(e) {
             setSelectingAttachment($(this));
-            openAttachmentOptions();
-            Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
+            openAttachmentOptions().done(function () {
+                Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
+            });
         });
 
         // Open attachment options sidebar after selecting attachment.
@@ -164,7 +174,7 @@
         });
 
         // Enable item selection for attachments.
-        $('#attachment-item-select').on('click', function(e) {
+        $('#content').on('click', '#attachment-item-select', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this), '#select-resource');
         });

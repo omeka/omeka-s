@@ -154,7 +154,7 @@ class ApiController extends AbstractRestfulController
             $content = $request->getContent();
             $fileData = null;
         }
-        $data = Json::decode($content, $this->jsonDecodeType);
+        $data = json_decode($content, true);
         return $this->create($data, $fileData);
     }
 

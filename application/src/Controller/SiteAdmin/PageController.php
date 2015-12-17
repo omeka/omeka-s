@@ -116,6 +116,9 @@ class PageController extends AbstractActionController
     {
         $attachedItem = null;
         $attachedMedia = null;
+        $site = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ])->getContent();
 
         $itemId = $this->params()->fromPost('itemId');
         if ($itemId) {
@@ -130,6 +133,7 @@ class PageController extends AbstractActionController
         $view->setTerminal(true);
         $view->setVariable('attachedItem', $attachedItem);
         $view->setVariable('attachedMedia', $attachedMedia);
+        $view->setVariable('site', $site);
         return $view;
     }
 }

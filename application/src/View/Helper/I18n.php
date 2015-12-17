@@ -14,9 +14,14 @@ class i18n extends AbstractHelper
     const DATE_FORMAT_SHORT  = 'short';
 
     /**
-     * @var \Zend\View\HelperPluginManager
+     * @var string
      */
-    protected $viewHelperManager;
+    protected $timezone;
+
+    /**
+     * @var Zend\I18n\View\Helper\DateFormat
+     */
+    protected $dateFormat;
 
     /**
      * Construct the helper.
@@ -25,7 +30,12 @@ class i18n extends AbstractHelper
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->viewHelperManager = $serviceLocator->get('ViewHelperManager');
+        $this->timezone = $serviceLocator->get('Omeka\Settings')
+            ->get('time_zone', 'UTC');
+        if (extension_loaded('intl')) {
+            $this->dateFormat = $serviceLocator->get('ViewHelperManager')
+                ->get('dateFormat')->setTimezone($this->timezone);
+        }
     }
 
     /**
@@ -76,8 +86,7 @@ class i18n extends AbstractHelper
                 : \IntlDateFormatter::NONE;
 
             // Proxy to Zend's dateFormat helper.
-            $dateFormat = $this->viewHelperManager->get('dateFormat');
-            return $dateFormat($date, $dateType, $timeType, $locale, $pattern);
+            return $this->dateFormat->__invoke($date, $dateType, $timeType, $locale, $pattern);
         }
 
         // Set the date format.
@@ -120,6 +129,9 @@ class i18n extends AbstractHelper
                 break;
         }
 
-        return $date->format(trim("$dateFormat $timeFormat"));
+        // Clone the date object to prevent the timezone change from leaking.
+        $date = clone $date;
+        return $date->setTimezone(new \DateTimeZone($this->timezone))
+            ->format(trim("$dateFormat $timeFormat"));
     }
 }

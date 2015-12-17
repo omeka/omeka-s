@@ -13,6 +13,7 @@ class SiteSetting extends AbstractEntity
     protected $id;
 
     /**
+     * @Id
      * @ManyToOne(targetEntity="Site")
      * @JoinColumn(nullable=false, onDelete="CASCADE")
      */

@@ -28,7 +28,7 @@ class SiteSettings extends AbstractSettings
             throw new Exception\RuntimeException('Cannot use site settings when no site is set');
         }
         $conn = $this->getConnection();
-        $settings = $conn->fetchAll('SELECT * FROM site_setting');
+        $settings = $conn->fetchAll('SELECT * FROM site_setting WHERE site_id = ?', [$this->site->getId()]);
         foreach ($settings as $setting) {
             $this->cache[$setting['id']] = $conn->convertToPHPValue($setting['value'], 'json_array');
         }
@@ -37,16 +37,18 @@ class SiteSettings extends AbstractSettings
     protected function setSetting($id, $value)
     {
         $conn = $this->getConnection();
+        $siteId = $this->site->getId();
         $setting = $conn->fetchAssoc(
             'SELECT * FROM site_setting WHERE id = ? AND site_id = ?',
-            [$id, $this->site->getId()]
+            [$id, $siteId]
         );
         if ($setting) {
-            $conn->update('site_setting', ['value' => $value], ['id' => $id], ['json_array']);
+            $conn->update('site_setting', ['value' => $value],
+                ['id' => $id, 'site_id' => $siteId], ['json_array']);
         } else {
             $conn->insert('site_setting', [
                 'value' => $value,
-                'site_id' => $this->site->getId(),
+                'site_id' => $siteId,
                 'id' => $id,
             ], ['json_array', \PDO::PARAM_INT]);
         }

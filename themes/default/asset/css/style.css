@@ -356,6 +356,7 @@
     padding-bottom: -0.05em;
     overflow: hidden;
     text-align: center;
+    clear: both;
   }
 
   .item.resource .caption {
@@ -396,6 +397,11 @@
     float: none;
     margin-right: 0;
     vertical-align: top;
+  }
+
+  .right,
+  .left {
+    overflow: hidden;
   }
 
   .left .item.resource,
@@ -465,6 +471,11 @@
   .left .item.resource > h3,
   .right .item.resource > h3 {
     margin: 0;
+  }
+
+  .left .item.resource + p,
+  .right .item.resource + p {
+    margin-top: 0;
   }
 
   .preview-block {

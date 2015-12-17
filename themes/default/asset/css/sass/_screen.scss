@@ -335,6 +335,7 @@ header {
     @include trailing-border(1px, 0, $base-font-size, solid);
     overflow: hidden;
     text-align: center;
+    clear: both;
 }
 
 .item.resource .caption {
@@ -382,6 +383,11 @@ header {
         margin-right: 0;
         vertical-align: top;
     }
+}
+
+.right,
+.left {
+    overflow: hidden;
 }
 
 .left .item.resource,
@@ -447,6 +453,11 @@ header {
 .left .item.resource > h3,
 .right .item.resource > h3 {
     margin: 0;
+}
+
+.left .item.resource + p,
+.right .item.resource + p {
+    margin-top: 0;
 }
 
 .preview-block {

@@ -44,9 +44,10 @@ abstract class AbstractIngester implements IngesterInterface
 
         if (!$response->isOk()) {
             $message = sprintf(
-                'Error downloading from URI: %s (%s)',
-                $response->getReasonPhrase(),
-                $response->getStatusCode()
+                'Error downloading "%s": %s %s',
+                (string) $uri,
+                $response->getStatusCode(),
+                $response->getReasonPhrase()
             );
             if ($errorStore) {
                 $errorStore->addError('error', $message);

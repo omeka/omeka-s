@@ -236,7 +236,7 @@ CREATE TABLE `site_setting` (
   `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `site_id` int(11) NOT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`site_id`),
   KEY `IDX_64D05A53F6BD1646` (`site_id`),
   CONSTRAINT `FK_64D05A53F6BD1646` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

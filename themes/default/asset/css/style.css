@@ -483,6 +483,21 @@
     overflow: hidden;
   }
 
+  .resource-list.preview + a {
+    background-color: #dedede;
+    text-align: center;
+    padding: 0.375em;
+    border-radius: 2px;
+    color: #ababab;
+    line-height: 30px;
+    display: inline-block;
+    font-weight: bold;
+  }
+  .resource-list.preview + a:hover {
+    background-color: #787878;
+    border-bottom-width: 0px;
+  }
+
   .navigation-block ul {
     margin: 2em 0;
   }

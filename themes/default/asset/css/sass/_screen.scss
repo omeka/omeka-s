@@ -465,6 +465,22 @@ header {
     overflow: hidden;
 }
 
+.resource-list.preview + a {
+    background-color: $light;
+    text-align: center;
+    padding: rhythm(.25);
+    border-radius: 2px;
+    color: $gray;
+    line-height: $base-line-height;
+    display: inline-block;
+    font-weight: bold;
+
+    &:hover {
+        background-color: $bold;
+        border-bottom-width: 0px;
+    }
+}
+
 .navigation-block ul {
     margin: rhythm(1, .75 * $base-font-size) 0;
 }

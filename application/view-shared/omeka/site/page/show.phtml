@@ -6,13 +6,20 @@
 </header>
 
 <div id="content" role="main">
-    <?php if ($breadcrumbs = $this->navigation()->breadcrumbs()): ?>
+    <?php
+        $nav =  $this->navigation('Zend\Navigation\Site');
+        $container = $nav->getContainer();
+        $activePage = $nav->findActive($container);
+        $breadcrumbs = $this->navigation()->breadcrumbs();
+    ?>
+    <?php if ($activePage['depth'] !== 0): ?>
     <nav class="breadcrumbs"><?php echo $breadcrumbs; ?></nav>
     <?php endif; ?>
     <?php echo $this->pageTitle($page->title(), 2); ?>
-    <?php if ($subpages = $this->navigation()->menu()->renderSubMenu()): ?>
-    <nav class="sub-menu"><?php echo $subpages; ?></nav>
+    <?php if ($activePage['page']->hasPages()): ?>
+    <nav class="sub-menu"><?php echo $this->navigation()->menu()->renderSubMenu(); ?></nav>
     <?php endif; ?>
+
     <?php foreach ($page->blocks() as $block): ?>
     <?php echo $this->blockLayout()->render($block);?>
     <?php endforeach; ?>

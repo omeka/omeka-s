@@ -155,15 +155,15 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ) {
                     $altComment = $resTemPropData['o:alternate_comment'];
                 }
+                $dataType = '';
+                if (isset($resTemPropData['o:data_type'])) {
+                    $dataType = $resTemPropData['o:data_type'];
+                }
 
                 // Check whether a passed property is already assigned to this
                 // resource template.
                 $resTemProp = $getResTemProp($propertyId, $resTemProps);
-                if ($resTemProp) {
-                    // It is already assigned. Modify the existing entity.
-                    $resTemProp->setAlternateLabel($altLabel);
-                    $resTemProp->setAlternateComment($altComment);
-                } else {
+                if (!$resTemProp) {
                     // It is not assigned. Add a new resource template property.
                     // No need to explicitly add it to the collection since it
                     // is added implicitly when setting the resource template.
@@ -171,10 +171,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $resTemProp = new ResourceTemplateProperty;
                     $resTemProp->setResourceTemplate($entity);
                     $resTemProp->setProperty($property);
-                    $resTemProp->setAlternateLabel($altLabel);
-                    $resTemProp->setAlternateComment($altComment);
                     $entity->getResourceTemplateProperties()->add($resTemProp);
                 }
+                $resTemProp->setAlternateLabel($altLabel);
+                $resTemProp->setAlternateComment($altComment);
+                $resTemProp->setDataType($dataType);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);

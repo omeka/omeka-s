@@ -33,6 +33,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:property' => $this->property()->getReference(),
             'o:alternate_label' => $this->alternateLabel(),
             'o:alternate_comment' => $this->alternateComment(),
+            'o:data_type' => $this->dataType(),
         ];
     }
 
@@ -76,5 +77,13 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function position()
     {
         return $this->templateProperty->getPosition();
+    }
+
+    /**
+     * @return string
+     */
+    public function dataType()
+    {
+        return $this->templateProperty->getDataType();
     }
 }

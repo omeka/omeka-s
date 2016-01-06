@@ -9,20 +9,20 @@ class DataType extends AbstractHelper
 {
     protected $manager;
 
+    protected $valueOptions = [];
+
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->manager = $serviceLocator->get('Omeka\DataTypeManager');
+        foreach ($this->manager->getRegisteredNames() as $name) {
+            $this->valueOptions[$name] = $this->manager->get($name)->getLabel();
+        }
     }
 
     public function getSelect($name, $value = null)
     {
         $element = new Select($name);
-        $element->setValueOptions([
-            'default' => 'Default',
-            'literal' => 'Literal',
-            'uri' => 'URI',
-            'resource' => 'Resource',
-        ]);
-        return $this->getView()->formSelect($element); 
+        $element->setValueOptions($this->valueOptions);
+        return $this->getView()->formSelect($element);
     }
 }

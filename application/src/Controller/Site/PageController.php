@@ -23,6 +23,13 @@ class PageController extends AbstractSiteController
 
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
+        $view->setVariable('displayNavigation', true);
+
+        $contentView = clone $view;
+        $contentView->setTemplate('omeka/site/page/content');
+        $contentView->setVariable('pageViewModel', $view);
+
+        $view->addChild($contentView, 'content');
         return $view;
     }
 }

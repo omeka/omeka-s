@@ -16,12 +16,10 @@
     <nav class="breadcrumbs"><?php echo $breadcrumbs; ?></nav>
     <?php endif; ?>
     <?php echo $this->pageTitle($page->title(), 2); ?>
-    <?php if ($activePage['page']->hasPages()): ?>
+    <?php if ($this->displayNavigation && $activePage['page']->hasPages()): ?>
     <nav class="sub-menu"><?php echo $this->navigation()->menu()->renderSubMenu(); ?></nav>
     <?php endif; ?>
 
-    <?php foreach ($page->blocks() as $block): ?>
-    <?php echo $this->blockLayout()->render($block);?>
-    <?php endforeach; ?>
+    <?php echo $this->content; ?>
     <?php echo $this->sitePagePagination(); ?>
 </div>

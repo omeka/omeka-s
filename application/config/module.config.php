@@ -149,6 +149,7 @@ return [
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
+            'Omeka\DataTypeManager'       => 'Omeka\Service\DataTypeManagerFactory',
         ],
         'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -255,6 +256,14 @@ return [
         ],
         'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
+        ],
+    ],
+    'data_types' => [
+        'invokables' => [
+            'normal' => 'Omeka\DataType\Normal',
+            'literal' => 'Omeka\DataType\Literal',
+            'uri' => 'Omeka\DataType\Uri',
+            'resource' => 'Omeka\DataType\Resource',
         ],
     ],
     'block_layouts' => [

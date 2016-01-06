@@ -3,7 +3,7 @@ namespace Omeka\DataType;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Fallback implements IngesterInterface
+class Fallback implements DataTypeInterface
 {
     use ServiceLocatorAwareTrait;
 

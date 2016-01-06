@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\DateType;
+namespace Omeka\DataType;
 
 /**
  * Interface for data types.

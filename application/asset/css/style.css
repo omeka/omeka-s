@@ -2866,10 +2866,15 @@ th {
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.6875em;
+    margin-bottom: 1.5em;
   }
 
   .breadcrumbs + .field {
     margin-top: 1.5em;
+  }
+
+  .breadcrumbs a:before {
+    margin-right: 0.375em;
   }
 
   .breadcrumbs > *:not(:last-child):after {

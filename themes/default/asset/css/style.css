@@ -211,15 +211,13 @@
     padding-left: 3em;
   }
 
-  .sub-menu ul,
-  .navigation-block ul {
+  .sub-menu ul {
     padding-left: 0;
     list-style-type: none;
     margin-top: -0.75em;
   }
 
-  .sub-menu li,
-  .navigation-block li {
+  .sub-menu li {
     border-color: #dedede;
     font-size: 15px;
     font-weight: bold;
@@ -228,8 +226,7 @@
     padding-bottom: 0.43333em;
     padding-top: 0.5em;
   }
-  .sub-menu li:first-of-type,
-  .navigation-block li:first-of-type {
+  .sub-menu li:first-of-type {
     border-top-width: 0.06667em;
     border-top-style: solid;
     padding-top: 0.43333em;
@@ -498,8 +495,32 @@
     border-bottom-width: 0px;
   }
 
-  .navigation-block ul {
+  .toc-block > ul {
     margin: 2em 0;
+    list-style-type: none;
+    border-left: 5px solid #ababab;
+  }
+
+  .toc-block > ul > li {
+    margin-bottom: 0.75em;
+  }
+
+  .toc-block > ul > li > a {
+    font-weight: bold;
+  }
+
+  .toc-block ul ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .toc-block ul ul ul {
+    padding-left: 1.25em;
+  }
+
+  .toc-block ul ul li:before {
+    content: "\2014";
+    color: #dedede;
   }
 
   /* @end */
@@ -854,12 +875,6 @@
     border-top-width: 0.05em;
     border-top-style: solid;
     padding-top: 1.45em;
-  }
-
-  .navigation-block ul {
-    min-width: 25%;
-    float: left;
-    margin: 1em 2em 1em 0;
   }
 
   /* @end */

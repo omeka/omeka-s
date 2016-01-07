@@ -207,15 +207,13 @@ header nav > ul > li > ul > li > ul > li a {
     padding-left: rhythm(2);
 }
 
-.sub-menu ul,
-.navigation-block ul {
+.sub-menu ul {
     padding-left: 0;
     list-style-type: none;
     margin-top: rhythm(-.5);
 }
 
-.sub-menu li,
-.navigation-block li {
+.sub-menu li {
     border-color: $light;
     font-size: .75 * $base-font-size;
     font-weight: bold;
@@ -481,8 +479,32 @@ header {
     }
 }
 
-.navigation-block ul {
+.toc-block > ul {
     margin: rhythm(1, .75 * $base-font-size) 0;
+    list-style-type: none;
+    border-left: 5px solid $gray;
+}
+
+.toc-block > ul > li {
+    margin-bottom: rhythm(.5);
+}
+
+.toc-block > ul > li > a {
+    font-weight: bold;
+}
+
+.toc-block ul ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.toc-block ul ul ul {
+    padding-left: 1.25em;
+}
+
+.toc-block ul ul li:before {
+    content: "\2014";
+    color: $light;
 }
 
 /* @end */

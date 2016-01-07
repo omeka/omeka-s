@@ -150,7 +150,8 @@ body {
     input[type="text"],
     input[type="password"],
     input[type="email"],
-    input[type="url"] {
+    input[type="url"],
+    input[type="number"] {
         @include appearance(none);
         @include border-radius(0px);
         height: rhythm(1.5);

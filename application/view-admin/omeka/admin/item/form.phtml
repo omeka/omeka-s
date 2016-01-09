@@ -75,12 +75,5 @@ $formElement = $this->plugin('formElement');
     <?php echo $formElement($form->get('csrf')); ?>
 </form>
 
-<?php
-/*
- * the sidebar and templates are not going into the fields partial because
- * they exist outside the form, and the partial needs to work with
- * multiple resource fieldsets (item and media, e.g.)
- */
-echo $this->partial('common/resource-form-templates.phtml');
-?>
+<?php echo $this->partial('common/resource-form-templates.phtml'); ?>
 

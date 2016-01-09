@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\DataType;
 
+use Zend\View\Renderer\PhpRenderer;
+
 /**
  * Interface for data types.
  */
@@ -12,4 +14,6 @@ interface DataTypeInterface
      * @return string
      */
     public function getLabel();
+
+    public function getTemplate(PhpRenderer $view);
 }

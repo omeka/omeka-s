@@ -9,13 +9,16 @@ class DataType extends AbstractHelper
 {
     protected $manager;
 
+    protected $dataTypes;
+
     protected $valueOptions = [];
 
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->manager = $serviceLocator->get('Omeka\DataTypeManager');
-        foreach ($this->manager->getRegisteredNames() as $name) {
-            $this->valueOptions[$name] = $this->manager->get($name)->getLabel();
+        $this->dataTypes = $this->manager->getRegisteredNames();
+        foreach ($this->dataTypes as $dataType) {
+            $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel();
         }
     }
 
@@ -34,5 +37,21 @@ class DataType extends AbstractHelper
         }
         $element->setValue($value);
         return $this->getView()->formSelect($element);
+    }
+
+    public function getTemplates()
+    {
+        $templates = '';
+        foreach ($this->dataTypes as $dataType) {
+            $templates .= $this->getView()->partial('common/data-type-wrapper', [
+                'dataType' => $dataType,
+            ]);
+        }
+        return $templates;
+    }
+
+    public function getTemplate($dataType)
+    {
+        return $this->manager->get($dataType)->getTemplate($this->getView());
     }
 }

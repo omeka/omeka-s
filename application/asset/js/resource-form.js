@@ -4,19 +4,13 @@
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
-            var propertyLi = $(this);
-            var qName = propertyLi.data('property-term');
-            var propertyField = $('[data-property-term = "' + qName + '"].field');
-            var count = propertyField.length;
-            // If property has already been set, scroll to its field
-            if (count > 0) {
-                Omeka.scrollTo(propertyField.first());
-            } else {
-                makeNewField(propertyLi);
-                var wrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values');
-                wrapper.append(makeNewValue(qName));
-                Omeka.scrollTo(wrapper);
+            var property = $(this);
+            var term = property.data('property-term');
+            var field = $('[data-property-term = "' + term + '"].field');
+            if (!field.length) {
+                field = makeNewField(property);
             }
+            Omeka.scrollTo(field);
         });
 
         //handle changing the resource template
@@ -136,24 +130,24 @@
         initPage();
     });
 
-    var makeNewValue = function(qName, valueObject, valueType) {
-        var valuesWrapper = $('fieldset.resource-values.field[data-property-term="' + qName + '"]');
+    var _makeNewValue = function(term, value, valueType) {
+        var valuesWrapper = $('fieldset.resource-values.field[data-property-term="' + term + '"]');
         var count = valuesWrapper.find('input.property').length;
         var propertyId = valuesWrapper.data('property-id');
-        var languageElementName = qName + '[' + count + '][@language]';
-        if (typeof valueObject !== 'undefined' && typeof valueType === 'undefined') {
-            valueType = valueObjectType(valueObject);
+        var languageElementName = term + '[' + count + '][@language]';
+        if (typeof value !== 'undefined' && typeof valueType === 'undefined') {
+            valueType = valueObjectType(value);
         }
 
         var newValue = $('.value.template.' + valueType).clone(true);
         newValue.removeClass('template');
-        newValue.data('base-name', qName + '[' + count + ']');
+        newValue.data('base-name', term + '[' + count + ']');
 
         var propertyInput = newValue.find('input.property');
-        propertyInput.attr('name', qName + '[' + count + '][property_id]');
+        propertyInput.attr('name', term + '[' + count + '][property_id]');
 
-        if (typeof valueObject !== 'undefined' && typeof valueObject['property_id'] !== 'undefined') {
-            propertyInput.val(valueObject['property_id']);
+        if (typeof value !== 'undefined' && typeof value['property_id'] !== 'undefined') {
+            propertyInput.val(value['property_id']);
         } else {
             propertyInput.val(propertyId);
         }
@@ -162,15 +156,15 @@
         var valueTextarea = newValue.find('textarea');
         var languageLabel = newValue.find('label.value-language');
         var languageInput = newValue.find('input.value-language');
-        valueTextarea.attr('name', qName + '[' + count + '][@value]');
+        valueTextarea.attr('name', term + '[' + count + '][@value]');
         languageLabel.attr('for', languageElementName); // 
         languageInput.attr('name', languageElementName).attr('id', languageElementName);
 
         //set up uri inputs
         var uriInput = newValue.find('input.value');
         var uriInputLabel = newValue.find('label.value');
-        var uriInputId = qName + '[' + count + '][@id]';
-        var uriLabelId = qName + '[' + count + '][o:uri_label]'
+        var uriInputId = term + '[' + count + '][@id]';
+        var uriLabelId = term + '[' + count + '][o:uri_label]'
         uriInput.attr('name', uriInputId).attr('id', uriInputId);
         uriInputLabel.attr('for', uriInputId);
         var uriLabel = newValue.find('textarea.value-label');
@@ -179,20 +173,20 @@
         uriLabelLabel.attr('for', uriLabelId);
 
         var showRemoveValue = false;
-        if (typeof valueObject !== 'undefined') {
+        if (typeof value !== 'undefined') {
             showRemoveValue = true;
 
             switch (valueType) {
                 case 'literal' :
-                    valueTextarea.val(valueObject['@value']);
-                    languageInput.val(valueObject['@language']);
+                    valueTextarea.val(value['@value']);
+                    languageInput.val(value['@language']);
                 break;
 
                 case 'resource' :
                     var valueInternalInput = newValue.find('input.value');
                     var newResource = newValue.find('.selected-resource');
-                    var title = valueObject['display_title'];
-                    if (typeof valueObject['value_resource_id'] === 'undefined') {
+                    var title = value['display_title'];
+                    if (typeof value['value_resource_id'] === 'undefined') {
                         break;
                     }
 
@@ -201,29 +195,71 @@
                         title = '[Untitled]';
                     }
                     var link = $('<a></a>', {
-                        href: valueObject['url'],
+                        href: value['url'],
                         text: title
                     });
-                    if (valueObject['thumbnail_url'] !== undefined) {
-                        var thumbnail = '<img src="' + valueObject['thumbnail_url'] + '">';
+                    if (value['thumbnail_url'] !== undefined) {
+                        var thumbnail = '<img src="' + value['thumbnail_url'] + '">';
                         newResource.find('.o-title').prepend(thumbnail);
                     }
 
-                    newResource.find('.o-title').append(link).addClass(valueObject['value_resource_name']);
+                    newResource.find('.o-title').append(link).addClass(value['value_resource_name']);
 
-                    valueInternalInput.attr('name', qName + '[' + count + '][value_resource_id]');
-                    valueInternalInput.val(valueObject['value_resource_id']);
+                    valueInternalInput.attr('name', term + '[' + count + '][value_resource_id]');
+                    valueInternalInput.val(value['value_resource_id']);
                 break;
 
                 case 'uri' :
-                    uriInput.val(valueObject['@id']);
-                    uriLabel.val(valueObject['o:uri_label']);
+                    uriInput.val(value['@id']);
+                    uriLabel.val(value['o:uri_label']);
                 break;
             }
         }
 
         return newValue; 
     };
+
+    var makeNewValue = function(field, valueObj) {
+        // Get the value node from the templates.
+        var type = valueObjectType(valueObj);
+        var value = $('fieldset.value.template[data-data-type="' + type + '"]').clone(true);
+        value.removeClass('template');
+
+        // Prepare the value node.
+        var count = field.find('fieldset.value').length;
+        var namePrefix = field.data('property-term') + '[' + count + ']';
+        value.find('input.property')
+            .attr('name', namePrefix + '[property_id]')
+            .val(valueObj['property_id']);
+        $(document).trigger('o:prepare-value', [value, valueObj, type, namePrefix]);
+
+        // Append and return.
+        field.find('.values').append(value);
+        return value;
+    };
+
+    $(document).on('o:prepare-value', function(e, value, valueObj, type, namePrefix) {
+        if (!valueObj) {
+            return;
+        }
+        if (type === 'literal') {
+            value.find('textarea.input-value')
+                .attr('name', namePrefix + '[@value]')
+                .val(valueObj['@value']);
+            value.find('input.value-language')
+                .attr('name', namePrefix + '[@language]')
+                .val(valueObj['@language']);
+        } else if (type === 'uri') {
+            value.find('input.value')
+                .attr('name', namePrefix + '[@id]')
+                .val(valueObj['@id']);
+            value.find('textarea.value-label')
+                .attr('name', namePrefix + '[o:uri_label]')
+                .val(valueObj['o:uri_label']);
+        } else if (type === 'resource') {
+            
+        }
+    });
 
     var makeNewField = function(property) {
         //sort out whether property is the LI that holds data, or the id
@@ -246,21 +282,19 @@
             break;
         }
 
-        var qName = propertyLi.data('property-term');
+        var term = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        var fieldName = propertyLi.data('child-search');
-        field.find('.field-label').text(fieldName);
-        field.find('.field-term').text(qName);
-        var fieldDesc = $('.description p', propertyLi).last();
-        field.find('.field-description').prepend(fieldDesc.text());
-        $('div#properties').append(field);
-        field.data('property-term', qName);
+        field.find('.field-label').text(propertyLi.data('child-search'));
+        field.find('.field-term').text(term);
+        field.find('.field-description').prepend(propertyLi.find('.field-comment').text());
+        field.data('property-term', term);
         field.data('property-id', propertyId);
-        //adding the att because selectors need them to find the correct field and count when adding more
-        //should I put a class with the 
-        field.attr('data-property-term', qName);
+        // Adding the attr because selectors need them to find the correct field
+        // and count when adding more.
+        field.attr('data-property-term', term);
         field.attr('data-property-id', propertyId);
+        $('div#properties').append(field);
         return field;
     };
 
@@ -310,19 +344,16 @@
     };
 
     var initPage = function() {
-        //clone dcterms:title and dcterms:description for starters, if they don't already exist
-        //assumes that the propertySelector helper has been deployed
-
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
             makeNewField('dcterms:description');
         } else {
-            for (var term in valuesJson) {
-                makeNewField(term);
-                valuesJson[term].values.forEach(function (value) {
-                    $('fieldset.resource-values.field[data-property-term="' + term + '"] .values').append(makeNewValue(term, value));
+            $.each(valuesJson, function(term, valueObj) {
+                var field = makeNewField(term);
+                $.each(valueObj.values, function(index, value) {
+                    makeNewValue(field, value);
                 });
-            }
+            });
         }
 
         //rewrite the fields if a template is set

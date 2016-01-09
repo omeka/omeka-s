@@ -1,0 +1,14 @@
+<?php 
+$escape = $this->plugin('escapeHtml');
+?>
+<fieldset class="template value" data-data-type="<?php echo $escape($this->dataType); ?>">
+    <input type="hidden" class="property">
+    <div class="input-header">
+        <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete remove-value" title="<?php echo $escape($this->translate('Remove value')); ?>" aria-label="<?php echo $escape($this->translate('Remove value')); ?>"></a></li>
+            <li><a href="#" class="o-icon-undo restore-value" title="<?php echo $escape($this->translate('Undo remove value')); ?>" aria-label="<?php echo $escape($this->translate('Undo remove value')); ?>"></a></li>
+        </ul>
+    </div>
+    <div class="data-type"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
+</fieldset>

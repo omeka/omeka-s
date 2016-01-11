@@ -48,7 +48,7 @@ class TableOfContents extends AbstractBlockLayout
         $container = $nav->getContainer();
         $activePage = $nav->findActive($container);
         $pages = $activePage['page']->getPages();
-        $this->subNav = new Navigation($pages);
+        $subNav = new Navigation($pages);
 
         $depth = $this->getData($block->data(), 'depth');
         if (!isset($depth)) {
@@ -57,7 +57,7 @@ class TableOfContents extends AbstractBlockLayout
 
         $html = '';
         $html .= '<div class="toc-block">';
-        $html .= $view->navigation($this->subNav)->menu()->renderMenu(null,
+        $html .= $view->navigation($subNav)->menu()->renderMenu(null,
             array(
                 'maxDepth' => $depth - 1
             )

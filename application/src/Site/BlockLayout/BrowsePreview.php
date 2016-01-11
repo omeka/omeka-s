@@ -68,32 +68,13 @@ class BrowsePreview extends AbstractBlockLayout
 
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', $previewQuery);
+        $items = $response->getContent();
 
-
-        $preview = '<div class="preview-block">';
-        if ($heading) {
-            $preview .= '<h2>' . $heading . '</h2>';
-        }
-        $preview .= '<ul class="resource-list preview">';
-        foreach ($response->getContent() as $item) {
-            $preview .= '<li class="item resource">';
-            if ($primaryMedia = $item->primaryMedia()) {
-            $preview .= '<img src="' . $view->escapeHtml($primaryMedia->thumbnailUrl('square')) . '" "title="' . $view->escapeHtml($primaryMedia->displayTitle()) . '" alt="' . $view->escapeHtml($primaryMedia->mediaType()) . ' thumbnail">';
-            }
-            $preview .= '<h4>' . $item->link($item->displayTitle()) . '</h4>';
-            $preview .= '<div class="description">' . $item->displayDescription() . '</div>';
-            $preview .= '</li>';
-        }
-        $preview .= '</ul>';
-
-        if ($linkText == '') {
-            $linkText = $view->translate('Browse all');
-        }
-        $preview .= $view->hyperlink($linkText, $view->url(
-            'site/resource', ['controller' => 'item', 'action' => 'browse'], ['query' => $query], true
+        return $view->partial('common/block-layout/browse-preview', array(
+            'block' => $block,
+            'items' => $items,
+            'heading' => $heading,
+            'linkText' => $linkText
         ));
-        $preview .= '</div>';
-
-        return $preview;
     }
 }

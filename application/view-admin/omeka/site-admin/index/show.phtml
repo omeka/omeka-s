@@ -15,6 +15,9 @@ $roles = array(
     <?php endif; ?>
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
 </div>
+<div class="breadcrumbs">
+    <a href="<?php echo $this->url('admin/site'); ?>" class="o-icon-left"><?php echo $this->translate('Back to site list'); ?></a>
+</div>
 
 <div class="property">
     <h4>URL slug</h4>

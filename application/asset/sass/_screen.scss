@@ -2497,10 +2497,15 @@ body.sidebar-open #content {
 
 .breadcrumbs {
     @include subhead-row;
+    margin-bottom: rhythm();
 }
 
 .breadcrumbs + .field {
     @include leader();
+}
+
+.breadcrumbs a:before {
+    margin-right: rhythm(.25);
 }
 
 .breadcrumbs > *:not(:last-child):after {

@@ -21,6 +21,8 @@ class Navigation extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
+        $view->pageViewModel->setVariable('displayNavigation', false);
+
         $html = '';
         $html .= '<div class="navigation-block">';
         $html .= $view->navigation('Zend\Navigation\Site')->menu()->renderSubMenu();

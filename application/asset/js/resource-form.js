@@ -53,8 +53,9 @@
         $('.add-value').on('click', function(e) {
             e.preventDefault();
             var typeButton = $(this);
-            makeNewValue(typeButton.closest('.resource-values.field'), null,
-                typeButton.data('type'));
+            var field = typeButton.closest('.resource-values.field');
+            var value = makeNewValue(field.data('property-term'), null, typeButton.data('type'))
+            field.find('.values').append(value);
         });
 
         // Remove value.
@@ -100,21 +101,21 @@
         });
 
         $('#select-item a').on('o:resource-selected', function (e) {
-            var propertyQname = $(this).data('property-term');
-            var valuesData = $('.resource-details').data('resource-values');
-            $('.value.selecting-resource').replaceWith(makeNewValue(propertyQname, valuesData));
+            var value = makeNewValue(
+                $(this).data('property-term'),
+                $('.resource-details').data('resource-values')
+            );
+            $('.value.selecting-resource').replaceWith(value);
         });
 
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
-            var context = $(this);
-            // put 'selecting-resource' class on one value so that when the resource
-            // is selected I can get rid of the placeholder
+            var selectButton = $(this);
+            var term = selectButton.closest('.resource-values').data('property-term');
             $('.selecting-resource').removeClass('selecting-resource');
-            context.parents('.value').addClass('selecting-resource');
-            var qName = context.parents('.resource-values').data('property-term');
-            $('#select-item a').data('property-term', qName);
-            Omeka.openSidebar(context, "#select-resource");
+            selectButton.closest('.value').addClass('selecting-resource');
+            $('#select-item a').data('property-term', term);
+            Omeka.openSidebar(selectButton, "#select-resource");
         });
 
         $('.visibility [type="checkbox"]').on('click', function() {
@@ -129,7 +130,8 @@
         initPage();
     });
 
-    var makeNewValue = function(field, valueObj, type) {
+    var makeNewValue = function(term, valueObj, type) {
+        var field = $('fieldset.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
         if (typeof type !== 'string') {
             type = valueObjectType(valueObj);
@@ -145,8 +147,6 @@
             .val(field.data('property-id'));
         $(document).trigger('o:prepare-value', [value, valueObj, type, namePrefix]);
 
-        // Append and return.
-        field.find('.values').append(value);
         return value;
     };
 
@@ -276,7 +276,7 @@
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);
                 $.each(valueObj.values, function(index, value) {
-                    makeNewValue(field, value);
+                    field.find('.values').append(makeNewValue(term, value));
                 });
             });
         }

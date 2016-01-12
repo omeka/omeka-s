@@ -52,10 +52,9 @@
         // Make new value inputs whenever "add value" button clicked.
         $('.add-value').on('click', function(e) {
             e.preventDefault();
-            var wrapper = $(this).parents('.resource-values.field');
-            var type = $(this).attr('class').replace(/o-icon-/, '').replace(/button/, '').replace(/add-value/, '').replace(/ /g, '');
-            var qName = wrapper.data('property-term');
-            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName, false, type));
+            var typeButton = $(this);
+            makeNewValue(typeButton.closest('.resource-values.field'), null,
+                typeButton.data('type'));
         });
 
         // Remove value.
@@ -130,9 +129,11 @@
         initPage();
     });
 
-    var makeNewValue = function(field, valueObj) {
+    var makeNewValue = function(field, valueObj, type) {
         // Get the value node from the templates.
-        var type = valueObjectType(valueObj);
+        if (typeof type !== 'string') {
+            type = valueObjectType(valueObj);
+        }
         var value = $('fieldset.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');
 
@@ -141,7 +142,7 @@
         var namePrefix = field.data('property-term') + '[' + count + ']';
         value.find('input.property')
             .attr('name', namePrefix + '[property_id]')
-            .val(valueObj['property_id']);
+            .val(field.data('property-id'));
         $(document).trigger('o:prepare-value', [value, valueObj, type, namePrefix]);
 
         // Append and return.
@@ -150,39 +151,38 @@
     };
 
     $(document).on('o:prepare-value', function(e, value, valueObj, type, namePrefix) {
-        if (!valueObj) {
-            return;
-        }
         if (type === 'literal') {
             value.find('textarea.input-value')
                 .attr('name', namePrefix + '[@value]')
-                .val(valueObj['@value']);
+                .val(valueObj ? valueObj['@value'] : null);
             value.find('input.value-language')
                 .attr('name', namePrefix + '[@language]')
-                .val(valueObj['@language']);
+                .val(valueObj ? valueObj['@language'] : null);
         } else if (type === 'uri') {
             value.find('input.value')
                 .attr('name', namePrefix + '[@id]')
-                .val(valueObj['@id']);
+                .val(valueObj ? valueObj['@id'] : null);
             value.find('textarea.value-label')
                 .attr('name', namePrefix + '[o:uri_label]')
-                .val(valueObj['o:uri_label']);
+                .val(valueObj ? valueObj['o:uri_label'] : null);
         } else if (type === 'resource') {
-            value.find('span.default').hide();
-            var resource = value.find('.selected-resource');
-            if (typeof valueObj['display_title'] === 'undefined') {
-                valueObj['display_title'] = '[Untitled]';
-            }
-            resource.find('.o-title')
-                .addClass(value['value_resource_name'])
-                .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
-            if (typeof valueObj['thumbnail_url'] !== 'undefined') {
+            if (valueObj) {
+                value.find('span.default').hide();
+                var resource = value.find('.selected-resource');
+                if (typeof valueObj['display_title'] === 'undefined') {
+                    valueObj['display_title'] = '[Untitled]';
+                }
                 resource.find('.o-title')
-                    .prepend($('<img>', {src: valueObj['thumbnail_url']}));
+                    .addClass(value['value_resource_name'])
+                    .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
+                if (typeof valueObj['thumbnail_url'] !== 'undefined') {
+                    resource.find('.o-title')
+                        .prepend($('<img>', {src: valueObj['thumbnail_url']}));
+                }
             }
             value.find('input.value')
                 .attr('name', namePrefix + '[value_resource_id]')
-                .val(valueObj['value_resource_id']);
+                .val(valueObj ? valueObj['value_resource_id'] : null);
         }
     });
 

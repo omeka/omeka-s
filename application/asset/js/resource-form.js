@@ -257,7 +257,21 @@
                 .attr('name', namePrefix + '[o:uri_label]')
                 .val(valueObj['o:uri_label']);
         } else if (type === 'resource') {
-            
+            value.find('span.default').hide();
+            var resource = value.find('.selected-resource');
+            if (typeof valueObj['display_title'] === 'undefined') {
+                valueObj['display_title'] = '[Untitled]';
+            }
+            resource.find('.o-title')
+                .addClass(value['value_resource_name'])
+                .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
+            if (typeof valueObj['thumbnail_url'] !== 'undefined') {
+                resource.find('.o-title')
+                    .prepend($('<img>', {src: valueObj['thumbnail_url']}));
+            }
+            value.find('input.value')
+                .attr('name', namePrefix + '[value_resource_id]')
+                .val(valueObj['value_resource_id']);
         }
     });
 

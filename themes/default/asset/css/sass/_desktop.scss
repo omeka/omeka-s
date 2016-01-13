@@ -212,10 +212,4 @@ ul.preview.resource-list li:first-of-type {
     @include leading-border(1px, 1, $base-font-size, solid);
 }
 
-.navigation-block ul {
-    min-width: 25%;
-    float: left;
-    margin: rhythm(.5, .75 * $base-font-size) rhythm(1, .75 * $base-font-size) rhythm(.5, .75 * $base-font-size) 0;
-}
-
 /* @end */

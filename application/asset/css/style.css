@@ -548,7 +548,8 @@ th {
   input[type="text"],
   input[type="password"],
   input[type="email"],
-  input[type="url"] {
+  input[type="url"],
+  input[type="number"] {
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 0px;

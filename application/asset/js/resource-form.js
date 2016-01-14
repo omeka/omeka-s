@@ -100,11 +100,10 @@
         });
 
         $('#select-item a').on('o:resource-selected', function (e) {
-            var value = makeNewValue(
-                $(this).data('property-term'),
-                $('.resource-details').data('resource-values')
-            );
-            $('.value.selecting-resource').replaceWith(value);
+            var value = $('.value.selecting-resource');
+            var valueObj = $('.resource-details').data('resource-values');
+            var namePrefix = value.data('name-prefix');
+            prepareResource(value, valueObj, namePrefix);
         });
 
         $('.button.resource-select').on('click', function(e) {
@@ -141,6 +140,7 @@
         // Prepare the value node.
         var count = field.find('fieldset.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';
+        value.data('name-prefix', namePrefix);
         value.find('input.property')
             .attr('name', namePrefix + '[property_id]')
             .val(field.data('property-id'));
@@ -192,8 +192,9 @@
                 valueObj['display_title'] = '[Untitled]';
             }
             resource.find('.o-title')
-                .addClass(value['value_resource_name'])
-                .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
+                .removeClass() // remove all classes
+                .addClass('o-title ' + valueObj['value_resource_name'])
+                .html($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
             if (typeof valueObj['thumbnail_url'] !== 'undefined') {
                 resource.find('.o-title')
                     .prepend($('<img>', {src: valueObj['thumbnail_url']}));

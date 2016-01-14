@@ -13,32 +13,32 @@
             Omeka.scrollTo(field);
         });
 
-        //handle changing the resource template
-        $('#resource-template-select').on('change', function(e) {
-            var templateId = $(this).val();
-            $('.alternate').remove();
-            $('.field-label, .field-description').show();
-            if (templateId == '') {
-                return;
-            }
-            var url = $(this).data('api-base-url') + '/' + templateId;
-            $.ajax({
-                'url': url,
-                'type': 'get'
-            }).done(function(data) {
-                var classSelect = $('select#resource-class-select');
-                if (data['o:resource_class'] && classSelect.val() == '' ) {
-                    classSelect.val(data['o:resource_class']['o:id']);
-                }
-                //in case people have added fields, reverse the template so
-                //I can prepend everything and keep the order, and then drop
-                //back to what people have added
-                var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-            }).error(function() {
-                console.log('fail');
-            });
-        });
+        //~ //handle changing the resource template
+        //~ $('#resource-template-select').on('change', function(e) {
+            //~ var templateId = $(this).val();
+            //~ $('.alternate').remove();
+            //~ $('.field-label, .field-description').show();
+            //~ if (templateId == '') {
+                //~ return;
+            //~ }
+            //~ var url = $(this).data('api-base-url') + '/' + templateId;
+            //~ $.ajax({
+                //~ 'url': url,
+                //~ 'type': 'get'
+            //~ }).done(function(data) {
+                //~ var classSelect = $('select#resource-class-select');
+                //~ if (data['o:resource_class'] && classSelect.val() == '' ) {
+                    //~ classSelect.val(data['o:resource_class']['o:id']);
+                //~ }
+                //~ //in case people have added fields, reverse the template so
+                //~ //I can prepend everything and keep the order, and then drop
+                //~ //back to what people have added
+                //~ var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                //~ propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            //~ }).error(function() {
+                //~ console.log('fail');
+            //~ });
+        //~ });
 
         $('a.value-language:not(.active)').on('click', function(e) {
             var button = $(this);
@@ -61,26 +61,25 @@
         // Remove value.
         $('a.remove-value').on('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-            var valueToRemove = $(this).parents('.value');
-
-            valueToRemove.find('input, textarea').prop('disabled', true);
-            valueToRemove.addClass('delete');
-            valueToRemove.find('a.restore-value').show().focus();
-            $(this).hide();
+            var thisButton = $(this);
+            var value = thisButton.closest('.value');
+            // Disable all form controls.
+            value.find('*').filter(':input').prop('disabled', true);
+            value.addClass('delete');
+            value.find('a.restore-value').show().focus();
+            thisButton.hide();
         });
 
         // Restore a removed value
         $('a.restore-value').on('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-            var valueToRemove = $(this).parents('.value');
-            valueToRemove.find('a.remove-value').show().focus();
-            valueToRemove.find('input').prop('disabled', false);
-            valueToRemove.find('textarea').prop('disabled', false);
-            valueToRemove.removeClass('delete');
-            valueToRemove.find('input.delete').remove();
-            $(this).hide();
+            var thisButton = $(this);
+            var value = thisButton.closest('.value');
+            // Enable all form controls.
+            value.find('*').filter(':input').prop('disabled', false);
+            value.removeClass('delete');
+            value.find('a.remove-value').show().focus();
+            thisButton.hide();
         });
 
         // Open or close item set
@@ -226,35 +225,35 @@
         return field;
     };
 
-    var rewritePropertyFromTemplateProperty = function(template, index, templates) {
-        var propertiesContainer = $('div#properties');
-        var id = template['o:property']['o:id'];
-        var field = propertiesContainer.find('fieldset[data-property-id="' + id + '"]');
-        if (field.length == 0) {
-            field = makeNewField(id);
-            var qName = field.data('property-term');
-            $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
-        }
-
-        var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label']) {
-            var altLabel = originalLabel.clone();
-            altLabel.addClass('alternate');
-            altLabel.text(template['o:alternate_label']);
-            altLabel.insertAfter(originalLabel);
-            originalLabel.hide();
-        }
-
-        var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment']) {
-            var altDescription = originalDescription.clone();
-            altDescription.addClass('alternate');
-            altDescription.text(template['o:alternate_comment']);
-            altDescription.insertAfter(originalDescription);
-            originalDescription.hide();            
-        }
-        propertiesContainer.prepend(field);
-    };
+    //~ var rewritePropertyFromTemplateProperty = function(template, index, templates) {
+        //~ var propertiesContainer = $('div#properties');
+        //~ var id = template['o:property']['o:id'];
+        //~ var field = propertiesContainer.find('fieldset[data-property-id="' + id + '"]');
+        //~ if (field.length == 0) {
+            //~ field = makeNewField(id);
+            //~ var qName = field.data('property-term');
+            //~ $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
+        //~ }
+//~ 
+        //~ var originalLabel = field.find('.field-label');
+        //~ if (template['o:alternate_label']) {
+            //~ var altLabel = originalLabel.clone();
+            //~ altLabel.addClass('alternate');
+            //~ altLabel.text(template['o:alternate_label']);
+            //~ altLabel.insertAfter(originalLabel);
+            //~ originalLabel.hide();
+        //~ }
+//~ 
+        //~ var originalDescription = field.find('.field-description');
+        //~ if (template['o:alternate_comment']) {
+            //~ var altDescription = originalDescription.clone();
+            //~ altDescription.addClass('alternate');
+            //~ altDescription.text(template['o:alternate_comment']);
+            //~ altDescription.insertAfter(originalDescription);
+            //~ originalDescription.hide();            
+        //~ }
+        //~ propertiesContainer.prepend(field);
+    //~ };
 
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
@@ -269,22 +268,22 @@
             });
         }
 
-        //rewrite the fields if a template is set
-        var templateSelect = $('#resource-template-select');
-        var templateId = templateSelect.val();
-        if ($.isNumeric(templateId)) {
-            var url = templateSelect.data('api-base-url') + '/' + templateId;
-            $.ajax({
-                'url': url,
-                'type': 'get'
-            }).done(function(data) {
-                //reverse the templates because the need to be prepended
-                var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-            }).error(function() {
-                console.log('fail');
-            });
-        }
+        //~ //rewrite the fields if a template is set
+        //~ var templateSelect = $('#resource-template-select');
+        //~ var templateId = templateSelect.val();
+        //~ if ($.isNumeric(templateId)) {
+            //~ var url = templateSelect.data('api-base-url') + '/' + templateId;
+            //~ $.ajax({
+                //~ 'url': url,
+                //~ 'type': 'get'
+            //~ }).done(function(data) {
+                //~ //reverse the templates because the need to be prepended
+                //~ var propertyTemplates = data['o:resource_template_property'].reverse(); 
+                //~ propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
+            //~ }).error(function() {
+                //~ console.log('fail');
+            //~ });
+        //~ }
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

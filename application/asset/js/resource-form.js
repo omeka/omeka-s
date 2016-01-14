@@ -50,7 +50,7 @@
         });
 
         // Make new value inputs whenever "add value" button clicked.
-        $('.add-value').on('click', function(e) {
+        $('#properties').on('click', '.add-value', function(e) {
             e.preventDefault();
             var typeButton = $(this);
             var field = typeButton.closest('.resource-values.field');
@@ -242,35 +242,54 @@
         return field;
     };
 
-    //~ var rewritePropertyFromTemplateProperty = function(template, index, templates) {
-        //~ var propertiesContainer = $('div#properties');
-        //~ var id = template['o:property']['o:id'];
-        //~ var field = propertiesContainer.find('fieldset[data-property-id="' + id + '"]');
-        //~ if (field.length == 0) {
-            //~ field = makeNewField(id);
-            //~ var qName = field.data('property-term');
-            //~ $('fieldset.resource-values.field[data-property-term="' + qName + '"] .values').append(makeNewValue(qName));
-        //~ }
-//~ 
-        //~ var originalLabel = field.find('.field-label');
-        //~ if (template['o:alternate_label']) {
-            //~ var altLabel = originalLabel.clone();
-            //~ altLabel.addClass('alternate');
-            //~ altLabel.text(template['o:alternate_label']);
-            //~ altLabel.insertAfter(originalLabel);
-            //~ originalLabel.hide();
-        //~ }
-//~ 
-        //~ var originalDescription = field.find('.field-description');
-        //~ if (template['o:alternate_comment']) {
-            //~ var altDescription = originalDescription.clone();
-            //~ altDescription.addClass('alternate');
-            //~ altDescription.text(template['o:alternate_comment']);
-            //~ altDescription.insertAfter(originalDescription);
-            //~ originalDescription.hide();            
-        //~ }
-        //~ propertiesContainer.prepend(field);
-    //~ };
+    var rewritePropertyField = function(template, index, templates) {
+        var properties = $('div#properties');
+        var propertyId = template['o:property']['o:id'];
+        var field = properties.find('fieldset[data-property-id="' + propertyId + '"]');
+
+        if (field.length == 0) {
+            field = makeNewField(propertyId);
+        }
+
+        if (template['o:data_type']) {
+            var addValues = field.find('div.add-values');
+            // Hide the default type selector.
+            addValues.find('a.add-value').hide();
+            // Add a button that adds the property-specific data type.
+            var addValue = $('<a>')
+                .addClass('add-value button')
+                .attr('data-type', template['o:data_type'])
+                .text('Add Value');
+            addValues.append(addValue);
+
+            // Add an empty value if none already exist in the property.
+            if (!field.find('fieldset.value').length) {
+                field.find('.values').append(makeNewValue(
+                    field.data('property-term'), null, template['o:data_type']
+                ));
+            }
+        }
+
+        var originalLabel = field.find('.field-label');
+        if (template['o:alternate_label']) {
+            var altLabel = originalLabel.clone();
+            altLabel.addClass('alternate');
+            altLabel.text(template['o:alternate_label']);
+            altLabel.insertAfter(originalLabel);
+            originalLabel.hide();
+        }
+
+        var originalDescription = field.find('.field-description');
+        if (template['o:alternate_comment']) {
+            var altDescription = originalDescription.clone();
+            altDescription.addClass('alternate');
+            altDescription.text(template['o:alternate_comment']);
+            altDescription.insertAfter(originalDescription);
+            originalDescription.hide();
+        }
+
+        properties.prepend(field);
+    };
 
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
@@ -285,22 +304,20 @@
             });
         }
 
-        //~ //rewrite the fields if a template is set
-        //~ var templateSelect = $('#resource-template-select');
-        //~ var templateId = templateSelect.val();
-        //~ if ($.isNumeric(templateId)) {
-            //~ var url = templateSelect.data('api-base-url') + '/' + templateId;
-            //~ $.ajax({
-                //~ 'url': url,
-                //~ 'type': 'get'
-            //~ }).done(function(data) {
-                //~ //reverse the templates because the need to be prepended
-                //~ var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                //~ propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-            //~ }).error(function() {
-                //~ console.log('fail');
-            //~ });
-        //~ }
+        // Rearrange the fields if a resource template is set.
+        var templateSelect = $('#resource-template-select');
+        var templateId = templateSelect.val();
+        if ($.isNumeric(templateId)) {
+            var url = templateSelect.data('api-base-url') + '/' + templateId;
+            $.get(url)
+                .done(function(data) {
+                    data['o:resource_template_property'].reverse()
+                        .forEach(rewritePropertyField);
+                })
+                .fail(function() {
+                    console.log('Failed resource template GET');
+                });
+        }
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

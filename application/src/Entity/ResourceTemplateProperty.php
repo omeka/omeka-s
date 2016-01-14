@@ -48,7 +48,7 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $position;
 
     /**
-     * @Column
+     * @Column(nullable=true)
      */
     protected $dataType;
 

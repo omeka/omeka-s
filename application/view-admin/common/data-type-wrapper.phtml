@@ -3,6 +3,7 @@ $escape = $this->plugin('escapeHtml');
 ?>
 <fieldset class="template value" data-data-type="<?php echo $escape($this->dataType); ?>">
     <input type="hidden" class="property">
+    <input type="hidden" class="type">
     <div class="input-header">
         <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">

@@ -31,9 +31,10 @@ class DataType extends AbstractHelper
     public function getSelect($name, $value)
     {
         $element = new Select($name);
-        $element->setValueOptions($this->valueOptions);
+        $element->setEmptyOption('Default')
+            ->setValueOptions($this->valueOptions);
         if (!array_key_exists($value, $this->valueOptions)) {
-            $value = 'normal';
+            $value = null;
         }
         $element->setValue($value);
         return $this->getView()->formSelect($element);

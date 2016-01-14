@@ -134,7 +134,7 @@
         var field = $('fieldset.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
         if (typeof type !== 'string') {
-            type = valueObjectType(valueObj);
+            type = valueObj['type'];
         }
         var value = $('fieldset.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');
@@ -145,6 +145,9 @@
         value.find('input.property')
             .attr('name', namePrefix + '[property_id]')
             .val(field.data('property-id'));
+        value.find('input.type')
+            .attr('name', namePrefix + '[type]')
+            .val(type);
         $(document).trigger('o:prepare-value', [value, valueObj, type, namePrefix]);
 
         return value;
@@ -251,21 +254,6 @@
             originalDescription.hide();            
         }
         propertiesContainer.prepend(field);
-    };
-
-    /**
-     * Figure out if a valueObject is a literal, internal resource, or external resource
-     */
-    var valueObjectType = function(valueObject) {
-        if (typeof valueObject['@value'] === 'string') {
-            return 'literal';
-        } else {
-            if (typeof valueObject['value_resource_id'] === 'undefined') {
-                return 'uri';
-            } else {
-                return 'resource';
-            }
-        }
     };
 
     var initPage = function() {

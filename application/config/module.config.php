@@ -260,7 +260,6 @@ return [
     ],
     'data_types' => [
         'invokables' => [
-            'normal' => 'Omeka\DataType\Normal',
             'literal' => 'Omeka\DataType\Literal',
             'uri' => 'Omeka\DataType\Uri',
             'resource' => 'Omeka\DataType\Resource',

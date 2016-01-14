@@ -46,14 +46,6 @@ class ValueTest extends TestCase
         $this->assertSame($property, $this->value->getProperty());
     }
 
-    public function testSetType()
-    {
-        foreach ($this->value->getValidTypes() as $type) {
-            $this->value->setType($type);
-            $this->assertEquals($type, $this->value->getType());
-        }
-    }
-
     public function testSetValue()
     {
         $value = 'test-value';

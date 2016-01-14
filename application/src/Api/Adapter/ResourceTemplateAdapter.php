@@ -155,8 +155,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ) {
                     $altComment = $resTemPropData['o:alternate_comment'];
                 }
-                $dataType = '';
-                if (isset($resTemPropData['o:data_type'])) {
+                $dataType = null;
+                if (isset($resTemPropData['o:data_type'])
+                    && '' !== trim($resTemPropData['o:data_type'])
+                ) {
                     $dataType = $resTemPropData['o:data_type'];
                 }
 

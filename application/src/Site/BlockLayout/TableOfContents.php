@@ -55,15 +55,10 @@ class TableOfContents extends AbstractBlockLayout
             $depth = 1;
         }
 
-        $html = '';
-        $html .= '<div class="toc-block">';
-        $html .= $view->navigation($subNav)->menu()->renderMenu(null,
-            array(
-                'maxDepth' => $depth - 1
-            )
-        );
-        $html .= '</div>';
-
-        return $html;
+        return $view->partial('common/block-layout/table-of-contents', array(
+            'block' => $block,
+            'subNav' => $subNav,
+            'maxDepth' => $depth - 1,
+        ));
     }
 }

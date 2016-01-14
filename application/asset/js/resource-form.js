@@ -147,46 +147,62 @@
         value.find('input.type')
             .attr('name', namePrefix + '[type]')
             .val(type);
-        $(document).trigger('o:prepare-value', [value, valueObj, type, namePrefix]);
+        $(document).trigger('o:prepare-value', [type, value, valueObj, namePrefix]);
 
         return value;
     };
 
-    $(document).on('o:prepare-value', function(e, value, valueObj, type, namePrefix) {
+    // Prepare values with the default data types.
+    $(document).on('o:prepare-value', function(e, type, value, valueObj, namePrefix) {
         if (type === 'literal') {
-            value.find('textarea.input-value')
-                .attr('name', namePrefix + '[@value]')
-                .val(valueObj ? valueObj['@value'] : null);
-            value.find('input.value-language')
-                .attr('name', namePrefix + '[@language]')
-                .val(valueObj ? valueObj['@language'] : null);
+            prepareLiteral(value, valueObj, namePrefix);
         } else if (type === 'uri') {
-            value.find('input.value')
-                .attr('name', namePrefix + '[@id]')
-                .val(valueObj ? valueObj['@id'] : null);
-            value.find('textarea.value-label')
-                .attr('name', namePrefix + '[o:uri_label]')
-                .val(valueObj ? valueObj['o:uri_label'] : null);
+            prepareUri(value, valueObj, namePrefix);
         } else if (type === 'resource') {
-            if (valueObj) {
-                value.find('span.default').hide();
-                var resource = value.find('.selected-resource');
-                if (typeof valueObj['display_title'] === 'undefined') {
-                    valueObj['display_title'] = '[Untitled]';
-                }
-                resource.find('.o-title')
-                    .addClass(value['value_resource_name'])
-                    .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
-                if (typeof valueObj['thumbnail_url'] !== 'undefined') {
-                    resource.find('.o-title')
-                        .prepend($('<img>', {src: valueObj['thumbnail_url']}));
-                }
-            }
-            value.find('input.value')
-                .attr('name', namePrefix + '[value_resource_id]')
-                .val(valueObj ? valueObj['value_resource_id'] : null);
+            prepareResource(value, valueObj, namePrefix);
         }
     });
+
+    // Prepare a literal value.
+    var prepareLiteral = function(value, valueObj, namePrefix) {
+        value.find('textarea.input-value')
+            .attr('name', namePrefix + '[@value]')
+            .val(valueObj ? valueObj['@value'] : null);
+        value.find('input.value-language')
+            .attr('name', namePrefix + '[@language]')
+            .val(valueObj ? valueObj['@language'] : null);
+    }
+
+    // Prepare a uri value.
+    var prepareUri = function(value, valueObj, namePrefix) {
+        value.find('input.value')
+            .attr('name', namePrefix + '[@id]')
+            .val(valueObj ? valueObj['@id'] : null);
+        value.find('textarea.value-label')
+            .attr('name', namePrefix + '[o:uri_label]')
+            .val(valueObj ? valueObj['o:uri_label'] : null);
+    }
+
+    // Prepare a resource value.
+    var prepareResource = function(value, valueObj, namePrefix) {
+        if (valueObj) {
+            value.find('span.default').hide();
+            var resource = value.find('.selected-resource');
+            if (typeof valueObj['display_title'] === 'undefined') {
+                valueObj['display_title'] = '[Untitled]';
+            }
+            resource.find('.o-title')
+                .addClass(value['value_resource_name'])
+                .append($('<a>', {href: valueObj['url'], text: valueObj['display_title']}));
+            if (typeof valueObj['thumbnail_url'] !== 'undefined') {
+                resource.find('.o-title')
+                    .prepend($('<img>', {src: valueObj['thumbnail_url']}));
+            }
+        }
+        value.find('input.value')
+            .attr('name', namePrefix + '[value_resource_id]')
+            .val(valueObj ? valueObj['value_resource_id'] : null);
+    }
 
     var makeNewField = function(property) {
         //sort out whether property is the LI that holds data, or the id

@@ -261,7 +261,7 @@ return [
         'invokables' => [
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
-            'itemList' => 'Omeka\Site\BlockLayout\ItemList',
+            'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
         ],

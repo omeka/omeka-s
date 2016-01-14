@@ -5,12 +5,12 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
-class ItemList extends AbstractBlockLayout
+class ItemShowcase extends AbstractBlockLayout
 {
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Item List');
+        return $translator->translate('Item Showcase');
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -28,7 +28,7 @@ class ItemList extends AbstractBlockLayout
         }
 
         $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
-        return $view->partial('common/block-layout/item-list', array(
+        return $view->partial('common/block-layout/item-showcase', array(
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $thumbnailType,

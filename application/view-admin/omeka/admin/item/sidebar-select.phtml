@@ -6,8 +6,14 @@ $escape = $this->plugin('escapeHtml');
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search">
         <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+<?php
+$urlOptions = [];
+if(!$showDetails):
+    $urlOptions['query']['show_details'] = '0';
+endif;
+?>
         <button 
-        data-search-url="<?php echo $escape($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'))); ?>" 
+        data-search-url="<?php echo $escape($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'), $urlOptions)); ?>"
         type="submit" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
 <?php echo $this->pagination(); ?>

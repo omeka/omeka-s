@@ -778,11 +778,23 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-file-o;
     }
 
+    #menu a.navigation:before {
+        content: $fa-var-navicon;
+    }
+
     #menu a.public {
         float: right;
         text-align: right;
         font-size: $base-font-size;
         line-height: 1.25 * $base-line-height;
+    }
+
+    #menu a.item-pool:before {
+        content: $fa-var-cube;
+    }
+
+    #menu a.general:before {
+        content: $fa-var-gears;
     }
 
     /* @end */
@@ -2558,10 +2570,6 @@ body.sidebar-open #content {
 
     td.user-meta {
         width: 50%;
-    }
-
-    #permissions .selector li li {
-        cursor: pointer;
     }
 
     #site-user-permissions + .no-resources {

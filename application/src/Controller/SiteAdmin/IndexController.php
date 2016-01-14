@@ -69,9 +69,6 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $jstree = json_decode($formData['jstree'], true);
-            $formData['o:navigation'] = $translator->fromJstree($jstree);
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData, [], true);
@@ -88,12 +85,8 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $users = $this->api()->search('users', ['sort_by' => 'name']);
-
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('navTree', $translator->toJstree($site));
-        $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, [
@@ -172,6 +165,93 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function navigationAction()
+    {
+        $serviceLocator = $this->getServiceLocator();
+        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $jstree = json_decode($formData['jstree'], true);
+            $formData['o:navigation'] = $translator->fromJstree($jstree);
+            $response = $this->api()->update('sites', $id, $formData, [], true);
+            if ($response->isError()) {
+                $this->messenger()->addErrors($response->getErrors());
+            } else {
+                $this->messenger()->addSuccess('Site updated.');
+            }
+            return $this->redirect()->refresh();
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('navTree', $translator->toJstree($site));
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
+    public function itemPoolAction()
+    {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $response = $this->api()->update('sites', $id, $formData, [], true);
+            if ($response->isError()) {
+                $this->messenger()->addErrors($response->getErrors());
+            } else {
+                $this->messenger()->addSuccess('Item pool updated.');
+            }
+            return $this->redirect()->refresh();
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
+    public function usersAction()
+    {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $response = $this->api()->update('sites', $id, $formData, [], true);
+            if ($response->isError()) {
+                $this->messenger()->addErrors($response->getErrors());
+            } else {
+                $this->messenger()->addSuccess('User permissions updated.');
+            }
+            return $this->redirect()->refresh();
+        }
+
+        $users = $this->api()->search('users', ['sort_by' => 'name']);
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('users', $users->getContent());
         return $view;
     }
 

@@ -1183,11 +1183,23 @@ th {
     content: "";
   }
 
+  #menu a.navigation:before {
+    content: "";
+  }
+
   #menu a.public {
     float: right;
     text-align: right;
     font-size: 16px;
     line-height: 30px;
+  }
+
+  #menu a.item-pool:before {
+    content: "";
+  }
+
+  #menu a.general:before {
+    content: "";
   }
 
   /* @end */
@@ -2929,10 +2941,6 @@ th {
 
   td.user-meta {
     width: 50%;
-  }
-
-  #permissions .selector li li {
-    cursor: pointer;
   }
 
   #site-user-permissions + .no-resources {

@@ -13,33 +13,6 @@
             Omeka.scrollTo(field);
         });
 
-        //~ //handle changing the resource template
-        //~ $('#resource-template-select').on('change', function(e) {
-            //~ var templateId = $(this).val();
-            //~ $('.alternate').remove();
-            //~ $('.field-label, .field-description').show();
-            //~ if (templateId == '') {
-                //~ return;
-            //~ }
-            //~ var url = $(this).data('api-base-url') + '/' + templateId;
-            //~ $.ajax({
-                //~ 'url': url,
-                //~ 'type': 'get'
-            //~ }).done(function(data) {
-                //~ var classSelect = $('select#resource-class-select');
-                //~ if (data['o:resource_class'] && classSelect.val() == '' ) {
-                    //~ classSelect.val(data['o:resource_class']['o:id']);
-                //~ }
-                //~ //in case people have added fields, reverse the template so
-                //~ //I can prepend everything and keep the order, and then drop
-                //~ //back to what people have added
-                //~ var propertyTemplates = data['o:resource_template_property'].reverse(); 
-                //~ propertyTemplates.forEach(rewritePropertyFromTemplateProperty);
-            //~ }).error(function() {
-                //~ console.log('fail');
-            //~ });
-        //~ });
-
         $('#resource-template-select').on('change', function(e) {
             // Restore the original property label and comment.
             $('.alternate').remove();

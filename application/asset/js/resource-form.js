@@ -240,7 +240,7 @@
      * Rewrite a property field following the rules defined by the selected
      * resource template.
      */
-    var rewritePropertyField = function(template, index, templates) {
+    var rewritePropertyField = function(template) {
         var properties = $('div#properties');
         var propertyId = template['o:property']['o:id'];
         var field = properties.find('fieldset[data-property-id="' + propertyId + '"]');
@@ -296,11 +296,11 @@
     var rewritePropertyFields = function() {
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
+        var fields = $('#properties fieldset.resource-values');
         if (!templateId) {
             // Using the default resource template, so the resource class must
             // be null and all properties should use the default selector.
             $('#resource-class-select').val(null);
-            var fields = $('#properties');
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
             return;
@@ -308,14 +308,31 @@
         var url = templateSelect.data('api-base-url') + '/' + templateId;
         $.get(url)
             .done(function(data) {
+                // Change the resource class.
                 var classSelect = $('#resource-class-select');
                 if (data['o:resource_class'] && classSelect.val() === '') {
                     classSelect.val(data['o:resource_class']['o:id']);
                 } else {
                     classSelect.val(null);
                 }
-                data['o:resource_template_property'].reverse()
-                    .forEach(rewritePropertyField);
+                // Rewrite every property field defined by the template. We
+                // reverse the order so property fields on page that are not
+                // defined by the template are ultimately appended.
+                var templatePropertyIds = data['o:resource_template_property']
+                    .reverse().map(function(templateProperty) {
+                        rewritePropertyField(templateProperty);
+                        return templateProperty['o:property']['o:id'];
+                    });
+                // Property fields that are not defined by the template should
+                // use the default selector.
+                fields.each(function() {
+                    var propertyId = $(this).data('property-id');
+                    if (templatePropertyIds.indexOf(propertyId) === -1) {
+                        var field = $(this);
+                        field.find('div.single-selector').hide();
+                        field.find('div.default-selector').show();
+                    }
+                });
             })
             .fail(function() {
                 console.log('Failed loading resource template from API');

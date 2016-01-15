@@ -326,7 +326,7 @@ header {
     padding: 0 gutter() rhythm();
 }
 
-.item-list {
+.item-showcase {
     margin: rhythm() 0;
     border-color: $light;
     @include leading-border(1px, 1, $base-font-size, solid);
@@ -349,7 +349,7 @@ header {
     }
 }
 
-.item-list .resource.item {
+.item-showcase .resource.item {
     display: inline-block;
     vertical-align: top;
 
@@ -359,6 +359,10 @@ header {
 
     img {
         margin-right: rhythm(.5);
+    }
+
+    &:only-child img {
+        margin: 0 auto;
     }
 
     &:not(:only-child) {

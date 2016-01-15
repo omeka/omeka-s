@@ -40,6 +40,13 @@
             //~ });
         //~ });
 
+        $('#resource-template-select').on('change', function(e) {
+            // Restore the original property label and comment.
+            $('.alternate').remove();
+            $('.field-label, .field-description').show();
+            rewritePropertyFields();
+        });
+
         $('a.value-language:not(.active)').on('click', function(e) {
             var button = $(this);
             e.preventDefault();
@@ -128,6 +135,9 @@
         initPage();
     });
 
+    /**
+     * Make a new value.
+     */
     var makeNewValue = function(term, valueObj, type) {
         var field = $('fieldset.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
@@ -152,7 +162,9 @@
         return value;
     };
 
-    // Prepare values with the default data types.
+    /**
+     * Prepare the markup for the default data types.
+     */
     $(document).on('o:prepare-value', function(e, type, value, valueObj, namePrefix) {
         if (type === 'literal') {
             prepareLiteral(value, valueObj, namePrefix);
@@ -163,7 +175,9 @@
         }
     });
 
-    // Prepare a literal value.
+    /**
+     * Prepare the markup for the literal data type.
+     */
     var prepareLiteral = function(value, valueObj, namePrefix) {
         value.find('textarea.input-value')
             .attr('name', namePrefix + '[@value]')
@@ -173,7 +187,9 @@
             .val(valueObj ? valueObj['@language'] : null);
     }
 
-    // Prepare a uri value.
+    /**
+     * Prepare the markup for the uri data type.
+     */
     var prepareUri = function(value, valueObj, namePrefix) {
         value.find('input.value')
             .attr('name', namePrefix + '[@id]')
@@ -183,7 +199,9 @@
             .val(valueObj ? valueObj['o:uri_label'] : null);
     }
 
-    // Prepare a resource value.
+    /**
+     * Prepare the markup for the resource data type.
+     */
     var prepareResource = function(value, valueObj, namePrefix) {
         if (valueObj) {
             value.find('span.default').hide();
@@ -205,6 +223,9 @@
             .val(valueObj ? valueObj['value_resource_id'] : null);
     }
 
+    /**
+     * Make a new property field.
+     */
     var makeNewField = function(property) {
         //sort out whether property is the LI that holds data, or the id
         var propertyLi, propertyId;
@@ -242,6 +263,10 @@
         return field;
     };
 
+    /**
+     * Rewrite a property field following the rules defined by the selected
+     * resource template.
+     */
     var rewritePropertyField = function(template, index, templates) {
         var properties = $('div#properties');
         var propertyId = template['o:property']['o:id'];
@@ -252,15 +277,11 @@
         }
 
         if (template['o:data_type']) {
-            var addValues = field.find('div.add-values');
-            // Hide the default type selector.
-            addValues.find('a.add-value').hide();
-            // Add a button that adds the property-specific data type.
-            var addValue = $('<a>')
-                .addClass('add-value button')
-                .attr('data-type', template['o:data_type'])
-                .text('Add Value');
-            addValues.append(addValue);
+            // Use the single selector if the property has a data type.
+            field.find('div.default-selector').hide();
+            var singleSelector = field.find('div.single-selector');
+            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
+            singleSelector.show();
 
             // Add an empty value if none already exist in the property.
             if (!field.find('fieldset.value').length) {
@@ -268,6 +289,10 @@
                     field.data('property-term'), null, template['o:data_type']
                 ));
             }
+        } else {
+            // Use the default selector if the property has no data type.
+            field.find('div.single-selector').hide();
+            field.find('div.default-selector').show();
         }
 
         var originalLabel = field.find('.field-label');
@@ -291,6 +316,42 @@
         properties.prepend(field);
     };
 
+    /**
+     * Rewrite all property fields following the rules defined by the selected
+     * resource template.
+     */
+    var rewritePropertyFields = function() {
+        var templateSelect = $('#resource-template-select');
+        var templateId = templateSelect.val();
+        if (!templateId) {
+            // Using the default resource template, so the resource class must
+            // be null and all properties should use the default selector.
+            $('#resource-class-select').val(null);
+            var fields = $('#properties');
+            fields.find('div.single-selector').hide();
+            fields.find('div.default-selector').show();
+            return;
+        }
+        var url = templateSelect.data('api-base-url') + '/' + templateId;
+        $.get(url)
+            .done(function(data) {
+                var classSelect = $('#resource-class-select');
+                if (data['o:resource_class'] && classSelect.val() === '') {
+                    classSelect.val(data['o:resource_class']['o:id']);
+                } else {
+                    classSelect.val(null);
+                }
+                data['o:resource_template_property'].reverse()
+                    .forEach(rewritePropertyField);
+            })
+            .fail(function() {
+                console.log('Failed loading resource template from API');
+            });
+    }
+
+    /**
+     * Initialize the page.
+     */
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title');
@@ -304,20 +365,7 @@
             });
         }
 
-        // Rearrange the fields if a resource template is set.
-        var templateSelect = $('#resource-template-select');
-        var templateId = templateSelect.val();
-        if ($.isNumeric(templateId)) {
-            var url = templateSelect.data('api-base-url') + '/' + templateId;
-            $.get(url)
-                .done(function(data) {
-                    data['o:resource_template_property'].reverse()
-                        .forEach(rewritePropertyField);
-                })
-                .fail(function() {
-                    console.log('Failed resource template GET');
-                });
-        }
+        rewritePropertyFields();
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

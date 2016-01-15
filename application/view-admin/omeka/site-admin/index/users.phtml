@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites users sidebar-open');
+$form->prepare();
 $escape = $this->plugin('escapeHtml');
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
@@ -12,7 +13,7 @@ $roles = array(
 
 <?php echo $this->pageTitle($this->translate('User Permissions')); ?>
 
-<form method="POST" id="site-form">
+<?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
     <button><?php echo $this->translate('Save'); ?></button>
@@ -93,7 +94,8 @@ $roles = array(
         </ul>
     </div>
 
-</form>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>
 
 <?php
 $userRowTemplate = '

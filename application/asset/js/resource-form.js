@@ -44,7 +44,7 @@
             var thisButton = $(this);
             var value = thisButton.closest('.value');
             // Disable all form controls.
-            value.find('*').filter(':input').prop('disabled', true);
+            value.find(':input').prop('disabled', true);
             value.addClass('delete');
             value.find('a.restore-value').show().focus();
             thisButton.hide();

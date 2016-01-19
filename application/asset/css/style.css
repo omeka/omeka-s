@@ -2664,9 +2664,16 @@ th {
     font-size: 24px;
     margin-bottom: 0.5em;
   }
-  .sidebar h3 {
+  .sidebar h3,
+  .sidebar label {
+    display: block;
     font-size: 20px;
     margin-bottom: 0.6em;
+  }
+  .sidebar .field {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1.5em;
   }
 
   #sidebar-confirm {
@@ -3259,7 +3266,7 @@ th {
   #nav-page-links {
     list-style: none;
     padding-left: 0;
-    margin-top: 1.37505em;
+    margin-top: 0.75em;
   }
 
   .page-selector-filter {

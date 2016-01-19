@@ -192,7 +192,7 @@ class IndexController extends AbstractActionController
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
-                    $this->messenger()->addSuccess('Site updated.');
+                    $this->messenger()->addSuccess('Navigation updated.');
                     return $this->redirect()->refresh();
                 }
                 $this->messenger()->addError('There was an error during validation');

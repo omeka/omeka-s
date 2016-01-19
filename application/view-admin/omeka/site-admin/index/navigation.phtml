@@ -5,7 +5,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
 $escape = $this->plugin('escapeHtml');
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Site Navigation'), $site->title())); ?>
+<?php echo $this->pageTitle(sprintf($this->translate('Navigation'), $site->title())); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
@@ -17,34 +17,38 @@ $escape = $this->plugin('escapeHtml');
     data-jstree-data="<?php echo $escape(json_encode($navTree)); ?>">
 </div>
 <div id="nav-selector" class="active sidebar">
-    <h3><?php echo $this->translate('Add a custom link'); ?></h3>
-    <select id="nav-custom-links">
-        <option value=""><?php echo $this->translate('Select below&hellip;'); ?></option>
-        <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
-        <?php $label = $this->navigationLink()->getLabel($type); ?>
-        <option
-            data-type="<?php echo $escape($type); ?>"
-            data-label="<?php echo $escape($label); ?>"
-            value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+    <div class="field">
+        <label for="nav-custom-links"><?php echo $this->translate('Add a custom link'); ?></label>
+        <select id="nav-custom-links">
+            <option value=""><?php echo $this->translate('Select below&hellip;'); ?></option>
+            <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
+            <?php $label = $this->navigationLink()->getLabel($type); ?>
+            <option
+                data-type="<?php echo $escape($type); ?>"
+                data-label="<?php echo $escape($label); ?>"
+                value="<?php echo $escape($type); ?>"><?php echo $escape($label); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="field">
+        <label><?php echo $this->translate('Add a link to a site page'); ?></label>
+        <?php if ($pages = $site->notLinkedPages()): ?>
+        <input type="text" class="page-selector-filter" placeholder="Filter pages">
+        <ul id="nav-page-links">
+        <?php foreach ($pages as $page): ?>
+            <li class="nav-page-link"
+                data-type="page"
+                data-label="<?php echo $escape($page->title()); ?>"
+                data-id="<?php echo $escape($page->id()); ?>"
+                data-slug="<?php echo $escape($page->slug()); ?>">
+                <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
+            </li>
         <?php endforeach; ?>
-    </select>
-    <h3><?php echo $this->translate('Add a link to a site page'); ?></h3>
-    <?php if ($pages = $site->notLinkedPages()): ?>
-    <input type="text" class="page-selector-filter" placeholder="Filter pages">
-    <ul id="nav-page-links">
-    <?php foreach ($pages as $page): ?>
-        <li class="nav-page-link"
-            data-type="page"
-            data-label="<?php echo $escape($page->title()); ?>"
-            data-id="<?php echo $escape($page->id()); ?>"
-            data-slug="<?php echo $escape($page->slug()); ?>">
-            <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-    <?php else: ?>
-    <p>There are no available pages.</p>
-    <?php endif; ?>
+        </ul>
+        <?php else: ?>
+        <p>There are no available pages.</p>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php echo $this->formElement($form->get('csrf')); ?>

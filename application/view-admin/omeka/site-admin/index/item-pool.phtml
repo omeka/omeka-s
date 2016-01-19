@@ -1,0 +1,19 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'sites item-pool');
+$form->prepare();
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$escape = $this->plugin('escapeHtml');
+?>
+
+<?php echo $this->pageTitle($this->translate('Item Pool')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item', 'query' => $site->itemPool()]); ?></div>
+
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>

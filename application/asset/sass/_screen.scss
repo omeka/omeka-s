@@ -778,11 +778,23 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-file-o;
     }
 
+    #menu a.navigation:before {
+        content: $fa-var-navicon;
+    }
+
     #menu a.public {
         float: right;
         text-align: right;
         font-size: $base-font-size;
         line-height: 1.25 * $base-line-height;
+    }
+
+    #menu a.item-pool:before {
+        content: $fa-var-cube;
+    }
+
+    #menu a.general:before {
+        content: $fa-var-gears;
     }
 
     /* @end */
@@ -2296,9 +2308,17 @@ input[type="text"].value-language,
         @include trailer(.5, 1.5 * $base-font-size);
     }
 
-    h3 {
+    h3,
+    label{
+        display: block;
         font-size: 1.25 * $base-font-size;
         @include trailer(.5, 1.25 * $base-font-size);
+    }
+
+    .field {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: rhythm();
     }
 }
 
@@ -2558,10 +2578,6 @@ body.sidebar-open #content {
 
     td.user-meta {
         width: 50%;
-    }
-
-    #permissions .selector li li {
-        cursor: pointer;
     }
 
     #site-user-permissions + .no-resources {
@@ -2884,7 +2900,7 @@ body.sidebar-open #content {
     #nav-page-links {
         list-style: none;
         padding-left: 0;
-        @include leader(.9167);
+        @include leader(.5);
     }
 
     .page-selector-filter {

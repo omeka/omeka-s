@@ -151,13 +151,6 @@ return [
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Settings',
-                'class'         => 'settings',
-                'route'         => 'admin/site/default',
-                'action'        => 'settings',
-                'useRouteMatch' => true
-            ],
-            [
                 'label'         => 'Pages',
                 'class'         => 'pages',
                 'route'         => 'admin/site/page',
@@ -174,6 +167,34 @@ return [
                         'visible'    => false,
                     ],
                 ],
+            ],
+            [
+                'label'         => 'Navigation',
+                'class'         => 'navigation',
+                'route'         => 'admin/site/default',
+                'action'        => 'navigation',
+                'useRouteMatch' => true
+            ],
+            [
+                'label'         => 'Item Pool',
+                'class'         => 'item-pool',
+                'route'         => 'admin/site/default',
+                'action'        => 'item-pool',
+                'useRouteMatch' => true
+            ],
+            [
+                'label'         => 'User Permissions',
+                'class'         => 'users',
+                'route'         => 'admin/site/default',
+                'action'        => 'users',
+                'useRouteMatch' => true
+            ],
+            [
+                'label'         => 'Settings',
+                'class'         => 'settings',
+                'route'         => 'admin/site/default',
+                'action'        => 'settings',
+                'useRouteMatch' => true
             ],
         ]
     ],

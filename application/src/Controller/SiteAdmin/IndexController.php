@@ -2,6 +2,7 @@
 namespace Omeka\Controller\SiteAdmin;
 
 use Omeka\Event\Event;
+use Omeka\Form\Form;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
@@ -69,9 +70,6 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $jstree = json_decode($formData['jstree'], true);
-            $formData['o:navigation'] = $translator->fromJstree($jstree);
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData, [], true);
@@ -88,12 +86,8 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $users = $this->api()->search('users', ['sort_by' => 'name']);
-
         $view = new ViewModel;
         $view->setVariable('site', $site);
-        $view->setVariable('navTree', $translator->toJstree($site));
-        $view->setVariable('users', $users->getContent());
         $view->setVariable('form', $form);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, [
@@ -172,6 +166,114 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function navigationAction()
+    {
+        $serviceLocator = $this->getServiceLocator();
+        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+        $form = new Form($this->getServiceLocator());
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $jstree = json_decode($formData['jstree'], true);
+            $formData['o:navigation'] = $translator->fromJstree($jstree);
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api()->update('sites', $id, $formData, [], true);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Navigation updated.');
+                    return $this->redirect()->refresh();
+                }
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('navTree', $translator->toJstree($site));
+        $view->setVariable('form', $form);
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
+    public function itemPoolAction()
+    {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+
+        $form = new Form($this->getServiceLocator());
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api()->update('sites', $id, $formData, [], true);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('Item pool updated.');
+                    return $this->redirect()->refresh();
+                }
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function usersAction()
+    {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+
+        $site = $readResponse->getContent();
+        $id = $site->id();
+        $this->layout()->setVariable('site', $site);
+        $data = $site->jsonSerialize();
+
+        $form = new Form($this->getServiceLocator());
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api()->update('sites', $id, $formData, [], true);
+                if ($response->isError()) {
+                    $form->setMessages($response->getErrors());
+                } else {
+                    $this->messenger()->addSuccess('User permissions updated.');
+                    return $this->redirect()->refresh();
+                }
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+
+        $users = $this->api()->search('users', ['sort_by' => 'name']);
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('form', $form);
+        $view->setVariable('users', $users->getContent());
         return $view;
     }
 

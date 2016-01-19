@@ -15,17 +15,15 @@
         });
 
         $('#select-resource').on('click', '#sidebar-resource-search .o-icon-search', function () {
-            var searchValue = $('#resource-list-search').val();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).data('search-url'),
-                'data': {'value[in][]': searchValue},
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
+            searchResources();
+        });
+
+        $('#select-resource').on('focus', '#resource-list-search', function() {
+            $('#resource-list-search').keydown(function(e) {
+                if ((e.keycode || e.which) == '13') {
+                    e.preventDefault();
+                    searchResources();
+                }
             });
         });
 
@@ -43,5 +41,21 @@
             context.trigger('o:resource-selected');
         });
     });
+
+    function searchResources() {
+        var searchInput = $('#resource-list-search');
+        var searchValue = searchInput.val();
+        var sidebarContent = searchInput.parents('div.sidebar-content');
+        $.ajax({
+            'url': $('#sidebar-resource-search .o-icon-search').data('search-url'),
+            'data': {'value[in][]': searchValue},
+            'type': 'get'
+        }).done(function(data) {
+            sidebarContent.html(data);
+            $(document).trigger('o:sidebar-content-loaded');
+        }).error(function() {
+            sidebarContent.html("<p>Something went wrong</p>");
+        });
+    }
 })(jQuery);
 

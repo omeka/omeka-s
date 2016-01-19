@@ -119,6 +119,8 @@ class IndexController extends AbstractActionController
                 foreach ($data as $id => $value) {
                     $settings->set($id, $value);
                 }
+                $this->messenger()->addSuccess('Settings updated.');
+                return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

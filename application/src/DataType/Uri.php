@@ -30,7 +30,7 @@ class Uri extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value)
     {
-        $value->setType('uri');
+        $value->setType($valueObject['type']);
         $value->setValue($valueObject['@id']);
         if (isset($valueObject['o:uri_label'])) {
             $value->setUriLabel($valueObject['o:uri_label']);

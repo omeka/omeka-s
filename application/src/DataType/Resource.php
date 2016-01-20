@@ -30,7 +30,7 @@ class Resource extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value)
     {
-        $value->setType('resource');
+        $value->setType($valueObject['type']);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
         $value->setUriLabel(null); // set default

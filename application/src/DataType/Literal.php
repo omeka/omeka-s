@@ -30,7 +30,7 @@ class Literal extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value)
     {
-        $value->setType('literal');
+        $value->setType($valueObject['type']);
         $value->setValue($valueObject['@value']);
         if (isset($valueObject['@language'])) {
             $value->setLang($valueObject['@language']);

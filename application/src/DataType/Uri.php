@@ -7,9 +7,14 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Uri extends AbstractDataType
 {
-    public function getLabel()
+    public function getLabel($dataType)
     {
         return 'URI';
+    }
+
+    public function getTemplate(PhpRenderer $view, $dataType)
+    {
+        return $view->partial('common/data-type/uri');
     }
 
     public function isValid(array $valueObject)
@@ -34,11 +39,6 @@ class Uri extends AbstractDataType
         }
         $value->setLang(null); // set default
         $value->setValueResource(null); // set default
-    }
-
-    public function getTemplate(PhpRenderer $view)
-    {
-        return $view->partial('common/data-type/uri');
     }
 
     public function getHtml(PhpRenderer $view, ValueRepresentation $value)

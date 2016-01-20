@@ -8,9 +8,14 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Resource extends AbstractDataType
 {
-    public function getLabel()
+    public function getLabel($dataType)
     {
         return 'Resource';
+    }
+
+    public function getTemplate(PhpRenderer $view, $dataType)
+    {
+        return $view->partial('common/data-type/resource');
     }
 
     public function isValid(array $valueObject)
@@ -50,11 +55,6 @@ class Resource extends AbstractDataType
             throw $exception;
         }
         $value->setValueResource($valueResource);
-    }
-
-    public function getTemplate(PhpRenderer $view)
-    {
-        return $view->partial('common/data-type/resource');
     }
 
     public function getHtml(PhpRenderer $view, ValueRepresentation $value)

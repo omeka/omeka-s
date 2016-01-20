@@ -3,10 +3,14 @@ namespace Omeka\DataType;
 
 use Omeka\Api\Representation\ValueRepresentation;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\View\Renderer\PhpRenderer;
 
 abstract class AbstractDataType implements DataTypeInterface
 {
     use ServiceLocatorAwareTrait;
+
+    public function prepareForm(PhpRenderer $view, $dataType)
+    {}
 
     public function toString(ValueRepresentation $value)
     {

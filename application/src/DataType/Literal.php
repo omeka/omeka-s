@@ -7,9 +7,14 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Literal extends AbstractDataType
 {
-    public function getLabel()
+    public function getLabel($dataType)
     {
         return 'Literal';
+    }
+
+    public function getTemplate(PhpRenderer $view, $dataType)
+    {
+        return $view->partial('common/data-type/literal');
     }
 
     public function isValid(array $valueObject)
@@ -34,11 +39,6 @@ class Literal extends AbstractDataType
         }
         $value->setUriLabel(null); // set default
         $value->setValueResource(null); // set default
-    }
-
-    public function getTemplate(PhpRenderer $view)
-    {
-        return $view->partial('common/data-type/literal');
     }
 
     public function getHtml(PhpRenderer $view, ValueRepresentation $value)

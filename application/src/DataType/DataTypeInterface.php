@@ -13,9 +13,28 @@ interface DataTypeInterface
     /**
      * Get a human-readable label for this data type.
      *
+     * @param string $dataType The data type name (used for dynamic data types)
      * @return string
      */
-    public function getLabel();
+    public function getLabel($dataType);
+
+    /**
+     * Prepare the view to enable the data types.
+     *
+     * Typically used to append JavaScript to the head.
+     *
+     * @param PhpRenderer $view
+     */
+    public function prepareForm(PhpRenderer $view, $dataType);
+
+    /**
+     * Get the template markup used to render the value in the resource form.
+     *
+     * @param PhpRenderer $view
+     * @param string $dataType The data type name (used for dynamic data types)
+     * @return string
+     */
+    public function getTemplate(PhpRenderer $view, $dataType);
 
     /**
      * Is this value object valid?
@@ -32,14 +51,6 @@ interface DataTypeInterface
      * @param Value $value
      */
     public function hydrate(array $valueObject, Value $value);
-
-    /**
-     * Get the template markup used to render the value in the resource form.
-     *
-     * @param PhpRenderer $view
-     * @return string
-     */
-    public function getTemplate(PhpRenderer $view);
 
     /**
      * Get the markup used to render the value.

@@ -8,12 +8,12 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Resource extends AbstractDataType
 {
-    public function getLabel($dataType)
+    public function getLabel()
     {
         return 'Resource';
     }
 
-    public function getTemplate(PhpRenderer $view, $dataType)
+    public function getTemplate(PhpRenderer $view)
     {
         return $view->partial('common/data-type/resource');
     }

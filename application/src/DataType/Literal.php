@@ -7,12 +7,12 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Literal extends AbstractDataType
 {
-    public function getLabel($dataType)
+    public function getLabel()
     {
         return 'Literal';
     }
 
-    public function getTemplate(PhpRenderer $view, $dataType)
+    public function getTemplate(PhpRenderer $view)
     {
         return $view->partial('common/data-type/literal');
     }

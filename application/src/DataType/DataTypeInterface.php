@@ -13,10 +13,9 @@ interface DataTypeInterface
     /**
      * Get a human-readable label for this data type.
      *
-     * @param string $dataType The data type name (used for dynamic data types)
      * @return string
      */
-    public function getLabel($dataType);
+    public function getLabel();
 
     /**
      * Prepare the view to enable the data types.
@@ -25,16 +24,15 @@ interface DataTypeInterface
      *
      * @param PhpRenderer $view
      */
-    public function prepareForm(PhpRenderer $view, $dataType);
+    public function prepareForm(PhpRenderer $view);
 
     /**
      * Get the template markup used to render the value in the resource form.
      *
      * @param PhpRenderer $view
-     * @param string $dataType The data type name (used for dynamic data types)
      * @return string
      */
-    public function getTemplate(PhpRenderer $view, $dataType);
+    public function getTemplate(PhpRenderer $view);
 
     /**
      * Is this value object valid?

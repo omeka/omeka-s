@@ -9,7 +9,7 @@ abstract class AbstractDataType implements DataTypeInterface
 {
     use ServiceLocatorAwareTrait;
 
-    public function prepareForm(PhpRenderer $view, $dataType)
+    public function prepareForm(PhpRenderer $view)
     {}
 
     public function toString(ValueRepresentation $value)

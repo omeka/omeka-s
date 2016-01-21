@@ -18,7 +18,7 @@ class DataType extends AbstractHelper
         $this->manager = $serviceLocator->get('Omeka\DataTypeManager');
         $this->dataTypes = $this->manager->getRegisteredNames();
         foreach ($this->dataTypes as $dataType) {
-            $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel($dataType);
+            $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel();
         }
     }
 
@@ -53,7 +53,7 @@ class DataType extends AbstractHelper
 
     public function getTemplate($dataType)
     {
-        return $this->manager->get($dataType)->getTemplate($this->getView(), $dataType);
+        return $this->manager->get($dataType)->getTemplate($this->getView());
     }
 
     /**
@@ -62,7 +62,7 @@ class DataType extends AbstractHelper
     public function prepareForm()
     {
         foreach ($this->dataTypes as $dataType) {
-            $this->manager->get($dataType)->prepareForm($this->getView(), $dataType);
+            $this->manager->get($dataType)->prepareForm($this->getView());
         }
     }
 }

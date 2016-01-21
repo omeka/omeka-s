@@ -26,17 +26,16 @@ class Trigger extends AbstractHelper
      */
     public function __invoke($name, array $params = [])
     {
-        $params['services'] = $this->serviceLocator;
-        $event = new Event($name, $this->getView(), $params);
         $routeMatch = $this->serviceLocator->get('Application')
             ->getMvcEvent()->getRouteMatch();
-
         if (!$routeMatch) {
             // Without a route match this request is 404. No need to trigger.
             return;
         }
 
-        // Set the current controller as the event identifier.
+        // Set the event, using the current controller as the event identifier.
+        $params['services'] = $this->serviceLocator;
+        $event = new Event($name, $this->getView(), $params);
         $this->events->setIdentifiers($routeMatch->getParam('controller'));
         $this->events->trigger($event);
     }

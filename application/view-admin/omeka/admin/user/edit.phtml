@@ -11,3 +11,5 @@
 </nav>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<?php $this->trigger('view.edit.after'); ?>

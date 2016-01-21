@@ -71,6 +71,8 @@ class Event extends ZendEvent
     const VIEW_LAYOUT       = 'view.layout';
     const VIEW_SHOW_AFTER   = 'view.show.after';
     const VIEW_BROWSE_AFTER = 'view.browse.after';
+    const VIEW_ADD_AFTER    = 'view.add.after';
+    const VIEW_EDIT_AFTER   = 'view.edit.after';
 
     // ACL event
     const ACL = 'acl';

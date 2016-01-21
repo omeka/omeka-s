@@ -12,3 +12,5 @@ echo $this->partial('omeka/admin/item/form.phtml', array(
     'submitLabel' => $this->translate('Add')
 ));
 ?>
+
+<?php $this->trigger('view.add.after'); ?>

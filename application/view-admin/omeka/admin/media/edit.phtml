@@ -61,6 +61,6 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>
 
-<?php
-        echo $this->partial('common/resource-form-templates.phtml');
-?>
+<?php echo $this->partial('common/resource-form-templates.phtml'); ?>
+
+<?php $this->trigger('view.edit.after'); ?>

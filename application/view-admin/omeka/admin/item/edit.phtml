@@ -33,3 +33,5 @@ echo $this->partial('omeka/admin/item/form.phtml', array(
         <?php echo $this->form($confirmForm); ?>
     </div>
 </div>
+
+<?php $this->trigger('view.edit.after'); ?>

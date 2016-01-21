@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.4.3-alpha';
+    const VERSION = '0.4.5-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -33,6 +33,7 @@ class Module extends AbstractModule
         'trigger'    => 'Omeka\View\Helper\Trigger',
         'setting'    => 'Omeka\View\Helper\Setting',
         'params'     => 'Omeka\View\Helper\Params',
+        'dataType'   => 'Omeka\View\Helper\DataType',
         'blockLayout' => 'Omeka\View\Helper\BlockLayout',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'navigationLink' => 'Omeka\View\Helper\NavigationLink',

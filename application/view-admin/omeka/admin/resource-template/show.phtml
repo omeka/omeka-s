@@ -54,3 +54,5 @@ $escape = $this->plugin('escapeHtml');
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
+
+<?php $this->trigger('view.show.after'); ?>

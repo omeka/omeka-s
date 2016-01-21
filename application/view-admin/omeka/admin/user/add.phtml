@@ -8,3 +8,5 @@
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<?php $this->trigger('view.add.after'); ?>

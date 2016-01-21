@@ -173,6 +173,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
+                        'o:data_type' => $resTemProp->dataType(),
                     ];
                 }
             } else {
@@ -189,11 +190,13 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $titleProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
+                        'o:data_type' => null,
                     ],
                     [
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
+                        'o:data_type' => null,
                     ],
                 ];
             }
@@ -218,6 +221,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:property' => $property,
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
+            'o:data_type' => null,
         ];
 
         $view = new ViewModel;

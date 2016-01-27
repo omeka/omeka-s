@@ -548,7 +548,8 @@ th {
   input[type="text"],
   input[type="password"],
   input[type="email"],
-  input[type="url"] {
+  input[type="url"],
+  input[type="number"] {
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 0px;
@@ -1186,11 +1187,23 @@ th {
     content: "";
   }
 
+  #menu a.navigation:before {
+    content: "";
+  }
+
   #menu a.public {
     float: right;
     text-align: right;
     font-size: 16px;
     line-height: 30px;
+  }
+
+  #menu a.item-pool:before {
+    content: "";
+  }
+
+  #menu a.general:before {
+    content: "";
   }
 
   /* @end */
@@ -2118,12 +2131,14 @@ th {
     overflow: hidden;
   }
 
-  .uri.value input[type="text"] {
-    margin: 0;
+  .inputs fieldset.value textarea,
+  .inputs fieldset.value input[type="text"] {
+    width: calc(100% + 0.75em);
+    margin: 0 -0.375em;
   }
 
-  .resource.value .default,
-  .resource.value .o-title:not(:empty) {
+  fieldset[data-data-type="resource"] .default,
+  fieldset[data-data-type="resource"] .o-title:not(:empty) {
     padding: 0.375em;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
@@ -2139,7 +2154,7 @@ th {
     display: block;
   }
 
-  .resource.value.delete .o-icon-undo:before {
+  fieldset[data-data-type="resource"].delete .o-icon-undo:before {
     padding-right: 0;
   }
 
@@ -2149,7 +2164,7 @@ th {
     padding: 0 0.375em;
   }
 
-  .resource.value .button:before {
+  fieldset[data-data-type="resource"] .button:before {
     margin-right: .5em;
   }
 
@@ -2186,12 +2201,12 @@ th {
     content: "";
   }
 
-  .uri .input {
+  fieldset[data-data-type="uri"] .input {
     position: relative;
     clear: both;
   }
 
-  .uri label:not(.o-icon-uri) {
+  fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
     position: absolute;
     top: 0.375em;
     left: 0.375em;
@@ -2202,13 +2217,13 @@ th {
     color: rgba(0, 0, 0, 0.35);
   }
 
-  .uri input.value,
-  .uri textarea.value-label {
+  fieldset[data-data-type="uri"] input.value,
+  fieldset[data-data-type="uri"] textarea.value-label {
     padding-left: 3.75em;
     height: 2.25em;
   }
 
-  .uri textarea.value-label {
+  fieldset[data-data-type="uri"] textarea.value-label {
     margin-top: 0em;
     border-top-width: 0;
     padding-bottom: 0;
@@ -2654,9 +2669,16 @@ th {
     font-size: 24px;
     margin-bottom: 0.5em;
   }
-  .sidebar h3 {
+  .sidebar h3,
+  .sidebar label {
+    display: block;
     font-size: 20px;
     margin-bottom: 0.6em;
+  }
+  .sidebar .field {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1.5em;
   }
 
   #sidebar-confirm {
@@ -2931,10 +2953,6 @@ th {
 
   td.user-meta {
     width: 50%;
-  }
-
-  #permissions .selector li li {
-    cursor: pointer;
   }
 
   #site-user-permissions + .no-resources {
@@ -3253,7 +3271,7 @@ th {
   #nav-page-links {
     list-style: none;
     padding-left: 0;
-    margin-top: 1.37505em;
+    margin-top: 0.75em;
   }
 
   .page-selector-filter {

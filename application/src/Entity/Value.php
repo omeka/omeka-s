@@ -13,15 +13,6 @@ class Value extends AbstractEntity
     const TYPE_URI = 'uri';
 
     /**
-     * @var array
-     */
-    protected $validTypes = [
-        self::TYPE_LITERAL,
-        self::TYPE_RESOURCE,
-        self::TYPE_URI,
-    ];
-
-    /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
@@ -139,10 +130,5 @@ class Value extends AbstractEntity
     public function getValueResource()
     {
         return $this->valueResource;
-    }
-
-    public function getValidTypes()
-    {
-        return $this->validTypes;
     }
 }

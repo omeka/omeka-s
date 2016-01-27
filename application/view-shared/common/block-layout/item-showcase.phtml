@@ -1,0 +1,28 @@
+<div class="item-showcase">
+<?php foreach ($attachments as $attachment): ?>
+    <div class="item resource">
+    <?php
+    $item = $attachment->item();
+    if ($item):
+    ?>
+        <?php
+        $media = $attachment->media() ?: $item->primaryMedia();
+        if ($media):
+        ?>
+        <a href="<?php echo $this->escapeHtml($item->url()); ?>">
+            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl($this->thumbnailType)); ?>">
+        </a>
+        <?php endif; ?>
+
+        <h3><?php echo $item->link($item->displayTitle()); ?></h3>
+    <?php endif; ?>
+
+    <?php
+    $caption = $attachment->caption();
+    if ($caption):
+    ?>
+        <div class="caption"><?php echo $caption; ?></div>
+    <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+</div>

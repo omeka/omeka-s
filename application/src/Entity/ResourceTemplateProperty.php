@@ -47,6 +47,11 @@ class ResourceTemplateProperty extends AbstractEntity
      */
     protected $position;
 
+    /**
+     * @Column(nullable=true)
+     */
+    protected $dataType;
+
     public function getId()
     {
         return $this->id;
@@ -100,5 +105,15 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setPosition($position)
     {
         $this->position = (int) $position;
+    }
+
+    public function setDataType($dataType)
+    {
+        $this->dataType = $dataType;
+    }
+
+    public function getDataType()
+    {
+        return $this->dataType;
     }
 }

@@ -1,9 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Exception;
 use Omeka\Entity\Property;
-use Omeka\Entity\Media;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Zend\Stdlib\Hydrator\HydrationInterface;
@@ -26,17 +24,10 @@ class ValueHydrator implements HydrationInterface
     /**
      * Hydrate all value objects within a JSON-LD node object.
      *
-     * The node object represents a resource entity.
-     *
-     * Parses value objects according to the existence of certain properties, in
-     * order of priority:
-     *
-     * - property_id: all value types must contain a property ID
-     * - @value: hydrate a literal
-     * - value_resource_id: hydrate a resource value
-     * - @id: hydrate a URI value
-     *
-     * A value object that contains none of the above combinations is ignored.
+     * The node object represents a resource entity. All values must contain a
+     * property ID (property_id). All values should conatin a data type (type).
+     * For an invalid or missing type the "literal" type will be used. A value
+     * object that is invalid is ignored and not saved.
      *
      * @param array $nodeObject A JSON-LD node object representing a resource
      * @param Resource $resource The owning resource entity instance
@@ -48,6 +39,7 @@ class ValueHydrator implements HydrationInterface
         $newValues = [];
         $valueCollection = $resource->getValues();
         $existingValues = $valueCollection->toArray();
+        $dataTypes = $this->adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 
         // Iterate all properties in a node object. Note that we ignore terms.
         foreach ($nodeObject as $property => $valueObjects) {
@@ -63,9 +55,12 @@ class ValueHydrator implements HydrationInterface
                     continue;
                 }
 
-                // Value objects must be mapped to a hydrate method.
-                $hydrateMethod = $this->getHydrateMethod($valueObject);
-                if (!$hydrateMethod) {
+                if (!isset($valueObject['type'])) {
+                    $valueObject['type'] = null;
+                }
+                $dataType = $dataTypes->get($valueObject['type']);
+                if (!$dataType->isValid($valueObject)) {
+                    // Ignore an invalid value.
                     continue;
                 }
 
@@ -86,7 +81,7 @@ class ValueHydrator implements HydrationInterface
                 );
                 $value->setResource($resource);
                 $value->setProperty($property);
-                $this->$hydrateMethod($valueObject, $value);
+                $dataType->hydrate($valueObject, $value);
             }
         }
 
@@ -103,106 +98,5 @@ class ValueHydrator implements HydrationInterface
         foreach ($newValues as $newValue) {
             $valueCollection->add($newValue);
         }
-    }
-
-    /**
-     * Get a value object's hydrate method by checking against expected formats.
-     *
-     * Returns null if the value object is an invalid format.
-     *
-     * @param array $valueObject
-     * @return null|string
-     */
-    protected function getHydrateMethod(array $valueObject)
-    {
-        if (isset($valueObject['@value'])
-            && is_string($valueObject['@value'])
-            && '' !== trim($valueObject['@value'])
-        ) {
-            return 'hydrateLiteral';
-        }
-        if (isset($valueObject['@id'])
-            && is_string($valueObject['@id'])
-            && '' !== trim($valueObject['@id'])
-        ) {
-             return 'hydrateUri';
-        }
-        if (isset($valueObject['value_resource_id'])
-            && is_numeric($valueObject['value_resource_id'])
-        ) {
-             return 'hydrateResource';
-        }
-        return null; // invalid value object
-    }
-
-    /**
-     * Hydrate a literal value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     */
-    protected function hydrateLiteral(array $valueObject, Value $value)
-    {
-        $value->setType(Value::TYPE_LITERAL);
-        $value->setValue($valueObject['@value']);
-        if (isset($valueObject['@language'])) {
-            $value->setLang($valueObject['@language']);
-        } else {
-            $value->setLang(null); // set default
-        }
-        $value->setUriLabel(null); // set default
-        $value->setValueResource(null); // set default
-    }
-
-    /**
-     * Hydrate a resource value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     */
-    protected function hydrateResource(array $valueObject, Value $value)
-    {
-        $value->setType(Value::TYPE_RESOURCE);
-        $value->setValue(null); // set default
-        $value->setLang(null); // set default
-        $value->setUriLabel(null); // set default
-        $valueResource = $this->adapter->getEntityManager()->find(
-            'Omeka\Entity\Resource',
-            $valueObject['value_resource_id']
-        );
-        if (null === $valueResource) {
-            throw new Exception\NotFoundException(sprintf(
-                $this->adapter->getTranslator()->translate('Resource not found with id %s.'),
-                $valueObject['value_resource_id']
-            ));
-        }
-        if ($valueResource instanceof Media) {
-            $translator = $this->adapter->getTranslator();
-            $exception = new Exception\ValidationException;
-            $exception->getErrorStore()->addError(
-                'value', $translator->translate('A value resource cannot be Media.')
-            );
-            throw $exception;
-        }
-        $value->setValueResource($valueResource);
-    }
-
-    /**
-     * Hydrate a URI value
-     *
-     * @param array $valueObject
-     * @param Value $value
-     */
-    protected function hydrateUri(array $valueObject, Value $value)
-    {
-        $value->setType(Value::TYPE_URI);
-        $value->setValue($valueObject['@id']);
-        if (isset($valueObject['o:uri_label'])) {
-            $value->setUriLabel($valueObject['o:uri_label']);
-        } else {
-            $value->setUriLabel(null); // set default
-        }
-        $value->setLang(null); // set default
-        $value->setValueResource(null); // set default
     }
 }

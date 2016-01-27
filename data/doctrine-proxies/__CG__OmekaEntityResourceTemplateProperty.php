@@ -64,10 +64,10 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position');
+            return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType');
         }
 
-        return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position');
+        return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType');
     }
 
     /**
@@ -296,6 +296,28 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
 
         return parent::setPosition($position);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDataType($dataType)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDataType', array($dataType));
+
+        return parent::setDataType($dataType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDataType()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDataType', array());
+
+        return parent::getDataType();
     }
 
     /**

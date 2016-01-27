@@ -149,6 +149,7 @@ return [
             'Omeka\Mailer'                => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
+            'Omeka\DataTypeManager'       => 'Omeka\Service\DataTypeManagerFactory',
         ],
         'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -257,12 +258,19 @@ return [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
         ],
     ],
+    'data_types' => [
+        'invokables' => [
+            'literal' => 'Omeka\DataType\Literal',
+            'uri' => 'Omeka\DataType\Uri',
+            'resource' => 'Omeka\DataType\Resource',
+        ],
+    ],
     'block_layouts' => [
         'invokables' => [
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
-            'itemList' => 'Omeka\Site\BlockLayout\ItemList',
-            'navigation' => 'Omeka\Site\BlockLayout\Navigation',
+            'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
+            'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
         ],
     ],

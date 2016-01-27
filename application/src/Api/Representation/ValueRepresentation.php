@@ -13,6 +13,11 @@ class ValueRepresentation extends AbstractRepresentation
     protected $value;
 
     /**
+     * @var \Omeka\DataType\Manager
+     */
+    protected $dataType;
+
+    /**
      * Construct the value representation object.
      *
      * @param Value $value
@@ -23,6 +28,8 @@ class ValueRepresentation extends AbstractRepresentation
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
         $this->value = $value;
+        $this->dataType = $serviceLocator->get('Omeka\DataTypeManager')
+            ->get($value->getType());
     }
 
     /**
@@ -32,11 +39,7 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        if (Value::TYPE_RESOURCE === $this->type()) {
-            return $this->valueResource()->url(null, true);
-        } else {
-            return $this->value->getValue();
-        }
+        return $this->dataType->toString($this);
     }
 
     /**
@@ -46,35 +49,10 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function asHtml()
     {
-        $args = [];
-        switch ($this->type()) {
-            case Value::TYPE_RESOURCE:
-                $valueResource = $this->valueResource();
-                $args['targetUrl'] = $valueResource->url();
-                $args['targetId'] = $valueResource->id();
-                $args['label'] = $valueResource->displayTitle();
-                $html = $valueResource->link($valueResource->displayTitle());
-                break;
-            case Value::TYPE_URI:
-                $uri = $this->value->getValue();
-                $uriLabel = $this->value->getUriLabel();
-                $args['targetUrl'] = $uri;
-                if (!$uriLabel) {
-                    $uriLabel = $uri;
-                }
-                $args['label'] = $uriLabel;
-                $hyperlink = $this->getViewHelper('hyperlink');
-                $html = $hyperlink($uriLabel, $uri);
-                break;
-            case Value::TYPE_LITERAL:
-            default:
-                $escape = $this->getViewHelper('escapeHtml');
-                $html = nl2br($escape($this->value()));
-        }
-        $args['html'] = $html;
+        $view = $this->getServiceLocator()->get('ViewManager')->getRenderer();
+        $args = ['html' => $this->dataType->getHtml($view, $this)];
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs($args);
-        $eventManager->trigger(Event::REP_VALUE_HTML, $this, $args);
+        $eventManager->trigger(Event::REP_VALUE_HTML, $this, $eventManager->prepareArgs($args));
         return $args['html'];
     }
 
@@ -83,36 +61,16 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function jsonSerialize()
     {
-        $value = $this->value;
-        $valueObject = [];
-
-        switch ($this->type()) {
-
-            case Value::TYPE_RESOURCE:
-                $valueResource = $this->valueResource();
-                $valueObject = $valueResource->valueRepresentation();
-                break;
-
-            case Value::TYPE_URI:
-                $valueObject['@id'] = $value->getValue();
-                if ($value->getUriLabel()) {
-                    $valueObject['o:uri_label'] = $value->getUriLabel();
-                }
-                break;
-
-            case Value::TYPE_LITERAL:
-            default:
-                $valueObject['@value'] = $value->getValue();
-                if ($value->getLang()) {
-                    $valueObject['@language'] = $value->getLang();
-                }
-                break;
+        $valueObject = [
+            'type' => $this->type(),
+            'property_id' => $this->value->getProperty()->getId(),
+            'property_label' => $this->value->getProperty()->getLabel(),
+        ];
+        $jsonLd = $this->dataType->getJsonLd($this);
+        if (!is_array($jsonLd)) {
+            $jsonLd = [];
         }
-
-        $valueObject['property_id'] = $value->getProperty()->getId();
-        $valueObject['property_label'] = $value->getProperty()->getLabel();
-
-        return $valueObject;
+        return $valueObject + $jsonLd;
     }
 
     /**

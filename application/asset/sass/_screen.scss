@@ -150,7 +150,8 @@ body {
     input[type="text"],
     input[type="password"],
     input[type="email"],
-    input[type="url"] {
+    input[type="url"],
+    input[type="number"] {
         @include appearance(none);
         @include border-radius(0px);
         height: rhythm(1.5);
@@ -781,11 +782,23 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-file-o;
     }
 
+    #menu a.navigation:before {
+        content: $fa-var-navicon;
+    }
+
     #menu a.public {
         float: right;
         text-align: right;
         font-size: $base-font-size;
         line-height: 1.25 * $base-line-height;
+    }
+
+    #menu a.item-pool:before {
+        content: $fa-var-cube;
+    }
+
+    #menu a.general:before {
+        content: $fa-var-gears;
     }
 
     /* @end */
@@ -1738,12 +1751,14 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
-    .uri.value input[type="text"] {
-        margin: 0;
+    .inputs fieldset.value textarea,
+    .inputs fieldset.value input[type="text"] {
+        width: calc(100% + #{2 * rhythm(.25)});
+        margin: 0 rhythm(-.25);
     }
 
-    .resource.value .default,
-    .resource.value .o-title:not(:empty) {
+    fieldset[data-data-type="resource"] .default,
+    fieldset[data-data-type="resource"] .o-title:not(:empty) {
         padding: rhythm(.25);
         @include bleed-x(rhythm(.25));
         border-color: $gray-on-white;
@@ -1751,7 +1766,7 @@ input[type="text"].value-language,
         display: block;
     }
 
-    .resource.value.delete .o-icon-undo:before {
+    fieldset[data-data-type="resource"].delete .o-icon-undo:before {
         padding-right: 0;
     }
 
@@ -1761,7 +1776,7 @@ input[type="text"].value-language,
         padding: 0 rhythm(.25);
     }
 
-    .resource.value .button:before {
+    fieldset[data-data-type="resource"] .button:before {
         margin-right: .5em;
     }
 
@@ -1798,12 +1813,12 @@ input[type="text"].value-language,
         content: $fa-var-cubes;
     }
 
-    .uri .input {
+    fieldset[data-data-type="uri"] .input {
         position: relative;
         clear: both;
     }
 
-    .uri label:not(.o-icon-uri) {
+    fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
         top: rhythm(.25);
         left: rhythm(.25);
@@ -1814,13 +1829,13 @@ input[type="text"].value-language,
         color: rgba(0,0,0,.35);
     }
 
-    .uri input.value,
-    .uri textarea.value-label {
+    fieldset[data-data-type="uri"] input.value,
+    fieldset[data-data-type="uri"] textarea.value-label {
         padding-left: rhythm(2.5);
         height: rhythm(1.5);
     }
 
-    .uri textarea.value-label {
+    fieldset[data-data-type="uri"] textarea.value-label {
         @include leader(0);
         border-top-width: 0;
         padding-bottom: 0;
@@ -2298,9 +2313,17 @@ input[type="text"].value-language,
         @include trailer(.5, 1.5 * $base-font-size);
     }
 
-    h3 {
+    h3,
+    label{
+        display: block;
         font-size: 1.25 * $base-font-size;
         @include trailer(.5, 1.25 * $base-font-size);
+    }
+
+    .field {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: rhythm();
     }
 }
 
@@ -2560,10 +2583,6 @@ body.sidebar-open #content {
 
     td.user-meta {
         width: 50%;
-    }
-
-    #permissions .selector li li {
-        cursor: pointer;
     }
 
     #site-user-permissions + .no-resources {
@@ -2886,7 +2905,7 @@ body.sidebar-open #content {
     #nav-page-links {
         list-style: none;
         padding-left: 0;
-        @include leader(.9167);
+        @include leader(.5);
     }
 
     .page-selector-filter {

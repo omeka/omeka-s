@@ -1,0 +1,30 @@
+<div class="preview-block">
+
+<?php if ($this->heading): ?>
+<h2><?php echo $this->heading; ?></h2>
+<?php endif; ?>
+
+<ul class="resource-list preview">
+<?php foreach ($this->items as $item): ?>
+    <li class="item resource">
+    <?php if ($primaryMedia = $item->primaryMedia()): ?>
+        <img
+            src="<?php echo $this->escapeHtml($primaryMedia->thumbnailUrl('square')); ?>"
+            title="<?php echo $this->escapeHtml($primaryMedia->displayTitle()); ?>"
+            alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
+        >
+    <?php endif; ?>
+        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
+        <div class="description"><?php echo $item->displayDescription(); ?></div>
+    </li>
+<?php endforeach; ?>
+</ul>
+
+<?php
+$linkText = $this->linkText == '' ? $this->translate('Browse all') : $this->linkText;
+echo $this->hyperlink($linkText, $this->url(
+    'site/resource', ['controller' => 'item', 'action' => 'browse'], ['query' => $this->query], true
+));
+?>
+
+</div>

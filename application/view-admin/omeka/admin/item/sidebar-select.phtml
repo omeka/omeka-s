@@ -12,9 +12,9 @@ if(!$showDetails):
     $urlOptions['query']['show_details'] = '0';
 endif;
 ?>
-        <button 
+        <button
         data-search-url="<?php echo $escape($this->url('admin/default', array('controller' => 'item', 'action' => 'sidebar-select'), $urlOptions)); ?>"
-        type="submit" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+        type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
 <?php echo $this->pagination(); ?>
 </div>

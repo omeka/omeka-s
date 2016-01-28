@@ -8,7 +8,7 @@ $escape = $this->plugin('escapeHtml');
 <div id="page-actions">
     <?php echo $site->link($this->translate('Add new page'), 'add-page', array('class' => 'button')); ?>
 </div>
-<?php if ($pages = $site->pages()): ?>
+<?php if ($pages): ?>
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <th><?php echo $this->translate('Title'); ?></th>

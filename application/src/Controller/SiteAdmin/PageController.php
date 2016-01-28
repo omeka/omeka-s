@@ -66,8 +66,27 @@ class PageController extends AbstractActionController
         $site = $response->getContent();
         $this->layout()->setVariable('site', $site);
 
+        $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
+
+        $navigation = $site->navigation();
+        $indents = [];
+        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents)
+        {
+            foreach ($linksIn as $key => $data) {
+                if ('page' === $data['type']) {
+                    $indents[$data['data']['id']] = $depth;
+                }
+                if (isset($data['links'])) {
+                    $iterate($data['links'], $depth + 1);
+                }
+            }
+        };
+        $iterate($navigation);
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('indents', $indents);
+        $view->setVariable('pages', $pages);
         $view->setVariable('confirmForm', new ConfirmForm(
             $this->getServiceLocator(), null, [
                 'button_value' => $this->translate('Confirm Delete'),

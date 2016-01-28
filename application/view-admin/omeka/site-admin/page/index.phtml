@@ -8,8 +8,7 @@ $escape = $this->plugin('escapeHtml');
 <div id="page-actions">
     <?php echo $site->link($this->translate('Add new page'), 'add-page', array('class' => 'button')); ?>
 </div>
-
-<?php if ($pages = $site->pages()): ?>
+<?php if ($pages): ?>
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <th><?php echo $this->translate('Title'); ?></th>
@@ -21,6 +20,9 @@ $escape = $this->plugin('escapeHtml');
     <tr class="page value">
         <td>
             <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
+            <?php if (array_key_exists($page->id(), $indents)): ?>
+            <?php echo str_repeat('<span class="indent"></span>', intval($indents[$page->id()])); ?>
+            <?php endif; ?>
             <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
         </td>

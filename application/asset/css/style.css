@@ -2969,6 +2969,11 @@ th {
 
   /* @end */
   /* @group ----- Pages ----- */
+  .indent:before {
+    content: "\2014";
+    margin-right: -1px;
+  }
+
   [for="new-block"] {
     display: inline-block;
     font-size: 20px;

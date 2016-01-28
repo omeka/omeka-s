@@ -5,7 +5,7 @@ $escape = $this->plugin('escapeHtml');
 <h1><?php echo $this->translate('Select Item Set'); ?></h1>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search">
-        <input type="text" value="<?php echo $searchValue; ?>" id="resource-list-search">
+        <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
         <button
         data-search-url="<?php echo $escape($this->url('admin/default', array('controller' => 'item-set', 'action' => 'sidebar-select'))); ?>"
         type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>

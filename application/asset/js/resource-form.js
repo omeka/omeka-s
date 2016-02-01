@@ -1,10 +1,17 @@
 (function($) {
 
     $(document).ready( function() {
-        //Open property selector on mobile
-        $('#resource-values .mobile-only button').on('click', function(e) {
+        // Open sidebars on mobile
+        $('button.mobile-only').on('click', function(e) {
             e.preventDefault();
-            $('#property-selector').addClass('mobile');
+            var mobileButton = $(this);
+            var sidebarId = mobileButton.attr('id');
+            sidebarId = sidebarId.replace('-button', '');
+            $('#' + sidebarId).addClass('mobile');
+            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
+                $('.sidebar.active.mobile').removeClass('mobile');
+                $(this).unbind('DOMSubtreeModified');
+            });
         });
 
         // Select property

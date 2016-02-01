@@ -26,8 +26,6 @@
         echo $this->propertySelector();
     }
 ?>
-<div class="mobile-only always active">
-    <button><?php echo $this->translate('Add Property'); ?></button>
-</div>
+    <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $this->translate('Add Property'); ?></button>
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>

@@ -1,9 +1,12 @@
 var Omeka = {
     openSidebar : function(context,target) {
         //close delete sidebar if open
-        if ($('#delete').hasClass('active')) {
-            $('#delete').removeClass('mobile active');
+        if (!context.hasClass('delete')) {
+            if ($('#delete').hasClass('active')) {
+                $('#delete').removeClass('mobile active');
+            }
         }
+
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');
@@ -13,8 +16,6 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        sidebar.removeClass('mobile');
-        sidebar.addClass('mobile active');
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
         }
@@ -29,6 +30,7 @@ var Omeka = {
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
+        sidebar.addClass('mobile active');
         return sidebar;
     },
 
@@ -130,11 +132,7 @@ var Omeka = {
         // Attach sidebar triggers
         $('#content').on('click', 'a.sidebar-confirm', function(e) {
             e.preventDefault();
-            if ($('#delete').length > 0) {
-                Omeka.openSidebar($(this), '#delete');
-            } else {
-                Omeka.openSidebar($(this));
-            }
+            Omeka.openSidebar($(this), '#delete');
         });
 
         // Make resource public or private
@@ -209,8 +207,7 @@ var Omeka = {
         });
 
         $('.section > legend').click(function() {
-            $('.mobile-active').removeClass('mobile-active');
-            $(this).parent().addClass('mobile-active');
+            $(this).parent().toggleClass('mobile-active');
         });
 
         // Automatically switch to sections containing invalid elements on submit

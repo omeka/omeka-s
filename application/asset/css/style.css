@@ -2278,6 +2278,7 @@ th {
   .media.row {
     padding: 0.75em 0.375em 0.75em 2.625em;
     margin-bottom: 0.375em;
+    min-height: 3em;
   }
 
   .media.row img {
@@ -2286,20 +2287,39 @@ th {
     top: 0.375em;
   }
 
+  .media.row img + .resource-name {
+    margin-left: 3em;
+  }
+
   .media.row .sortable-handle:before {
-    top: 0.75em;
+    top: 0.5625em;
+  }
+
+  .media.row .actions {
+    position: absolute;
+    right: 0.375em;
+    top: 0.5625em;
   }
 
   .media.row .resource-name {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: calc(100% - 9.75em);
-    margin-left: 3em;
-    word-wrap: break-word;
+    width: calc(100% - 9em);
+    word-break: break-all;
+    display: block;
   }
 
   .media.value.delete span.restore-value {
     padding: 0;
+  }
+
+  .media.value.delete > *:not(.restore-value),
+  .media.value.delete .actions a:not(.o-icon-undo) {
+    display: none;
+  }
+
+  .media.value.delete > .actions {
+    display: block;
+    margin-right: -0.375em;
+    top: 1.125em;
   }
 
   .media-header h4 {
@@ -3522,6 +3542,10 @@ th {
     display: block;
   }
 
+  button.mobile-only {
+    width: 100%;
+  }
+
   /* @group ----- Header ----- */
   header {
     width: 100%;
@@ -3731,7 +3755,6 @@ th {
     background-color: #fff;
     position: fixed;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    z-index: 2;
   }
   fieldset.section > .always.active button {
     width: 100%;
@@ -3777,23 +3800,22 @@ th {
   fieldset.section {
     margin-bottom: 0;
     position: relative;
-    z-index: 1;
   }
 
   fieldset.section > legend:first-child {
     position: relative;
     left: auto;
-    background-color: #ff6666;
     display: block;
     width: 100%;
-    padding: 0.375em 0.5625em;
-    color: #fff;
+    font-size: 20px;
+    padding: 0.3em 0.45em 0.3em 0;
+    color: #FF0000;
     cursor: pointer;
     border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
+    border-bottom-width: 0.15em;
     border-bottom-style: solid;
-    padding-bottom: -0.0625em;
-    margin-bottom: 0.75em;
+    padding-bottom: -0.15em;
+    margin-bottom: 0.6em;
   }
 
   fieldset.section > legend:after {
@@ -3802,10 +3824,6 @@ th {
     position: absolute;
     right: 0.375em;
     top: 0.5em;
-  }
-
-  fieldset.section.mobile-active {
-    z-index: 2;
   }
 
   fieldset.section.mobile-active > legend:after {

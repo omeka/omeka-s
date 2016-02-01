@@ -10,6 +10,10 @@ body {
     display: block;
 }
 
+button.mobile-only {
+    width: 100%;
+}
+
 /* @group ----- Header ----- */
 
 header {
@@ -239,7 +243,6 @@ fieldset.section > .always.active {
     background-color: #fff;
     position: fixed;
     border-top: 1px solid $gray-on-white;
-    z-index: 2;
 
     button {
         width: 100%;
@@ -290,21 +293,20 @@ fieldset.section,
 fieldset.section {
     margin-bottom: 0;
     position: relative;
-    z-index: 1;
 }
 
 fieldset.section > legend:first-child {
     position: relative;
     left: auto;
-    background-color: lighten($red, 20%);
     display: block;
     width: 100%;
-    padding: rhythm(.25) rhythm(.375);
-    color: #fff;
+    font-size: 1.25 * $base-font-size;
+    padding: rhythm(.25, 1.25 * $base-font-size) rhythm(.375, 1.25 * $base-font-size) rhythm(.25, 1.25 * $base-font-size) 0;
+    color: $red;
     cursor: pointer;
     border-color: rgba(0,0,0,.08);
-    @include trailing-border(1px, 0, $base-font-size, solid);
-    margin-bottom: rhythm(.5);
+    @include trailing-border(3px, 0, 1.25 * $base-font-size, solid);
+    margin-bottom: rhythm(.5, 1.25 * $base-font-size);
 }
 
 fieldset.section > legend:after {
@@ -313,10 +315,6 @@ fieldset.section > legend:after {
     position: absolute;
     right: rhythm(.375, 1.5 * $base-font-size);
     top: rhythm(.5, 1.5 * $base-font-size);
-}
-
-fieldset.section.mobile-active {
-    z-index: 2;
 }
 
 fieldset.section.mobile-active > legend:after{

@@ -1074,31 +1074,31 @@ th {
     margin-bottom: 0.375em;
   }
 
-  header nav .navigation > li:not(:first-of-type) {
+  header nav ul.navigation > li:not(:first-of-type) {
     margin-top: 0.375em;
   }
 
-  header nav .navigation > li:not(:last-of-type) {
+  header nav ul.navigation > li:not(:last-of-type) {
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
   }
 
-  header nav .navigation li li {
+  header nav ul.navigation li li {
     display: none;
   }
 
-  header nav .navigation li.active li {
+  header nav ul.navigation li.active li {
     display: block;
     margin-left: 1.5em;
   }
 
-  header nav .navigation li.active {
+  header nav ul.navigation li.active {
     font-weight: bold;
   }
-  header nav .navigation li.active a:before,
-  header nav .navigation li.active li:not(.active) {
+  header nav ul.navigation li.active a:before,
+  header nav ul.navigation li.active li:not(.active) {
     font-weight: normal;
   }
 
@@ -1152,7 +1152,7 @@ th {
     content: "";
   }
 
-  header .navigation {
+  header ul.navigation {
     margin-bottom: 1.5em;
   }
 
@@ -2510,13 +2510,13 @@ th {
   }
 
   /* @end */
-  /* @group ----- Import Vocabulary ----- */
+  /* @group ----- Vocabulary: Import ----- */
   .vocabs .field [type="file"] {
     margin: 0.375em 0 0;
   }
 
   /* @end */
-  /* @group ----- Imported Vocabulary ----- */
+  /* @group ----- Vocabulary: Show ----- */
   .vocabulary ul {
     padding-left: 0;
     list-style: none;
@@ -2554,7 +2554,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Show Item ----- */
+  /* @group ----- Item: Show----- */
   .property .value a:after {
     font-family: "FontAwesome";
     display: inline-block;
@@ -2582,7 +2582,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Show Resource Template ----- */
+  /* @group ----- Resource Template: Show ----- */
   .class-row {
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
@@ -2756,7 +2756,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Edit Resource Template ----- */
+  /* @group ----- Resource Template: Edit ----- */
   .resource-template #properties {
     list-style: none;
     padding-left: 0;
@@ -2861,7 +2861,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Browse Modules ----- */
+  /* @group ----- Module: Browse ----- */
   #modules.installed tbody tr:not(.installed),
   #modules.uninstalled tbody tr:not(.uninstalled),
   #modules.needs-upgrade tbody tr:not(.needs-upgrade),
@@ -2872,6 +2872,14 @@ th {
 
   .state-filter select {
     margin-bottom: 0.75em;
+  }
+
+  .module-name {
+    font-weight: bold;
+  }
+
+  .module-version {
+    display: block;
   }
 
   /* @end */
@@ -3269,7 +3277,7 @@ th {
   }
 
   /* @end */
-  /* @group ----- Navigation ----- */
+  /* @group ----- Site Navigation ----- */
   #nav-page-links {
     list-style: none;
     padding-left: 0;
@@ -3797,9 +3805,8 @@ th {
 
   .tablesaw tr .actions {
     position: absolute;
+    top: 0.375em;
     right: 0.75em;
-    top: 50%;
-    transform: translateY(-50%);
   }
   .tablesaw tr .actions li {
     margin: 0;
@@ -3858,6 +3865,11 @@ th {
     right: 0;
     height: 2.25em;
     border: 0;
+  }
+
+  .modules.browse .tablesaw-cell-content > span {
+    display: block;
+    max-width: calc(100% - 6em);
   }
 
   /* @end */

@@ -74,9 +74,6 @@ class Event extends ZendEvent
     const VIEW_ADD_AFTER    = 'view.add.after';
     const VIEW_EDIT_AFTER   = 'view.edit.after';
 
-    // ACL event
-    const ACL = 'acl';
-
     // Site settings event
     const SITE_SETTINGS_FORM = 'site_settings.form';
 

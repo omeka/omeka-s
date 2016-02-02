@@ -312,9 +312,8 @@
                 var classSelect = $('#resource-class-select');
                 if (data['o:resource_class'] && classSelect.val() === '') {
                     classSelect.val(data['o:resource_class']['o:id']);
-                } else {
-                    classSelect.val(null);
                 }
+
                 // Rewrite every property field defined by the template. We
                 // reverse the order so property fields on page that are not
                 // defined by the template are ultimately appended.

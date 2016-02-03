@@ -3,6 +3,11 @@ $this->htmlElement('html')->setAttribute('lang', 'en');
 $this->headMeta()->setCharset('utf-8');
 $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic,700');
+$this->headScript()->prependFile($this->assetUrl('js/default.js'));
+$this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>
@@ -10,11 +15,7 @@ $this->trigger('view.layout');
     <head>
         <?php echo $this->headMeta(); ?>
         <?php echo $this->headTitle(); ?>
-        <?php echo $this->headLink()->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic,700'); ?>
-        <?php $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka')); ?>
-        <?php echo $this->headLink()->appendStylesheet($this->assetUrl('css/style.css')); ?>
-        <?php $this->headScript()->appendFile($this->assetUrl('js/jquery.js', 'Omeka')); ?>
-        <?php $this->headScript()->appendFile($this->assetUrl('js/default.js')); ?>
+        <?php echo $this->headLink(); ?>
         <?php echo $this->headStyle(); ?>
         <?php echo $this->headScript(); ?>
     </head>

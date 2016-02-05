@@ -107,6 +107,10 @@ var Omeka = {
                 scrollTop: (wrapper.offset().top -100)
             },200);
         }
+    },
+
+    markDirty: function(form) {
+        $(form).data('omekaFormDirty', true);
     }
 };
 
@@ -253,18 +257,33 @@ var Omeka = {
     });
     
     $(window).load(function() {
-        var orginalFormData = $('form[method=POST]').serialize();
+        var setSubmittedFlag = function () {
+            $(this).data('omekaFormSubmitted', true);
+        };
 
-        $('form[method=POST]').submit(function(event) {
-            $('form[method=POST]').data('submitted', 'true');
+        $('form[method=POST]').each(function () {
+            var form = $(this);
+            form.data('omekaFormOriginalData', form.serialize());
+            form.submit(setSubmittedFlag);
         });
 
         $(window).on('beforeunload', function() {
-            if (!$('form[method=POST]').data('submitted')) {
-                var checkFormData = $('form[method=POST]').serialize();
-                if (orginalFormData !== checkFormData) {
-                    return 'You have unsaved changes.';
+            var preventNav = false;
+            $('form[method=POST]').each(function () {
+                var form = $(this);
+                if (form.data('omekaFormSubmitted')) {
+                    return;
                 }
+
+                form.trigger('o:before-form-unload');
+                if (form.data('omekaFormDirty') || form.data('omekaFormOriginalData') !== form.serialize()) {
+                    preventNav = true;
+                    return false;
+                }
+            });
+
+            if (preventNav) {
+                return 'You have unsaved changes.';
             }
         });
     });

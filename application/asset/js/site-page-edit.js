@@ -95,6 +95,7 @@
             block.toggleClass('delete');
             block.find('a.remove-value, a.restore-value').show();
             $(this).hide();
+            Omeka.markDirty($(this).closest('form'));
         });
 
         $('form').submit(function(e) {

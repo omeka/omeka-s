@@ -181,6 +181,7 @@ $.jstree.plugins.editlink = function(options, parent) {
 
 // Initialize the navigation tree
 var navTree = $('#nav-tree');
+var initialTreeData;
 navTree.jstree({
     'core': {
         'check_callback': true,
@@ -190,10 +191,17 @@ navTree.jstree({
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();
+    initialTreeData = JSON.stringify(navTree.jstree(true).get_json());
 }).on('move_node.jstree', function(e, data) {
     // Open node after moving it.
     var parent = navTree.jstree(true).get_node(data.parent);
     navTree.jstree(true).open_all(parent);
+});
+
+$('#site-form').on('o:before-form-unload', function () {
+    if (initialTreeData !== JSON.stringify(navTree.jstree(true).get_json())) {
+        Omeka.markDirty(this);
+    }
 });
 
 });

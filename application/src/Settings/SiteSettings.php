@@ -56,7 +56,7 @@ class SiteSettings extends AbstractSettings
 
     protected function deleteSetting($id)
     {
-        $this->getConnection()->delete('setting', [
+        $this->getConnection()->delete('site_setting', [
             'site_id' => $this->site->getId(),
             'id' => $id,
         ], [\PDO::PARAM_INT]);

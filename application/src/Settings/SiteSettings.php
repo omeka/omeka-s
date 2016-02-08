@@ -2,7 +2,6 @@
 namespace Omeka\Settings;
 
 use Omeka\Entity\Site;
-use Omeka\Entity\SiteSetting as Setting;
 use Omeka\Service\Exception;
 
 class SiteSettings extends AbstractSettings

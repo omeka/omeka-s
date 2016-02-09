@@ -549,7 +549,9 @@ th {
   input[type="password"],
   input[type="email"],
   input[type="url"],
-  input[type="number"] {
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"] {
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 0px;
@@ -1995,6 +1997,7 @@ th {
     vertical-align: top;
     position: relative;
     margin-left: -4px;
+    line-height: 36px;
   }
   .inputs:only-child {
     width: 100%;
@@ -2002,33 +2005,44 @@ th {
   .inputs p:only-child {
     margin: 0;
   }
-  .inputs label {
-    margin-right: 1em;
-  }
+  .inputs label,
   .inputs select,
   .inputs textarea,
   .inputs input[type="text"],
   .inputs input[type="password"],
   .inputs input[type="email"],
-  .inputs input[type="url"] {
+  .inputs input[type="url"],
+  .inputs input[type="date"],
+  .inputs input[type="datetime-local"] {
+    line-height: 36px;
     width: 100%;
     min-height: 2.25em;
     padding: 0.375em;
     margin: 0.375em 0;
-    resize: vertical;
   }
+  .inputs label:only-child,
   .inputs select:only-child,
   .inputs textarea:only-child,
   .inputs input[type="text"]:only-child,
   .inputs input[type="password"]:only-child,
   .inputs input[type="email"]:only-child,
-  .inputs input[type="url"]:only-child {
+  .inputs input[type="url"]:only-child,
+  .inputs input[type="date"]:only-child,
+  .inputs input[type="datetime-local"]:only-child {
     margin: 0;
+  }
+  .inputs textarea {
+    resize: vertical;
+  }
+  .inputs label {
+    padding: 0.375em 0;
+    margin: 0 1.5em 0 0;
   }
   .inputs .button,
   .inputs button,
   .inputs input[type="submit"] {
     margin: 0.375em 0;
+    line-height: 24px;
   }
 
   .value {
@@ -2042,12 +2056,13 @@ th {
     margin-bottom: 0em;
   }
 
-  p.no-values {
+  .inputs p.no-values {
     padding: 0.75em;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.08);
+    line-height: 24px;
   }
-  p.no-values:not(:only-child) {
+  .inputs p.no-values:not(:only-child) {
     display: none;
   }
 
@@ -2126,6 +2141,18 @@ th {
     text-align: center;
     line-height: 36px;
     overflow: hidden;
+  }
+
+  .value label,
+  .add-values label {
+    margin: 0;
+    min-height: 0;
+    line-height: 24px;
+  }
+
+  .add-values button,
+  .add-values .button {
+    line-height: 24px;
   }
 
   .inputs fieldset.value textarea,
@@ -2252,17 +2279,19 @@ th {
 
   .media.row img {
     width: 2.25em;
-    margin: -0.375em 0.5em -0.375em 0;
+    position: absolute;
+    top: 0.375em;
   }
 
   .media.row .sortable-handle:before {
     top: 0.75em;
   }
 
-  .media.row > * {
+  .media.row .resource-name {
     display: inline-block;
     vertical-align: middle;
-    max-width: 80%;
+    max-width: calc(100% - 9.75em);
+    margin-left: 3em;
     word-wrap: break-word;
   }
 

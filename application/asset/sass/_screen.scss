@@ -151,7 +151,9 @@ body {
     input[type="password"],
     input[type="email"],
     input[type="url"],
-    input[type="number"] {
+    input[type="number"],
+    input[type="date"],
+    input[type="datetime-local"] {
         @include appearance(none);
         @include border-radius(0px);
         height: rhythm(1.5);
@@ -1610,6 +1612,7 @@ input[type="text"].value-language,
         vertical-align: top;
         position: relative;
         margin-left: -4px;
+        line-height: 1.5 * $base-line-height;
 
         &:only-child {
             width: 100%;
@@ -1619,31 +1622,40 @@ input[type="text"].value-language,
             margin: 0;
         }
 
-        label {
-            margin-right: 1em;
-        }
-
+        label,
         select,
         textarea,
         input[type="text"],
         input[type="password"],
         input[type="email"],
-        input[type="url"] {
+        input[type="url"],
+        input[type="date"],
+        input[type="datetime-local"] {
+            line-height: 1.5 * $base-line-height;
             width: 100%;
             min-height: rhythm(1.5);
             padding: rhythm(.25);
             margin: rhythm(.25) 0;
-            resize: vertical;
 
             &:only-child {
                 margin: 0;
             }
         }
 
+        textarea {
+            resize: vertical;
+        }
+
+        label {
+            padding: rhythm(.25) 0;
+            margin: 0 rhythm() 0 0;
+        }
+
         .button,
         button,
         input[type="submit"] {
             margin: rhythm(.25) 0;
+            line-height: $base-line-height;
         }
     }
 
@@ -1660,10 +1672,11 @@ input[type="text"].value-language,
         }
     }
 
-    p.no-values {
+    .inputs p.no-values {
         padding: rhythm(.5);
         @include border-radius(3px);
         background-color: $gray-on-white;
+        line-height: $base-line-height;
 
         &:not(:only-child) {
             display: none;
@@ -1746,6 +1759,18 @@ input[type="text"].value-language,
         text-align: center;
         line-height: 1.5 * $base-line-height;
         overflow: hidden;
+    }
+
+    .value label,
+    .add-values label {
+        margin: 0;
+        min-height: 0;
+        line-height: $base-line-height;
+    }
+
+    .add-values button,
+    .add-values .button {
+        line-height: $base-line-height;
     }
 
     .inputs fieldset.value textarea,
@@ -1867,17 +1892,19 @@ input[type="text"].value-language,
 
     .media.row img {
         width: rhythm(1.5);
-        margin: rhythm(-.25) .5em rhythm(-.25) 0;
+        position: absolute;
+        top: rhythm(.25);
     }
 
     .media.row .sortable-handle:before {
         top: rhythm(.5);
     }
 
-    .media.row > * {
+    .media.row .resource-name {
         display: inline-block;
         vertical-align: middle;
-        max-width: 80%;
+        max-width: calc(100% - #{rhythm(6.5)});
+        margin-left: rhythm(2);
         word-wrap: break-word;
     }
 

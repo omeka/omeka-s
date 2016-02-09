@@ -5,8 +5,6 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
-use Zend\Permissions\Acl\Exception\InvalidArgumentException as AclInvalidArgumentException;
-use Zend\View\Model\ViewModel;
 
 class MvcListeners extends AbstractListenerAggregate
 {

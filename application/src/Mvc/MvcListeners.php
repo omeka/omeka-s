@@ -3,7 +3,6 @@ namespace Omeka\Mvc;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
 
 class MvcListeners extends AbstractListenerAggregate
@@ -28,11 +27,6 @@ class MvcListeners extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'authenticateApiKey']
-        );
-        $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_ROUTE,
-            [$this, 'authorizeUserAgainstRouteMatch'],
-            -1000
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
@@ -180,36 +174,6 @@ class MvcListeners extends AbstractListenerAggregate
         $auth->getAdapter()->setIdentity($identity);
         $auth->getAdapter()->setCredential($credential);
         $auth->authenticate();
-    }
-
-    /**
-     * Authorize the current user against the requested route.
-     *
-     * @param MvcEvent $event
-     */
-    public function authorizeUserAgainstRouteMatch(MvcEvent $event)
-    {
-        $application = $event->getApplication();
-        $services = $application->getServiceManager();
-        $t = $services->get('MvcTranslator');
-        $acl = $services->get('Omeka\Acl');
-
-        $routeMatch = $event->getRouteMatch();
-        $controller = $routeMatch->getParam('controller');
-        $action = $routeMatch->getParam('action');
-
-        if (!$acl->userIsAllowed($controller, $action)) {
-            // User not allowed is 403 Forbidden.
-            $message = sprintf(
-                $t->translate('Permission denied for the current user to access the %1$s action of the %2$s controller.'),
-                $action,
-                $controller
-            );
-            $e = new \Omeka\Permissions\Exception\PermissionDeniedException($message);
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
-            $event->setParam('exception', $e);
-            $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
-        }
     }
 
     /**

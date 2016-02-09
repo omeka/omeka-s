@@ -3,6 +3,7 @@ namespace Omeka\Mvc;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException as AclInvalidArgumentException;
 use Zend\View\Model\ViewModel;
@@ -32,7 +33,7 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            [$this, 'authorizeUserAgainstRoute'],
+            [$this, 'authorizeUserAgainstRouteMatch'],
             -1000
         );
         $this->listeners[] = $events->attach(
@@ -188,30 +189,28 @@ class MvcListeners extends AbstractListenerAggregate
      *
      * @param MvcEvent $event
      */
-    public function authorizeUserAgainstRoute(MvcEvent $event)
+    public function authorizeUserAgainstRouteMatch(MvcEvent $event)
     {
+        $application = $event->getApplication();
+        $services = $application->getServiceManager();
+        $t = $services->get('MvcTranslator');
+        $acl = $services->get('Omeka\Acl');
+
         $routeMatch = $event->getRouteMatch();
         $controller = $routeMatch->getParam('controller');
         $action = $routeMatch->getParam('action');
-        $acl = $event->getApplication()->getServiceManager()->get('Omeka\Acl');
 
-        try {
-            if (!$acl->userIsAllowed($controller, $action)) {
-                // User not allowed is 403 Forbidden.
-                $response = $event->getResponse();
-                $response->setStatusCode(403);
-
-                $model = new ViewModel;
-                $model->setTemplate('error/403');
-
-                $event->setResponse($response);
-                $event->getViewModel()->addChild($model);
-                $event->setError(Application::ERROR_ROUTER_PERMISSION_DENIED);
-            }
-        } catch (AclInvalidArgumentException $e) {
-            // ACL resource not found is 404 Not Found, automatically set during
-            // MvcEvent::EVENT_DISPATCH_ERROR.
+        if (!$acl->userIsAllowed($controller, $action)) {
+            // User not allowed is 403 Forbidden.
+            $message = sprintf(
+                $t->translate('Permission denied for the current user to access the %1$s action of the %2$s controller.'),
+                $action,
+                $controller
+            );
+            $e = new \Omeka\Permissions\Exception\PermissionDeniedException($message);
+            $event->setError(ZendApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
+            $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
         }
     }
 

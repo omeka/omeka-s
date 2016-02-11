@@ -406,7 +406,6 @@
 
   .left .item.resource,
   .right .item.resource {
-    max-width: 50%;
     border-color: #dedede;
     margin: 0 0 1.5em 0;
     display: -ms-grid;
@@ -445,6 +444,29 @@
     -ms-grid-row: 3;
   }
 
+  .left:not(.file) .item.resource,
+  .right:not(.file) .item.resource {
+    max-width: 50%;
+  }
+
+  .left.file,
+  .right.file {
+    max-width: 50%;
+    display: -ms-grid;
+    -ms-grid-columns: min-content;
+    width: -moz-min-content;
+    width: -webkit-min-content;
+    width: min-content;
+  }
+
+  .left.file {
+    float: left;
+  }
+
+  .right.file {
+    float: right;
+  }
+
   .left .item.resource {
     float: left;
     margin-right: 1.5em;
@@ -476,6 +498,21 @@
   .left .item.resource + p,
   .right .item.resource + p {
     margin-top: 0;
+  }
+
+  .break {
+    width: 100%;
+    clear: both;
+    border-bottom-width: 0.05em;
+    border-bottom-style: solid;
+    padding-bottom: -0.05em;
+    margin: 1.5em 0;
+  }
+  .break.transparent {
+    border-color: transparent;
+  }
+  .break.opaque {
+    border-color: #dedede;
   }
 
   .preview-block {

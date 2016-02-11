@@ -1,6 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
 $form->prepare();
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>

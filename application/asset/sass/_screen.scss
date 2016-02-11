@@ -226,8 +226,7 @@ body {
             position: absolute;
             right: rhythm(.5);
             color: lighten($red, 20%);
-            top: 50%;
-            transform: translateY(-50%);
+            top: rhythm(.25);
         }
     }
 

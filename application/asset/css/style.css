@@ -640,8 +640,7 @@ th {
     position: absolute;
     right: 0.75em;
     color: #ff6666;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0.375em;
   }
 
   *:invalid {

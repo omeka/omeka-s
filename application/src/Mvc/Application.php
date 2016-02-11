@@ -11,8 +11,6 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Application
 {
-    const ERROR_ROUTER_PERMISSION_DENIED = 'error-router-permission-denied';
-
     /**
      * Initialize the Omeka S application.
      *

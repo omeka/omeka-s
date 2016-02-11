@@ -144,8 +144,8 @@ return [
         ],
         'site' => [
             [
-                'label'         => 'General',
-                'class'         => 'general',
+                'label'         => 'Site Info',
+                'class'         => 'site-info',
                 'route'         => 'admin/site/default',
                 'action'        => 'edit',
                 'useRouteMatch' => true

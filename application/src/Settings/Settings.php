@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Settings;
 
-use Omeka\Entity\Setting;
-
 class Settings extends AbstractSettings
 {
     protected function setCache()

@@ -19,7 +19,8 @@ class SettingController extends AbstractActionController
             'time_zone' => $settings->get('time_zone'),
             'pagination_per_page' => $settings->get('pagination_per_page'),
             'property_label_information' => $settings->get('property_label_information'),
-            'use_htmlpurifier' => $settings->get('use_htmlpurifier')
+            'use_htmlpurifier' => $settings->get('use_htmlpurifier'),
+            'default_site' => $settings->get('default_site')
         ];
         $form->setData($data);
 

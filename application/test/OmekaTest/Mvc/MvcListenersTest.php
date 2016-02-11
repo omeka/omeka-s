@@ -3,7 +3,6 @@ namespace OmekaTest\Mvc;
 
 use Omeka\Mvc\MvcListeners;
 use Omeka\Test\TestCase;
-use Zend\Mvc\MvcEvent;
 
 class MvcListenersTest extends TestCase
 {
@@ -12,45 +11,6 @@ class MvcListenersTest extends TestCase
     public function setUp()
     {
         $this->mvcListeners = new MvcListeners;
-    }
-
-    public function testAttach()
-    {
-        $events = $this->getMock('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->exactly(7))
-            ->method('attach')
-            ->withConsecutive(
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'redirectToInstallation'])
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'redirectToMigration'])
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'redirectToLogin'])
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'authenticateApiKey'])
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'authorizeUserAgainstRoute']),
-                    $this->equalTo(-1000)
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'prepareAdmin'])
-                ],
-                [
-                    $this->equalTo(MvcEvent::EVENT_ROUTE),
-                    $this->equalTo([$this->mvcListeners, 'prepareSite'])
-                ]
-            );
-        $this->mvcListeners->attach($events);
     }
 
     public function testRedirectToInstallation()

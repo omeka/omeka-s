@@ -4,8 +4,6 @@ namespace Omeka\Mvc;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
-use Zend\Permissions\Acl\Exception\InvalidArgumentException as AclInvalidArgumentException;
-use Zend\View\Model\ViewModel;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -29,11 +27,6 @@ class MvcListeners extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'authenticateApiKey']
-        );
-        $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_ROUTE,
-            [$this, 'authorizeUserAgainstRoute'],
-            -1000
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
@@ -181,38 +174,6 @@ class MvcListeners extends AbstractListenerAggregate
         $auth->getAdapter()->setIdentity($identity);
         $auth->getAdapter()->setCredential($credential);
         $auth->authenticate();
-    }
-
-    /**
-     * Authorize the current user against the requested route.
-     *
-     * @param MvcEvent $event
-     */
-    public function authorizeUserAgainstRoute(MvcEvent $event)
-    {
-        $routeMatch = $event->getRouteMatch();
-        $controller = $routeMatch->getParam('controller');
-        $action = $routeMatch->getParam('action');
-        $acl = $event->getApplication()->getServiceManager()->get('Omeka\Acl');
-
-        try {
-            if (!$acl->userIsAllowed($controller, $action)) {
-                // User not allowed is 403 Forbidden.
-                $response = $event->getResponse();
-                $response->setStatusCode(403);
-
-                $model = new ViewModel;
-                $model->setTemplate('error/403');
-
-                $event->setResponse($response);
-                $event->getViewModel()->addChild($model);
-                $event->setError(Application::ERROR_ROUTER_PERMISSION_DENIED);
-            }
-        } catch (AclInvalidArgumentException $e) {
-            // ACL resource not found is 404 Not Found, automatically set during
-            // MvcEvent::EVENT_DISPATCH_ERROR.
-            $event->setParam('exception', $e);
-        }
     }
 
     /**

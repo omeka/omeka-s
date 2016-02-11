@@ -4,9 +4,8 @@
 
 .tablesaw tr .actions {
     position: absolute;
+    top: rhythm(.25);
     right: rhythm(.5);
-    top: 50%;
-    transform: translateY(-50%);
 
     li {
         margin: 0;
@@ -68,6 +67,11 @@
     right: 0;
     height: rhythm(1.5);
     border: 0;
+}
+
+.modules.browse .tablesaw-cell-content > span {
+    display: block;
+    max-width: calc(100% - #{rhythm(4)});
 }
 
 /* @end */

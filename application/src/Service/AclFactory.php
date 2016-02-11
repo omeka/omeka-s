@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
@@ -41,10 +40,7 @@ class AclFactory implements FactoryInterface
             // Allow all privileges during installation and migration.
             $acl->allow();
         } else {
-            // Set rules and trigger the acl event.
             $this->addRules($acl, $serviceLocator);
-            $event = new Event(Event::ACL, $acl, ['services' => $serviceLocator]);
-            $serviceLocator->get('EventManager')->trigger($event);
         }
 
         return $acl;

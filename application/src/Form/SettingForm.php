@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\ResourceSelect;
+
 class SettingForm extends AbstractForm
 {
     public function buildForm()
@@ -72,6 +74,21 @@ class SettingForm extends AbstractForm
             ]
         ]);
 
+        $siteSelect = new ResourceSelect(
+            $this->getServiceLocator(), 'default_site', [
+                'label' => $translator->translate('Default Site'),
+                'info' => $translator->translate('Select which site should appear when users go to the front page of the installation.'),
+                'empty_option' => $translator->translate('No default (Show index of sites)'),
+        ]);
+        $siteSelect->setResourceValueOptions(
+            'sites',
+            [],
+            function ($site, $serviceLocator) {
+                return $site->title();
+            }
+        );
+        $this->add($siteSelect);
+
         $this->add([
             'name'    => 'use_htmlpurifier',
             'type'    => 'Checkbox',
@@ -92,6 +109,10 @@ class SettingForm extends AbstractForm
             'validators' => [
                 ['name' => 'Digits']
             ],
+        ]);
+        $inputFilter->add([
+            'name' => 'default_site',
+            'allow_empty' => true,
         ]);
     }
 }

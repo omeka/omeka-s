@@ -31,6 +31,7 @@
             e.preventDefault();
             var context = $(this);
             Omeka.closeSidebar(context);
+            context.parents('.mobile').removeClass('mobile');
             context.trigger('o:resource-selected');
         });
 

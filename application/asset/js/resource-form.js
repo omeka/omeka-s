@@ -1,6 +1,19 @@
 (function($) {
 
     $(document).ready( function() {
+        // Open sidebars on mobile
+        $('button.mobile-only').on('click', function(e) {
+            e.preventDefault();
+            var mobileButton = $(this);
+            var sidebarId = mobileButton.attr('id');
+            sidebarId = sidebarId.replace('-button', '');
+            $('#' + sidebarId).addClass('mobile');
+            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
+                $('.sidebar.active.mobile').removeClass('mobile');
+                $(this).unbind('DOMSubtreeModified');
+            });
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -10,6 +23,7 @@
             if (!field.length) {
                 field = makeNewField(property);
             }
+            $('#property-selector').removeClass('mobile');
             Omeka.scrollTo(field);
         });
 

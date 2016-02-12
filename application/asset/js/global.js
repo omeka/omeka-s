@@ -1,9 +1,12 @@
 var Omeka = {
     openSidebar : function(context,target) {
         //close delete sidebar if open
-        if ($('#delete').hasClass('active')) {
-            $('#delete').removeClass('active');
+        if (!context.hasClass('delete')) {
+            if ($('#delete').hasClass('active')) {
+                $('#delete').removeClass('mobile active');
+            }
         }
+
         //if already inside top sidebar, open the inner sidebar
         if (context.parents('.sidebar').length == 0) {
             var sidebar = $('#content > .sidebar');
@@ -13,7 +16,6 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        sidebar.addClass('active');
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
         }
@@ -28,14 +30,18 @@ var Omeka = {
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
+        sidebar.addClass('mobile active');
         return sidebar;
     },
 
     closeSidebar : function(context) {
-        context.removeClass('active');
-        context.closest('.active').removeClass('active');
-        if ($('.active.sidebar').length < 1) {
-            $('body').removeClass('sidebar-open');
+        if (context.hasClass('mobile-only')) {
+            context.closest('.active').removeClass('mobile');
+        } else {
+            context.closest('.active').removeClass('mobile active');
+            if ($('.active.sidebar').length < 1) {
+                $('body').removeClass('sidebar-open');
+            }
         }
     },
 
@@ -126,11 +132,7 @@ var Omeka = {
         // Attach sidebar triggers
         $('#content').on('click', 'a.sidebar-confirm', function(e) {
             e.preventDefault();
-            if ($('#delete').length > 0) {
-                Omeka.openSidebar($(this), '#delete');
-            } else {
-                Omeka.openSidebar($(this));
-            }
+            Omeka.openSidebar($(this), '#delete');
         });
 
         // Make resource public or private
@@ -202,6 +204,10 @@ var Omeka = {
         $('.section-nav a[href^="#"]').click(function (e) {
             e.preventDefault();
             Omeka.switchActiveSection($($(this).attr('href')));
+        });
+
+        $('.section > legend').click(function() {
+            $(this).parent().toggleClass('mobile-active');
         });
 
         // Automatically switch to sections containing invalid elements on submit

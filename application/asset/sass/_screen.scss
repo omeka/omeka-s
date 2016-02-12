@@ -320,6 +320,10 @@ body {
 
 /* @group ----- Reusable classes ----- */
 
+.mobile-only {
+    display: none;
+}
+
 div[role="main"] > .messages {
     @include trailer(.5);
 
@@ -1152,8 +1156,7 @@ td .o-icon-private {
     padding-top: rhythm(4);
 }
 
-.add legend,
-.edit legend {
+fieldset.section > legend {
     position: absolute;
     left: -9999px;
 }
@@ -1888,6 +1891,7 @@ input[type="text"].value-language,
     .media.row {
         padding: rhythm(.5) rhythm(.25) rhythm(.5) rhythm(1.75);
         @include trailer(.25);
+        min-height: rhythm(2);
     }
 
     .media.row img {
@@ -1896,20 +1900,39 @@ input[type="text"].value-language,
         top: rhythm(.25);
     }
 
+    .media.row img + .resource-name {
+        margin-left: rhythm(2);
+    }
+
     .media.row .sortable-handle:before {
-        top: rhythm(.5);
+        top: rhythm(.375);
+    }
+
+  .media.row .actions {
+        position: absolute;
+        right: rhythm(.25);
+        top: rhythm(.375);
     }
 
     .media.row .resource-name {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: calc(100% - #{rhythm(6.5)});
-        margin-left: rhythm(2);
-        word-wrap: break-word;
+        width: calc(100% - #{rhythm(6)});
+        word-break: break-all;
+        display: block;
     }
 
     .media.value.delete span.restore-value {
         padding: 0;
+    }
+
+    .media.value.delete > *:not(.restore-value),
+    .media.value.delete .actions a:not(.o-icon-undo){
+        display: none;
+    }
+
+    .media.value.delete > .actions {
+        display: block;
+        margin-right: rhythm(-.25);
+        top: rhythm(.75);
     }
 
     .media-header h4 {

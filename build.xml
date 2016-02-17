@@ -117,7 +117,7 @@
     />
     <target name="zip"
             description="Build a zipped package of Omeka S."
-            depends="init">
+            depends="clean,init">
         <zip destfile="${build.dir}/omeka-s.zip">
             <zipfileset dir="." prefix="omeka-s">
                 <exclude name="**/*.dist"/>

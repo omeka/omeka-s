@@ -726,6 +726,10 @@ th {
   /* @end */
   /* @end */
   /* @group ----- Reusable classes ----- */
+  .mobile-only {
+    display: none;
+  }
+
   div[role="main"] > .messages {
     margin-bottom: 0.75em;
   }
@@ -1546,8 +1550,7 @@ th {
     padding-top: 6em;
   }
 
-  .add legend,
-  .edit legend {
+  fieldset.section > legend {
     position: absolute;
     left: -9999px;
   }
@@ -2274,6 +2277,7 @@ th {
   .media.row {
     padding: 0.75em 0.375em 0.75em 2.625em;
     margin-bottom: 0.375em;
+    min-height: 3em;
   }
 
   .media.row img {
@@ -2282,20 +2286,39 @@ th {
     top: 0.375em;
   }
 
+  .media.row img + .resource-name {
+    margin-left: 3em;
+  }
+
   .media.row .sortable-handle:before {
-    top: 0.75em;
+    top: 0.5625em;
+  }
+
+  .media.row .actions {
+    position: absolute;
+    right: 0.375em;
+    top: 0.5625em;
   }
 
   .media.row .resource-name {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: calc(100% - 9.75em);
-    margin-left: 3em;
-    word-wrap: break-word;
+    width: calc(100% - 9em);
+    word-break: break-all;
+    display: block;
   }
 
   .media.value.delete span.restore-value {
     padding: 0;
+  }
+
+  .media.value.delete > *:not(.restore-value),
+  .media.value.delete .actions a:not(.o-icon-undo) {
+    display: none;
+  }
+
+  .media.value.delete > .actions {
+    display: block;
+    margin-right: -0.375em;
+    top: 1.125em;
   }
 
   .media-header h4 {
@@ -2826,29 +2849,44 @@ th {
     font-style: italic;
   }
 
+  .resource-template .property.row {
+    padding: 2.625em 0.375em 0.375em 3em;
+  }
   .resource-template .property.row.delete {
     background-color: #FFCCCC;
   }
   .resource-template .property.row label:first-child,
   .resource-template .property.row input[type="text"],
-  .resource-template .property.row textarea {
+  .resource-template .property.row textarea,
+  .resource-template .property.row select {
     display: inline-block;
     vertical-align: top;
     resize: vertical;
   }
-  .resource-template .property.row label:first-child {
-    padding: 0.375em 0 0.375em 2.25em;
+
+  .resource-template .property.row .sortable-handle {
+    background-color: rgba(0, 0, 0, 0.08);
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 2.25em;
+    position: absolute;
+  }
+  .resource-template .property.row .sortable-handle:before {
+    top: 0.375em;
   }
 
-  .resource-template .property.row label:first-child {
-    width: 20%;
-    margin-right: 10%;
+  .resource-template .property.row label,
+  .resource-template .property.row input[type="text"] {
+    width: 100%;
+    height: 2.25em;
+    line-height: 36px;
   }
 
   .resource-template .property.row .actions {
     position: absolute;
-    right: 70%;
-    top: 0.75em;
+    right: 0.375em;
+    top: 0.375em;
     padding: 0 0.375em;
   }
 
@@ -2863,29 +2901,39 @@ th {
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
+    padding-left: 2.74995em;
   }
 
   .resource-template .property-heading {
     font-weight: bold;
     display: inline-block;
-    width: 35%;
+    width: 33.33333%;
   }
 
-  .resource-template .property-heading:first-of-type {
-    padding-left: 2.25em;
-    width: 30%;
-  }
-
-  .resource-template .property-heading:not(:first-child),
-  .resource-template .property.row input[type="text"],
-  .resource-template .property.row textarea {
+  .resource-template .property-heading:not(:first-child) {
     margin-left: -4px;
   }
 
-  .resource-template .property.row input[type="text"],
-  .resource-template .property.row textarea {
-    width: 33.75%;
-    margin-right: 1.25%;
+  .resource-template .property.row .property-label,
+  .resource-template .property.row textarea,
+  .resource-template .property.row select {
+    display: inline-block;
+    width: calc(33.33333% - 0.375em);
+    margin-left: -4px;
+    margin-right: 0.375em;
+  }
+
+  .resource-template .property.row .property-label {
+    margin-top: -2.625em;
+  }
+
+  .resource-template .property.row label {
+    margin-bottom: 0.375em;
+  }
+
+  .resource-template .property.row select {
+    width: 33.33333%;
+    margin-right: 0;
   }
 
   /* @end */
@@ -3481,8 +3529,20 @@ th {
   /* @end */
 }
 @media screen and (max-width: 640px) {
+  script {
+    display: none !important;
+  }
+
   body {
     padding: 0;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  button.mobile-only {
+    width: 100%;
   }
 
   /* @group ----- Header ----- */
@@ -3578,21 +3638,18 @@ th {
 
   /* @end */
   /* @group ----- Global content ----- */
-  div[role="main"] {
+  #content {
     margin: 2.25em 0 0 0;
     width: 100%;
     min-height: calc(100% - 4.5em);
     position: relative;
-    padding-top: 3.75em;
+    padding-top: 3em;
   }
-  div[role="main"] > h1:first-of-type {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  #content > h1:first-of-type {
+    position: static;
+    margin-top: 0;
+    padding: 0;
+    height: auto;
   }
 
   /* @end */
@@ -3647,16 +3704,60 @@ th {
   }
 
   #page-actions {
-    position: static;
-    text-align: left;
-    padding: 0;
+    top: 2.25em;
+    background-color: #fff;
     width: 100%;
     border-color: rgba(0, 0, 0, 0.08);
+    height: 3em;
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
-    padding-bottom: -0.0625em;
-    height: auto;
-    margin-bottom: 0.75em;
+    padding-bottom: 0.3125em;
+  }
+
+  /* @end */
+  /* @group ----- Sidebars ----- */
+  #sidebar {
+    position: fixed;
+    top: 2.25em;
+    z-index: 100;
+    width: 100%;
+  }
+  #sidebar #content.sidebar-open {
+    left: 0;
+  }
+
+  body.sidebar-open #content {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .sidebar.active {
+    left: 100%;
+  }
+
+  .sidebar.mobile.active,
+  #resource-details.active #select-item,
+  .confirm-panel {
+    left: 0;
+    width: 100%;
+  }
+
+  fieldset.section > .always.active {
+    content: "";
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3em;
+    background-color: #fff;
+    position: fixed;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  fieldset.section > .always.active button {
+    width: 100%;
+    margin: 0.375em;
   }
 
   /* @end */
@@ -3692,42 +3793,31 @@ th {
     padding-bottom: 0em;
   }
 
-  #sidebar {
-    position: fixed;
-    top: 2.25em;
-    z-index: 100;
-    width: 100%;
-  }
-  #content.sidebar-open #sidebar {
-    left: 0;
-  }
-
   /* @end */
   /* @group ----- Add/Edit views ----- */
-  .add fieldset,
-  .edit fieldset {
+  fieldset.section,
+  fieldset.section {
     margin-bottom: 0;
+    position: relative;
   }
 
-  .add legend,
-  .edit legend {
+  fieldset.section > legend:first-child {
     position: relative;
     left: auto;
-    font-size: 24px;
-    background-color: #ff6666;
     display: block;
     width: 100%;
-    padding: 0.5em 0.375em;
-    color: #fff;
+    font-size: 20px;
+    padding: 0.3em 0.45em 0.3em 0;
+    color: #FF0000;
     cursor: pointer;
     border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
+    border-bottom-width: 0.15em;
     border-bottom-style: solid;
-    padding-bottom: -0.0625em;
+    padding-bottom: -0.15em;
+    margin-bottom: 0.6em;
   }
 
-  .add legend:after,
-  .edit legend:after {
+  fieldset.section > legend:after {
     content: "\f0da";
     font-family: "FontAwesome";
     position: absolute;
@@ -3735,23 +3825,24 @@ th {
     top: 0.5em;
   }
 
-  .add .active legend:after,
-  .edit .active legend:after {
+  fieldset.section.mobile-active > legend:after {
     content: "\f0d7";
   }
 
-  .add .section,
-  .edit .section,
-  .add .active.section > *:not(legend),
-  .edit .active.section > *:not(legend) {
+  fieldset.section > *:not(legend) {
+    display: none;
+  }
+
+  fieldset.section.mobile-active > *:not(legend) {
     display: block;
   }
 
-  .add .section > *:not(legend),
-  .edit .section > *:not(legend),
-  .add .section .field.template,
-  .edit .section .field.template {
-    display: none;
+  fieldset.section.mobile-active > table {
+    display: table;
+  }
+
+  fieldset.section:not(a) {
+    display: block;
   }
 
   .add .active.section > .button,
@@ -3792,14 +3883,6 @@ th {
 
   .field-meta label {
     font-weight: bold;
-  }
-
-  .field-description {
-    height: 24px;
-    float: none;
-    display: inline-block;
-    margin-left: .25em;
-    position: absolute;
   }
 
   .unset .field-meta {

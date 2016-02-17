@@ -2,6 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
     <p><?php echo $this->translate('Click on an item set to add it to the edit panel.'); ?></p>
     <input type="text" class="selector-filter" placeholder=" <?php echo $escape($this->translate('Filter item sets')); ?>">
     <ul>

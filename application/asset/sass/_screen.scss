@@ -319,6 +319,10 @@ body {
 
 /* @group ----- Reusable classes ----- */
 
+.mobile-only {
+    display: none;
+}
+
 div[role="main"] > .messages {
     @include trailer(.5);
 
@@ -1151,8 +1155,7 @@ td .o-icon-private {
     padding-top: rhythm(4);
 }
 
-.add legend,
-.edit legend {
+fieldset.section > legend {
     position: absolute;
     left: -9999px;
 }
@@ -1887,6 +1890,7 @@ input[type="text"].value-language,
     .media.row {
         padding: rhythm(.5) rhythm(.25) rhythm(.5) rhythm(1.75);
         @include trailer(.25);
+        min-height: rhythm(2);
     }
 
     .media.row img {
@@ -1895,20 +1899,39 @@ input[type="text"].value-language,
         top: rhythm(.25);
     }
 
+    .media.row img + .resource-name {
+        margin-left: rhythm(2);
+    }
+
     .media.row .sortable-handle:before {
-        top: rhythm(.5);
+        top: rhythm(.375);
+    }
+
+    .media.row .actions {
+        position: absolute;
+        right: rhythm(.25);
+        top: rhythm(.375);
     }
 
     .media.row .resource-name {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: calc(100% - #{rhythm(6.5)});
-        margin-left: rhythm(2);
-        word-wrap: break-word;
+        width: calc(100% - #{rhythm(6)});
+        word-break: break-all;
+        display: block;
     }
 
     .media.value.delete span.restore-value {
         padding: 0;
+    }
+
+    .media.value.delete > *:not(.restore-value),
+    .media.value.delete .actions a:not(.o-icon-undo){
+        display: none;
+    }
+
+    .media.value.delete > .actions {
+        display: block;
+        margin-right: rhythm(-.25);
+        top: rhythm(.75);
     }
 
     .media-header h4 {
@@ -2458,6 +2481,7 @@ body.sidebar-open #content {
 }
 
 .resource-template .property.row {
+    padding: rhythm(1.75) rhythm(.25) rhythm(.25) rhythm(2);
 
     &.delete {
         background-color: $delete-bg;
@@ -2465,26 +2489,38 @@ body.sidebar-open #content {
 
     label:first-child,
     input[type="text"],
-    textarea {
+    textarea,
+    select {
         display: inline-block;
         vertical-align: top;
         resize: vertical;
     }
+}
 
-    label:first-child {
-        padding: rhythm(.25) 0 rhythm(.25) rhythm(1.5);
+.resource-template .property.row .sortable-handle {
+    background-color: $gray-on-white;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: rhythm(1.5);
+    position: absolute;
+
+    &:before {
+        top: rhythm(.25);
     }
 }
 
-.resource-template .property.row label:first-child {
-    width: span(2 of 10);
-    margin-right: span(1 of 10);
+.resource-template .property.row label,
+.resource-template .property.row input[type="text"] {
+    width: 100%;
+    height: rhythm(1.5);
+    line-height: 1.5 * $base-line-height;
 }
 
 .resource-template .property.row .actions {
     position: absolute;
-    right: span(7 of 10);
-    top: rhythm(.5);
+    right: rhythm(.25);
+    top: rhythm(.25);
     padding: 0 rhythm(.25);
 }
 
@@ -2495,30 +2531,40 @@ body.sidebar-open #content {
 
     & > li:first-child {
         @include field-row;
+        padding-left: rhythm(1.8333);
     }
 }
 
 .resource-template .property-heading {
     font-weight: bold;
     display: inline-block;
-    width: span(3.5 of 10);
+    width: span(3 of 9);
 }
 
-.resource-template .property-heading:first-of-type {
-    padding-left: rhythm(1.5);
-    width: span(3 of 10);
-}
-
-.resource-template .property-heading:not(:first-child),
-.resource-template .property.row input[type="text"],
-.resource-template .property.row textarea {
+.resource-template .property-heading:not(:first-child) {
     margin-left: -4px;
 }
 
-.resource-template .property.row input[type="text"],
-.resource-template .property.row textarea {
-    width: span(3.375 of 10);
-    margin-right: span(.125 of 10);
+.resource-template .property.row .property-label,
+.resource-template .property.row textarea,
+.resource-template .property.row select {
+    display: inline-block;
+    width: calc(#{span(3 of 9)} - #{rhythm(.25)});
+    margin-left: -4px;
+    margin-right: rhythm(.25);
+}
+
+.resource-template .property.row .property-label {
+    margin-top: rhythm(-1.75);
+}
+
+.resource-template .property.row label {
+    margin-bottom: rhythm(.25);
+}
+
+.resource-template .property.row select {
+    width: span(3 of 9);
+    margin-right: 0;
 }
 
 /* @end */

@@ -324,10 +324,18 @@ fieldset.section.mobile-active > legend:after{
 fieldset.section > *:not(legend) {
     display: none;
 }
+    fieldset.section > #item-item-sets.empty + .no-resources {
+        display: none;
+    }
 
 fieldset.section.mobile-active > *:not(legend) {
     display: block;
 }
+
+    fieldset.section.mobile-active > #item-item-sets.empty + .no-resources {
+        display: block;
+        margin-top: rhythm(2);
+    }
 
 fieldset.section.mobile-active > table {
     display: table;

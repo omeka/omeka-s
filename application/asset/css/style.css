@@ -3833,8 +3833,17 @@ th {
     display: none;
   }
 
+  fieldset.section > #item-item-sets.empty + .no-resources {
+    display: none;
+  }
+
   fieldset.section.mobile-active > *:not(legend) {
     display: block;
+  }
+
+  fieldset.section.mobile-active > #item-item-sets.empty + .no-resources {
+    display: block;
+    margin-top: 3em;
   }
 
   fieldset.section.mobile-active > table {

@@ -38,7 +38,7 @@ $escape = $this->plugin('escapeHtml');
         <h4>
             <?php echo $site->link($site->title(), 'show'); ?>
         </h4>
-        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
+        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
     <?php endif; ?>
         <?php $globalNav = $this->navigation('Zend\Navigation\Admin')->menu(); ?>

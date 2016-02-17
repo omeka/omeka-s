@@ -56,7 +56,7 @@ $sortHeadings = [
                 </span>
                 <ul class="actions">
                     <li>
-                        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-view public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
+                        <a href="<?php echo $site->siteUrl(); ?>" target="_blank" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
                     </li>
                     <li>
                     <?php if ($site->userIsAllowed('update')): ?>

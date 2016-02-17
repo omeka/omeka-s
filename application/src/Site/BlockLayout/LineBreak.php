@@ -8,12 +8,12 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
-class PageBreak extends AbstractBlockLayout
+class LineBreak extends AbstractBlockLayout
 {
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Page Break');
+        return $translator->translate('Line Break');
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,

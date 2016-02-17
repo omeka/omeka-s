@@ -273,7 +273,7 @@ return [
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
             'file' => 'Omeka\Site\BlockLayout\File',
-            'pageBreak' => 'Omeka\Site\BlockLayout\PageBreak'
+            'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak'
         ],
     ],
     'navigation_links' => [

@@ -445,10 +445,12 @@ header {
 
 .left.file {
     float: left;
+    clear: left;
 }
 
 .right.file {
     float: right;
+    clear: right;
 }
 
 .left .item.resource {

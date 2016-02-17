@@ -6,7 +6,14 @@ $propertyId = $escape($property->id());
 ?>
 <li class="property row"
     data-property-id="<?php echo $propertyId; ?>">
-    <label id="property-<?php echo $propertyId; ?>" aria-labelledby="original-label"><?php echo $escape($property->label()); ?></label>
+    <span class="sortable-handle"></span>
+    <div class="property-label">
+        <label id="property-<?php echo $propertyId; ?>" aria-labelledby="original-label"><?php echo $escape($property->label()); ?></label>
+        <input type="text" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-label">
+    </div>
+    <textarea name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-comment"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea>
+    <input class="property-id-element" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
+    <?php echo $this->dataType()->getSelect($namePrefix . '[o:data_type]', $propertyRow['o:data_type']); ?>
     <ul class="actions">
         <li><a href="#"
             class="o-icon-delete resource-template-property-remove"
@@ -18,9 +25,4 @@ $propertyId = $escape($property->id());
             aria-label="<?php echo $escape($this->translate('Details')); ?>"
             title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
     </ul>
-    <input type="text" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-label">
-    <textarea name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-comment"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea>
-    <input class="property-id-element" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
-    <?php echo $this->dataType()->getSelect($namePrefix . '[o:data_type]', $propertyRow['o:data_type']); ?>
-    <span class="sortable-handle"></span>
 </li>

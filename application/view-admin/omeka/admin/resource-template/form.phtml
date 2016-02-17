@@ -32,9 +32,9 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 </div>
 <ul id="properties">
     <li>
-        <div class="property-heading" id="original-label"><?php echo $this->translate('Original Label'); ?></div>
-        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate Label'); ?></div>
-        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Alternate Comment'); ?></div>
+        <div class="property-heading" id="original-label"><?php echo $this->translate('Label'); ?></div>
+        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate Comment'); ?></div>
+        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Data Type'); ?></div>
     </li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(

@@ -51,7 +51,11 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setTitle($request->getValue('o:title'));
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
-            $entity->setNavigation($request->getValue('o:navigation', []));
+            $default = [];
+            if ($request->getOperation() === Request::CREATE) {
+                $default = $this->getDefaultNavigation();
+            }
+            $entity->setNavigation($request->getValue('o:navigation', $default));
         }
         if ($this->shouldHydrate($request, 'o:item_pool')) {
             $entity->setItemPool($request->getValue('o:item_pool', []));
@@ -222,5 +226,28 @@ class SiteAdapter extends AbstractEntityAdapter
             }
         };
         $validateLinks($navigation);
+    }
+
+    /**
+     * Get the default nav array for new sites with no specified
+     * navigation.
+     *
+     * The default is to just include a link to the browse page.
+     *
+     * @return array
+     */
+    protected function getDefaultNavigation()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return [
+            [
+                'type' => 'browse',
+                'data' => [
+                    'label' => $translator->translate('Browse'),
+                    'query' => '',
+                ],
+                'links' => [],
+            ]
+        ];
     }
 }

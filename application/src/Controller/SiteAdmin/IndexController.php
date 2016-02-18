@@ -56,7 +56,6 @@ class IndexController extends AbstractActionController
     public function editAction()
     {
         $serviceLocator = $this->getServiceLocator();
-        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
         $form = new SiteForm($serviceLocator);
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')

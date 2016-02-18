@@ -22,6 +22,7 @@ $escape = $this->plugin('escapeHtml');
     <thead>
     <tr>
         <th><?php echo $this->translate('Original Label'); ?></th>
+        <th><?php echo $this->translate('Data Type'); ?></th>
         <th><?php echo $this->translate('Alternate Label'); ?></th>
         <th><?php echo $this->translate('Alternate Comment'); ?></th>
     </tr>
@@ -40,6 +41,7 @@ $escape = $this->plugin('escapeHtml');
                         title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
             </td>
+            <td><?php echo $escape($resourceTemplateProperty->dataTypeLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>
         </tr>

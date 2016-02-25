@@ -136,7 +136,7 @@ $('#content').on('click', '.o-icon-undo', function() {
     $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
 });
 
-$('#permissions .selector .selector-child').click(function() {
+$('.selector .selector-child').click(function() {
     var user = $(this);
     var userId = user.data('user-id');
     var userText = user.data('child-search');

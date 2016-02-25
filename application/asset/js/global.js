@@ -132,7 +132,11 @@ var Omeka = {
         // Attach sidebar triggers
         $('#content').on('click', 'a.sidebar-confirm', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this), '#delete');
+            if ($('#delete').length > 0) {
+                Omeka.openSidebar($(this), '#delete');
+            } else {
+                Omeka.openSidebar($(this));
+            }
         });
 
         // Make resource public or private
@@ -261,7 +265,7 @@ var Omeka = {
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
     });
-    
+
     $(window).load(function() {
         var setSubmittedFlag = function () {
             $(this).data('omekaFormSubmitted', true);

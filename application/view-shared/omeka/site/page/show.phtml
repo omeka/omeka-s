@@ -6,19 +6,24 @@
 </header>
 
 <div id="content" role="main">
-    <?php
-        $nav =  $this->navigation('Zend\Navigation\Site');
-        $container = $nav->getContainer();
-        $activePage = $nav->findActive($container);
-        $breadcrumbs = $this->navigation()->breadcrumbs();
-    ?>
+<?php
+$nav =  $this->navigation('Zend\Navigation\Site');
+$container = $nav->getContainer();
+$activePage = $nav->findActive($container);
+if ($activePage):
+?>
     <?php if ($activePage['depth'] !== 0): ?>
-    <nav class="breadcrumbs"><?php echo $breadcrumbs; ?></nav>
+    <nav class="breadcrumbs"><?php echo $this->navigation()->breadcrumbs(); ?></nav>
     <?php endif; ?>
+<?php endif; ?>
+
     <?php echo $this->pageTitle($page->title(), 2); ?>
+
+<?php if ($activePage): ?>
     <?php if ($this->displayNavigation && $activePage['page']->hasPages()): ?>
     <nav class="sub-menu"><?php echo $this->navigation()->menu()->renderSubMenu(); ?></nav>
     <?php endif; ?>
+<?php endif; ?>
 
     <?php echo $this->content; ?>
     <?php echo $this->sitePagePagination(); ?>

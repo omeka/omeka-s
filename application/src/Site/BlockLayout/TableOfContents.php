@@ -47,8 +47,14 @@ class TableOfContents extends AbstractBlockLayout
         $nav =  $view->navigation('Zend\Navigation\Site');
         $container = $nav->getContainer();
         $activePage = $nav->findActive($container);
+
+        // Make new copies of the pages so we don't disturb the regular nav
         $pages = $activePage['page']->getPages();
-        $subNav = new Navigation($pages);
+        $newPages = [];
+        foreach ($pages as $page) {
+            $newPages[] = $page->toArray();
+        }
+        $subNav = new Navigation($newPages);
 
         $depth = $this->getData($block->data(), 'depth');
         if (!isset($depth)) {

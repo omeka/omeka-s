@@ -39,14 +39,14 @@ $this->plugin('formRow')->setPartial(null);
                         echo '<li>' . $this->hyperlink('',
                             $this->url(
                                 null,
-                                array('action' => 'configure'),
-                                array('query' => array('id' => $module->getId())
-                            ), true),
-                            array(
+                                ['action' => 'configure'],
+                                ['query' => ['id' => $module->getId()]
+                            ], true),
+                            [
                                 'class' => 'o-icon-configure',
                                 'title' => $escape($this->translate('Configure')),
                                 'aria-label' => $escape($this->translate('Configure'))
-                            )
+                            ]
                         ) . '</li>';
                     }
                     ?>
@@ -85,13 +85,13 @@ $this->plugin('formRow')->setPartial(null);
                     // uninstall control
                     $canBeUninstalled = in_array(
                         $module->getState(),
-                        array(Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE)
+                        [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]
                     );
                     if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
                     ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($this->url(null, array('action' => 'uninstall'), array('query' => array('id' => $module->getId())), true)); ?>"
+                        data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'show-details'], ['query' => ['id' => $module->getId()]], true)); ?>"
+                        data-sidebar-confirm-url="<?php echo $escape($this->url(null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]], true)); ?>"
                         class="o-icon-uninstall sidebar-confirm"
                         aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"
                         title="<?php echo $escape($this->translate('Uninstall')); ?>"></a></li>
@@ -108,7 +108,7 @@ $this->plugin('formRow')->setPartial(null);
                     ?>
 
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($this->url(null, array('action' => 'show-details'), array('query' => array('id' => $module->getId())), true)); ?>"
+                        data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'show-details'], ['query' => ['id' => $module->getId()]], true)); ?>"
                         class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Details')); ?>"
                         title="<?php echo $escape($this->translate('Details')); ?>"></a></li>

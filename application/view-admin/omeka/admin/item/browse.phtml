@@ -26,11 +26,11 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
-<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
+<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
 
 <?php echo $this->searchFilters(); ?>
 
@@ -55,10 +55,10 @@ $sortHeadings = [
         if ($owner = $item->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -69,11 +69,11 @@ $sortHeadings = [
             <td>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>
-                    <li><?php echo $item->link('', 'edit', array(
+                    <li><?php echo $item->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"

@@ -26,7 +26,7 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, array('action' => 'import'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, ['action' => 'import'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -55,11 +55,11 @@ $sortHeadings = [
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
-                    <li><?php echo $vocabulary->link('', 'edit', array(
+                    <li><?php echo $vocabulary->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $escape($this->translate('Edit')),
                         'title' => $escape($this->translate('Edit')),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
                     <li><a href="#"
@@ -79,8 +79,8 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($vocabulary->prefix())); ?></td>
-            <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', array('action' => 'classes', 'id' => $vocabulary->id()), true)); ?></td>
-            <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', array('action' => 'properties', 'id' => $vocabulary->id()), true)); ?></td>
+            <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', ['action' => 'classes', 'id' => $vocabulary->id()], true)); ?></td>
+            <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', ['action' => 'properties', 'id' => $vocabulary->id()], true)); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -3,12 +3,12 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets show sidebar-ope
 $escape = $this->plugin('escapeHtml');
 $viewItemsLink = $this->url(
     'admin/default', 
-    array( 'controller' => 'item', 'action' => 'browse'), 
-    array(
-        'query' =>  array(
+    ['controller' => 'item', 'action' => 'browse'], 
+    [
+        'query' =>  [
             'item_set_id' => $itemSet->id()
-        )
-    )
+        ]
+    ]
 );
 if ($owner = $itemSet->owner()) {
     $ownerText = $escape($itemSet->owner()->name());
@@ -21,7 +21,7 @@ if ($owner = $itemSet->owner()) {
 
 <div id="page-actions">
     <?php if ($itemSet->userIsAllowed('update')): ?>
-    <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', array('class' => 'button')); ?>
+    <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>
     <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>
 </div>
@@ -63,7 +63,7 @@ if ($owner = $itemSet->owner()) {
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Items'); ?></h4>
-        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></div>
+        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
 </div>
 

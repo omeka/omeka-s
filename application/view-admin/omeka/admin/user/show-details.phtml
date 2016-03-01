@@ -2,10 +2,10 @@
 
 <div class="meta-group">
     <h4><?php echo $this->translate('Items'); ?></h4>
-    <div class="value"><?php echo $this->hyperlink($user->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></div>
+    <div class="value"><?php echo $this->hyperlink($user->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['owner_id' => $user->id()]])); ?></div>
 </div>
 
 <div class="meta-group">
     <h4><?php echo $this->translate('Item Sets'); ?></h4>
-    <div class="value"><?php echo $this->hyperlink($user->itemSetCount(), $this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'), array('query' => array('owner_id' => $user->id())))); ?></div>
+    <div class="value"><?php echo $this->hyperlink($user->itemSetCount(), $this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'], ['query' => ['owner_id' => $user->id()]])); ?></div>
 </div>

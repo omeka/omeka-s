@@ -30,12 +30,12 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         //the nav lis above. (see globals.js)  
         echo $this->partial(
                 'common/resource-fields.phtml',
-                array(
+                [
                     'id' => 'resource-values',
                     'class' => 'section active',
                     'form' => $form,
                     'resource' => $media
-                ));
+                ]);
     ?>
 
     <fieldset id="media" class="section">

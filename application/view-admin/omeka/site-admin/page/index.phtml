@@ -6,7 +6,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pageTitle($this->translate('Pages')); ?>
 
 <div id="page-actions">
-    <?php echo $site->link($this->translate('Add new page'), 'add-page', array('class' => 'button')); ?>
+    <?php echo $site->link($this->translate('Add new page'), 'add-page', ['class' => 'button']); ?>
 </div>
 <?php if ($pages): ?>
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
@@ -29,11 +29,11 @@ $escape = $this->plugin('escapeHtml');
         <td><?php echo $page->slug(); ?></td>
         <td>
             <ul class="actions">
-                <li><?php echo $page->link('', 'edit', array(
+                <li><?php echo $page->link('', 'edit', [
                     'class' => 'o-icon-edit',
                     'aria-label' => $this->translate('Edit'),
                     'title' => $this->translate('Edit'),
-                )); ?></li>
+                ]); ?></li>
                 <li><a href="#" class="o-icon-delete sidebar-confirm" aria-label="#" title="<?php echo $this->translate('Delete page'); ?>" data-page-title="<?php echo $escape($page->title()); ?>" data-sidebar-confirm-url="<?php echo $escape($page->url('delete')); ?>"></a></li>
             </ul>
         </td>

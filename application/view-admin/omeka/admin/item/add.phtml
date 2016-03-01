@@ -5,12 +5,12 @@ $this->htmlElement('body')->appendAttribute('class', 'add item sidebar-open');
 <?php echo $this->pageTitle($this->translate('Add Item')); ?>
 
 <?php
-echo $this->partial('omeka/admin/item/form.phtml', array(
+echo $this->partial('omeka/admin/item/form.phtml', [
     'form' => $form,
     'item' => null,
     'mediaForms' => $mediaForms,
     'submitLabel' => $this->translate('Add')
-));
+]);
 ?>
 
 <?php $this->trigger('view.add.after'); ?>

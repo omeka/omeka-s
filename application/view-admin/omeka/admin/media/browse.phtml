@@ -28,7 +28,7 @@ $sortHeadings = [
 
 <?php if (count($medias) > 0): ?>
 
-<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
+<?php echo $this->hyperlink($this->translate('Advanced media search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
 
 <?php echo $this->pagination(); ?>
 
@@ -49,10 +49,10 @@ $sortHeadings = [
         if ($owner = $media->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -66,11 +66,11 @@ $sortHeadings = [
                         <?php echo $media->link($media->displayTitle(), 'show'); ?>
                     </span>
                     <ul class="actions">
-                        <li><?php echo $media->link('', 'edit', array(
+                        <li><?php echo $media->link('', 'edit', [
                             'class' => 'o-icon-edit',
                             'aria-label' => $escape($this->translate('Edit')),
                             'title' => $escape($this->translate('Edit')),
-                        )); ?></li>
+                        ]); ?></li>
                         <li><a href="#"
                             data-sidebar-content-url="<?php echo $escape($media->url('show-details')); ?>"
                             data-sidebar-confirm-url="<?php echo $escape($media->url('delete')); ?>"

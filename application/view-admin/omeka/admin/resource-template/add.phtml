@@ -5,12 +5,12 @@
 <?php
 echo $this->partial(
     'omeka/admin/resource-template/form.phtml',
-    array(
+    [
         'form' => $form,
         'propertyRows' => $propertyRows,
         'resourceClassId' => $resourceClassId,
         'submitLabel' => $this->translate('Add'),
-    )
+    ]
 );
 ?>
 

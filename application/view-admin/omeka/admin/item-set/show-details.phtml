@@ -13,6 +13,6 @@
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Items'); ?></h4>
-        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?></div>
+        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
 </div>

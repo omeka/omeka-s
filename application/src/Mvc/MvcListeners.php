@@ -3,6 +3,7 @@ namespace Omeka\Mvc;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
 
 class MvcListeners extends AbstractListenerAggregate
@@ -218,30 +219,27 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $serviceLocator = $event->getApplication()->getServiceManager();
+        $application = $event->getApplication();
+        $serviceLocator = $application->getServiceManager();
 
-        $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
-        if (!$site) {
-            // Site not found, set minimal layout and 404 status
-            $event->getViewModel()->setTemplate('error/404');
-            $event->getResponse()->setStatusCode(404);
+        try {
+            $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
+        } catch (\Exception $e) {
+            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setParam('exception', $e);
+            $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
             return;
         }
+
+        // Set the site to the top level view model
+        $event->getViewModel()->site = $site;
 
         // Set the current site as the default site for site settings.
         $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
         $siteSettings->setSite($site);
 
-        $acl = $serviceLocator->get('Omeka\Acl');
-        if (!$acl->userIsAllowed($site, 'read')) {
-            // Site is restricted, set minimal layout and 404 status
-            $event->getViewModel()->setTemplate('error/404');
-            $event->getResponse()->setStatusCode(404);
-            return;
-        }
-
         // Set the current theme.
-        $theme = $site->getTheme();
+        $theme = $site->theme();
         $themeManager = $serviceLocator->get('Omeka\Site\ThemeManager');
         $themeManager->setCurrentTheme($theme);
 
@@ -276,13 +274,12 @@ class MvcListeners extends AbstractListenerAggregate
      *
      * @param ServiceManager $serviceLocator
      * @param string $slug
-     * @return Site|null
+     * @return SiteRepresentation|null
      */
     protected function getSite($serviceLocator, $slug)
     {
-        return $serviceLocator->get('Omeka\EntityManager')
-            ->createQuery('SELECT s FROM Omeka\Entity\Site s WHERE s.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getOneOrNullResult();
+        $api = $serviceLocator->get('Omeka\ApiManager');
+        $response = $api->read('sites', ['slug' => $slug]);
+        return $response->getContent();
     }
 }

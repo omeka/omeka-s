@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -16,7 +15,7 @@ class Translator implements ServiceLocatorAwareInterface
      * @param Site $site
      * @return array
      */
-    public function toZend(Site $site)
+    public function toZend(SiteRepresentation $site)
     {
         $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
         $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
@@ -30,14 +29,14 @@ class Translator implements ServiceLocatorAwareInterface
             }
             return $linksOut;
         };
-        $links = $buildLinks($site->getNavigation());
+        $links = $buildLinks($site->navigation());
         if (!$links) {
             // The site must have at least one page for navigation to work.
             $links = [[
                 'label' => 'Home',
                 'route' => 'site',
                 'params' => [
-                    'site-slug' => $site->getSlug(),
+                    'site-slug' => $site->slug(),
                 ],
             ]];
         }

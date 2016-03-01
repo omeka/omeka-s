@@ -1,11 +1,6 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'item resource show'); ?>
 
-<header>
-    <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
-    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
-</header>
-
 <div id="content" role="navigation">
     <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
     <h3><?php echo $this->translate('Item'); ?></h3>

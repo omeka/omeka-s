@@ -3,10 +3,6 @@
 <?php if (isset($itemSet)): ?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'item-set'); ?>
 <?php endif; ?>
-<header>
-    <?php echo $this->pageTitle($site->title()); ?>
-    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
-</header>
 
 <div id="content" role="main">
     <?php if (isset($itemSet)): ?>

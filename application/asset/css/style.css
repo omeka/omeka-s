@@ -2673,7 +2673,7 @@ th {
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  .sidebar.active {
+  .sidebar.active, .sidebar.always-open {
     left: 75.52083%;
   }
   .sidebar .o-icon-close {
@@ -3734,11 +3734,11 @@ th {
     width: 100%;
   }
 
-  .sidebar.active {
+  .sidebar.always-open {
     left: 100%;
   }
 
-  .sidebar.mobile.active,
+  .sidebar.active,
   #resource-details.active #select-item,
   .confirm-panel {
     left: 0;

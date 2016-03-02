@@ -2307,7 +2307,8 @@ input[type="text"].value-language,
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
 
-    &.active {
+    &.active,
+    &.always-open {
         left: span(12 of 16) + gutter(32);
     }
 

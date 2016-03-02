@@ -3,7 +3,7 @@ var Omeka = {
         //close delete sidebar if open
         if (!context.hasClass('delete')) {
             if ($('#delete').hasClass('active')) {
-                $('#delete').removeClass('mobile active');
+                $('#delete').removeClass('active');
             }
         }
 
@@ -19,6 +19,7 @@ var Omeka = {
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
         }
+
         var sidebarConfirm = $('#sidebar-confirm');
         if (context.hasClass('sidebar-confirm')) {
             sidebarConfirm.show();
@@ -30,25 +31,16 @@ var Omeka = {
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
-        sidebar.addClass('mobile active');
+        sidebar.addClass('active');
         return sidebar;
     },
 
     closeSidebar : function(context) {
-        if (context.hasClass('mobile-only')) {
-            context.closest('.active').removeClass('mobile');
-        } else {
-            context.closest('.active').removeClass('mobile active');
-            if ($('.active.sidebar').length < 1) {
-                $('body').removeClass('sidebar-open');
-            }
+        context.removeClass('active');
+        context.closest('.active').removeClass('active');
+        if ($('.active.sidebar').length < 1 && $('.always-open.sidebar').length < 1) {
+            $('body').removeClass('sidebar-open');
         }
-    },
-
-    switchActiveSection: function (section) {
-        $('.section.active, .section-nav li.active').removeClass('active');
-        section.addClass('active');
-        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
     },
 
     populateSidebarContent : function(context, sidebar) {
@@ -64,6 +56,12 @@ var Omeka = {
         }).error(function() {
             sidebarContent.html("<p>Something went wrong</p>");
         });
+    },
+
+    switchActiveSection: function (section) {
+        $('.section.active, .section-nav li.active').removeClass('active');
+        section.addClass('active');
+        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
     },
 
     filterSelector : function() {
@@ -139,6 +137,15 @@ var Omeka = {
             }
         });
 
+        if ($('.always-open.sidebar').length > 0) {
+            $('#content').addClass('sidebar-open');
+        }
+
+        $('.sidebar').find('.sidebar-close').click(function(e) {
+            e.preventDefault();
+            Omeka.closeSidebar($(this));
+        });
+
         // Make resource public or private
         $('#content').on('click', 'a.o-icon-private, a.o-icon-public', function(e) {
             e.preventDefault();
@@ -154,15 +161,6 @@ var Omeka = {
                 isPublicIcon.attr('title', 'Make public');
                 isPublicHiddenValue.attr('value', 0);
             }
-        });
-
-        if ($('.active.sidebar').length > 0) {
-            $('#content').addClass('sidebar-open');
-        }
-
-        $('.sidebar').find('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            Omeka.closeSidebar($(this));
         });
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/

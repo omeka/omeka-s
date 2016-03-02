@@ -6,10 +6,10 @@
             e.preventDefault();
             var mobileButton = $(this);
             var sidebarId = mobileButton.attr('id');
-            sidebarId = sidebarId.replace('-button', '');
-            $('#' + sidebarId).addClass('mobile');
+            sidebarId = '#' + sidebarId.replace('-button', '');
+            $(sidebarId).addClass('active');
             mobileButton.parents('form').bind('DOMSubtreeModified', function() {
-                $('.sidebar.active.mobile').removeClass('mobile');
+                $('.sidebar.always-open').removeClass('active');
                 $(this).unbind('DOMSubtreeModified');
             });
         });
@@ -98,6 +98,7 @@
             var valueObj = $('.resource-details').data('resource-values');
             var namePrefix = value.data('name-prefix');
             prepareResource(value, valueObj, namePrefix);
+            Omeka.closeSidebar($('#select-resource .sidebar-close'));
         });
 
         $('.button.resource-select').on('click', function(e) {

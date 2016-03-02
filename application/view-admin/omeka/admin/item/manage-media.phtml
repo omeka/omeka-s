@@ -75,7 +75,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 </div>
 <button id="media-selector-button" class="mobile-only"><?php echo $this->translate('Add media'); ?></button>
 
-<div id="media-selector" class="active sidebar">
+<div id="media-selector" class="always-open sidebar">
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
     <label for="new-media-type">
         <?php echo $this->translate('Add New Media'); ?>

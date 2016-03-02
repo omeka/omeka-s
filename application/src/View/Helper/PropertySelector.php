@@ -37,7 +37,7 @@ class PropertySelector extends AbstractHelper
                 'vocabularies'       => $vocabResponse->getContent(),
                 'totalPropertyCount' => $propResponse->getTotalResults(),
                 'propertySelectorText'               => $propertySelectorText,
-                'state'              => $active ? 'active' : ''
+                'state'              => $active ? 'always-open' : ''
             ]
         );
     }

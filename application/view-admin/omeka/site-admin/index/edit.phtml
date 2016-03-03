@@ -23,15 +23,4 @@ $form->prepare();
 
 <?php echo $this->form()->closeTag(); ?>
 
-<div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Site'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this site?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
-    <div class="sidebar-content"></div>
-</div>
+<?php echo $this->deleteConfirm($site, 'site'); ?>

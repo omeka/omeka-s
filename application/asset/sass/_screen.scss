@@ -2297,6 +2297,7 @@ input[type="text"].value-language,
     position: fixed;
     top: rhythm(3.5);
     left: 100%;
+    visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
@@ -2310,6 +2311,7 @@ input[type="text"].value-language,
     &.active,
     &.always-open {
         left: span(12 of 16) + gutter(32);
+        visibility: visible;
     }
 
     .o-icon-close {

@@ -67,7 +67,6 @@ You can find Omeka-specific code under `application/`.
 ```
     'cli' => array(
         'phpcli_path' => '/usr/bin/php55',
-        'execute_strategy' => 'proc_open'
     ),
 
 ``` 

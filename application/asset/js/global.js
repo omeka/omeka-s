@@ -137,6 +137,11 @@ var Omeka = {
             }
         });
 
+        $('#content').on('click', '.button.delete, button.delete', function(e) {
+            e.preventDefault();
+            Omeka.openSidebar($(this), '#delete');
+        });
+
         if ($('.always-open.sidebar').length > 0) {
             $('#content').addClass('sidebar-open');
         }

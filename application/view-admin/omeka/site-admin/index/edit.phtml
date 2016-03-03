@@ -15,7 +15,7 @@ $form->prepare();
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
-    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 

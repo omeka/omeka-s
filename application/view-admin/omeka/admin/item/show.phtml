@@ -10,7 +10,7 @@ if ($owner = $item->owner()) {
 <?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
 <div id="page-actions">
     <?php if ($item->userIsAllowed('update')): ?>
-    <?php echo $item->link($this->translate('Edit item'), 'edit', array('class' => 'button')); ?>
+    <?php echo $item->link($this->translate('Edit item'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 

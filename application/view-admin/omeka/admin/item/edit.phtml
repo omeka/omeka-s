@@ -13,13 +13,13 @@ var valuesJson = <?php echo json_encode($item->values()); ?>;
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Item: “%s”'), $item->displayTitle())); ?>
 
 <?php
-echo $this->partial('omeka/admin/item/form.phtml', array(
+echo $this->partial('omeka/admin/item/form.phtml', [
     'form' => $form,
     'item' => $item,
     'mediaForms' => $mediaForms,
     'submitLabel' => $this->translate('Save'),
     'deleteButton' => $deleteButton
-));
+]);
 ?>
 
 <div id="delete" class="sidebar">

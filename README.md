@@ -63,7 +63,14 @@ You can find Omeka-specific code under `application/`.
 ## local.config.php options
 
 * `thumbnailer` Default is `Omeka\File\ImageMagickThumbnailer`. Also available are `Omeka\File\IMagickThumbnailer` and `Omeka\File\GdThumbnailer`
-* `phpcli_path` Default is to attempt to detect correct path to PHP. Use this option to specify a path if needed in your server configuration.
+* `phpcli_path` Default is to attempt to detect correct path to PHP. Use this option to specify a path if needed in your server configuration. For example: 
+```
+    'cli' => array(
+        'phpcli_path' => '/usr/bin/php55',
+    ),
+
+``` 
+
 
 ## Libraries
 

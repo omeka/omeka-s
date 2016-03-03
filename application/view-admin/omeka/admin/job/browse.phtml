@@ -46,10 +46,10 @@ $sortHeadings = [
         if ($owner = $job->owner()) {
             $ownerText = $this->hyperlink($owner->email(), $this->url(
                 'admin/id',
-                array(
+                [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {

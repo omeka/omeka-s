@@ -40,8 +40,8 @@ if ($owner = $job->owner()) {
     <h4><?php echo $this->translate('Args'); ?></h4>
     <?php if ($job->args()): ?>
     <?php echo $this->hyperlink($this->translate('view args'),
-        $this->url(null, array('action' => 'args'), true),
-        array('target' => '_blank')) ?>
+        $this->url(null, ['action' => 'args'], true),
+        ['target' => '_blank']) ?>
     <?php else: ?>
     <p><?php echo $this->translate('[no args]') ?></p>
     <?php endif; ?>
@@ -50,8 +50,8 @@ if ($owner = $job->owner()) {
     <h4><?php echo $this->translate('Log'); ?></h4>
     <?php if ($job->log()): ?>
     <?php echo $this->hyperlink($this->translate('view log'),
-        $this->url(null, array('action' => 'log'), true),
-        array('target' => '_blank')) ?>
+        $this->url(null, ['action' => 'log'], true),
+        ['target' => '_blank']) ?>
     <?php else: ?>
     <p><?php echo $this->translate('[no log]') ?></p>
     <?php endif; ?>

@@ -25,7 +25,7 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -50,10 +50,10 @@ $sortHeadings = [
         if ($owner = $resourceTemplate->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -67,11 +67,11 @@ $sortHeadings = [
                 </span>
                 <ul class="actions">
                     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
-                    <li><?php echo $resourceTemplate->link('', 'edit', array(
+                    <li><?php echo $resourceTemplate->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $escape($this->translate('Edit')),
                         'title' => $escape($this->translate('Edit')),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
                     <li><a href="#"
@@ -90,7 +90,7 @@ $sortHeadings = [
             </td>
             <td><?php echo $escape($resourceTemplate->displayResourceClassLabel()); ?></td>
             <td><?php echo $ownerText; ?></td>
-            <td><?php echo $this->hyperlink($resourceTemplate->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('resource_template_id' => $resourceTemplate->id())))); ?></td>
+            <td><?php echo $this->hyperlink($resourceTemplate->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_template_id' => $resourceTemplate->id()]])); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

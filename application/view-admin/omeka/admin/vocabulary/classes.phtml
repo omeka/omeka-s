@@ -38,7 +38,7 @@ $escape = $this->plugin('escapeHtml');
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($resourceClass->term())); ?></td>
-            <td><?php echo $this->hyperlink($resourceClass->itemCount(), $this->url('admin/default', array('controller' => 'item', 'action' => 'browse'), array('query' => array('resource_class_id' => $resourceClass->id())))); ?></td>
+            <td><?php echo $this->hyperlink($resourceClass->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_class_id' => $resourceClass->id()]])); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

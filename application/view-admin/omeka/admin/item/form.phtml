@@ -23,23 +23,23 @@ $formElement = $this->plugin('formElement');
     //the nav lis above. (see globals.js)
     echo $this->partial(
         'common/resource-fields.phtml',
-        array(
+        [
             'id'                   => 'resource-values',
             'class'                => 'section active',
             'form'                 => $form,
             'resource'             => $item,
             'propertySelectorText' => 'Click on a property to add it to the add panel'
-        )
+        ]
     );
     ?>
 
     <fieldset id="item-media" class="section">
         <?php
         echo $this->partial('omeka/admin/item/manage-media',
-            array(
+            [
                 'mediaForms' => $mediaForms,
                 'resource' => $item
-            )
+            ]
         );
         ?>
     </fieldset>
@@ -47,7 +47,7 @@ $formElement = $this->plugin('formElement');
         <?php
         echo $this->partial(
             'omeka/admin/item/manage-item-sets',
-            array('item' => $item)
+            ['item' => $item]
         );
         ?>
     </fieldset>

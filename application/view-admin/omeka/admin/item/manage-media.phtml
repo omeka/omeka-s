@@ -36,12 +36,12 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="0">
             <?php endif; ?>
             </li>
-            <li><?php echo $media->link('', 'edit', array(
+            <li><?php echo $media->link('', 'edit', [
                 'class'      => 'o-icon-edit',
                 'aria-label' => $this->translate('Edit'),
                 'title'      => $this->translate('Edit'),
                 'target'     => '_blank'
-            )); ?></li>
+            ]); ?></li>
             <li>
                 <a href='#'
                 class='o-icon-delete remove-value'

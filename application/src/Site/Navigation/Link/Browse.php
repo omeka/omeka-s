@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
@@ -35,14 +34,14 @@ class Browse extends AbstractLink
             . '<label>Query <input type="text" data-name="query" value="' . $escape($query) . '"></label>';
     }
 
-    public function toZend(array $data, Site $site)
+    public function toZend(array $data, SiteRepresentation $site)
     {
         parse_str($data['query'], $query);
         return [
             'label' => $data['label'],
             'route' => 'site/resource',
             'params' => [
-                'site-slug' => $site->getSlug(),
+                'site-slug' => $site->slug(),
                 'controller' => 'item',
                 'action' => 'browse',
             ],

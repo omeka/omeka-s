@@ -17,7 +17,7 @@ $sortHeadings = [
 <?php echo $this->pageTitle($this->translate('Sites')); ?>
 
 <div id="page-actions">
-    <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), ['class' => 'button']); ?>
 </div>
 
 <?php if (count($sites) > 0): ?>
@@ -39,10 +39,10 @@ $sortHeadings = [
         if ($owner = $site->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -60,11 +60,11 @@ $sortHeadings = [
                     </li>
                     <li>
                     <?php if ($site->userIsAllowed('update')): ?>
-                        <?php echo $site->link('', null, array(
+                        <?php echo $site->link('', null, [
                             'class' => 'o-icon-edit',
                             'aria-label' => $this->translate('Edit'),
                             'title' => $this->translate('Edit'),
-                        )); ?>
+                        ]); ?>
                     <?php endif; ?>
                     </li>
                     <li><a href="#"

@@ -13,12 +13,12 @@ var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Item Set: “%s”'), $itemSet->displayTitle())); ?>
 
 <?php
-echo $this->partial('omeka/admin/item-set/form.phtml', array(
+echo $this->partial('omeka/admin/item-set/form.phtml', [
     'form' => $form,
     'itemSet' => $itemSet,
     'submitLabel' => $this->translate('Save'),
     'deleteButton' => $deleteButton
-));
+]);
 ?>
 
 <div class="sidebar">

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
@@ -50,22 +49,23 @@ class Page extends AbstractLink
             . '<label>Label <input type="text" data-name="label" value="' . $escape($data['label']) . '"></label>';
     }
 
-    public function toZend(array $data, Site $site)
+    public function toZend(array $data, SiteRepresentation $site)
     {
-        $sitePage = $site->getPages()->get($data['id']);
-        if (!$sitePage) {
+        $pages = $site->pages();
+        if (!isset($pages[$data['id']])) {
             // Handle an invalid page.
             $fallback = new Fallback('page');
             $fallback->setServiceLocator($this->getServiceLocator());
             return $fallback->toZend($data, $site);
         }
+        $sitePage = $pages[$data['id']];
 
         return [
             'label' => $data['label'],
             'route' => 'site/page',
             'params' => [
-                'site-slug' => $site->getSlug(),
-                'page-slug' => $sitePage->getSlug(),
+                'site-slug' => $site->slug(),
+                'page-slug' => $sitePage->slug(),
             ],
         ];
     }

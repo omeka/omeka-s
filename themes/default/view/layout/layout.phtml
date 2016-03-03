@@ -19,7 +19,13 @@ $this->trigger('view.layout');
         <?php echo $this->headStyle(); ?>
         <?php echo $this->headScript(); ?>
     </head>
+
     <?php echo $this->htmlElement('body'); ?>
+        <header>
+            <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
+            <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
+        </header>
+
         <?php echo $this->content; ?>
     </body>
 </html>

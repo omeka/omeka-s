@@ -28,13 +28,13 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
 <?php if (count($itemSets) > 0): ?>
 
-    <?php echo $this->hyperlink($this->translate('Advanced item sets search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
+    <?php echo $this->hyperlink($this->translate('Advanced item sets search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
 
 <?php echo $this->pagination(); ?>
 
@@ -55,10 +55,10 @@ $sortHeadings = [
         if ($owner = $itemSet->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -75,11 +75,11 @@ $sortHeadings = [
                 </span>
                 <ul class="actions">
                     <?php if ($itemSet->userIsAllowed('update')): ?>
-                    <li><?php echo $itemSet->link('', 'edit', array(
+                    <li><?php echo $itemSet->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $escape($this->translate('Edit')),
                         'title' => $escape($this->translate('Edit')),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($itemSet->userIsAllowed('delete')): ?>
                     <li><a href="#"

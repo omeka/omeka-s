@@ -4,7 +4,7 @@
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <h2><?php echo $this->translate(sprintf('Delete %s', ucwords($record))); ?></h2>
-    <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $record)); ?></p>
+    <h2><?php echo $this->translate(sprintf('Delete %s', ucwords($recordLabel))); ?></h2>
+    <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $recordLabel)); ?></p>
     <?php echo $this->form($confirmForm); ?>
 </div>

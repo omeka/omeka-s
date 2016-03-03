@@ -2,7 +2,6 @@
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'edit item sidebar-open');
 $deleteButton = '<a href="#" class="delete button">' . $this->translate('Delete') . '</a>';
-$confirmForm->setAttribute('action', $item->url('delete'));
 ?>
 
 <script type='text/javascript'>
@@ -21,11 +20,6 @@ echo $this->partial('omeka/admin/item/form.phtml', [
 ]);
 ?>
 
-<?php
-echo $this->partial('common/delete-confirm', [
-    'record' => $this->translate('item'),
-    'confirmForm' => $confirmForm
-]);
-?>
+<?php echo $this->deleteConfirm($item, 'item')?>
 
 <?php $this->trigger('view.edit.after'); ?>

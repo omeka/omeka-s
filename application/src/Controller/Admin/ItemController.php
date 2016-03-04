@@ -74,6 +74,24 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
+    public function deleteConfirmAction()
+    {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('items', $this->params('id'));
+        $item = $response->getContent();
+        $values = $item->valueRepresentation();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action',$item->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('item', $item);
+        $view->setVariable('values', json_encode($values));
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

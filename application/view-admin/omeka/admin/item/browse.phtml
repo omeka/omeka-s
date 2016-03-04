@@ -77,8 +77,7 @@ $sortHeadings = [
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($item->url('delete')); ?>"
+                        data-sidebar-content-url="<?php echo $escape($item->url('delete-confirm')); ?>"
                         class="o-icon-delete sidebar-confirm"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
@@ -110,15 +109,6 @@ $sortHeadings = [
 <?php echo $this->pagination(); ?>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

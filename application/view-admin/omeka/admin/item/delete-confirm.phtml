@@ -1,0 +1,13 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+ ?>
+<a href="#"
+    class="sidebar-close o-icon-close"
+    aria-label="<?php echo $escape($this->translate('Close')); ?>"
+    title="<?php echo $escape($this->translate('Close')); ?>"></a>
+<div id="sidebar-confirm">
+    <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
+    <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
+    <?php echo $this->form($confirmForm); ?>
+</div>
+<?php echo $this->partial('omeka/admin/item/show-details'); ?>

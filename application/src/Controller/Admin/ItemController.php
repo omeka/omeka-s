@@ -86,7 +86,7 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('type', 'item');
+        $view->setVariable('partialPath', 'omeka/admin/item/show-details');
         $view->setVariable('recordLabel', 'item');
         $view->setVariable('confirmForm', $confirmForm);
         $view->setVariable('linkTitle', $linkTitle);

@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$confirmForm->prepare();
+$confirmForm = $this->deleteConfirmForm($record);
  ?>
 <div id="sidebar-confirm">
     <h2><?php echo $this->translate(sprintf('Delete %s', ucwords($recordLabel))); ?></h2>

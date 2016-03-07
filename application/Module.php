@@ -37,7 +37,7 @@ class Module extends AbstractModule
         'blockLayout' => 'Omeka\View\Helper\BlockLayout',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'navigationLink' => 'Omeka\View\Helper\NavigationLink',
-        'deleteConfirm' => 'Omeka\View\Helper\DeleteConfirm'
+        'deleteConfirmForm' => 'Omeka\View\Helper\DeleteConfirmForm'
     ];
 
     /**

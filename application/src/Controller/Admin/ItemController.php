@@ -80,16 +80,14 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $this->params('id'));
         $item = $response->getContent();
         $values = $item->valueRepresentation();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $item->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/item/show-details');
         $view->setVariable('recordLabel', 'item');
-        $view->setVariable('confirmForm', $confirmForm);
         $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('record', $item);
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
         return $view;

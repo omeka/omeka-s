@@ -85,6 +85,9 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('type', 'item');
+        $view->setVariable('recordLabel', 'item');
         $view->setVariable('confirmForm', $confirmForm);
         $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('item', $item);

@@ -1,11 +1,12 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$confirmForm->prepare();
  ?>
 <div id="sidebar-confirm">
     <h2><?php echo $this->translate(sprintf('Delete %s', ucwords($recordLabel))); ?></h2>
     <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $recordLabel)); ?></p>
     <?php echo $this->form($confirmForm); ?>
 </div>
-<?php if ($partialPath): ?>
+<?php if (isset($partialPath)): ?>
     <?php echo $this->partial($partialPath); ?>
 <?php endif; ?>

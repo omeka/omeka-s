@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
@@ -41,6 +41,23 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('resourceTemplate', $response->getContent());
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $response = $this->api()->read('resource_templates', $this->params('id'));
+        $resourceTemplate = $response->getContent();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action', $resourceTemplate->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
+        $view->setVariable('recordLabel', 'resource template');
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('resourceTemplate', $resourceTemplate);
         return $view;
     }
 

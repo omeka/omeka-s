@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
@@ -33,6 +33,23 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('vocabulary', $response->getContent());
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $response = $this->api()->read('vocabularies', $this->params('id'));
+        $vocabulary = $response->getContent();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action', $vocabulary->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
+        $view->setVariable('recordLabel', 'vocabulary');
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('vocabulary', $vocabulary);
         return $view;
     }
 

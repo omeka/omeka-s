@@ -95,6 +95,29 @@ class PageController extends AbstractActionController
         return $view;
     }
 
+    public function deleteConfirmAction()
+    {
+        $response = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $response->getContent();
+        $response = $this->api()->read('site_pages', [
+            'slug' => $this->params('page-slug'),
+            'site' => $site->id()
+        ]);
+        $page = $response->getContent();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action', $page->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('recordLabel', 'page');
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('page', $page);
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

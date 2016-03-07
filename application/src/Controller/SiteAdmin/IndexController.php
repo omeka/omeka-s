@@ -325,6 +325,24 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
+    public function deleteConfirmAction()
+    {
+        $response = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $response->getContent();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action', $site->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('recordLabel', 'site');
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('site', $site);
+        return $view;
+    }
+
     public function navigationLinkFormAction()
     {
         $site = $this->api()->read('sites', [

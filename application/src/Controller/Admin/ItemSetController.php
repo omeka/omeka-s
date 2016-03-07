@@ -131,6 +131,27 @@ class ItemSetController extends AbstractActionController
         return $view;
     }
 
+    public function deleteConfirmAction()
+    {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('item_sets', $this->params('id'));
+        $itemSet = $response->getContent();
+        $values = $itemSet->valueRepresentation();
+        $confirmForm = new ConfirmForm($this->getServiceLocator());
+        $confirmForm->setAttribute('action',$itemSet->url('delete'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/item-set/show-details');
+        $view->setVariable('recordLabel', 'item set');
+        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('values', json_encode($values));
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

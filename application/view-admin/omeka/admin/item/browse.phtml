@@ -1,6 +1,5 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -78,7 +77,7 @@ $sortHeadings = [
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escape($item->url('delete-confirm')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>

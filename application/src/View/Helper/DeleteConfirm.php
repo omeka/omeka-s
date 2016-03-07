@@ -7,7 +7,6 @@ use Omeka\Form\ConfirmForm;
 
 class DeleteConfirm extends AbstractHelper
 {
-
     protected $serviceLocator;
 
     public function __construct(ServiceLocatorInterface $serviceLocator)

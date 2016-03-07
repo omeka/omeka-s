@@ -95,7 +95,7 @@ class MediaController extends AbstractActionController
         $media = $response->getContent();
         $values = $media->valueRepresentation();
         $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action',$media->url('delete'));
+        $confirmForm->setAttribute('action', $media->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);

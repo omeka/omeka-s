@@ -138,7 +138,7 @@ class ItemSetController extends AbstractActionController
         $itemSet = $response->getContent();
         $values = $itemSet->valueRepresentation();
         $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action',$itemSet->url('delete'));
+        $confirmForm->setAttribute('action', $itemSet->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);

@@ -82,6 +82,29 @@ class SiteAdapter extends AbstractEntityAdapter
                     $pages->removeElement($page);
                 }
             }
+
+            if ($request->getOperation() === Request::CREATE) {
+                $class = $adapter->getEntityClass();
+                $page = new $class;
+                $page->setSite($entity);
+                $translator = $this->getServiceLocator()->get('MvcTranslator');
+                $subErrorStore = new ErrorStore;
+                $subrequest = new Request(Request::CREATE, 'site_pages');
+                $subrequest->setContent(
+                        [
+                            'o:title' => $translator->translate('Welcome'),
+                            'o:slug' => $translator->translate('welcome'),
+                            'o:block' => [
+                                [
+                                    'o:layout' => 'html',
+                                    'o:data' => ['html' => $translator->translate('Welcome to your new site. This is an example page.')]
+                                ]
+                            ]
+                        ]
+                    );
+                $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
+                $pages->add($page);
+            }
         }
 
         $sitePermissionsData = $request->getValue('o:site_permission');

@@ -3,6 +3,13 @@ return [
     'navigation' => [
         'admin' => [
             [
+                'label'      => 'Sites',
+                'class'      => 'sites',
+                'route'      => 'admin/site',
+                'resource'   => 'Omeka\Controller\SiteAdmin\Index',
+                'privilege'  => 'index',
+            ],
+            [
                 'label'      => 'Items',
                 'class'      => 'items',
                 'route'      => 'admin/default',
@@ -104,13 +111,6 @@ return [
                 'action'     => 'browse',
                 'resource'   => 'Omeka\Controller\Admin\Job',
                 'privilege'  => 'browse',
-            ],
-            [
-                'label'      => 'Sites',
-                'class'      => 'sites',
-                'route'      => 'admin/site',
-                'resource'   => 'Omeka\Controller\SiteAdmin\Index',
-                'privilege'  => 'index',
             ],
             [
                 'label'      => 'Settings',

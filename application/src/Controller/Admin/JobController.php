@@ -24,24 +24,15 @@ class JobController extends AbstractActionController
         return $view;
     }
 
-    public function showDetailsAction()
+    public function showAction()
     {
         $response = $this->api()->read('jobs', $this->params('id'));
 
         $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('job', $response->getContent());
+        $job = $response->getContent();
+        $view->setVariable('job', $job);
+        $view->setVariable('resource', $job);
         return $view;
-    }
-
-    public function argsAction()
-    {
-        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
-        $args = json_encode($job->args(), JSON_PRETTY_PRINT);
-        $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
-        $response->setContent($args);
-        return $response;
     }
 
     public function logAction()

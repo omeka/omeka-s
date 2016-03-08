@@ -17,10 +17,12 @@ if ($owner = $job->owner()) {
     $ownerText = $this->translate('[no owner]');
 }
 ?>
-<h2><?php echo sprintf($this->translate('Job #%s'), $escape($job->id())); ?></h2>
+<h1><?php echo sprintf($this->translate('Job #%s'), $escape($job->id())); ?></h1>
+<div id="page-actions">
     <?php if ('in_progress' == $job->status()): ?>
-    <a href="<?php echo $escape($job->url('stop')); ?>"><?php echo $escape($this->translate('Stop')); ?></a>
+    <a href="<?php echo $escape($job->url('stop')); ?>" class="button"><?php echo $escape($this->translate('Stop')); ?></a>
     <?php endif; ?>
+</div>
 
 <div class="meta-group">
     <h4><?php echo $this->translate('Status'); ?></h4>

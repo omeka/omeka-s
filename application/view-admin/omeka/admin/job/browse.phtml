@@ -59,23 +59,8 @@ $sortHeadings = [
         <tr>
             <td>
                 <span class="resource-name">
-                    <?php echo $escape($job->id()); ?>
+                    <?php echo $job->link($escape($job->id())); ?>
                 </span>
-                <ul class="actions">
-                    <?php if ('in_progress' == $job->status()): ?>
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($job->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($job->url('stop')); ?>"
-                        class="o-icon-stop sidebar-confirm"
-                        aria-label="<?php echo $escape($this->translate('Stop')); ?>"
-                        title="<?php echo $escape($this->translate('Stop')); ?>"></a></li>
-                    <?php endif; ?>
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($job->url('show-details')); ?>"
-                        class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
-                </ul>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
             <td><?php echo $escape($job->statusLabel()); ?></td>

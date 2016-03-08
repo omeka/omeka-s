@@ -32,7 +32,7 @@ class VocabularyController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('vocabulary', $response->getContent());
+        $view->setVariable('resource', $response->getContent());
         return $view;
     }
 
@@ -40,16 +40,13 @@ class VocabularyController extends AbstractActionController
     {
         $response = $this->api()->read('vocabularies', $this->params('id'));
         $vocabulary = $response->getContent();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $vocabulary->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
-        $view->setVariable('recordLabel', 'vocabulary');
-        $view->setVariable('confirmForm', $confirmForm);
-        $view->setVariable('vocabulary', $vocabulary);
+        $view->setVariable('resourceLabel', 'vocabulary');
+        $view->setVariable('resource', $vocabulary);
         return $view;
     }
 

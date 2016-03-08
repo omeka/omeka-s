@@ -1,18 +1,18 @@
-<?php 
+<?php
 $escape = $this->plugin('escapeHtml');
  ?>
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <?php if ($linkTitle): ?>
-    <h2 class="o-title"><?php echo $item->link($item->displayTitle()); ?></h2>
+    <h2 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
     <?php else: ?>
-    <h2 class="o-title"><?php echo $escape($item->displayTitle()); ?></h2>
+    <h2 class="o-title"><?php echo $escape($resource->displayTitle()); ?></h2>
     <?php endif; ?>
-    <div class="o-description"><?php echo $escape($item->displayDescription()); ?></div>
+    <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">
         <h4>Visibility</h4>
-        <div class="value"><?php echo ($item->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
-    <?php $itemsets = $item->itemSets(); ?>
+    <?php $itemsets = $resource->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Item Sets'); ?></h4>
@@ -21,10 +21,10 @@ $escape = $this->plugin('escapeHtml');
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <?php if ($item->media()): ?>
+    <?php if ($resource->media()): ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Media'); ?></h4>
-        <?php foreach ($item->media() as $media): ?>
+        <?php foreach ($resource->media() as $media): ?>
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
                 <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">

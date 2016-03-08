@@ -14,7 +14,7 @@ class DeleteConfirmForm extends AbstractHelper
         $this->serviceLocator = $serviceLocator;
     }
 
-    public function __invoke($record, $buttonText = null) {
+    public function __invoke($resource, $buttonText = null) {
         $translate = $this->getView()->plugin('translate');
         if (!isset($buttonText)) {
             $buttonText = $translate('Confirm delete');
@@ -24,7 +24,7 @@ class DeleteConfirmForm extends AbstractHelper
                 'button_value' => $buttonText
             ]
         );
-        $confirmForm->setAttribute('action', $record->url('delete'));
+        $confirmForm->setAttribute('action', $resource->url('delete'));
         return $confirmForm;
     }
 }

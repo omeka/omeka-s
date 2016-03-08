@@ -40,7 +40,7 @@ class ResourceTemplateController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('resourceTemplate', $response->getContent());
+        $view->setVariable('resource', $response->getContent());
         return $view;
     }
 
@@ -48,16 +48,13 @@ class ResourceTemplateController extends AbstractActionController
     {
         $response = $this->api()->read('resource_templates', $this->params('id'));
         $resourceTemplate = $response->getContent();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $resourceTemplate->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
-        $view->setVariable('recordLabel', 'resource template');
-        $view->setVariable('confirmForm', $confirmForm);
-        $view->setVariable('resourceTemplate', $resourceTemplate);
+        $view->setVariable('resourceLabel', 'resource template');
+        $view->setVariable('resource', $resourceTemplate);
         return $view;
     }
 

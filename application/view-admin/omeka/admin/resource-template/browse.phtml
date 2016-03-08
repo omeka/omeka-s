@@ -84,7 +84,7 @@ $sortHeadings = [
                         data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Detail')); ?>"></a></li>
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                  </ul>
             </td>
             <td><?php echo $escape($resourceTemplate->displayResourceClassLabel()); ?></td>
@@ -100,7 +100,7 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-content"></div>
+    <div class="sidebar-content"></div>
 </div>
 
 <?php else: ?>

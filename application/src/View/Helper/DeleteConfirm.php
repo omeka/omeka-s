@@ -5,12 +5,12 @@ use Zend\View\Helper\AbstractHelper;
 
 class DeleteConfirm extends AbstractHelper
 {
-    public function __invoke($record, $recordLabel = null) {
+    public function __invoke($resource, $resourceLabel = null) {
         return $this->getView()->partial(
             'common/delete-confirm',
             [
-                'recordLabel'   => $recordLabel,
-                'record'   => $record
+                'resourceLabel'   => $resourceLabel,
+                'resource'   => $resource
             ]
         );
     }

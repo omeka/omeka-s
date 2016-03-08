@@ -54,7 +54,7 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         $view->setVariable('values', json_encode($values));
         return $view;
     }
@@ -85,9 +85,9 @@ class ItemController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/item/show-details');
-        $view->setVariable('recordLabel', 'item');
+        $view->setVariable('resourceLabel', 'item');
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('record', $item);
+        $view->setVariable('resource', $item);
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
         return $view;

@@ -112,7 +112,7 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('resource', $itemSet);
         $view->setVariable('values', json_encode($values));
         return $view;
     }
@@ -137,17 +137,14 @@ class ItemSetController extends AbstractActionController
         $response = $this->api()->read('item_sets', $this->params('id'));
         $itemSet = $response->getContent();
         $values = $itemSet->valueRepresentation();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $itemSet->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/item-set/show-details');
-        $view->setVariable('recordLabel', 'item set');
-        $view->setVariable('confirmForm', $confirmForm);
+        $view->setVariable('resourceLabel', 'item set');
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('resource', $itemSet);
         $view->setVariable('values', json_encode($values));
         return $view;
     }

@@ -80,7 +80,7 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('user', $response->getContent());
+        $view->setVariable('resource', $response->getContent());
         return $view;
     }
 
@@ -88,16 +88,13 @@ class UserController extends AbstractActionController
     {
         $response = $this->api()->read('users', $this->params('id'));
         $user = $response->getContent();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $user->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/admin/user/show-details');
-        $view->setVariable('recordLabel', 'user');
-        $view->setVariable('confirmForm', $confirmForm);
-        $view->setVariable('user', $user);
+        $view->setVariable('resourceLabel', 'user');
+        $view->setVariable('resource', $user);
         return $view;
     }
 

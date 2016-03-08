@@ -1,18 +1,18 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <?php if ($linkTitle): ?>
-    <h2 class="o-title"><?php echo $itemSet->link($itemSet->displayTitle()); ?></h2>
+    <h2 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
     <?php else: ?>
-    <h2 class="o-title"><?php echo $escape($itemSet->displayTitle()); ?></h2>
+    <h2 class="o-title"><?php echo $escape($resource->displayTitle()); ?></h2>
     <?php endif; ?>
-    <div class="o-description"><?php echo $escape($itemSet->displayDescription()); ?></div>
+    <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">
         <h4>Visibility</h4>
-        <div class="value"><?php echo ($itemSet->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
-        <div class="value"><?php echo ($itemSet->isOpen()) ? $escape($this->translate('Open to additions')) : $escape($this->translate('Closed to additions')); ?></div>
+        <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <div class="value"><?php echo ($resource->isOpen()) ? $escape($this->translate('Open to additions')) : $escape($this->translate('Closed to additions')); ?></div>
     </div>
     <div class="meta-group">
         <h4><?php echo $this->translate('Items'); ?></h4>
-        <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
+        <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $resource->id()]])); ?></div>
     </div>
 </div>

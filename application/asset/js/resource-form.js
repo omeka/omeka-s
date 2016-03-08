@@ -1,18 +1,6 @@
 (function($) {
 
     $(document).ready( function() {
-        // Open sidebars on mobile
-        $('button.mobile-only').on('click', function(e) {
-            e.preventDefault();
-            var mobileButton = $(this);
-            var sidebarId = mobileButton.attr('id');
-            sidebarId = '#' + sidebarId.replace('-button', '');
-            $(sidebarId).addClass('active');
-            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
-                $('.sidebar.always-open').removeClass('active');
-                $(this).unbind('DOMSubtreeModified');
-            });
-        });
 
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {

@@ -133,6 +133,19 @@ var Omeka = {
             Omeka.closeSidebar($(this));
         });
 
+        // Open sidebars on mobile
+        $('button.mobile-only').on('click', function(e) {
+            e.preventDefault();
+            var mobileButton = $(this);
+            var sidebarId = mobileButton.attr('id');
+            sidebarId = '#' + sidebarId.replace('-button', '');
+            $(sidebarId).addClass('active');
+            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
+                $('.sidebar.always-open').removeClass('active');
+                $(this).unbind('DOMSubtreeModified');
+            });
+        });
+
         // Make resource public or private
         $('#content').on('click', 'a.o-icon-private, a.o-icon-public', function(e) {
             e.preventDefault();

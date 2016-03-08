@@ -7,7 +7,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
-    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $this->translate('Delete'); ?></a>
     <?php endif; ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
@@ -51,6 +51,14 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 <?php if (isset($resourceTemplate)): ?>
     <?php echo $this->deleteConfirm($resourceTemplate, 'resource template'); ?>
 <?php endif; ?>
+
+<div id="details" class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
 
 <script>
 // Enable sorting on property rows.

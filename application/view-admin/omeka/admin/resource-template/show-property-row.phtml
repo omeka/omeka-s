@@ -21,6 +21,7 @@ $propertyId = $escape($property->id());
             title="<?php echo $escape($this->translate('Remove property')); ?>"></a></li>
         <li><a href="#"
             data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
+            data-sidebar-selector="#details"
             class="o-icon-more sidebar-content"
             aria-label="<?php echo $escape($this->translate('Details')); ?>"
             title="<?php echo $escape($this->translate('Details')); ?>"></a></li>

@@ -116,7 +116,8 @@ var Omeka = {
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this));
+            var sidebarSelector = $(this).data('sidebar-selector');
+            Omeka.openSidebar($(this), sidebarSelector);
         });
 
         $('#content').on('click', '.button.delete, button.delete', function(e) {

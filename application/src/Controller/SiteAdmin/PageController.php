@@ -106,15 +106,13 @@ class PageController extends AbstractActionController
             'site' => $site->id()
         ]);
         $page = $response->getContent();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $page->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('recordLabel', 'page');
-        $view->setVariable('confirmForm', $confirmForm);
-        $view->setVariable('page', $page);
+        $view->setVariable('partialPath', 'omeka/site-admin/page/show-details');
+        $view->setVariable('resourceLabel', 'page');
+        $view->setVariable('resource', $page);
         return $view;
     }
 

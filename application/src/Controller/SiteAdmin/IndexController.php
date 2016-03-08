@@ -312,34 +312,19 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function showDetailsAction()
-    {
-        $response = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $response->getContent();
-        $view = new ViewModel;
-        $view->setTerminal(true);
-
-        $view->setVariable('site', $site);
-        return $view;
-    }
-
     public function deleteConfirmAction()
     {
         $response = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ]);
         $site = $response->getContent();
-        $confirmForm = new ConfirmForm($this->getServiceLocator());
-        $confirmForm->setAttribute('action', $site->url('delete'));
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('recordLabel', 'site');
-        $view->setVariable('confirmForm', $confirmForm);
-        $view->setVariable('site', $site);
+        $view->setVariable('resourceLabel', 'site');
+        $view->setVariable('partialPath', 'omeka/site-admin/index/show-details');
+        $view->setVariable('resource', $site);
         return $view;
     }
 

@@ -105,7 +105,8 @@ class SitePageAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:slug',
                 'A slug can only contain letters, numbers, and hyphens.');
         }
-        if ($entity->getSite() && !$this->isUnique($entity, [
+        $site = $entity->getSite();
+        if ($site && $site->getId() && !$this->isUnique($entity, [
                 'slug' => $slug,
                 'site' => $entity->getSite()
         ])) {

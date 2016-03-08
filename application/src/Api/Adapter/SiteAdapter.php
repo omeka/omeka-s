@@ -10,6 +10,8 @@ use Omeka\Stdlib\ErrorStore;
 
 class SiteAdapter extends AbstractEntityAdapter
 {
+    use SiteSlugTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -41,14 +43,26 @@ class SiteAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $this->hydrateOwner($request, $entity);
-        if ($this->shouldHydrate($request, 'o:slug')) {
-            $entity->setSlug($request->getValue('o:slug'));
-        }
+        $title = null;
+
         if ($this->shouldHydrate($request, 'o:theme')) {
             $entity->setTheme($request->getValue('o:theme'));
         }
         if ($this->shouldHydrate($request, 'o:title')) {
-            $entity->setTitle($request->getValue('o:title'));
+            $title = trim($request->getValue('o:title', ''));
+            $entity->setTitle($title);
+        }
+        if ($this->shouldHydrate($request, 'o:slug')) {
+            $default = null;
+            $slug = trim($request->getValue('o:slug', ''));
+            if ($slug === ''
+                && $request->getOperation() === Request::CREATE
+                && is_string($title)
+                && $title !== ''
+            ) {
+                $slug = $this->getAutomaticSlug($title);
+            }
+            $entity->setSlug($slug);
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
             $default = [];
@@ -130,6 +144,10 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
+        $title = $entity->getTitle();
+        if (!is_string($title) || $title === '') {
+            $errorStore->addError('o:title', 'A site must have a title.');
+        }
         $slug = $entity->getSlug();
         if (!is_string($slug) || $slug === '') {
             $errorStore->addError('o:slug', 'The slug cannot be empty.');
@@ -143,10 +161,6 @@ class SiteAdapter extends AbstractEntityAdapter
                 'The slug "%s" is already taken.',
                 $slug
             ));
-        }
-
-        if (false == $entity->getTitle()) {
-            $errorStore->addError('o:title', 'A site must have a title.');
         }
 
         if (false == $entity->getTheme()) {

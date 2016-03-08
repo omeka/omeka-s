@@ -27,7 +27,7 @@ class SiteForm extends AbstractForm
             ],
             'attributes' => [
                 'id' => 'slug',
-                'required' => true,
+                'required' => false,
             ],
         ]);
         $themeManager = $this->getServiceLocator()->get('Omeka\Site\ThemeManager');

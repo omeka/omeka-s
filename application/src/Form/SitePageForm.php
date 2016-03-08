@@ -26,7 +26,7 @@ class SitePageForm extends AbstractForm
             ],
             'attributes' => [
                 'id' => 'slug',
-                'required' => true,
+                'required' => false,
             ],
         ]);
     }

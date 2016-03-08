@@ -11,6 +11,8 @@ use Omeka\Stdlib\ErrorStore;
 
 class SitePageAdapter extends AbstractEntityAdapter
 {
+    use SiteSlugTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -50,6 +52,7 @@ class SitePageAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        $title = null;
         $data = $request->getContent();
         if (Request::CREATE === $request->getOperation()
             && isset($data['o:site']['o:id'])
@@ -58,11 +61,20 @@ class SitePageAdapter extends AbstractEntityAdapter
             $this->authorize($site, 'add-page');
             $entity->setSite($site);
         }
-        if ($this->shouldHydrate($request, 'o:slug')) {
-            $entity->setSlug($request->getValue('o:slug'));
-        }
         if ($this->shouldHydrate($request, 'o:title')) {
-            $entity->setTitle($request->getValue('o:title'));
+            $title = trim($request->getValue('o:title', ''));
+            $entity->setTitle($title);
+        }
+        if ($this->shouldHydrate($request, 'o:slug')) {
+            $slug = trim($request->getValue('o:slug', ''));
+            if ($slug === ''
+                && $request->getOperation() === Request::CREATE
+                && is_string($title) && $title !== ''
+                && isset($site)
+            ) {
+                $slug = $this->getAutomaticSlug($title, $site);
+            }
+            $entity->setSlug($slug);
         }
 
         $appendBlocks = $request->getOperation() === Request::UPDATE
@@ -78,6 +90,11 @@ class SitePageAdapter extends AbstractEntityAdapter
     {
         if (!$entity->getSite()) {
             $errorStore->addError('o:site', 'A page must belong to a site.');
+        }
+
+        $title = $entity->getTitle();
+        if (!is_string($title) || $title === '') {
+            $errorStore->addError('o:title', 'A page must have a title.');
         }
 
         $slug = $entity->getSlug();
@@ -96,10 +113,6 @@ class SitePageAdapter extends AbstractEntityAdapter
                 'The slug "%s" is already taken.',
                 $slug
             ));
-        }
-
-        if (!$entity->getTitle()) {
-            $errorStore->addError('o:title', 'A page must have a title.');
         }
     }
 

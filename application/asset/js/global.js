@@ -119,12 +119,6 @@ var Omeka = {
             Omeka.openSidebar($(this));
         });
 
-        // Attach sidebar triggers
-        $('#content').on('click', 'a.sidebar-confirm', function(e) {
-            e.preventDefault();
-            Omeka.openSidebar($(this));
-        });
-
         $('#content').on('click', '.button.delete, button.delete', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this), '#delete');

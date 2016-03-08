@@ -34,7 +34,7 @@ $escape = $this->plugin('escapeHtml');
                     'aria-label' => $this->translate('Edit'),
                     'title' => $this->translate('Edit'),
                 ]); ?></li>
-                <li><a href="#" class="o-icon-delete sidebar-confirm" aria-label="#" title="<?php echo $this->translate('Delete page'); ?>" data-page-title="<?php echo $escape($page->title()); ?>" data-sidebar-content-url="<?php echo $escape($page->url('delete-confirm')); ?>"></a></li>
+                <li><a href="#" class="o-icon-delete sidebar-content" aria-label="#" title="<?php echo $this->translate('Delete page'); ?>" data-page-title="<?php echo $escape($page->title()); ?>" data-sidebar-content-url="<?php echo $escape($page->url('delete-confirm')); ?>"></a></li>
             </ul>
         </td>
     </tr>

@@ -16,7 +16,6 @@ class JobController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());
-        
         return $view;
     }
 

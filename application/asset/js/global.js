@@ -280,12 +280,16 @@ var Omeka = {
             var preventNav = false;
             $('form[method=POST]').each(function () {
                 var form = $(this);
+                var originalData = form.data('omekaFormOriginalData');
                 if (form.data('omekaFormSubmitted')) {
                     return;
                 }
 
                 form.trigger('o:before-form-unload');
-                if (form.data('omekaFormDirty') || form.data('omekaFormOriginalData') !== form.serialize()) {
+
+                if (form.data('omekaFormDirty')
+                    || (originalData && originalData !== form.serialize())
+                ) {
                     preventNav = true;
                     return false;
                 }

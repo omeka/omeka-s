@@ -280,6 +280,11 @@ class IndexController extends AbstractActionController
 
     public function themeAction()
     {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $readResponse->getContent();
+        $this->layout()->setVariable('site', $site);
         $view = new ViewModel;
         return $view;
     }

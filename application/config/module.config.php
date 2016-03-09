@@ -250,6 +250,7 @@ return [
             'itemSetSelect'          => 'Omeka\View\Helper\ItemSetSelect',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'deleteConfirm'          => 'Omeka\View\Helper\DeleteConfirm',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',

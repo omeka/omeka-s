@@ -1,6 +1,5 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -77,9 +76,8 @@ $sortHeadings = [
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($item->url('delete')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        data-sidebar-content-url="<?php echo $escape($item->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
@@ -114,11 +112,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

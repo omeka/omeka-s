@@ -75,9 +75,8 @@ $sortHeadings = [
                     <?php endif; ?>
                     <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($resourceTemplate->url('delete')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
@@ -85,7 +84,7 @@ $sortHeadings = [
                         data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Detail')); ?>"></a></li>
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                  </ul>
             </td>
             <td><?php echo $escape($resourceTemplate->displayResourceClassLabel()); ?></td>
@@ -101,11 +100,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Template'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this resource template?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

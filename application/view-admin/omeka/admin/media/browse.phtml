@@ -1,6 +1,5 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -72,9 +71,8 @@ $sortHeadings = [
                             'title' => $escape($this->translate('Edit')),
                         ]); ?></li>
                         <li><a href="#"
-                            data-sidebar-content-url="<?php echo $escape($media->url('show-details')); ?>"
-                            data-sidebar-confirm-url="<?php echo $escape($media->url('delete')); ?>"
-                            class="o-icon-delete sidebar-confirm"
+                            data-sidebar-content-url="<?php echo $escape($media->url('delete-confirm')); ?>"
+                            class="o-icon-delete sidebar-content"
                             aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                             title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                         <li><a href="#"
@@ -101,11 +99,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Media'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this media?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

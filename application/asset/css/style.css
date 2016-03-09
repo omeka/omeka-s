@@ -2661,6 +2661,7 @@ th {
     position: fixed;
     top: 5.25em;
     left: 100%;
+    visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
@@ -2675,6 +2676,7 @@ th {
   }
   .sidebar.active, .sidebar.always-open {
     left: 75.52083%;
+    visibility: visible;
   }
   .sidebar .o-icon-close {
     position: absolute;

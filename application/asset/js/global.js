@@ -20,14 +20,6 @@ var Omeka = {
             $('body').addClass('sidebar-open');
         }
 
-        var sidebarConfirm = $('#sidebar-confirm');
-        if (context.hasClass('sidebar-confirm')) {
-            sidebarConfirm.show();
-            $('#sidebar-confirm form').attr(
-                'action', context.data('sidebar-confirm-url'));
-        } else {
-            sidebarConfirm.hide();
-        }
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
@@ -124,17 +116,13 @@ var Omeka = {
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this));
+            var sidebarSelector = $(this).data('sidebar-selector');
+            Omeka.openSidebar($(this), sidebarSelector);
         });
 
-        // Attach sidebar triggers
-        $('#content').on('click', 'a.sidebar-confirm', function(e) {
+        $('#content').on('click', '.button.delete, button.delete', function(e) {
             e.preventDefault();
-            if ($('#delete').length > 0) {
-                Omeka.openSidebar($(this), '#delete');
-            } else {
-                Omeka.openSidebar($(this));
-            }
+            Omeka.openSidebar($(this), '#delete');
         });
 
         if ($('.always-open.sidebar').length > 0) {
@@ -144,6 +132,19 @@ var Omeka = {
         $('.sidebar').find('.sidebar-close').click(function(e) {
             e.preventDefault();
             Omeka.closeSidebar($(this));
+        });
+
+        // Open sidebars on mobile
+        $('button.mobile-only').on('click', function(e) {
+            e.preventDefault();
+            var mobileButton = $(this);
+            var sidebarId = mobileButton.attr('id');
+            sidebarId = '#' + sidebarId.replace('-button', '');
+            $(sidebarId).addClass('active');
+            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
+                $('.sidebar.always-open').removeClass('active');
+                $(this).unbind('DOMSubtreeModified');
+            });
         });
 
         // Make resource public or private
@@ -279,12 +280,16 @@ var Omeka = {
             var preventNav = false;
             $('form[method=POST]').each(function () {
                 var form = $(this);
+                var originalData = form.data('omekaFormOriginalData');
                 if (form.data('omekaFormSubmitted')) {
                     return;
                 }
 
                 form.trigger('o:before-form-unload');
-                if (form.data('omekaFormDirty') || form.data('omekaFormOriginalData') !== form.serialize()) {
+
+                if (form.data('omekaFormDirty')
+                    || (originalData && originalData !== form.serialize())
+                ) {
                     preventNav = true;
                     return false;
                 }

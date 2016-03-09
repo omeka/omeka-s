@@ -23,7 +23,13 @@ $this->trigger('view.layout');
     <?php echo $this->htmlElement('body'); ?>
         <header>
             <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
-            <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
+            <nav>
+            <?php
+            echo $this->navigation('Zend\Navigation\Site')->menu()->renderMenu(null, [
+                'maxDepth' => $this->themeSetting('nav_depth')
+            ]);
+            ?>
+            </nav>
         </header>
 
         <?php echo $this->content; ?>

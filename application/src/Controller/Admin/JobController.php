@@ -16,32 +16,27 @@ class JobController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Attempt Stop'),
-            ]
-        ));
         return $view;
     }
 
-    public function showDetailsAction()
+    public function showAction()
     {
         $response = $this->api()->read('jobs', $this->params('id'));
 
         $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('job', $response->getContent());
-        return $view;
-    }
+        $job = $response->getContent();
+        $view->setVariable('job', $job);
+        $view->setVariable('resource', $job);
 
-    public function argsAction()
-    {
-        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
-        $args = json_encode($job->args(), JSON_PRETTY_PRINT);
-        $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=utf-8');
-        $response->setContent($args);
-        return $response;
+        $form = new ConfirmForm(
+            $this->getServiceLocator(), null, [
+                'button_value' => $this->translate('Attempt Stop'),
+            ]
+        );
+        $form->setAttribute('action', $job->url('stop'));
+        $view->setVariable('confirmForm', $form);
+
+        return $view;
     }
 
     public function logAction()

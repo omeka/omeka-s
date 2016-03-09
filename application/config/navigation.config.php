@@ -190,6 +190,13 @@ return [
                 'useRouteMatch' => true
             ],
             [
+                'label'         => 'Theme',
+                'class'         => 'theme',
+                'route'         => 'admin/site/default',
+                'action'        => 'theme',
+                'useRouteMatch' => true
+            ],
+            [
                 'label'         => 'Settings',
                 'class'         => 'settings',
                 'route'         => 'admin/site/default',

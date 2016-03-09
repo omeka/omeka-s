@@ -278,6 +278,12 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
+    public function themeAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

@@ -802,6 +802,10 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-gears;
     }
 
+    #menu a.theme:before {
+        content: $fa-var-paint-brush;
+    }
+
     /* @end */
 
 /* @end */

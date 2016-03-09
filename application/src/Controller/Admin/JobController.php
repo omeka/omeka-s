@@ -16,11 +16,7 @@ class JobController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Attempt Stop'),
-            ]
-        ));
+        
         return $view;
     }
 
@@ -32,6 +28,15 @@ class JobController extends AbstractActionController
         $job = $response->getContent();
         $view->setVariable('job', $job);
         $view->setVariable('resource', $job);
+
+        $form = new ConfirmForm(
+            $this->getServiceLocator(), null, [
+                'button_value' => $this->translate('Attempt Stop'),
+            ]
+        );
+        $form->setAttribute('action', $job->url('stop'));
+        $view->setVariable('confirmForm', $form);
+
         return $view;
     }
 

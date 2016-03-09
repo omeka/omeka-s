@@ -20,7 +20,7 @@ if ($owner = $job->owner()) {
 <h1><?php echo sprintf($this->translate('Job #%s'), $escape($job->id())); ?></h1>
 <div id="page-actions">
     <?php if ('in_progress' == $job->status()): ?>
-    <a href="<?php echo $escape($job->url('stop')); ?>" class="button"><?php echo $escape($this->translate('Stop')); ?></a>
+        <?php echo $this->form($confirmForm); ?>
     <?php endif; ?>
 </div>
 

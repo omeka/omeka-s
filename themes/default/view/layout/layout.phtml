@@ -26,7 +26,7 @@ $this->trigger('view.layout');
             <nav>
             <?php
             echo $this->navigation('Zend\Navigation\Site')->menu()->renderMenu(null, [
-                'maxDepth' => $this->themeSetting('nav_depth')
+                'maxDepth' => $this->themeSetting('nav_depth') - 1
             ]);
             ?>
             </nav>

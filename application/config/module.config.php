@@ -257,6 +257,7 @@ return [
         ],
         'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
+            'themeSetting' => 'Omeka\Service\ViewHelperThemeSettingFactory',
         ],
     ],
     'data_types' => [

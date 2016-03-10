@@ -1207,6 +1207,10 @@ th {
     content: "";
   }
 
+  #menu a.theme:before {
+    content: "";
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Wrappers ----- */

@@ -23,13 +23,12 @@ a:link {
 }
 
 a:visited {
-    color: $gray;
+    color: #000;
 }
 
 a:active,
 a:hover {
     color: $bold;
-    border-bottom: 3px solid;
 }
 
 h1 {
@@ -159,6 +158,10 @@ header nav ul {
         padding-bottom: 0;
     }
 
+    li.active {
+        font-weight: bold;
+    }
+
     li > ul:before {
         font-family: "FontAwesome";
         content: "\f105";
@@ -198,6 +201,16 @@ header nav > ul ul:hover > li {
 }
 
 /* Second level items */
+header nav > ul > li > ul > li.active > a {
+    margin-left: -1.5em;
+}
+
+header nav > ul > li > ul > li.active > a:before {
+    content: ">";
+    display: inline-block;
+    width: 1.5em;
+}
+
 header nav > ul > li > ul > li a {
     padding-left: rhythm();
 }

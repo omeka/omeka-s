@@ -24,13 +24,12 @@
   }
 
   a:visited {
-    color: #ababab;
+    color: #000;
   }
 
   a:active,
   a:hover {
     color: #787878;
-    border-bottom: 3px solid;
   }
 
   h1 {
@@ -162,6 +161,9 @@
   header nav ul li li:last-of-type {
     padding-bottom: 0;
   }
+  header nav ul li.active {
+    font-weight: bold;
+  }
   header nav ul li > ul:before {
     font-family: "FontAwesome";
     content: "\f105";
@@ -202,6 +204,16 @@
   }
 
   /* Second level items */
+  header nav > ul > li > ul > li.active > a {
+    margin-left: -1.5em;
+  }
+
+  header nav > ul > li > ul > li.active > a:before {
+    content: ">";
+    display: inline-block;
+    width: 1.5em;
+  }
+
   header nav > ul > li > ul > li a {
     padding-left: 1.5em;
   }
@@ -780,6 +792,7 @@
 
   header nav > ul > li > a {
     margin: 0.375em;
+    height: 30px;
   }
 
   /* All top-level nav items with siblings are parent items and get an arrow. */

@@ -121,6 +121,7 @@ header nav ul.navigation {
 
 header nav > ul > li > a {
     margin: rhythm(.25);
+    height: $base-line-height;
 }
 
 /* All top-level nav items with siblings are parent items and get an arrow. */

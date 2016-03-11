@@ -274,6 +274,7 @@ return [
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
+            'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],
     ],
     'navigation_links' => [

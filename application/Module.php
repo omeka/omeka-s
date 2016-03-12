@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.4.5-alpha';
+    const VERSION = '0.5.0-alpha';
 
     /**
      * @var array View helpers that need service manager injection

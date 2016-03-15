@@ -23,8 +23,9 @@ class Trigger extends AbstractHelper
      *
      * @param string $name The event name
      * @param array $params The event parameters
+     * @param bool $filter Filter and return parameters?
      */
-    public function __invoke($name, array $params = [])
+    public function __invoke($name, array $params = [], $filter = false)
     {
         $routeMatch = $this->serviceLocator->get('Application')
             ->getMvcEvent()->getRouteMatch();
@@ -35,8 +36,14 @@ class Trigger extends AbstractHelper
 
         // Set the event, using the current controller as the event identifier.
         $params['services'] = $this->serviceLocator;
+        if ($filter) {
+            $params = $this->events->prepareArgs($params);
+        }
         $event = new Event($name, $this->getView(), $params);
         $this->events->setIdentifiers($routeMatch->getParam('controller'));
         $this->events->trigger($event);
+        if ($filter) {
+            return $params;
+        }
     }
 }

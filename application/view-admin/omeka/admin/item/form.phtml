@@ -4,6 +4,13 @@ $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+
+$sectionNavArgs = ['section_nav' => [
+    'resource-values' => $this->translate('Values'),
+    'item-media' => $this->translate('Media'),
+    'item-sets' => $this->translate('Item Sets'),
+]];
+$sectionNavArgs = $this->trigger($sectionNavEvent, $sectionNavArgs, true);
 ?>
 
 
@@ -11,9 +18,12 @@ $formElement = $this->plugin('formElement');
 
 <nav class="section-nav">
     <ul>
-        <li class="active"><a href="#resource-values"><?php echo $this->translate('Values'); ?></a></li>
-        <li><a href="#item-media"><?php echo $this->translate('Media'); ?></a></li>
-        <li><a href="#item-sets"><?php echo $this->translate('Item Sets'); ?></a></li>
+        <?php
+        $firstId = key($sectionNavArgs['section_nav']);
+        foreach ($sectionNavArgs['section_nav'] as $id => $label):
+        ?>
+        <li<?php if ($id === $firstId): echo ' class="active"'; endif; ?>><a href="#<?php echo $this->escapeHtml($id); ?>"><?php echo $this->escapeHtml($label); ?></a></li>
+        <?php endforeach; ?>
     </ul>
 </nav>
 

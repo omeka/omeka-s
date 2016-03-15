@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Test;
 
-use Omeka\Installation\Installer;
 use Zend\Mvc\Application;
 
 /**
@@ -58,6 +57,7 @@ class DbTestCase extends TestCase
             'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini')
         ];
         $config = array_merge($config, $testConfig);
+        \Zend\Console\Console::overrideIsConsole(false);
         self::$application = Application::init($config);
         return self::$application;
     }
@@ -84,9 +84,35 @@ class DbTestCase extends TestCase
      */
     public static function installSchema()
     {
-        $manager = new Installer;
-        $manager->setServiceLocator(self::getApplication()->getServiceManager());
-        $manager->registerTask('Omeka\Installation\Task\InstallSchemaTask');
-        $result = $manager->install();
+        $application = self::getApplication();
+        $serviceLocator = $application->getServiceManager();
+
+        $status = $serviceLocator->get('Omeka\Status');
+        if (!$status->isInstalled()) {
+            // Without this, at some point during install the view helper Url
+            // will throw an exception 'Request URI has not been set'
+            $router = $serviceLocator->get('Router');
+            $router->setRequestUri(new \Zend\Uri\Http('http://example.com'));
+
+            $installer = $serviceLocator->get('Omeka\Installer');
+            $installer->registerVars(
+                'Omeka\Installation\Task\CreateFirstUserTask', [
+                    'name' => 'Admin',
+                    'email' => 'admin@example.com',
+                    'password' => 'root',
+                ]);
+            $installer->registerVars(
+                'Omeka\Installation\Task\AddDefaultSettingsTask', [
+                    'administrator_email' => 'admin@example.com',
+                    'installation_title'  => 'Omeka S Test',
+                    'time_zone'           => 'UTC',
+                ]);
+
+            if (!$installer->install()) {
+                foreach ($installer->getErrors() as $error) {
+                    error_log("Install error: $error");
+                }
+            }
+        }
     }
 }

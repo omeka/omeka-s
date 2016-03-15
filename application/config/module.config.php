@@ -150,6 +150,7 @@ return [
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
             'Omeka\DataTypeManager'       => 'Omeka\Service\DataTypeManagerFactory',
+            'Omeka\Cli'                   => 'Omeka\Service\CliFactory',
             'Omeka\RdfImporter'           => 'Omeka\Service\RdfImporterFactory',
         ],
         'invokables' => [
@@ -162,7 +163,6 @@ return [
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
-            'Omeka\Cli'                 => 'Omeka\Service\Cli',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Site\Navigation\Translator',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',

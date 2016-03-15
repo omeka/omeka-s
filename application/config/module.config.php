@@ -150,6 +150,7 @@ return [
             'Omeka\HtmlPurifier'          => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
             'Omeka\DataTypeManager'       => 'Omeka\Service\DataTypeManagerFactory',
+            'Omeka\RdfImporter'           => 'Omeka\Service\RdfImporterFactory',
         ],
         'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -159,7 +160,6 @@ return [
             'Omeka\Settings'            => 'Omeka\Settings\Settings',
             'Omeka\SiteSettings'        => 'Omeka\Settings\SiteSettings',
             'Omeka\Paginator'           => 'Omeka\Service\Paginator',
-            'Omeka\RdfImporter'         => 'Omeka\Service\RdfImporter',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Cli'                 => 'Omeka\Service\Cli',

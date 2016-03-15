@@ -4,14 +4,17 @@ namespace Omeka\Service;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
+use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
 use Omeka\Entity\Vocabulary;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class RdfImporter implements ServiceLocatorAwareInterface
+class RdfImporter
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var Omeka\Api\Manager
+     */
+    protected $apiManager;
+
     /**
      * Class types to import.
      * 
@@ -40,6 +43,11 @@ class RdfImporter implements ServiceLocatorAwareInterface
         'owl:FunctionalProperty',
         'owl:InverseFunctionalProperty',
     ];
+
+    public function __construct(ApiManager $apiManager)
+    {
+        $this->apiManager = $apiManager;
+    }
 
     /**
      * Get the members of the specified vocabulary.
@@ -87,8 +95,7 @@ class RdfImporter implements ServiceLocatorAwareInterface
 
         $vocabularyArray = array_merge($vocabularyArray, $members);
 
-        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        return $api->create('vocabularies', $vocabularyArray);
+        return $this->apiManager->create('vocabularies', $vocabularyArray);
     }
 
     protected function getGraph($strategy, $namespaceUri, $options)

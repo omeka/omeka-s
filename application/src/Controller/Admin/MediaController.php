@@ -83,7 +83,25 @@ class MediaController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('media', $media);
+        $view->setVariable('resource', $media);
+        $view->setVariable('values', json_encode($values));
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('media', $this->params('id'));
+        $media = $response->getContent();
+        $values = $media->valueRepresentation();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/media/show-details');
+        $view->setVariable('resourceLabel', 'media');
+        $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('resource', $media);
         $view->setVariable('values', json_encode($values));
         return $view;
     }

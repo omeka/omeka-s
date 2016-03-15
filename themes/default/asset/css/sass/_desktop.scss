@@ -119,12 +119,17 @@ header nav ul.navigation {
     }
 }
 
+header nav > ul > li > a {
+    margin: rhythm(.25);
+    height: $base-line-height;
+}
+
 /* All top-level nav items with siblings are parent items and get an arrow. */
 header nav > ul > li > a:not(:only-child):after {
     font-family: "FontAwesome";
     content: "\f107";
     display: inline-block;
-    margin: rhythm(.25);
+    margin-left: rhythm(.25);
 }
 
 header nav > ul li:hover ul li {

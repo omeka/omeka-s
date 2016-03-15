@@ -9,17 +9,6 @@ class SiteForm extends AbstractForm
         $this->setAttribute('id', 'site-form');
 
         $this->add([
-            'name' => 'o:slug',
-            'type' => 'Text',
-            'options' => [
-                'label' => $translator->translate('URL slug')
-            ],
-            'attributes' => [
-                'id' => 'slug',
-                'required' => true,
-            ],
-        ]);
-        $this->add([
             'name' => 'o:title',
             'type' => 'Text',
             'options' => [
@@ -28,6 +17,17 @@ class SiteForm extends AbstractForm
             'attributes' => [
                 'id' => 'title',
                 'required' => true,
+            ],
+        ]);
+        $this->add([
+            'name' => 'o:slug',
+            'type' => 'Text',
+            'options' => [
+                'label' => $translator->translate('URL slug')
+            ],
+            'attributes' => [
+                'id' => 'slug',
+                'required' => false,
             ],
         ]);
         $themeManager = $this->getServiceLocator()->get('Omeka\Site\ThemeManager');

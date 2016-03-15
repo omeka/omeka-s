@@ -17,7 +17,7 @@ $sortHeadings = [
 <?php echo $this->pageTitle($this->translate('Sites')); ?>
 
 <div id="page-actions">
-    <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), ['class' => 'button']); ?>
 </div>
 
 <?php if (count($sites) > 0): ?>
@@ -39,10 +39,10 @@ $sortHeadings = [
         if ($owner = $site->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -56,21 +56,20 @@ $sortHeadings = [
                 </span>
                 <ul class="actions">
                     <li>
-                        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-view public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
+                        <a href="<?php echo $site->siteUrl(); ?>" target="_blank" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
                     </li>
                     <li>
                     <?php if ($site->userIsAllowed('update')): ?>
-                        <?php echo $site->link('', null, array(
+                        <?php echo $site->link('', null, [
                             'class' => 'o-icon-edit',
                             'aria-label' => $this->translate('Edit'),
                             'title' => $this->translate('Edit'),
-                        )); ?>
+                        ]); ?>
                     <?php endif; ?>
                     </li>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($site->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($site->url('delete')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        data-sidebar-content-url="<?php echo $escape($site->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                 </ul>
@@ -88,11 +87,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Site'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this site?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

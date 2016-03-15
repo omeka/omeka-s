@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.4.5-alpha';
+    const VERSION = '0.5.0-alpha';
 
     /**
      * @var array View helpers that need service manager injection
@@ -37,6 +37,7 @@ class Module extends AbstractModule
         'blockLayout' => 'Omeka\View\Helper\BlockLayout',
         'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
         'navigationLink' => 'Omeka\View\Helper\NavigationLink',
+        'deleteConfirmForm' => 'Omeka\View\Helper\DeleteConfirmForm'
     ];
 
     /**

@@ -3,7 +3,7 @@ var Omeka = {
         //close delete sidebar if open
         if (!context.hasClass('delete')) {
             if ($('#delete').hasClass('active')) {
-                $('#delete').removeClass('mobile active');
+                $('#delete').removeClass('active');
             }
         }
 
@@ -19,36 +19,20 @@ var Omeka = {
         if (!$('body').hasClass('sidebar-open')) {
             $('body').addClass('sidebar-open');
         }
-        var sidebarConfirm = $('#sidebar-confirm');
-        if (context.hasClass('sidebar-confirm')) {
-            sidebarConfirm.show();
-            $('#sidebar-confirm form').attr(
-                'action', context.data('sidebar-confirm-url'));
-        } else {
-            sidebarConfirm.hide();
-        }
+
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
-        sidebar.addClass('mobile active');
+        sidebar.addClass('active');
         return sidebar;
     },
 
     closeSidebar : function(context) {
-        if (context.hasClass('mobile-only')) {
-            context.closest('.active').removeClass('mobile');
-        } else {
-            context.closest('.active').removeClass('mobile active');
-            if ($('.active.sidebar').length < 1) {
-                $('body').removeClass('sidebar-open');
-            }
+        context.removeClass('active');
+        context.closest('.active').removeClass('active');
+        if ($('.active.sidebar').length < 1 && $('.always-open.sidebar').length < 1) {
+            $('body').removeClass('sidebar-open');
         }
-    },
-
-    switchActiveSection: function (section) {
-        $('.section.active, .section-nav li.active').removeClass('active');
-        section.addClass('active');
-        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
     },
 
     populateSidebarContent : function(context, sidebar) {
@@ -64,6 +48,12 @@ var Omeka = {
         }).error(function() {
             sidebarContent.html("<p>Something went wrong</p>");
         });
+    },
+
+    switchActiveSection: function (section) {
+        $('.section.active, .section-nav li.active').removeClass('active');
+        section.addClass('active');
+        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
     },
 
     filterSelector : function() {
@@ -126,13 +116,35 @@ var Omeka = {
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this));
+            var sidebarSelector = $(this).data('sidebar-selector');
+            Omeka.openSidebar($(this), sidebarSelector);
         });
 
-        // Attach sidebar triggers
-        $('#content').on('click', 'a.sidebar-confirm', function(e) {
+        $('#content').on('click', '.button.delete, button.delete', function(e) {
             e.preventDefault();
             Omeka.openSidebar($(this), '#delete');
+        });
+
+        if ($('.always-open.sidebar').length > 0) {
+            $('#content').addClass('sidebar-open');
+        }
+
+        $('.sidebar').find('.sidebar-close').click(function(e) {
+            e.preventDefault();
+            Omeka.closeSidebar($(this));
+        });
+
+        // Open sidebars on mobile
+        $('button.mobile-only').on('click', function(e) {
+            e.preventDefault();
+            var mobileButton = $(this);
+            var sidebarId = mobileButton.attr('id');
+            sidebarId = '#' + sidebarId.replace('-button', '');
+            $(sidebarId).addClass('active');
+            mobileButton.parents('form').bind('DOMSubtreeModified', function() {
+                $('.sidebar.always-open').removeClass('active');
+                $(this).unbind('DOMSubtreeModified');
+            });
         });
 
         // Make resource public or private
@@ -150,15 +162,6 @@ var Omeka = {
                 isPublicIcon.attr('title', 'Make public');
                 isPublicHiddenValue.attr('value', 0);
             }
-        });
-
-        if ($('.active.sidebar').length > 0) {
-            $('#content').addClass('sidebar-open');
-        }
-
-        $('.sidebar').find('.sidebar-close').click(function(e) {
-            e.preventDefault();
-            Omeka.closeSidebar($(this));
         });
 
         // Skip to content button. See http://www.bignerdranch.com/blog/web-accessibility-skip-navigation-links/
@@ -261,7 +264,7 @@ var Omeka = {
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
     });
-    
+
     $(window).load(function() {
         var setSubmittedFlag = function () {
             $(this).data('omekaFormSubmitted', true);
@@ -277,12 +280,16 @@ var Omeka = {
             var preventNav = false;
             $('form[method=POST]').each(function () {
                 var form = $(this);
+                var originalData = form.data('omekaFormOriginalData');
                 if (form.data('omekaFormSubmitted')) {
                     return;
                 }
 
                 form.trigger('o:before-form-unload');
-                if (form.data('omekaFormDirty') || form.data('omekaFormOriginalData') !== form.serialize()) {
+
+                if (form.data('omekaFormDirty')
+                    || (originalData && originalData !== form.serialize())
+                ) {
                     preventNav = true;
                     return false;
                 }

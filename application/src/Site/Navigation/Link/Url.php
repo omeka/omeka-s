@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
@@ -35,7 +34,7 @@ class Url extends AbstractLink
             . '<label>URL <input type="text" data-name="url" value="' . $escape($url) . '"></label>';
     }
 
-    public function toZend(array $data, Site $site)
+    public function toZend(array $data, SiteRepresentation $site)
     {
         return [
             'type' => 'uri',

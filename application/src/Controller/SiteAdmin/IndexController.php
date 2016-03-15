@@ -56,7 +56,6 @@ class IndexController extends AbstractActionController
     public function editAction()
     {
         $serviceLocator = $this->getServiceLocator();
-        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
         $form = new SiteForm($serviceLocator);
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
@@ -279,6 +278,53 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
+    public function themeAction()
+    {
+        $readResponse = $this->api()->read('sites', [
+            'slug' => $this->params('site-slug')
+        ]);
+        $site = $readResponse->getContent();
+
+        $services = $this->getServiceLocator();
+        $tm = $services->get('Omeka\Site\ThemeManager');
+        $settings = $services->get('Omeka\SiteSettings');
+
+        $theme = $tm->getTheme($site->theme());
+        $settingsKey = $theme->getSettingsKey();
+        $config = $theme->getConfigSpec();
+
+        $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
+        if (!($config && $config['elements'])) {
+            return $view;
+        }
+
+        $form = new Form($services);
+        foreach ($config['elements'] as $elementSpec) {
+            $form->add($elementSpec);
+        }
+
+        $oldSettings = $settings->get($theme->getSettingsKey());
+        if ($oldSettings) {
+            $form->setData($oldSettings);
+        }
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $data = $form->getData();
+                unset($data['csrf']);
+                $settings->set($settingsKey, $data);
+                $this->messenger()->addSuccess('Theme settings updated.');
+                return $this->redirect()->refresh();
+            } else {
+                $this->messenger()->addError('There was an error during validation');
+            }
+        }
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -313,16 +359,19 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function showDetailsAction()
+    public function deleteConfirmAction()
     {
         $response = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ]);
         $site = $response->getContent();
+
         $view = new ViewModel;
         $view->setTerminal(true);
-
-        $view->setVariable('site', $site);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('resourceLabel', 'site');
+        $view->setVariable('partialPath', 'omeka/site-admin/index/show-details');
+        $view->setVariable('resource', $site);
         return $view;
     }
 

@@ -24,13 +24,12 @@
   }
 
   a:visited {
-    color: #ababab;
+    color: #000;
   }
 
   a:active,
   a:hover {
     color: #787878;
-    border-bottom: 3px solid;
   }
 
   h1 {
@@ -162,6 +161,9 @@
   header nav ul li li:last-of-type {
     padding-bottom: 0;
   }
+  header nav ul li.active {
+    font-weight: bold;
+  }
   header nav ul li > ul:before {
     font-family: "FontAwesome";
     content: "\f105";
@@ -202,6 +204,16 @@
   }
 
   /* Second level items */
+  header nav > ul > li > ul > li.active > a {
+    margin-left: -1.5em;
+  }
+
+  header nav > ul > li > ul > li.active > a:before {
+    content: ">";
+    display: inline-block;
+    width: 1.5em;
+  }
+
   header nav > ul > li > ul > li a {
     padding-left: 1.5em;
   }
@@ -408,11 +420,7 @@
   .right .item.resource {
     border-color: #dedede;
     margin: 0 0 1.5em 0;
-    display: -ms-grid;
-    -ms-grid-columns: min-content;
-    width: -moz-min-content;
-    width: -webkit-min-content;
-    width: min-content;
+    display: table;
   }
   .left .item.resource:first-of-type,
   .right .item.resource:first-of-type {
@@ -429,19 +437,12 @@
   }
   .left .item.resource img,
   .right .item.resource img {
-    max-width: none;
+    max-width: 100%;
   }
-  .left .item.resource > *,
-  .right .item.resource > * {
-    display: -ms-grid;
-  }
-  .left .item.resource > *:nth-child(2),
-  .right .item.resource > *:nth-child(2) {
-    -ms-grid-row: 2;
-  }
-  .left .item.resource > *:nth-child(3),
-  .right .item.resource > *:nth-child(3) {
-    -ms-grid-row: 3;
+  .left .item.resource > a:first-child ~ *,
+  .right .item.resource > a:first-child ~ * {
+    display: table-caption;
+    caption-side: bottom;
   }
 
   .left:not(.file) .item.resource,
@@ -682,13 +683,15 @@
   }
 
   #content .media.resource {
-    display: inline-block;
+    display: table;
     text-align: center;
-    width: -moz-min-content;
-    width: -webkit-min-content;
-    width: min-content;
     vertical-align: top;
     word-wrap: break-word;
+    margin-right: 0.375em;
+    float: left;
+  }
+  #content .media.resource:hover {
+    border-bottom: 0;
   }
 
   #content .media.resource img {
@@ -697,8 +700,9 @@
 
   .media-title {
     font-size: 15px;
-    display: inline-block;
+    display: table-caption;
     margin-bottom: 1em;
+    caption-side: bottom;
   }
 
   /* @end */
@@ -825,12 +829,17 @@
     height: auto;
   }
 
+  header nav > ul > li > a {
+    margin: 0.375em;
+    height: 30px;
+  }
+
   /* All top-level nav items with siblings are parent items and get an arrow. */
   header nav > ul > li > a:not(:only-child):after {
     font-family: "FontAwesome";
     content: "\f107";
     display: inline-block;
-    margin: 0.375em;
+    margin-left: 0.375em;
   }
 
   header nav > ul li:hover ul li {

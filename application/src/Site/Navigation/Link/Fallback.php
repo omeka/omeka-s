@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
@@ -38,7 +37,7 @@ class Fallback extends AbstractLink
             . '<label>Data <textarea disabled>' . $escape(json_encode($data)) . '</textarea></label>';
     }
 
-    public function toZend(array $data, Site $site)
+    public function toZend(array $data, SiteRepresentation $site)
     {
         return [
             'type' => 'uri',

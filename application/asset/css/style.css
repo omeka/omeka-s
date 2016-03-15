@@ -1207,6 +1207,10 @@ th {
     content: "";
   }
 
+  #menu a.theme:before {
+    content: "";
+  }
+
   /* @end */
   /* @end */
   /* @group ----- Wrappers ----- */
@@ -2661,6 +2665,7 @@ th {
     position: fixed;
     top: 5.25em;
     left: 100%;
+    visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
@@ -2673,8 +2678,9 @@ th {
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
-  .sidebar.active {
+  .sidebar.active, .sidebar.always-open {
     left: 75.52083%;
+    visibility: visible;
   }
   .sidebar .o-icon-close {
     position: absolute;
@@ -3734,11 +3740,11 @@ th {
     width: 100%;
   }
 
-  .sidebar.active {
+  .sidebar.always-open {
     left: 100%;
   }
 
-  .sidebar.mobile.active,
+  .sidebar.active,
   #resource-details.active #select-item,
   .confirm-panel {
     left: 0;

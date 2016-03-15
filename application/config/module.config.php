@@ -250,12 +250,14 @@ return [
             'itemSetSelect'          => 'Omeka\View\Helper\ItemSetSelect',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'deleteConfirm'          => 'Omeka\View\Helper\DeleteConfirm',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
         ],
         'factories' => [
             'assetUrl' => 'Omeka\Service\ViewHelperAssetUrlFactory',
+            'themeSetting' => 'Omeka\Service\ViewHelperThemeSettingFactory',
         ],
     ],
     'data_types' => [
@@ -273,7 +275,8 @@ return [
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
             'file' => 'Omeka\Site\BlockLayout\File',
-            'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak'
+            'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak',
+            'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],
     ],
     'navigation_links' => [

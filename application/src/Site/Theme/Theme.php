@@ -58,4 +58,17 @@ class Theme
     {
         return $this->getIni('name') ?: $this->getId();
     }
+
+    /**
+     * Get the spec for this theme's configuration form.
+     */
+    public function getConfigSpec()
+    {
+        return $this->getIni('config') ?: [];
+    }
+
+    public function getSettingsKey()
+    {
+        return "theme_settings_" . $this->getId();
+    }
 }

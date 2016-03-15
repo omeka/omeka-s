@@ -102,7 +102,7 @@ class Db implements SaveHandlerInterface
      */
     public function gc($maxlifetime)
     {
-        $sql = 'DELETE FROM session WHERE modified > ?';
+        $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, (time() - $this->lifetime));
         return $stmt->execute();

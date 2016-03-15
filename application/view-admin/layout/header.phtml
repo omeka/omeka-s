@@ -10,10 +10,10 @@ $escape = $this->plugin('escapeHtml');
     </div>
     <div id="user">
         <?php if ($this->identity()): ?>
-        <p><?php echo sprintf($this->translate('Welcome, %s'),  '<a href="' . $this->url('admin/id', array(
+        <p><?php echo sprintf($this->translate('Welcome, %s'),  '<a href="' . $this->url('admin/id', [
             'controller' => 'user',
             'id' => $this->identity()->getId(),
-        )) . '">' . $escape($this->identity()->getName()) . '</a>'); ?></p>
+        ]) . '">' . $escape($this->identity()->getName()) . '</a>'); ?></p>
         <p><a href="<?php echo $this->url('logout'); ?>"><?php echo $this->translate('Logout'); ?></a></p>
         <?php else: ?>
         <p><?php echo $this->translate('not logged in'); ?></p>
@@ -27,9 +27,9 @@ $escape = $this->plugin('escapeHtml');
             <button type="submit"><?php echo $this->translate('Search'); ?></button>
             <fieldset id="advanced-options">
                 <legend><?php echo $this->translate('Resource Type'); ?></legend>
-                <input type="radio" name="resource-type" id="search-items" value="item" data-action="<?php echo $escape($this->url('admin/default', array('controller' => 'item', 'action' => 'browse'))); ?>" checked="checked"><label for="search-items"><?php echo $this->translate('Items'); ?></label>
-                <input type="radio" name="resource-type" id="search-item-sets" value="item-set" data-action="<?php echo $escape($this->url('admin/default', array('controller' => 'item-set', 'action' => 'browse'))); ?>"><label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
-                <input type="radio" name="resource-type" id="search-media" value="media" data-action="<?php echo $escape($this->url('admin/default', array('controller' => 'media', 'action' => 'browse'))); ?>"><label for="search-media"><?php echo $this->translate('Media'); ?></label>
+                <input type="radio" name="resource-type" id="search-items" value="item" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>" checked="checked"><label for="search-items"><?php echo $this->translate('Items'); ?></label>
+                <input type="radio" name="resource-type" id="search-item-sets" value="item-set" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>"><label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
+                <input type="radio" name="resource-type" id="search-media" value="media" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>"><label for="search-media"><?php echo $this->translate('Media'); ?></label>
             </fieldset>
         </form>
     </div>
@@ -38,7 +38,7 @@ $escape = $this->plugin('escapeHtml');
         <h4>
             <?php echo $site->link($site->title(), 'show'); ?>
         </h4>
-        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
+        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
     <?php endif; ?>
         <?php $globalNav = $this->navigation('Zend\Navigation\Admin')->menu(); ?>

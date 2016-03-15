@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Entity\Site;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
@@ -35,10 +34,10 @@ interface LinkInterface
      * Translate from site navigation data to Zend Navigation configuration.
      *
      * @param array $data
-     * @param Site $site
+     * @param SiteRepresentation $site
      * @return array
      */
-    public function toZend(array $data, Site $site);
+    public function toZend(array $data, SiteRepresentation $site);
 
     /**
      * Translate from site navigation data to jsTree configuration.

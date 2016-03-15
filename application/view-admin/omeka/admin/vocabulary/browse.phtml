@@ -1,6 +1,5 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -26,7 +25,7 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, array('action' => 'import'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, ['action' => 'import'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -55,17 +54,16 @@ $sortHeadings = [
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
-                    <li><?php echo $vocabulary->link('', 'edit', array(
+                    <li><?php echo $vocabulary->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $escape($this->translate('Edit')),
                         'title' => $escape($this->translate('Edit')),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($vocabulary->url('delete')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
@@ -79,8 +77,8 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($vocabulary->prefix())); ?></td>
-            <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', array('action' => 'classes', 'id' => $vocabulary->id()), true)); ?></td>
-            <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', array('action' => 'properties', 'id' => $vocabulary->id()), true)); ?></td>
+            <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', ['action' => 'classes', 'id' => $vocabulary->id()], true)); ?></td>
+            <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', ['action' => 'properties', 'id' => $vocabulary->id()], true)); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -93,11 +91,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Vocabulary'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this vocabulary?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

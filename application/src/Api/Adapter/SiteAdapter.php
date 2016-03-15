@@ -10,6 +10,8 @@ use Omeka\Stdlib\ErrorStore;
 
 class SiteAdapter extends AbstractEntityAdapter
 {
+    use SiteSlugTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -41,17 +43,33 @@ class SiteAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $this->hydrateOwner($request, $entity);
-        if ($this->shouldHydrate($request, 'o:slug')) {
-            $entity->setSlug($request->getValue('o:slug'));
-        }
+        $title = null;
+
         if ($this->shouldHydrate($request, 'o:theme')) {
             $entity->setTheme($request->getValue('o:theme'));
         }
         if ($this->shouldHydrate($request, 'o:title')) {
-            $entity->setTitle($request->getValue('o:title'));
+            $title = trim($request->getValue('o:title', ''));
+            $entity->setTitle($title);
+        }
+        if ($this->shouldHydrate($request, 'o:slug')) {
+            $default = null;
+            $slug = trim($request->getValue('o:slug', ''));
+            if ($slug === ''
+                && $request->getOperation() === Request::CREATE
+                && is_string($title)
+                && $title !== ''
+            ) {
+                $slug = $this->getAutomaticSlug($title);
+            }
+            $entity->setSlug($slug);
         }
         if ($this->shouldHydrate($request, 'o:navigation')) {
-            $entity->setNavigation($request->getValue('o:navigation', []));
+            $default = [];
+            if ($request->getOperation() === Request::CREATE) {
+                $default = $this->getDefaultNavigation();
+            }
+            $entity->setNavigation($request->getValue('o:navigation', $default));
         }
         if ($this->shouldHydrate($request, 'o:item_pool')) {
             $entity->setItemPool($request->getValue('o:item_pool', []));
@@ -77,6 +95,29 @@ class SiteAdapter extends AbstractEntityAdapter
                 if (!in_array($page, $retainPages, true)) {
                     $pages->removeElement($page);
                 }
+            }
+
+            if ($request->getOperation() === Request::CREATE) {
+                $class = $adapter->getEntityClass();
+                $page = new $class;
+                $page->setSite($entity);
+                $translator = $this->getServiceLocator()->get('MvcTranslator');
+                $subErrorStore = new ErrorStore;
+                $subrequest = new Request(Request::CREATE, 'site_pages');
+                $subrequest->setContent(
+                        [
+                            'o:title' => $translator->translate('Welcome'),
+                            'o:slug' => $translator->translate('welcome'),
+                            'o:block' => [
+                                [
+                                    'o:layout' => 'html',
+                                    'o:data' => ['html' => $translator->translate('Welcome to your new site. This is an example page.')]
+                                ]
+                            ]
+                        ]
+                    );
+                $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
+                $pages->add($page);
             }
         }
 
@@ -126,6 +167,10 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
+        $title = $entity->getTitle();
+        if (!is_string($title) || $title === '') {
+            $errorStore->addError('o:title', 'A site must have a title.');
+        }
         $slug = $entity->getSlug();
         if (!is_string($slug) || $slug === '') {
             $errorStore->addError('o:slug', 'The slug cannot be empty.');
@@ -139,10 +184,6 @@ class SiteAdapter extends AbstractEntityAdapter
                 'The slug "%s" is already taken.',
                 $slug
             ));
-        }
-
-        if (false == $entity->getTitle()) {
-            $errorStore->addError('o:title', 'A site must have a title.');
         }
 
         if (false == $entity->getTheme()) {
@@ -222,5 +263,28 @@ class SiteAdapter extends AbstractEntityAdapter
             }
         };
         $validateLinks($navigation);
+    }
+
+    /**
+     * Get the default nav array for new sites with no specified
+     * navigation.
+     *
+     * The default is to just include a link to the browse page.
+     *
+     * @return array
+     */
+    protected function getDefaultNavigation()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return [
+            [
+                'type' => 'browse',
+                'data' => [
+                    'label' => $translator->translate('Browse'),
+                    'query' => '',
+                ],
+                'links' => [],
+            ]
+        ];
     }
 }

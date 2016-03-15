@@ -1,11 +1,6 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'item-set show'); ?>
 
-<header>
-    <a href="<?php echo $site->url(); ?>" class="site-title"><?php echo $this->pageTitle($site->title()); ?></a>
-    <nav><?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?></nav>
-</header>
-
 <div id="content" role="navigation">
     <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
     <?php echo $itemSet->displayValues(); ?>
@@ -16,7 +11,7 @@
         <h3><?php echo $this->translate(sprintf('All Items (%s)', $itemCount)); ?></h3>
         <?php else: ?>
         <h3><?php echo $this->translate('5 Most Recent Items'); ?></h3>
-        <?php echo $this->hyperlink($this->translate(sprintf('View all %s items in set', $itemCount)), $this->url('site/resource', array('site-slug' => $site->slug(), 'controller' => 'item', 'action' => 'browse'), array('query' => array('item_set_id' => $itemSet->id())))); ?>
+        <?php echo $this->hyperlink($this->translate(sprintf('View all %s items in set', $itemCount)), $this->url('site/resource', ['site-slug' => $site->slug(), 'controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?>
         <?php endif; ?>
         <ul class="resource-list">
             <?php foreach ($items as $item): ?>

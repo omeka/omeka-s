@@ -802,6 +802,10 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-gears;
     }
 
+    #menu a.theme:before {
+        content: $fa-var-paint-brush;
+    }
+
     /* @end */
 
 /* @end */
@@ -2297,6 +2301,7 @@ input[type="text"].value-language,
     position: fixed;
     top: rhythm(3.5);
     left: 100%;
+    visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
@@ -2307,8 +2312,10 @@ input[type="text"].value-language,
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
 
-    &.active {
+    &.active,
+    &.always-open {
         left: span(12 of 16) + gutter(32);
+        visibility: visible;
     }
 
     .o-icon-close {

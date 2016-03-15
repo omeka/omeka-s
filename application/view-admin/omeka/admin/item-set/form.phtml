@@ -18,13 +18,13 @@ $escape = $this->plugin('escapeHtml');
 //the nav lis above. (see globals.js)
 echo $this->partial(
     'common/resource-fields.phtml',
-    array(
+    [
         'id'                   => 'resource-values',
         'class'                => 'section active',
         'form'                 => $form,
         'resource'             => $itemSet,
         'propertySelectorText' => $this->translate('Click on a property to add it to the add panel')
-    )
+    ]
 );
 ?>
 

@@ -12,7 +12,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <a href="<?php echo $page->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
-    <a href="#" class="sidebar-confirm delete button" data-sidebar-confirm-url="<?php echo $escape($page->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
@@ -26,7 +26,7 @@ $escape = $this->plugin('escapeHtml');
     <label for="new-block">
         <?php echo $this->translate('Add New Block'); ?>
     </label>
-    <select id="new-block" data-url="<?php echo $this->url('admin/site/page/default', array('action' => 'block'), true); ?>">
+    <select id="new-block" data-url="<?php echo $this->url('admin/site/page/default', ['action' => 'block'], true); ?>">
         <option value=""><?php echo $this->translate('Select layout'); ?></option>
         <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
         <option value="<?php echo $escape($layout); ?>">
@@ -52,16 +52,6 @@ $escape = $this->plugin('escapeHtml');
     </div>
 </div>
 
-<div id="delete" class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Item'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this page?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
-</div>
+<?php echo $this->deleteConfirm($page, 'page'); ?>
 
 <?php echo $this->partial('common/resource-select-sidebar'); ?>

@@ -1,9 +1,9 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 ?>
-<h2><?php echo $this->translate($resourceTemplate->link($resourceTemplate->label())); ?></h2>
-<?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
-<?php 
+<h2><?php echo $this->translate($resource->link($resource->label())); ?></h2>
+<?php foreach ($resource->resourceTemplateProperties() as $resourceTemplateProperty): ?>
+<?php
 $property = $resourceTemplateProperty->property();
 $propertyAltLabel = $escape($resourceTemplateProperty->alternateLabel());
 $propertyAltComment = $escape($resourceTemplateProperty->alternateComment());

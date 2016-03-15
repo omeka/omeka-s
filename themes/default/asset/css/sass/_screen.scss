@@ -23,13 +23,12 @@ a:link {
 }
 
 a:visited {
-    color: $gray;
+    color: #000;
 }
 
 a:active,
 a:hover {
     color: $bold;
-    border-bottom: 3px solid;
 }
 
 h1 {
@@ -159,6 +158,10 @@ header nav ul {
         padding-bottom: 0;
     }
 
+    li.active {
+        font-weight: bold;
+    }
+
     li > ul:before {
         font-family: "FontAwesome";
         content: "\f105";
@@ -198,6 +201,16 @@ header nav > ul ul:hover > li {
 }
 
 /* Second level items */
+header nav > ul > li > ul > li.active > a {
+    margin-left: -1.5em;
+}
+
+header nav > ul > li > ul > li.active > a:before {
+    content: ">";
+    display: inline-block;
+    width: 1.5em;
+}
+
 header nav > ul > li > ul > li a {
     padding-left: rhythm();
 }
@@ -396,11 +409,7 @@ header {
 .right .item.resource {
     border-color: $light;
     margin: 0 0 rhythm() 0;
-    display: -ms-grid;
-    -ms-grid-columns: min-content;
-    width: -moz-min-content;
-    width: -webkit-min-content;
-    width: min-content;
+    display: table;
 
     &:first-of-type {
         @include leading-border(1px, 1, $base-font-size, solid);
@@ -412,19 +421,12 @@ header {
     }
 
     img {
-        max-width: none;
+        max-width: 100%;
     }
 
-    & > * {
-        display: -ms-grid;
-
-        &:nth-child(2) {
-            -ms-grid-row: 2;
-        }
-
-        &:nth-child(3) {
-            -ms-grid-row: 3;
-        }
+    & > a:first-child ~ * {
+        display: table-caption;
+        caption-side: bottom;
     }
 }
 
@@ -670,13 +672,16 @@ body.resource #content > h2:first-of-type + h3 {
 }
 
 #content .media.resource {
-    display: inline-block;
+    display: table;
     text-align: center;
-    width: -moz-min-content;
-    width: -webkit-min-content;
-    width: min-content;
     vertical-align: top;
     word-wrap: break-word;
+    margin-right: rhythm(.25);
+    float: left;
+
+    &:hover {
+        border-bottom: 0;
+    }
 }
 
 #content .media.resource img {
@@ -685,8 +690,9 @@ body.resource #content > h2:first-of-type + h3 {
 
 .media-title {
     font-size: .75 * $base-font-size;
-    display: inline-block;
+    display: table-caption;
     margin-bottom: rhythm(.5, .75 * $base-font-size);
+    caption-side: bottom;
 }
 
 /* @end */

@@ -7,7 +7,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
-    <a href="#" class="delete button sidebar-confirm" data-sidebar-confirm-url="<?php echo $escape($resourceTemplate->url('delete')); ?>"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $this->translate('Delete'); ?></a>
     <?php endif; ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
@@ -20,7 +20,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <div class="inputs">
         <?php echo $this->formElement($labelElement); ?>
     </div>
-    <?php echo $this->formElementErrors($labelElement, array('class' => 'messages')); ?>
+    <?php echo $this->formElementErrors($labelElement, ['class' => 'messages']); ?>
 </div>
 <div class="field">
     <div class="field-meta">
@@ -39,7 +39,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
-        array('propertyRow' => $propertyRow)
+        ['propertyRow' => $propertyRow]
     ) ?>
     <?php endforeach; ?>
 </ul>
@@ -49,19 +49,16 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 
 <?php echo $this->propertySelector(); ?>
 <?php if (isset($resourceTemplate)): ?>
-<div class="sidebar">
+    <?php echo $this->deleteConfirm($resourceTemplate, 'resource template'); ?>
+<?php endif; ?>
+
+<div id="details" class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $this->translate('Delete Resource Template'); ?></h2>
-        <p><?php echo $this->translate('Are you sure you would like to delete this resource template?'); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
-<?php endif; ?>
 
 <script>
 // Enable sorting on property rows.
@@ -79,7 +76,7 @@ $('#property-selector .selector-child').click(function(event) {
         // Resource templates cannot be assigned duplicate properties.
         return;
     }
-    var url = '<?php echo $this->escapeJs($this->url(null, array('action' => 'add-new-property-row'), true)); ?>';
+    var url = '<?php echo $this->escapeJs($this->url(null, ['action' => 'add-new-property-row'], true)); ?>';
     $.get(url, {property_id: propertyId})
         .done(function(data) {
             $('#properties').append(data);

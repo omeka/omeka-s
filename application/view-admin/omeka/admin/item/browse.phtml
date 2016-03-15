@@ -1,6 +1,5 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'items browse');
-$confirmForm->prepare();
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -26,11 +25,11 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, array('action' => 'add'), true), array('class' => 'button')); ?>
+    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
-<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, array('action' => 'search'), true), array('class' => 'advanced-search')); ?>
+<?php echo $this->hyperlink($this->translate('Advanced item search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
 
 <?php echo $this->searchFilters(); ?>
 
@@ -55,10 +54,10 @@ $sortHeadings = [
         if ($owner = $item->owner()) {
             $ownerText = $this->hyperlink(
                 $owner->name(),
-                $this->url('admin/id', array(
+                $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id())
+                    'id' => $owner->id()]
                 )
             );
         } else {
@@ -69,17 +68,16 @@ $sortHeadings = [
             <td>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>
-                    <li><?php echo $item->link('', 'edit', array(
+                    <li><?php echo $item->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
-                    )); ?></li>
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
-                        data-sidebar-confirm-url="<?php echo $escape($item->url('delete')); ?>"
-                        class="o-icon-delete sidebar-confirm"
+                        data-sidebar-content-url="<?php echo $escape($item->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
@@ -114,11 +112,6 @@ $sortHeadings = [
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div id="sidebar-confirm">
-        <h2><?php echo $escape($this->translate('Delete Item')); ?></h2>
-        <p><?php echo $escape($this->translate('Are you sure you would like to delete this item?')); ?></p>
-        <?php echo $this->form($confirmForm); ?>
-    </div>
     <div class="sidebar-content"></div>
 </div>
 

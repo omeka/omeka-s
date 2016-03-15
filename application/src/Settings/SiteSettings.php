@@ -1,33 +1,40 @@
 <?php
 namespace Omeka\Settings;
 
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\Site;
 use Omeka\Service\Exception;
 
 class SiteSettings extends AbstractSettings
 {
     /**
-     * @var Site
+     * @var int
      */
-    protected $site;
+    protected $siteId;
 
     /**
      * Set the site entity from which to get settings.
      *
-     * @param Site $site
+     * @param Site|SiteRepresentation $site
      */
-    public function setSite(Site $site)
+    public function setSite($site)
     {
-        $this->site = $site;
+        if ($site instanceof Site) {
+            $this->siteId = $site->getId();
+        } else if ($site instanceof SiteRepresentation) {
+            $this->siteId = $site->id();
+        } else {
+            $this->siteId = null;
+        }
     }
 
     protected function setCache()
     {
-        if (!$this->site instanceof Site) {
+        if (!$this->siteId) {
             throw new Exception\RuntimeException('Cannot use site settings when no site is set');
         }
         $conn = $this->getConnection();
-        $settings = $conn->fetchAll('SELECT * FROM site_setting WHERE site_id = ?', [$this->site->getId()]);
+        $settings = $conn->fetchAll('SELECT * FROM site_setting WHERE site_id = ?', [$this->siteId]);
         foreach ($settings as $setting) {
             $this->cache[$setting['id']] = $conn->convertToPHPValue($setting['value'], 'json_array');
         }
@@ -35,8 +42,12 @@ class SiteSettings extends AbstractSettings
 
     protected function setSetting($id, $value)
     {
+        if (!$this->siteId) {
+            throw new Exception\RuntimeException('Cannot use site settings when no site is set');
+        }
+
         $conn = $this->getConnection();
-        $siteId = $this->site->getId();
+        $siteId = $this->siteId;
         $setting = $conn->fetchAssoc(
             'SELECT * FROM site_setting WHERE id = ? AND site_id = ?',
             [$id, $siteId]
@@ -55,8 +66,12 @@ class SiteSettings extends AbstractSettings
 
     protected function deleteSetting($id)
     {
+        if (!$this->siteId) {
+            throw new Exception\RuntimeException('Cannot use site settings when no site is set');
+        }
+
         $this->getConnection()->delete('site_setting', [
-            'site_id' => $this->site->getId(),
+            'site_id' => $this->siteId,
             'id' => $id,
         ], [\PDO::PARAM_INT]);
     }

@@ -17,6 +17,6 @@ $class = $element->getAttribute('required') ? 'field required' : 'field';
     <div class="inputs">
         <?php echo $this->formElement($element); ?>
     </div>
-    <?php echo $this->formElementErrors($element, array('class' => 'messages')); ?>
+    <?php echo $this->formElementErrors($element, ['class' => 'messages']); ?>
 </div>
 <?php endif; ?>

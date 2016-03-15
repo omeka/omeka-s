@@ -223,11 +223,11 @@ body.sidebar-open #content {
     width: 100%;
 }
 
-.sidebar.active {
+.sidebar.always-open {
     left: 100%;
 }
 
-.sidebar.mobile.active,
+.sidebar.active,
 #resource-details.active #select-item,
 .confirm-panel {
     left: 0;

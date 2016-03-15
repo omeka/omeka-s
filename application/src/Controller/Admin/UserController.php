@@ -80,7 +80,21 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('user', $response->getContent());
+        $view->setVariable('resource', $response->getContent());
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $response = $this->api()->read('users', $this->params('id'));
+        $user = $response->getContent();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
+        $view->setVariable('resourceLabel', 'user');
+        $view->setVariable('resource', $user);
         return $view;
     }
 

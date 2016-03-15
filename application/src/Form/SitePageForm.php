@@ -8,17 +8,6 @@ class SitePageForm extends AbstractForm
         $translator = $this->getTranslator();
 
         $this->add([
-            'name' => 'o:slug',
-            'type' => 'Text',
-            'options' => [
-                'label' => $translator->translate('URL slug')
-            ],
-            'attributes' => [
-                'id' => 'slug',
-                'required' => true,
-            ],
-        ]);
-        $this->add([
             'name' => 'o:title',
             'type' => 'Text',
             'options' => [
@@ -27,6 +16,17 @@ class SitePageForm extends AbstractForm
             'attributes' => [
                 'id' => 'title',
                 'required' => true,
+            ],
+        ]);
+        $this->add([
+            'name' => 'o:slug',
+            'type' => 'Text',
+            'options' => [
+                'label' => $translator->translate('URL slug')
+            ],
+            'attributes' => [
+                'id' => 'slug',
+                'required' => false,
             ],
         ]);
     }

@@ -54,7 +54,7 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         $view->setVariable('values', json_encode($values));
         return $view;
     }
@@ -71,6 +71,25 @@ class ItemController extends AbstractActionController
         $view->setVariable('searchValue', $value ? $value['in'][0] : '');
         $view->setVariable('showDetails', true);
         $view->setTerminal(true);
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $linkTitle = (bool) $this->params()->fromQuery('link-title', true);
+        $response = $this->api()->read('items', $this->params('id'));
+        $item = $response->getContent();
+        $values = $item->valueRepresentation();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/item/show-details');
+        $view->setVariable('resourceLabel', 'item');
+        $view->setVariable('linkTitle', $linkTitle);
+        $view->setVariable('resource', $item);
+        $view->setVariable('item', $item);
+        $view->setVariable('values', json_encode($values));
         return $view;
     }
 
@@ -140,11 +159,6 @@ class ItemController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();

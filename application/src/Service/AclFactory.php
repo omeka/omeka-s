@@ -737,11 +737,6 @@ class AclFactory implements FactoryInterface
             'Omeka\Api\Adapter\VocabularyAdapter',
             ['create', 'update', 'delete']
         );
-        $acl->deny(
-            'site_admin',
-            'Omeka\Entity\Media',
-            ['create', 'update', 'delete']
-        );
 
         $acl->deny(
             'site_admin',

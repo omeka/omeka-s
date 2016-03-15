@@ -4,11 +4,11 @@ $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $delete = $this->translate('Delete');
 $restore = $this->translate('Restore');
-$roles = array(
+$roles = [
     'viewer' => $this->translate('Viewer'),
     'editor' => $this->translate('Editor'),
     'admin' => $this->translate('Admin'),
-);
+];
 ?>
 
 <?php echo $this->pageTitle($this->translate('User Permissions')); ?>
@@ -69,7 +69,7 @@ $roles = array(
             <li class="show"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
                 <ul>
                 <?php
-                $usersByInitial = array();
+                $usersByInitial = [];
                 $initial = substr($users[0]->name(), 0, 1);
                 foreach ($users as $user) {
                     $userInitial = substr($user->name(), 0, 1);
@@ -136,7 +136,7 @@ $('#content').on('click', '.o-icon-undo', function() {
     $(this).parents('.user.value').find('input[type="hidden"]').prop('disabled', false);
 });
 
-$('#permissions .selector .selector-child').click(function() {
+$('.selector .selector-child').click(function() {
     var user = $(this);
     var userId = user.data('user-id');
     var userText = user.data('child-search');

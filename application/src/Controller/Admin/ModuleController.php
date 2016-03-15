@@ -57,9 +57,6 @@ class ModuleController extends AbstractActionController
                 ['module_action' => $action, 'module_id' => $id]
             );
         });
-        $view->setVariable('uninstallForm', new ModuleUninstallForm(
-            $this->getServiceLocator(), 'uninstall'
-        ));
         return $view;
     }
 
@@ -98,6 +95,27 @@ class ModuleController extends AbstractActionController
             );
         }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
+    public function uninstallConfirmAction()
+    {
+        $id = $this->params()->fromQuery('id');
+        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
+        $module = $manager->getModule($id);
+        if (!$module) {
+            throw new Exception\NotFoundException;
+        }
+        $uninstallForm = new ModuleUninstallForm(
+            $this->getServiceLocator(), 'uninstall'
+        );
+        $uninstallForm->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]], true));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('omeka/admin/module/uninstall-confirm');
+        $view->setVariable('uninstallForm', $uninstallForm);
+        $view->setVariable('module', $module);
+        return $view;
     }
 
     /**

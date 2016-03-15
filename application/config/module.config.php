@@ -151,6 +151,7 @@ return [
             'Omeka\BlockLayoutManager'    => 'Omeka\Service\BlockLayoutManagerFactory',
             'Omeka\DataTypeManager'       => 'Omeka\Service\DataTypeManagerFactory',
             'Omeka\Cli'                   => 'Omeka\Service\CliFactory',
+            'Omeka\Paginator'             => 'Omeka\Service\PaginatorFactory',
             'Omeka\RdfImporter'           => 'Omeka\Service\RdfImporterFactory',
         ],
         'invokables' => [
@@ -160,7 +161,6 @@ return [
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\Settings'            => 'Omeka\Settings\Settings',
             'Omeka\SiteSettings'        => 'Omeka\Settings\SiteSettings',
-            'Omeka\Paginator'           => 'Omeka\Service\Paginator',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File'                => 'Omeka\File\File',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Site\Navigation\Translator',

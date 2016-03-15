@@ -1,13 +1,10 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
 /**
  * Class for performing pagination calculations.
  */
-class Paginator implements ServiceLocatorAwareInterface
+class Paginator
 {
     /**
      * The default current page.
@@ -175,25 +172,5 @@ class Paginator implements ServiceLocatorAwareInterface
             $nextPage = $this->currentPage + 1;
         }
         return $nextPage;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->services = $serviceLocator;
-
-        // Set the default number of records per page.
-        $settings = $this->getServiceLocator()->get('Omeka\Settings');
-        $this->setPerPage($settings->get('pagination_per_page', self::PER_PAGE));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->services;
     }
 }

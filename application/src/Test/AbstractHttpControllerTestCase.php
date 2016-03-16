@@ -27,4 +27,19 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
 
         return $this->application;
     }
+
+    protected function resetApplication()
+    {
+        $this->application = null;
+    }
+
+    protected function login($email, $password)
+    {
+        $serviceLocator = $this->getApplication()->getServiceManager();
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        $adapter = $auth->getAdapter();
+        $adapter->setIdentity($email);
+        $adapter->setCredential($password);
+        return $auth->authenticate();
+    }
 }

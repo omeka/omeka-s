@@ -16,6 +16,8 @@ class MailerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
+        $viewHelpers = $serviceLocator->get('ViewHelperManager');
+        $entityManager = $serviceLocator->get('Omeka\EntityManager');
         if (!isset($config['mail']['transport'])) {
             throw new Exception\ConfigException('Missing mail transport configuration');
         }
@@ -28,6 +30,6 @@ class MailerFactory implements FactoryInterface
             $settings = $serviceLocator->get('Omeka\Settings');
             $defaultOptions['from'] = $settings->get('administrator_email');
         }
-        return new Mailer($transport, $defaultOptions);
+        return new Mailer($transport, $viewHelpers, $entityManager, $defaultOptions);
     }
 }

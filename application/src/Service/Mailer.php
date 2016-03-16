@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Entity\User;
 use Omeka\Entity\PasswordCreation;
 use Traversable;
@@ -8,17 +9,24 @@ use Zend\Stdlib\ArrayUtils;
 use Zend\Mail\Message;
 use Zend\Mail\MessageFactory;
 use Zend\Mail\Transport\TransportInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\View\HelperPluginManager;
 
-class Mailer implements ServiceLocatorAwareInterface
+class Mailer
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var TransportInterface
      */
     protected $transport;
+
+    /**
+     * @var HelperPluginManager
+     */
+    protected $viewHelpers;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
 
     /**
      * @var array
@@ -31,10 +39,12 @@ class Mailer implements ServiceLocatorAwareInterface
      * @var TransportInterface $transport
      * @var array $defaultOptions
      */
-    public function __construct(TransportInterface $transport,
-        array $defaultOptions = []
+    public function __construct(TransportInterface $transport, HelperPluginManager $viewHelpers,
+        EntityManager $entityManager, array $defaultOptions = []
     ) {
         $this->transport = $transport;
+        $this->viewHelpers = $viewHelpers;
+        $this->entityManager = $entityManager;
         $this->defaultOptions = $defaultOptions;
     }
 
@@ -94,9 +104,8 @@ class Mailer implements ServiceLocatorAwareInterface
         $passwordCreation->setUser($user);
         $passwordCreation->setActivate($activate);
 
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $entityManager->persist($passwordCreation);
-        $entityManager->flush();
+        $this->entityManager->persist($passwordCreation);
+        $this->entityManager->flush();
         return $passwordCreation;
     }
 
@@ -108,8 +117,8 @@ class Mailer implements ServiceLocatorAwareInterface
      */
     public function getCreatePasswordUrl(PasswordCreation $passwordCreation)
     {
-        return $this->getServiceLocator()->get('ControllerPluginManager')
-            ->get('Url')->fromRoute(
+        $url = $this->viewHelpers->get('url');
+        return $url(
                 'create-password',
                 ['key' => $passwordCreation->getId()],
                 ['force_canonical' => true]
@@ -123,8 +132,8 @@ class Mailer implements ServiceLocatorAwareInterface
      */
     public function getSiteUrl()
     {
-        return $this->getServiceLocator()->get('ControllerPluginManager')
-            ->get('Url')->fromRoute('top', [], ['force_canonical' => true]);
+        $url = $this->viewHelpers->get('url');
+        return $url('top', [], ['force_canonical' => true]);
     }
 
     /**
@@ -135,7 +144,7 @@ class Mailer implements ServiceLocatorAwareInterface
      */
     public function getExpiration(PasswordCreation $passwordCreation)
     {
-        return $this->getServiceLocator()->get('ViewHelperManager')
+        return $this->viewHelpers
             ->get('i18n')->dateFormat($passwordCreation->getExpiration(), 'medium', 'medium');
     }
 
@@ -146,8 +155,8 @@ class Mailer implements ServiceLocatorAwareInterface
      */
     public function getInstallationTitle()
     {
-        return $this->getServiceLocator()->get('Omeka\Settings')
-            ->get('installation_title', 'Omeka S');
+        $setting = $this->viewHelpers->get('setting');
+        return $setting('installation_title', 'Omeka S');
     }
 
     /**
@@ -157,16 +166,16 @@ class Mailer implements ServiceLocatorAwareInterface
      */
     public function sendResetPassword(User $user)
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $translate = $this->viewHelpers->get('translate');
         $installationTitle = $this->getInstallationTitle();
-        $template = $translator->translate('Greetings, %1$s!
+        $template = $translate('Greetings, %1$s!
 
 It seems you have forgotten your password for %5$s at %2$s
 
 To reset your password, click this link:
 %3$s
 
-Your reset link will expire in %4$s.');
+Your reset link will expire on %4$s.');
 
         $passwordCreation = $this->getPasswordCreation($user, false);
         $body = sprintf(
@@ -181,10 +190,11 @@ Your reset link will expire in %4$s.');
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
             ->setSubject(sprintf(
-                $translator->translate('Reset your password for %s'),
+                $translate('Reset your password for %s'),
                 $installationTitle
             ))
             ->setBody($body);
+        var_dump($message); die();
         $this->send($message);
     }
 
@@ -195,9 +205,9 @@ Your reset link will expire in %4$s.');
      */
     public function sendUserActivation(User $user)
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $translate = $this->viewHelpers->get('translate');
         $installationTitle = $this->getInstallationTitle();
-        $template = $translator->translate('Greetings!
+        $template = $translate('Greetings!
 
 A user has been created for you on %5$s at %1$s
 
@@ -206,7 +216,7 @@ Your username is your email: %2$s
 Click this link to set a password and begin using Omeka S:
 %3$s
 
-Your activation link will expire in %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator.');
+Your activation link will expire on %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator.');
 
         $passwordCreation = $this->getPasswordCreation($user, true);
         $body = sprintf(
@@ -221,7 +231,7 @@ Your activation link will expire in %4$s. If you have not completed the user act
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
             ->setSubject(sprintf(
-                $translator->translate('User Activation for %s'),
+                $translate('User Activation for %s'),
                 $installationTitle
             ))
             ->setBody($body);

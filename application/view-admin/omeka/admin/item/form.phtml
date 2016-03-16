@@ -82,7 +82,9 @@ $sectionNavArgs = $this->trigger($sectionNavEvent, $sectionNavArgs, true);
         <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
         <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
     </fieldset>
+
     <?php echo $formElement($form->get('csrf')); ?>
+    <?php $this->trigger($formAfterEvent); ?>
 </form>
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>

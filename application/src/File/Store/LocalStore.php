@@ -2,15 +2,13 @@
 namespace Omeka\File\Store;
 
 use Omeka\File\Exception;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Log\Logger;
 
 /**
  * Local filesystem file store
  */
 class LocalStore implements StoreInterface
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * Local base path.
      *
@@ -26,10 +24,15 @@ class LocalStore implements StoreInterface
     protected $baseUri;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param string $basePath
      * @param string $baseUri
      */
-    public function __construct($basePath, $baseUri)
+    public function __construct($basePath, $baseUri, Logger $logger)
     {
         if (!(is_dir($basePath) && is_writable($basePath))) {
             throw new Exception\RuntimeException(
@@ -39,6 +42,7 @@ class LocalStore implements StoreInterface
 
         $this->basePath = realpath($basePath);
         $this->baseUri = $baseUri;
+        $this->logger = $logger;
     }
 
     /**
@@ -64,7 +68,7 @@ class LocalStore implements StoreInterface
     {
         $localPath = $this->getLocalPath($storagePath);
         if (!file_exists($localPath)) {
-            $this->getServiceLocator()->get('Omeka\Logger')->warn(sprintf(
+            $this->logger->warn(sprintf(
                 'Cannot delete file; file does not exist %s', $localPath
             ));
             return;

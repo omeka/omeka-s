@@ -15,7 +15,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     /**
      * The vocabulary IRI used to define Omeka application data.
      */
-    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/s/vocabulary#';
+    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/s/vocabs/o#`';
 
     /**
      * The JSON-LD term that expands to the vocabulary IRI.

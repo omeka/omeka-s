@@ -156,6 +156,8 @@ return [
             'Omeka\RdfImporter'           => 'Omeka\Service\RdfImporterFactory',
             'Omeka\Settings'            => 'Omeka\Service\SettingsFactory',
             'Omeka\SiteSettings'        => 'Omeka\Service\SiteSettingsFactory',
+            'Omeka\JobDispatchStrategy\PhpCli'      => 'Omeka\Service\JobDispatchStrategy\PhpCliFactory',
+            'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Service\JobDispatchStrategy\SynchronousFactory',
         ],
         'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
@@ -167,8 +169,6 @@ return [
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
-            'Omeka\JobDispatchStrategy\PhpCli'      => 'Omeka\Job\Strategy\PhpCliStrategy',
-            'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Job\Strategy\SynchronousStrategy',
         ],
         'aliases' => [
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',

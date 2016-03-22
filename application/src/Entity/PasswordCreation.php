@@ -13,7 +13,7 @@ class PasswordCreation extends AbstractEntity
 {
     /**
      * @Id
-     * @Column(length=32)
+     * @Column(options={"collation"="utf8mb4_bin"}, length=32)
      */
     protected $id;
 

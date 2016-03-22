@@ -276,10 +276,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function batchCreate(Request $request)
     {
-        $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = [];
         foreach ($request->getContent() as $key => $datum) {
+            $errorStore = new ErrorStore;
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());

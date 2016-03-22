@@ -109,9 +109,11 @@ class DbTestCase extends TestCase
                 ]);
 
             if (!$installer->install()) {
+                file_put_contents('php://stdout', "Error(s) installing:\n");
                 foreach ($installer->getErrors() as $error) {
-                    error_log("Install error: $error");
+                    file_put_contents('php://stdout', "\t$error\n");
                 }
+                exit;
             }
         }
     }

@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Install a fresh database.
-error_log('Dropping test database schema...');
+file_put_contents('php://stdout', "Dropping test database schema...\n");
 \Omeka\Test\DbTestCase::dropSchema();
-error_log('Creating test database schema...');
+file_put_contents('php://stdout', "Creating test database schema...\n");
 \Omeka\Test\DbTestCase::installSchema();

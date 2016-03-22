@@ -8,6 +8,10 @@ $sortHeadings = [
         'value' => 'title'
     ],
     [
+        'label' => $this->translate('URL slug'),
+        'value' => 'slug'
+    ],
+    [
         'label' => $this->translate('Owner'),
         'value' => 'owner_name'
     ]
@@ -30,6 +34,7 @@ $sortHeadings = [
     <thead>
         <tr>
             <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('URL slug'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
         </tr>
     </thead>
@@ -74,6 +79,7 @@ $sortHeadings = [
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                 </ul>
             </td>
+            <td><?php echo $escape($site->slug()); ?></td>
             <td><?php echo $ownerText; ?></td>
         </tr>
         <?php endforeach; ?>

@@ -194,7 +194,6 @@ Your reset link will expire on %4$s.');
                 $installationTitle
             ))
             ->setBody($body);
-        var_dump($message); die();
         $this->send($message);
     }
 

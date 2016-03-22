@@ -2,12 +2,14 @@
 namespace Omeka\Installation;
 
 use Omeka\Stdlib\ErrorStore;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Installer implements ServiceLocatorAwareInterface
+class Installer
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * @var array Registered pre-installation tasks.
@@ -23,6 +25,11 @@ class Installer implements ServiceLocatorAwareInterface
      * @var array Error messages
      */
     protected $errors = [];
+
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * Run pre-installation checks.
@@ -165,5 +172,15 @@ class Installer implements ServiceLocatorAwareInterface
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Get the service locator.
+     *
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }

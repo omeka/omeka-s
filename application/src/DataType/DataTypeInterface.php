@@ -2,6 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Entity\Value;
+use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Representation\ValueRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -47,8 +48,9 @@ interface DataTypeInterface
      *
      * @param array $valueObject
      * @param Value $value
+     * @param AbstractEntityAdapter $adapter
      */
-    public function hydrate(array $valueObject, Value $value);
+    public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter);
 
     /**
      * Get the markup used to render the value.

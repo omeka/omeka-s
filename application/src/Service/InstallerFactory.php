@@ -19,7 +19,7 @@ class InstallerFactory implements FactoryInterface
         if (!isset($config['installer']['tasks'])) {
             throw new Exception\ConfigException('Missing installer configuration');
         }
-        $installer = new Installer;
+        $installer = new Installer($serviceLocator);
         foreach ($config['installer']['pre_tasks'] as $task) {
             $this->validateTask($task);
             $installer->registerPreTask($task);

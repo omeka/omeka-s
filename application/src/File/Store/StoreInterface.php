@@ -1,14 +1,12 @@
 <?php
 namespace Omeka\File\Store;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-
 /**
  * Interface for a store of files.
  *
  * File stores abstract over simple file operations.
  */
-interface StoreInterface extends ServiceLocatorAwareInterface
+interface StoreInterface
 {
     /**
      * Store a file.

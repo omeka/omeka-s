@@ -1,12 +1,29 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Log\LoggerInterface;
 
-class Cli implements ServiceLocatorAwareInterface
+class Cli
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var string
+     */
+    protected $executeStrategy;
+
+    /**
+     * @param LoggerInterface $logger
+     * @param string $executeStrategy
+     */
+    public function __construct(LoggerInterface $logger, $executeStrategy)
+    {
+        $this->logger = $logger;
+        $this->executeStrategy = $executeStrategy;
+    }
 
     /**
      * Get a command path.
@@ -60,14 +77,7 @@ class Cli implements ServiceLocatorAwareInterface
      */
     public function execute($command)
     {
-        $config = $this->getServiceLocator()->get('Config');
-
-        $strategy = null;
-        if (isset($config['cli']['execute_strategy'])) {
-            $strategy = $config['cli']['execute_strategy'];
-        }
-
-        switch ($strategy) {
+        switch ($this->executeStrategy) {
             case 'proc_open':
                 $output = $this->procOpen($command);
                 break;
@@ -128,7 +138,7 @@ class Cli implements ServiceLocatorAwareInterface
         $exitCode = proc_close($proc);
         if (0 !== $exitCode) {
             // Log standard error
-            $this->getServiceLocator()->get('Omeka\Logger')->err($errors);
+            $this->logger->err($errors);
             return false;
         }
         return trim($output);

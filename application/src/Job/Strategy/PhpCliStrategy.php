@@ -3,11 +3,38 @@ namespace Omeka\Job\Strategy;
 
 use Omeka\Job\Exception;
 use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Omeka\Service\Cli;
 
 class PhpCliStrategy implements StrategyInterface
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var Cli
+     */
+    protected $cli;
+
+    /**
+     * @var string
+     */
+    protected $basePath;
+
+    /**
+     * @var string|null
+     */
+    protected $phpPath;
+
+    /**
+     * Create the PHP-CLI-based job dispatch strategy.
+     *
+     * @param Cli $cli CLI service
+     * @param string $basePath Base URL for the installation
+     * @param string|null $phpPath Path to the PHP CLI
+     */
+    public function __construct(Cli $cli, $basePath, $phpPath = null)
+    {
+        $this->cli = $cli;
+        $this->basePath = $basePath;
+        $this->phpPath = $phpPath;
+    }
 
     /**
      * Perform the job in the background.
@@ -24,32 +51,28 @@ class PhpCliStrategy implements StrategyInterface
      */
     public function send(Job $job)
     {
-        $config = $this->getServiceLocator()->get('Config');
-        $cli = $this->getServiceLocator()->get('Omeka\Cli');
-
-        if (isset($config['cli']['phpcli_path']) && $config['cli']['phpcli_path']) {
-            $phpPath = $cli->validateCommand($config['cli']['phpcli_path']);
+        if ($this->phpPath) {
+            $phpPath = $this->cli->validateCommand($this->phpPath);
             if (false === $phpPath) {
                 throw new Exception\RuntimeException('PHP-CLI error: invalid PHP path.');
             }
         } else {
-            $phpPath = $cli->getCommandPath('php');
+            $phpPath = $this->cli->getCommandPath('php');
             if (false === $phpPath) {
                 throw new Exception\RuntimeException('PHP-CLI error: cannot determine path to PHP.');
             }
         }
 
         $script = OMEKA_PATH . '/data/scripts/perform-job.php';
-        $basePath = $this->getServiceLocator()->get('ViewHelperManager')->get('BasePath');
 
         $command = sprintf(
             '%s %s --job-id %s --base-path %s',
             escapeshellcmd($phpPath),
             escapeshellarg($script),
             escapeshellarg($job->getId()),
-            escapeshellarg($basePath())
+            escapeshellarg($this->basePath)
         );
 
-        $cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));
+        $this->cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));
     }
 }

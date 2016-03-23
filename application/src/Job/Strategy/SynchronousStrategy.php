@@ -4,25 +4,36 @@ namespace Omeka\Job\Strategy;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SynchronousStrategy implements StrategyInterface
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function send(Job $job)
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $entityManager = $this->serviceLocator->get('Omeka\EntityManager');
         register_shutdown_function([$this, 'handleFatalError'], $job, $entityManager);
 
         $job->setStatus(Job::STATUS_IN_PROGRESS);
         $entityManager->flush();
 
         $class = $job->getClass();
-        $jobClass = new $class($job, $this->getServiceLocator());
+        $jobClass = new $class($job, $this->serviceLocator);
         $jobClass->perform();
 
         if (Job::STATUS_STOPPING == $job->getStatus()) {

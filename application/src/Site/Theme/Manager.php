@@ -1,13 +1,8 @@
 <?php
 namespace Omeka\Site\Theme;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-
-class Manager implements ServiceLocatorAwareInterface
+class Manager
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var array Registered themes
      */

@@ -1,13 +1,8 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-
-class HtmlPurifier implements ServiceLocatorAwareInterface
+class HtmlPurifier
 {
-    use ServiceLocatorAwareTrait;
-
     protected $config;
     protected $purifier;
     protected $useHtmlPurifier;

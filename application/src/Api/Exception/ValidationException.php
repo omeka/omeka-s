@@ -33,4 +33,21 @@ class ValidationException extends BadRequestException
         }
         return $this->errorStore;
     }
+
+    /**
+     * Include underlying errors in exception string output
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $format = "exception '%s' in %s:%s\nErrors:\n%s\nStack trace:\n%s";
+        return sprintf($format,
+            get_class($this),
+            $this->getFile(),
+            $this->getLine(),
+            json_encode($this->getErrorStore()->getErrors(), JSON_PRETTY_PRINT),
+            $this->getTraceAsString()
+        );
+    }
 }

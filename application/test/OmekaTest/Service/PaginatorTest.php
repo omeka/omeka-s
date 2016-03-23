@@ -6,25 +6,6 @@ use Omeka\Test\TestCase;
 
 class PaginatorTest extends TestCase
 {
-    public function testSetServiceLocator()
-    {
-        $perPage = 10;
-
-        $settings = $this->getMock('Omeka\Settings\Settings');
-        $settings->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('pagination_per_page'), $this->equalTo(25))
-            ->will($this->returnValue($perPage));
-        $serviceManager = $this->getServiceManager([
-            'Omeka\Settings' => $settings,
-        ]);
-
-        $paginator = new Paginator;
-        $paginator->setServiceLocator($serviceManager);
-        $this->assertEquals($perPage, $paginator->getPerPage());
-        $this->assertSame($serviceManager, $paginator->getServiceLocator());
-    }
-
     public function testSetCurrentPage()
     {
         $paginator = new Paginator;

@@ -276,10 +276,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function batchCreate(Request $request)
     {
-        $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = [];
         foreach ($request->getContent() as $key => $datum) {
+            $errorStore = new ErrorStore;
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());
@@ -387,8 +387,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // entity in its original state.
         $this->authorize($entity, $operation);
 
-        // Trigger the operation's api.validate.data.pre event.
-        $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, [
+        // Trigger the operation's api.hydrate.pre event.
+        $event = new Event(Event::API_HYDRATE_PRE, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
@@ -407,8 +407,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $this->hydrate($request, $entity, $errorStore);
 
-        // Trigger the operation's api.validate.entity.pre event.
-        $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, [
+        // Trigger the operation's api.hydrate.post event.
+        $event = new Event(Event::API_HYDRATE_POST, $this, [
             'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,

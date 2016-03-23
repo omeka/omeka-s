@@ -73,7 +73,9 @@ class EntityManagerFactory implements FactoryInterface
         $em->getFilters()->getFilter('visibility')->setServiceLocator($serviceLocator);
 
         // Register a custom mapping type for an IP address.
-        Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
+        if (!Type::hasType('ip_address')) {
+            Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
+        }
 
         return $em;
     }

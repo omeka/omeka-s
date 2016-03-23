@@ -2,12 +2,19 @@
 namespace Omeka\Site\Navigation;
 
 use Omeka\Api\Representation\SiteRepresentation;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Omeka\Site\Navigation\Link\Manager as LinkManager;
 
-class Translator implements ServiceLocatorAwareInterface
+class Translator
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var LinkManager
+     */
+    protected $linkManager;
+
+    public function __construct(LinkManager $linkManager)
+    {
+        $this->linkManager = $linkManager;
+    }
 
     /**
      * Translate Omeka site navigation to Zend Navigation format.
@@ -17,7 +24,7 @@ class Translator implements ServiceLocatorAwareInterface
      */
     public function toZend(SiteRepresentation $site)
     {
-        $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
+        $manager = $this->linkManager;
         $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
         {
             $linksOut = [];
@@ -51,7 +58,7 @@ class Translator implements ServiceLocatorAwareInterface
      */
     public function toJstree(SiteRepresentation $site)
     {
-        $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
+        $manager = $this->linkManager;
         $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
         {
             $linksOut = [];

@@ -18,13 +18,14 @@ class LocalStoreFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $logger = $serviceLocator->get('Omeka\Logger');
         $viewHelpers = $serviceLocator->get('ViewHelperManager');
         $serverUrl = $viewHelpers->get('ServerUrl');
         $basePath = $viewHelpers->get('BasePath');
 
         $localPath = OMEKA_PATH . '/files';
         $webPath = $serverUrl($basePath('files'));
-        $fileStore = new LocalStore($localPath, $webPath);
+        $fileStore = new LocalStore($localPath, $webPath, $logger);
         return $fileStore;
     }
 }

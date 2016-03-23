@@ -438,11 +438,6 @@ header {
 .left.file,
 .right.file {
     max-width: 50%;
-    display: -ms-grid;
-    -ms-grid-columns: min-content;
-    width: -moz-min-content;
-    width: -webkit-min-content;
-    width: min-content;
 }
 
 .left.file {

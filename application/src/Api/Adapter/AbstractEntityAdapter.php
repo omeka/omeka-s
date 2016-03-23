@@ -379,7 +379,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
      */
-    protected function hydrateEntity(Request $request,
+    public function hydrateEntity(Request $request,
         EntityInterface $entity, ErrorStore $errorStore
     ) {
         $operation = $request->getOperation();
@@ -459,7 +459,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param Request|null $request
      * @return EntityInterface
      */
-    protected function findEntity($criteria, $request = null)
+    public function findEntity($criteria, $request = null)
     {
         if (!is_array($criteria)) {
             $criteria = ['id' => $criteria];

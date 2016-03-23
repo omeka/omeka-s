@@ -249,6 +249,7 @@ return [
             'itemSetSelect'          => 'Omeka\View\Helper\ItemSetSelect',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
+            'siteSelect'    => 'Omeka\View\Helper\SiteSelect',
             'deleteConfirm'          => 'Omeka\View\Helper\DeleteConfirm',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',

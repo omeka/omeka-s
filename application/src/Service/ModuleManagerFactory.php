@@ -17,7 +17,7 @@ class ModuleManagerFactory implements FactoryInterface
 {
     /**
      * Create the module manager
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return array
      */

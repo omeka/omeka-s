@@ -6,13 +6,10 @@ use Omeka\Entity\Module as ModuleEntity;
 use Omeka\Permissions\Exception as AclException;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Manager implements ServiceLocatorAwareInterface, ResourceInterface
+class Manager implements ResourceInterface
 {
-    use ServiceLocatorAwareTrait;
-
     const STATE_ACTIVE         = 'active';
     const STATE_NOT_ACTIVE     = 'not_active';
     const STATE_NOT_INSTALLED  = 'not_installed';
@@ -55,6 +52,16 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
      * @var TranslatorInterface
      */
     protected $translator;
+
+    /**
+     * @var ServiceLocatorInterface;
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * Register a new module
@@ -219,7 +226,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
 
         // Invoke the module's install method
         $this->getModuleObject($module)->install(
-            $this->getServiceLocator()
+            $this->serviceLocator
         );
 
         // Persist the module entity
@@ -257,7 +264,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
 
         // Invoke the module's uninstall method
         $this->getModuleObject($module)->uninstall(
-            $this->getServiceLocator()
+            $this->serviceLocator
         );
 
         // Remove the module entity
@@ -300,7 +307,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
         $this->getModuleObject($module)->upgrade(
             $oldVersion,
             $newVersion,
-            $this->getServiceLocator()
+            $this->serviceLocator
         );
 
         // Update the module entity
@@ -342,8 +349,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
      */
     protected function getModuleObject(Module $module)
     {
-        $moduleObject = $this->getServiceLocator()
-            ->get('ModuleManager')->getModule($module->getId());
+        $moduleObject = $this->serviceLocator->get('ModuleManager')->getModule($module->getId());
         if (null !== $moduleObject) {
             return $moduleObject;
         }
@@ -359,8 +365,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
     protected function getEntityManager()
     {
         if (null === $this->entityManager) {
-            $this->entityManager = $this->getServiceLocator()
-                ->get('Omeka\EntityManager');
+            $this->entityManager = $this->serviceLocator->get('Omeka\EntityManager');
         }
         return $this->entityManager;
     }
@@ -373,7 +378,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
     public function getTranslator()
     {
         if (!$this->translator instanceof TranslatorInterface) {
-            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+            $this->translator = $this->serviceLocator->get('MvcTranslator');
         }
         return $this->translator;
     }
@@ -387,7 +392,7 @@ class Manager implements ServiceLocatorAwareInterface, ResourceInterface
      */
     protected function authorize(Module $module, $privilege)
     {
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $acl = $this->serviceLocator->get('Omeka\Acl');
         if (!$acl->userIsAllowed($this, $privilege)) {
             throw new AclException\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(

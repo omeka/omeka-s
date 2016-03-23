@@ -23,7 +23,7 @@ class ModuleManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $manager = new ModuleManager;
+        $manager = new ModuleManager($serviceLocator);
         $iniReader = new IniReader;
         $connection = $serviceLocator->get('Omeka\Connection');
 

@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Event\Event;
+use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -10,12 +11,13 @@ class Trigger extends AbstractHelper
     /**
      * Construct the helper.
      *
+     * @param EventManagerInterface $eventManager
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(EventManagerInterface $eventManager, ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-        $this->events = $serviceLocator->get('EventManager');
+        $this->events = $eventManager;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Omeka\Settings\SettingsInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -10,18 +10,18 @@ use Zend\View\Helper\AbstractHelper;
 class Setting extends AbstractHelper
 {
     /**
-     * @var \Omeka\Service\Settings
+     * @var SettingsInterface
      */
     protected $settings;
 
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param SettingsInterface $settings
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(SettingsInterface $settings)
     {
-        $this->settings = $serviceLocator->get('Omeka\Settings');
+        $this->settings = $settings;
     }
 
     /**

@@ -4,17 +4,20 @@ namespace Omeka\View\Helper;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
 use Zend\Form\Element\Hidden;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class BlockLayout extends AbstractHelper
 {
+    /**
+     * @var BlockLayoutManager
+     */
     protected $manager;
 
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(BlockLayoutManager $manager)
     {
-        $this->manager = $serviceLocator->get('Omeka\BlockLayoutManager');
+        $this->manager = $manager;
     }
 
     /**

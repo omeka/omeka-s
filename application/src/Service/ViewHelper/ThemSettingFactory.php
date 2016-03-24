@@ -1,6 +1,6 @@
 <?php
 
-namespace Omeka\Service;
+namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\ThemeSetting;
 use Zend\ServiceManager\FactoryInterface;
@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Service factory for the assetUrl view helper.
  */
-class ViewHelperThemeSettingFactory implements FactoryInterface
+class ThemeSettingFactory implements FactoryInterface
 {
     /**
      * Create and return the assetUrl view helper

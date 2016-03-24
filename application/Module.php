@@ -23,24 +23,6 @@ class Module extends AbstractModule
     const VERSION = '0.5.1-alpha';
 
     /**
-     * @var array View helpers that need service manager injection
-     */
-    protected $viewHelpers = [
-        'api'        => 'Omeka\View\Helper\Api',
-        'i18n'       => 'Omeka\View\Helper\I18n',
-        'media'      => 'Omeka\View\Helper\Media',
-        'pagination' => 'Omeka\View\Helper\Pagination',
-        'trigger'    => 'Omeka\View\Helper\Trigger',
-        'setting'    => 'Omeka\View\Helper\Setting',
-        'params'     => 'Omeka\View\Helper\Params',
-        'dataType'   => 'Omeka\View\Helper\DataType',
-        'blockLayout' => 'Omeka\View\Helper\BlockLayout',
-        'userIsAllowed' => 'Omeka\View\Helper\UserIsAllowed',
-        'navigationLink' => 'Omeka\View\Helper\NavigationLink',
-        'deleteConfirmForm' => 'Omeka\View\Helper\DeleteConfirmForm'
-    ];
-
-    /**
      * {@inheritDoc}
      */
     public function onBootstrap(MvcEvent $event)
@@ -381,13 +363,6 @@ class Module extends AbstractModule
     {
         $services = $this->getServiceLocator();
         $manager = $services->get('ViewHelperManager');
-
-        // Inject the service manager into view helpers that need it.
-        foreach ($this->viewHelpers as $name => $class) {
-            $manager->setFactory($name, function ($manager) use ($class, $services) {
-                return new $class($services);
-            });
-        }
 
         // Set the custom form row partial.
         $manager->get('FormRow')->setPartial('common/form-row');

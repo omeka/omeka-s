@@ -1,21 +1,24 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\DataType\Manager as DataTypeManager;
 use Zend\Form\Element\Select;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class DataType extends AbstractHelper
 {
+    /**
+     * @var DataTypeManager
+     */
     protected $manager;
 
     protected $dataTypes;
 
     protected $valueOptions = [];
 
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(DataTypeManager $dataTypeManager)
     {
-        $this->manager = $serviceLocator->get('Omeka\DataTypeManager');
+        $this->manager = $dataTypeManager;
         $this->dataTypes = $this->manager->getRegisteredNames();
         foreach ($this->dataTypes as $dataType) {
             $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel();

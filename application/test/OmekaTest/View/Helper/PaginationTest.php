@@ -59,12 +59,6 @@ class PaginationTest extends TestCase
             ->method('getNextPage')
             ->will($this->returnValue($nextPage));
 
-        // ServiceManager
-        $serviceManager = $this->getServiceManager([
-            'Request' => $request,
-            'Omeka\Paginator' => $paginator,
-        ]);
-
         // View
         $view = $this->getMock(
             'Zend\View\Renderer\PhpRenderer',
@@ -101,7 +95,7 @@ class PaginationTest extends TestCase
             ->method('params')
             ->will($this->returnValue($params));
 
-        $pagination = new Pagination($serviceManager);
+        $pagination = new Pagination($paginator);
         $pagination->setView($view);
         $pagination->__invoke($totalCount, $currentPage, $perPage, $name);
         $pagination->__toString();

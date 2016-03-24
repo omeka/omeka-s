@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Manager as ApiManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -18,11 +17,11 @@ class Api extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ApiManager $apiManager
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ApiManager $apiManager)
     {
-        $this->apiManager = $serviceLocator->get('Omeka\ApiManager');
+        $this->apiManager = $apiManager;
     }
 
     /**

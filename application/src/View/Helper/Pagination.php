@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Omeka\Service\Paginator;
 use Zend\View\Helper\AbstractHelper;
 
 class Pagination extends AbstractHelper
@@ -26,11 +26,11 @@ class Pagination extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Paginator $paginator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Paginator $paginator)
     {
-        $this->paginator = $serviceLocator->get('Omeka\Paginator');
+        $this->paginator = $paginator;
     }
 
     /**

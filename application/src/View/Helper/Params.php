@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Mvc\Controller\Plugin\Params as ParamsPlugin;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -10,19 +10,18 @@ use Zend\View\Helper\AbstractHelper;
 class Params extends AbstractHelper
 {
     /**
-     * @var \Zend\Mvc\Controller\Plugin\Params
+     * @var ParamsPlugin
      */
     protected $params;
 
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ParamsPlugin $params
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ParamsPlugin $params)
     {
-        $this->params = $serviceLocator->get('ControllerPluginManager')
-            ->get('Params');
+        $this->params = $params;
     }
 
     public function fromFiles($name = null, $default = null)

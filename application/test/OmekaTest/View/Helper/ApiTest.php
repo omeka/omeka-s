@@ -17,11 +17,8 @@ class ApiTest extends TestCase
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($expectedReturnValue));
-        $serviceManager = $this->getServiceManager(
-            ['Omeka\ApiManager' => $apiManager]
-        );
 
-        $apiHelper = new Api($serviceManager);
+        $apiHelper = new Api($apiManager);
         $returnValue = $apiHelper->search($resource, $data);
         $this->assertEquals($expectedReturnValue, $returnValue);
     }
@@ -42,11 +39,8 @@ class ApiTest extends TestCase
                 $this->equalTo($data)
             )
             ->will($this->returnValue($expectedReturnValue));
-        $serviceManager = $this->getServiceManager(
-            ['Omeka\ApiManager' => $apiManager]
-        );
 
-        $apiHelper = new Api($serviceManager);
+        $apiHelper = new Api($apiManager);
         $returnValue = $apiHelper->read($resource, $id, $data);
         $this->assertEquals($expectedReturnValue, $returnValue);
     }

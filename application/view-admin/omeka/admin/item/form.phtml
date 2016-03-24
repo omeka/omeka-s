@@ -5,27 +5,16 @@ $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
 
-$sectionNavArgs = ['section_nav' => [
+$sectionNavs = [
     'resource-values' => $this->translate('Values'),
     'item-media' => $this->translate('Media'),
     'item-sets' => $this->translate('Item Sets'),
-]];
-$sectionNavArgs = $this->trigger($sectionNavEvent, $sectionNavArgs, true);
+];
 ?>
-
 
 <?php echo $this->form()->openTag($form); ?>
 
-<nav class="section-nav">
-    <ul>
-        <?php
-        $firstId = key($sectionNavArgs['section_nav']);
-        foreach ($sectionNavArgs['section_nav'] as $id => $label):
-        ?>
-        <li<?php if ($id === $firstId): echo ' class="active"'; endif; ?>><a href="#<?php echo $this->escapeHtml($id); ?>"><?php echo $this->escapeHtml($label); ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
+<?php echo $this->sectionNav($sectionNavs, $sectionNavEvent); ?>
 
     <?php
     //produces a <fieldset> with the id and class atts passed in.

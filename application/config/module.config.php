@@ -254,6 +254,7 @@ return [
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
+            'sectionNav' => 'Omeka\View\Helper\SectionNav',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

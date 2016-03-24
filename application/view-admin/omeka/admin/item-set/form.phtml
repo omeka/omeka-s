@@ -3,15 +3,16 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'))
 $form->prepare();
 $formElement = $this->plugin('formElement');
 $escape = $this->plugin('escapeHtml');
+
+$sectionNavs = [
+    'resource-values' => $this->translate('Values'),
+];
 ?>
 
-
 <?php echo $this->form()->openTag($form); ?>
-<nav class="section-nav">
-    <ul>
-        <li class="active"><a href="#resource-values"><?php echo $this->translate('Values'); ?></a></li>
-    </ul>
-</nav>
+
+<?php echo $this->sectionNav($sectionNavs, $sectionNavEvent); ?>
+
 <?php
 //produces a <fieldset> with the id and class atts passed in.
 //on, e.g., the item add/edit pages, the id will work with the classes on

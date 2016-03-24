@@ -417,17 +417,14 @@ th {
     text-decoration: none;
   }
 
-  a:link {
-    color: #ff6666;
-  }
-
+  a:link,
   a:visited {
-    color: #e61a1a;
+    color: #A91919;
   }
 
   a:active,
   a:hover {
-    color: #FF0000;
+    color: #e34545;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -455,11 +452,6 @@ th {
     margin-bottom: 1em;
   }
 
-  h4 {
-    font-size: 20px;
-    margin-bottom: 1.2em;
-  }
-
   p {
     margin: 1.5em 0;
   }
@@ -475,11 +467,12 @@ th {
   }
 
   body {
-    background-color: #e7e7e7;
-    font-family: "Source Sans Pro", sans-serif;
+    background-color: #fff;
+    font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
     padding-left: 1.04167%;
+    color: #676767;
   }
 
   /* @group ----- Tables ----- */
@@ -494,8 +487,8 @@ th {
 
   th,
   td {
-    padding: 0.75em 1.04167%;
-    border-color: #d7d7d7;
+    padding: 0 0.375em;
+    border-color: rgba(0, 0, 0, 0.04);
     border-top-width: 0.0625em;
     border-top-style: solid;
     padding-top: 0.6875em;
@@ -503,7 +496,7 @@ th {
   }
 
   thead + tbody tr:first-child {
-    border-color: #d7d7d7;
+    border-color: rgba(0, 0, 0, 0.04);
   }
 
   table {
@@ -511,7 +504,7 @@ th {
   }
 
   tr {
-    background-color: #f2f2f2;
+    background-color: #fff;
   }
 
   td,
@@ -539,7 +532,7 @@ th {
   input,
   textarea,
   button {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
     margin: 0;
@@ -596,7 +589,7 @@ th {
   a.button,
   .button {
     min-height: 1.875em;
-    background-color: #ff6666;
+    background-color: #A91919;
     color: #fff;
     border-radius: 3px;
     border: 0;
@@ -610,7 +603,7 @@ th {
   button:hover,
   a.button:hover,
   .button:hover {
-    background-color: #FF0000;
+    background-color: #A91919;
   }
   input[type="submit"]:active, input[type="submit"].active,
   button:active,
@@ -619,7 +612,7 @@ th {
   a.button.active,
   .button:active,
   .button.active {
-    background-color: #FF0000;
+    background-color: #A91919;
   }
   input[type="submit"].inactive,
   button.inactive,
@@ -639,17 +632,17 @@ th {
     font-size: 12px;
     position: absolute;
     right: 0.75em;
-    color: #ff6666;
+    color: #A91919;
     top: 0.375em;
   }
 
   *:invalid {
-    outline-color: #FF0000;
+    outline-color: #A91919;
   }
 
   .field {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -662,7 +655,7 @@ th {
     width: 100%;
     padding: 0.75em 0.375em;
     margin-bottom: 0.375em;
-    background-color: #e7e7e7;
+    background-color: rgba(0, 0, 0, 0.04);
     position: relative;
   }
   .media-field-wrapper .field {
@@ -737,7 +730,7 @@ th {
     margin: 0 0 0.375em;
   }
   div[role="main"] > .messages .error {
-    background-color: #ffe6e6;
+    background-color: #f4b4b4;
   }
   div[role="main"] > .messages .success {
     background-color: #cdffcd;
@@ -762,11 +755,11 @@ th {
 
   .field .messages {
     width: 100%;
-    color: #FF0000;
+    color: #A91919;
   }
 
   .error {
-    color: #FF0000;
+    color: #A91919;
   }
 
   .success {
@@ -785,7 +778,7 @@ th {
 
   .row {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -843,10 +836,15 @@ th {
     background-color: #fff;
     padding: 0.375em;
     border-radius: 0 0 3px 3px;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-width: 0.0625em;
     border-style: solid;
     padding: -0.0625em;
+  }
+
+  .logo a,
+  #user a {
+    color: #bdcde3;
   }
 
   #user {
@@ -854,13 +852,14 @@ th {
     margin: 0;
     position: fixed;
     top: 0;
-    background-color: #333;
     width: 100%;
     left: 0;
-    color: #E7E7E7;
     text-align: right;
     padding: 0.375em 1.04167%;
     z-index: 1000;
+    background-color: #404E61;
+    color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   }
 
   #user p {
@@ -938,7 +937,7 @@ th {
     left: 20.83333%;
     right: 0;
     margin-bottom: 0;
-    border-color: #e7e7e7;
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.04167em;
     border-bottom-style: solid;
     padding-bottom: -0.04167em;
@@ -948,14 +947,14 @@ th {
   }
 
   .site-version {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     border-radius: 3px;
     padding: 0.5em;
     display: inline-block;
     font-size: 12px;
   }
   .site-version .version-label {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     font-weight: bold;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
@@ -1072,7 +1071,7 @@ th {
 
   /* @group ----- Top-level navigation ----- */
   header nav h4 {
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.1875em;
     border-bottom-style: solid;
     padding-bottom: 0.1875em;
@@ -1084,10 +1083,7 @@ th {
   }
 
   header nav ul.navigation > li:not(:last-of-type) {
-    border-color: rgba(0, 0, 0, 0.08);
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.3125em;
+    border-color: rgba(0, 0, 0, 0.04);
   }
 
   header nav ul.navigation li li {
@@ -1105,6 +1101,15 @@ th {
   header nav ul.navigation li.active a:before,
   header nav ul.navigation li.active li:not(.active) {
     font-weight: normal;
+  }
+
+  header nav a:link,
+  header nav a:visited {
+    color: #676767;
+  }
+
+  header nav a:hover {
+    color: #A91919;
   }
 
   header nav a:before {
@@ -1249,6 +1254,7 @@ th {
   .browse td,
   .browse th {
     padding: 0.75em 0.375em;
+    overflow: hidden;
   }
 
   .browse tr:last-of-type td,
@@ -1344,7 +1350,7 @@ th {
 
   .actions button {
     background-color: transparent;
-    color: #ff6666;
+    color: #A91919;
     margin: 0;
     text-indent: -9999px;
     position: relative;
@@ -1396,7 +1402,7 @@ th {
   th a.sortable:hover:after,
   th .sorted-asc:hover:after,
   th .sorted-desc:hover:after {
-    color: #FF0000;
+    color: #A91919;
   }
 
   .sortable:after,
@@ -1501,7 +1507,7 @@ th {
     font-weight: bold;
     padding: 0.375em 0.75em;
     margin: -0.375em -0.75em 0.75em;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
   }
   #advanced-options input {
     float: left;
@@ -1532,7 +1538,7 @@ th {
 
   .filter-label {
     display: inline-block;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     border-radius: 3px 0 0 3px;
   }
 
@@ -1575,7 +1581,7 @@ th {
     right: 0;
     z-index: 0;
     background: #fff;
-    border: 1px solid #e7e7e7;
+    border: 1px solid rgba(0, 0, 0, 0.04);
     border-width: 1px 0;
   }
   .section-nav a {
@@ -1587,8 +1593,8 @@ th {
     position: relative;
     z-index: 1;
     background-color: #fff;
-    border-color: #e7e7e7;
-    border: 1px solid #e7e7e7;
+    border-color: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     margin-left: .25em;
   }
   .section-nav .active a {
@@ -1624,7 +1630,7 @@ th {
     vertical-align: top;
   }
   #page-actions .delete.button {
-    background-color: #b34d4d;
+    background-color: #6f5353;
   }
 
   .add-property.button {
@@ -1648,7 +1654,7 @@ th {
     line-height: 2.25em;
     overflow: hidden;
     text-align: center;
-    color: #FF0000;
+    color: #A91919;
     opacity: .5;
     z-index: 1;
   }
@@ -1668,7 +1674,7 @@ th {
     margin: 0 0 0 0.375em;
     background-color: transparent;
     border: 0;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.04);
     width: 6em;
     min-height: 0;
     padding: 0 0 0 1.875em;
@@ -1703,7 +1709,7 @@ th {
 
   /* @group ----- Metadata ----- */
   #add-item .remove.field {
-    background-color: #ff9999;
+    background-color: #ea7171;
     opacity: .6;
   }
 
@@ -1756,8 +1762,8 @@ th {
     background-color: #fff;
     z-index: 1;
     margin: 0;
-    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04) inset;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04) inset;
   }
   .selector .selector-child .description .o-icon-info:hover + .field-comment:before {
     content: "";
@@ -2065,7 +2071,7 @@ th {
   .inputs p.no-values {
     padding: 0.75em;
     border-radius: 3px;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     line-height: 24px;
   }
   .inputs p.no-values:not(:only-child) {
@@ -2094,7 +2100,7 @@ th {
   }
 
   .add-values label {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     line-height: 36px;
     margin-right: 0;
     overflow: hidden;
@@ -2143,7 +2149,7 @@ th {
     left: 0;
     height: 2.25em;
     width: 2.25em;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     text-align: center;
     line-height: 36px;
     overflow: hidden;
@@ -2177,7 +2183,7 @@ th {
     margin-left: -0.375em;
     padding-right: 0.375em;
     padding-left: 0.375em;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -2262,7 +2268,7 @@ th {
   /* @end */
   /* @group ----- Media ----- */
   .upload-zone {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 3em 1.04167% 1.5em 1.04167%;
     text-align: center;
   }
@@ -2328,7 +2334,7 @@ th {
   .media-header h4 {
     font-size: 16px;
     margin: -0.75em -0.375em 0.375em;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
   }
 
@@ -2383,13 +2389,13 @@ th {
   }
 
   #page-actions [class*="o-icon-"].button {
-    color: #ff6666;
+    color: #A91919;
     background-color: transparent;
     width: auto;
     padding: 0.375em 0.375em;
   }
   #page-actions [class*="o-icon-"].button:hover {
-    color: #FF0000;
+    color: #A91919;
     background-color: transparent;
   }
 
@@ -2464,7 +2470,7 @@ th {
     float: left;
     line-height: 19.62px;
     height: 1.83486em;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.04);
   }
   .search-nav .pagination .page-count {
     float: left;
@@ -2547,7 +2553,7 @@ th {
     border-top-width: 0.0625em;
     border-top-style: solid;
     padding-top: 0.3125em;
-    border-left: 1px solid #d2d2d2;
+    border-left: 1px solid rgba(0, 0, 0, 0.04);
     -moz-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
@@ -2590,7 +2596,7 @@ th {
   }
   .show .property h4,
   .show .meta-group h4 {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     margin-bottom: 0em;
     padding: 0.375em;
   }
@@ -2602,7 +2608,7 @@ th {
   }
   .show .property .value:not(:last-child),
   .show .meta-group .value:not(:last-child) {
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -2646,7 +2652,7 @@ th {
     margin-left: -1.5em;
     padding-right: 1.5em;
     padding-left: 1.5em;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.6875em;
@@ -2670,7 +2676,7 @@ th {
     background-color: #f7f7f7;
     z-index: 3;
     padding: 0.75em;
-    border-left: 1px solid #d2d2d2;
+    border-left: 1px solid rgba(0, 0, 0, 0.04);
     overflow-y: scroll;
     overflow-x: hidden;
     width: 24.47917%;
@@ -2693,7 +2699,7 @@ th {
   }
   .sidebar .value {
     margin-bottom: 0.375em;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -2771,7 +2777,7 @@ th {
     word-wrap: break-word;
   }
   .sidebar .meta-group .value:not(:last-child) {
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -2783,7 +2789,7 @@ th {
 
   .sidebar .meta-group h4 {
     background-color: transparent;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em 0;
     border-bottom-width: 0.125em;
     border-bottom-style: solid;
@@ -2802,7 +2808,7 @@ th {
   .sidebar .meta-group img {
     height: 3em;
     display: inline-block;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-width: 0.0625em;
     border-style: solid;
     padding: -0.0625em;
@@ -2871,7 +2877,7 @@ th {
   }
 
   .resource-template .property.row .sortable-handle {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     width: 100%;
     top: 0;
     left: 0;
@@ -2903,7 +2909,7 @@ th {
   }
   .resource-template #properties > li:first-child {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
@@ -2974,7 +2980,7 @@ th {
     margin-left: -1.5em;
     padding-right: 1.5em;
     padding-left: 1.5em;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.6875em;
@@ -3078,7 +3084,7 @@ th {
   .block .input-header {
     position: relative;
     display: block;
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgba(0, 0, 0, 0.12);
     padding-right: 0.375em;
     padding-left: 2.25em;
     font-weight: bold;
@@ -3105,7 +3111,7 @@ th {
   }
 
   .block.html > div {
-    border: 1px solid #f2f2f2;
+    border: 1px solid rgba(0, 0, 0, 0.04);
     clear: both;
   }
 
@@ -3180,11 +3186,11 @@ th {
   .block .attachment .actions .button {
     display: inline-block;
     background-color: transparent;
-    color: #ff6666;
+    color: #A91919;
     padding: 0;
   }
   .block .attachment .actions .button:hover {
-    color: #FF0000;
+    color: #A91919;
   }
 
   .block .attachment .actions .undo {
@@ -3193,7 +3199,7 @@ th {
 
   .block .block-content {
     clear: both;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
   }
 
@@ -3203,7 +3209,7 @@ th {
 
   .block .attachment {
     padding-left: 1.875em;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: -0.0625em;
@@ -3232,7 +3238,7 @@ th {
 
   .block label.thumbnail-option {
     overflow: hidden;
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -3274,7 +3280,7 @@ th {
   }
 
   #attachment-options .selected-attachment {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     margin-bottom: 0.75em;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
@@ -3329,7 +3335,7 @@ th {
   }
 
   #attachment-options h3 {
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.15em;
     border-bottom-style: solid;
     padding-bottom: 0.15em;
@@ -3348,10 +3354,10 @@ th {
     cursor: pointer;
     display: inline-block;
     padding: 0.1875em;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.04);
   }
   #attachment-options .media-list li.media.attached, #attachment-options .media-list li.media:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
   }
   #attachment-options .media-list img {
     width: 100%;
@@ -3372,14 +3378,14 @@ th {
 
   .nav-page-link {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     padding: 0.375em;
     position: relative;
     margin-bottom: 0.375em;
     cursor: pointer;
   }
   .nav-page-link:hover {
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgba(0, 0, 0, 0.12);
   }
 
   /* @end */
@@ -3416,7 +3422,7 @@ th {
 
   #advanced-search .remove-value {
     background-color: transparent;
-    color: #ff6666;
+    color: #A91919;
     display: inline-block;
     text-indent: -9999px;
     position: relative;
@@ -3432,7 +3438,7 @@ th {
     text-indent: 0;
   }
   #advanced-search .remove-value:hover {
-    color: #FF0000;
+    color: #A91919;
   }
 
   #advanced-search .value {
@@ -3688,7 +3694,7 @@ th {
   }
 
   #mobile-nav a.active {
-    background-color: #990000;
+    background-color: #500c0c;
   }
 
   #user {
@@ -3698,7 +3704,7 @@ th {
   #user p {
     display: block;
     margin: 0.75em 0;
-    background-color: #ff4d4d;
+    background-color: #e02e2e;
     padding: 0.375em 0;
     border-radius: 3px;
   }
@@ -3706,7 +3712,7 @@ th {
     content: "";
   }
   #user p a {
-    color: #ffe6e6;
+    color: #f4b4b4;
   }
 
   #page-actions {
@@ -3759,7 +3765,7 @@ th {
     height: 3em;
     background-color: #fff;
     position: fixed;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
   }
   fieldset.section > .always.active button {
     width: 100%;
@@ -3814,7 +3820,7 @@ th {
     width: 100%;
     font-size: 20px;
     padding: 0.3em 0.45em 0.3em 0;
-    color: #FF0000;
+    color: #A91919;
     cursor: pointer;
     border-color: rgba(0, 0, 0, 0.08);
     border-bottom-width: 0.15em;
@@ -3939,7 +3945,7 @@ th {
   }
 
   .tablesaw td:first-of-type {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.04);
     position: relative;
   }
   .tablesaw td:first-of-type .tablesaw-cell-label {
@@ -3976,7 +3982,7 @@ th {
 
   /* @group ----- Special cases ----- */
   .page.browse .tablesaw {
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.04);
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: -0.0625em;

@@ -19,17 +19,14 @@ a {
     text-decoration: none;
 }
 
-a:link {
-    color: lighten($red, 20%);
-}
-
+a:link,
 a:visited {
-    color: desaturate($red, 20%);
+    color: $red;
 }
 
 a:active,
 a:hover {
-    color: $red;
+    color: lighten($red, 20%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -57,11 +54,6 @@ h3 {
     @include trailer(1, 1.5 * $base-font-size);
 }
 
-h4 {
-    font-size: 1.25 * $base-font-size;
-    @include trailer(1, 1.25 * $base-font-size);
-}
-
 p {
     margin: rhythm() 0;
 }
@@ -77,11 +69,12 @@ body {
 }
 
 body {
-    background-color: #e7e7e7;
-    font-family: "Source Sans Pro", sans-serif;
+    background-color: #fff;
+    font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
     padding-left: gutter();
+    color: #676767;
 }
 
     /* @group ----- Tables ----- */
@@ -97,14 +90,14 @@ body {
 
     th,
     td {
-        padding: rhythm(.5) gutter();
-        border-color: #d7d7d7;
+        padding: 0 rhythm(.25);
+        border-color: $gray-on-white;
         @include leading-border(1px, .5, $base-font-size, solid);
         vertical-align: middle;
     }
 
     thead + tbody tr:first-child {
-        border-color: #d7d7d7;
+        border-color: $gray-on-white;
     }
 
     table {
@@ -112,7 +105,7 @@ body {
     }
 
     tr {
-        background-color: #f2f2f2;
+        background-color: #fff;
     }
 
     td,
@@ -125,8 +118,7 @@ body {
     }
 
     tr:last-of-type td,
-    tr:last-of-type th,
-     {
+    tr:last-of-type th {
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
@@ -141,7 +133,7 @@ body {
     input,
     textarea,
     button {
-        font-family: "Source Sans Pro", sans-serif;
+        font-family: "Lato", sans-serif;
         font-size: $base-font-size;
         line-height: $base-line-height;
         margin: 0;
@@ -191,7 +183,7 @@ body {
     a.button,
     .button {
         min-height: rhythm(1.25);
-        background-color: lighten($red, 20%);
+        background-color: $red;
         color: #fff;
         @include border-radius(3px);
         border: 0;
@@ -225,7 +217,7 @@ body {
             font-size: .75 * $base-font-size;
             position: absolute;
             right: rhythm(.5);
-            color: lighten($red, 20%);
+            color: $red;
             top: rhythm(.25);
         }
     }
@@ -246,7 +238,7 @@ body {
         width:100%;
         padding: rhythm(.5) rhythm(.25);
         @include trailer(.25);
-        background-color: #e7e7e7;
+        background-color: $gray-on-white;
         position: relative;
 
         .field {
@@ -445,18 +437,24 @@ header {
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
+.logo a,
+#user a {
+    color: lighten(saturate($blue, 20%), 50%);
+}
+
 #user {
     display: block;
     margin: 0;
     position: fixed;
     top: 0;
-    background-color: #333;
     width: 100%;
     left: 0;
-    color: #E7E7E7;
     text-align: right;
     padding: rhythm(.25) gutter();
     z-index: 1000;
+    background-color: $blue;
+    color: #fff;
+    border-bottom: 1px solid $gray-on-white;
 }
 
 #user p {
@@ -538,7 +536,7 @@ div[role="main"] > h1:first-of-type {
     left: span(3 of 16) + gutter() * 2;
     right: 0;
     margin-bottom: 0;
-    border-color: #e7e7e7;
+    border-color: $gray-on-white;
     @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -679,7 +677,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav ul.navigation > li:not(:last-of-type) {
         border-color: $gray-on-white;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        //@include trailing-border(1px, .25, $base-font-size, solid);
     }
 
     header nav ul.navigation li li {
@@ -698,6 +696,15 @@ nav.pagination + *:not(.sorting) {
         li:not(.active) {
             font-weight: normal;
         }
+    }
+
+    header nav a:link,
+    header nav a:visited{
+        color: #676767;
+    }
+
+    header nav a:hover {
+        color: $red;
     }
 
     header nav a:before {
@@ -847,6 +854,7 @@ div[role="main"] {
 .browse td,
 .browse th {
     padding: rhythm(.5) rhythm(.25);
+    overflow: hidden;
 }
 
 .browse tr:last-of-type td,
@@ -941,7 +949,7 @@ div[role="main"] {
 
 .actions button {
     background-color: transparent;
-    color: lighten($red, 20%);
+    color: $red;
     margin: 0;
     text-indent: -9999px;
     position: relative;
@@ -1180,7 +1188,7 @@ fieldset.section > legend {
         right: 0;
         z-index: 0;
         background: #fff;
-        border: 1px solid #e7e7e7;
+        border: 1px solid $gray-on-white;
         border-width: 1px 0;
     }
 
@@ -1193,8 +1201,8 @@ fieldset.section > legend {
         position: relative;
         z-index: 1;
         background-color: #fff;
-        border-color: #e7e7e7;
-        border: 1px solid #e7e7e7;
+        border-color: $gray-on-white;
+        border: 1px solid $gray-on-white;
         margin-left: .25em;
     }
 
@@ -2000,7 +2008,7 @@ input[type="text"].value-language,
     }
 
     #page-actions [class*="o-icon-"].button {
-        color: lighten($red, 20%);
+        color: $red;
         background-color: transparent;
         width: auto;
         padding: rhythm(.25) rhythm(.25);
@@ -2185,7 +2193,7 @@ input[type="text"].value-language,
     padding: rhythm(.25) gutter();
     border-color: #d2d2d2;
     @include leading-border(1px, .25, $base-font-size, solid);
-    border-left: 1px solid #d2d2d2;
+    border-left: 1px solid $gray-on-white;
     @include transition-duration(.5s);
 
     button,
@@ -2306,7 +2314,7 @@ input[type="text"].value-language,
     background-color: #f7f7f7;
     z-index: 3;
     padding: rhythm(.5);
-    border-left: 1px solid #d2d2d2;
+    border-left: 1px solid $gray-on-white;
     overflow-y: scroll;
     overflow-x: hidden;
     width: span(4 of 16) - gutter(32);
@@ -2738,7 +2746,7 @@ body.sidebar-open #content {
     }
 
     .block.html > div {
-        border: 1px solid #f2f2f2;
+        border: 1px solid $gray-on-white;
         clear: both;
     }
 
@@ -2813,7 +2821,7 @@ body.sidebar-open #content {
     .block .attachment .actions .button {
         display: inline-block;
         background-color: transparent;
-        color: lighten($red, 20%);
+        color: $red;
         padding: 0;
 
         &:hover {
@@ -3047,7 +3055,7 @@ body.sidebar-open #content {
 
 #advanced-search .remove-value {
     background-color: transparent;
-    color: lighten($red, 20%);
+    color: $red;
     display: inline-block;
     text-indent: -9999px;
     position: relative;

@@ -58,10 +58,7 @@
     }
 }
 
-.jstree-hovered {
-    background-color: transparentize($gray-on-white, .04);
-}
-
+.jstree-hovered,
 .jstree-clicked {
     background-color: opacify($gray-on-white, .08);
 }

@@ -7,6 +7,7 @@
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>
+<?php $this->trigger('view.add.form.after'); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php $this->trigger('view.add.after'); ?>

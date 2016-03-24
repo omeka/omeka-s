@@ -73,6 +73,8 @@ class Event extends ZendEvent
     const VIEW_BROWSE_AFTER = 'view.browse.after';
     const VIEW_ADD_AFTER    = 'view.add.after';
     const VIEW_EDIT_AFTER   = 'view.edit.after';
+    const VIEW_ADD_FORM_AFTER   = 'view.add.form.after';
+    const VIEW_EDIT_FORM_AFTER  = 'view.edit.form.after';
     const VIEW_SHOW_SECTION_NAV = 'view.show.section_nav';
     const VIEW_ADD_SECTION_NAV  = 'view.add.section_nav';
     const VIEW_EDIT_SECTION_NAV = 'view.edit.section_nav';

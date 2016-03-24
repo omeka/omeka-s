@@ -62,6 +62,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
     </fieldset>
     <?php echo $this->formElement($form->get('csrf')); ?>
+    <?php $this->trigger('view.edit.form.after'); ?>
 </form>
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>

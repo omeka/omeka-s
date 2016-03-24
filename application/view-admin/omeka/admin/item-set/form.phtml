@@ -62,7 +62,7 @@ echo $this->partial(
         <input type="submit" name="add-item-set-submit" value="<?php echo $this->translate('Save'); ?>">
     </fieldset>
 <?php echo $formElement($form->get('csrf')); ?>
-
+<?php $this->trigger($formAfterEvent); ?>
 </form>
 
 <?php

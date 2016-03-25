@@ -144,6 +144,7 @@ return [
             'Omeka\Site\ThemeManager'     => 'Omeka\Service\ThemeManagerFactory',
             'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Service\SiteNavigationTranslatorFactory',
+            'Omeka\File\ImageMagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImageMagickFactory',
             'Omeka\File\LocalStore'       => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap'     => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager'          => 'Omeka\Service\FileManagerFactory',
@@ -165,10 +166,8 @@ return [
             'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\File'                => 'Omeka\File\File',
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
-            'Omeka\File\ImageMagickThumbnailer' => 'Omeka\File\Thumbnailer\ImageMagickThumbnailer',
         ],
         'aliases' => [
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
@@ -178,7 +177,6 @@ return [
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
             'Omeka\File\GdThumbnailer' => false,
-            'Omeka\File' => false,
         ],
     ],
     'controllers' => [

@@ -57,13 +57,14 @@ class Url extends AbstractIngester
             return;
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\File');
+        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $file = $fileManager->getTempFile();
         $file->setSourceName($uri->getPath());
         if (!$this->downloadFile($uri, $file->getTempPath(), $errorStore)) {
             return;
         }
 
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+
         $hasThumbnails = $fileManager->storeThumbnails($file);
         $media->setHasThumbnails($hasThumbnails);
 
@@ -72,7 +73,7 @@ class Url extends AbstractIngester
             $media->setHasOriginal(true);
         }
 
-        $media->setFilename($file->getStorageName());
+        $media->setFilename($fileManager->getStorageName($file));
         $media->setMediaType($file->getMediaType());
 
         if (!array_key_exists('o:source', $data)) {

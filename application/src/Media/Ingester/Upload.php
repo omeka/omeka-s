@@ -53,7 +53,7 @@ class Upload extends AbstractIngester
         }
 
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        $file = $this->getServiceLocator()->get('Omeka\File');
+        $file = $fileManager->getTempFile();
 
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload([
@@ -76,7 +76,7 @@ class Upload extends AbstractIngester
         $hasThumbnails = $fileManager->storeThumbnails($file);
         $fileManager->storeOriginal($file);
 
-        $media->setFilename($file->getStorageName());
+        $media->setFilename($fileManager->getStorageName($file));
         $media->setMediaType($file->getMediaType());
         $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);

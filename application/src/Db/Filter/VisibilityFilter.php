@@ -4,7 +4,7 @@ namespace Omeka\Db\Filter;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Check that the current user can view a resource entity.
@@ -13,7 +13,10 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  */
 class VisibilityFilter extends SQLFilter
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     public function addFilterConstraint(ClassMetadata $targetEntity,
         $targetTableAlias
@@ -22,25 +25,28 @@ class VisibilityFilter extends SQLFilter
             return '';
         }
 
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $acl = $this->serviceLocator->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
             return '';
         }
 
         // Users can view public resources they do not own.
         $constraints = ["$targetTableAlias.is_public = 1"];
-        $identity = $this->getServiceLocator()
-            ->get('Omeka\AuthenticationService')->getIdentity();
+        $identity = $this->serviceLocator->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
             // Users can view all resources they own.
-            $connection = $this->getServiceLocator()->get('Omeka\Connection');
             $constraints[] = 'OR';
             $constraints[] = sprintf(
                 "$targetTableAlias.owner_id = %s",
-                $connection->quote($identity->getId(), Type::INTEGER)
+                $this->getConnection()->quote($identity->getId(), Type::INTEGER)
             );
         }
 
        return implode(' ', $constraints);
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
     }
 }

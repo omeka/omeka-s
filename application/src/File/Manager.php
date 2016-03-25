@@ -4,14 +4,10 @@ namespace Omeka\File;
 use Omeka\File\Store\StoreInterface;
 use Omeka\File\Thumbnailer\ThumbnailerInterface;
 use Omeka\Entity\Media;
-use Omeka\Service\Exception\ConfigException;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Manager implements ServiceLocatorAwareInterface
+class Manager
 {
-    use ServiceLocatorAwareTrait;
-
     const ORIGINAL_PREFIX = 'original';
 
     const THUMBNAIL_EXTENSION = 'jpg';
@@ -22,13 +18,27 @@ class Manager implements ServiceLocatorAwareInterface
     protected $config;
 
     /**
+     * @var string
+     */
+    protected $tempDir;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
      * Set configuration during construction.
      *
      * @param array $config
+     * @param string $tempDir
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config)
+    public function __construct(array $config, $tempDir, ServiceLocatorInterface $serviceLocator)
     {
         $this->config = $config;
+        $this->tempDir = $tempDir;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -38,7 +48,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getStore()
     {
-        return $this->getServiceLocator()->get($this->config['store']);
+        return $this->serviceLocator->get($this->config['store']);
     }
 
     /**
@@ -48,7 +58,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getThumbnailer()
     {
-        return $this->getServiceLocator()->get($this->config['thumbnailer']);
+        return $this->serviceLocator->get($this->config['thumbnailer']);
     }
 
     /**
@@ -183,7 +193,7 @@ class Manager implements ServiceLocatorAwareInterface
                 $fallback = $this->config['thumbnail_fallbacks']['default'];
             }
 
-            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
+            $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
             return $assetUrl($fallback[0], $fallback[1]);
         }
 
@@ -264,13 +274,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getTempFile()
     {
-        $config = $this->getServiceLocator()->get('Config');
-        if (!isset($config['temp_dir'])) {
-            throw new ConfigException('Missing temporary directory configuration');
-        }
-        $tempDir = $config['temp_dir'];
-
-        return new File(tempnam($tempDir, 'omeka'));
+        return new File(tempnam($this->tempDir, 'omeka'));
     }
 
     /**
@@ -291,7 +295,7 @@ class Manager implements ServiceLocatorAwareInterface
             return null;
         }
 
-        $mediaTypeMap = $this->getServiceLocator()->get('Omeka\File\MediaTypeMap');
+        $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
         $mediaType = $file->getMediaType();
         $extension = substr(strrchr($file->getSourceName(), '.'), 1);
 

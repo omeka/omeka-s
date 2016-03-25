@@ -63,6 +63,11 @@ class FileManagerFactory implements FactoryInterface
                 throw new Exception\ConfigException('Missing thumbnail fallback configuration.');
             }
         }
-        return new FileManager($config['file_manager']);
+
+        if (!isset($config['temp_dir'])) {
+            throw new Exception\ConfigException('Missing temporary directory configuration');
+        }
+        $tempDir = $config['temp_dir'];
+        return new FileManager($config['file_manager'], $tempDir, $serviceLocator);
     }
 }

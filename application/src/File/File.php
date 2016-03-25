@@ -3,13 +3,9 @@ namespace Omeka\File;
 
 use finfo;
 use Zend\Math\Rand;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class File implements ServiceLocatorAwareInterface
+class File
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var string Path to the temporary file
      */

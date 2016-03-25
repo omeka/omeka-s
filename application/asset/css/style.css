@@ -2261,15 +2261,6 @@ th {
 
   /* @end */
   /* @group ----- Media ----- */
-  .upload-zone {
-    background-color: rgba(0, 0, 0, 0.08);
-    padding: 3em 1.04167% 1.5em 1.04167%;
-    text-align: center;
-  }
-  .upload-zone p {
-    margin-bottom: 0em;
-  }
-
   #resource-files button {
     margin: 1.5em 0 0;
   }
@@ -2345,15 +2336,9 @@ th {
     height: auto;
   }
 
-  #item-media .sidebar label {
-    font-size: 20px;
-    margin-bottom: 1.2em;
-  }
-
-  #item-media .sidebar select {
+  #item-media .sidebar button {
     width: 100%;
-    display: block;
-    margin-top: 0.75em;
+    text-align: left;
   }
 
   .openseadragon {

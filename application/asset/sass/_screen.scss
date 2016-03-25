@@ -1873,16 +1873,6 @@ input[type="text"].value-language,
 
     /* @group ----- Media ----- */
 
-    .upload-zone {
-        background-color: $gray-on-white;
-        padding: rhythm(2) gutter() rhythm() gutter();
-        text-align: center;
-
-        p {
-            @include trailer(0);
-        }
-    }
-
     #resource-files button {
         margin: rhythm() 0 0;
     }
@@ -1958,15 +1948,9 @@ input[type="text"].value-language,
         height: auto;
     }
 
-    #item-media .sidebar label {
-        font-size: 1.25 * $base-font-size;
-        @include trailer(1, 1.25 * $base-font-size);
-    }
-
-    #item-media .sidebar select {
+    #item-media .sidebar button {
         width: 100%;
-        display: block;
-        @include leader(.5);
+        text-align: left;
     }
 
     .openseadragon {

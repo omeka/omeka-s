@@ -80,12 +80,9 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <label for="new-media-type">
         <?php echo $this->translate('Add New Media'); ?>
     </label>
-    <select id="new-media-type">
-        <option value=""><?php echo $this->translate('Select media type'); ?></option>
-        <?php foreach ($mediaForms as $type => $form): ?>
-        <option value="<?php echo $escape($type); ?>"><?php echo $escape($form['label']); ?></option>
-        <?php endforeach; ?>
-    </select>
+    <?php foreach ($mediaForms as $type => $form): ?>
+    <button type="button" data-media-type="<?php echo $escape($type); ?>"><?php echo $escape($form['label']); ?></option>
+    <?php endforeach; ?>
 </div>
 
 <script type="text/javascript">
@@ -98,8 +95,8 @@ new Sortable(list, {
 
 var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;
 
-$('#new-media-type').change(function () {
-    var type = $(this).val();
+$('#media-selector button').click(function () {
+    var type = $(this).data('media-type');
     if (!type) {
         return;
     }

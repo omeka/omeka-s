@@ -307,12 +307,14 @@ return [
     ],
     'media_renderers' => [
         'invokables' => [
-            'file'    => 'Omeka\Media\Renderer\File',
             'oembed'  => 'Omeka\Media\Renderer\OEmbed',
             'youtube' => 'Omeka\Media\Renderer\Youtube',
             'html'    => 'Omeka\Media\Renderer\Html',
             'iiif'    => 'Omeka\Media\Renderer\IIIF'
         ],
+        'factories' => [
+            'file' => 'Omeka\Service\MediaRenderer\FileFactory'
+        ]
     ],
     'file_renderers' => [
         'invokables' => [

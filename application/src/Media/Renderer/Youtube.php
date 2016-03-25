@@ -5,7 +5,7 @@ use Omeka\Api\Representation\MediaRepresentation;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class Youtube extends AbstractRenderer
+class Youtube implements RendererInterface
 {
     const WIDTH = 420;
     const HEIGHT = 315;

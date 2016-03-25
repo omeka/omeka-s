@@ -3,7 +3,6 @@ namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
@@ -16,17 +15,6 @@ class Manager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    public function __construct(ConfigInterface $configuration = null)
-    {
-        parent::__construct($configuration);
-        $this->addInitializer(function ($instance, $serviceLocator) {
-            $instance->setServiceLocator($serviceLocator->getServiceLocator());
-        }, false);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function get($name, $options = [],
         $usePeeringServiceManagers = true
     ) {
@@ -34,7 +22,6 @@ class Manager extends AbstractPluginManager
             $instance = parent::get($name, $options, $usePeeringServiceManagers);
         } catch (ServiceNotFoundException $e) {
             $instance = new Fallback;
-            $instance->setServiceLocator($this->getServiceLocator());
         }
         return $instance;
     }

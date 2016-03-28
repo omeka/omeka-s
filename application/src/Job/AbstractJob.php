@@ -3,11 +3,13 @@ namespace Omeka\Job;
 
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 abstract class AbstractJob implements JobInterface
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * @var Job
@@ -70,5 +72,25 @@ abstract class AbstractJob implements JobInterface
             ->getSingleScalarResult();
         $this->job->setStatus($status);
         return Job::STATUS_STOPPING === $status;
+    }
+
+    /**
+     * Set the service locator for this job.
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * Get the service locator.
+     *
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }

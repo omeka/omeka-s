@@ -9,13 +9,26 @@ class DispatcherTest extends TestCase
 {
     protected $dispatcher;
 
+    protected $auth;
+
+    protected $entityManager;
+
+    protected $logger;
+
     public function setUp()
     {
         $strategy = $this->getMock(
             'Omeka\Job\Strategy\StrategyInterface',
             ['send', 'setServiceLocator', 'getServiceLocator']
         );
-        $this->dispatcher = new Dispatcher($strategy);
+
+        $this->auth = $this->getMock('Zend\Authentication\AuthenticationService');
+        $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->logger = $this->getMock('Zend\Log\Logger', ['addWriter']);
+
+        $this->dispatcher = new Dispatcher($strategy, $this->entityManager, $this->logger, $this->auth);
     }
 
     public function testGetDispatchStrategy()
@@ -26,46 +39,26 @@ class DispatcherTest extends TestCase
         );
     }
 
-    public function testSetServiceLocator()
-    {
-        $serviceLocator = $this->getServiceManager();
-        $this->dispatcher->setServiceLocator($serviceLocator);
-        $this->assertSame($serviceLocator, $this->dispatcher->getServiceLocator());
-    }
-
     public function testDispatch()
     {
-        $owner = $this->getMock('Omeka\Entity\User');
-
-        $auth = $this->getMock('Zend\Authentication\AuthenticationService');
-        $auth->expects($this->once())
-            ->method('getIdentity')
-            ->will($this->returnValue($owner));
-
-        $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $entityManager->expects($this->once())
-            ->method('persist')
-            ->with($this->isInstanceOf('Omeka\Entity\Job'));
-        $entityManager->expects($this->once())
-            ->method('flush');
-
-        $logger = $this->getMock('Omeka\Logger', ['addWriter']);
-        $logger->expects($this->once())
-            ->method('addWriter')
-            ->with($this->isInstanceOf('Omeka\Log\Writer\Job'));
-
-        $serviceLocator = $this->getServiceManager([
-            'Omeka\AuthenticationService' => $auth,
-            'Omeka\EntityManager' => $entityManager,
-            'Omeka\Logger' => $logger,
-        ]);
-
-        $this->dispatcher->setServiceLocator($serviceLocator);
         $this->dispatcher->getDispatchStrategy()->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf('Omeka\Entity\Job'));
+
+        $owner = $this->getMock('Omeka\Entity\User');
+        $this->auth->expects($this->once())
+            ->method('getIdentity')
+            ->will($this->returnValue($owner));
+
+        $this->entityManager->expects($this->once())
+            ->method('persist')
+            ->with($this->isInstanceOf('Omeka\Entity\Job'));
+        $this->entityManager->expects($this->once())
+            ->method('flush');
+
+        $this->logger->expects($this->once())
+            ->method('addWriter')
+            ->with($this->isInstanceOf('Omeka\Log\Writer\Job'));
 
         $class = 'Omeka\Job\AbstractJob';
         $args = ['foo' => 'bar'];

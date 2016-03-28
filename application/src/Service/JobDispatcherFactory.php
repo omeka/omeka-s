@@ -10,6 +10,9 @@ class JobDispatcherFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $strategy = $serviceLocator->get('Omeka\JobDispatchStrategy');
-        return new Dispatcher($strategy);
+        $em = $serviceLocator->get('Omeka\EntityManager');
+        $logger = $serviceLocator->get('Omeka\Logger');
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        return new Dispatcher($strategy, $em, $logger, $auth);
     }
 }

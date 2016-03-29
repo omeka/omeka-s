@@ -206,7 +206,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, [
-            'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
         ]);
@@ -318,7 +317,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::READ);
         $event = new Event(Event::API_FIND_POST, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -347,7 +345,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::DELETE);
         $event = new Event(Event::API_FIND_POST, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -389,7 +386,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Trigger the operation's api.hydrate.pre event.
         $event = new Event(Event::API_HYDRATE_PRE, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -409,7 +405,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Trigger the operation's api.hydrate.post event.
         $event = new Event(Event::API_HYDRATE_POST, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -477,7 +472,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->setMaxResults(1);
 
         $event = new Event(Event::API_FIND_QUERY, $this, [
-            'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
         ]);

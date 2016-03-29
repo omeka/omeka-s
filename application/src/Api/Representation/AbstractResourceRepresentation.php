@@ -106,7 +106,6 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         // Filter the JSON-LD.
         $args = [
             'jsonLd' => $jsonLd,
-            'services' => $this->getServiceLocator(),
         ];
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs($args);

@@ -23,7 +23,6 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
         $services = $this->getRegisteredServices();
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => array_merge($services['invokableClasses'], $services['factories']),
-            'services' => $this->getServiceLocator(),
         ]);
         $this->getEventManager()->trigger(Event::SERVICE_REGISTERED_NAMES, $this, $args);
         return $args['registered_names'];

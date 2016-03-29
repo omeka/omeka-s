@@ -171,7 +171,6 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Trigger the api.execute.pre event.
             $event = new Event(Event::API_EXECUTE_PRE, $adapter, [
-                'services' => $this->getServiceLocator(),
                 'request' => $request,
             ]);
             $adapter->getEventManager()->trigger($event);
@@ -180,7 +179,6 @@ class Manager implements ServiceLocatorAwareInterface
             $event = new Event(
                 'api.' . $request->getOperation() . '.pre',
                 $adapter, [
-                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                 ]
             );
@@ -240,7 +238,6 @@ class Manager implements ServiceLocatorAwareInterface
                 'api.' . $request->getOperation() . '.post',
                 $adapter,
                 [
-                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                     'response' => $response,
                 ]
@@ -249,7 +246,6 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Trigger the api.execute.post event.
             $event = new Event(Event::API_EXECUTE_POST, $adapter, [
-                'services' => $this->getServiceLocator(),
                 'request' => $request,
                 'response' => $response,
             ]);

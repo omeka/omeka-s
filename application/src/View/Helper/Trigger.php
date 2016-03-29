@@ -37,7 +37,6 @@ class Trigger extends AbstractHelper
         }
 
         // Set the event, using the current controller as the event identifier.
-        $params['services'] = $this->serviceLocator;
         if ($filter) {
             $params = $this->events->prepareArgs($params);
         }

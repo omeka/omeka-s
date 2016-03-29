@@ -118,9 +118,7 @@ class Entity implements EventSubscriber
             $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
-        $event = new OmekaEvent($eventName, $entity, [
-            'services' => $this->services,
-        ]);
+        $event = new OmekaEvent($eventName, $entity);
         $this->events->trigger($event);
     }
 }

@@ -12,7 +12,7 @@ class ApiTest extends TestCase
         $data = ['data'];
         $expectedReturnValue = 'search_return_value';
 
-        $apiManager = $this->getMock('Omeka\Api\Manager');
+        $apiManager = $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $apiManager->expects($this->once())
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($data))
@@ -30,7 +30,7 @@ class ApiTest extends TestCase
         $data = ['data'];
         $expectedReturnValue = 'read_return_value';
 
-        $apiManager = $this->getMock('Omeka\Api\Manager');
+        $apiManager = $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $apiManager->expects($this->once())
             ->method('read')
             ->with(

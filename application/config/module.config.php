@@ -130,6 +130,7 @@ return [
         'factories' => [
             'Omeka\Acl'                   => 'Omeka\Service\AclFactory',
             'Omeka\ApiAdapterManager'     => 'Omeka\Service\ApiAdapterManagerFactory',
+            'Omeka\ApiManager'          => 'Omeka\Service\ApiManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager'         => 'Omeka\Service\EntityManagerFactory',
             'Omeka\FileRendererManager'   => 'Omeka\Service\FileRendererManagerFactory',
@@ -162,7 +163,6 @@ return [
         ],
         'invokables' => [
             'ModuleRouteListener'       => 'Zend\Mvc\ModuleRouteListener',
-            'Omeka\ApiManager'          => 'Omeka\Api\Manager',
             'Omeka\MvcExceptionListener'=> 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners'        => 'Omeka\Mvc\MvcListeners',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',

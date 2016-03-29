@@ -6,19 +6,24 @@ use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Abstract API adapter.
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
+    use EventManagerAwareTrait;
 
     /**
      * @var TranslatorInterface
      */
     protected $translator;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * Get the fully qualified name of the corresponding representation class.
@@ -154,5 +159,21 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getResourceId()
     {
         return get_called_class();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }

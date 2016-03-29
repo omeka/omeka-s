@@ -11,7 +11,7 @@ class ApiTest extends TestCase
         $resource = 'test-resource';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($data))
@@ -34,7 +34,7 @@ class ApiTest extends TestCase
         $resource = 'test-resource';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('create')
             ->with($this->equalTo($resource), $this->equalTo($data))
@@ -57,7 +57,7 @@ class ApiTest extends TestCase
         $resource = 'test-resource';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('batchCreate')
             ->with($this->equalTo($resource), $this->equalTo($data))
@@ -81,7 +81,7 @@ class ApiTest extends TestCase
         $id = 'test-id';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('read')
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
@@ -105,7 +105,7 @@ class ApiTest extends TestCase
         $id = 'test-id';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('update')
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
@@ -129,7 +129,7 @@ class ApiTest extends TestCase
         $id = 'test-id';
         $data = ['foo' => 'bar'];
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('delete')
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
@@ -157,7 +157,7 @@ class ApiTest extends TestCase
         $response = new \Omeka\Api\Response;
         $response->setContent($content);
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))
@@ -186,7 +186,7 @@ class ApiTest extends TestCase
         $response = new \Omeka\Api\Response;
         $response->setContent($content);
 
-        $mockApiManager = $this->getMock('Omeka\Api\Manager');
+        $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $mockApiManager->expects($this->once())
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))

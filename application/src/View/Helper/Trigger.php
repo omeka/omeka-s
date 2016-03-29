@@ -3,21 +3,31 @@ namespace Omeka\View\Helper;
 
 use Omeka\Event\Event;
 use Zend\EventManager\EventManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Mvc\Application;
 use Zend\View\Helper\AbstractHelper;
 
 class Trigger extends AbstractHelper
 {
     /**
+     * @var EventManagerInterface
+     */
+    protected $events;
+
+    /**
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Construct the helper.
      *
      * @param EventManagerInterface $eventManager
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Application $application
      */
-    public function __construct(EventManagerInterface $eventManager, ServiceLocatorInterface $serviceLocator)
+    public function __construct(EventManagerInterface $eventManager, Application $application)
     {
-        $this->serviceLocator = $serviceLocator;
         $this->events = $eventManager;
+        $this->application = $application;
     }
 
     /**
@@ -29,8 +39,7 @@ class Trigger extends AbstractHelper
      */
     public function __invoke($name, array $params = [], $filter = false)
     {
-        $routeMatch = $this->serviceLocator->get('Application')
-            ->getMvcEvent()->getRouteMatch();
+        $routeMatch = $this->application->getMvcEvent()->getRouteMatch();
         if (!$routeMatch) {
             // Without a route match this request is 404. No need to trigger.
             return;

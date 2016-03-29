@@ -20,6 +20,6 @@ class TriggerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $viewServiceLocator)
     {
         $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Trigger($serviceLocator->get('EventManager'), $serviceLocator);
+        return new Trigger($serviceLocator->get('EventManager'), $serviceLocator->get('Application'));
     }
 }

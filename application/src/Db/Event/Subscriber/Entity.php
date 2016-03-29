@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvent;
 use Omeka\Event\Event as OmekaEvent;
 use Omeka\Entity\Resource as OmekaResource;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\EventManager\EventManagerInterface;
 
 /**
  * Entity event subscriber.
@@ -16,11 +16,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Entity implements EventSubscriber
 {
     /**
-     * @var ServiceLocatorInterface
-     */
-    protected $services;
-
-    /**
      * @var EventManagerInterface
      */
     protected $events;
@@ -28,10 +23,9 @@ class Entity implements EventSubscriber
     /**
      * Set the service locator.
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(EventManagerInterface $events)
     {
-        $this->services = $serviceLocator;
-        $this->events = $serviceLocator->get('EventManager');
+        $this->events = $events;
     }
 
     public function getSubscribedEvents()

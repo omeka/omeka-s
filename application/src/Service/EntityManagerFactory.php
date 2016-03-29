@@ -67,7 +67,7 @@ class EntityManagerFactory implements FactoryInterface
             new ResourceDiscriminatorMap($config['entity_manager']['resource_discriminator_map'])
         );
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new Utf8mb4);
-        $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator));
+        $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator->get('EventManager')));
         // Instantiate the visibility filter and inject the service locator.
         $em->getFilters()->enable('visibility');
         $em->getFilters()->getFilter('visibility')->setServiceLocator($serviceLocator);

@@ -9,9 +9,7 @@
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
         ?>
-        <a href="<?php echo $this->escapeHtml($item->url()); ?>">
-            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl($thumbnailType)); ?>">
-        </a>
+        <?php echo $media->render(['thumbnailType' => $thumbnailType]); ?>
         <?php endif; ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
     <?php endif; ?>

@@ -280,11 +280,11 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'media' => 'Omeka\Site\BlockLayout\Media',
             'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
-            'file' => 'Omeka\Site\BlockLayout\File',
             'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak',
             'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],

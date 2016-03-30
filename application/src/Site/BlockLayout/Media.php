@@ -8,12 +8,12 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
-class File extends AbstractBlockLayout
+class Media extends AbstractBlockLayout
 {
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('File');
+        return $translator->translate('Media');
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)

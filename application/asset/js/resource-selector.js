@@ -1,17 +1,32 @@
 (function($) {
+    function loadSidebarContent(sidebarContent, url, data) {
+        $.ajax({
+            'url': url,
+            'data': data,
+            'type': 'get'
+        }).done(function(data) {
+            sidebarContent.html(data);
+            $(document).trigger('o:sidebar-content-loaded');
+        }).error(function() {
+            sidebarContent.html("<p>Something went wrong</p>");
+        });
+    }
+
+    function searchResources() {
+        var searchInput = $('#resource-list-search');
+        var searchValue = searchInput.val();
+        loadSidebarContent(searchInput.closest('div.sidebar-content'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'value[in][]': searchValue});
+    }
+
     $(document).ready( function() {
         $('#select-resource').on('click', '.pagination a', function (e) {
             e.preventDefault();
-            var sidebarContent = $(this).parents('div.sidebar-content');
-            $.ajax({
-                'url': $(this).attr('href'),
-                'type': 'get'
-            }).done(function(data) {
-                sidebarContent.html(data);
-                $(document).trigger('o:sidebar-content-loaded');
-            }).error(function() {
-                sidebarContent.html("<p>Something went wrong</p>");
-            });
+            loadSidebarContent($(this).closest('div.sidebar-content'), $(this).attr('href'));
+        });
+
+        $('#select-resource').on('submit', '.pagination form', function (e) {
+            e.preventDefault();
+            loadSidebarContent($(this).closest('div.sidebar-content'), $(this).attr('action'), $(this).serialize());
         });
 
         $('#select-resource').on('click', '#sidebar-resource-search .o-icon-search', function () {
@@ -41,21 +56,5 @@
             context.trigger('o:resource-selected');
         });
     });
-
-    function searchResources() {
-        var searchInput = $('#resource-list-search');
-        var searchValue = searchInput.val();
-        var sidebarContent = searchInput.parents('div.sidebar-content');
-        $.ajax({
-            'url': $('#sidebar-resource-search .o-icon-search').data('search-url'),
-            'data': {'value[in][]': searchValue},
-            'type': 'get'
-        }).done(function(data) {
-            sidebarContent.html(data);
-            $(document).trigger('o:sidebar-content-loaded');
-        }).error(function() {
-            sidebarContent.html("<p>Something went wrong</p>");
-        });
-    }
 })(jQuery);
 

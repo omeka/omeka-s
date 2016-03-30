@@ -89,6 +89,7 @@ class Pagination extends AbstractHelper
                 'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
                 'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
                 'lastPageUrl'     => $this->getUrl($pageCount),
+                'pagelessUrl'     => $this->getPagelessUrl(),
                 'offset'          => $paginator->getOffset()
             ]
         );
@@ -109,6 +110,20 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
+        return $this->getView()->url(null, [], ['query' => $query], true);
+    }
+
+    /**
+     * Get a URL with the page parameter removed.
+     *
+     * Suitable for use as a form action URL.
+     *
+     * @return string
+     */
+    protected function getPagelessUrl()
+    {
+        $query = $this->getView()->params()->fromQuery();
+        unset($query['page']);
         return $this->getView()->url(null, [], ['query' => $query], true);
     }
 }

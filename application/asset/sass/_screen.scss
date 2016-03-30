@@ -2856,6 +2856,10 @@ body.sidebar-open #content {
         font-weight: bold;
     }
 
+    .block label.thumbnail-option:not(:first-of-type) {
+        padding-top: rhythm(.25);
+    }
+
     .block .thumbnail-option select {
         width: 70%;
         float: right;

@@ -407,7 +407,6 @@ header {
 
 .left .item.resource,
 .right .item.resource {
-    max-width: 50%;
     border-color: $light;
     margin: 0 0 rhythm() 0;
     display: table;
@@ -429,6 +428,26 @@ header {
         display: table-caption;
         caption-side: bottom;
     }
+}
+
+.left:not(.file) .item.resource,
+.right:not(.file) .item.resource {
+    max-width: 50%;
+}
+
+.left.file,
+.right.file {
+    max-width: 50%;
+}
+
+.left.file {
+    float: left;
+    clear: left;
+}
+
+.right.file {
+    float: right;
+    clear: right;
 }
 
 .left .item.resource {
@@ -462,6 +481,21 @@ header {
 .left .item.resource + p,
 .right .item.resource + p {
     margin-top: 0;
+}
+
+.break {
+    width: 100%;
+    clear: both;
+    @include trailing-border(1px, 0, $base-font-size, solid);
+    margin: rhythm() 0;
+
+    &.transparent {
+        border-color: transparent;
+    }
+
+    &.opaque {
+        border-color: $light;
+    }
 }
 
 .preview-block {

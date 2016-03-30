@@ -285,6 +285,8 @@ return [
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'fileWithText' => 'Omeka\Site\BlockLayout\FileWithText',
+            'file' => 'Omeka\Site\BlockLayout\File',
+            'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak',
             'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],
     ],

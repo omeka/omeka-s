@@ -573,8 +573,8 @@ ul.resource-list .resource {
 }
 
 ul.resource-list .resource img {
-    height: rhythm(2);
-    width: auto;
+    height: auto;
+    width: rhythm(2);
     float: right;
     margin-left: rhythm(.5);
 }
@@ -667,12 +667,10 @@ body.resource #content > h2:first-of-type + h3 {
 }
 
 #content .media.resource {
-    display: table;
+    display: inline-block;
     text-align: center;
-    vertical-align: top;
-    word-wrap: break-word;
+    vertical-align: bottom;
     margin-right: rhythm(.25);
-    float: left;
 
     &:hover {
         border-bottom: 0;
@@ -680,14 +678,9 @@ body.resource #content > h2:first-of-type + h3 {
 }
 
 #content .media.resource img {
-    max-width: none;
+    vertical-align: top;
+    margin-bottom: rhythm(.5);
 }
 
-.media-title {
-    font-size: .75 * $base-font-size;
-    display: table-caption;
-    margin-bottom: rhythm(.5, .75 * $base-font-size);
-    caption-side: bottom;
-}
 
 /* @end */

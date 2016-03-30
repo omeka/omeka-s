@@ -9,7 +9,7 @@
     <li class="item resource">
     <?php if ($primaryMedia = $item->primaryMedia()): ?>
         <img
-            src="<?php echo $this->escapeHtml($primaryMedia->thumbnailUrl('square')); ?>"
+            src="<?php echo $this->escapeHtml($primaryMedia->thumbnailUrl('medium')); ?>"
             title="<?php echo $this->escapeHtml($primaryMedia->displayTitle()); ?>"
             alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
         >

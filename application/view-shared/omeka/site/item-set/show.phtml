@@ -18,7 +18,7 @@
             <li class="item resource">
                 <?php if ($primaryMedia = $item->primaryMedia()): ?>
                 <img
-                    src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>"
+                    src="<?php echo $escape($primaryMedia->thumbnailUrl('medium')); ?>"
                     title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
                     alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
                 >

@@ -587,8 +587,8 @@
   }
 
   ul.resource-list .resource img {
-    height: 3em;
-    width: auto;
+    height: auto;
+    width: 3em;
     float: right;
     margin-left: 0.75em;
   }
@@ -678,26 +678,18 @@
   }
 
   #content .media.resource {
-    display: table;
+    display: inline-block;
     text-align: center;
-    vertical-align: top;
-    word-wrap: break-word;
+    vertical-align: bottom;
     margin-right: 0.375em;
-    float: left;
   }
   #content .media.resource:hover {
     border-bottom: 0;
   }
 
   #content .media.resource img {
-    max-width: none;
-  }
-
-  .media-title {
-    font-size: 15px;
-    display: table-caption;
-    margin-bottom: 1em;
-    caption-side: bottom;
+    vertical-align: top;
+    margin-bottom: 0.75em;
   }
 
   /* @end */
@@ -868,8 +860,8 @@
   /* @end */
   /* @group ----- Resource List ----- */
   ul.resource-list .resource img {
-    height: 6em;
-    width: auto;
+    width: 6em;
+    height: auto;
     float: right;
     margin-left: 0.75em;
   }

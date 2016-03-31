@@ -37,6 +37,26 @@ class Api extends AbstractHelper
     }
 
     /**
+     * Execute a search API request and get the first result.
+     *
+     * Sets the first result to the response content or null if there is no
+     * result. Note that this functionality is not native to the API.
+     *
+     * @param string $resource
+     * @param array $data
+     * @return Response
+     */
+    public function searchOne($resource, $data = [])
+    {
+        $data['limit'] = 1;
+        $response = $this->apiManager->search($resource, $data);
+        $content = $response->getContent();
+        $content = is_array($content) && count($content) ? $content[0] : null;
+        $response->setContent($content);
+        return $response;
+    }
+
+    /**
      * Execute a read API request.
      *
      * @param string $resource

@@ -2709,7 +2709,8 @@ th {
     margin-bottom: 0.5em;
   }
   .sidebar h3,
-  .sidebar label {
+  .sidebar label,
+  .sidebar legend {
     display: block;
     font-size: 20px;
     margin-bottom: 0.6em;
@@ -3049,12 +3050,6 @@ th {
     margin-right: -1px;
   }
 
-  [for="new-block"] {
-    display: inline-block;
-    font-size: 20px;
-    margin-bottom: 0.6em;
-  }
-
   .block {
     margin-bottom: 0.375em;
     overflow: hidden;
@@ -3345,6 +3340,11 @@ th {
   #attachment-options .media-list img {
     width: 100%;
     height: auto;
+  }
+
+  .site-pages .sidebar button {
+    width: 100%;
+    text-align: left;
   }
 
   /* @end */

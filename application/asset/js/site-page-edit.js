@@ -81,9 +81,9 @@
             },
         });
 
-        $('#new-block').change(function() {
+        $('#new-block button').click(function() {
             $.post(
-                $(this).data('url'),
+                $(this).parents('#new-block').data('url'),
                 {layout: $(this).val()}
             ).done(function(data) {
                 var newBlock = $(data).appendTo('#blocks');

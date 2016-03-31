@@ -22,18 +22,13 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->form()->closeTag(); ?>
 
-<div class="active sidebar">
-    <label for="new-block">
-        <?php echo $this->translate('Add New Block'); ?>
-    </label>
-    <select id="new-block" data-url="<?php echo $this->url('admin/site/page/default', ['action' => 'block'], true); ?>">
-        <option value=""><?php echo $this->translate('Select layout'); ?></option>
-        <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
-        <option value="<?php echo $escape($layout); ?>">
-            <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
-        </option>
-        <?php endforeach; ?>
-    </select>
+<div id="new-block" class="active sidebar" data-url="<?php echo $this->url('admin/site/page/default', ['action' => 'block'], true); ?>">
+    <legend><?php echo $this->translate('Add New Block'); ?></legend>
+    <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
+    <button type="button" value="<?php echo $escape($layout); ?>">
+        <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
+    </button>
+    <?php endforeach; ?>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">

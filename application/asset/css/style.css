@@ -3342,7 +3342,7 @@ th {
     height: auto;
   }
 
-  .site-pages .sidebar button {
+  .site-pages #new-block button {
     width: 100%;
     text-align: left;
   }

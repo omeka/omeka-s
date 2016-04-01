@@ -24,9 +24,11 @@
             loadSidebarContent($(this).closest('div.sidebar-content'), $(this).attr('href'));
         });
 
-        $('#select-resource').on('submit', '.pagination form', function (e) {
-            e.preventDefault();
-            loadSidebarContent($(this).closest('div.sidebar-content'), $(this).attr('action'), $(this).serialize());
+        $('#select-resource').on('keydown', '.pagination input', function (e) {
+            if ((e.keycode || e.which) == '13') {
+                e.preventDefault();
+                loadSidebarContent($(this).closest('div.sidebar-content'), $(this).data('paginationUrl'), $(this).serialize());
+            }
         });
 
         $('#select-resource').on('click', '#sidebar-resource-search .o-icon-search', function () {

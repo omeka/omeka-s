@@ -10,7 +10,7 @@ $escape = $this->plugin('escapeHtml');
         data-search-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'])); ?>"
         type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
-<?php echo $this->pagination(); ?>
+<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 </div>
 
 <div class="resource-list">

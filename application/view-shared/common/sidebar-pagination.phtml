@@ -1,0 +1,22 @@
+<nav class="pagination" role="navigation">
+    <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
+    <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
+
+    <?php if ($currentPage != 1): ?>
+    <a href="<?php echo $this->escapeHtml($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtml($this->translate('Previous')); ?>"></a>
+    <?php else: ?>
+    <span class="previous o-icon-prev button inactive"></span>
+    <?php endif; ?>
+
+    <?php if ($currentPage < $pageCount): ?>
+    <a href="<?php echo $this->escapeHtml($nextPageUrl); ?>" class="next o-icon-next button" aria-label=" <?php echo $this->escapeHtml($this->translate('Next')); ?>"></a>
+    <?php else: ?>
+    <span class="next o-icon-next button inactive"></span>
+    <?php endif; ?>
+
+    <?php
+    $from = $offset + 1;
+    $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
+    ?>
+    <span class="row-count"><?php echo sprintf('%s–%s of %s', $from, $to, $totalCount); ?></span>
+</nav>

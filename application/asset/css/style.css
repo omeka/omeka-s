@@ -1313,7 +1313,7 @@ th {
   .actions li {
     display: inline-block;
     margin-left: -3px;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   .actions a,
@@ -2238,8 +2238,9 @@ th {
 
   fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
     position: absolute;
-    top: 0.375em;
+    top: 50%;
     left: 0.375em;
+    transform: translateY(-50%);
     z-index: 1;
     width: 3.375em;
     font-weight: bold;

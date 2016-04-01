@@ -910,7 +910,7 @@ div[role="main"] {
 .actions li {
     display: inline-block;
     margin-left: -3px;
-    vertical-align: middle;
+    vertical-align: top;
  }
 
 .actions a,
@@ -1848,8 +1848,9 @@ input[type="text"].value-language,
 
     fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
-        top: rhythm(.25);
+        top: 50%;
         left: rhythm(.25);
+        transform: translateY(-50%);
         z-index: 1;
         width: rhythm(2.25);
         font-weight: bold;

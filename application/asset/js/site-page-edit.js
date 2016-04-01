@@ -90,7 +90,6 @@
                 newBlock.trigger('o:block-added');
                 Omeka.scrollTo(newBlock);
             });
-            $(this).val(''); // reset select
         });
 
         $('#blocks').on('o:block-added', '.block', function () {

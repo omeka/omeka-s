@@ -36,14 +36,14 @@ class Pagination extends AbstractHelper
     /**
      * Configure the pagination.
      *
+     * @param string|null $partialName Name of view script
      * @param int|null $totalCount The total record count
      * @param int|null $currentPage The current page number
      * @param int|null $perPage The number of records per page
-     * @param string|null $partialName Name of view script, or a view model
      * @return self
      */
-    public function __invoke($totalCount = null, $currentPage = null,
-        $perPage = null, $partialName = null
+    public function __invoke($partialName = null, $totalCount = null, $currentPage = null,
+        $perPage = null
     ) {
         if (null !== $totalCount) {
             $this->getPaginator()->setTotalCount($totalCount);

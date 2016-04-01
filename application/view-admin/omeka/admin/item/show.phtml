@@ -6,6 +6,11 @@ if ($owner = $item->owner()) {
 } else {
     $ownerText = $this->translate('[no owner]');
 }
+
+$sectionNavs = [
+    'item-metadata' => $this->translate('Metadata'),
+    'item-linked' => $this->translate('Linked Resources'),
+];
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
 <div id="page-actions">
@@ -14,12 +19,7 @@ if ($owner = $item->owner()) {
     <?php endif; ?>
 </div>
 
-<nav class="section-nav">
-    <ul>
-        <li class="active"><a href="#item-metadata"><?php echo $this->translate('Metadata'); ?></a></li>
-        <li><a href="#item-linked"><?php echo $this->translate('Linked Resources'); ?></a></li>
-    </ul>
-</nav>
+<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav'); ?>
 
 <div id="item-metadata" class="active section sidebar-open">    
     <?php if ( $item->resourceClass()): ?>

@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Manager as ApiManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -18,11 +17,11 @@ class Api extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ApiManager $apiManager
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ApiManager $apiManager)
     {
-        $this->apiManager = $serviceLocator->get('Omeka\ApiManager');
+        $this->apiManager = $apiManager;
     }
 
     /**
@@ -35,6 +34,26 @@ class Api extends AbstractHelper
     public function search($resource, $data = [])
     {
         return $this->apiManager->search($resource, $data);
+    }
+
+    /**
+     * Execute a search API request and get the first result.
+     *
+     * Sets the first result to the response content or null if there is no
+     * result. Note that this functionality is not native to the API.
+     *
+     * @param string $resource
+     * @param array $data
+     * @return Response
+     */
+    public function searchOne($resource, $data = [])
+    {
+        $data['limit'] = 1;
+        $response = $this->apiManager->search($resource, $data);
+        $content = $response->getContent();
+        $content = is_array($content) && count($content) ? $content[0] : null;
+        $response->setContent($content);
+        return $response;
     }
 
     /**

@@ -12,16 +12,13 @@ class ApiTest extends TestCase
         $data = ['data'];
         $expectedReturnValue = 'search_return_value';
 
-        $apiManager = $this->getMock('Omeka\Api\Manager');
+        $apiManager = $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $apiManager->expects($this->once())
             ->method('search')
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($expectedReturnValue));
-        $serviceManager = $this->getServiceManager(
-            ['Omeka\ApiManager' => $apiManager]
-        );
 
-        $apiHelper = new Api($serviceManager);
+        $apiHelper = new Api($apiManager);
         $returnValue = $apiHelper->search($resource, $data);
         $this->assertEquals($expectedReturnValue, $returnValue);
     }
@@ -33,7 +30,7 @@ class ApiTest extends TestCase
         $data = ['data'];
         $expectedReturnValue = 'read_return_value';
 
-        $apiManager = $this->getMock('Omeka\Api\Manager');
+        $apiManager = $mockApiManager = $this->getMockBuilder('Omeka\Api\Manager')->disableOriginalConstructor()->getMock();
         $apiManager->expects($this->once())
             ->method('read')
             ->with(
@@ -42,11 +39,8 @@ class ApiTest extends TestCase
                 $this->equalTo($data)
             )
             ->will($this->returnValue($expectedReturnValue));
-        $serviceManager = $this->getServiceManager(
-            ['Omeka\ApiManager' => $apiManager]
-        );
 
-        $apiHelper = new Api($serviceManager);
+        $apiHelper = new Api($apiManager);
         $returnValue = $apiHelper->read($resource, $id, $data);
         $this->assertEquals($expectedReturnValue, $returnValue);
     }

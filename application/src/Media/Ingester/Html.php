@@ -24,16 +24,19 @@ class Html extends AbstractIngester implements MutableIngesterInterface
     {
         $titleInput = new TextInput('o:media[__index__][dcterms:title][0][@value]');
         $titlePropertyInput = new Hidden('o:media[__index__][dcterms:title][0][property_id]');
+        $titleTypeInput = new Hidden('o:media[__index__][dcterms:title][0][type]');
         //make sure we have correct dcterms:title id
         $api = $view->api();
         $dctermsTitle = $api->search('properties', ['term'=> 'dcterms:title'])->getContent()[0];
         $titlePropertyInput->setValue($dctermsTitle->id());
+        $titleTypeInput->setValue('literal');
         $titleInput->setOptions([
             'label' => $view->translate('Title'),
             'info'  => $view->translate('A title for the HTML content')
         ]);
         $html = $view->formRow($titleInput);
         $html .= $view->formRow($titlePropertyInput);
+        $html .= $view->formRow($titleTypeInput);
         $html .= $this->getForm($view, 'media-html-__index__');
         return $html;
     }

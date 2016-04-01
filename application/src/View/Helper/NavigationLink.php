@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Site\Navigation\Link\Manager;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class NavigationLink extends AbstractHelper
@@ -15,11 +14,11 @@ class NavigationLink extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Manager $manager
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Manager $manager)
     {
-        $this->manager = $serviceLocator->get('Omeka\Site\NavigationLinkManager');
+        $this->manager = $manager;
     }
 
     public function getTypes()

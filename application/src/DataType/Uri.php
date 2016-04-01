@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\DataType;
 
+use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Zend\View\Renderer\PhpRenderer;
@@ -28,7 +29,7 @@ class Uri extends AbstractDataType
         return false;
     }
 
-    public function hydrate(array $valueObject, Value $value)
+    public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
         $value->setType($valueObject['type']);
         $value->setValue($valueObject['@id']);

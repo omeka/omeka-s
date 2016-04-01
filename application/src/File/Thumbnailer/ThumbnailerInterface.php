@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Omeka\File\Manager;
 
-interface ThumbnailerInterface extends ServiceLocatorAwareInterface
+interface ThumbnailerInterface
 {
     /**
      * Set the file source (typically path to temporary file).
@@ -26,10 +26,11 @@ interface ThumbnailerInterface extends ServiceLocatorAwareInterface
      * JPEG, and resize it according to the passed strategy and constraint. They
      * should handle at least the "default" and "square" thumbnail strategies.
      *
+     * @param Manager $fileManager
      * @param string $strategy Creation strategy (default is "default")
      * @param int $constraint Constraint for this strategy
      * @param array $options Options for this strategy
      * @return string Path to temporary thumbnail file
      */
-    public function create($strategy, $constraint, array $options = []);
+    public function create(Manager $fileManager, $strategy, $constraint, array $options = []);
 }

@@ -15,7 +15,9 @@ echo $this->partial('omeka/admin/item-set/form.phtml', [
     'form' => $form,
     'itemSet' => $itemSet,
     'submitLabel' => $this->translate('Save'),
-    'deleteButton' => $deleteButton
+    'deleteButton' => $deleteButton,
+    'formAfterEvent' => 'view.edit.form.after',
+    'sectionNavEvent' => 'view.edit.section_nav',
 ]);
 ?>
 

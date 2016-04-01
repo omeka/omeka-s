@@ -8,6 +8,8 @@ $this->htmlElement('body')->appendAttribute('class', 'add item-set sidebar-open'
 echo $this->partial('omeka/admin/item-set/form.phtml', [
     'form' => $form,
     'itemSet' => null,
+    'formAfterEvent' => 'view.add.form.after',
+    'sectionNavEvent' => 'view.add.section_nav',
 ]);
 ?>
 

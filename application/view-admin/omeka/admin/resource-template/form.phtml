@@ -45,6 +45,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 </ul>
 
 <?php echo $this->formElement($form->get('csrf')); ?>
+<?php $this->trigger($formAfterEvent); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->propertySelector(); ?>

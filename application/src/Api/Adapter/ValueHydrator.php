@@ -81,7 +81,7 @@ class ValueHydrator implements HydrationInterface
                 );
                 $value->setResource($resource);
                 $value->setProperty($property);
-                $dataType->hydrate($valueObject, $value);
+                $dataType->hydrate($valueObject, $value, $this->adapter);
             }
         }
 

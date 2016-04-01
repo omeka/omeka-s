@@ -3,15 +3,14 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * API adapter interface.
  */
 interface AdapterInterface extends
-    ServiceLocatorAwareInterface,
     EventManagerAwareInterface,
     ResourceInterface
 {
@@ -73,4 +72,18 @@ interface AdapterInterface extends
      * @return Response
      */
     public function delete(Request $request);
+
+    /**
+     * Set the service locator.
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator);
+
+    /**
+     * Get the service locator.
+     *
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator();
 }

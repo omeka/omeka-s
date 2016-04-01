@@ -206,7 +206,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         // Trigger the search.query event.
         $event = new Event(Event::API_SEARCH_QUERY, $this, [
-            'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
         ]);
@@ -276,10 +275,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function batchCreate(Request $request)
     {
-        $errorStore = new ErrorStore;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $entities = [];
         foreach ($request->getContent() as $key => $datum) {
+            $errorStore = new ErrorStore;
             $entityClass = $this->getEntityClass();
             $entity = new $entityClass;
             $subRequest = new Request(Request::CREATE, $request->getResource());
@@ -318,7 +317,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::READ);
         $event = new Event(Event::API_FIND_POST, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -347,7 +345,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::DELETE);
         $event = new Event(Event::API_FIND_POST, $this, [
-            'services' => $this->getServiceLocator(),
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -379,7 +376,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param EntityInterface $entity
      * @param ErrorStore $errorStore
      */
-    protected function hydrateEntity(Request $request,
+    public function hydrateEntity(Request $request,
         EntityInterface $entity, ErrorStore $errorStore
     ) {
         $operation = $request->getOperation();
@@ -387,9 +384,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         // entity in its original state.
         $this->authorize($entity, $operation);
 
-        // Trigger the operation's api.validate.data.pre event.
-        $event = new Event(Event::API_VALIDATE_DATA_PRE, $this, [
-            'services' => $this->getServiceLocator(),
+        // Trigger the operation's api.hydrate.pre event.
+        $event = new Event(Event::API_HYDRATE_PRE, $this, [
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -407,9 +403,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $this->hydrate($request, $entity, $errorStore);
 
-        // Trigger the operation's api.validate.entity.pre event.
-        $event = new Event(Event::API_VALIDATE_ENTITY_PRE, $this, [
-            'services' => $this->getServiceLocator(),
+        // Trigger the operation's api.hydrate.post event.
+        $event = new Event(Event::API_HYDRATE_POST, $this, [
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -459,7 +454,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * @param Request|null $request
      * @return EntityInterface
      */
-    protected function findEntity($criteria, $request = null)
+    public function findEntity($criteria, $request = null)
     {
         if (!is_array($criteria)) {
             $criteria = ['id' => $criteria];
@@ -477,7 +472,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $qb->setMaxResults(1);
 
         $event = new Event(Event::API_FIND_QUERY, $this, [
-            'services' => $this->getServiceLocator(),
             'queryBuilder' => $qb,
             'request' => $request,
         ]);

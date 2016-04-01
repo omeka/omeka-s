@@ -81,16 +81,15 @@
             },
         });
 
-        $('#new-block').change(function() {
+        $('#new-block button').click(function() {
             $.post(
-                $(this).data('url'),
+                $(this).parents('#new-block').data('url'),
                 {layout: $(this).val()}
             ).done(function(data) {
                 var newBlock = $(data).appendTo('#blocks');
                 newBlock.trigger('o:block-added');
                 Omeka.scrollTo(newBlock);
             });
-            $(this).val(''); // reset select
         });
 
         $('#blocks').on('o:block-added', '.block', function () {

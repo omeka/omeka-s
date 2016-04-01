@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Omeka\Service\Paginator;
 use Zend\View\Helper\AbstractHelper;
 
 class Pagination extends AbstractHelper
@@ -26,11 +26,11 @@ class Pagination extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Paginator $paginator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Paginator $paginator)
     {
-        $this->paginator = $serviceLocator->get('Omeka\Paginator');
+        $this->paginator = $paginator;
     }
 
     /**
@@ -89,6 +89,7 @@ class Pagination extends AbstractHelper
                 'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
                 'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
                 'lastPageUrl'     => $this->getUrl($pageCount),
+                'pagelessUrl'     => $this->getPagelessUrl(),
                 'offset'          => $paginator->getOffset()
             ]
         );
@@ -109,6 +110,20 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
+        return $this->getView()->url(null, [], ['query' => $query], true);
+    }
+
+    /**
+     * Get a URL with the page parameter removed.
+     *
+     * Suitable for use as a form action URL.
+     *
+     * @return string
+     */
+    protected function getPagelessUrl()
+    {
+        $query = $this->getView()->params()->fromQuery();
+        unset($query['page']);
         return $this->getView()->url(null, [], ['query' => $query], true);
     }
 }

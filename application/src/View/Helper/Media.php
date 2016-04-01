@@ -5,7 +5,6 @@ use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Ingester\Manager as IngesterManager;
 use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Media\Renderer\Manager as RendererManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class Media extends AbstractHelper
@@ -25,10 +24,10 @@ class Media extends AbstractHelper
      *
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(IngesterManager $ingesterManager, RendererManager $rendererManager)
     {
-        $this->ingesterManager = $serviceLocator->get('Omeka\MediaIngesterManager');
-        $this->rendererManager = $serviceLocator->get('Omeka\MediaRendererManager');
+        $this->ingesterManager = $ingesterManager;
+        $this->rendererManager = $rendererManager;
     }
 
     /**

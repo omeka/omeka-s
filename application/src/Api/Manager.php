@@ -2,24 +2,47 @@
 namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
+use Omeka\Api\Adapter\Manager as AdapterManager;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Event\Event;
+use Omeka\Permissions\Acl;
+use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 /**
  * API manager service.
  */
-class Manager implements ServiceLocatorAwareInterface
+class Manager
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var AdapterManager
+     */
+    protected $adapterManager;
+
+    /**
+     * @var Acl
+     */
+    protected $acl;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @var TranslatorInterface
      */
     protected $translator;
+
+    public function __construct(AdapterManager $adapterManager, Acl $acl, LoggerInterface $logger,
+        TranslatorInterface $translator)
+    {
+        $this->adapterManager = $adapterManager;
+        $this->acl = $acl;
+        $this->logger = $logger;
+        $this->translator = $translator;
+    }
 
     /**
      * Execute a search API request.
@@ -131,7 +154,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function execute(Request $request)
     {
         try {
-            $t = $this->getTranslator();
+            $t = $this->translator;
 
             // Validate the request.
             if (!$request->isValidOperation($request->getOperation())) {
@@ -149,9 +172,7 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Get the adapter.
             try {
-                $adapter = $this->getServiceLocator()
-                    ->get('Omeka\ApiAdapterManager')
-                    ->get($request->getResource());
+                $adapter = $this->adapterManager->get($request->getResource());
             } catch (ServiceNotFoundException $e) {
                 throw new Exception\BadRequestException(sprintf(
                     $t->translate('The API does not support the "%1$s" resource.'),
@@ -160,8 +181,7 @@ class Manager implements ServiceLocatorAwareInterface
             }
 
             // Verify that the current user has general access to this resource.
-            $acl = $this->getServiceLocator()->get('Omeka\Acl');
-            if (!$acl->userIsAllowed($adapter, $request->getOperation())) {
+            if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
                     $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
                     $request->getOperation(),
@@ -171,7 +191,6 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Trigger the api.execute.pre event.
             $event = new Event(Event::API_EXECUTE_PRE, $adapter, [
-                'services' => $this->getServiceLocator(),
                 'request' => $request,
             ]);
             $adapter->getEventManager()->trigger($event);
@@ -180,7 +199,6 @@ class Manager implements ServiceLocatorAwareInterface
             $event = new Event(
                 'api.' . $request->getOperation() . '.pre',
                 $adapter, [
-                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                 ]
             );
@@ -240,7 +258,6 @@ class Manager implements ServiceLocatorAwareInterface
                 'api.' . $request->getOperation() . '.post',
                 $adapter,
                 [
-                    'services' => $this->getServiceLocator(),
                     'request' => $request,
                     'response' => $response,
                 ]
@@ -249,13 +266,12 @@ class Manager implements ServiceLocatorAwareInterface
 
             // Trigger the api.execute.post event.
             $event = new Event(Event::API_EXECUTE_POST, $adapter, [
-                'services' => $this->getServiceLocator(),
                 'request' => $request,
                 'response' => $response,
             ]);
             $adapter->getEventManager()->trigger($event);
         } catch (Exception\ValidationException $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
+            $this->logger->err((string) $e);
             $response = new Response;
             $response->setStatus(Response::ERROR_VALIDATION);
             $response->mergeErrors($e->getErrorStore());
@@ -300,7 +316,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
     {
-        $t = $this->getTranslator();
+        $t = $this->translator;
         if (!is_array($request->getContent())) {
             throw new Exception\BadRequestException(
                 $t->translate('Invalid batch operation request data.')
@@ -341,18 +357,5 @@ class Manager implements ServiceLocatorAwareInterface
         }
 
         return $response;
-    }
-
-    /**
-     * Get the translator service
-     *
-     * @return TranslatorInterface
-     */
-    public function getTranslator()
-    {
-        if (!$this->translator instanceof TranslatorInterface) {
-            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
-        }
-        return $this->translator;
     }
 }

@@ -1319,7 +1319,7 @@ th {
   .actions li {
     display: inline-block;
     margin-left: -3px;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   .actions a,
@@ -2244,8 +2244,9 @@ th {
 
   fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
     position: absolute;
-    top: 0.375em;
+    top: 50%;
     left: 0.375em;
+    transform: translateY(-50%);
     z-index: 1;
     width: 3.375em;
     font-weight: bold;
@@ -2267,6 +2268,7 @@ th {
 
   /* @end */
   /* @group ----- Media ----- */
+<<<<<<< HEAD
   .upload-zone {
     background-color: rgba(0, 0, 0, 0.04);
     padding: 3em 1.04167% 1.5em 1.04167%;
@@ -2276,6 +2278,8 @@ th {
     margin-bottom: 0em;
   }
 
+=======
+>>>>>>> 13736ee7adde021e4acdd6070c7170a7830adb2c
   #resource-files button {
     margin: 1.5em 0 0;
   }
@@ -2351,15 +2355,9 @@ th {
     height: auto;
   }
 
-  #item-media .sidebar label {
-    font-size: 20px;
-    margin-bottom: 1.2em;
-  }
-
-  #item-media .sidebar select {
+  #item-media .sidebar button {
     width: 100%;
-    display: block;
-    margin-top: 0.75em;
+    text-align: left;
   }
 
   .openseadragon {
@@ -2730,7 +2728,8 @@ th {
     margin-bottom: 0.5em;
   }
   .sidebar h3,
-  .sidebar label {
+  .sidebar label,
+  .sidebar legend {
     display: block;
     font-size: 20px;
     margin-bottom: 0.6em;
@@ -3070,12 +3069,6 @@ th {
     margin-right: -1px;
   }
 
-  [for="new-block"] {
-    display: inline-block;
-    font-size: 20px;
-    margin-bottom: 0.6em;
-  }
-
   .block {
     margin-bottom: 0.375em;
     overflow: hidden;
@@ -3247,6 +3240,10 @@ th {
     font-weight: bold;
   }
 
+  .block label.thumbnail-option:not(:first-of-type) {
+    padding-top: 0.375em;
+  }
+
   .block .thumbnail-option select {
     width: 70%;
     float: right;
@@ -3362,6 +3359,11 @@ th {
   #attachment-options .media-list img {
     width: 100%;
     height: auto;
+  }
+
+  .site-pages #new-block button {
+    width: 100%;
+    text-align: left;
   }
 
   /* @end */

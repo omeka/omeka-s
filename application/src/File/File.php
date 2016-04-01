@@ -2,15 +2,10 @@
 namespace Omeka\File;
 
 use finfo;
-use Omeka\Service\Exception\ConfigException;
 use Zend\Math\Rand;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class File implements ServiceLocatorAwareInterface
+class File
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var string Path to the temporary file
      */
@@ -27,19 +22,17 @@ class File implements ServiceLocatorAwareInterface
     protected $storageBaseName;
 
     /**
-     * @var string Name of the stored file (with extension).
-     */
-    protected $storageName;
-
-    /**
      * @var string Internet media type of the file
      */
     protected $mediaType;
 
     /**
-     * @var string Filename extension of the file
+     * @var string $tempPath Local temporary path to the file
      */
-    protected $extension;
+    public function __construct($tempPath)
+    {
+        $this->setTempPath($tempPath);
+    }
 
     /**
      * Set the path to the temporary file.
@@ -60,19 +53,8 @@ class File implements ServiceLocatorAwareInterface
      * @param null|string $tempDir
      * @return string
      */
-    public function getTempPath($tempDir = null)
+    public function getTempPath()
     {
-        if (isset($this->tempPath)) {
-            return $this->tempPath;
-        }
-        if (!isset($tempDir)) {
-            $config = $this->getServiceLocator()->get('Config');
-            if (!isset($config['temp_dir'])) {
-                throw new ConfigException('Missing temporary directory configuration');
-            }
-            $tempDir = $config['temp_dir'];
-        }
-        $this->tempPath = tempnam($tempDir, 'omeka');
         return $this->tempPath;
     }
 
@@ -110,17 +92,6 @@ class File implements ServiceLocatorAwareInterface
         return $this->storageBaseName;
     }
 
-    public function getStorageName()
-    {
-        if (isset($this->storageName)) {
-            return $this->storageName;
-        }
-        $extension = $this->getExtension();
-        $this->storageName = sprintf('%s%s', $this->getStorageBaseName(),
-            $extension ? ".$extension" : null);
-        return $this->storageName;
-    }
-
     /**
      * Get the Internet media type of the file.
      *
@@ -135,49 +106,6 @@ class File implements ServiceLocatorAwareInterface
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $this->mediaType = $finfo->file($this->getTempPath());
         return $this->mediaType;
-    }
-
-    /**
-     * Get the filename extension for the original file.
-     *
-     * Checks the extension against a map of Internet media types. Returns a
-     * "best guess" extension if the media type is known but the original
-     * extension is unrecognized or nonexistent. Returns the original extension
-     * if it is unrecoginized, maps to a known media type, or maps to the
-     * catch-all media type, "application/octet-stream".
-     *
-     * @return string
-     */
-    public function getExtension()
-    {
-        if (isset($this->extension)) {
-            return $this->extension;
-        }
-
-        if (!isset($this->sourceName)) {
-            return null;
-        }
-
-        $mediaTypeMap = $this->getServiceLocator()->get('Omeka\File\MediaTypeMap');
-        $mediaType = $this->getMediaType();
-        $extension = substr(strrchr($this->sourceName, '.'), 1);
-
-        if (isset($mediaTypeMap[$mediaType][0])
-            && !in_array($mediaType, ['application/octet-stream'])
-        ) {
-            if ($extension) {
-                if (!in_array($extension, $mediaTypeMap[$mediaType])) {
-                    // Unrecognized extension.
-                    $extension = $mediaTypeMap[$mediaType][0];
-                }
-            } else {
-                // No extension.
-                $extension = $mediaTypeMap[$mediaType][0];
-            }
-        }
-
-        $this->extension = $extension;
-        return $extension;
     }
 
     /**

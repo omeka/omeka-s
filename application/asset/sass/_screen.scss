@@ -918,7 +918,7 @@ div[role="main"] {
 .actions li {
     display: inline-block;
     margin-left: -3px;
-    vertical-align: middle;
+    vertical-align: top;
  }
 
 .actions a,
@@ -1856,8 +1856,9 @@ input[type="text"].value-language,
 
     fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
-        top: rhythm(.25);
+        top: 50%;
         left: rhythm(.25);
+        transform: translateY(-50%);
         z-index: 1;
         width: rhythm(2.25);
         font-weight: bold;
@@ -1880,16 +1881,6 @@ input[type="text"].value-language,
     /* @end */
 
     /* @group ----- Media ----- */
-
-    .upload-zone {
-        background-color: $gray-on-white;
-        padding: rhythm(2) gutter() rhythm() gutter();
-        text-align: center;
-
-        p {
-            @include trailer(0);
-        }
-    }
 
     #resource-files button {
         margin: rhythm() 0 0;
@@ -1966,15 +1957,9 @@ input[type="text"].value-language,
         height: auto;
     }
 
-    #item-media .sidebar label {
-        font-size: 1.25 * $base-font-size;
-        @include trailer(1, 1.25 * $base-font-size);
-    }
-
-    #item-media .sidebar select {
+    #item-media .sidebar button {
         width: 100%;
-        display: block;
-        @include leader(.5);
+        text-align: left;
     }
 
     .openseadragon {
@@ -2375,7 +2360,8 @@ input[type="text"].value-language,
     }
 
     h3,
-    label{
+    label,
+    legend {
         display: block;
         font-size: 1.25 * $base-font-size;
         @include trailer(.5, 1.25 * $base-font-size);
@@ -2703,12 +2689,6 @@ body.sidebar-open #content {
         margin-right: -1px;
     }
 
-    [for="new-block"] {
-        display: inline-block;
-        font-size: 1.25 * $base-font-size;
-        @include trailer(.5, 1.25 * $base-font-size);
-    }
-
     .block {
         @include trailer(.25);
         overflow: hidden;
@@ -2880,6 +2860,10 @@ body.sidebar-open #content {
         font-weight: bold;
     }
 
+    .block label.thumbnail-option:not(:first-of-type) {
+        padding-top: rhythm(.25);
+    }
+
     .block .thumbnail-option select {
         width: 70%;
         float: right;
@@ -2993,6 +2977,11 @@ body.sidebar-open #content {
             width: 100%;
             height: auto;
         }
+    }
+
+    .site-pages #new-block button {
+        width: 100%;
+        text-align: left;
     }
 
     /* @end */

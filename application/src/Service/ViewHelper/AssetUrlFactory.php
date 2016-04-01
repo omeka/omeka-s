@@ -1,6 +1,6 @@
 <?php
 
-namespace Omeka\Service;
+namespace Omeka\Service\ViewHelper;
 
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\View\Helper\AssetUrl;
@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Service factory for the assetUrl view helper.
  */
-class ViewHelperAssetUrlFactory implements FactoryInterface
+class AssetUrlFactory implements FactoryInterface
 {
     /**
      * Create and return the assetUrl view helper

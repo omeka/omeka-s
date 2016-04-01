@@ -1,5 +1,5 @@
 <?php
-namespace OmekaTest\Db\Type;
+namespace OmekaTest\Db\Event\Subscriber;
 
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Test\TestCase;
@@ -15,10 +15,7 @@ class EntityTest extends TestCase
     public function testGetSubscribedEvents()
     {
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
-        $services = $this->getServiceManager([
-            'EventManager' => $eventManager,
-        ]);
-        $entity = new Entity($services);
+        $entity = new Entity($eventManager);
         $this->assertEquals(
             $this->subscribedEvents,
             $entity->getSubscribedEvents()
@@ -34,10 +31,7 @@ class EntityTest extends TestCase
         $eventManager->expects($this->exactly(6))
             ->method('trigger')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
-        $services = $this->getServiceManager([
-            'EventManager' => $eventManager,
-        ]);
-        $entity = new Entity($services);
+        $entity = new Entity($eventManager);
 
         $eventArgs = $this->getMockBuilder('Doctrine\Common\Persistence\Event\LifecycleEventArgs')
             ->disableOriginalConstructor()

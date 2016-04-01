@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\DataType;
 
+use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
@@ -28,19 +29,21 @@ class Resource extends AbstractDataType
         return false;
     }
 
-    public function hydrate(array $valueObject, Value $value)
+    public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
+        $serviceLocator = $adapter->getServiceLocator();
+
         $value->setType($valueObject['type']);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
         $value->setUriLabel(null); // set default
-        $valueResource = $this->getServiceLocator()->get('Omeka\EntityManager')->find(
+        $valueResource = $serviceLocator->get('Omeka\EntityManager')->find(
             'Omeka\Entity\Resource',
             $valueObject['value_resource_id']
         );
         if (null === $valueResource) {
             throw new Exception\NotFoundException(sprintf(
-                $this->getServiceLocator()->get('MvcTranslator')->translate(
+                $serviceLocator->get('MvcTranslator')->translate(
                     'Resource not found with id %s.'),
                     $valueObject['value_resource_id']
                 )
@@ -49,7 +52,7 @@ class Resource extends AbstractDataType
         if ($valueResource instanceof Media) {
             $exception = new Exception\ValidationException;
             $exception->getErrorStore()->addError(
-                'value', $this->getServiceLocator()->get('MvcTranslator')
+                'value', $serviceLocator->get('MvcTranslator')
                     ->translate('A value resource cannot be Media.')
             );
             throw $exception;

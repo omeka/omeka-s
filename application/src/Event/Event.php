@@ -36,11 +36,11 @@ class Event extends ZendEvent
      * All classes that extend {@link Omeka\Api\Adapter\AbstractEntityAdapter}
      * trigger these events.
      */
-    const API_SEARCH_QUERY        = 'api.search.query';
-    const API_FIND_QUERY          = 'api.find.query';
-    const API_FIND_POST           = 'api.find.post';
-    const API_VALIDATE_DATA_PRE   = 'api.validate.data.pre';
-    const API_VALIDATE_ENTITY_PRE = 'api.validate.entity.pre';
+    const API_SEARCH_QUERY = 'api.search.query';
+    const API_FIND_QUERY   = 'api.find.query';
+    const API_FIND_POST    = 'api.find.post';
+    const API_HYDRATE_PRE  = 'api.hydrate.pre';
+    const API_HYDRATE_POST = 'api.hydrate.post';
      /**#@-*/
 
     /**#@+
@@ -73,6 +73,11 @@ class Event extends ZendEvent
     const VIEW_BROWSE_AFTER = 'view.browse.after';
     const VIEW_ADD_AFTER    = 'view.add.after';
     const VIEW_EDIT_AFTER   = 'view.edit.after';
+    const VIEW_ADD_FORM_AFTER   = 'view.add.form.after';
+    const VIEW_EDIT_FORM_AFTER  = 'view.edit.form.after';
+    const VIEW_SHOW_SECTION_NAV = 'view.show.section_nav';
+    const VIEW_ADD_SECTION_NAV  = 'view.add.section_nav';
+    const VIEW_EDIT_SECTION_NAV = 'view.edit.section_nav';
 
     // Site settings event
     const SITE_SETTINGS_FORM = 'site_settings.form';

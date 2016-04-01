@@ -23,7 +23,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = [])
+    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
     {
         try {
             $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
@@ -66,7 +66,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 }
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\File');
+        $file = $fileManager->getTempFile();
         $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 

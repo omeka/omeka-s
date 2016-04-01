@@ -6,15 +6,14 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;
 
-class FileWithText extends AbstractBlockLayout
+class Media extends AbstractBlockLayout
 {
     public function getLabel()
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('File with Text');
+        return $translator->translate('Media');
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
@@ -28,17 +27,9 @@ class FileWithText extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
-        $textarea->setAttribute('class', 'block-html full wysiwyg');
-        if ($block) {
-            $textarea->setAttribute('value', $this->getData($block->data(), 'html'));
-        }
-
         return $this->thumbnailTypeSelect($view, $site, $block)
             . $this->alignmentClassSelect($view, $site, $block)
-            . $this->attachmentsForm($view, $site, $block)
-            . $view->formRow($textarea);
-
+            . $this->attachmentsForm($view, $site, $block);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
@@ -50,14 +41,12 @@ class FileWithText extends AbstractBlockLayout
 
         $alignmentClass = $this->getData($block->data(), 'alignment', 'left');
         $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
-        $html = $this->getData($block->data(), 'html');
 
-        return $view->partial('common/block-layout/file-with-text', array(
+        return $view->partial('common/block-layout/file', array(
             'block' => $block,
             'attachments' => $attachments,
             'alignmentClass' => $alignmentClass,
-            'thumbnailType' => $thumbnailType,
-            'html' => $html
+            'thumbnailType' => $thumbnailType
         ));
 
     }

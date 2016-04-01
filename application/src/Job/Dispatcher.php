@@ -2,29 +2,50 @@
 namespace Omeka\Job;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use Omeka\Job\Strategy\StrategyInterface;
 use Omeka\Entity\Job;
 use Omeka\Log\Writer\Job as JobWriter;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Authentication\AuthenticationService;
+use Zend\Log\Logger;
 
-class Dispatcher implements ServiceLocatorAwareInterface
+class Dispatcher
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var StrategyInterface
      */
     protected $dispatchStrategy;
 
     /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @var AuthenticationService
+     */
+    protected $auth;
+
+    /**
      * Set the dispatch strategy.
      *
      * @param StrategyInterface $dispatchStrategy
+     * @param EntityManager $entityManager
+     * @param Logger $logger
+     * @param AuthenticationService $auth
      */
-    public function __construct(StrategyInterface $dispatchStrategy)
+    public function __construct(StrategyInterface $dispatchStrategy, EntityManager $entityManager,
+        Logger $logger, AuthenticationService $auth)
     {
         $this->dispatchStrategy = $dispatchStrategy;
+        $this->entityManager = $entityManager;
+        $this->logger = $logger;
+        $this->auth = $auth;
     }
 
     /**
@@ -52,16 +73,13 @@ class Dispatcher implements ServiceLocatorAwareInterface
             throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
         }
 
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-
         $job = new Job;
         $job->setStatus(Job::STATUS_STARTING);
         $job->setClass($class);
         $job->setArgs($args);
-        $job->setOwner($auth->getIdentity());
-        $entityManager->persist($job);
-        $entityManager->flush();
+        $job->setOwner($this->auth->getIdentity());
+        $this->entityManager->persist($job);
+        $this->entityManager->flush();
 
         if (!$strategy) {
             $strategy = $this->getDispatchStrategy();
@@ -79,15 +97,14 @@ class Dispatcher implements ServiceLocatorAwareInterface
      */
     public function send(Job $job, StrategyInterface $strategy)
     {
-        $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $logger->addWriter(new JobWriter($job));
+        $this->logger->addWriter(new JobWriter($job));
         try {
             $strategy->send($job);
         } catch (\Exception $e) {
-            $logger->err((string) $e);
+            $this->logger->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
             $job->setEnded(new DateTime('now'));
-            $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
+            $this->entityManager->flush();
         }
     }
 
@@ -102,12 +119,11 @@ class Dispatcher implements ServiceLocatorAwareInterface
      */
     public function stop($jobId)
     {
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $job = $entityManager->find('Omeka\Entity\Job', $jobId);
+        $job = $this->entityManager->find('Omeka\Entity\Job', $jobId);
         if (!$job) {
             throw new Exception\InvalidArgumentException(sprintf('The job ID "%s" is invalid.', $jobId));
         }
         $job->setStatus(Job::STATUS_STOPPING);
-        $this->getServiceLocator()->get('Omeka\EntityManager')->flush();
+        $this->entityManager->flush();
     }
 }

@@ -70,11 +70,11 @@ class IIIF extends AbstractIngester
             $URLString = '/full/full/0/native.jpg';
         }
         if (isset($IIIFData['@id'])) {
-            $file = $this->getServiceLocator()->get('Omeka\File');
+            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            $file = $fileManager->getTempFile();
             if ($this->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
-                $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
                 if ($fileManager->storeThumbnails($file)) {
-                    $media->setFilename($file->getStorageName());
+                    $media->setFilename($file->getStorageBaseName());
                     $media->setHasThumbnails(true);
                 }
             }

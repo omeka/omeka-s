@@ -3,6 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
+use Omeka\Service\Cli;
 
 class ImageMagickThumbnailer extends AbstractThumbnailer
 {
@@ -12,6 +13,19 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
      * @var string Path to the ImageMagick "convert" command
      */
     protected $convertPath;
+
+    /**
+     * @var Cli
+     */
+    protected $cli;
+
+    /**
+     * @param Cli $cli
+     */
+    public function __construct(Cli $cli)
+    {
+        $this->cli = $cli;
+    }
 
     /**
      * {@inheritDoc}
@@ -27,7 +41,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create($strategy, $constraint, array $options = [])
+    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
     {
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
 
@@ -53,7 +67,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 ];
         }
 
-        $file = $this->getServiceLocator()->get('Omeka\File');
+        $file = $fileManager->getTempFile();
         $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 
@@ -65,7 +79,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
             escapeshellarg($tempPath)
         );
 
-        $cli = $this->getServiceLocator()->get('Omeka\Cli');
+        $cli = $this->cli;
         $output = $cli->execute($command);
         if (false === $output) {
             throw new Exception\CannotCreateThumbnailException;
@@ -81,7 +95,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
      */
     public function setConvertPath($convertDir)
     {
-        $cli = $this->getServiceLocator()->get('Omeka\Cli');
+        $cli = $this->cli;
         if ($convertDir) {
             $convertPath = $cli->validateCommand($convertDir, self::CONVERT_COMMAND);
             if (false === $convertPath) {

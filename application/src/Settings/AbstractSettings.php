@@ -1,14 +1,11 @@
 <?php
 namespace Omeka\Settings;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Doctrine\DBAL\Connection;
+use Omeka\Mvc\Status;
 
-abstract class AbstractSettings implements SettingsInterface,
-    ServiceLocatorAwareInterface
+abstract class AbstractSettings implements SettingsInterface
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var array
      */
@@ -18,6 +15,11 @@ abstract class AbstractSettings implements SettingsInterface,
      * @var Doctrine\DBAL\Connection
      */
     protected $connection;
+
+    /**
+     * @var Status
+     */
+    protected $status;
 
     /**
      * Cache all settings from a data store.
@@ -39,6 +41,12 @@ abstract class AbstractSettings implements SettingsInterface,
      * @param mixed $value
      */
     abstract protected function deleteSetting($id);
+
+    public function __construct(Connection $connection, Status $status)
+    {
+        $this->connection = $connection;
+        $this->status = $status;
+    }
 
     /**
      * Set a setting
@@ -144,7 +152,7 @@ abstract class AbstractSettings implements SettingsInterface,
     protected function cache()
     {
         $this->cache = [];
-        if (!$this->getServiceLocator()->get('Omeka\Status')->isInstalled()) {
+        if (!$this->status->isInstalled()) {
             return;
         }
         $this->setCache();
@@ -157,9 +165,6 @@ abstract class AbstractSettings implements SettingsInterface,
      */
     protected function getConnection()
     {
-        if (null === $this->connection) {
-            $this->connection = $this->getServiceLocator()->get('Omeka\Connection');
-        }
         return $this->connection;
     }
 }

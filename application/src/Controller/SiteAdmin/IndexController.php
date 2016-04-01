@@ -104,7 +104,6 @@ class IndexController extends AbstractActionController
 
         $form = new SiteSettingsForm($this->getServiceLocator());
         $event = new Event(Event::SITE_SETTINGS_FORM, $this, [
-            'services' => $this->getServiceLocator(),
             'form' => $form,
         ]);
         $this->getEventManager()->trigger($event);

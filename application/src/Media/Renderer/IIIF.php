@@ -4,7 +4,7 @@ namespace Omeka\Media\Renderer;
 use Omeka\Api\Representation\MediaRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
-class IIIF extends AbstractRenderer
+class IIIF implements RendererInterface
 {
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {

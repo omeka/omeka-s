@@ -1,4 +1,4 @@
-<div class="<?php echo $this->alignmentClass . ' ' . $this->thumbnailType; ?>">
+<div class="<?php echo $this->alignmentClass . ' ' . $this->thumbnailType; ?> file">
 <?php foreach($this->attachments as $attachment): ?>
     <div class="item resource">
     <?php
@@ -9,9 +9,7 @@
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
         ?>
-        <a href="<?php echo $this->escapeHtml($item->url()); ?>">
-            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl($thumbnailType)); ?>">
-        </a>
+        <?php echo $media->render(['thumbnailType' => $thumbnailType]); ?>
         <?php endif; ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
     <?php endif; ?>
@@ -24,5 +22,4 @@
     <?php endif; ?>
     </div>
 <?php endforeach; ?>
-<?php echo $this->html; ?>
 </div>

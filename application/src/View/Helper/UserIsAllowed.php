@@ -2,7 +2,6 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Permissions\Acl;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class UserIsAllowed extends AbstractHelper
@@ -15,12 +14,11 @@ class UserIsAllowed extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param Acl $acl
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Acl $acl)
     {
-        $this->serviceLocator = $serviceLocator;
-        $this->acl = $serviceLocator->get('Omeka\Acl');
+        $this->acl = $acl;
     }
 
     /**

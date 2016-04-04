@@ -561,6 +561,10 @@
     color: #dedede;
   }
 
+  .site-page-pagination {
+    clear: both;
+  }
+
   /* @end */
   /* @group ----- Resource List ----- */
   ul.resource-list {

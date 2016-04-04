@@ -60,6 +60,16 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         }
     }
 
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+
+        if (isset($query['label'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Entity\ResourceTemplate.label",
+                $this->createNamedParameter($qb, $query['label']))
+            );
+        }
+    }
 
     /**
      * {@inheritDoc}

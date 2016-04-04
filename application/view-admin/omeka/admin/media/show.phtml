@@ -12,9 +12,7 @@ $escape = $this->plugin('escapeHtml');
 
 
 <div id="item-metadata" class="active section">
-    <div class="media-render">
     <?php echo $media->render(); ?>
-    </div>
     <?php if ( $media->resourceClass()): ?>
         <div class="meta-group">
             <h4><?php echo $this->translate('Class'); ?></h4>

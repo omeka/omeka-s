@@ -696,6 +696,11 @@
     margin-bottom: 0.75em;
   }
 
+  .media-render > * {
+    max-width: 100%;
+    height: auto;
+  }
+
   /* @end */
 }
 @media screen and (min-width: 800px) {

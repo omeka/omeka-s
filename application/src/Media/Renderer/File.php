@@ -29,9 +29,13 @@ class File implements RendererInterface
     ) {
         try {
             $renderer = $this->fileRendererManager->get($media->mediaType());
-            return $renderer->render($view, $media, $options);
         } catch (ServiceNotFoundException $e) {
-            return $view->hyperlink($media->filename(), $media->originalUrl());
+            if ($media->hasThumbnails()) {
+                $renderer = $this->fileRendererManager->get('thumbnail');
+            } else {
+                $renderer = $this->fileRendererManager->get('fallback');
+            }
         }
+        return $renderer->render($view, $media, $options);
     }
 }

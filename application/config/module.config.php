@@ -319,14 +319,12 @@ return [
     ],
     'file_renderers' => [
         'invokables' => [
-            'image' => 'Omeka\Media\FileRenderer\ImageRenderer',
+            'fallback' => 'Omeka\Media\FileRenderer\FallbackRenderer',
+            'thumbnail' => 'Omeka\Media\FileRenderer\ThumbnailRenderer',
             'audio' => 'Omeka\Media\FileRenderer\AudioRenderer',
             'video' => 'Omeka\Media\FileRenderer\VideoRenderer',
         ],
         'aliases' => [
-            'image/png' => 'image',
-            'image/jpeg' => 'image',
-            'image/gif' => 'image',
             'audio/ogg' => 'audio',
             'audio/x-ogg' => 'audio',
             'audio/aac' => 'audio',

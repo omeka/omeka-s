@@ -12,6 +12,6 @@ class Paginator extends AbstractPlugin
             ->getServiceLocator()
             ->get('ViewHelperManager')
             ->get('pagination');
-        $pagination($totalCount, $currentPage, $perPage, $name);
+        $pagination($name, $totalCount, $currentPage, $perPage);
     }
 }

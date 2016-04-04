@@ -98,7 +98,7 @@ class PaginationTest extends TestCase
 
         $pagination = new Pagination($paginator);
         $pagination->setView($view);
-        $pagination->__invoke($totalCount, $currentPage, $perPage, $name);
+        $pagination->__invoke($name, $totalCount, $currentPage, $perPage);
         $pagination->__toString();
     }
 }

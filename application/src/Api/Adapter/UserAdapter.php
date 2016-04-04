@@ -84,7 +84,14 @@ class UserAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     public function buildQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+        if (isset($query['email'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Entity\User.email",
+                $this->createNamedParameter($qb, $query['email']))
+            );
+        }
+    }
 
     /**
      * {@inheritDoc}

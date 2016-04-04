@@ -2332,7 +2332,7 @@ th {
     margin-bottom: 1.5em;
   }
 
-  .media-render img {
+  .media-render > * {
     max-width: 100%;
     height: auto;
   }

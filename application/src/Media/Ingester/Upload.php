@@ -94,6 +94,7 @@ class Upload extends AbstractIngester
         $fileInput = new File('file[__index__]');
         $fileInput->setOptions([
             'label' => $view->translate('Upload File'),
+            'info' => $view->uploadLimit(),
         ]);
         $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',

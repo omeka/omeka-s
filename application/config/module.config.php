@@ -253,6 +253,7 @@ return [
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
+            'uploadLimit' => 'Omeka\View\Helper\UploadLimit'
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

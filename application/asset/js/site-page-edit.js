@@ -42,7 +42,7 @@
             $('#attachment-options').scrollTop(0);
 
             // Hide media selection and caption if this attachment is item-only.
-            if ($('.selecting-attachment').hasClass('attachment-item-only')) {
+            if ($('.selecting-attachment').closest('.attachments-form').hasClass('attachments-item-only')) {
                 $('#attachment-item > .select-media').hide();
                 $('#attachment-caption').hide();
             } else {

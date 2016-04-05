@@ -38,6 +38,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
      * @param PhpRenderer $view
      * @param SiteRepresentation $site
      * @param SiteBlockAttachmentRepresentation|null $block
+     * @param bool $itemOnly If false, media selection and caption will be visible
      * @return string
      */
     public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,
@@ -45,7 +46,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     ) {
         return $view->partial('common/attachments-form', [
             'block' => $block,
-            'itemOnly' => $itemOnly,
+            'itemOnly' => (bool) $itemOnly,
         ]);
     }
 

@@ -45,6 +45,9 @@
             if ($('.selecting-attachment').hasClass('attachment-item-only')) {
                 $('#attachment-item > .select-media').hide();
                 $('#attachment-caption').hide();
+            } else {
+                $('#attachment-item > .select-media').show();
+                $('#attachment-caption').show();
             }
         });
     }

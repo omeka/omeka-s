@@ -55,5 +55,9 @@ $attachmentRowTemplate = '
         </div>
         <?php endforeach; ?>
     </div>
+    <?php if ($this->itemOnly): ?>
+    <button type="button" class="attachment-add attachment-item-only">Add Item</button>
+    <?php else: ?>
     <button type="button" class="attachment-add">Add Attachment</button>
+    <?php endif; ?>
 </div>

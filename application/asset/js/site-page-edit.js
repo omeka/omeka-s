@@ -40,6 +40,12 @@
             $('#attachment-caption .caption').val(caption);
             Omeka.openSidebar($(this), '#attachment-options');
             $('#attachment-options').scrollTop(0);
+
+            // Hide media selection and caption if this attachment is item-only.
+            if ($('.selecting-attachment').hasClass('attachment-item-only')) {
+                $('#attachment-item > .select-media').hide();
+                $('#attachment-caption').hide();
+            }
         });
     }
 

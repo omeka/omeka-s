@@ -82,7 +82,8 @@ class Media extends AbstractHelper
      */
     public function render(MediaRepresentation $media, array $options = [])
     {
-        return $this->rendererManager->get($media->renderer())
+        $renderedMedia = $this->rendererManager->get($media->renderer())
             ->render($this->getView(), $media, $options);
+        return sprintf('<div class="media-render">%s</div>', $renderedMedia);
     }
 }

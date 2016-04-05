@@ -547,6 +547,10 @@ header {
     color: $light;
 }
 
+.site-page-pagination {
+    clear: both;
+}
+
 /* @end */
 
 /* @group ----- Resource List ----- */
@@ -682,5 +686,9 @@ body.resource #content > h2:first-of-type + h3 {
     margin-bottom: rhythm(.5);
 }
 
+.media-render > * {
+    max-width: 100%;
+    height: auto;
+}
 
 /* @end */

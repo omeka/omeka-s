@@ -15,7 +15,9 @@
         >
     <?php endif; ?>
         <h4><?php echo $item->link($item->displayTitle()); ?></h4>
-        <div class="description"><?php echo $item->displayDescription(); ?></div>
+        <?php if ($description = $item->displayDescription()): ?>
+        <div class="description"><?php echo $description; ?></div>
+        <?php endif; ?>
     </li>
 <?php endforeach; ?>
 </ul>

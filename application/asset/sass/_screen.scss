@@ -1952,7 +1952,7 @@ input[type="text"].value-language,
         @include trailer();
     }
 
-    .media-render img {
+    .media-render > * {
         max-width: 100%;
         height: auto;
     }

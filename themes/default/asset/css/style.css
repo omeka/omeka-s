@@ -561,6 +561,10 @@
     color: #dedede;
   }
 
+  .site-page-pagination {
+    clear: both;
+  }
+
   /* @end */
   /* @group ----- Resource List ----- */
   ul.resource-list {
@@ -690,6 +694,11 @@
   #content .media.resource img {
     vertical-align: top;
     margin-bottom: 0.75em;
+  }
+
+  .media-render > * {
+    max-width: 100%;
+    height: auto;
   }
 
   /* @end */

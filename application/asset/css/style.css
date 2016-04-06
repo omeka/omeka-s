@@ -2579,10 +2579,12 @@ th {
     left: 75.52083%;
     visibility: visible;
   }
-  .sidebar .o-icon-close {
+  .sidebar a.o-icon-close {
     position: absolute;
-    right: 1.04167%;
+    right: 0.75em;
     top: 0.75em;
+    z-index: 3;
+    color: #666;
   }
   .sidebar .vocabulary,
   .sidebar .meta-group {
@@ -2627,6 +2629,20 @@ th {
     font-size: 16px;
     font-weight: bold;
     margin: 0 0 0.75em 0;
+    padding-bottom: 0.75em;
+    position: relative;
+  }
+  .sidebar h3:after,
+  .sidebar label:after,
+  .sidebar legend:after {
+    content: "";
+    position: absolute;
+    left: -0.75em;
+    right: -0.75em;
+    bottom: 0;
+    top: -0.75em;
+    background-color: #dfdfdf;
+    z-index: -1;
   }
   .sidebar .field {
     background-color: transparent;
@@ -2636,22 +2652,8 @@ th {
 
   #sidebar-confirm {
     display: block;
-    background-color: #ccc;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -16.66667%;
-    margin-left: -16.66667%;
-    padding-right: 17.70833%;
-    padding-left: 17.70833%;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-top: -1.5em;
-    margin-bottom: -1.5em;
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-    margin-bottom: 1.5em;
+    padding-bottom: 0.75em;
+    margin-bottom: 0.75em;
   }
   #sidebar-confirm button {
     margin-bottom: 0em;

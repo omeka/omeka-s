@@ -3,9 +3,9 @@ $escape = $this->plugin('escapeHtml');
  ?>
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <?php if ($linkTitle): ?>
-    <h2 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+    <h3 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h3>
     <?php else: ?>
-    <h2 class="o-title"><?php echo $escape($resource->displayTitle()); ?></h2>
+    <h3 class="o-title"><?php echo $escape($resource->displayTitle()); ?></h3>
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">

@@ -2224,10 +2224,12 @@ input[type="text"].value-language,
         visibility: visible;
     }
 
-    .o-icon-close {
+    a.o-icon-close {
         position: absolute;
-        right: gutter();
+        right: rhythm(.5);
         top: rhythm(.5);
+        z-index: 3;
+        color: #666;
     }
 
     .vocabulary,
@@ -2279,6 +2281,19 @@ input[type="text"].value-language,
         font-size: $base-font-size;
         font-weight: bold;
         margin: 0 0 rhythm(.5) 0;
+        padding-bottom: rhythm(.5);
+        position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: rhythm(-.5);
+            right: rhythm(-.5);
+            bottom: 0;
+            top: rhythm(-.5);
+            background-color: $border-gray;
+            z-index: -1;
+        }
     }
 
     .field {
@@ -2290,10 +2305,8 @@ input[type="text"].value-language,
 
 #sidebar-confirm {
     display: block;
-    background-color: #ccc;
-    @include bleed-x(gutter(1));
-    @include bleed-y(rhythm());
-    @include trailer();
+    padding-bottom: rhythm(.5);
+    @include trailer(.5);
 
     button {
         @include trailer(0);

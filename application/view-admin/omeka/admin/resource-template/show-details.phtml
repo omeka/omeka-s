@@ -1,7 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 ?>
-<h2><?php echo $this->translate($resource->link($resource->label())); ?></h2>
+<h3><?php echo $this->translate($resource->link($resource->label())); ?></h3>
 <?php foreach ($resource->resourceTemplateProperties() as $resourceTemplateProperty): ?>
 <?php
 $property = $resourceTemplateProperty->property();

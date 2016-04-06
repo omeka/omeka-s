@@ -943,19 +943,25 @@ th {
 
   /* @end */
   /* @group ----- Footer ----- */
+  .sidebar-open footer {
+    padding-right: 26.04167%;
+  }
+
   footer {
     font-size: 12px;
     position: relative;
-    padding: 0 0 0 20.83333%;
+    padding: 0 1.04167% 0 20.83333%;
     margin-top: -2.25em;
+    text-align: right;
   }
   footer .site-version {
-    margin: 0 1.5em 0 0;
+    margin: 0;
     display: inline-block;
   }
-  footer .version-label {
+  footer .version-number {
     display: inline-block;
-    margin-right: .25em;
+    margin: 0 0.75em;
+    line-height: 1;
   }
 
   /* @end */

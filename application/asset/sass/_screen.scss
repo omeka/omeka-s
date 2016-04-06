@@ -542,20 +542,26 @@ div[role="main"] > h1:first-of-type {
 
 /* @group ----- Footer ----- */
 
+.sidebar-open footer {
+    padding-right: span(4 of 16) + gutter();
+}
+
 footer {
     font-size: .75 * $base-font-size;
     position: relative;
-    padding: 0 0 0 (span(3 of 16) + (2 * gutter()));
+    padding: 0 gutter() 0 (span(3 of 16) + (2 * gutter()));
     margin-top: rhythm(-1.5);
+    text-align: right;
 
     .site-version {
-        margin: 0 rhythm() 0 0;
+        margin: 0;
         display: inline-block;
     }
 
-    .version-label {
+    .version-number {
         display: inline-block;
-        margin-right: .25em;
+        margin: 0 rhythm(.5);
+        line-height: 1;
     }
 }
 

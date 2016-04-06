@@ -87,7 +87,6 @@ body {
         text-align: left;
     }
 
-    th,
     td {
         padding: 0 rhythm(.25);
         border-color: $border-gray;
@@ -103,10 +102,7 @@ body {
         background-color: #fff;
     }
 
-    td,
-    th,
-    .tablesaw-sortable th.tablesaw-sortable-head,
-    .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
+    td {
         padding: rhythm(.25) .5em;
         position: relative;
         vertical-align: top;
@@ -114,6 +110,12 @@ body {
 
     tr:last-of-type td,
     tr:last-of-type th {
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+
+    .tablesaw thead tr:first-child th {
+        border-color: $border-gray;
+        padding-top: rhythm(.25);
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 

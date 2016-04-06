@@ -484,7 +484,6 @@ th {
     text-align: left;
   }
 
-  th,
   td {
     padding: 0 0.375em;
     border-color: #dfdfdf;
@@ -502,10 +501,7 @@ th {
     background-color: #fff;
   }
 
-  td,
-  th,
-  .tablesaw-sortable th.tablesaw-sortable-head,
-  .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
+  td {
     padding: 0.375em 0.5em;
     position: relative;
     vertical-align: top;
@@ -513,6 +509,14 @@ th {
 
   tr:last-of-type td,
   tr:last-of-type th {
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
+  .tablesaw thead tr:first-child th {
+    border-color: #dfdfdf;
+    padding-top: 0.375em;
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
@@ -3516,7 +3520,7 @@ th {
     width: 100%;
     text-align: center;
     display: block;
-    background-color: #e7e7e7;
+    background-color: #404E61;
   }
 
   #user,

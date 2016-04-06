@@ -18,6 +18,8 @@ class SystemInfoController extends AbstractActionController
     private function getSystemInfo()
     {
         $conn = $this->getServiceLocator()->get('Omeka\Connection')->getWrappedConnection();
+        $extensions = get_loaded_extensions();
+        natcasesort($extensions);
         $info = [
             'Omeka S' => [
                 'Version' => Module::VERSION,
@@ -29,7 +31,7 @@ class SystemInfoController extends AbstractActionController
                 'POST Size Limit' => ini_get('post_max_size'),
                 'File Upload Limit' => ini_get('upload_max_filesize'),
                 'Garbage Collection' => gc_enabled(),
-                'Extensions' => implode(', ', get_loaded_extensions()),
+                'Extensions' => $extensions,
             ],
             'MySQL' => [
                 'Server Version' => $conn->getAttribute(PDO::ATTR_SERVER_VERSION),
@@ -42,12 +44,16 @@ class SystemInfoController extends AbstractActionController
 
         $disabledFunctions = ini_get('disable_functions');
         if ($disabledFunctions) {
-            $info['PHP Settings']['Disabled Functions'] = $disabledFunctions;
+            $disabledFunctions = explode(',', $disabledFunctions);
+            natcasesort($disabledFunctions);
+            $info['PHP']['Disabled Functions'] = $disabledFunctions;
         }
 
         $disabledClasses = ini_get('disable_classes');
         if ($disabledClasses) {
-            $info['PHP Settings']['Disabled Classes'] = $disabledClasses;
+            $disabledClasses = explode(',', $disabledClasses);
+            natcasesort($disabledClasses);
+            $info['PHP']['Disabled Classes'] = $disabledClasses;
         }
 
         return $info;

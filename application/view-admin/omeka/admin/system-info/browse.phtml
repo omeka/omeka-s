@@ -12,7 +12,13 @@ echo $this->pageTitle($this->translate('System Information'));
     <?php foreach ($sectionInfo as $label => $data): ?>
     <tr>
         <th scope="row"><?php echo $this->escapeHtml($label); ?></th>
-        <?php if (is_bool($data)) { $data = $data ? $this->translate('Yes') : $this->translate('No'); } ?>
+        <?php
+        if (is_bool($data)):
+            $data = $data ? $this->translate('Yes') : $this->translate('No');
+        elseif (is_array($data)):
+            $data = implode(', ', $data);
+        endif;
+        ?>
         <td><?php echo $this->escapeHtml($data); ?></td>
     </tr>
     <?php endforeach; ?>

@@ -2268,18 +2268,6 @@ th {
 
   /* @end */
   /* @group ----- Media ----- */
-<<<<<<< HEAD
-  .upload-zone {
-    background-color: rgba(0, 0, 0, 0.04);
-    padding: 3em 1.04167% 1.5em 1.04167%;
-    text-align: center;
-  }
-  .upload-zone p {
-    margin-bottom: 0em;
-  }
-
-=======
->>>>>>> 13736ee7adde021e4acdd6070c7170a7830adb2c
   #resource-files button {
     margin: 1.5em 0 0;
   }
@@ -2967,6 +2955,25 @@ th {
 
   .module-version {
     display: block;
+  }
+
+  /* @end */
+  /* @group ----- System Info ----- */
+  #system-info-table .label-col {
+    width: 25%;
+  }
+  #system-info-table th, #system-info-table td {
+    font-size: 0.875em;
+    padding: 0;
+    line-height: 1.75;
+    border: none;
+  }
+  #system-info-table th[scope="rowgroup"] {
+    font-size: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+  #system-info-table th[scope="row"] {
+    padding-left: 1.5em;
   }
 
   /* @end */

@@ -1,3 +1,4 @@
 <footer>
     <p class="site-version"><span class="version-label"><?php echo $this->translate('Omeka S version'); ?></span><span class="version-number"><?php echo Omeka\Module::VERSION; ?></span></p>
+    <a href="<?php echo $this->url('admin/default', ['controller' => 'system-info']); ?>"><?php echo $this->translate('System Information'); ?></a>
 </footer>

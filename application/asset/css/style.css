@@ -1960,6 +1960,7 @@ th {
   }
   .inputs textarea {
     resize: vertical;
+    line-height: 1.5;
   }
   .inputs label {
     padding: 0.375em 0;

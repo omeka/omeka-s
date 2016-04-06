@@ -73,7 +73,6 @@ body {
     font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    padding-left: gutter();
     color: #676767;
 }
 
@@ -91,13 +90,9 @@ body {
     th,
     td {
         padding: 0 rhythm(.25);
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include leading-border(1px, .5, $base-font-size, solid);
         vertical-align: middle;
-    }
-
-    thead + tbody tr:first-child {
-        border-color: $gray-on-white;
     }
 
     table {
@@ -413,7 +408,7 @@ table .icon-sortable {
 header {
     width: span(3 of 16);
     text-align: left;
-    padding: rhythm(1.5) 0 rhythm();
+    padding: rhythm(1.5) 0 rhythm() gutter();
     float: left;
 }
 
@@ -433,7 +428,7 @@ header {
     background-color: #fff;
     padding: rhythm(.25);
     @include border-radius(0 0 3px 3px);
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
@@ -454,7 +449,7 @@ header {
     z-index: 1000;
     background-color: $blue;
     color: #fff;
-    border-bottom: 1px solid $gray-on-white;
+    border-bottom: 1px solid $border-gray;
 }
 
 #user p {
@@ -529,39 +524,18 @@ div[role="main"] > h1:first-of-type {
     background-color: #fff;
     font-size: 1.5 * $base-font-size;
     position: fixed;
-    padding: 0 30% 0 gutter();
+    padding: 0 30% 0 0;
     z-index: 3;
     top: rhythm(1.5, 1.5 * $base-font-size);
     height: rhythm(2, 1.5 * $base-font-size);
-    left: span(3 of 16) + gutter() * 2;
+    left: span(3 of 16) + (2 * gutter());
     right: 0;
     margin-bottom: 0;
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.site-version {
-    background-color: $gray-on-white;
-    @include border-radius(3px);
-    padding: rhythm(.25, .75 * $base-font-size);
-    display: inline-block;
-    font-size: .75 * $base-font-size;
-
-    .version-label {
-        background-color: $gray-on-white;
-        font-weight: bold;
-        @include bleed(rhythm(.25, .75 * $base-font-size) 0 rhythm(.25, .75 * $base-font-size) rhythm(.25, .75 * $base-font-size));
-        padding: rhythm(.25, .75 * $base-font-size);
-        display: inline-block;
-    }
-
-    .version-number {
-        margin-left: rhythm(.25, .75 * $base-font-size);
-        display: inline-block;
-    }
 }
 
 /* @end */
@@ -569,19 +543,19 @@ div[role="main"] > h1:first-of-type {
 /* @group ----- Footer ----- */
 
 footer {
+    font-size: .75 * $base-font-size;
     position: relative;
-    padding-right: span(13 of 16);
-    margin-top: -(rhythm(3));
-    z-index: -1;
+    padding: 0 0 0 (span(3 of 16) + (2 * gutter()));
+    margin-top: rhythm(-1.5);
 
-    &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: calc(#{span(3 of 16)} + #{gutter()});
-        right: 0;
-        bottom: 0;
-        background: #fff;
+    .site-version {
+        margin: 0 rhythm() 0 0;
+        display: inline-block;
+    }
+
+    .version-label {
+        display: inline-block;
+        margin-right: .25em;
     }
 }
 
@@ -666,7 +640,7 @@ nav.pagination + *:not(.sorting) {
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(3px, .25, $base-font-size, solid);
         margin-bottom: rhythm(.25);
     }
@@ -676,8 +650,7 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav ul.navigation > li:not(:last-of-type) {
-        border-color: $gray-on-white;
-        //@include trailing-border(1px, .25, $base-font-size, solid);
+        border-color: $border-gray;
     }
 
     header nav ul.navigation li li {
@@ -820,9 +793,8 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    width: span(13 of 16) - gutter();
-    margin-left: gutter() + span(3);
-    padding: rhythm(4) gutter() rhythm();
+    margin-left: gutter() + span(3 of 16);
+    padding: rhythm(4) gutter() rhythm(1.5);
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -966,66 +938,6 @@ div[role="main"] {
 
 .row-count {
     margin: 0 rhythm(.25);
-}
-
-th a.sortable,
-th .sorted-asc,
-th .sorted-desc {
-    display: block;
-    width: 100%;
-}
-
-th .sorted-asc,
-th .sorted-desc {
-    border-color: #d2d2d2;
-    padding: 0 .5em;
-    @include trailing-border(3px, .5, $base-font-size, solid);
-    margin: 0 0 rhythm(-.5) -.375em;
-    width: calc(100% + .75em);
-}
-
-th a.sortable:after,
-th .sorted-asc:after,
-th .sorted-desc:after,
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    position: absolute;
-    font-size: .75 * $base-font-size;
-    right: .5em;
-    top: rhythm(1);
-    z-index: 2;
-}
-
-th a.sortable:hover:after,
-th .sorted-asc:hover:after,
-th .sorted-desc:hover:after {
-    color: $red;
-}
-
-.sortable:after,
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    content: $fa-var-sort;
-    color: #999;
-}
-
-.sorted-asc:hover:after,
-.sorted-desc:after {
-    content: $fa-var-sort-desc;
-}
-
-.sortable:hover:after,
-.sorted-desc:hover:after,
-.sorted-asc:after {
-    content: $fa-var-sort-asc;
-}
-
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    z-index: 1;
 }
 
 .no-resources {
@@ -1188,7 +1100,7 @@ fieldset.section > legend {
         right: 0;
         z-index: 0;
         background: #fff;
-        border: 1px solid $gray-on-white;
+        border: 1px solid $border-gray;
         border-width: 1px 0;
     }
 
@@ -1201,8 +1113,8 @@ fieldset.section > legend {
         position: relative;
         z-index: 1;
         background-color: #fff;
-        border-color: $gray-on-white;
-        border: 1px solid $gray-on-white;
+        border-color: $border-gray;
+        border: 1px solid $border-gray;
         margin-left: .25em;
     }
 
@@ -1263,7 +1175,7 @@ fieldset.section > legend {
     left: rhythm(1.5);
     height: rhythm(1.5);
     width: rhythm(1.5);
-    line-height: rhythm(1.5);
+    line-height: 1.5 * $base-line-height;
     overflow: hidden;
     text-align: center;
     color: $red;
@@ -1286,6 +1198,7 @@ fieldset.section > legend {
     top: rhythm(.25);
     left: rhythm(1.5);
     margin: 0 0 0 rhythm(.25);
+    line-height: $base-line-height;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid $gray-on-white;
@@ -1797,7 +1710,7 @@ input[type="text"].value-language,
     fieldset[data-data-type="resource"] .o-title:not(:empty) {
         padding: rhythm(.25);
         @include bleed-x(rhythm(.25));
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
     }
@@ -2085,7 +1998,7 @@ input[type="text"].value-language,
             float: left;
             line-height: .8175 * $base-line-height;
             height: rhythm(1, .8175 * $base-font-size);
-            border: 1px solid $gray-on-white;
+            border: 1px solid $border-gray;
         }
 
         .page-count {
@@ -2176,9 +2089,9 @@ input[type="text"].value-language,
     height: rhythm(2);
     background-color: #fff;
     padding: rhythm(.25) gutter();
-    border-color: #d2d2d2;
+    border-color: $border-gray;
     @include leading-border(1px, .25, $base-font-size, solid);
-    border-left: 1px solid $gray-on-white;
+    border-left: 1px solid $border-gray;
     @include transition-duration(.5s);
 
     button,
@@ -2234,7 +2147,7 @@ input[type="text"].value-language,
         word-wrap: break-word;
 
         &:not(:last-child) {
-            border-color: $gray-on-white;
+            border-color: $border-gray;
             @include trailing-border(1px, .25, $base-font-size, solid);
         }
     }
@@ -2299,7 +2212,7 @@ input[type="text"].value-language,
     background-color: #f7f7f7;
     z-index: 3;
     padding: rhythm(.5);
-    border-left: 1px solid $gray-on-white;
+    border-left: 1px solid $border-gray;
     overflow-y: scroll;
     overflow-x: hidden;
     width: span(4 of 16) - gutter(32);
@@ -2324,7 +2237,7 @@ input[type="text"].value-language,
 
     .value {
         @include trailer(.25);
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, .25, $base-font-size, solid);
         vertical-align: middle;
 
@@ -2363,8 +2276,9 @@ input[type="text"].value-language,
     label,
     legend {
         display: block;
-        font-size: 1.25 * $base-font-size;
-        @include trailer(.5, 1.25 * $base-font-size);
+        font-size: $base-font-size;
+        font-weight: bold;
+        margin: 0 0 rhythm(.5) 0;
     }
 
     .field {
@@ -2399,7 +2313,7 @@ body.sidebar-open #content {
         word-wrap: break-word;
 
         &:not(:last-child) {
-            border-color: $gray-on-white;
+            border-color: $border-gray;
             @include trailing-border(1px, .25, $base-font-size, solid);
         }
     }
@@ -2411,7 +2325,7 @@ body.sidebar-open #content {
 
 .sidebar .meta-group h4 {
     background-color: transparent;
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
@@ -2428,7 +2342,7 @@ body.sidebar-open #content {
 .sidebar .meta-group img {
     height: rhythm(2);
     display: inline-block;
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
@@ -2610,7 +2524,7 @@ body.sidebar-open #content {
 
     th[scope="rowgroup"] {
         font-size: 1em;
-        border-bottom: 1px solid $gray-on-white;
+        border-bottom: 1px solid $border-gray;
     }
 
     th[scope="row"] {
@@ -2752,7 +2666,7 @@ body.sidebar-open #content {
     }
 
     .block.html > div {
-        border: 1px solid $gray-on-white;
+        border: 1px solid $border-gray;
         clear: both;
     }
 
@@ -2851,7 +2765,7 @@ body.sidebar-open #content {
 
     .block .attachment {
         padding-left: rhythm(1.25);
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, 0, $base-font-size, solid);
         position: relative;
         clear: both;
@@ -2879,7 +2793,7 @@ body.sidebar-open #content {
 
     .block label.thumbnail-option {
         overflow: hidden;
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
         line-height: 1.5 * $base-line-height;
@@ -2974,7 +2888,7 @@ body.sidebar-open #content {
     }
 
     #attachment-options h3 {
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
         word-wrap: break-word;
     }
@@ -2991,7 +2905,7 @@ body.sidebar-open #content {
             cursor: pointer;
             display: inline-block;
             padding: rhythm(.125);
-            border: 1px solid $gray-on-white;
+            border: 1px solid $border-gray;
 
 
             &.attached, &:hover {

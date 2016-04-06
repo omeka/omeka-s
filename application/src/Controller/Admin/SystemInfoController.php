@@ -17,9 +17,13 @@ class SystemInfoController extends AbstractActionController
 
     private function getSystemInfo()
     {
-        $conn = $this->getServiceLocator()->get('Omeka\Connection')->getWrappedConnection();
+        $dbalConn = $this->getServiceLocator()->get('Omeka\Connection');
+        $conn = $dbalConn->getWrappedConnection();
+        $mode = $dbalConn->fetchColumn('SELECT @@sql_mode');
+
         $extensions = get_loaded_extensions();
         natcasesort($extensions);
+
         $info = [
             'Omeka S' => [
                 'Version' => Module::VERSION,
@@ -36,6 +40,7 @@ class SystemInfoController extends AbstractActionController
             'MySQL' => [
                 'Server Version' => $conn->getAttribute(PDO::ATTR_SERVER_VERSION),
                 'Client Version' => $conn->getAttribute(PDO::ATTR_CLIENT_VERSION),
+                'Mode'           => explode(',', $mode),
             ],
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m'))

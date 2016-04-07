@@ -1097,7 +1097,7 @@ fieldset.section > legend {
     border-top: 1px solid #fff;
     height: rhythm(1.75);
     position: relative;
-    @include trailer();
+    @include trailer(.5);
     clear: both;
 
     &:before {
@@ -2143,22 +2143,27 @@ input[type="text"].value-language,
 
 .show .property,
 .show .meta-group {
-    @include trailer();
+    text-align: right;
 
     h4 {
-        background-color: $gray-on-white;
-        @include trailer(0);
-        padding: rhythm(.25);
+        width: span(2 of 9);
+        display: inline-block;
+        vertical-align: top;
+        padding: rhythm(.25) 0;
+        text-align: left;
     }
 
     .value {
         padding: rhythm(.25);
         @include trailer(0);
         word-wrap: break-word;
+        width: span(7 of 9);
+        display: inline-block;
+        margin-left: -4px;
+        text-align: left;
 
-        &:not(:last-child) {
-            border-color: $border-gray;
-            @include trailing-border(1px, .25, $base-font-size, solid);
+        &:not(:first-of-type) {
+            padding-top: 0;
         }
     }
 }
@@ -2329,11 +2334,14 @@ body.sidebar-open #content {
 
 .sidebar .meta-group {
     @include trailer();
+    text-align: left;
 
     .value {
+        width: auto;
         padding: rhythm(.25) 0;
         margin: 0;
         word-wrap: break-word;
+        display: block;
 
         &:not(:last-child) {
             border-color: $border-gray;
@@ -2347,11 +2355,13 @@ body.sidebar-open #content {
 }
 
 .sidebar .meta-group h4 {
+    display: block;
     background-color: transparent;
     border-color: $border-gray;
     padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
+    width: auto;
 }
 
 .sidebar .media a:first-child img,

@@ -1554,7 +1554,7 @@ th {
 
   .field-term {
     display: inline-block;
-    font-family: "Source Code Pro";
+    font-family: "Source Code Pro", monospace;
     font-size: 12px;
   }
 
@@ -1913,7 +1913,6 @@ th {
   }
 
   .resource-values .field-term {
-    font-family: "Source Code Pro";
     display: block;
     font-size: 0.75em;
     line-height: 2em;
@@ -2428,14 +2427,7 @@ th {
 
   #resource-details {
     background-color: #fff;
-    overflow-y: scroll;
-    padding-bottom: 3.375em;
-  }
-  #resource-details h1 {
-    font-size: 32px;
-    line-height: 48px;
-    margin-bottom: 0.75em;
-    padding: 0;
+    bottom: 3em;
   }
   #resource-details .o-description,
   #resource-details .property {
@@ -2576,7 +2568,7 @@ th {
     z-index: 3;
     padding: 0.75em;
     border-left: 1px solid #dfdfdf;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     width: 24.47917%;
     -moz-transition-duration: 0.5s;
@@ -3172,7 +3164,7 @@ th {
   }
 
   #attachment-options {
-    padding-bottom: 4.5em;
+    bottom: 3em;
   }
 
   #attachment-options .option {

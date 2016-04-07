@@ -1172,7 +1172,7 @@ fieldset.section > legend {
 
 .field-term {
     display: inline-block;
-    font-family: "Source Code Pro";
+    font-family: "Source Code Pro", monospace;
     font-size: .75 * $base-font-size;
 }
 
@@ -1538,7 +1538,6 @@ input[type="text"].value-language,
     }
 
     .resource-values .field-term {
-        font-family: "Source Code Pro";
         display: block;
         @include adjust-font-size-to(12px);
     }
@@ -2072,15 +2071,7 @@ input[type="text"].value-language,
 
 #resource-details {
     background-color: #fff;
-    overflow-y: scroll;
-    @include padding-trailer(2.25);
-
-    h1 {
-        font-size: 2 * $base-font-size;
-        line-height: 2 * $base-line-height;
-        @include trailer(1, 2 * $base-font-size);
-        padding: 0;
-    }
+    bottom: rhythm(2);
 
     .o-description,
     .property {
@@ -2228,7 +2219,7 @@ input[type="text"].value-language,
     z-index: 3;
     padding: rhythm(.5);
     border-left: 1px solid $border-gray;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16) - gutter(32);
     @include transition-duration(.5s);
@@ -2844,7 +2835,7 @@ body.sidebar-open #content {
     }
 
     #attachment-options {
-        padding-bottom: rhythm(3);
+        bottom: rhythm(2);
     }
 
     #attachment-options .option {

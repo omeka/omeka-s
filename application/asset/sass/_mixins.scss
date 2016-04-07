@@ -7,7 +7,6 @@
 }
 
 @mixin subhead-row {
-    @include bleed-x(rhythm());
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     @include trailing-border(1px, .5, $base-font-size, solid);
 }

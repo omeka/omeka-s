@@ -1089,7 +1089,8 @@ th {
     color: #A91919;
   }
 
-  header nav a:before {
+  header nav li > a:before {
+    content: "";
     font-family: "FontAwesome";
     display: inline-block;
     width: 1.5em;
@@ -2547,14 +2548,7 @@ th {
   /* @end */
   /* @group ----- Resource Template: Show ----- */
   .class-row {
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -1.5em;
-    margin-left: -1.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    border-color: rgba(0, 0, 0, 0.04);
+    border-color: #dfdfdf;
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.6875em;
@@ -2898,14 +2892,7 @@ th {
   /* @end */
   /* @group ----- Sites ----- */
   .breadcrumbs {
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -1.5em;
-    margin-left: -1.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    border-color: rgba(0, 0, 0, 0.04);
+    border-color: #dfdfdf;
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.6875em;
@@ -3383,6 +3370,7 @@ th {
     margin-left: auto;
     margin-right: auto;
     height: auto;
+    background-color: #404E61;
   }
   body.minimal:after {
     content: " ";

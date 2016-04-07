@@ -688,7 +688,8 @@ nav.pagination + *:not(.sorting) {
         color: $red;
     }
 
-    header nav a:before {
+    header nav li > a:before {
+        content: $fa-var-plus-square;
         font-family: "FontAwesome";
         display: inline-block;
         width: rhythm();
@@ -3041,6 +3042,7 @@ body.minimal {
     width: span(8);
     @include container;
     height: auto;
+    background-color: $blue;
 
     header {
         background-color: rgba(0,0,0,.3);

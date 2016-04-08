@@ -718,6 +718,11 @@ th {
   /* @end */
   /* @end */
   /* @group ----- Reusable classes ----- */
+  .flex {
+    display: flex;
+    height: 100%;
+  }
+
   .mobile-only {
     display: none;
   }
@@ -1213,7 +1218,8 @@ th {
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
-    margin-left: calc(span(3 of 16) + gutter());
+    margin-left: calc(span(3 of 16) + 1.04167%);
+    width: 81.25%;
     padding: 4.125em 1.04167% 2.25em;
     background-color: #fff;
     min-height: 100%;

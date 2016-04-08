@@ -308,6 +308,11 @@ body {
 
 /* @group ----- Reusable classes ----- */
 
+.flex {
+    display: flex;
+    height: 100%;
+}
+
 .mobile-only {
     display: none;
 }
@@ -413,7 +418,7 @@ header {
     padding: 0 0 rhythm();
     float: left;
     margin: 0 gutter();
-    color: lighten(saturate($blue, 20%), 50%);;
+    color: lighten(saturate($blue, 20%), 50%);
 }
 
 .skip {
@@ -810,7 +815,8 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    margin-left: calc(span(3 of 16) + gutter());
+    margin-left: calc(span(3 of 16) + #{gutter()});
+    width: span(13 of 16);
     padding: rhythm(2.75) gutter() rhythm(1.5);
     background-color: #fff;
     min-height: 100%;

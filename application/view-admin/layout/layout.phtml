@@ -22,10 +22,12 @@ $this->trigger('view.layout');
         <?php echo $this->headScript(); ?>
     </head>
     <?php echo $this->htmlElement('body'); ?>
-        <?php echo $this->partial('layout/header'); ?>
-        <div id="content" role="main">
-            <?php echo $this->messages(); ?>
-            <?php echo $this->content; ?>
+        <div class="flex">
+            <?php echo $this->partial('layout/header'); ?>
+            <div id="content" role="main">
+                <?php echo $this->messages(); ?>
+                <?php echo $this->content; ?>
+            </div>
         </div>
         <?php echo $this->partial('layout/footer'); ?>
     </body>

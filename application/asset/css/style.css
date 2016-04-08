@@ -816,8 +816,9 @@ th {
   header {
     width: 18.75%;
     text-align: left;
-    padding: 0 0 1.5em 1.04167%;
+    padding: 0 0 1.5em;
     float: left;
+    margin: 0 1.04167%;
   }
 
   .skip {
@@ -923,7 +924,7 @@ th {
     background-color: #fff;
     font-size: 24px;
     position: fixed;
-    padding: 0 30% 0 0;
+    padding: 0 30% 0 1.04167%;
     z-index: 3;
     top: 0;
     height: 2em;
@@ -1192,8 +1193,8 @@ th {
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
-    margin-left: 19.79167%;
-    padding: 6em 1.04167% 2.25em;
+    margin-left: calc(span(3 of 16) + gutter());
+    padding: 4.125em 1.04167% 2.25em;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;

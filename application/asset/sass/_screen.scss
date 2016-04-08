@@ -410,8 +410,9 @@ table .icon-sortable {
 header {
     width: span(3 of 16);
     text-align: left;
-    padding: 0 0 rhythm() gutter();
+    padding: 0 0 rhythm();
     float: left;
+    margin: 0 gutter()
 }
 
 .skip {
@@ -514,7 +515,7 @@ div[role="main"] > h1:first-of-type {
     background-color: #fff;
     font-size: 1.5 * $base-font-size;
     position: fixed;
-    padding: 0 30% 0 0;
+    padding: 0 30% 0 gutter();
     z-index: 3;
     top: 0;
     height: rhythm(2, 1.5 * $base-font-size);
@@ -790,8 +791,8 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    margin-left: gutter() + span(3 of 16);
-    padding: rhythm(4) gutter() rhythm(1.5);
+    margin-left: calc(span(3 of 16) + gutter());
+    padding: rhythm(2.75) gutter() rhythm(1.5);
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;

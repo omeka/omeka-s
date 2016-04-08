@@ -99,7 +99,7 @@ return [
             ],
             'medium' => [
                 'strategy' => 'default',
-                'constraint' => 200,
+                'constraint' => 400,
                 'options' => [],
             ],
             'square' => [

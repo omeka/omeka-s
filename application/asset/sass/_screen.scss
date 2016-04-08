@@ -412,7 +412,8 @@ header {
     text-align: left;
     padding: 0 0 rhythm();
     float: left;
-    margin: 0 gutter()
+    margin: 0 gutter();
+    color: lighten(saturate($blue, 20%), 50%);;
 }
 
 .skip {
@@ -659,8 +660,8 @@ nav.pagination + *:not(.sorting) {
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
-        border-color: $border-gray;
-        @include trailing-border(3px, .25, $base-font-size, solid);
+        border-color: darken($blue, 5%);
+        @include trailing-border(1px, .25, $base-font-size, solid);
         margin-bottom: rhythm(.25);
     }
 

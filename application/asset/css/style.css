@@ -819,6 +819,7 @@ th {
     padding: 0 0 1.5em;
     float: left;
     margin: 0 1.04167%;
+    color: #bdcde3;
   }
 
   .skip {
@@ -1066,10 +1067,10 @@ th {
 
   /* @group ----- Top-level navigation ----- */
   header nav h4 {
-    border-color: #dfdfdf;
-    border-bottom-width: 0.1875em;
+    border-color: #364252;
+    border-bottom-width: 0.0625em;
     border-bottom-style: solid;
-    padding-bottom: 0.1875em;
+    padding-bottom: 0.3125em;
     margin-bottom: 0.375em;
   }
 

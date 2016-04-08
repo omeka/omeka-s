@@ -467,11 +467,12 @@ th {
   }
 
   body {
-    background-color: #fff;
+    background-color: #404E61;
     font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
     color: #676767;
+    overflow-x: hidden;
   }
 
   /* @group ----- Tables ----- */
@@ -718,6 +719,11 @@ th {
   /* @end */
   /* @end */
   /* @group ----- Reusable classes ----- */
+  .flex {
+    display: flex;
+    min-height: 100vh;
+  }
+
   .mobile-only {
     display: none;
   }
@@ -816,8 +822,8 @@ th {
   header {
     width: 18.75%;
     text-align: left;
-    padding: 2.25em 0 1.5em 1.04167%;
-    float: left;
+    padding: 0 1.04167% 1.5em;
+    color: #bdcde3;
   }
 
   .skip {
@@ -847,36 +853,56 @@ th {
   }
 
   #user {
-    display: block;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    left: 0;
-    text-align: right;
-    padding: 0.375em 1.04167%;
-    z-index: 1000;
-    background-color: #404E61;
     color: #fff;
-    border-bottom: 1px solid #dfdfdf;
+    padding-top: 0.75em;
+    margin-bottom: -0.375em;
   }
 
   #user p {
     margin: 0;
     display: inline-block;
+    vertical-align: top;
   }
-  #user p:not(:first-of-type):before {
-    content: "\2022";
+
+  #user .user-id {
+    text-transform: uppercase;
+    font-size: 12px;
+    width: 75%;
+    margin-bottom: 0.5em;
+    margin-right: -4px;
+  }
+
+  #user .user-id a {
+    display: block;
+    font-size: 16px;
+    text-transform: none;
+    margin-top: -0.375em;
+  }
+
+  #user .logout {
+    font-size: 12px;
+    padding: 0 0.5em;
+    background-color: #222933;
+    border-radius: 3px;
     display: inline-block;
-    margin: 0 .5em 0 .25em;
+    min-width: 25%;
+    text-align: center;
   }
 
   .logo {
-    position: fixed;
+    padding: 0.375em 0;
+    width: 100%;
+    position: relative;
+  }
+  .logo:before {
+    content: "";
+    position: absolute;
     top: 0;
-    left: 0;
-    z-index: 1001;
-    padding: 0.375em 1.04167%;
+    bottom: 0;
+    left: -9999px;
+    right: -9999px;
+    background-color: #222933;
+    z-index: -1;
   }
 
   #search {
@@ -929,17 +955,13 @@ th {
     background-color: #fff;
     font-size: 24px;
     position: fixed;
-    padding: 0 30% 0 0;
+    padding: 0 30% 0 1.04167%;
     z-index: 3;
-    top: 1.5em;
-    height: 2em;
-    left: 20.83333%;
+    top: 0;
     right: 0;
-    margin-bottom: 0;
-    border-color: #dfdfdf;
-    border-bottom-width: 0.04167em;
-    border-bottom-style: solid;
-    padding-bottom: -0.04167em;
+    width: 81.25%;
+    height: 2em;
+    border-bottom: 1px solid #dfdfdf;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1048,10 +1070,10 @@ th {
 
   /* @group ----- Top-level navigation ----- */
   header nav h4 {
-    border-color: #dfdfdf;
-    border-bottom-width: 0.1875em;
+    border-color: #364252;
+    border-bottom-width: 0.0625em;
     border-bottom-style: solid;
-    padding-bottom: 0.1875em;
+    padding-bottom: 0.3125em;
     margin-bottom: 0.375em;
   }
 
@@ -1072,21 +1094,13 @@ th {
     margin-left: 1.5em;
   }
 
-  header nav ul.navigation li.active {
-    font-weight: bold;
-  }
-  header nav ul.navigation li.active a:before,
-  header nav ul.navigation li.active li:not(.active) {
-    font-weight: normal;
+  header nav ul.navigation li.active a {
+    color: #fff;
   }
 
   header nav a:link,
   header nav a:visited {
-    color: #676767;
-  }
-
-  header nav a:hover {
-    color: #A91919;
+    color: #bdcde3;
   }
 
   header nav li > a:before {
@@ -1117,7 +1131,7 @@ th {
   }
 
   header nav .users:before {
-    content: "";
+    content: "";
   }
 
   header nav .modules:before {
@@ -1198,8 +1212,8 @@ th {
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
-    margin-left: 19.79167%;
-    padding: 6em 1.04167% 2.25em;
+    width: 81.25%;
+    padding: 4.125em 1.04167% 0;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1472,7 +1486,7 @@ th {
   .add div[role="main"],
   .import div[role="main"],
   .edit div[role="main"] {
-    padding-top: 6em;
+    padding-top: 3.75em;
   }
 
   fieldset.section > legend {
@@ -1527,9 +1541,9 @@ th {
 
   #page-actions {
     position: fixed;
-    padding: 0.375em 1.04167% 0.375em 1.04167%;
+    padding: 0.375em 1.04167%;
     z-index: 4;
-    top: 2.25em;
+    top: 0;
     height: 2.625em;
     right: 0;
     text-align: right;
@@ -2426,43 +2440,25 @@ th {
   }
 
   #resource-details {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
-    bottom: 3em;
   }
   #resource-details .o-description,
   #resource-details .property {
     margin-bottom: 1.5em;
   }
 
-  #select-item,
-  .confirm-panel {
-    position: fixed;
-    width: 24.47917%;
-    bottom: 0;
-    right: 0;
-    left: 100%;
-    height: 3em;
-    background-color: #fff;
-    padding: 0.375em 1.04167%;
-    border-color: #dfdfdf;
-    border-top-width: 0.0625em;
-    border-top-style: solid;
-    padding-top: 0.3125em;
-    border-left: 1px solid #dfdfdf;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
+  #resource-details-main {
+    flex: 1;
   }
+
   #select-item button,
   #select-item .button,
   .confirm-panel button,
   .confirm-panel .button {
     width: 100%;
-  }
-
-  #resource-details.active #select-item,
-  .sidebar.active .confirm-panel {
-    left: 75.52083%;
+    margin: 0;
   }
 
   /* @end */
@@ -2560,7 +2556,7 @@ th {
   /* @group ----- Default Sidebar Views ----- */
   .sidebar {
     position: fixed;
-    top: 5.25em;
+    top: 3em;
     left: 100%;
     visibility: hidden;
     bottom: 0;
@@ -2570,13 +2566,13 @@ th {
     border-left: 1px solid #dfdfdf;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 24.47917%;
+    width: 25%;
     -moz-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
   .sidebar.active, .sidebar.always-open {
-    left: 75.52083%;
+    left: 75%;
     visibility: visible;
   }
   .sidebar a.o-icon-close {
@@ -2660,7 +2656,7 @@ th {
   }
 
   body.sidebar-open #content {
-    width: 55.72917%;
+    width: 56.25%;
   }
 
   .sidebar .meta-group {
@@ -3164,7 +3160,12 @@ th {
   }
 
   #attachment-options {
-    bottom: 3em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #attachment-options-main {
+    flex: 1;
   }
 
   #attachment-options .option {

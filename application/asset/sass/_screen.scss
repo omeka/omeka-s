@@ -69,7 +69,7 @@ body {
 }
 
 body {
-    background-color: #fff;
+    background-color: $blue;
     font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
@@ -410,7 +410,7 @@ table .icon-sortable {
 header {
     width: span(3 of 16);
     text-align: left;
-    padding: rhythm(1.5) 0 rhythm() gutter();
+    padding: 0 0 rhythm() gutter();
     float: left;
 }
 
@@ -440,18 +440,8 @@ header {
 }
 
 #user {
-    display: block;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    left: 0;
-    text-align: right;
-    padding: rhythm(.25) gutter();
-    z-index: 1000;
-    background-color: $blue;
     color: #fff;
-    border-bottom: 1px solid $border-gray;
+    padding-top: rhythm(.5);
 }
 
 #user p {
@@ -459,18 +449,15 @@ header {
     display: inline-block;
 
     &:not(:first-of-type):before {
-        content: "\2022";
         display: inline-block;
         margin: 0 .5em 0 .25em;
     }
 }
 
 .logo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    padding: rhythm(.25) gutter();
+    padding: rhythm(.25);
+    width: 100%;
+    background-color: darken($blue, 15%);
 }
 
 #search {
@@ -528,7 +515,7 @@ div[role="main"] > h1:first-of-type {
     position: fixed;
     padding: 0 30% 0 0;
     z-index: 3;
-    top: rhythm(1.5, 1.5 * $base-font-size);
+    top: 0;
     height: rhythm(2, 1.5 * $base-font-size);
     left: span(3 of 16) + (2 * gutter());
     right: 0;
@@ -681,7 +668,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav a:link,
     header nav a:visited{
-        color: #676767;
+        color: lighten(saturate($blue, 20%), 50%);
     }
 
     header nav a:hover {
@@ -716,7 +703,7 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav .users:before {
-        content: $fa-var-users;
+        content: $fa-var-user;
     }
 
     header nav .modules:before {
@@ -1145,7 +1132,7 @@ fieldset.section > legend {
     position: fixed;
     padding: rhythm(.25) gutter() rhythm(.25) gutter();
     z-index: 4;
-    top: rhythm(1.5);
+    top: 0;
     height: rhythm(1.75);
     right: 0;
     text-align: right;
@@ -2211,7 +2198,7 @@ input[type="text"].value-language,
 
 .sidebar {
     position: fixed;
-    top: rhythm(3.5);
+    top: rhythm(2);
     left: 100%;
     visibility: hidden;
     bottom: 0;

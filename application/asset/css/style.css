@@ -467,7 +467,7 @@ th {
   }
 
   body {
-    background-color: #fff;
+    background-color: #404E61;
     font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
@@ -816,7 +816,7 @@ th {
   header {
     width: 18.75%;
     text-align: left;
-    padding: 2.25em 0 1.5em 1.04167%;
+    padding: 0 0 1.5em 1.04167%;
     float: left;
   }
 
@@ -847,18 +847,8 @@ th {
   }
 
   #user {
-    display: block;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    left: 0;
-    text-align: right;
-    padding: 0.375em 1.04167%;
-    z-index: 1000;
-    background-color: #404E61;
     color: #fff;
-    border-bottom: 1px solid #dfdfdf;
+    padding-top: 0.75em;
   }
 
   #user p {
@@ -866,17 +856,14 @@ th {
     display: inline-block;
   }
   #user p:not(:first-of-type):before {
-    content: "\2022";
     display: inline-block;
     margin: 0 .5em 0 .25em;
   }
 
   .logo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    padding: 0.375em 1.04167%;
+    padding: 0.375em;
+    width: 100%;
+    background-color: #222933;
   }
 
   #search {
@@ -931,7 +918,7 @@ th {
     position: fixed;
     padding: 0 30% 0 0;
     z-index: 3;
-    top: 1.5em;
+    top: 0;
     height: 2em;
     left: 20.83333%;
     right: 0;
@@ -1082,7 +1069,7 @@ th {
 
   header nav a:link,
   header nav a:visited {
-    color: #676767;
+    color: #bdcde3;
   }
 
   header nav a:hover {
@@ -1117,7 +1104,7 @@ th {
   }
 
   header nav .users:before {
-    content: "";
+    content: "";
   }
 
   header nav .modules:before {
@@ -1529,7 +1516,7 @@ th {
     position: fixed;
     padding: 0.375em 1.04167% 0.375em 1.04167%;
     z-index: 4;
-    top: 2.25em;
+    top: 0;
     height: 2.625em;
     right: 0;
     text-align: right;
@@ -2560,7 +2547,7 @@ th {
   /* @group ----- Default Sidebar Views ----- */
   .sidebar {
     position: fixed;
-    top: 5.25em;
+    top: 3em;
     left: 100%;
     visibility: hidden;
     bottom: 0;

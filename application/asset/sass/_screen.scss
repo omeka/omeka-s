@@ -443,16 +443,38 @@ header {
 #user {
     color: #fff;
     padding-top: rhythm(.5);
+    margin-bottom: rhythm(-.25);
 }
 
 #user p {
     margin: 0;
     display: inline-block;
+    vertical-align: top;
+}
 
-    &:not(:first-of-type):before {
-        display: inline-block;
-        margin: 0 .5em 0 .25em;
-    }
+#user .user-id {
+    text-transform: uppercase;
+    font-size: .75 * $base-font-size;
+    width: 75%;
+    margin-bottom: rhythm(.25, .75 * $base-font-size);
+    margin-right: -4px;
+}
+
+#user .user-id a {
+    display: block;
+    font-size: $base-font-size;
+    text-transform: none;
+    margin-top: rhythm(-.25);
+}
+
+#user .logout {
+    font-size: .75 * $base-font-size;
+    padding: 0 rhythm(.25, .75 * $base-font-size);
+    background-color: darken($blue, 15%);
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 25%;
+    text-align: center;
 }
 
 .logo {
@@ -671,10 +693,6 @@ nav.pagination + *:not(.sorting) {
     header nav a:link,
     header nav a:visited{
         color: lighten(saturate($blue, 20%), 50%);
-    }
-
-    header nav a:hover {
-        color: $red;
     }
 
     header nav li > a:before {

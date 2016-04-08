@@ -850,15 +850,38 @@ th {
   #user {
     color: #fff;
     padding-top: 0.75em;
+    margin-bottom: -0.375em;
   }
 
   #user p {
     margin: 0;
     display: inline-block;
+    vertical-align: top;
   }
-  #user p:not(:first-of-type):before {
+
+  #user .user-id {
+    text-transform: uppercase;
+    font-size: 12px;
+    width: 75%;
+    margin-bottom: 0.5em;
+    margin-right: -4px;
+  }
+
+  #user .user-id a {
+    display: block;
+    font-size: 16px;
+    text-transform: none;
+    margin-top: -0.375em;
+  }
+
+  #user .logout {
+    font-size: 12px;
+    padding: 0 0.5em;
+    background-color: #222933;
+    border-radius: 3px;
     display: inline-block;
-    margin: 0 .5em 0 .25em;
+    min-width: 25%;
+    text-align: center;
   }
 
   .logo {
@@ -1078,10 +1101,6 @@ th {
   header nav a:link,
   header nav a:visited {
     color: #bdcde3;
-  }
-
-  header nav a:hover {
-    color: #A91919;
   }
 
   header nav li > a:before {

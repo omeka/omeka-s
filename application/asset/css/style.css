@@ -1094,12 +1094,8 @@ th {
     margin-left: 1.5em;
   }
 
-  header nav ul.navigation li.active {
-    font-weight: bold;
-  }
-  header nav ul.navigation li.active a:before,
-  header nav ul.navigation li.active li:not(.active) {
-    font-weight: normal;
+  header nav ul.navigation li.active a {
+    color: #fff;
   }
 
   header nav a:link,

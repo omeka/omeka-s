@@ -694,13 +694,8 @@ nav.pagination + *:not(.sorting) {
         margin-left: rhythm();
     }
 
-    header nav ul.navigation li.active {
-        font-weight: bold;
-
-        a:before,
-        li:not(.active) {
-            font-weight: normal;
-        }
+    header nav ul.navigation li.active a {
+        color: #fff;
     }
 
     header nav a:link,

@@ -74,6 +74,7 @@ body {
     font-size: $base-font-size;
     line-height: $base-line-height;
     color: #676767;
+    overflow-x: hidden;
 }
 
     /* @group ----- Tables ----- */
@@ -415,8 +416,7 @@ table .icon-sortable {
 header {
     width: span(3 of 16);
     text-align: left;
-    padding: 0 0 rhythm();
-    margin: 0 gutter();
+    padding: 0 gutter() rhythm();
     color: lighten(saturate($blue, 20%), 50%);
 }
 
@@ -483,10 +483,20 @@ header {
 }
 
 .logo {
-    padding: rhythm(.25);
+    padding: rhythm(.25) 0;
     width: 100%;
-    background-color: darken($blue, 15%);
-    @include bleed-x(gutter(3) no-gutters);
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -9999px;
+        right: -9999px;
+        background-color: darken($blue, 15%);
+        z-index: -1;
+    }
 }
 
 #search {
@@ -545,12 +555,10 @@ div[role="main"] > h1:first-of-type {
     padding: 0 30% 0 gutter();
     z-index: 3;
     top: 0;
-    height: rhythm(2, 1.5 * $base-font-size);
-    left: span(3 of 16) + (2 * gutter());
     right: 0;
-    margin-bottom: 0;
-    border-color: $border-gray;
-    @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
+    width: span(13 of 16);
+    height: rhythm(2, 1.5 * $base-font-size);
+    border-bottom: 1px solid $border-gray;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -814,9 +822,8 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    margin-left: calc(span(3 of 16) + #{gutter()});
     width: span(13 of 16);
-    padding: rhythm(2.75) gutter() rhythm(1.5);
+    padding: rhythm(2.75) gutter() 0;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1156,7 +1163,7 @@ fieldset.section > legend {
 
 #page-actions {
     position: fixed;
-    padding: rhythm(.25) gutter() rhythm(.25) gutter();
+    padding: rhythm(.25) gutter();
     z-index: 4;
     top: 0;
     height: rhythm(1.75);
@@ -2234,12 +2241,12 @@ input[type="text"].value-language,
     border-left: 1px solid $border-gray;
     overflow-y: auto;
     overflow-x: hidden;
-    width: span(4 of 16) - gutter(32);
+    width: span(4 of 16);
     @include transition-duration(.5s);
 
     &.active,
     &.always-open {
-        left: span(12 of 16) + gutter(32);
+        left: span(12 of 16);
         visibility: visible;
     }
 
@@ -2333,7 +2340,7 @@ input[type="text"].value-language,
 }
 
 body.sidebar-open #content {
-    width: span(9 of 16) - gutter() / 2;
+    width: span(9 of 16);
 }
 
 .sidebar .meta-group {

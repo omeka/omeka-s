@@ -472,6 +472,7 @@ th {
     font-size: 16px;
     line-height: 24px;
     color: #676767;
+    overflow-x: hidden;
   }
 
   /* @group ----- Tables ----- */
@@ -821,8 +822,7 @@ th {
   header {
     width: 18.75%;
     text-align: left;
-    padding: 0 0 1.5em;
-    margin: 0 1.04167%;
+    padding: 0 1.04167% 1.5em;
     color: #bdcde3;
   }
 
@@ -890,16 +890,19 @@ th {
   }
 
   .logo {
-    padding: 0.375em;
+    padding: 0.375em 0;
     width: 100%;
+    position: relative;
+  }
+  .logo:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -9999px;
+    right: -9999px;
     background-color: #222933;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    margin-right: -5.55556%;
-    margin-left: -5.55556%;
-    padding-right: 5.55556%;
-    padding-left: 5.55556%;
+    z-index: -1;
   }
 
   #search {
@@ -955,14 +958,10 @@ th {
     padding: 0 30% 0 1.04167%;
     z-index: 3;
     top: 0;
-    height: 2em;
-    left: 20.83333%;
     right: 0;
-    margin-bottom: 0;
-    border-color: #dfdfdf;
-    border-bottom-width: 0.04167em;
-    border-bottom-style: solid;
-    padding-bottom: -0.04167em;
+    width: 81.25%;
+    height: 2em;
+    border-bottom: 1px solid #dfdfdf;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1217,9 +1216,8 @@ th {
   /* @end */
   /* @group ----- Wrappers ----- */
   div[role="main"] {
-    margin-left: calc(span(3 of 16) + 1.04167%);
     width: 81.25%;
-    padding: 4.125em 1.04167% 2.25em;
+    padding: 4.125em 1.04167% 0;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1547,7 +1545,7 @@ th {
 
   #page-actions {
     position: fixed;
-    padding: 0.375em 1.04167% 0.375em 1.04167%;
+    padding: 0.375em 1.04167%;
     z-index: 4;
     top: 0;
     height: 2.625em;
@@ -2590,13 +2588,13 @@ th {
     border-left: 1px solid #dfdfdf;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 24.47917%;
+    width: 25%;
     -moz-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
   }
   .sidebar.active, .sidebar.always-open {
-    left: 75.52083%;
+    left: 75%;
     visibility: visible;
   }
   .sidebar a.o-icon-close {
@@ -2680,7 +2678,7 @@ th {
   }
 
   body.sidebar-open #content {
-    width: 55.72917%;
+    width: 56.25%;
   }
 
   .sidebar .meta-group {

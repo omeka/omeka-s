@@ -720,7 +720,7 @@ th {
   /* @group ----- Reusable classes ----- */
   .flex {
     display: flex;
-    height: 100%;
+    min-height: 100vh;
   }
 
   .mobile-only {
@@ -822,7 +822,6 @@ th {
     width: 18.75%;
     text-align: left;
     padding: 0 0 1.5em;
-    float: left;
     margin: 0 1.04167%;
     color: #bdcde3;
   }

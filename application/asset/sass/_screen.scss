@@ -310,7 +310,7 @@ body {
 
 .flex {
     display: flex;
-    height: 100%;
+    min-height: 100vh;
 }
 
 .mobile-only {
@@ -416,7 +416,6 @@ header {
     width: span(3 of 16);
     text-align: left;
     padding: 0 0 rhythm();
-    float: left;
     margin: 0 gutter();
     color: lighten(saturate($blue, 20%), 50%);
 }

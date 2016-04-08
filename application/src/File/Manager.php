@@ -297,7 +297,7 @@ class Manager
 
         $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
         $mediaType = $file->getMediaType();
-        $extension = substr(strrchr($file->getSourceName(), '.'), 1);
+        $extension = strtolower(substr(strrchr($file->getSourceName(), '.'), 1));
 
         if (isset($mediaTypeMap[$mediaType][0])
             && !in_array($mediaType, ['application/octet-stream'])

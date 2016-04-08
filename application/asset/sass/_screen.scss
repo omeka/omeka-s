@@ -458,6 +458,7 @@ header {
     padding: rhythm(.25);
     width: 100%;
     background-color: darken($blue, 15%);
+    @include bleed-x(gutter(3) no-gutters);
 }
 
 #search {

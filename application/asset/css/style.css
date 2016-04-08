@@ -864,6 +864,13 @@ th {
     padding: 0.375em;
     width: 100%;
     background-color: #222933;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: -5.55556%;
+    margin-left: -5.55556%;
+    padding-right: 5.55556%;
+    padding-left: 5.55556%;
   }
 
   #search {

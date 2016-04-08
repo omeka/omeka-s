@@ -1105,7 +1105,7 @@ td .o-icon-private {
 .add div[role="main"],
 .import div[role="main"],
 .edit div[role="main"] {
-    padding-top: rhythm(4);
+    padding-top: rhythm(2.5);
 }
 
 fieldset.section > legend {
@@ -2111,6 +2111,7 @@ input[type="text"].value-language,
     button,
     .button {
         width: 100%;
+        margin: 0;
     }
 }
 

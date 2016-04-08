@@ -1490,7 +1490,7 @@ th {
   .add div[role="main"],
   .import div[role="main"],
   .edit div[role="main"] {
-    padding-top: 6em;
+    padding-top: 3.75em;
   }
 
   fieldset.section > legend {
@@ -2462,6 +2462,7 @@ th {
   .confirm-panel button,
   .confirm-panel .button {
     width: 100%;
+    margin: 0;
   }
 
   /* @end */

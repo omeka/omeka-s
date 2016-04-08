@@ -2090,8 +2090,9 @@ input[type="text"].value-language,
 }
 
 #resource-details {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
-    bottom: rhythm(2);
 
     .o-description,
     .property {
@@ -2099,31 +2100,18 @@ input[type="text"].value-language,
     }
 }
 
+#resource-details-main {
+    flex: 1;
+}
+
 
 #select-item,
 .confirm-panel {
-    position: fixed;
-    width: span(4 of 16) - gutter(32);
-    bottom: 0;
-    right: 0;
-    left: 100%;
-    height: rhythm(2);
-    background-color: #fff;
-    padding: rhythm(.25) gutter();
-    border-color: $border-gray;
-    @include leading-border(1px, .25, $base-font-size, solid);
-    border-left: 1px solid $border-gray;
-    @include transition-duration(.5s);
 
     button,
     .button {
         width: 100%;
     }
-}
-
-#resource-details.active #select-item,
-.sidebar.active .confirm-panel {
-    left: span(12 of 16) + gutter(32);
 }
 
 /* @end */
@@ -2855,7 +2843,12 @@ body.sidebar-open #content {
     }
 
     #attachment-options {
-        bottom: rhythm(2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    #attachment-options-main {
+        flex: 1;
     }
 
     #attachment-options .option {

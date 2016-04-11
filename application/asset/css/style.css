@@ -1919,6 +1919,7 @@ th {
   .collapse + .collapsible {
     display: block;
     clear: both;
+    overflow: hidden;
   }
 
   .field-description .field-comment {
@@ -3098,6 +3099,10 @@ th {
     height: 24px;
   }
 
+  .block .attachment .actions a {
+    vertical-align: bottom;
+  }
+
   .block .attachment .actions .button {
     display: inline-block;
     background-color: transparent;
@@ -3179,6 +3184,7 @@ th {
 
   #attachment-options-main {
     flex: 1;
+    margin-top: -0.75em;
   }
 
   #attachment-options .option {
@@ -3204,7 +3210,6 @@ th {
   }
 
   #attachment-options .selected-attachment {
-    background-color: rgba(0, 0, 0, 0.04);
     margin-bottom: 0.75em;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
@@ -3216,35 +3221,29 @@ th {
     padding-top: 0.75em;
     padding-bottom: 0.75em;
     overflow: hidden;
-    text-align: right;
   }
   #attachment-options .selected-attachment img {
     height: 6em;
     width: auto;
-    float: left;
-    margin: 0 0.75em 0.375em 0;
+    float: right;
+    margin: 0 0 0 0.75em;
   }
   #attachment-options .selected-attachment p:first-child {
     margin: 0;
   }
 
   #attachment-options h3.item-title {
-    font-size: 20px;
-    margin-bottom: 0;
-    border-color: transparent;
     text-align: left;
   }
 
   #attachment-options .item-thumbnail ~ h3.item-title {
-    width: calc(100% - 5.4em);
-    float: right;
+    width: 100%;
   }
 
   #attachment-options .media-title {
     font-size: 12px;
     display: block;
-    width: 8em;
-    margin-right: 1em;
+    width: calc(100% - 9em);
     float: left;
     word-wrap: break-word;
     text-align: left;
@@ -3259,17 +3258,13 @@ th {
   }
 
   #attachment-options h3 {
-    border-color: #dfdfdf;
-    border-bottom-width: 0.15em;
-    border-bottom-style: solid;
-    padding-bottom: 0.15em;
     word-wrap: break-word;
   }
 
   #attachment-options .media-list {
     list-style: none;
     padding: 0;
-    margin-top: 0;
+    margin: 0 0 0.75em;
   }
   #attachment-options .media-list li.media {
     position: relative;

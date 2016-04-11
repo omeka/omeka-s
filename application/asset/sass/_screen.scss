@@ -1545,6 +1545,7 @@ input[type="text"].value-language,
     .collapse + .collapsible {
         display: block;
         clear: both;
+        overflow: hidden;
     }
 
     .field-description .field-comment {
@@ -2776,6 +2777,10 @@ body.sidebar-open #content {
         height: $base-line-height;
     }
 
+    .block .attachment .actions a {
+        vertical-align: bottom;
+    }
+
     .block .attachment .actions .button {
         display: inline-block;
         background-color: transparent;
@@ -2855,6 +2860,7 @@ body.sidebar-open #content {
 
     #attachment-options-main {
         flex: 1;
+        margin-top: rhythm(-.5);
     }
 
     #attachment-options .option {
@@ -2880,19 +2886,17 @@ body.sidebar-open #content {
     }
 
     #attachment-options .selected-attachment {
-        background-color: $gray-on-white;
         @include trailer(.5);
         @include bleed-x(rhythm(.5));
         padding-top: rhythm(.5);
         padding-bottom: rhythm(.5);
         overflow: hidden;
-        text-align: right;
 
         img {
             height: rhythm(4);
             width: auto;
-            float: left;
-            margin: 0 rhythm(.5) rhythm(.25) 0;
+            float: right;
+            margin: 0 0 0 rhythm(.5);
         }
 
         p:first-child {
@@ -2901,22 +2905,17 @@ body.sidebar-open #content {
     }
 
     #attachment-options h3.item-title {
-        font-size: 1.25 * $base-font-size;
-        margin-bottom: 0;
-        border-color: transparent;
         text-align: left;
     }
 
     #attachment-options .item-thumbnail ~ h3.item-title {
-        width: calc(100% - #{rhythm(4.5, 1.25 * $base-font-size)});
-        float: right;
+        width: 100%;
     }
 
     #attachment-options .media-title {
         font-size: .75 * $base-font-size;
         display: block;
-        width: rhythm(4, .75 * $base-font-size);
-        margin-right: rhythm(.5, .75 * $base-font-size);
+        width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
         float: left;
         word-wrap: break-word;
         text-align: left;
@@ -2931,15 +2930,13 @@ body.sidebar-open #content {
     }
 
     #attachment-options h3 {
-        border-color: $border-gray;
-        @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
         word-wrap: break-word;
     }
 
     #attachment-options .media-list {
         list-style: none;
         padding: 0;
-        margin-top: 0;
+        margin: 0 0 rhythm(.5);
 
         li.media {
             position: relative;

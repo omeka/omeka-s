@@ -20,9 +20,9 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 <?php if ($attachedItem): ?>
 <div class="selected-attachment">
     <?php if ($thumbnailUrl): ?>
-    <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <span class="media-title"><?php echo $thumbnailTitle; ?></span>
+    <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
     <?php else: ?>
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php endif; ?>
@@ -52,6 +52,7 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 <?php endif; ?>
 <?php else: ?>
 <div class="selected-attachment">
+    <h3 class="item-title"><?php echo $escape('No Attachment'); ?></h3>
     <p><?php echo $this->translate('No item selected.'); ?></p>
     <?php echo $changeItemButton; ?>
 </div>

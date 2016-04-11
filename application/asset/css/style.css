@@ -1429,6 +1429,7 @@ th {
     clear: both;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-top: 0;
+    color: #676767;
   }
   #advanced-options legend {
     float: left;

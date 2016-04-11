@@ -2444,6 +2444,8 @@ th {
     display: flex;
     flex-direction: column;
     background-color: #fff;
+    overflow: hidden;
+    padding: 0;
   }
   #resource-details .o-description,
   #resource-details .property {
@@ -2452,8 +2454,18 @@ th {
 
   #resource-details-main {
     flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    padding: 0.75em;
   }
 
+  #select-item,
+  .confirm-panel {
+    position: absolute;
+    bottom: 0.75em;
+    right: 0.75em;
+    left: 0.75em;
+  }
   #select-item button,
   #select-item .button,
   .confirm-panel button,

@@ -2089,6 +2089,8 @@ input[type="text"].value-language,
     display: flex;
     flex-direction: column;
     background-color: #fff;
+    overflow: hidden;
+    padding: 0;
 
     .o-description,
     .property {
@@ -2098,11 +2100,18 @@ input[type="text"].value-language,
 
 #resource-details-main {
     flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    padding: rhythm(.5);
 }
 
 
 #select-item,
 .confirm-panel {
+    position: absolute;
+    bottom: rhythm(.5);
+    right: rhythm(.5);
+    left: rhythm(.5);
 
     button,
     .button {

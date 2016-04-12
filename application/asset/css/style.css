@@ -964,15 +964,22 @@ th {
   /* @end */
   /* @group ----- Footer ----- */
   .sidebar-open footer {
-    padding-right: 26.04167%;
+    margin-right: 25%;
   }
 
   footer {
     font-size: 12px;
     position: relative;
-    padding: 0 1.04167% 0 20.83333%;
-    margin-top: -2.25em;
+    background-color: #fff;
+    margin-left: 18.75%;
+    padding-right: 1.04167%;
     text-align: right;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -moz-transition-property: margin-right;
+    -webkit-transition-property: margin-right;
+    transition-property: margin-right;
   }
   footer .site-version {
     margin: 0;

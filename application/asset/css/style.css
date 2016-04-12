@@ -1333,6 +1333,7 @@ th {
     line-height: 24px;
     vertical-align: top;
     border: 0;
+    box-shadow: none;
   }
 
   .actions a,
@@ -1565,6 +1566,7 @@ th {
     padding: 0.375em 1em;
     min-height: 0;
     vertical-align: top;
+    box-shadow: none;
   }
   #page-actions .delete.button {
     background-color: #FDEFEF;

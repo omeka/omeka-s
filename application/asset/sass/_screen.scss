@@ -941,6 +941,7 @@ div[role="main"] {
     line-height: $base-line-height;
     vertical-align: top;
     border: 0;
+    box-shadow: none;
 }
 
 .actions a,
@@ -1186,6 +1187,7 @@ fieldset.section > legend {
         padding: rhythm(.25) 1em;
         min-height: 0;
         vertical-align: top;
+        box-shadow: none;
     }
 
     .delete.button {

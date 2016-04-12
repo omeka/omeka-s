@@ -3172,14 +3172,15 @@ th {
     font-weight: normal;
   }
 
-  #attachment-options {
-    display: flex;
-    flex-direction: column;
-  }
-
   #attachment-options-main {
-    flex: 1;
-    margin-top: -0.75em;
+    position: absolute;
+    top: 0;
+    bottom: 3.75em;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0.75em;
   }
 
   #attachment-options .option {

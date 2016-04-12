@@ -2856,14 +2856,15 @@ body.sidebar-open #content {
         font-weight: normal;
     }
 
-    #attachment-options {
-        display: flex;
-        flex-direction: column;
-    }
-
     #attachment-options-main {
-        flex: 1;
-        margin-top: rhythm(-.5);
+        position: absolute;
+        top: 0;
+        bottom: rhythm(2.5);
+        left: 0;
+        right: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0 rhythm(.5);
     }
 
     #attachment-options .option {

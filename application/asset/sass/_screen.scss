@@ -2339,7 +2339,7 @@ body.sidebar-open #content {
 }
 
 .sidebar .meta-group {
-    @include trailer();
+    @include trailer(.5);
     text-align: left;
 
     .value {
@@ -2354,10 +2354,6 @@ body.sidebar-open #content {
             @include trailing-border(1px, .25, $base-font-size, solid);
         }
     }
-}
-
-.sidebar .meta-group {
-    @include trailer(.5);
 }
 
 .sidebar .meta-group h4 {

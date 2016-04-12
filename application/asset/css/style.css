@@ -2674,7 +2674,7 @@ th {
   }
 
   .sidebar .meta-group {
-    margin-bottom: 1.5em;
+    margin-bottom: 0.75em;
     text-align: left;
   }
   .sidebar .meta-group .value {
@@ -2689,10 +2689,6 @@ th {
     border-bottom-width: 0.0625em;
     border-bottom-style: solid;
     padding-bottom: 0.3125em;
-  }
-
-  .sidebar .meta-group {
-    margin-bottom: 0.75em;
   }
 
   .sidebar .meta-group h4 {

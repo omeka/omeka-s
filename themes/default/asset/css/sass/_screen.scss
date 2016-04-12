@@ -409,7 +409,10 @@ header {
 .right .item.resource {
     border-color: $light;
     margin: 0 0 rhythm() 0;
-    display: table;
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+    max-width: 40vw;
 
     &:first-of-type {
         @include leading-border(1px, 1, $base-font-size, solid);
@@ -420,19 +423,20 @@ header {
         @include trailing-border(1px, 1, $base-font-size, solid);
     }
 
-    img {
-        max-width: 100%;
-    }
-
-    & > a:first-child ~ * {
-        display: table-caption;
-        caption-side: bottom;
+    media-render > *, img {
+        max-width: 40vw;
     }
 }
 
 .left:not(.file) .item.resource,
 .right:not(.file) .item.resource {
     max-width: 50%;
+}
+
+/* IE/Edge min-content alternative */
+.file {
+    display: -ms-grid;
+    -ms-grid-columns: min-content;
 }
 
 .left.file,

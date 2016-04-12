@@ -420,7 +420,10 @@
   .right .item.resource {
     border-color: #dedede;
     margin: 0 0 1.5em 0;
-    display: table;
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+    max-width: 40vw;
   }
   .left .item.resource:first-of-type,
   .right .item.resource:first-of-type {
@@ -435,19 +438,21 @@
     border-bottom-style: solid;
     padding-bottom: 1.45em;
   }
-  .left .item.resource img,
+  .left .item.resource media-render > *, .left .item.resource img,
+  .right .item.resource media-render > *,
   .right .item.resource img {
-    max-width: 100%;
-  }
-  .left .item.resource > a:first-child ~ *,
-  .right .item.resource > a:first-child ~ * {
-    display: table-caption;
-    caption-side: bottom;
+    max-width: 40vw;
   }
 
   .left:not(.file) .item.resource,
   .right:not(.file) .item.resource {
     max-width: 50%;
+  }
+
+  /* IE/Edge min-content alternative */
+  .file {
+    display: -ms-grid;
+    -ms-grid-columns: min-content;
   }
 
   .left.file,

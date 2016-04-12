@@ -1187,7 +1187,6 @@ fieldset.section > legend {
         padding: rhythm(.25) 1em;
         min-height: 0;
         vertical-align: top;
-        box-shadow: none;
     }
 
     .delete.button {
@@ -1953,6 +1952,7 @@ input[type="text"].value-language,
         background-color: transparent;
         width: auto;
         padding: rhythm(.25) rhythm(.25);
+        box-shadow: none;
     }
 
     .o-icon-private.button,
@@ -2344,8 +2344,10 @@ input[type="text"].value-language,
     padding-bottom: rhythm(.5);
     @include trailer(.5);
 
-    button {
-        @include trailer(0);
+    input[type="submit"] {
+        background-color: $red;
+        color: #fff;
+        box-shadow: none;
     }
 }
 

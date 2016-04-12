@@ -1566,7 +1566,6 @@ th {
     padding: 0.375em 1em;
     min-height: 0;
     vertical-align: top;
-    box-shadow: none;
   }
   #page-actions .delete.button {
     background-color: #FDEFEF;
@@ -2322,6 +2321,7 @@ th {
     background-color: transparent;
     width: auto;
     padding: 0.375em 0.375em;
+    box-shadow: none;
   }
 
   .o-icon-private.button,
@@ -2674,8 +2674,10 @@ th {
     padding-bottom: 0.75em;
     margin-bottom: 0.75em;
   }
-  #sidebar-confirm button {
-    margin-bottom: 0em;
+  #sidebar-confirm input[type="submit"] {
+    background-color: #A91919;
+    color: #fff;
+    box-shadow: none;
   }
 
   body.sidebar-open #content {

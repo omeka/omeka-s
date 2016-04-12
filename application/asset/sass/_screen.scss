@@ -293,7 +293,6 @@ body {
 
     .selector > ul {
         margin: 0;
-        overflow: hidden;
     }
 
     .selector.sidebar .selector-parent {
@@ -1135,6 +1134,7 @@ fieldset.section > legend {
         border-color: $border-gray;
         border: 1px solid $border-gray;
         margin-left: .25em;
+        color: #676767;
     }
 
     .active a {

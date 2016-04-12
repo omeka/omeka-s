@@ -701,7 +701,6 @@ th {
 
   .selector > ul {
     margin: 0;
-    overflow: hidden;
   }
 
   .selector.sidebar .selector-parent {
@@ -1515,6 +1514,7 @@ th {
     border-color: #dfdfdf;
     border: 1px solid #dfdfdf;
     margin-left: .25em;
+    color: #676767;
   }
   .section-nav .active a {
     font-weight: bold;

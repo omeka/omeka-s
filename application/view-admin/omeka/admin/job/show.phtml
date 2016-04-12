@@ -48,18 +48,20 @@ if ($owner = $job->owner()) {
     <h4><?php echo $this->translate('Args'); ?></h4>
     <?php if ($job->args()): ?>
         <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
-        <pre><?php echo $args; ?></pre>
+        <div class="value"><pre><?php echo $args; ?></pre></div>
     <?php else: ?>
-    <p><?php echo $this->translate('[no args]') ?></p>
+    <div class="value"><?php echo $this->translate('[no args]') ?></div>
     <?php endif; ?>
 </div>
 <div class="meta-group">
     <h4><?php echo $this->translate('Log'); ?></h4>
+    <div class="value">
     <?php if ($job->log()): ?>
     <?php echo $this->hyperlink($this->translate('view log'),
         $this->url(null, ['action' => 'log'], true),
         ['target' => '_blank']) ?>
     <?php else: ?>
-    <p><?php echo $this->translate('[no log]') ?></p>
+    <?php echo $this->translate('[no log]') ?>
     <?php endif; ?>
+    </div>
 </div>

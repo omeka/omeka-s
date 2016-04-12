@@ -974,12 +974,9 @@ th {
     margin-left: 18.75%;
     padding-right: 1.04167%;
     text-align: right;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
-    -moz-transition-property: margin-right;
-    -webkit-transition-property: margin-right;
-    transition-property: margin-right;
+    -moz-transition: margin-right 0.5s;
+    -webkit-transition: margin-right 0.5s;
+    transition: margin-right 0.5s;
   }
   footer .site-version {
     margin: 0;
@@ -1217,9 +1214,9 @@ th {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
+    -moz-transition: width 0.5s;
+    -webkit-transition: width 0.5s;
+    transition: width 0.5s;
   }
 
   /* @end */
@@ -2581,9 +2578,9 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 25%;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
+    -moz-transition: left 0.5s, visibility 0.5s;
+    -webkit-transition: left 0.5s, visibility 0.5s;
+    transition: left 0.5s, visibility 0.5s;
   }
   .sidebar.active, .sidebar.always-open {
     left: 75%;

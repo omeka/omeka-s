@@ -578,8 +578,7 @@ footer {
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
-    @include transition-duration(.5s);
-    @include transition-property(margin-right);
+    @include transition(margin-right .5s);
 
     .site-version {
         margin: 0;
@@ -823,7 +822,7 @@ div[role="main"] {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
-    @include transition-duration(.5s);
+    @include transition(width .5s);
 }
 
 /* @end */
@@ -2240,7 +2239,7 @@ input[type="text"].value-language,
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
-    @include transition-duration(.5s);
+    @include transition(left .5s, visibility .5s);
 
     &.active,
     &.always-open {

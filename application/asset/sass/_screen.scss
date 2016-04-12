@@ -184,7 +184,8 @@ body {
         background-color: rgba(0,0,0,.08);
         color: #676767;
         @include border-radius(3px);
-        border: 1px solid rgba(0,0,0,.15);
+        border: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         padding: rhythm(.25) 10px;
         display: inline-block;
         text-align: center;
@@ -192,10 +193,11 @@ body {
         margin: 0 0 rhythm(.5) 0;
 
         &:hover:not(.inactive) {
-            border-color: rgba(0,0,0,.3);
+            box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
         }
 
         &.inactive {
+            box-shadow: none;
             background-color: #d2d2d2;
             cursor: default;
             border: 0;
@@ -520,6 +522,7 @@ header {
     @include border-radius(0px);
     position: relative;
     height: rhythm(1.5);
+    box-shadow: none;
 
     &:last-of-type {
         border-left: 1px solid rgba(255,255,255,.2);
@@ -1175,7 +1178,7 @@ fieldset.section > legend {
 
     .delete.button {
         background-color: #FDEFEF;
-        border-color: #E0C3C3;
+        box-shadow: 0 0 0 1px #E0C3C3 inset;
         color: $red;
     }
 }
@@ -1941,7 +1944,7 @@ input[type="text"].value-language,
     .o-icon-private.button,
     .o-icon-public.button {
         margin-right: rhythm(.25);
-        border: 0;
+        box-shadow: none;
     }
 
     /* @end */
@@ -2045,25 +2048,14 @@ input[type="text"].value-language,
         margin-left: rhythm(.25);
     }
 
-    .placeholder.no-image {
-        background-color: #fff;
-        border: 1px solid rgba(0,0,0,.08);
-
-        &:after {
-            content: $fa-var-cubes;
-            font-family: "FontAwesome";
-            text-align: center;
-            display: inline-block;
-            width: 100%;
-            line-height: rhythm(1.5);
-            color: #d2d2d2;
-        }
-    }
-
     .resource-name {
         display: inline-block;
         vertical-align: top;
         margin: rhythm(.25) 0 0 rhythm(.5);
+
+        &:only-child {
+            margin: 0 0 0 rhythm(.25);
+        }
     }
 
     img + .resource-name {

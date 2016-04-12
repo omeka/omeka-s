@@ -592,7 +592,8 @@ th {
     background-color: rgba(0, 0, 0, 0.08);
     color: #676767;
     border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
     padding: 0.375em 10px;
     display: inline-block;
     text-align: center;
@@ -603,12 +604,13 @@ th {
   button:hover:not(.inactive),
   a.button:hover:not(.inactive),
   .button:hover:not(.inactive) {
-    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3) inset;
   }
   input[type="submit"].inactive,
   button.inactive,
   a.button.inactive,
   .button.inactive {
+    box-shadow: none;
     background-color: #d2d2d2;
     cursor: default;
     border: 0;
@@ -921,6 +923,7 @@ th {
     border-radius: 0px;
     position: relative;
     height: 2.25em;
+    box-shadow: none;
   }
   #search button:last-of-type {
     border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -1554,7 +1557,7 @@ th {
   }
   #page-actions .delete.button {
     background-color: #FDEFEF;
-    border-color: #E0C3C3;
+    box-shadow: 0 0 0 1px #E0C3C3 inset;
     color: #A91919;
   }
 
@@ -2311,7 +2314,7 @@ th {
   .o-icon-private.button,
   .o-icon-public.button {
     margin-right: 0.375em;
-    border: 0;
+    box-shadow: none;
   }
 
   /* @end */
@@ -2400,23 +2403,13 @@ th {
     float: left;
     margin-left: 0.375em;
   }
-  .resource-list .placeholder.no-image {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-  .resource-list .placeholder.no-image:after {
-    content: "";
-    font-family: "FontAwesome";
-    text-align: center;
-    display: inline-block;
-    width: 100%;
-    line-height: 2.25em;
-    color: #d2d2d2;
-  }
   .resource-list .resource-name {
     display: inline-block;
     vertical-align: top;
     margin: 0.375em 0 0 0.75em;
+  }
+  .resource-list .resource-name:only-child {
+    margin: 0 0 0 0.375em;
   }
   .resource-list img + .resource-name {
     width: calc(100% - 3.75em);

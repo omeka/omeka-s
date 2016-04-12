@@ -309,7 +309,6 @@ body {
 
 .flex {
     display: flex;
-    min-height: 100vh;
 }
 
 .mobile-only {
@@ -413,6 +412,7 @@ table .icon-sortable {
 
 header {
     width: span(3 of 16);
+    min-height: 100vh;
     text-align: left;
     padding: 0 gutter() rhythm();
     color: lighten(saturate($blue, 20%), 50%);
@@ -577,7 +577,7 @@ div[role="main"] > h1:first-of-type {
 footer {
     font-size: .75 * $base-font-size;
     position: relative;
-    background-color: #fff;
+    margin-top: rhythm(-1.5);
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
@@ -821,7 +821,7 @@ nav.pagination + *:not(.sorting) {
 
 div[role="main"] {
     width: span(13 of 16);
-    padding: rhythm(2.5) gutter() 0;
+    padding: rhythm(2.5) gutter() rhythm(1.5);
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;

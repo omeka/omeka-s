@@ -714,7 +714,6 @@ th {
   /* @group ----- Reusable classes ----- */
   .flex {
     display: flex;
-    min-height: 100vh;
   }
 
   .mobile-only {
@@ -814,6 +813,7 @@ th {
   /* @group ----- Header ----- */
   header {
     width: 18.75%;
+    min-height: 100vh;
     text-align: left;
     padding: 0 1.04167% 1.5em;
     color: #bdcde3;
@@ -973,7 +973,7 @@ th {
   footer {
     font-size: 12px;
     position: relative;
-    background-color: #fff;
+    margin-top: -2.25em;
     margin-left: 18.75%;
     padding-right: 1.04167%;
     text-align: right;
@@ -1213,7 +1213,7 @@ th {
   /* @group ----- Wrappers ----- */
   div[role="main"] {
     width: 81.25%;
-    padding: 3.75em 1.04167% 0;
+    padding: 3.75em 1.04167% 2.25em;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;

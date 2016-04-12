@@ -644,6 +644,15 @@ nav.pagination input[type="text"],
     vertical-align: top;
 }
 
+nav.pagination .button {
+    box-shadow: 0 0 0 1px #C8C8C8 inset;
+    position: relative;
+
+    &:hover {
+        z-index: 1;
+    }
+}
+
 nav.pagination .button:before {
     vertical-align: top;
 }
@@ -654,6 +663,7 @@ nav.pagination .previous.button {
 
 nav.pagination .next.button {
     @include border-radius(0px 3px 3px 0px);
+    margin-left: -1px;
 }
 
 nav.pagination form input[type="text"] {
@@ -2998,6 +3008,19 @@ body.sidebar-open #content {
     }
 
     /* @end */
+
+/* @end */
+
+/* @groups ----- Jobs ----- */
+
+.jobs.browse th:first-child,
+.jobs.browse td:first-child {
+    width: 10%;
+}
+
+.jobs.browse .resource-name {
+    max-width: none;
+}
 
 /* @end */
 

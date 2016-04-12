@@ -713,6 +713,8 @@ th {
   /* @end */
   /* @group ----- Reusable classes ----- */
   .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
   }
 

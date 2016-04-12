@@ -12,7 +12,7 @@ class IIIF implements RendererInterface
         $view->headScript()->appendFile($view->assetUrl('js/openseadragon/openseadragon.min.js', 'Omeka'));
         $prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
         $image =
-            '<div class="openseadragon" id="iiif-'.$media->id().'" style="width: 100%; height: 400px;"></div>
+            '<div class="openseadragon" id="iiif-'.$media->id().'" style="width: 600px; height: 400px;"></div>
             <script type="text/javascript">
                 var viewer = OpenSeadragon({
                     id: "iiif-'.$media->id().'",

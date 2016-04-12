@@ -589,30 +589,21 @@ th {
   a.button,
   .button {
     min-height: 1.875em;
-    background-color: #A91919;
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #676767;
     border-radius: 3px;
-    border: 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 0.375em 10px;
     display: inline-block;
     text-align: center;
     cursor: pointer;
     margin: 0 0 0.75em 0;
   }
-  input[type="submit"]:hover,
-  button:hover,
-  a.button:hover,
-  .button:hover {
-    background-color: #A91919;
-  }
-  input[type="submit"]:active, input[type="submit"].active,
-  button:active,
-  button.active,
-  a.button:active,
-  a.button.active,
-  .button:active,
-  .button.active {
-    background-color: #A91919;
+  input[type="submit"]:hover:not(.inactive),
+  button:hover:not(.inactive),
+  a.button:hover:not(.inactive),
+  .button:hover:not(.inactive) {
+    border-color: rgba(0, 0, 0, 0.3);
   }
   input[type="submit"].inactive,
   button.inactive,
@@ -620,6 +611,7 @@ th {
   .button.inactive {
     background-color: #d2d2d2;
     cursor: default;
+    border: 0;
   }
 
   .required .field-meta {
@@ -922,6 +914,9 @@ th {
   #search button {
     width: 2.25em;
     text-indent: -9999px;
+    background-color: #222933;
+    color: #bdcde3;
+    border: 0;
     float: left;
     margin: 0;
     border-radius: 0px;
@@ -1022,7 +1017,6 @@ th {
   nav.pagination .button {
     border-radius: 0px;
     margin: 0;
-    border-right: 1px solid #fff;
   }
 
   nav.pagination .button,
@@ -1321,6 +1315,7 @@ th {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
+    border: 0;
   }
 
   .actions a,
@@ -1554,7 +1549,9 @@ th {
     vertical-align: top;
   }
   #page-actions .delete.button {
-    background-color: #6f5353;
+    background-color: #FDEFEF;
+    border-color: #E0C3C3;
+    color: #A91919;
   }
 
   .add-property.button {
@@ -1984,7 +1981,7 @@ th {
   }
 
   .value {
-    margin-bottom: 1.5em;
+    margin-bottom: 0.375em;
     position: relative;
   }
   .value:last-of-type {
@@ -2005,7 +2002,7 @@ th {
   }
 
   .add-values {
-    margin-top: 1.125em;
+    margin-top: 0.375em;
     margin-bottom: -0.1875em;
   }
 
@@ -2302,19 +2299,15 @@ th {
   }
 
   #page-actions [class*="o-icon-"].button {
-    color: #A91919;
     background-color: transparent;
     width: auto;
     padding: 0.375em 0.375em;
-  }
-  #page-actions [class*="o-icon-"].button:hover {
-    color: #A91919;
-    background-color: transparent;
   }
 
   .o-icon-private.button,
   .o-icon-public.button {
     margin-right: 0.375em;
+    border: 0;
   }
 
   /* @end */
@@ -2354,6 +2347,7 @@ th {
   }
   .search-nav .resource-search > input[type="text"] {
     width: calc(100% - 2.25em);
+    border-right: 0;
   }
   .search-nav .pagination {
     border-color: rgba(0, 0, 0, 0.08);
@@ -2388,6 +2382,10 @@ th {
   .search-nav .pagination .page-count {
     float: left;
     margin-right: 0.91743em;
+  }
+  .search-nav .pagination .inactive {
+    background-color: #E6E6E6;
+    color: #B9B9B9;
   }
 
   .resource-list {
@@ -2653,6 +2651,12 @@ th {
     background-color: transparent;
     padding: 0;
     margin-bottom: 1.5em;
+  }
+  .sidebar .button,
+  .sidebar button {
+    background-color: #676767;
+    border-color: #676767;
+    color: #fff;
   }
 
   #sidebar-confirm {
@@ -3277,6 +3281,15 @@ th {
   .site-pages #new-block button {
     width: 100%;
     text-align: left;
+    border-color: #dfdfdf;
+    background-color: #fff;
+    color: #676767;
+  }
+  .site-pages #new-block button:after {
+    content: "";
+    font-family: "FontAwesome";
+    float: right;
+    color: #dfdfdf;
   }
 
   /* @end */

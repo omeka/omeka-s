@@ -181,27 +181,24 @@ body {
     a.button,
     .button {
         min-height: rhythm(1.25);
-        background-color: $red;
-        color: #fff;
+        background-color: rgba(0,0,0,.08);
+        color: #676767;
         @include border-radius(3px);
-        border: 0;
+        border: 1px solid rgba(0,0,0,.15);
         padding: rhythm(.25) 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
         margin: 0 0 rhythm(.5) 0;
 
-        &:hover {
-            background-color: $red;
-        }
-
-        &:active, &.active {
-            background-color: $red;
+        &:hover:not(.inactive) {
+            border-color: rgba(0,0,0,.3);
         }
 
         &.inactive {
             background-color: #d2d2d2;
             cursor: default;
+            border: 0;
         }
     }
 
@@ -516,6 +513,9 @@ header {
 #search button {
     width: rhythm(1.5);
     text-indent: -9999px;
+    background-color: darken($blue, 15%);
+    color: lighten(saturate($blue, 20%), 50%);
+    border: 0;
     float: left;
     margin: 0;
     @include border-radius(0px);
@@ -625,7 +625,6 @@ nav.pagination form * {
 nav.pagination .button {
     @include border-radius(0px);
     margin: 0;
-    border-right: 1px solid #fff;
 }
 
 nav.pagination .button,
@@ -925,6 +924,7 @@ div[role="main"] {
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
+    border: 0;
 }
 
 .actions a,
@@ -1172,7 +1172,9 @@ fieldset.section > legend {
     }
 
     .delete.button {
-        background-color: desaturate($red, 60%);
+        background-color: #FDEFEF;
+        border-color: #E0C3C3;
+        color: $red;
     }
 }
 
@@ -1607,7 +1609,7 @@ input[type="text"].value-language,
     }
 
     .value {
-        @include trailer();
+        @include trailer(.25);
         position: relative;
 
         &:last-of-type {
@@ -1631,7 +1633,7 @@ input[type="text"].value-language,
     }
 
     .add-values {
-        @include leader(.75);
+        @include leader(.25);
         @include trailer(-.125);
     }
 
@@ -1929,20 +1931,15 @@ input[type="text"].value-language,
     }
 
     #page-actions [class*="o-icon-"].button {
-        color: $red;
         background-color: transparent;
         width: auto;
         padding: rhythm(.25) rhythm(.25);
-
-        &:hover {
-            color: $red;
-            background-color: transparent;
-        }
     }
 
     .o-icon-private.button,
     .o-icon-public.button {
         margin-right: rhythm(.25);
+        border: 0;
     }
 
     /* @end */
@@ -1989,6 +1986,7 @@ input[type="text"].value-language,
 
     .resource-search > input[type="text"] {
         width: calc(100% - #{rhythm(1.5)});
+        border-right: 0;
     }
 
     .pagination {
@@ -2027,6 +2025,11 @@ input[type="text"].value-language,
         .page-count {
             float: left;
             margin-right: rhythm(.5, .8175 * $base-font-size);
+        }
+
+        .inactive {
+            background-color: #E6E6E6;
+            color: #B9B9B9;
         }
     }
 }
@@ -2318,6 +2321,13 @@ input[type="text"].value-language,
         background-color: transparent;
         padding: 0;
         margin-bottom: rhythm();
+    }
+
+    .button,
+    button {
+        background-color: #676767;
+        border-color: #676767;
+        color: #fff;
     }
 }
 
@@ -2955,6 +2965,16 @@ body.sidebar-open #content {
     .site-pages #new-block button {
         width: 100%;
         text-align: left;
+        border-color: $border-gray;
+        background-color: #fff;
+        color: #676767;
+
+        &:after {
+            content: $fa-var-plus;
+            font-family: "FontAwesome";
+            float: right;
+            color: $border-gray;
+        }
     }
 
     /* @end */

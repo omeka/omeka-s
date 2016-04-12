@@ -2291,11 +2291,6 @@ th {
     text-align: left;
   }
 
-  .openseadragon {
-    width: 100%;
-    height: 600px;
-  }
-
   /* @end */
   /* @group ----- Item Sets ----- */
   #item-item-sets + .no-resources {

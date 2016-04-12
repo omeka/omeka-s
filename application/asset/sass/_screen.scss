@@ -1728,10 +1728,9 @@ input[type="text"].value-language,
 
     fieldset[data-data-type="resource"] .default,
     fieldset[data-data-type="resource"] .o-title:not(:empty) {
-        padding: rhythm(.25);
         @include bleed-x(rhythm(.25));
         border-color: $border-gray;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        border-bottom: 1px solid $border-gray;
         display: block;
     }
 
@@ -1765,8 +1764,12 @@ input[type="text"].value-language,
     .selected-resource img {
         height: rhythm();
         display: inline-block;
-        vertical-align: top;
+        vertical-align: middle;
         margin-right: rhythm(.25);
+    }
+
+    .selected-resource a {
+        vertical-align: middle;
     }
 
     .selected-resource .o-title a:after {

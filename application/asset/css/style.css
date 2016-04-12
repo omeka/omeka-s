@@ -2101,7 +2101,6 @@ th {
 
   fieldset[data-data-type="resource"] .default,
   fieldset[data-data-type="resource"] .o-title:not(:empty) {
-    padding: 0.375em;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
@@ -2110,9 +2109,7 @@ th {
     padding-right: 0.375em;
     padding-left: 0.375em;
     border-color: #dfdfdf;
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.3125em;
+    border-bottom: 1px solid #dfdfdf;
     display: block;
   }
 
@@ -2146,8 +2143,12 @@ th {
   .selected-resource img {
     height: 1.5em;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
     margin-right: 0.375em;
+  }
+
+  .selected-resource a {
+    vertical-align: middle;
   }
 
   .selected-resource .o-title a:after {

@@ -2436,8 +2436,6 @@ th {
   }
 
   #resource-details {
-    display: flex;
-    flex-direction: column;
     background-color: #fff;
     overflow: hidden;
     padding: 0;
@@ -2448,10 +2446,12 @@ th {
   }
 
   #resource-details-main {
-    flex: 1;
+    position: absolute;
+    top: 0;
+    bottom: 3.75em;
     overflow-y: auto;
     width: 100%;
-    padding: 0.75em;
+    padding: 0.75em 0.75em 0;
   }
 
   #select-item,

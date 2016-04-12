@@ -1213,7 +1213,7 @@ th {
   /* @group ----- Wrappers ----- */
   div[role="main"] {
     width: 81.25%;
-    padding: 4.125em 1.04167% 0;
+    padding: 3.75em 1.04167% 0;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1484,12 +1484,6 @@ th {
   /* @end */
   /* @end */
   /* @group ----- Add/Edit views ----- */
-  .add div[role="main"],
-  .import div[role="main"],
-  .edit div[role="main"] {
-    padding-top: 3.75em;
-  }
-
   fieldset.section > legend {
     position: absolute;
     left: -9999px;

@@ -818,7 +818,7 @@ nav.pagination + *:not(.sorting) {
 
 div[role="main"] {
     width: span(13 of 16);
-    padding: rhythm(2.75) gutter() 0;
+    padding: rhythm(2.5) gutter() 0;
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1097,12 +1097,6 @@ td .o-icon-private {
 /* @end */
 
 /* @group ----- Add/Edit views ----- */
-
-.add div[role="main"],
-.import div[role="main"],
-.edit div[role="main"] {
-    padding-top: rhythm(2.5);
-}
 
 fieldset.section > legend {
     position: absolute;

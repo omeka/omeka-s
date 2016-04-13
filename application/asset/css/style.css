@@ -553,7 +553,7 @@ textarea {
   input[type="datetime-local"] {
     -moz-appearance: none;
     -webkit-appearance: none;
-    border-radius: 0px;
+    border-radius: 0;
     height: 2.25em;
     border-color: rgba(0, 0, 0, 0.15);
     border-width: 0.0625em;
@@ -928,7 +928,7 @@ textarea {
     border: 0;
     float: left;
     margin: 0;
-    border-radius: 0px;
+    border-radius: 0;
     position: relative;
     height: 2.25em;
     box-shadow: none;
@@ -1029,7 +1029,7 @@ textarea {
   }
 
   nav.pagination .button {
-    border-radius: 0px;
+    border-radius: 0;
     margin: 0;
   }
 
@@ -1057,11 +1057,11 @@ textarea {
   }
 
   nav.pagination .previous.button {
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 0 0 3px;
   }
 
   nav.pagination .next.button {
-    border-radius: 0px 3px 3px 0px;
+    border-radius: 0 3px 3px 0;
     margin-left: -1px;
   }
 
@@ -1799,7 +1799,7 @@ textarea {
     color: #000;
     margin: 0.375em -10px -0.375em;
     overflow: visible;
-    border-radius: 0px 0px 3px 3px;
+    border-radius: 0 0 3px 3px;
   }
   .selector > ul > li,
   .properties > ul > li {

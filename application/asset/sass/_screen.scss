@@ -147,7 +147,7 @@ body {
     input[type="date"],
     input[type="datetime-local"] {
         @include appearance(none);
-        @include border-radius(0px);
+        border-radius: 0;
         height: rhythm(1.5);
         border-color: rgba(0,0,0,.15);
         @include rhythm-borders(1px, 0, $base-font-size, solid);
@@ -185,7 +185,7 @@ body {
         min-height: rhythm(1.25);
         background-color: rgba(0,0,0,.08);
         color: #676767;
-        @include border-radius(3px);
+        border-radius: 3px;
         border: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         padding: rhythm(.25) 10px;
@@ -276,7 +276,7 @@ body {
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
         margin: 0;
-        @include border-radius(3px);
+        border-radius: 3px;
         vertical-align: top;
     }
 
@@ -346,7 +346,7 @@ div[role="main"] > .messages {
 
     li {
         background-color: rgba(255,255,255,.5);
-        @include border-radius(3px);
+        border-radius: 3px;
         padding: rhythm(.25) 10px;
         @include leader(.25);
         display: block;
@@ -437,7 +437,7 @@ header {
     text-align: center;
     background-color: #fff;
     padding: rhythm(.25);
-    @include border-radius(0 0 3px 3px);
+    border-radius: 0 0 3px 3px;
     border-color: $border-gray;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
@@ -523,14 +523,14 @@ header {
     border: 0;
     float: left;
     margin: 0;
-    @include border-radius(0px);
+    border-radius: 0;
     position: relative;
     height: rhythm(1.5);
     box-shadow: none;
 
     &:last-of-type {
         border-left: 1px solid rgba(255,255,255,.2);
-        @include border-radius(0 3px 3px 0);
+        border-radius: 0 3px 3px 0;
 
         &:after {
             content: $fa-var-search;
@@ -631,7 +631,7 @@ nav.pagination form * {
 }
 
 nav.pagination .button {
-    @include border-radius(0px);
+    border-radius: 0;
     margin: 0;
 }
 
@@ -660,11 +660,11 @@ nav.pagination .button:before {
 }
 
 nav.pagination .previous.button {
-    @include border-radius(3px 0px 0px 3px);
+    border-radius: 3px 0 0 3px;
 }
 
 nav.pagination .next.button {
-    @include border-radius(0px 3px 3px 0px);
+    border-radius: 0 3px 3px 0;
     margin-left: -1px;
 }
 
@@ -1091,7 +1091,7 @@ td .o-icon-private {
         display: inline-block;
         font-size: .8175 * $base-font-size;
         margin: 0 rhythm(.25, .8175 * $base-font-size) rhythm(.25, .8175 * $base-font-size) 0;
-        @include border-radius(3px);
+        border-radius: 3px;
         background-color: #f0f0f0;
         padding: 0;
         vertical-align: top;
@@ -1100,7 +1100,7 @@ td .o-icon-private {
     .filter-label {
         display: inline-block;
         background-color: $gray-on-white;
-        @include border-radius(3px 0 0 3px);
+        border-radius: 3px 0 0 3px;
     }
 
     .filter-label,
@@ -1422,14 +1422,14 @@ input[type="text"].value-language,
         & > li.show {
             background-color: #575757;
             color: #f9f9f9;
-            @include border-radius(3px);
+            border-radius: 3px;
 
             & > ul {
                 background-color: #c7c7c7;
                 color: #000;
                 margin: rhythm(.25) -10px rhythm(-.25);
                 overflow: visible;
-                @include border-radius(0px 0px 3px 3px);
+                border-radius: 0 0 3px 3px;
             }
         }
 
@@ -1457,7 +1457,7 @@ input[type="text"].value-language,
             }
 
             .selector-child {
-                @include border-radius(0);
+                border-radius: 0;
                 font-weight: normal;
                 padding: rhythm(.25) 10px;
                 margin: 0 -10px;
@@ -1534,7 +1534,7 @@ input[type="text"].value-language,
         top: rhythm(1.5);
         background-color: #333;
         color: #fff;
-        @include border-radius(3px);
+        border-radius: 3px;
         z-index: 1;
         max-width: 100%;
         @include adjust-font-size-to(14px, 1, $base-font-size);
@@ -1663,7 +1663,7 @@ input[type="text"].value-language,
 
     .inputs p.no-values {
         padding: rhythm(.5);
-        @include border-radius(3px);
+        border-radius: 3px;
         background-color: $gray-on-white;
         line-height: $base-line-height;
 
@@ -1681,7 +1681,7 @@ input[type="text"].value-language,
         display: inline-block;
         min-width: rhythm(1.5);
         height: rhythm(1.5);
-        @include border-radius(2px);
+        border-radius: 2px;
         text-align: center;
         margin: 0;
     }
@@ -2002,7 +2002,7 @@ input[type="text"].value-language,
         width: rhythm(1.5);
         line-height: $base-line-height;
         padding: 0 10px;
-        @include border-radius(0 3px 3px 0);
+        border-radius: 0 3px 3px 0;
         min-height: 0;
         position: absolute;
         top: 0;

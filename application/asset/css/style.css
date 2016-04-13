@@ -3365,13 +3365,13 @@ textarea {
   #has-property-queries select,
   #has-property-queries input[type="text"] {
     width: 46.5%;
-    margin-right: calc(1% - 5px);
+    margin-right: 5px;
   }
 
   #property-queries select,
   #property-queries input[type="text"] {
     width: 30.66%;
-    margin-right: calc(1% - 5px);
+    margin-right: 5px;
   }
 
   #advanced-search .field.removable .value:only-of-type .remove-value {

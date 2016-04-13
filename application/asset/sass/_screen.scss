@@ -491,20 +491,9 @@ header {
 }
 
 .logo {
-    padding: rhythm(.25) 0;
-    width: 100%;
-    position: relative;
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: -9999px;
-        right: -9999px;
-        background-color: darken($blue, 15%);
-        z-index: -1;
-    }
+    padding: rhythm(.25) (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
+    margin: 0 (gutter() / (span(3 of 16) - 2 * gutter()) * -100%);
+    background-color: darken($blue, 15%);
 }
 
 #search {

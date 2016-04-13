@@ -900,19 +900,9 @@ textarea {
   }
 
   .logo {
-    padding: 0.375em 0;
-    width: 100%;
-    position: relative;
-  }
-  .logo:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -9999px;
-    right: -9999px;
+    padding: 0.375em 6.25%;
+    margin: 0 -6.25%;
     background-color: #222933;
-    z-index: -1;
   }
 
   #search {

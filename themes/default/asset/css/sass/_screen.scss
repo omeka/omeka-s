@@ -423,7 +423,7 @@ header {
         @include trailing-border(1px, 1, $base-font-size, solid);
     }
 
-    media-render > *, img {
+    .media-render > *, img {
         max-width: 40vw;
     }
 }

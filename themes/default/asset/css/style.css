@@ -438,8 +438,8 @@
     border-bottom-style: solid;
     padding-bottom: 1.45em;
   }
-  .left .item.resource media-render > *, .left .item.resource img,
-  .right .item.resource media-render > *,
+  .left .item.resource .media-render > *, .left .item.resource img,
+  .right .item.resource .media-render > *,
   .right .item.resource img {
     max-width: 40vw;
   }

@@ -130,11 +130,13 @@ body {
 
     input,
     textarea,
-    button {
+    button,
+    select {
         font-family: "Lato", sans-serif;
         font-size: $base-font-size;
         line-height: $base-line-height;
         margin: 0;
+        color: #676767;
     }
 
     input[type="text"],
@@ -263,7 +265,7 @@ body {
 
         .actions {
             font-size: $base-font-size;
-            margin: rhythm(.2083) 4px;
+            padding: rhythm(.25) 0;
         }
     }
 
@@ -1063,6 +1065,7 @@ td .o-icon-private {
             padding: rhythm(.25) rhythm(.5);
             margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
             background-color: $gray-on-white;
+            max-width: none;
         }
 
         input {
@@ -1193,6 +1196,10 @@ fieldset.section > legend {
         background-color: #FDEFEF;
         box-shadow: 0 0 0 1px #E0C3C3 inset;
         color: $red;
+
+        &:hover {
+            box-shadow: 0 0 0 1px #DA8B8B inset;
+        }
     }
 }
 
@@ -1271,6 +1278,21 @@ input[type="text"].value-language,
 .add .visibility [type="checkbox"],
 .edit .visibility [type="checkbox"] {
     margin-left: .5em;
+}
+
+#media-selector button {
+    width: 100%;
+    text-align: left;
+    border-color: $border-gray;
+    background-color: #fff;
+    color: #676767;
+
+    &:after {
+        content: $fa-var-plus;
+        font-family: "FontAwesome";
+        float: right;
+        color: $border-gray;
+    }
 }
 
     /* @group ----- Metadata ----- */

@@ -535,11 +535,13 @@ textarea {
 
   input,
   textarea,
-  button {
+  button,
+  select {
     font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
     margin: 0;
+    color: #676767;
   }
 
   input[type="text"],
@@ -676,7 +678,7 @@ textarea {
   }
   .media-field-wrapper .actions {
     font-size: 16px;
-    margin: 0.31245em 4px;
+    padding: 0.375em 0;
   }
 
   select {
@@ -1455,6 +1457,7 @@ textarea {
     padding: 0.375em 0.75em;
     margin: -0.375em -0.75em 0.75em;
     background-color: rgba(0, 0, 0, 0.04);
+    max-width: none;
   }
   #advanced-options input {
     float: left;
@@ -1576,6 +1579,9 @@ textarea {
     box-shadow: 0 0 0 1px #E0C3C3 inset;
     color: #A91919;
   }
+  #page-actions .delete.button:hover {
+    box-shadow: 0 0 0 1px #DA8B8B inset;
+  }
 
   .add-property.button {
     margin-top: 1.5em;
@@ -1650,6 +1656,20 @@ textarea {
   .add .visibility [type="checkbox"],
   .edit .visibility [type="checkbox"] {
     margin-left: .5em;
+  }
+
+  #media-selector button {
+    width: 100%;
+    text-align: left;
+    border-color: #dfdfdf;
+    background-color: #fff;
+    color: #676767;
+  }
+  #media-selector button:after {
+    content: "";
+    font-family: "FontAwesome";
+    float: right;
+    color: #dfdfdf;
   }
 
   /* @group ----- Metadata ----- */

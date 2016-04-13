@@ -111,12 +111,12 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-undo,
 .jstree-editlink-edit {
   background-color: transparent;
-  color: #e34545;
+  opacity: .5;
 }
 .jstree-removenode-remove:hover,
 .jstree-removenode-undo:hover,
 .jstree-editlink-edit:hover {
-  color: #A91919;
+  opacity: 1;
 }
 
 .jstree-open > .jstree-anchor .jstree-removenode-remove,

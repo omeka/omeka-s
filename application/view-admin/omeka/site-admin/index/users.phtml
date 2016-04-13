@@ -20,7 +20,7 @@ $roles = [
 </div>
 
 <?php $sitePermissions = $site->sitePermissions(); ?>
-    <table id="site-user-permissions" class="<?php echo count($sitePermissions) ? '' : 'empty'; ?>">
+    <table id="site-user-permissions" class="tablesaw tablesaw-stack <?php echo count($sitePermissions) ? '' : 'empty'; ?>" data-tablesaw-mode="stack">
         <thead>
             <tr>
                 <th scope="col"><?php echo $this->translate('User'); ?></th>

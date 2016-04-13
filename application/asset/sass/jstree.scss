@@ -115,10 +115,10 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-undo,
 .jstree-editlink-edit {
     background-color: transparent;
-    color: lighten($red, 20%);
+    opacity: .5;
 
     &:hover {
-        color: $red;
+        opacity: 1;
     }
 }
 

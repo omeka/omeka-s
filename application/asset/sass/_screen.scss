@@ -3079,6 +3079,8 @@ body.sidebar-open #content {
 
 #advanced-search .value {
     margin-bottom: 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
 }
 

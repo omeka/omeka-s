@@ -3025,31 +3025,6 @@ body.sidebar-open #content {
 
 /* @group ----- Advanced Search ----- */
 
-.advanced-search select,
-.advanced-search input[type="text"] {
-    display: inline-block;
-}
-
-#item-sets select {
-    width: calc(100% - #{1.5 * $base-line-height} - 5px);
-}
-
-#value-queries select,
-#value-queries input[type="text"],
-.class-names select,
-.class-names input[type="text"],
-#has-property-queries select,
-#has-property-queries input[type="text"] {
-    width: 46.5%;
-    margin-right: 5px;
-}
-
-#property-queries select,
-#property-queries input[type="text"] {
-    width: 30.66%;
-    margin-right: 5px;
-}
-
 #advanced-search .field.removable .value:only-of-type .remove-value {
     display: none;
 }
@@ -3082,6 +3057,16 @@ body.sidebar-open #content {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+}
+
+#advanced-search .value select, #advanced-search .value input {
+    margin-left: 5px;
+    min-width: 0;
+}
+
+#advanced-search .value select:first-child,
+#advanced-search .value input:first-child {
+    margin-left: 0;
 }
 
 /* @end */

@@ -621,6 +621,15 @@ textarea {
     cursor: default;
     border: 0;
   }
+  input[type="submit"][class*="o-icon-"], input[type="submit"][class*="o-icon-"]:hover,
+  button[class*="o-icon-"],
+  button[class*="o-icon-"]:hover,
+  a.button[class*="o-icon-"],
+  a.button[class*="o-icon-"]:hover,
+  .button[class*="o-icon-"],
+  .button[class*="o-icon-"]:hover {
+    box-shadow: none;
+  }
 
   .required .field-meta {
     position: relative;
@@ -3402,6 +3411,7 @@ textarea {
 
   #advanced-search .value {
     margin-bottom: 0;
+    display: flex;
   }
 
   /* @end */

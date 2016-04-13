@@ -205,6 +205,11 @@ body {
             cursor: default;
             border: 0;
         }
+
+        &[class*="o-icon-"],
+        &[class*="o-icon-"]:hover {
+            box-shadow: none;
+        }
     }
 
     .required .field-meta {
@@ -3085,6 +3090,7 @@ body.sidebar-open #content {
 
 #advanced-search .value {
     margin-bottom: 0;
+    display: flex;
 }
 
 /* @end */

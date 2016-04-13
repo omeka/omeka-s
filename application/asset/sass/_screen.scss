@@ -1,4 +1,5 @@
 @import "font-awesome/variables";
+@import "font-awesome/mixins";
 @import "mixins";
 
 /* @group ----- Generic HTML elements ----- */
@@ -883,39 +884,23 @@ div[role="main"] {
     vertical-align: middle;
 }
 
-.browse .sorting,
-.browse .advanced-search,
-.browse .pagination {
-    margin: 0 0 rhythm(.5,.8175 * $base-font-size) 0;
-    vertical-align: middle;
+.browse .browse-controls {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     font-size: .8175 * $base-font-size;
 }
 
-.browse .advanced-search,
-.browse nav.pagination {
-    float: left;
-    clear: left;
-}
-
-.browse .advanced-search {
-    vertical-align: top;
-    margin-right: rhythm(.5, .875 * $base-font-size);
-}
-
-.browse .sorting {
-    float: right;
-}
-
-.browse .sorting label {
-    padding: rhythm(.25, .8175 * $base-font-size) 0;
-    display: inline-block;
-    font-weight: bold;
-}
-
-.browse .sorting button,
-.browse .sorting select {
-    font-size: .8175 * $base-font-size;
-    margin-bottom: 0;
+.browse .browse-controls .advanced-search:before {
+    @include fa-icon();
+    content: $fa-var-search;
+    padding: .25em;
 }
 
 .browse .sorting button {

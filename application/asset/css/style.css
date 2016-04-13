@@ -1279,39 +1279,28 @@ textarea {
     vertical-align: middle;
   }
 
-  .browse .sorting,
-  .browse .advanced-search,
-  .browse .pagination {
-    margin: 0 0 0.91743em 0;
-    vertical-align: middle;
+  .browse .browse-controls {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     font-size: 13.08px;
   }
 
-  .browse .advanced-search,
-  .browse nav.pagination {
-    float: left;
-    clear: left;
-  }
-
-  .browse .advanced-search {
-    vertical-align: top;
-    margin-right: 0.85714em;
-  }
-
-  .browse .sorting {
-    float: right;
-  }
-
-  .browse .sorting label {
-    padding: 0.45872em 0;
+  .browse .browse-controls .advanced-search:before {
     display: inline-block;
-    font-weight: bold;
-  }
-
-  .browse .sorting button,
-  .browse .sorting select {
-    font-size: 13.08px;
-    margin-bottom: 0;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    padding: .25em;
   }
 
   .browse .sorting button {

@@ -62,12 +62,20 @@ class BrowsePreview extends AbstractBlockLayout
         $heading = $this->getData($block->data(), 'heading');
         $linkText = $this->getData($block->data(), 'link-text');
 
-        $previewQuery = $query;
-        $previewQuery['limit'] = 10;
-        $previewQuery['site_id'] = $block->page()->site()->id();
+        $site = $block->page()->site();
+        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
+        $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
+        if ($settings->get('browse_attached_items', false)) {
+            $itemPool['site_id'] = $site->id();
+        }
+        $query['sort_by'] = 'created';
+        $query['sort_order'] = 'desc';
+
+        $query = array_merge($itemPool, $query);
+        $query['limit'] = 10;
 
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items', $previewQuery);
+            ->search('items', $query);
         $items = $response->getContent();
 
         return $view->partial('common/block-layout/browse-preview', array(

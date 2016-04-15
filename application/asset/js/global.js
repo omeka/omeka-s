@@ -54,6 +54,13 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+        if (section.find('.sidebar').length > 0) {
+            if (!$('body').hasClass('sidebar-open')) {
+                $('body').addClass('sidebar-open');
+            }
+        } else {
+            $('body').removeClass('sidebar-open');
+        }
     },
 
     filterSelector : function() {

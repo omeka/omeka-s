@@ -85,7 +85,8 @@
             var value = $('.value.selecting-resource');
             var valueObj = $('.resource-details').data('resource-values');
             var namePrefix = value.data('name-prefix');
-            prepareResource(value, valueObj, namePrefix);
+
+            $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
             Omeka.closeSidebar($('#select-resource .sidebar-close'));
         });
 
@@ -142,38 +143,20 @@
      * Prepare the markup for the default data types.
      */
     $(document).on('o:prepare-value', function(e, type, value, valueObj, namePrefix) {
-        if (type === 'literal') {
-            prepareLiteral(value, valueObj, namePrefix);
-        } else if (type === 'uri') {
-            prepareUri(value, valueObj, namePrefix);
-        } else if (type === 'resource') {
+        // Prepare simple single-value form inputs using data-value-key
+        value.find(':input').each(function () {
+            valueKey = $(this).data('valueKey');
+            if (!valueKey) {
+                return;
+            }
+            $(this).attr('name', namePrefix + '[' + valueKey + ']')
+                .val(valueObj ? valueObj[valueKey] : null);
+        });
+
+        if (type === 'resource') {
             prepareResource(value, valueObj, namePrefix);
         }
     });
-
-    /**
-     * Prepare the markup for the literal data type.
-     */
-    var prepareLiteral = function(value, valueObj, namePrefix) {
-        value.find('textarea.input-value')
-            .attr('name', namePrefix + '[@value]')
-            .val(valueObj ? valueObj['@value'] : null);
-        value.find('input.value-language')
-            .attr('name', namePrefix + '[@language]')
-            .val(valueObj ? valueObj['@language'] : null);
-    }
-
-    /**
-     * Prepare the markup for the uri data type.
-     */
-    var prepareUri = function(value, valueObj, namePrefix) {
-        value.find('input.value')
-            .attr('name', namePrefix + '[@id]')
-            .val(valueObj ? valueObj['@id'] : null);
-        value.find('textarea.value-label')
-            .attr('name', namePrefix + '[o:uri_label]')
-            .val(valueObj ? valueObj['o:uri_label'] : null);
-    }
 
     /**
      * Prepare the markup for the resource data type.
@@ -194,9 +177,6 @@
                     .prepend($('<img>', {src: valueObj['thumbnail_url']}));
             }
         }
-        value.find('input.value')
-            .attr('name', namePrefix + '[value_resource_id]')
-            .val(valueObj ? valueObj['value_resource_id'] : null);
     }
 
     /**

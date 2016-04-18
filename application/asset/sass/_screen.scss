@@ -64,6 +64,11 @@ ul {
     list-style: disc;
 }
 
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 html,
 body {
     height: 100%;

@@ -92,7 +92,11 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
      */
     public function dataTypeLabel()
     {
+        $dataType = $this->dataType();
+        if ($dataType === null) {
+            return $this->getTranslator()->translate('Default');
+        }
         return $this->getServiceLocator()->get('Omeka\DataTypeManager')
-            ->get($this->dataType())->getLabel();
+            ->get($dataType)->getLabel();
     }
 }

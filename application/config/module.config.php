@@ -99,7 +99,7 @@ return [
             ],
             'medium' => [
                 'strategy' => 'default',
-                'constraint' => 200,
+                'constraint' => 400,
                 'options' => [],
             ],
             'square' => [
@@ -204,6 +204,7 @@ return [
             'Omeka\Controller\Admin\ResourceClass'    => 'Omeka\Controller\Admin\ResourceClassController',
             'Omeka\Controller\Admin\Media'            => 'Omeka\Controller\Admin\MediaController',
             'Omeka\Controller\Admin\Setting'          => 'Omeka\Controller\Admin\SettingController',
+            'Omeka\Controller\Admin\SystemInfo'       => 'Omeka\Controller\Admin\SystemInfoController',
             'Omeka\Controller\SiteAdmin\Index'        => 'Omeka\Controller\SiteAdmin\IndexController',
             'Omeka\Controller\SiteAdmin\Page'         => 'Omeka\Controller\SiteAdmin\PageController',
         ],
@@ -253,6 +254,7 @@ return [
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
+            'uploadLimit' => 'Omeka\View\Helper\UploadLimit'
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

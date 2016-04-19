@@ -18,6 +18,7 @@
 
     .tablesaw-cell-label {
         width: 0;
+        height: 0;
         overflow: hidden;
         padding: 0;
     }
@@ -34,17 +35,17 @@
     }
 }
 
-.browse .tablesaw-cell-content {
+.tablesaw-cell-content {
     width: 70%;
     max-width: 70%;
 }
 
-.browse .tablesaw-cell-content img {
+.tablesaw-cell-content img {
     margin: 0 rhythm(.25) 0 0;
 }
 
-.browse .tablesaw tr:last-of-type td,
-.browse .tablesaw tr:last-of-type th,
+.tablesaw tr:last-of-type td,
+.tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
     padding: rhythm(.25) rhythm(.5);
@@ -72,6 +73,11 @@
 .modules.browse .tablesaw-cell-content > span {
     display: block;
     max-width: calc(100% - #{rhythm(4)});
+}
+
+.resource-template th:first-of-type,
+.resource-template td:first-of-type {
+    width: 100%;
 }
 
 /* @end */

@@ -2,7 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 <legend><?php echo $this->translate('Item Sets'); ?></legend>
-<table id="item-item-sets" class="<?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
+<table id="item-item-sets" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>

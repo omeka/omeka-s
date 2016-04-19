@@ -23,7 +23,7 @@
 
 .jstree-anchor {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.04);
   padding: 0.375em;
   position: relative;
   margin-bottom: 0.375em;
@@ -33,7 +33,7 @@
 
 .jstree-editlink-container {
   display: none;
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.04);
   border-width: 0.0625em;
   border-style: solid;
   padding: 0.6875em;
@@ -55,12 +55,9 @@
   margin-bottom: 0.375em;
 }
 
-.jstree-hovered {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
+.jstree-hovered,
 .jstree-clicked {
-  background-color: rgba(0, 0, 0, 0.16);
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
 i.jstree-icon {
@@ -87,7 +84,7 @@ i.jstree-icon {
   width: 24px;
   height: 36px;
   line-height: 36px;
-  background-color: rgba(0, 0, 0, 0.24);
+  background-color: rgba(0, 0, 0, 0.2);
   text-align: right;
   cursor: pointer;
   z-index: 1;
@@ -106,7 +103,7 @@ i.jstree-icon.jstree-er {
   width: 36px;
   height: 36px;
   line-height: 36px;
-  background-color: rgba(0, 0, 0, 0.16);
+  background-color: rgba(0, 0, 0, 0.12);
   text-align: center;
 }
 
@@ -114,12 +111,12 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-undo,
 .jstree-editlink-edit {
   background-color: transparent;
-  color: #ff6666;
+  opacity: .5;
 }
 .jstree-removenode-remove:hover,
 .jstree-removenode-undo:hover,
 .jstree-editlink-edit:hover {
-  color: #FF0000;
+  opacity: 1;
 }
 
 .jstree-open > .jstree-anchor .jstree-removenode-remove,
@@ -207,6 +204,6 @@ i.jstree-editlink-edit {
 #jstree-dnd {
   z-index: 1;
   padding: 0.375em 0.75em;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.04);
   line-height: 24px;
 }

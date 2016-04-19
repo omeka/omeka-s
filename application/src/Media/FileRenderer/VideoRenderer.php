@@ -10,7 +10,7 @@ class VideoRenderer implements RendererInterface
         array $options = []
     ) {
         return sprintf(
-            '<video src="%s" controls>%s</audio>',
+            '<video src="%s" controls>%s</video>',
             $view->escapeHtml($media->originalUrl()),
             $view->hyperlink($media->filename(), $media->originalUrl())
         );

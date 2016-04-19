@@ -1,10 +1,11 @@
 @import "font-awesome/variables";
+@import "font-awesome/mixins";
 @import "mixins";
 
 /* @group ----- Generic HTML elements ----- */
 
 * {
-    @include box-sizing(border-box);
+    box-sizing: border-box;
 }
 
 em, i {
@@ -19,17 +20,14 @@ a {
     text-decoration: none;
 }
 
-a:link {
-    color: lighten($red, 20%);
-}
-
+a:link,
 a:visited {
-    color: desaturate($red, 20%);
+    color: $red;
 }
 
 a:active,
 a:hover {
-    color: $red;
+    color: lighten($red, 20%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -57,11 +55,6 @@ h3 {
     @include trailer(1, 1.5 * $base-font-size);
 }
 
-h4 {
-    font-size: 1.25 * $base-font-size;
-    @include trailer(1, 1.25 * $base-font-size);
-}
-
 p {
     margin: rhythm() 0;
 }
@@ -71,17 +64,23 @@ ul {
     list-style: disc;
 }
 
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 html,
 body {
     height: 100%;
 }
 
 body {
-    background-color: #e7e7e7;
-    font-family: "Source Sans Pro", sans-serif;
+    background-color: $blue;
+    font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    padding-left: gutter();
+    color: #676767;
+    overflow-x: hidden;
 }
 
     /* @group ----- Tables ----- */
@@ -95,16 +94,11 @@ body {
         text-align: left;
     }
 
-    th,
     td {
-        padding: rhythm(.5) gutter();
-        border-color: #d7d7d7;
+        padding: 0 rhythm(.25);
+        border-color: $border-gray;
         @include leading-border(1px, .5, $base-font-size, solid);
         vertical-align: middle;
-    }
-
-    thead + tbody tr:first-child {
-        border-color: #d7d7d7;
     }
 
     table {
@@ -112,21 +106,23 @@ body {
     }
 
     tr {
-        background-color: #f2f2f2;
+        background-color: #fff;
     }
 
-    td,
-    th,
-    .tablesaw-sortable th.tablesaw-sortable-head,
-    .tablesaw-sortable tr:first-child th.tablesaw-sortable-head {
+    td {
         padding: rhythm(.25) .5em;
         position: relative;
         vertical-align: top;
     }
 
     tr:last-of-type td,
-    tr:last-of-type th,
-     {
+    tr:last-of-type th {
+        @include trailing-border(1px, .25, $base-font-size, solid);
+    }
+
+    .tablesaw thead tr:first-child th {
+        border-color: $border-gray;
+        padding-top: rhythm(.25);
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
@@ -140,11 +136,13 @@ body {
 
     input,
     textarea,
-    button {
-        font-family: "Source Sans Pro", sans-serif;
+    button,
+    select {
+        font-family: "Lato", sans-serif;
         font-size: $base-font-size;
         line-height: $base-line-height;
         margin: 0;
+        color: #676767;
     }
 
     input[type="text"],
@@ -155,7 +153,7 @@ body {
     input[type="date"],
     input[type="datetime-local"] {
         @include appearance(none);
-        @include border-radius(0px);
+        border-radius: 0;
         height: rhythm(1.5);
         border-color: rgba(0,0,0,.15);
         @include rhythm-borders(1px, 0, $base-font-size, solid);
@@ -191,27 +189,31 @@ body {
     a.button,
     .button {
         min-height: rhythm(1.25);
-        background-color: lighten($red, 20%);
-        color: #fff;
-        @include border-radius(3px);
+        background-color: rgba(0,0,0,.08);
+        color: #676767;
+        border-radius: 3px;
         border: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         padding: rhythm(.25) 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
         margin: 0 0 rhythm(.5) 0;
 
-        &:hover {
-            background-color: $red;
-        }
-
-        &:active, &.active {
-            background-color: $red;
+        &:hover:not(.inactive) {
+            box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
         }
 
         &.inactive {
+            box-shadow: none;
             background-color: #d2d2d2;
             cursor: default;
+            border: 0;
+        }
+
+        &[class*="o-icon-"],
+        &[class*="o-icon-"]:hover {
+            box-shadow: none;
         }
     }
 
@@ -225,7 +227,7 @@ body {
             font-size: .75 * $base-font-size;
             position: absolute;
             right: rhythm(.5);
-            color: lighten($red, 20%);
+            color: $red;
             top: rhythm(.25);
         }
     }
@@ -246,7 +248,7 @@ body {
         width:100%;
         padding: rhythm(.5) rhythm(.25);
         @include trailer(.25);
-        background-color: #e7e7e7;
+        background-color: $gray-on-white;
         position: relative;
 
         .field {
@@ -274,7 +276,7 @@ body {
 
         .actions {
             font-size: $base-font-size;
-            margin: rhythm(.2083) 4px;
+            padding: rhythm(.25) 0;
         }
     }
 
@@ -285,7 +287,7 @@ body {
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
         margin: 0;
-        @include border-radius(3px);
+        border-radius: 3px;
         vertical-align: top;
     }
 
@@ -306,7 +308,6 @@ body {
 
     .selector > ul {
         margin: 0;
-        overflow: hidden;
     }
 
     .selector.sidebar .selector-parent {
@@ -318,6 +319,12 @@ body {
 /* @end */
 
 /* @group ----- Reusable classes ----- */
+
+.flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
 
 .mobile-only {
     display: none;
@@ -350,7 +357,7 @@ div[role="main"] > .messages {
 
     li {
         background-color: rgba(255,255,255,.5);
-        @include border-radius(3px);
+        border-radius: 3px;
         padding: rhythm(.25) 10px;
         @include leader(.25);
         display: block;
@@ -420,9 +427,10 @@ table .icon-sortable {
 
 header {
     width: span(3 of 16);
+    min-height: 100vh;
     text-align: left;
-    padding: rhythm(1.5) 0 rhythm();
-    float: left;
+    padding: 0 gutter() rhythm();
+    color: lighten(saturate($blue, 20%), 50%);
 }
 
 .skip {
@@ -440,42 +448,57 @@ header {
     text-align: center;
     background-color: #fff;
     padding: rhythm(.25);
-    @include border-radius(0 0 3px 3px);
-    border-color: $gray-on-white;
+    border-radius: 0 0 3px 3px;
+    border-color: $border-gray;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
+.logo a,
+#user a {
+    color: lighten(saturate($blue, 20%), 50%);
+}
+
 #user {
-    display: block;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    background-color: #333;
-    width: 100%;
-    left: 0;
-    color: #E7E7E7;
-    text-align: right;
-    padding: rhythm(.25) gutter();
-    z-index: 1000;
+    color: #fff;
+    padding-top: rhythm(.5);
+    margin-bottom: rhythm(-.25);
 }
 
 #user p {
     margin: 0;
     display: inline-block;
+    vertical-align: top;
+}
 
-    &:not(:first-of-type):before {
-        content: "\2022";
-        display: inline-block;
-        margin: 0 .5em 0 .25em;
-    }
+#user .user-id {
+    text-transform: uppercase;
+    font-size: .75 * $base-font-size;
+    width: 75%;
+    margin-bottom: rhythm(.25, .75 * $base-font-size);
+    margin-right: -4px;
+}
+
+#user .user-id a {
+    display: block;
+    font-size: $base-font-size;
+    text-transform: none;
+    margin-top: rhythm(-.25);
+}
+
+#user .logout {
+    font-size: .75 * $base-font-size;
+    padding: 0 rhythm(.25, .75 * $base-font-size);
+    background-color: darken($blue, 15%);
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 25%;
+    text-align: center;
 }
 
 .logo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    padding: rhythm(.25) gutter();
+    padding: rhythm(.25) (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
+    margin: 0 (gutter() / (span(3 of 16) - 2 * gutter()) * -100%);
+    background-color: darken($blue, 15%);
 }
 
 #search {
@@ -495,15 +518,19 @@ header {
 #search button {
     width: rhythm(1.5);
     text-indent: -9999px;
+    background-color: darken($blue, 15%);
+    color: lighten(saturate($blue, 20%), 50%);
+    border: 0;
     float: left;
     margin: 0;
-    @include border-radius(0px);
+    border-radius: 0;
     position: relative;
     height: rhythm(1.5);
+    box-shadow: none;
 
     &:last-of-type {
         border-left: 1px solid rgba(255,255,255,.2);
-        @include border-radius(0 3px 3px 0);
+        border-radius: 0 3px 3px 0;
 
         &:after {
             content: $fa-var-search;
@@ -533,57 +560,42 @@ div[role="main"] > h1:first-of-type {
     position: fixed;
     padding: 0 30% 0 gutter();
     z-index: 3;
-    top: rhythm(1.5, 1.5 * $base-font-size);
-    height: rhythm(2, 1.5 * $base-font-size);
-    left: span(3 of 16) + gutter() * 2;
+    top: 0;
     right: 0;
-    margin-bottom: 0;
-    border-color: #e7e7e7;
-    @include trailing-border(1px, 0, 1.5 * $base-font-size, solid);
+    width: span(13 of 16);
+    height: rhythm(2, 1.5 * $base-font-size);
+    border-bottom: 1px solid $border-gray;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.site-version {
-    background-color: $gray-on-white;
-    @include border-radius(3px);
-    padding: rhythm(.25, .75 * $base-font-size);
-    display: inline-block;
-    font-size: .75 * $base-font-size;
-
-    .version-label {
-        background-color: $gray-on-white;
-        font-weight: bold;
-        @include bleed(rhythm(.25, .75 * $base-font-size) 0 rhythm(.25, .75 * $base-font-size) rhythm(.25, .75 * $base-font-size));
-        padding: rhythm(.25, .75 * $base-font-size);
-        display: inline-block;
-    }
-
-    .version-number {
-        margin-left: rhythm(.25, .75 * $base-font-size);
-        display: inline-block;
-    }
 }
 
 /* @end */
 
 /* @group ----- Footer ----- */
 
-footer {
-    position: relative;
-    padding-right: span(13 of 16);
-    margin-top: -(rhythm(3));
-    z-index: -1;
+.sidebar-open footer {
+    margin-right: span(4 of 16);
+}
 
-    &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: calc(#{span(3 of 16)} + #{gutter()});
-        right: 0;
-        bottom: 0;
-        background: #fff;
+footer {
+    font-size: .75 * $base-font-size;
+    position: relative;
+    margin-top: rhythm(-1.5);
+    margin-left: span(3 of 16);
+    padding-right: gutter();
+    text-align: right;
+    @include transition(margin-right .5s);
+
+    .site-version {
+        margin: 0;
+        display: inline-block;
+    }
+
+    .version-number {
+        display: inline-block;
+        margin: 0 rhythm(.5);
+        line-height: 1;
     }
 }
 
@@ -619,9 +631,8 @@ nav.pagination form * {
 }
 
 nav.pagination .button {
-    @include border-radius(0px);
+    border-radius: 0;
     margin: 0;
-    border-right: 1px solid #fff;
 }
 
 nav.pagination .button,
@@ -635,16 +646,26 @@ nav.pagination input[type="text"],
     vertical-align: top;
 }
 
+nav.pagination .button {
+    box-shadow: 0 0 0 1px #C8C8C8 inset;
+    position: relative;
+
+    &:hover {
+        z-index: 1;
+    }
+}
+
 nav.pagination .button:before {
     vertical-align: top;
 }
 
 nav.pagination .previous.button {
-    @include border-radius(3px 0px 0px 3px);
+    border-radius: 3px 0 0 3px;
 }
 
 nav.pagination .next.button {
-    @include border-radius(0px 3px 3px 0px);
+    border-radius: 0 3px 3px 0;
+    margin-left: -1px;
 }
 
 nav.pagination form input[type="text"] {
@@ -668,8 +689,8 @@ nav.pagination + *:not(.sorting) {
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
-        border-color: $gray-on-white;
-        @include trailing-border(3px, .25, $base-font-size, solid);
+        border-color: darken($blue, 5%);
+        @include trailing-border(1px, .25, $base-font-size, solid);
         margin-bottom: rhythm(.25);
     }
 
@@ -678,8 +699,7 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav ul.navigation > li:not(:last-of-type) {
-        border-color: $gray-on-white;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        border-color: $border-gray;
     }
 
     header nav ul.navigation li li {
@@ -691,16 +711,17 @@ nav.pagination + *:not(.sorting) {
         margin-left: rhythm();
     }
 
-    header nav ul.navigation li.active {
-        font-weight: bold;
-
-        a:before,
-        li:not(.active) {
-            font-weight: normal;
-        }
+    header nav ul.navigation li.active a {
+        color: #fff;
     }
 
-    header nav a:before {
+    header nav a:link,
+    header nav a:visited{
+        color: lighten(saturate($blue, 20%), 50%);
+    }
+
+    header nav li > a:before {
+        content: $fa-var-plus-square;
         font-family: "FontAwesome";
         display: inline-block;
         width: rhythm();
@@ -727,7 +748,7 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav .users:before {
-        content: $fa-var-users;
+        content: $fa-var-user;
     }
 
     header nav .modules:before {
@@ -813,13 +834,12 @@ nav.pagination + *:not(.sorting) {
 /* @group ----- Wrappers ----- */
 
 div[role="main"] {
-    width: span(13 of 16) - gutter();
-    margin-left: gutter() + span(3);
-    padding: rhythm(4) gutter() rhythm();
+    width: span(13 of 16);
+    padding: rhythm(2.5) gutter() rhythm(1.5);
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
-    @include transition-duration(.5s);
+    @include transition(width .5s);
 }
 
 /* @end */
@@ -847,6 +867,7 @@ div[role="main"] {
 .browse td,
 .browse th {
     padding: rhythm(.5) rhythm(.25);
+    overflow: hidden;
 }
 
 .browse tr:last-of-type td,
@@ -862,39 +883,23 @@ div[role="main"] {
     vertical-align: middle;
 }
 
-.browse .sorting,
-.browse .advanced-search,
-.browse .pagination {
-    margin: 0 0 rhythm(.5,.8175 * $base-font-size) 0;
-    vertical-align: middle;
+.browse .browse-controls {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     font-size: .8175 * $base-font-size;
 }
 
-.browse .advanced-search,
-.browse nav.pagination {
-    float: left;
-    clear: left;
-}
-
-.browse .advanced-search {
-    vertical-align: top;
-    margin-right: rhythm(.5, .875 * $base-font-size);
-}
-
-.browse .sorting {
-    float: right;
-}
-
-.browse .sorting label {
-    padding: rhythm(.25, .8175 * $base-font-size) 0;
-    display: inline-block;
-    font-weight: bold;
-}
-
-.browse .sorting button,
-.browse .sorting select {
-    font-size: .8175 * $base-font-size;
-    margin-bottom: 0;
+.browse .browse-controls .advanced-search:before {
+    @include fa-icon();
+    content: $fa-var-search;
+    padding: .25em;
 }
 
 .browse .sorting button {
@@ -921,6 +926,8 @@ div[role="main"] {
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
+    border: 0;
+    box-shadow: none;
 }
 
 .actions a,
@@ -941,7 +948,7 @@ div[role="main"] {
 
 .actions button {
     background-color: transparent;
-    color: lighten($red, 20%);
+    color: $red;
     margin: 0;
     text-indent: -9999px;
     position: relative;
@@ -958,66 +965,6 @@ div[role="main"] {
 
 .row-count {
     margin: 0 rhythm(.25);
-}
-
-th a.sortable,
-th .sorted-asc,
-th .sorted-desc {
-    display: block;
-    width: 100%;
-}
-
-th .sorted-asc,
-th .sorted-desc {
-    border-color: #d2d2d2;
-    padding: 0 .5em;
-    @include trailing-border(3px, .5, $base-font-size, solid);
-    margin: 0 0 rhythm(-.5) -.375em;
-    width: calc(100% + .75em);
-}
-
-th a.sortable:after,
-th .sorted-asc:after,
-th .sorted-desc:after,
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    position: absolute;
-    font-size: .75 * $base-font-size;
-    right: .5em;
-    top: rhythm(1);
-    z-index: 2;
-}
-
-th a.sortable:hover:after,
-th .sorted-asc:hover:after,
-th .sorted-desc:hover:after {
-    color: $red;
-}
-
-.sortable:after,
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    content: $fa-var-sort;
-    color: #999;
-}
-
-.sorted-asc:hover:after,
-.sorted-desc:after {
-    content: $fa-var-sort-desc;
-}
-
-.sortable:hover:after,
-.sorted-desc:hover:after,
-.sorted-asc:after {
-    content: $fa-var-sort-asc;
-}
-
-th a.sortable:before,
-th .sorted-asc:before,
-th .sorted-desc:before {
-    z-index: 1;
 }
 
 .no-resources {
@@ -1093,6 +1040,7 @@ td .o-icon-private {
         clear: both;
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
+        color: #676767;
 
         legend {
             float: left;
@@ -1101,6 +1049,7 @@ td .o-icon-private {
             padding: rhythm(.25) rhythm(.5);
             margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
             background-color: $gray-on-white;
+            max-width: none;
         }
 
         input {
@@ -1126,7 +1075,7 @@ td .o-icon-private {
         display: inline-block;
         font-size: .8175 * $base-font-size;
         margin: 0 rhythm(.25, .8175 * $base-font-size) rhythm(.25, .8175 * $base-font-size) 0;
-        @include border-radius(3px);
+        border-radius: 3px;
         background-color: #f0f0f0;
         padding: 0;
         vertical-align: top;
@@ -1135,7 +1084,7 @@ td .o-icon-private {
     .filter-label {
         display: inline-block;
         background-color: $gray-on-white;
-        @include border-radius(3px 0 0 3px);
+        border-radius: 3px 0 0 3px;
     }
 
     .filter-label,
@@ -1153,12 +1102,6 @@ td .o-icon-private {
 
 /* @group ----- Add/Edit views ----- */
 
-.add div[role="main"],
-.import div[role="main"],
-.edit div[role="main"] {
-    padding-top: rhythm(4);
-}
-
 fieldset.section > legend {
     position: absolute;
     left: -9999px;
@@ -1168,7 +1111,7 @@ fieldset.section > legend {
     border-top: 1px solid #fff;
     height: rhythm(1.75);
     position: relative;
-    @include trailer();
+    @include trailer(.5);
     clear: both;
 
     &:before {
@@ -1180,7 +1123,7 @@ fieldset.section > legend {
         right: 0;
         z-index: 0;
         background: #fff;
-        border: 1px solid #e7e7e7;
+        border: 1px solid $border-gray;
         border-width: 1px 0;
     }
 
@@ -1193,9 +1136,10 @@ fieldset.section > legend {
         position: relative;
         z-index: 1;
         background-color: #fff;
-        border-color: #e7e7e7;
-        border: 1px solid #e7e7e7;
+        border-color: $border-gray;
+        border: 1px solid $border-gray;
         margin-left: .25em;
+        color: #676767;
     }
 
     .active a {
@@ -1214,9 +1158,9 @@ fieldset.section > legend {
 
 #page-actions {
     position: fixed;
-    padding: rhythm(.25) gutter() rhythm(.25) gutter();
+    padding: rhythm(.25) gutter();
     z-index: 4;
-    top: rhythm(1.5);
+    top: 0;
     height: rhythm(1.75);
     right: 0;
     text-align: right;
@@ -1233,7 +1177,13 @@ fieldset.section > legend {
     }
 
     .delete.button {
-        background-color: desaturate($red, 60%);
+        background-color: #FDEFEF;
+        box-shadow: 0 0 0 1px #E0C3C3 inset;
+        color: $red;
+
+        &:hover {
+            box-shadow: 0 0 0 1px #DA8B8B inset;
+        }
     }
 }
 
@@ -1243,7 +1193,7 @@ fieldset.section > legend {
 
 .field-term {
     display: inline-block;
-    font-family: "Source Code Pro";
+    font-family: "Source Code Pro", monospace;
     font-size: .75 * $base-font-size;
 }
 
@@ -1255,7 +1205,7 @@ fieldset.section > legend {
     left: rhythm(1.5);
     height: rhythm(1.5);
     width: rhythm(1.5);
-    line-height: rhythm(1.5);
+    line-height: 1.5 * $base-line-height;
     overflow: hidden;
     text-align: center;
     color: $red;
@@ -1278,6 +1228,7 @@ fieldset.section > legend {
     top: rhythm(.25);
     left: rhythm(1.5);
     margin: 0 0 0 rhythm(.25);
+    line-height: $base-line-height;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid $gray-on-white;
@@ -1311,6 +1262,21 @@ input[type="text"].value-language,
 .add .visibility [type="checkbox"],
 .edit .visibility [type="checkbox"] {
     margin-left: .5em;
+}
+
+#media-selector button {
+    width: 100%;
+    text-align: left;
+    border-color: $border-gray;
+    background-color: #fff;
+    color: #676767;
+
+    &:after {
+        content: $fa-var-plus;
+        font-family: "FontAwesome";
+        float: right;
+        color: $border-gray;
+    }
 }
 
     /* @group ----- Metadata ----- */
@@ -1440,14 +1406,14 @@ input[type="text"].value-language,
         & > li.show {
             background-color: #575757;
             color: #f9f9f9;
-            @include border-radius(3px);
+            border-radius: 3px;
 
             & > ul {
                 background-color: #c7c7c7;
                 color: #000;
                 margin: rhythm(.25) -10px rhythm(-.25);
                 overflow: visible;
-                @include border-radius(0px 0px 3px 3px);
+                border-radius: 0 0 3px 3px;
             }
         }
 
@@ -1475,7 +1441,7 @@ input[type="text"].value-language,
             }
 
             .selector-child {
-                @include border-radius(0);
+                border-radius: 0;
                 font-weight: normal;
                 padding: rhythm(.25) 10px;
                 margin: 0 -10px;
@@ -1552,7 +1518,7 @@ input[type="text"].value-language,
         top: rhythm(1.5);
         background-color: #333;
         color: #fff;
-        @include border-radius(3px);
+        border-radius: 3px;
         z-index: 1;
         max-width: 100%;
         @include adjust-font-size-to(14px, 1, $base-font-size);
@@ -1599,6 +1565,7 @@ input[type="text"].value-language,
     .collapse + .collapsible {
         display: block;
         clear: both;
+        overflow: hidden;
     }
 
     .field-description .field-comment {
@@ -1608,7 +1575,6 @@ input[type="text"].value-language,
     }
 
     .resource-values .field-term {
-        font-family: "Source Code Pro";
         display: block;
         @include adjust-font-size-to(12px);
     }
@@ -1650,6 +1616,7 @@ input[type="text"].value-language,
 
         textarea {
             resize: vertical;
+            line-height: 1.5;
         }
 
         label {
@@ -1666,7 +1633,7 @@ input[type="text"].value-language,
     }
 
     .value {
-        @include trailer();
+        @include trailer(.25);
         position: relative;
 
         &:last-of-type {
@@ -1680,7 +1647,7 @@ input[type="text"].value-language,
 
     .inputs p.no-values {
         padding: rhythm(.5);
-        @include border-radius(3px);
+        border-radius: 3px;
         background-color: $gray-on-white;
         line-height: $base-line-height;
 
@@ -1690,7 +1657,7 @@ input[type="text"].value-language,
     }
 
     .add-values {
-        @include leader(.75);
+        @include leader(.25);
         @include trailer(-.125);
     }
 
@@ -1698,7 +1665,7 @@ input[type="text"].value-language,
         display: inline-block;
         min-width: rhythm(1.5);
         height: rhythm(1.5);
-        @include border-radius(2px);
+        border-radius: 2px;
         text-align: center;
         margin: 0;
     }
@@ -1787,10 +1754,9 @@ input[type="text"].value-language,
 
     fieldset[data-data-type="resource"] .default,
     fieldset[data-data-type="resource"] .o-title:not(:empty) {
-        padding: rhythm(.25);
         @include bleed-x(rhythm(.25));
-        border-color: $gray-on-white;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        border-color: $border-gray;
+        border-bottom: 1px solid $border-gray;
         display: block;
     }
 
@@ -1824,8 +1790,12 @@ input[type="text"].value-language,
     .selected-resource img {
         height: rhythm();
         display: inline-block;
-        vertical-align: top;
+        vertical-align: middle;
         margin-right: rhythm(.25);
+    }
+
+    .selected-resource a {
+        vertical-align: middle;
     }
 
     .selected-resource .o-title a:after {
@@ -1946,17 +1916,11 @@ input[type="text"].value-language,
 
     .media-render > * {
         max-width: 100%;
-        height: auto;
     }
 
     #item-media .sidebar button {
         width: 100%;
         text-align: left;
-    }
-
-    .openseadragon {
-        width:100%;
-        height:600px;
     }
 
     /* @end */
@@ -1985,20 +1949,16 @@ input[type="text"].value-language,
     }
 
     #page-actions [class*="o-icon-"].button {
-        color: lighten($red, 20%);
         background-color: transparent;
         width: auto;
         padding: rhythm(.25) rhythm(.25);
-
-        &:hover {
-            color: $red;
-            background-color: transparent;
-        }
+        box-shadow: none;
     }
 
     .o-icon-private.button,
     .o-icon-public.button {
         margin-right: rhythm(.25);
+        box-shadow: none;
     }
 
     /* @end */
@@ -2026,7 +1986,7 @@ input[type="text"].value-language,
         width: rhythm(1.5);
         line-height: $base-line-height;
         padding: 0 10px;
-        @include border-radius(0 3px 3px 0);
+        border-radius: 0 3px 3px 0;
         min-height: 0;
         position: absolute;
         top: 0;
@@ -2045,6 +2005,7 @@ input[type="text"].value-language,
 
     .resource-search > input[type="text"] {
         width: calc(100% - #{rhythm(1.5)});
+        border-right: 0;
     }
 
     .pagination {
@@ -2077,12 +2038,17 @@ input[type="text"].value-language,
             float: left;
             line-height: .8175 * $base-line-height;
             height: rhythm(1, .8175 * $base-font-size);
-            border: 1px solid $gray-on-white;
+            border: 1px solid $border-gray;
         }
 
         .page-count {
             float: left;
             margin-right: rhythm(.5, .8175 * $base-font-size);
+        }
+
+        .inactive {
+            background-color: #E6E6E6;
+            color: #B9B9B9;
         }
     }
 }
@@ -2096,25 +2062,14 @@ input[type="text"].value-language,
         margin-left: rhythm(.25);
     }
 
-    .placeholder.no-image {
-        background-color: #fff;
-        border: 1px solid rgba(0,0,0,.08);
-
-        &:after {
-            content: $fa-var-cubes;
-            font-family: "FontAwesome";
-            text-align: center;
-            display: inline-block;
-            width: 100%;
-            line-height: rhythm(1.5);
-            color: #d2d2d2;
-        }
-    }
-
     .resource-name {
         display: inline-block;
         vertical-align: top;
         margin: rhythm(.25) 0 0 rhythm(.5);
+
+        &:only-child {
+            margin: 0 0 0 rhythm(.25);
+        }
     }
 
     img + .resource-name {
@@ -2141,15 +2096,8 @@ input[type="text"].value-language,
 
 #resource-details {
     background-color: #fff;
-    overflow-y: scroll;
-    @include padding-trailer(2.25);
-
-    h1 {
-        font-size: 2 * $base-font-size;
-        line-height: 2 * $base-line-height;
-        @include trailer(1, 2 * $base-font-size);
-        padding: 0;
-    }
+    overflow: hidden;
+    padding: 0;
 
     .o-description,
     .property {
@@ -2157,31 +2105,28 @@ input[type="text"].value-language,
     }
 }
 
+#resource-details-main {
+    position: absolute;
+    top: 0;
+    bottom: rhythm(2.5);
+    overflow-y: auto;
+    width: 100%;
+    padding: rhythm(.5) rhythm(.5) 0;
+}
+
 
 #select-item,
 .confirm-panel {
-    position: fixed;
-    width: span(4 of 16) - gutter(32);
-    bottom: 0;
-    right: 0;
-    left: 100%;
-    height: rhythm(2);
-    background-color: #fff;
-    padding: rhythm(.25) gutter();
-    border-color: #d2d2d2;
-    @include leading-border(1px, .25, $base-font-size, solid);
-    border-left: 1px solid #d2d2d2;
-    @include transition-duration(.5s);
+    position: absolute;
+    bottom: rhythm(.5);
+    right: rhythm(.5);
+    left: rhythm(.5);
 
     button,
     .button {
         width: 100%;
+        margin: 0;
     }
-}
-
-#resource-details.active #select-item,
-.sidebar.active .confirm-panel {
-    left: span(12 of 16) + gutter(32);
 }
 
 /* @end */
@@ -2212,22 +2157,27 @@ input[type="text"].value-language,
 
 .show .property,
 .show .meta-group {
-    @include trailer();
+    text-align: right;
 
     h4 {
-        background-color: $gray-on-white;
-        @include trailer(0);
-        padding: rhythm(.25);
+        width: span(2 of 9);
+        display: inline-block;
+        vertical-align: top;
+        padding: rhythm(.25) 0;
+        text-align: left;
     }
 
     .value {
         padding: rhythm(.25);
         @include trailer(0);
         word-wrap: break-word;
+        width: span(7 of 9);
+        display: inline-block;
+        margin-left: -4px;
+        text-align: left;
 
-        &:not(:last-child) {
-            border-color: $gray-on-white;
-            @include trailing-border(1px, .25, $base-font-size, solid);
+        &:not(:first-of-type) {
+            padding-top: 0;
         }
     }
 }
@@ -2284,29 +2234,31 @@ input[type="text"].value-language,
 
 .sidebar {
     position: fixed;
-    top: rhythm(3.5);
+    top: rhythm(2);
     left: 100%;
     visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
     padding: rhythm(.5);
-    border-left: 1px solid #d2d2d2;
-    overflow-y: scroll;
+    border-left: 1px solid $border-gray;
+    overflow-y: auto;
     overflow-x: hidden;
-    width: span(4 of 16) - gutter(32);
-    @include transition-duration(.5s);
+    width: span(4 of 16);
+    @include transition(left .5s, visibility .5s);
 
     &.active,
     &.always-open {
-        left: span(12 of 16) + gutter(32);
+        left: span(12 of 16);
         visibility: visible;
     }
 
-    .o-icon-close {
+    a.o-icon-close {
         position: absolute;
-        right: gutter();
+        right: rhythm(.5);
         top: rhythm(.5);
+        z-index: 3;
+        color: #666;
     }
 
     .vocabulary,
@@ -2316,7 +2268,7 @@ input[type="text"].value-language,
 
     .value {
         @include trailer(.25);
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, .25, $base-font-size, solid);
         vertical-align: middle;
 
@@ -2355,8 +2307,22 @@ input[type="text"].value-language,
     label,
     legend {
         display: block;
-        font-size: 1.25 * $base-font-size;
-        @include trailer(.5, 1.25 * $base-font-size);
+        font-size: $base-font-size;
+        font-weight: bold;
+        margin: 0 0 rhythm(.5) 0;
+        padding-bottom: rhythm(.5);
+        position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: rhythm(-.5);
+            right: rhythm(-.5);
+            bottom: 0;
+            top: rhythm(-.5);
+            background-color: $border-gray;
+            z-index: -1;
+        }
     }
 
     .field {
@@ -2364,49 +2330,57 @@ input[type="text"].value-language,
         padding: 0;
         margin-bottom: rhythm();
     }
+
+    .button,
+    button {
+        background-color: #676767;
+        border-color: #676767;
+        color: #fff;
+    }
 }
 
 #sidebar-confirm {
     display: block;
-    background-color: #ccc;
-    @include bleed-x(gutter(1));
-    @include bleed-y(rhythm());
-    @include trailer();
+    padding-bottom: rhythm(.5);
+    @include trailer(.5);
 
-    button {
-        @include trailer(0);
+    input[type="submit"] {
+        background-color: $red;
+        color: #fff;
+        box-shadow: none;
     }
 }
 
 body.sidebar-open #content {
-    width: span(9 of 16) - gutter() / 2;
+    width: span(9 of 16);
 }
 
 .sidebar .meta-group {
-    @include trailer();
+    @include trailer(.5);
+    text-align: left;
 
     .value {
+        width: auto;
         padding: rhythm(.25) 0;
         margin: 0;
         word-wrap: break-word;
+        display: block;
 
         &:not(:last-child) {
-            border-color: $gray-on-white;
+            border-color: $border-gray;
             @include trailing-border(1px, .25, $base-font-size, solid);
         }
     }
 }
 
-.sidebar .meta-group {
-    @include trailer(.5);
-}
-
 .sidebar .meta-group h4 {
+    display: block;
     background-color: transparent;
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
+    width: auto;
 }
 
 .sidebar .media a:first-child img,
@@ -2420,7 +2394,7 @@ body.sidebar-open #content {
 .sidebar .meta-group img {
     height: rhythm(2);
     display: inline-block;
-    border-color: $gray-on-white;
+    border-color: $border-gray;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
 }
 
@@ -2586,6 +2560,32 @@ body.sidebar-open #content {
 
 /* @end */
 
+/* @group ----- System Info ----- */
+
+#system-info-table {
+    .label-col {
+        width: 25%;
+    }
+
+    th, td {
+        font-size: 0.875em;
+        padding: 0;
+        line-height: 1.75;
+        border: none;
+    }
+
+    th[scope="rowgroup"] {
+        font-size: 1em;
+        border-bottom: 1px solid $border-gray;
+    }
+
+    th[scope="row"] {
+        padding-left: 1.5em;
+    }
+}
+
+/* @end */
+
 /* @group ----- Sites ----- */
 
 .breadcrumbs {
@@ -2718,7 +2718,7 @@ body.sidebar-open #content {
     }
 
     .block.html > div {
-        border: 1px solid #f2f2f2;
+        border: 1px solid $border-gray;
         clear: both;
     }
 
@@ -2790,10 +2790,14 @@ body.sidebar-open #content {
         height: $base-line-height;
     }
 
+    .block .attachment .actions a {
+        vertical-align: bottom;
+    }
+
     .block .attachment .actions .button {
         display: inline-block;
         background-color: transparent;
-        color: lighten($red, 20%);
+        color: $red;
         padding: 0;
 
         &:hover {
@@ -2817,7 +2821,7 @@ body.sidebar-open #content {
 
     .block .attachment {
         padding-left: rhythm(1.25);
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, 0, $base-font-size, solid);
         position: relative;
         clear: both;
@@ -2845,7 +2849,7 @@ body.sidebar-open #content {
 
     .block label.thumbnail-option {
         overflow: hidden;
-        border-color: $gray-on-white;
+        border-color: $border-gray;
         @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
         line-height: 1.5 * $base-line-height;
@@ -2862,8 +2866,15 @@ body.sidebar-open #content {
         font-weight: normal;
     }
 
-    #attachment-options {
-        padding-bottom: rhythm(3);
+    #attachment-options-main {
+        position: absolute;
+        top: 0;
+        bottom: rhythm(2.5);
+        left: 0;
+        right: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0 rhythm(.5);
     }
 
     #attachment-options .option {
@@ -2889,19 +2900,17 @@ body.sidebar-open #content {
     }
 
     #attachment-options .selected-attachment {
-        background-color: $gray-on-white;
         @include trailer(.5);
         @include bleed-x(rhythm(.5));
         padding-top: rhythm(.5);
         padding-bottom: rhythm(.5);
         overflow: hidden;
-        text-align: right;
 
         img {
             height: rhythm(4);
             width: auto;
-            float: left;
-            margin: 0 rhythm(.5) rhythm(.25) 0;
+            float: right;
+            margin: 0 0 0 rhythm(.5);
         }
 
         p:first-child {
@@ -2910,22 +2919,17 @@ body.sidebar-open #content {
     }
 
     #attachment-options h3.item-title {
-        font-size: 1.25 * $base-font-size;
-        margin-bottom: 0;
-        border-color: transparent;
         text-align: left;
     }
 
     #attachment-options .item-thumbnail ~ h3.item-title {
-        width: calc(100% - #{rhythm(4.5, 1.25 * $base-font-size)});
-        float: right;
+        width: 100%;
     }
 
     #attachment-options .media-title {
         font-size: .75 * $base-font-size;
         display: block;
-        width: rhythm(4, .75 * $base-font-size);
-        margin-right: rhythm(.5, .75 * $base-font-size);
+        width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
         float: left;
         word-wrap: break-word;
         text-align: left;
@@ -2940,15 +2944,13 @@ body.sidebar-open #content {
     }
 
     #attachment-options h3 {
-        border-color: $gray-on-white;
-        @include trailing-border(3px, .25, 1.25 * $base-font-size, solid);
         word-wrap: break-word;
     }
 
     #attachment-options .media-list {
         list-style: none;
         padding: 0;
-        margin-top: 0;
+        margin: 0 0 rhythm(.5);
 
         li.media {
             position: relative;
@@ -2957,7 +2959,7 @@ body.sidebar-open #content {
             cursor: pointer;
             display: inline-block;
             padding: rhythm(.125);
-            border: 1px solid $gray-on-white;
+            border: 1px solid $border-gray;
 
 
             &.attached, &:hover {
@@ -2974,6 +2976,16 @@ body.sidebar-open #content {
     .site-pages #new-block button {
         width: 100%;
         text-align: left;
+        border-color: $border-gray;
+        background-color: #fff;
+        color: #676767;
+
+        &:after {
+            content: $fa-var-plus;
+            font-family: "FontAwesome";
+            float: right;
+            color: $border-gray;
+        }
     }
 
     /* @end */
@@ -3003,32 +3015,20 @@ body.sidebar-open #content {
 
 /* @end */
 
+/* @groups ----- Jobs ----- */
+
+.jobs.browse th:first-child,
+.jobs.browse td:first-child {
+    width: 10%;
+}
+
+.jobs.browse .resource-name {
+    max-width: none;
+}
+
+/* @end */
+
 /* @group ----- Advanced Search ----- */
-
-.advanced-search select,
-.advanced-search input[type="text"] {
-    display: inline-block;
-}
-
-#item-sets select {
-    width: calc(100% - #{1.5 * $base-line-height} - 5px);
-}
-
-#value-queries select,
-#value-queries input[type="text"],
-.class-names select,
-.class-names input[type="text"],
-#has-property-queries select,
-#has-property-queries input[type="text"] {
-    width: 46.5%;
-    margin-right: calc(1% - 5px);
-}
-
-#property-queries select,
-#property-queries input[type="text"] {
-    width: 30.66%;
-    margin-right: calc(1% - 5px);
-}
 
 #advanced-search .field.removable .value:only-of-type .remove-value {
     display: none;
@@ -3036,7 +3036,7 @@ body.sidebar-open #content {
 
 #advanced-search .remove-value {
     background-color: transparent;
-    color: lighten($red, 20%);
+    color: $red;
     display: inline-block;
     text-indent: -9999px;
     position: relative;
@@ -3059,6 +3059,19 @@ body.sidebar-open #content {
 
 #advanced-search .value {
     margin-bottom: 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+#advanced-search .value select, #advanced-search .value input {
+    margin-left: 5px;
+    min-width: 0;
+}
+
+#advanced-search .value select:first-child,
+#advanced-search .value input:first-child {
+    margin-left: 0;
 }
 
 /* @end */
@@ -3071,6 +3084,7 @@ body.minimal {
     width: span(8);
     @include container;
     height: auto;
+    background-color: $blue;
 
     header {
         background-color: rgba(0,0,0,.3);

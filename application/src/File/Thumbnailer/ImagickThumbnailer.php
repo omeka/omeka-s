@@ -16,7 +16,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
     public function __construct()
     {
         if (!extension_loaded('imagick')) {
-            throw new Exception\InvalidThumbnailerException;
+            throw new Exception\InvalidThumbnailerException('The imagick PHP extension must be loaded to use this thumbnailer.');
         }
     }
 

@@ -58,10 +58,7 @@
     }
 }
 
-.jstree-hovered {
-    background-color: transparentize($gray-on-white, .04);
-}
-
+.jstree-hovered,
 .jstree-clicked {
     background-color: opacify($gray-on-white, .08);
 }
@@ -118,10 +115,10 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-undo,
 .jstree-editlink-edit {
     background-color: transparent;
-    color: lighten($red, 20%);
+    opacity: .5;
 
     &:hover {
-        color: $red;
+        opacity: 1;
     }
 }
 

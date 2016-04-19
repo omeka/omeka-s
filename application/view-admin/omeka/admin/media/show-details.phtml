@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <img src="<?php echo $escape($resource->thumbnailUrl('square')); ?>">
-    <h2 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+    <h3 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h3>
     <div class="meta-group">
         <h4>Visibility</h4>
         <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>

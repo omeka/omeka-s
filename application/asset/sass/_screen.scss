@@ -281,14 +281,23 @@ body {
     }
 
     select {
-        background-color: #fff;
+        background: #fff url('../img/select-arrow.svg') no-repeat;
+        background-position: right (.25 * $base-line-height) center;
+        background-size: .5 * $base-font-size;
         border: 1px solid #ccc;
         height: 1.5 * $base-line-height;
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
         margin: 0;
+        padding: 0 rhythm() 0 rhythm(.25);
         border-radius: 3px;
         vertical-align: top;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    select::-ms-expand {
+        display: none;
     }
 
     label input {
@@ -644,6 +653,7 @@ nav.pagination input[type="text"],
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
+    background-size: .4088 * $base-font-size;
 }
 
 nav.pagination .button {
@@ -1612,6 +1622,10 @@ input[type="text"].value-language,
             &:only-child {
                 margin: 0;
             }
+        }
+
+        select {
+            padding: 0 rhythm(.25);
         }
 
         textarea {

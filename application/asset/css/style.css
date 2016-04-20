@@ -696,14 +696,23 @@ textarea {
   }
 
   select {
-    background-color: #fff;
+    background: #fff url("../img/select-arrow.svg") no-repeat;
+    background-position: right 6px center;
+    background-size: 8px;
     border: 1px solid #ccc;
     height: 36px;
     line-height: 36px;
     font-size: 16px;
     margin: 0;
+    padding: 0 1.5em 0 0.375em;
     border-radius: 3px;
     vertical-align: top;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  select::-ms-expand {
+    display: none;
   }
 
   label input {
@@ -1046,6 +1055,7 @@ textarea {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
+    background-size: 6.5408px;
   }
 
   nav.pagination .button {
@@ -2000,6 +2010,9 @@ textarea {
   .inputs input[type="date"]:only-child,
   .inputs input[type="datetime-local"]:only-child {
     margin: 0;
+  }
+  .inputs select {
+    padding: 0 0.375em;
   }
   .inputs textarea {
     resize: vertical;

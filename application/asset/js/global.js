@@ -114,6 +114,20 @@ var Omeka = {
             var aspect = $(this).attr('height') / $(this).attr('width');
             $(this).height($(this).width() * aspect);
         });
+    },
+
+    framerateCallback: function(callback) {
+        var waiting = false;
+        callback = callback.bind(this);
+        return function () {
+            if (!waiting) {
+                waiting = true;
+                window.requestAnimationFrame(function () {
+                    callback();
+                    waiting = false;
+                });
+            }
+        }
     }
 };
 
@@ -272,7 +286,7 @@ var Omeka = {
         Omeka.updateSearch();
 
         // Maintain iframe aspect ratios
-        $(window).resize(Omeka.fixIframeAspect);
+        $(window).on('load resize', Omeka.framerateCallback(Omeka.fixIframeAspect));
         Omeka.fixIframeAspect();
     });
 

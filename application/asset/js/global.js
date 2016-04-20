@@ -30,7 +30,7 @@ var Omeka = {
     closeSidebar : function(context) {
         context.removeClass('active');
         context.closest('.active').removeClass('active');
-        if ($('.active.sidebar').length < 1 && $('.always-open.sidebar').length < 1) {
+        if ($('.active.sidebar, .always-open.sidebar').length == 0) {
             $('body').removeClass('sidebar-open');
         }
     },
@@ -54,6 +54,11 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+        if (section.find('.always-open.sidebar, .active.sidebar').length > 0) {
+            $('body').addClass('sidebar-open');
+        } else {
+            $('body').removeClass('sidebar-open');
+        }
     },
 
     filterSelector : function() {

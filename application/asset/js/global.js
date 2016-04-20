@@ -107,6 +107,13 @@ var Omeka = {
 
     markDirty: function(form) {
         $(form).data('omekaFormDirty', true);
+    },
+
+    fixIframeAspect: function () {
+        $('iframe').each(function () {
+            var aspect = $(this).attr('height') / $(this).attr('width');
+            $(this).height($(this).width() * aspect);
+        });
     }
 };
 
@@ -263,6 +270,10 @@ var Omeka = {
 
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
+
+        // Maintain iframe aspect ratios
+        $(window).resize(Omeka.fixIframeAspect);
+        Omeka.fixIframeAspect();
     });
 
     $(window).load(function() {

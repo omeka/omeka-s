@@ -10,7 +10,7 @@ class Literal extends AbstractDataType
 {
     public function getLabel()
     {
-        return 'Literal';
+        return 'Text';
     }
 
     public function getTemplate(PhpRenderer $view)

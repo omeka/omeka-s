@@ -2302,6 +2302,11 @@ textarea {
     max-width: 100%;
   }
 
+  .media-render img {
+    max-width: 100%;
+    height: auto;
+  }
+
   #item-media .sidebar button {
     width: 100%;
     text-align: left;

@@ -131,6 +131,7 @@ body {
 
     textarea {
         clear: both;
+        padding: rhythm(.25);
     }
 
     input,
@@ -154,9 +155,8 @@ body {
         @include appearance(none);
         border-radius: 0;
         height: rhythm(1.5);
-        border-color: rgba(0,0,0,.15);
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
-        padding: rhythm(.25) gutter();
+        border: 1px solid rgba(0,0,0,.15);
+        padding: rhythm(.25);
         margin: 0;
     }
 
@@ -1613,19 +1613,13 @@ input[type="text"].value-language,
         input[type="url"],
         input[type="date"],
         input[type="datetime-local"] {
-            line-height: 1.5 * $base-line-height;
             width: 100%;
             min-height: rhythm(1.5);
-            padding: rhythm(.25);
             margin: rhythm(.25) 0;
 
             &:only-child {
                 margin: 0;
             }
-        }
-
-        select {
-            padding: 0 rhythm(.25);
         }
 
         textarea {

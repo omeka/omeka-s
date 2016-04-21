@@ -535,6 +535,7 @@ textarea {
   /* @group ----- Form elements ----- */
   textarea {
     clear: both;
+    padding: 0.375em;
   }
 
   input,
@@ -559,11 +560,8 @@ textarea {
     -webkit-appearance: none;
     border-radius: 0;
     height: 2.25em;
-    border-color: rgba(0, 0, 0, 0.15);
-    border-width: 0.0625em;
-    border-style: solid;
-    padding: -0.0625em;
-    padding: 0.375em 1.04167%;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0.375em;
     margin: 0;
   }
 
@@ -1994,10 +1992,8 @@ textarea {
   .inputs input[type="url"],
   .inputs input[type="date"],
   .inputs input[type="datetime-local"] {
-    line-height: 36px;
     width: 100%;
     min-height: 2.25em;
-    padding: 0.375em;
     margin: 0.375em 0;
   }
   .inputs label:only-child,
@@ -2010,9 +2006,6 @@ textarea {
   .inputs input[type="date"]:only-child,
   .inputs input[type="datetime-local"]:only-child {
     margin: 0;
-  }
-  .inputs select {
-    padding: 0 0.375em;
   }
   .inputs textarea {
     resize: vertical;

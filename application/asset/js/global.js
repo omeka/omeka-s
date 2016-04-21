@@ -16,13 +16,11 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        if (!$('body').hasClass('sidebar-open') && !$('body').hasClass('section-sidebar-open')) {
-            $('body').addClass('sidebar-open');
-        }
-
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
+
+        $('body').addClass('sidebar-open');
         sidebar.addClass('active');
         return sidebar;
     },

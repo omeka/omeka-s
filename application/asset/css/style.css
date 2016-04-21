@@ -987,6 +987,7 @@ textarea {
 
   /* @end */
   /* @group ----- Footer ----- */
+  .section-sidebar-open footer,
   .sidebar-open footer {
     margin-right: 25%;
   }
@@ -2709,6 +2710,7 @@ textarea {
     box-shadow: none;
   }
 
+  body.section-sidebar-open #content,
   body.sidebar-open #content {
     width: 56.25%;
   }

@@ -583,6 +583,7 @@ div[role="main"] > h1:first-of-type {
 
 /* @group ----- Footer ----- */
 
+.section-sidebar-open footer,
 .sidebar-open footer {
     margin-right: span(4 of 16);
 }
@@ -2370,6 +2371,7 @@ input[type="text"].value-language,
     }
 }
 
+body.section-sidebar-open #content,
 body.sidebar-open #content {
     width: span(9 of 16);
 }

@@ -536,6 +536,8 @@ textarea {
   textarea {
     clear: both;
     padding: 0.375em;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: block;
   }
 
   input,
@@ -581,15 +583,6 @@ textarea {
 
   :-ms-input-placeholder {
     font-style: italic;
-  }
-
-  textarea {
-    border-color: rgba(0, 0, 0, 0.15);
-    border-width: 0.0625em;
-    border-style: solid;
-    padding: -0.0625em;
-    margin: 0;
-    display: block;
   }
 
   input[type="submit"],
@@ -925,10 +918,8 @@ textarea {
   }
 
   #search input[type="text"] {
-    height: 2.25em;
     width: calc(100% - 4.5em);
     float: left;
-    padding: 0.375em 0.75em;
   }
 
   #search button {
@@ -2778,7 +2769,6 @@ textarea {
 
   .resource-template textarea {
     height: 36px;
-    padding: 0.375em;
     width: 100%;
   }
 
@@ -2830,7 +2820,6 @@ textarea {
   .resource-template .property.row label,
   .resource-template .property.row input[type="text"] {
     width: 100%;
-    height: 2.25em;
     line-height: 36px;
   }
 

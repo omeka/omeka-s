@@ -132,6 +132,8 @@ body {
     textarea {
         clear: both;
         padding: rhythm(.25);
+        border: 1px solid rgba(0,0,0,.15);
+        display: block;
     }
 
     input,
@@ -174,13 +176,6 @@ body {
 
     :-ms-input-placeholder {
        font-style: italic;
-    }
-
-    textarea {
-        border-color: rgba(0,0,0,.15);
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
-        margin: 0;
-        display: block;
     }
 
     input[type="submit"],
@@ -518,10 +513,8 @@ header {
 }
 
 #search input[type="text"] {
-    height: rhythm(1.5);
     width: calc(100% - #{rhythm(3)});
     float: left;
-    padding: rhythm(.25) rhythm(.5);
 }
 
 #search button {
@@ -2438,7 +2431,6 @@ body.sidebar-open #content {
 
 .resource-template textarea {
     height: 1.5 * $base-line-height;
-    padding: rhythm(.25);
     width: 100%;
 }
 
@@ -2493,7 +2485,6 @@ body.sidebar-open #content {
 .resource-template .property.row label,
 .resource-template .property.row input[type="text"] {
     width: 100%;
-    height: rhythm(1.5);
     line-height: 1.5 * $base-line-height;
 }
 

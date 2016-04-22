@@ -16,13 +16,11 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        if (!$('body').hasClass('sidebar-open')) {
-            $('body').addClass('sidebar-open');
-        }
-
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
+
+        $('body').addClass('sidebar-open');
         sidebar.addClass('active');
         return sidebar;
     },
@@ -55,9 +53,9 @@ var Omeka = {
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
         if (section.find('.always-open.sidebar, .active.sidebar').length > 0) {
-            $('body').addClass('sidebar-open');
+            $('body').addClass('section-sidebar-open');
         } else {
-            $('body').removeClass('sidebar-open');
+            $('body').removeClass('section-sidebar-open');
         }
     },
 

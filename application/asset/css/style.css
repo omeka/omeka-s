@@ -2514,15 +2514,15 @@ textarea {
   /* @group ----- Show Views ----- */
   .show .property,
   .show .meta-group {
-    text-align: right;
+    overflow: hidden;
   }
   .show .property h4,
   .show .meta-group h4 {
     width: 22.22222%;
-    display: inline-block;
     vertical-align: top;
     padding: 0.375em 0;
     text-align: left;
+    float: left;
   }
   .show .property .value,
   .show .meta-group .value {
@@ -2530,9 +2530,8 @@ textarea {
     margin-bottom: 0em;
     word-wrap: break-word;
     width: 77.77778%;
-    display: inline-block;
-    margin-left: -4px;
     text-align: left;
+    float: right;
   }
   .show .property .value:not(:first-of-type),
   .show .meta-group .value:not(:first-of-type) {
@@ -2704,7 +2703,7 @@ textarea {
     text-align: left;
   }
   .sidebar .meta-group .value {
-    width: auto;
+    width: 100%;
     padding: 0.375em 0;
     margin: 0;
     word-wrap: break-word;
@@ -2726,7 +2725,7 @@ textarea {
     border-bottom-style: solid;
     padding-bottom: 0.25em;
     margin-bottom: 0;
-    width: auto;
+    width: 100%;
   }
 
   .sidebar .media a:first-child img,

@@ -2164,14 +2164,14 @@ input[type="text"].value-language,
 
 .show .property,
 .show .meta-group {
-    text-align: right;
+    overflow: hidden;
 
     h4 {
         width: span(2 of 9);
-        display: inline-block;
         vertical-align: top;
         padding: rhythm(.25) 0;
         text-align: left;
+        float: left;
     }
 
     .value {
@@ -2179,9 +2179,8 @@ input[type="text"].value-language,
         @include trailer(0);
         word-wrap: break-word;
         width: span(7 of 9);
-        display: inline-block;
-        margin-left: -4px;
         text-align: left;
+        float: right;
 
         &:not(:first-of-type) {
             padding-top: 0;
@@ -2368,7 +2367,7 @@ body.sidebar-open #content {
     text-align: left;
 
     .value {
-        width: auto;
+        width: 100%;
         padding: rhythm(.25) 0;
         margin: 0;
         word-wrap: break-word;
@@ -2388,7 +2387,7 @@ body.sidebar-open #content {
     padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
-    width: auto;
+    width: 100%;
 }
 
 .sidebar .media a:first-child img,

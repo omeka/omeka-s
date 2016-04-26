@@ -75,7 +75,6 @@ body {
 }
 
 body {
-    background-color: $blue;
     font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
@@ -132,6 +131,9 @@ body {
 
     textarea {
         clear: both;
+        padding: rhythm(.25);
+        border: 1px solid rgba(0,0,0,.15);
+        display: block;
     }
 
     input,
@@ -155,9 +157,8 @@ body {
         @include appearance(none);
         border-radius: 0;
         height: rhythm(1.5);
-        border-color: rgba(0,0,0,.15);
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
-        padding: rhythm(.25) gutter();
+        border: 1px solid rgba(0,0,0,.15);
+        padding: rhythm(.25);
         margin: 0;
     }
 
@@ -175,13 +176,6 @@ body {
 
     :-ms-input-placeholder {
        font-style: italic;
-    }
-
-    textarea {
-        border-color: rgba(0,0,0,.15);
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
-        margin: 0;
-        display: block;
     }
 
     input[type="submit"],
@@ -281,14 +275,23 @@ body {
     }
 
     select {
-        background-color: #fff;
+        background: #fff url('../img/select-arrow.svg') no-repeat;
+        background-position: right (.25 * $base-line-height) center;
+        background-size: .5 * $base-font-size;
         border: 1px solid #ccc;
         height: 1.5 * $base-line-height;
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
         margin: 0;
+        padding: 0 rhythm() 0 rhythm(.25);
         border-radius: 3px;
         vertical-align: top;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    select::-ms-expand {
+        display: none;
     }
 
     label input {
@@ -426,6 +429,7 @@ table .icon-sortable {
 /* @group ----- Header ----- */
 
 header {
+    background-color: $blue;
     width: span(3 of 16);
     min-height: 100vh;
     text-align: left;
@@ -509,10 +513,8 @@ header {
 }
 
 #search input[type="text"] {
-    height: rhythm(1.5);
     width: calc(100% - #{rhythm(3)});
     float: left;
-    padding: rhythm(.25) rhythm(.5);
 }
 
 #search button {
@@ -574,6 +576,7 @@ div[role="main"] > h1:first-of-type {
 
 /* @group ----- Footer ----- */
 
+.section-sidebar-open footer,
 .sidebar-open footer {
     margin-right: span(4 of 16);
 }
@@ -644,6 +647,7 @@ nav.pagination input[type="text"],
     height: $base-line-height;
     line-height: $base-line-height;
     vertical-align: top;
+    background-size: .4088 * $base-font-size;
 }
 
 nav.pagination .button {
@@ -1603,10 +1607,8 @@ input[type="text"].value-language,
         input[type="url"],
         input[type="date"],
         input[type="datetime-local"] {
-            line-height: 1.5 * $base-line-height;
             width: 100%;
             min-height: rhythm(1.5);
-            padding: rhythm(.25);
             margin: rhythm(.25) 0;
 
             &:only-child {
@@ -1918,6 +1920,11 @@ input[type="text"].value-language,
         max-width: 100%;
     }
 
+    .media-render img {
+        max-width: 100%;
+        height: auto;
+    }
+
     #item-media .sidebar button {
         width: 100%;
         text-align: left;
@@ -2157,14 +2164,14 @@ input[type="text"].value-language,
 
 .show .property,
 .show .meta-group {
-    text-align: right;
+    overflow: hidden;
 
     h4 {
         width: span(2 of 9);
-        display: inline-block;
         vertical-align: top;
         padding: rhythm(.25) 0;
         text-align: left;
+        float: left;
     }
 
     .value {
@@ -2172,9 +2179,8 @@ input[type="text"].value-language,
         @include trailer(0);
         word-wrap: break-word;
         width: span(7 of 9);
-        display: inline-block;
-        margin-left: -4px;
         text-align: left;
+        float: right;
 
         &:not(:first-of-type) {
             padding-top: 0;
@@ -2351,6 +2357,7 @@ input[type="text"].value-language,
     }
 }
 
+body.section-sidebar-open #content,
 body.sidebar-open #content {
     width: span(9 of 16);
 }
@@ -2360,7 +2367,7 @@ body.sidebar-open #content {
     text-align: left;
 
     .value {
-        width: auto;
+        width: 100%;
         padding: rhythm(.25) 0;
         margin: 0;
         word-wrap: break-word;
@@ -2380,7 +2387,7 @@ body.sidebar-open #content {
     padding: rhythm(.25) 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
-    width: auto;
+    width: 100%;
 }
 
 .sidebar .media a:first-child img,
@@ -2425,7 +2432,6 @@ body.sidebar-open #content {
 
 .resource-template textarea {
     height: 1.5 * $base-line-height;
-    padding: rhythm(.25);
     width: 100%;
 }
 
@@ -2480,7 +2486,6 @@ body.sidebar-open #content {
 .resource-template .property.row label,
 .resource-template .property.row input[type="text"] {
     width: 100%;
-    height: rhythm(1.5);
     line-height: 1.5 * $base-line-height;
 }
 

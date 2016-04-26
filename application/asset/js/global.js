@@ -16,13 +16,11 @@ var Omeka = {
         if (typeof target !== 'undefined') {
             var sidebar = $(target + '.sidebar');
         }
-        if (!$('body').hasClass('sidebar-open')) {
-            $('body').addClass('sidebar-open');
-        }
-
         if (context.attr('data-sidebar-content-url')) {
             this.populateSidebarContent(context, sidebar);
         }
+
+        $('body').addClass('sidebar-open');
         sidebar.addClass('active');
         return sidebar;
     },
@@ -30,7 +28,7 @@ var Omeka = {
     closeSidebar : function(context) {
         context.removeClass('active');
         context.closest('.active').removeClass('active');
-        if ($('.active.sidebar').length < 1 && $('.always-open.sidebar').length < 1) {
+        if ($('.active.sidebar, .always-open.sidebar').length == 0) {
             $('body').removeClass('sidebar-open');
         }
     },
@@ -54,6 +52,11 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+        if (section.find('.always-open.sidebar, .active.sidebar').length > 0) {
+            $('body').addClass('section-sidebar-open');
+        } else {
+            $('body').removeClass('section-sidebar-open');
+        }
     },
 
     filterSelector : function() {
@@ -107,6 +110,27 @@ var Omeka = {
 
     markDirty: function(form) {
         $(form).data('omekaFormDirty', true);
+    },
+
+    fixIframeAspect: function () {
+        $('iframe').each(function () {
+            var aspect = $(this).attr('height') / $(this).attr('width');
+            $(this).height($(this).width() * aspect);
+        });
+    },
+
+    framerateCallback: function(callback) {
+        var waiting = false;
+        callback = callback.bind(this);
+        return function () {
+            if (!waiting) {
+                waiting = true;
+                window.requestAnimationFrame(function () {
+                    callback();
+                    waiting = false;
+                });
+            }
+        }
     }
 };
 
@@ -263,6 +287,10 @@ var Omeka = {
 
         $('#search-form').change(Omeka.updateSearch);
         Omeka.updateSearch();
+
+        // Maintain iframe aspect ratios
+        $(window).on('load resize', Omeka.framerateCallback(Omeka.fixIframeAspect));
+        Omeka.fixIframeAspect();
     });
 
     $(window).load(function() {

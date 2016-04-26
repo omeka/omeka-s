@@ -476,7 +476,6 @@ textarea {
   }
 
   body {
-    background-color: #404E61;
     font-family: "Lato", sans-serif;
     font-size: 16px;
     line-height: 24px;
@@ -536,6 +535,9 @@ textarea {
   /* @group ----- Form elements ----- */
   textarea {
     clear: both;
+    padding: 0.375em;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: block;
   }
 
   input,
@@ -560,11 +562,8 @@ textarea {
     -webkit-appearance: none;
     border-radius: 0;
     height: 2.25em;
-    border-color: rgba(0, 0, 0, 0.15);
-    border-width: 0.0625em;
-    border-style: solid;
-    padding: -0.0625em;
-    padding: 0.375em 1.04167%;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0.375em;
     margin: 0;
   }
 
@@ -584,15 +583,6 @@ textarea {
 
   :-ms-input-placeholder {
     font-style: italic;
-  }
-
-  textarea {
-    border-color: rgba(0, 0, 0, 0.15);
-    border-width: 0.0625em;
-    border-style: solid;
-    padding: -0.0625em;
-    margin: 0;
-    display: block;
   }
 
   input[type="submit"],
@@ -696,14 +686,23 @@ textarea {
   }
 
   select {
-    background-color: #fff;
+    background: #fff url("../img/select-arrow.svg") no-repeat;
+    background-position: right 6px center;
+    background-size: 8px;
     border: 1px solid #ccc;
     height: 36px;
     line-height: 36px;
     font-size: 16px;
     margin: 0;
+    padding: 0 1.5em 0 0.375em;
     border-radius: 3px;
     vertical-align: top;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  select::-ms-expand {
+    display: none;
   }
 
   label input {
@@ -834,6 +833,7 @@ textarea {
   /* @end */
   /* @group ----- Header ----- */
   header {
+    background-color: #404E61;
     width: 18.75%;
     min-height: 100vh;
     text-align: left;
@@ -918,10 +918,8 @@ textarea {
   }
 
   #search input[type="text"] {
-    height: 2.25em;
     width: calc(100% - 4.5em);
     float: left;
-    padding: 0.375em 0.75em;
   }
 
   #search button {
@@ -978,6 +976,7 @@ textarea {
 
   /* @end */
   /* @group ----- Footer ----- */
+  .section-sidebar-open footer,
   .sidebar-open footer {
     margin-right: 25%;
   }
@@ -1046,6 +1045,7 @@ textarea {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
+    background-size: 6.5408px;
   }
 
   nav.pagination .button {
@@ -1984,10 +1984,8 @@ textarea {
   .inputs input[type="url"],
   .inputs input[type="date"],
   .inputs input[type="datetime-local"] {
-    line-height: 36px;
     width: 100%;
     min-height: 2.25em;
-    padding: 0.375em;
     margin: 0.375em 0;
   }
   .inputs label:only-child,
@@ -2302,6 +2300,11 @@ textarea {
     max-width: 100%;
   }
 
+  .media-render img {
+    max-width: 100%;
+    height: auto;
+  }
+
   #item-media .sidebar button {
     width: 100%;
     text-align: left;
@@ -2511,15 +2514,15 @@ textarea {
   /* @group ----- Show Views ----- */
   .show .property,
   .show .meta-group {
-    text-align: right;
+    overflow: hidden;
   }
   .show .property h4,
   .show .meta-group h4 {
     width: 22.22222%;
-    display: inline-block;
     vertical-align: top;
     padding: 0.375em 0;
     text-align: left;
+    float: left;
   }
   .show .property .value,
   .show .meta-group .value {
@@ -2527,9 +2530,8 @@ textarea {
     margin-bottom: 0em;
     word-wrap: break-word;
     width: 77.77778%;
-    display: inline-block;
-    margin-left: -4px;
     text-align: left;
+    float: right;
   }
   .show .property .value:not(:first-of-type),
   .show .meta-group .value:not(:first-of-type) {
@@ -2691,6 +2693,7 @@ textarea {
     box-shadow: none;
   }
 
+  body.section-sidebar-open #content,
   body.sidebar-open #content {
     width: 56.25%;
   }
@@ -2700,7 +2703,7 @@ textarea {
     text-align: left;
   }
   .sidebar .meta-group .value {
-    width: auto;
+    width: 100%;
     padding: 0.375em 0;
     margin: 0;
     word-wrap: break-word;
@@ -2722,7 +2725,7 @@ textarea {
     border-bottom-style: solid;
     padding-bottom: 0.25em;
     margin-bottom: 0;
-    width: auto;
+    width: 100%;
   }
 
   .sidebar .media a:first-child img,
@@ -2767,7 +2770,6 @@ textarea {
 
   .resource-template textarea {
     height: 36px;
-    padding: 0.375em;
     width: 100%;
   }
 
@@ -2819,7 +2821,6 @@ textarea {
   .resource-template .property.row label,
   .resource-template .property.row input[type="text"] {
     width: 100%;
-    height: 2.25em;
     line-height: 36px;
   }
 
@@ -3578,7 +3579,6 @@ textarea {
   /* @end */
   /* @group ----- Footer ----- */
   footer {
-    background-color: #fff;
     margin: 0;
     padding: 0;
     position: static;

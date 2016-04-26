@@ -48,6 +48,10 @@ class TableOfContents extends AbstractBlockLayout
         $container = $nav->getContainer();
         $activePage = $nav->findActive($container);
 
+        if (!$activePage) {
+            return null;
+        }
+
         // Make new copies of the pages so we don't disturb the regular nav
         $pages = $activePage['page']->getPages();
         $newPages = [];

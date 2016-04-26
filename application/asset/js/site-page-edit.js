@@ -37,6 +37,15 @@
             {itemId: itemId, mediaId: mediaId}
         ).done(function(data) {
             attachmentItem.html(data);
+
+            // Hide media selection and caption controls if these attachments
+            // are item-only.
+            if ($('.selecting-attachment').closest('.attachments-form').hasClass('attachments-item-only')) {
+                $('#attachment-options').addClass('attachment-item-only');
+            } else {
+                $('#attachment-options').removeClass('attachment-item-only');
+            }
+
             $('#attachment-caption .caption').val(caption);
             Omeka.openSidebar($(this), '#attachment-options');
             $('#attachment-options').scrollTop(0);

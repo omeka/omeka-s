@@ -3303,6 +3303,10 @@ textarea {
     height: auto;
   }
 
+  #attachment-options.attachment-item-only #attachment-item > .select-media, #attachment-options.attachment-item-only #attachment-caption {
+    display: none;
+  }
+
   .site-pages #new-block button {
     width: 100%;
     text-align: left;

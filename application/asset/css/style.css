@@ -751,10 +751,10 @@ textarea {
     background-color: #f4b4b4;
   }
   div[role="main"] > .messages .success {
-    background-color: #cdffcd;
+    background-color: #ccffcc;
   }
   div[role="main"] > .messages .warning {
-    background-color: #fff6e6;
+    background-color: #fff6e5;
   }
 
   .messages {
@@ -3301,6 +3301,10 @@ textarea {
   #attachment-options .media-list img {
     width: 100%;
     height: auto;
+  }
+
+  #attachment-options.attachment-item-only #attachment-item > .select-media, #attachment-options.attachment-item-only #attachment-caption {
+    display: none;
   }
 
   .site-pages #new-block button {

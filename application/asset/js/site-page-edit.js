@@ -37,19 +37,18 @@
             {itemId: itemId, mediaId: mediaId}
         ).done(function(data) {
             attachmentItem.html(data);
-            $('#attachment-caption .caption').val(caption);
-            Omeka.openSidebar($(this), '#attachment-options');
-            $('#attachment-options').scrollTop(0);
 
             // Hide media selection and caption controls if these attachments
             // are item-only.
             if ($('.selecting-attachment').closest('.attachments-form').hasClass('attachments-item-only')) {
-                $('#attachment-item > .select-media').hide();
-                $('#attachment-caption').hide();
+                $('#attachment-options').addClass('attachment-item-only');
             } else {
-                $('#attachment-item > .select-media').show();
-                $('#attachment-caption').show();
+                $('#attachment-options').removeClass('attachment-item-only');
             }
+
+            $('#attachment-caption .caption').val(caption);
+            Omeka.openSidebar($(this), '#attachment-options');
+            $('#attachment-options').scrollTop(0);
         });
     }
 

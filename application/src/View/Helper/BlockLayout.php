@@ -83,7 +83,7 @@ class BlockLayout extends AbstractHelper
             $site = $block->page()->site();
         }
         return '
-<div class="block value">
+<div class="block value" data-block-layout="' . $this->getView()->escapeHtml($layout) . '">
     <span class="sortable-handle"></span>
     <div class="input-header">
         <span class="block-type">' . $this->getLayoutLabel($layout) . '</span>

@@ -1192,6 +1192,10 @@ textarea {
     display: block;
   }
 
+  #menu h5 {
+    text-transform: uppercase;
+  }
+
   #menu .expand,
   #menu .collapse {
     width: 100%;
@@ -3635,6 +3639,10 @@ textarea {
     overflow: scroll;
   }
 
+  #menu ul {
+    margin-bottom: 0;
+  }
+
   #menu a {
     display: block;
     padding: 0.375em 0.75em;
@@ -3645,15 +3653,42 @@ textarea {
     padding-bottom: 0.3125em;
   }
 
-  #menu h4 {
-    padding: 0.3em 0.6em;
-  }
-  #menu h4 a, #menu h4 + a {
-    padding: 0 0.75em 0 0;
+  #menu h4 a {
+    padding: 0;
+    border-bottom: 0;
   }
 
-  #menu a.public {
-    height: 24px;
+  #menu h4,
+  #menu h5 {
+    height: 36px;
+    color: #676767;
+    padding: 0.375em 0.75em;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: #dfdfdf;
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
+  }
+
+  #menu h4 {
+    background-color: rgba(0, 0, 0, 0.12);
+    margin-bottom: 0;
+  }
+
+  #menu a.public,
+  #menu a.expand,
+  #menu a.collapse {
+    height: 36px;
+    margin: -2.25em 0 0;
+    padding: 0 0.75em 0 0;
+  }
+  #menu a.public:before, #menu a.public:after,
+  #menu a.expand:before,
+  #menu a.expand:after,
+  #menu a.collapse:before,
+  #menu a.collapse:after {
+    height: 36px;
+    line-height: 36px;
   }
 
   #mobile-nav {

@@ -792,6 +792,10 @@ nav.pagination + *:not(.sorting) {
         display: block;
     }
 
+    #menu h5 {
+        text-transform: uppercase;
+    }
+
     #menu .expand,
     #menu .collapse {
         width: 100%;

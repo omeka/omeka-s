@@ -1,5 +1,9 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$adminNav = (string) $this->navigation('Zend\Navigation\Admin')->menu();
+$resourceNav = (string) $this->navigation('Zend\Navigation\Resource')->menu();
+$globalNav = '<h5>' . $this->translate('Resources') . '</h5>' . $resourceNav .
+    '<h5>' . $this->translate('Admin') . '</h5>' . $adminNav;
 ?>
 <header>
     <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
@@ -41,14 +45,15 @@ $escape = $this->plugin('escapeHtml');
         <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
     <?php endif; ?>
-        <?php $globalNav = $this->navigation('Zend\Navigation\Admin')->menu(); ?>
-        <?php if (isset($site)): ?>
-            <h4><?php echo $this->translate('Global navigation'); ?></h4>
-            <a href="#" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></a>
-            <div class="collapsible"><?php echo $globalNav; ?></div>
-        <?php else: ?>
+    <?php if (isset($site)): ?>
+        <h4><?php echo $this->translate('Global navigation'); ?></h4>
+        <a href="#" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></a>
+        <div class="collapsible">
             <?php echo $globalNav; ?>
-        <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <?php echo $globalNav; ?>
+    <?php endif; ?>
     </nav>
 </header>
 

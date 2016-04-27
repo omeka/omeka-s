@@ -155,6 +155,10 @@ td .o-icon-private {
     overflow: scroll;
 }
 
+#menu ul {
+    margin-bottom: 0;
+}
+
 #menu a {
     display: block;
     padding: rhythm(.25) rhythm(.5);
@@ -163,17 +167,38 @@ td .o-icon-private {
     @include trailing-border(1px, .25, $base-font-size, solid);
 }
 
-#menu h4 {
-    padding: rhythm(.25, 1.25 * $base-font-size) rhythm(.5, 1.25 * $base-font-size);
-
-    a,
-    & + a {
-        padding: 0 rhythm(.5) 0 0;
-    }
+#menu h4 a {
+    padding: 0;
+    border-bottom: 0;
 }
 
-#menu a.public {
-    height: $base-line-height;
+#menu h4,
+#menu h5 {
+    height: 1.5 * $base-line-height;
+    color: #676767;
+    padding: rhythm(.25) rhythm(.5);
+    background-color: $gray-on-white;
+    border-color: $border-gray;
+    @include trailing-border(1px, .25, $base-font-size, solid);
+}
+
+#menu h4 {
+    background-color: opacify($gray-on-white, .08);
+    margin-bottom: 0;
+}
+
+#menu a.public,
+#menu a.expand,
+#menu a.collapse {
+    height: 1.5 * $base-line-height;
+    margin: rhythm(-1.5) 0 0;
+    padding: 0 rhythm(.5) 0 0;
+
+    &:before,
+    &:after {
+        height: 1.5 * $base-line-height;
+        line-height: 1.5 * $base-line-height;
+    }
 }
 
 #mobile-nav {

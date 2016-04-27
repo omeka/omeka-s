@@ -157,6 +157,8 @@ td .o-icon-private {
 
 #menu ul {
     margin-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 
 #menu a {
@@ -185,6 +187,10 @@ td .o-icon-private {
 #menu h4 {
     background-color: opacify($gray-on-white, .08);
     margin-bottom: 0;
+
+    &:not(:first-of-type) {
+        margin-top: 0;
+    }
 }
 
 #menu a.public,

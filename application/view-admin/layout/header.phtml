@@ -1,9 +1,8 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$adminNav = (string) $this->navigation('Zend\Navigation\Admin')->menu();
-$resourceNav = (string) $this->navigation('Zend\Navigation\Resource')->menu();
-$globalNav = '<h5>' . $this->translate('Resources') . '</h5>' . $resourceNav .
-    '<h5>' . $this->translate('Admin') . '</h5>' . $adminNav;
+$globalNav = $this->navigation('Zend\Navigation\SiteAdmin')->menu() .
+    '<h5>' . $this->translate('Resources') . '</h5>' . $this->navigation('Zend\Navigation\Resource')->menu() .
+    '<h5>' . $this->translate('Admin') . '</h5>' . $this->navigation('Zend\Navigation\Admin')->menu();
 ?>
 <header>
     <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>

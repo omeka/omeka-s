@@ -1,6 +1,15 @@
 <?php
 return [
     'navigation' => [
+        'siteadmin' => [
+            [
+                'label'      => 'Sites',
+                'class'      => 'sites',
+                'route'      => 'admin/site',
+                'resource'   => 'Omeka\Controller\SiteAdmin\Index',
+                'privilege'  => 'index',
+            ],
+        ],
         'resource' => [
             [
                 'label'      => 'Items',
@@ -73,13 +82,6 @@ return [
             ],
         ],
         'admin' => [
-            [
-                'label'      => 'Sites',
-                'class'      => 'sites',
-                'route'      => 'admin/site',
-                'resource'   => 'Omeka\Controller\SiteAdmin\Index',
-                'privilege'  => 'index',
-            ],
             [
                 'label'      => 'Users',
                 'class'      => 'users',

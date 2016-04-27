@@ -1097,6 +1097,9 @@ textarea {
     padding-bottom: 0.3125em;
     margin-bottom: 0.375em;
   }
+  header nav h4:not(:first-of-type) {
+    margin-top: 1.5em;
+  }
 
   header nav ul.navigation > li:not(:first-of-type) {
     margin-top: 0.375em;
@@ -1175,8 +1178,12 @@ textarea {
     content: "";
   }
 
-  header ul.navigation {
-    margin-bottom: 1.5em;
+  header ul.navigation:not(:last-of-type) {
+    margin-bottom: 0.375em;
+    border-color: #364252;
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: 0.3125em;
   }
 
   #menu {
@@ -3641,6 +3648,8 @@ textarea {
 
   #menu ul {
     margin-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   #menu a {
@@ -3673,6 +3682,9 @@ textarea {
   #menu h4 {
     background-color: rgba(0, 0, 0, 0.12);
     margin-bottom: 0;
+  }
+  #menu h4:not(:first-of-type) {
+    margin-top: 0;
   }
 
   #menu a.public,

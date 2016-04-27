@@ -26,11 +26,12 @@ class SiteSettings extends AbstractSettings
         } else {
             $this->siteId = null;
         }
+        $this->cache=null;
     }
 
     protected function setCache()
     {
-        if (!$this->siteId) {
+         if (!$this->siteId) {
             throw new Exception\RuntimeException('Cannot use site settings when no site is set');
         }
         $conn = $this->getConnection();

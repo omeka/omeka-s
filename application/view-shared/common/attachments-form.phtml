@@ -16,6 +16,7 @@ $attachmentRowTemplate = '
 </div>';
 ?>
 <div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>">
+    <h4><?php echo $this->translate('Attachments'); ?></h4>
     <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
         <?php foreach ($attachments as $attachment): ?>
         <?php

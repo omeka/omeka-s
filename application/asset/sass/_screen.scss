@@ -2170,7 +2170,6 @@ input[type="text"].value-language,
         width: span(2 of 9);
         vertical-align: top;
         padding: rhythm(.25) 0;
-        text-align: left;
         float: left;
     }
 
@@ -2179,7 +2178,6 @@ input[type="text"].value-language,
         @include trailer(0);
         word-wrap: break-word;
         width: span(7 of 9);
-        text-align: left;
         float: right;
 
         &:not(:first-of-type) {
@@ -2364,7 +2362,6 @@ body.sidebar-open #content {
 
 .sidebar .meta-group {
     @include trailer(.5);
-    text-align: left;
 
     .value {
         width: 100%;

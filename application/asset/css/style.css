@@ -2521,7 +2521,6 @@ textarea {
     width: 22.22222%;
     vertical-align: top;
     padding: 0.375em 0;
-    text-align: left;
     float: left;
   }
   .show .property .value,
@@ -2530,7 +2529,6 @@ textarea {
     margin-bottom: 0em;
     word-wrap: break-word;
     width: 77.77778%;
-    text-align: left;
     float: right;
   }
   .show .property .value:not(:first-of-type),
@@ -2700,7 +2698,6 @@ textarea {
 
   .sidebar .meta-group {
     margin-bottom: 0.75em;
-    text-align: left;
   }
   .sidebar .meta-group .value {
     width: 100%;

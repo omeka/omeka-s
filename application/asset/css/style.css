@@ -3125,10 +3125,6 @@ textarea {
     display: none;
   }
 
-  .block .attachments-form h4 {
-    display: none;
-  }
-
   .block .attachments-form a h4 {
     display: inline-block;
   }

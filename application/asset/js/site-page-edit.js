@@ -188,12 +188,11 @@
             Omeka.openSidebar($(this), '#select-resource');
         });
 
-        // Apply collapsible elements if block has attachments.
         $('.attachments').each(function() {
             var attachmentList = $(this);
-            if (attachmentList.children().length > 0) {
-                attachmentList.siblings('h4').wrap('<a href="#" class="collapse"></a>');
-                attachmentList.addClass('collapsible');
+            if (attachmentList.children().length == 0) {
+                attachmentList.siblings('.collapse').hide();
+                attachmentList.hide();
             }
         });
 
@@ -226,10 +225,8 @@
                 var attachments = attachment.siblings('.attachments');
                 attachment = $(attachments.data('template'));
                 attachments.append(attachment);
-                if (!attachments.hasClass('collapsible')) {
-                    attachments.siblings('h4').wrap('<a href="#" class="collapse"></a>');
-                    attachments.addClass('collapsible');
-                }
+                attachments.show();
+                attachments.siblings('.collapse').show();
             }
 
             // Set hidden data.

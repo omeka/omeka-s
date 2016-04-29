@@ -818,6 +818,11 @@ textarea {
     margin-bottom: 1.5em;
   }
 
+  a.expand,
+  a.collapse {
+    color: #676767;
+  }
+
   .expand:after {
     content: "";
     font-family: "FontAwesome";
@@ -1935,8 +1940,16 @@ textarea {
 
   .field-meta .expand,
   .field-meta .collapse {
-    display: inline-block;
-    margin: 0.375em 0 0.375em 0.5em;
+    display: inline-block !important;
+    margin: 0.375em 0 0.375em 0.5em !important;
+    padding: 0 !important;
+    border: 0 !important;
+    width: auto !important;
+  }
+  .field-meta .expand:after,
+  .field-meta .collapse:after {
+    float: none !important;
+    margin-right: 0 !important;
   }
 
   .collapsible {
@@ -3038,6 +3051,11 @@ textarea {
     padding: 0.3em;
   }
 
+  .block .block-content input[type="hidden"] + * {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
   .block .attachment .sortable-handle:before {
     padding: 0;
   }
@@ -3104,6 +3122,10 @@ textarea {
     display: none;
   }
 
+  .block .attachments-form a h4 {
+    display: inline-block;
+  }
+
   .block .attachment .actions {
     position: absolute;
     right: 0.375em;
@@ -3145,14 +3167,16 @@ textarea {
 
   .block .attachment {
     padding-left: 1.875em;
-    border-color: #dfdfdf;
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: -0.0625em;
     position: relative;
     clear: both;
     height: 3em;
     line-height: 36px;
+  }
+  .block .attachment:not(:last-child) {
+    border-color: #dfdfdf;
+    border-bottom-width: 0.0625em;
+    border-bottom-style: solid;
+    padding-bottom: -0.0625em;
   }
 
   .block .attachment .sortable-handle {
@@ -3191,6 +3215,37 @@ textarea {
     width: 70%;
     float: right;
     font-weight: normal;
+  }
+
+  .block .expand,
+  .block .collapse {
+    width: 100%;
+    display: block;
+    padding: 0.375em 0 0;
+  }
+  .block .expand:after,
+  .block .collapse:after {
+    float: right;
+    margin-right: 0.375em;
+  }
+
+  .block .field-meta .collapse + .collapsible {
+    width: auto;
+    border: 0;
+  }
+
+  .block .expand h4,
+  .block .collapse h4 {
+    display: inline-block;
+    padding: 0;
+  }
+
+  .block .collapse + .collapsible {
+    border-color: #dfdfdf;
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+    margin-top: 0.375em;
   }
 
   #attachment-options-main {

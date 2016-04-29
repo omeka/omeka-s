@@ -412,6 +412,11 @@ table .icon-sortable {
     @include trailer();
 }
 
+a.expand,
+a.collapse {
+    color: #676767;
+}
+
 .expand:after {
     content: $fa-var-caret-right;
     font-family: "FontAwesome";
@@ -1558,8 +1563,16 @@ input[type="text"].value-language,
 
     .field-meta .expand,
     .field-meta .collapse {
-        display: inline-block;
-        margin: rhythm(.25) 0 rhythm(.25) .5em;
+        display: inline-block !important;
+        margin: rhythm(.25) 0 rhythm(.25) .5em !important;
+        padding: 0 !important;
+        border: 0 !important;
+        width: auto !important;
+
+        &:after {
+            float: none !important;
+            margin-right: 0 !important;
+        }
     }
 
     .collapsible {
@@ -2715,6 +2728,11 @@ body.sidebar-open #content {
         }
     }
 
+    .block .block-content input[type="hidden"] + * {
+        padding-top: 0;
+        margin-top: 0;
+    }
+
     .block .attachment .sortable-handle:before {
         padding: 0;
     }
@@ -2781,6 +2799,10 @@ body.sidebar-open #content {
         display: none;
     }
 
+    .block .attachments-form a h4 {
+        display: inline-block;
+    }
+
     .block .attachment .actions {
         position: absolute;
         right: rhythm(.25);
@@ -2823,12 +2845,15 @@ body.sidebar-open #content {
 
     .block .attachment {
         padding-left: rhythm(1.25);
-        border-color: $border-gray;
-        @include trailing-border(1px, 0, $base-font-size, solid);
         position: relative;
         clear: both;
         height: rhythm(2);
         line-height: 1.5 * $base-line-height;
+
+        &:not(:last-child) {
+            border-color: $border-gray;
+            @include trailing-border(1px, 0, $base-font-size, solid);
+        }
     }
 
     .block .attachment .sortable-handle {
@@ -2866,6 +2891,35 @@ body.sidebar-open #content {
         width: 70%;
         float: right;
         font-weight: normal;
+    }
+
+    .block .expand,
+    .block .collapse {
+        width: 100%;
+        display: block;
+        padding: rhythm(.25) 0 0;
+
+        &:after {
+            float: right;
+            margin-right: rhythm(.25);
+        }
+    }
+
+    .block .field-meta .collapse + .collapsible {
+        width: auto;
+        border: 0;
+    }
+
+    .block .expand h4,
+    .block .collapse h4 {
+        display: inline-block;
+        padding: 0;
+    }
+
+    .block .collapse + .collapsible {
+        border-color: $border-gray;
+        @include leading-border(1px, 0, $base-font-size, solid);
+        margin-top: rhythm(.25);
     }
 
     #attachment-options-main {

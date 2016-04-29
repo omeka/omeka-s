@@ -16,7 +16,8 @@ $attachmentRowTemplate = '
 </div>';
 ?>
 <div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>">
-    <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
+    <a href="#" class="collapse"><h4><?php echo $this->translate('Attachments'); ?></h4></a>
+    <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
         <?php foreach ($attachments as $attachment): ?>
         <?php
         $itemId = null;
@@ -54,6 +55,6 @@ $attachmentRowTemplate = '
             <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
         </div>
         <?php endforeach; ?>
+        <button type="button" class="attachment-add">Add Attachment</button>
     </div>
-    <button type="button" class="attachment-add">Add Attachment</button>
 </div>

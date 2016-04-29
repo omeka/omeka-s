@@ -3224,7 +3224,7 @@ textarea {
   .block .collapse {
     width: 100%;
     display: block;
-    padding: 0.375em 0;
+    padding: 0.375em 0 0;
   }
   .block .expand:after,
   .block .collapse:after {
@@ -3243,13 +3243,12 @@ textarea {
     padding: 0;
   }
 
-  .block .expand,
-  .block .collapse,
   .block .collapse + .collapsible {
     border-color: #dfdfdf;
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: -0.0625em;
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: -0.0625em;
+    margin-top: 0.375em;
   }
 
   #attachment-options-main {

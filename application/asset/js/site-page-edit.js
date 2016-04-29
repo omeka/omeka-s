@@ -188,14 +188,6 @@
             Omeka.openSidebar($(this), '#select-resource');
         });
 
-        $('.attachments').each(function() {
-            var attachmentList = $(this);
-            if (attachmentList.children().length == 0) {
-                attachmentList.siblings('.collapse').hide();
-                attachmentList.hide();
-            }
-        });
-
         // Update attachment options sidebar after selecting item.
         $('#select-resource').on('o:resource-selected', '.select-resource', function(e) {
             var resource = $(this).closest('.resource').data('resource-values');
@@ -225,8 +217,6 @@
                 var attachments = attachment.siblings('.attachments');
                 attachment = $(attachments.data('template'));
                 attachments.append(attachment);
-                attachments.show();
-                attachments.siblings('.collapse').show();
             }
 
             // Set hidden data.

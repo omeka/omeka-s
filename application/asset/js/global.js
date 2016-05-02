@@ -222,8 +222,10 @@ var Omeka = {
             toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
                 toggle.attr('aria-label','Expand');
+                toggle.trigger('o:collapsed');
             } else {
                 toggle.attr('aria-label','Collapse');
+                toggle.trigger('o:expanded');
             }
         });
 

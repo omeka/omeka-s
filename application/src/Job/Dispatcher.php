@@ -107,7 +107,17 @@ class Dispatcher
             $this->logger->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
             $job->setEnded(new DateTime('now'));
-            $this->entityManager->flush();
+
+            // Account for "inside Doctrine" errors that close the EM
+            if ($this->entityManager->isOpen()) {
+                $entityManager = $this->entityManager();
+            } else {
+                $entityManager = $this->getNewEntityManager($this->entityManager);
+            }
+
+            $entityManager->clear();
+            $entityManager->merge($job);
+            $entityManager->flush();
         }
     }
 
@@ -128,5 +138,23 @@ class Dispatcher
         }
         $job->setStatus(Job::STATUS_STOPPING);
         $this->entityManager->flush();
+    }
+
+    /**
+     * Get a new EntityManager sharing the settings of an old one.
+     *
+     * Internal Doctrine errors "close" the EntityManager and we can never use it again, so we need
+     * to create a new one if we want to save anything after one of those kinds of errors.
+     *
+     * @param EntityManager $entityManager
+     * @return EntityManager
+     */
+    private function getNewEntityManager(EntityManager $entityManager)
+    {
+        return EntityManager::create(
+            $entityManager->getConnection(),
+            $entityManager->getConfiguration(),
+            $entityManager->getEventManager()
+        );
     }
 }

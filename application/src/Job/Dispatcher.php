@@ -110,7 +110,7 @@ class Dispatcher
 
             // Account for "inside Doctrine" errors that close the EM
             if ($this->entityManager->isOpen()) {
-                $entityManager = $this->entityManager();
+                $entityManager = $this->entityManager;
             } else {
                 $entityManager = $this->getNewEntityManager($this->entityManager);
             }

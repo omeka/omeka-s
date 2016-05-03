@@ -701,6 +701,10 @@ nav.pagination + *:not(.sorting) {
         border-color: darken($blue, 5%);
         @include trailing-border(1px, .25, $base-font-size, solid);
         margin-bottom: rhythm(.25);
+
+        &:not(:first-of-type) {
+            margin-top: rhythm();
+        }
     }
 
     header nav ul.navigation > li:not(:first-of-type) {
@@ -780,8 +784,10 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-caret-right;
     }
 
-    header ul.navigation {
-        margin-bottom: rhythm();
+    header ul.navigation:not(:last-of-type) {
+        margin-bottom: rhythm(.25);
+        border-color: darken($blue, 5%);
+        @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
     #menu {
@@ -795,6 +801,10 @@ nav.pagination + *:not(.sorting) {
         margin-top: rhythm(-1.625);
         text-align: right;
         display: block;
+    }
+
+    #menu h5 {
+        text-transform: uppercase;
     }
 
     #menu .expand,

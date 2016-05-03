@@ -1,7 +1,7 @@
 <?php
 return [
     'navigation' => [
-        'admin' => [
+        'AdminSite' => [
             [
                 'label'      => 'Sites',
                 'class'      => 'sites',
@@ -9,6 +9,8 @@ return [
                 'resource'   => 'Omeka\Controller\SiteAdmin\Index',
                 'privilege'  => 'index',
             ],
+        ],
+        'AdminResource' => [
             [
                 'label'      => 'Items',
                 'class'      => 'items',
@@ -78,6 +80,8 @@ return [
                     ],
                 ],
             ],
+        ],
+        'AdminGlobal' => [
             [
                 'label'      => 'Users',
                 'class'      => 'users',

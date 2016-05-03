@@ -342,14 +342,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function delete(Request $request)
     {
-        $entity = $this->findEntity($request->getId(), $request);
-        $this->authorize($entity, Request::DELETE);
-        $event = new Event(Event::API_FIND_POST, $this, [
-            'entity' => $entity,
-            'request' => $request,
-        ]);
-        $this->getEventManager()->trigger($event);
-        $this->getEntityManager()->remove($entity);
+        $this->deleteEntity($request);
         $this->getEntityManager()->flush();
         $representation = $this->getRepresentation($entity);
         return new Response($representation);
@@ -363,6 +356,26 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
     public function getEntityManager()
     {
         return $this->getServiceLocator()->get('Omeka\EntityManager');
+    }
+
+    /**
+     * Delete an entity.
+     *
+     * Encapsulates finding, authorization, post-find event, and removal into
+     * one method.
+     *
+     * @param Request $request
+     */
+    public function deleteEntity(Request $request)
+    {
+        $entity = $this->findEntity($request->getId(), $request);
+        $this->authorize($entity, Request::DELETE);
+        $event = new Event(Event::API_FIND_POST, $this, [
+            'entity' => $entity,
+            'request' => $request,
+        ]);
+        $this->getEventManager()->trigger($event);
+        $this->getEntityManager()->remove($entity);
     }
 
     /**

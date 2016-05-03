@@ -10,12 +10,17 @@ class SectionNav extends AbstractHelper
 {
     /**
      * @param array $sectionNavs A list of section labels, keyed by nav ID.
-     * @param string $event Name of the section_nav event to trigger, if any
+     * @param null|string $sectionNavEvent Name of the section_nav event to trigger, if any
+     * @param mixed The resource represented by the show page, if any
      * @return string
      */
-    public function __invoke(array $sectionNavs = array(), $sectionNavEvent = null)
-    {
-        $sectionNavArgs = ['section_nav' => $sectionNavs];
+    public function __invoke(array $sectionNavs = array(),
+        $sectionNavEvent = null, $resource = null
+    ) {
+        $sectionNavArgs = [
+            'section_nav' => $sectionNavs,
+            'resource' => $resource,
+        ];
         if ($sectionNavEvent) {
             $sectionNavArgs = $this->getView()->trigger($sectionNavEvent, $sectionNavArgs, true);
         }

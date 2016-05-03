@@ -19,7 +19,7 @@ $sectionNavs = [
     <?php endif; ?>
 </div>
 
-<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav'); ?>
+<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $item); ?>
 
 <div id="item-metadata" class="active section">
     <?php if ( $item->resourceClass()): ?>

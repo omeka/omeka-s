@@ -31,7 +31,7 @@ $sectionNavs = [
     <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>
 </div>
 
-<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav'); ?>
+<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $itemSet); ?>
 
 <div id="item-set-metadata" class="active section">
     <?php if ( $itemSet->resourceClass()): ?>

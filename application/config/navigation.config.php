@@ -1,7 +1,7 @@
 <?php
 return [
     'navigation' => [
-        'siteadmin' => [
+        'AdminSite' => [
             [
                 'label'      => 'Sites',
                 'class'      => 'sites',
@@ -10,7 +10,7 @@ return [
                 'privilege'  => 'index',
             ],
         ],
-        'resource' => [
+        'AdminResource' => [
             [
                 'label'      => 'Items',
                 'class'      => 'items',
@@ -81,7 +81,7 @@ return [
                 ],
             ],
         ],
-        'admin' => [
+        'AdminGlobal' => [
             [
                 'label'      => 'Users',
                 'class'      => 'users',

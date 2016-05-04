@@ -28,7 +28,11 @@ var Omeka = {
     closeSidebar : function(context) {
         context.removeClass('active');
         context.closest('.active').removeClass('active');
-        if ($('.active.sidebar, .always-open.sidebar').length == 0) {
+
+        if ($('.active.sidebar, .always-open.sidebar').length
+            - $('.section:not(.active) .active.sidebar, .section:not(.active) .always-open.sidebar').length
+            == 0
+        ) {
             $('body').removeClass('sidebar-open');
         }
     },

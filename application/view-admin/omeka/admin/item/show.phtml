@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$this->htmlElement('body')->appendAttribute('class', 'items show sidebar-open');
+$this->htmlElement('body')->appendAttribute('class', 'items show');
 if ($owner = $item->owner()) {
     $ownerText = $escape($item->owner()->name());
 } else {

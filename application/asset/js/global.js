@@ -20,21 +20,21 @@ var Omeka = {
             this.populateSidebarContent(context, sidebar);
         }
 
-        $('body').addClass('sidebar-open');
         sidebar.addClass('active');
+        this.reserveSidebarSpace();
         return sidebar;
     },
 
     closeSidebar : function(context) {
         context.removeClass('active');
         context.closest('.active').removeClass('active');
+        this.reserveSidebarSpace();
+    },
 
-        if ($('.active.sidebar, .always-open.sidebar').length
-            - $('.section:not(.active) .active.sidebar, .section:not(.active) .always-open.sidebar').length
-            == 0
-        ) {
-            $('body').removeClass('sidebar-open');
-        }
+    reserveSidebarSpace: function() {
+        var openSidebars = $('.active.sidebar, .always-open.sidebar').length
+            - $('.section:not(.active) .active.sidebar, .section:not(.active) .always-open.sidebar').length;
+        $('body').toggleClass('sidebar-open', openSidebars > 0);
     },
 
     populateSidebarContent : function(context, sidebar) {
@@ -57,11 +57,7 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
-        if (section.find('.always-open.sidebar, .active.sidebar').length > 0) {
-            $('body').addClass('section-sidebar-open');
-        } else {
-            $('body').removeClass('section-sidebar-open');
-        }
+        this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {
                 closedSection.trigger('o:section-closed');
@@ -148,6 +144,7 @@ var Omeka = {
 (function($, window, document) {
 
     $(function() {
+        Omeka.reserveSidebarSpace();
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
@@ -303,6 +300,9 @@ var Omeka = {
     });
 
     $(window).load(function() {
+        // Wait until we're done manipulating things to enable CSS transitions
+        $('body').addClass('transitions-enabled');
+
         var setSubmittedFlag = function () {
             $(this).data('omekaFormSubmitted', true);
         };

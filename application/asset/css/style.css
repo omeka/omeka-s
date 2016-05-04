@@ -981,7 +981,6 @@ textarea {
 
   /* @end */
   /* @group ----- Footer ----- */
-  .section-sidebar-open footer,
   .sidebar-open footer {
     margin-right: 25%;
   }
@@ -993,9 +992,6 @@ textarea {
     margin-left: 18.75%;
     padding-right: 1.04167%;
     text-align: right;
-    -moz-transition: margin-right 0.5s;
-    -webkit-transition: margin-right 0.5s;
-    transition: margin-right 0.5s;
   }
   footer .site-version {
     margin: 0;
@@ -1005,6 +1001,11 @@ textarea {
     display: inline-block;
     margin: 0 0.75em;
     line-height: 1;
+  }
+  body.transitions-enabled footer {
+    -moz-transition: margin-right 0.5s;
+    -webkit-transition: margin-right 0.5s;
+    transition: margin-right 0.5s;
   }
 
   /* @end */
@@ -1254,6 +1255,8 @@ textarea {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
+  }
+  body.transitions-enabled div[role="main"] {
     -moz-transition: width 0.5s;
     -webkit-transition: width 0.5s;
     transition: width 0.5s;
@@ -2619,6 +2622,8 @@ textarea {
     overflow-y: auto;
     overflow-x: hidden;
     width: 25%;
+  }
+  body.transitions-enabled .sidebar {
     -moz-transition: left 0.5s, visibility 0.5s;
     -webkit-transition: left 0.5s, visibility 0.5s;
     transition: left 0.5s, visibility 0.5s;
@@ -2715,7 +2720,6 @@ textarea {
     box-shadow: none;
   }
 
-  body.section-sidebar-open #content,
   body.sidebar-open #content {
     width: 56.25%;
   }

@@ -581,7 +581,6 @@ div[role="main"] > h1:first-of-type {
 
 /* @group ----- Footer ----- */
 
-.section-sidebar-open footer,
 .sidebar-open footer {
     margin-right: span(4 of 16);
 }
@@ -593,7 +592,6 @@ footer {
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
-    @include transition(margin-right .5s);
 
     .site-version {
         margin: 0;
@@ -604,6 +602,10 @@ footer {
         display: inline-block;
         margin: 0 rhythm(.5);
         line-height: 1;
+    }
+
+    body.transitions-enabled & {
+        @include transition(margin-right .5s);
     }
 }
 
@@ -858,7 +860,10 @@ div[role="main"] {
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
-    @include transition(width .5s);
+
+    body.transitions-enabled & {
+        @include transition(width .5s);
+    }
 }
 
 /* @end */
@@ -2272,7 +2277,10 @@ input[type="text"].value-language,
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
-    @include transition(left .5s, visibility .5s);
+
+    body.transitions-enabled & {
+        @include transition(left .5s, visibility .5s);
+    }
 
     &.active,
     &.always-open {
@@ -2378,7 +2386,6 @@ input[type="text"].value-language,
     }
 }
 
-body.section-sidebar-open #content,
 body.sidebar-open #content {
     width: span(9 of 16);
 }

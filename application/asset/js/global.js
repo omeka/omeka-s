@@ -49,6 +49,7 @@ var Omeka = {
     },
 
     switchActiveSection: function (section) {
+        var closedSection = $('.section.active');
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
@@ -56,6 +57,12 @@ var Omeka = {
             $('body').addClass('section-sidebar-open');
         } else {
             $('body').removeClass('section-sidebar-open');
+        }
+        if (!closedSection.is(section)) {
+            if (closedSection.length > 0) {
+                closedSection.trigger('o:section-closed');
+            }
+            section.trigger('o:section-opened');
         }
     },
 

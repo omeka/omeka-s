@@ -214,9 +214,9 @@
             var caption = $('#attachment-caption .caption').val();
             var attachment = $('.selecting-attachment');
             if (attachment.hasClass('attachment-add')) {
-                var attachments = attachment.siblings('.attachments');
+                var attachments = attachment.parents('.attachments');
                 attachment = $(attachments.data('template'));
-                attachments.append(attachment);
+                $('.selecting-attachment').before(attachment);
             }
 
             // Set hidden data.

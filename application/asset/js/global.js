@@ -156,10 +156,6 @@ var Omeka = {
             Omeka.openSidebar($(this), '#delete');
         });
 
-        if ($('.always-open.sidebar').length > 0) {
-            $('#content').addClass('sidebar-open');
-        }
-
         $('.sidebar').find('.sidebar-close').click(function(e) {
             e.preventDefault();
             Omeka.closeSidebar($(this));

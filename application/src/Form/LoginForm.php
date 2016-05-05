@@ -7,6 +7,7 @@ class LoginForm extends AbstractForm
     {
         $translator = $this->getTranslator();
 
+        $this->setAttribute('class', 'disable-unsaved-warning');
         $this->add([
             'name' => 'email',
             'type' => 'Email',

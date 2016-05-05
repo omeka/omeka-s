@@ -306,7 +306,8 @@ var Omeka = {
             $(this).data('omekaFormSubmitted', true);
         };
 
-        $('form[method=POST]').each(function () {
+        var formsToCheck = $('form[method=POST]:not(.disable-unsaved-warning)');
+        formsToCheck.each(function () {
             var form = $(this);
             form.data('omekaFormOriginalData', form.serialize());
             form.submit(setSubmittedFlag);
@@ -314,7 +315,7 @@ var Omeka = {
 
         $(window).on('beforeunload', function() {
             var preventNav = false;
-            $('form[method=POST]').each(function () {
+            formsToCheck.each(function () {
                 var form = $(this);
                 var originalData = form.data('omekaFormOriginalData');
                 if (form.data('omekaFormSubmitted')) {

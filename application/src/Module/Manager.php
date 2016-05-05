@@ -16,6 +16,7 @@ class Manager implements ResourceInterface
     const STATE_NOT_FOUND      = 'not_found';
     const STATE_INVALID_MODULE = 'invalid_module';
     const STATE_INVALID_INI    = 'invalid_ini';
+    const STATE_INVALID_OMEKA_VERSION = 'invalid_omeka_version';
     const STATE_NEEDS_UPGRADE  = 'needs_upgrade';
 
     /**
@@ -34,6 +35,8 @@ class Manager implements ResourceInterface
         self::STATE_INVALID_MODULE,
         // A module with an invalid config/module.ini file
         self::STATE_INVALID_INI,
+        // A module with an Omeka version constraint that doesn't match the current version
+        self::STATE_INVALID_OMEKA_VERSION,
         // A module where the filesystem version is newer than the installed version
         self::STATE_NEEDS_UPGRADE,
     ];

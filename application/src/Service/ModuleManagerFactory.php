@@ -1,9 +1,13 @@
 <?php
 namespace Omeka\Service;
 
+require_once OMEKA_PATH . '/application/Module.php';
+
 use DirectoryIterator;
 use Composer\Semver\Comparator;
+use Composer\Semver\Semver;
 use Doctrine\DBAL\Exception\TableNotFoundException;
+use Omeka\Module as CoreModule;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
 use Zend\Config\Reader\Ini as IniReader;
@@ -56,6 +60,12 @@ class ModuleManagerFactory implements FactoryInterface
             $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
             if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
                 $module->setState(ModuleManager::STATE_INVALID_MODULE);
+                continue;
+            }
+
+            $omekaConstraint = $module->getIni('omeka_version_constraint');
+            if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
                 continue;
             }
 

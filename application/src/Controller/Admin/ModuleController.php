@@ -50,7 +50,8 @@ class ModuleController extends AbstractActionController
             'needs_upgrade'  => $this->translate('Needs Upgrade'),
             'not_found'      => $this->translate('Not Found'),
             'invalid_module' => $this->translate('Invalid Module'),
-            'invalid_ini'    => $this->translate('Invalid Ini'),
+            'invalid_ini'    => $this->translate('Invalid INI'),
+            'invalid_omeka_version' => $this->translate('Invalid Omeka S Version'),
         ]);
         $view->setVariable('stateChangeForm', function ($action, $id) {
             return new ModuleStateChangeForm($this->getServiceLocator(), $action,

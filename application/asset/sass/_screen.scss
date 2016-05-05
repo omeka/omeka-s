@@ -726,7 +726,7 @@ nav.pagination + *:not(.sorting) {
         margin-left: rhythm();
     }
 
-    header nav ul.navigation li.active a {
+    header nav ul.navigation li.active > a {
         color: #fff;
     }
 

@@ -45,17 +45,15 @@
         });
 
         $('#select-item a').on('click', function (e) {
-            e.preventDefault();
-            var context = $(this);
-            Omeka.closeSidebar(context);
-            context.trigger('o:resource-selected');
+            e.preventDefault()
+            Omeka.closeSidebar($('#resource-details'));
+            $(this).trigger('o:resource-selected');
         });
 
         $('#select-resource').on('click', '.select-resource', function(e) {
             e.preventDefault();
-            var context = $(this);
-            Omeka.closeSidebar(context);
-            context.trigger('o:resource-selected');
+            Omeka.closeSidebar($(e.delegateTarget));
+            $(this).trigger('o:resource-selected');
         });
     });
 })(jQuery);

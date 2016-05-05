@@ -25,9 +25,8 @@ var Omeka = {
         return sidebar;
     },
 
-    closeSidebar : function(context) {
-        context.removeClass('active');
-        context.closest('.active').removeClass('active');
+    closeSidebar : function(sidebar) {
+        sidebar.removeClass('active');
         this.reserveSidebarSpace();
     },
 
@@ -157,9 +156,9 @@ var Omeka = {
             Omeka.openSidebar($(this), '#delete');
         });
 
-        $('.sidebar').find('.sidebar-close').click(function(e) {
+        $('.sidebar').on('click', '.sidebar-close', function(e) {
             e.preventDefault();
-            Omeka.closeSidebar($(this));
+            Omeka.closeSidebar($(e.delegateTarget));
         });
 
         // Open sidebars on mobile

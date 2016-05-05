@@ -87,7 +87,7 @@
             var namePrefix = value.data('name-prefix');
 
             $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
-            Omeka.closeSidebar($('#select-resource .sidebar-close'));
+            Omeka.closeSidebar($('#select-resource'));
         });
 
         $('.button.resource-select').on('click', function(e) {

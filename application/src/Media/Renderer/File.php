@@ -30,10 +30,15 @@ class File implements RendererInterface
         try {
             $renderer = $this->fileRendererManager->get($media->mediaType());
         } catch (ServiceNotFoundException $e) {
-            if ($media->hasThumbnails()) {
-                $renderer = $this->fileRendererManager->get('thumbnail');
-            } else {
-                $renderer = $this->fileRendererManager->get('fallback');
+            try {
+                $extension = strtolower(strrchr($media->source(), '.'));
+                $renderer = $this->fileRendererManager->get($extension);
+            } catch (ServiceNotFoundException $e) {
+                if ($media->hasThumbnails()) {
+                    $renderer = $this->fileRendererManager->get('thumbnail');
+                } else {
+                    $renderer = $this->fileRendererManager->get('fallback');
+                }
             }
         }
         return $renderer->render($view, $media, $options);

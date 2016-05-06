@@ -18,5 +18,21 @@ class SiteSettingsForm extends AbstractForm
                 'value' => (bool) $settings->get('browse_attached_items', false),
             ],
         ]);
+
+        $this->add([
+            'name' => 'attachment_link_type',
+            'type' => 'Select',
+            'options' => [
+                'label' => $translator->translate('Attachment link type'),
+                'value_options' => [
+                    'item' => $translator->translate('Item page'),
+                    'media' => $translator->translate('Media page'),
+                    'original' => $translator->translate('Direct link to file'),
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('attachment_link_type'),
+            ]
+        ]);
     }
 }

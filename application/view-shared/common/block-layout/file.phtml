@@ -9,9 +9,12 @@
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
+            echo $media->render([
+                'thumbnailType' => $thumbnailType,
+                'link' => $link,
+            ]);
+        endif;
         ?>
-        <?php echo $media->render(['thumbnailType' => $thumbnailType]); ?>
-        <?php endif; ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
     <?php endif; ?>
 

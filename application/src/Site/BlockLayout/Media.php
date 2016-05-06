@@ -41,12 +41,15 @@ class Media extends AbstractBlockLayout
 
         $alignmentClass = $this->getData($block->data(), 'alignment', 'left');
         $thumbnailType = $this->getData($block->data(), 'thumbnail_type', 'square');
+        $siteSettings = $this->getServiceLocator()->get('Omeka\SiteSettings');
+        $linkType = $siteSettings->get('attachment_link_type', 'item');
 
         return $view->partial('common/block-layout/file', array(
             'block' => $block,
             'attachments' => $attachments,
             'alignmentClass' => $alignmentClass,
-            'thumbnailType' => $thumbnailType
+            'thumbnailType' => $thumbnailType,
+            'link' => $linkType,
         ));
 
     }

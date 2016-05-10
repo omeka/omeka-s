@@ -4,41 +4,6 @@ $form->prepare();
 $formLabel = $this->plugin('formLabel');
 ?>
 <h1><?php echo $this->translate('Login'); ?></h1>
-<?php echo $this->form()->openTag($form); ?>
-<div class="field">
-    <div class="field-meta">
-    <?php 
-    $email = $form->get('email');
-    echo $formLabel->openTag() . $email->getOption('label');
-    echo $formLabel->closeTag();
-    ?>
-    </div>
-    <div class="inputs">
-    <?php 
-    echo $this->formInput($email);
-    echo $this->formElementErrors($email);
-    ?>
-    </div>
-</div>
-<div class="field">
-    <div class="field-meta">
-    <?php 
-    $password = $form->get('password');
-    echo $formLabel->openTag() . $password->getOption('label');
-    echo $formLabel->closeTag();
-    ?>
-    </div>
-    <div class="inputs">
-    <?php 
-    echo $this->formInput($password);
-    echo $this->formElementErrors($password);
-    ?>
-    </div>
-</div>
-<?php
-echo $this->formElement($form->get('csrf'));
-echo $this->formElement($form->get('submit'));
-echo $this->form()->closeTag();
-?>
+<?php echo $this->form($form); ?>
 <p class="forgot-password"><?php echo $this->hyperlink($this->translate('Forgot password?'), $this->url('forgot-password')); ?></p>
 

@@ -3,7 +3,7 @@ return [
     'navigation' => [
         'AdminSite' => [
             [
-                'label'      => 'Sites',
+                'label'      => 'Sites', // @translate
                 'class'      => 'sites',
                 'route'      => 'admin/site',
                 'resource'   => 'Omeka\Controller\SiteAdmin\Index',
@@ -12,7 +12,7 @@ return [
         ],
         'AdminResource' => [
             [
-                'label'      => 'Items',
+                'label'      => 'Items', // @translate
                 'class'      => 'items',
                 'route'      => 'admin/default',
                 'controller' => 'item',
@@ -28,7 +28,7 @@ return [
                 ],
             ],
             [
-                'label'      => 'Item Sets',
+                'label'      => 'Item Sets', // @translate
                 'class'      => 'item-sets',
                 'route'      => 'admin/default',
                 'controller' => 'item-set',
@@ -44,7 +44,7 @@ return [
                 ],
             ],
             [
-                'label'      => 'Vocabularies',
+                'label'      => 'Vocabularies', // @translate
                 'class'      => 'vocabularies',
                 'route'      => 'admin/default',
                 'controller' => 'vocabulary',
@@ -60,7 +60,7 @@ return [
                 ],
             ],
             [
-                'label'      => 'Resource Templates',
+                'label'      => 'Resource Templates', // @translate
                 'class'      => 'resource-templates',
                 'route'      => 'admin/default',
                 'controller' => 'resource-template',
@@ -83,7 +83,7 @@ return [
         ],
         'AdminGlobal' => [
             [
-                'label'      => 'Users',
+                'label'      => 'Users', // @translate
                 'class'      => 'users',
                 'route'      => 'admin/default',
                 'controller' => 'user',
@@ -99,7 +99,7 @@ return [
                 ],
             ],
             [
-                'label'      => 'Modules',
+                'label'      => 'Modules', // @translate
                 'class'      => 'modules',
                 'route'      => 'admin/default',
                 'controller' => 'module',
@@ -108,7 +108,7 @@ return [
                 'privilege'  => 'browse',
             ],
             [
-                'label'      => 'Jobs',
+                'label'      => 'Jobs', // @translate
                 'class'      => 'jobs',
                 'route'      => 'admin/default',
                 'controller' => 'job',
@@ -117,7 +117,7 @@ return [
                 'privilege'  => 'browse',
             ],
             [
-                'label'      => 'Settings',
+                'label'      => 'Settings', // @translate
                 'class'      => 'settings',
                 'route'      => 'admin/default',
                 'controller' => 'setting',
@@ -128,19 +128,19 @@ return [
         ],
         'user' => [
             [
-                'label'         => 'User Information',
+                'label'         => 'User Information', // @translate
                 'route'         => 'admin/id',
                 'action'        => 'edit',
                 'useRouteMatch' => true,
             ],
             [
-                'label'         => 'Password',
+                'label'         => 'Password', // @translate
                 'route'         => 'admin/id',
                 'action'        => 'change-password',
                 'useRouteMatch' => true,
             ],
             [
-                'label'         => 'API Keys',
+                'label'         => 'API Keys', // @translate
                 'route'         => 'admin/id',
                 'action'        => 'edit-keys',
                 'useRouteMatch' => true,
@@ -148,14 +148,14 @@ return [
         ],
         'site' => [
             [
-                'label'         => 'Site Info',
+                'label'         => 'Site Info', // @translate
                 'class'         => 'site-info',
                 'route'         => 'admin/site/default',
                 'action'        => 'edit',
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Pages',
+                'label'         => 'Pages', // @translate
                 'class'         => 'pages',
                 'route'         => 'admin/site/page',
                 'action'        => 'index',
@@ -173,35 +173,35 @@ return [
                 ],
             ],
             [
-                'label'         => 'Navigation',
+                'label'         => 'Navigation', // @translate
                 'class'         => 'navigation',
                 'route'         => 'admin/site/default',
                 'action'        => 'navigation',
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Item Pool',
+                'label'         => 'Item Pool', // @translate
                 'class'         => 'item-pool',
                 'route'         => 'admin/site/default',
                 'action'        => 'item-pool',
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'User Permissions',
+                'label'         => 'User Permissions', // @translate
                 'class'         => 'users',
                 'route'         => 'admin/site/default',
                 'action'        => 'users',
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Theme',
+                'label'         => 'Theme', // @translate
                 'class'         => 'theme',
                 'route'         => 'admin/site/default',
                 'action'        => 'theme',
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Settings',
+                'label'         => 'Settings', // @translate
                 'class'         => 'settings',
                 'route'         => 'admin/site/default',
                 'action'        => 'settings',

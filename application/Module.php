@@ -11,6 +11,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
+use Zend\Validator\AbstractValidator;
 
 /**
  * The Omeka module.
@@ -37,6 +38,9 @@ class Module extends AbstractModule
 
         $this->bootstrapSession();
         $this->bootstrapViewHelpers();
+
+        // Enable automatic translation for validation error messages
+        AbstractValidator::setDefaultTranslator($services->get('MvcTranslator'));
     }
 
     /**

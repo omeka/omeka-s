@@ -342,7 +342,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      */
     public function delete(Request $request)
     {
-        $this->deleteEntity($request);
+        $entity = $this->deleteEntity($request);
         $this->getEntityManager()->flush();
         $representation = $this->getRepresentation($entity);
         return new Response($representation);
@@ -365,6 +365,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
      * one method.
      *
      * @param Request $request
+     * @return EntityInterface
      */
     public function deleteEntity(Request $request)
     {
@@ -376,6 +377,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ]);
         $this->getEventManager()->trigger($event);
         $this->getEntityManager()->remove($entity);
+        return $entity;
     }
 
     /**

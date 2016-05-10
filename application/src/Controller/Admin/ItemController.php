@@ -153,8 +153,6 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $id);
         $item = $response->getContent();
 
-        $form->get('o:item_set')->setValue(array_keys($item->itemSets()));
-
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);

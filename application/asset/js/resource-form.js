@@ -19,7 +19,7 @@
             // Restore the original property label and comment.
             $('.alternate').remove();
             $('.field-label, .field-description').show();
-            rewritePropertyFields();
+            rewritePropertyFields(true);
         });
 
         $('a.value-language:not(.active)').on('click', function(e) {
@@ -276,7 +276,7 @@
      * Rewrite all property fields following the rules defined by the selected
      * resource template.
      */
-    var rewritePropertyFields = function() {
+    var rewritePropertyFields = function(changeClass) {
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         var fields = $('#properties fieldset.resource-values');
@@ -291,10 +291,12 @@
         var url = templateSelect.data('api-base-url') + '/' + templateId;
         $.get(url)
             .done(function(data) {
-                // Change the resource class.
-                var classSelect = $('#resource-class-select');
-                if (data['o:resource_class'] && classSelect.val() === '') {
-                    classSelect.val(data['o:resource_class']['o:id']);
+                if (changeClass) {
+                    // Change the resource class.
+                    var classSelect = $('#resource-class-select');
+                    if (data['o:resource_class'] && classSelect.val() === '') {
+                        classSelect.val(data['o:resource_class']['o:id']);
+                    }
                 }
 
                 // Rewrite every property field defined by the template. We
@@ -337,7 +339,7 @@
             });
         }
 
-        rewritePropertyFields();
+        rewritePropertyFields(false);
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

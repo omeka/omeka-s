@@ -5,13 +5,11 @@ class ActivateForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'password',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Password'),
+                'label' => 'Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password',
@@ -22,7 +20,7 @@ class ActivateForm extends AbstractForm
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Confirm Password'),
+                'label' => 'Confirm Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password-confirm',

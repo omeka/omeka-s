@@ -7,13 +7,11 @@ class SettingForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'administrator_email',
             'type' => 'Email',
             'options' => [
-                'label' => $translator->translate('Administrator Email'),
+                'label' => 'Administrator Email', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -24,7 +22,7 @@ class SettingForm extends AbstractForm
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Installation Title'),
+                'label' => 'Installation Title', // @translate
             ],
             'attributes' => [
                 'id' => 'installation-title',
@@ -38,7 +36,7 @@ class SettingForm extends AbstractForm
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
-                'label' => $translator->translate('Time Zone'),
+                'label' => 'Time Zone', // @translate
                 'value_options' => $timeZones,
             ],
             'attributes' => [
@@ -52,8 +50,8 @@ class SettingForm extends AbstractForm
             'name' => 'pagination_per_page',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Results per page'),
-                'info' => $translator->translate('The maximum number of results per page on browse pages.'),
+                'label' => 'Results per page', // @translate
+                'info' => 'The maximum number of results per page on browse pages.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -64,8 +62,8 @@ class SettingForm extends AbstractForm
             'name' => 'property_label_information',
             'type' => 'Select',
             'options' => [
-                'label' => $translator->translate('Property Label Information'),
-                'info' => $translator->translate('The additional information that accompanies labels on resource pages.'),
+                'label' => 'Property Label Information', // @translate
+                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
                 'value_options' =>  [
                     'none' => 'None',
                     'vocab' => 'Show Vocabulary',
@@ -76,9 +74,9 @@ class SettingForm extends AbstractForm
 
         $siteSelect = new ResourceSelect(
             $this->getServiceLocator(), 'default_site', [
-                'label' => $translator->translate('Default Site'),
-                'info' => $translator->translate('Select which site should appear when users go to the front page of the installation.'),
-                'empty_option' => $translator->translate('No default (Show index of sites)'),
+                'label' => 'Default Site', // @translate
+                'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
+                'empty_option' => 'No default (Show index of sites)', // @translate
         ]);
         $siteSelect->setResourceValueOptions(
             'sites',
@@ -93,8 +91,8 @@ class SettingForm extends AbstractForm
             'name'    => 'use_htmlpurifier',
             'type'    => 'Checkbox',
             'options' => [
-                'label' => $translator->translate('Use HTMLPurifier'),
-                'info'  => $translator->translate('Clean up user-entered HTML.')
+                'label' => 'Use HTMLPurifier', // @translate
+                'info'  => 'Clean up user-entered HTML.' // @translate
             ]
 
         ]);

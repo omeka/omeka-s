@@ -7,7 +7,6 @@ class ModuleStateChangeForm extends AbstractForm
 
     public function buildForm()
     {
-        $translator = $this->getTranslator();
         $url = $this->getViewHelper('Url');
 
         switch ($this->getOption('module_action')) {
@@ -17,8 +16,7 @@ class ModuleStateChangeForm extends AbstractForm
                     ['controller' => 'module', 'action' => 'install'],
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
-                $label = $translator->translate('Install');
-                $title = $translator->translate('Install');
+                $label = 'Install'; // @translate
                 $class = 'o-icon-install';
                 break;
             case 'activate':
@@ -27,8 +25,7 @@ class ModuleStateChangeForm extends AbstractForm
                     ['controller' => 'module', 'action' => 'activate'],
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
-                $label = $translator->translate('Activate');
-                $title = $translator->translate('Activate');
+                $label = 'Activate'; // @translate
                 $class = 'o-icon-activate';
                 break;
             case 'deactivate':
@@ -37,8 +34,7 @@ class ModuleStateChangeForm extends AbstractForm
                     ['controller' => 'module', 'action' => 'deactivate'],
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
-                $label = $translator->translate('Deactivate');
-                $title = $translator->translate('Deactivate');
+                $label = 'Deactivate'; // @translate
                 $class = 'o-icon-deactivate';
                 break;
             case 'upgrade':
@@ -47,8 +43,7 @@ class ModuleStateChangeForm extends AbstractForm
                     ['controller' => 'module', 'action' => 'upgrade'],
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
-                $label = $translator->translate('Upgrade');
-                $title = $translator->translate('Upgrade');
+                $label = 'Upgrade'; // @translate
                 $class = 'o-icon-upgrade';
                 break;
             default:
@@ -65,7 +60,7 @@ class ModuleStateChangeForm extends AbstractForm
             ],
             'attributes' => [
                 'type' => 'submit',
-                'title' => $title,
+                'title' => $label,
                 'class' => $class,
             ],
         ]);

@@ -9,27 +9,25 @@ class InstallationForm extends AbstractForm
         // data during installation. This is needed for databse session storage.
         $this->remove('csrf');
 
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'user',
             'type' => 'fieldset',
             'options' => [
-                'label' => 'Create the first user',
+                'label' => 'Create the first user', // @translate
             ],
         ]);
         $this->add([
             'name' => 'settings',
             'type' => 'fieldset',
              'options' => [
-                'label' => 'Settings',
+                'label' => 'Settings', // @translate
             ],
        ]);
         $this->add([
             'name' => 'submit',
             'type' => 'submit',
             'attributes' => [
-                'value' => $translator->translate('Submit'),
+                'value' => 'Submit', // @translate
             ],
         ]);
 
@@ -37,7 +35,7 @@ class InstallationForm extends AbstractForm
             'name' => 'email',
             'type' => 'Email',
             'options' => [
-                'label' => $translator->translate('Email'),
+                'label' => 'Email', // @translate
             ],
             'attributes' => [
                 'id' => 'email',
@@ -48,7 +46,7 @@ class InstallationForm extends AbstractForm
             'name' => 'email-confirm',
             'type' => 'Email',
             'options' => [
-                'label' => $translator->translate('Confirm Email'),
+                'label' => 'Confirm Email', // @translate
             ],
             'attributes' => [
                 'id' => 'email-confirm',
@@ -59,7 +57,7 @@ class InstallationForm extends AbstractForm
             'name' => 'password',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Password'),
+                'label' => 'Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password',
@@ -70,7 +68,7 @@ class InstallationForm extends AbstractForm
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Confirm Password'),
+                'label' => 'Confirm Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password-confirm',
@@ -81,7 +79,7 @@ class InstallationForm extends AbstractForm
             'name' => 'name',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Display Name'),
+                'label' => 'Display Name', // @translate
             ],
             'attributes' => [
                 'id' => 'name',
@@ -92,7 +90,7 @@ class InstallationForm extends AbstractForm
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Installation Title'),
+                'label' => 'Installation Title', // @translate
             ],
             'attributes' => [
                 'id' => 'installation-title',
@@ -106,7 +104,7 @@ class InstallationForm extends AbstractForm
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
-                'label' => $translator->translate('Time Zone'),
+                'label' => 'Time Zone', // @translate
                 'value_options' => $timeZones,
             ],
             'attributes' => [
@@ -137,7 +135,7 @@ class InstallationForm extends AbstractForm
                     'name' => 'Identical',
                     'options' => [
                         'token' => 'password',
-                        'message' => $translator->translate('The passwords did not match'),
+                        'message' => 'The passwords did not match', // @translate
                     ],
                 ],
             ],
@@ -150,7 +148,7 @@ class InstallationForm extends AbstractForm
                     'name' => 'Identical',
                     'options' => [
                         'token' => 'email',
-                        'message' => $translator->translate('The emails did not match'),
+                        'message' => 'The emails did not match', // @translate
                     ],
                 ],
             ],

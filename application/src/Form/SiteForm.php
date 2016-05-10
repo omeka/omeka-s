@@ -5,14 +5,13 @@ class SiteForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
         $this->setAttribute('id', 'site-form');
 
         $this->add([
             'name' => 'o:title',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Title'),
+                'label' => 'Title', // @translate
             ],
             'attributes' => [
                 'id' => 'title',
@@ -23,7 +22,7 @@ class SiteForm extends AbstractForm
             'name' => 'o:slug',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('URL slug')
+                'label' => 'URL slug' // @translate
             ],
             'attributes' => [
                 'id' => 'slug',
@@ -39,7 +38,7 @@ class SiteForm extends AbstractForm
             'name' => 'o:theme',
             'type' => 'Select',
             'options' => [
-                'label' => $translator->translate('Theme'),
+                'label' => 'Theme', // @translate
                 'value_options' => $themes,
             ],
             'attributes' => [

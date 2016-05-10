@@ -5,14 +5,12 @@ class VocabularyImportForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'file',
             'type' => 'file',
             'options' => [
-                'label' => $translator->translate('Vocabulary File'),
-                'info' => $translator->translate('Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.'),
+                'label' => 'Vocabulary File', // @translate
+                'info' => 'Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -23,8 +21,8 @@ class VocabularyImportForm extends AbstractForm
             'name' => 'o:prefix',
             'type' => 'text',
             'options' => [
-                'label' => $translator->translate('Prefix'),
-                'info' => $translator->translate('A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.'),
+                'label' => 'Prefix', // @translate
+                'info' => 'A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -35,8 +33,8 @@ class VocabularyImportForm extends AbstractForm
             'name' => 'o:namespace_uri',
             'type' => 'text',
             'options' => [
-                'label' => $translator->translate('Namespace URI'),
-                'info' => $translator->translate('The unique namespace URI used by the vocabulary to identify local member classes and properties.'),
+                'label' => 'Namespace URI', // @translate
+                'info' => 'The unique namespace URI used by the vocabulary to identify local member classes and properties.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -47,8 +45,8 @@ class VocabularyImportForm extends AbstractForm
             'name' => 'o:label',
             'type' => 'text',
             'options' => [
-                'label' => $translator->translate('Label'),
-                'info' => $translator->translate('A human-readable title of the vocabulary.'),
+                'label' => 'Label', // @translate
+                'info' => 'A human-readable title of the vocabulary.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -59,8 +57,8 @@ class VocabularyImportForm extends AbstractForm
             'name' => 'o:comment',
             'type' => 'textarea',
             'options' => [
-                'label' => $translator->translate('Comment'),
-                'info' => $translator->translate('A human-readable description of the vocabulary.'),
+                'label' => 'Comment', // @translate
+                'info' => 'A human-readable description of the vocabulary.', // @translate
             ],
         ]);
     }

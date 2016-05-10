@@ -9,14 +9,12 @@ class UserPasswordForm extends AbstractForm
 
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         if ($this->getOption('current_password')){
             $this->add([
                 'name' => 'current-password',
                 'type' => 'password',
                 'options' => [
-                    'label' => $translator->translate('Current Password'),
+                    'label' => 'Current Password', // @translate
                 ],
             ]);
         }
@@ -25,7 +23,7 @@ class UserPasswordForm extends AbstractForm
             'name' => 'password',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('New Password'),
+                'label' => 'New Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password',
@@ -36,7 +34,7 @@ class UserPasswordForm extends AbstractForm
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Confirm New Password'),
+                'label' => 'Confirm New Password', // @translate
             ],
             'attributes' => [
                 'id' => 'password-confirm',

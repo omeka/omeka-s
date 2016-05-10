@@ -5,14 +5,12 @@ class LoginForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->setAttribute('class', 'disable-unsaved-warning');
         $this->add([
             'name' => 'email',
             'type' => 'Email',
             'options' => [
-                'label' => $translator->translate('Email'),
+                'label' => 'Email', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -22,7 +20,7 @@ class LoginForm extends AbstractForm
             'name' => 'password',
             'type' => 'Password',
             'options' => [
-                'label' => $translator->translate('Password'),
+                'label' => 'Password', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -32,7 +30,7 @@ class LoginForm extends AbstractForm
             'name' => 'submit',
             'type'  => 'Submit',
             'attributes' => [
-                'value' => $translator->translate('Log in'),
+                'value' => 'Log in', // @translate
             ],
         ]);
 

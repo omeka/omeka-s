@@ -7,13 +7,11 @@ class ResourceTemplateForm extends AbstractForm
 
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'o:label',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Label'),
+                'label' => 'Label', // @translate
             ],
             'attributes' => [
                 'required' => true,

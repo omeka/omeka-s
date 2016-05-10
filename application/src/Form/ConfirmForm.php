@@ -8,11 +8,9 @@ class ConfirmForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $value = $this->getOption('button_value');
         if (!$value) {
-            $value = $translator->translate('Confirm');
+            $value = 'Confirm'; // @translate
         }
 
         $this->add([

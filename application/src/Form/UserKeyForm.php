@@ -5,13 +5,11 @@ class UserKeyForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'new-key-label',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('New Key Label'),
+                'label' => 'New Key Label', // @translate
             ],
             'attributes' => [
                 'id' => 'new-key-label',

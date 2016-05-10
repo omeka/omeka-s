@@ -5,14 +5,12 @@ class VocabularyForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'o:label',
             'type' => 'text',
             'options' => [
-                'label' => $translator->translate('Label'),
-                'info' => $translator->translate('A human-readable title of the vocabulary.'),
+                'label' => 'Label', // @translate
+                'info' => 'A human-readable title of the vocabulary.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -23,8 +21,8 @@ class VocabularyForm extends AbstractForm
             'name' => 'o:comment',
             'type' => 'textarea',
             'options' => [
-                'label' => $translator->translate('Comment'),
-                'info' => $translator->translate('A human-readable description of the vocabulary.'),
+                'label' => 'Comment', // @translate
+                'info' => 'A human-readable description of the vocabulary.', // @translate
             ],
         ]);
     }

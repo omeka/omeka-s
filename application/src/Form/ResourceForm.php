@@ -7,7 +7,6 @@ class ResourceForm extends AbstractForm
 {
     public function buildForm()
     {
-        $translator = $this->getTranslator();
         $serviceLocator = $this->getServiceLocator();
         $url = $serviceLocator->get('ViewHelperManager')->get('url');
 
@@ -17,9 +16,9 @@ class ResourceForm extends AbstractForm
             ->setAttribute('id', 'resource-template-select')
             ->setAttribute('data-api-base-url', $url('api/default',
                 ['resource' => 'resource_templates']))
-            ->setLabel($translator->translate('Resource Template'))
-            ->setEmptyOption($translator->translate('Select Template'))
-            ->setOption('info', $translator->translate('A pre-defined template for resource creation.'))
+            ->setLabel('Resource Template') // @translate
+            ->setEmptyOption('Select Template') // @translate
+            ->setOption('info', 'A pre-defined template for resource creation.') // @translate
             ->setResourceValueOptions(
                 'resource_templates',
                 [],
@@ -33,9 +32,9 @@ class ResourceForm extends AbstractForm
         $classSelect
             ->setName('o:resource_class[o:id]')
             ->setAttribute('id', 'resource-class-select')
-            ->setLabel($translator->translate('Class'))
-            ->setEmptyOption($translator->translate('Select Class'))
-            ->setOption('info', $translator->translate('A type for the resource. Different types have different default properties attached to them.'))
+            ->setLabel('Class') // @translate
+            ->setEmptyOption('Select Class') // @translate
+            ->setOption('info', 'A type for the resource. Different types have different default properties attached to them.') // @translate
             ->setResourceValueOptions(
                 'resource_classes',
                 [],

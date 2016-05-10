@@ -10,13 +10,11 @@ class UserForm extends AbstractForm
 
     public function buildForm()
     {
-        $translator = $this->getTranslator();
-
         $this->add([
             'name' => 'o:email',
             'type' => 'Email',
             'options' => [
-                'label' => $translator->translate('Email'),
+                'label' => 'Email', // @translate
             ],
             'attributes' => [
                 'id' => 'email',
@@ -27,7 +25,7 @@ class UserForm extends AbstractForm
             'name' => 'o:name',
             'type' => 'Text',
             'options' => [
-                'label' => $translator->translate('Display Name'),
+                'label' => 'Display Name', // @translate
             ],
             'attributes' => [
                 'id' => 'name',
@@ -42,7 +40,7 @@ class UserForm extends AbstractForm
                 'name' => 'o:role',
                 'type' => 'select',
                 'options' => [
-                    'label' => $translator->translate('Role'),
+                    'label' => 'Role', // @translate
                     'value_options' => $roles,
                 ],
                 'attributes' => [
@@ -57,7 +55,7 @@ class UserForm extends AbstractForm
                 'name' => 'o:is_active',
                 'type' => 'checkbox',
                 'options' => [
-                    'label' => $translator->translate('Is Active'),
+                    'label' => 'Is Active', // @translate
                 ],
                 'attributes' => [
                     'id' => 'is-active',

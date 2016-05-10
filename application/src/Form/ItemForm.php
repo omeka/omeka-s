@@ -1,8 +1,6 @@
 <?php 
 namespace Omeka\Form;
 
-use Omeka\Form\Element\ResourceSelect;
-
 class ItemForm extends ResourceForm
 {
     public function buildForm()

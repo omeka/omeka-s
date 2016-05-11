@@ -38,7 +38,8 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
      * @param PhpRenderer $view
      * @param SiteRepresentation $site
      * @param SiteBlockAttachmentRepresentation|null $block
-     * @param bool $itemOnly If false, media selection and caption will be visible
+     * @param bool $itemOnly If true, selecting an item will immediately attach
+     *   it (attachment options will not open)
      * @return string
      */
     public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,

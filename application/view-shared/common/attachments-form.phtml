@@ -45,7 +45,7 @@ $attachmentRowTemplate = '
         <div class="attachment">
             <span class="sortable-handle"></span>
             <ul class="actions">
-                <li><a href="#" class="attachment-options-icon o-icon-configure button" aria-label="<?php echo $escape($this->translate('Open attachment options')); ?>" title="<?php echo $escape($this->translate('Open attachment options')); ?>"></a></li>
+                <?php if (!$this->itemOnly): ?><li><a href="#" class="attachment-options-icon o-icon-configure button" aria-label="<?php echo $escape($this->translate('Open attachment options')); ?>" title="<?php echo $escape($this->translate('Open attachment options')); ?>"></a></li><?php endif; ?>
                 <li class="delete"><a href="#" class="o-icon-delete button" aria-label="<?php echo $escape($this->translate('Delete attachment')); ?>" title="<?php echo $escape($this->translate('Delete attachment')); ?>"></a></li>
                 <li class="undo"><a href="#" class="o-icon-undo button" aria-label="<?php echo $escape($this->translate('Restore attachment')); ?>" title="<?php echo $escape($this->translate('Restore attachment')); ?>"></a></li>
             </ul>

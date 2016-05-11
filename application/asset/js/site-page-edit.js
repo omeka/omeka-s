@@ -190,9 +190,29 @@
 
         // Update attachment options sidebar after selecting item.
         $('#select-resource').on('o:resource-selected', '.select-resource', function(e) {
-            var resource = $(this).closest('.resource').data('resource-values');
-            openAttachmentOptions(resource.value_resource_id);
-            $('#select-resource').removeClass('active');
+            var thisSelectResource = $(this);
+            var resource = thisSelectResource.closest('.resource').data('resource-values');
+            var selectingAttachment = $('.selecting-attachment');
+
+            if (selectingAttachment.closest('.attachments-form').hasClass('attachments-item-only')) {
+                // This is an item-only attachment form.
+                Omeka.closeSidebar($('#attachment-options'));
+                var attachment = $(selectingAttachment.parents('.attachments').data('template'));
+                var title = resource.display_title;
+                var thumbnailUrl = resource.thumbnail_url;
+                var thumbnail;
+                if (thumbnailUrl) {
+                    thumbnail = $('<img>', {src: thumbnailUrl});
+                }
+                attachment.find('.attachment-options-icon').closest('li').remove();
+                attachment.find('input.item').val(resource.value_resource_id);
+                attachment.find('.item-title').empty().append(thumbnail).append(title);
+                selectingAttachment.before(attachment);
+            } else {
+                // This is a normal attachment form.
+                openAttachmentOptions(resource.value_resource_id);
+                $('#select-resource').removeClass('active');
+            }
         });
 
         // Change attached media.

@@ -95,11 +95,11 @@ $.jstree.plugins.editlink = function(options, parent) {
             $.proxy(function(e) {
                 var link = $(e.currentTarget).children(':selected');
                 var nodeId = this.create_node('#', {
-                    text: link.data('label'),
+                    text: link.text(),
                     data: {
                         type: link.data('type'),
                         data: {
-                            label: link.data('label')
+                            label: link.text()
                         }
                     }
                 });

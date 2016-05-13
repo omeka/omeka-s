@@ -26,7 +26,6 @@ $escape = $this->plugin('escapeHtml');
             <?php $label = $this->navigationLink()->getLabel($type); ?>
             <option
                 data-type="<?php echo $escape($type); ?>"
-                data-label="<?php echo $escape($label); ?>"
                 value="<?php echo $escape($type); ?>"><?php echo $escape($this->translate($label)); ?></option>
             <?php endforeach; ?>
         </select>

@@ -326,4 +326,54 @@ class Manager
             $extension ? ".$extension" : null);
         return $storageName;
     }
+
+    /**
+     * Download a file.
+     *
+     * Pass the $errorStore object if an error should raise an API validation
+     * error. Returns true on success, false on error.
+     *
+     * @param Zend\Uri\Http|string $uri
+     * @param string $tempPath
+     * @param ErrorStore|null $errorStore
+     * @return bool
+     */
+    public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
+    {
+        $client = $this->serviceLocator->get('Omeka\HttpClient');
+        $client->setUri($uri)->setStream($tempPath);
+
+        // Attempt three requests before handling an exception.
+        $attempt = 0;
+        while (true) {
+            try {
+                $response = $client->send();
+                break;
+            } catch (\Exception $e) {
+                if (++$attempt === 3) {
+                    if ($errorStore) {
+                        $errorStore->addError('error', $e->getMessage());
+                    }
+                    $this->serviceLocator->get('Omeka\Logger')->err((string) $e);
+                    return false;
+                }
+            }
+        }
+
+        if (!$response->isOk()) {
+            $message = sprintf(
+                'Error downloading "%s": %s %s',
+                (string) $uri,
+                $response->getStatusCode(),
+                $response->getReasonPhrase()
+            );
+            if ($errorStore) {
+                $errorStore->addError('error', $message);
+            }
+            $this->serviceLocator->get('Omeka\Logger')->err($message);
+            return false;
+        }
+
+        return true;
+    }
 }

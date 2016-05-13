@@ -3,18 +3,41 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Dom\Query;
 use Zend\Form\Element\Url as UrlElement;
+use Zend\Http\Client as HttpClient;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class OEmbed extends AbstractIngester
+class OEmbed implements IngesterInterface
 {
+    /**
+     * @var array
+     */
+    protected $whitelist;
+
+    /**
+     * @var HttpClient;
+     */
+    protected $httpClient;
+
+    /**
+     * @var FileManager
+     */
+    protected $fileManager;
+
+    public function __construct(array $whitelist, HttpClient $httpClient, FileManager $fileManager)
+    {
+        $this->whitelist = $whitelist;
+        $this->httpClient = $httpClient;
+        $this->fileManager = $fileManager;
+    }
+
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('oEmbed');
+        return 'oEmbed'; // @translate
     }
 
     public function getRenderer()
@@ -31,11 +54,8 @@ class OEmbed extends AbstractIngester
             return;
         }
 
-        $config = $this->getServiceLocator()->get('Config');
-        $whitelist = $config['oembed']['whitelist'];
-
         $whitelisted = false;
-        foreach ($whitelist as $regex) {
+        foreach ($this->whitelist as $regex) {
             if (preg_match($regex, $data['o:source']) === 1) {
                 $whitelisted = true;
                 break;
@@ -76,9 +96,9 @@ class OEmbed extends AbstractIngester
         }
 
         if (isset($mediaData['thumbnail_url'])) {
-            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            $fileManager = $this->fileManager;
             $file = $fileManager->getTempFile();
-            if ($this->downloadFile($mediaData['thumbnail_url'], $file->getTempPath())) {
+            if ($fileManager->downloadFile($mediaData['thumbnail_url'], $file->getTempPath())) {
                 if ($fileManager->storeThumbnails($file)) {
                     $media->setFilename($file->getStorageBaseName());
                     $media->setHasThumbnails(true);
@@ -97,8 +117,8 @@ class OEmbed extends AbstractIngester
     {
         $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
-            'label' => $view->translate('oEmbed URL'),
-            'info' => $view->translate('URL for the media to embed.'),
+            'label' => 'oEmbed URL', // @translate
+            'info' => 'URL for the media to embed.', // @translate
         ]);
         $urlInput->setAttributes([
             'id' => 'media-oembed-source-__index__',
@@ -122,7 +142,8 @@ class OEmbed extends AbstractIngester
             return false;
         }
 
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        $client = $this->httpClient;
+        $client->reset();
         $client->setUri($uri);
         $response = $client->send();
 

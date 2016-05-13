@@ -46,7 +46,7 @@ class Media extends AbstractHelper
             <input type="hidden" name="o:media[__index__][o:is_public]" value="1"></li>
             <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
             </ul>';
-        $form .= '<h4>' . $ingester->getLabel() . '</h4>';
+        $form .= '<h4>' . $this->getView()->translate($ingester->getLabel()) . '</h4>';
         $form .= '</div>';
         $form .= $ingester->form($this->getView(), $options);
         $form .= '<input type="hidden" name="o:media[__index__][o:ingester]" value="'

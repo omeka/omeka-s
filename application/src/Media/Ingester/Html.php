@@ -5,13 +5,24 @@ use Zend\Form\Element\Hidden;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\Service\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Element\Text as TextInput;
 
-class Html extends AbstractIngester implements MutableIngesterInterface
+class Html implements MutableIngesterInterface
 {
+    /**
+     * @var HtmlPurifier
+     */
+    protected $purifier;
+
+    public function __construct(HtmlPurifier $purifier)
+    {
+        $this->purifier = $purifier;
+    }
+
     public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         return $this->getForm($view, 'media-html', $media->mediaData()['html']);
@@ -31,8 +42,8 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $titlePropertyInput->setValue($dctermsTitle->id());
         $titleTypeInput->setValue('literal');
         $titleInput->setOptions([
-            'label' => $view->translate('Title'),
-            'info'  => $view->translate('A title for the HTML content')
+            'label' => 'Title', // @translate
+            'info'  => 'A title for the HTML content' // @translate
         ]);
         $html = $view->formRow($titleInput);
         $html .= $view->formRow($titlePropertyInput);
@@ -46,8 +57,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
      */
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('HTML');
+        return 'HTML'; // @translate
     }
 
     public function getRenderer()
@@ -64,8 +74,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         if (isset($data['html'])) {
             $html = $data['html'];
             $serviceLocator = $this->getServiceLocator();
-            $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
-            $html = $purifier->purify($html);
+            $html = $this->purifier->purify($html);
             $data['html'] = $html;
             $media->setData($data);
         }
@@ -76,8 +85,7 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $data = $request->getContent();
         $html = $data['o:media']['__index__']['html'];
         $serviceLocator = $this->getServiceLocator();
-        $purifier = $serviceLocator->get('Omeka\HtmlPurifier');
-        $html = $purifier->purify($html);
+        $html = $this->purifier->purify($html);
         $media->setData(['html' => $html]);
     }
 
@@ -95,8 +103,8 @@ class Html extends AbstractIngester implements MutableIngesterInterface
         $view->ckEditor();
         $textarea = new Textarea('o:media[__index__][html]');
         $textarea->setOptions([
-            'label' => $view->translate('HTML'),
-            'info'  => $view->translate('HTML or plain text.'),
+            'label' => 'HTML', // @translate
+            'info'  => 'HTML or plain text.', // @translate
         ]);
         $textarea->setAttributes([
             'rows'     => 15,

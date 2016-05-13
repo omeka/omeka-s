@@ -3,21 +3,31 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
 use Zend\Form\Element\File;
 use Zend\InputFilter\FileInput;
 use Zend\View\Renderer\PhpRenderer;
 
-class Upload extends AbstractIngester
+class Upload implements IngesterInterface
 {
+    /**
+     * @var FileManager
+     */
+    protected $fileManager;
+
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Upload');
+        return 'Upload'; // @translate
     }
 
     /**
@@ -52,7 +62,7 @@ class Upload extends AbstractIngester
             return;
         }
 
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $fileManager = $this->fileManager;
         $file = $fileManager->getTempFile();
 
         $fileInput = new FileInput('file');
@@ -93,7 +103,7 @@ class Upload extends AbstractIngester
     {
         $fileInput = new File('file[__index__]');
         $fileInput->setOptions([
-            'label' => $view->translate('Upload File'),
+            'label' => 'Upload File', // @translate
             'info' => $view->uploadLimit(),
         ]);
         $fileInput->setAttributes([

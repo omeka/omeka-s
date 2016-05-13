@@ -3,20 +3,30 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class Url extends AbstractIngester
+class Url implements IngesterInterface
 {
+    /**
+     * @var FileManager
+     */
+    protected $fileManager;
+
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('URL');
+        return 'URL'; // @translate
     }
 
     /**
@@ -57,7 +67,7 @@ class Url extends AbstractIngester
             return;
         }
 
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $fileManager = $this->fileManager;
         $file = $fileManager->getTempFile();
         $file->setSourceName($uri->getPath());
         if (!$this->downloadFile($uri, $file->getTempPath(), $errorStore)) {
@@ -88,8 +98,8 @@ class Url extends AbstractIngester
     {
         $urlInput = new UrlElement('o:media[__index__][ingest_url]');
         $urlInput->setOptions([
-            'label' => $view->translate('URL'),
-            'info' => $view->translate('A URL to the media.'),
+            'label' => 'URL', // @translate
+            'info' => 'A URL to the media.', // @translate
         ]);
         $urlInput->setAttributes([
             'id' => 'media-url-ingest-url-__index__',

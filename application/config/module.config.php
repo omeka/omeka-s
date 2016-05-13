@@ -299,14 +299,14 @@ return [
         ],
     ],
     'media_ingesters' => [
-        'invokables' => [
-            'upload'  => 'Omeka\Media\Ingester\Upload',
-            'url'     => 'Omeka\Media\Ingester\Url',
-            'oembed'  => 'Omeka\Media\Ingester\OEmbed',
-            'youtube' => 'Omeka\Media\Ingester\Youtube',
-            'html'    => 'Omeka\Media\Ingester\Html',
-            'iiif'    => 'Omeka\Media\Ingester\IIIF'
-        ],
+        'factories' => [
+            'upload' => 'Omeka\Service\MediaIngester\UploadFactory',
+            'url' => 'Omeka\Service\MediaIngester\UrlFactory',
+            'html' => 'Omeka\Service\MediaIngester\HtmlFactory',
+            'iiif' => 'Omeka\Service\MediaIngester\IIIFFactory',
+            'oembed' => 'Omeka\Service\MediaIngester\OEmbedFactory',
+            'youtube' => 'Omeka\Service\MediaIngester\YoutubeFactory',
+        ]
     ],
     'media_renderers' => [
         'invokables' => [

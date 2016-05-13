@@ -3,18 +3,28 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class Youtube extends AbstractIngester
+class Youtube implements IngesterInterface
 {
+    /**
+     * @var FileManager
+     */
+    protected $fileManager;
+
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
+
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('YouTube');
+        return 'YouTube'; // @translate
     }
 
     public function getRenderer()
@@ -55,7 +65,7 @@ class Youtube extends AbstractIngester
                 return;
         }
 
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+        $fileManager = $this->fileManager;
         $file = $fileManager->getTempFile();
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
         if ($this->downloadFile($url, $file->getTempPath())) {
@@ -79,8 +89,8 @@ class Youtube extends AbstractIngester
     {
         $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
-            'label' => $view->translate('Video URL'),
-            'info' => $view->translate('URL for the video to embed.'),
+            'label' => 'Video URL', // @translate
+            'info' => 'URL for the video to embed.', // @translate
         ]);
         $urlInput->setAttributes([
             'id' => 'media-youtube-source-__index__',
@@ -92,13 +102,13 @@ class Youtube extends AbstractIngester
         ]);
         $startInput = new Text('o:media[__index__][start]');
         $startInput->setOptions([
-            'label' => $view->translate('Start'),
-            'info' => $view->translate('Begin playing the video at the given number of seconds from the start of the video.'),
+            'label' => 'Start', // @translate
+            'info' => 'Begin playing the video at the given number of seconds from the start of the video.', // @translate
         ]);
         $endInput = new Text('o:media[__index__][end]');
         $endInput->setOptions([
-            'label' => $view->translate('End'),
-            'info' => $view->translate('End playing the video at the given number of seconds from the start of the video.'),
+            'label' => 'End', // @translate
+            'info' => 'End playing the video at the given number of seconds from the start of the video.', // @translate
         ]);
         return $view->formRow($urlInput)
             . $view->formRow($startInput)

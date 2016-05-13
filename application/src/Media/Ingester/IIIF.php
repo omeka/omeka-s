@@ -3,17 +3,34 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
+use Zend\Http\Client as HttpClient;
 use Zend\Uri\Http as HttpUri;
 use Zend\View\Renderer\PhpRenderer;
 
-class IIIF extends AbstractIngester
+class IIIF implements IngesterInterface
 {
+    /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
+     * @var FileManager
+     */
+    protected $fileManager;
+
+    public function __construct(HttpClient $httpClient, FileManager $fileManager)
+    {
+        $this->httpClient = $httpClient;
+        $this->fileManager = $fileManager;
+    }
+
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('IIIF Image');
+        return 'IIIF Image'; // @translate
     }
 
     public function getRenderer()
@@ -35,7 +52,8 @@ class IIIF extends AbstractIngester
             $errorStore->addError('o:source', "Invalid url specified");
             return false;
         }
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        $client = $this->httpClient;
+        $client->reset();
         $client->setUri($uri);
         $response = $client->send();
         if (!$response->isOk()) {
@@ -70,9 +88,9 @@ class IIIF extends AbstractIngester
             $URLString = '/full/full/0/native.jpg';
         }
         if (isset($IIIFData['@id'])) {
-            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            $fileManager = $this->fileManager;
             $file = $fileManager->getTempFile();
-            if ($this->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
+            if ($fileManager->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
                 if ($fileManager->storeThumbnails($file)) {
                     $media->setFilename($file->getStorageBaseName());
                     $media->setHasThumbnails(true);
@@ -85,8 +103,8 @@ class IIIF extends AbstractIngester
     {
         $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
-            'label' => $view->translate('IIIF Image URL'),
-            'info' => $view->translate('URL for the image to embed.'),
+            'label' => 'IIIF Image URL', // @translate
+            'info' => 'URL for the image to embed.', // @translate
         ]);
         return $view->formRow($urlInput);
     }

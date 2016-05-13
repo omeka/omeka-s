@@ -4,11 +4,16 @@ namespace Omeka\Site\Navigation\Link;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
-class Browse extends AbstractLink
+class Browse implements LinkInterface
 {
     public function getLabel()
     {
-        return 'Browse';
+        return 'Browse'; // @translate
+    }
+
+    public function getFormTemplate()
+    {
+        return 'common/navigation-link-form/browse';
     }
 
     public function isValid(array $data, ErrorStore $errorStore)
@@ -22,16 +27,6 @@ class Browse extends AbstractLink
             return false;
         }
         return true;
-    }
-
-    public function getForm(array $data, SiteRepresentation $site)
-    {
-        $escape = $this->getViewHelper('escapeHtml');
-        $label = isset($data['label']) ? $data['label'] : $this->getLabel();
-        $query = isset($data['query']) ? $data['query'] : null;
-        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
-            . '<label>Label <input type="text" data-name="label" value="' . $escape($label) . '"></label>'
-            . '<label>Query <input type="text" data-name="query" value="' . $escape($query) . '"></label>';
     }
 
     public function toZend(array $data, SiteRepresentation $site)

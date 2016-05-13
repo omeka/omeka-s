@@ -4,11 +4,16 @@ namespace Omeka\Site\Navigation\Link;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
-class Page extends AbstractLink
+class Page implements LinkInterface
 {
     public function getLabel()
     {
-        return 'Page';
+        return 'Page'; // @translate
+    }
+
+    public function getFormTemplate()
+    {
+        return 'common/navigation-link-form/page';
     }
 
     public function isValid(array $data, ErrorStore $errorStore)
@@ -32,30 +37,12 @@ class Page extends AbstractLink
         return true;
     }
 
-    public function getForm(array $data, SiteRepresentation $site)
-    {
-        $pages = $site->pages();
-        if (!isset($pages[$data['id']])) {
-            // Handle an invalid page.
-            $fallback = new Fallback('page');
-            $fallback->setServiceLocator($this->getServiceLocator());
-            return $fallback->getForm($data, $site);
-        }
-
-        $escape = $this->getViewHelper('escapeHtml');
-        $page = sprintf('%s (%s)', $data['pageTitle'], $data['pageSlug']);
-        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
-            . '<label>Page <input type="text" value="' . $escape($page) . '" disabled></label>'
-            . '<label>Label <input type="text" data-name="label" value="' . $escape($data['label']) . '"></label>';
-    }
-
     public function toZend(array $data, SiteRepresentation $site)
     {
         $pages = $site->pages();
         if (!isset($pages[$data['id']])) {
             // Handle an invalid page.
             $fallback = new Fallback('page');
-            $fallback->setServiceLocator($this->getServiceLocator());
             return $fallback->toZend($data, $site);
         }
         $sitePage = $pages[$data['id']];

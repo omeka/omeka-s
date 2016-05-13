@@ -14,21 +14,19 @@ interface LinkInterface
     public function getLabel();
 
     /**
+     * Get the view template used to render the link form.
+     *
+     * @return string
+     */
+    public function getFormTemplate();
+
+    /**
      * Validate link data.
      *
      * @param array $data
      * @return bool
      */
     public function isValid(array $data, ErrorStore $errorStore);
-
-    /**
-     * Get the link form.
-     *
-     * @param array $data
-     * @param SiteRepresentation $site
-     * @return string
-     */
-    public function getForm(array $data, SiteRepresentation $site);
 
     /**
      * Translate from site navigation data to Zend Navigation configuration.

@@ -382,11 +382,14 @@ class IndexController extends AbstractActionController
         $link = $this->getServiceLocator()
             ->get('Omeka\Site\NavigationLinkManager')
             ->get($this->params()->fromPost('type'));
-        $form = $link->getForm($this->params()->fromPost('data'), $site);
 
-        $response = $this->getResponse();
-        $response->setContent($form);
-        return $response;
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate($link->getFormTemplate());
+        $view->setVariable('data', $this->params()->fromPost('data'));
+        $view->setVariable('site', $site);
+        $view->setVariable('link', $link);
+        return $view;
     }
 
     public function sidebarItemSelectAction()

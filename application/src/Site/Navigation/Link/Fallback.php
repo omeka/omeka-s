@@ -4,7 +4,7 @@ namespace Omeka\Site\Navigation\Link;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\ErrorStore;
 
-class Fallback extends AbstractLink
+class Fallback implements LinkInterface
 {
     /**
      * @var string The name of the unknown link
@@ -21,20 +21,22 @@ class Fallback extends AbstractLink
 
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return sprintf('%s [%s]', $translator->translate('Unknown'), $this->name);
+        return 'Fallback';
+    }
+
+    public function getFormTemplate()
+    {
+        return 'common/navigation-link-form/fallback';
+    }
+
+    public function getOriginalLabel()
+    {
+        return $this->name;
     }
 
     public function isValid(array $data, ErrorStore $errorStore)
     {
         return true;
-    }
-
-    public function getForm(array $data, SiteRepresentation $site)
-    {
-        $escape = $this->getViewHelper('escapeHtml');
-        return '<label>Type <input type="text" value="' . $escape($this->getLabel()) . '" disabled></label>'
-            . '<label>Data <textarea disabled>' . $escape(json_encode($data)) . '</textarea></label>';
     }
 
     public function toZend(array $data, SiteRepresentation $site)

@@ -617,11 +617,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
                 && is_array($data['o:owner'])
                 && array_key_exists('o:id', $data['o:owner'])
             ) {
-                if (is_numeric($data['o:owner']['o:id'])) {
-                    $owner = $this->getAdapter('users')
-                        ->findEntity($data['o:owner']['o:id']);
-                } elseif (null === $data['o:owner']['o:id']) {
-                    $owner = null;
+                $newOwnerId = $data['o:owner']['o:id'];
+                $newOwnerId = is_numeric($newOwnerId) ? (int) $newOwnerId : null;
+
+                $oldOwnerId = $owner ? $owner->getId() : null;
+
+                if ($newOwnerId !== $oldOwnerId) {
+                    $this->authorize($entity, 'change-owner');
+                    $owner = $newOwnerId
+                        ? $this->getAdapter('users')->findEntity($newOwnerId)
+                        : null;
                 }
             }
         }

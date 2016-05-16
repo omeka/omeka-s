@@ -75,11 +75,16 @@ class Youtube implements IngesterInterface
             }
         }
 
-        $media->setData([
-            'id' => $youtubeId,
-            'start' => $request->getValue('start'),
-            'end' => $request->getValue('end'),
-        ]);
+        $mediaData = ['id' => $youtubeId];
+        $start = trim($request->getValue('start'));
+        if (is_numeric($start)) {
+            $mediaData['start'] = $start;
+        }
+        $end = trim($request->getValue('end'));
+        if (is_numeric($end)) {
+            $mediaData['end'] = $end;
+        }
+        $media->setData($mediaData);
     }
 
     /**

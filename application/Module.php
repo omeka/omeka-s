@@ -214,15 +214,21 @@ class Module extends AbstractModule
         }
         $data = $event->getTarget()->mediaData();
         $jsonLd = $event->getParam('jsonLd');
-        $jsonLd['@context']['time'] = 'http://www.w3.org/2006/time#';
-        $jsonLd['time:hasBeginning'] = [
-            '@value' => $data['start'],
-            '@type' => 'time:seconds',
-        ];
-        $jsonLd['time:hasEnd'] = [
-            '@value' => $data['end'],
-            '@type' => 'time:seconds',
-        ];
+        if (isset($data['start']) || isset($data['end'])) {
+            $jsonLd['@context']['time'] = 'http://www.w3.org/2006/time#';
+            if (isset($data['start'])) {
+                $jsonLd['time:hasBeginning'] = [
+                    '@value' => $data['start'],
+                    '@type' => 'time:seconds',
+                ];
+            }
+            if (isset($data['end'])) {
+                $jsonLd['time:hasEnd'] = [
+                    '@value' => $data['end'],
+                    '@type' => 'time:seconds',
+                ];
+            }
+        }
         $event->setParam('jsonLd', $jsonLd);
     }
 

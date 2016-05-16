@@ -454,8 +454,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         if (!$acl->userIsAllowed($entity, $privilege)) {
             throw new Exception\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(
-                    'Permission denied for the current user to %s the %s resource.
-                '),
+                    'Permission denied for the current user to %s the %s resource.'
+                ),
                 $privilege, $entity->getResourceId()
             ));
         }

@@ -70,7 +70,7 @@ class Url implements IngesterInterface
         $fileManager = $this->fileManager;
         $file = $fileManager->getTempFile();
         $file->setSourceName($uri->getPath());
-        if (!$this->downloadFile($uri, $file->getTempPath(), $errorStore)) {
+        if (!$fileManager->downloadFile($uri, $file->getTempPath(), $errorStore)) {
             return;
         }
 

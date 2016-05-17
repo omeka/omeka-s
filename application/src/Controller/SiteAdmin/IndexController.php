@@ -189,13 +189,11 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData, [], true);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
+                if (!$response->isError()) {
                     $this->messenger()->addSuccess('Navigation updated.');
                     return $this->redirect()->refresh();
                 }
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($response->getErrors());
             }
         }
 

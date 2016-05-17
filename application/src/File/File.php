@@ -92,6 +92,10 @@ class File
         return $this->storageBaseName;
     }
 
+    public function setStorageBaseName($name) {
+        $this->storageBaseName = $name;
+    }
+
     /**
      * Get the Internet media type of the file.
      *

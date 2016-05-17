@@ -2288,6 +2288,27 @@ input[type="text"].value-language,
         visibility: visible;
     }
 
+    &.loading {
+        overflow: hidden;
+
+        * {
+            visibility: hidden;
+        }
+
+        &:after {
+            @include fa-icon();
+            content: $fa-var-circle-o-notch;
+            position: absolute;
+            top: .75em;
+            left: calc(50% - .6em);
+            font-size: 4em;
+            animation: fa-spin 1s infinite linear;
+            height: 0.95em;
+            width: 1.2em;
+            text-align: center;
+        }
+    }
+
     a.o-icon-close {
         position: absolute;
         right: rhythm(.5);

@@ -1,33 +1,20 @@
 (function($) {
-    function loadSidebarContent(sidebarContent, url, data) {
-        $.ajax({
-            'url': url,
-            'data': data,
-            'type': 'get'
-        }).done(function(data) {
-            sidebarContent.html(data);
-            $(document).trigger('o:sidebar-content-loaded');
-        }).error(function() {
-            sidebarContent.html("<p>Something went wrong</p>");
-        });
-    }
-
     function searchResources() {
         var searchInput = $('#resource-list-search');
         var searchValue = searchInput.val();
-        loadSidebarContent(searchInput.closest('div.sidebar-content'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'value[in][]': searchValue});
+        Omeka.populateSidebarContent(searchInput.closest('.sidebar'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'value[in][]': searchValue});
     }
 
     $(document).ready( function() {
         $('#select-resource').on('click', '.pagination a', function (e) {
             e.preventDefault();
-            loadSidebarContent($(this).closest('div.sidebar-content'), $(this).attr('href'));
+            Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).attr('href'));
         });
 
         $('#select-resource').on('keydown', '.pagination input', function (e) {
             if ((e.keycode || e.which) == '13') {
                 e.preventDefault();
-                loadSidebarContent($(this).closest('div.sidebar-content'), $(this).data('paginationUrl'), $(this).serialize());
+                Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).data('paginationUrl'), $(this).serialize());
             }
         });
 

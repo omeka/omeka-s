@@ -1,33 +1,14 @@
 var Omeka = {
-    openSidebar : function(context,target) {
-        //close delete sidebar if open
-        if (!context.hasClass('delete')) {
-            if ($('#delete').hasClass('active')) {
-                $('#delete').removeClass('active');
-            }
-        }
-
-        //if already inside top sidebar, open the inner sidebar
-        if (context.parents('.sidebar').length == 0) {
-            var sidebar = $('#content > .sidebar');
-        } else {
-            var sidebar = $('.sidebar > .sidebar');
-        }
-        if (typeof target !== 'undefined') {
-            var sidebar = $(target + '.sidebar');
-        }
-        if (context.attr('data-sidebar-content-url')) {
-            this.populateSidebarContent(context, sidebar);
-        }
-
+    openSidebar : function(sidebar) {
         sidebar.addClass('active');
         this.reserveSidebarSpace();
-        return sidebar;
+        sidebar.trigger('o:sidebar-opened');
     },
 
     closeSidebar : function(sidebar) {
         sidebar.removeClass('active');
         this.reserveSidebarSpace();
+        sidebar.trigger('o:sidebar-closed');
     },
 
     reserveSidebarSpace: function() {
@@ -36,18 +17,21 @@ var Omeka = {
         $('body').toggleClass('sidebar-open', openSidebars > 0);
     },
 
-    populateSidebarContent : function(context, sidebar) {
-        var url = context.data('sidebar-content-url');
+    populateSidebarContent : function(sidebar, url, data) {
         var sidebarContent = sidebar.find('.sidebar-content');
+        sidebar.addClass('loading');
         sidebarContent.empty();
         $.ajax({
             'url': url,
+            'data': data,
             'type': 'get'
         }).done(function(data) {
             sidebarContent.html(data);
-            $(document).trigger('o:sidebar-content-loaded');
+            $(sidebar).trigger('o:sidebar-content-loaded');
         }).error(function() {
             sidebarContent.html("<p>Something went wrong</p>");
+        }).complete(function () {
+            sidebar.removeClass('loading');
         });
     },
 
@@ -147,13 +131,26 @@ var Omeka = {
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
-            var sidebarSelector = $(this).data('sidebar-selector');
-            Omeka.openSidebar($(this), sidebarSelector);
+            var sidebarSelector = $(this).data('sidebar-selector') || '#content > .sidebar';
+            var sidebar = $(sidebarSelector);
+
+            if ($(this).data('sidebar-content-url')) {
+                Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            }
+            Omeka.openSidebar(sidebar);
         });
 
         $('#content').on('click', '.button.delete, button.delete', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this), '#delete');
+            var sidebar = $('#delete');
+            Omeka.openSidebar(sidebar);
+
+            // Auto-close if other sidebar opened
+            $('body').one('o:sidebar-opened', '.sidebar', function () {
+                if (!sidebar.is(this)) {
+                    Omeka.closeSidebar(sidebar);
+                }
+            });
         });
 
         $('.sidebar').on('click', '.sidebar-close', function(e) {

@@ -2632,6 +2632,29 @@ textarea {
     left: 75%;
     visibility: visible;
   }
+  .sidebar.loading {
+    overflow: hidden;
+  }
+  .sidebar.loading * {
+    visibility: hidden;
+  }
+  .sidebar.loading:after {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    position: absolute;
+    top: .75em;
+    left: calc(50% - .6em);
+    font-size: 4em;
+    animation: fa-spin 1s infinite linear;
+    height: 0.95em;
+    width: 1.2em;
+    text-align: center;
+  }
   .sidebar a.o-icon-close {
     position: absolute;
     right: 0.75em;

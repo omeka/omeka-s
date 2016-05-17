@@ -93,11 +93,13 @@
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var selectButton = $(this);
+            var sidebar = $('#select-resource');
             var term = selectButton.closest('.resource-values').data('property-term');
             $('.selecting-resource').removeClass('selecting-resource');
             selectButton.closest('.value').addClass('selecting-resource');
             $('#select-item a').data('property-term', term);
-            Omeka.openSidebar(selectButton, "#select-resource");
+            Omeka.populateSidebarContent(sidebar, selectButton.data('sidebar-content-url'));
+            Omeka.openSidebar(sidebar);
         });
 
         $('.visibility [type="checkbox"]').on('click', function() {

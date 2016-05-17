@@ -47,8 +47,10 @@
             }
 
             $('#attachment-caption .caption').val(caption);
-            Omeka.openSidebar($(this), '#attachment-options');
-            $('#attachment-options').scrollTop(0);
+            var sidebar = $('#attachment-options');
+            Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            Omeka.openSidebar(sidebar);
+            sidebar.scrollTop(0);
         });
     }
 
@@ -166,7 +168,7 @@
         $('#blocks').on('click', '.attachment-add', function(e) {
             setSelectingAttachment($(this));
             openAttachmentOptions().done(function () {
-                Omeka.openSidebar($('#attachment-item-select'), '#select-resource');
+                $('#attachment-item-select').click();
             });
         });
 
@@ -185,7 +187,9 @@
         // Enable item selection for attachments.
         $('#content').on('click', '#attachment-item-select', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($(this), '#select-resource');
+            var sidebar = $('#select-resource');
+            Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            Omeka.openSidebar(sidebar);
         });
 
         // Update attachment options sidebar after selecting item.

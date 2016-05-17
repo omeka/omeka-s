@@ -49,7 +49,6 @@ class Fallback implements LinkInterface
         return [
             'type' => 'uri',
             'uri' => null,
-            'label' => $data['label'],
         ];
     }
 

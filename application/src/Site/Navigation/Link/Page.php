@@ -48,7 +48,6 @@ class Page implements LinkInterface
         $sitePage = $pages[$data['id']];
 
         return [
-            'label' => $this->getLabel($data, $site),
             'route' => 'site/page',
             'params' => [
                 'site-slug' => $site->slug(),

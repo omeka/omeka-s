@@ -31,7 +31,6 @@ class Browse implements LinkInterface
     {
         parse_str($data['query'], $query);
         return [
-            'label' => $this->getLabel($data, $site),
             'route' => 'site/resource',
             'params' => [
                 'site-slug' => $site->slug(),

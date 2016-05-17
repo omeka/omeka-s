@@ -40,7 +40,6 @@ class Url implements LinkInterface
         return [
             'type' => 'uri',
             'uri' => $data['url'],
-            'label' => $this->getLabel($data, $site),
         ];
     }
 

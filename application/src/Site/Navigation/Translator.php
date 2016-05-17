@@ -63,9 +63,11 @@ class Translator
         {
             $linksOut = [];
             foreach ($linksIn as $data) {
-                $linkData = $manager->get($data['type'])->toJstree($data['data'], $site);
+                $linkType = $manager->get($data['type']);
+                $linkLabel = $linkType->getLabel($data['data'], $site);
+                $linkData = $linkType->toJstree($data['data'], $site);
                 $linksOut[] = [
-                    'text' => $linkData['label'],
+                    'text' => $linkLabel,
                     'data' => [
                         'type' => $data['type'],
                         'data' => $linkData,

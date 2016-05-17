@@ -98,9 +98,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                     text: link.text(),
                     data: {
                         type: link.data('type'),
-                        data: {
-                            label: link.text()
-                        }
+                        data: {}
                     }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
@@ -118,10 +116,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                     data: {
                         type: link.data('type'),
                         data: {
-                            label: link.data('label'),
-                            id: link.data('id'),
-                            pageSlug: link.data('slug'),
-                            pageTitle: link.data('label')
+                            id: link.data('id')
                         }
                     }
                 });

@@ -7,11 +7,11 @@ use Omeka\Stdlib\ErrorStore;
 interface LinkInterface
 {
     /**
-     * Get the default label.
+     * Get the link type name.
      *
      * @return string
      */
-    public function getLabel();
+    public function getName();
 
     /**
      * Get the view template used to render the link form.
@@ -27,6 +27,15 @@ interface LinkInterface
      * @return bool
      */
     public function isValid(array $data, ErrorStore $errorStore);
+
+    /**
+     * Get the link label.
+     *
+     * @param array $data
+     * @param SiteRepresentation $site
+     * @return array
+     */
+    public function getLabel(array $data, SiteRepresentation $site);
 
     /**
      * Translate from site navigation data to Zend Navigation configuration.

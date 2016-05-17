@@ -6,7 +6,7 @@ use Omeka\Stdlib\ErrorStore;
 
 class Browse implements LinkInterface
 {
-    public function getLabel()
+    public function getName()
     {
         return 'Browse'; // @translate
     }
@@ -18,22 +18,20 @@ class Browse implements LinkInterface
 
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        if (!isset($data['label'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: browse link missing label');
-            return false;
-        }
-        if (!isset($data['query'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: browse link missing query');
-            return false;
-        }
         return true;
+    }
+
+    public function getLabel(array $data, SiteRepresentation $site)
+    {
+        return isset($data['label']) && '' !== trim($data['label'])
+            ? $data['label'] : $this->getName();
     }
 
     public function toZend(array $data, SiteRepresentation $site)
     {
         parse_str($data['query'], $query);
         return [
-            'label' => $data['label'],
+            'label' => $this->getLabel($data, $site),
             'route' => 'site/resource',
             'params' => [
                 'site-slug' => $site->slug(),
@@ -46,11 +44,9 @@ class Browse implements LinkInterface
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
-        $label = isset($data['label']) ? $data['label'] : $sitePage->title();
-        $query = isset($data['query']) ? $data['query'] : null;
         return [
-            'label' => $label,
-            'query' => $query,
+            'label' => $data['label'],
+            'query' => $data['query'],
         ];
     }
 }

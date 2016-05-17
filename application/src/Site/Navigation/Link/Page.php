@@ -6,7 +6,7 @@ use Omeka\Stdlib\ErrorStore;
 
 class Page implements LinkInterface
 {
-    public function getLabel()
+    public function getName()
     {
         return 'Page'; // @translate
     }
@@ -18,23 +18,23 @@ class Page implements LinkInterface
 
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        if (!isset($data['label'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing label');
-            return false;
-        }
-        if (!isset($data['id'])) {
+        if (!isset($data['id']) || !is_numeric($data['id'])) {
             $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page ID');
             return false;
         }
-        if (!isset($data['pageSlug'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page slug');
-            return false;
-        }
-        if (!isset($data['pageTitle'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page title');
-            return false;
-        }
         return true;
+    }
+
+    public function getLabel(array $data, SiteRepresentation $site)
+    {
+        if (isset($data['label']) && '' !== trim($data['label'])) {
+            return $data['label'];
+        }
+        $pages = $site->pages();
+        if (!isset($pages[$data['id']])) {
+            return '[Missing Page]';
+        }
+        return $pages[$data['id']]->title();
     }
 
     public function toZend(array $data, SiteRepresentation $site)
@@ -48,7 +48,7 @@ class Page implements LinkInterface
         $sitePage = $pages[$data['id']];
 
         return [
-            'label' => $data['label'],
+            'label' => $this->getLabel($data, $site),
             'route' => 'site/page',
             'params' => [
                 'site-slug' => $site->slug(),
@@ -59,19 +59,9 @@ class Page implements LinkInterface
 
     public function toJstree(array $data, SiteRepresentation $site)
     {
-        $pages = $site->pages();
-        if (!isset($pages[$data['id']])) {
-            // Handle an invalid page.
-            return $data;
-        }
-
-        $sitePage = $pages[$data['id']];
-        $label = isset($data['label']) ? $data['label'] : $sitePage->title();
         return [
-            'label' => $label,
-            'id' => $sitePage->id(),
-            'pageSlug' => $sitePage->slug(),
-            'pageTitle' => $sitePage->title(),
+            'label' => $data['label'],
+            'id' => $data['id'],
         ];
     }
 }

@@ -6,7 +6,7 @@ use Omeka\Stdlib\ErrorStore;
 
 class Url implements LinkInterface
 {
-    public function getLabel()
+    public function getName()
     {
         return 'Custom URL'; // @translate
     }
@@ -18,15 +18,21 @@ class Url implements LinkInterface
 
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        if (!isset($data['label'])) {
+        if (!isset($data['label']) || '' === $data['label']) {
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing label');
             return false;
         }
-        if (!isset($data['url'])) {
+        if (!isset($data['url']) || '' === $data['url']) {
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL');
             return false;
         }
         return true;
+    }
+
+    public function getLabel(array $data, SiteRepresentation $site)
+    {
+        return isset($data['label']) && '' !== trim($data['label'])
+            ? $data['label'] : $this->getName();
     }
 
     public function toZend(array $data, SiteRepresentation $site)
@@ -34,7 +40,7 @@ class Url implements LinkInterface
         return [
             'type' => 'uri',
             'uri' => $data['url'],
-            'label' => $data['label'],
+            'label' => $this->getLabel($data, $site),
         ];
     }
 

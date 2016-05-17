@@ -31,8 +31,8 @@ class NavigationLink extends AbstractHelper
         return array_diff($this->getTypes(), ['page']);
     }
 
-    public function getLabel($type)
+    public function getName($type)
     {
-        return $this->manager->get($type)->getLabel();
+        return $this->manager->get($type)->getName();
     }
 }

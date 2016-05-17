@@ -29,7 +29,9 @@ class Translator
         {
             $linksOut = [];
             foreach ($linksIn as $key => $data) {
-                $linksOut[$key] = $manager->get($data['type'])->toZend($data['data'], $site);
+                $linkType = $manager->get($data['type']);
+                $linksOut[$key] = $linkType->toZend($data['data'], $site);
+                $linksOut[$key]['label'] = $linkType->getLabel($data['data'], $site);
                 if (isset($data['links'])) {
                     $linksOut[$key]['pages'] = $buildLinks($data['links']);
                 }
@@ -63,9 +65,11 @@ class Translator
         {
             $linksOut = [];
             foreach ($linksIn as $data) {
-                $linkData = $manager->get($data['type'])->toJstree($data['data'], $site);
+                $linkType = $manager->get($data['type']);
+                $linkLabel = $linkType->getLabel($data['data'], $site);
+                $linkData = $linkType->toJstree($data['data'], $site);
                 $linksOut[] = [
-                    'text' => $linkData['label'],
+                    'text' => $linkLabel,
                     'data' => [
                         'type' => $data['type'],
                         'data' => $linkData,

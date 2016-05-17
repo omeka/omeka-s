@@ -23,10 +23,10 @@ $escape = $this->plugin('escapeHtml');
         <select id="nav-custom-links">
             <option value=""><?php echo $this->translate('Select below&hellip;'); ?></option>
             <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
-            <?php $label = $this->navigationLink()->getLabel($type); ?>
+            <?php $name = $this->navigationLink()->getName($type); ?>
             <option
                 data-type="<?php echo $escape($type); ?>"
-                value="<?php echo $escape($type); ?>"><?php echo $escape($this->translate($label)); ?></option>
+                value="<?php echo $escape($type); ?>"><?php echo $escape($this->translate($name)); ?></option>
             <?php endforeach; ?>
         </select>
     </div>

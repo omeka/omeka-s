@@ -19,7 +19,7 @@ class Fallback implements LinkInterface
         $this->name = $name;
     }
 
-    public function getLabel()
+    public function getName()
     {
         return 'Fallback';
     }
@@ -39,12 +39,16 @@ class Fallback implements LinkInterface
         return true;
     }
 
+    public function getLabel(array $data, SiteRepresentation $site)
+    {
+        return $this->getName();
+    }
+
     public function toZend(array $data, SiteRepresentation $site)
     {
         return [
             'type' => 'uri',
             'uri' => null,
-            'label' => $data['label'],
         ];
     }
 

@@ -2,12 +2,13 @@
 $escape = $this->plugin('escapeHtml');
 
 $pages = $site->pages();
-if (!isset($pages[$data['id']])) {
-    $page = $this->translate('[Missing Page]');
-} else {
-    $page = sprintf('%s (%s)', $data['pageTitle'], $data['pageSlug']);
+$pageLabel = null;
+if (isset($pages[$data['id']])) {
+    $page = $pages[$data['id']];
+    $pageLabel = sprintf('%s (%s)', $page->title(), $page->slug());
 }
+$label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
 ?>
-<label><?php echo $this->translate('Type'); ?> <input type="text" value="<?php echo $escape($this->translate($link->getLabel())); ?>" disabled></label>
-<label><?php echo $this->translate('Page'); ?> <input type="text" value="<?php echo $escape($page); ?>" disabled></label>
-<label><?php echo $this->translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($data['label']); ?>"></label>
+<label><?php echo $this->translate('Type'); ?> <input type="text" value="<?php echo $escape($this->translate($link->getName())); ?>" disabled></label>
+<label><?php echo $this->translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
+<label><?php echo $this->translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>

@@ -27,11 +27,19 @@ $.jstree.plugins.removenode = function(options, parent) {
                     icon.siblings('.jstree-removenode-undo').show();
                     node.addClass('jstree-removenode-removed');
                     nodeObj.data.remove = true;
+                    // Remove required flags else the browser will not submit.
+                    var required = node.find(':input[required]');
+                    required.attr('data-required', true);
+                    required.prop('required', false);
                 } else {
                     // Handle undo node removal.
                     icon.siblings('.jstree-removenode-remove').show();
                     node.removeClass('jstree-removenode-removed');
                     nodeObj.data.remove = false;
+                    // Restore required flags.
+                    var required = node.find(':input[data-required]');
+                    required.removeAttr('data-required');
+                    required.prop('required', true);
                 }
             }, this)
         );

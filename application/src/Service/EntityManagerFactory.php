@@ -9,6 +9,7 @@ use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\Utf8mb4;
 use Omeka\Db\Event\Subscriber\Entity;
+use Omeka\Db\ProxyAutoloader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -58,6 +59,11 @@ class EntityManagerFactory implements FactoryInterface
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+
+        // Load proxies from different directories
+        $emConfig->setAutoGenerateProxyClasses(-1);
+        ProxyAutoloader::register($config['entity_manager']['proxy_paths'],
+            $emConfig->getProxyNamespace());
 
         // Set up the entity manager.
         $connection = $serviceLocator->get('Omeka\Connection');

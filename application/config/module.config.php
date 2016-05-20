@@ -46,6 +46,9 @@ return [
             'Omeka\Entity\Media'   => 'Omeka\Entity\Media',
             'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
         ],
+        'proxy_paths' => [
+            OMEKA_PATH . '/data/doctrine-proxies',
+        ]
     ],
     'installer' => [
         'pre_tasks' => [

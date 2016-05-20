@@ -868,6 +868,55 @@ div[role="main"] {
 
 /* @end */
 
+/* @group ----- Dashboard ----- */
+
+#dashboard > p {
+    width: 100%;
+    margin-top: rhythm(.5);
+}
+
+#manage-resources .add.button:before {
+    content: $fa-var-plus;
+    font-family: "FontAwesome";
+}
+
+.panel {
+    @include span(50% - gutter());
+    border-color: $border-gray;
+    @include rhythm-borders(1px, .25, $base-font-size, solid);
+    margin: 0 gutter() 0 0;
+    float: left;
+    overflow: hidden;
+}
+
+.panel .row {
+    @include field-row;
+}
+
+.panel > .row:last-child {
+    margin-bottom: 0;
+}
+
+.panel .button {
+    float: right;
+    margin: 0;
+}
+
+.panel .row a.button {
+    box-shadow: none;
+    padding: 0;
+    color: $red;
+    background-color: transparent;
+}
+
+.panel h2 {
+    font-size: 1.125 * $base-font-size;
+    line-height: $base-line-height;
+    margin-bottom: rhythm(.25, 1.25 * $base-font-size);
+}
+
+/* @end */
+
 /* @group ----- Browse views ----- */
 
 .browse .resource-name {

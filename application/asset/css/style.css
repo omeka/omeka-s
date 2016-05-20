@@ -1263,6 +1263,62 @@ textarea {
   }
 
   /* @end */
+  /* @group ----- Dashboard ----- */
+  #dashboard > p {
+    width: 100%;
+    margin-top: 0.75em;
+  }
+
+  #manage-resources .add.button:before {
+    content: "";
+    font-family: "FontAwesome";
+  }
+
+  .panel {
+    width: 48.95833%;
+    float: left;
+    padding-left: 1.04167%;
+    padding-right: 1.04167%;
+    border-color: #dfdfdf;
+    border-width: 0.0625em;
+    border-style: solid;
+    padding: 0.3125em;
+    margin: 0 1.04167% 0 0;
+    float: left;
+    overflow: hidden;
+  }
+
+  .panel .row {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.04);
+    padding: 0.375em;
+    position: relative;
+    margin-bottom: 0.375em;
+  }
+
+  .panel > .row:last-child {
+    margin-bottom: 0;
+  }
+
+  .panel .button {
+    float: right;
+    margin: 0;
+  }
+
+  .panel .row a.button {
+    box-shadow: none;
+    padding: 0;
+    color: #A91919;
+    background-color: transparent;
+  }
+
+  .panel h2 {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 0.3em;
+  }
+
+  /* @end */
   /* @group ----- Browse views ----- */
   .browse .resource-name {
     display: inline-block;

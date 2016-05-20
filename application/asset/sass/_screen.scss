@@ -786,10 +786,8 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-caret-right;
     }
 
-    header ul.navigation:not(:last-of-type) {
+    header ul.navigation {
         margin-bottom: rhythm(.25);
-        border-color: darken($blue, 5%);
-        @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
     #menu {
@@ -807,6 +805,8 @@ nav.pagination + *:not(.sorting) {
 
     #menu h5 {
         text-transform: uppercase;
+        border-color: darken($blue, 5%);
+        @include leading-border(1px, .25, $base-font-size, solid);
     }
 
     #menu .expand,
@@ -820,6 +820,17 @@ nav.pagination + *:not(.sorting) {
     /* @end */
 
     /* @group ----- Site-level navigation ----- */
+
+    #site-nav {
+        background-color: darken($blue, 5%);
+        padding: rhythm(.25);
+        margin-bottom: rhythm(.5);
+        border-radius: 3px;
+    }
+
+    #site-nav h4 {
+        border-color: darken($blue, 10%);
+    }
 
     #menu .pages:before {
         content: $fa-var-file-o;

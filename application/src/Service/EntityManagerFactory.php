@@ -54,6 +54,11 @@ class EntityManagerFactory implements FactoryInterface
         );
         $emConfig->setProxyDir(OMEKA_PATH . '/data/doctrine-proxies');
         $emConfig->addFilter('visibility', 'Omeka\Db\Filter\VisibilityFilter');
+        // Add user defined functions.
+        $emConfig->addCustomNumericFunction('acos', 'Omeka\Db\Udf\Acos');
+        $emConfig->addCustomNumericFunction('cos', 'Omeka\Db\Udf\Cos');
+        $emConfig->addCustomNumericFunction('radians', 'Omeka\Db\Udf\Radians');
+        $emConfig->addCustomNumericFunction('sin', 'Omeka\Db\Udf\Sin');
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html

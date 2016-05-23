@@ -1,6 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$globalNav = $this->navigation('Zend\Navigation\AdminSite')->menu() .
+$siteNav = (string) $this->navigation('Zend\Navigation\AdminSite')->menu();
+$globalNav =
     '<h5>' . $this->translate('Resources') . '</h5>' . $this->navigation('Zend\Navigation\AdminResource')->menu() .
     '<h5>' . $this->translate('Admin') . '</h5>' . $this->navigation('Zend\Navigation\AdminGlobal')->menu();
 ?>
@@ -37,22 +38,17 @@ $globalNav = $this->navigation('Zend\Navigation\AdminSite')->menu() .
         </form>
     </div>
     <nav id="menu" role="navigation">
-    <?php if (isset($site)): ?>
-        <h4>
-            <?php echo $site->link($site->title(), 'show'); ?>
-        </h4>
-        <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
+        <?php echo $siteNav; ?>
+        <?php if (isset($site)): ?>
+        <nav id="site-nav">
+            <h4>
+                <?php echo $site->link($site->title(), 'show'); ?>
+            </h4>
+            <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
-    <?php endif; ?>
-    <?php if (isset($site)): ?>
-        <h4><?php echo $this->translate('Global navigation'); ?></h4>
-        <a href="#" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></a>
-        <div class="collapsible">
-            <?php echo $globalNav; ?>
-        </div>
-    <?php else: ?>
+        </nav>
+        <?php endif; ?>
         <?php echo $globalNav; ?>
-    <?php endif; ?>
     </nav>
 </header>
 

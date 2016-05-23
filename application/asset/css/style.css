@@ -1184,12 +1184,8 @@ textarea {
     content: "";
   }
 
-  header ul.navigation:not(:last-of-type) {
+  header ul.navigation {
     margin-bottom: 0.375em;
-    border-color: #364252;
-    border-bottom-width: 0.0625em;
-    border-bottom-style: solid;
-    padding-bottom: 0.3125em;
   }
 
   #menu {
@@ -1207,6 +1203,10 @@ textarea {
 
   #menu h5 {
     text-transform: uppercase;
+    border-color: #364252;
+    border-top-width: 0.0625em;
+    border-top-style: solid;
+    padding-top: 0.3125em;
   }
 
   #menu .expand,
@@ -1219,6 +1219,17 @@ textarea {
 
   /* @end */
   /* @group ----- Site-level navigation ----- */
+  #site-nav {
+    background-color: #364252;
+    padding: 0.375em;
+    margin-bottom: 0.75em;
+    border-radius: 3px;
+  }
+
+  #site-nav h4 {
+    border-color: #2c3542;
+  }
+
   #menu .pages:before {
     content: "";
   }

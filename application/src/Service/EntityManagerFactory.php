@@ -53,11 +53,21 @@ class EntityManagerFactory implements FactoryInterface
             $config['entity_manager']['mapping_classes_paths'], $isDevMode
         );
         $emConfig->setProxyDir(OMEKA_PATH . '/data/doctrine-proxies');
-        $emConfig->addFilter('visibility', 'Omeka\Db\Filter\VisibilityFilter');
+
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+
+        // Add SQL filters.
+        foreach ($config['entity_manager']['filters'] as $name => $className) {
+            $emConfig->addFilter($name, $className);
+        }
+
+        // Add user defined functions.
+        $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
+        $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
+        $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
 
         // Set up the entity manager.
         $connection = $serviceLocator->get('Omeka\Connection');

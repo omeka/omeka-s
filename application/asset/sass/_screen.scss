@@ -3139,54 +3139,6 @@ body.sidebar-open #content {
 
 /* @end */
 
-/* @group ----- Advanced Search ----- */
-
-#advanced-search .field.removable .value:only-of-type .remove-value {
-    display: none;
-}
-
-#advanced-search .remove-value {
-    background-color: transparent;
-    color: $red;
-    display: inline-block;
-    text-indent: -9999px;
-    position: relative;
-    width: 1.5 * $base-line-height;
-    text-align: center;
-
-    &:before{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 1.5 * $base-line-height;
-        line-height: 1.5 * $base-line-height;
-        text-indent: 0;
-    }
-
-    &:hover {
-        color: $red;
-    }
-}
-
-#advanced-search .value {
-    margin-bottom: 0;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-
-#advanced-search .value select, #advanced-search .value input {
-    margin-left: 5px;
-    min-width: 0;
-}
-
-#advanced-search .value select:first-child,
-#advanced-search .value input:first-child {
-    margin-left: 0;
-}
-
-/* @end */
-
 /* @group ----- Minimal Layout ----- */
 
 body.minimal {

@@ -1,4 +1,6 @@
 <?php
+$this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+
 // Prepare the resource class query.
 if (isset($query['resource_class_id'])) {
     $resourceClassId = $query['resource_class_id'] ;

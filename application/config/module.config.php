@@ -46,6 +46,14 @@ return [
             'Omeka\Entity\Media'   => 'Omeka\Entity\Media',
             'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
         ],
+        'filters' => [
+            'visibility' => 'Omeka\Db\Filter\VisibilityFilter',
+        ],
+        'functions' => [
+            'numeric' => [],
+            'string' => [],
+            'datetime' => [],
+        ],
     ],
     'installer' => [
         'pre_tasks' => [

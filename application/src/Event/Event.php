@@ -78,6 +78,7 @@ class Event extends ZendEvent
     const VIEW_SHOW_SECTION_NAV = 'view.show.section_nav';
     const VIEW_ADD_SECTION_NAV  = 'view.add.section_nav';
     const VIEW_EDIT_SECTION_NAV = 'view.edit.section_nav';
+    const VIEW_ADVANCED_SEARCH = 'view.advanced_search';
 
     // Site settings event
     const SITE_SETTINGS_FORM = 'site_settings.form';

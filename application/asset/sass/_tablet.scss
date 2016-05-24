@@ -84,18 +84,15 @@ header nav#site-nav {
     margin-bottom: 0;
 }
 
+header nav#site-nav h5 {
+    border-color: $border-gray;
+    @include leading-border(1px, .25, .875 * $base-font-size);
+    margin-bottom: 0;
+}
+
 header nav#site-nav h5 a {
     padding: 0;
     border-bottom: 0;
-}
-
-header nav#site-nav h5 a:before {
-    content: $fa-var-laptop;
-    font-family: "FontAwesome";
-    width: rhythm();
-    display: inline-block;
-    font-weight: normal;
-    font-size: $base-font-size;
 }
 
 #menu.active,
@@ -228,7 +225,7 @@ td .o-icon-private {
 #menu a.expand,
 #menu a.collapse {
     height: 1.5 * $base-line-height;
-    margin: rhythm(-1.5) 0 0;
+    margin: rhythm(-1.75) 0 0;
     padding: 0 rhythm(.5) 0 0;
 
     &:before,

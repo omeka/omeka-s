@@ -841,6 +841,15 @@ nav.pagination + *:not(.sorting) {
         margin-bottom: rhythm(.25, .875 * $base-font-size);
     }
 
+    header nav#site-nav h5 a:before {
+        content: $fa-var-laptop;
+        font-family: "FontAwesome";
+        width: rhythm();
+        display: inline-block;
+        font-weight: normal;
+        font-size: $base-font-size;
+    }
+
     #menu .pages:before {
         content: $fa-var-file-o;
     }

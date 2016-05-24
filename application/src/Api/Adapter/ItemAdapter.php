@@ -61,12 +61,14 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
             $itemSets = array_filter($itemSets, 'is_numeric');
 
-            $itemSetAlias = $this->createAlias();
-            $qb->innerJoin(
-                $this->getEntityClass() . '.itemSets',
-                $itemSetAlias, 'WITH',
-                $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
-            );
+            if ($itemSets) {
+                $itemSetAlias = $this->createAlias();
+                $qb->innerJoin(
+                    $this->getEntityClass() . '.itemSets',
+                    $itemSetAlias, 'WITH',
+                    $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
+                );
+            }
         }
 
         if (isset($query['site_id'])) {

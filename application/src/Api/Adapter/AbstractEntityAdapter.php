@@ -218,7 +218,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         $this->limitQuery($qb, $query);
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
-        $paginator = new Paginator($qb);
+        $paginator = new Paginator($qb, false);
         $representations = [];
         foreach ($paginator as $entity) {
             if (is_array($entity)) {

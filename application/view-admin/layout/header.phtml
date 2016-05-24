@@ -49,6 +49,10 @@ $globalNav =
         </nav>
         <?php endif; ?>
         <?php echo $globalNav; ?>
+        <?php if ($this->navigation('Zend\Navigation\AdminModule')->count() > 0): ?>
+        <h5><?php echo $this->translate('Modules'); ?></h5>
+        <?php echo $this->navigation('Zend\Navigation\AdminModule')->menu(); ?>
+        <?php endif; ?>
     </nav>
 </header>
 

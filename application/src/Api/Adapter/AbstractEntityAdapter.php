@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
@@ -211,30 +212,25 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
         ]);
         $this->getEventManager()->trigger($event);
 
-        // Get the total results.
-        $totalResultsQb = clone $qb;
-        $totalResults = $totalResultsQb
-            ->resetDQLPart('groupBy')
-            ->select("COUNT(DISTINCT $entityClass.id)")
-            ->getQuery()
-            ->getSingleScalarResult();
+        // Finish building the search query. In addition to any sorting the
+        // adapters add, always sort by entity ID.
+        $this->sortQuery($qb, $query);
+        $this->limitQuery($qb, $query);
+        $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
-        // Do not make the request if the max results (limit) is 0. Useful if
-        // the only information needed is total results.
+        $paginator = new Paginator($qb);
         $representations = [];
-        if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
-            // Finish building the search query. In addition to any sorting the
-            // adapters add, always sort by entity ID.
-            $this->sortQuery($qb, $query);
-            $qb->addOrderBy("$entityClass.id", $query['sort_order']);
-            $this->limitQuery($qb, $query);
-            foreach ($qb->getQuery()->getResult() as $entity) {
-                $representations[] = $this->getRepresentation($entity);
+        foreach ($paginator as $entity) {
+            if (is_array($entity)) {
+                // Remove non-entity columns added to the SELECT. You can use
+                // "AS HIDDEN {alias}" to avoid this condition.
+                $entity = $entity[0];
             }
+            $representations[] = $this->getRepresentation($entity);
         }
 
         $response = new Response($representations);
-        $response->setTotalResults($totalResults);
+        $response->setTotalResults(count($paginator));
         return $response;
     }
 

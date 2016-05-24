@@ -799,7 +799,7 @@ nav.pagination + *:not(.sorting) {
         position: relative;
     }
 
-    #menu h4 + a,
+    #menu h5 + a,
     #menu .expand,
     #menu .collapse {
         position: relative;
@@ -812,6 +812,7 @@ nav.pagination + *:not(.sorting) {
         text-transform: uppercase;
         border-color: darken($blue, 5%);
         @include leading-border(1px, .25, $base-font-size, solid);
+        margin-bottom: 0;
     }
 
     #menu .expand,
@@ -835,6 +836,9 @@ nav.pagination + *:not(.sorting) {
 
     #site-nav h5 {
         border-color: darken($blue, 10%);
+        @include leading-border(0px, 0, .875 * $base-font-size, solid);
+        @include trailing-border(1px, .25, .875 * $base-font-size, solid);
+        margin-bottom: rhythm(.25, .875 * $base-font-size);
     }
 
     #menu .pages:before {

@@ -196,12 +196,11 @@ td .o-icon-private {
     @include trailing-border(0px, .25, $base-font-size, solid);
 }
 
-#menu h4 a {
+#menu h5 a {
     padding: 0;
     border-bottom: 0;
 }
 
-#menu h4,
 #menu h5 {
     height: 1.5 * $base-line-height;
     color: #676767;
@@ -209,7 +208,6 @@ td .o-icon-private {
     background-color: $gray-on-white;
     border-color: $border-gray;
     @include trailing-border(1px, .25, $base-font-size, solid);
-    margin-bottom: 0;
 }
 
 #menu h5 {

@@ -1,6 +1,8 @@
 <?php
 return [
     'navigation' => [
+        'AdminModule' => [
+        ],
         'AdminSite' => [
             [
                 'label'      => 'Sites', // @translate

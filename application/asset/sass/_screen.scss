@@ -55,6 +55,11 @@ h3 {
     @include trailer(1, 1.5 * $base-font-size);
 }
 
+h5 {
+    font-size: .875 * $base-font-size;
+    @include trailer(1, .875 * $base-font-size);
+}
+
 p {
     margin: rhythm() 0;
 }
@@ -828,7 +833,7 @@ nav.pagination + *:not(.sorting) {
         border-radius: 3px;
     }
 
-    #site-nav h4 {
+    #site-nav h5 {
         border-color: darken($blue, 10%);
     }
 

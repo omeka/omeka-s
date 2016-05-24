@@ -41,9 +41,9 @@ $globalNav =
         <?php echo $siteNav; ?>
         <?php if (isset($site)): ?>
         <nav id="site-nav">
-            <h4>
+            <h5>
                 <?php echo $site->link($site->title(), 'show'); ?>
-            </h4>
+            </h5>
             <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
         <?php echo $this->navigation('Zend\Navigation\Site')->menu(); ?>
         </nav>

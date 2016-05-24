@@ -1,3 +1,5 @@
+@import "font-awesome/variables";
+
 script {
     display: none !important;
 }
@@ -73,6 +75,27 @@ header nav {
     top: -9999px;
     left: -9999px;
     z-index: 1000;
+}
+
+header nav#site-nav {
+    position: static;
+    background-color: #fff;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+header nav#site-nav h5 a {
+    padding: 0;
+    border-bottom: 0;
+}
+
+header nav#site-nav h5 a:before {
+    content: $fa-var-laptop;
+    font-family: "FontAwesome";
+    width: rhythm();
+    display: inline-block;
+    font-weight: normal;
+    font-size: $base-font-size;
 }
 
 #menu.active,
@@ -169,6 +192,10 @@ td .o-icon-private {
     @include trailing-border(1px, .25, $base-font-size, solid);
 }
 
+#menu li:last-child a {
+    @include trailing-border(0px, .25, $base-font-size, solid);
+}
+
 #menu h4 a {
     padding: 0;
     border-bottom: 0;
@@ -182,6 +209,12 @@ td .o-icon-private {
     background-color: $gray-on-white;
     border-color: $border-gray;
     @include trailing-border(1px, .25, $base-font-size, solid);
+    margin-bottom: 0;
+}
+
+#menu h5 {
+    padding: rhythm(.25, .875 * $base-font-size) rhythm(.5, .875 * $base-font-size);
+    @include trailing-border(1px, .25, .875 * $base-font-size, solid);
 }
 
 #menu h4 {

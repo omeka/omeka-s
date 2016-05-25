@@ -11,7 +11,7 @@ class FileSqlLogger implements SQLLogger
     /**
      * List of PDO and Doctrine built-in types
      */
-    const TYPES = [
+    protected $types = [
         PDO::PARAM_BOOL => 'PARAM_BOOL',
         PDO::PARAM_NULL => 'PARAM_NULL',
         PDO::PARAM_INT => 'PARAM_INT',
@@ -87,8 +87,8 @@ class FileSqlLogger implements SQLLogger
 
     protected function getType($type)
     {
-        if (array_key_exists($type, self::TYPES)) {
-            return self::TYPES[$type];
+        if (array_key_exists($type, $this->types)) {
+            return $this->types[$type];
         }
         return $type;
     }

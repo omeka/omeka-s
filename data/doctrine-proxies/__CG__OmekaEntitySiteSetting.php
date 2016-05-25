@@ -36,7 +36,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'site', 'value');
+            return ['__isInitialized__', 'id', 'site', 'value'];
         }
 
-        return array('__isInitialized__', 'id', 'site', 'value');
+        return ['__isInitialized__', 'id', 'site', 'value'];
     }
 
     /**
@@ -97,7 +97,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function setId($id)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array($id));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
         return parent::setId($id);
     }
@@ -194,7 +194,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -205,7 +205,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function setSite(\Omeka\Entity\Site $site)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSite', array($site));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSite', [$site]);
 
         return parent::setSite($site);
     }
@@ -216,7 +216,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function getSite()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSite', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSite', []);
 
         return parent::getSite();
     }
@@ -227,7 +227,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function setValue($value)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValue', array($value));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValue', [$value]);
 
         return parent::setValue($value);
     }
@@ -238,7 +238,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function getValue()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', []);
 
         return parent::getValue();
     }
@@ -249,7 +249,7 @@ class SiteSetting extends \Omeka\Entity\SiteSetting implements \Doctrine\ORM\Pro
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

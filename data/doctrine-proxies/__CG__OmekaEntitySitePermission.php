@@ -36,7 +36,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'site', 'user', 'role');
+            return ['__isInitialized__', 'id', 'site', 'user', 'role'];
         }
 
-        return array('__isInitialized__', 'id', 'site', 'user', 'role');
+        return ['__isInitialized__', 'id', 'site', 'user', 'role'];
     }
 
     /**
@@ -97,7 +97,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function setSite(\Omeka\Entity\Site $site)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSite', array($site));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSite', [$site]);
 
         return parent::setSite($site);
     }
@@ -205,7 +205,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function getSite()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSite', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSite', []);
 
         return parent::getSite();
     }
@@ -216,7 +216,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function setUser(\Omeka\Entity\User $user)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', array($user));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
 
         return parent::setUser($user);
     }
@@ -227,7 +227,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function getUser()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
 
         return parent::getUser();
     }
@@ -238,7 +238,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function setRole($role)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', array($role));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', [$role]);
 
         return parent::setRole($role);
     }
@@ -249,7 +249,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function getRole()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', []);
 
         return parent::getRole();
     }
@@ -260,7 +260,7 @@ class SitePermission extends \Omeka\Entity\SitePermission implements \Doctrine\O
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

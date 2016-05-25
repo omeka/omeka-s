@@ -36,7 +36,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType');
+            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType'];
         }
 
-        return array('__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType');
+        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType'];
     }
 
     /**
@@ -97,7 +97,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setResourceTemplate(\Omeka\Entity\ResourceTemplate $resourceTemplate = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', array($resourceTemplate));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', [$resourceTemplate]);
 
         return parent::setResourceTemplate($resourceTemplate);
     }
@@ -205,7 +205,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getResourceTemplate()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', []);
 
         return parent::getResourceTemplate();
     }
@@ -216,7 +216,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setProperty(\Omeka\Entity\Property $property)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProperty', array($property));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProperty', [$property]);
 
         return parent::setProperty($property);
     }
@@ -227,7 +227,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getProperty()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperty', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperty', []);
 
         return parent::getProperty();
     }
@@ -238,7 +238,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setAlternateLabel($alternateLabel)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAlternateLabel', array($alternateLabel));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAlternateLabel', [$alternateLabel]);
 
         return parent::setAlternateLabel($alternateLabel);
     }
@@ -249,7 +249,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getAlternateLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAlternateLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAlternateLabel', []);
 
         return parent::getAlternateLabel();
     }
@@ -260,7 +260,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setAlternateComment($alternateComment)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAlternateComment', array($alternateComment));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAlternateComment', [$alternateComment]);
 
         return parent::setAlternateComment($alternateComment);
     }
@@ -271,7 +271,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getAlternateComment()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAlternateComment', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAlternateComment', []);
 
         return parent::getAlternateComment();
     }
@@ -282,7 +282,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getPosition()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', []);
 
         return parent::getPosition();
     }
@@ -293,7 +293,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setPosition($position)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', [$position]);
 
         return parent::setPosition($position);
     }
@@ -304,7 +304,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function setDataType($dataType)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDataType', array($dataType));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDataType', [$dataType]);
 
         return parent::setDataType($dataType);
     }
@@ -315,7 +315,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getDataType()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDataType', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDataType', []);
 
         return parent::getDataType();
     }
@@ -326,7 +326,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

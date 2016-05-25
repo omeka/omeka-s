@@ -36,7 +36,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources');
+            return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources'];
         }
 
-        return array('__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources');
+        return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources'];
     }
 
     /**
@@ -97,7 +97,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function setLabel($label)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', array($label));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', [$label]);
 
         return parent::setLabel($label);
     }
@@ -205,7 +205,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function getLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', []);
 
         return parent::getLabel();
     }
@@ -216,7 +216,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -227,7 +227,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -238,7 +238,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function setResourceClass(\Omeka\Entity\ResourceClass $resourceClass = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', array($resourceClass));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', [$resourceClass]);
 
         return parent::setResourceClass($resourceClass);
     }
@@ -249,7 +249,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function getResourceClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', []);
 
         return parent::getResourceClass();
     }
@@ -260,7 +260,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function getResourceTemplateProperties()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplateProperties', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplateProperties', []);
 
         return parent::getResourceTemplateProperties();
     }
@@ -271,7 +271,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

@@ -36,7 +36,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+            return ['__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates'];
         }
 
-        return array('__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates');
+        return ['__isInitialized__', 'id', 'email', 'name', 'created', 'modified', 'passwordHash', 'role', 'isActive', 'keys', 'sites', 'vocabularies', 'resourceClasses', 'properties', 'resourceTemplates'];
     }
 
     /**
@@ -97,7 +97,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setName($name)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', array($name));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', [$name]);
 
         return parent::setName($name);
     }
@@ -205,7 +205,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', []);
 
         return parent::getName();
     }
@@ -216,7 +216,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setEmail($email)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', array($email));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
 
         return parent::setEmail($email);
     }
@@ -227,7 +227,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getEmail()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
 
         return parent::getEmail();
     }
@@ -238,7 +238,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -249,7 +249,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setCreated(\DateTime $created)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($created));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', [$created]);
 
         return parent::setCreated($created);
     }
@@ -260,7 +260,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setModified(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', [$dateTime]);
 
         return parent::setModified($dateTime);
     }
@@ -271,7 +271,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getModified()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', []);
 
         return parent::getModified();
     }
@@ -282,7 +282,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setPassword($password)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPassword', array($password));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPassword', [$password]);
 
         return parent::setPassword($password);
     }
@@ -293,7 +293,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function verifyPassword($possiblePassword)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'verifyPassword', array($possiblePassword));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'verifyPassword', [$possiblePassword]);
 
         return parent::verifyPassword($possiblePassword);
     }
@@ -304,7 +304,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setRole($role)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', array($role));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', [$role]);
 
         return parent::setRole($role);
     }
@@ -315,7 +315,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getRole()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', []);
 
         return parent::getRole();
     }
@@ -326,7 +326,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function setIsActive($isActive)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', array($isActive));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', [$isActive]);
 
         return parent::setIsActive($isActive);
     }
@@ -337,7 +337,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function isActive()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', []);
 
         return parent::isActive();
     }
@@ -348,7 +348,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getKeys()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getKeys', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getKeys', []);
 
         return parent::getKeys();
     }
@@ -359,7 +359,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getSites()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSites', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSites', []);
 
         return parent::getSites();
     }
@@ -370,7 +370,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getVocabularies()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVocabularies', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVocabularies', []);
 
         return parent::getVocabularies();
     }
@@ -381,7 +381,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceClasses()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClasses', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClasses', []);
 
         return parent::getResourceClasses();
     }
@@ -392,7 +392,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getProperties()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperties', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperties', []);
 
         return parent::getProperties();
     }
@@ -403,7 +403,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceTemplates()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplates', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplates', []);
 
         return parent::getResourceTemplates();
     }
@@ -414,7 +414,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -425,7 +425,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', [$eventArgs]);
 
         return parent::preUpdate($eventArgs);
     }
@@ -436,7 +436,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getRoleId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoleId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoleId', []);
 
         return parent::getRoleId();
     }
@@ -447,7 +447,7 @@ class User extends \Omeka\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

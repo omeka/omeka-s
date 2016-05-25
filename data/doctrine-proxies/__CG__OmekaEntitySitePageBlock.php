@@ -36,7 +36,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments');
+            return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments'];
         }
 
-        return array('__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments');
+        return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments'];
     }
 
     /**
@@ -97,7 +97,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function setLayout($layout)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLayout', array($layout));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLayout', [$layout]);
 
         return parent::setLayout($layout);
     }
@@ -205,7 +205,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getLayout()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLayout', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLayout', []);
 
         return parent::getLayout();
     }
@@ -216,7 +216,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function setData($data)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', array($data));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
 
         return parent::setData($data);
     }
@@ -227,7 +227,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getData()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
 
         return parent::getData();
     }
@@ -238,7 +238,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function setPosition($position)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', [$position]);
 
         return parent::setPosition($position);
     }
@@ -249,7 +249,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getPosition()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', []);
 
         return parent::getPosition();
     }
@@ -260,7 +260,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function setPage(\Omeka\Entity\SitePage $page)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPage', array($page));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPage', [$page]);
 
         return parent::setPage($page);
     }
@@ -271,7 +271,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getPage()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPage', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPage', []);
 
         return parent::getPage();
     }
@@ -282,7 +282,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getAttachments()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAttachments', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAttachments', []);
 
         return parent::getAttachments();
     }
@@ -293,7 +293,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

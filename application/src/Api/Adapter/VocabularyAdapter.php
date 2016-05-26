@@ -20,6 +20,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
     ];
 
     /**
+     * @var array Reserved vocabulary prefixes
+     */
+    protected $reservedPrefixes = [
+        '^o-?', '^time$', '^cnt$',
+    ];
+
+    /**
      * {@inheritDoc}
      */
     public function getResourceName()
@@ -220,6 +227,15 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 'The prefix "%s" is already taken.',
                 $prefix
             ));
+        }
+        foreach ($this->reservedPrefixes as $reservedPrefix) {
+            if (preg_match("/$reservedPrefix/", $prefix)) {
+                $errorStore->addError('o:prefix', sprintf(
+                    'The prefix "%s" is reserved.',
+                    $prefix
+                ));
+                break;
+            }
         }
 
         // Validate label

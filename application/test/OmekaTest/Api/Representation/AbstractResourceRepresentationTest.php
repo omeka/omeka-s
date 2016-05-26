@@ -60,7 +60,7 @@ class AbstractResourceRepresentationTest extends TestCase
             'Omeka\Api\Representation\AbstractResourceRepresentation'
         );
         $protectedMethods = [
-            'addTermDefinitionToContext', 'setId', 'setAdapter', 'getAdapter',
+            'setId', 'setAdapter', 'getAdapter',
         ];
         foreach ($protectedMethods as $protectedMethod) {
             $this->assertTrue($class->getMethod($protectedMethod)->isProtected());

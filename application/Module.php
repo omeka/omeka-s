@@ -24,6 +24,16 @@ class Module extends AbstractModule
     const VERSION = '0.6.1-alpha';
 
     /**
+     * The vocabulary IRI used to define Omeka application data.
+     */
+    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/s/vocabs/o#';
+
+    /**
+     * The JSON-LD term that expands to the vocabulary IRI.
+     */
+    const OMEKA_VOCABULARY_TERM = 'o';
+
+    /**
      * {@inheritDoc}
      */
     public function onBootstrap(MvcEvent $event)
@@ -104,6 +114,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            '*',
+            OmekaEvent::API_CONTEXT,
+            [$this, 'addTermDefinitionsToContext']
+        );
+
+        $sharedEventManager->attach(
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -133,6 +149,30 @@ class Module extends AbstractModule
                 }
             }
         );
+    }
+
+    /**
+     * Add term definitions to the JSON-LD context.
+     *
+     * Adds the Omeka and all vocabulary term definitions.
+     *
+     * @param Event $event
+     */
+    public function addTermDefinitionsToContext(Event $event)
+    {
+        $context = $event->getParam('context');
+        $context[self::OMEKA_VOCABULARY_TERM] = self::OMEKA_VOCABULARY_IRI;
+        $stmt = $this->getServiceLocator()
+            ->get('Omeka\Connection')
+            ->query('SELECT * FROM vocabulary;');
+        while ($row = $stmt->fetch()) {
+            $context[$row['prefix']] = [
+                '@id' => $row['namespace_uri'],
+                'vocabulary_id' => $row['id'],
+                'vocabulary_label' => $row['label'],
+            ];
+        }
+        $event->setParam('context', $context);
     }
 
     /**

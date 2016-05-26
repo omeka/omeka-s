@@ -71,6 +71,10 @@ class ApiJsonStrategy extends JsonStrategy
     {
         $response = $model->getApiResponse();
 
+        if (!$response instanceof \Omeka\Api\Response) {
+            return 200;
+        }
+
         switch ($response->getStatus()) {
             case Response::SUCCESS:
                 if (null === $response->getContent()) {

@@ -61,7 +61,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         $resourceClass = $this->resourceClass();
         if ($resourceClass) {
-            $this->addVocabularyToContext($resourceClass->vocabulary());
             $type = (array) $type;
             $type[] = $resourceClass->term();
         }
@@ -92,7 +91,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // Set the values as JSON-LD value objects.
         $values = [];
         foreach ($this->values() as $term => $property) {
-            $this->addVocabularyToContext($property['property']->vocabulary());
             foreach ($property['values'] as $value) {
                 $values[$term][] = $value;
             }
@@ -499,19 +497,5 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         return $representation;
-    }
-
-    /**
-     * Add a vocabulary term definition to the JSON-LD context.
-     *
-     * @param VocabularyRepresentation $vocabulary
-     */
-    protected function addVocabularyToContext(VocabularyRepresentation $vocabulary)
-    {
-        $this->addTermDefinitionToContext($vocabulary->prefix(), [
-            '@id' => $vocabulary->namespaceUri(),
-            'vocabulary_id' => $vocabulary->id(),
-            'vocabulary_label' => $vocabulary->label(),
-        ]);
     }
 }

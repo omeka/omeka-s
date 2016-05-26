@@ -205,6 +205,16 @@ return [
                     ],
                 ],
             ],
+            'api-context' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/api-context',
+                    'defaults' => [
+                        'controller' => 'Omeka\Controller\Api',
+                        'action' => 'context',
+                     ],
+                ],
+            ],
             'install' => [
                 'type' => 'Regex',
                 'options' => [

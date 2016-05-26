@@ -43,6 +43,9 @@ class Event extends ZendEvent
     const API_HYDRATE_POST = 'api.hydrate.post';
      /**#@-*/
 
+    // API JSON-LD context definitions event
+     const API_CONTEXT = 'api.context';
+
     /**#@+
      * Events triggered by Doctrine lifecycle events.
      */

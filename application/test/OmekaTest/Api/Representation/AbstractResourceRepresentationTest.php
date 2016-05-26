@@ -1,7 +1,6 @@
 <?php
 namespace OmekaTest\Api\Representation;
 
-use Omeka\Api\Representation\AbstractResourceRepresentation;
 use Omeka\Test\TestCase;
 use ReflectionClass;
 
@@ -12,6 +11,12 @@ class AbstractResourceRepresentationTest extends TestCase
         $id = 'test_id';
         $data = 'test_data';
         $url = 'test_url';
+        $context = 'test_context';
+
+        $urlHelper = $this->getMock('Zend\View\Helper\Url');
+        $urlHelper->expects($this->once())
+            ->method('__invoke')
+            ->will($this->returnValue($context));
 
         $resource = $this->getMockForAbstractClass('Omeka\Api\ResourceInterface');
         $resource->expects($this->once())
@@ -25,9 +30,12 @@ class AbstractResourceRepresentationTest extends TestCase
 
         $abstractResourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceRepresentation',
-            ['getJsonLd', 'apiUrl', 'getJsonLdType'],
+            ['getJsonLd', 'apiUrl', 'getJsonLdType', 'getViewHelper'],
             [$resource, $adapter]
         );
+        $abstractResourceRep->expects($this->once())
+            ->method('getViewHelper')
+            ->will($this->returnValue($urlHelper));
         $abstractResourceRep->expects($this->once())
             ->method('getJsonLd')
             ->will($this->returnValue(['foo' => 'bar']));
@@ -43,10 +51,7 @@ class AbstractResourceRepresentationTest extends TestCase
 
         // test jsonSerialize()
         $this->assertEquals([
-            '@context' => [
-                AbstractResourceRepresentation::OMEKA_VOCABULARY_TERM
-                => AbstractResourceRepresentation::OMEKA_VOCABULARY_IRI
-            ],
+            '@context' => $context,
             '@id' => $url,
             '@type' => 'o:fooType',
             'o:id' => $id,

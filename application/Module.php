@@ -154,7 +154,7 @@ class Module extends AbstractModule
     /**
      * Add term definitions to the JSON-LD context.
      *
-     * Adds the Omeka and all vocabulary term definitions.
+     * Adds the Omeka, vocabulary, and any other term definitions.
      *
      * @param Event $event
      */
@@ -172,6 +172,8 @@ class Module extends AbstractModule
                 'vocabulary_label' => $row['label'],
             ];
         }
+        $context['cnt'] = 'http://www.w3.org/2011/content#';
+        $context['time'] = 'http://www.w3.org/2006/time#';
         $event->setParam('context', $context);
     }
 
@@ -235,7 +237,6 @@ class Module extends AbstractModule
         }
         $data = $event->getTarget()->mediaData();
         $jsonLd = $event->getParam('jsonLd');
-        $jsonLd['@context']['cnt'] = 'http://www.w3.org/2011/content#';
         $jsonLd['@type'] = 'cnt:ContentAsText';
         $jsonLd['cnt:chars'] = $data['html'];
         $jsonLd['cnt:characterEncoding'] = 'UTF-8';
@@ -255,7 +256,6 @@ class Module extends AbstractModule
         $data = $event->getTarget()->mediaData();
         $jsonLd = $event->getParam('jsonLd');
         if (isset($data['start']) || isset($data['end'])) {
-            $jsonLd['@context']['time'] = 'http://www.w3.org/2006/time#';
             if (isset($data['start'])) {
                 $jsonLd['time:hasBeginning'] = [
                     '@value' => $data['start'],

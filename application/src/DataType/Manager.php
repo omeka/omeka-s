@@ -2,6 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Api\Exception;
+use Omeka\Entity\Value;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
@@ -13,6 +14,18 @@ class Manager extends AbstractPluginManager
     protected $canonicalNamesReplacements = [];
 
     /**
+     * Get the data type service.
+     *
+     * This method accepts one of three things for the first argument:
+     *
+     *   - a JSON-LD value object array, for hydration;
+     *   - a Value entity, for extraction;
+     *   - or the name of the data type, for all other uses.
+     *
+     * A JSON-LD value object and Value entity are needed to intelligently
+     * derive a fallback data type in case a passed one isn't registered.
+     *
+     * @param string|array|Value
      * {@inheritDoc}
      */
     public function get($name, $options = [],
@@ -20,7 +33,7 @@ class Manager extends AbstractPluginManager
     ) {
         $fallbackDataType = 'literal';
 
-        if ($name instanceof \Omeka\Entity\Value) {
+        if ($name instanceof Value) {
             // Derive data type and fallback data type from a Value entity.
             $dataType = $name->getType();
             if (is_string($name->getUri())) {

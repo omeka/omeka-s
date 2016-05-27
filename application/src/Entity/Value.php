@@ -37,19 +37,19 @@ class Value extends AbstractEntity
     protected $type;
 
     /**
-     * @Column(type="text", nullable=true)
-     */
-    protected $value;
-
-    /**
      * @Column(nullable=true)
      */
     protected $lang;
 
     /**
-     * @Column(nullable=true)
+     * @Column(type="text", nullable=true)
      */
-    protected $uriLabel;
+    protected $value;
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $uri;
 
     /**
      * @ManyToOne(targetEntity="Resource")
@@ -112,14 +112,14 @@ class Value extends AbstractEntity
         return $this->lang;
     }
 
-    public function setUriLabel($uriLabel)
+    public function setUri($uri)
     {
-        $this->uriLabel = $uriLabel;
+        $this->uri = $uri;
     }
 
-    public function getUriLabel()
+    public function getUri()
     {
-        return $this->uriLabel;
+        return $this->uri;
     }
 
     public function setValueResource(Resource $valueResource = null)

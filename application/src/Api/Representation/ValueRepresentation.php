@@ -135,13 +135,13 @@ class ValueRepresentation extends AbstractRepresentation
     }
 
     /**
-     * Get the URI label.
+     * Get the URI.
      *
      * @return string
      */
-    public function uriLabel()
+    public function uri()
     {
-        return $this->value->getUriLabel();
+        return $this->value->getUri();
     }
 
     /**

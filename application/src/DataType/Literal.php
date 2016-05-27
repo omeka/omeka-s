@@ -38,7 +38,7 @@ class Literal extends AbstractDataType
         } else {
             $value->setLang(null); // set default
         }
-        $value->setUriLabel(null); // set default
+        $value->setUri(null); // set default
         $value->setValueResource(null); // set default
     }
 

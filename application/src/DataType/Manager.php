@@ -23,7 +23,7 @@ class Manager extends AbstractPluginManager
             $dataTypeFallback = 'resource';
         }
         try {
-            $instance = parent::get($dataType);
+            $instance = $this->get($dataType);
         } catch (ServiceNotFoundException $e) {
             $instance = $this->get($dataTypeFallback);
         }

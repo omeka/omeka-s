@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Resource extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'resource';
+    }
+
     public function getLabel()
     {
         return 'Resource';
@@ -33,10 +38,9 @@ class Resource extends AbstractDataType
     {
         $serviceLocator = $adapter->getServiceLocator();
 
-        $value->setType($valueObject['type']);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
-        $value->setUriLabel(null); // set default
+        $value->setUri(null); // set default
         $valueResource = $serviceLocator->get('Omeka\EntityManager')->find(
             'Omeka\Entity\Resource',
             $valueObject['value_resource_id']

@@ -8,6 +8,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Literal extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'literal';
+    }
+
     public function getLabel()
     {
         return 'Text';
@@ -31,14 +36,13 @@ class Literal extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
-        $value->setType($valueObject['type']);
         $value->setValue($valueObject['@value']);
         if (isset($valueObject['@language'])) {
             $value->setLang($valueObject['@language']);
         } else {
             $value->setLang(null); // set default
         }
-        $value->setUriLabel(null); // set default
+        $value->setUri(null); // set default
         $value->setValueResource(null); // set default
     }
 

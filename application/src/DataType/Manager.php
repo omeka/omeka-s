@@ -2,6 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Api\Exception;
+use Omeka\Entity\Value;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
@@ -12,17 +13,19 @@ class Manager extends AbstractPluginManager
      */
     protected $canonicalNamesReplacements = [];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function get($name, $options = [],
-        $usePeeringServiceManagers = true
-    ) {
+    public function getForExtract(Value $value)
+    {
+        $dataType = $value->getType();
+        $dataTypeFallback = 'literal';
+        if (is_string($value->getUri())) {
+            $dataTypeFallback = 'uri';
+        } elseif ($value->getValueResource()) {
+            $dataTypeFallback = 'resource';
+        }
         try {
-            $instance = parent::get($name, $options, $usePeeringServiceManagers);
+            $instance = $this->get($dataType);
         } catch (ServiceNotFoundException $e) {
-            // Use "literal" as the fallback data type.
-            $instance = $this->get('literal');
+            $instance = $this->get($dataTypeFallback);
         }
         return $instance;
     }

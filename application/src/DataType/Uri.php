@@ -8,6 +8,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Uri extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'uri';
+    }
+
     public function getLabel()
     {
         return 'URI';
@@ -31,12 +36,11 @@ class Uri extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
-        $value->setType($valueObject['type']);
-        $value->setValue($valueObject['@id']);
-        if (isset($valueObject['o:uri_label'])) {
-            $value->setUriLabel($valueObject['o:uri_label']);
+        $value->setUri($valueObject['@id']);
+        if (isset($valueObject['o:label'])) {
+            $value->setValue($valueObject['o:label']);
         } else {
-            $value->setUriLabel(null); // set default
+            $value->setValue(null); // set default
         }
         $value->setLang(null); // set default
         $value->setValueResource(null); // set default
@@ -44,8 +48,8 @@ class Uri extends AbstractDataType
 
     public function getHtml(PhpRenderer $view, ValueRepresentation $value)
     {
-        $uri = $value->value();
-        $uriLabel = $value->uriLabel();
+        $uri = $value->uri();
+        $uriLabel = $value->value();
         if (!$uriLabel) {
             $uriLabel = $uri;
         }
@@ -54,9 +58,9 @@ class Uri extends AbstractDataType
 
     public function getJsonLd(ValueRepresentation $value)
     {
-        $jsonLd = ['@id' => $value->value()];
-        if ($value->uriLabel()) {
-            $jsonLd['o:uri_label'] = $value->uriLabel();
+        $jsonLd = ['@id' => $value->uri()];
+        if ($value->value()) {
+            $jsonLd['o:label'] = $value->value();
         }
         return $jsonLd;
     }

@@ -11,6 +11,6 @@ abstract class AbstractDataType implements DataTypeInterface
 
     public function toString(ValueRepresentation $value)
     {
-        return $value->value();
+        return (string) $value->value();
     }
 }

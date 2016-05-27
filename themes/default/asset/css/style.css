@@ -59,7 +59,9 @@
   /* @group ----- Forms ----- */
   input,
   textarea,
-  button {
+  button,
+  .button,
+  select {
     font-family: "Open Sans", sans-serif;
     font-size: 20px;
     line-height: 30px;
@@ -77,12 +79,32 @@
     -webkit-border-radius: 0px;
     border-radius: 0px;
     height: 2.25em;
-    border-color: rgba(0, 0, 0, 0.15);
+    border-color: #dedede;
     border-width: 0.05em;
     border-style: solid;
     padding: -0.05em;
     padding: 0.375em 1.69492%;
     margin: 0;
+  }
+
+  button,
+  .button,
+  [type="submit"] {
+    background-color: #dedede;
+    border-radius: 2px;
+    padding: 0.375em;
+    display: inline-block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0;
+  }
+
+  select {
+    background-color: #fff;
+    padding: 0.375em;
+    border-color: #dedede;
+    height: 2.25em;
   }
 
   ::-webkit-input-placeholder {
@@ -101,6 +123,34 @@
 
   :-ms-input-placeholder {
     font-style: italic;
+  }
+
+  .field {
+    margin: 1.5em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  .field .field-meta {
+    width: 30%;
+    padding: 0.375em 1.69492% 0 0;
+  }
+
+  .field .inputs {
+    width: 70%;
+    padding-left: 1.69492%;
+  }
+
+  .field .value:not(:last-child) {
+    margin-bottom: 0.75em;
+  }
+
+  .field-description {
+    font-size: 15px;
   }
 
   /* @end */
@@ -648,6 +698,11 @@
     margin-left: -5px;
   }
 
+  .advanced-search {
+    float: right;
+    margin: 0.375em 0;
+  }
+
   /* @end */
   /* @group ----- Show ----- */
   body.resource #content > h2:first-of-type + h3 {
@@ -703,6 +758,12 @@
 
   .media-render > * {
     max-width: 100%;
+  }
+
+  /* @end */
+  /* @group ----- Advanced Search ----- */
+  #advanced-search .value:not(:last-child) {
+    margin-bottom: 0.75em;
   }
 
   /* @end */

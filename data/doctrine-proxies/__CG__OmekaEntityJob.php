@@ -36,7 +36,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended');
+            return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended'];
         }
 
-        return array('__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended');
+        return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setPid($pid)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPid', array($pid));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPid', [$pid]);
 
         return parent::setPid($pid);
     }
@@ -205,7 +205,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getPid()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPid', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPid', []);
 
         return parent::getPid();
     }
@@ -216,7 +216,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setStatus($status)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', array($status));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
 
         return parent::setStatus($status);
     }
@@ -227,7 +227,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getStatus()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
 
         return parent::getStatus();
     }
@@ -238,7 +238,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setClass($class)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClass', array($class));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClass', [$class]);
 
         return parent::setClass($class);
     }
@@ -249,7 +249,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClass', []);
 
         return parent::getClass();
     }
@@ -260,7 +260,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setArgs($args)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setArgs', array($args));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setArgs', [$args]);
 
         return parent::setArgs($args);
     }
@@ -271,7 +271,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getArgs()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArgs', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArgs', []);
 
         return parent::getArgs();
     }
@@ -282,7 +282,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setLog($log)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLog', array($log));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLog', [$log]);
 
         return parent::setLog($log);
     }
@@ -293,7 +293,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function addLog($log)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLog', array($log));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLog', [$log]);
 
         return parent::addLog($log);
     }
@@ -304,7 +304,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getLog()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLog', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLog', []);
 
         return parent::getLog();
     }
@@ -315,7 +315,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -326,7 +326,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -337,7 +337,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setStarted(\DateTime $started)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStarted', array($started));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStarted', [$started]);
 
         return parent::setStarted($started);
     }
@@ -348,7 +348,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getStarted()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStarted', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStarted', []);
 
         return parent::getStarted();
     }
@@ -359,7 +359,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function setEnded(\DateTime $ended)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEnded', array($ended));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEnded', [$ended]);
 
         return parent::setEnded($ended);
     }
@@ -370,7 +370,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getEnded()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEnded', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEnded', []);
 
         return parent::getEnded();
     }
@@ -381,7 +381,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -392,7 +392,7 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

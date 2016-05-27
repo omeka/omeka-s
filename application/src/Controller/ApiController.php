@@ -2,6 +2,7 @@
 namespace Omeka\Controller;
 
 use Omeka\Api\Response;
+use Omeka\Event\Event;
 use Omeka\Mvc\Exception;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
@@ -15,6 +16,17 @@ class ApiController extends AbstractRestfulController
      * @var array
      */
     protected $viewOptions = [];
+
+    /**
+     * Fetch all contexts and render a JSON-LD context object.
+     */
+    public function contextAction()
+    {
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['context' => []]);
+        $eventManager->trigger(new Event(Event::API_CONTEXT, null, $args));
+        return new ApiJsonModel($args['context'], $this->getViewOptions());
+    }
 
     /**
      * {@inheritDoc}

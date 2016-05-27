@@ -36,7 +36,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
+            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource'];
         }
 
-        return array('__isInitialized__', 'validTypes', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource');
+        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'value', 'lang', 'uriLabel', 'valueResource'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setResource(\Omeka\Entity\Resource $resource = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResource', array($resource));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResource', [$resource]);
 
         return parent::setResource($resource);
     }
@@ -205,7 +205,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getResource()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResource', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResource', []);
 
         return parent::getResource();
     }
@@ -216,7 +216,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setProperty(\Omeka\Entity\Property $property)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProperty', array($property));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProperty', [$property]);
 
         return parent::setProperty($property);
     }
@@ -227,7 +227,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getProperty()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperty', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperty', []);
 
         return parent::getProperty();
     }
@@ -238,7 +238,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setType($type)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', array($type));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
 
         return parent::setType($type);
     }
@@ -249,7 +249,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getType()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
 
         return parent::getType();
     }
@@ -260,7 +260,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setValue($value)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValue', array($value));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValue', [$value]);
 
         return parent::setValue($value);
     }
@@ -271,7 +271,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getValue()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', []);
 
         return parent::getValue();
     }
@@ -282,7 +282,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setLang($lang)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLang', array($lang));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLang', [$lang]);
 
         return parent::setLang($lang);
     }
@@ -293,7 +293,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getLang()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', []);
 
         return parent::getLang();
     }
@@ -304,7 +304,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setUriLabel($uriLabel)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUriLabel', array($uriLabel));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUriLabel', [$uriLabel]);
 
         return parent::setUriLabel($uriLabel);
     }
@@ -315,7 +315,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getUriLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUriLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUriLabel', []);
 
         return parent::getUriLabel();
     }
@@ -326,7 +326,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function setValueResource(\Omeka\Entity\Resource $valueResource = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueResource', array($valueResource));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueResource', [$valueResource]);
 
         return parent::setValueResource($valueResource);
     }
@@ -337,20 +337,9 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getValueResource()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueResource', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueResource', []);
 
         return parent::getValueResource();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getValidTypes()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValidTypes', array());
-
-        return parent::getValidTypes();
     }
 
     /**
@@ -359,7 +348,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

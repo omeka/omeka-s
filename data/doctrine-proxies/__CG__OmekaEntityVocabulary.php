@@ -36,7 +36,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties');
+            return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties'];
         }
 
-        return array('__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties');
+        return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -205,7 +205,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -216,7 +216,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function setNamespaceUri($namespaceUri)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNamespaceUri', array($namespaceUri));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNamespaceUri', [$namespaceUri]);
 
         return parent::setNamespaceUri($namespaceUri);
     }
@@ -227,7 +227,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getNamespaceUri()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNamespaceUri', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNamespaceUri', []);
 
         return parent::getNamespaceUri();
     }
@@ -238,7 +238,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function setPrefix($prefix)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrefix', array($prefix));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrefix', [$prefix]);
 
         return parent::setPrefix($prefix);
     }
@@ -249,7 +249,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getPrefix()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPrefix', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPrefix', []);
 
         return parent::getPrefix();
     }
@@ -260,7 +260,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function setLabel($label)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', array($label));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', [$label]);
 
         return parent::setLabel($label);
     }
@@ -271,7 +271,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', []);
 
         return parent::getLabel();
     }
@@ -282,7 +282,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function setComment($comment)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComment', array($comment));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComment', [$comment]);
 
         return parent::setComment($comment);
     }
@@ -293,7 +293,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getComment()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComment', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComment', []);
 
         return parent::getComment();
     }
@@ -304,7 +304,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getResourceClasses()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClasses', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClasses', []);
 
         return parent::getResourceClasses();
     }
@@ -315,7 +315,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getProperties()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperties', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProperties', []);
 
         return parent::getProperties();
     }
@@ -326,7 +326,7 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

@@ -36,7 +36,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'user', 'created', 'activate');
+            return ['__isInitialized__', 'id', 'user', 'created', 'activate'];
         }
 
-        return array('__isInitialized__', 'id', 'user', 'created', 'activate');
+        return ['__isInitialized__', 'id', 'user', 'created', 'activate'];
     }
 
     /**
@@ -97,7 +97,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function setId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', []);
 
         return parent::setId();
     }
@@ -194,7 +194,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -205,7 +205,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function setUser(\Omeka\Entity\User $user)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', array($user));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
 
         return parent::setUser($user);
     }
@@ -216,7 +216,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function getUser()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
 
         return parent::getUser();
     }
@@ -227,7 +227,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -238,7 +238,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function setActivate($activate)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setActivate', array($activate));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setActivate', [$activate]);
 
         return parent::setActivate($activate);
     }
@@ -249,7 +249,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function activate()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'activate', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'activate', []);
 
         return parent::activate();
     }
@@ -260,7 +260,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function getExpiration()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExpiration', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExpiration', []);
 
         return parent::getExpiration();
     }
@@ -271,7 +271,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -282,7 +282,7 @@ class PasswordCreation extends \Omeka\Entity\PasswordCreation implements \Doctri
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

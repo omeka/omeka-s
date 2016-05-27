@@ -13,16 +13,6 @@ use Omeka\Event\Event;
 abstract class AbstractResourceRepresentation extends AbstractRepresentation
 {
     /**
-     * The vocabulary IRI used to define Omeka application data.
-     */
-    const OMEKA_VOCABULARY_IRI = 'http://omeka.org/s/vocabs/o#`';
-
-    /**
-     * The JSON-LD term that expands to the vocabulary IRI.
-     */
-    const OMEKA_VOCABULARY_TERM = 'o';
-
-    /**
      * @var string|int
      */
     protected $id;
@@ -36,13 +26,6 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      * @var AdapterInterface
      */
     protected $adapter;
-
-    /**
-     * @var array The JSON-LD context.
-     */
-    protected $context = [
-        self::OMEKA_VOCABULARY_TERM => self::OMEKA_VOCABULARY_IRI,
-    ];
 
     /**
      * Get an array representation of this resource using JSON-LD notation.
@@ -92,10 +75,11 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     {
         $childJsonLd = $this->getJsonLd();
         $type = $this->getJsonLdType();
+        $url = $this->getViewHelper('Url');
 
         $jsonLd = array_merge(
             [
-                '@context' => $this->context,
+                '@context' => $url('api-context', [], ['force_canonical' => true]),
                 '@id' => $this->apiUrl(),
                 '@type' => $type,
                 'o:id' => $this->id(),
@@ -111,17 +95,6 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         $args = $eventManager->prepareArgs($args);
         $eventManager->trigger(Event::REP_RESOURCE_JSON, $this, $args);
         return $args['jsonLd'];
-    }
-
-    /**
-     * Add a term definition to the JSON-LD context.
-     *
-     * @param string $term
-     * @param string|array $map The IRI or an array defining the term
-     */
-    protected function addTermDefinitionToContext($term, $map)
-    {
-        $this->context[$term] = $map;
     }
 
     /**

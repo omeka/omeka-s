@@ -36,7 +36,7 @@ class Session extends \Omeka\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Session extends \Omeka\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'data', 'modified');
+            return ['__isInitialized__', 'id', 'data', 'modified'];
         }
 
-        return array('__isInitialized__', 'id', 'data', 'modified');
+        return ['__isInitialized__', 'id', 'data', 'modified'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Session extends \Omeka\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Session extends \Omeka\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**

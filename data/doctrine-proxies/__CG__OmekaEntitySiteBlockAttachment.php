@@ -36,7 +36,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'block', 'item', 'media', 'caption', 'position');
+            return ['__isInitialized__', 'id', 'block', 'item', 'media', 'caption', 'position'];
         }
 
-        return array('__isInitialized__', 'id', 'block', 'item', 'media', 'caption', 'position');
+        return ['__isInitialized__', 'id', 'block', 'item', 'media', 'caption', 'position'];
     }
 
     /**
@@ -97,7 +97,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function setCaption($caption)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCaption', array($caption));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCaption', [$caption]);
 
         return parent::setCaption($caption);
     }
@@ -205,7 +205,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getCaption()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCaption', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCaption', []);
 
         return parent::getCaption();
     }
@@ -216,7 +216,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function setPosition($position)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', [$position]);
 
         return parent::setPosition($position);
     }
@@ -227,7 +227,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getPosition()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', []);
 
         return parent::getPosition();
     }
@@ -238,7 +238,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function setItem(\Omeka\Entity\Item $item = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItem', array($item));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItem', [$item]);
 
         return parent::setItem($item);
     }
@@ -249,7 +249,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getItem()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItem', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItem', []);
 
         return parent::getItem();
     }
@@ -260,7 +260,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function setMedia(\Omeka\Entity\Media $media = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMedia', array($media));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMedia', [$media]);
 
         return parent::setMedia($media);
     }
@@ -271,7 +271,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getMedia()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMedia', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMedia', []);
 
         return parent::getMedia();
     }
@@ -282,7 +282,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function setBlock(\Omeka\Entity\SitePageBlock $block)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setBlock', array($block));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setBlock', [$block]);
 
         return parent::setBlock($block);
     }
@@ -293,7 +293,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getBlock()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBlock', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBlock', []);
 
         return parent::getBlock();
     }
@@ -304,7 +304,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

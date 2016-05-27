@@ -36,7 +36,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'isActive', 'version');
+            return ['__isInitialized__', 'id', 'isActive', 'version'];
         }
 
-        return array('__isInitialized__', 'id', 'isActive', 'version');
+        return ['__isInitialized__', 'id', 'isActive', 'version'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function setId($id)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array($id));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
         return parent::setId($id);
     }
@@ -194,7 +194,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -205,7 +205,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function setIsActive($isActive)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', array($isActive));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', [$isActive]);
 
         return parent::setIsActive($isActive);
     }
@@ -216,7 +216,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function isActive()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', []);
 
         return parent::isActive();
     }
@@ -227,7 +227,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function setVersion($version)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVersion', array($version));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVersion', [$version]);
 
         return parent::setVersion($version);
     }
@@ -238,7 +238,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function getVersion()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersion', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersion', []);
 
         return parent::getVersion();
     }
@@ -249,7 +249,7 @@ class Module extends \Omeka\Entity\Module implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

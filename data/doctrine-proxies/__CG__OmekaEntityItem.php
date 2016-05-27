@@ -36,7 +36,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return array('__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceName', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceName', []);
 
         return parent::getResourceName();
     }
@@ -194,7 +194,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -205,7 +205,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getMedia()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMedia', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMedia', []);
 
         return parent::getMedia();
     }
@@ -216,7 +216,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getSiteBlockAttachments()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteBlockAttachments', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteBlockAttachments', []);
 
         return parent::getSiteBlockAttachments();
     }
@@ -227,7 +227,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getItemSets()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemSets', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemSets', []);
 
         return parent::getItemSets();
     }
@@ -238,7 +238,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -249,7 +249,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -260,7 +260,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setResourceClass(\Omeka\Entity\ResourceClass $resourceClass = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', array($resourceClass));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', [$resourceClass]);
 
         return parent::setResourceClass($resourceClass);
     }
@@ -271,7 +271,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', []);
 
         return parent::getResourceClass();
     }
@@ -282,7 +282,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setResourceTemplate(\Omeka\Entity\ResourceTemplate $resourceTemplate = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', array($resourceTemplate));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', [$resourceTemplate]);
 
         return parent::setResourceTemplate($resourceTemplate);
     }
@@ -293,7 +293,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceTemplate()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', []);
 
         return parent::getResourceTemplate();
     }
@@ -304,7 +304,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setIsPublic($isPublic)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
 
         return parent::setIsPublic($isPublic);
     }
@@ -315,7 +315,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function isPublic()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
     }
@@ -326,7 +326,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setCreated(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', [$dateTime]);
 
         return parent::setCreated($dateTime);
     }
@@ -337,7 +337,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -348,7 +348,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function setModified(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', [$dateTime]);
 
         return parent::setModified($dateTime);
     }
@@ -359,7 +359,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getModified()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', []);
 
         return parent::getModified();
     }
@@ -370,7 +370,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getValues()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValues', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValues', []);
 
         return parent::getValues();
     }
@@ -381,7 +381,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -392,7 +392,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', [$eventArgs]);
 
         return parent::preUpdate($eventArgs);
     }
@@ -403,7 +403,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

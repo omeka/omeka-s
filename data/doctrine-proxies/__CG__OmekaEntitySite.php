@@ -36,7 +36,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions'];
         }
 
-        return array('__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions');
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setSlug($slug)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSlug', array($slug));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSlug', [$slug]);
 
         return parent::setSlug($slug);
     }
@@ -205,7 +205,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getSlug()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSlug', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSlug', []);
 
         return parent::getSlug();
     }
@@ -216,7 +216,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setTheme($theme)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTheme', array($theme));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTheme', [$theme]);
 
         return parent::setTheme($theme);
     }
@@ -227,7 +227,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getTheme()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTheme', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTheme', []);
 
         return parent::getTheme();
     }
@@ -238,7 +238,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setTitle($title)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitle', array($title));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitle', [$title]);
 
         return parent::setTitle($title);
     }
@@ -249,7 +249,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getTitle()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
     }
@@ -260,7 +260,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setNavigation($navigation)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNavigation', array($navigation));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNavigation', [$navigation]);
 
         return parent::setNavigation($navigation);
     }
@@ -271,7 +271,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getNavigation()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNavigation', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNavigation', []);
 
         return parent::getNavigation();
     }
@@ -282,7 +282,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setItemPool($itemPool)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItemPool', array($itemPool));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItemPool', [$itemPool]);
 
         return parent::setItemPool($itemPool);
     }
@@ -293,7 +293,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getItemPool()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemPool', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemPool', []);
 
         return parent::getItemPool();
     }
@@ -304,7 +304,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -315,7 +315,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -326,7 +326,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setCreated(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', [$dateTime]);
 
         return parent::setCreated($dateTime);
     }
@@ -337,7 +337,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -348,7 +348,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setModified(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', [$dateTime]);
 
         return parent::setModified($dateTime);
     }
@@ -359,7 +359,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getModified()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', []);
 
         return parent::getModified();
     }
@@ -370,7 +370,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function setIsPublic($isPublic)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
 
         return parent::setIsPublic($isPublic);
     }
@@ -381,7 +381,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function isPublic()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
     }
@@ -392,7 +392,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getPages()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPages', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPages', []);
 
         return parent::getPages();
     }
@@ -403,7 +403,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getSitePermissions()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSitePermissions', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSitePermissions', []);
 
         return parent::getSitePermissions();
     }
@@ -414,7 +414,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -425,7 +425,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', [$eventArgs]);
 
         return parent::preUpdate($eventArgs);
     }
@@ -436,7 +436,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

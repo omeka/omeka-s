@@ -36,7 +36,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'version');
+            return ['__isInitialized__', 'version'];
         }
 
-        return array('__isInitialized__', 'version');
+        return ['__isInitialized__', 'version'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
     public function getId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersion', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersion', []);
 
         return parent::getVersion();
     }
@@ -205,7 +205,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
     public function setVersion($version)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVersion', array($version));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVersion', [$version]);
 
         return parent::setVersion($version);
     }
@@ -216,7 +216,7 @@ class Migration extends \Omeka\Entity\Migration implements \Doctrine\ORM\Proxy\P
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

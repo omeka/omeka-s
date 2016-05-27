@@ -36,7 +36,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'owner', 'vocabulary', 'localName', 'label', 'comment', 'values');
+            return ['__isInitialized__', 'id', 'owner', 'vocabulary', 'localName', 'label', 'comment', 'values'];
         }
 
-        return array('__isInitialized__', 'id', 'owner', 'vocabulary', 'localName', 'label', 'comment', 'values');
+        return ['__isInitialized__', 'id', 'owner', 'vocabulary', 'localName', 'label', 'comment', 'values'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -183,7 +183,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -194,7 +194,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -205,7 +205,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -216,7 +216,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function setVocabulary(\Omeka\Entity\Vocabulary $vocabulary = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVocabulary', array($vocabulary));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVocabulary', [$vocabulary]);
 
         return parent::setVocabulary($vocabulary);
     }
@@ -227,7 +227,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getVocabulary()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVocabulary', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVocabulary', []);
 
         return parent::getVocabulary();
     }
@@ -238,7 +238,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function setLocalName($localName)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLocalName', array($localName));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLocalName', [$localName]);
 
         return parent::setLocalName($localName);
     }
@@ -249,7 +249,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getLocalName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLocalName', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLocalName', []);
 
         return parent::getLocalName();
     }
@@ -260,7 +260,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function setLabel($label)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', array($label));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', [$label]);
 
         return parent::setLabel($label);
     }
@@ -271,7 +271,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', []);
 
         return parent::getLabel();
     }
@@ -282,7 +282,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function setComment($comment)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComment', array($comment));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComment', [$comment]);
 
         return parent::setComment($comment);
     }
@@ -293,7 +293,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getComment()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComment', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComment', []);
 
         return parent::getComment();
     }
@@ -304,7 +304,7 @@ class Property extends \Omeka\Entity\Property implements \Doctrine\ORM\Proxy\Pro
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

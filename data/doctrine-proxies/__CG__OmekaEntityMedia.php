@@ -36,7 +36,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return array('__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values');
+        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -97,7 +97,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceName', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceName', []);
 
         return parent::getResourceName();
     }
@@ -194,7 +194,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -205,7 +205,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setIngester($ingester)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIngester', array($ingester));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIngester', [$ingester]);
 
         return parent::setIngester($ingester);
     }
@@ -216,7 +216,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getIngester()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIngester', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIngester', []);
 
         return parent::getIngester();
     }
@@ -227,7 +227,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setRenderer($renderer)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRenderer', array($renderer));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRenderer', [$renderer]);
 
         return parent::setRenderer($renderer);
     }
@@ -238,7 +238,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getRenderer()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRenderer', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRenderer', []);
 
         return parent::getRenderer();
     }
@@ -249,7 +249,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setData($data)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', array($data));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
 
         return parent::setData($data);
     }
@@ -260,7 +260,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getData()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
 
         return parent::getData();
     }
@@ -271,7 +271,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setSource($source)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSource', array($source));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSource', [$source]);
 
         return parent::setSource($source);
     }
@@ -282,7 +282,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getSource()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSource', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSource', []);
 
         return parent::getSource();
     }
@@ -293,7 +293,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setMediaType($mediaType)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMediaType', array($mediaType));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMediaType', [$mediaType]);
 
         return parent::setMediaType($mediaType);
     }
@@ -304,7 +304,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getMediaType()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMediaType', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMediaType', []);
 
         return parent::getMediaType();
     }
@@ -315,7 +315,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setHasOriginal($hasOriginal)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasOriginal', array($hasOriginal));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasOriginal', [$hasOriginal]);
 
         return parent::setHasOriginal($hasOriginal);
     }
@@ -326,7 +326,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function hasOriginal()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasOriginal', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasOriginal', []);
 
         return parent::hasOriginal();
     }
@@ -337,7 +337,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setHasThumbnails($hasThumbnails)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasThumbnails', array($hasThumbnails));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasThumbnails', [$hasThumbnails]);
 
         return parent::setHasThumbnails($hasThumbnails);
     }
@@ -348,7 +348,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function hasThumbnails()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThumbnails', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThumbnails', []);
 
         return parent::hasThumbnails();
     }
@@ -359,7 +359,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setFilename($filename)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFilename', array($filename));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFilename', [$filename]);
 
         return parent::setFilename($filename);
     }
@@ -370,7 +370,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getFilename()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFilename', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFilename', []);
 
         return parent::getFilename();
     }
@@ -381,7 +381,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setPosition($position)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', array($position));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosition', [$position]);
 
         return parent::setPosition($position);
     }
@@ -392,7 +392,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getPosition()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', []);
 
         return parent::getPosition();
     }
@@ -403,7 +403,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setItem(\Omeka\Entity\Item $item = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItem', array($item));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItem', [$item]);
 
         return parent::setItem($item);
     }
@@ -414,7 +414,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getItem()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItem', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItem', []);
 
         return parent::getItem();
     }
@@ -425,7 +425,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setLang($lang)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLang', array($lang));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLang', [$lang]);
 
         return parent::setLang($lang);
     }
@@ -436,7 +436,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getLang()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', []);
 
         return parent::getLang();
     }
@@ -447,7 +447,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -458,7 +458,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -469,7 +469,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setResourceClass(\Omeka\Entity\ResourceClass $resourceClass = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', array($resourceClass));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', [$resourceClass]);
 
         return parent::setResourceClass($resourceClass);
     }
@@ -480,7 +480,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', []);
 
         return parent::getResourceClass();
     }
@@ -491,7 +491,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setResourceTemplate(\Omeka\Entity\ResourceTemplate $resourceTemplate = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', array($resourceTemplate));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', [$resourceTemplate]);
 
         return parent::setResourceTemplate($resourceTemplate);
     }
@@ -502,7 +502,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceTemplate()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', []);
 
         return parent::getResourceTemplate();
     }
@@ -513,7 +513,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setIsPublic($isPublic)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', array($isPublic));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
 
         return parent::setIsPublic($isPublic);
     }
@@ -524,7 +524,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function isPublic()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
     }
@@ -535,7 +535,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setCreated(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', [$dateTime]);
 
         return parent::setCreated($dateTime);
     }
@@ -546,7 +546,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -557,7 +557,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function setModified(\DateTime $dateTime)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', array($dateTime));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModified', [$dateTime]);
 
         return parent::setModified($dateTime);
     }
@@ -568,7 +568,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getModified()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModified', []);
 
         return parent::getModified();
     }
@@ -579,7 +579,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getValues()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValues', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValues', []);
 
         return parent::getValues();
     }
@@ -590,7 +590,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
 
         return parent::prePersist($eventArgs);
     }
@@ -601,7 +601,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', array($eventArgs));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', [$eventArgs]);
 
         return parent::preUpdate($eventArgs);
     }
@@ -612,7 +612,7 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

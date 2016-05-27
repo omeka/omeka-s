@@ -14,15 +14,20 @@ class ApiJsonRenderer extends JsonRenderer
      */
     public function render($model, $values = null)
     {
-        $apiResponse = $model->getApiResponse();
-        if ($apiResponse->isError()) {
-            $errors = $apiResponse->getErrors();
-            if (($e = $model->getException())) {
-                $errors[$apiResponse->getStatus()] = $e->getMessage();
+        $response = $model->getApiResponse();
+
+        if ($response instanceof \Omeka\Api\Response) {
+            if ($response->isError()) {
+                $errors = $response->getErrors();
+                if (($e = $model->getException())) {
+                    $errors[$response->getStatus()] = $e->getMessage();
+                }
+                $payload = ['errors' => $errors];
+            } else {
+                $payload = $response->getContent();
             }
-            $payload = ['errors' => $errors];
         } else {
-            $payload = $apiResponse->getContent();
+            $payload = $response;
         }
 
         if (null === $payload) {

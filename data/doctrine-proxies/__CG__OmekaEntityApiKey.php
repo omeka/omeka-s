@@ -36,7 +36,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array();
+    public static $lazyPropertiesDefaults = [];
 
 
 
@@ -64,10 +64,10 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'label', 'credentialHash', 'lastIp', 'lastAccessed', 'created', 'owner');
+            return ['__isInitialized__', 'id', 'label', 'credentialHash', 'lastIp', 'lastAccessed', 'created', 'owner'];
         }
 
-        return array('__isInitialized__', 'id', 'label', 'credentialHash', 'lastIp', 'lastAccessed', 'created', 'owner');
+        return ['__isInitialized__', 'id', 'label', 'credentialHash', 'lastIp', 'lastAccessed', 'created', 'owner'];
     }
 
     /**
@@ -97,7 +97,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __clone()
     {
-        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', array());
+        $this->__cloner__ && $this->__cloner__->__invoke($this, '__clone', []);
     }
 
     /**
@@ -105,7 +105,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __load()
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__load', []);
     }
 
     /**
@@ -179,7 +179,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function prePersist()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', []);
 
         return parent::prePersist();
     }
@@ -190,7 +190,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', []);
 
         return parent::setId();
     }
@@ -205,7 +205,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
     }
@@ -216,7 +216,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setLabel($label)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', array($label));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLabel', [$label]);
 
         return parent::setLabel($label);
     }
@@ -227,7 +227,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getLabel()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLabel', []);
 
         return parent::getLabel();
     }
@@ -238,7 +238,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setCredential()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCredential', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCredential', []);
 
         return parent::setCredential();
     }
@@ -249,7 +249,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function verifyCredential($credential)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'verifyCredential', array($credential));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'verifyCredential', [$credential]);
 
         return parent::verifyCredential($credential);
     }
@@ -260,7 +260,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setLastIp($lastIp)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastIp', array($lastIp));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastIp', [$lastIp]);
 
         return parent::setLastIp($lastIp);
     }
@@ -271,7 +271,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getLastIp()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastIp', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastIp', []);
 
         return parent::getLastIp();
     }
@@ -282,7 +282,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setLastAccessed(\DateTime $lastAccessed)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastAccessed', array($lastAccessed));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastAccessed', [$lastAccessed]);
 
         return parent::setLastAccessed($lastAccessed);
     }
@@ -293,7 +293,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getLastAccessed()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastAccessed', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastAccessed', []);
 
         return parent::getLastAccessed();
     }
@@ -304,7 +304,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setCreated(\DateTime $created)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', array($created));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreated', [$created]);
 
         return parent::setCreated($created);
     }
@@ -315,7 +315,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getCreated()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreated', []);
 
         return parent::getCreated();
     }
@@ -326,7 +326,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', array($owner));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
         return parent::setOwner($owner);
     }
@@ -337,7 +337,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
         return parent::getOwner();
     }
@@ -348,7 +348,7 @@ class ApiKey extends \Omeka\Entity\ApiKey implements \Doctrine\ORM\Proxy\Proxy
     public function getResourceId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
 
         return parent::getResourceId();
     }

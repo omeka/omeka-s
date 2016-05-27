@@ -28,7 +28,7 @@ class ValueRepresentation extends AbstractRepresentation
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
         $this->value = $value;
-        $this->dataType = $serviceLocator->get('Omeka\DataTypeManager')->get($value);
+        $this->dataType = $serviceLocator->get('Omeka\DataTypeManager')->getForExtract($value);
     }
 
     /**

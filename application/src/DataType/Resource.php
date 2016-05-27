@@ -38,7 +38,6 @@ class Resource extends AbstractDataType
     {
         $serviceLocator = $adapter->getServiceLocator();
 
-        $value->setType($valueObject['type']);
         $value->setValue(null); // set default
         $value->setLang(null); // set default
         $value->setUri(null); // set default

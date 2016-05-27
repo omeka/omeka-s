@@ -13,54 +13,19 @@ class Manager extends AbstractPluginManager
      */
     protected $canonicalNamesReplacements = [];
 
-    /**
-     * Get the data type service.
-     *
-     * This method accepts one of three things for the first argument:
-     *
-     *   - a JSON-LD value object array, for hydration;
-     *   - a Value entity, for extraction;
-     *   - or the name of the data type, for all other uses.
-     *
-     * A JSON-LD value object and Value entity are needed to intelligently
-     * derive a fallback data type in case a passed one isn't registered.
-     *
-     * @param string|array|Value
-     * {@inheritDoc}
-     */
-    public function get($name, $options = [],
-        $usePeeringServiceManagers = true
-    ) {
-        $fallbackDataType = 'literal';
-
-        if ($name instanceof Value) {
-            // Derive data type and fallback data type from a Value entity.
-            $dataType = $name->getType();
-            if (is_string($name->getUri())) {
-                $fallbackDataType = 'uri';
-            } elseif ($name->getValueResource()) {
-                $fallbackDataType = 'resource';
-            }
-
-        } elseif (is_array($name) && isset($name['type'])) {
-            // Derive data type and fallback data type from an array representing
-            // a JSON-LD value object.
-            $dataType = $name['type'];
-            if (isset($name['@id'])) {
-                $fallbackDataType = 'uri';
-            } elseif (isset($name['value_resource_id'])) {
-                $fallbackDataType = 'resource';
-            }
-
-        } else {
-            $dataType = $name;
+    public function getForExtract(Value $value)
+    {
+        $dataType = $value->getType();
+        $dataTypeFallback = 'literal';
+        if (is_string($value->getUri())) {
+            $dataTypeFallback = 'uri';
+        } elseif ($value->getValueResource()) {
+            $dataTypeFallback = 'resource';
         }
-
         try {
-            $instance = parent::get($dataType, $options, $usePeeringServiceManagers);
+            $instance = parent::get($dataType);
         } catch (ServiceNotFoundException $e) {
-            // Get the fallback data type.
-            $instance = $this->get($fallbackDataType);
+            $instance = $this->get($dataTypeFallback);
         }
         return $instance;
     }

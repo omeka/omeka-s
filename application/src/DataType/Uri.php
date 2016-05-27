@@ -36,7 +36,6 @@ class Uri extends AbstractDataType
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
-        $value->setType($valueObject['type']);
         $value->setUri($valueObject['@id']);
         if (isset($valueObject['o:label'])) {
             $value->setValue($valueObject['o:label']);

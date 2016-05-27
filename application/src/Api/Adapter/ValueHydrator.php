@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\Stdlib\Hydrator\HydrationInterface;
 
 class ValueHydrator implements HydrationInterface
@@ -58,7 +59,12 @@ class ValueHydrator implements HydrationInterface
                 if (!isset($valueObject['type'])) {
                     $valueObject['type'] = null;
                 }
-                $dataType = $dataTypes->get($valueObject);
+                try {
+                    $dataType = $dataTypes->get($valueObject['type']);
+                } catch (ServiceNotFoundException $e) {
+                    // Ignore an invalid data type.
+                    continue;
+                }
                 if (!$dataType->isValid($valueObject)) {
                     // Ignore an invalid value.
                     continue;
@@ -79,6 +85,7 @@ class ValueHydrator implements HydrationInterface
                     'Omeka\Entity\Property',
                     $valueObject['property_id']
                 );
+                $value->setType($value->getType() ?: $valueObject['type']);
                 $value->setResource($resource);
                 $value->setProperty($property);
                 $dataType->hydrate($valueObject, $value, $this->adapter);

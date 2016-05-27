@@ -5,6 +5,12 @@ use Zend\View\Model\ViewModel;
 
 class ItemController extends AbstractSiteController
 {
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
+
     public function browseAction()
     {
         $site = $this->getSite();

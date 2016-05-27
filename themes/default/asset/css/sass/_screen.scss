@@ -59,7 +59,9 @@ img {
 
 input,
 textarea,
-button {
+button,
+.button,
+select {
     font-family: "Open Sans", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
@@ -74,10 +76,30 @@ input[type="url"] {
     @include appearance(none);
     @include border-radius(0px);
     height: rhythm(1.5);
-    border-color: rgba(0,0,0,.15);
+    border-color: $light;
     @include rhythm-borders(1px, 0, $base-font-size, solid);
     padding: rhythm(.25) gutter();
     margin: 0;
+}
+
+button,
+.button,
+[type="submit"] {
+    background-color: $light;
+    border-radius: 2px;
+    padding: rhythm(.25);
+    display: inline-block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0;
+}
+
+select {
+    background-color: #fff;
+    padding: rhythm(.25);
+    border-color: $light;
+    height: rhythm(1.5);
 }
 
 ::-webkit-input-placeholder {
@@ -94,6 +116,34 @@ input[type="url"] {
 
 :-ms-input-placeholder {
    font-style: italic;
+}
+
+.field {
+    margin: rhythm() 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.field .field-meta {
+    width: 30%;
+    padding: rhythm(.25) gutter() 0 0;
+}
+
+.field .inputs {
+    width: 70%;
+    padding-left: gutter();
+}
+
+.field .value:not(:last-child) {
+    margin-bottom: rhythm(.5);
+}
+
+.field-description {
+    font-size: .75 * $base-font-size;
 }
 
 /* @end */
@@ -634,6 +684,11 @@ ul.resource-list .resource img ~ * {
     margin-left: -5px;
 }
 
+.advanced-search {
+    float: right;
+    margin: rhythm(.25) 0;
+}
+
 /* @end */
 
 /* @group ----- Show ----- */
@@ -692,6 +747,14 @@ body.resource #content > h2:first-of-type + h3 {
 
 .media-render > * {
     max-width: 100%;
+}
+
+/* @end */
+
+/* @group ----- Advanced Search ----- */
+
+#advanced-search .value:not(:last-child) {
+    margin-bottom: rhythm(.5);
 }
 
 /* @end */

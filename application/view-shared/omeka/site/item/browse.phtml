@@ -17,6 +17,7 @@
     <?php endif; ?>
 
     <?php echo $this->searchFilters(); ?>
+    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->pagination(); ?>
     <ul class="resource-list">
         <?php foreach ($items as $item): ?>

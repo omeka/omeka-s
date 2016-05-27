@@ -58,7 +58,7 @@ class ValueHydrator implements HydrationInterface
                 if (!isset($valueObject['type'])) {
                     $valueObject['type'] = null;
                 }
-                $dataType = $dataTypes->get($valueObject['type']);
+                $dataType = $dataTypes->get($valueObject);
                 if (!$dataType->isValid($valueObject)) {
                     // Ignore an invalid value.
                     continue;

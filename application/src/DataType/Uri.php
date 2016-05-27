@@ -8,6 +8,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Uri extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'uri';
+    }
+
     public function getLabel()
     {
         return 'URI';

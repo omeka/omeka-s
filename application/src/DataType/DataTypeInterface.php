@@ -12,6 +12,13 @@ use Zend\View\Renderer\PhpRenderer;
 interface DataTypeInterface
 {
     /**
+     * Get the name of this data type.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Get a human-readable label for this data type.
      *
      * @return string

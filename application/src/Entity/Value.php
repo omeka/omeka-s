@@ -8,10 +8,6 @@ namespace Omeka\Entity;
  */
 class Value extends AbstractEntity
 {
-    const TYPE_LITERAL = 'literal';
-    const TYPE_RESOURCE = 'resource';
-    const TYPE_URI = 'uri';
-
     /**
      * @Id
      * @Column(type="integer")

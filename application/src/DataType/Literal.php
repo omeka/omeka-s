@@ -8,6 +8,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Literal extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'literal';
+    }
+
     public function getLabel()
     {
         return 'Text';

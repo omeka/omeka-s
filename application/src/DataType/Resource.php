@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Resource extends AbstractDataType
 {
+    public function getName()
+    {
+        return 'resource';
+    }
+
     public function getLabel()
     {
         return 'Resource';

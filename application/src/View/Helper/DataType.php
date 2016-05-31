@@ -56,7 +56,7 @@ class DataType extends AbstractHelper
 
     public function getTemplate($dataType)
     {
-        return $this->manager->get($dataType)->getTemplate($this->getView());
+        return $this->manager->get($dataType)->form($this->getView());
     }
 
     /**

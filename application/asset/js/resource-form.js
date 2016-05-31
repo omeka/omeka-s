@@ -291,7 +291,7 @@
             return;
         }
         var url = templateSelect.data('api-base-url') + '/' + templateId;
-        $.get(url)
+        return $.get(url)
             .done(function(data) {
                 if (changeClass) {
                     // Change the resource class.
@@ -341,7 +341,10 @@
             });
         }
 
-        rewritePropertyFields(false);
+        rewritePropertyFields(false)
+            .done(function () {
+                $('#properties').closest('form').trigger('o:form-loaded');
+            });
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

@@ -303,10 +303,15 @@ var Omeka = {
             $(this).data('omekaFormSubmitted', true);
         };
 
+        var setOriginalData = function () {
+            $(this).data('omekaFormOriginalData', $(this).serialize());
+        };
+
         var formsToCheck = $('form[method=POST]:not(.disable-unsaved-warning)');
+        formsToCheck.on('o:form-loaded', setOriginalData);
         formsToCheck.each(function () {
             var form = $(this);
-            form.data('omekaFormOriginalData', form.serialize());
+            form.trigger('o:form-loaded');
             form.submit(setSubmittedFlag);
         });
 

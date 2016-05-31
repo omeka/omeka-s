@@ -157,10 +157,11 @@ td .o-icon-private {
     & > h1:first-of-type {
         width: auto;
         position: static;
-        margin-top: 0;
-        padding: 0 gutter();
+        padding: rhythm(.5, 2 * $base-font-size) gutter();
         height: auto;
-        margin: 0 -#{gutter()};
+        margin: 0 -#{gutter()} rhythm(.5);
+        white-space: normal;
+        line-height: 1.5 * $base-line-height;
     }
 }
 
@@ -464,6 +465,49 @@ fieldset.section:not(a) {
 .unset .field-meta {
     width: 100%;
 }
+/* @end */
+
+/* @group ----- Show views ----- */
+
+.show .sidebar.active {
+    position: static;
+    border-color: $border-gray;
+    @include rhythm-borders(1px, .5, $base-font-size, solid);
+    margin-top: rhythm();
+}
+
+.show .section .property,
+.show .section .meta-group {
+    margin-bottom: rhythm();
+}
+
+.show .section .meta-group h4,
+.show .section .property h4 {
+    border-color: $border-gray;
+    @include trailing-border(2px, .25, $base-font-size, solid);
+    margin-bottom: rhythm(.25);
+}
+
+.show .section .meta-group h4,
+.show .section .meta-group .value,
+.show .section .property h4,
+.show .section .property .value {
+    width: 100%;
+    padding: 0;
+}
+
+.show .section .meta-group .value:not(:first-of-type),
+.show .section .property .value:not(:first-of-type) {
+    border-color: $border-gray;
+    @include leading-border(1px, .25, $base-font-size, solid);
+    margin-top: rhythm(.25);
+}
+
+.show .sidebar .meta-group .value:not(:first-of-type),
+.show .sidebar .property .value:not(:first-of-type) {
+    padding-top: rhythm(.25);
+}
+
 /* @end */
 
 /* @group ----- Minimalist views ----- */

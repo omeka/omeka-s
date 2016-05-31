@@ -61,6 +61,9 @@ class EntityManagerFactory implements FactoryInterface
         $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 
         // Load proxies from different directories
+        // HACK: Doctrine takes an integer here and just happens to do nothing (which is
+        // what we want) if the number is not one of the defined proxy generation
+        // constants.
         $emConfig->setAutoGenerateProxyClasses(-1);
         ProxyAutoloader::register($config['entity_manager']['proxy_paths'],
             $emConfig->getProxyNamespace());

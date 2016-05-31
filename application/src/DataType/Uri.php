@@ -18,7 +18,7 @@ class Uri extends AbstractDataType
         return 'URI';
     }
 
-    public function getTemplate(PhpRenderer $view)
+    public function form(PhpRenderer $view)
     {
         return $view->partial('common/data-type/uri');
     }
@@ -46,7 +46,7 @@ class Uri extends AbstractDataType
         $value->setValueResource(null); // set default
     }
 
-    public function getHtml(PhpRenderer $view, ValueRepresentation $value)
+    public function render(PhpRenderer $view, ValueRepresentation $value)
     {
         $uri = $value->uri();
         $uriLabel = $value->value();

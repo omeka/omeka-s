@@ -40,7 +40,7 @@ interface DataTypeInterface
      * @param PhpRenderer $view
      * @return string
      */
-    public function getTemplate(PhpRenderer $view);
+    public function form(PhpRenderer $view);
 
     /**
      * Is this value object valid?
@@ -66,7 +66,7 @@ interface DataTypeInterface
      * @param ValueRepresentation $value
      * @return string
      */
-    public function getHtml(PhpRenderer $view, ValueRepresentation $value);
+    public function render(PhpRenderer $view, ValueRepresentation $value);
 
     /**
      * Get the value as a simple string.

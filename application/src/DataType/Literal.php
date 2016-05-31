@@ -18,7 +18,7 @@ class Literal extends AbstractDataType
         return 'Text';
     }
 
-    public function getTemplate(PhpRenderer $view)
+    public function form(PhpRenderer $view)
     {
         return $view->partial('common/data-type/literal');
     }
@@ -46,7 +46,7 @@ class Literal extends AbstractDataType
         $value->setValueResource(null); // set default
     }
 
-    public function getHtml(PhpRenderer $view, ValueRepresentation $value)
+    public function render(PhpRenderer $view, ValueRepresentation $value)
     {
         return nl2br($view->escapeHtml($value->value()));
     }

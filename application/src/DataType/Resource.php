@@ -19,7 +19,7 @@ class Resource extends AbstractDataType
         return 'Resource';
     }
 
-    public function getTemplate(PhpRenderer $view)
+    public function form(PhpRenderer $view)
     {
         return $view->partial('common/data-type/resource');
     }
@@ -64,7 +64,7 @@ class Resource extends AbstractDataType
         $value->setValueResource($valueResource);
     }
 
-    public function getHtml(PhpRenderer $view, ValueRepresentation $value)
+    public function render(PhpRenderer $view, ValueRepresentation $value)
     {
         $valueResource = $value->valueResource();
         return $valueResource->link($valueResource->displayTitle());

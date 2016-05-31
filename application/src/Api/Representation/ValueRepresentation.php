@@ -51,7 +51,7 @@ class ValueRepresentation extends AbstractRepresentation
         $view = $this->getServiceLocator()->get('ViewManager')->getRenderer();
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs([
-            'html' => $this->dataType->getHtml($view, $this),
+            'html' => $this->dataType->render($view, $this),
         ]);
         $eventManager->trigger(Event::REP_VALUE_HTML, $this, $args);
         return $args['html'];

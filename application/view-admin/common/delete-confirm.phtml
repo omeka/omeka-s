@@ -11,9 +11,6 @@ $this->form->setButtonLabel('Confirm Delete'); // @translate
         <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $this->resourceLabel)); ?></p>
         <?php echo $this->form($this->form); ?>
     </div>
-    <?php if (isset($this->partialPath)): ?>
-        <?php echo $this->partial($this->partialPath); ?>
-    <?php endif; ?>
 <?php if ($this->wrapSidebar): ?>
 </div>
 <?php endif; ?>

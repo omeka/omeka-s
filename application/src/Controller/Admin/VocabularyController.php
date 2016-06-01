@@ -18,11 +18,6 @@ class VocabularyController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('vocabularies', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -44,9 +39,9 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
-        $view->setVariable('resourceLabel', 'vocabulary');
         $view->setVariable('resource', $vocabulary);
+        $view->setVariable('resourceLabel', 'vocabulary');
+        $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
         return $view;
     }
 
@@ -128,7 +123,7 @@ class VocabularyController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('vocabularies', $this->params('id'));

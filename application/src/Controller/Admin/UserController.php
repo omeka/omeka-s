@@ -57,11 +57,6 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -86,15 +81,15 @@ class UserController extends AbstractActionController
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('users', $this->params('id'));
-        $user = $response->getContent();
+        $resource = $this->api()->read('users', $this->params('id'))->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
+        $view->setTemplate('common/delete-confirm');
+        $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'user');
-        $view->setVariable('resource', $user);
+        $view->setVariable('form', $this->getForm(ConfirmForm::class));
+        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
         return $view;
     }
 
@@ -236,7 +231,7 @@ class UserController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('users', $this->params('id'));

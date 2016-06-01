@@ -46,15 +46,15 @@ class ResourceTemplateController extends AbstractActionController
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('resource_templates', $this->params('id'));
-        $resourceTemplate = $response->getContent();
+        $resource = $this->api()->read('resource_templates', $this->params('id'))->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
+        $view->setTemplate('common/delete-confirm');
+        $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'resource template');
-        $view->setVariable('resource', $resourceTemplate);
+        $view->setVariable('form', $this->getForm(ConfirmForm::class));
+        $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
         return $view;
     }
 

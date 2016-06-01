@@ -1,24 +1,26 @@
 <?php
 namespace Omeka\Form;
 
+use Zend\Form\Form;
+
 /**
  * General form for confirming an irreversable action in a sidebar.
  */
-class ConfirmForm extends AbstractForm
+class ConfirmForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
-        $value = $this->getOption('button_value');
-        if (!$value) {
-            $value = 'Confirm'; // @translate
-        }
-
         $this->add([
             'type' => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => $value,
+                'value' => 'Confirm', // @translate
             ],
         ]);
+    }
+
+    public function setButtonLabel($label)
+    {
+        $this->get('submit')->setAttribute('value', $label);
     }
 }

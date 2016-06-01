@@ -224,7 +224,9 @@ return [
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
             'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
-            'getForm' => 'Omeka\Mvc\Controller\Plugin\GetForm',
+        ],
+        'factories' => [
+            'getForm' => 'Omeka\Mvc\Controller\Plugin\GetFormFactory',
         ],
     ],
     'api_adapters' => [

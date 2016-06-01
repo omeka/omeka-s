@@ -18,7 +18,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $form = $this->getForm('Omeka\Form\LoginForm');
+        $form = $this->getForm(LoginForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -89,7 +89,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
 
-        $form = $this->getForm('Omeka\Form\ActivateForm');
+        $form = $this->getForm(ActivateForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -122,7 +122,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $form = $this->getForm('Omeka\Form\ForgotPasswordForm');
+        $form = $this->getForm(ForgotPasswordForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();

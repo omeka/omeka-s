@@ -226,7 +226,7 @@ return [
             'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
         ],
         'factories' => [
-            'getForm' => 'Omeka\Mvc\Controller\Plugin\GetFormFactory',
+            'getForm' => 'Omeka\Service\ControllerPlugin\GetFormFactory',
         ],
     ],
     'api_adapters' => [

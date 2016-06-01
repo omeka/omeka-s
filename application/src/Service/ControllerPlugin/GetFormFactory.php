@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Mvc\Controller\Plugin;
+namespace Omeka\Service\ControllerPlugin;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

@@ -26,4 +26,4 @@ class Csrf implements InitializerInterface
             ],
         ]);
     }
-} 
+}

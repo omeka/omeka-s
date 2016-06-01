@@ -271,7 +271,6 @@ return [
             'assetUrl' => 'Omeka\Service\ViewHelper\AssetUrlFactory',
             'blockLayout' => 'Omeka\Service\ViewHelper\BlockLayoutFactory',
             'dataType' => 'Omeka\Service\ViewHelper\DataTypeFactory',
-            'deleteConfirmForm' => 'Omeka\Service\ViewHelper\DeleteConfirmFormFactory',
             'i18n' => 'Omeka\Service\ViewHelper\I18nFactory',
             'media' => 'Omeka\Service\ViewHelper\MediaFactory',
             'navigationLink' => 'Omeka\Service\ViewHelper\NavigationLinkFactory',

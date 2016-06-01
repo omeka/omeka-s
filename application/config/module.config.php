@@ -280,7 +280,7 @@ return [
             'themeSetting' => 'Omeka\Service\ViewHelper\ThemeSettingFactory',
             'trigger' => 'Omeka\Service\ViewHelper\TriggerFactory',
             'userIsAllowed' => 'Omeka\Service\ViewHelper\UserIsAllowedFactory',
-            'deleteConfirmSidebar' => 'Omeka\Service\ViewHelper\DeleteConfirmSidebarFactory',
+            'deleteConfirm' => 'Omeka\Service\ViewHelper\DeleteConfirmFactory',
         ],
     ],
     'form_elements' => [

@@ -4,7 +4,7 @@ namespace Omeka\View\Helper;
 use Omeka\Form\ConfirmForm;
 use Zend\View\Helper\AbstractHelper;
 
-class DeleteConfirmSidebar extends AbstractHelper
+class DeleteConfirm extends AbstractHelper
 {
     protected $formElementManager;
 
@@ -16,7 +16,7 @@ class DeleteConfirmSidebar extends AbstractHelper
     public function __invoke($resource, $resourceLabel = null, $buttonLabel = null) {
 
         if (!isset($buttonLabel)) {
-            $buttonLabel = $this->getView()->translate('Confirm Delete');
+            $buttonLabel = 'Confirm Delete'; // @translate
         }
 
         $form = $this->formElementManager->get(ConfirmForm::class);

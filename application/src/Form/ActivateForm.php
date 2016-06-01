@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class ActivateForm extends AbstractForm
+use Zend\Form\Form;
+
+class ActivateForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'password',

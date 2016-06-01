@@ -224,6 +224,7 @@ return [
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'paginator' => 'Omeka\Mvc\Controller\Plugin\Paginator',
             'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
+            'getForm' => 'Omeka\Mvc\Controller\Plugin\GetForm',
         ],
     ],
     'api_adapters' => [
@@ -279,6 +280,11 @@ return [
             'themeSetting' => 'Omeka\Service\ViewHelper\ThemeSettingFactory',
             'trigger' => 'Omeka\Service\ViewHelper\TriggerFactory',
             'userIsAllowed' => 'Omeka\Service\ViewHelper\UserIsAllowedFactory',
+        ],
+    ],
+    'form_elements' => [
+        'initializers' => [
+            'Omeka\Form\Initializer\Csrf',
         ],
     ],
     'data_types' => [

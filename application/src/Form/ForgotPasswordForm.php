@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class ForgotPasswordForm extends AbstractForm
+use Zend\Form\Form;
+
+class ForgotPasswordForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'email',

@@ -220,17 +220,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements
 
         $paginator = new Paginator($qb, false);
         $representations = [];
-        foreach ($paginator as $entity) {
-            if (is_array($entity)) {
-                // Remove non-entity columns added to the SELECT. You can use
-                // "AS HIDDEN {alias}" to avoid this condition.
-                $entity = $entity[0];
+        // Don't make the request if the LIMIT is set to zero. Useful if the
+        // only information needed is total results.
+        if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
+            foreach ($paginator as $entity) {
+                if (is_array($entity)) {
+                    // Remove non-entity columns added to the SELECT. You can use
+                    // "AS HIDDEN {alias}" to avoid this condition.
+                    $entity = $entity[0];
+                }
+                $representations[] = $this->getRepresentation($entity);
             }
-            $representations[] = $this->getRepresentation($entity);
         }
 
         $response = new Response($representations);
-        $response->setTotalResults(count($paginator));
+        $response->setTotalResults($paginator->count());
         return $response;
     }
 

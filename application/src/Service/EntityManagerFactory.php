@@ -9,6 +9,7 @@ use Doctrine\ORM\Tools\Setup;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\Utf8mb4;
 use Omeka\Db\Event\Subscriber\Entity;
+use Omeka\Db\ProxyAutoloader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -68,6 +69,14 @@ class EntityManagerFactory implements FactoryInterface
         $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
         $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
         $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
+
+        // Load proxies from different directories
+        // HACK: Doctrine takes an integer here and just happens to do nothing (which is
+        // what we want) if the number is not one of the defined proxy generation
+        // constants.
+        $emConfig->setAutoGenerateProxyClasses(-1);
+        ProxyAutoloader::register($config['entity_manager']['proxy_paths'],
+            $emConfig->getProxyNamespace());
 
         // Set up the entity manager.
         $connection = $serviceLocator->get('Omeka\Connection');

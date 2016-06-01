@@ -54,6 +54,9 @@ return [
             'string' => [],
             'datetime' => [],
         ],
+        'proxy_paths' => [
+            OMEKA_PATH . '/data/doctrine-proxies',
+        ]
     ],
     'installer' => [
         'pre_tasks' => [

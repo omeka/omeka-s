@@ -80,21 +80,22 @@ class SettingForm extends Form
             ]
         ]);
 
-        $siteSelect = $this->getFormFactory()->getFormElementManager()->get(
-            ResourceSelect::class,
-            [
-                'name' => 'default_site',
-                'options' => [
-                    'label' => 'Default Site', // @translate
-                    'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
-                    'empty_option' => 'No default (Show index of sites)', // @translate
+        $this->add([
+            'name' => 'default_site',
+            'type' => ResourceSelect::class,
+            'options' => [
+                'label' => 'Default Site', // @translate
+                'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
+                'empty_option' => 'No default (Show index of sites)', // @translate
+                'resource_value_options' => [
+                    'resource' => 'sites',
+                    'query' => [],
+                    'option_text_callback' => function ($site) {
+                        return $site->title();
+                    },
                 ],
-            ]
-        );
-        $siteSelect->setResourceValueOptions('sites', [], function ($site) {
-            return $site->title();
-        });
-        $this->add($siteSelect);
+            ],
+        ]);
 
         $this->add([
             'name'    => 'use_htmlpurifier',
@@ -103,7 +104,6 @@ class SettingForm extends Form
                 'label' => 'Use HTMLPurifier', // @translate
                 'info'  => 'Clean up user-entered HTML.' // @translate
             ]
-
         ]);
 
         $inputFilter = $this->getInputFilter();

@@ -1,5 +1,4 @@
 <?php
-//$this->resourceClassSelect()->setValue($resourceClassId)->render('o:resource_class[o:id]')
 namespace Omeka\Form\Element;
 
 use Omeka\Api\Manager as ApiManager;

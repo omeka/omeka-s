@@ -292,6 +292,8 @@ return [
         ],
         'factories' => [
             'Omeka\Form\UserForm' => 'Omeka\Service\Form\UserFormFactory',
+            'Omeka\Form\SettingForm' => 'Omeka\Service\Form\SettingFormFactory',
+            'Omeka\Form\Element\ResourceSelect' => 'Omeka\Service\Form\Element\ResourceSelectFactory',
         ],
     ],
     'data_types' => [

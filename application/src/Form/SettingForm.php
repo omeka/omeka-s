@@ -1,11 +1,19 @@
 <?php
 namespace Omeka\Form;
 
+use DateTimeZone;
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Settings\Settings;
+use Zend\Form\Form;
 
-class SettingForm extends AbstractForm
+class SettingForm extends Form
 {
-    public function buildForm()
+    /**
+     * @var Settings
+     */
+    protected $settings;
+
+    public function init()
     {
         $this->add([
             'name' => 'administrator_email',
@@ -30,7 +38,7 @@ class SettingForm extends AbstractForm
             ],
         ]);
 
-        $timeZones = \DateTimeZone::listIdentifiers();
+        $timeZones = DateTimeZone::listIdentifiers();
         $timeZones = array_combine($timeZones, $timeZones);
         $this->add([
             'name' => 'time_zone',
@@ -42,7 +50,7 @@ class SettingForm extends AbstractForm
             'attributes' => [
                 'id' => 'time-zone',
                 'required' => true,
-                'value' => $this->getServiceLocator()->get('Omeka\Settings')->get('time_zone', 'UTC'),
+                'value' => $this->getSettings()->get('time_zone', 'UTC'),
             ],
         ]);
 
@@ -72,19 +80,20 @@ class SettingForm extends AbstractForm
             ]
         ]);
 
-        $siteSelect = new ResourceSelect(
-            $this->getServiceLocator(), 'default_site', [
-                'label' => 'Default Site', // @translate
-                'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
-                'empty_option' => 'No default (Show index of sites)', // @translate
-        ]);
-        $siteSelect->setResourceValueOptions(
-            'sites',
-            [],
-            function ($site, $serviceLocator) {
-                return $site->title();
-            }
+        $siteSelect = $this->getFormFactory()->getFormElementManager()->get(
+            ResourceSelect::class,
+            [
+                'name' => 'default_site',
+                'options' => [
+                    'label' => 'Default Site', // @translate
+                    'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
+                    'empty_option' => 'No default (Show index of sites)', // @translate
+                ],
+            ]
         );
+        $siteSelect->setResourceValueOptions('sites', [], function ($site) {
+            return $site->title();
+        });
         $this->add($siteSelect);
 
         $this->add([
@@ -112,5 +121,21 @@ class SettingForm extends AbstractForm
             'name' => 'default_site',
             'allow_empty' => true,
         ]);
+    }
+
+    /**
+     * @param Settings $settings
+     */
+    public function setSettings(Settings $settings)
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return Settings
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

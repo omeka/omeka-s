@@ -12,7 +12,7 @@ class SettingController extends AbstractActionController
         $serviceLocator = $this->getServiceLocator();
         $settings = $serviceLocator->get('Omeka\Settings');
 
-        $form = new SettingForm($serviceLocator);
+        $form = $this->getForm(SettingForm::class);
         $data = [
             'administrator_email' => $settings->get('administrator_email'),
             'installation_title' => $settings->get('installation_title'),

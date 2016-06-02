@@ -95,6 +95,6 @@ class UserForm extends Form
      */
     public function getAcl()
     {
-        return $this->acl();
+        return $this->acl;
     }
 }

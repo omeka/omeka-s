@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class VocabularyImportForm extends AbstractForm
+use Zend\Form\Form;
+
+class VocabularyImportForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'file',

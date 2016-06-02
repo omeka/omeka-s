@@ -47,7 +47,7 @@ class VocabularyController extends AbstractActionController
 
     public function importAction()
     {
-        $form = new VocabularyImportForm($this->getServiceLocator());
+        $form = $this->getForm(VocabularyImportForm::class);
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -84,7 +84,7 @@ class VocabularyController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new VocabularyForm($this->getServiceLocator());
+        $form = $this->getForm(VocabularyForm::class);
         $id = $this->params('id');
 
         $readResponse = $this->api()->read('vocabularies', $id);

@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class VocabularyForm extends AbstractForm
+use Zend\Form\Form;
+
+class VocabularyForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'o:label',

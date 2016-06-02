@@ -21,22 +21,17 @@ class JobController extends AbstractActionController
 
     public function showAction()
     {
-        $response = $this->api()->read('jobs', $this->params('id'));
+        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setAttribute('action', $job->url('stop'));
+        $form->setButtonLabel('Attempt Stop');
 
         $view = new ViewModel;
-        $job = $response->getContent();
         $view->setVariable('job', $job);
         $view->setVariable('resource', $job);
-
-        $form = new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Attempt Stop'),
-            ]
-        );
-        $form->setAttribute('action', $job->url('stop'));
         $view->setVariable('confirmForm', $form);
 
-        return $view;
+    return $view;
     }
 
     public function logAction()
@@ -51,7 +46,7 @@ class JobController extends AbstractActionController
     public function stopAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->read('jobs', $this->params('id'));

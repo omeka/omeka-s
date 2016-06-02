@@ -6,8 +6,6 @@ namespace Omeka\View\Helper;
  */
 class ResourceClassSelect extends AbstractSelect
 {
-    protected $emptyOption = 'Select Class...';
-
     public function getValueOptions()
     {
         $vocabularies = $this->getView()->api()->search('vocabularies')->getContent();

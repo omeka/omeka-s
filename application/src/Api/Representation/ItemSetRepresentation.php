@@ -81,7 +81,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
             'site/item-set',
             [
                 'site-slug' => $siteSlug,
-                'id' => $this->id(),
+                'item-set-id' => $this->id(),
             ],
             ['force_canonical' => $canonical]
         );

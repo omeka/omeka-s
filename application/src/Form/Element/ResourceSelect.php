@@ -11,13 +11,6 @@ class ResourceSelect extends Select
      */
     protected $apiManager;
 
-    /**
-     * Set API resources as value options.
-     *
-     * Sets the resource ID as the option value and the return value of
-     * $callback as the option text. The callback receives the resource
-     * representation.
-     */
     public function setOptions($options)
     {
         parent::setOptions($options);
@@ -43,24 +36,36 @@ class ResourceSelect extends Select
             $query = $options['resource_value_options']['query'];
         }
 
+        $this->setResourceValueOptions($resource, $callback, $query);
+        return $this;
+    }
+
+    /**
+     * Set API resources as value options.
+     *
+     * Sets the resource ID as the option value and the return value of
+     * $callback as the option text. The callback receives the resource
+     * representation.
+     */
+    public function setResourceValueOptions($resource, callable $callback, array $query = [])
+    {
         $valueOptions = [];
-        if ($resource && $callback) {
-            $response = $this->getApiManager()->search($resource, $query);
-            if (!$response->isError()) {
-                foreach ($response->getContent() as $representation) {
-                    $value = $callback($representation);
-                    if (is_array($value)) {
-                        if (!isset($valueOptions[$value[0]])) {
-                            $valueOptions[$value[0]]['label'] = $value[0];
-                        }
-                        $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
-                    } else {
-                        $valueOptions[$representation->id()] = $value;
+        $response = $this->getApiManager()->search($resource, $query);
+        if (!$response->isError()) {
+            foreach ($response->getContent() as $representation) {
+                $value = $callback($representation);
+                if (is_array($value)) {
+                    if (!isset($valueOptions[$value[0]])) {
+                        $valueOptions[$value[0]]['label'] = $value[0];
                     }
+                    $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
+                } else {
+                    $valueOptions[$representation->id()] = $value;
                 }
             }
         }
-        return $this->setValueOptions($valueOptions);
+        $this->setValueOptions($valueOptions);
+        return $this;
     }
 
     /**

@@ -146,7 +146,10 @@ class UserController extends AbstractActionController
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $currentUser = $user === $this->identity();
-        $form = new UserPasswordForm($this->getServiceLocator(), null, ['current_password' => $currentUser]);
+
+        $form = $this->getForm(UserPasswordForm::class, [
+            'current_password' => $currentUser,
+        ]);
 
         $view = new ViewModel;
         $view->setVariable('user', $userRepresentation);
@@ -180,7 +183,7 @@ class UserController extends AbstractActionController
 
     public function editKeysAction()
     {
-        $form = new UserKeyForm($this->getServiceLocator());
+        $form = $this->getForm(UserKeyForm::class);
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');

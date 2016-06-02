@@ -22,8 +22,7 @@ class UserForm extends Form
 
     public function __construct($name = null, $options = [])
     {
-        parent::__construct($name, $options);
-        $this->options = array_merge($this->options, $options);
+        parent::__construct($name, array_merge($this->options, $options));
     }
 
     public function init()
@@ -51,8 +50,8 @@ class UserForm extends Form
             ],
         ]);
 
-        if ($this->options['include_role']) {
-            $excludeAdminRoles = !$this->options['include_admin_roles'];
+        if ($this->getOption('include_role')) {
+            $excludeAdminRoles = !$this->getOption('include_admin_roles');
             $roles = $this->getAcl()->getRoleLabels($excludeAdminRoles);
             $this->add([
                 'name' => 'o:role',
@@ -68,7 +67,7 @@ class UserForm extends Form
             ]);
         }
 
-        if ($this->options['include_is_active']) {
+        if ($this->getOption('include_is_active')) {
             $this->add([
                 'name' => 'o:is_active',
                 'type' => 'checkbox',

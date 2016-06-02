@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class UserKeyForm extends AbstractForm
+use Zend\Form\Form;
+
+class UserKeyForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'new-key-label',

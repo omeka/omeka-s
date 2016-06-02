@@ -1,11 +1,12 @@
 <?php
 namespace Omeka\Form;
 
-class ResourceTemplateForm extends AbstractForm
-{
-    protected $options = ['include_role' => false];
+use Omeka\Form\Element\ResourceClassSelect;
+use Zend\Form\Form;
 
-    public function buildForm()
+class ResourceTemplateForm extends Form
+{
+    public function init()
     {
         $this->add([
             'name' => 'o:label',
@@ -18,10 +19,23 @@ class ResourceTemplateForm extends AbstractForm
             ],
         ]);
 
+        $this->add([
+            'name' => 'o:resource_class[o:id]',
+            'type' => ResourceClassSelect::class,
+            'options' => [
+                'label' => 'Suggested Class', // @translate
+                'empty_option' => 'Select Class...', // @translate
+            ],
+        ]);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:label',
             'required' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'o:resource_class[o:id]',
+            'allow_empty' => true,
         ]);
     }
 }

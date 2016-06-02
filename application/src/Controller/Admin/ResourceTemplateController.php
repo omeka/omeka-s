@@ -89,17 +89,17 @@ class ResourceTemplateController extends AbstractActionController
     protected function getAddEditView()
     {
         $action = $this->params('action');
-        $form = new ResourceTemplateForm($this->getServiceLocator());
-        $resourceClassId = null;
+        $form = $this->getForm(ResourceTemplateForm::class);
 
         if ('edit' == $action) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
-            $form->setData($resourceTemplate->jsonSerialize());
-            if ($resourceTemplate->resourceClass()) {
-                $resourceClassId = $resourceTemplate->resourceClass()->id();
+            $data = $resourceTemplate->jsonSerialize();
+            if ($data['o:resource_class']) {
+                $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
             }
+            $form->setData($data);
         }
 
         if ($this->getRequest()->isPost()) {
@@ -131,14 +131,8 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         if ('edit' == $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
-            $view->setVariable('confirmForm', new ConfirmForm(
-                $this->getServiceLocator(), null, [
-                    'button_value' => $this->translate('Confirm Delete'),
-                ]
-            ));
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());
-        $view->setVariable('resourceClassId', $resourceClassId);
         $view->setVariable('form', $form);
         return $view;
     }

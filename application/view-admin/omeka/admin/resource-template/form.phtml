@@ -5,6 +5,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
+
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
     <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $this->translate('Delete'); ?></a>
@@ -12,24 +13,8 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
 
-<?php $labelElement = $form->get('o:label'); ?>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $this->formLabel($labelElement); ?>
-    </div>
-    <div class="inputs">
-        <?php echo $this->formElement($labelElement); ?>
-    </div>
-    <?php echo $this->formElementErrors($labelElement, ['class' => 'messages']); ?>
-</div>
-<div class="field">
-    <div class="field-meta">
-        <label for="o:resource_class[o:id]"><?php echo $this->translate('Suggested Class'); ?></label>
-    </div>
-    <div class="inputs">
-        <?php echo $this->resourceClassSelect()->setValue($resourceClassId)->render('o:resource_class[o:id]'); ?>
-    </div>
-</div>
+<?php echo $this->formCollection($form, false); ?>
+
 <ul id="properties">
     <li>
         <div class="property-heading" id="original-label"><?php echo $this->translate('Label'); ?></div>
@@ -44,7 +29,6 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <?php endforeach; ?>
 </ul>
 
-<?php echo $this->formElement($form->get('csrf')); ?>
 <?php $this->trigger($formAfterEvent); ?>
 <?php echo $this->form()->closeTag(); ?>
 

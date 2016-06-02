@@ -78,10 +78,9 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
         }
         $url = $this->getViewHelper('Url');
         return $url(
-            'site/resource-id',
+            'site/item-set',
             [
                 'site-slug' => $siteSlug,
-                'controller' => 'item-set',
                 'id' => $this->id(),
             ],
             ['force_canonical' => $canonical]

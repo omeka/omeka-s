@@ -1,14 +1,32 @@
 <?php
 namespace Omeka\Form;
 
-class UserForm extends AbstractForm
+use Omeka\Permissions\Acl;
+use Zend\Form\Form;
+
+class UserForm extends Form
 {
+    /**
+     * @var array
+     */
     protected $options = [
         'include_role' => false,
-        'include_admin_roles' => false
+        'include_admin_roles' => false,
+        'include_is_active' => false,
     ];
 
-    public function buildForm()
+    /**
+     * @var Acl
+     */
+    protected $acl;
+
+    public function __construct($name = null, $options = [])
+    {
+        parent::__construct($name, $options);
+        $this->options = array_merge($this->options, $options);
+    }
+
+    public function init()
     {
         $this->add([
             'name' => 'o:email',
@@ -33,9 +51,9 @@ class UserForm extends AbstractForm
             ],
         ]);
 
-        if ($this->getOption('include_role')) {
-            $excludeAdminRoles = !$this->getOption('include_admin_roles');
-            $roles = $this->getServiceLocator()->get('Omeka\Acl')->getRoleLabels($excludeAdminRoles);
+        if ($this->options['include_role']) {
+            $excludeAdminRoles = !$this->options['include_admin_roles'];
+            $roles = $this->getAcl()->getRoleLabels($excludeAdminRoles);
             $this->add([
                 'name' => 'o:role',
                 'type' => 'select',
@@ -50,7 +68,7 @@ class UserForm extends AbstractForm
             ]);
         }
 
-        if ($this->getOption('include_is_active')) {
+        if ($this->options['include_is_active']) {
             $this->add([
                 'name' => 'o:is_active',
                 'type' => 'checkbox',
@@ -62,5 +80,21 @@ class UserForm extends AbstractForm
                 ],
             ]);
         }
+    }
+
+    /**
+     * @param Acl $acl
+     */
+    public function setAcl(Acl $acl)
+    {
+        $this->acl = $acl;
+    }
+
+    /**
+     * @return Acl
+     */
+    public function getAcl()
+    {
+        return $this->acl();
     }
 }

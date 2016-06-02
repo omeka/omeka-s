@@ -13,7 +13,7 @@ class GetForm extends AbstractPlugin
         $this->formElementManager = $formElementManager;
     }
 
-    public function __invoke($class) {
-        return $this->formElementManager->get($class);
+    public function __invoke($class, array $options = []) {
+        return $this->formElementManager->get($class, $options);
     }
 }

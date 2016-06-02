@@ -290,6 +290,9 @@ return [
         'initializers' => [
             'Omeka\Form\Initializer\Csrf',
         ],
+        'factories' => [
+            'Omeka\Form\UserForm' => 'Omeka\Service\Form\UserFormFactory',
+        ],
     ],
     'data_types' => [
         'invokables' => [

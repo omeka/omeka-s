@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ModuleStateChangeForm;
-use Omeka\Form\ModuleUninstallForm;
+use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -108,15 +108,17 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $uninstallForm = new ModuleUninstallForm(
-            $this->getServiceLocator(), 'uninstall'
-        );
-        $uninstallForm->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]], true));
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(
+            null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]
+        ], true));
+        $form->setButtonLabel('Confirm Uninstall');
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/module/uninstall-confirm');
-        $view->setVariable('uninstallForm', $uninstallForm);
+        $view->setVariable('form', $form);
         $view->setVariable('module', $module);
         return $view;
     }
@@ -130,10 +132,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = $this->getForm(ModuleStateChangeForm::class, [
-            'module_action' => 'uninstall',
-            'module_id' => $id,
-        ]);
+        $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;

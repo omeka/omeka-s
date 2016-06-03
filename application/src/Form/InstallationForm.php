@@ -1,9 +1,12 @@
 <?php
 namespace Omeka\Form;
 
-class InstallationForm extends AbstractForm
+use DateTimeZone;
+use Zend\Form\Form;
+
+class InstallationForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         // By removing CSRF protection we're removing the need to use session
         // data during installation. This is needed for databse session storage.
@@ -98,7 +101,7 @@ class InstallationForm extends AbstractForm
             ],
         ]);
 
-        $timeZones = \DateTimeZone::listIdentifiers();
+        $timeZones = DateTimeZone::listIdentifiers();
         $timeZones = array_combine($timeZones, $timeZones);
         $this->get('settings')->add([
             'name' => 'time_zone',

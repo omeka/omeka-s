@@ -293,6 +293,7 @@ return [
         'factories' => [
             'Omeka\Form\UserForm' => 'Omeka\Service\Form\UserFormFactory',
             'Omeka\Form\SettingForm' => 'Omeka\Service\Form\SettingFormFactory',
+            'Omeka\Form\ModuleStateChangeForm' => 'Omeka\Service\Form\ModuleStateChangeFormFactory',
             'Omeka\Form\Element\ResourceSelect' => 'Omeka\Service\Form\Element\ResourceSelectFactory',
             'Omeka\Form\Element\ResourceClassSelect' => 'Omeka\Service\Form\Element\ResourceClassSelectFactory',
         ],

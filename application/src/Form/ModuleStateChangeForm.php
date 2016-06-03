@@ -1,17 +1,35 @@
 <?php
 namespace Omeka\Form;
 
-class ModuleStateChangeForm extends AbstractForm
+use Zend\View\Helper\Url;
+use Zend\Form\Form;
+
+class ModuleStateChangeForm extends Form
 {
-    protected $options = ['module_action' => null, 'module_id' => null];
+    /**
+     * @var array
+     */
+    protected $options = [
+        'module_action' => null,
+        'module_id' => null,
+    ];
 
-    public function buildForm()
+    /**
+     * @var Url
+     */
+    protected $urlHelper;
+
+    public function __construct($name = null, $options = [])
     {
-        $url = $this->getViewHelper('Url');
+        parent::__construct($name, array_merge($this->options, $options));
+    }
 
+    public function init()
+    {
+        $urlHelper = $this->getUrlHelper();
         switch ($this->getOption('module_action')) {
             case 'install':
-                $action = $url(
+                $action = $urlHelper(
                     'admin/default',
                     ['controller' => 'module', 'action' => 'install'],
                     ['query' => ['id' => $this->getOption('module_id')]]
@@ -20,7 +38,7 @@ class ModuleStateChangeForm extends AbstractForm
                 $class = 'o-icon-install';
                 break;
             case 'activate':
-                $action = $url(
+                $action = $urlHelper(
                     'admin/default',
                     ['controller' => 'module', 'action' => 'activate'],
                     ['query' => ['id' => $this->getOption('module_id')]]
@@ -29,7 +47,7 @@ class ModuleStateChangeForm extends AbstractForm
                 $class = 'o-icon-activate';
                 break;
             case 'deactivate':
-                $action = $url(
+                $action = $urlHelper(
                     'admin/default',
                     ['controller' => 'module', 'action' => 'deactivate'],
                     ['query' => ['id' => $this->getOption('module_id')]]
@@ -38,7 +56,7 @@ class ModuleStateChangeForm extends AbstractForm
                 $class = 'o-icon-deactivate';
                 break;
             case 'upgrade':
-                $action = $url(
+                $action = $urlHelper(
                     'admin/default',
                     ['controller' => 'module', 'action' => 'upgrade'],
                     ['query' => ['id' => $this->getOption('module_id')]]
@@ -64,5 +82,21 @@ class ModuleStateChangeForm extends AbstractForm
                 'class' => $class,
             ],
         ]);
+    }
+
+    /**
+     * @param Url $urlHelper
+     */
+    public function setUrlHelper(Url $urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    /**
+     * @return Url
+     */
+    public function getUrlHelper()
+    {
+        return $this->urlHelper;
     }
 }

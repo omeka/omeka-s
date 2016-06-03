@@ -341,10 +341,9 @@
             });
         }
 
-        rewritePropertyFields(false)
-            .done(function () {
-                $('#properties').closest('form').trigger('o:form-loaded');
-            });
+        $.when(rewritePropertyFields(false)).done(function () {
+            $('#properties').closest('form').trigger('o:form-loaded');
+        });
 
         $('input.value-language').each(function() {
             var languageInput = $(this);

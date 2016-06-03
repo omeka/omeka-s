@@ -2,50 +2,62 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceSelect;
+use Zend\Form\Form;
+use Zend\View\Helper\Url;
 
-class ResourceForm extends AbstractForm
+class ResourceForm extends Form
 {
-    public function buildForm()
+    /**
+     * @var Url
+     */
+    protected $urlHelper;
+
+    public function init()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $url = $serviceLocator->get('ViewHelperManager')->get('url');
+        $urlHelper = $this->getUrlHelper();
+        $this->add([
+            'name' => 'o:resource_template[o:id]',
+            'type' => ResourceSelect::class,
+            'attributes' => [
+                'id' => 'resource-template-select',
+                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
+            ],
+            'options' => [
+                'label' => 'Resource Template', // @translate
+                'info' => 'A pre-defined template for resource creation.', // @translate
+                'empty_option' => 'Select Template', // @translate
+                'resource_value_options' => [
+                    'resource' => 'resource_templates',
+                    'query' => [],
+                    'option_text_callback' => function ($resourceTemplate) {
+                        return $resourceTemplate->label();
+                    },
+                ],
+            ],
+        ]);
 
-        $templateSelect = new ResourceSelect($serviceLocator);
-        $templateSelect
-            ->setName('o:resource_template[o:id]')
-            ->setAttribute('id', 'resource-template-select')
-            ->setAttribute('data-api-base-url', $url('api/default',
-                ['resource' => 'resource_templates']))
-            ->setLabel('Resource Template') // @translate
-            ->setEmptyOption('Select Template') // @translate
-            ->setOption('info', 'A pre-defined template for resource creation.') // @translate
-            ->setResourceValueOptions(
-                'resource_templates',
-                [],
-                function ($template, $serviceLocator) {
-                    return $template->label();
-                }
-            );
-        $this->add($templateSelect);
-
-        $classSelect = new ResourceSelect($serviceLocator);
-        $classSelect
-            ->setName('o:resource_class[o:id]')
-            ->setAttribute('id', 'resource-class-select')
-            ->setLabel('Class') // @translate
-            ->setEmptyOption('Select Class') // @translate
-            ->setOption('info', 'A type for the resource. Different types have different default properties attached to them.') // @translate
-            ->setResourceValueOptions(
-                'resource_classes',
-                [],
-                function ($resourceClass, $serviceLocator) {
-                    return [
-                        $resourceClass->vocabulary()->label(),
-                        $resourceClass->label()
-                    ];
-                }
-            );
-        $this->add($classSelect);
+        $this->add([
+            'name' => 'o:resource_class[o:id]',
+            'type' => ResourceSelect::class,
+            'attributes' => [
+                'id' => 'resource-class-select',
+            ],
+            'options' => [
+                'label' => 'Class', // @translate
+                'info' => 'A type for the resource. Different types have different default properties attached to them.', // @translate
+                'empty_option' => 'Select Class', // @translate
+                'resource_value_options' => [
+                    'resource' => 'resource_classes',
+                    'query' => [],
+                    'option_text_callback' => function ($resourceClass) {
+                        return [
+                            $resourceClass->vocabulary()->label(),
+                            $resourceClass->label()
+                        ];
+                    },
+                ],
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
@@ -56,5 +68,21 @@ class ResourceForm extends AbstractForm
             'name' => 'o:resource_class[o:id]',
             'required' => false,
         ]);
+    }
+
+    /**
+     * @param Url $urlHelper
+     */
+    public function setUrlHelper(Url $urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    /**
+     * @return Url
+     */
+    public function getUrlHelper()
+    {
+        return $this->urlHelper;
     }
 }

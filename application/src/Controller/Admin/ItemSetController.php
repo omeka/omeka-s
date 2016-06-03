@@ -16,7 +16,7 @@ class ItemSetController extends AbstractActionController
 
     public function addAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('id', 'add-item-set');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -41,7 +41,7 @@ class ItemSetController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('id', 'edit-item-set');
         $id = $this->params('id');
         $response = $this->api()->read('item_sets', $id);

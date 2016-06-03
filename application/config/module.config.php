@@ -291,6 +291,7 @@ return [
             'Omeka\Form\Initializer\Csrf',
         ],
         'factories' => [
+            'Omeka\Form\ResourceForm' => 'Omeka\Service\Form\ResourceFormFactory',
             'Omeka\Form\UserForm' => 'Omeka\Service\Form\UserFormFactory',
             'Omeka\Form\SettingForm' => 'Omeka\Service\Form\SettingFormFactory',
             'Omeka\Form\ModuleStateChangeForm' => 'Omeka\Service\Form\ModuleStateChangeFormFactory',

@@ -14,6 +14,7 @@ $roles = [
 <?php echo $this->pageTitle($this->translate('User Permissions')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
 
 <div id="page-actions">
     <button><?php echo $this->translate('Save'); ?></button>
@@ -94,7 +95,6 @@ $roles = [
         </ul>
     </div>
 
-<?php echo $this->formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php

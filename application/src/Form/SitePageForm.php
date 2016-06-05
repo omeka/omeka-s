@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class SitePageForm extends AbstractForm
+use Zend\Form\Form;
+
+class SitePageForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->add([
             'name' => 'o:title',

@@ -10,7 +10,7 @@ class PageController extends AbstractActionController
 {
     public function editAction()
     {
-        $form = new SitePageForm($this->getServiceLocator());
+        $form = $this->getForm(SitePageForm::class);
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ]);
@@ -50,11 +50,6 @@ class PageController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -87,11 +82,6 @@ class PageController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('indents', $indents);
         $view->setVariable('pages', $pages);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -119,7 +109,7 @@ class PageController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('site_pages', ['slug' => $this->params('page-slug')]);

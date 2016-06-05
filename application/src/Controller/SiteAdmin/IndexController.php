@@ -122,7 +122,7 @@ class IndexController extends AbstractActionController
 
     public function addPageAction()
     {
-        $form = new SitePageForm($this->getServiceLocator());
+        $form = $this->getForm(SitePageForm::class);
 
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')

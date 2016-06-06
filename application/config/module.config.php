@@ -262,7 +262,6 @@ return [
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'itemSetSelect'          => 'Omeka\View\Helper\ItemSetSelect',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
-            'resourceClassSelect'    => 'Omeka\View\Helper\ResourceClassSelect',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
@@ -284,6 +283,7 @@ return [
             'trigger' => 'Omeka\Service\ViewHelper\TriggerFactory',
             'userIsAllowed' => 'Omeka\Service\ViewHelper\UserIsAllowedFactory',
             'deleteConfirm' => 'Omeka\Service\ViewHelper\DeleteConfirmFactory',
+            'resourceClassSelect' => 'Omeka\Service\ViewHelper\ResourceClassSelectFactory',
         ],
     ],
     'form_elements' => [

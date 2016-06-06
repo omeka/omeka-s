@@ -1,28 +1,32 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Form\Element\ResourceClassSelect as Select;
+use Zend\View\Helper\AbstractHelper;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 /**
  * A select menu containing all resource classes.
  */
-class ResourceClassSelect extends AbstractSelect
+class ResourceClassSelect extends AbstractHelper
 {
-    public function getValueOptions()
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $formElementManager;
+
+    public function __construct(ServiceLocatorInterface $formElementManager)
     {
-        $vocabularies = $this->getView()->api()->search('vocabularies')->getContent();
-        $valueOptions = [];
-        foreach ($vocabularies as $vocabulary) {
-            $options = [];
-            foreach ($vocabulary->resourceClasses() as $resourceClass) {
-                $options[$resourceClass->id()] = $resourceClass->label();
-            }
-            if (!$options) {
-                continue;
-            }
-            $valueOptions[] = [
-                'label' => $vocabulary->label(),
-                'options' => $options,
-            ];
+        $this->formElementManager = $formElementManager;
+    }
+
+    public function __invoke($name, array $options = [])
+    {
+        if (!isset($options['empty_option'])) {
+            $options['empty_option'] = 'Select Class...'; // @translate
         }
-        return $valueOptions;
+        $element = $this->formElementManager->get(Select::class)
+            ->setName($name)->setOptions($options);
+        return $this->getView()->formSelect($element);
     }
 }

@@ -78,12 +78,15 @@ $queryText = function(array $search) {
     return sprintf('<input type="text" class="query-text" value="%s">',  $this->escapeHtml($text));
 }
 ?>
+
 <div class="field">
     <div class="field-meta">
         <legend><?php echo $this->translate('Search by class'); ?></legend>
     </div>
     <div class="inputs">
-        <?php echo $this->resourceClassSelect()->setValue($resourceClassId)->render('resource_class_id'); ?>
+        <?php echo $this->resourceClassSelect('resource_class_id', [
+            'value' => $resourceClassId,
+        ]); ?>
     </div>
 </div>
 

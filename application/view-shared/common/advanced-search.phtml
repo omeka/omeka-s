@@ -84,7 +84,8 @@ $queryText = function(array $search) {
         <legend><?php echo $this->translate('Search by class'); ?></legend>
     </div>
     <div class="inputs">
-        <?php echo $this->resourceClassSelect('resource_class_id', [
+        <?php echo $this->resourceClassSelect([
+            'name' => 'resource_class_id',
             'value' => $resourceClassId,
         ]); ?>
     </div>

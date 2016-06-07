@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Form\Element\ResourceClassSelect as Select;
+use Zend\Form\Factory;
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,13 +21,14 @@ class ResourceClassSelect extends AbstractHelper
         $this->formElementManager = $formElementManager;
     }
 
-    public function __invoke($name, array $options = [])
+    public function __invoke(array $spec = [])
     {
-        if (!isset($options['empty_option'])) {
-            $options['empty_option'] = 'Select Class...'; // @translate
+        $spec['type'] = Select::class;
+        if (!isset($spec['options']['empty_option'])) {
+            $spec['options']['empty_option'] = 'Select Class...'; // @translate
         }
-        $element = $this->formElementManager->get(Select::class)
-            ->setName($name)->setOptions($options);
+        $factory = new Factory($this->formElementManager);
+        $element = $factory->createElement($spec);
         return $this->getView()->formSelect($element);
     }
 }

@@ -32,4 +32,3 @@ class ItemSetSelect extends AbstractHelper
         return $this->getView()->formSelect($element);
     }
 }
-

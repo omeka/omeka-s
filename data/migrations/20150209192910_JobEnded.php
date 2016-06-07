@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class JobEnded extends AbstractMigration
+class JobEnded implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE job CHANGE stopped ended DATETIME DEFAULT NULL;');
+        $conn->query('ALTER TABLE job CHANGE stopped ended DATETIME DEFAULT NULL;');
     }
 }

@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddUserIsActive extends AbstractMigration
+class AddUserIsActive implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE user ADD is_active TINYINT(1) NOT NULL;');
+        $conn->query('ALTER TABLE user ADD is_active TINYINT(1) NOT NULL;');
     }
 }

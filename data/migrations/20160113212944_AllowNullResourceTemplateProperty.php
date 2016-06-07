@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AllowNullResourceTemplateProperty extends AbstractMigration
+class AllowNullResourceTemplateProperty implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE resource_template_property CHANGE data_type data_type VARCHAR(255) DEFAULT NULL;');
-        $connection->query('UPDATE resource_template_property SET data_type = NULL;');
+        $conn->query('ALTER TABLE resource_template_property CHANGE data_type data_type VARCHAR(255) DEFAULT NULL;');
+        $conn->query('UPDATE resource_template_property SET data_type = NULL;');
     }
 }

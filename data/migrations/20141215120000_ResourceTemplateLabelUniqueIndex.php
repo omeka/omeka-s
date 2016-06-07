@@ -1,12 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class ResourceTemplateLabelUniqueIndex extends AbstractMigration
+class ResourceTemplateLabelUniqueIndex implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $this->getConnection()->query('CREATE UNIQUE INDEX UNIQ_39ECD52EEA750E8 ON resource_template (`label`);');
+        $conn->query('CREATE UNIQUE INDEX UNIQ_39ECD52EEA750E8 ON resource_template (`label`);');
     }
 }

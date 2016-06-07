@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class RemoveUsername extends AbstractMigration
+class RemoveUsername implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('DROP INDEX UNIQ_8D93D649F85E0677 ON user;');
-        $connection->query('ALTER TABLE user DROP username;');
+        $conn->query('DROP INDEX UNIQ_8D93D649F85E0677 ON user;');
+        $conn->query('ALTER TABLE user DROP username;');
     }
 }

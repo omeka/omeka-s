@@ -1,15 +1,15 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddSessionPrimaryKey extends AbstractMigration
+class AddSessionPrimaryKey implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->exec('TRUNCATE TABLE session;');
-        $connection->exec('ALTER TABLE session DROP PRIMARY KEY;');
-        $connection->exec('ALTER TABLE session ADD PRIMARY KEY (id);');
+        $conn->exec('TRUNCATE TABLE session;');
+        $conn->exec('ALTER TABLE session DROP PRIMARY KEY;');
+        $conn->exec('ALTER TABLE session ADD PRIMARY KEY (id);');
     }
 }

@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddCascadeDeleteProperty extends AbstractMigration
+class AddCascadeDeleteProperty implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE resource_template_property DROP FOREIGN KEY FK_4689E2F1549213EC;');
-        $connection->query('ALTER TABLE resource_template_property ADD CONSTRAINT FK_4689E2F1549213EC FOREIGN KEY (property_id) REFERENCES property (id) ON DELETE CASCADE;');
+        $conn->query('ALTER TABLE resource_template_property DROP FOREIGN KEY FK_4689E2F1549213EC;');
+        $conn->query('ALTER TABLE resource_template_property ADD CONSTRAINT FK_4689E2F1549213EC FOREIGN KEY (property_id) REFERENCES property (id) ON DELETE CASCADE;');
     }
 }

@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class DropIsShareable extends AbstractMigration
+class DropIsShareable implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE item DROP is_shareable;');
+        $conn->query('ALTER TABLE item DROP is_shareable;');
     }
 }

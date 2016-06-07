@@ -22,6 +22,7 @@ class MigrationManagerFactory implements FactoryInterface
             'path'      => OMEKA_PATH . '/data/migrations',
             'namespace' => 'Omeka\Db\Migrations',
         ];
-        return new MigrationManager($config);
+        $connection = $serviceLocator->get('Omeka\Connection');
+        return new MigrationManager($config, $connection, $serviceLocator);
     }
 }

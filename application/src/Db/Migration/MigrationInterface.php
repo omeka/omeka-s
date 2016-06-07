@@ -1,20 +1,15 @@
 <?php
 namespace Omeka\Db\Migration;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Doctrine\DBAL\Connection;
 
 /**
  * Interface for database migrations.
  */
-interface MigrationInterface extends ServiceLocatorAwareInterface
+interface MigrationInterface
 {
     /**
      * Upgrade the database.
      */
-    public function up();
-
-    /**
-     * Downgrade the database.
-     */
-    public function down();
+    public function up(Connection $conn);
 }

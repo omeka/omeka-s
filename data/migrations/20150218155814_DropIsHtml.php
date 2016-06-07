@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class DropIsHtml extends AbstractMigration
+class DropIsHtml extends MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE value DROP is_html;');
+        $conn->query('ALTER TABLE value DROP is_html;');
     }
 }

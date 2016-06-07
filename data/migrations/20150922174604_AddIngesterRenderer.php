@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddIngesterRenderer extends AbstractMigration
+class AddIngesterRenderer implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE media ADD renderer VARCHAR(255) NOT NULL, CHANGE type ingester VARCHAR(255) NOT NULL;');
+        $conn->query('ALTER TABLE media ADD renderer VARCHAR(255) NOT NULL, CHANGE type ingester VARCHAR(255) NOT NULL;');
     }
 }

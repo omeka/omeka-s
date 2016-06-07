@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddHasStoredFiles extends AbstractMigration
+class AddHasStoredFiles implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE media ADD has_original TINYINT(1) NOT NULL, ADD has_thumbnails TINYINT(1) NOT NULL;');
+        $conn->query('ALTER TABLE media ADD has_original TINYINT(1) NOT NULL, ADD has_thumbnails TINYINT(1) NOT NULL;');
     }
 }

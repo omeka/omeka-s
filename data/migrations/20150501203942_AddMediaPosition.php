@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddMediaPosition extends AbstractMigration
+class AddMediaPosition implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE media ADD position INT DEFAULT NULL');
-        $connection->query('CREATE INDEX item_position ON media (item_id, position)');
+        $conn->query('ALTER TABLE media ADD position INT DEFAULT NULL');
+        $conn->query('CREATE INDEX item_position ON media (item_id, position)');
     }
 }

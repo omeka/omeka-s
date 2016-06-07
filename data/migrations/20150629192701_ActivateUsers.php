@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class ActivateUsers extends AbstractMigration
+class ActivateUsers implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query("UPDATE user SET is_active = '1'");
+        $conn->query("UPDATE user SET is_active = '1'");
     }
 }

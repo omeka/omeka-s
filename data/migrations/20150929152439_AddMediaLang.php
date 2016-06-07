@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddMediaLang extends AbstractMigration
+class AddMediaLang implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE media ADD lang VARCHAR(190) DEFAULT NULL');
+        $conn->query('ALTER TABLE media ADD lang VARCHAR(190) DEFAULT NULL');
     }
 }

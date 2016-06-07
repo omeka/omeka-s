@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class UpdateRenderers extends AbstractMigration
+class UpdateRenderers implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('UPDATE media SET renderer = ingester');
-        $connection->query("UPDATE media SET renderer = 'file' WHERE renderer IN ('url','upload')");
+        $conn->query('UPDATE media SET renderer = ingester');
+        $conn->query("UPDATE media SET renderer = 'file' WHERE renderer IN ('url','upload')");
     }
 }

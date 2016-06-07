@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class FixSiteSettingPrimaryKey extends AbstractMigration
+class FixSiteSettingPrimaryKey implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE site_setting DROP PRIMARY KEY, ADD PRIMARY KEY (id, site_id)');
+        $conn->query('ALTER TABLE site_setting DROP PRIMARY KEY, ADD PRIMARY KEY (id, site_id)');
     }
 }

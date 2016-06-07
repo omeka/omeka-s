@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddSitePageDatetimes extends AbstractMigration
+class AddSitePageDatetimes implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE site_page ADD created DATETIME NOT NULL, ADD modified DATETIME DEFAULT NULL;');
+        $conn->query('ALTER TABLE site_page ADD created DATETIME NOT NULL, ADD modified DATETIME DEFAULT NULL;');
     }
 }

@@ -1,16 +1,14 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Api\Manager as ApiManager;
 use Omeka\Installation\Installer;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Install default resource templates.
  */
 class InstallDefaultTemplatesTask implements TaskInterface
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var \Omeka\Api\Manager
      */
@@ -66,7 +64,7 @@ class InstallDefaultTemplatesTask implements TaskInterface
 
     public function perform(Installer $installer)
     {
-        $this->setServiceLocator($installer->getServiceLocator());
+        $this->setApi($installer->getServiceLocator()->get('Omeka\ApiManager'));
         foreach (array_keys($this->templates) as $label) {
             $this->installTemplate($label);
         }
@@ -129,8 +127,13 @@ class InstallDefaultTemplatesTask implements TaskInterface
     protected function getApi()
     {
         if (!$this->api) {
-            $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
+            throw new \RuntimeException('The API manager must be set to this task.');
         }
         return $this->api;
+    }
+
+    public function setApi(ApiManager $api)
+    {
+        $this->api = $api;
     }
 }

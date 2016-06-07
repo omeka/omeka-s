@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class OpenItemSets extends AbstractMigration
+class OpenItemSets implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE item_set ADD is_open TINYINT(1) NOT NULL;');
+        $conn->query('ALTER TABLE item_set ADD is_open TINYINT(1) NOT NULL;');
     }
 }

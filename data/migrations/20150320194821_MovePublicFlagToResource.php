@@ -1,15 +1,15 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class MovePublicFlagToResource extends AbstractMigration
+class MovePublicFlagToResource implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE resource ADD is_public TINYINT(1) NOT NULL');
-        $connection->query('ALTER TABLE item DROP is_public');
-        $connection->query('ALTER TABLE media DROP is_public');
+        $conn->query('ALTER TABLE resource ADD is_public TINYINT(1) NOT NULL');
+        $conn->query('ALTER TABLE item DROP is_public');
+        $conn->query('ALTER TABLE media DROP is_public');
     }
 }

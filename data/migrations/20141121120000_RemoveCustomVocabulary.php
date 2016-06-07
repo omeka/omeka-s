@@ -1,12 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class RemoveCustomVocabulary extends AbstractMigration
+class RemoveCustomVocabulary implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $this->getConnection()->delete('vocabulary', ['prefix' => 'omeka']);
+        $conn->delete('vocabulary', ['prefix' => 'omeka']);
     }
 }

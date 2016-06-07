@@ -1,19 +1,17 @@
 <?php
 namespace Omeka\Db\Migration;
 
+use Doctrine\DBAL\Connection;
 use GlobIterator;
 use PDO;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Migration manager.
  */
-class Manager implements ServiceLocatorAwareInterface
+class Manager
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var string
      */
@@ -30,13 +28,27 @@ class Manager implements ServiceLocatorAwareInterface
     protected $translator;
 
     /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @var Connection
+     */
+    protected $conn;
+
+    /**
      * Create the migration manager, passing configuration.
      *
      * @param array $config
+     * @param Connection $conn;
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct($config)
+    public function __construct($config, Connection $conn, ServiceLocatorInterface $serviceLocator)
     {
         $this->setConfig($config);
+        $this->conn = $conn;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -65,7 +77,7 @@ class Manager implements ServiceLocatorAwareInterface
         foreach ($toPerform as $version => $migrationInfo) {
             $migration = $this->loadMigration(
                 $migrationInfo['path'], $migrationInfo['class']);
-            $migration->up();
+            $migration->up($this->conn);
             $this->recordMigration($version);
         }
 
@@ -79,8 +91,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function recordMigration($version)
     {
-        $this->getServiceLocator()->get('Omeka\Connection')
-            ->insert('migration', ['version' => $version]);
+        $this->conn->insert('migration', ['version' => $version]);
     }
 
     /**
@@ -102,8 +113,12 @@ class Manager implements ServiceLocatorAwareInterface
             );
         }
 
-        $migration = new $class;
-        $migration->setServiceLocator($this->getServiceLocator());
+        if (is_subclass_of($class, 'Omeka\Db\Migration\ConstructedMigrationInterface')) {
+            $migration = $class::create($this->serviceLocator);
+        } else {
+            $migration = new $class;
+        }
+
         return $migration;
     }
 
@@ -128,7 +143,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     public function getCompletedMigrations()
     {
-        $completed = $this->getServiceLocator()->get('Omeka\Connection')
+        $completed = $this->conn
             ->executeQuery("SELECT version FROM migration")
             ->fetchAll(PDO::FETCH_COLUMN);
         if (!$completed) {
@@ -171,7 +186,7 @@ class Manager implements ServiceLocatorAwareInterface
     public function getTranslator()
     {
         if (!$this->translator instanceof TranslatorInterface) {
-            $this->translator = $this->getServiceLocator()->get('MvcTranslator');
+            $this->translator = $this->serviceLocator->get('MvcTranslator');
         }
         return $this->translator;
     }
@@ -181,7 +196,7 @@ class Manager implements ServiceLocatorAwareInterface
      */
     protected function clearDoctrineCache()
     {
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $em = $this->serviceLocator->get('Omeka\EntityManager');
         $cache = $em->getConfiguration()->getMetadataCacheImpl();
 
         if (!$cache) {

@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class MakeSitesPublic extends AbstractMigration
+class MakeSitesPublic implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query("UPDATE site SET is_public = '1'");
+        $conn->query("UPDATE site SET is_public = '1'");
     }
 }

@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddOnDelete extends AbstractMigration
+class AddOnDelete implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
         $connection->query('ALTER TABLE vocabulary DROP FOREIGN KEY FK_9099C97B7E3C61F9;');
         $connection->query('ALTER TABLE vocabulary ADD CONSTRAINT FK_9099C97B7E3C61F9 FOREIGN KEY (owner_id) REFERENCES user (id) ON DELETE SET NULL;');
         $connection->query('ALTER TABLE resource_class DROP FOREIGN KEY FK_C6F063AD7E3C61F9;');

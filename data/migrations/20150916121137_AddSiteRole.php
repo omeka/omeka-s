@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Db\Migrations;
 
-use Omeka\Db\Migration\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Omeka\Db\Migration\MigrationInterface;
 
-class AddSiteRole extends AbstractMigration
+class AddSiteRole implements MigrationInterface
 {
-    public function up()
+    public function up(Connection $conn)
     {
-        $connection = $this->getConnection();
-        $connection->query('ALTER TABLE site_permission ADD role VARCHAR(80) NOT NULL, DROP admin, DROP attach, DROP edit;');
+        $conn->query('ALTER TABLE site_permission ADD role VARCHAR(80) NOT NULL, DROP admin, DROP attach, DROP edit;');
     }
 }

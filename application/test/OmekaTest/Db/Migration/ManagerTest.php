@@ -52,16 +52,11 @@ class ManagerTest extends TestCase
         $path = __DIR__ . '/_files/1_MockMigration.php';
         $class = 'OmekaTest\Db\Migration\MockMigration';
 
-        $sl = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getServiceLocator'], [], '', false);
-        $manager->expects($this->once())
-            ->method('getServiceLocator')
-            ->will($this->returnValue($sl));
+            ['__construct'], [], '', false);
 
         $migration = $manager->loadMigration($path, $class);
         $this->assertInstanceOf($class, $migration);
-        $this->assertEquals($sl, $migration->getServiceLocator());
     }
 
     /**
@@ -122,12 +117,9 @@ class ManagerTest extends TestCase
                 $this->equalTo(['version' => $version])
             );
 
-        $sm = $this->getServiceManager([
-            'Omeka\Connection' => $connection
-        ]);
+        $sm = $this->getServiceManager();
 
-        $manager = new MigrationManager(['entity' => 'Entity']);
-        $manager->setServiceLocator($sm);
+        $manager = new MigrationManager(['entity' => 'Entity'], $connection, $sm);
         $manager->recordMigration($version);
     }
 
@@ -147,7 +139,11 @@ class ManagerTest extends TestCase
             ]
         ];
 
-        $manager = new MigrationManager(['path' => $path, 'namespace' => $namespace]);
+        $connection = $this->getMock('Doctrine\DBAL\Connection',
+            [], [], '', false);
+        $sm = $this->getServiceManager();
+
+        $manager = new MigrationManager(['path' => $path, 'namespace' => $namespace], $connection, $sm);
         $this->assertEquals($migrations, $manager->getAvailableMigrations());
     }
 
@@ -161,10 +157,14 @@ class ManagerTest extends TestCase
         $migration->expects($this->exactly(2))
             ->method('up');
 
+        $connection = $this->getMock('Doctrine\DBAL\Connection',
+            [], [], '', false);
+        $sm = $this->getServiceManager();
+
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
             ['getMigrationsToPerform', 'loadMigration', 'recordMigration',
                 'clearDoctrineCache'],
-            [], '', false);
+            [[], $connection, $sm], '');
         $manager->expects($this->once())
             ->method('getMigrationsToPerform')
             ->will($this->returnValue($this->migrations));

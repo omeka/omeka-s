@@ -1,30 +1,34 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Form\Element\PropertySelect as Select;
+use Zend\Form\Factory;
+use Zend\View\Helper\AbstractHelper;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 /**
  * A select menu containing all properties.
  */
-class PropertySelect extends AbstractSelect
+class PropertySelect extends AbstractHelper
 {
-    protected $emptyOption = 'Select Property...';
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $formElementManager;
 
-    public function getValueOptions()
+    public function __construct(ServiceLocatorInterface $formElementManager)
     {
-        $vocabularies = $this->getView()->api()->search('vocabularies')->getContent();
-        $valueOptions = [];
-        foreach ($vocabularies as $vocabulary) {
-            $options = [];
-            foreach ($vocabulary->properties() as $property) {
-                $options[$property->id()] = $property->label();
-            }
-            if (!$options) {
-                continue;
-            }
-            $valueOptions[] = [
-                'label' => $vocabulary->label(),
-                'options' => $options,
-            ];
+        $this->formElementManager = $formElementManager;
+    }
+
+    public function __invoke(array $spec = [])
+    {
+        $spec['type'] = Select::class;
+        if (!isset($spec['options']['empty_option'])) {
+            $spec['options']['empty_option'] = 'Select Property...'; // @translate
         }
-        return $valueOptions;
+        $factory = new Factory($this->formElementManager);
+        $element = $factory->createElement($spec);
+        return $this->getView()->formSelect($element);
     }
 }

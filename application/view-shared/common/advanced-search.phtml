@@ -118,7 +118,11 @@ $queryText = function(array $search) {
     <div class="inputs">
         <?php foreach ($properties as $property): ?>
         <div class="value">
-            <?php echo $this->propertySelect()->setValue($getId($property))->setAttributes(['class' => 'query-property'])->render('property'); ?>
+            <?php echo $this->propertySelect([
+                'name' => 'property',
+                'options' => ['value' => $getId($property)],
+                'attributes' => ['class' => 'query-property']
+            ]); ?>
             <select class="query-type">
                 <?php echo $queryOption('eq', $property, $this->translate('has exact value')); ?>
                 <?php echo $queryOption('neq', $property, $this->translate('does not have exact value')); ?>
@@ -144,7 +148,11 @@ $queryText = function(array $search) {
                 <?php echo $queryOption(1, $hasProperty, $this->translate('has property')); ?>
                 <?php echo $queryOption(0, $hasProperty, $this->translate('does not have property')); ?>
             </select>
-            <?php echo $this->propertySelect()->setValue($getId($hasProperty))->setAttributes(['class' => 'query-property'])->render('property'); ?>
+            <?php echo $this->propertySelect([
+                'name' => 'property',
+                'options' => ['value' => $getId($hasProperty)],
+                'attributes' => ['class' => 'query-property']
+            ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
         <?php endforeach; ?>
@@ -164,7 +172,10 @@ $queryText = function(array $search) {
     <div class="inputs">
         <?php foreach ($itemSetIds as $itemSetId): ?>
         <div class="value">
-            <?php echo $this->itemSetSelect()->setValue($getId($itemSetId))->render('item_set_id[]'); ?>
+            <?php echo $this->itemSetSelect([
+                'name' => 'item_set_id[]',
+                'options' => ['value' => $getId($itemSetId)],
+            ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
         <?php endforeach; ?>

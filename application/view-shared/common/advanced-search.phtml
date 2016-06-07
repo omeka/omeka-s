@@ -86,7 +86,7 @@ $queryText = function(array $search) {
     <div class="inputs">
         <?php echo $this->resourceClassSelect([
             'name' => 'resource_class_id',
-            'value' => $resourceClassId,
+            'attributes' => ['value' => $resourceClassId]
         ]); ?>
     </div>
 </div>
@@ -121,8 +121,10 @@ $queryText = function(array $search) {
         <div class="value">
             <?php echo $this->propertySelect([
                 'name' => 'property',
-                'options' => ['value' => $getId($property)],
-                'attributes' => ['class' => 'query-property']
+                'attributes' => [
+                    'class' => 'query-property',
+                    'value' => $getId($property),
+                ]
             ]); ?>
             <select class="query-type">
                 <?php echo $queryOption('eq', $property, $this->translate('has exact value')); ?>
@@ -151,8 +153,10 @@ $queryText = function(array $search) {
             </select>
             <?php echo $this->propertySelect([
                 'name' => 'property',
-                'options' => ['value' => $getId($hasProperty)],
-                'attributes' => ['class' => 'query-property']
+                'attributes' => [
+                    'class' => 'query-property',
+                    'value' => $getId($hasProperty),
+                ]
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>
@@ -175,7 +179,7 @@ $queryText = function(array $search) {
         <div class="value">
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
-                'options' => ['value' => $getId($itemSetId)],
+                'attributes' => ['value' => $getId($itemSetId)],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>

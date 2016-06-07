@@ -16,7 +16,7 @@ class ItemSetController extends AbstractActionController
 
     public function addAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('id', 'add-item-set');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -41,7 +41,7 @@ class ItemSetController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('id', 'edit-item-set');
         $id = $this->params('id');
         $response = $this->api()->read('item_sets', $id);
@@ -50,11 +50,6 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -83,11 +78,6 @@ class ItemSetController extends AbstractActionController
         $itemSets = $response->getContent();
         $view->setVariable('itemSets', $itemSets);
         $view->setVariable('resources', $itemSets);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -141,10 +131,10 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/item-set/show-details');
-        $view->setVariable('resourceLabel', 'item set');
-        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('resource', $itemSet);
+        $view->setVariable('resourceLabel', 'item set');
+        $view->setVariable('partialPath', 'omeka/admin/item-set/show-details');
+        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('values', json_encode($values));
         return $view;
     }
@@ -152,7 +142,7 @@ class ItemSetController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('item_sets', $this->params('id'));

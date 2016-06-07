@@ -20,7 +20,8 @@ class UserController extends AbstractActionController
         $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
         $activateUser = $acl->userIsAllowed('Omeka\Entity\User', 'activate-user');
-        $form = new UserForm($serviceLocator, null, [
+
+        $form = $this->getForm(UserForm::class, [
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
@@ -57,11 +58,6 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -86,15 +82,14 @@ class UserController extends AbstractActionController
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('users', $this->params('id'));
-        $user = $response->getContent();
+        $resource = $this->api()->read('users', $this->params('id'))->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
+        $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'user');
-        $view->setVariable('resource', $user);
+        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
         return $view;
     }
 
@@ -110,11 +105,13 @@ class UserController extends AbstractActionController
         $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
         $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
         $activateUser = $acl->userIsAllowed($userEntity, 'activate-user');
-        $form = new UserForm($this->getServiceLocator(), null, [
+
+        $form = $this->getForm(UserForm::class, [
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
         ]);
+
         $data = $user->jsonSerialize();
         $form->setData($data);
 
@@ -149,7 +146,10 @@ class UserController extends AbstractActionController
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $currentUser = $user === $this->identity();
-        $form = new UserPasswordForm($this->getServiceLocator(), null, ['current_password' => $currentUser]);
+
+        $form = $this->getForm(UserPasswordForm::class, [
+            'current_password' => $currentUser,
+        ]);
 
         $view = new ViewModel;
         $view->setVariable('user', $userRepresentation);
@@ -183,7 +183,7 @@ class UserController extends AbstractActionController
 
     public function editKeysAction()
     {
-        $form = new UserKeyForm($this->getServiceLocator());
+        $form = $this->getForm(UserKeyForm::class);
         $id = $this->params('id');
 
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
@@ -236,7 +236,7 @@ class UserController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('users', $this->params('id'));

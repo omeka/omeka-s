@@ -13,7 +13,7 @@ class InstallController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $form = new InstallationForm($this->getServiceLocator());
+        $form = $this->getForm(InstallationForm::class);
         $manager = $this->getServiceLocator()->get('Omeka\Installer');
         $view = new ViewModel;
 

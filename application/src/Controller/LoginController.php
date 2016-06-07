@@ -18,7 +18,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $form = new LoginForm($this->getServiceLocator());
+        $form = $this->getForm(LoginForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -89,7 +89,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
 
-        $form = new ActivateForm($this->getServiceLocator());
+        $form = $this->getForm(ActivateForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -122,7 +122,7 @@ class LoginController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $form = new ForgotPasswordForm($serviceLocator);
+        $form = $this->getForm(ForgotPasswordForm::class);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();

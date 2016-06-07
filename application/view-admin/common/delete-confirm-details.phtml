@@ -1,12 +1,4 @@
-<?php
-$escape = $this->plugin('escapeHtml');
-$confirmForm = $this->deleteConfirmForm($resource);
- ?>
-<div id="sidebar-confirm">
-    <h3><?php echo $this->translate(sprintf('Delete %s', ucwords($resourceLabel))); ?></h3>
-    <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $resourceLabel)); ?></p>
-    <?php echo $this->form($confirmForm); ?>
-</div>
-<?php if (isset($partialPath)): ?>
-    <?php echo $this->partial($partialPath); ?>
+<?php echo $this->deleteConfirm($this->resource, $this->resourceLabel, false); ?>
+<?php if (isset($this->partialPath)): ?>
+    <?php echo $this->partial($this->partialPath); ?>
 <?php endif; ?>

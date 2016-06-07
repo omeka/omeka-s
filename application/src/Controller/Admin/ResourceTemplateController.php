@@ -17,11 +17,6 @@ class ResourceTemplateController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -46,22 +41,21 @@ class ResourceTemplateController extends AbstractActionController
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('resource_templates', $this->params('id'));
-        $resourceTemplate = $response->getContent();
+        $resource = $this->api()->read('resource_templates', $this->params('id'))->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
+        $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'resource template');
-        $view->setVariable('resource', $resourceTemplate);
+        $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
         return $view;
     }
 
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('resource_templates', $this->params('id'));
@@ -95,17 +89,17 @@ class ResourceTemplateController extends AbstractActionController
     protected function getAddEditView()
     {
         $action = $this->params('action');
-        $form = new ResourceTemplateForm($this->getServiceLocator());
-        $resourceClassId = null;
+        $form = $this->getForm(ResourceTemplateForm::class);
 
         if ('edit' == $action) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
-            $form->setData($resourceTemplate->jsonSerialize());
-            if ($resourceTemplate->resourceClass()) {
-                $resourceClassId = $resourceTemplate->resourceClass()->id();
+            $data = $resourceTemplate->jsonSerialize();
+            if ($data['o:resource_class']) {
+                $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
             }
+            $form->setData($data);
         }
 
         if ($this->getRequest()->isPost()) {
@@ -137,14 +131,8 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         if ('edit' == $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
-            $view->setVariable('confirmForm', new ConfirmForm(
-                $this->getServiceLocator(), null, [
-                    'button_value' => $this->translate('Confirm Delete'),
-                ]
-            ));
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());
-        $view->setVariable('resourceClassId', $resourceClassId);
         $view->setVariable('form', $form);
         return $view;
     }

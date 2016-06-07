@@ -1,46 +1,34 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Api\Representation\UserRepresentation;
+use Omeka\Form\Element\ItemSetSelect as Select;
+use Zend\Form\Factory;
+use Zend\View\Helper\AbstractHelper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * A select menu containing all item sets.
  */
-class ItemSetSelect extends AbstractSelect
+class ItemSetSelect extends AbstractHelper
 {
-    protected $emptyOption = 'Select Item Set...';
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $formElementManager;
 
-    public function getValueOptions()
+    public function __construct(ServiceLocatorInterface $formElementManager)
     {
-        $itemSets = $this->getView()->api()->search('item_sets')->getContent();
+        $this->formElementManager = $formElementManager;
+    }
 
-        // Group alphabetically by owner email.
-        $itemSetOwners = [];
-        foreach ($itemSets as $itemSet) {
-            $owner = $itemSet->owner();
-            $index = $owner ? $owner->email() : null;
-            $itemSetOwners[$index]['owner'] = $owner;
-            $itemSetOwners[$index]['item_sets'][] = $itemSet;
+    public function __invoke(array $spec = [])
+    {
+        $spec['type'] = Select::class;
+        if (!isset($spec['options']['empty_option'])) {
+            $spec['options']['empty_option'] = 'Select Item Set...'; // @translate
         }
-        ksort($itemSetOwners);
-
-        $valueOptions = [];
-        foreach ($itemSetOwners as $itemSetOwner) {
-            $options = [];
-            foreach ($itemSetOwner['item_sets'] as $itemSet) {
-                $options[$itemSet->id()] = $itemSet->displayTitle();
-                if (!$options) {
-                    continue;
-                }
-            }
-            $owner = $itemSetOwner['owner'];
-            if ($owner instanceof UserRepresentation) {
-                $label = sprintf('%s (%s)', $owner->name(), $owner->email());
-            } else {
-                $label = '[No owner]';
-            }
-            $valueOptions[] = ['label' => $label, 'options' => $options];
-        }
-        return $valueOptions;
+        $factory = new Factory($this->formElementManager);
+        $element = $factory->createElement($spec);
+        return $this->getView()->formSelect($element);
     }
 }

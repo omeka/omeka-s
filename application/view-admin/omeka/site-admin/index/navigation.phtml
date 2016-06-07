@@ -9,6 +9,8 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pageTitle(sprintf($this->translate('Navigation'), $site->title())); ?>
 
 <?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
+
 <div id="page-actions">
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
@@ -51,5 +53,4 @@ $escape = $this->plugin('escapeHtml');
     </div>
 </div>
 
-<?php echo $this->formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>

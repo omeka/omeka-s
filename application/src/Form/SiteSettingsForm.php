@@ -1,12 +1,18 @@
 <?php
 namespace Omeka\Form;
 
-class SiteSettingsForm extends AbstractForm
-{
-    public function buildForm()
-    {
-        $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
+use Omeka\Settings\SiteSettings;
+use Zend\Form\Form;
 
+class SiteSettingsForm extends Form
+{
+    /**
+     * @var SiteSettings
+     */
+    protected $siteSettings;
+
+    public function init()
+    {
         $this->add([
             'name' => 'browse_attached_items',
             'type' => 'checkbox',
@@ -14,7 +20,7 @@ class SiteSettingsForm extends AbstractForm
                 'label' => 'Restrict browse to attached items', // @translate
             ],
             'attributes' => [
-                'value' => (bool) $settings->get('browse_attached_items', false),
+                'value' => (bool) $this->getSiteSettings()->get('browse_attached_items', false),
             ],
         ]);
 
@@ -30,8 +36,24 @@ class SiteSettingsForm extends AbstractForm
                 ],
             ],
             'attributes' => [
-                'value' => $settings->get('attachment_link_type'),
+                'value' => $this->getSiteSettings()->get('attachment_link_type'),
             ]
         ]);
+    }
+
+    /**
+     * @param SiteSettings $siteSettings
+     */
+    public function setSiteSettings(SiteSettings $siteSettings)
+    {
+        $this->siteSettings = $siteSettings;
+    }
+
+    /**
+     * @return SiteSettings
+     */
+    public function getSiteSettings()
+    {
+        return $this->siteSettings;
     }
 }

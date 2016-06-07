@@ -1,26 +1,43 @@
 <?php
 namespace Omeka\Form\Element;
 
+use Omeka\Api\Manager as ApiManager;
 use Zend\Form\Element\Select;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ResourceSelect extends Select
 {
-    use ServiceLocatorAwareTrait;
-
     /**
-     * Construct the object.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param string $name Optional name for the form (and CSRF name)
-     * @param array $options Optional options for the form
+     * @var ApiManager
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator,
-        $name = null, $options = []
-    ) {
-        $this->setServiceLocator($serviceLocator);
-        parent::__construct($name, $options);
+    protected $apiManager;
+
+    public function setOptions($options)
+    {
+        parent::setOptions($options);
+
+        $resource = null;
+        if (isset($options['resource_value_options']['resource'])
+            && is_string($options['resource_value_options']['resource'])
+        ) {
+            $resource = $options['resource_value_options']['resource'];
+        }
+
+        $callback = null;
+        if (isset($options['resource_value_options']['option_text_callback'])
+            && is_callable($options['resource_value_options']['option_text_callback'])
+        ) {
+            $callback = $options['resource_value_options']['option_text_callback'];
+        }
+
+        $query = [];
+        if (isset($options['resource_value_options']['query'])
+            && is_array($options['resource_value_options']['query'])
+        ) {
+            $query = $options['resource_value_options']['query'];
+        }
+
+        $this->setResourceValueOptions($resource, $callback, $query);
+        return $this;
     }
 
     /**
@@ -28,36 +45,42 @@ class ResourceSelect extends Select
      *
      * Sets the resource ID as the option value and the return value of
      * $callback as the option text. The callback receives the resource
-     * representation as the first argument and the service locator as the
-     * second.
-     *
-     * @param string $resource The API resource name
-     * @param array $query The API request query
-     * @param callable $callback A callback that returns option text
+     * representation.
      */
-    public function setResourceValueOptions($resource, array $query,
-        callable $callback
-    ) {
-        $serviceLocator = $this->getServiceLocator();
-        $api = $serviceLocator->get('Omeka\ApiManager');
-
-        $response = $api->search($resource, $query);
-        if ($response->isError()) {
-            return;
-        }
-
+    public function setResourceValueOptions($resource, callable $callback, array $query = [])
+    {
         $valueOptions = [];
-        foreach ($response->getContent() as $representation) {
-            $value = $callback($representation, $serviceLocator);
-            if (is_array($value)) {
-                if (!isset($valueOptions[$value[0]])) {
-                    $valueOptions[$value[0]]['label'] = $value[0];
+        $response = $this->getApiManager()->search($resource, $query);
+        if (!$response->isError()) {
+            foreach ($response->getContent() as $representation) {
+                $value = $callback($representation);
+                if (is_array($value)) {
+                    if (!isset($valueOptions[$value[0]])) {
+                        $valueOptions[$value[0]]['label'] = $value[0];
+                    }
+                    $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
+                } else {
+                    $valueOptions[$representation->id()] = $value;
                 }
-                $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
-            } else {
-                $valueOptions[$representation->id()] = $value;
             }
         }
-        return $this->setValueOptions($valueOptions);
+        $this->setValueOptions($valueOptions);
+        return $this;
+    }
+
+    /**
+     * @param ApiManager $apiManager
+     */
+    public function setApiManager(ApiManager $apiManager)
+    {
+        $this->apiManager = $apiManager;
+    }
+
+    /**
+     * @return ApiManager
+     */
+    public function getApiManager()
+    {
+        return $this->apiManager;
     }
 }

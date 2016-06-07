@@ -2,11 +2,11 @@
 namespace Omeka\Controller\SiteAdmin;
 
 use Omeka\Event\Event;
-use Omeka\Form\Form;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
 use Omeka\Form\SiteSettingsForm;
+use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -20,17 +20,12 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
     public function addAction()
     {
-        $form = new SiteForm($this->getServiceLocator());
+        $form = $this->getForm(SiteForm::class);
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
@@ -55,8 +50,7 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $form = new SiteForm($serviceLocator);
+        $form = $this->getForm(SiteForm::class);
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ]);
@@ -88,11 +82,6 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -102,7 +91,7 @@ class IndexController extends AbstractActionController
             'slug' => $this->params('site-slug'),
         ])->getContent();
 
-        $form = new SiteSettingsForm($this->getServiceLocator());
+        $form = $this->getForm(SiteSettingsForm::class);
         $event = new Event(Event::SITE_SETTINGS_FORM, $this, [
             'form' => $form,
         ]);
@@ -133,7 +122,7 @@ class IndexController extends AbstractActionController
 
     public function addPageAction()
     {
-        $form = new SitePageForm($this->getServiceLocator());
+        $form = $this->getForm(SitePageForm::class);
 
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
@@ -180,7 +169,8 @@ class IndexController extends AbstractActionController
         $site = $readResponse->getContent();
         $id = $site->id();
         $this->layout()->setVariable('site', $site);
-        $form = new Form($this->getServiceLocator());
+        $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -214,7 +204,8 @@ class IndexController extends AbstractActionController
         $id = $site->id();
         $this->layout()->setVariable('site', $site);
 
-        $form = new Form($this->getServiceLocator());
+        $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -249,7 +240,8 @@ class IndexController extends AbstractActionController
         $this->layout()->setVariable('site', $site);
         $data = $site->jsonSerialize();
 
-        $form = new Form($this->getServiceLocator());
+        $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -296,7 +288,9 @@ class IndexController extends AbstractActionController
             return $view;
         }
 
-        $form = new Form($services);
+        $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'site-form');
+
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);
         }
@@ -310,7 +304,7 @@ class IndexController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                unset($data['csrf']);
+                unset($data['form_csrf']);
                 $settings->set($settingsKey, $data);
                 $this->messenger()->addSuccess('Theme settings updated.');
                 return $this->redirect()->refresh();
@@ -325,7 +319,7 @@ class IndexController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('sites', [

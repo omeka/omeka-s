@@ -1,9 +1,11 @@
 <?php
 namespace Omeka\Form;
 
-class LoginForm extends AbstractForm
+use Zend\Form\Form;
+
+class LoginForm extends Form
 {
-    public function buildForm()
+    public function init()
     {
         $this->setAttribute('class', 'disable-unsaved-warning');
         $this->add([

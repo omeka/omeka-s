@@ -1,13 +1,20 @@
 <?php
 namespace Omeka\Form;
 
-class UserPasswordForm extends AbstractForm
+use Zend\Form\Form;
+
+class UserPasswordForm extends Form
 {
     protected $options = [
         'current_password' => false,
     ];
 
-    public function buildForm()
+    public function __construct($name = null, $options = [])
+    {
+        parent::__construct($name, array_merge($this->options, $options));
+    }
+
+    public function init()
     {
         if ($this->getOption('current_password')){
             $this->add([

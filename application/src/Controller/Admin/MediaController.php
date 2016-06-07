@@ -25,17 +25,12 @@ class MediaController extends AbstractActionController
         $medias = $response->getContent();
         $view->setVariable('medias', $medias);
         $view->setVariable('resources', $medias);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
     public function editAction()
     {
-        $form = new ResourceForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
         $id = $this->params('id');
         $response = $this->api()->read('media', $id);
         $media = $response->getContent();
@@ -98,10 +93,10 @@ class MediaController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/media/show-details');
-        $view->setVariable('resourceLabel', 'media');
-        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('resource', $media);
+        $view->setVariable('resourceLabel', 'media');
+        $view->setVariable('partialPath', 'omeka/admin/media/show-details');
+        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('values', json_encode($values));
         return $view;
     }
@@ -109,7 +104,7 @@ class MediaController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('media', $this->params('id'));

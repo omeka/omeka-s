@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
-use Omeka\Form\ItemForm;
+use Omeka\Form\ResourceForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
@@ -25,11 +25,6 @@ class ItemController extends AbstractActionController
         $items = $response->getContent();
         $view->setVariable('items', $items);
         $view->setVariable('resources', $items);
-        $view->setVariable('confirmForm', new ConfirmForm(
-            $this->getServiceLocator(), null, [
-                'button_value' => $this->translate('Confirm Delete'),
-            ]
-        ));
         return $view;
     }
 
@@ -84,10 +79,10 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('partialPath', 'omeka/admin/item/show-details');
-        $view->setVariable('resourceLabel', 'item');
-        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('resource', $item);
+        $view->setVariable('resourceLabel', 'item');
+        $view->setVariable('partialPath', 'omeka/admin/item/show-details');
+        $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('item', $item);
         $view->setVariable('values', json_encode($values));
         return $view;
@@ -96,7 +91,7 @@ class ItemController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
-            $form = new ConfirmForm($this->getServiceLocator());
+            $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('items', $this->params('id'));
@@ -118,7 +113,8 @@ class ItemController extends AbstractActionController
 
     public function addAction()
     {
-        $form = new ItemForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
+        $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'add-item');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -147,7 +143,8 @@ class ItemController extends AbstractActionController
 
     public function editAction()
     {
-        $form = new ItemForm($this->getServiceLocator());
+        $form = $this->getForm(ResourceForm::class);
+        $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'edit-item');
         $id = $this->params('id');
         $response = $this->api()->read('items', $id);

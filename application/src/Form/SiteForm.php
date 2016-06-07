@@ -1,9 +1,17 @@
 <?php
 namespace Omeka\Form;
 
-class SiteForm extends AbstractForm
+use Omeka\Site\Theme\Manager as ThemeManager;
+use Zend\Form\Form;
+
+class SiteForm extends Form
 {
-    public function buildForm()
+    /**
+     * @var ThemeManager
+     */
+    protected $themeManager;
+
+    public function init()
     {
         $this->setAttribute('id', 'site-form');
 
@@ -29,9 +37,8 @@ class SiteForm extends AbstractForm
                 'required' => false,
             ],
         ]);
-        $themeManager = $this->getServiceLocator()->get('Omeka\Site\ThemeManager');
         $themes = [];
-        foreach ($themeManager->getThemes() as $id => $theme) {
+        foreach ($this->getThemeManager()->getThemes() as $id => $theme) {
             $themes[$id] = $theme->getName();
         }
         $this->add([
@@ -46,5 +53,21 @@ class SiteForm extends AbstractForm
                 'required' => true,
             ],
         ]);
+    }
+
+    /**
+     * @param ThemeManager $themeManager
+     */
+    public function setThemeManager(ThemeManager $themeManager)
+    {
+        $this->themeManager = $themeManager;
+    }
+
+    /**
+     * @return ThemeManager
+     */
+    public function getThemeManager()
+    {
+        return $this->themeManager;
     }
 }

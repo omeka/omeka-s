@@ -2,7 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ModuleStateChangeForm;
-use Omeka\Form\ModuleUninstallForm;
+use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -54,9 +54,10 @@ class ModuleController extends AbstractActionController
             'invalid_omeka_version' => $this->translate('Invalid Omeka S Version'),
         ]);
         $view->setVariable('stateChangeForm', function ($action, $id) {
-            return new ModuleStateChangeForm($this->getServiceLocator(), $action,
-                ['module_action' => $action, 'module_id' => $id]
-            );
+            return $this->getForm(ModuleStateChangeForm::class, [
+                'module_action' => $action,
+                'module_id' => $id,
+            ]);
         });
         return $view;
     }
@@ -70,9 +71,10 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'install',
-            ['module_action' => 'install', 'module_id' => $id]
-        );
+        $form = $this->getForm(ModuleStateChangeForm::class, [
+            'module_action' => 'install',
+            'module_id' => $id,
+        ]);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -106,15 +108,17 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $uninstallForm = new ModuleUninstallForm(
-            $this->getServiceLocator(), 'uninstall'
-        );
-        $uninstallForm->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]], true));
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(
+            null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()]
+        ], true));
+        $form->setButtonLabel('Confirm Uninstall');
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/module/uninstall-confirm');
-        $view->setVariable('uninstallForm', $uninstallForm);
+        $view->setVariable('form', $form);
         $view->setVariable('module', $module);
         return $view;
     }
@@ -128,7 +132,7 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleUninstallForm($this->getServiceLocator(), 'uninstall');
+        $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -152,9 +156,10 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'activate',
-            ['module_action' => 'activate', 'module_id' => $id]
-        );
+        $form = $this->getForm(ModuleStateChangeForm::class, [
+            'module_action' => 'activate',
+            'module_id' => $id,
+        ]);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -178,9 +183,10 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'deactivate',
-            ['module_action' => 'deactivate', 'module_id' => $id]
-        );
+        $form = $this->getForm(ModuleStateChangeForm::class, [
+            'module_action' => 'deactivate',
+            'module_id' => $id,
+        ]);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -204,9 +210,10 @@ class ModuleController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
         $id = $this->params()->fromQuery('id');
-        $form = new ModuleStateChangeForm($this->getServiceLocator(), 'upgrade',
-            ['module_action' => 'upgrade', 'module_id' => $id]
-        );
+        $form = $this->getForm(ModuleStateChangeForm::class, [
+            'module_action' => 'upgrade',
+            'module_id' => $id,
+        ]);
         $form->setData($this->getRequest()->getPost());
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
@@ -233,8 +240,7 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
 
-        $moduleObject = $this->getServiceLocator()
-            ->get('ModuleManager')->getModule($id);
+        $moduleObject = $this->getServiceLocator()->get('ModuleManager')->getModule($id);
         if (null === $moduleObject) {
             // Do not attempt to configure an unloaded module.
             throw new Exception\NotFoundException;

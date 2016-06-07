@@ -1,0 +1,31 @@
+<?php
+// Prepare the item set queries
+$itemSetIds = [[]];
+if (isset($query['item_set_id'])) {
+    $itemSetIds = [];
+    foreach ($query['item_set_id'] as $id) {
+        $itemSetIds[] = ['id' => $id];
+    }
+}
+?>
+<div id="item-sets" class="field removable">
+    <div class="field-meta">
+        <legend><?php echo $this->translate('Search by item set'); ?></legend>
+        <a href="#" class="expand" aria-label=" Expand"></a>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php foreach ($itemSetIds as $itemSetId): ?>
+        <div class="value">
+            <?php echo $this->itemSetSelect([
+                'name' => 'item_set_id[]',
+                'attributes' => ['value' => isset($itemSetId['id']) ? $itemSetId['id'] : null],
+            ]); ?>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+        </div>
+        <?php endforeach; ?>
+        <a href="#" class="add-value button"><?php echo $this->translate('Add new item set'); ?></a>
+    </div>
+</div>

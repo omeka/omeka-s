@@ -149,6 +149,16 @@ class Module extends AbstractModule
                 }
             }
         );
+
+        $sharedEventManager->attach(
+            '*',
+            'view.advanced_search',
+            function (OmekaEvent $event) {
+                if ('item' === $event->getParam('resourceType')) {
+                    echo $event->getTarget()->partial('common/item-sets-advanced-search');
+                }
+            }
+        );
     }
 
     /**

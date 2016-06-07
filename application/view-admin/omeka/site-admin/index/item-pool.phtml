@@ -15,6 +15,9 @@ $escape = $this->plugin('escapeHtml');
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
-<div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item', 'query' => $site->itemPool()]); ?></div>
+<div id="advanced-search"><?php echo $this->partial(
+    'common/advanced-search',
+    ['query' => $site->itemPool(), 'resourceType' => 'item']
+); ?></div>
 
 <?php echo $this->form()->closeTag(); ?>

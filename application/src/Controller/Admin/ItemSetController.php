@@ -11,6 +11,7 @@ class ItemSetController extends AbstractActionController
     public function searchAction()
     {
         $view = new ViewModel;
+        $view->setVariable('query', $this->params()->fromQuery());
         return $view;
     }
 

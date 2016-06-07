@@ -8,15 +8,6 @@ if (isset($query['resource_class_id'])) {
     $resourceClassId = null;
 }
 
-// Prepare the item set queries
-$itemSetIds = [[]];
-if (isset($query['item_set_id'])) {
-    $itemSetIds = [];
-    foreach ($query['item_set_id'] as $id) {
-        $itemSetIds[] = ['id' => $id];
-    }
-}
-
 // Prepare the value queries.
 $values = [[]];
 if (isset($query['value'])) {
@@ -57,12 +48,6 @@ if (isset($query['has_property'])) {
 }
 
 // Convenience functions to minimize inline code.
-$getId = function(array $search) {
-    if (isset($search['id'])) {
-        return $search['id'];
-    }
-    return null;
-};
 $queryOption = function($type, array $search, $text) {
     $selected = null;
     if (isset($search['type']) && $type === $search['type']) {
@@ -123,7 +108,7 @@ $queryText = function(array $search) {
                 'name' => 'property',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => $getId($property),
+                    'value' => isset($property['id']) ? $property['id'] : null,
                 ]
             ]); ?>
             <select class="query-type">
@@ -155,7 +140,7 @@ $queryText = function(array $search) {
                 'name' => 'property',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => $getId($hasProperty),
+                    'value' => isset($hasProperty['id']) ? $hasProperty['id'] : null,
                 ]
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
@@ -165,28 +150,10 @@ $queryText = function(array $search) {
     </div>
 </div>
 
-<?php if (isset($resourceType) && 'item' === $resourceType): ?>
-<div id="item-sets" class="field removable">
-    <div class="field-meta">
-        <legend><?php echo $this->translate('Search by item set'); ?></legend>
-        <a href="#" class="expand" aria-label=" Expand"></a>
-        <div class="collapsible">
-            <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>
-        </div>
-    </div>
-    <div class="inputs">
-        <?php foreach ($itemSetIds as $itemSetId): ?>
-        <div class="value">
-            <?php echo $this->itemSetSelect([
-                'name' => 'item_set_id[]',
-                'attributes' => ['value' => $getId($itemSetId)],
-            ]); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
-        </div>
-        <?php endforeach; ?>
-        <a href="#" class="add-value button"><?php echo $this->translate('Add new item set'); ?></a>
-    </div>
-</div>
-<?php endif; ?>
-
-<?php $this->trigger('view.advanced_search'); ?>
+<?php $this->trigger(
+    'view.advanced_search',
+    [
+        'query' => isset($query) ? $query : null,
+        'resourceType' => isset($resourceType) ? $resourceType : null
+    ]
+); ?>

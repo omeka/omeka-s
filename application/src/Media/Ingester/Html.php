@@ -73,7 +73,6 @@ class Html implements MutableIngesterInterface
         $data = $request->getContent();
         if (isset($data['html'])) {
             $html = $data['html'];
-            $serviceLocator = $this->getServiceLocator();
             $html = $this->purifier->purify($html);
             $data['html'] = $html;
             $media->setData($data);

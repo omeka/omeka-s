@@ -9,7 +9,6 @@ use Zend\Form\Element\Hidden;
 use Zend\Form\Element\Text;
 use Zend\Form\Factory;
 use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Media extends AbstractHelper
 {

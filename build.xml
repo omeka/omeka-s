@@ -4,6 +4,7 @@
     <property name="build.data.dir" location="data/build"/>
     <property name="scripts.data.dir" location="data/scripts"/>
     <property name="migration.dir" location="data/migrations"/>
+    <property name="lang.dir" location="application/language"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
     <property name="composer.vendor.path" location="vendor"/>
     <property name="composer.bin.path" location="${composer.vendor.path}/bin"/>
@@ -157,5 +158,29 @@
                 </replacetokens>
             </filterchain>
         </copy>
+    </target>
+    <target name="i18n:template" description="Update the translation template.">
+        <property name="pot.file" location="${lang.dir}/template.pot"/>
+        <tempfile property="xgettext.temp" suffix=".pot" destdir="${lang.dir}" createfile="true"
+            deleteonexit="true"
+        />
+        <tempfile property="tagged.temp" suffix=".pot" destdir ="${lang.dir}" deleteonexit="true"/>
+        <apply executable="xgettext" relative="true" parallel="true" verbose="true">
+            <arg value="--language=php"/>
+            <arg value="--from-code=utf-8"/>
+            <arg value="--keyword=translate"/>
+            <arg value="--join-existing"/>
+            <arg value="-o"/>
+            <arg file="${xgettext.temp}"/>
+            <fileset dir="." includes="**/*.php **/*.phtml"
+                excludes="themes/ modules/"/>
+        </apply>
+        <exec executable="${composer.bin.path}/extract-tagged-strings.php" output="${tagged.temp}"/>
+        <exec executable="msgcat">
+            <arg file="${xgettext.temp}"/>
+            <arg file="${tagged.temp}"/>
+            <arg value="-o"/>
+            <arg file="${pot.file}"/>
+        </exec>
     </target>
 </project>

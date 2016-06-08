@@ -21,8 +21,7 @@ class Manager extends AbstractPluginManager
         try {
             $instance = parent::get($name, $options, $usePeeringServiceManagers);
         } catch (ServiceNotFoundException $e) {
-            $instance = new Fallback($name);
-            $instance->setServiceLocator($this->getServiceLocator());
+            $instance = new Fallback($name, $this->getServiceLocator()->get('MvcTranslator'));
         }
         return $instance;
     }

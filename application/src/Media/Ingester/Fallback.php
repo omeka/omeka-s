@@ -4,24 +4,28 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\View\Renderer\PhpRenderer;
 
 class Fallback implements IngesterInterface
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * @var string The name of the unknown ingester
      */
     protected $name;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, TranslatorInterface $translator)
     {
         $this->name = $name;
+        $this->translator = $translator;
     }
 
     /**
@@ -29,8 +33,7 @@ class Fallback implements IngesterInterface
      */
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return sprintf('%s [%s]', $translator->translate('Unknown'), $this->name);
+        return sprintf('%s [%s]', $this->translator->translate('Unknown'), $this->name);
     }
 
     /**

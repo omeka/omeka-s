@@ -15,6 +15,9 @@ class SiteNavigationTranslatorFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new Translator($serviceLocator->get('Omeka\Site\NavigationLinkManager'));
+        return new Translator(
+            $serviceLocator->get('Omeka\Site\NavigationLinkManager'),
+            $serviceLocator->get('MvcTranslator')
+        );
     }
 }

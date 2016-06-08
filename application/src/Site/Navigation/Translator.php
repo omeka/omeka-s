@@ -3,6 +3,7 @@ namespace Omeka\Site\Navigation;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
+use Zend\Mvc\I18n\Translator as I18n;
 
 class Translator
 {
@@ -11,9 +12,15 @@ class Translator
      */
     protected $linkManager;
 
-    public function __construct(LinkManager $linkManager)
+    /**
+     * @var I18n
+     */
+    protected $i18n;
+
+    public function __construct(LinkManager $linkManager, I18n $i18n)
     {
         $this->linkManager = $linkManager;
+        $this->i18n = $i18n;
     }
 
     /**
@@ -69,7 +76,7 @@ class Translator
                 $linkLabel = $linkType->getLabel($data['data'], $site);
                 $linkData = $linkType->toJstree($data['data'], $site);
                 $linksOut[] = [
-                    'text' => $linkLabel,
+                    'text' => $this->i18n->translate($linkLabel),
                     'data' => [
                         'type' => $data['type'],
                         'data' => $linkData,

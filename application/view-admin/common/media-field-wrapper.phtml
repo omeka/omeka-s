@@ -1,0 +1,14 @@
+<div class="media-field-wrapper">
+    <div class="media-header">
+        <ul class="actions">
+            <li><a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a><input type="hidden" name="o:media[__index__][o:is_public]" value="1"></li>
+            <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
+        </ul>
+        <h4><?php echo $this->translate($ingester->getLabel()); ?></h4>
+    </div>
+    <?php echo $this->formRow($titleValue); ?>
+    <?php echo $this->formRow($titleProperty); ?>
+    <?php echo $this->formRow($titleType); ?>
+    <?php echo $ingester->form($this, $options); ?>
+    <input type="hidden" name="o:media[__index__][o:ingester]" value="<?php echo $this->escapeHtml($ingesterName); ?>">
+</div>

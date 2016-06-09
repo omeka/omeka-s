@@ -5,6 +5,9 @@ use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Ingester\Manager as IngesterManager;
 use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Media\Renderer\Manager as RendererManager;
+use Zend\Form\Element\Hidden;
+use Zend\Form\Element\Text;
+use Zend\Form\Factory;
 use Zend\View\Helper\AbstractHelper;
 
 class Media extends AbstractHelper
@@ -20,12 +23,19 @@ class Media extends AbstractHelper
     protected $rendererManager;
 
     /**
+     * @var int
+     */
+    protected $titleId;
+
+    /**
      * Construct the helper.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param IngesterManager $ingesterManager,
+     * @param RendererManager $rendererManager,
      */
-    public function __construct(IngesterManager $ingesterManager, RendererManager $rendererManager)
-    {
+    public function __construct(IngesterManager $ingesterManager,
+        RendererManager $rendererManager
+    ) {
         $this->ingesterManager = $ingesterManager;
         $this->rendererManager = $rendererManager;
     }
@@ -39,20 +49,41 @@ class Media extends AbstractHelper
      */
     public function form($ingesterName, array $options = [])
     {
-        $ingester = $this->ingesterManager->get($ingesterName);
-        $form = '<div class="media-field-wrapper">';
-        $form .= '<div class="media-header">';
-        $form .= '<ul class="actions"> <li><a href="#" class="o-icon-public" aria-label="Make private" title="Make private"></a>
-            <input type="hidden" name="o:media[__index__][o:is_public]" value="1"></li>
-            <li><a class="o-icon-delete remove-new-media-field" href="#"" title="Remove value" aria-label="Remove value"></a></li>
-            </ul>';
-        $form .= '<h4>' . $this->getView()->translate($ingester->getLabel()) . '</h4>';
-        $form .= '</div>';
-        $form .= $ingester->form($this->getView(), $options);
-        $form .= '<input type="hidden" name="o:media[__index__][o:ingester]" value="'
-            . $this->getView()->escapeHtml($ingesterName) . '">';
-        $form .= '</div>';
-        return $form;
+        if (!$this->titleId) {
+            // Cache the ID of the dcterms:title property
+            $this->titleId = $this->getView()->api()
+                ->searchOne('properties', ['term'=> 'dcterms:title'])
+                ->getContent()->id();
+        }
+
+        $factory = new Factory;
+        $titleValue = $factory->createElement([
+            'type' => Text::class,
+            'name' => 'o:media[__index__][dcterms:title][0][@value]',
+            'options' => [
+                'label' => 'Title', // @translate
+                'info'  => 'A title for the HTML content' // @translate
+            ],
+        ]);
+        $titleProperty = $factory->createElement([
+            'type' => Hidden::class,
+            'name' => 'o:media[__index__][dcterms:title][0][property_id]',
+            'attributes' => ['value' => $this->titleId],
+        ]);
+        $titleType = $factory->createElement([
+            'type' => Hidden::class,
+            'name' => 'o:media[__index__][dcterms:title][0][type]',
+            'attributes' => ['value' => 'literal'],
+        ]);
+
+        return $this->getView()->partial('common/media-field-wrapper.phtml', [
+            'titleValue' => $titleValue,
+            'titleProperty' => $titleProperty,
+            'titleType' => $titleType,
+            'ingesterName' => $ingesterName,
+            'ingester' => $this->ingesterManager->get($ingesterName),
+            'options' => $options,
+        ]);
     }
 
     /**
@@ -68,9 +99,8 @@ class Media extends AbstractHelper
 
         if ($ingester instanceof MutableIngesterInterface) {
             return $ingester->updateForm($this->getView(), $media, $options);
-        } else {
-            return '';
         }
+        return '';
     }
 
     /**

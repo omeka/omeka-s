@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Media\Ingester;
 
-use Zend\Form\Element\Hidden;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
@@ -9,7 +8,6 @@ use Omeka\Service\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\Form\Element\Textarea;
-use Zend\Form\Element\Text as TextInput;
 
 class Html implements MutableIngesterInterface
 {
@@ -33,23 +31,7 @@ class Html implements MutableIngesterInterface
      */
     public function form(PhpRenderer $view, array $options = [])
     {
-        $titleInput = new TextInput('o:media[__index__][dcterms:title][0][@value]');
-        $titlePropertyInput = new Hidden('o:media[__index__][dcterms:title][0][property_id]');
-        $titleTypeInput = new Hidden('o:media[__index__][dcterms:title][0][type]');
-        //make sure we have correct dcterms:title id
-        $api = $view->api();
-        $dctermsTitle = $api->search('properties', ['term'=> 'dcterms:title'])->getContent()[0];
-        $titlePropertyInput->setValue($dctermsTitle->id());
-        $titleTypeInput->setValue('literal');
-        $titleInput->setOptions([
-            'label' => 'Title', // @translate
-            'info'  => 'A title for the HTML content' // @translate
-        ]);
-        $html = $view->formRow($titleInput);
-        $html .= $view->formRow($titlePropertyInput);
-        $html .= $view->formRow($titleTypeInput);
-        $html .= $this->getForm($view, 'media-html-__index__');
-        return $html;
+        return $this->getForm($view, 'media-html-__index__');
     }
 
     /**

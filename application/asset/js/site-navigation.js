@@ -84,7 +84,6 @@ $.jstree.plugins.editlink = function(options, parent) {
     this.toggleLinkEdit = function(node) {
         var container = node.children('.jstree-editlink-container');
         node.toggleClass('jstree-editlink-editmode');
-        container.toggleClass('jstree-editlink-editmode');
         container.slideToggle();
     };
     this.bind = function() {
@@ -156,6 +155,19 @@ $.jstree.plugins.editlink = function(options, parent) {
                 }).appendTo('#site-form');
             }, this)
         );
+
+        // Open closed nodes if their inputs have validation errors
+        document.body.addEventListener('invalid', $.proxy(function (e) {
+            var target, section;
+            target = $(e.target);
+            if (!target.is(':input')) {
+                return;
+            }
+            node = target.closest('.jstree-node');
+            if (node.length && !node.hasClass('jstree-editlink-editmode')) {
+                this.toggleLinkEdit(node);
+            }
+        }, this), true);
     };
     this.redraw_node = function(node, deep, is_callback, force_render) {
         node = parent.redraw_node.apply(this, arguments);

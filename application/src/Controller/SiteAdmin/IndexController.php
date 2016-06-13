@@ -387,22 +387,24 @@ class IndexController extends AbstractActionController
     public function sidebarItemSelectAction()
     {
         $this->setBrowseDefaults('created');
-        $site = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
-        $itemPool = is_array($site->itemPool()) ? $site->itemPool()  : [];
-        $query = array_merge($itemPool, $this->params()->fromQuery());
+
+        $response = $this->api()->read('sites', ['slug' => $this->params('site-slug')]);
+        $site = $response->getContent();
+
+        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
+        $query = array_merge($this->params()->fromQuery(), $itemPool);
 
         $response = $this->api()->search('items', $query);
+        $items = $response->getContent();
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $view = new ViewModel;
-        $view->setVariable('items', $response->getContent());
-        $value = $this->params()->fromQuery('value');
-        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
-        $view->setVariable('showDetails', false);
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/item/sidebar-select');
+        $value = $this->params()->fromQuery('value');
+        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
+        $view->setVariable('items', $items);
+        $view->setVariable('showDetails', false);
         return $view;
     }
 }

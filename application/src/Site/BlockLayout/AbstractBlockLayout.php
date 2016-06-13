@@ -40,14 +40,17 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
      * @param SiteBlockAttachmentRepresentation|null $block
      * @param bool $itemOnly If true, selecting an item will immediately attach
      *   it (attachment options will not open)
+     * @param array $itemQuery Filter items further using this query
      * @return string
      */
     public function attachmentsForm(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null, $itemOnly = false
+        SitePageBlockRepresentation $block = null, $itemOnly = false,
+        array $itemQuery = []
     ) {
         return $view->partial('common/attachments-form', [
             'block' => $block,
             'itemOnly' => (bool) $itemOnly,
+            'itemQuery' => $itemQuery,
         ]);
     }
 

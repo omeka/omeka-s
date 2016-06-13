@@ -188,7 +188,12 @@
         $('#content').on('click', '#attachment-item-select', function(e) {
             e.preventDefault();
             var sidebar = $('#select-resource');
-            Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            var sidebarContentUrl = $(this).data('sidebar-content-url')
+            var attachmentsForm = $('.selecting-attachment').closest('.attachments-form');
+            if (attachmentsForm.data('itemQuery')) {
+                sidebarContentUrl = sidebarContentUrl + '?' + $.param(attachmentsForm.data('itemQuery'))
+            }
+            Omeka.populateSidebarContent(sidebar, sidebarContentUrl);
             Omeka.openSidebar(sidebar);
         });
 

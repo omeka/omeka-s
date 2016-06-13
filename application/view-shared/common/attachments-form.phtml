@@ -15,7 +15,7 @@ $attachmentRowTemplate = '
     <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">
 </div>';
 ?>
-<div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>">
+<div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>" data-item-query="<?php echo $escape(json_encode($this->itemQuery)); ?>">
     <a href="#" class="collapse"><h4><?php echo $this->translate('Attachments'); ?></h4></a>
     <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
         <?php foreach ($attachments as $attachment): ?>

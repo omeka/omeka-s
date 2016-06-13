@@ -4,6 +4,7 @@ namespace Omeka\Service;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Noop;
 use Zend\Log\Writer\Stream;
+use Zend\Log\Filter\Priority;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -33,6 +34,8 @@ class LoggerFactory implements FactoryInterface
         }
         $logger = new Logger;
         $logger->addWriter($writer);
+        $filter = new Priority($config['logger']['priority']);
+        $writer->addFilter($filter);
         return $logger;
     }
 }

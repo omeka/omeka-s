@@ -14,9 +14,6 @@ class IndexController extends AbstractActionController
         $vocabulariesResponse = $this->api()->search('vocabularies', ['limit' => 0]);
         $resourceTemplatesResponse = $this->api()->search('resource_templates', ['limit' => 0]);
 
-        $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $logger->log(7, 'A message');
-
         $view = new ViewModel;
         $view->setVariable('sites', $sitesResponse->getContent());
         $view->setVariable('itemCount', $itemsResponse->getTotalResults());

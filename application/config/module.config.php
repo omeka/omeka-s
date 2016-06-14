@@ -89,7 +89,7 @@ return [
     'logger' => [
         'log'  => false,
         'path' => OMEKA_PATH . '/data/logs/application.log',
-        'priority' => Zend\Log\Logger::NOTICE,
+        'priority' => \Zend\Log\Logger::NOTICE,
     ],
     'http_client' => [
         'adapter'   => 'Zend\Http\Client\Adapter\Socket',

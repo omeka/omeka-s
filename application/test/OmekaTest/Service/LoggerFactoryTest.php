@@ -12,7 +12,7 @@ class LoggerFactoryTest extends TestCase
         'logger' => [
             'log' => true,
             'path' => '/',
-            'priority' => Zend\Log\Logger::NOTICE,
+            'priority' => 5,
         ],
     ];
 

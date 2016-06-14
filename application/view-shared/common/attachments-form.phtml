@@ -55,6 +55,6 @@ $attachmentRowTemplate = '
             <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
         </div>
         <?php endforeach; ?>
-        <button type="button" class="attachment-add">Add Attachment</button>
+        <button type="button" class="attachment-add"><?php echo $this->translate('Add Attachment'); ?></button>
     </div>
 </div>

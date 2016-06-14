@@ -46,7 +46,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return bool
+     * @return string
      */
     public function layout()
     {
@@ -54,11 +54,24 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return bool
+     * @return array
      */
     public function data()
     {
         return $this->block->getData();
+    }
+
+    /**
+     * Get block data by key.
+     *
+     * @param string $key The data key
+     * @param mixed $default Return this if key does not exist
+     * @return mixed
+     */
+    public function dataValue($key, $default = null)
+    {
+        $data = $this->block->getData();
+        return isset($data[$key]) ? $data[$key] : $default;
     }
 
     public function attachments()

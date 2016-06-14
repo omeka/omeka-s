@@ -3,8 +3,6 @@ namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Omeka\Entity\SitePageBlock;
-use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -12,12 +10,8 @@ class BrowsePreview extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Browse Preview');
+        return 'Browse Preview'; // @translate
     }
-
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
-    {}
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
@@ -27,9 +21,9 @@ class BrowsePreview extends AbstractBlockLayout
         $linkText = new Text("o:block[__blockIndex__][o:data][link-text]");
 
         if ($block) {
-            $text->setAttribute('value', $this->getData($block->data(), 'query'));
-            $heading->setAttribute('value', $this->getData($block->data(), 'heading'));
-            $linkText->setAttribute('value', $this->getData($block->data(), 'link-text'));
+            $text->setAttribute('value', $block->dataValue('query'));
+            $heading->setAttribute('value', $block->dataValue('heading'));
+            $linkText->setAttribute('value', $block->dataValue('link-text'));
         }
 
         $html = '<div class="field"><div class="field-meta">';
@@ -58,14 +52,13 @@ class BrowsePreview extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        parse_str($this->getData($block->data(), 'query'), $query);
-        $heading = $this->getData($block->data(), 'heading');
-        $linkText = $this->getData($block->data(), 'link-text');
+        parse_str($block->dataValue('query'), $query);
+        $heading = $block->dataValue('heading');
+        $linkText = $block->dataValue('link-text');
 
         $site = $block->page()->site();
         $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
-        $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
-        if ($settings->get('browse_attached_items', false)) {
+        if ($view->siteSetting('browse_attached_items', false)) {
             $itemPool['site_id'] = $site->id();
         }
         $query['sort_by'] = 'created';
@@ -74,8 +67,7 @@ class BrowsePreview extends AbstractBlockLayout
         $query = array_merge($itemPool, $query);
         $query['limit'] = 10;
 
-        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
-            ->search('items', $query);
+        $response = $view->api()->search('items', $query);
         $items = $response->getContent();
 
         return $view->partial('common/block-layout/browse-preview', array(

@@ -76,6 +76,7 @@ class BlockLayout extends AbstractHelper
      */
     public function form($layout, SiteRepresentation $site = null)
     {
+        $view = $this->getView();
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
@@ -83,10 +84,10 @@ class BlockLayout extends AbstractHelper
             $site = $block->page()->site();
         }
         return '
-<div class="block value" data-block-layout="' . $this->getView()->escapeHtml($layout) . '">
+<div class="block value" data-block-layout="' . $view->escapeHtml($layout) . '">
     <span class="sortable-handle"></span>
     <div class="input-header">
-        <span class="block-type">' . $this->getLayoutLabel($layout) . '</span>
+        <span class="block-type">' . $view->escapeHtml($view->translate($this->getLayoutLabel($layout))) . '</span>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete remove-value"></a></li>
             <li><a href="#" class="o-icon-undo restore-value"></a></li>

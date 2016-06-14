@@ -261,6 +261,7 @@ return [
             'itemSetSelector'        => 'Omeka\View\Helper\ItemSetSelector',
             'formPropertyInputs'     => 'Omeka\View\Helper\PropertyInputs',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
+            'blockAttachmentsForm' => 'Omeka\View\Helper\BlockAttachmentsForm',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
@@ -270,6 +271,7 @@ return [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',
             'assetUrl' => 'Omeka\Service\ViewHelper\AssetUrlFactory',
             'blockLayout' => 'Omeka\Service\ViewHelper\BlockLayoutFactory',
+            'blockThumbnailTypeSelect' => 'Omeka\Service\ViewHelper\BlockThumbnailTypeSelectFactory',
             'dataType' => 'Omeka\Service\ViewHelper\DataTypeFactory',
             'i18n' => 'Omeka\Service\ViewHelper\I18nFactory',
             'media' => 'Omeka\Service\ViewHelper\MediaFactory',
@@ -277,6 +279,7 @@ return [
             'pagination' => 'Omeka\Service\ViewHelper\PaginationFactory',
             'params' => 'Omeka\Service\ViewHelper\ParamsFactory',
             'setting' => 'Omeka\Service\ViewHelper\SettingFactory',
+            'siteSetting' => 'Omeka\Service\ViewHelper\SiteSettingFactory',
             'themeSetting' => 'Omeka\Service\ViewHelper\ThemeSettingFactory',
             'trigger' => 'Omeka\Service\ViewHelper\TriggerFactory',
             'userIsAllowed' => 'Omeka\Service\ViewHelper\UserIsAllowedFactory',
@@ -311,9 +314,11 @@ return [
         ],
     ],
     'block_layouts' => [
+        'factories' => [
+            'html' => 'Omeka\Service\BlockLayout\HtmlFactory',
+        ],
         'invokables' => [
             'media' => 'Omeka\Site\BlockLayout\Media',
-            'html' => 'Omeka\Site\BlockLayout\Html',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',

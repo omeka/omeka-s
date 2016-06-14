@@ -9,14 +9,13 @@ class ItemWithMetadata extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Item with Metadata');
+        return 'Item with Metadata'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        return $this->attachmentsForm($view, $site, $block);
+        return $view->blockAttachmentsForm($block);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
@@ -29,11 +28,10 @@ class ItemWithMetadata extends AbstractBlockLayout
         $html = '';
         foreach($attachments as $attachment) {
             $item = $attachment->item();
-            $translator = $this->getServiceLocator()->get('MvcTranslator');
             $html .= $item->displayValues();
             if($item->itemSets()) {
                 $html .= '<div class="property">';
-                    $html .= '<h4>' . $translator->translate('Item Sets') . '</h4>';
+                    $html .= '<h4>' . $view->translate('Item Sets') . '</h4>';
 
                     foreach ($item->itemSets() as $itemSet) {
                         $html .= '<div class="value"><a href="' . $view->escapeHtml(($itemSet->url())) . '">' . $itemSet->displayTitle() . '</a></div>';

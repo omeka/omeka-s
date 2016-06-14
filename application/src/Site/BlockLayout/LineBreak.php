@@ -10,8 +10,7 @@ class LineBreak extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return $translator->translate('Line Break');
+        return 'Line Break'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -22,7 +21,7 @@ class LineBreak extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $breakType = $this->getData($block->data(), 'break_type');
+        $breakType = $block->dataValue('break_type');
 
         return "<div class='break $breakType'></div>";
 
@@ -31,18 +30,17 @@ class LineBreak extends AbstractBlockLayout
     public function breakTypeSelect(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-
-        $breakTypeValues = array('transparent', 'opaque');
-        $breakTypeLabels = array($translator->translate('Transparent'), $translator->translate('Opaque'));
-        $data = $block ? $block->data() : [];
-        $breakType = $this->getData($data, 'break_type', 'transparent');
+        $options = [
+            'transparent' => 'Transparent', // @translate
+            'opaque' => 'Opaque', // @translate
+        ];
+        $breakType = $block ? $block->dataValue('break_type', 'transparent') : 'transparent';
 
         $select = new Select('o:block[__blockIndex__][o:data][break_type]');
-        $select->setValueOptions(array_combine($breakTypeValues, $breakTypeLabels))->setValue($breakType);
+        $select->setValueOptions($options)->setValue($breakType);
 
         $html  = '<div class="field">';
-        $html .= '<div class="field-meta"><label>' . $translator->translate('Break Type') . '</label></div>';
+        $html .= '<div class="field-meta"><label>' . $view->translate('Break Type') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div>';
         $html .= '</div>';
         return $html;

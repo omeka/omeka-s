@@ -25,8 +25,8 @@ $escape = $this->plugin('escapeHtml');
 <div id="new-block" class="active sidebar" data-url="<?php echo $this->url('admin/site/page/default', ['action' => 'block'], true); ?>">
     <h3><?php echo $this->translate('Add New Block'); ?></h3>
     <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
-    <button type="button" value="<?php echo $escape($layout); ?>">
-        <?php echo $escape($this->translate($this->blockLayout()->getLayoutLabel($layout))); ?>
+    <button type="button" value="<?php echo $escape($layout); ?>" class="option">
+        <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
     </button>
     <?php endforeach; ?>
 </div>

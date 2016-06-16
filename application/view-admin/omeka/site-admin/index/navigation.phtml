@@ -22,31 +22,32 @@ $escape = $this->plugin('escapeHtml');
 <div id="nav-selector" class="active sidebar">
     <div class="field">
         <label for="nav-custom-links"><?php echo $this->translate('Add a custom link'); ?></label>
-        <select id="nav-custom-links">
-            <option value=""><?php echo $this->translate('Select below&hellip;'); ?></option>
+        <div id="nav-custom-links">
             <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
             <?php $name = $this->navigationLink()->getName($type); ?>
-            <option
+            <button
+                type="button"
                 data-type="<?php echo $escape($type); ?>"
-                value="<?php echo $escape($type); ?>"><?php echo $escape($this->translate($name)); ?></option>
+                data-value="<?php echo $escape($type); ?>" class="option"><?php echo $escape($this->translate($name)); ?></button>
             <?php endforeach; ?>
-        </select>
+        </div>
     </div>
     <div class="field">
         <label><?php echo $this->translate('Add a link to a site page'); ?></label>
         <?php if ($pages = $site->notLinkedPages()): ?>
         <input type="text" class="page-selector-filter" placeholder="Filter pages">
-        <ul id="nav-page-links">
+        <div id="nav-page-links">
         <?php foreach ($pages as $page): ?>
-            <li class="nav-page-link"
+            <button class="nav-page-link option"
+                type="button"
                 data-type="page"
                 data-label="<?php echo $escape($page->title()); ?>"
                 data-id="<?php echo $escape($page->id()); ?>"
                 data-slug="<?php echo $escape($page->slug()); ?>">
                 <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
-            </li>
+            </button>
         <?php endforeach; ?>
-        </ul>
+        </div>
         <?php else: ?>
         <p>There are no available pages.</p>
         <?php endif; ?>

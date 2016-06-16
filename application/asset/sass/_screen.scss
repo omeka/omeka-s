@@ -83,7 +83,7 @@ body {
     font-family: "Lato", sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    color: #676767;
+    color: $copy-gray;
     overflow-x: hidden;
 }
 
@@ -149,7 +149,7 @@ body {
         font-size: $base-font-size;
         line-height: $base-line-height;
         margin: 0;
-        color: #676767;
+        color: $copy-gray;
     }
 
     input[type="text"],
@@ -189,7 +189,7 @@ body {
     .button {
         min-height: rhythm(1.25);
         background-color: rgba(0,0,0,.08);
-        color: #676767;
+        color: $copy-gray;
         border-radius: 3px;
         border: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
@@ -419,7 +419,7 @@ table .icon-sortable {
 
 a.expand,
 a.collapse {
-    color: #676767;
+    color: $copy-gray;
 }
 
 .expand:after {
@@ -1142,7 +1142,7 @@ td .o-icon-private {
         clear: both;
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
-        color: #676767;
+        color: $copy-gray;
 
         legend {
             float: left;
@@ -1241,7 +1241,7 @@ fieldset.section > legend {
         border-color: $border-gray;
         border: 1px solid $border-gray;
         margin-left: .25em;
-        color: #676767;
+        color: $copy-gray;
     }
 
     .active a {
@@ -1364,21 +1364,6 @@ input[type="text"].value-language,
 .add .visibility [type="checkbox"],
 .edit .visibility [type="checkbox"] {
     margin-left: .5em;
-}
-
-#media-selector button {
-    width: 100%;
-    text-align: left;
-    border-color: $border-gray;
-    background-color: #fff;
-    color: #676767;
-
-    &:after {
-        content: $fa-var-plus;
-        font-family: "FontAwesome";
-        float: right;
-        color: $border-gray;
-    }
 }
 
     /* @group ----- Metadata ----- */
@@ -2467,9 +2452,24 @@ input[type="text"].value-language,
 
     .button,
     button {
-        background-color: #676767;
-        border-color: #676767;
+        background-color: $copy-gray;
+        border-color: $copy-gray;
         color: #fff;
+    }
+
+    button.option {
+        width: 100%;
+        text-align: left;
+        border-color: $border-gray;
+        background-color: #fff;
+        color: $copy-gray;
+
+        &:after {
+            content: $fa-var-plus;
+            font-family: "FontAwesome";
+            float: right;
+            color: $border-gray;
+        }
     }
 }
 
@@ -3151,42 +3151,13 @@ body.sidebar-open #content {
         }
     }
 
-    .site-pages #new-block button {
-        width: 100%;
-        text-align: left;
-        border-color: $border-gray;
-        background-color: #fff;
-        color: #676767;
-
-        &:after {
-            content: $fa-var-plus;
-            font-family: "FontAwesome";
-            float: right;
-            color: $border-gray;
-        }
-    }
-
     /* @end */
 
     /* @group ----- Site Navigation ----- */
 
-    #nav-page-links {
-        list-style: none;
-        padding-left: 0;
-        @include leader(.5);
-    }
-
-    .page-selector-filter {
+    input[type="text"].page-selector-filter {
         width: 100%;
-    }
-
-    .nav-page-link {
-        @include field-row;
-        cursor: pointer;
-
-        &:hover {
-            background-color: opacify($gray-on-white, .08);
-        }
+        margin-bottom: rhythm(.5);
     }
 
     /* @end */

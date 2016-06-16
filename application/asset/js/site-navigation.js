@@ -98,9 +98,10 @@ $.jstree.plugins.editlink = function(options, parent) {
         );
         // Add a custom page link to the navigation tree.
         $('#nav-custom-links').on(
-            'change',
+            'click',
+            'button.option',
             $.proxy(function(e) {
-                var link = $(e.currentTarget).children(':selected');
+                var link = $(e.currentTarget);
                 var nodeId = this.create_node('#', {
                     text: link.text(),
                     data: {
@@ -109,7 +110,6 @@ $.jstree.plugins.editlink = function(options, parent) {
                     }
                 });
                 this.toggleLinkEdit($('#' + nodeId));
-                $(e.currentTarget)[0].selectedIndex = 0; // reset select
             }, this)
         );
         // Add a site page link to the navigation tree.

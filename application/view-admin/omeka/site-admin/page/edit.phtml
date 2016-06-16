@@ -26,7 +26,7 @@ $escape = $this->plugin('escapeHtml');
     <h3><?php echo $this->translate('Add New Block'); ?></h3>
     <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
     <button type="button" value="<?php echo $escape($layout); ?>" class="option">
-        <?php echo $escape($this->blockLayout()->getLayoutLabel($layout)); ?>
+        <?php echo $escape($this->translate($this->blockLayout()->getLayoutLabel($layout))); ?>
     </button>
     <?php endforeach; ?>
 </div>

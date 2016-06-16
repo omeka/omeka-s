@@ -25,8 +25,7 @@ class Fallback extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        $translator = $this->getServiceLocator()->get('MvcTranslator');
-        return sprintf('%s [%s]', $translator->translate('Unknown'), $this->name);
+        return sprintf('%s [%s]', 'Unknown', $this->name); // @translate
     }
 
     /**
@@ -35,7 +34,7 @@ class Fallback extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        return 'This layout is invalid.';
+        return $view->translate('This layout is invalid.');
     }
 
     /**

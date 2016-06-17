@@ -1,6 +1,7 @@
 <?php
 namespace OmekaTest\Service;
 
+use Zend\Log\Logger;
 use Omeka\Service\LoggerFactory;
 use Omeka\Test\TestCase;
 
@@ -12,6 +13,7 @@ class LoggerFactoryTest extends TestCase
         'logger' => [
             'log' => true,
             'path' => '/',
+            'priority' => Logger::NOTICE,
         ],
     ];
 

@@ -62,7 +62,6 @@ class Media extends AbstractHelper
             'name' => 'o:media[__index__][dcterms:title][0][@value]',
             'options' => [
                 'label' => 'Title', // @translate
-                'info'  => 'A title for the HTML content' // @translate
             ],
         ]);
         $titleProperty = $factory->createElement([

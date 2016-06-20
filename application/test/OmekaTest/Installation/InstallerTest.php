@@ -26,12 +26,7 @@ class InstallerTest extends TestCase
 
     public function testInstallSuccessfulTask()
     {
-        $installer = new Installer($this->getServiceManager(
-            [
-                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            ]
-        ));
+        $installer = new Installer($this->getConfiguredServiceManager());
         $installer->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $installer->install();
         $this->assertTrue($result);
@@ -40,12 +35,7 @@ class InstallerTest extends TestCase
 
     public function testInstallErrorTask()
     {
-        $installer = new Installer($this->getServiceManager(
-            [
-                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            ]
-        ));
+        $installer = new Installer($this->getConfiguredServiceManager());
         $installer->registerTask('OmekaTest\Installation\ErrorTask');
         $result = $installer->install();
         $this->assertFalse($result);
@@ -54,12 +44,7 @@ class InstallerTest extends TestCase
 
     public function testPreInstallSuccessfulTask()
     {
-        $installer = new Installer($this->getServiceManager(
-            [
-                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            ]
-        ));
+        $installer = new Installer($this->getConfiguredServiceManager());
         $installer->registerPreTask('OmekaTest\Installation\SuccessTask');
         $result = $installer->preInstall();
         $this->assertTrue($result);
@@ -68,12 +53,7 @@ class InstallerTest extends TestCase
 
     public function testPreInstallErrorTask()
     {
-        $installer = new Installer($this->getServiceManager(
-            [
-                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            ]
-        ));
+        $installer = new Installer($this->getConfiguredServiceManager());
         $installer->registerPreTask('OmekaTest\Installation\ErrorTask');
         $result = $installer->preInstall();
         $this->assertFalse($result);
@@ -82,17 +62,22 @@ class InstallerTest extends TestCase
 
     public function testPreInstallErrorInstallSuccessTask()
     {
-        $installer = new Installer($this->getServiceManager(
-            [
-                'MvcTranslator' => $this->getMock('Zend\I18n\Translator\Translator'),
-                'Omeka\Status' => $this->getMock('Omeka\Mvc\Status')
-            ]
-        ));
+        $installer = new Installer($this->getConfiguredServiceManager());
         $installer->registerPreTask('OmekaTest\Installation\ErrorTask');
         $installer->registerTask('OmekaTest\Installation\SuccessTask');
         $result = $installer->preInstall();
         $this->assertFalse($result);
         $this->assertEquals(['error_message'], $installer->getErrors());
+    }
+
+    public function getConfiguredServiceManager()
+    {
+        $status = $this->getMockBuilder('Omeka\Mvc\Status')->disableOriginalConstructor()->getMock();
+        $translator = $this->getMock('Zend\I18n\Translator\Translator');
+        return $this->getServiceManager([
+            'MvcTranslator' => $translator,
+            'Omeka\Status' => $status,
+        ]);
     }
 }
 

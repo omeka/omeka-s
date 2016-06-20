@@ -17,9 +17,7 @@ return [
         'factories' => [
             'Omeka\Connection'    => 'Omeka\Service\ConnectionFactory',
             'Omeka\ModuleManager' => 'Omeka\Service\ModuleManagerFactory',
-        ],
-        'invokables' => [
-            'Omeka\Status' => 'Omeka\Mvc\Status',
+            'Omeka\Status' => 'Omeka\Service\StatusFactory',
         ],
     ],
     'connection' => $reader->fromFile(OMEKA_PATH . '/config/database.ini'),

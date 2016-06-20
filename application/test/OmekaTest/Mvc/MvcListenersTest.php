@@ -39,7 +39,7 @@ class MvcListenersTest extends TestCase
         $application = $this->getMockBuilder('Zend\Mvc\Application')
             ->disableOriginalConstructor()
             ->getMock();
-        $status = $this->getMock('Omeka\Mvc\Status');
+        $status = $this->getMockBuilder('Omeka\Mvc\Status')->disableOriginalConstructor()->getMock();
         $status->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($options['is_installed'] ? true : false));

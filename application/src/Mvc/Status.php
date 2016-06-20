@@ -3,12 +3,14 @@ namespace Omeka\Mvc;
 
 use Composer\Semver\Comparator;
 use Omeka\Module as OmekaModule;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Status implements ServiceLocatorAwareInterface
+class Status
 {
-    use ServiceLocatorAwareTrait;
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * @var bool
@@ -19,6 +21,11 @@ class Status implements ServiceLocatorAwareInterface
      * @var bool
      */
     protected $isApiRequest;
+
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * Check whether Omeka is currently installed.
@@ -58,8 +65,8 @@ class Status implements ServiceLocatorAwareInterface
             return $this->isApiRequest;
         }
         // Get the route match.
-        $router = $this->getServiceLocator()->get('Router');
-        $request = $this->getServiceLocator()->get('Request');
+        $router = $this->serviceLocator->get('Router');
+        $request = $this->serviceLocator->get('Request');
         $routeMatch = $router->match($request);
         if (null === $routeMatch) {
             // No matching route; not an API request.
@@ -92,7 +99,7 @@ class Status implements ServiceLocatorAwareInterface
      */
     public function needsMigration()
     {
-        $migrationManager = $this->getServiceLocator()->get('Omeka\MigrationManager');
+        $migrationManager = $this->serviceLocator->get('Omeka\MigrationManager');
         if ($migrationManager->getMigrationsToPerform()) {
             return true;
         }
@@ -116,6 +123,6 @@ class Status implements ServiceLocatorAwareInterface
      */
     public function getInstalledVersion()
     {
-        return $this->getServiceLocator()->get('Omeka\Settings')->get('version');
+        return $this->serviceLocator->get('Omeka\Settings')->get('version');
     }
 }

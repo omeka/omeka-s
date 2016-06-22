@@ -2,19 +2,40 @@
 namespace Omeka\Controller;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
 use Omeka\Form\ForgotPasswordForm;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class LoginController extends AbstractActionController
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @var AuthenticationService
+     */
+    protected $auth;
+
+    /**
+     * @param EntityManager $entityManager
+     * @param AuthenticationService $auth
+     */
+    public function __construct(EntityManager $entityManager, AuthenticationService $auth)
+    {
+        $this->entityManager = $entityManager;
+        $this->auth = $auth;
+    }
+
     public function loginAction()
     {
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-        if ($auth->hasIdentity()) {
+        if ($this->auth->hasIdentity()) {
             return $this->redirect()->toRoute('admin');
         }
 
@@ -27,10 +48,10 @@ class LoginController extends AbstractActionController
                 $sessionManager = Container::getDefaultManager();
                 $sessionManager->regenerateId();
                 $validatedData = $form->getData();
-                $adapter = $auth->getAdapter();
+                $adapter = $this->auth->getAdapter();
                 $adapter->setIdentity($validatedData['email']);
                 $adapter->setCredential($validatedData['password']);
-                $result = $auth->authenticate();
+                $result = $this->auth->authenticate();
                 if ($result->isValid()) {
                     $this->messenger()->addSuccess('Successfully logged in');
                     $redirectUrl = $this->params()->fromQuery('redirect');
@@ -54,8 +75,7 @@ class LoginController extends AbstractActionController
 
     public function logoutAction()
     {
-        $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-        $auth->clearIdentity();
+        $this->auth->clearIdentity();
         $sessionManager = Container::getDefaultManager();
         $sessionManager->destroy();
         $this->messenger()->addSuccess('Successfully logged out');
@@ -64,13 +84,11 @@ class LoginController extends AbstractActionController
 
     public function createPasswordAction()
     {
-        $authentication = $this->getServiceLocator()->get('Omeka\AuthenticationService');
-        if ($authentication->hasIdentity()) {
+        if ($this->auth->hasIdentity()) {
             return $this->redirect()->toRoute('admin');
         }
 
-        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $passwordCreation = $entityManager->find(
+        $passwordCreation = $this->entityManager->find(
             'Omeka\Entity\PasswordCreation',
             $this->params('key')
         );
@@ -83,8 +101,8 @@ class LoginController extends AbstractActionController
 
         if (new DateTime > $passwordCreation->getExpiration()) {
             $user->setIsActive(false);
-            $entityManager->remove($passwordCreation);
-            $entityManager->flush();
+            $this->entityManager->remove($passwordCreation);
+            $this->entityManager->flush();
             $this->messenger()->addError('Password creation key expired.');
             return $this->redirect()->toRoute('login');
         }
@@ -99,8 +117,8 @@ class LoginController extends AbstractActionController
                 if ($passwordCreation->activate()) {
                     $user->setIsActive(true);
                 }
-                $entityManager->remove($passwordCreation);
-                $entityManager->flush();
+                $this->entityManager->remove($passwordCreation);
+                $this->entityManager->flush();
                 $this->messenger()->addSuccess('Successfully created your password. Please log in.');
                 return $this->redirect()->toRoute('login');
             } else {
@@ -116,9 +134,7 @@ class LoginController extends AbstractActionController
 
     public function forgotPasswordAction()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $authentication = $serviceLocator->get('Omeka\AuthenticationService');
-        if ($authentication->hasIdentity()) {
+        if ($this->auth->hasIdentity()) {
             return $this->redirect()->toRoute('admin');
         }
 
@@ -128,21 +144,20 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $entityManager = $serviceLocator->get('Omeka\EntityManager');
-                $user =  $entityManager->getRepository('Omeka\Entity\User')
+                $user =  $this->entityManager->getRepository('Omeka\Entity\User')
                     ->findOneBy([
                         'email' => $data['email'],
                         'isActive' => true,
                     ]);
                 if ($user) {
-                    $passwordCreation = $entityManager
+                    $passwordCreation = $this->entityManager
                         ->getRepository('Omeka\Entity\PasswordCreation')
                         ->findOneBy(['user' => $user]);
                     if ($passwordCreation) {
-                        $entityManager->remove($passwordCreation);
-                        $entityManager->flush();
+                        $this->entityManager->remove($passwordCreation);
+                        $this->entityManager->flush();
                     }
-                    $serviceLocator->get('Omeka\Mailer')->sendResetPassword($user);
+                    $this->mailer()->sendResetPassword($user);
                 }
                 $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
                 return $this->redirect()->toRoute('login');

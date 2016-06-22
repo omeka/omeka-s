@@ -4,28 +4,57 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ModuleStateChangeForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
+use Omeka\Module\Manager as OmekaModuleManager;
+use Zend\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
 
 class ModuleController extends AbstractActionController
 {
+    /**
+     * @var PhpRenderer
+     */
+    protected $viewRenderer;
+
+    /**
+     * @var ModuleManager
+     */
+    protected $modules;
+
+    /**
+     * @var OmekaModuleManager
+     */
+    protected $omekaModules;
+
+    /**
+     * @param PhpRenderer $viewRenderer
+     * @param ModuleManager $modules
+     * @param OmekaModuleManager $omekaModules
+     */
+    public function __construct(PhpRenderer $viewRenderer, ModuleManager $modules,
+        OmekaModuleManager $omekaModules
+    ) {
+        $this->viewRenderer = $viewRenderer;
+        $this->modules = $modules;
+        $this->omekaModules = $omekaModules;
+    }
+
     public function browseAction()
     {
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-
         // Get modules, filtering modules by state.
         $state = $this->params()->fromQuery('state');
         if ('error' == $state) {
             $modules = array_merge(
-                $manager->getModulesByState('not_found'),
-                $manager->getModulesByState('invalid_module'),
-                $manager->getModulesByState('invalid_ini')
+                $this->omekaModules->getModulesByState('not_found'),
+                $this->omekaModules->getModulesByState('invalid_module'),
+                $this->omekaModules->getModulesByState('invalid_ini')
             );
         } elseif ($state) {
-            $modules = $manager->getModulesByState($state);
+            $modules = $this->omekaModules->getModulesByState($state);
         } else {
-            $modules = $manager->getModules();
+            $modules = $this->omekaModules->getModules();
         }
 
         // Order modules by name.
@@ -79,13 +108,12 @@ class ModuleController extends AbstractActionController
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
         try {
-            $manager->install($module);
+            $this->omekaModules->install($module);
         } catch (ModuleCannotInstallException $e) {
             $this->messenger()->addError($e->getMessage());
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
@@ -103,8 +131,7 @@ class ModuleController extends AbstractActionController
     public function uninstallConfirmAction()
     {
         $id = $this->params()->fromQuery('id');
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
@@ -137,12 +164,11 @@ class ModuleController extends AbstractActionController
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $manager->uninstall($module);
+        $this->omekaModules->uninstall($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully uninstalled'));
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -164,12 +190,11 @@ class ModuleController extends AbstractActionController
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $manager->activate($module);
+        $this->omekaModules->activate($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully activated'));
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -191,12 +216,11 @@ class ModuleController extends AbstractActionController
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $manager->deactivate($module);
+        $this->omekaModules->deactivate($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully deactivated'));
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -218,12 +242,11 @@ class ModuleController extends AbstractActionController
         if (!$form->isValid()) {
             throw new Exception\PermissionDeniedException;
         }
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $manager->upgrade($module);
+        $this->omekaModules->upgrade($module);
         $this->messenger()->addSuccess($this->translate('The module was successfully upgraded'));
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -233,14 +256,13 @@ class ModuleController extends AbstractActionController
      */
     public function configureAction()
     {
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
         $id = $this->params()->fromQuery('id');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }
 
-        $moduleObject = $this->getServiceLocator()->get('ModuleManager')->getModule($id);
+        $moduleObject = $this->modules->getModule($id);
         if (null === $moduleObject) {
             // Do not attempt to configure an unloaded module.
             throw new Exception\NotFoundException;
@@ -255,8 +277,7 @@ class ModuleController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $renderer = $this->getServiceLocator()->get('ViewRenderer');
-        $view->setVariable('configForm', $moduleObject->getConfigForm($renderer));
+        $view->setVariable('configForm', $moduleObject->getConfigForm($this->viewRenderer));
         $view->setVariable('module', $module);
         return $view;
     }
@@ -264,8 +285,7 @@ class ModuleController extends AbstractActionController
     public function showDetailsAction()
     {
         $id = $this->params()->fromQuery('id');
-        $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $module = $manager->getModule($id);
+        $module = $this->omekaModules->getModule($id);
         if (!$module) {
             throw new Exception\NotFoundException;
         }

@@ -135,7 +135,7 @@ class PageController extends AbstractActionController
         $site = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ])->getContent();
-        $helper = $this->getServiceLocator()->get('ViewHelperManager')->get('blockLayout');
+        $helper = $this->viewHelpers()->get('blockLayout');
 
         $response = $this->getResponse();
         $response->setContent($helper->form($layout, $site));

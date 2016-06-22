@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
+use Omeka\Mvc\Controller\Plugin\GetForm;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Omeka\Mvc\Controller\Plugin\GetForm;
 
 class GetFormFactory implements FactoryInterface
 {

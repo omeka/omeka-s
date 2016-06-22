@@ -10,8 +10,7 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         // Redirect to default site, if set
-        $settings = $this->getServiceLocator()->get('Omeka\Settings');
-        $defaultSiteId = $settings->get('default_site');
+        $defaultSiteId = $this->settings()->get('default_site');
         if ($defaultSiteId) {
             try {
                 $defaultSiteResponse = $this->api()->read('sites', $defaultSiteId);

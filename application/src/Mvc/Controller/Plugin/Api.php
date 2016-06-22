@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Api\Manager as ApiManager;
+use Omeka\Api\Manager;
 use Omeka\Api\Response;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
@@ -11,9 +11,14 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 class Api extends AbstractPlugin
 {
     /**
-     * @var ApiManager
+     * @var Manager
      */
-    protected $apiManager;
+    protected $api;
+
+    public function __construct(Manager $api)
+    {
+        $this->api = $api;
+    }
 
     /**
      * Execute a search API request.
@@ -24,7 +29,7 @@ class Api extends AbstractPlugin
      */
     public function search($resource, $data = [])
     {
-        $response = $this->getApiManager()->search($resource, $data);
+        $response = $this->api->search($resource, $data);
         $this->detectError($response);
         return $response;
     }
@@ -59,7 +64,7 @@ class Api extends AbstractPlugin
      */
     public function create($resource, $data = [], $fileData = [])
     {
-        $response = $this->getApiManager()->create($resource, $data, $fileData);
+        $response = $this->api->create($resource, $data, $fileData);
         $this->detectError($response);
         return $response;
     }
@@ -73,7 +78,7 @@ class Api extends AbstractPlugin
      */
     public function batchCreate($resource, $data = [])
     {
-        $response = $this->getApiManager()->batchCreate($resource, $data);
+        $response = $this->api->batchCreate($resource, $data);
         $this->detectError($response);
         return $response;
     }
@@ -88,7 +93,7 @@ class Api extends AbstractPlugin
      */
     public function read($resource, $id, $data = [])
     {
-        $response = $this->getApiManager()->read($resource, $id, $data);
+        $response = $this->api->read($resource, $id, $data);
         $this->detectError($response);
         return $response;
     }
@@ -106,7 +111,7 @@ class Api extends AbstractPlugin
     public function update($resource, $id, $data = [], $fileData = [],
         $partial = false
     ) {
-        $response = $this->getApiManager()->update($resource, $id, $data,
+        $response = $this->api->update($resource, $id, $data,
             $fileData, $partial);
         $this->detectError($response);
         return $response;
@@ -122,7 +127,7 @@ class Api extends AbstractPlugin
      */
     public function delete($resource, $id, $data = [])
     {
-        $response = $this->getApiManager()->delete($resource, $id, $data);
+        $response = $this->api->delete($resource, $id, $data);
         $this->detectError($response);
         return $response;
     }
@@ -136,20 +141,5 @@ class Api extends AbstractPlugin
             $this->getController()->messenger()
                 ->addError('There was an error during validation');
         }
-    }
-
-    /**
-     * Get the API manager.
-     *
-     * @return ApiManager
-     */
-    protected function getApiManager()
-    {
-        if (!$this->apiManager instanceof ApiManager) {
-            $this->apiManager = $this->getController()
-                ->getServiceLocator()
-                ->get('Omeka\ApiManager');
-        }
-        return $this->apiManager;
     }
 }

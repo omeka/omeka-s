@@ -3,12 +3,26 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
+use Omeka\Media\Ingester\Manager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
 
 class ItemController extends AbstractActionController
 {
+    /**
+     * @var Manager
+     */
+    protected $mediaIngesters;
+
+    /**
+     * @param Manager $mediaIngesters
+     */
+    public function __construct(Manager $mediaIngesters)
+    {
+        $this->mediaIngesters = $mediaIngesters;
+    }
+
     public function searchAction()
     {
         $view = new ViewModel;
@@ -179,14 +193,11 @@ class ItemController extends AbstractActionController
 
     protected function getMediaForms()
     {
-        $services = $this->getServiceLocator();
-        $mediaHelper = $services->get('ViewHelperManager')->get('media');
-        $mediaIngester = $services->get('Omeka\MediaIngesterManager');
-
+        $mediaHelper = $this->viewHelpers()->get('media');
         $forms = [];
-        foreach ($mediaIngester->getRegisteredNames() as $ingester) {
+        foreach ($this->mediaIngesters->getRegisteredNames() as $ingester) {
             $forms[$ingester] = [
-                'label' => $mediaIngester->get($ingester)->getLabel(),
+                'label' => $this->mediaIngesters->get($ingester)->getLabel(),
                 'form' => $mediaHelper->form($ingester)
             ];
         }

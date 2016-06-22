@@ -107,7 +107,7 @@ class SiteAdapter extends AbstractEntityAdapter
                 $subrequest->setContent(
                         [
                             'o:title' => $translator->translate('Welcome'),
-                            'o:slug' => $translator->translate('welcome'),
+                            'o:slug' => 'welcome',
                             'o:block' => [
                                 [
                                     'o:layout' => 'html',

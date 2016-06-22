@@ -5,11 +5,25 @@ use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
 use Omeka\Mvc\Exception;
+use Omeka\Service\RdfImporter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class VocabularyController extends AbstractActionController
 {
+    /**
+     * @var RdfImporter
+     */
+    protected $rdfImporter;
+
+    /**
+     * @param RdfImporter $rdfImporter
+     */
+    public function __construct(RdfImporter $rdfImporter)
+    {
+        $this->rdfImporter = $rdfImporter;
+    }
+
     public function browseAction()
     {
         $this->setBrowseDefaults('label', 'asc');
@@ -58,9 +72,8 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
-                $importer = $this->getServiceLocator()->get('Omeka\RdfImporter');
                 try {
-                    $response = $importer->import(
+                    $response = $this->rdfImporter->import(
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
                     if ($response->isError()) {

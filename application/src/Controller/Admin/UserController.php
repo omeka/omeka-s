@@ -1,25 +1,37 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Doctrine\ORM\EntityManager;
+use Omeka\Entity\ApiKey;
+use Omeka\Entity\User;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserForm;
 use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
-use Omeka\Entity\ApiKey;
-use Omeka\Entity\User;
-use Zend\Mvc\Controller\AbstractActionController;
 use Omeka\Mvc\Exception;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function addAction()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $acl = $serviceLocator->get('Omeka\Acl');
-        $changeRole = $acl->userIsAllowed('Omeka\Entity\User', 'change-role');
-        $changeRoleAdmin = $acl->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
-        $activateUser = $acl->userIsAllowed('Omeka\Entity\User', 'activate-user');
+        $changeRole = $this->userIsAllowed('Omeka\Entity\User', 'change-role');
+        $changeRoleAdmin = $this->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
+        $activateUser = $this->userIsAllowed('Omeka\Entity\User', 'activate-user');
 
         $form = $this->getForm(UserForm::class, [
             'include_role' => $changeRole,
@@ -36,7 +48,7 @@ class UserController extends AbstractActionController
                     $form->setMessages($response->getErrors());
                 } else {
                     $user = $response->getContent()->getEntity();
-                    $serviceLocator->get('Omeka\Mailer')->sendUserActivation($user);
+                    $this->mailer()->sendUserActivation($user);
                     $this->messenger()->addSuccess('User created.');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -101,10 +113,9 @@ class UserController extends AbstractActionController
         $user = $readResponse->getContent();
         $userEntity = $user->getEntity();
 
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        $changeRole = $acl->userIsAllowed($userEntity, 'change-role');
-        $changeRoleAdmin = $acl->userIsAllowed($userEntity, 'change-role-admin');
-        $activateUser = $acl->userIsAllowed($userEntity, 'activate-user');
+        $changeRole = $this->userIsAllowed($userEntity, 'change-role');
+        $changeRoleAdmin = $this->userIsAllowed($userEntity, 'change-role-admin');
+        $activateUser = $this->userIsAllowed($userEntity, 'activate-user');
 
         $form = $this->getForm(UserForm::class, [
             'include_role' => $changeRole,
@@ -141,7 +152,6 @@ class UserController extends AbstractActionController
     {
         $id = $this->params('id');
 
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
@@ -156,8 +166,7 @@ class UserController extends AbstractActionController
         $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {
-            $acl = $this->getServiceLocator()->get('Omeka\Acl');
-            if (!$acl->userIsAllowed($user, 'change-password')) {
+            if (!$this->userIsAllowed($user, 'change-password')) {
                 throw new Exception\PermissionDeniedException(
                     'User does not have permission to change the password'
                 );
@@ -170,7 +179,7 @@ class UserController extends AbstractActionController
                         return $view;
                     }
                 $user->setPassword($values['password']);
-                $em->flush();
+                $this->entityManager->flush();
                 $this->messenger()->addSuccess('Password changed.');
                 return $this->redirect()->toRoute(null, ['action' => 'edit'], [], true);
             } else {
@@ -186,14 +195,12 @@ class UserController extends AbstractActionController
         $form = $this->getForm(UserKeyForm::class);
         $id = $this->params('id');
 
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $readResponse = $this->api()->read('users', $id);
         $userRepresentation = $readResponse->getContent();
         $user = $userRepresentation->getEntity();
         $keys = $user->getKeys();
 
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if (!$acl->userIsAllowed($user, 'edit-keys')) {
+        if (!$this->userIsAllowed($user, 'edit-keys')) {
             throw new Exception\PermissionDeniedException(
                 'User does not have permission to edit API keys'
             );
@@ -204,7 +211,7 @@ class UserController extends AbstractActionController
             $form->setData($postData);
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $this->addKey($em, $user, $formData['new-key-label']);
+                $this->addKey($user, $formData['new-key-label']);
 
                 // Remove any keys marked for deletion
                 if (!empty($postData['delete']) && is_array($postData['delete'])) {
@@ -213,7 +220,7 @@ class UserController extends AbstractActionController
                     }
                     $this->messenger()->addSuccess("Deleted key(s).");
                 }
-                $em->flush();
+                $this->entityManager->flush();
                 return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addError('There was an error during validation');
@@ -256,7 +263,7 @@ class UserController extends AbstractActionController
         );
     }
 
-    private function addKey($em, $user, $label)
+    private function addKey($user, $label)
     {
         if (empty($label)) {
             return;
@@ -268,7 +275,7 @@ class UserController extends AbstractActionController
         $key->setOwner($user);
         $id = $key->getId();
         $credential = $key->setCredential();
-        $em->persist($key);
+        $this->entityManager->persist($key);
 
         $this->messenger()->addSuccess('Key created.');
         $this->messenger()->addSuccess("ID: $id, Credential: $credential");

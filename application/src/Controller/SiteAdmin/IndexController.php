@@ -6,12 +6,38 @@ use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
 use Omeka\Form\SiteSettingsForm;
+use Omeka\Site\Navigation\Link\Manager as LinkManager;
+use Omeka\Site\Navigation\Translator;
+use Omeka\Site\Theme\Manager as ThemeManager;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    /**
+     * @var ThemeManager
+     */
+    protected $themes;
+
+    /**
+     * @var LinkManager
+     */
+    protected $navLinks;
+
+    /**
+     * @var Translator
+     */
+    protected $navTranslator;
+
+    public function __construct(ThemeManager $themes, LinkManager $navLinks,
+        Translator $navTranslator
+    ) {
+        $this->themes = $themes;
+        $this->navLinks = $navLinks;
+        $this->navTranslator = $navTranslator;
+    }
+
     public function indexAction()
     {
         $this->setBrowseDefaults('title');
@@ -100,11 +126,10 @@ class IndexController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $settings = $this->getServiceLocator()->get('Omeka\SiteSettings');
                 $data = $form->getData();
                 unset($data['csrf']);
                 foreach ($data as $id => $value) {
-                    $settings->set($id, $value);
+                    $this->siteSettings()->set($id, $value);
                 }
                 $this->messenger()->addSuccess('Settings updated.');
                 return $this->redirect()->refresh();
@@ -160,8 +185,6 @@ class IndexController extends AbstractActionController
 
     public function navigationAction()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
         $readResponse = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ]);
@@ -175,7 +198,7 @@ class IndexController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $jstree = json_decode($formData['jstree'], true);
-            $formData['o:navigation'] = $translator->fromJstree($jstree);
+            $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api()->update('sites', $id, $formData, [], true);
@@ -188,7 +211,7 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $view->setVariable('navTree', $translator->toJstree($site));
+        $view->setVariable('navTree', $this->navTranslator->toJstree($site));
         $view->setVariable('form', $form);
         $view->setVariable('site', $site);
         return $view;
@@ -274,11 +297,7 @@ class IndexController extends AbstractActionController
         ]);
         $site = $readResponse->getContent();
 
-        $services = $this->getServiceLocator();
-        $tm = $services->get('Omeka\Site\ThemeManager');
-        $settings = $services->get('Omeka\SiteSettings');
-
-        $theme = $tm->getTheme($site->theme());
+        $theme = $this->themes->getTheme($site->theme());
         $settingsKey = $theme->getSettingsKey();
         $config = $theme->getConfigSpec();
 
@@ -295,7 +314,7 @@ class IndexController extends AbstractActionController
             $form->add($elementSpec);
         }
 
-        $oldSettings = $settings->get($theme->getSettingsKey());
+        $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());
         if ($oldSettings) {
             $form->setData($oldSettings);
         }
@@ -305,7 +324,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 unset($data['form_csrf']);
-                $settings->set($settingsKey, $data);
+                $this->setSettings()->set($settingsKey, $data);
                 $this->messenger()->addSuccess('Theme settings updated.');
                 return $this->redirect()->refresh();
             } else {
@@ -371,9 +390,7 @@ class IndexController extends AbstractActionController
         $site = $this->api()->read('sites', [
             'slug' => $this->params('site-slug')
         ])->getContent();
-        $link = $this->getServiceLocator()
-            ->get('Omeka\Site\NavigationLinkManager')
-            ->get($this->params()->fromPost('type'));
+        $link = $this->navLinks->get($this->params()->fromPost('type'));
 
         $view = new ViewModel;
         $view->setTerminal(true);

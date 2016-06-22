@@ -4,7 +4,7 @@ namespace Omeka\Mvc\Controller\Plugin;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\View\HelperPluginManager;
 
-class Paginator extends AbstractPlugin
+class ViewHelpers extends AbstractPlugin
 {
     /**
      * @var HelperPluginManager
@@ -16,8 +16,8 @@ class Paginator extends AbstractPlugin
         $this->viewHelpers = $viewHelpers;
     }
 
-    public function __invoke($totalCount, $currentPage, $perPage = null, $name = null) {
-        $pagination = $this->viewHelpers->get('pagination');
-        $pagination($name, $totalCount, $currentPage, $perPage);
+    public function __invoke()
+    {
+        return $this->viewHelpers;
     }
 }

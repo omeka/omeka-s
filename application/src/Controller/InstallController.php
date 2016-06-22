@@ -2,30 +2,43 @@
 namespace Omeka\Controller;
 
 use Omeka\Form\InstallationForm;
+use Omeka\Installation\Installer;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class InstallController extends AbstractActionController
 {
+    /**
+     * @var Installer
+     */
+    protected $installer;
+
+    /**
+     * @param Installer $installer
+     */
+    public function __construct(Installer $installer)
+    {
+        $this->installer = $installer;
+    }
+
     public function indexAction()
     {
-        if ($this->getServiceLocator()->get('Omeka\Status')->isInstalled()) {
+        if ($this->status()->isInstalled()) {
             return $this->redirect()->toRoute('admin');
         }
 
         $form = $this->getForm(InstallationForm::class);
-        $manager = $this->getServiceLocator()->get('Omeka\Installer');
         $view = new ViewModel;
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $manager->registerVars(
+                $this->installer->registerVars(
                     'Omeka\Installation\Task\CreateFirstUserTask',
                     $data['user']
                 );
-                $manager->registerVars(
+                $this->installer->registerVars(
                     'Omeka\Installation\Task\AddDefaultSettingsTask',
                     [
                         'administrator_email' => $data['user']['email'],
@@ -34,14 +47,14 @@ class InstallController extends AbstractActionController
                     ]
                 );
                 date_default_timezone_set('UTC');
-                if ($manager->install()) {
+                if ($this->installer->install()) {
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful. Please log in.');
                     return $this->redirect()->toRoute('login');
                 } else {
                     // Error during installation.
                     $this->messenger()->addError('There were errors during installation.');
-                    foreach ($manager->getErrors() as $error) {
+                    foreach ($this->installer->getErrors() as $error) {
                         $this->messenger()->addError($error);
                     }
                 }
@@ -49,8 +62,8 @@ class InstallController extends AbstractActionController
                 $this->messenger()->addError('There was an error during validation.');
             }
         } else {
-            if (!$manager->preInstall()) {
-                $view->setVariable('preErrors', $manager->getErrors());
+            if (!$this->installer->preInstall()) {
+                $view->setVariable('preErrors', $this->installer->getErrors());
             }
         }
 

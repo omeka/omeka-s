@@ -4,8 +4,10 @@ namespace Omeka\Controller;
 use Omeka\Api\Response;
 use Omeka\Event\Event;
 use Omeka\Mvc\Exception;
+use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
+use Zend\Log\Logger;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface as Request;
@@ -13,9 +15,29 @@ use Zend\Stdlib\RequestInterface as Request;
 class ApiController extends AbstractRestfulController
 {
     /**
+     * @var Paginator
+     */
+    protected $paginator;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @var array
      */
     protected $viewOptions = [];
+
+    /**
+     * @param Paginator $paginator
+     * @param Logger $logger
+     */
+    public function __construct(Paginator $paginator, Logger $logger)
+    {
+        $this->paginator = $paginator;
+        $this->logger = $logger;
+    }
 
     /**
      * Fetch all contexts and render a JSON-LD context object.
@@ -48,17 +70,16 @@ class ApiController extends AbstractRestfulController
         $query = $this->params()->fromQuery();
         $response = $this->api()->search($resource, $query);
 
-        $paginator = $this->getServiceLocator()->get('Omeka\Paginator');
-        $paginator->setCurrentPage($query['page']);
-        $paginator->setTotalCount($response->getTotalResults());
+        $this->paginator->setCurrentPage($query['page']);
+        $this->paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.
         $links = [];
         $pages = [
             'first' => 1,
-            'prev' => $paginator->getPreviousPage(),
-            'next' => $paginator->getNextPage(),
-            'last' => $paginator->getPageCount(),
+            'prev' => $this->paginator->getPreviousPage(),
+            'next' => $this->paginator->getNextPage(),
+            'last' => $this->paginator->getPageCount(),
         ];
         foreach ($pages as $rel => $page) {
             if ($page) {
@@ -142,7 +163,7 @@ class ApiController extends AbstractRestfulController
             $this->checkContentType($request);
             parent::onDispatch($event);
         } catch (\Exception $e) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err((string) $e);
+            $this->logger->err((string) $e);
             return $this->getErrorResult($event, $e);
         }
     }

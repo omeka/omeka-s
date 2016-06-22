@@ -16,8 +16,7 @@ class PageController extends AbstractSiteController
         ]);
         $page = $pageResponse->getContent();
 
-        $this->getServiceLocator()->get('ViewHelperManager')
-            ->get('sitePagePagination')->setPage($page);
+        $this->viewHelpers()->get('sitePagePagination')->setPage($page);
 
         $view = new ViewModel;
 

@@ -2,12 +2,25 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
-use Omeka\Entity\Job;
+use Omeka\Job\Dispatcher;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class JobController extends AbstractActionController
 {
+    /**
+     * @var Dispatcher
+     */
+    protected $jobDispatcher;
+
+    /**
+     * @param Dispatcher $jobDispatcher
+     */
+    public function __construct(Dispatcher $jobDispatcher)
+    {
+        $this->jobDispatcher = $jobDispatcher;
+    }
+
     public function browseAction()
     {
         $this->setBrowseDefaults('id');
@@ -52,8 +65,7 @@ class JobController extends AbstractActionController
                 $response = $this->api()->read('jobs', $this->params('id'));
                 $job = $response->getContent();
                 if (Job::STATUS_IN_PROGRESS == $job->status()) {
-                    $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
-                    $dispatcher->stop($job->id());
+                    $this->jobDispatcher->stop($job->id());
                     $this->messenger()->addSuccess('Attempting to stop the job.');
                 } else {
                     $this->messenger()->addError('The job could not be stopped.');

@@ -1,24 +1,35 @@
 <?php
 namespace Omeka\Controller;
 
+use Omeka\Db\Migration\Manager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class MigrateController extends AbstractActionController
 {
+    /**
+     * @var Manager
+     */
+    protected $migrationManager;
+
+    /**
+     * @param Manager $migrationManager
+     */
+    public function __construct(Manager $migrationManager)
+    {
+        $this->migrationManager = $migrationManager;
+    }
+
     public function indexAction()
     {
-        $status = $this->getServiceLocator()->get('Omeka\Status');
-
-        if (!$status->needsMigration()) {
+        if (!$this->status()->needsMigration()) {
             return $this->redirect()->toRoute('admin');
         }
 
         if ($this->getRequest()->isPost()) {
             // Perform migrations and update the installed version.
-            $this->getServiceLocator()->get('Omeka\MigrationManager')->upgrade();
-            $this->getServiceLocator()->get('Omeka\Settings')
-                ->set('version', $status->getVersion());
+            $this->migrationManager->upgrade();
+            $this->settings()->set('version', $this->status()->getVersion());
             $this->messenger()->addSuccess("Migration successful");
             return $this->redirect()->toRoute('admin');
         }

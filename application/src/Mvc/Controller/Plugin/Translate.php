@@ -11,6 +11,11 @@ class Translate extends AbstractPlugin
      */
     protected $translator;
 
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Translate a message
      *
@@ -21,20 +26,6 @@ class Translate extends AbstractPlugin
      */
     public function __invoke($message, $textDomain = 'default', $locale = null)
     {
-        return $this->getTranslator()->translate($message, $textDomain, $locale);
-    }
-
-    /**
-     * Get the translator service
-     *
-     * return TranslatorInterface
-     */
-    public function getTranslator()
-    {
-        if (!$this->translator instanceof TranslatorInterface) {
-            $this->translator = $this->getController()
-                ->getServiceLocator()->get('MvcTranslator');
-        }
-        return $this->translator;
+        return $this->translator->translate($message, $textDomain, $locale);
     }
 }

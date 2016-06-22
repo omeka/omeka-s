@@ -9,18 +9,15 @@ class SettingController extends AbstractActionController
 {
     public function browseAction()
     {
-        $serviceLocator = $this->getServiceLocator();
-        $settings = $serviceLocator->get('Omeka\Settings');
-
         $form = $this->getForm(SettingForm::class);
         $data = [
-            'administrator_email' => $settings->get('administrator_email'),
-            'installation_title' => $settings->get('installation_title'),
-            'time_zone' => $settings->get('time_zone'),
-            'pagination_per_page' => $settings->get('pagination_per_page'),
-            'property_label_information' => $settings->get('property_label_information'),
-            'use_htmlpurifier' => $settings->get('use_htmlpurifier'),
-            'default_site' => $settings->get('default_site')
+            'administrator_email' => $this->settings()->get('administrator_email'),
+            'installation_title' => $this->settings()->get('installation_title'),
+            'time_zone' => $this->settings()->get('time_zone'),
+            'pagination_per_page' => $this->settings()->get('pagination_per_page'),
+            'property_label_information' => $this->settings()->get('property_label_information'),
+            'use_htmlpurifier' => $this->settings()->get('use_htmlpurifier'),
+            'default_site' => $this->settings()->get('default_site')
         ];
         $form->setData($data);
 
@@ -32,7 +29,7 @@ class SettingController extends AbstractActionController
                     // Set whitelisted settings only, otherwise this would set
                     // the CSRF value and any other element passed by the form.
                     if (array_key_exists($key, $data)) {
-                        $settings->set($key, $value);
+                        $this->settings()->set($key, $value);
                     }
                 }
                 $this->messenger()->addSuccess('Settings updated');

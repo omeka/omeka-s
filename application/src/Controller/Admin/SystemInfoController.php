@@ -2,12 +2,26 @@
 namespace Omeka\Controller\Admin;
 
 use PDO;
+use Doctrine\DBAL\Connection;
 use Omeka\Module;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class SystemInfoController extends AbstractActionController
 {
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
+    /**
+     * @param Dispatcher $connection
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
     public function browseAction()
     {
         $model = new ViewModel;
@@ -17,9 +31,8 @@ class SystemInfoController extends AbstractActionController
 
     private function getSystemInfo()
     {
-        $dbalConn = $this->getServiceLocator()->get('Omeka\Connection');
-        $conn = $dbalConn->getWrappedConnection();
-        $mode = $dbalConn->fetchColumn('SELECT @@sql_mode');
+        $conn = $this->connection->getWrappedConnection();
+        $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
 
         $extensions = get_loaded_extensions();
         natcasesort($extensions);

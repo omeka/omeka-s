@@ -3,7 +3,6 @@ namespace Omeka\Api\Representation;
 
 use JsonSerializable;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * The representation interface
@@ -16,7 +15,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 interface RepresentationInterface extends
     JsonSerializable,
-    ServiceLocatorAwareInterface,
     EventManagerAwareInterface
 {
     /**

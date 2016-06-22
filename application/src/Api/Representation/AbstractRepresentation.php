@@ -5,7 +5,7 @@ use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Stdlib\DateTime;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\HelperPluginManager;
 
 /**
@@ -15,7 +15,7 @@ use Zend\View\HelperPluginManager;
  */
 abstract class AbstractRepresentation implements RepresentationInterface
 {
-    use EventManagerAwareTrait, ServiceLocatorAwareTrait;
+    use EventManagerAwareTrait;
 
     /**
      * @var TranslatorInterface
@@ -92,5 +92,25 @@ abstract class AbstractRepresentation implements RepresentationInterface
     public function primaryMedia()
     {
         return null;
+    }
+
+    /**
+     * Get the service locator.
+     *
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->services;
+    }
+
+    /**
+     * Set the service locator.
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->services = $serviceLocator;
     }
 }

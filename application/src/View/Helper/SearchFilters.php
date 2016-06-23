@@ -38,8 +38,6 @@ class SearchFilters extends AbstractHelper
         foreach($query as $key => $value) {
 
             if ($value != null && in_array($key, $exclude) == false) {
-                $filterLabel = ucfirst($key);
-                $filterValue = null;
                 switch ($key) {
 
                     // Search by class
@@ -166,6 +164,8 @@ class SearchFilters extends AbstractHelper
                         break;
 
                     default:
+                        $filterLabel = ucfirst($key);
+                        $filterValue = $value;
                         $filters[$filterLabel][] = $filterValue;
                         break;
                 }

@@ -155,6 +155,16 @@ class SearchFilters extends AbstractHelper
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
+                    case 'site_id':
+                        $filterLabel = $translate('Site');
+                        try {
+                            $filterValue = $api->read('sites', $value)->getContent()->title();
+                        } catch (NotFoundException $e) {
+                            $filterValue = $translate('Unknown site');
+                        }
+                        $filters[$filterLabel][] = $filterValue;
+                        break;
+
                     default:
                         $filters[$filterLabel][] = $filterValue;
                         break;

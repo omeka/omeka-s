@@ -76,22 +76,15 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
+        $site = $this->currentSite();
         $form = $this->getForm(SiteForm::class);
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-
-        $site = $readResponse->getContent();
-        $id = $site->id();
-        $data = $site->jsonSerialize();
-        $form->setData($data);
-        $this->layout()->setVariable('site', $site);
+        $form->setData($site->jsonSerialize());
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $id, $formData, [], true);
+                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -106,6 +99,7 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -113,14 +107,10 @@ class IndexController extends AbstractActionController
 
     public function settingsAction()
     {
-        $site = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug'),
-        ])->getContent();
-
+        $site = $this->currentSite();
         $form = $this->getForm(SiteSettingsForm::class);
-        $event = new Event(Event::SITE_SETTINGS_FORM, $this, [
-            'form' => $form,
-        ]);
+
+        $event = new Event(Event::SITE_SETTINGS_FORM, $this, ['form' => $form]);
         $this->getEventManager()->trigger($event);
 
         if ($this->getRequest()->isPost()) {
@@ -139,28 +129,22 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-        $this->layout()->setVariable('site', $site);
         return $view;
     }
 
     public function addPageAction()
     {
+        $site = $this->currentSite();
         $form = $this->getForm(SitePageForm::class);
-
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $readResponse->getContent();
-        $this->layout()->setVariable('site', $site);
-        $id = $site->id();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $formData['o:site']['o:id'] = $id;
+                $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api()->create('site_pages', $formData);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
@@ -178,6 +162,7 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -185,15 +170,8 @@ class IndexController extends AbstractActionController
 
     public function navigationAction()
     {
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-
-        $site = $readResponse->getContent();
-        $id = $site->id();
-        $this->layout()->setVariable('site', $site);
-        $form = $this->getForm(Form::class);
-        $form->setAttribute('id', 'site-form');
+        $site = $this->currentSite();
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -201,7 +179,7 @@ class IndexController extends AbstractActionController
             $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $id, $formData, [], true);
+                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
                 if (!$response->isError()) {
                     $this->messenger()->addSuccess('Navigation updated.');
                     return $this->redirect()->refresh();
@@ -211,6 +189,7 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('navTree', $this->navTranslator->toJstree($site));
         $view->setVariable('form', $form);
         $view->setVariable('site', $site);
@@ -219,23 +198,15 @@ class IndexController extends AbstractActionController
 
     public function itemPoolAction()
     {
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-
-        $site = $readResponse->getContent();
-        $id = $site->id();
-        $this->layout()->setVariable('site', $site);
-
-        $form = $this->getForm(Form::class);
-        $form->setAttribute('id', 'site-form');
+        $site = $this->currentSite();
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $id, $formData, [], true);
+                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -247,6 +218,7 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -254,23 +226,14 @@ class IndexController extends AbstractActionController
 
     public function usersAction()
     {
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-
-        $site = $readResponse->getContent();
-        $id = $site->id();
-        $this->layout()->setVariable('site', $site);
-        $data = $site->jsonSerialize();
-
-        $form = $this->getForm(Form::class);
-        $form->setAttribute('id', 'site-form');
+        $site = $this->currentSite();
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $id, $formData, [], true);
+                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -284,6 +247,7 @@ class IndexController extends AbstractActionController
         $users = $this->api()->search('users', ['sort_by' => 'name']);
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('users', $users->getContent());
@@ -292,13 +256,9 @@ class IndexController extends AbstractActionController
 
     public function themeAction()
     {
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $readResponse->getContent();
+        $site = $this->currentSite();
 
         $theme = $this->themes->getTheme($site->theme());
-        $settingsKey = $theme->getSettingsKey();
         $config = $theme->getConfigSpec();
 
         $view = new ViewModel;
@@ -307,8 +267,7 @@ class IndexController extends AbstractActionController
             return $view;
         }
 
-        $form = $this->getForm(Form::class);
-        $form->setAttribute('id', 'site-form');
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);
@@ -324,7 +283,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 unset($data['form_csrf']);
-                $this->setSettings()->set($settingsKey, $data);
+                $this->siteSettings()->set($theme->getSettingsKey(), $data);
                 $this->messenger()->addSuccess('Theme settings updated.');
                 return $this->redirect()->refresh();
             } else {
@@ -358,12 +317,8 @@ class IndexController extends AbstractActionController
 
     public function showAction()
     {
-        $response = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-
+        $site = $this->currentSite();
         $view = new ViewModel;
-        $site = $response->getContent();
         $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         return $view;
@@ -371,11 +326,7 @@ class IndexController extends AbstractActionController
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $response->getContent();
-
+        $site = $this->currentSite();
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
@@ -387,9 +338,7 @@ class IndexController extends AbstractActionController
 
     public function navigationLinkFormAction()
     {
-        $site = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
+        $site = $this->currentSite();
         $link = $this->navLinks->get($this->params()->fromPost('type'));
 
         $view = new ViewModel;
@@ -404,9 +353,7 @@ class IndexController extends AbstractActionController
     public function sidebarItemSelectAction()
     {
         $this->setBrowseDefaults('created');
-
-        $response = $this->api()->read('sites', ['slug' => $this->params('site-slug')]);
-        $site = $response->getContent();
+        $site = $this->currentSite();
 
         $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
         $query = $this->params()->fromQuery();

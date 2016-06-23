@@ -10,29 +10,20 @@ class PageController extends AbstractActionController
 {
     public function editAction()
     {
-        $form = $this->getForm(SitePageForm::class);
-        $readResponse = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $readResponse->getContent();
-        $siteId = $site->id();
-        $this->layout()->setVariable('site', $site);
-
-        $readResponse = $this->api()->read('site_pages', [
+        $site = $this->currentSite();
+        $page = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),
-            'site' => $siteId
-        ]);
-        $page = $readResponse->getContent();
-        $id = $page->id();
+            'site' => $site->id(),
+        ])->getContent();
 
-        $data = $page->jsonSerialize();
-        $form->setData($data);
+        $form = $this->getForm(SitePageForm::class);
+        $form->setData($page->jsonSerialize());
 
         if ($this->getRequest()->isPost()) {
             $post = $this->params()->fromPost();
             $form->setData($post);
             if ($form->isValid()) {
-                $response = $this->api()->update('site_pages', $id, $post);
+                $response = $this->api()->update('site_pages', $page->id(), $post);
                 if ($response->isError()) {
                     $form->setMessages($response->getErrors());
                 } else {
@@ -47,6 +38,7 @@ class PageController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
@@ -55,15 +47,8 @@ class PageController extends AbstractActionController
 
     public function indexAction()
     {
-        $response = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $response->getContent();
-        $this->layout()->setVariable('site', $site);
+        $site = $this->currentSite();
 
-        $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
-
-        $navigation = $site->navigation();
         $indents = [];
         $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents)
         {
@@ -76,26 +61,23 @@ class PageController extends AbstractActionController
                 }
             }
         };
-        $iterate($navigation);
+        $iterate($site->navigation());
 
         $view = new ViewModel;
+        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('indents', $indents);
-        $view->setVariable('pages', $pages);
+        $view->setVariable('pages', array_merge($site->linkedPages(), $site->notlinkedPages()));
         return $view;
     }
 
     public function deleteConfirmAction()
     {
-        $response = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ]);
-        $site = $response->getContent();
-        $response = $this->api()->read('site_pages', [
+        $site = $this->currentSite();
+        $page = $this->api()->read('site_pages', [
             'slug' => $this->params('page-slug'),
-            'site' => $site->id()
-        ]);
-        $page = $response->getContent();
+            'site' => $site->id(),
+        ])->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -131,14 +113,13 @@ class PageController extends AbstractActionController
 
     public function blockAction()
     {
-        $layout = $this->params()->fromPost('layout');
-        $site = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
-        $helper = $this->viewHelpers()->get('blockLayout');
+        $content = $this->viewHelpers()->get('blockLayout')->form(
+            $this->params()->fromPost('layout'),
+            $this->currentSite()
+        );
 
         $response = $this->getResponse();
-        $response->setContent($helper->form($layout, $site));
+        $response->setContent($content);
         return $response;
     }
 
@@ -146,9 +127,6 @@ class PageController extends AbstractActionController
     {
         $attachedItem = null;
         $attachedMedia = null;
-        $site = $this->api()->read('sites', [
-            'slug' => $this->params('site-slug')
-        ])->getContent();
 
         $itemId = $this->params()->fromPost('itemId');
         if ($itemId) {
@@ -163,7 +141,7 @@ class PageController extends AbstractActionController
         $view->setTerminal(true);
         $view->setVariable('attachedItem', $attachedItem);
         $view->setVariable('attachedMedia', $attachedMedia);
-        $view->setVariable('site', $site);
+        $view->setVariable('site', $this->currentSite());
         return $view;
     }
 }

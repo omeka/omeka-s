@@ -409,7 +409,8 @@ class IndexController extends AbstractActionController
         $site = $response->getContent();
 
         $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
-        $query = array_merge($this->params()->fromQuery(), $itemPool);
+        $query = $this->params()->fromQuery();
+        $query['site_id'] = $site->id();
 
         $response = $this->api()->search('items', $query);
         $items = $response->getContent();

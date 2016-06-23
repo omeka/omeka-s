@@ -72,30 +72,47 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id'])) {
-            $siteBlockAttachmentsAlias = $this->createAlias();
-            $qb->innerJoin(
-                'Omeka\Entity\Item.siteBlockAttachments',
-                $siteBlockAttachmentsAlias
-            );
-            $sitePageBlockAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$siteBlockAttachmentsAlias.block",
-                $sitePageBlockAlias
-            );
-            $sitePageAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$sitePageBlockAlias.page",
-                $sitePageAlias
-            );
-            $siteAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$sitePageAlias.site",
-                $siteAlias
-            );
-            $qb->andWhere($qb->expr()->eq(
-                "$siteAlias.id",
-                $this->createNamedParameter($qb, $query['site_id']))
-            );
+            $siteAdapter = $this->getAdapter('sites');
+            try {
+                $site = $siteAdapter->findEntity($query['site_id']);
+                $params = $site->getItemPool();
+                if (!is_array($params)) {
+                    $params = [];
+                }
+                // Avoid potential infinite recursion
+                unset($params['site_id']);
+
+                $this->buildQuery($qb, $params);
+            } catch (Exception\NotFoundException $e) {
+                $site = null;
+            }
+
+            if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
+                $siteBlockAttachmentsAlias = $this->createAlias();
+                $qb->innerJoin(
+                    'Omeka\Entity\Item.siteBlockAttachments',
+                    $siteBlockAttachmentsAlias
+                );
+                $sitePageBlockAlias = $this->createAlias();
+                $qb->innerJoin(
+                    "$siteBlockAttachmentsAlias.block",
+                    $sitePageBlockAlias
+                );
+                $sitePageAlias = $this->createAlias();
+                $qb->innerJoin(
+                    "$sitePageBlockAlias.page",
+                    $sitePageAlias
+                );
+                $siteAlias = $this->createAlias();
+                $qb->innerJoin(
+                    "$sitePageAlias.site",
+                    $siteAlias
+                );
+                $qb->andWhere($qb->expr()->eq(
+                    "$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id']))
+                );
+            }
         }
     }
 

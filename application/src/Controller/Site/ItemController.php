@@ -16,14 +16,14 @@ class ItemController extends AbstractSiteController
         $site = $this->getSite();
 
         $this->setBrowseDefaults('created');
-        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
-        if ($this->siteSettings()->get('browse_attached_items', false)) {
-            $itemPool['site_id'] = $site->id();
-        }
 
         $view = new ViewModel;
 
-        $query = array_merge($itemPool, $this->params()->fromQuery());
+        $query = $this->params()->fromQuery();
+        $query['site_id'] = $site->id();
+        if ($this->siteSettings()->get('browse_attached_items', false)) {
+            $query['site_attachments_only'] = true;
+        }
         if ($itemSetId = $this->params('item-set-id')) {
             $itemSetResponse = $this->api()->read('item_sets', $this->params('item-set-id'));
             $itemSet = $itemSetResponse->getContent();

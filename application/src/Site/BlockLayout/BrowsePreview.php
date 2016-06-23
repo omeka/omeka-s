@@ -57,14 +57,12 @@ class BrowsePreview extends AbstractBlockLayout
         $linkText = $block->dataValue('link-text');
 
         $site = $block->page()->site();
-        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
         if ($view->siteSetting('browse_attached_items', false)) {
-            $itemPool['site_id'] = $site->id();
+            $itemPool['site_attachments_only'] = true;
         }
+        $query['site_id'] = $site->id();
         $query['sort_by'] = 'created';
         $query['sort_order'] = 'desc';
-
-        $query = array_merge($itemPool, $query);
         $query['limit'] = 10;
 
         $response = $view->api()->search('items', $query);

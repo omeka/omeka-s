@@ -227,6 +227,7 @@ return [
         'invokables' => [
             'messenger' => 'Omeka\Mvc\Controller\Plugin\Messenger',
             'setBrowseDefaults' => 'Omeka\Mvc\Controller\Plugin\SetBrowseDefaults',
+            'currentSite' => 'Omeka\Mvc\Controller\Plugin\CurrentSite',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ControllerPlugin\ApiFactory',

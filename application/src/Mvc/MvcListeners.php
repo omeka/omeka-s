@@ -198,6 +198,7 @@ class MvcListeners extends AbstractListenerAggregate
             $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
             $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
             $siteSettings->setSite($site);
+            $serviceLocator->get('ControllerPluginManager')->get('currentSite')->setSite($site);
         }
 
         $serviceLocator->get('ViewTemplatePathStack')

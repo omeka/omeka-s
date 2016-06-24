@@ -35,7 +35,7 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            [$this, 'prepareSite']
+            [$this, 'preparePublicSite']
         );
     }
 
@@ -192,41 +192,35 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $services = $event->getApplication()->getServiceManager();
-        $services->get('ViewTemplatePathStack')
+        $event->getApplication()->getServiceManager()
+            ->get('ViewTemplatePathStack')
             ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
 
-        if ($routeMatch->getParam('__SITEADMIN__') && $routeMatch->getParam('site-slug')) {
-            $this->getAndSetSite($services, $routeMatch->getParam('site-slug'));
+        if ($routeMatch->getParam('__SITEADMIN__')
+            && $routeMatch->getParam('site-slug')
+        ) {
+            if (!$this->prepareSite($event)) {
+                return;
+            }
         }
     }
 
     /**
-     * Prepare the site interface.
+     * Prepare the public site.
      *
      * @param MvcEvent $event
      */
-    public function prepareSite(MvcEvent $event)
+    public function preparePublicSite(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
         if (!$routeMatch->getParam('__SITE__')) {
             return;
         }
-
-        $application = $event->getApplication();
-        $services = $application->getServiceManager();
-
-        try {
-            $site = $this->getAndSetSite($services, $routeMatch->getParam('site-slug'));
-        } catch (\Exception $e) {
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
-            $event->setParam('exception', $e);
-            $application->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+        if (!$site = $this->prepareSite($event)) {
             return;
         }
 
-        // Set the site to the top level view model
-        $event->getViewModel()->site = $site;
+        $services = $event->getApplication()->getServiceManager();
 
         // Set the current theme.
         $theme = $site->theme();
@@ -260,17 +254,35 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Get a site entity by slug and inject it where needed.
+     * Get the current site by slug and inject it where needed.
      *
-     * @param ServiceLocatorInterface $services
-     * @param string $slug
-     * @return SiteRepresentation
+     * Returns false if the site is not found or another error occured.
+     *
+     * @param MvcEvent $event
+     * @return SiteRepresentation|false
      */
-    protected function getAndSetSite($services, $slug)
+    protected function prepareSite(MvcEvent $event)
     {
-        $site = $services->get('Omeka\ApiManager')->read('sites', ['slug' => $slug])->getContent();
+        $services = $event->getApplication()->getServiceManager();
+        $siteSlug = $event->getRouteMatch()->getParam('site-slug');
+
+        try {
+            $site = $services->get('Omeka\ApiManager')
+                ->read('sites', ['slug' => $siteSlug])->getContent();
+        } catch (\Exception $e) {
+            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setParam('exception', $e);
+            $event->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+            return false;
+        }
+
+        // Inject the site into things that need it.
         $services->get('Omeka\SiteSettings')->setSite($site);
         $services->get('ControllerPluginManager')->get('currentSite')->setSite($site);
+
+        // Set the site to the top level view model
+        $event->getViewModel()->site = $site;
+
         return $site;
     }
 }

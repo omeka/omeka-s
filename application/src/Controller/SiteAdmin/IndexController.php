@@ -99,7 +99,6 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -129,7 +128,6 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -162,7 +160,6 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -189,7 +186,6 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('navTree', $this->navTranslator->toJstree($site));
         $view->setVariable('form', $form);
         $view->setVariable('site', $site);
@@ -218,7 +214,6 @@ class IndexController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         return $view;
@@ -247,7 +242,6 @@ class IndexController extends AbstractActionController
         $users = $this->api()->search('users', ['sort_by' => 'name']);
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('users', $users->getContent());
@@ -262,7 +256,6 @@ class IndexController extends AbstractActionController
         $config = $theme->getConfigSpec();
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         if (!($config && $config['elements'])) {
             return $view;
         }
@@ -319,7 +312,6 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         return $view;
     }

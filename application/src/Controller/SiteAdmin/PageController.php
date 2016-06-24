@@ -38,7 +38,6 @@ class PageController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
@@ -64,7 +63,6 @@ class PageController extends AbstractActionController
         $iterate($site->navigation());
 
         $view = new ViewModel;
-        $this->layout()->setVariable('site', $site);
         $view->setVariable('site', $site);
         $view->setVariable('indents', $indents);
         $view->setVariable('pages', array_merge($site->linkedPages(), $site->notlinkedPages()));

@@ -192,17 +192,13 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $serviceLocator = $event->getApplication()->getServiceManager();
+        $services = $event->getApplication()->getServiceManager();
+        $services->get('ViewTemplatePathStack')
+            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
 
         if ($routeMatch->getParam('__SITEADMIN__') && $routeMatch->getParam('site-slug')) {
-            $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
-            $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
-            $siteSettings->setSite($site);
-            $serviceLocator->get('ControllerPluginManager')->get('currentSite')->setSite($site);
+            $this->getAndSetSite($services, $routeMatch->getParam('site-slug'));
         }
-
-        $serviceLocator->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
     }
 
     /**
@@ -218,10 +214,10 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $application = $event->getApplication();
-        $serviceLocator = $application->getServiceManager();
+        $services = $application->getServiceManager();
 
         try {
-            $site = $this->getSite($serviceLocator, $routeMatch->getParam('site-slug'));
+            $site = $this->getAndSetSite($services, $routeMatch->getParam('site-slug'));
         } catch (\Exception $e) {
             $event->setError(ZendApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
@@ -232,17 +228,13 @@ class MvcListeners extends AbstractListenerAggregate
         // Set the site to the top level view model
         $event->getViewModel()->site = $site;
 
-        // Set the current site as the default site for site settings.
-        $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
-        $siteSettings->setSite($site);
-
         // Set the current theme.
         $theme = $site->theme();
-        $themeManager = $serviceLocator->get('Omeka\Site\ThemeManager');
+        $themeManager = $services->get('Omeka\Site\ThemeManager');
         $themeManager->setCurrentTheme($theme);
 
         // Add the theme view templates to the path stack.
-        $serviceLocator->get('ViewTemplatePathStack')
+        $services->get('ViewTemplatePathStack')
             ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
 
         // Load theme view helpers on-demand.
@@ -254,30 +246,31 @@ class MvcListeners extends AbstractListenerAggregate
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;
                 };
-                $serviceLocator->get('ViewHelperManager')->setFactory($helper, $factory);
+                $services->get('ViewHelperManager')->setFactory($helper, $factory);
             }
         }
 
-        $translator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
-        $config = $serviceLocator->get('Config');
+        $translator = $services->get('Omeka\Site\NavigationTranslator');
+        $config = $services->get('Config');
         $config['navigation']['site'] = $translator->toZend($site);
-        $allowOverride = $serviceLocator->getAllowOverride();
-        $serviceLocator->setAllowOverride(true);
-        $serviceLocator->setService('Config', $config);
-        $serviceLocator->setAllowOverride($allowOverride);
+        $allowOverride = $services->getAllowOverride();
+        $services->setAllowOverride(true);
+        $services->setService('Config', $config);
+        $services->setAllowOverride($allowOverride);
     }
 
     /**
-     * Get a site entity by slug.
+     * Get a site entity by slug and inject it where needed.
      *
-     * @param ServiceManager $serviceLocator
+     * @param ServiceLocatorInterface $services
      * @param string $slug
-     * @return SiteRepresentation|null
+     * @return SiteRepresentation
      */
-    protected function getSite($serviceLocator, $slug)
+    protected function getAndSetSite($services, $slug)
     {
-        $api = $serviceLocator->get('Omeka\ApiManager');
-        $response = $api->read('sites', ['slug' => $slug]);
-        return $response->getContent();
+        $site = $services->get('Omeka\ApiManager')->read('sites', ['slug' => $slug])->getContent();
+        $services->get('Omeka\SiteSettings')->setSite($site);
+        $services->get('ControllerPluginManager')->get('currentSite')->setSite($site);
+        return $site;
     }
 }

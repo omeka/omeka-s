@@ -1,13 +1,14 @@
 <?php
 namespace Omeka\Controller\Site;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class MediaController extends AbstractSiteController
+class MediaController extends AbstractActionController
 {
     public function showAction()
     {
-        $site = $this->getSite();
+        $site = $this->currentSite();
         $response = $this->api()->read('media', $this->params('id'));
         $item = $response->getContent();
 

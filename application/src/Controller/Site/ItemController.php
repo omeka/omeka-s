@@ -1,9 +1,10 @@
 <?php
 namespace Omeka\Controller\Site;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ItemController extends AbstractSiteController
+class ItemController extends AbstractActionController
 {
     public function searchAction()
     {
@@ -13,7 +14,7 @@ class ItemController extends AbstractSiteController
 
     public function browseAction()
     {
-        $site = $this->getSite();
+        $site = $this->currentSite();
 
         $this->setBrowseDefaults('created');
 
@@ -43,7 +44,7 @@ class ItemController extends AbstractSiteController
 
     public function showAction()
     {
-        $site = $this->getSite();
+        $site = $this->currentSite();
         $response = $this->api()->read('items', $this->params('id'));
         $item = $response->getContent();
 

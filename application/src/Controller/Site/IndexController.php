@@ -1,13 +1,14 @@
 <?php
 namespace Omeka\Controller\Site;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractSiteController
+class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $site = $this->getSite();
+        $site = $this->currentSite();
 
         // Redirect to the first linked page, if it exists.
         $linkedPages = $site->linkedPages();

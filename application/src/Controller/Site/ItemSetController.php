@@ -1,13 +1,14 @@
 <?php
 namespace Omeka\Controller\Site;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ItemSetController extends AbstractSiteController
+class ItemSetController extends AbstractActionController
 {
     public function browseAction()
     {
-        $site = $this->getSite();
+        $site = $this->currentSite();
 
         $this->setBrowseDefaults('created');
 

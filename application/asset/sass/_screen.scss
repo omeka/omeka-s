@@ -167,6 +167,10 @@ body {
         margin: 0;
     }
 
+    input:disabled {
+        background-color: $gray-on-white;
+    }
+
     ::-webkit-input-placeholder {
        font-style: italic;
     }
@@ -229,6 +233,15 @@ body {
             color: $red;
             top: rhythm(.25);
         }
+    }
+
+    label.required:after  {
+        font-family: "FontAwesome";
+        content: $fa-var-asterisk;
+        font-size: .75 * $base-font-size;
+        color: $red;
+        float: right;
+        padding-right: rhythm(.5);
     }
 
     *:invalid {

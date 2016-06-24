@@ -18,7 +18,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         $url = $this->getViewHelper('Url');
         return $url(
-            'admin/site/default',
+            'admin/site/slug/action',
             [
                 'site-slug' => $this->slug(),
                 'action' => $action,

@@ -41,7 +41,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     {
         $url = $this->getViewHelper('Url');
         return $url(
-            'admin/site/page/default',
+            'admin/site/slug/page/default',
             [
                 'site-slug' => $this->site()->slug(),
                 'page-slug' => $this->slug(),

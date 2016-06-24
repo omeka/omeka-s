@@ -152,60 +152,60 @@ return [
             [
                 'label'         => 'Site Info', // @translate
                 'class'         => 'site-info',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug',
                 'action'        => 'edit',
                 'useRouteMatch' => true
             ],
             [
                 'label'         => 'Pages', // @translate
                 'class'         => 'pages',
-                'route'         => 'admin/site/page',
+                'route'         => 'admin/site/slug/page',
                 'action'        => 'index',
                 'useRouteMatch' => true,
                 'pages'         => [
                     [
-                        'route'      => 'admin/site/default',
-                        'action'     => 'add-page',
-                        'visible'    => false,
+                        'route'   => 'admin/site/slug/action',
+                        'action'  => 'add-page',
+                        'visible' => false,
                     ],
                     [
-                        'route'      => 'admin/site/page/default',
-                        'visible'    => false,
+                        'route'   => 'admin/site/slug/page/default',
+                        'visible' => false,
                     ],
                 ],
             ],
             [
                 'label'         => 'Navigation', // @translate
                 'class'         => 'navigation',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug/action',
                 'action'        => 'navigation',
                 'useRouteMatch' => true
             ],
             [
                 'label'         => 'Item Pool', // @translate
                 'class'         => 'item-pool',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug/action',
                 'action'        => 'item-pool',
                 'useRouteMatch' => true
             ],
             [
                 'label'         => 'User Permissions', // @translate
                 'class'         => 'users',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug/action',
                 'action'        => 'users',
                 'useRouteMatch' => true
             ],
             [
                 'label'         => 'Theme', // @translate
                 'class'         => 'theme',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug/action',
                 'action'        => 'theme',
                 'useRouteMatch' => true
             ],
             [
                 'label'         => 'Settings', // @translate
                 'class'         => 'settings',
-                'route'         => 'admin/site/default',
+                'route'         => 'admin/site/slug/action',
                 'action'        => 'settings',
                 'useRouteMatch' => true
             ],

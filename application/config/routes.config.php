@@ -131,16 +131,53 @@ return [
                         ],
                         'may_terminate' => true,
                         'child_routes' => [
-                            'default' => [
+                            'slug' => [
                                 'type' => 'Segment',
                                 'options' => [
-                                    'route' => '/s/:site-slug[/:action]',
+                                    'route' => '/s/:site-slug',
                                     'constraints' => [
-                                        'site-slug'  => '[a-zA-Z0-9_-]+',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'site-slug' => '[a-zA-Z0-9_-]+',
                                     ],
                                     'defaults' => [
                                         'action' => 'edit',
+                                    ],
+                                ],
+                                'may_terminate' => true,
+                                'child_routes' => [
+                                    'action' => [
+                                        'type' => 'Segment',
+                                        'options' => [
+                                            'route' => '[/:action]',
+                                            'constraints' => [
+                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                            ],
+                                        ],
+                                    ],
+                                    'page' => [
+                                        'type' => 'Segment',
+                                        'options' => [
+                                            'route' => '/page',
+                                            'defaults' => [
+                                                'controller' => 'Page',
+                                                'action' => 'index',
+                                            ],
+                                        ],
+                                        'may_terminate' => true,
+                                        'child_routes' => [
+                                            'default' => [
+                                                'type' => 'Segment',
+                                                'options' => [
+                                                    'route' => '/:page-slug[/:action]',
+                                                    'constraints' => [
+                                                        'page-slug'  => '[a-zA-Z0-9_-]+',
+                                                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                    ],
+                                                    'defaults' => [
+                                                        'action' => 'edit',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
                                     ],
                                 ],
                             ],
@@ -150,33 +187,6 @@ return [
                                     'route' => '/add',
                                     'defaults' => [
                                         'action' => 'add',
-                                    ],
-                                ],
-                            ],
-                            'page' => [
-                                'type' => 'Segment',
-                                'options' => [
-                                    'route' => '/s/:site-slug/page',
-                                    'defaults' => [
-                                        '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
-                                        'controller'    => 'Page',
-                                        'action'        => 'index',
-                                    ],
-                                ],
-                                'may_terminate' => true,
-                                'child_routes' => [
-                                    'default' => [
-                                        'type' => 'Segment',
-                                        'options' => [
-                                            'route' => '/:page-slug[/:action]',
-                                            'constraints' => [
-                                                'page-slug'  => '[a-zA-Z0-9_-]+',
-                                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                            ],
-                                            'defaults' => [
-                                                'action' => 'edit',
-                                            ],
-                                        ],
                                     ],
                                 ],
                             ],

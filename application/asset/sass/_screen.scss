@@ -113,6 +113,10 @@ body {
         background-color: #fff;
     }
 
+    tr.delete {
+        background-color: $delete-bg;
+    }
+
     td {
         padding: rhythm(.25) .5em;
         position: relative;

@@ -15,6 +15,17 @@ $escape = $this->plugin('escapeHtml');
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 
+<p>
+    <?php
+    echo sprintf(
+        $this->translate('There are currently %s items in this site’s pool.'),
+        $this->hyperlink($itemCount,
+            $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]])
+        )
+    );
+    ?>
+</p>
+
 <div id="advanced-search"><?php echo $this->partial(
     'common/advanced-search',
     ['query' => $site->itemPool(), 'resourceType' => 'item']

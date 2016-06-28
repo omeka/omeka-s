@@ -213,9 +213,12 @@ class IndexController extends AbstractActionController
             }
         }
 
+        $itemsResponse = $this->api()->search('items', ['limit' => 0, 'site_id' => $site->id()]);
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
+        $view->setVariable('itemCount', $itemsResponse->getTotalResults());
         return $view;
     }
 

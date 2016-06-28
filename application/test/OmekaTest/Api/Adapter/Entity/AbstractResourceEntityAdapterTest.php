@@ -14,11 +14,8 @@ class AbstractResourceEntityAdapterTest extends TestCase
         $adapter = $this->getMockForAbstractClass(
             'Omeka\Api\Adapter\AbstractResourceEntityAdapter',
             [], '', true, true, true,
-            ['buildValueQuery', 'buildPropertyQuery', 'buildHasPropertyQuery']
+            ['buildPropertyQuery', 'buildHasPropertyQuery']
         );
-        $adapter->expects($this->once())
-            ->method('buildValueQuery')
-            ->with($this->equalTo($queryBuilder), $this->equalTo($query));
         $adapter->expects($this->once())
             ->method('buildPropertyQuery')
             ->with($this->equalTo($queryBuilder), $this->equalTo($query));

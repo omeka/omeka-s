@@ -39,7 +39,7 @@
         "zendframework/zend-memory": "^2.5",
         "zendframework/zend-mime": "^2.5",
         "zendframework/zend-modulemanager": "^2.5",
-        "zendframework/zend-mvc": "~2.6.3",
+        "zendframework/zend-mvc": "^2.5",
         "zendframework/zend-navigation": "^2.5",
         "zendframework/zend-paginator": "^2.5",
         "zendframework/zend-permissions-acl": "^2.5",
@@ -63,7 +63,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
-        "fabpot/php-cs-fixer": "^1.10",
+        "friendsofphp/php-cs-fixer": "^1.11",
         "zendframework/zend-test": "^2.5",
         "zerocrates/extract-tagged-strings": "dev-master"
     },

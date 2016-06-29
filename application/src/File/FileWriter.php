@@ -28,14 +28,14 @@ class FileWriter {
     }
 
     public function moveUploadedFile($source, $destination) {
-        return move_uploaded_file($source ,$destination);
+        return move_uploaded_file($source, $destination);
     }
 
     public function rename($oldname, $newname) {
-        return rename($oldname ,$newname);
+        return rename($oldname, $newname);
     }
 
     public function chmod($path, $permission) {
-        return chmod($path ,$permission);
+        return chmod($path, $permission);
     }
 }

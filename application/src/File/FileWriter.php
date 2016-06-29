@@ -11,12 +11,16 @@ class FileWriter {
         return file_exists($path);
     }
 
-    public function dirExists($path) {
+    public function is_dir($path) {
         return is_dir($path);
     }
 
-    public function mkdir($directory_name) {
-        return mkdir($directory_name,0777,true);
+    public function is_writable($path) {
+        return is_writable($path);
+    }
+
+    public function mkdir($directory_name, $permissions='0777') {
+        return mkdir($directory_name,$permissions,true);
 
     }
 
@@ -32,7 +36,13 @@ class FileWriter {
 
     public function rename($oldname, $newname) {
         return rename($oldname,$newname);
+
     }
+
+    public function chmod($path, $permission) {
+        return chmod($path,$permission);
+    }
+
 }
 
 ?>

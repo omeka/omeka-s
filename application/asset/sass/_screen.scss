@@ -1408,7 +1408,6 @@ input[type="text"].value-language,
         label {
             max-width: 80%;
             padding: rhythm(.25) 0;
-            font-weight: bold;
             display: inline-block;
         }
 
@@ -1583,7 +1582,6 @@ input[type="text"].value-language,
     }
 
     .field .field-label {
-        font-weight: bold;
         display: inline-block;
     }
 
@@ -2880,6 +2878,10 @@ body.sidebar-open #content {
         padding: 0;
         border-color: transparent;
         background-color: transparent;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .block.value.delete .input-header {
@@ -2932,6 +2934,9 @@ body.sidebar-open #content {
         display: none;
     }
 
+    .block .attachments-form {
+        margin-bottom: rhythm(.5);
+    }
     .block .attachments-form a h4 {
         display: inline-block;
     }
@@ -3013,7 +3018,6 @@ body.sidebar-open #content {
         @include trailing-border(1px, .25, $base-font-size, solid);
         display: block;
         line-height: 1.5 * $base-line-height;
-        font-weight: bold;
     }
 
     .block label.thumbnail-option:not(:first-of-type) {
@@ -3030,7 +3034,7 @@ body.sidebar-open #content {
     .block .collapse {
         width: 100%;
         display: block;
-        padding: rhythm(.25) 0 0;
+        padding: 0;
 
         &:after {
             float: right;
@@ -3053,6 +3057,15 @@ body.sidebar-open #content {
         border-color: $border-gray;
         @include leading-border(1px, 0, $base-font-size, solid);
         margin-top: rhythm(.25);
+        padding-left: rhythm();
+    }
+
+    .block .collapse + .collapsible label.thumbnail-option:first-of-type {
+        padding-top: rhythm(.25);
+    }
+
+    .block .collapse + .collapsible label.thumbnail-option:last-of-type {
+        @include trailing-border(0px, 0, $base-font-size, solid);
     }
 
     #attachment-options-main {

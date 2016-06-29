@@ -16,9 +16,14 @@ class Media extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageBlockRepresentation $block = null
     ) {
-        return $view->blockThumbnailTypeSelect($block)
-            . $this->alignmentClassSelect($view, $block)
-            . $view->blockAttachmentsForm($block);
+        $html = '';
+        $html .= $view->blockAttachmentsForm($block);
+        $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options'). '</h4></a>';
+        $html .= '<div class="collapsible">';
+        $html .= $view->blockThumbnailTypeSelect($block);
+        $html .= $this->alignmentClassSelect($view, $block);
+        $html .= '</div>';
+        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

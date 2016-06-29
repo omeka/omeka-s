@@ -20,6 +20,8 @@ class MediaIngesterManagerFactory implements FactoryInterface
         if (!isset($config['media_ingesters'])) {
             throw new Exception\ConfigException('Missing media ingester configuration');
         }
-        return new Manager(new Config($config['media_ingesters']));
+        $manager = new Manager(new Config($config['media_ingesters']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

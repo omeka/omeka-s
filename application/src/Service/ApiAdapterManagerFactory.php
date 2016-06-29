@@ -23,6 +23,8 @@ class ApiAdapterManagerFactory implements FactoryInterface
         if (!isset($config['api_adapters'])) {
             throw new Exception\ConfigException('Missing API adapter configuration');
         }
-        return new AdapterManager(new Config($config['api_adapters']));
+        $manager = new AdapterManager(new Config($config['api_adapters']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

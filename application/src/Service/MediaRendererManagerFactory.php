@@ -20,6 +20,8 @@ class MediaRendererManagerFactory implements FactoryInterface
         if (!isset($config['media_renderers'])) {
             throw new Exception\ConfigException('Missing media renderer configuration');
         }
-        return new Manager(new Config($config['media_renderers']));
+        $manager = new Manager(new Config($config['media_renderers']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

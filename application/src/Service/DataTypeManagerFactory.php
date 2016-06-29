@@ -14,6 +14,8 @@ class DataTypeManagerFactory implements FactoryInterface
         if (!isset($config['data_types'])) {
             throw new Exception\ConfigException('Missing data type configuration');
         }
-        return new Manager(new Config($config['data_types']));
+        $manager = new Manager(new Config($config['data_types']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

@@ -14,6 +14,8 @@ class BlockLayoutManagerFactory implements FactoryInterface
         if (!isset($config['block_layouts'])) {
             throw new Exception\ConfigException('Missing block layout configuration');
         }
-        return new Manager(new Config($config['block_layouts']));
+        $manager = new Manager(new Config($config['block_layouts']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

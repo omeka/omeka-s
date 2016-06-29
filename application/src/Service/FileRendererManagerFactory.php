@@ -23,6 +23,8 @@ class FileRendererManagerFactory implements FactoryInterface
         if (!isset($config['file_renderers'])) {
             throw new Exception\ConfigException('Missing file renderer configuration');
         }
-        return new Manager(new Config($config['file_renderers']));
+        $manager = new Manager(new Config($config['file_renderers']));
+        $manager->setServiceLocator($serviceLocator);
+        return $manager;
     }
 }

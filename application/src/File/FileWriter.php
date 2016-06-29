@@ -2,7 +2,6 @@
 namespace Omeka\File;
 
 class FileWriter {
-
     public function putContents($path, $contents) {
         return file_put_contents($path, $contents);
     }
@@ -20,7 +19,7 @@ class FileWriter {
     }
 
     public function mkdir($directory_name, $permissions='0777') {
-        return mkdir($directory_name,$permissions,true);
+        return mkdir($directory_name, $permissions, true);
 
     }
 
@@ -28,21 +27,15 @@ class FileWriter {
         return file_get_contents($path);
     }
 
-
-    public function moveUploadedFile($source,$destination) {
-        return move_uploaded_file($source,$destination);
+    public function moveUploadedFile($source, $destination) {
+        return move_uploaded_file($source ,$destination);
     }
 
-
     public function rename($oldname, $newname) {
-        return rename($oldname,$newname);
-
+        return rename($oldname ,$newname);
     }
 
     public function chmod($path, $permission) {
-        return chmod($path,$permission);
+        return chmod($path ,$permission);
     }
-
 }
-
-?>

@@ -9,7 +9,6 @@ use Zend\Log\Logger;
  */
 class LocalStore implements StoreInterface
 {
-
     use \Omeka\File\StaticFileWriterTrait;
     /**
      * Local base path.

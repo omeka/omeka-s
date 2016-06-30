@@ -35,7 +35,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Install'; // @translate
-                $class = 'o-icon-install';
+                $class = 'o-icon-activate';
                 break;
             case 'activate':
                 $action = $urlHelper(
@@ -61,8 +61,8 @@ class ModuleStateChangeForm extends Form
                     ['controller' => 'module', 'action' => 'upgrade'],
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
-                $label = 'Upgrade'; // @translate
-                $class = 'o-icon-upgrade';
+                $label = 'Module needs upgrade'; // @translate
+                $class = '';
                 break;
             default:
                 break;

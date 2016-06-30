@@ -2700,8 +2700,63 @@ body.sidebar-open #content {
     font-weight: bold;
 }
 
-.module-version {
+.module-version,
+.module-description {
     display: block;
+}
+
+#modules button,
+#modules .button {
+    background-color: transparent;
+    width: 2.5 * $base-font-size;
+    height: $base-line-height;
+    overflow: hidden;
+    text-align: left;
+    font-size: .875 * $base-font-size;
+    padding: 0;
+    box-shadow: none;
+
+    &:before {
+        font-size: 1.5 * $base-font-size;
+        margin-right: rhythm(.25, 1.5 * $base-font-size);
+    }
+
+    &:hover {
+        width: auto;
+        height: auto;
+    }
+}
+
+#modules .o-icon-configure:before {
+    margin-right: rhythm(.25);
+}
+
+#modules .needs-upgrade button {
+    width: auto;
+    color: $red;
+
+    &:hover {
+        color: lighten($red, 20%);
+    }
+}
+
+#modules .needs-upgrade {
+    position: relative;
+}
+
+#modules .needs-upgrade:before {
+    content: $fa-var-arrow-up;
+    font-family: "FontAwesome";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: .15;
+    font-size: 6 * $base-font-size;
+    line-height: .75;
+}
+
+#modules th:not(:first-of-type) {
+    width: 10%;
 }
 
 /* @end */

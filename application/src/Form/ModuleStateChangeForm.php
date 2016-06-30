@@ -35,7 +35,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Install'; // @translate
-                $class = 'install';
+                $class = 'o-icon-install';
                 break;
             case 'activate':
                 $action = $urlHelper(
@@ -44,7 +44,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Activate'; // @translate
-                $class = 'activate';
+                $class = 'o-icon-activate';
                 break;
             case 'deactivate':
                 $action = $urlHelper(
@@ -53,7 +53,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Deactivate'; // @translate
-                $class = 'deactivate';
+                $class = 'o-icon-deactivate';
                 break;
             case 'upgrade':
                 $action = $urlHelper(
@@ -62,7 +62,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Upgrade'; // @translate
-                $class = 'upgrade';
+                $class = 'o-icon-upgrade';
                 break;
             default:
                 break;

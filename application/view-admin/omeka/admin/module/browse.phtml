@@ -18,17 +18,10 @@ $this->plugin('formRow')->setPartial(null);
 </form>
 
 <?php if ($modules): ?>
-
-<table id="modules" class="tablesaw" data-tablesaw-mode="stack">
-    <thead>
-        <th><?php echo $this->translate('Module'); ?></th>
-        <th><?php echo $this->translate('Description'); ?></th>
-        <th><?php echo $this->translate('Status'); ?></th>
-    </thead>
-    <tbody>
+<div id="modules">
         <?php foreach ($modules as $id => $module): ?>
-        <tr>
-            <td>
+        <div class="module">
+            <div class="module-meta">
                 <?php if ($name = $module->getName()): ?>
                 <span class="module-name">
                     <?php if ($moduleLink = $module->getIni('module_link')): ?>
@@ -46,94 +39,88 @@ $this->plugin('formRow')->setPartial(null);
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author"><?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?></span>
                 <?php endif; ?>
-                <ul>
-
-                    <?php
-                    // configure control
-                    if (Manager::STATE_ACTIVE == $module->getState()
-                        && $module->isConfigurable()
-                        && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
-                    ) {
-                        echo '<li>' . $this->hyperlink($escape($this->translate('Configure')),
-                            $this->url(
-                                null,
-                                ['action' => 'configure'],
-                                ['query' => ['id' => $module->getId()]
-                            ], true),
-                            [
-                                'class' => 'configure',
-                                'title' => $escape($this->translate('Configure'))
-                            ]
-                        ) . '</li>';
-                    }
-                    ?>
-
-                    <?php
-                    // activate control
-                    if (Manager::STATE_NOT_ACTIVE == $module->getState()
-                        && $this->userIsAllowed('Omeka\Module\Manager', 'activate')
-                    ) {
-                        $form = $stateChangeForm('activate', $module->getId());
-                        echo '<li>' . $this->form($form) . '</li>';
-                    }
-                    ?>
-
-                    <?php
-                    // deactivate control
-                    if (Manager::STATE_ACTIVE == $module->getState()
-                        && $this->userIsAllowed('Omeka\Module\Manager', 'deactivate')
-                    ) {
-                        $form = $stateChangeForm('deactivate', $module->getId());
-                        echo '<li>' . $this->form($form) . '</li>';
-                    }
-                    ?>
-
-                    <?php
-                    // install control
-                    if (Manager::STATE_NOT_INSTALLED == $module->getState()
-                        && $this->userIsAllowed('Omeka\Module\Manager', 'install')
-                    ) {
-                        $form = $stateChangeForm('install', $module->getId());
-                        echo '<li>' . $this->form($form) . '</li>';
-                    }
-                    ?>
-
-                    <?php
-                    // uninstall control
-                    $canBeUninstalled = in_array(
-                        $module->getState(),
-                        [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]
-                    );
-                    if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
-                    ?>
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true)); ?>"
-                        class="uninstall sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"><?php echo $escape($this->translate('Uninstall')); ?></a></li>
-                    <?php endif; ?>
-
-                    <?php
-                    // upgrade control
-                    if (Manager::STATE_NEEDS_UPGRADE == $module->getState()
-                        && $this->userIsAllowed('Omeka\Module\Manager', 'upgrade')
-                    ) {
-                        $form = $stateChangeForm('upgrade', $module->getId());
-                        echo '<li>' . $this->form($form) . '</li>';
-                    }
-                    ?>
-                </ul>
-            </td>
-            <td>
                 <?php if ($description = $module->getIni('description')): ?>
                 <span class="module-description"><?php echo $description; ?></span>
                 <?php endif; ?>
-            </td>
-            <td><?php echo $escape($states[$module->getState()]); ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+            </div>
+            <div class="module-actions">
+                <?php
+                // configure control
+                if (Manager::STATE_ACTIVE == $module->getState()
+                    && $module->isConfigurable()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
+                ) {
+                    echo $this->hyperlink($escape($this->translate('Configure')),
+                        $this->url(
+                            null,
+                            ['action' => 'configure'],
+                            ['query' => ['id' => $module->getId()]
+                        ], true),
+                        [
+                            'class' => 'o-icon-configure button',
+                            'title' => $escape($this->translate('Configure'))
+                        ]
+                    );
+                }
+                ?>
 
+                <?php
+                // activate control
+                if (Manager::STATE_NOT_ACTIVE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'activate')
+                ) {
+                    $form = $stateChangeForm('activate', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // deactivate control
+                if (Manager::STATE_ACTIVE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'deactivate')
+                ) {
+                    $form = $stateChangeForm('deactivate', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // install control
+                if (Manager::STATE_NOT_INSTALLED == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'install')
+                ) {
+                    $form = $stateChangeForm('install', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // uninstall control
+                $canBeUninstalled = in_array(
+                    $module->getState(),
+                    [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]
+                );
+                if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
+                ?>
+                <a href="#"
+                    data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true)); ?>"
+                    class="o-icon-uninstall red button sidebar-content"
+                    aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"><?php echo $escape($this->translate('Uninstall')); ?></a>
+                <?php endif; ?>
+
+                <?php
+                // upgrade control
+                if (Manager::STATE_NEEDS_UPGRADE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'upgrade')
+                ) {
+                    $form = $stateChangeForm('upgrade', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+</div>
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"

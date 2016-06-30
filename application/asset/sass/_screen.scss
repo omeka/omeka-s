@@ -224,6 +224,16 @@ body {
         }
     }
 
+    .red.button {
+        background-color: #FDEFEF;
+        box-shadow: 0 0 0 1px #E0C3C3 inset;
+        color: $red;
+
+        &:hover {
+            box-shadow: 0 0 0 1px #DA8B8B inset;
+        }
+    }
+
     .required .field-meta {
         position: relative;
         padding-right: rhythm(1.5);
@@ -2704,37 +2714,28 @@ body.sidebar-open #content {
     display: block;
 }
 
-#modules ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+#modules .module {
+    border-color: $border-gray;
+    @include trailing-border(1px, .5, $base-font-size, solid);
+    margin-bottom: rhythm(.5);
+    overflow: hidden;
 }
 
-#modules ul li {
-    display: inline-block;
-
-    &:not(:last-of-type):after {
-        content: "\2022";
-        display: inline-block;
-        margin: 0 rhythm(.25);
-    }
+#modules .module-meta {
+    float: left;
 }
 
-#modules ul li form {
-    display: inline-block;
+#modules .module-actions {
+    float: right;
 }
 
-#modules button {
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-    color: $red;
-    background: transparent;
+#modules .module form,
+#modules button,
+#modules .button {
     display: inline-block;
-    min-height: 0;
 
-    &:hover {
-        color: lighten($red, 20%);
+    &:before {
+        margin-right: rhythm(.25);
     }
 }
 

@@ -325,6 +325,29 @@ fieldset.section > .always.active {
 
 /* @end */
 
+/* @group ----- Module: Browse ----- */
+
+#modules .module-meta,
+#modules .module-actions {
+    width: 100%;
+    max-width: 100%;
+}
+
+#modules .module-meta {
+    margin-bottom: rhythm(.5);
+}
+
+#modules .module-actions {
+    text-align: left;
+}
+
+#modules button,
+#modules .button {
+    margin: 0 rhythm(.25) 0 0;
+}
+
+/* @end */
+
 /* @group ----- Search ----- */
 
 #search-form {

@@ -234,6 +234,16 @@ body {
         }
     }
 
+    .green.button {
+        background-color: lighten(green, 65%);
+        color: green;
+        box-shadow: 0 0 0 1px #addead inset;
+
+        &:hover {
+            box-shadow: 0 0 0 1px #63c363 inset;
+        }
+    }
+
     .required .field-meta {
         position: relative;
         padding-right: rhythm(1.5);
@@ -2723,19 +2733,48 @@ body.sidebar-open #content {
 
 #modules .module-meta {
     float: left;
+    max-width: 50%;
 }
 
 #modules .module-actions {
     float: right;
+    max-width: 50%;
+    text-align: right;
 }
 
-#modules .module form,
+#modules .module form {
+    display: inline-block;
+}
+
 #modules button,
 #modules .button {
     display: inline-block;
+    margin-left: rhythm(.25);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+
+    &:hover {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
+    }
 
     &:before {
         margin-right: rhythm(.25);
+    }
+}
+
+#modules .o-icon-install {
+    box-shadow: 0 0 0 1px #addead inset;
+
+    &:hover {
+        box-shadow: 0 0 0 1px #63c363 inset;
+    }
+}
+
+#modules .o-icon-uninstall {
+    margin-left: rhythm();
+    box-shadow: 0 0 0 1px #E0C3C3 inset;
+
+    &:hover {
+        box-shadow: 0 0 0 1px #DA8B8B inset;
     }
 }
 

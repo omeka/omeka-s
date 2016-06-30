@@ -22,22 +22,6 @@
             }
         });
 
-        // Handle the value queries
-        $('#value-queries').find('.value').each(function(index) {
-            var textVal = $(this).children('.query-text').val();
-            if (!$.trim(textVal)) {
-                return; // do not process an empty query
-            }
-            if (!query.hasOwnProperty('value')) {
-                query['value'] = {};
-            }
-            var typeVal = $(this).children('.query-type').val();
-            if (!query.value.hasOwnProperty(typeVal)) {
-                query.value[typeVal] = [];
-            }
-            query.value[typeVal].push(textVal);
-        });
-
         // Handle the property queries
         $('#property-queries').find('.value').each(function(index) {
             var textVal = $(this).children('.query-text').val();

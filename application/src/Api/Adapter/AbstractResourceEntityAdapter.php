@@ -14,7 +14,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        $this->buildValueQuery($qb, $query);
         $this->buildPropertyQuery($qb, $query);
         $this->buildHasPropertyQuery($qb, $query);
 
@@ -125,96 +124,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
-     * Build query on value.
+     * Build query on value (optionally by property).
      *
      * Query types:
-     *   + value[eq][]={value}:  has exact value
-     *   + value[neq][]={value}: does not have exact value
-     *   + value[in][]={value}:  contains value
-     *   + value[nin][]={value}: does not contain value
+     *   + property[{pid}][eq][]={value}:  has exact value
+     *   + property[{pid}][neq][]={value}: does not have exact value
+     *   + property[{pid}][in][]={value}:  contains value
+     *   + property[{pid}][nin][]={value}: does not contain value
      *
-     * @param QueryBuilder $qb
-     * @param array $query
-     */
-    protected function buildValueQuery(QueryBuilder $qb, array $query)
-    {
-        if (!isset($query['value']) || !is_array($query['value'])) {
-            return;
-        }
-        $valuesJoin = $this->getEntityClass() . '.values';
-        foreach ($query['value'] as $queryType => $values) {
-            if (!is_array($values)) {
-                continue;
-            }
-            foreach ($values as $value) {
-                if (!is_string($value) || $value === '') {
-                    continue;
-                }
-                $valuesAlias = $this->createAlias();
-                if ('eq' == $queryType) {
-                    $qb->innerJoin($valuesJoin, $valuesAlias);
-                    $qb->andWhere($qb->expr()->eq(
-                        "$valuesAlias.value",
-                        $this->createNamedParameter($qb, $value)
-                    ));
-                } elseif ('neq' == $queryType) {
-                    $qb->leftJoin(
-                        $valuesJoin, $valuesAlias, 'WITH',
-                        $qb->expr()->eq(
-                            "$valuesAlias.value",
-                            $this->createNamedParameter($qb, $value)
-                        )
-                    );
-                    $qb->andWhere($qb->expr()->isNull(
-                        "$valuesAlias.value"
-                    ));
-                } elseif ('in' == $queryType) {
-                    $qb->innerJoin($valuesJoin, $valuesAlias);
-                    $qb->andWhere($qb->expr()->like(
-                        "$valuesAlias.value",
-                        $this->createNamedParameter($qb, "%$value%")
-                    ));
-                } elseif ('nin' == $queryType) {
-                    $qb->leftJoin(
-                        $valuesJoin, $valuesAlias, 'WITH',
-                        $qb->expr()->like(
-                            "$valuesAlias.value",
-                            $this->createNamedParameter($qb, "%$value%")
-                        )
-                    );
-                    $qb->andWhere($qb->expr()->isNull(
-                        "$valuesAlias.value"
-                    ));
-                } elseif ('res' == $queryType) {
-                    $qb->innerJoin($valuesJoin, $valuesAlias);
-                    $qb->andWhere($qb->expr()->eq(
-                        "$valuesAlias.valueResource",
-                        $this->createNamedParameter($qb, $value)
-                    ));
-                } elseif ('nres' == $queryType) {
-                    $qb->leftJoin(
-                        $valuesJoin, $valuesAlias, 'WITH',
-                        $qb->expr()->eq(
-                            "$valuesAlias.valueResource",
-                            $this->createNamedParameter($qb, $value)
-                        )
-                    );
-                    $qb->andWhere($qb->expr()->isNull(
-                        "$valuesAlias.valueResource"
-                    ));
-                }
-            }
-        }
-    }
-
-    /**
-     * Build query by property.
-     *
-     * Query types:
-     *   + property[{pid}][eq][]={value}:  has exact value by property
-     *   + property[{pid}][neq][]={value}: does not have exact value by property
-     *   + property[{pid}][in][]={value}:  contains value by property
-     *   + property[{pid}][nin][]={value}: does not contain value by property
+     * If {pid} is zero/empty, queries are against all values. Otherwise, query results are limited
+     * to the given property. 
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -238,93 +157,50 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         continue;
                     }
                     $valuesAlias = $this->createAlias();
-                    if ('eq' == $queryType) {
-                        $qb->innerJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->eq(
-                                "$valuesAlias.property",
-                                (int) $propertyId
-                            )
+                    $positive = true;
+
+                    switch ($queryType) {
+                        case 'neq':
+                            $positive = false;
+                        case 'eq':
+                            $predicateExpr = $qb->expr()->eq(
+                                "$valuesAlias.value",
+                                $this->createNamedParameter($qb, $value)
+                            );
+                            break;
+                        case 'nin':
+                            $positive = false;
+                        case 'in':
+                            $predicateExpr = $qb->expr()->like(
+                                "$valuesAlias.value",
+                                $this->createNamedParameter($qb, "%$value%")
+                            );
+                            break;
+                        case 'nres':
+                            $positive = false;
+                        case 'res':
+                            $predicateExpr = $qb->expr()->eq(
+                                "$valuesAlias.valueResource",
+                                $this->createNamedParameter($qb, $value)
+                            );
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    // Narrow to specific property, if one is selected
+                    if ($propertyId) {
+                        $predicateExpr = $qb->expr()->andX(
+                            $predicateExpr,
+                            $qb->expr()->eq("$valuesAlias.property", (int) $propertyId)
                         );
-                        $qb->andWhere($qb->expr()->eq(
-                            "$valuesAlias.value",
-                            $this->createNamedParameter($qb, $value)
-                        ));
-                    } elseif ('neq' == $queryType) {
-                        $qb->leftJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->andX(
-                                $qb->expr()->eq(
-                                    "$valuesAlias.value",
-                                    $this->createNamedParameter($qb, $value)
-                                ),
-                                $qb->expr()->eq(
-                                    "$valuesAlias.property",
-                                    (int) $propertyId
-                                )
-                            )
-                        );
-                        $qb->andWhere($qb->expr()->isNull(
-                            "$valuesAlias.value"
-                        ));
-                    } elseif ('in' == $queryType) {
-                        $qb->innerJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->eq(
-                                "$valuesAlias.property",
-                                (int) $propertyId
-                            )
-                        );
-                        $qb->andWhere($qb->expr()->like(
-                            "$valuesAlias.value",
-                            $this->createNamedParameter($qb, "%$value%")
-                        ));
-                    } elseif ('nin' == $queryType) {
-                        $qb->leftJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->andX(
-                                $qb->expr()->like(
-                                    "$valuesAlias.value",
-                                    $this->createNamedParameter($qb, "%$value%")
-                                ),
-                                $qb->expr()->eq(
-                                    "$valuesAlias.property",
-                                    (int) $propertyId
-                                )
-                            )
-                        );
-                        $qb->andWhere($qb->expr()->isNull(
-                            "$valuesAlias.value"
-                        ));
-                    } elseif ('res' == $queryType) {
-                        $qb->innerJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->eq(
-                                "$valuesAlias.property",
-                                (int) $propertyId
-                            )
-                        );
-                        $qb->andWhere($qb->expr()->eq(
-                            "$valuesAlias.valueResource",
-                            $this->createNamedParameter($qb, $value)
-                        ));
-                    } elseif ('nres' == $queryType) {
-                        $qb->leftJoin(
-                            $valuesJoin, $valuesAlias, 'WITH',
-                            $qb->expr()->andX(
-                                $qb->expr()->eq(
-                                    "$valuesAlias.valueResource",
-                                    $this->createNamedParameter($qb, $value)
-                                ),
-                                $qb->expr()->eq(
-                                    "$valuesAlias.property",
-                                    (int) $propertyId
-                                )
-                            )
-                        );
-                        $qb->andWhere($qb->expr()->isNull(
-                            "$valuesAlias.valueResource"
-                        ));
+                    }
+
+                    if ($positive) {
+                        $qb->innerJoin($valuesJoin, $valuesAlias, 'WITH', $predicateExpr);
+                    } else {
+                        $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $predicateExpr);
+                        $qb->andWhere($qb->expr()->isNull("$valuesAlias.value"));
                     }
                 }
             }

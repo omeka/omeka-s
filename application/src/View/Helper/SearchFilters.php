@@ -51,35 +51,17 @@ class SearchFilters extends AbstractHelper
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
-                    // Search all properties
-                    case 'value':
-                        foreach ($value as $queryTypeKey => $filterValues) {
-                            if (!isset($queryTypes[$queryTypeKey])) {
-                                break;
-                            }
-                            $filterLabel = $translate('Property ') . ' ' . $queryTypes[$queryTypeKey];
-                            foreach ($filterValues as $filterValue) {
-                                if (is_string($filterValue) && $filterValue !== '') {
-                                    if ($queryTypeKey == 'res' || $queryTypeKey == 'nres') {
-                                        try {
-                                            $filterValue = $api->read('resources', $filterValue)->getContent()->displayTitle();
-                                        } catch (NotFoundException $e) {
-                                            $filterValue = $translate('Unknown');
-                                        }
-                                    }
-                                    $filters[$filterLabel][] = $filterValue;
-                                }
-                            }
-                        }
-                        break;
-
-                    // Search specific property
+                    // Search values (by property or all)
                     case 'property':
                         foreach ($value as $propertyRow => $propertyQuery) {
-                            try {
-                                $propertyLabel = $api->read('properties', $propertyRow)->getContent()->label();
-                            } catch (NotFoundException $e) {
-                                $propertyLabel = $translate('Unknown property');
+                            if ($propertyRow) {
+                                try {
+                                    $propertyLabel = $api->read('properties', $propertyRow)->getContent()->label();
+                                } catch (NotFoundException $e) {
+                                    $propertyLabel = $translate('Unknown property');
+                                }
+                            } else {
+                                $propertyLabel = $translate('[Any property]');
                             }
                             foreach ($propertyQuery as $queryTypeKey => $filterValues) {
                                 if (!isset($queryTypes[$queryTypeKey])) {

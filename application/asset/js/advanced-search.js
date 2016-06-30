@@ -22,31 +22,18 @@ $('#advanced-search').on('click', '.remove-value', function(e) {
 
 // Bypass regular form handling for value, property, and has property queries.
 $('#advanced-search').submit(function(event) {
-
-    $('#value-queries').find('.value').each(function(index) {
-        var text = $(this).children('.query-text');
-        if (!$.trim(text.val())) {
-            return; // do not process an empty query
-        }
-        var type = $(this).children('.query-type');
-        $('<input>').attr('type', 'hidden')
-            .attr('name', 'value[' + type.val() + '][]')
-            .val(text.val())
-            .appendTo('#advanced-search');
-    });
-
     $('#property-queries').find('.value').each(function(index) {
         var text = $(this).children('.query-text');
         if (!$.trim(text.val())) {
             return; // do not process an empty query
         }
-        var property = $(this).children('.query-property');
-        if (!$.isNumeric(property.val())) {
-            return; // do not process an invalid property
+        var propertyVal = $(this).children('.query-property').val();
+        if (!$.isNumeric(propertyVal)) {
+            propertyVal = 0;
         }
         var type = $(this).children('.query-type');
         $('<input>').attr('type', 'hidden')
-            .attr('name', 'property[' + property.val() + '][' + type.val() + '][]')
+            .attr('name', 'property[' + propertyVal + '][' + type.val() + '][]')
             .val(text.val())
             .appendTo('#advanced-search');
     });

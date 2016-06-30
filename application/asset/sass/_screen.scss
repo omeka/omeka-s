@@ -2700,63 +2700,42 @@ body.sidebar-open #content {
     font-weight: bold;
 }
 
-.module-version,
-.module-description {
+.module-author {
     display: block;
 }
 
-#modules button,
-#modules .button {
-    background-color: transparent;
-    width: 2.5 * $base-font-size;
-    height: $base-line-height;
-    overflow: hidden;
-    text-align: left;
-    font-size: .875 * $base-font-size;
+#modules ul {
+    list-style: none;
     padding: 0;
+    margin: 0;
+}
+
+#modules ul li {
+    display: inline-block;
+
+    &:not(:last-of-type):after {
+        content: "\2022";
+        display: inline-block;
+        margin: 0 rhythm(.25);
+    }
+}
+
+#modules ul li form {
+    display: inline-block;
+}
+
+#modules button {
+    padding: 0;
+    margin: 0;
     box-shadow: none;
-
-    &:before {
-        font-size: 1.5 * $base-font-size;
-        margin-right: rhythm(.25, 1.5 * $base-font-size);
-    }
-
-    &:hover {
-        width: auto;
-        height: auto;
-    }
-}
-
-#modules .o-icon-configure:before {
-    margin-right: rhythm(.25);
-}
-
-#modules .needs-upgrade button {
-    width: auto;
     color: $red;
+    background: transparent;
+    display: inline-block;
+    min-height: 0;
 
     &:hover {
         color: lighten($red, 20%);
     }
-}
-
-#modules .needs-upgrade {
-    position: relative;
-}
-
-#modules .needs-upgrade:before {
-    content: $fa-var-arrow-up;
-    font-family: "FontAwesome";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    opacity: .15;
-    font-size: 6 * $base-font-size;
-    line-height: .75;
-}
-
-#modules th:not(:first-of-type) {
-    width: 10%;
 }
 
 /* @end */

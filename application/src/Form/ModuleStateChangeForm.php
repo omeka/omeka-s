@@ -35,7 +35,7 @@ class ModuleStateChangeForm extends Form
                     ['query' => ['id' => $this->getOption('module_id')]]
                 );
                 $label = 'Install'; // @translate
-                $class = 'o-icon-install';
+                $class = 'o-icon-install green button';
                 break;
             case 'activate':
                 $action = $urlHelper(

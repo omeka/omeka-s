@@ -122,10 +122,10 @@
 }
 
 .o-icon-activate {
-    @extend .fa-toggle-on;
+    @extend .fa-toggle-off;
 }
 .o-icon-deactivate {
-    @extend .fa-toggle-off;
+    @extend .fa-toggle-on;
 }
 
 .o-icon-configure {

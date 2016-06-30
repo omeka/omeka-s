@@ -335,6 +335,9 @@ return [
             'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak',
             'itemWithMetadata' => 'Omeka\Site\BlockLayout\ItemWithMetadata',
         ],
+        'sorted_names' => [
+            'html',
+        ],
     ],
     'navigation_links' => [
         'invokables' => [

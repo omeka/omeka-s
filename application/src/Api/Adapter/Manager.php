@@ -3,7 +3,6 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\ConfigInterface;
 
 class Manager extends AbstractPluginManager
 {
@@ -20,9 +19,9 @@ class Manager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    public function __construct(ConfigInterface $configuration = null)
+    public function __construct($configOrContainerInstance = null, array $v3config = [])
     {
-        parent::__construct($configuration);
+        parent::__construct($configOrContainerInstance, $v3config);
         $this->addInitializer(function ($instance, $serviceLocator) {
             $instance->setServiceLocator($serviceLocator->getServiceLocator());
         }, false);

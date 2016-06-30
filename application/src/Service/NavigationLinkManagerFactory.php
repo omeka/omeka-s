@@ -2,7 +2,6 @@
 namespace Omeka\Service;
 
 use Omeka\Site\Navigation\Link\Manager;
-use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,8 +19,6 @@ class NavigationLinkManagerFactory implements FactoryInterface
         if (!isset($config['navigation_links'])) {
             throw new Exception\ConfigException('Missing navigation link configuration');
         }
-        $manager = new Manager(new Config($config['navigation_links']));
-        $manager->setServiceLocator($serviceLocator);
-        return $manager;
+        $manager = new Manager($serviceLocator, $config['navigation_links']);
     }
 }

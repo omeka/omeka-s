@@ -19,6 +19,6 @@ class NavigationLinkManagerFactory implements FactoryInterface
         if (!isset($config['navigation_links'])) {
             throw new Exception\ConfigException('Missing navigation link configuration');
         }
-        $manager = new Manager($serviceLocator, $config['navigation_links']);
+        return new Manager($serviceLocator, $config['navigation_links']);
     }
 }

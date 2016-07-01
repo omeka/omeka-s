@@ -30,7 +30,7 @@
             }
             var propertyVal = $(this).children('.query-property').val();
             if (!$.isNumeric(propertyVal)) {
-                return; // do not process an invalid property
+                propertyVal = 0;
             }
             if (!query.hasOwnProperty('property')) {
                 query['property'] = {};

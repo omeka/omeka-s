@@ -344,6 +344,7 @@ return [
             'page' => 'Omeka\Site\Navigation\Link\Page',
             'url' => 'Omeka\Site\Navigation\Link\Url',
             'browse' => 'Omeka\Site\Navigation\Link\Browse',
+            'browseItemSets' => 'Omeka\Site\Navigation\Link\BrowseItemSets',
         ],
     ],
     'media_ingesters' => [

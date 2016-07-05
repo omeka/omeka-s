@@ -9,6 +9,7 @@ use Zend\Log\Logger;
  */
 class LocalStore implements StoreInterface
 {
+    use \Omeka\File\StaticFileWriterTrait;
     /**
      * Local base path.
      *
@@ -34,7 +35,7 @@ class LocalStore implements StoreInterface
      */
     public function __construct($basePath, $baseUri, Logger $logger)
     {
-        if (!(is_dir($basePath) && is_writable($basePath))) {
+        if (!(self::getFileWriter()->is_dir($basePath) && self::getFileWriter()->is_writable($basePath))) {
             throw new Exception\RuntimeException(
                 sprintf('Base path "%s" is not a writable directory.', $basePath)
             );
@@ -52,8 +53,8 @@ class LocalStore implements StoreInterface
     {
         $localPath = $this->getLocalPath($storagePath);
         $this->assurePathDirectories($localPath);
-        $status = rename($source, $localPath);
-        chmod($localPath, 0644);
+        $status = self::getFileWriter()->rename($source, $localPath);
+        self::getFileWriter()->chmod($localPath, 0644);
         if (!$status) {
             throw new Exception\RuntimeException(
                 sprintf('Failed to move "%s" to "%s".', $source, $localPath)
@@ -113,11 +114,11 @@ class LocalStore implements StoreInterface
     protected function assurePathDirectories($localPath)
     {
         $dir = dirname($localPath);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
+        if (!self::getFileWriter()->is_dir($dir)) {
+            self::getFileWriter()->mkdir($dir, 0755);
         }
 
-        if (!is_writable($dir)) {
+        if (!self::getFileWriter()->is_writable($dir)) {
             throw new Exception\RuntimeException(
                 sprintf('Directory "%s" is not writable.', $dir)
             );

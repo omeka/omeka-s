@@ -1,4 +1,4 @@
- <?php
+<?php
 namespace Omeka\File;
 
 class FileWriter {

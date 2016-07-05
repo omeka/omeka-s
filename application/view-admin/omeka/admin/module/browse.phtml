@@ -37,7 +37,13 @@ $this->plugin('formRow')->setPartial(null);
                 <span class="module-version"><?php echo sprintf($this->translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
                 <?php endif; ?>
                 <?php if ($author = $module->getIni('author')): ?>
-                <span class="module-author"><?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?></span>
+                <span class="module-author">
+                    <?php if ($moduleLink = $module->getIni('module_link')): ?>
+                    <?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
+                    <?php else: ?>
+                    <?php echo sprintf($this->translate('by %s'), $author); ?>
+                    <?php endif; ?>
+                </span>
                 <?php endif; ?>
                 <?php if ($description = $module->getIni('description')): ?>
                 <span class="module-description"><?php echo $description; ?></span>

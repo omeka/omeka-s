@@ -23,17 +23,15 @@ class PageController extends AbstractActionController
             $post = $this->params()->fromPost();
             $form->setData($post);
             if ($form->isValid()) {
-                $response = $this->api()->update('site_pages', $page->id(), $post);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Page updated.');
+                $response = $this->api($form)->update('site_pages', $page->id(), $post);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Page successfully updated');
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
                     return $this->redirect()->toUrl($page->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -92,14 +90,12 @@ class PageController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('site_pages', ['slug' => $this->params('page-slug')]);
-                if ($response->isError()) {
-                    $this->messenger()->addError('Page could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('site_pages', ['slug' => $this->params('page-slug')]);
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Page successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Page could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(

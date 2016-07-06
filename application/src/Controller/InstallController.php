@@ -59,7 +59,7 @@ class InstallController extends AbstractActionController
                     }
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation.');
+                $this->messenger()->addErrors($form->getMessages());
             }
         } else {
             if (!$this->installer->preInstall()) {

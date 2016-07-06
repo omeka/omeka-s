@@ -3,6 +3,7 @@ namespace Omeka\Mvc\Controller\Plugin;
 
 use Omeka\Api\Manager;
 use Omeka\Api\Response;
+use Zend\Form\Form;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
@@ -15,9 +16,25 @@ class Api extends AbstractPlugin
      */
     protected $api;
 
+    /**
+     * @var Form
+     */
+    protected $form;
+
     public function __construct(Manager $api)
     {
         $this->api = $api;
+    }
+
+    /**
+     * Set this API request's corresponding form, if any.
+     *
+     * @param null|Form $form
+     */
+    public function __invoke(Form $form = null)
+    {
+        $this->form = $form;
+        return $this;
     }
 
     /**
@@ -134,12 +151,15 @@ class Api extends AbstractPlugin
 
     /**
      * Detect and account for API response errors.
+     *
+     * @param Response $response
      */
     protected function detectError(Response $response)
     {
-        if ($response->getStatus() === Response::ERROR_VALIDATION) {
-            $this->getController()->messenger()
-                ->addError('There was an error during validation');
+        if ($this->form && $response->getStatus() === Response::ERROR_VALIDATION) {
+            $errors = $response->getErrors();
+            $this->form->setMessages($errors);
+            $this->getController()->messenger()->addErrors($errors);
         }
     }
 }

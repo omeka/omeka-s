@@ -133,6 +133,16 @@ class Response extends ZendResponse
     }
 
     /**
+     * Check whether the request was successful.
+     *
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return self::SUCCESS === $this->getMetadata('status');
+    }
+
+    /**
      * Set the request of this response.
      *
      * @param Request $request

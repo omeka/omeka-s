@@ -109,14 +109,12 @@ class ItemController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('items', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('Item could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('items', $this->params('id'));
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Item successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Item could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(
@@ -134,19 +132,15 @@ class ItemController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
-            if($form->isValid()) {
+            if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
-                $response = $this->api()->create('items', $data, $fileData);
-                if ($response->isError()) {
-                    $errors = $response->getErrors();
-                    $form->setMessages($errors);
-                    $this->messenger()->addErrors($errors);
-                } else {
-                    $this->messenger()->addSuccess('Item Created.');
+                $response = $this->api($form)->create('items', $data, $fileData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item successfully created');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -161,33 +155,27 @@ class ItemController extends AbstractActionController
         $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'edit-item');
-        $id = $this->params('id');
-        $response = $this->api()->read('items', $id);
-        $item = $response->getContent();
+        $item = $this->api()->read('items', $this->params('id'))->getContent();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                $fileData = $this->getRequest()->getFiles()->toArray();
+                $response = $this->api($form)->update('items', $this->params('id'), $data, $fileData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item successfully updated');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
+            }
+        }
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
-            if($form->isValid()) {
-                $fileData = $this->getRequest()->getFiles()->toArray();
-                $response = $this->api()->update('items', $id, $data, $fileData);
-                if ($response->isError()) {
-                    $errors = $response->getErrors();
-                    $form->setMessages($errors);
-                    $this->messenger()->addErrors($errors);
-                } else {
-                    $this->messenger()->addSuccess('Item Updated.');
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addError('There was an error during validation');
-            }
-        }
         return $view;
     }
 

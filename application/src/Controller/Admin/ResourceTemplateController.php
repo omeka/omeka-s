@@ -106,30 +106,23 @@ class ResourceTemplateController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                if ('edit' == $action) {
-                    $response = $this->api()->update(
-                        'resource_templates', $resourceTemplate->id(), $data
-                    );
-                } else {
-                    $response = $this->api()->create('resource_templates', $data);
-                }
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    if ('edit' == $action) {
-                        $this->messenger()->addSuccess('Resource template edited.');
-                    } else {
-                        $this->messenger()->addSuccess('Resource template created.');
-                    }
+                $response = ('edit' === $action)
+                    ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
+                    : $this->api($form)->create('resource_templates', $data);
+                if ($response->isSuccess()) {
+                    $successMessage = ('edit' === $action)
+                        ? 'Resource template successfully updated'
+                        : 'Resource template successfully created';
+                    $this->messenger()->addSuccess($successMessage);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
         $view = new ViewModel;
-        if ('edit' == $action) {
+        if ('edit' === $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());

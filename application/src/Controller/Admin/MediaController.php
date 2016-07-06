@@ -32,29 +32,26 @@ class MediaController extends AbstractActionController
     public function editAction()
     {
         $form = $this->getForm(ResourceForm::class);
-        $id = $this->params('id');
-        $response = $this->api()->read('media', $id);
+        $response = $this->api()->read('media', $this->params('id'));
         $media = $response->getContent();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('media', $this->params('id'), $data);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Media successfully updated');
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
+            }
+        }
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('media', $media);
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
-            if($form->isValid()) {
-                $response = $this->api()->update('media', $id, $data);
-                if ($response->isError()) {
-                    $view->setVariable('errors', $response->getErrors());
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Media Updated.');
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addError('There was an error during validation');
-            }
-        }
         return $view;
     }
 
@@ -108,14 +105,12 @@ class MediaController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('media', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('Media could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('media', $this->params('id'));
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Media successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Media could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(

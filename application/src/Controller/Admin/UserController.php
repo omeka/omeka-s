@@ -43,17 +43,15 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api()->create('users', $formData);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
+                $response = $this->api($form)->create('users', $formData);
+                if ($response->isSuccess()) {
                     $user = $response->getContent()->getEntity();
                     $this->mailer()->sendUserActivation($user);
-                    $this->messenger()->addSuccess('User created.');
+                    $this->messenger()->addSuccess('User successfully created');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -130,15 +128,13 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api()->update('users', $id, $formData);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('User updated.');
+                $response = $this->api($form)->update('users', $id, $formData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('User successfully updated');
                     return $this->redirect()->refresh();
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -174,16 +170,16 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
-                if($currentUser && !$user->verifyPassword($values['current-password'])){
-                        $this->messenger()->addError('The current password entered was invalid.');
-                        return $view;
-                    }
+                if ($currentUser && !$user->verifyPassword($values['current-password'])) {
+                    $this->messenger()->addError('The current password entered was invalid');
+                    return $view;
+                }
                 $user->setPassword($values['password']);
                 $this->entityManager->flush();
-                $this->messenger()->addSuccess('Password changed.');
+                $this->messenger()->addSuccess('Password successfully changed');
                 return $this->redirect()->toRoute(null, ['action' => 'edit'], [], true);
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -218,12 +214,12 @@ class UserController extends AbstractActionController
                     foreach ($postData['delete'] as $deleteId) {
                         $keys->remove($deleteId);
                     }
-                    $this->messenger()->addSuccess("Deleted key(s).");
+                    $this->messenger()->addSuccess("Key(s) successfully deleted");
                 }
                 $this->entityManager->flush();
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -246,14 +242,12 @@ class UserController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('users', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('User could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('users', $this->params('id'));
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('User successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('User could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(

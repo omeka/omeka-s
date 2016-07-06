@@ -57,15 +57,13 @@ class IndexController extends AbstractActionController
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->create('sites', $formData);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Site created.');
+                $response = $this->api($form)->create('sites', $formData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Site successfully created');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -84,17 +82,15 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Site updated.');
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Site successfully updated');
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
                     return $this->redirect()->toUrl($site->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -120,10 +116,10 @@ class IndexController extends AbstractActionController
                 foreach ($data as $id => $value) {
                     $this->siteSettings()->set($id, $value);
                 }
-                $this->messenger()->addSuccess('Settings updated.');
+                $this->messenger()->addSuccess('Settings successfully updated');
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -143,11 +139,9 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
-                $response = $this->api()->create('site_pages', $formData);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Page created.');
+                $response = $this->api($form)->create('site_pages', $formData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Page successfully created');
                     return $this->redirect()->toRoute(
                         'admin/site/page',
                         ['action' => 'index'],
@@ -155,7 +149,7 @@ class IndexController extends AbstractActionController
                     );
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -176,12 +170,13 @@ class IndexController extends AbstractActionController
             $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
-                if (!$response->isError()) {
-                    $this->messenger()->addSuccess('Navigation updated.');
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Navigation successfully updated');
                     return $this->redirect()->refresh();
                 }
-                $this->messenger()->addErrors($response->getErrors());
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -202,14 +197,13 @@ class IndexController extends AbstractActionController
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Item pool updated.');
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item pool successfully updated');
                     return $this->redirect()->refresh();
                 }
-                $this->messenger()->addError('There was an error during validation');
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -231,14 +225,13 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api()->update('sites', $site->id(), $formData, [], true);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('User permissions updated.');
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('User permissions successfully updated');
                     return $this->redirect()->refresh();
                 }
-                $this->messenger()->addError('There was an error during validation');
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -280,10 +273,10 @@ class IndexController extends AbstractActionController
                 $data = $form->getData();
                 unset($data['form_csrf']);
                 $this->siteSettings()->set($theme->getSettingsKey(), $data);
-                $this->messenger()->addSuccess('Theme settings updated.');
+                $this->messenger()->addSuccess('Theme settings successfully updated');
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         $view->setVariable('form', $form);
@@ -296,16 +289,12 @@ class IndexController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('sites', [
-                    'slug' => $this->params('site-slug')]
-                );
-                if ($response->isError()) {
-                    $this->messenger()->addError('Site could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('sites', ['slug' => $this->params('site-slug')]);
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Site successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Site could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute('admin/site');

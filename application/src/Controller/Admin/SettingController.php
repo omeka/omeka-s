@@ -32,10 +32,10 @@ class SettingController extends AbstractActionController
                         $this->settings()->set($key, $value);
                     }
                 }
-                $this->messenger()->addSuccess('Settings updated');
+                $this->messenger()->addSuccess('Settings successfully updated');
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 

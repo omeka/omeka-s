@@ -71,7 +71,7 @@ class JobController extends AbstractActionController
                     $this->messenger()->addError('The job could not be stopped.');
                 }
             } else {
-                $this->messenger()->addError('The job could not be stopped.');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);

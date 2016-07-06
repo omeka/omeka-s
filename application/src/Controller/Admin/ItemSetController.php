@@ -22,16 +22,14 @@ class ItemSetController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
-            if($form->isValid()) {
-                $response = $this->api()->create('item_sets', $data);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Item Set Created.');
+            if ($form->isValid()) {
+                $response = $this->api($form)->create('item_sets', $data);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item set successfully created');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -44,8 +42,7 @@ class ItemSetController extends AbstractActionController
     {
         $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('id', 'edit-item-set');
-        $id = $this->params('id');
-        $response = $this->api()->read('item_sets', $id);
+        $response = $this->api()->read('item_sets', $this->params('id'));
         $itemSet = $response->getContent();
 
         $view = new ViewModel;
@@ -54,16 +51,14 @@ class ItemSetController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
-            if($form->isValid()) {
-                $response = $this->api()->update('item_sets', $id, $data);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Item Set Updated.');
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('item_sets', $this->params('id'), $data);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item set successfully updated');
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $view;
@@ -146,14 +141,12 @@ class ItemSetController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('item_sets', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('Item set could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('item_sets', $this->params('id'));
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Item set successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Item set could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(

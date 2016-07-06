@@ -79,14 +79,14 @@ class VocabularyController extends AbstractActionController
                     if ($response->isError()) {
                         $form->setMessages($response->getErrors());
                     } else {
-                        $this->messenger()->addSuccess('The vocabulary was successfully imported.');
+                        $this->messenger()->addSuccess('Vocabulary successfully imported');
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (\Exception $e) {
                     $this->messenger()->addError($e->getMessage());
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -115,15 +115,13 @@ class VocabularyController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api()->update('vocabularies', $id, $formData);
-                if ($response->isError()) {
-                    $form->setMessages($response->getErrors());
-                } else {
-                    $this->messenger()->addSuccess('Vocabulary updated.');
+                $response = $this->api($form)->update('vocabularies', $id, $formData);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Vocabulary successfully updated');
                     return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                 }
             } else {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
 
@@ -139,14 +137,12 @@ class VocabularyController extends AbstractActionController
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api()->delete('vocabularies', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('Vocabulary could not be deleted');
-                } else {
+                $response = $this->api($form)->delete('vocabularies', $this->params('id'));
+                if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Vocabulary successfully deleted');
                 }
             } else {
-                $this->messenger()->addError('Vocabulary could not be deleted');
+                $this->messenger()->addErrors($form->getMessages());
             }
         }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);

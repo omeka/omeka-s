@@ -44,9 +44,17 @@
     min-width: 0;
 }
 
+#advanced-search .value > * {
+    margin-top: 0;
+}
+
 #advanced-search .value select:first-child,
 #advanced-search .value input:first-child {
     margin-left: 0;
+}
+
+#advanced-search .add-value {
+    margin-bottom: 0;
 }
 
 /* @end */

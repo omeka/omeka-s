@@ -31,13 +31,12 @@ $sortHeadings = [
 
 <?php echo $this->searchFilters(); ?>
 
-<?php if (count($items) > 0): ?>
 <div class="browse-controls">
 <?php echo $this->pagination(); ?>
-<?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
+<?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
-
+<?php if ($items): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -117,9 +116,6 @@ $sortHeadings = [
 </div>
 
 <?php else: ?>
-<div class="browse-controls">
-<?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
-</div>
 
 <div class="no-resources">
     <p><?php echo $this->translate('Omeka could not find any items.'); ?></p>

@@ -66,19 +66,19 @@ $queryText = function(array $search) {
 
 <div class="field">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search by class'); ?></legend>
+        <label for="resource_class_id"><?php echo $this->translate('Search by class'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->resourceClassSelect([
             'name' => 'resource_class_id',
-            'attributes' => ['value' => $resourceClassId]
+            'attributes' => ['id' => 'resource_class_id', 'value' => $resourceClassId]
         ]); ?>
     </div>
 </div>
 
 <div id="property-queries" class="field removable">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search specific property'); ?></legend>
+        <legend><?php echo $this->translate('Search by value'); ?></legend>
     </div>
     <div class="inputs">
         <?php foreach ($properties as $property): ?>
@@ -109,7 +109,7 @@ $queryText = function(array $search) {
 
 <div id="has-property-queries" class="field removable">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search resources'); ?></legend>
+        <legend><?php echo $this->translate('Search by property'); ?></legend>
     </div>
     <div class="inputs">
         <?php foreach ($hasProperties as $hasProperty): ?>

@@ -19,13 +19,17 @@ class SiteSettings extends AbstractSettings
      */
     public function setSite($site)
     {
+        $siteId = null;
         if ($site instanceof Site) {
-            $this->siteId = $site->getId();
+            $siteId = $site->getId();
         } else if ($site instanceof SiteRepresentation) {
-            $this->siteId = $site->id();
-        } else {
-            $this->siteId = null;
+            $siteId = $site->id();
         }
+
+        if ($siteId !== $this->siteId) {
+            $this->cache = null;
+        }
+        $this->siteId = $siteId;
     }
 
     protected function setCache()

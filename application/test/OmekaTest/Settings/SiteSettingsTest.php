@@ -2,7 +2,6 @@
 
 namespace OmekaTest\Settings;
 
-use Omeka\Settings\SiteSettings;
 use Omeka\Test\DbTestCase;
 
 class SiteSettingsTest extends DbTestCase

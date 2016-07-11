@@ -36,7 +36,7 @@ class DbTestCase extends TestCase
      */
     public function tearDown()
     {
-        self::getApplication()->getServiceManager()->get('Omeka\qEntityManager')
+        self::getApplication()->getServiceManager()->get('Omeka\EntityManager')
             ->getConnection()->rollback();
     }
 

@@ -92,9 +92,14 @@ class File
         return $this->storageBaseName;
     }
 
-    public function setStorageBaseName($name)
+    /**
+     * Set the base name of the stored file (without extension)
+     *
+     * @param string $storageBaseName
+     */
+    public function setStorageBaseName($storageBaseName)
     {
-        $this->storageBaseName = $name;
+        $this->storageBaseName = $storageBaseName;
     }
 
     /**

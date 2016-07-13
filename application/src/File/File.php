@@ -93,6 +93,16 @@ class File
     }
 
     /**
+     * Set the base name of the stored file (without extension)
+     *
+     * @param string $storageBaseName
+     */
+    public function setStorageBaseName($storageBaseName)
+    {
+        $this->storageBaseName = $storageBaseName;
+    }
+
+    /**
      * Get the Internet media type of the file.
      *
      * @uses finfo

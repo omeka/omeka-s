@@ -40,17 +40,11 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($event);
 
-        // Set the timezone.
-        $services = $this->getServiceLocator();
-        if ($services->get('Omeka\Status')->isInstalled()) {
-            date_default_timezone_set('UTC');
-        };
-
         $this->bootstrapSession();
         $this->bootstrapViewHelpers();
 
         // Enable automatic translation for validation error messages
-        AbstractValidator::setDefaultTranslator($services->get('MvcTranslator'));
+        AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
     }
 
     /**

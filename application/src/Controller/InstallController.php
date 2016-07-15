@@ -46,7 +46,6 @@ class InstallController extends AbstractActionController
                         'time_zone'           => $data['settings']['time_zone'],
                     ]
                 );
-                date_default_timezone_set('UTC');
                 if ($this->installer->install()) {
                     // Success. Redirect to login.
                     $this->messenger()->addSuccess('Installation successful. Please log in.');

@@ -103,6 +103,10 @@ class InstallationForm extends Form
 
         $timeZones = DateTimeZone::listIdentifiers();
         $timeZones = array_combine($timeZones, $timeZones);
+        $defaultTimeZone = ini_get('date.timezone');
+        if (!$defaultTimeZone) {
+            $defaultTimeZone = 'UTC';
+        }
         $this->get('settings')->add([
             'name' => 'time_zone',
             'type' => 'Select',
@@ -113,7 +117,7 @@ class InstallationForm extends Form
             'attributes' => [
                 'id' => 'time-zone',
                 'required' => true,
-                'value' => date_default_timezone_get(),
+                'value' => $defaultTimeZone,
             ],
         ]);
 

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Entity\Job;
 use Omeka\Form\ConfirmForm;
 use Omeka\Job\Dispatcher;
 use Zend\Mvc\Controller\AbstractActionController;

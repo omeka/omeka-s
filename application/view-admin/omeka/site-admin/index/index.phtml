@@ -63,20 +63,20 @@ $sortHeadings = [
                     <li>
                         <a href="<?php echo $site->siteUrl(); ?>" target="_blank" class="o-icon-external public" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
                     </li>
-                    <li>
                     <?php if ($site->userIsAllowed('update')): ?>
-                        <?php echo $site->link('', null, [
-                            'class' => 'o-icon-edit',
-                            'aria-label' => $this->translate('Edit'),
-                            'title' => $this->translate('Edit'),
-                        ]); ?>
+                    <li><?php echo $site->link('', null, [
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    ]); ?></li>
                     <?php endif; ?>
-                    </li>
+                    <?php if ($site->userIsAllowed('delete')): ?>
                     <li><a href="#"
                         data-sidebar-content-url="<?php echo $escape($site->url('delete-confirm')); ?>"
                         class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                    <?php endif; ?>
                 </ul>
             </td>
             <td><?php echo $escape($site->slug()); ?></td>

@@ -70,7 +70,7 @@ class InstallDefaultVocabulariesTask implements TaskInterface
                 $vocabulary['strategy'],
                 $vocabulary['vocabulary'],
                 [
-                    'file' => OMEKA_PATH . "/data/vocabularies/{$vocabulary['file']}",
+                    'file' => OMEKA_PATH . "/application/data/vocabularies/{$vocabulary['file']}",
                     'format' => $vocabulary['format'],
                 ]
             );

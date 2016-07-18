@@ -53,7 +53,7 @@ class EntityManagerFactory implements FactoryInterface
         $emConfig = Setup::createAnnotationMetadataConfiguration(
             $config['entity_manager']['mapping_classes_paths'], $isDevMode
         );
-        $emConfig->setProxyDir(OMEKA_PATH . '/data/doctrine-proxies');
+        $emConfig->setProxyDir(OMEKA_PATH . '/application/data/doctrine-proxies');
 
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.

@@ -4,8 +4,8 @@
 /build/
 /config/local.config.php
 /config/database.ini
-/data/logs/sql.log
-/data/logs/application.log
+/logs/sql.log
+/logs/application.log
 /files/
 /modules/
 /application/language/

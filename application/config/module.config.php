@@ -55,7 +55,7 @@ return [
             'datetime' => [],
         ],
         'proxy_paths' => [
-            OMEKA_PATH . '/data/doctrine-proxies',
+            OMEKA_PATH . '/application/data/doctrine-proxies',
         ]
     ],
     'installer' => [
@@ -88,7 +88,7 @@ return [
     ],
     'logger' => [
         'log'  => false,
-        'path' => OMEKA_PATH . '/data/logs/application.log',
+        'path' => OMEKA_PATH . '/logs/application.log',
         'priority' => \Zend\Log\Logger::NOTICE,
     ],
     'http_client' => [

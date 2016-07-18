@@ -57,7 +57,7 @@ class RdfImporter
      * @param array $options
      * - format: (optional)  The format of the RDF file. If not given, the RDF
      *   parser will attempt to guess the format.
-     * - file: (required for "file" strategy) The RDF file in the
+     * - file: (required for "file" strategy) The RDF file in the /application/
      *   /data/vocabularies directory.
      * - url: (required for "url" strategy) The URL of the RDF file.
      * - comment_property: (optional) The RDF property containing the preferred
@@ -102,7 +102,7 @@ class RdfImporter
     {
         switch ($strategy) {
 
-            // Import from a file in /data/vocabularies directory.
+            // Import from a file in /application/data/vocabularies directory.
             case 'file':
                 if (!isset($options['file'])) {
                     throw new \Exception('No file specified for the file import strategy.');

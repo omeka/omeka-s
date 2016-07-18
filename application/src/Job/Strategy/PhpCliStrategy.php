@@ -63,7 +63,7 @@ class PhpCliStrategy implements StrategyInterface
             }
         }
 
-        $script = OMEKA_PATH . '/data/scripts/perform-job.php';
+        $script = OMEKA_PATH . '/application/data/scripts/perform-job.php';
 
         $command = sprintf(
             '%s %s --job-id %s --base-path %s',

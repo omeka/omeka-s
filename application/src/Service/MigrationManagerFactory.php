@@ -19,7 +19,7 @@ class MigrationManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = [
-            'path'      => OMEKA_PATH . '/data/migrations',
+            'path'      => OMEKA_PATH . '/application/data/migrations',
             'namespace' => 'Omeka\Db\Migrations',
         ];
         $connection = $serviceLocator->get('Omeka\Connection');

@@ -231,6 +231,8 @@ return [
         ],
         'factories' => [
             'api' => 'Omeka\Service\ControllerPlugin\ApiFactory',
+            'jobDispatcher' => 'Omeka\Service\ControllerPlugin\JobDispatcherFactory',
+            'logger' => 'Omeka\Service\ControllerPlugin\LoggerFactory',
             'paginator' => 'Omeka\Service\ControllerPlugin\PaginatorFactory',
             'translate' => 'Omeka\Service\ControllerPlugin\TranslateFactory',
             'getForm' => 'Omeka\Service\ControllerPlugin\GetFormFactory',

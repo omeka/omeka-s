@@ -102,6 +102,16 @@ class BlockLayout extends AbstractHelper
     }
 
     /**
+     * Prepare the view to enable the block layout.
+     *
+     * @param string $layout
+     */
+    public function prepareRender($layout)
+    {
+        $this->manager->get($layout)->prepareRender($this->getView());
+    }
+
+    /**
      * Return the HTML necessary to render the provided block.
      *
      * @param SitePageBlockRepresentation $block

@@ -1,4 +1,10 @@
 <?php
-foreach ($page->blocks() as $block):
+$layouts = [];
+foreach ($page->blocks() as $block) {
+    if (!array_key_exists($block->layout(), $layouts)) {
+        // Prepare render only once per layout type.
+        $layouts[$block->layout()] = null;
+        $this->blockLayout()->prepareRender($block->layout());
+    }
     echo $this->blockLayout()->render($block);
-endforeach;
+}

@@ -10,7 +10,7 @@
 require dirname(dirname(__DIR__)) . '/bootstrap.php';
 
 // Initialize the Omeka application using the test database.
-$config = require OMEKA_PATH . '/config/application.config.php';
+$config = require OMEKA_PATH . '/application/config/application.config.php';
 $testConfig = ['connection' => parse_ini_file(
     OMEKA_PATH . '/application/test/config/database.ini'
 )];

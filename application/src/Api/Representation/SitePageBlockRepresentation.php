@@ -37,6 +37,14 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     }
 
     /**
+     * @return int
+     */
+    public function id()
+    {
+        return $this->block->getId();
+    }
+
+    /**
      * @return SiteRepresentation
      */
     public function page()

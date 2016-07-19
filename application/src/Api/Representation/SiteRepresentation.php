@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use RecursiveIteratorIterator;
+
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**
@@ -186,5 +188,23 @@ class SiteRepresentation extends AbstractEntityRepresentation
             ['site-slug' => $siteSlug],
             ['force_canonical' => $canonical]
         );
+    }
+
+    /**
+     * Render the correct admin-side nav for this site for the current user
+     */
+    public function adminNav()
+    {
+        $navHelper = $this->getViewHelper('Navigation');
+        $nav = $navHelper('Zend\Navigation\Site');
+
+        $iterator = new RecursiveIteratorIterator($nav->getContainer(), RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($iterator as $page) {
+            if ($page->getPrivilege() && ! $page->getResource()) {
+                $page->setResource($this->resource);
+            }
+        }
+
+        return $nav->menu();
     }
 }

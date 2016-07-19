@@ -154,6 +154,7 @@ return [
                 'class'         => 'site-info',
                 'route'         => 'admin/site/slug',
                 'action'        => 'edit',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
             [
@@ -161,6 +162,7 @@ return [
                 'class'         => 'pages',
                 'route'         => 'admin/site/slug/page',
                 'action'        => 'index',
+                'privilege'     => 'add-page',
                 'useRouteMatch' => true,
                 'pages'         => [
                     [
@@ -179,6 +181,7 @@ return [
                 'class'         => 'navigation',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'navigation',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
             [
@@ -186,6 +189,7 @@ return [
                 'class'         => 'item-pool',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'item-pool',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
             [
@@ -193,6 +197,7 @@ return [
                 'class'         => 'users',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'users',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
             [
@@ -200,6 +205,7 @@ return [
                 'class'         => 'theme',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'theme',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
             [
@@ -207,6 +213,7 @@ return [
                 'class'         => 'settings',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'settings',
+                'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
         ]

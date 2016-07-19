@@ -6,6 +6,7 @@ use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
 use Omeka\Form\SiteSettingsForm;
+use Omeka\Mvc\Exception;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Omeka\Site\Theme\Manager as ThemeManager;
@@ -103,6 +104,11 @@ class IndexController extends AbstractActionController
     public function settingsAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site settings'
+            );
+        }
         $form = $this->getForm(SiteSettingsForm::class);
 
         $event = new Event(Event::SITE_SETTINGS_FORM, $this, ['form' => $form]);
@@ -247,6 +253,12 @@ class IndexController extends AbstractActionController
     public function themeAction()
     {
         $site = $this->currentSite();
+
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site theme settings'
+            );
+        }
 
         $theme = $this->themes->getTheme($site->theme());
         $config = $theme->getConfigSpec();

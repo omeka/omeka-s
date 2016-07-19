@@ -330,8 +330,10 @@
      */
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
-            makeNewField('dcterms:title');
-            makeNewField('dcterms:description');
+            makeNewField('dcterms:title').find('.values')
+                .append(makeNewValue('dcterms:title', null, 'literal'));
+            makeNewField('dcterms:description').find('.values')
+                .append(makeNewValue('dcterms:description', null, 'literal'));
         } else {
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);

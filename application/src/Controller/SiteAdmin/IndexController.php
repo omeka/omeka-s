@@ -143,7 +143,7 @@ class IndexController extends AbstractActionController
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Page successfully created');
                     return $this->redirect()->toRoute(
-                        'admin/site/page',
+                        'admin/site/slug/page',
                         ['action' => 'index'],
                         true
                     );

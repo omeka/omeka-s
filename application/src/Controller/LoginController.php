@@ -67,7 +67,6 @@ class LoginController extends AbstractActionController
             }
         }
 
-        $this->layout('layout/minimal');
         $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
@@ -126,7 +125,6 @@ class LoginController extends AbstractActionController
             }
         }
 
-        $this->layout('layout/minimal');
         $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
@@ -166,7 +164,6 @@ class LoginController extends AbstractActionController
             }
         }
 
-        $this->layout('layout/minimal');
         $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;

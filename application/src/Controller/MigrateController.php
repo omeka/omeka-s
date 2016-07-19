@@ -34,7 +34,6 @@ class MigrateController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        $this->layout('layout/minimal');
         $view = new ViewModel;
         return $view;
     }

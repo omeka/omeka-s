@@ -66,7 +66,6 @@ class InstallController extends AbstractActionController
             }
         }
 
-        $this->layout('layout/minimal');
         $view->setVariable('form', $form);
         return $view;
     }

@@ -7,6 +7,5 @@ class MaintenanceController extends AbstractActionController
 {
     public function indexAction()
     {
-        $this->layout('layout/minimal');
     }
 }

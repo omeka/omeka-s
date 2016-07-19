@@ -8,7 +8,7 @@ class MediaTypeMapFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $mapPath = OMEKA_PATH . '/data/media-types/media-type-map.php';
+        $mapPath = OMEKA_PATH . '/application/data/media-types/media-type-map.php';
         if (!is_file($mapPath)) {
             throw new Exception\ConfigException('Missing media type/extension map file');
         }

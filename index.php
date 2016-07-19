@@ -14,7 +14,7 @@ if ((isset($_SERVER['APPLICATION_ENV'])
 require 'bootstrap.php';
 
 try {
-    Omeka\Mvc\Application::init(require 'config/application.config.php')->run();
+    Omeka\Mvc\Application::init(require 'application/config/application.config.php')->run();
 } catch (\Exception $e) {
     http_response_code(500);
     error_log($e);

@@ -11,7 +11,7 @@ class InstallSchemaTask implements TaskInterface
 {
     public function perform(Installer $installer)
     {
-        $schemaPath = OMEKA_PATH . '/data/install/schema.sql';
+        $schemaPath = OMEKA_PATH . '/application/data/install/schema.sql';
         if (!is_readable($schemaPath)) {
             $installer->addError('Could not read the schema installation file.');
             return;

@@ -63,7 +63,7 @@
             <fileset dir=".">
                 <include name=".htaccess.dist"/>
                 <include name="config/*.dist"/>
-                <include name="data/logs/*.dist"/>
+                <include name="logs/*.dist"/>
                 <include name="application/test/config/*.dist"/>
                 <present targetdir="." present="srconly">
                     <mapper type="glob" from="*.dist" to="*"/>

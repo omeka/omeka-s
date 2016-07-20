@@ -161,6 +161,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\SitePageAdapter',
             ]
         );
+
         $acl->allow(
             'editor',
             'Omeka\Entity\Site',
@@ -173,42 +174,6 @@ class AclFactory implements FactoryInterface
             'create'
         );
 
-        $allowAddPage = new AssertionAggregate;
-        $allowAddPage->addAssertions([
-            new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('editor')
-        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
-        $acl->allow(
-            null,
-            'Omeka\Entity\Site',
-            'add-page',
-            $allowAddPage
-        );
-
-        $allowSiteUpdate = new AssertionAggregate;
-        $allowSiteUpdate->addAssertions([
-            new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('admin')
-        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
-        $acl->allow(
-            null,
-            'Omeka\Entity\Site',
-            'update',
-            $allowSiteUpdate
-        );
-
-        $allowSitePageUpdate = new AssertionAggregate;
-        $allowSitePageUpdate->addAssertions([
-            new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('editor')
-        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
-        $acl->allow(
-            null,
-            'Omeka\Entity\SitePage',
-            'update',
-            $allowSitePageUpdate
-        );
-
         $acl->allow(
             null,
             'Omeka\Entity\Site',
@@ -216,29 +181,44 @@ class AclFactory implements FactoryInterface
             new OwnsEntityAssertion
         );
 
-        $allowSitePageDelete = new AssertionAggregate;
-        $allowSitePageDelete->addAssertions([
+        $adminAssertion = $this->aggregate([
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('editor')
-        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+            new HasSitePermissionAssertion('admin')
+        ], AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            null,
+            'Omeka\Entity\Site',
+            'update',
+            $adminAssertion
+        );
+
+        $editorAssertion = $this->aggregate([
+                new OwnsEntityAssertion,
+                new HasSitePermissionAssertion('editor')
+            ], AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            null,
+            'Omeka\Entity\Site',
+            'add-page',
+            $editorAssertion
+        );
         $acl->allow(
             null,
             'Omeka\Entity\SitePage',
-            'delete',
-            $allowSitePageDelete
+            ['update', 'delete'],
+            $editorAssertion
         );
 
-        $allowSiteView = new AssertionAggregate;
-        $allowSiteView->addAssertions([
+        $viewerAssertion = $this->aggregate([
             new SiteIsPublicAssertion,
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('viewer')
-        ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
+        ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
             ['Omeka\Entity\Site', 'Omeka\Entity\SitePage'],
             'read',
-            $allowSiteView
+            $viewerAssertion
         );
     }
 
@@ -772,5 +752,23 @@ class AclFactory implements FactoryInterface
             ['change-role', 'activate-user', 'delete'],
             new IsSelfAssertion
         );
+    }
+
+    /**
+     * Create an assertion aggregate from the given assertions and the given mode.
+     *
+     * This is just a convenience method to avoid having to write the somewhat verbose aggregate
+     * code over and over within the grants.
+     *
+     * @param array $assertions Array of Assertion objects to be aggregated
+     * @param string $mode Aggregation mode
+     * @return AssertionAggregate
+     */
+    protected function aggregate(array $assertions, $mode = AssertionAggregate::MODE_ALL)
+    {
+        $aggregate = new AssertionAggregate;
+        $aggregate->addAssertions($assertions);
+        $aggregate->setMode($mode);
+        return $aggregate;
     }
 }

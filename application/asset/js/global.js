@@ -295,7 +295,7 @@ var Omeka = {
         Omeka.fixIframeAspect();
     });
 
-    $(window).load(function() {
+    $(window).on('load', function() {
         // Wait until we're done manipulating things to enable CSS transitions
         $('body').addClass('transitions-enabled');
 

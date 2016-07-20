@@ -162,7 +162,6 @@ return [
                 'class'         => 'pages',
                 'route'         => 'admin/site/slug/page',
                 'action'        => 'index',
-                'privilege'     => 'add-page',
                 'useRouteMatch' => true,
                 'pages'         => [
                     [

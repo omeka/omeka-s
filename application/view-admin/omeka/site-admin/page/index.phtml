@@ -6,7 +6,9 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pageTitle($this->translate('Pages')); ?>
 
 <div id="page-actions">
+    <?php if ($site->userIsAllowed('add-page')): ?>
     <?php echo $site->link($this->translate('Add new page'), 'add-page', ['class' => 'button']); ?>
+    <?php endif; ?>
 </div>
 <?php if ($pages): ?>
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
@@ -29,12 +31,26 @@ $escape = $this->plugin('escapeHtml');
         <td><?php echo $page->slug(); ?></td>
         <td>
             <ul class="actions">
-                <li><?php echo $page->link('', 'edit', [
-                    'class' => 'o-icon-edit',
-                    'aria-label' => $this->translate('Edit'),
-                    'title' => $this->translate('Edit'),
-                ]); ?></li>
-                <li><a href="#" class="o-icon-delete sidebar-content" aria-label="#" title="<?php echo $this->translate('Delete page'); ?>" data-page-title="<?php echo $escape($page->title()); ?>" data-sidebar-content-url="<?php echo $escape($page->url('delete-confirm')); ?>"></a></li>
+                <?php if ($page->userIsAllowed('update')): ?>
+                <li>
+                    <?php
+                    echo $page->link('', 'edit', [
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
+                    ]);
+                    ?>
+                </li>
+                <?php endif; ?>
+                <?php if ($page->userIsAllowed('delete')): ?>
+                <li>
+                    <a href="#" class="o-icon-delete sidebar-content"
+                        title="<?php echo $this->translate('Delete page'); ?>"
+                        aria-label="<?php echo $this->translate('Delete page'); ?>"
+                        data-sidebar-content-url="<?php echo $escape($page->url('delete-confirm')); ?>"
+                    ></a>
+                </li>
+                <?php endif; ?>
             </ul>
         </td>
     </tr>

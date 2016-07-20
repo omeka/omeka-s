@@ -116,7 +116,11 @@ class SiteAdapter extends AbstractEntityAdapter
                             ]
                         ]
                     );
-                $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
+                try {
+                    $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
+                } catch (Exception\ValidationException $e) {
+                    $errorStore->mergeErrors($e->getErrorStore(), 'o:page');
+                }
                 $pages->add($page);
             }
         }

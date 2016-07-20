@@ -11,6 +11,6 @@ class OwnsEntityAssertion implements AssertionInterface
     public function assert(Acl $acl, RoleInterface $role = null,
         ResourceInterface $resource = null, $privilege = null
     ) {
-        return $role === $resource->getOwner();
+        return $role && $role === $resource->getOwner();
     }
 }

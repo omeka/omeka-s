@@ -166,79 +166,68 @@ class AclFactory implements FactoryInterface
             'Omeka\Entity\Site',
             'create'
         );
+
         $acl->allow(
             ['author', 'reviewer', 'editor'],
             'Omeka\Entity\SitePage',
             'create'
         );
-        $acl->allow(
-            ['author', 'reviewer'],
-            'Omeka\Entity\Site',
-            'add-page',
-            new HasSitePermissionAssertion('editor')
-        );
+
         $allowAddPage = new AssertionAggregate;
         $allowAddPage->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
-            'editor',
+            null,
             'Omeka\Entity\Site',
             'add-page',
             $allowAddPage
         );
-        $acl->allow(
-            ['author', 'reviewer'],
-            'Omeka\Entity\Site',
-            'update',
-            new HasSitePermissionAssertion('admin')
-        );
+
         $allowSiteUpdate = new AssertionAggregate;
         $allowSiteUpdate->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('admin')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
-            'editor',
+            null,
             'Omeka\Entity\Site',
             'update',
             $allowSiteUpdate
         );
-        $acl->allow(
-            ['author', 'reviewer'],
-            'Omeka\Entity\SitePage',
-            'update',
-            new HasSitePermissionAssertion('editor')
-        );
+
         $allowSitePageUpdate = new AssertionAggregate;
         $allowSitePageUpdate->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
-            'editor',
+            null,
             'Omeka\Entity\SitePage',
             'update',
             $allowSitePageUpdate
         );
+
         $acl->allow(
-            ['author', 'reviewer', 'editor'],
-            'Omeka\Entity\SitePage',
+            null,
+            'Omeka\Entity\Site',
             'delete',
-            new HasSitePermissionAssertion('editor')
+            new OwnsEntityAssertion
         );
+
         $allowSitePageDelete = new AssertionAggregate;
         $allowSitePageDelete->addAssertions([
             new OwnsEntityAssertion,
             new HasSitePermissionAssertion('editor')
         ])->setMode(AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
-            'editor',
+            null,
             'Omeka\Entity\SitePage',
             'delete',
             $allowSitePageDelete
         );
+
         $allowSiteView = new AssertionAggregate;
         $allowSiteView->addAssertions([
             new SiteIsPublicAssertion,

@@ -31,6 +31,10 @@ class HasSitePermissionAssertion implements AssertionInterface
             return false;
         }
 
+        // Unauthed users can't have any site permissions
+        if (!$role) {
+            return false;
+        }
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('user', $role));
         $sitePermission =  $site->getSitePermissions()

@@ -15,7 +15,9 @@ $form->prepare();
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
     <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
+    <?php if ($site->userIsAllowed('delete')): ?>
     <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <?php endif; ?>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 

@@ -163,17 +163,19 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                         case 'neq':
                             $positive = false;
                         case 'eq':
-                            $predicateExpr = $qb->expr()->eq(
-                                "$valuesAlias.value",
-                                $this->createNamedParameter($qb, $value)
+                            $param = $this->createNamedParameter($qb, $value);
+                            $predicateExpr = $qb->expr()->orX(
+                                $qb->expr()->eq("$valuesAlias.value", $param),
+                                $qb->expr()->eq("$valuesAlias.uri", $param)
                             );
                             break;
                         case 'nin':
                             $positive = false;
                         case 'in':
-                            $predicateExpr = $qb->expr()->like(
-                                "$valuesAlias.value",
-                                $this->createNamedParameter($qb, "%$value%")
+                            $param = $this->createNamedParameter($qb, "%$value%");
+                            $predicateExpr = $qb->expr()->orX(
+                                $qb->expr()->like("$valuesAlias.value", $param),
+                                $qb->expr()->like("$valuesAlias.uri", $param)
                             );
                             break;
                         case 'nres':

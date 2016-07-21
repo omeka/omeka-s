@@ -277,7 +277,9 @@ return [
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
-            'uploadLimit' => 'Omeka\View\Helper\UploadLimit'
+            'uploadLimit' => 'Omeka\View\Helper\UploadLimit',
+            'formRecaptcha' => 'Omeka\Form\View\Helper\FormRecaptcha',
+            'prepareRecaptcha' => 'Omeka\Form\View\Helper\PrepareRecaptcha',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',
@@ -316,6 +318,7 @@ return [
             'Omeka\Form\Element\ResourceClassSelect' => 'Omeka\Service\Form\Element\ResourceClassSelectFactory',
             'Omeka\Form\Element\PropertySelect' => 'Omeka\Service\Form\Element\PropertySelectFactory',
             'Omeka\Form\Element\ItemSetSelect' => 'Omeka\Service\Form\Element\ItemSetSelectFactory',
+            'Omeka\Form\Element\Recaptcha' => 'Omeka\Service\Form\Element\RecaptchaFactory',
         ],
     ],
     'data_types' => [

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Omeka" basedir="." default="init">
     <property name="build.dir" location="build"/>
-    <property name="build.data.dir" location="data/build"/>
-    <property name="scripts.data.dir" location="data/scripts"/>
-    <property name="migration.dir" location="data/migrations"/>
+    <property name="build.data.dir" location="application/data/build"/>
+    <property name="scripts.data.dir" location="application/data/scripts"/>
+    <property name="migration.dir" location="application/data/migrations"/>
     <property name="lang.dir" location="application/language"/>
     <property name="composer.path" location="${build.dir}/composer.phar"/>
     <property name="composer.vendor.path" location="vendor"/>

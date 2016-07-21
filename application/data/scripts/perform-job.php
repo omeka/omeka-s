@@ -4,7 +4,7 @@
  */
 use Omeka\Entity\Job;
 
-require dirname(dirname(__DIR__)) . '/bootstrap.php';
+require dirname(dirname(dirname(__DIR__))) . '/bootstrap.php';
 
 $application = Omeka\Mvc\Application::init(require OMEKA_PATH . '/application/config/application.config.php');
 $serviceLocator = $application->getServiceManager();

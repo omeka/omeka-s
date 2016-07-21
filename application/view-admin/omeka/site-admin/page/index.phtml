@@ -15,7 +15,6 @@ $escape = $this->plugin('escapeHtml');
     <thead>
         <th><?php echo $this->translate('Title'); ?></th>
         <th><?php echo $this->translate('Slug'); ?></th>
-        <th></th>
     </thead>
     <tbody>
     <?php foreach ($pages as $page): ?>
@@ -27,9 +26,6 @@ $escape = $this->plugin('escapeHtml');
             <?php endif; ?>
             <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
-        </td>
-        <td><?php echo $page->slug(); ?></td>
-        <td>
             <ul class="actions">
                 <?php if ($page->userIsAllowed('update')): ?>
                 <li>
@@ -53,6 +49,7 @@ $escape = $this->plugin('escapeHtml');
                 <?php endif; ?>
             </ul>
         </td>
+        <td><?php echo $page->slug(); ?></td>
     </tr>
 <?php endforeach; ?>
     </tbody>

@@ -4,7 +4,6 @@ namespace Omeka\Form\Element;
 use Zend\Form\Element;
 use Zend\Http\Client;
 use Zend\InputFilter\InputProviderInterface;
-use Zend\Validator\ValidatorInterface;
 
 /**
  * A reCAPTCHA form element used to verify whether a user is human. You must

@@ -21,18 +21,17 @@ var Omeka = {
         var sidebarContent = sidebar.find('.sidebar-content');
         sidebar.addClass('loading');
         sidebarContent.empty();
-        $.ajax({
-            'url': url,
-            'data': data,
-            'type': 'get'
-        }).done(function(data) {
-            sidebarContent.html(data);
-            $(sidebar).trigger('o:sidebar-content-loaded');
-        }).error(function() {
-            sidebarContent.html("<p>Something went wrong</p>");
-        }).complete(function () {
-            sidebar.removeClass('loading');
-        });
+        $.get(url, data)
+            .done(function(data) {
+                sidebarContent.html(data);
+                $(sidebar).trigger('o:sidebar-content-loaded');
+            })
+            .fail(function() {
+                sidebarContent.html("<p>Something went wrong</p>");
+            })
+            .always(function () {
+                sidebar.removeClass('loading');
+            });
     },
 
     switchActiveSection: function (section) {

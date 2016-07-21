@@ -3,6 +3,8 @@ namespace Omeka\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Events;
+use Omeka\Db\Event\Listener\CreateTableOverride;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -40,6 +42,9 @@ class ConnectionFactory implements FactoryInterface
             $connection->getConfiguration()
                 ->setSQLLogger(new FileSqlLogger($config['connection']['log_path']));
         }
+
+        $eventManager = $connection->getEventManager();
+        $eventManager->addEventListener(Events::onSchemaCreateTable, new CreateTableOverride);
 
         return $connection;
     }

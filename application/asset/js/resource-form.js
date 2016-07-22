@@ -123,7 +123,11 @@
         if (typeof type !== 'string') {
             type = valueObj['type'];
         }
-        var value = $('fieldset.value.template[data-data-type="' + type + '"]').clone(true);
+        var value = $('fieldset.value.template[data-data-type="' + type + '"]');
+        if (!value.length) {
+            value = $('fieldset.value.template[data-data-type="literal"]');
+        }
+        value = value.clone(true);
         value.removeClass('template');
 
         // Prepare the value node.

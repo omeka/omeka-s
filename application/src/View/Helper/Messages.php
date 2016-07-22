@@ -34,6 +34,7 @@ class Messages extends AbstractHelper
             return '';
         }
 
+        $view = $this->getView();
         $output = '<ul class="messages">';
         foreach ($allMessages as $type => $messages) {
             switch ($type) {
@@ -51,9 +52,17 @@ class Messages extends AbstractHelper
                     $class = 'notice';
             }
             foreach ($messages as $message) {
-                $output .= "<li class=\"$class\">";
-                $output .= $this->getView()->escapeHtml($message);
-                $output .= '</li>';
+                $args = $message[1];
+                $message = $view->translate($message[0]);
+                if ($args) {
+                    // Only interpolate args into messages that have them.
+                    $message = vsprintf($message, $args);
+                }
+                $output .= sprintf(
+                    '<li class="%s">%s</li>',
+                    $class,
+                    $view->escapeHtml($message)
+                );
             }
         }
         $output .= '</ul>';

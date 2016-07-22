@@ -60,7 +60,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Site successfully created');
+                    $this->messenger()->addSuccess('Site successfully created'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
@@ -85,7 +85,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Site successfully updated');
+                    $this->messenger()->addSuccess('Site successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
                     return $this->redirect()->toUrl($site->url());
@@ -122,7 +122,7 @@ class IndexController extends AbstractActionController
                 foreach ($data as $id => $value) {
                     $this->siteSettings()->set($id, $value);
                 }
-                $this->messenger()->addSuccess('Settings successfully updated');
+                $this->messenger()->addSuccess('Settings successfully updated'); // @translate
                 return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addErrors($form->getMessages());
@@ -147,7 +147,7 @@ class IndexController extends AbstractActionController
                 $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api($form)->create('site_pages', $formData);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Page successfully created');
+                    $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
                         'admin/site/slug/page',
                         ['action' => 'index'],
@@ -178,7 +178,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Navigation successfully updated');
+                    $this->messenger()->addSuccess('Navigation successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
             } else {
@@ -205,7 +205,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Item pool successfully updated');
+                    $this->messenger()->addSuccess('Item pool successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
             } else {
@@ -233,7 +233,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('User permissions successfully updated');
+                    $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
             } else {
@@ -285,7 +285,7 @@ class IndexController extends AbstractActionController
                 $data = $form->getData();
                 unset($data['form_csrf']);
                 $this->siteSettings()->set($theme->getSettingsKey(), $data);
-                $this->messenger()->addSuccess('Theme settings successfully updated');
+                $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
                 return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addErrors($form->getMessages());
@@ -303,7 +303,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('sites', ['slug' => $this->params('site-slug')]);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Site successfully deleted');
+                    $this->messenger()->addSuccess('Site successfully deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());

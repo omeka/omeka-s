@@ -79,7 +79,7 @@ class VocabularyController extends AbstractActionController
                     if ($response->isError()) {
                         $form->setMessages($response->getErrors());
                     } else {
-                        $this->messenger()->addSuccess('Vocabulary successfully imported');
+                        $this->messenger()->addSuccess('Vocabulary successfully imported'); // @translate
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (\Exception $e) {
@@ -117,7 +117,7 @@ class VocabularyController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api($form)->update('vocabularies', $id, $formData);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Vocabulary successfully updated');
+                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
                     return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                 }
             } else {
@@ -139,7 +139,7 @@ class VocabularyController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('vocabularies', $this->params('id'));
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Vocabulary successfully deleted');
+                    $this->messenger()->addSuccess('Vocabulary successfully deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());

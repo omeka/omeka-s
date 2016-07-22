@@ -185,9 +185,7 @@ class MvcListeners extends AbstractListenerAggregate
     public function prepareAdmin(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        if (!$routeMatch->getParam('__ADMIN__')
-            && 'migrate' !== $routeMatch->getMatchedRouteName()
-        ) {
+        if (!$routeMatch->getParam('__ADMIN__')) {
             // Not an admin route; do nothing.
             return;
         }

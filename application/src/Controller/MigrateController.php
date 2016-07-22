@@ -30,7 +30,7 @@ class MigrateController extends AbstractActionController
             // Perform migrations and update the installed version.
             $this->migrationManager->upgrade();
             $this->settings()->set('version', $this->status()->getVersion());
-            $this->messenger()->addSuccess("Migration successful");
+            $this->messenger()->addSuccess("Migration successful"); // @translate
             return $this->redirect()->toRoute('admin');
         }
 

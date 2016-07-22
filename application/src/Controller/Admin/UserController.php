@@ -47,7 +47,7 @@ class UserController extends AbstractActionController
                 if ($response->isSuccess()) {
                     $user = $response->getContent()->getEntity();
                     $this->mailer()->sendUserActivation($user);
-                    $this->messenger()->addSuccess('User successfully created');
+                    $this->messenger()->addSuccess('User successfully created'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
@@ -130,7 +130,7 @@ class UserController extends AbstractActionController
                 $formData = $form->getData();
                 $response = $this->api($form)->update('users', $id, $formData);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('User successfully updated');
+                    $this->messenger()->addSuccess('User successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
             } else {
@@ -171,12 +171,12 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $values = $form->getData();
                 if ($currentUser && !$user->verifyPassword($values['current-password'])) {
-                    $this->messenger()->addError('The current password entered was invalid');
+                    $this->messenger()->addError('The current password entered was invalid'); // @translate
                     return $view;
                 }
                 $user->setPassword($values['password']);
                 $this->entityManager->flush();
-                $this->messenger()->addSuccess('Password successfully changed');
+                $this->messenger()->addSuccess('Password successfully changed'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'edit'], [], true);
             } else {
                 $this->messenger()->addErrors($form->getMessages());
@@ -214,7 +214,7 @@ class UserController extends AbstractActionController
                     foreach ($postData['delete'] as $deleteId) {
                         $keys->remove($deleteId);
                     }
-                    $this->messenger()->addSuccess("Key(s) successfully deleted");
+                    $this->messenger()->addSuccess("Key(s) successfully deleted"); // @translate
                 }
                 $this->entityManager->flush();
                 return $this->redirect()->refresh();
@@ -244,7 +244,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('users', $this->params('id'));
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('User successfully deleted');
+                    $this->messenger()->addSuccess('User successfully deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());
@@ -271,7 +271,7 @@ class UserController extends AbstractActionController
         $credential = $key->setCredential();
         $this->entityManager->persist($key);
 
-        $this->messenger()->addSuccess('Key created.');
-        $this->messenger()->addSuccess("ID: $id, Credential: $credential");
+        $this->messenger()->addSuccess('Key created.'); // @translate
+        $this->messenger()->addSuccess("ID: %s, Credential: %s", [$id, $credential]); // @translate
     }
 }

@@ -25,7 +25,7 @@ class PageController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('site_pages', $page->id(), $post);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Page successfully updated');
+                    $this->messenger()->addSuccess('Page successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
                     return $this->redirect()->toUrl($page->url());
@@ -92,7 +92,7 @@ class PageController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('site_pages', ['slug' => $this->params('page-slug')]);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Page successfully deleted');
+                    $this->messenger()->addSuccess('Page successfully deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());

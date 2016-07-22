@@ -53,14 +53,14 @@ class LoginController extends AbstractActionController
                 $adapter->setCredential($validatedData['password']);
                 $result = $this->auth->authenticate();
                 if ($result->isValid()) {
-                    $this->messenger()->addSuccess('Successfully logged in');
+                    $this->messenger()->addSuccess('Successfully logged in'); // @translate
                     $redirectUrl = $this->params()->fromQuery('redirect');
                     if ($redirectUrl) {
                         return $this->redirect()->toUrl($redirectUrl);
                     }
                     return $this->redirect()->toRoute('admin');
                 } else {
-                    $this->messenger()->addError('Email or password is invalid');
+                    $this->messenger()->addError('Email or password is invalid'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());
@@ -77,7 +77,7 @@ class LoginController extends AbstractActionController
         $this->auth->clearIdentity();
         $sessionManager = Container::getDefaultManager();
         $sessionManager->destroy();
-        $this->messenger()->addSuccess('Successfully logged out');
+        $this->messenger()->addSuccess('Successfully logged out'); // @translate
         return $this->redirect()->toRoute('login');
     }
 
@@ -93,7 +93,7 @@ class LoginController extends AbstractActionController
         );
 
         if (!$passwordCreation) {
-            $this->messenger()->addError('Invalid password creation key.');
+            $this->messenger()->addError('Invalid password creation key.'); // @translate
             return $this->redirect()->toRoute('login');
         }
         $user = $passwordCreation->getUser();
@@ -102,7 +102,7 @@ class LoginController extends AbstractActionController
             $user->setIsActive(false);
             $this->entityManager->remove($passwordCreation);
             $this->entityManager->flush();
-            $this->messenger()->addError('Password creation key expired.');
+            $this->messenger()->addError('Password creation key expired.'); // @translate
             return $this->redirect()->toRoute('login');
         }
 
@@ -118,10 +118,10 @@ class LoginController extends AbstractActionController
                 }
                 $this->entityManager->remove($passwordCreation);
                 $this->entityManager->flush();
-                $this->messenger()->addSuccess('Successfully created your password. Please log in.');
+                $this->messenger()->addSuccess('Successfully created your password. Please log in.'); // @translate
                 return $this->redirect()->toRoute('login');
             } else {
-                $this->messenger()->addError('Password creation unsuccessful');
+                $this->messenger()->addError('Password creation unsuccessful'); // @translate
             }
         }
 
@@ -157,10 +157,10 @@ class LoginController extends AbstractActionController
                     }
                     $this->mailer()->sendResetPassword($user);
                 }
-                $this->messenger()->addSuccess('Check your email for instructions on how to reset your password');
+                $this->messenger()->addSuccess('Check your email for instructions on how to reset your password'); // @translate
                 return $this->redirect()->toRoute('login');
             } else {
-                $this->messenger()->addError('Activation unsuccessful');
+                $this->messenger()->addError('Activation unsuccessful'); // @translate
             }
         }
 

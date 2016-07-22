@@ -67,9 +67,9 @@ class JobController extends AbstractActionController
                 $job = $response->getContent();
                 if (Job::STATUS_IN_PROGRESS == $job->status()) {
                     $this->jobDispatcher->stop($job->id());
-                    $this->messenger()->addSuccess('Attempting to stop the job.');
+                    $this->messenger()->addSuccess('Attempting to stop the job.'); // @translate
                 } else {
-                    $this->messenger()->addError('The job could not be stopped.');
+                    $this->messenger()->addError('The job could not be stopped.'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());

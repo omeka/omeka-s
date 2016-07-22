@@ -41,7 +41,7 @@ class MediaController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->update('media', $this->params('id'), $data);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Media successfully updated');
+                    $this->messenger()->addSuccess('Media successfully updated'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
@@ -107,7 +107,7 @@ class MediaController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('media', $this->params('id'));
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Media successfully deleted');
+                    $this->messenger()->addSuccess('Media successfully deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addErrors($form->getMessages());

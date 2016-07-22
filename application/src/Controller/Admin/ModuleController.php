@@ -118,7 +118,7 @@ class ModuleController extends AbstractActionController
             $this->messenger()->addError($e->getMessage());
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
-        $this->messenger()->addSuccess($this->translate('The module was successfully installed'));
+        $this->messenger()->addSuccess('The module was successfully installed'); // @translate
         if ($module->isConfigurable()) {
             return $this->redirect()->toRoute(
                 null, ['action' => 'configure'],
@@ -169,7 +169,7 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
         $this->omekaModules->uninstall($module);
-        $this->messenger()->addSuccess($this->translate('The module was successfully uninstalled'));
+        $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -195,7 +195,7 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
         $this->omekaModules->activate($module);
-        $this->messenger()->addSuccess($this->translate('The module was successfully activated'));
+        $this->messenger()->addSuccess('The module was successfully activated'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -221,7 +221,7 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
         $this->omekaModules->deactivate($module);
-        $this->messenger()->addSuccess($this->translate('The module was successfully deactivated'));
+        $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -247,7 +247,7 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
         $this->omekaModules->upgrade($module);
-        $this->messenger()->addSuccess($this->translate('The module was successfully upgraded'));
+        $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -270,10 +270,10 @@ class ModuleController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             if (false !== $moduleObject->handleConfigForm($this)) {
-                $this->messenger()->addSuccess($this->translate('The module was successfully configured'));
+                $this->messenger()->addSuccess('The module was successfully configured'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             }
-            $this->messenger()->addError($this->translate('There was a problem during configuration'));
+            $this->messenger()->addError('There was a problem during configuration'); // @translate
         }
 
         $view = new ViewModel;

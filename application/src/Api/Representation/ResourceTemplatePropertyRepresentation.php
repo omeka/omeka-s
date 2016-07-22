@@ -12,6 +12,11 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     protected $templateProperty;
 
     /**
+     * @var array List of registered data types, keyed by name
+     */
+    protected $dataTypes = [];
+
+    /**
      * Construct the resource template property representation object.
      *
      * @param ResourceTemplateProperty $templateProperty
@@ -22,6 +27,8 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
         $this->templateProperty = $templateProperty;
+        $this->dataTypes = array_flip($serviceLocator
+            ->get('Omeka\DataTypeManager')->getRegisteredNames());
     }
 
     /**
@@ -80,11 +87,17 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function dataType()
     {
-        return $this->templateProperty->getDataType();
+        // Check the data type against the list of registered data types.
+        $dataType = $this->templateProperty->getDataType();
+        if (!isset($this->dataTypes[$dataType])) {
+            // Treat an unknown data type as "Default"
+            $dataType = null;
+        }
+        return $dataType;
     }
 
     /**

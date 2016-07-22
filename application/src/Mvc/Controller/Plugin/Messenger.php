@@ -32,13 +32,14 @@ class Messenger extends AbstractPlugin
      *
      * @param string $type
      * @param string $message
+     * @param array $args
      */
-    public function add($type, $message)
+    public function add($type, $message, array $args = [])
     {
         if (!isset($this->container->messages)) {
             $this->container->messages = [];
         }
-        $this->container->messages[$type][] = $message;
+        $this->container->messages[$type][] = [$message, $args];
     }
 
     /**
@@ -46,7 +47,7 @@ class Messenger extends AbstractPlugin
      *
      * @param string $message
      */
-    public function addError($message)
+    public function addError($message, array $args = [])
     {
         $this->add(self::ERROR, $message);
     }
@@ -73,30 +74,33 @@ class Messenger extends AbstractPlugin
      * Add a success message.
      *
      * @param string $message
+     * @param array $args
      */
-    public function addSuccess($message)
+    public function addSuccess($message, array $args = [])
     {
-        $this->add(self::SUCCESS, $message);
+        $this->add(self::SUCCESS, $message, $args);
     }
 
     /**
      * Add a warning message.
      *
      * @param string $message
+     * @param array $args
      */
-    public function addWarning($message)
+    public function addWarning($message, array $args = [])
     {
-        $this->add(self::WARNING, $message);
+        $this->add(self::WARNING, $message, $args);
     }
 
     /**
      * Add a notice message.
      *
      * @param string $message
+     * @param array $args
      */
-    public function addNotice($message)
+    public function addNotice($message, array $args = [])
     {
-        $this->add(self::NOTICE, $message);
+        $this->add(self::NOTICE, $message, $args);
     }
 
     /**

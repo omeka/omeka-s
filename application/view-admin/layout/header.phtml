@@ -31,9 +31,18 @@ $globalNav =
             <button type="submit"><?php echo $this->translate('Search'); ?></button>
             <fieldset id="advanced-options">
                 <legend><?php echo $this->translate('Resource Type'); ?></legend>
-                <input type="radio" name="resource-type" id="search-items" value="item" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>" checked="checked"><label for="search-items"><?php echo $this->translate('Items'); ?></label>
-                <input type="radio" name="resource-type" id="search-item-sets" value="item-set" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>"><label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
-                <input type="radio" name="resource-type" id="search-media" value="media" data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>"><label for="search-media"><?php echo $this->translate('Media'); ?></label>
+                <input type="radio" name="resource-type" id="search-items" value="item" checked="checked"
+                    data-input-placeholder="<?php echo $escape($this->translate('Search Items')); ?>"
+                    data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>">
+                <label for="search-items"><?php echo $this->translate('Items'); ?></label>
+                <input type="radio" name="resource-type" id="search-item-sets" value="item-set"
+                    data-input-placeholder="<?php echo $escape($this->translate('Search Item Sets')); ?>"
+                    data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>">
+                <label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
+                <input type="radio" name="resource-type" id="search-media" value="media"
+                    data-input-placeholder="<?php echo $escape($this->translate('Search Media')); ?>"
+                    data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>">
+                <label for="search-media"><?php echo $this->translate('Media'); ?></label>
             </fieldset>
         </form>
     </div>

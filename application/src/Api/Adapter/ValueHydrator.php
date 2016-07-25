@@ -85,7 +85,7 @@ class ValueHydrator implements HydrationInterface
                     'Omeka\Entity\Property',
                     $valueObject['property_id']
                 );
-                $value->setType($value->getType() ?: $valueObject['type']);
+                $value->setType($dataType->getName());
                 $value->setResource($resource);
                 $value->setProperty($property);
                 $dataType->hydrate($valueObject, $value, $this->adapter);

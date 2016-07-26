@@ -7,7 +7,7 @@
         "doctrine/orm": "~2.4",
         "easyrdf/easyrdf": "~0.9",
         "ml/json-ld": "~1.0",
-        "ezyang/htmlpurifier": "~4.7.0",
+        "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^1.0",
         "zendframework/zend-authentication": "^2.5",
         "zendframework/zend-barcode": "^2.5",

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cbf780976a3a810ff6e551a3190c8050",
-    "content-hash": "b9cb29502b0908294bd67bb97e942f32",
+    "hash": "f14c0e43b7d28cd17939a95ab46aef69",
+    "content-hash": "4a1694bb0498e0f2dfba17b42e8f1163",
     "packages": [
         {
             "name": "composer/semver",
@@ -759,16 +759,16 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.7.0",
+            "version": "v4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
                 "shasum": ""
             },
             "require": {
@@ -799,7 +799,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2015-08-05 01:03:42"
+            "time": "2016-07-16 12:58:58"
         },
         {
             "name": "ircmaxell/random-lib",
@@ -4147,16 +4147,16 @@
     "packages-dev": [
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v1.11.5",
+            "version": "v1.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "d3d08b76753092a232a4d8c3b94095ac06898719"
+                "reference": "41dc93abd2937a85a3889e28765231d574d2bac8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/d3d08b76753092a232a4d8c3b94095ac06898719",
-                "reference": "d3d08b76753092a232a4d8c3b94095ac06898719",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/41dc93abd2937a85a3889e28765231d574d2bac8",
+                "reference": "41dc93abd2937a85a3889e28765231d574d2bac8",
                 "shasum": ""
             },
             "require": {
@@ -4201,7 +4201,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-07-06 22:49:35"
+            "time": "2016-07-22 06:46:28"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4656,16 +4656,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.26",
+            "version": "4.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74"
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fc1d8cd5b5de11625979125c5639347896ac2c74",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c062dddcb68e44b563f66ee319ddae2b5a322a90",
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90",
                 "shasum": ""
             },
             "require": {
@@ -4724,7 +4724,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-05-17 03:09:28"
+            "time": "2016-07-21 06:48:14"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5575,12 +5575,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zerocrates/extract-tagged-strings.git",
-                "reference": "d359b40bcf74f1771803360cded201a72a02daf0"
+                "reference": "62c62f1e05cbdda09753a31dea5d6f24ca266c85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zerocrates/extract-tagged-strings/zipball/d359b40bcf74f1771803360cded201a72a02daf0",
-                "reference": "d359b40bcf74f1771803360cded201a72a02daf0",
+                "url": "https://api.github.com/repos/zerocrates/extract-tagged-strings/zipball/62c62f1e05cbdda09753a31dea5d6f24ca266c85",
+                "reference": "62c62f1e05cbdda09753a31dea5d6f24ca266c85",
                 "shasum": ""
             },
             "require": {
@@ -5595,7 +5595,7 @@
                 "source": "https://github.com/zerocrates/extract-tagged-strings/tree/master",
                 "issues": "https://github.com/zerocrates/extract-tagged-strings/issues"
             },
-            "time": "2016-04-28 19:32:38"
+            "time": "2016-07-23 01:06:50"
         }
     ],
     "aliases": [],

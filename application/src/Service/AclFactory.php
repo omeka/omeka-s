@@ -169,7 +169,7 @@ class AclFactory implements FactoryInterface
         );
 
         $acl->allow(
-            ['author', 'reviewer', 'editor'],
+            null,
             'Omeka\Entity\SitePage',
             'create'
         );

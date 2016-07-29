@@ -76,9 +76,9 @@ $queryText = function(array $search) {
     </div>
 </div>
 
-<div id="property-queries" class="field removable">
+<div id="property-queries" class="field removable" role="group" aria-labelledby="by-value-label">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search by value'); ?></legend>
+        <span id="by-value-label" class="label"><?php echo $this->translate('Search by value'); ?></span>
     </div>
     <div class="inputs">
         <?php foreach ($properties as $property): ?>
@@ -107,9 +107,9 @@ $queryText = function(array $search) {
     </div>
 </div>
 
-<div id="has-property-queries" class="field removable">
+<div id="has-property-queries" class="field removable" role="group" aria-labelledby="by-property-label">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search by property'); ?></legend>
+        <span id="by-property-label" class="label"><?php echo $this->translate('Search by property'); ?></span>
     </div>
     <div class="inputs">
         <?php foreach ($hasProperties as $hasProperty): ?>

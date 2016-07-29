@@ -283,9 +283,8 @@
         var templateId = templateSelect.val();
         var fields = $('#properties fieldset.resource-values');
         if (!templateId) {
-            // Using the default resource template, so the resource class must
-            // be null and all properties should use the default selector.
-            $('#resource-class-select').val(null);
+            // Using the default resource template, so all properties should use the default
+            // selector.
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
             return;

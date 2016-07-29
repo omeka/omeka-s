@@ -19,7 +19,11 @@ class PropertySelect extends Select
             foreach ($response->getContent() as $vocabulary) {
                 $options = [];
                 foreach ($vocabulary->properties() as $property) {
-                    $options[$property->id()] = $property->label();
+                    $options[] = [
+                        'label' => $property->label(),
+                        'value' => $property->id(),
+                        'attributes' => ['data-term' => $property->term()],
+                    ];
                 }
                 if (!$options) {
                     continue;

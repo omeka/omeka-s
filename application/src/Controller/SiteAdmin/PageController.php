@@ -99,7 +99,7 @@ class PageController extends AbstractActionController
             }
         }
         return $this->redirect()->toRoute(
-            'admin/site/page',
+            'admin/site/slug/page',
             ['action' => 'index'],
             true
         );

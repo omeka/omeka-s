@@ -1,4 +1,7 @@
-<?php $this->htmlElement('body')->appendAttribute('class', 'page'); ?>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'page');
+$this->pageTitle($page->title(), 2);
+?>
 
 <div id="content" role="main">
 <?php
@@ -11,8 +14,6 @@ if ($activePage):
     <nav class="breadcrumbs"><?php echo $this->navigation()->breadcrumbs(); ?></nav>
     <?php endif; ?>
 <?php endif; ?>
-
-    <?php echo $this->pageTitle($page->title(), 2); ?>
 
 <?php if ($activePage): ?>
     <?php if ($this->displayNavigation && $activePage['page']->hasPages()): ?>

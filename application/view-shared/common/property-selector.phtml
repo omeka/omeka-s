@@ -9,37 +9,33 @@ $escape = $this->plugin('escapeHtml');
     <h3><?php echo $this->translate('Click on a property to add it to the edit panel.'); ?></h3>
     <?php endif; ?>
     <input type="text" class="selector-filter" placeholder="Filter properties">
-    <ul>
-        <li class="show"><?php echo $this->translate('All Properties'); ?> (<span class="selector-total-count"><?php echo $totalPropertyCount; ?></span>)
+    <ul class="selectable-list">
+        <?php foreach ($vocabularies as $vocabulary): ?>
+        <?php
+        $properties = $vocabulary->properties();
+        if (!$properties) {
+            // Do not render vocabularies without properties.
+            continue;
+        }
+        ?>
+        <li class='selector-parent'
+            data-vocabulary-id="<?php echo $escape($vocabulary->id()); ?>">
+            <span><?php echo $escape($vocabulary->label()); ?></span> (<span class="selector-child-count"><?php echo count($vocabulary->properties()); ?></span>)
             <ul>
-                <?php foreach ($vocabularies as $vocabulary): ?>
-                <?php
-                $properties = $vocabulary->properties();
-                if (!$properties) {
-                    // Do not render vocabularies without properties.
-                    continue;
-                }
-                ?>
-                <li class='selector-parent'
-                    data-vocabulary-id="<?php echo $escape($vocabulary->id()); ?>">
-                    <span><?php echo $escape($vocabulary->label()); ?></span> (<span class="selector-child-count"><?php echo count($vocabulary->properties()); ?></span>)
-                    <ul>
-                        <?php foreach ($properties as $property): ?>
-                        <li class='selector-child'
-                            data-child-search="<?php echo $escape($property->label()); ?>"
-                            data-property-id="<?php echo $escape($property->id()); ?>"
-                            data-property-term="<?php echo $escape($property->term()); ?>">
-                            <div class="description">
-                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
-                                <p class="field-comment"><?php echo $escape($property->comment()); ?></p>
-                            </div>
-                            <span><?php echo $escape($property->label()); ?></span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
+                <?php foreach ($properties as $property): ?>
+                <li class='selector-child'
+                    data-child-search="<?php echo $escape($property->label()); ?>"
+                    data-property-id="<?php echo $escape($property->id()); ?>"
+                    data-property-term="<?php echo $escape($property->term()); ?>">
+                    <div class="description">
+                        <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
+                        <p class="field-comment"><?php echo $escape($property->comment()); ?></p>
+                    </div>
+                    <span class="selectable"><?php echo $escape($property->label()); ?></span>
                 </li>
                 <?php endforeach; ?>
             </ul>
         </li>
+        <?php endforeach; ?>
     </ul>
 </div>

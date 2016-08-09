@@ -22,5 +22,5 @@ if ($activePage):
 
     <?php echo $this->content; ?>
     <?php echo $this->sitePagePagination(); ?>
+    <?php $this->trigger('view.show.after'); ?>
 </div>
-<?php $this->trigger('view.show.after'); ?>

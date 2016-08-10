@@ -93,4 +93,11 @@ class Event extends ZendEvent
      * trigger this event.
      */
     const SERVICE_REGISTERED_NAMES = 'service.registered_names';
+
+    /**
+     * Event triggered by the resource visibility SQL filter.
+     *
+     * Use the entity class name as the event identifier.
+     */
+    const SQL_FILTER_RESOURCE_VISIBILITY = 'sql_filter.resource_visibility';
 }

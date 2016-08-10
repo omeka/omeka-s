@@ -47,7 +47,7 @@ return [
             'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
         ],
         'filters' => [
-            'visibility' => 'Omeka\Db\Filter\VisibilityFilter',
+            'resource_visibility' => 'Omeka\Db\Filter\ResourceVisibilityFilter',
         ],
         'functions' => [
             'numeric' => [],

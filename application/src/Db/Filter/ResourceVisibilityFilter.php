@@ -16,8 +16,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * Modules may set these visibility rules on their resource-related entities by
  * attaching to the "sql_filter.resource_visibility" event (no identifier) and
- * setting the name of the foreign key column, keyed by the target entity's
- * class name, to the event's "resourceFks" param.
+ * setting the name of the foreign key column, keyed by the related entity's
+ * class name, to the event's "relatedEntities" param.
  *
  * @see http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
@@ -28,27 +28,27 @@ class ResourceVisibilityFilter extends SQLFilter
      */
     protected $serviceLocator;
 
-    protected $resourceFks;
+    protected $relatedEntities;
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias) {
 
-        if (null === $this->resourceFks) {
-            // On the first pass, cache the resource foreign keys.
+        if (null === $this->relatedEntities) {
+            // Cache the related entities on the first pass.
             $eventManager = $this->serviceLocator->get('EventManager');
             $event = new Event(Event::SQL_FILTER_RESOURCE_VISIBILITY, $this);
-            $event->setParam('resourceFks', []);
+            $event->setParam('relatedEntities', []);
             $eventManager->trigger($event);
-            $this->resourceFks = $event->getParam('resourceFks');
+            $this->relatedEntities = $event->getParam('relatedEntities');
         }
 
         if ('Omeka\Entity\Resource' === $targetEntity->getName()) {
             return $this->getResourceConstraint($targetTableAlias);
         }
 
-        if (array_key_exists($targetEntity->getName(), $this->resourceFks)) {
+        if (array_key_exists($targetEntity->getName(), $this->relatedEntities)) {
             $constraint = $this->getResourceConstraint('r');
             if ('' !== $constraint) {
-                $resourceFk = $this->resourceFks[$targetEntity->getName()];
+                $resourceFk = $this->relatedEntities[$targetEntity->getName()];
                 return sprintf(
                     '%1$s.%2$s = (SELECT r.id FROM resource r WHERE (%3$s) AND r.id = %1$s.%2$s)',
                     $targetTableAlias, $resourceFk, $constraint

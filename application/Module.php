@@ -119,9 +119,9 @@ class Module extends AbstractModule
             function (OmekaEvent $event) {
                 // Users can view block attachments only if they have permission
                 // to view the attached item.
-                $resourceFks = $event->getParam('resourceFks');
-                $resourceFks['Omeka\Entity\SiteBlockAttachment'] = 'item_id';
-                $event->setParam('resourceFks', $resourceFks);
+                $relatedEntities = $event->getParam('relatedEntities');
+                $relatedEntities['Omeka\Entity\SiteBlockAttachment'] = 'item_id';
+                $event->setParam('relatedEntities', $relatedEntities);
             }
         );
 

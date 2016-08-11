@@ -83,9 +83,6 @@ class Event extends ZendEvent
     const VIEW_EDIT_SECTION_NAV = 'view.edit.section_nav';
     const VIEW_ADVANCED_SEARCH = 'view.advanced_search';
 
-    // Site settings event
-    const SITE_SETTINGS_FORM = 'site_settings.form';
-
     /**
      * Event triggered by service managers.
      *
@@ -94,10 +91,9 @@ class Event extends ZendEvent
      */
     const SERVICE_REGISTERED_NAMES = 'service.registered_names';
 
-    /**
-     * Event triggered by the resource visibility SQL filter.
-     *
-     * Use the entity class name as the event identifier.
-     */
+    // Site settings event
+    const SITE_SETTINGS_FORM = 'site_settings.form';
+
+    // Resource visibility SQL filter event
     const SQL_FILTER_RESOURCE_VISIBILITY = 'sql_filter.resource_visibility';
 }

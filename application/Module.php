@@ -114,12 +114,14 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            'Omeka\Entity\SiteBlockAttachment',
+            '*',
             OmekaEvent::SQL_FILTER_RESOURCE_VISIBILITY,
             function (OmekaEvent $event) {
                 // Users can view block attachments only if they have permission
                 // to view the attached item.
-                return 'item_id';
+                $relatedEntities = $event->getParam('relatedEntities');
+                $relatedEntities['Omeka\Entity\SiteBlockAttachment'] = 'item_id';
+                $event->setParam('relatedEntities', $relatedEntities);
             }
         );
 

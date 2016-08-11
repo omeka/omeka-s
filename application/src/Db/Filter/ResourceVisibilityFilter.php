@@ -10,14 +10,14 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Filter resource or resource-related entities by visibility.
  *
- * Checks to see if the current user has permission to view resources. For these
- * purposes a resource is any entity that extends off the Resource entity, that
- * is, Item, ItemSet, and Media.
+ * Checks to see if the current user has permission to view resources. In this
+ * case a resource is any entity that extends off the Resource entity, that is,
+ * Item, ItemSet, and Media.
  *
  * Modules may set these visibility rules on their resource-related entities by
- * attaching to the "sql_filter.resource_visibility" event (identified by the
- * target entity's class name) and simply returning the name of the column that
- * contains foreign keys to the resource.
+ * attaching to the "sql_filter.resource_visibility" event (no identifier) and
+ * setting the name of the foreign key column, keyed by the target entity's
+ * class name, to the event's "resourceFks" param.
  *
  * @see http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
@@ -28,29 +28,34 @@ class ResourceVisibilityFilter extends SQLFilter
      */
     protected $serviceLocator;
 
+    protected $resourceFks;
+
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias) {
+
+        if (null === $this->resourceFks) {
+            // On the first pass, cache the resource foreign keys.
+            $eventManager = $this->serviceLocator->get('EventManager');
+            $event = new Event(Event::SQL_FILTER_RESOURCE_VISIBILITY, $this);
+            $event->setParam('resourceFks', []);
+            $eventManager->trigger($event);
+            $this->resourceFks = $event->getParam('resourceFks');
+        }
 
         if ('Omeka\Entity\Resource' === $targetEntity->getName()) {
             return $this->getResourceConstraint($targetTableAlias);
         }
 
-        $event = new Event(Event::SQL_FILTER_RESOURCE_VISIBILITY, $targetEntity);
-        $eventManager = $this->serviceLocator->get('EventManager');
-        $eventManager->setIdentifiers($targetEntity->getName());
-        $response = $eventManager->triggerEventUntil(function ($resourceFk) {
-            // Stop when a listener returns a FK column name.
-            return is_string($resourceFk);
-        }, $event);
-        if ($response->stopped()) {
-            $resourceFk = $response->last();
+        if (array_key_exists($targetEntity->getName(), $this->resourceFks)) {
             $constraint = $this->getResourceConstraint('r');
             if ('' !== $constraint) {
+                $resourceFk = $this->resourceFks[$targetEntity->getName()];
                 return sprintf(
                     '%1$s.%2$s = (SELECT r.id FROM resource r WHERE (%3$s) AND r.id = %1$s.%2$s)',
                     $targetTableAlias, $resourceFk, $constraint
                 );
             }
         }
+
         return '';
     }
 

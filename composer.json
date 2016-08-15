@@ -1,5 +1,6 @@
 {
     "name": "omeka/omeka-s",
+    "type": "project",
     "description": "The Omeka S collections management system. A local network of independently curated exhibits sharing a collaboratively built pool of items and their metadata.",
     "license": "GPL-3.0",
     "require": {
@@ -59,7 +60,9 @@
         "zendframework/zend-view": "^2.5",
         "zendframework/zend-xmlrpc": "^2.5",
         "zendframework/zendxml": "^1.0.1",
-        "ircmaxell/random-lib": "^1.1"
+        "ircmaxell/random-lib": "^1.1",
+        "omeka/composer-addon-installer": "*",
+        "omeka-s-themes/default": "dev-develop"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
@@ -74,6 +77,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/zerocrates/extract-tagged-strings.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/omeka-s-themes/default.git"
+        },
+        {
+            "type": "path",
+            "url": "application/data/composer-addon-installer"
         }
     ]
 }

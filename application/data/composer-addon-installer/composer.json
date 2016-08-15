@@ -1,0 +1,15 @@
+{
+    "name": "omeka/composer-addon-installer",
+    "version": "1.0",
+    "type": "composer-plugin",
+    "license": "GPL-3.0",
+    "require": {
+        "composer-plugin-api": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {"Omeka\\Composer\\": "src/"}
+    },
+    "extra": {
+        "class": "Omeka\\Composer\\AddonInstallerPlugin"
+    }
+}

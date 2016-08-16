@@ -1,5 +1,6 @@
 <?php $escape = $this->plugin('escapeHtml'); ?>
 <form class="sorting" action="">
+    <?php echo $this->queryToHiddenInputs(['sort_by', 'sort_order']); ?>
     <select name="sort_by">
     <?php foreach($sortBy as $sortByHeading): ?>
         <?php $selected = ($sortByQuery === $sortByHeading['value']) ? 'selected' : ''; ?>

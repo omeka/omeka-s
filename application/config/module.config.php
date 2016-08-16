@@ -361,6 +361,7 @@ return [
             'uploadLimit' => 'Omeka\View\Helper\UploadLimit',
             'formRecaptcha' => 'Omeka\Form\View\Helper\FormRecaptcha',
             'prepareRecaptcha' => 'Omeka\Form\View\Helper\PrepareRecaptcha',
+            'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

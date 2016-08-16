@@ -1,6 +1,7 @@
 <nav class="pagination" role="navigation">
 <?php if ($totalCount): ?>
-    <form method="GET" action="<?php echo $this->escapeHtml($pagelessUrl)?>">
+    <form method="GET" action="">
+        <?php echo $this->queryToHiddenInputs(['page']); ?>
         <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
         <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
     </form>

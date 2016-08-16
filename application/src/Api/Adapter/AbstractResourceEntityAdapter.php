@@ -80,7 +80,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     "$entityClass.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
                 );
-                $qb->addOrderBy("$valuesAlias.value", $query['sort_order']);
+                $qb->addOrderBy(
+                    "GROUP_CONCAT($valuesAlias.value ORDER BY $valuesAlias.id)",
+                    $query['sort_order']
+                );
             } elseif ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
                 $qb->leftJoin("$entityClass.resourceClass", $resourceClassAlias)

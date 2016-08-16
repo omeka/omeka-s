@@ -62,7 +62,8 @@
         "zendframework/zendxml": "^1.0.1",
         "ircmaxell/random-lib": "^1.1",
         "omeka/composer-addon-installer": "*",
-        "omeka-s-themes/default": "dev-develop"
+        "omeka-s-themes/default": "dev-develop",
+        "beberlei/DoctrineExtensions": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",

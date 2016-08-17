@@ -61,7 +61,7 @@ h5 {
 }
 
 p {
-    margin: rhythm() 0;
+    margin: $spacing-large 0;
 }
 
 ul {
@@ -99,7 +99,7 @@ body {
     }
 
     td {
-        padding: 0 rhythm(.25);
+        padding: 0 $spacing-small;
         border-color: $border-gray;
         @include leading-border(1px, .5, $base-font-size, solid);
         vertical-align: middle;
@@ -118,7 +118,7 @@ body {
     }
 
     td {
-        padding: rhythm(.25) .5em;
+        padding: $spacing-small .5em;
         position: relative;
         vertical-align: top;
     }
@@ -130,7 +130,7 @@ body {
 
     .tablesaw thead tr:first-child th {
         border-color: $border-gray;
-        padding-top: rhythm(.25);
+        padding-top: $spacing-small;
         @include trailing-border(1px, .25, $base-font-size, solid);
     }
 
@@ -140,7 +140,7 @@ body {
 
     textarea {
         clear: both;
-        padding: rhythm(.25);
+        padding: $spacing-small;
         border: 1px solid rgba(0,0,0,.15);
         display: block;
     }
@@ -165,9 +165,9 @@ body {
     input[type="datetime-local"] {
         @include appearance(none);
         border-radius: 0;
-        height: rhythm(1.5);
+        height: (1.5 * $spacing-large);
         border: 1px solid rgba(0,0,0,.15);
-        padding: rhythm(.25);
+        padding: $spacing-small;
         margin: 0;
     }
 
@@ -195,17 +195,17 @@ body {
     button,
     a.button,
     .button {
-        min-height: rhythm(1.25);
+        min-height: (1.5 * $spacing-large);
         background-color: rgba(0,0,0,.08);
         color: $copy-gray;
         border-radius: 3px;
         border: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
-        margin: 0 0 rhythm(.5) 0;
+        margin: 0 0 $spacing-medium 0;
 
         &:hover:not(.inactive) {
             box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
@@ -246,16 +246,16 @@ body {
 
     .required .field-meta {
         position: relative;
-        padding-right: rhythm(1.5);
+        padding-right: (1.5 * $spacing-large);
 
         &:after {
             font-family: "FontAwesome";
             content: $fa-var-asterisk;
             font-size: .75 * $base-font-size;
             position: absolute;
-            right: rhythm(.5);
+            right: $spacing-medium;
             color: $red;
-            top: rhythm(.25);
+            top: $spacing-small;
         }
     }
 
@@ -265,7 +265,7 @@ body {
         font-size: .75 * $base-font-size;
         color: $red;
         float: right;
-        padding-right: rhythm(.5);
+        padding-right: $spacing-medium;
     }
 
     *:invalid {
@@ -282,7 +282,7 @@ body {
 
     .media-field-wrapper {
         width:100%;
-        padding: rhythm(.5) rhythm(.25);
+        padding: $spacing-medium $spacing-small;
         @include trailer(.25);
         background-color: $gray-on-white;
         position: relative;
@@ -290,7 +290,7 @@ body {
         .field {
             width: 100%;
             display:inline-block;
-            margin:0 0 rhythm(.25);
+            margin:0 0 $spacing-small;
             padding:0;
             background-color: transparent;
         }
@@ -300,19 +300,14 @@ body {
         }
 
 
-        .field:first-of-type .field-meta,
-        .field:first-of-type .inputs {
-            margin-top: rhythm(-.25);
-        }
-
         .field:last-of-type .field-meta,
         .field:last-of-type .inputs {
-            margin-bottom: rhythm(-.25);
+            margin-bottom: -($spacing-small);
         }
 
         .actions {
             font-size: $base-font-size;
-            padding: rhythm(.25) 0;
+            padding: $spacing-small 0;
         }
     }
 
@@ -325,7 +320,7 @@ body {
         line-height: 1.5 * $base-line-height;
         font-size: $base-font-size;
         margin: 0;
-        padding: 0 rhythm() 0 rhythm(.25);
+        padding: 0 $spacing-large 0 $spacing-small;
         border-radius: 3px;
         vertical-align: top;
         -webkit-appearance: none;
@@ -341,7 +336,7 @@ body {
     }
 
     fieldset {
-        margin: 0 0 rhythm();
+        margin: 0 0 $spacing-large;
         border: 0;
         padding: 0;
     }
@@ -379,7 +374,7 @@ div[role="main"] > .messages {
     @include trailer(.5);
 
     li {
-        margin: 0 0 rhythm(.25);
+        margin: 0 0 $spacing-small;
     }
 
     .error {
@@ -403,7 +398,7 @@ div[role="main"] > .messages {
     li {
         background-color: rgba(255,255,255,.5);
         border-radius: 3px;
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
         @include leader(.25);
         display: block;
         width: 100%;
@@ -445,7 +440,7 @@ table .icon-sortable {
     position: absolute;
     left: .5em;
     opacity: .35;
-    top: rhythm(.5, 1.25 * $base-font-size);
+    top: $spacing-medium;
     font-size: 1.25 * $base-font-size;
     line-height: $base-line-height;
 }
@@ -480,7 +475,7 @@ header {
     width: span(3 of 16);
     min-height: 100vh;
     text-align: left;
-    padding: 0 gutter() rhythm();
+    padding: 0 gutter() $spacing-large;
     color: lighten(saturate($blue, 20%), 50%);
 }
 
@@ -498,10 +493,9 @@ header {
     z-index: 1002;
     text-align: center;
     background-color: #fff;
-    padding: rhythm(.25);
     border-radius: 0 0 3px 3px;
-    border-color: $border-gray;
-    @include rhythm-borders(1px, 0, $base-font-size, solid);
+    border: 1px solid $border-gray;
+    padding: ($spacing-small - 1px);
 }
 
 .logo a,
@@ -511,8 +505,8 @@ header {
 
 #user {
     color: #fff;
-    padding-top: rhythm(.5);
-    margin-bottom: rhythm(-.25);
+    padding-top: $spacing-medium;
+    margin-bottom: -($spacing-small);
 }
 
 #user p {
@@ -525,7 +519,7 @@ header {
     text-transform: uppercase;
     font-size: .75 * $base-font-size;
     width: 75%;
-    margin-bottom: rhythm(.25, .75 * $base-font-size);
+    margin-bottom: $spacing-small;
     margin-right: -4px;
 }
 
@@ -533,12 +527,12 @@ header {
     display: block;
     font-size: $base-font-size;
     text-transform: none;
-    margin-top: rhythm(-.25);
+    margin-top: -($spacing-small);
 }
 
 #user .logout {
     font-size: .75 * $base-font-size;
-    padding: 0 rhythm(.25, .75 * $base-font-size);
+    padding: 0 $spacing-small;
     background-color: darken($blue, 15%);
     border-radius: 3px;
     display: inline-block;
@@ -547,7 +541,7 @@ header {
 }
 
 .logo {
-    padding: rhythm(.25) (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
+    padding: $spacing-small (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
     margin: 0 (gutter() / (span(3 of 16) - 2 * gutter()) * -100%);
     background-color: darken($blue, 15%);
 }
@@ -556,16 +550,16 @@ header {
     width: 100%;
     display: inline-block;
     vertical-align: top;
-    margin: rhythm() 0;
+    margin: $spacing-large 0;
 }
 
 #search input[type="text"] {
-    width: calc(100% - #{rhythm(3)});
+    width: calc(100% - #{3 * $spacing-large});
     float: left;
 }
 
 #search button {
-    width: rhythm(1.5);
+    width: 1.5 * $spacing-large;
     text-indent: -9999px;
     background-color: darken($blue, 15%);
     color: lighten(saturate($blue, 20%), 50%);
@@ -574,7 +568,7 @@ header {
     margin: 0;
     border-radius: 0;
     position: relative;
-    height: rhythm(1.5);
+    height: 1.5 * $base-line-height;
     box-shadow: none;
 
     &:last-of-type {
@@ -612,7 +606,7 @@ div[role="main"] > h1:first-of-type {
     top: 0;
     right: 0;
     width: span(13 of 16);
-    height: rhythm(2, 1.5 * $base-font-size);
+    height: 2 * $base-line-height;
     border-bottom: 1px solid $border-gray;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -630,7 +624,7 @@ div[role="main"] > h1:first-of-type {
 footer {
     font-size: .75 * $base-font-size;
     position: relative;
-    margin-top: rhythm(-1.5);
+    margin-top: -(1.125 * $spacing-large);
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
@@ -642,7 +636,7 @@ footer {
 
     .version-number {
         display: inline-block;
-        margin: 0 rhythm(.5);
+        margin: 0 $spacing-medium;
         line-height: 1;
     }
 
@@ -662,7 +656,7 @@ nav ul {
 }
 
 nav.pagination {
-    margin-bottom: rhythm(.5, .8175 * $base-font-size);
+    margin-bottom: $spacing-medium;
     overflow: hidden;
 }
 
@@ -673,7 +667,7 @@ nav.pagination .row-count {
 }
 
 nav.pagination form {
-    margin-right: rhythm(.5);
+    margin-right: $spacing-medium;
 }
 
 nav.pagination form * {
@@ -723,7 +717,8 @@ nav.pagination .next.button {
 
 nav.pagination form input[type="text"] {
     margin-right: .25em;
-    width: rhythm(2);
+    width: (2 * $spacing-large);
+    border: 1px solid $border-gray;
     @include rhythm-borders(1px, 0, .8175 * $base-font-size, solid);
 }
 
@@ -744,10 +739,10 @@ nav.pagination + *:not(.sorting) {
     header nav h4 {
         border-color: darken($blue, 5%);
         @include trailing-border(1px, .25, $base-font-size, solid);
-        margin-bottom: rhythm(.25);
+        margin-bottom: $spacing-small;
 
         &:not(:first-of-type) {
-            margin-top: rhythm();
+            margin-top: $spacing-large;
         }
     }
 
@@ -765,7 +760,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav ul.navigation li.active li {
         display: block;
-        margin-left: rhythm();
+        margin-left: $spacing-large;
     }
 
     header nav ul.navigation li.active > a {
@@ -781,7 +776,7 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-plus-square;
         font-family: "FontAwesome";
         display: inline-block;
-        width: rhythm();
+        width: $spacing-large;
     }
 
     header nav .items:before {
@@ -829,7 +824,7 @@ nav.pagination + *:not(.sorting) {
     }
 
     header ul.navigation {
-        margin-bottom: rhythm(.25);
+        margin-bottom: $spacing-small;
     }
 
     #menu {
@@ -856,8 +851,8 @@ nav.pagination + *:not(.sorting) {
     #menu .collapse {
         width: 100%;
         z-index: 1;
-        padding-bottom: rhythm(.25);
-        margin-bottom: rhythm(.25);
+        padding-bottom: $spacing-small;
+        margin-bottom: $spacing-small;
     }
 
     /* @end */
@@ -866,8 +861,8 @@ nav.pagination + *:not(.sorting) {
 
     #site-nav {
         background-color: darken($blue, 5%);
-        padding: rhythm(.25);
-        margin-bottom: rhythm(.5);
+        padding: $spacing-small;
+        margin-bottom: $spacing-medium;
         border-radius: 3px;
     }
 
@@ -881,7 +876,7 @@ nav.pagination + *:not(.sorting) {
     header nav#site-nav h5 a:before {
         content: $fa-var-laptop;
         font-family: "FontAwesome";
-        width: rhythm();
+        width: $spacing-large;
         display: inline-block;
         font-weight: normal;
         font-size: $base-font-size;
@@ -938,7 +933,7 @@ div[role="main"] {
 
 #dashboard > p {
     width: 100%;
-    margin-top: rhythm(.5);
+    margin-top: $spacing-medium;
 }
 
 #manage-resources .add.button:before {
@@ -1005,7 +1000,7 @@ div[role="main"] {
 
 .browse td,
 .browse th {
-    padding: rhythm(.5) rhythm(.25);
+    padding: $spacing-medium $spacing-small;
     overflow: hidden;
 }
 
@@ -1018,7 +1013,7 @@ div[role="main"] {
 .browse table img {
     width: rhythm(1.5);
     display: inline-block;
-    margin: rhythm(-.25) rhythm(.25) rhythm(-.25) 0;
+    margin: rhythm(-.25) $spacing-small rhythm(-.25) 0;
     vertical-align: middle;
 }
 
@@ -1103,7 +1098,7 @@ div[role="main"] {
 }
 
 .row-count {
-    margin: 0 rhythm(.25);
+    margin: 0 $spacing-small;
 }
 
 .no-resources {
@@ -1175,7 +1170,7 @@ td .o-icon-private {
 
     #advanced-options {
         background-color: #fff;
-        padding: rhythm(.25) rhythm(.5) calc(#{rhythm(.25)} - 1px);
+        padding: $spacing-small $spacing-medium calc(#{$spacing-small} - 1px);
         clear: both;
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
@@ -1183,10 +1178,10 @@ td .o-icon-private {
 
         legend {
             float: left;
-            width: calc(100% + #{rhythm()});
+            width: calc(100% + #{$spacing-large});
             font-weight: bold;
-            padding: rhythm(.25) rhythm(.5);
-            margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
+            padding: $spacing-small $spacing-medium;
+            margin: rhythm(-.25) rhythm(-.5) $spacing-medium;
             background-color: $gray-on-white;
             max-width: none;
         }
@@ -1297,7 +1292,7 @@ fieldset.section > legend {
 
 #page-actions {
     position: fixed;
-    padding: rhythm(.25) gutter();
+    padding: $spacing-small gutter();
     z-index: 4;
     top: 0;
     height: rhythm(1.75);
@@ -1310,7 +1305,7 @@ fieldset.section > legend {
     .button {
         display: inline-block;
         height: rhythm(1.5);
-        padding: rhythm(.25) 1em;
+        padding: $spacing-small 1em;
         min-height: 0;
         vertical-align: top;
     }
@@ -1364,9 +1359,9 @@ fieldset.section > legend {
 
 .inputs input[type="text"].value-language.active {
     position: absolute;
-    top: rhythm(.25);
+    top: $spacing-small;
     left: rhythm(1.5);
-    margin: 0 0 0 rhythm(.25);
+    margin: 0 0 0 $spacing-small;
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;
@@ -1374,7 +1369,7 @@ fieldset.section > legend {
     width: 6em;
     min-height: 0;
     padding: 0 0 0 rhythm(1.25);
-    height: rhythm();
+    height: $base-line-height;
     display: block;
 }
 
@@ -1389,8 +1384,8 @@ input[type="text"].value-language,
 
 .visibility {
     display: inline-block;
-    padding: rhythm(.25);
-    margin-right: rhythm(.5);
+    padding: $spacing-small;
+    margin-right: $spacing-medium;
 }
 
 .add .visibility:before,
@@ -1413,21 +1408,21 @@ input[type="text"].value-language,
     .resource.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
-        padding: rhythm(.25) 10px 0;
+        padding: $spacing-small 10px 0;
         width: 100%;
         float: left;
     }
 
     .field-meta {
         width: span(3 of 10);
-        padding-right: rhythm(.25);
+        padding-right: $spacing-small;
         position: relative;
         display: inline-block;
 
         legend,
         label {
             max-width: 80%;
-            padding: rhythm(.25) 0;
+            padding: $spacing-small 0;
             display: inline-block;
         }
 
@@ -1502,7 +1497,7 @@ input[type="text"].value-language,
     }
 
     .selector .selectable-list li {
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
     }
 
     .selector-parent {
@@ -1513,7 +1508,7 @@ input[type="text"].value-language,
             font-family: "FontAwesome";
             position: absolute;
             right: rhythm(.625);
-            top: rhythm(.25);
+            top: $spacing-small;
         }
 
         &.show:after {
@@ -1545,7 +1540,7 @@ input[type="text"].value-language,
     .selector-child {
         border-radius: 0;
         font-weight: normal;
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
         margin: 0 -10px;
         font-size: $base-font-size;
         text-transform: none;
@@ -1565,7 +1560,7 @@ input[type="text"].value-language,
 
         .o-icon-info {
             display: inline-block;
-            margin: 0 rhythm(.25) 0 0;
+            margin: 0 $spacing-small 0 0;
             opacity: .75;
             width: 1em;
 
@@ -1596,7 +1591,7 @@ input[type="text"].value-language,
                     top: auto;
 
                     &:before {
-                        top: calc(100% - #{rhythm(.25)});
+                        top: calc(100% - #{$spacing-small});
                         @include transform(rotate(180deg));
                     }
 
@@ -1624,7 +1619,7 @@ input[type="text"].value-language,
     .field-actions {
         width: span(6 of 10);
         display: inline-block;
-        margin: rhythm() 0 0 span(3 of 10);
+        margin: $spacing-large 0 0 span(3 of 10);
     }
 
     .field .field-label {
@@ -1670,8 +1665,8 @@ input[type="text"].value-language,
         z-index: 1;
         max-width: 100%;
         @include adjust-font-size-to(14px, 1, $base-font-size);
-        padding: rhythm(.25) 5px;
-        margin: rhythm(.5) 0;
+        padding: $spacing-small 5px;
+        margin: $spacing-medium 0;
 
         &.above {
             top: auto;
@@ -1689,9 +1684,9 @@ input[type="text"].value-language,
         bottom: 0;
         right: 3px;
         font-size: $base-font-size;
-        border-left: rhythm(.25) solid transparent;
-        border-right: rhythm(.25) solid transparent;
-        border-bottom: rhythm(.5) solid #333;
+        border-left: $spacing-small solid transparent;
+        border-right: $spacing-small solid transparent;
+        border-bottom: $spacing-medium solid #333;
     }
 
     .field-description .field-comment.open.above:before {
@@ -1703,7 +1698,7 @@ input[type="text"].value-language,
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin: rhythm(.25) 0 rhythm(.25) .5em !important;
+        margin: $spacing-small 0 $spacing-small .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;
@@ -1761,7 +1756,7 @@ input[type="text"].value-language,
         input[type="datetime-local"] {
             width: 100%;
             min-height: rhythm(1.5);
-            margin: rhythm(.25) 0;
+            margin: $spacing-small 0;
 
             &:only-child {
                 margin: 0;
@@ -1774,14 +1769,14 @@ input[type="text"].value-language,
         }
 
         label {
-            padding: rhythm(.25) 0;
-            margin: 0 rhythm() 0 0;
+            padding: $spacing-small 0;
+            margin: 0 $spacing-large 0 0;
         }
 
         .button,
         button,
         input[type="submit"] {
-            margin: rhythm(.25) 0;
+            margin: $spacing-small 0;
             line-height: $base-line-height;
         }
     }
@@ -1800,7 +1795,7 @@ input[type="text"].value-language,
     }
 
     .inputs p.no-values {
-        padding: rhythm(.5);
+        padding: $spacing-medium;
         border-radius: 3px;
         background-color: $gray-on-white;
         line-height: $base-line-height;
@@ -1837,7 +1832,7 @@ input[type="text"].value-language,
         line-height: 1.5 * $base-line-height;
         margin-right: 0;
         overflow: hidden;
-        width: rhythm(.5);
+        width: $spacing-medium;
         vertical-align: top;
     }
 
@@ -1848,7 +1843,7 @@ input[type="text"].value-language,
     }
 
     .input-header .actions {
-        padding-right: rhythm(.25);
+        padding-right: $spacing-small;
     }
 
     .input-header .actions a:before {
@@ -1902,13 +1897,13 @@ input[type="text"].value-language,
 
     .inputs fieldset.value textarea,
     .inputs fieldset.value input[type="text"] {
-        width: calc(100% + #{2 * rhythm(.25)});
+        width: calc(100% + #{2 * $spacing-small});
         margin: 0 rhythm(-.25);
     }
 
     fieldset[data-data-type="resource"] .default,
     fieldset[data-data-type="resource"] .o-title:not(:empty) {
-        @include bleed-x(rhythm(.25));
+        @include bleed-x($spacing-small);
         border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: block;
@@ -1921,7 +1916,7 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
-        padding: 0 rhythm(.25);
+        padding: 0 $spacing-small;
     }
 
     fieldset[data-data-type="resource"] .button:before {
@@ -1930,7 +1925,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: rhythm(.25) rhythm(.3125);
+        padding: $spacing-small rhythm(.3125);
     }
 
     .value.delete > *:not(.input-header) {
@@ -1942,10 +1937,10 @@ input[type="text"].value-language,
     }
 
     .selected-resource img {
-        height: rhythm();
+        height: $base-line-height;
         display: inline-block;
         vertical-align: middle;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 
     .selected-resource a {
@@ -1973,7 +1968,7 @@ input[type="text"].value-language,
     fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
         top: 50%;
-        left: rhythm(.25);
+        left: $spacing-small;
         transform: translateY(-50%);
         z-index: 1;
         width: rhythm(2.25);
@@ -1999,7 +1994,7 @@ input[type="text"].value-language,
     /* @group ----- Media ----- */
 
     #resource-files button {
-        margin: rhythm() 0 0;
+        margin: $spacing-large 0 0;
     }
 
     #add-media-field {
@@ -2007,7 +2002,7 @@ input[type="text"].value-language,
     }
 
     .media.row {
-        padding: rhythm(.5) rhythm(.25) rhythm(.5) rhythm(1.75);
+        padding: $spacing-medium $spacing-small $spacing-medium rhythm(1.75);
         @include trailer(.25);
         min-height: rhythm(2);
     }
@@ -2015,7 +2010,7 @@ input[type="text"].value-language,
     .media.row img {
         width: rhythm(1.5);
         position: absolute;
-        top: rhythm(.25);
+        top: $spacing-small;
     }
 
     .media.row img + .resource-name {
@@ -2028,7 +2023,7 @@ input[type="text"].value-language,
 
     .media.row .actions {
         position: absolute;
-        right: rhythm(.25);
+        right: $spacing-small;
         top: rhythm(.375);
     }
 
@@ -2055,9 +2050,9 @@ input[type="text"].value-language,
 
     .media-header h4 {
         font-size: $base-font-size;
-        margin: rhythm(-.5) rhythm(-.25) rhythm(.25);
+        margin: rhythm(-.5) rhythm(-.25) $spacing-small;
         background-color: $gray-on-white;
-        padding: rhythm(.25);
+        padding: $spacing-small;
     }
 
     .value.delete > .actions {
@@ -2095,7 +2090,7 @@ input[type="text"].value-language,
 
         & + .no-resources {
             display: block;
-            padding: 0 rhythm();
+            padding: 0 $spacing-large;
 
             &:before {
                 content: $fa-var-cubes;
@@ -2110,13 +2105,13 @@ input[type="text"].value-language,
     #page-actions [class*="o-icon-"].button {
         background-color: transparent;
         width: auto;
-        padding: rhythm(.25) rhythm(.25);
+        padding: $spacing-small $spacing-small;
         box-shadow: none;
     }
 
     .o-icon-private.button,
     .o-icon-public.button {
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
         box-shadow: none;
     }
 
@@ -2156,7 +2151,7 @@ input[type="text"].value-language,
             text-indent: 0px;
             position: absolute;
             left: 0;
-            top: rhythm(.25);
+            top: $spacing-small;
             line-height: 24px;
             width: 100%;
         }
@@ -2218,16 +2213,16 @@ input[type="text"].value-language,
     img {
         width: rhythm(1.5);
         float: left;
-        margin-left: rhythm(.25);
+        margin-left: $spacing-small;
     }
 
     .resource-name {
         display: inline-block;
         vertical-align: top;
-        margin: rhythm(.25) 0 0 rhythm(.5);
+        margin: $spacing-small 0 0 $spacing-medium;
 
         &:only-child {
-            margin: 0 0 0 rhythm(.25);
+            margin: 0 0 0 $spacing-small;
         }
     }
 
@@ -2236,7 +2231,7 @@ input[type="text"].value-language,
     }
 
     .resource {
-        padding: rhythm(.25) 0;
+        padding: $spacing-small 0;
         border-color: rgba(0,0,0,.08);
         @include trailing-border(1px, .25, $base-font-size, solid);
         position: relative;
@@ -2270,16 +2265,16 @@ input[type="text"].value-language,
     bottom: rhythm(2.5);
     overflow-y: auto;
     width: 100%;
-    padding: rhythm(.5) rhythm(.5) 0;
+    padding: $spacing-medium $spacing-medium 0;
 }
 
 
 #select-item,
 .confirm-panel {
     position: absolute;
-    bottom: rhythm(.5);
-    right: rhythm(.5);
-    left: rhythm(.5);
+    bottom: $spacing-medium;
+    right: $spacing-medium;
+    left: $spacing-medium;
 
     button,
     .button {
@@ -2293,7 +2288,7 @@ input[type="text"].value-language,
 /* @group ----- Vocabulary: Import ----- */
 
 .vocabs .field [type="file"] {
-    margin: rhythm(.25) 0 0;
+    margin: $spacing-small 0 0;
 }
 
 /* @end */
@@ -2321,12 +2316,12 @@ input[type="text"].value-language,
     h4 {
         width: span(2 of 9);
         vertical-align: top;
-        padding: rhythm(.25) 0;
+        padding: $spacing-small 0;
         float: left;
     }
 
     .value {
-        padding: rhythm(.25);
+        padding: $spacing-small;
         @include trailer(0);
         word-wrap: break-word;
         width: span(7 of 9);
@@ -2361,7 +2356,7 @@ input[type="text"].value-language,
         height: rhythm(1.5);
         display: inline-block;
         vertical-align: middle;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 
     .property .value.item_sets a:after {
@@ -2396,7 +2391,7 @@ input[type="text"].value-language,
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: rhythm(.5);
+    padding: $spacing-medium;
     border-left: 1px solid $border-gray;
     overflow-y: auto;
     overflow-x: hidden;
@@ -2435,8 +2430,8 @@ input[type="text"].value-language,
 
     a.o-icon-close {
         position: absolute;
-        right: rhythm(.5);
-        top: rhythm(.5);
+        right: $spacing-medium;
+        top: $spacing-medium;
         z-index: 3;
         color: #666;
     }
@@ -2463,7 +2458,7 @@ input[type="text"].value-language,
 
         img {
             vertical-align: middle;
-            margin-right: rhythm(.25);
+            margin-right: $spacing-small;
         }
     }
 
@@ -2489,8 +2484,8 @@ input[type="text"].value-language,
         display: block;
         font-size: $base-font-size;
         font-weight: bold;
-        margin: 0 0 rhythm(.5) 0;
-        padding-bottom: rhythm(.5);
+        margin: 0 0 $spacing-medium 0;
+        padding-bottom: $spacing-medium;
         position: relative;
 
         &:after {
@@ -2508,7 +2503,7 @@ input[type="text"].value-language,
     .field {
         background-color: transparent;
         padding: 0;
-        margin-bottom: rhythm();
+        margin-bottom: $spacing-large;
     }
 
     .button,
@@ -2536,7 +2531,7 @@ input[type="text"].value-language,
 
 #sidebar-confirm {
     display: block;
-    padding-bottom: rhythm(.5);
+    padding-bottom: $spacing-medium;
     @include trailer(.5);
 
     input[type="submit"] {
@@ -2555,7 +2550,7 @@ body.sidebar-open #content {
 
     .value {
         width: 100%;
-        padding: rhythm(.25) 0;
+        padding: $spacing-small 0;
         margin: 0;
         word-wrap: break-word;
         display: block;
@@ -2571,7 +2566,7 @@ body.sidebar-open #content {
     display: block;
     background-color: transparent;
     border-color: $border-gray;
-    padding: rhythm(.25) 0;
+    padding: $spacing-small 0;
     @include trailing-border(2px, .25, $base-font-size, solid);
     margin-bottom: 0;
     width: 100%;
@@ -2613,7 +2608,7 @@ body.sidebar-open #content {
 
 .resource-template th,
 .resource-template td {
-    padding: rhythm(.25);
+    padding: $spacing-small;
     vertical-align: top;
 }
 
@@ -2625,7 +2620,7 @@ body.sidebar-open #content {
 .resource-template th:first-of-type,
 .resource-template td:first-of-type, {
     width: span(2 of 10);
-    padding-right: rhythm();
+    padding-right: $spacing-large;
 }
 
 .resource-template th:nth-of-type(2) {
@@ -2641,7 +2636,7 @@ body.sidebar-open #content {
 }
 
 .resource-template .property.row {
-    padding: rhythm(1.75) rhythm(.25) rhythm(.25) rhythm(2);
+    padding: rhythm(1.75) $spacing-small $spacing-small rhythm(2);
 
     &.delete {
         background-color: $delete-bg;
@@ -2666,7 +2661,7 @@ body.sidebar-open #content {
     position: absolute;
 
     &:before {
-        top: rhythm(.25);
+        top: $spacing-small;
     }
 }
 
@@ -2678,13 +2673,13 @@ body.sidebar-open #content {
 
 .resource-template .property.row .actions {
     position: absolute;
-    right: rhythm(.25);
-    top: rhythm(.25);
-    padding: 0 rhythm(.25);
+    right: $spacing-small;
+    top: $spacing-small;
+    padding: 0 $spacing-small;
 }
 
 .resource-template #properties {
-    margin: rhythm() 0 0;
+    margin: $spacing-large 0 0;
     clear: both;
     padding: 0;
 
@@ -2708,9 +2703,9 @@ body.sidebar-open #content {
 .resource-template .property.row textarea,
 .resource-template .property.row select {
     display: inline-block;
-    width: calc(#{span(3 of 9)} - #{rhythm(.25)});
+    width: calc(#{span(3 of 9)} - #{$spacing-small});
     margin-left: -4px;
-    margin-right: rhythm(.25);
+    margin-right: $spacing-small;
 }
 
 .resource-template .property.row .property-label {
@@ -2718,7 +2713,7 @@ body.sidebar-open #content {
 }
 
 .resource-template .property.row label {
-    margin-bottom: rhythm(.25);
+    margin-bottom: $spacing-small;
 }
 
 .resource-template .property.row select {
@@ -2753,7 +2748,7 @@ body.sidebar-open #content {
 #modules .module {
     border-color: $border-gray;
     @include trailing-border(1px, .5, $base-font-size, solid);
-    margin-bottom: rhythm(.5);
+    margin-bottom: $spacing-medium;
     overflow: hidden;
 }
 
@@ -2775,7 +2770,7 @@ body.sidebar-open #content {
 #modules button,
 #modules .button {
     display: inline-block;
-    margin-left: rhythm(.25);
+    margin-left: $spacing-small;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
 
     &:hover {
@@ -2783,7 +2778,7 @@ body.sidebar-open #content {
     }
 
     &:before {
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 }
 
@@ -2796,7 +2791,7 @@ body.sidebar-open #content {
 }
 
 #modules .o-icon-uninstall {
-    margin-left: rhythm();
+    margin-left: $spacing-large;
     box-shadow: 0 0 0 1px #E0C3C3 inset;
 
     &:hover {
@@ -2836,7 +2831,7 @@ body.sidebar-open #content {
 
 .breadcrumbs {
     @include subhead-row;
-    margin-bottom: rhythm();
+    margin-bottom: $spacing-large;
 }
 
 .breadcrumbs + .field {
@@ -2844,14 +2839,14 @@ body.sidebar-open #content {
 }
 
 .breadcrumbs a:before {
-    margin-right: rhythm(.25);
+    margin-right: $spacing-small;
 }
 
 .breadcrumbs > *:not(:last-child):after {
     content: $fa-var-caret-right;
     font-family: "FontAwesome";
     display: inline-block;
-    margin: 0 calc(#{rhythm(.5)} - 3px) 0 rhythm(.5);
+    margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
     cursor: default;
 }
@@ -2910,7 +2905,7 @@ body.sidebar-open #content {
 
         & + .no-resources {
             display: block;
-            padding: 0 rhythm();
+            padding: 0 $spacing-large;
 
             &:before {
                 content: $fa-var-users;
@@ -2936,7 +2931,7 @@ body.sidebar-open #content {
         position: relative;
         display: block;
         background-color: opacify($gray-on-white, .08);
-        padding-right: rhythm(.25);
+        padding-right: $spacing-small;
         padding-left: rhythm(1.5);
         font-weight: bold;
         line-height: 1.5 * $base-line-height;
@@ -3006,7 +3001,7 @@ body.sidebar-open #content {
     }
 
     .block div.item-title {
-        margin: rhythm(.25) 0;
+        margin: $spacing-small 0;
         display: inline-block;
         width: calc(100% - #{rhythm(3)});
         overflow: hidden;
@@ -3018,7 +3013,7 @@ body.sidebar-open #content {
         height: rhythm(1.5);
         width: auto;
         display: inline-block;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
         vertical-align: top;
     }
 
@@ -3035,7 +3030,7 @@ body.sidebar-open #content {
     }
 
     .block .attachments-form {
-        margin-bottom: rhythm(.5);
+        margin-bottom: $spacing-medium;
     }
     .block .attachments-form a h4 {
         display: inline-block;
@@ -3043,7 +3038,7 @@ body.sidebar-open #content {
 
     .block .attachment .actions {
         position: absolute;
-        right: rhythm(.25);
+        right: $spacing-small;
         top: 50%;
         transform: translateY(-50%);
     }
@@ -3074,7 +3069,7 @@ body.sidebar-open #content {
     .block .block-content {
         clear: both;
         background-color: $gray-on-white;
-        padding: rhythm(.25);
+        padding: $spacing-small;
     }
 
     .block.sortable-ghost .block-content {
@@ -3109,7 +3104,7 @@ body.sidebar-open #content {
     }
 
     .block .attachment-add {
-        margin: rhythm(.25) 0 0;
+        margin: $spacing-small 0 0;
     }
 
     .block label.thumbnail-option {
@@ -3121,7 +3116,7 @@ body.sidebar-open #content {
     }
 
     .block label.thumbnail-option:not(:first-of-type) {
-        padding-top: rhythm(.25);
+        padding-top: $spacing-small;
     }
 
     .block .thumbnail-option select {
@@ -3138,7 +3133,7 @@ body.sidebar-open #content {
 
         &:after {
             float: right;
-            margin-right: rhythm(.25);
+            margin-right: $spacing-small;
         }
     }
 
@@ -3156,12 +3151,12 @@ body.sidebar-open #content {
     .block .collapse + .collapsible {
         border-color: $border-gray;
         @include leading-border(1px, 0, $base-font-size, solid);
-        margin-top: rhythm(.25);
-        padding-left: rhythm();
+        margin-top: $spacing-small;
+        padding-left: $spacing-large;
     }
 
     .block .collapse + .collapsible label.thumbnail-option:first-of-type {
-        padding-top: rhythm(.25);
+        padding-top: $spacing-small;
     }
 
     .block .collapse + .collapsible label.thumbnail-option:last-of-type {
@@ -3176,7 +3171,7 @@ body.sidebar-open #content {
         right: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 0 rhythm(.5);
+        padding: 0 $spacing-medium;
     }
 
     #attachment-options .option {
@@ -3198,21 +3193,21 @@ body.sidebar-open #content {
 
     #attachment-item-select {
         display: block;
-        margin: rhythm(.5) 0 0;
+        margin: $spacing-medium 0 0;
     }
 
     #attachment-options .selected-attachment {
         @include trailer(.5);
-        @include bleed-x(rhythm(.5));
-        padding-top: rhythm(.5);
-        padding-bottom: rhythm(.5);
+        @include bleed-x($spacing-medium);
+        padding-top: $spacing-medium;
+        padding-bottom: $spacing-medium;
         overflow: hidden;
 
         img {
             height: rhythm(4);
             width: auto;
             float: right;
-            margin: 0 0 0 rhythm(.5);
+            margin: 0 0 0 $spacing-medium;
         }
 
         p:first-child {
@@ -3252,7 +3247,7 @@ body.sidebar-open #content {
     #attachment-options .media-list {
         list-style: none;
         padding: 0;
-        margin: 0 0 rhythm(.5);
+        margin: 0 0 $spacing-medium;
 
         li.media {
             position: relative;
@@ -3287,7 +3282,7 @@ body.sidebar-open #content {
 
     input[type="text"].page-selector-filter {
         width: 100%;
-        margin-bottom: rhythm(.5);
+        margin-bottom: $spacing-medium;
     }
 
     /* @end */
@@ -3311,7 +3306,7 @@ body.sidebar-open #content {
 
 body.minimal {
     padding: 0;
-    margin: rhythm(2) 0;
+    margin: (2 * $spacing-large) 0;
     width: span(8);
     @include container;
     height: auto;
@@ -3323,7 +3318,7 @@ body.minimal {
         @include container;
         width: auto;
         float: none;
-        padding: rhythm() 0;
+        padding: $spacing-large 0;
         border-color: rgba(0,0,0,.15);
         border-bottom-color: transparent;
         @include rhythm-borders(1px, 0, $base-font-size, solid);
@@ -3336,7 +3331,7 @@ body.minimal {
         width: 100%;
         height: auto;
         display: inline-block;
-        margin: 0 0 rhythm(1, 2 * $base-font-size) 0;
+        margin: 0 0 $spacing-large 0;
     }
 
     fieldset legend {
@@ -3359,7 +3354,7 @@ body.minimal {
         width: 100%;
         min-height: 0;
         margin: 0;
-        padding: rhythm(2) span(1 of 8);
+        padding: (2 * $spacing-large) span(1 of 8);
         border-color: rgba(0,0,0,.15);
         overflow: hidden;
         @include rhythm-borders(1px, 0, $base-font-size, solid);

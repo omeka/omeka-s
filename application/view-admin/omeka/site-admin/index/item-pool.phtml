@@ -20,7 +20,8 @@ $escape = $this->plugin('escapeHtml');
     echo sprintf(
         $this->translate('There are currently %s items in this site’s pool.'),
         $this->hyperlink($itemCount,
-            $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]])
+            $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]),
+            ['target' => '_blank']
         )
     );
     ?>

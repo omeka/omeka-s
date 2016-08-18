@@ -138,14 +138,17 @@ body {
 
     /* @group ----- Form elements ----- */
 
+    [contenteditable="true"],
     textarea {
         clear: both;
         padding: rhythm(.25);
         border: 1px solid rgba(0,0,0,.15);
         display: block;
+        background-color: #fff;
     }
 
     input,
+    [contenteditable="true"],
     textarea,
     button,
     select {
@@ -189,6 +192,14 @@ body {
 
     :-ms-input-placeholder {
        font-style: italic;
+    }
+
+    [contenteditable="true"] > *:first-child {
+        margin-top: 0;
+    }
+
+    [contenteditable="true"] > *:last-child {
+        margin-bottom: 0;
     }
 
     input[type="submit"],
@@ -1771,6 +1782,7 @@ input[type="text"].value-language,
         textarea {
             resize: vertical;
             line-height: 1.5;
+            background-color: #fff;
         }
 
         label {

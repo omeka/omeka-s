@@ -10,9 +10,9 @@
 
         context.find('.wysiwyg').each(function () {
             if ($(this).is('.caption')) {
-                $(this).ckeditor(config);
+                CKEDITOR.inline(this, config)
             } else {
-                $(this).ckeditor();
+                CKEDITOR.inline(this);
             }
         })
     }
@@ -82,7 +82,7 @@
             draggable: ".block",
             handle: ".sortable-handle",
             onStart: function (e) {
-                var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
+                var editor = $(e.item).find('.wysiwyg').ckeditor();
                 if (editor) {
                     editor.destroy();
                 }

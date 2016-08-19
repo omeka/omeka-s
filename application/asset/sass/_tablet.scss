@@ -31,7 +31,7 @@ header {
     min-height: 0;
 
     .button {
-        @include border-radius(0);
+        border-radius: 0px;
         position: absolute;
         top: 0;
         z-index: 1001;
@@ -43,11 +43,11 @@ header {
     .o-icon-menu.button {
         left: 0;
         border-right: 1px solid rgba(0,0,0,.08);
-        width: rhythm(1.5);
+        width: (1.5 * $spacing-large);
     }
 
     .o-icon-search.button {
-        left: rhythm(1.5);
+        left: (1.5 * $spacing-large);
     }
 
     .o-icon-user.button {
@@ -85,8 +85,8 @@ header nav#site-nav {
 }
 
 header nav#site-nav h5 {
-    border-color: $border-gray;
-    @include leading-border(1px, .25, .875 * $base-font-size);
+    border-top: 1px solid $border-gray;
+    padding-top: ($spacing-small -1px);
     margin-bottom: 0;
 }
 
@@ -98,7 +98,7 @@ header nav#site-nav h5 a {
 #menu.active,
 #user.active,
 #search.active {
-    top: rhythm(1.5);
+    top: (1.5 * $spacing-large);
     left: 0;
     bottom: 0;
     right: 0;
@@ -148,18 +148,18 @@ td .o-icon-private {
 /* @group ----- Global content ----- */
 
 #content {
-    margin: rhythm(1.5) 0 0 0;
+    margin: (1.5 * $spacing-large) 0 0 0;
     width: 100%;
-    min-height: calc(100% - #{rhythm(3)});
+    min-height: calc(100% - #{3 * $spacing-large});
     position: relative;
-    padding-top: rhythm(2);
+    padding-top: (2 * $spacing-large);
 
     & > h1:first-of-type {
         width: auto;
         position: static;
-        padding: rhythm(.5, 2 * $base-font-size) gutter();
+        padding: $spacing-medium gutter();
         height: auto;
-        margin: 0 -#{gutter()} rhythm(.5);
+        margin: 0 -#{gutter()} $spacing-medium;
         white-space: normal;
         line-height: 1.5 * $base-line-height;
     }
@@ -184,14 +184,14 @@ td .o-icon-private {
 
 #menu a {
     display: block;
-    padding: rhythm(.25) rhythm(.5);
+    padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
     color: #676767;
-    border-color: $border-gray;
-    @include trailing-border(1px, .25, $base-font-size, solid);
+    border-bottom: 1px solid $border-gray;
 }
 
 #menu li:last-child a {
-    @include trailing-border(0px, .25, $base-font-size, solid);
+    border-bottom: 0;
+    padding-bottom: $spacing-small;
 }
 
 #menu h5 a {
@@ -202,15 +202,14 @@ td .o-icon-private {
 #menu h5 {
     height: 1.5 * $base-line-height;
     color: #676767;
-    padding: rhythm(.25) rhythm(.5);
     background-color: $gray-on-white;
-    border-color: $border-gray;
-    @include trailing-border(1px, .25, $base-font-size, solid);
+    padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
+    border-bottom: 1px solid $border-gray;
 }
 
 #menu h5 {
-    padding: rhythm(.25, .875 * $base-font-size) rhythm(.5, .875 * $base-font-size);
-    @include trailing-border(1px, .25, .875 * $base-font-size, solid);
+    padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
+    border-bottom: 1px solid $border-gray;
 }
 
 #menu h4 {
@@ -226,8 +225,8 @@ td .o-icon-private {
 #menu a.expand,
 #menu a.collapse {
     height: 1.5 * $base-line-height;
-    margin: rhythm(-1.5) 0 0;
-    padding: 0 rhythm(.5) 0 0;
+    margin: #{-(1.5 * $spacing-large)} 0 0;
+    padding: 0 $spacing-medium 0 0;
 
     &:before,
     &:after {
@@ -250,10 +249,10 @@ td .o-icon-private {
 
 #user p {
     display: block;
-    margin: rhythm(.5) 0;
+    margin: $spacing-medium 0;
     background-color: lighten($red, 15%);
-    padding: rhythm(.25) 0;
-    @include border-radius(3px);
+    padding: $spacing-small 0;
+    border-radius: 3px;
 
     &:last-of-type:before {
         content: "";
@@ -265,12 +264,12 @@ td .o-icon-private {
 }
 
 #page-actions {
-    top: rhythm(1.5);
+    top: (1.5 * $spacing-large);
     background-color: #fff;
     width: 100%;
-    border-color: rgba(0,0,0,.08);
-    height: rhythm(2);
-    @include trailing-border(1px, .25, $base-font-size, solid);
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    height: 2 * $spacing-large;
+    padding-bottom: ($spacing-small - 1px);
 }
 
 /* @end */
@@ -279,7 +278,7 @@ td .o-icon-private {
 
 #sidebar {
     position: fixed;
-    top: rhythm(1.5);
+    top: (1.5 * $spacing-large);
     z-index: 100;
     width: 100%;
 
@@ -312,14 +311,14 @@ fieldset.section > .always.active {
     bottom: 0;
     left: 0;
     right: 0;
-    height: rhythm(2);
+    height: 2 * $spacing-large;
     background-color: #fff;
     position: fixed;
     border-top: 1px solid $gray-on-white;
 
     button {
         width: 100%;
-        margin: rhythm(.25);
+        margin: $spacing-small;
     }
 }
 
@@ -334,7 +333,7 @@ fieldset.section > .always.active {
 }
 
 #modules .module-meta {
-    margin-bottom: rhythm(.5);
+    margin-bottom: $spacing-medium;
 }
 
 #modules .module-actions {
@@ -343,7 +342,7 @@ fieldset.section > .always.active {
 
 #modules button,
 #modules .button {
-    margin: 0 rhythm(.25) 0 0;
+    margin: 0 $spacing-small 0 0;
 }
 
 /* @end */
@@ -351,7 +350,7 @@ fieldset.section > .always.active {
 /* @group ----- Search ----- */
 
 #search-form {
-    margin: rhythm(2) gutter(4);
+    margin: (2 * $spacing-large) gutter(4);
 }
 
 /* @end */
@@ -360,7 +359,7 @@ fieldset.section > .always.active {
 
 .batch-edit.button {
     margin: 0;
-    @include border-radius(0px);
+    border-radius: 0px;
     position: relative;
     z-index: 1;
 }
@@ -374,11 +373,11 @@ fieldset.section > .always.active {
 }
 
 .browse .pagination {
-    margin-right: rhythm(2);
+    margin-right: 2 * $spacing-large;
 }
 
 .browse tr:last-of-type td:not(:last-of-type) {
-    @include trailing-border(0px, 0, $base-font-size, solid);
+    border-bottom: 0;
 }
 
 /* @end */
@@ -397,20 +396,20 @@ fieldset.section > legend:first-child {
     display: block;
     width: 100%;
     font-size: 1.25 * $base-font-size;
-    padding: rhythm(.25, 1.25 * $base-font-size) rhythm(.375, 1.25 * $base-font-size) rhythm(.25, 1.25 * $base-font-size) 0;
+    padding: $spacing-small (1.5 * $spacing-small) $spacing-small 0;
     color: $red;
     cursor: pointer;
-    border-color: rgba(0,0,0,.08);
-    @include trailing-border(3px, 0, 1.25 * $base-font-size, solid);
-    margin-bottom: rhythm(.5, 1.25 * $base-font-size);
+    border-bottom: 3px solid rgba(0,0,0,.08);
+    padding-bottom: -3px;
+    margin-bottom: $spacing-medium;
 }
 
 fieldset.section > legend:after {
     content: "\f0da";
     font-family: "FontAwesome";
     position: absolute;
-    right: rhythm(.375, 1.5 * $base-font-size);
-    top: rhythm(.5, 1.5 * $base-font-size);
+    right: (1.5 * $spacing-small);
+    top: $spacing-medium;
 }
 
 fieldset.section.mobile-active > legend:after{
@@ -430,7 +429,7 @@ fieldset.section.mobile-active > *:not(legend) {
 
     fieldset.section.mobile-active > #item-item-sets.empty + .no-resources {
         display: block;
-        margin-top: rhythm(2);
+        margin-top: 2 * $spacing-large;
     }
 
 fieldset.section.mobile-active > table {
@@ -458,7 +457,7 @@ fieldset.section:not(a) {
 
 .field-actions {
     position: absolute;
-    top: rhythm(.375);
+    top: 1.5 * $spacing-small;
     right: gutter(10);
     z-index: 1;
     width: 50%;
@@ -477,7 +476,7 @@ fieldset.section:not(a) {
 .field-meta label,
 .field-description p {
     line-height: $base-line-height;
-    @include trailer(.25);
+    margin-bottom: $spacing-small;
 }
 
 .field-meta label {
@@ -494,21 +493,21 @@ fieldset.section:not(a) {
 
 .show .sidebar.active {
     position: static;
-    border-color: $border-gray;
-    @include rhythm-borders(1px, .5, $base-font-size, solid);
-    margin-top: rhythm();
+    border: 1px solid $border-gray;
+    padding: ($spacing-medium - 1px);
+    margin-top: $spacing-large;
 }
 
 .show .section .property,
 .show .section .meta-group {
-    margin-bottom: rhythm();
+    margin-bottom: $spacing-large;
 }
 
 .show .section .meta-group h4,
 .show .section .property h4 {
-    border-color: $border-gray;
-    @include trailing-border(2px, .25, $base-font-size, solid);
-    margin-bottom: rhythm(.25);
+    padding-bottom: ($spacing-small - 2px);
+    border-bottom: 2px solid $border-gray;
+    margin-bottom: $spacing-small;
 }
 
 .show .section .meta-group h4,
@@ -521,14 +520,14 @@ fieldset.section:not(a) {
 
 .show .section .meta-group .value:not(:first-of-type),
 .show .section .property .value:not(:first-of-type) {
-    border-color: $border-gray;
-    @include leading-border(1px, .25, $base-font-size, solid);
-    margin-top: rhythm(.25);
+    border-top: 1px solid $border-gray;
+    padding-top: ($spacing-small -1px);
+    margin-top: $spacing-small;
 }
 
 .show .sidebar .meta-group .value:not(:first-of-type),
 .show .sidebar .property .value:not(:first-of-type) {
-    padding-top: rhythm(.25);
+    padding-top: $spacing-small;
 }
 
 /* @end */
@@ -544,11 +543,11 @@ body.minimal {
     }
 
     div[role="main"] {
-        padding: rhythm() span(1 of 16);
+        padding: $spacing-large span(1 of 16);
     }
 
     div[role="main"] > .messages {
-        @include trailer();
+        margin-top: $spacing-large;
     }
 
     .inputs {

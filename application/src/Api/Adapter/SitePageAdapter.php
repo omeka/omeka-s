@@ -54,17 +54,28 @@ class SitePageAdapter extends AbstractEntityAdapter
     ) {
         $title = null;
         $data = $request->getContent();
-        if (Request::CREATE === $request->getOperation()
-            && isset($data['o:site']['o:id'])
-        ) {
+        $blockData = $request->getValue('o:block', []);
+
+        if (Request::CREATE === $request->getOperation() && isset($data['o:site']['o:id'])) {
+
             $site = $this->getAdapter('sites')->findEntity($data['o:site']['o:id']);
             $this->authorize($site, 'add-page');
             $entity->setSite($site);
+
+            if (!$blockData) {
+                // Add the pageTitle block to all new pages.
+                $blockData = [[
+                    'o:layout' => 'pagetitle',
+                    'o:data' => [],
+                ]];
+            }
         }
+
         if ($this->shouldHydrate($request, 'o:title')) {
             $title = trim($request->getValue('o:title', ''));
             $entity->setTitle($title);
         }
+
         if ($this->shouldHydrate($request, 'o:slug')) {
             $slug = trim($request->getValue('o:slug', ''));
             if ($slug === ''
@@ -77,10 +88,8 @@ class SitePageAdapter extends AbstractEntityAdapter
             $entity->setSlug($slug);
         }
 
-        $appendBlocks = $request->getOperation() === Request::UPDATE
-            && $request->isPartial();
-        $this->hydrateBlocks($request->getValue('o:block', []), $entity, $errorStore,
-            $appendBlocks);
+        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->isPartial();
+        $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
     }
 
     /**

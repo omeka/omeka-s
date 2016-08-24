@@ -145,6 +145,11 @@ body {
         border: 1px solid rgba(0,0,0,.15);
         display: block;
         background-color: #fff;
+        min-height: rhythm(3);
+    }
+
+    [contenteditable="true"] p {
+        margin: .5 * $base-line-height 0;
     }
 
     input,

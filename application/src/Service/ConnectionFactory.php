@@ -19,7 +19,7 @@ class ConnectionFactory implements FactoryInterface
 
     /**
      * Create the DBAL connection service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Connection
      */

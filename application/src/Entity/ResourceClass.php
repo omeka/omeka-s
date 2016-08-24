@@ -3,10 +3,10 @@ namespace Omeka\Entity;
 
 /**
  * A resource class.
- * 
- * Classes are logical groupings of resources that have specified ranges of 
+ *
+ * Classes are logical groupings of resources that have specified ranges of
  * descriptive properties.
- * 
+ *
  * @Entity
  * @Table(
  *     uniqueConstraints={

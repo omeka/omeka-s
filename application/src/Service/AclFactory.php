@@ -19,7 +19,7 @@ class AclFactory implements FactoryInterface
 {
     /**
      * Create the access control list.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Acl
      */
@@ -66,7 +66,7 @@ class AclFactory implements FactoryInterface
      * Add ACL resources.
      *
      * The following resources are added automatically:
-     * 
+     *
      * - API adapter classes that implement ResourceInterface
      * - Entity classes that implement ResourceInterface
      * - Controller classes

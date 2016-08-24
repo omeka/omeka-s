@@ -22,7 +22,7 @@ class EntityManagerFactory implements FactoryInterface
 
     /**
      * Create the entity manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return EntityManager
      */

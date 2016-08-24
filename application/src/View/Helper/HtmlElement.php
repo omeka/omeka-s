@@ -57,7 +57,7 @@ class HtmlElement extends AbstractHtmlElement
 
     /**
      * Append an attribute to an element
-     * 
+     *
      * @param  strink $key
      * @param  string $value
      * @return self
@@ -105,7 +105,7 @@ class HtmlElement extends AbstractHtmlElement
 
     /**
      * Remove all attributes from the current element
-     * 
+     *
      * @return self
      */
     public function removeAttributes()

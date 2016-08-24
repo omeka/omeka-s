@@ -12,7 +12,7 @@ class MigrationManagerFactory implements FactoryInterface
 {
     /**
      * Create the migration manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return MigrationManager
      */

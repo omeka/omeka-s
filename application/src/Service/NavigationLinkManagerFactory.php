@@ -9,7 +9,7 @@ class NavigationLinkManagerFactory implements FactoryInterface
 {
     /**
      * Create the navigation link manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
      */

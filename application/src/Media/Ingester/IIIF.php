@@ -120,7 +120,7 @@ class IIIF implements IngesterInterface
             $IIIFData['@context'] == "http://iiif.io/api/image/1/context.json")) {
             // N.B. the iiif.io context is wrong, but where the representation lives so likely to be used
                 return true;
-        // Version 1.0 
+        // Version 1.0
         } else if (isset($IIIFData['profile']) &&
             $IIIFData['profile'][0]("http://library.stanford.edu/iiif/image-api/compliance.html") === 0) {
                 return true;

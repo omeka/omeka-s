@@ -145,7 +145,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     /**
      * Get the resource template of this resource.
-     * 
+     *
      * @return ResourceTemplateRepresentation
      */
     public function resourceTemplate()

@@ -63,7 +63,7 @@ class Response extends ZendResponse
 
     /**
      * Get the response status.
-     * 
+     *
      * @return int
      */
     public function getStatus()
@@ -83,7 +83,7 @@ class Response extends ZendResponse
 
     /**
      * Merge errors of an ErrorStore.
-     * 
+     *
      * @param array $errors
      */
     public function mergeErrors(ErrorStore $errorStore)
@@ -114,7 +114,7 @@ class Response extends ZendResponse
 
     /**
      * Get the errors from the ErrorStore.
-     * 
+     *
      * @return array
      */
     public function getErrors()
@@ -124,7 +124,7 @@ class Response extends ZendResponse
 
     /**
      * Check whether this response is an error.
-     * 
+     *
      * @return bool
      */
     public function isError()
@@ -154,7 +154,7 @@ class Response extends ZendResponse
 
     /**
      * Get the request of this response.
-     * 
+     *
      * @return Request
      */
     public function getRequest()
@@ -174,7 +174,7 @@ class Response extends ZendResponse
 
     /**
      * Get the total results of the query.
-     * 
+     *
      * @return int
      */
     public function getTotalResults()

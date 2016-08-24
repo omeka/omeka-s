@@ -16,7 +16,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.
      *
-     * Pass mock service objects that should be accessible via the mocked 
+     * Pass mock service objects that should be accessible via the mocked
      * ServiceManager::get().
      *
      * @param array $services Where the key is the service name and the value

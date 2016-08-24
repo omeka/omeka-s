@@ -147,7 +147,7 @@ class Manager
 
     /**
      * Execute an API request.
-     * 
+     *
      * @param Request $request
      * @return Response
      */

@@ -9,7 +9,7 @@ class MailerFactory implements FactoryInterface
 {
     /**
      * Create the mailer service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Mialer
      */

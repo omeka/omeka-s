@@ -12,7 +12,7 @@ class ApiAdapterManagerFactory implements FactoryInterface
 {
     /**
      * Create the API adapter manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return ApiManager
      */

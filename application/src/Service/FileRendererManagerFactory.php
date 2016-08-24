@@ -12,7 +12,7 @@ class FileRendererManagerFactory implements FactoryInterface
 {
     /**
      * Create the file renderer manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
      */

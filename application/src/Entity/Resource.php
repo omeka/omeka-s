@@ -8,9 +8,9 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * A resource, representing the subject in an RDF triple.
- * 
+ *
  * Note that the discriminator map is loaded dynamically.
- * 
+ *
  * @Entity
  * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")

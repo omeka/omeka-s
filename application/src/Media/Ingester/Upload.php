@@ -86,7 +86,8 @@ class Upload implements IngesterInterface
         $hasThumbnails = $fileManager->storeThumbnails($file);
         $fileManager->storeOriginal($file);
 
-        $media->setFilename($fileManager->getStorageName($file));
+        $media->setStorageId($file->getStorageId());
+        $media->setExtension($fileManager->getExtension($file));
         $media->setMediaType($file->getMediaType());
         $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);

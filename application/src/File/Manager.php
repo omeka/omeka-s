@@ -115,7 +115,6 @@ class Manager
      * which can be useful for resolving memory allocation issues.
      *
      * @param string $source
-     * @param string $storageBaseName
      * @return bool Whether thumbnails were created and stored
      */
     public function storeThumbnails(File $file)
@@ -142,7 +141,7 @@ class Manager
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
             $storagePath = $this->getStoragePath(
-                $type, $file->getStorageBaseName(), self::THUMBNAIL_EXTENSION
+                $type, $file->getStorageId(), self::THUMBNAIL_EXTENSION
             );
             $this->getStore()->put($tempPath, $storagePath);
             // Delete the temporary file in case the file store hasn't already.
@@ -318,17 +317,6 @@ class Manager
     }
 
     /**
-     * Get the storage-side name for an original file
-     */
-    public function getStorageName(File $file)
-    {
-        $extension = $this->getExtension($file);
-        $storageName = sprintf('%s%s', $file->getStorageBaseName(),
-            $extension ? ".$extension" : null);
-        return $storageName;
-    }
-
-    /**
      * Download a file.
      *
      * Pass the $errorStore object if an error should raise an API validation
@@ -376,5 +364,16 @@ class Manager
         }
 
         return true;
+    }
+
+    /**
+     * Get the storage-side name for an original file
+     */
+    protected function getStorageName(File $file)
+    {
+        $extension = $this->getExtension($file);
+        $storageName = sprintf('%s%s', $file->getStorageId(),
+            $extension ? ".$extension" : null);
+        return $storageName;
     }
 }

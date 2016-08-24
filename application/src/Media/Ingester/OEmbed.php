@@ -100,7 +100,7 @@ class OEmbed implements IngesterInterface
             $file = $fileManager->getTempFile();
             if ($fileManager->downloadFile($mediaData['thumbnail_url'], $file->getTempPath())) {
                 if ($fileManager->storeThumbnails($file)) {
-                    $media->setFilename($file->getStorageBaseName());
+                    $media->setStorageId($file->getStorageId());
                     $media->setHasThumbnails(true);
                 }
             }

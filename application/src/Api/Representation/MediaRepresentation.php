@@ -164,6 +164,26 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Get the media's storage ID (if any).
+     *
+     * @return string|null
+     */
+    public function storageId()
+    {
+        return $this->resource->getStorageId();
+    }
+
+    /**
+     * Get the media's file extension (if any).
+     *
+     * @return string|null
+     */
+    public function extension()
+    {
+        return $this->resource->getExtension();
+    }
+
+    /**
      * Check whether this media has an original file.
      *
      * @return bool

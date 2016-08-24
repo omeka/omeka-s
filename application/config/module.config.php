@@ -490,7 +490,7 @@ return [
             'video/avi' => 'video',
             'video/ogg' => 'video',
             'video/webm' => 'video',
-            '.mp3' => 'audio',
+            'mp3' => 'audio',
         ],
     ],
     'oembed' => [

@@ -92,7 +92,7 @@ class IIIF implements IngesterInterface
             $file = $fileManager->getTempFile();
             if ($fileManager->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
                 if ($fileManager->storeThumbnails($file)) {
-                    $media->setFilename($file->getStorageBaseName());
+                    $media->setStorageId($file->getStorageId());
                     $media->setHasThumbnails(true);
                 }
             }

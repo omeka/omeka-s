@@ -83,7 +83,8 @@ class Url implements IngesterInterface
             $media->setHasOriginal(true);
         }
 
-        $media->setFilename($fileManager->getStorageName($file));
+        $media->setStorageId($file->getStorageId());
+        $media->setExtension($fileManager->getExtension($file));
         $media->setMediaType($file->getMediaType());
 
         if (!array_key_exists('o:source', $data)) {

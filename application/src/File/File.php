@@ -19,7 +19,7 @@ class File
     /**
      * @var string Base name of the stored file (without extension)
      */
-    protected $storageBaseName;
+    protected $storageId;
 
     /**
      * @var string Internet media type of the file
@@ -79,27 +79,27 @@ class File
     }
 
     /**
-     * Get the base name of the persistently stored file.
+     * Get the storage ID: the base name (without extension) of the persistently stored file
      *
      * @return string
      */
-    public function getStorageBaseName()
+    public function getStorageId()
     {
-        if (isset($this->storageBaseName)) {
-            return $this->storageBaseName;
+        if (isset($this->storageId)) {
+            return $this->storageId;
         }
-        $this->storageBaseName = bin2hex(Rand::getBytes(20));
-        return $this->storageBaseName;
+        $this->storageId = bin2hex(Rand::getBytes(20));
+        return $this->storageId;
     }
 
     /**
-     * Set the base name of the stored file (without extension)
+     * Set the storage ID
      *
-     * @param string $storageBaseName
+     * @param string $storageId
      */
-    public function setStorageBaseName($storageBaseName)
+    public function setStorageId($storageId)
     {
-        $this->storageBaseName = $storageBaseName;
+        $this->storageId = $storageId;
     }
 
     /**

@@ -415,6 +415,7 @@ return [
             'html' => 'Omeka\Service\BlockLayout\HtmlFactory',
         ],
         'invokables' => [
+            'pageTitle' => 'Omeka\Site\BlockLayout\PageTitle',
             'media' => 'Omeka\Site\BlockLayout\Media',
             'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',

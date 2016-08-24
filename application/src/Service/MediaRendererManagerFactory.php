@@ -9,7 +9,7 @@ class MediaRendererManagerFactory implements FactoryInterface
 {
     /**
      * Create the media renderer manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
      */

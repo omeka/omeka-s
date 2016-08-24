@@ -13,9 +13,7 @@ use Zend\EventManager\EventManagerAwareInterface;
  *   - Serialize into a JSON-LD object
  *   - Pass around internally as a rich, read-only data object
  */
-interface RepresentationInterface extends
-    JsonSerializable,
-    EventManagerAwareInterface
+interface RepresentationInterface extends JsonSerializable, EventManagerAwareInterface
 {
     /**
      * Serialize the data to a JSON-LD compatible format.

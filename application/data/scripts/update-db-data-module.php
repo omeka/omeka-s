@@ -2,7 +2,7 @@
 /**
  * update-db-data-module.php
  *
- * Generate Doctrine proxies for a module and dump the SQL needed to create its tables. 
+ * Generate Doctrine proxies for a module and dump the SQL needed to create its tables.
  */
 use Doctrine\ORM\Tools\SchemaTool;
 

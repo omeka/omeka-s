@@ -15,7 +15,7 @@ class LoggerFactory implements FactoryInterface
 {
     /**
      * Create the logger service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Logger
      */

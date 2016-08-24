@@ -3,7 +3,7 @@ namespace Omeka\Entity;
 
 /**
  * A value, representing the object in a RDF triple.
- * 
+ *
  * @Entity
  */
 class Value extends AbstractEntity

@@ -9,7 +9,7 @@ class MediaIngesterManagerFactory implements FactoryInterface
 {
     /**
      * Create the media ingester manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
      */

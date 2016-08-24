@@ -9,7 +9,7 @@ class InstallerFactory implements FactoryInterface
 {
     /**
      * Create the installer service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Installer
      */

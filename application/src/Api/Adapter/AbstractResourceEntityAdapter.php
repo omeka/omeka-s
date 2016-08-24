@@ -136,7 +136,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      *   + property[{pid}][nin][]={value}: does not contain value
      *
      * If {pid} is zero/empty, queries are against all values. Otherwise, query results are limited
-     * to the given property. 
+     * to the given property.
      *
      * @param QueryBuilder $qb
      * @param array $query

@@ -10,9 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * API adapter interface.
  */
-interface AdapterInterface extends
-    EventManagerAwareInterface,
-    ResourceInterface
+interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
 {
     /**
      * Get the name of the corresponding API resource.

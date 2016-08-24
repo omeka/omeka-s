@@ -2322,6 +2322,12 @@ input[type="text"].value-language,
             padding-top: 0;
         }
     }
+
+    .language {
+        font-size: .75 * $base-font-size;
+        padding: rhythm(.25, .75 * $base-font-size);
+        background-color: $gray-on-white;
+    }
 }
 
 /* @end */

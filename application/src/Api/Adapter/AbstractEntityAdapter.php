@@ -15,8 +15,7 @@ use Omeka\Stdlib\ErrorStore;
 /**
  * Abstract entity API adapter.
  */
-abstract class AbstractEntityAdapter extends AbstractAdapter implements
-    EntityAdapterInterface
+abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAdapterInterface
 {
     /**
      * A unique token index for query builder aliases and placeholders.

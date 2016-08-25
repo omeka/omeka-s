@@ -193,6 +193,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
+                        'o:data_type' => null,
                         'o:is_required' => false,
                     ],
                 ];

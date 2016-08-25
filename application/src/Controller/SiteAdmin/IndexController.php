@@ -118,9 +118,17 @@ class IndexController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $data = $form->getData();
+                $fieldsets = $form->getFieldsets();
                 unset($data['csrf']);
                 foreach ($data as $id => $value) {
-                    $this->siteSettings()->set($id, $value);
+                    if (array_key_exists($id, $fieldsets) && is_array($value)) {
+                        // De-nest fieldsets.
+                        foreach ($value as $fieldsetId => $fieldsetValue) {
+                            $this->siteSettings()->set($fieldsetId, $fieldsetValue);
+                        }
+                    } else {
+                        $this->siteSettings()->set($id, $value);
+                    }
                 }
                 $this->messenger()->addSuccess('Settings successfully updated'); // @translate
                 return $this->redirect()->refresh();

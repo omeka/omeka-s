@@ -283,6 +283,10 @@
      * resource template.
      */
     var rewritePropertyFields = function(changeClass) {
+
+        // Fieldsets may have been marked as required in a previous state.
+        $('fieldset.field').removeClass('required');
+
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         var fields = $('#properties fieldset.resource-values');

@@ -171,6 +171,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ) {
                     $dataType = $resTemPropData['o:data_type'];
                 }
+                $isRequired = false;
+                if (isset($resTemPropData['o:is_required'])) {
+                    $isRequired = (bool) $resTemPropData['o:is_required'];
+                }
 
                 // Check whether a passed property is already assigned to this
                 // resource template.
@@ -188,6 +192,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
                 $resTemProp->setDataType($dataType);
+                $resTemProp->setIsRequired($isRequired);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);

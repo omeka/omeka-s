@@ -166,6 +166,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (!($entity->getItem() instanceof Item)) {
             $errorStore->addError('o:item', 'Media must belong to an item.');
         }
+        parent::validateEntity($entity, $errorStore);
     }
 
     /**

@@ -271,6 +271,10 @@
             originalDescription.hide();
         }
 
+        if (template['o:is_required']) {
+            field.addClass('required');
+        }
+
         properties.prepend(field);
     };
 

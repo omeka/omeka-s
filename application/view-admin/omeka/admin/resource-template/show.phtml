@@ -25,6 +25,7 @@ $escape = $this->plugin('escapeHtml');
         <th><?php echo $this->translate('Data Type'); ?></th>
         <th><?php echo $this->translate('Alternate Label'); ?></th>
         <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Required?'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -44,6 +45,7 @@ $escape = $this->plugin('escapeHtml');
             <td><?php echo $escape($resourceTemplateProperty->dataTypeLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>
+            <td><?php echo $resourceTemplateProperty->isRequired() ? $this->translate('Yes') : $this->translate('No'); ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

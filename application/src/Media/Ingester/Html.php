@@ -98,7 +98,6 @@ class Html implements MutableIngesterInterface
         $field .= "
             <script type='text/javascript'>
                 CKEDITOR.inline('$id');
-                $('#$id').ckeditor();
             </script>
         ";
         return $field;

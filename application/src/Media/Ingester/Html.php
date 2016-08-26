@@ -97,7 +97,7 @@ class Html implements MutableIngesterInterface
         $field = $view->formRow($textarea);
         $field .= "
             <script type='text/javascript'>
-                $('#$id').ckeditor();
+                CKEDITOR.inline('$id');
             </script>
         ";
         return $field;

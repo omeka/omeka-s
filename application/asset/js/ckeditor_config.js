@@ -8,14 +8,14 @@ CKEDITOR.editorConfig = function( config ) {
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
     config.toolbar = [
-                      { "name" : "advanced", "items" : 
-                          ['Source', '-', 
-                           'Link', 'Unlink', 'Anchor', '-', 
+                      { "name" : "advanced", "items" :
+                          ['Sourcedialog', '-',
+                           'Link', 'Unlink', 'Anchor', '-',
                            'Format', 'Styles', 'PasteFromWord'
                            ]
                       },
                       "/",
-                      { "items" : 
+                      { "items" :
                           ['Bold', 'Italic', 'Underline', 'Strike', '-',
                            'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
                            'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'

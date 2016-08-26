@@ -40,28 +40,27 @@ h3, h4, h5, h6 {
 
 h1 {
     font-size: 2 * $base-font-size;
-    line-height: 2 * $base-line-height;
-    @include trailer(1, 2 * $base-font-size);
+    line-height: 2 * $spacing-large;
+    margin-bottom: $spacing-large;
 }
 
 h2 {
     font-size: 1.875 * $base-font-size;
-    line-height: 1.5 * $base-line-height;
-    @include trailer(1.125, 1.875 * $base-font-size);
+    line-height: 1.5 * $spacing-large;
+    margin-bottom: $spacing-large;
 }
 
 h3 {
     font-size: 1.5 * $base-font-size;
-    @include trailer(1, 1.5 * $base-font-size);
+    margin-bottom: $spacing-large;
 }
 
 h5 {
     font-size: .875 * $base-font-size;
-    @include trailer(1, .875 * $base-font-size);
 }
 
 p {
-    margin: rhythm() 0;
+    margin: $spacing-large 0;
 }
 
 ul {
@@ -99,14 +98,13 @@ body {
     }
 
     td {
-        padding: 0 rhythm(.25);
-        border-color: $border-gray;
-        @include leading-border(1px, .5, $base-font-size, solid);
+        padding: #{$spacing-medium - 1px} $spacing-small 0;
+        border-top: 1px solid $border-gray;
         vertical-align: middle;
     }
 
     table {
-        @include trailer(.5);
+        margin-bottom: $spacing-medium;
     }
 
     tr {
@@ -118,20 +116,21 @@ body {
     }
 
     td {
-        padding: rhythm(.25) .5em;
+        padding: $spacing-small .5em;
         position: relative;
         vertical-align: top;
     }
 
     tr:last-of-type td,
     tr:last-of-type th {
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        padding-bottom: ($spacing-small - 1px);
+        border-bottom: 1px solid $border-gray;
     }
 
     .tablesaw thead tr:first-child th {
-        border-color: $border-gray;
-        padding-top: rhythm(.25);
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        padding-top: $spacing-small;
+        padding-bottom: ($spacing-small - 1px);
+        border-bottom: 1px solid $border-gray;
     }
 
     /* @end */
@@ -141,7 +140,7 @@ body {
     [contenteditable="true"],
     textarea {
         clear: both;
-        padding: rhythm(.25);
+        padding: $spacing-small;
         border: 1px solid rgba(0,0,0,.15);
         display: block;
         background-color: #fff;
@@ -171,11 +170,11 @@ body {
     input[type="number"],
     input[type="date"],
     input[type="datetime-local"] {
-        @include appearance(none);
+        appearance: none;
         border-radius: 0;
-        height: rhythm(1.5);
+        height: (1.5 * $spacing-large);
         border: 1px solid rgba(0,0,0,.15);
-        padding: rhythm(.25);
+        padding: $spacing-small;
         margin: 0;
     }
 
@@ -211,17 +210,17 @@ body {
     button,
     a.button,
     .button {
-        min-height: rhythm(1.25);
+        min-height: (1.5 * $spacing-large);
         background-color: rgba(0,0,0,.08);
         color: $copy-gray;
         border-radius: 3px;
         border: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
-        margin: 0 0 rhythm(.5) 0;
+        margin: 0 0 $spacing-medium 0;
 
         &:hover:not(.inactive) {
             box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
@@ -262,16 +261,16 @@ body {
 
     .required .field-meta {
         position: relative;
-        padding-right: rhythm(1.5);
+        padding-right: (1.5 * $spacing-large);
 
         &:after {
             font-family: "FontAwesome";
             content: $fa-var-asterisk;
             font-size: .75 * $base-font-size;
             position: absolute;
-            right: rhythm(.5);
+            right: $spacing-medium;
             color: $red;
-            top: rhythm(.25);
+            top: $spacing-small;
         }
     }
 
@@ -281,7 +280,7 @@ body {
         font-size: .75 * $base-font-size;
         color: $red;
         float: right;
-        padding-right: rhythm(.5);
+        padding-right: $spacing-medium;
     }
 
     *:invalid {
@@ -298,15 +297,15 @@ body {
 
     .media-field-wrapper {
         width:100%;
-        padding: rhythm(.5) rhythm(.25);
-        @include trailer(.25);
+        padding: $spacing-medium $spacing-small;
+        margin-bottom: $spacing-small;
         background-color: $gray-on-white;
         position: relative;
 
         .field {
             width: 100%;
             display:inline-block;
-            margin:0 0 rhythm(.25);
+            margin:0 0 $spacing-small;
             padding:0;
             background-color: transparent;
         }
@@ -316,32 +315,27 @@ body {
         }
 
 
-        .field:first-of-type .field-meta,
-        .field:first-of-type .inputs {
-            margin-top: rhythm(-.25);
-        }
-
         .field:last-of-type .field-meta,
         .field:last-of-type .inputs {
-            margin-bottom: rhythm(-.25);
+            margin-bottom: -($spacing-small);
         }
 
         .actions {
             font-size: $base-font-size;
-            padding: rhythm(.25) 0;
+            padding: $spacing-small 0;
         }
     }
 
     select {
         background: #fff url('../img/select-arrow.svg') no-repeat;
-        background-position: right (.25 * $base-line-height) center;
+        background-position: right (.25 * $spacing-large) center;
         background-size: .5 * $base-font-size;
         border: 1px solid #ccc;
-        height: 1.5 * $base-line-height;
-        line-height: 1.5 * $base-line-height;
+        height: 1.5 * $spacing-large;
+        line-height: 1.5 * $spacing-large;
         font-size: $base-font-size;
         margin: 0;
-        padding: 0 rhythm() 0 rhythm(.25);
+        padding: 0 $spacing-large 0 $spacing-small;
         border-radius: 3px;
         vertical-align: top;
         -webkit-appearance: none;
@@ -357,7 +351,7 @@ body {
     }
 
     fieldset {
-        margin: 0 0 rhythm();
+        margin: 0 0 $spacing-large;
         border: 0;
         padding: 0;
     }
@@ -440,10 +434,10 @@ body {
 }
 
 div[role="main"] > .messages {
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
 
     li {
-        margin: 0 0 rhythm(.25);
+        margin: 0 0 $spacing-small;
     }
 
     .error {
@@ -467,8 +461,8 @@ div[role="main"] > .messages {
     li {
         background-color: rgba(255,255,255,.5);
         border-radius: 3px;
-        padding: rhythm(.25) 10px;
-        @include leader(.25);
+        padding: $spacing-small 10px;
+        margin-top: $spacing-small;
         display: block;
         width: 100%;
     }
@@ -509,13 +503,13 @@ table .icon-sortable {
     position: absolute;
     left: .5em;
     opacity: .35;
-    top: rhythm(.5, 1.25 * $base-font-size);
+    top: $spacing-medium;
     font-size: 1.25 * $base-font-size;
     line-height: $base-line-height;
 }
 
 .o-description {
-    @include trailer();
+    margin-bottom: 0;
 }
 
 a.expand,
@@ -544,7 +538,7 @@ header {
     width: span(3 of 16);
     min-height: 100vh;
     text-align: left;
-    padding: 0 gutter() rhythm();
+    padding: 0 gutter() $spacing-large;
     color: lighten(saturate($blue, 20%), 50%);
 }
 
@@ -562,10 +556,9 @@ header {
     z-index: 1002;
     text-align: center;
     background-color: #fff;
-    padding: rhythm(.25);
     border-radius: 0 0 3px 3px;
-    border-color: $border-gray;
-    @include rhythm-borders(1px, 0, $base-font-size, solid);
+    border: 1px solid $border-gray;
+    padding: ($spacing-small - 1px);
 }
 
 .logo a,
@@ -575,8 +568,8 @@ header {
 
 #user {
     color: #fff;
-    padding-top: rhythm(.5);
-    margin-bottom: rhythm(-.25);
+    padding-top: $spacing-medium;
+    margin-bottom: -($spacing-small);
 }
 
 #user p {
@@ -589,7 +582,7 @@ header {
     text-transform: uppercase;
     font-size: .75 * $base-font-size;
     width: 75%;
-    margin-bottom: rhythm(.25, .75 * $base-font-size);
+    margin-bottom: $spacing-small;
     margin-right: -4px;
 }
 
@@ -597,12 +590,12 @@ header {
     display: block;
     font-size: $base-font-size;
     text-transform: none;
-    margin-top: rhythm(-.25);
+    margin-top: -($spacing-small);
 }
 
 #user .logout {
     font-size: .75 * $base-font-size;
-    padding: 0 rhythm(.25, .75 * $base-font-size);
+    padding: 0 $spacing-small;
     background-color: darken($blue, 15%);
     border-radius: 3px;
     display: inline-block;
@@ -611,7 +604,7 @@ header {
 }
 
 .logo {
-    padding: rhythm(.25) (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
+    padding: $spacing-small (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
     margin: 0 (gutter() / (span(3 of 16) - 2 * gutter()) * -100%);
     background-color: darken($blue, 15%);
 }
@@ -620,16 +613,16 @@ header {
     width: 100%;
     display: inline-block;
     vertical-align: top;
-    margin: rhythm() 0;
+    margin: $spacing-large 0;
 }
 
 #search input[type="text"] {
-    width: calc(100% - #{rhythm(3)});
+    width: calc(100% - #{3 * $spacing-large});
     float: left;
 }
 
 #search button {
-    width: rhythm(1.5);
+    width: 1.5 * $spacing-large;
     text-indent: -9999px;
     background-color: darken($blue, 15%);
     color: lighten(saturate($blue, 20%), 50%);
@@ -638,7 +631,7 @@ header {
     margin: 0;
     border-radius: 0;
     position: relative;
-    height: rhythm(1.5);
+    height: 1.5 * $spacing-large;
     box-shadow: none;
 
     &:last-of-type {
@@ -657,8 +650,8 @@ header {
         position: absolute;
         top: 0;
         left: 0;
-        width: 1.5 * $base-line-height;
-        line-height: 1.5 * $base-line-height;
+        width: 1.5 * $spacing-large;
+        line-height: 1.5 * $spacing-large;
         text-align: center;
     }
 }
@@ -676,7 +669,7 @@ div[role="main"] > h1:first-of-type {
     top: 0;
     right: 0;
     width: span(13 of 16);
-    height: rhythm(2, 1.5 * $base-font-size);
+    height: 2 * $spacing-large;
     border-bottom: 1px solid $border-gray;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -694,7 +687,7 @@ div[role="main"] > h1:first-of-type {
 footer {
     font-size: .75 * $base-font-size;
     position: relative;
-    margin-top: rhythm(-1.5);
+    margin-top: -(1.125 * $spacing-large);
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
@@ -706,12 +699,12 @@ footer {
 
     .version-number {
         display: inline-block;
-        margin: 0 rhythm(.5);
+        margin: 0 $spacing-medium;
         line-height: 1;
     }
 
     body.transitions-enabled & {
-        @include transition(margin-right .5s);
+        transition: margin-right .5s;
     }
 }
 
@@ -726,7 +719,7 @@ nav ul {
 }
 
 nav.pagination {
-    margin-bottom: rhythm(.5, .8175 * $base-font-size);
+    margin-bottom: $spacing-medium;
     overflow: hidden;
 }
 
@@ -737,7 +730,7 @@ nav.pagination .row-count {
 }
 
 nav.pagination form {
-    margin-right: rhythm(.5);
+    margin-right: $spacing-medium;
 }
 
 nav.pagination form * {
@@ -787,8 +780,9 @@ nav.pagination .next.button {
 
 nav.pagination form input[type="text"] {
     margin-right: .25em;
-    width: rhythm(2);
-    @include rhythm-borders(1px, 0, .8175 * $base-font-size, solid);
+    width: (2 * $spacing-large);
+    border: 1px solid $border-gray;
+    padding: ($spacing-small - 1px);
 }
 
 nav.pagination + *:not(.sorting) {
@@ -806,17 +800,17 @@ nav.pagination + *:not(.sorting) {
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
-        border-color: darken($blue, 5%);
-        @include trailing-border(1px, .25, $base-font-size, solid);
-        margin-bottom: rhythm(.25);
+        padding-bottom: ($spacing-small - 1px);
+        border-bottom: 1px solid darken($blue, 5%);
+        margin-bottom: $spacing-small;
 
         &:not(:first-of-type) {
-            margin-top: rhythm();
+            margin-top: $spacing-large;
         }
     }
 
     header nav ul.navigation > li:not(:first-of-type) {
-        @include leader(.25);
+        margin-top: $spacing-small;
     }
 
     header nav ul.navigation > li:not(:last-of-type) {
@@ -829,7 +823,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav ul.navigation li.active li {
         display: block;
-        margin-left: rhythm();
+        margin-left: $spacing-large;
     }
 
     header nav ul.navigation li.active > a {
@@ -845,7 +839,7 @@ nav.pagination + *:not(.sorting) {
         content: $fa-var-plus-square;
         font-family: "FontAwesome";
         display: inline-block;
-        width: rhythm();
+        width: $spacing-large;
     }
 
     header nav .items:before {
@@ -893,26 +887,17 @@ nav.pagination + *:not(.sorting) {
     }
 
     header ul.navigation {
-        margin-bottom: rhythm(.25);
+        margin-bottom: $spacing-small;
     }
 
     #menu {
         position: relative;
     }
 
-    #menu h5 + a,
-    #menu .expand,
-    #menu .collapse {
-        position: relative;
-        margin-top: rhythm(-1.625);
-        text-align: right;
-        display: block;
-    }
-
     #menu h5 {
         text-transform: uppercase;
-        border-color: darken($blue, 5%);
-        @include leading-border(1px, .25, $base-font-size, solid);
+        border-top: 1px solid darken($blue, 5%);
+        padding-top: ($spacing-small - 1px);
         margin-bottom: 0;
     }
 
@@ -920,8 +905,8 @@ nav.pagination + *:not(.sorting) {
     #menu .collapse {
         width: 100%;
         z-index: 1;
-        padding-bottom: rhythm(.25);
-        margin-bottom: rhythm(.25);
+        padding-bottom: $spacing-small;
+        margin-bottom: $spacing-small;
     }
 
     /* @end */
@@ -930,22 +915,22 @@ nav.pagination + *:not(.sorting) {
 
     #site-nav {
         background-color: darken($blue, 5%);
-        padding: rhythm(.25);
-        margin-bottom: rhythm(.5);
+        padding: $spacing-small;
+        margin-bottom: $spacing-medium;
         border-radius: 3px;
     }
 
     #site-nav h5 {
-        border-color: darken($blue, 10%);
-        @include leading-border(0px, 0, .875 * $base-font-size, solid);
-        @include trailing-border(1px, .25, .875 * $base-font-size, solid);
-        margin-bottom: rhythm(.25, .875 * $base-font-size);
+        border-top: 0;
+        border-bottom: 1px solid darken($blue, 10%);
+        padding-bottom: ($spacing-small - 1px);
+        margin-bottom: $spacing-small;
     }
 
     header nav#site-nav h5 a:before {
         content: $fa-var-laptop;
         font-family: "FontAwesome";
-        width: rhythm();
+        width: $spacing-large;
         display: inline-block;
         font-weight: normal;
         font-size: $base-font-size;
@@ -963,7 +948,7 @@ nav.pagination + *:not(.sorting) {
         float: right;
         text-align: right;
         font-size: $base-font-size;
-        line-height: 1.25 * $base-line-height;
+        line-height: 1.25 * $spacing-large;
     }
 
     #menu a.item-pool:before {
@@ -986,13 +971,13 @@ nav.pagination + *:not(.sorting) {
 
 div[role="main"] {
     width: span(13 of 16);
-    padding: rhythm(2.5) gutter() rhythm(1.5);
+    padding: (2.5 * $spacing-large) gutter() (1.5 * $spacing-large);
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
 
     body.transitions-enabled & {
-        @include transition(width .5s);
+        transition: width .5s;
     }
 }
 
@@ -1002,7 +987,7 @@ div[role="main"] {
 
 #dashboard > p {
     width: 100%;
-    margin-top: rhythm(.5);
+    margin-top: $spacing-medium;
 }
 
 #manage-resources .add.button:before {
@@ -1012,8 +997,8 @@ div[role="main"] {
 
 .panel {
     @include span(50% - gutter());
-    border-color: $border-gray;
-    @include rhythm-borders(1px, .25, $base-font-size, solid);
+    border: 1px solid $border-gray;
+    padding: ($spacing-small - 1px);
     margin: 0 gutter() 0 0;
     float: left;
     overflow: hidden;
@@ -1042,7 +1027,7 @@ div[role="main"] {
 .panel h2 {
     font-size: 1.125 * $base-font-size;
     line-height: $base-line-height;
-    margin-bottom: rhythm(.25, 1.25 * $base-font-size);
+    margin-bottom: $spacing-small;
 }
 
 /* @end */
@@ -1054,6 +1039,7 @@ div[role="main"] {
     max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-wrap: break-word;
+    margin: -($spacing-small) 0;
 }
 
 .browse .add.button,
@@ -1069,20 +1055,20 @@ div[role="main"] {
 
 .browse td,
 .browse th {
-    padding: rhythm(.5) rhythm(.25);
+    padding: $spacing-medium $spacing-small;
     overflow: hidden;
 }
 
 .browse tr:last-of-type td,
-.browse tr:last-of-type th,
- {
-    @include trailing-border(1px, .5, $base-font-size, solid);
+.browse tr:last-of-type th {
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: ($spacing-medium - 1px);
 }
 
 .browse table img {
-    width: rhythm(1.5);
+    width: (1.5 * $spacing-large);
     display: inline-block;
-    margin: rhythm(-.25) rhythm(.25) rhythm(-.25) 0;
+    margin: -($spacing-small + 1px) $spacing-small #{-($spacing-small)} 0;
     vertical-align: middle;
 }
 
@@ -1167,13 +1153,13 @@ div[role="main"] {
 }
 
 .row-count {
-    margin: 0 rhythm(.25);
+    margin: 0 $spacing-small;
 }
 
 .no-resources {
     text-align: center;
     position: relative;
-    @include leader(4);
+    margin-top: (4 * $spacing-large);
 
     &:before {
         font-family: "FontAwesome";
@@ -1187,8 +1173,8 @@ div[role="main"] {
 
     p {
         font-size: 1.5 * $base-font-size;
-        line-height: 2 * $base-line-height;
-        @include leader(2, 1.5 * $base-font-size);
+        line-height: 2 * $spacing-large;
+        margin-top: (2 * $spacing-large);
 
     }
 }
@@ -1239,7 +1225,7 @@ td .o-icon-private {
 
     #advanced-options {
         background-color: #fff;
-        padding: rhythm(.25) rhythm(.5) calc(#{rhythm(.25)} - 1px);
+        padding: $spacing-small $spacing-medium calc(#{$spacing-small} - 1px);
         clear: both;
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
@@ -1247,10 +1233,10 @@ td .o-icon-private {
 
         legend {
             float: left;
-            width: calc(100% + #{rhythm()});
+            width: calc(100% + #{$spacing-large});
             font-weight: bold;
-            padding: rhythm(.25) rhythm(.5);
-            margin: rhythm(-.25) rhythm(-.5) rhythm(.5);
+            padding: $spacing-small $spacing-medium;
+            margin: -($spacing-small) -($spacing-medium) $spacing-medium;
             background-color: $gray-on-white;
             max-width: none;
         }
@@ -1260,24 +1246,24 @@ td .o-icon-private {
             clear: left;
             margin-right: .5em;
             height: $base-line-height;
-            @include trailer(.25);
+            margin-bottom: $spacing-small;
         }
 
         label {
             float: left;
-            @include trailer(.25);
+            margin-bottom: $spacing-small;
         }
     }
 
     .search-filters {
-        @include trailer(.25, .8175 * $base-font-size);
+        margin-bottom: $spacing-small;
         display: inline-block;
     }
 
     .filter {
         display: inline-block;
         font-size: .8175 * $base-font-size;
-        margin: 0 rhythm(.25, .8175 * $base-font-size) rhythm(.25, .8175 * $base-font-size) 0;
+        margin: 0 $spacing-small $spacing-small 0;
         border-radius: 3px;
         background-color: #f0f0f0;
         padding: 0;
@@ -1292,7 +1278,7 @@ td .o-icon-private {
 
     .filter-label,
     .filter-value {
-        padding: 0 rhythm(.25, .8175 * $base-font-size);
+        padding: 0 $spacing-small;
     }
 
     .filter-value:not(:last-child):after {
@@ -1312,14 +1298,14 @@ fieldset.section > legend {
 
 .section-nav {
     border-top: 1px solid #fff;
-    height: rhythm(1.75);
+    height: (1.75 * $spacing-large);
     position: relative;
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
     clear: both;
 
     &:before {
         content: "";
-        height: rhythm(.125);
+        height: 3px;
         position: absolute;
         bottom: 1px;
         left: 0;
@@ -1333,9 +1319,9 @@ fieldset.section > legend {
     a {
         display: block;
         float: left;
-        height: rhythm(1.5);
-        line-height: 1.25 * $base-line-height;
-        padding: rhythm(.125) 1em;
+        height: (1.5 * $spacing-large);
+        line-height: 1.25 * $spacing-large;
+        padding: (.5 * $spacing-small) 1em;
         position: relative;
         z-index: 1;
         background-color: #fff;
@@ -1361,10 +1347,10 @@ fieldset.section > legend {
 
 #page-actions {
     position: fixed;
-    padding: rhythm(.25) gutter();
+    padding: $spacing-small gutter();
     z-index: 4;
     top: 0;
-    height: rhythm(1.75);
+    height: (1.5 * $spacing-large);
     right: 0;
     text-align: right;
     margin-bottom: 0;
@@ -1373,8 +1359,8 @@ fieldset.section > legend {
     button,
     .button {
         display: inline-block;
-        height: rhythm(1.5);
-        padding: rhythm(.25) 1em;
+        height: (1.5 * $spacing-large);
+        padding: $spacing-small 1em;
         min-height: 0;
         vertical-align: top;
     }
@@ -1391,7 +1377,7 @@ fieldset.section > legend {
 }
 
 .add-property.button {
-    @include leader();
+    margin-top: $spacing-large;
 }
 
 .field-term {
@@ -1405,10 +1391,10 @@ fieldset.section > legend {
     vertical-align: top;
     position: absolute;
     top: 0;
-    left: rhythm(1.5);
-    height: rhythm(1.5);
-    width: rhythm(1.5);
-    line-height: 1.5 * $base-line-height;
+    left: (1.5 * $spacing-large);
+    height: (1.5 * $spacing-large);
+    width: (1.5 * $spacing-large);
+    line-height: (1.5 * $spacing-large);
     overflow: hidden;
     text-align: center;
     color: $red;
@@ -1428,17 +1414,17 @@ fieldset.section > legend {
 
 .inputs input[type="text"].value-language.active {
     position: absolute;
-    top: rhythm(.25);
-    left: rhythm(1.5);
-    margin: 0 0 0 rhythm(.25);
+    top: $spacing-small;
+    left: (1.5 * $spacing-large);
+    margin: 0 0 0 $spacing-small;
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid $gray-on-white;
     width: 6em;
     min-height: 0;
-    padding: 0 0 0 rhythm(1.25);
-    height: rhythm();
+    padding: 0 0 0 (1.5 * $spacing-large);
+    height: $base-line-height;
     display: block;
 }
 
@@ -1448,13 +1434,13 @@ input[type="text"].value-language,
 }
 
 .non-properties {
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
 }
 
 .visibility {
     display: inline-block;
-    padding: rhythm(.25);
-    margin-right: rhythm(.5);
+    padding: $spacing-small;
+    margin-right: $spacing-medium;
 }
 
 .add .visibility:before,
@@ -1477,21 +1463,21 @@ input[type="text"].value-language,
     .resource.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
-        padding: rhythm(.25) 10px 0;
+        padding: $spacing-small 10px 0;
         width: 100%;
         float: left;
     }
 
     .field-meta {
         width: span(3 of 10);
-        padding-right: rhythm(.25);
+        padding-right: $spacing-small;
         position: relative;
         display: inline-block;
 
         legend,
         label {
             max-width: 80%;
-            padding: rhythm(.25) 0;
+            padding: $spacing-small 0;
             display: inline-block;
         }
 
@@ -1524,7 +1510,7 @@ input[type="text"].value-language,
     }
 
     .selector > ul {
-        margin-top: rhythm(.25, .75 * $base-font-size);
+        margin-top: $spacing-small;
     }
 
     .selector li {
@@ -1537,10 +1523,10 @@ input[type="text"].value-language,
         border-radius: 3px;
         text-transform: uppercase;
         font-size: .75 * $base-font-size;
-        padding: rhythm(.25, .75 * $base-font-size) 10px;
+        padding: $spacing-small 10px;
 
         & > ul {
-            margin: rhythm(.25, .75 * $base-font-size) -10px rhythm(-.25, .75 * $base-font-size);
+            margin: $spacing-small -10px -($spacing-small);
             border-radius: 0 0 3px 3px;
         }
     }
@@ -1560,13 +1546,13 @@ input[type="text"].value-language,
         font-weight: bold;
         position: relative;
         border: 1px solid $border-gray;
-        margin: rhythm(.25,.75 * $base-font-size) 0 0;
+        margin: $spacing-small 0 0;
         text-transform: uppercase;
         font-size: .75 * $base-font-size;
     }
 
     .selector .selectable-list li {
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
     }
 
     .selector-parent {
@@ -1576,8 +1562,8 @@ input[type="text"].value-language,
             content: $fa-var-caret-right;
             font-family: "FontAwesome";
             position: absolute;
-            right: rhythm(.625);
-            top: rhythm(.25);
+            right: (1.5 * $spacing-medium);
+            top: $spacing-small;
         }
 
         &.show:after {
@@ -1595,8 +1581,9 @@ input[type="text"].value-language,
         }
 
         &:not(:last-of-type) {
+            border-bottom: 1px solid $border-gray;
+            padding-bottom: ($spacing-small - 1px);
             border-color: $border-gray;
-            @include trailing-border(1px, .25, .75 * $base-font-size, solid);
         }
     }
 
@@ -1609,7 +1596,7 @@ input[type="text"].value-language,
     .selector-child {
         border-radius: 0;
         font-weight: normal;
-        padding: rhythm(.25) 10px;
+        padding: $spacing-small 10px;
         margin: 0 -10px;
         font-size: $base-font-size;
         text-transform: none;
@@ -1619,7 +1606,7 @@ input[type="text"].value-language,
         }
 
         &:last-of-type {
-            margin-bottom: rhythm(-.25);
+            margin-bottom: -($spacing-small);
         }
     }
 
@@ -1629,16 +1616,16 @@ input[type="text"].value-language,
 
         .o-icon-info {
             display: inline-block;
-            margin: 0 rhythm(.25) 0 0;
+            margin: 0 $spacing-small 0 0;
             opacity: .75;
             width: 1em;
 
             &:hover + .field-comment {
                 left: 5px;
                 right: 0;
-                top: rhythm(1.5, .75 * $base-font-size);
-                padding: rhythm(.125, .75 * $base-font-size) 10px rhythm(.125, .75 * $base-font-size) rhythm(1.25, .75 * $base-font-size);
-                line-height: .75 * $base-line-height;
+                top: (1.5 * $spacing-large);
+                padding: (.5 * $spacing-small) 10px (.5 * $spacing-small) (1.5 * $spacing-large);
+                line-height: .75 * $spacing-large;
                 background-color: #fff;
                 z-index: 1;
                 margin: 0;
@@ -1649,10 +1636,10 @@ input[type="text"].value-language,
                     content: "";
                     position: absolute;
                     left: 7px;
-                    top: rhythm(-.25, .75 * $base-font-size);
-                    border-left: rhythm(.25, .75 * $base-font-size) solid transparent;
-                    border-right: rhythm(.25, .75 * $base-font-size) solid transparent;
-                    border-bottom: rhythm(.5, .75 * $base-font-size) solid #fff;
+                    top: -($spacing-small);
+                    border-left: $spacing-small solid transparent;
+                    border-right: $spacing-small solid transparent;
+                    border-bottom: $spacing-small solid #fff;
                 }
 
                 &.above {
@@ -1660,8 +1647,8 @@ input[type="text"].value-language,
                     top: auto;
 
                     &:before {
-                        top: calc(100% - #{rhythm(.25)});
-                        @include transform(rotate(180deg));
+                        top: calc(100% - #{$spacing-small});
+                        transform: rotate(180deg);
                     }
 
                 }
@@ -1682,13 +1669,13 @@ input[type="text"].value-language,
 
     .selector .selectable {
         display: inline-block;
-        width: calc(100% - #{rhythm(1.5)});
+        width: calc(100% - #{(1.5 * $spacing-large)});
     }
 
     .field-actions {
         width: span(6 of 10);
         display: inline-block;
-        margin: rhythm() 0 0 span(3 of 10);
+        margin: $spacing-large 0 0 span(3 of 10);
     }
 
     .field .field-label {
@@ -1696,22 +1683,22 @@ input[type="text"].value-language,
     }
 
     .field .field-description {
-        @include adjust-font-size-to(14px);
-        line-height: .75 * $base-line-height;
+        font-size: 14px;
+        line-height: .75 * $spacing-large;
         position: static;
         text-align: left;
         height: auto;
     }
 
     .field .field-description:not(:only-child) {
-        @include trailer(.25);
+        margin-bottom: $spacing-small;
     }
 
     .field-description {
         display: block;
         margin-right: 10px;
-        line-height: 1.5 * $base-line-height;
-        height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
+        height: 1.5 * $spacing-large;
         position: absolute;
         top: 0;
         right: 0;
@@ -1727,19 +1714,19 @@ input[type="text"].value-language,
     .field-description .field-comment.open {
         left: inherit;
         right: 0px;
-        top: rhythm(1.5);
+        top: (1.5 * $spacing-large);
         background-color: #333;
         color: #fff;
         border-radius: 3px;
         z-index: 1;
         max-width: 100%;
-        @include adjust-font-size-to(14px, 1, $base-font-size);
-        padding: rhythm(.25) 5px;
-        margin: rhythm(.5) 0;
+        font-size: 14px;
+        padding: $spacing-small 5px;
+        margin: $spacing-medium 0;
 
         &.above {
             top: auto;
-            bottom: rhythm(1.25);
+            bottom: (1.25 * $spacing-large);
         }
     }
 
@@ -1749,25 +1736,25 @@ input[type="text"].value-language,
         height: 0;
         width: 0;
         position: absolute;
-        top: rhythm(-.25);
+        top: -($spacing-small);
         bottom: 0;
         right: 3px;
         font-size: $base-font-size;
-        border-left: rhythm(.25) solid transparent;
-        border-right: rhythm(.25) solid transparent;
-        border-bottom: rhythm(.5) solid #333;
+        border-left: $spacing-small solid transparent;
+        border-right: $spacing-small solid transparent;
+        border-bottom: $spacing-medium solid #333;
     }
 
     .field-description .field-comment.open.above:before {
         top: auto;
-        bottom: rhythm(-.5);
-        @include transform(rotate(180deg));
+        bottom: -($spacing-medium);
+        transform: rotate(180deg);
     }
 
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin: rhythm(.25) 0 rhythm(.25) .5em !important;
+        margin: $spacing-small 0 $spacing-small .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;
@@ -1796,7 +1783,7 @@ input[type="text"].value-language,
 
     .resource-values .field-term {
         display: block;
-        @include adjust-font-size-to(12px);
+        font-size: 12px;
     }
     .inputs {
         width: span(7 of 10);
@@ -1804,7 +1791,7 @@ input[type="text"].value-language,
         vertical-align: top;
         position: relative;
         margin-left: -4px;
-        line-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
 
         &:only-child {
             width: 100%;
@@ -1824,8 +1811,8 @@ input[type="text"].value-language,
         input[type="date"],
         input[type="datetime-local"] {
             width: 100%;
-            min-height: rhythm(1.5);
-            margin: rhythm(.25) 0;
+            min-height: (1.5 * $spacing-large);
+            margin: $spacing-small 0;
 
             &:only-child {
                 margin: 0;
@@ -1839,33 +1826,33 @@ input[type="text"].value-language,
         }
 
         label {
-            padding: rhythm(.25) 0;
-            margin: 0 rhythm() 0 0;
+            padding: $spacing-small 0;
+            margin: 0 $spacing-large 0 0;
         }
 
         .button,
         button,
         input[type="submit"] {
-            margin: rhythm(.25) 0;
+            margin: $spacing-small 0;
             line-height: $base-line-height;
         }
     }
 
     .value {
-        @include trailer(.25);
+        margin-bottom: $spacing-small;
         position: relative;
 
         &:last-of-type {
-            @include trailer(0);
+            margin-bottom: 0;
 
             .remove-value {
-                @include trailer(0);
+                margin-bottom: 0;
             }
         }
     }
 
     .inputs p.no-values {
-        padding: rhythm(.5);
+        padding: $spacing-medium;
         border-radius: 3px;
         background-color: $gray-on-white;
         line-height: $base-line-height;
@@ -1876,21 +1863,20 @@ input[type="text"].value-language,
     }
 
     .add-values {
-        @include leader(.25);
-        @include trailer(-.125);
+        margin: $spacing-small 0 #{-(.5 * $spacing-small)};
     }
 
     .add-values * {
         display: inline-block;
-        min-width: rhythm(1.5);
-        height: rhythm(1.5);
+        min-width: (1.5 * $spacing-large);
+        height: (1.5 * $spacing-large);
         border-radius: 2px;
         text-align: center;
         margin: 0;
     }
 
     .inputs .add-values a.button {
-        margin: 0 0 rhythm(.125);
+        margin: 0 0 (.5 * $spacing-small);
 
         &:before {
             margin-right: .25em;
@@ -1899,10 +1885,10 @@ input[type="text"].value-language,
 
     .add-values label {
         background-color: $gray-on-white;
-        line-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
         margin-right: 0;
         overflow: hidden;
-        width: rhythm(.5);
+        width: $spacing-medium;
         vertical-align: top;
     }
 
@@ -1913,12 +1899,12 @@ input[type="text"].value-language,
     }
 
     .input-header .actions {
-        padding-right: rhythm(.25);
+        padding-right: $spacing-small;
     }
 
     .input-header .actions a:before {
-        line-height: 1.5 * $base-line-height;
-        height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
+        height: 1.5 * $spacing-large;
     }
 
     .input-header .actions li:not(:last-child) {
@@ -1945,11 +1931,11 @@ input[type="text"].value-language,
         position: absolute;
         top: 0;
         left: 0;
-        height: rhythm(1.5);
-        width: rhythm(1.5);
+        height: (1.5 * $spacing-large);
+        width: (1.5 * $spacing-large);
         background-color: $gray-on-white;
         text-align: center;
-        line-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
         overflow: hidden;
     }
 
@@ -1967,13 +1953,13 @@ input[type="text"].value-language,
 
     .inputs fieldset.value textarea,
     .inputs fieldset.value input[type="text"] {
-        width: calc(100% + #{2 * rhythm(.25)});
-        margin: 0 rhythm(-.25);
+        width: calc(100% + #{2 * $spacing-small});
+        margin: 0 (-($spacing-small));
     }
 
     fieldset[data-data-type="resource"] .default,
     fieldset[data-data-type="resource"] .o-title:not(:empty) {
-        @include bleed-x(rhythm(.25));
+        @include bleed-x($spacing-small);
         border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: block;
@@ -1986,7 +1972,7 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
-        padding: 0 rhythm(.25);
+        padding: 0 $spacing-small;
     }
 
     fieldset[data-data-type="resource"] .button:before {
@@ -1995,7 +1981,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: rhythm(.25) rhythm(.3125);
+        padding: $spacing-small (1.25 * $spacing-small);
     }
 
     .value.delete > *:not(.input-header) {
@@ -2007,10 +1993,10 @@ input[type="text"].value-language,
     }
 
     .selected-resource img {
-        height: rhythm();
+        height: $base-line-height;
         display: inline-block;
         vertical-align: middle;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 
     .selected-resource a {
@@ -2038,10 +2024,10 @@ input[type="text"].value-language,
     fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
         top: 50%;
-        left: rhythm(.25);
+        left: $spacing-small;
         transform: translateY(-50%);
         z-index: 1;
-        width: rhythm(2.25);
+        width: (2.25 * $spacing-large);
         font-weight: bold;
         word-wrap: break-word;
         color: rgba(0,0,0,.35);
@@ -2049,12 +2035,12 @@ input[type="text"].value-language,
 
     fieldset[data-data-type="uri"] input.value,
     fieldset[data-data-type="uri"] textarea.value-label {
-        padding-left: rhythm(2.5);
-        height: rhythm(1.5);
+        padding-left: (2.5 * $spacing-large);
+        height: (1.5 * $spacing-large);
     }
 
     fieldset[data-data-type="uri"] textarea.value-label {
-        @include leader(0);
+        margin-top: 0;
         border-top-width: 0;
         padding-bottom: 0;
     }
@@ -2064,41 +2050,41 @@ input[type="text"].value-language,
     /* @group ----- Media ----- */
 
     #resource-files button {
-        margin: rhythm() 0 0;
+        margin: $spacing-large 0 0;
     }
 
     #add-media-field {
-        @include trailer();
+        margin-bottom: 0;
     }
 
     .media.row {
-        padding: rhythm(.5) rhythm(.25) rhythm(.5) rhythm(1.75);
-        @include trailer(.25);
-        min-height: rhythm(2);
+        padding: $spacing-medium $spacing-small $spacing-medium (1.75 * $spacing-large);
+        margin-bottom: $spacing-small;
+        min-height: (2 * $spacing-large);
     }
 
     .media.row img {
-        width: rhythm(1.5);
+        width: (1.5 * $spacing-large);
         position: absolute;
-        top: rhythm(.25);
+        top: $spacing-small;
     }
 
     .media.row img + .resource-name {
-        margin-left: rhythm(2);
+        margin-left: (2 * $spacing-large);
     }
 
     .media.row .sortable-handle:before {
-        top: rhythm(.375);
+        top: (1.5 * $spacing-small);
     }
 
     .media.row .actions {
         position: absolute;
-        right: rhythm(.25);
-        top: rhythm(.375);
+        right: $spacing-small;
+        top: (1.5 * $spacing-small);
     }
 
     .media.row .resource-name {
-        width: calc(100% - #{rhythm(6)});
+        width: calc(100% - #{6 * $spacing-large});
         word-break: break-all;
         display: block;
     }
@@ -2114,15 +2100,15 @@ input[type="text"].value-language,
 
     .media.value.delete > .actions {
         display: block;
-        margin-right: rhythm(-.25);
-        top: rhythm(.75);
+        margin-right: -($spacing-small);
+        top: (1.5 * $spacing-medium);
     }
 
     .media-header h4 {
         font-size: $base-font-size;
-        margin: rhythm(-.5) rhythm(-.25) rhythm(.25);
+        margin: -($spacing-medium) -($spacing-small) $spacing-small;
         background-color: $gray-on-white;
-        padding: rhythm(.25);
+        padding: $spacing-small;
     }
 
     .value.delete > .actions {
@@ -2130,7 +2116,7 @@ input[type="text"].value-language,
     }
 
     .media-render {
-        @include trailer();
+        margin-bottom: $spacing-large;
     }
 
     .media-render > * {
@@ -2160,7 +2146,7 @@ input[type="text"].value-language,
 
         & + .no-resources {
             display: block;
-            padding: 0 rhythm();
+            padding: 0 $spacing-large;
 
             &:before {
                 content: $fa-var-cubes;
@@ -2175,13 +2161,13 @@ input[type="text"].value-language,
     #page-actions [class*="o-icon-"].button {
         background-color: transparent;
         width: auto;
-        padding: rhythm(.25) rhythm(.25);
+        padding: $spacing-small $spacing-small;
         box-shadow: none;
     }
 
     .o-icon-private.button,
     .o-icon-public.button {
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
         box-shadow: none;
     }
 
@@ -2198,7 +2184,7 @@ input[type="text"].value-language,
         width: 100%;
         position: relative;
         overflow: hidden;
-        @include trailer();
+        margin-bottom: $spacing-large;
     }
 
     #resource-list-search {
@@ -2206,8 +2192,8 @@ input[type="text"].value-language,
     }
 
     button.o-icon-search {
-        height: rhythm(1.5);
-        width: rhythm(1.5);
+        height: (1.5 * $spacing-large);
+        width: (1.5 * $spacing-large);
         line-height: $base-line-height;
         padding: 0 10px;
         border-radius: 0 3px 3px 0;
@@ -2221,21 +2207,21 @@ input[type="text"].value-language,
             text-indent: 0px;
             position: absolute;
             left: 0;
-            top: rhythm(.25);
+            top: $spacing-small;
             line-height: 24px;
             width: 100%;
         }
     }
 
     .resource-search > input[type="text"] {
-        width: calc(100% - #{rhythm(1.5)});
+        width: calc(100% - #{(1.5 * $spacing-large)});
         border-right: 0;
     }
 
     .pagination {
-        border-color: rgba(0,0,0,.08);
         font-size: .8175 * $base-font-size;
-        @include trailing-border(1px, .5, .8175 * $base-font-size, solid);
+        border-bottom: 1px solid rgba(0,0,0,.08);
+        padding-bottom: ($spacing-medium - 1px);
         margin-bottom: 0;
         overflow: hidden;
 
@@ -2260,14 +2246,15 @@ input[type="text"].value-language,
 
         input[type="text"] {
             float: left;
-            line-height: .8175 * $base-line-height;
-            height: rhythm(1, .8175 * $base-font-size);
+            line-height: .8175 * $spacing-large;
+            height: $spacing-large;
             border: 1px solid $border-gray;
+            margin-left: 0;
         }
 
         .page-count {
             float: left;
-            margin-right: rhythm(.5, .8175 * $base-font-size);
+            margin-right: $spacing-medium;
         }
 
         .inactive {
@@ -2281,29 +2268,28 @@ input[type="text"].value-language,
     width: 100%;
 
     img {
-        width: rhythm(1.5);
+        width: (1.5 * $spacing-large);
         float: left;
-        margin-left: rhythm(.25);
+        margin-left: $spacing-small;
     }
 
     .resource-name {
         display: inline-block;
         vertical-align: top;
-        margin: rhythm(.25) 0 0 rhythm(.5);
+        margin: $spacing-small 0 0 $spacing-medium;
 
         &:only-child {
-            margin: 0 0 0 rhythm(.25);
+            margin: 0 0 0 $spacing-small;
         }
     }
 
     img + .resource-name {
-        width: calc(100% - #{rhythm(2.5)});
+        width: calc(100% - #{2.5 * $spacing-large});
     }
 
     .resource {
-        padding: rhythm(.25) 0;
-        border-color: rgba(0,0,0,.08);
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        padding: $spacing-small 0 #{$spacing-small - 1px};
+        border-bottom: 1px solid rgba(0,0,0,.08);
         position: relative;
         width: 100%;
         overflow: hidden;
@@ -2325,26 +2311,26 @@ input[type="text"].value-language,
 
     .o-description,
     .property {
-        @include trailer();
+        margin-bottom: 0;
     }
 }
 
 #resource-details-main {
     position: absolute;
     top: 0;
-    bottom: rhythm(2.5);
+    bottom: (2.5 * $spacing-large);
     overflow-y: auto;
     width: 100%;
-    padding: rhythm(.5) rhythm(.5) 0;
+    padding: $spacing-medium $spacing-medium 0;
 }
 
 
 #select-item,
 .confirm-panel {
     position: absolute;
-    bottom: rhythm(.5);
-    right: rhythm(.5);
-    left: rhythm(.5);
+    bottom: $spacing-medium;
+    right: $spacing-medium;
+    left: $spacing-medium;
 
     button,
     .button {
@@ -2358,7 +2344,7 @@ input[type="text"].value-language,
 /* @group ----- Vocabulary: Import ----- */
 
 .vocabs .field [type="file"] {
-    margin: rhythm(.25) 0 0;
+    margin: $spacing-small 0 0;
 }
 
 /* @end */
@@ -2386,13 +2372,13 @@ input[type="text"].value-language,
     h4 {
         width: span(2 of 9);
         vertical-align: top;
-        padding: rhythm(.25) 0;
+        padding: $spacing-small 0;
         float: left;
     }
 
     .value {
-        padding: rhythm(.25);
-        @include trailer(0);
+        padding: $spacing-small;
+        margin-bottom: 0;
         word-wrap: break-word;
         width: span(7 of 9);
         float: right;
@@ -2429,10 +2415,10 @@ input[type="text"].value-language,
 
     .property .value img {
         width: auto;
-        height: rhythm(1.5);
+        height: (1.5 * $spacing-large);
         display: inline-block;
         vertical-align: middle;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 
     .property .value.item_sets a:after {
@@ -2461,20 +2447,20 @@ input[type="text"].value-language,
 
 .sidebar {
     position: fixed;
-    top: rhythm(2);
+    top: (2 * $spacing-large);
     left: 100%;
     visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: rhythm(.5);
+    padding: $spacing-medium;
     border-left: 1px solid $border-gray;
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
 
     body.transitions-enabled & {
-        @include transition(left .5s, visibility .5s);
+        transition: left .5s, visibility .5s;
     }
 
     &.active,
@@ -2506,42 +2492,42 @@ input[type="text"].value-language,
 
     a.o-icon-close {
         position: absolute;
-        right: rhythm(.5);
-        top: rhythm(.5);
+        right: $spacing-medium;
+        top: $spacing-medium;
         z-index: 3;
         color: #666;
     }
 
     .vocabulary,
     .meta-group {
-        @include trailer();
+        margin-bottom: 0;
     }
 
     .value {
-        @include trailer(.25);
-        border-color: $border-gray;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        margin-bottom: $spacing-small;
+        border-bottom: 1px solid $border-gray;
+        padding-bottom: ($spacing-small - 1px);
         vertical-align: middle;
 
         *:last-child {
-            @include trailer(0);
+            margin-bottom: 0;
         }
 
         &:last-child {
             border-color: transparent;
-            @include trailer();
+            margin-bottom: 0;
         }
 
         img {
             vertical-align: middle;
-            margin-right: rhythm(.25);
+            margin-right: $spacing-small;
         }
     }
 
     .file-name {
         display: inline-block;
         word-wrap: break-word;
-        max-width: calc(100% - #{rhythm(3)});
+        max-width: calc(100% - #{(3* $spacing-large)});
         vertical-align: middle;
     }
 
@@ -2551,7 +2537,7 @@ input[type="text"].value-language,
 
     h2 {
         font-size: 1.5 * $base-font-size;
-        @include trailer(.5, 1.5 * $base-font-size);
+        margin-bottom: $spacing-medium;
     }
 
     h3,
@@ -2560,17 +2546,17 @@ input[type="text"].value-language,
         display: block;
         font-size: $base-font-size;
         font-weight: bold;
-        margin: 0 0 rhythm(.5) 0;
-        padding-bottom: rhythm(.5);
+        margin: 0 0 $spacing-medium 0;
+        padding-bottom: $spacing-medium;
         position: relative;
 
         &:after {
             content: "";
             position: absolute;
-            left: rhythm(-.5);
-            right: rhythm(-.5);
+            left: -($spacing-medium);
+            right: -($spacing-medium);
             bottom: 0;
-            top: rhythm(-.5);
+            top: -($spacing-medium);
             background-color: $border-gray;
             z-index: -1;
         }
@@ -2579,7 +2565,7 @@ input[type="text"].value-language,
     .field {
         background-color: transparent;
         padding: 0;
-        margin-bottom: rhythm();
+        margin-bottom: $spacing-large;
     }
 
     .button,
@@ -2607,8 +2593,8 @@ input[type="text"].value-language,
 
 #sidebar-confirm {
     display: block;
-    padding-bottom: rhythm(.5);
-    @include trailer(.5);
+    padding-bottom: $spacing-medium;
+    margin-bottom: $spacing-medium;
 
     input[type="submit"] {
         background-color: $red;
@@ -2622,18 +2608,18 @@ body.sidebar-open #content {
 }
 
 .sidebar .meta-group {
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
 
     .value {
         width: 100%;
-        padding: rhythm(.25) 0;
+        padding: $spacing-small 0;
         margin: 0;
         word-wrap: break-word;
         display: block;
 
         &:not(:last-child) {
-            border-color: $border-gray;
-            @include trailing-border(1px, .25, $base-font-size, solid);
+            border-bottom: 1px solid $border-gray;
+            padding-bottom: ($spacing-small - 1px);
         }
     }
 }
@@ -2642,25 +2628,26 @@ body.sidebar-open #content {
     display: block;
     background-color: transparent;
     border-color: $border-gray;
-    padding: rhythm(.25) 0;
-    @include trailing-border(2px, .25, $base-font-size, solid);
+    padding: $spacing-small 0;
+    border-bottom: 2px solid $border-gray;
+    padding-bottom: ($spacing-small - 2px);
     margin-bottom: 0;
     width: 100%;
 }
 
 .sidebar .media a:first-child img,
 .sidebar > img:first-child {
-    height: rhythm(7);
+    height: (7 * $spacing-large);
     width: auto;
     display: block;
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
 }
 
 .sidebar .meta-group img {
-    height: rhythm(2);
+    height: (2 * $spacing-large);
     display: inline-block;
-    border-color: $border-gray;
-    @include rhythm-borders(1px, 0, $base-font-size, solid);
+    border: 1px solid $border-gray;
+    padding: -1px;
 }
 
 .source-type {
@@ -2684,19 +2671,19 @@ body.sidebar-open #content {
 
 .resource-template th,
 .resource-template td {
-    padding: rhythm(.25);
+    padding: $spacing-small;
     vertical-align: top;
 }
 
 .resource-template textarea {
-    height: 1.5 * $base-line-height;
+    height: 1.5 * $spacing-large;
     width: 100%;
 }
 
 .resource-template th:first-of-type,
 .resource-template td:first-of-type, {
     width: span(2 of 10);
-    padding-right: rhythm();
+    padding-right: $spacing-large;
 }
 
 .resource-template th:nth-of-type(2) {
@@ -2712,7 +2699,7 @@ body.sidebar-open #content {
 }
 
 .resource-template .property.row {
-    padding: rhythm(1.75) rhythm(.25) rhythm(.25) rhythm(2);
+    padding: (1.75 * $spacing-large) $spacing-small $spacing-small (2 * $spacing-large);
 
     &.delete {
         background-color: $delete-bg;
@@ -2733,35 +2720,35 @@ body.sidebar-open #content {
     width: 100%;
     top: 0;
     left: 0;
-    height: rhythm(1.5);
+    height: (1.5 * $spacing-large);
     position: absolute;
 
     &:before {
-        top: rhythm(.25);
+        top: $spacing-small;
     }
 }
 
 .resource-template .property.row label,
 .resource-template .property.row input[type="text"] {
     width: 100%;
-    line-height: 1.5 * $base-line-height;
+    line-height: 1.5 * $spacing-large;
 }
 
 .resource-template .property.row .actions {
     position: absolute;
-    right: rhythm(.25);
-    top: rhythm(.25);
-    padding: 0 rhythm(.25);
+    right: $spacing-small;
+    top: $spacing-small;
+    padding: 0 $spacing-small;
 }
 
 .resource-template #properties {
-    margin: rhythm() 0 0;
+    margin: $spacing-large 0 0;
     clear: both;
     padding: 0;
 
     & > li:first-child {
         @include field-row;
-        padding-left: rhythm(1.8333);
+        padding-left: (1.8333 * $spacing-large);
     }
 }
 
@@ -2779,17 +2766,17 @@ body.sidebar-open #content {
 .resource-template .property.row textarea,
 .resource-template .property.row select {
     display: inline-block;
-    width: calc(#{span(3 of 9)} - #{rhythm(.25)});
+    width: calc(#{span(3 of 9)} - #{$spacing-small});
     margin-left: -4px;
-    margin-right: rhythm(.25);
+    margin-right: $spacing-small;
 }
 
 .resource-template .property.row .property-label {
-    margin-top: rhythm(-1.75);
+    margin-top: -(1.75 * $spacing-large);
 }
 
 .resource-template .property.row label {
-    margin-bottom: rhythm(.25);
+    margin-bottom: $spacing-small;
 }
 
 .resource-template .property.row select {
@@ -2810,7 +2797,7 @@ body.sidebar-open #content {
 }
 
 .state-filter select {
-    @include trailer(.5);
+    margin-bottom: $spacing-medium;
 }
 
 .module-name {
@@ -2822,9 +2809,9 @@ body.sidebar-open #content {
 }
 
 #modules .module {
-    border-color: $border-gray;
-    @include trailing-border(1px, .5, $base-font-size, solid);
-    margin-bottom: rhythm(.5);
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: ($spacing-medium - 1px);
+    margin-bottom: $spacing-medium;
     overflow: hidden;
 }
 
@@ -2846,7 +2833,7 @@ body.sidebar-open #content {
 #modules button,
 #modules .button {
     display: inline-block;
-    margin-left: rhythm(.25);
+    margin-left: $spacing-small;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
 
     &:hover {
@@ -2854,7 +2841,7 @@ body.sidebar-open #content {
     }
 
     &:before {
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
     }
 }
 
@@ -2867,7 +2854,7 @@ body.sidebar-open #content {
 }
 
 #modules .o-icon-uninstall {
-    margin-left: rhythm();
+    margin-left: $spacing-large;
     box-shadow: 0 0 0 1px #E0C3C3 inset;
 
     &:hover {
@@ -2907,22 +2894,22 @@ body.sidebar-open #content {
 
 .breadcrumbs {
     @include subhead-row;
-    margin-bottom: rhythm();
+    margin-bottom: $spacing-large;
 }
 
 .breadcrumbs + .field {
-    @include leader();
+    margin-top: $spacing-large;
 }
 
 .breadcrumbs a:before {
-    margin-right: rhythm(.25);
+    margin-right: $spacing-small;
 }
 
 .breadcrumbs > *:not(:last-child):after {
     content: $fa-var-caret-right;
     font-family: "FontAwesome";
     display: inline-block;
-    margin: 0 calc(#{rhythm(.5)} - 3px) 0 rhythm(.5);
+    margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
     cursor: default;
 }
@@ -2981,7 +2968,7 @@ body.sidebar-open #content {
 
         & + .no-resources {
             display: block;
-            padding: 0 rhythm();
+            padding: 0 $spacing-large;
 
             &:before {
                 content: $fa-var-users;
@@ -2999,7 +2986,7 @@ body.sidebar-open #content {
     }
 
     .block {
-        @include trailer(.25);
+        margin-bottom: $spacing-small;
         overflow: hidden;
     }
 
@@ -3007,10 +2994,10 @@ body.sidebar-open #content {
         position: relative;
         display: block;
         background-color: opacify($gray-on-white, .08);
-        padding-right: rhythm(.25);
-        padding-left: rhythm(1.5);
+        padding-right: $spacing-small;
+        padding-left: (1.5 * $spacing-large);
         font-weight: bold;
-        line-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
 
         .actions li {
             vertical-align: top;
@@ -3025,8 +3012,8 @@ body.sidebar-open #content {
         &:before {
             top: 0;
             left: 0;
-            right: rhythm(1.5);
-            padding: rhythm(.25, 1.25 * $base-font-size);
+            right: (1.5 * $spacing-large);
+            padding: $spacing-small;
         }
     }
 
@@ -3060,7 +3047,7 @@ body.sidebar-open #content {
     }
 
     .block.value.delete span.restore-value {
-        padding: 0 rhythm(.125);
+        padding: 0 (.5 * $spacing-small);
     }
 
     .block.value.delete a.restore-value:before {
@@ -3077,19 +3064,19 @@ body.sidebar-open #content {
     }
 
     .block div.item-title {
-        margin: rhythm(.25) 0;
+        margin: $spacing-small 0;
         display: inline-block;
-        width: calc(100% - #{rhythm(3)});
+        width: calc(100% - #{(3* $spacing-large)});
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
     .block .item-title img {
-        height: rhythm(1.5);
+        height: (1.5 * $spacing-large);
         width: auto;
         display: inline-block;
-        margin-right: rhythm(.25);
+        margin-right: $spacing-small;
         vertical-align: top;
     }
 
@@ -3106,7 +3093,7 @@ body.sidebar-open #content {
     }
 
     .block .attachments-form {
-        margin-bottom: rhythm(.5);
+        margin-bottom: $spacing-medium;
     }
     .block .attachments-form a h4 {
         display: inline-block;
@@ -3114,7 +3101,7 @@ body.sidebar-open #content {
 
     .block .attachment .actions {
         position: absolute;
-        right: rhythm(.25);
+        right: $spacing-small;
         top: 50%;
         transform: translateY(-50%);
     }
@@ -3145,7 +3132,7 @@ body.sidebar-open #content {
     .block .block-content {
         clear: both;
         background-color: $gray-on-white;
-        padding: rhythm(.25);
+        padding: $spacing-small;
     }
 
     .block.sortable-ghost .block-content {
@@ -3153,15 +3140,15 @@ body.sidebar-open #content {
     }
 
     .block .attachment {
-        padding-left: rhythm(1.25);
+        padding-left: (1.25 * $spacing-large);
         position: relative;
         clear: both;
-        height: rhythm(2);
-        line-height: 1.5 * $base-line-height;
+        height: (2 * $spacing-large);
+        line-height: 1.5 * $spacing-large;
 
         &:not(:last-child) {
-            border-color: $border-gray;
-            @include trailing-border(1px, 0, $base-font-size, solid);
+            border-bottom: 1px solid $border-gray;
+            padding-bottom: -1px;
         }
     }
 
@@ -3180,19 +3167,19 @@ body.sidebar-open #content {
     }
 
     .block .attachment-add {
-        margin: rhythm(.25) 0 0;
+        margin: $spacing-small 0 0;
     }
 
     .block label.thumbnail-option {
         overflow: hidden;
-        border-color: $border-gray;
-        @include trailing-border(1px, .25, $base-font-size, solid);
+        border-bottom: 1px solid $border-gray;
+        padding-bottom: ($spacing-small - 1px);
         display: block;
-        line-height: 1.5 * $base-line-height;
+        line-height: 1.5 * $spacing-large;
     }
 
     .block label.thumbnail-option:not(:first-of-type) {
-        padding-top: rhythm(.25);
+        padding-top: $spacing-small;
     }
 
     .block .thumbnail-option select {
@@ -3209,7 +3196,7 @@ body.sidebar-open #content {
 
         &:after {
             float: right;
-            margin-right: rhythm(.25);
+            margin-right: $spacing-small;
         }
     }
 
@@ -3225,34 +3212,34 @@ body.sidebar-open #content {
     }
 
     .block .collapse + .collapsible {
-        border-color: $border-gray;
-        @include leading-border(1px, 0, $base-font-size, solid);
-        margin-top: rhythm(.25);
-        padding-left: rhythm();
+        border-top: 1px solid $border-gray;
+        padding: -1px 0 0 $spacing-large;
+        margin-top: $spacing-small;
     }
 
     .block .collapse + .collapsible label.thumbnail-option:first-of-type {
-        padding-top: rhythm(.25);
+        padding-top: $spacing-small;
     }
 
     .block .collapse + .collapsible label.thumbnail-option:last-of-type {
-        @include trailing-border(0px, 0, $base-font-size, solid);
+        border-bottom: 0;
+        padding-bottom: 0;
     }
 
     #attachment-options-main {
         position: absolute;
         top: 0;
-        bottom: rhythm(2.5);
+        bottom: (2.5 * $spacing-large);
         left: 0;
         right: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 0 rhythm(.5);
+        padding: 0 $spacing-medium;
     }
 
     #attachment-options .option {
         position: relative;
-        @include trailer(.5);
+        margin-bottom: $spacing-medium;
     }
 
     #attachment-options .expand,
@@ -3269,21 +3256,21 @@ body.sidebar-open #content {
 
     #attachment-item-select {
         display: block;
-        margin: rhythm(.5) 0 0;
+        margin: $spacing-medium 0 0;
     }
 
     #attachment-options .selected-attachment {
-        @include trailer(.5);
-        @include bleed-x(rhythm(.5));
-        padding-top: rhythm(.5);
-        padding-bottom: rhythm(.5);
+        margin-bottom: $spacing-medium;
+        @include bleed-x($spacing-medium);
+        padding-top: $spacing-medium;
+        padding-bottom: $spacing-medium;
         overflow: hidden;
 
         img {
-            height: rhythm(4);
+            height: (4 * $spacing-large);
             width: auto;
             float: right;
-            margin: 0 0 0 rhythm(.5);
+            margin: 0 0 0 $spacing-medium;
         }
 
         p:first-child {
@@ -3302,7 +3289,7 @@ body.sidebar-open #content {
     #attachment-options .media-title {
         font-size: .75 * $base-font-size;
         display: block;
-        width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
+        width: calc(100% - #{4.5 * $spacing-large});
         float: left;
         word-wrap: break-word;
         text-align: left;
@@ -3312,7 +3299,7 @@ body.sidebar-open #content {
     #attachment-options .item-thumbnail ~ #attachment-item-select {
         font-size: .75 * $base-font-size;
         display: inline-block;
-        width: calc(100% - #{rhythm(4.5, .75 * $base-font-size)});
+        width: calc(100% - #{4.5 * $spacing-large});
         word-wrap: break-word;
     }
 
@@ -3323,15 +3310,15 @@ body.sidebar-open #content {
     #attachment-options .media-list {
         list-style: none;
         padding: 0;
-        margin: 0 0 rhythm(.5);
+        margin: 0 0 $spacing-medium;
 
         li.media {
             position: relative;
-            height: rhythm(2);
-            width: rhythm(2);
+            height: (2 * $spacing-large);
+            width: (2 * $spacing-large);
             cursor: pointer;
             display: inline-block;
-            padding: rhythm(.125);
+            padding: (.5 * $spacing-small);
             border: 1px solid $border-gray;
 
 
@@ -3358,7 +3345,7 @@ body.sidebar-open #content {
 
     input[type="text"].page-selector-filter {
         width: 100%;
-        margin-bottom: rhythm(.5);
+        margin-bottom: $spacing-medium;
     }
 
     /* @end */
@@ -3382,24 +3369,11 @@ body.sidebar-open #content {
 
 body.minimal {
     padding: 0;
-    margin: rhythm(2) 0;
+    margin: (2 * $spacing-large) 0;
     width: span(8);
     @include container;
     height: auto;
     background-color: $blue;
-
-    header {
-        background-color: rgba(0,0,0,.3);
-        position: static;
-        @include container;
-        width: auto;
-        float: none;
-        padding: rhythm() 0;
-        border-color: rgba(0,0,0,.15);
-        border-bottom-color: transparent;
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
-        color: #fff;
-    }
 
     div[role="main"] > h1:first-of-type {
         position: static;
@@ -3407,13 +3381,13 @@ body.minimal {
         width: 100%;
         height: auto;
         display: inline-block;
-        margin: 0 0 rhythm(1, 2 * $base-font-size) 0;
+        margin: 0 0 $spacing-large 0;
     }
 
     fieldset legend {
         font-weight: bold;
         font-size: 1.25 * $base-font-size;
-        @include trailer(.5, 1.25 * $base-font-size);
+        margin-bottom: $spacing-medium;
     }
 
     .logo {
@@ -3423,17 +3397,16 @@ body.minimal {
         padding: 0;
         text-align: center;
         font-size: 2 * $base-font-size;
-        line-height: 2 * $base-line-height;
+        line-height: 2 * $spacing-large;
     }
 
     div[role="main"] {
         width: 100%;
         min-height: 0;
         margin: 0;
-        padding: rhythm(2) span(1 of 8);
-        border-color: rgba(0,0,0,.15);
+        padding: ((2 * $spacing-large) - 1px) calc(#{span(1 of 8)} - 1px);
+        border: 1px solid rgba(0,0,0,.15);
         overflow: hidden;
-        @include rhythm-borders(1px, 0, $base-font-size, solid);
     }
 
     .inputs {
@@ -3456,7 +3429,7 @@ body.minimal {
     }
 
     .field:last-of-type {
-        @include trailer();
+        margin-bottom: 0;
     }
 }
 

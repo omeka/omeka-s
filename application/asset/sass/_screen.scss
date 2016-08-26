@@ -182,19 +182,7 @@ body {
         background-color: $gray-on-white;
     }
 
-    ::-webkit-input-placeholder {
-       font-style: italic;
-    }
-
-    :-moz-placeholder { /* Firefox 18- */
-       font-style: italic;
-    }
-
-    ::-moz-placeholder {  /* Firefox 19+ */
-       font-style: italic;
-    }
-
-    :-ms-input-placeholder {
+    ::placeholder {
        font-style: italic;
     }
 
@@ -338,8 +326,7 @@ body {
         padding: 0 $spacing-large 0 $spacing-small;
         border-radius: 3px;
         vertical-align: top;
-        -webkit-appearance: none;
-        -moz-appearance: none;
+        appearance: none;
     }
 
     select::-ms-expand {
@@ -424,8 +411,6 @@ body {
 /* @group ----- Reusable classes ----- */
 
 .flex {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
 }
 
@@ -1073,14 +1058,8 @@ div[role="main"] {
 }
 
 .browse .browse-controls {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     font-size: .8175 * $base-font-size;
 }

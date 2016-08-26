@@ -12,5 +12,6 @@
 /application/language/
 /application/test/config/database.ini
 /vendor/
+/node_modules/
 .sass-cache
 .DS_Store

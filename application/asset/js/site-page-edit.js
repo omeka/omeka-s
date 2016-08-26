@@ -3,7 +3,7 @@
         var config = {
             toolbar:
             [
-                ['Source', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
+                ['Sourcedialog', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
             ],
             height: '96px'
         };

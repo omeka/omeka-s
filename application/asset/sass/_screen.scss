@@ -1526,7 +1526,7 @@ input[type="text"].value-language,
         padding: $spacing-small 10px;
 
         & > ul {
-            margin: $spacing-small -10px -($spacing-small);
+            margin: $spacing-small -10px (-$spacing-small);
             border-radius: 0 0 3px 3px;
         }
     }

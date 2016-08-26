@@ -111,6 +111,69 @@
             }
         });
 
+        // Handle validation for required properties.
+        $('#add-item,#edit-item').on('submit', function(e) {
+
+            var thisForm = $(this);
+            var errors = [];
+
+            // Iterate all required properties.
+            var requiredProps = thisForm.find('fieldset.resource-values.required');
+            requiredProps.each(function() {
+
+                var thisProp = $(this);
+                var propIsCompleted = false;
+
+                // Iterate all values for this required property.
+                var requiredValues = $(this).find('fieldset.value').not('.delete');
+                requiredValues.each(function() {
+
+                    var thisValue = $(this);
+                    thisValue.data('valueIsCompleted', false);
+                    thisValue.trigger('o:check-required-value');
+                    if (thisValue.data('valueIsCompleted')) {
+                        // There's at least one completed value of this required
+                        // property. Consider the requirement satisfied.
+                        propIsCompleted = true;
+                        return false; // break out of each
+                    }
+                });
+                if (!propIsCompleted) {
+                    // No completed values found for this required property.
+                    var propLabel = thisProp.find('legend.field-label').text();
+                    errors.push('The following field is required: ' + propLabel);
+                }
+            });
+            if (errors.length) {
+                e.preventDefault();
+                alert(errors.join("\n"));
+            }
+        });
+
+        // Handle "literal" data type validation for a required property.
+        $(document).on('o:check-required-value', '[data-data-type="literal"]', function(e) {
+            var thisValue = $(e.target);
+            if ('' !== thisValue.find('textarea.input-value').val()) {
+                thisValue.data('valueIsCompleted', true);
+            }
+        });
+
+        // Handle "uri" data type validation for a required property.
+        $(document).on('o:check-required-value', '[data-data-type="uri"]', function(e) {
+            var thisValue = $(e.target);
+            if ('' !== thisValue.find('input.value').val()) {
+                thisValue.data('valueIsCompleted', true);
+            }
+        });
+
+        // Handle "resource" data type validation for a required property.
+        $(document).on('o:check-required-value', '[data-data-type="resource"]', function(e) {
+            var thisValue = $(e.target);
+            if ('' !== thisValue.find('input.value').val()) {
+                thisValue.data('valueIsCompleted', true);
+            }
+        });
+
         initPage();
     });
 

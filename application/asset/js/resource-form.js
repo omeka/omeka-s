@@ -129,17 +129,23 @@
                 requiredValues.each(function() {
 
                     var thisValue = $(this);
-                    // Inputs with the "to-require" class must be completed when
-                    // the property is required.
+                    var valueIsCompleted = true;
+
+                    // All inputs of this value with the "to-require" class must
+                    // be completed when the property is required.
                     var toRequire = thisValue.find('.to-require');
                     toRequire.each(function() {
-                        if ('' !== $.trim($(this).val())) {
-                            // There's at least one completed input of this required
-                            // property. Consider the requirement satisfied.
-                            propIsCompleted = true;
-                            return false; // break out of each
+                        if ('' === $.trim($(this).val())) {
+                            // Found an incomplete input.
+                            valueIsCompleted = false;
                         }
                     });
+                    if (valueIsCompleted) {
+                        // There's at least one completed value of this required
+                        // property. Consider the requirement satisfied.
+                        propIsCompleted = true;
+                        return false; // break out of each
+                    }
                 });
                 if (!propIsCompleted) {
                     // No completed values found for this required property.

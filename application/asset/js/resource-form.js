@@ -129,14 +129,17 @@
                 requiredValues.each(function() {
 
                     var thisValue = $(this);
-                    thisValue.data('valueIsCompleted', false);
-                    thisValue.trigger('o:check-required-value');
-                    if (thisValue.data('valueIsCompleted')) {
-                        // There's at least one completed value of this required
-                        // property. Consider the requirement satisfied.
-                        propIsCompleted = true;
-                        return false; // break out of each
-                    }
+                    // Inputs with the "to-require" class must be completed when
+                    // the property is required.
+                    var toRequire = thisValue.find('.to-require');
+                    toRequire.each(function() {
+                        if ('' !== $.trim($(this).val())) {
+                            // There's at least one completed input of this required
+                            // property. Consider the requirement satisfied.
+                            propIsCompleted = true;
+                            return false; // break out of each
+                        }
+                    });
                 });
                 if (!propIsCompleted) {
                     // No completed values found for this required property.
@@ -147,30 +150,6 @@
             if (errors.length) {
                 e.preventDefault();
                 alert(errors.join("\n"));
-            }
-        });
-
-        // Handle "literal" data type validation for a required property.
-        $(document).on('o:check-required-value', '[data-data-type="literal"]', function(e) {
-            var thisValue = $(e.target);
-            if ('' !== thisValue.find('textarea.input-value').val()) {
-                thisValue.data('valueIsCompleted', true);
-            }
-        });
-
-        // Handle "uri" data type validation for a required property.
-        $(document).on('o:check-required-value', '[data-data-type="uri"]', function(e) {
-            var thisValue = $(e.target);
-            if ('' !== thisValue.find('input.value').val()) {
-                thisValue.data('valueIsCompleted', true);
-            }
-        });
-
-        // Handle "resource" data type validation for a required property.
-        $(document).on('o:check-required-value', '[data-data-type="resource"]', function(e) {
-            var thisValue = $(e.target);
-            if ('' !== thisValue.find('input.value').val()) {
-                thisValue.data('valueIsCompleted', true);
             }
         });
 

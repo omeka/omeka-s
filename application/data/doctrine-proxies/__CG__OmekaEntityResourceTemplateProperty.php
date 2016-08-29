@@ -64,10 +64,10 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType'];
+            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired'];
         }
 
-        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType'];
+        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired'];
     }
 
     /**
@@ -318,6 +318,28 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDataType', []);
 
         return parent::getDataType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsRequired($isRequired)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsRequired', [$isRequired]);
+
+        return parent::setIsRequired($isRequired);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isRequired()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isRequired', []);
+
+        return parent::isRequired();
     }
 
     /**

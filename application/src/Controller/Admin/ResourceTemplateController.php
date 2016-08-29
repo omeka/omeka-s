@@ -169,6 +169,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
                         'o:data_type' => $resTemProp->dataType(),
+                        'o:is_required' => $resTemProp->isRequired(),
                     ];
                 }
             } else {
@@ -186,12 +187,14 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
+                        'o:is_required' => false,
                     ],
                     [
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
+                        'o:is_required' => false,
                     ],
                 ];
             }

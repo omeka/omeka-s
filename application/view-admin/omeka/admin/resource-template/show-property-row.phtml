@@ -14,6 +14,7 @@ $propertyId = $escape($property->id());
     <textarea name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-comment"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea>
     <input class="property-id-element" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
     <?php echo $this->dataType()->getSelect($namePrefix . '[o:data_type]', $propertyRow['o:data_type']); ?>
+    <input type="checkbox" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>"<?php echo $propertyRow['o:is_required'] ? ' checked="checked"' : null; ?>>
     <ul class="actions">
         <li><a href="#"
             class="o-icon-delete resource-template-property-remove"

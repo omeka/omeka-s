@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -124,6 +125,33 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 
         // o:resource_template
         $this->hydrateResourceTemplate($request, $entity);
+    }
+
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
+        $resourceTemplate = $entity->getResourceTemplate();
+        if ($resourceTemplate) {
+            // Confirm that a value exists for each required property.
+            $criteria = Criteria::create()->where(Criteria::expr()->eq('isRequired', true));
+            $requiredProps = $resourceTemplate->getResourceTemplateProperties()->matching($criteria);
+            foreach ($requiredProps as $requiredProp) {
+                $propExists = $entity->getValues()->exists(
+                    function ($key, $element) use ($requiredProp) {
+                        return $requiredProp->getProperty()->getId()
+                            === $element->getProperty()->getId();
+                    }
+                );
+                if (!$propExists) {
+                    $errorStore->addError('o:resource_template_property', sprintf(
+                        'The "%s" resource template requires a "%s" value',
+                        $resourceTemplate->getLabel(),
+                        $requiredProp->getAlternateLabel()
+                            ? $requiredProp->getAlternateLabel()
+                            : $requiredProp->getProperty()->getLabel()
+                    ));
+                }
+            }
+        }
     }
 
     /**

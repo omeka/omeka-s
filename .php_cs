@@ -33,6 +33,7 @@ return Symfony\CS\Config\Config::create()
             ->exclude('data/doctrine-proxies')
             ->exclude('data/media-types')
             ->exclude('modules')
+            ->exclude('node_modules')
             ->in(__DIR__)
     )
 ;

@@ -1,0 +1,15 @@
+{
+  "name": "omeka-s",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omeka/omeka-s.git"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.4.0",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.1.1",
+    "gulp-sass": "^2.3.2",
+    "susy": "^2.2.12"
+  }
+}

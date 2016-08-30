@@ -56,6 +56,11 @@ class Media extends Resource
     protected $extension;
 
     /**
+     * @Column(nullable=true, type="string", length=64, options={"fixed" = true})
+     */
+    protected $sha256;
+
+    /**
      * @Column(type="boolean")
      */
     protected $hasOriginal = false;
@@ -179,6 +184,16 @@ class Media extends Resource
     public function getExtension()
     {
         return $this->extension;
+    }
+
+    public function setSha256($sha256)
+    {
+        $this->sha256 = $sha256;
+    }
+
+    public function getSha256()
+    {
+        return $this->sha256;
     }
 
     public function getFilename()

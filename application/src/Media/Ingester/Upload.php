@@ -79,22 +79,19 @@ class Upload implements IngesterInterface
             }
             return;
         }
-
-        // Actually process and move the upload
         $fileInput->getValue();
         $file->setSourceName($fileData['name']);
-        $hasThumbnails = $fileManager->storeThumbnails($file);
-        $fileManager->storeOriginal($file);
 
         $media->setStorageId($file->getStorageId());
         $media->setExtension($fileManager->getExtension($file));
         $media->setMediaType($file->getMediaType());
-        $media->setHasThumbnails($hasThumbnails);
+        $media->setSha256($file->getSha256());
+        $media->setHasThumbnails($fileManager->storeThumbnails($file));
         $media->setHasOriginal(true);
-
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($fileData['name']);
         }
+        $fileManager->storeOriginal($file);
     }
 
     /**

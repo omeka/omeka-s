@@ -30,6 +30,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:item' => $this->item()->getReference(),
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
+            'o:sha256' => $this->sha256(),
             'o:filename' => $this->filename(),
             'o:lang' => $this->lang(),
             'o:original_url' => $this->originalUrl(),
@@ -151,6 +152,16 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function mediaType()
     {
         return $this->resource->getMediaType();
+    }
+
+    /**
+     * Get the SHA-256 of the media.
+     *
+     * @return string|null
+     */
+    public function sha256()
+    {
+        return $this->resource->getSha256();
     }
 
     /**

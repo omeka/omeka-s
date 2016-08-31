@@ -2,14 +2,13 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\PropertySelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class PropertySelectFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $helpers)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $formElementManager = $helpers->getServiceLocator()->get('FormElementManager');
-        return new PropertySelect($formElementManager);
+        return new PropertySelect($services->get('FormElementManager'));
     }
 }

@@ -7,12 +7,12 @@ use DirectoryIterator;
 use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
 use Doctrine\DBAL\Exception\TableNotFoundException;
+use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
 use Zend\Config\Reader\Ini as IniReader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Factory for creating Omeka's module manager
@@ -22,10 +22,10 @@ class ModuleManagerFactory implements FactoryInterface
     /**
      * Create the module manager
      *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return array
+     * @param ContainerInterface $serviceLocator
+     * @return ModuleManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $manager = new ModuleManager($serviceLocator);
         $iniReader = new IniReader;

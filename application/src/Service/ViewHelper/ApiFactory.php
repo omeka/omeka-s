@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Api;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the api view helper.
@@ -14,12 +14,10 @@ class ApiFactory implements FactoryInterface
     /**
      * Create and return the api view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return Api
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Api($serviceLocator->get('Omeka\ApiManager'));
+        return new Api($services->get('Omeka\ApiManager'));
     }
 }

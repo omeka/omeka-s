@@ -2,15 +2,15 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\SiteSettingsForm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class SiteSettingsFormFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $form = new SiteSettingsForm;
-        $form->setSiteSettings($elements->getServiceLocator()->get('Omeka\SiteSettings'));
+        $form->setSiteSettings($services->get('Omeka\SiteSettings'));
         return $form;
     }
 }

@@ -193,7 +193,7 @@ class Manager
             $event = new Event(Event::API_EXECUTE_PRE, $adapter, [
                 'request' => $request,
             ]);
-            $adapter->getEventManager()->trigger($event);
+            $adapter->getEventManager()->triggerEvent($event);
 
             // Trigger the api.{operation}.pre event.
             $event = new Event(
@@ -202,7 +202,7 @@ class Manager
                     'request' => $request,
                 ]
             );
-            $adapter->getEventManager()->trigger($event);
+            $adapter->getEventManager()->triggerEvent($event);
 
             switch ($request->getOperation()) {
                 case Request::SEARCH:
@@ -262,14 +262,14 @@ class Manager
                     'response' => $response,
                 ]
             );
-            $adapter->getEventManager()->trigger($event);
+            $adapter->getEventManager()->triggerEvent($event);
 
             // Trigger the api.execute.post event.
             $event = new Event(Event::API_EXECUTE_POST, $adapter, [
                 'request' => $request,
                 'response' => $response,
             ]);
-            $adapter->getEventManager()->trigger($event);
+            $adapter->getEventManager()->triggerEvent($event);
         } catch (Exception\ValidationException $e) {
             $this->logger->err((string) $e);
             $response = new Response;

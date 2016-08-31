@@ -21,7 +21,9 @@ class AbstractResourceEntityRepresentationTest extends TestCase
                 $this->equalTo($resourceClass)
             );
 
-        $apiAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
+        $apiAdapterManager = $this->getMockBuilder('Omeka\Api\Adapter\Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
         $apiAdapterManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($resourceClassAdapter));

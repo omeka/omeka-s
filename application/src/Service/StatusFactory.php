@@ -2,8 +2,8 @@
 namespace Omeka\Service;
 
 use Omeka\Mvc\Status;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Status object factory.
@@ -13,10 +13,9 @@ class StatusFactory implements FactoryInterface
     /**
      * Create the status service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Status
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         return new Status($serviceLocator);
     }

@@ -50,8 +50,8 @@ class Trigger extends AbstractHelper
             $params = $this->events->prepareArgs($params);
         }
         $event = new Event($name, $this->getView(), $params);
-        $this->events->setIdentifiers($routeMatch->getParam('controller'));
-        $this->events->trigger($event);
+        $this->events->setIdentifiers([$routeMatch->getParam('controller')]);
+        $this->events->triggerEvent($event);
         if ($filter) {
             return $params;
         }

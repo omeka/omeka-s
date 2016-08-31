@@ -4,8 +4,8 @@ namespace Omeka\Service\ViewHelper;
 
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\View\Helper\AssetUrl;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the assetUrl view helper.
@@ -15,12 +15,10 @@ class AssetUrlFactory implements FactoryInterface
     /**
      * Create and return the assetUrl view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return ApiJsonStrategy
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
         $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')->getCurrentTheme();
         $activeModules = $serviceLocator->get('Omeka\ModuleManager')
             ->getModulesByState(ModuleManager::STATE_ACTIVE);

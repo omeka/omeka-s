@@ -186,7 +186,9 @@ class ManagerTest extends TestCase
         }
 
         // Omeka\ApiAdapterManager
-        $mockAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
+        $mockAdapterManager = $this->getMockBuilder('Omeka\Api\Adapter\Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
         if ($validResource) {
             $mockAdapterManager->expects($this->any())
                 ->method('get')

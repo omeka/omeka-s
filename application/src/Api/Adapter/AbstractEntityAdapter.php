@@ -209,7 +209,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'queryBuilder' => $qb,
             'request' => $request,
         ]);
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
 
         // Finish building the search query. In addition to any sorting the
         // adapters add, always sort by entity ID.
@@ -319,7 +319,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'entity' => $entity,
             'request' => $request,
         ]);
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
         $representation = $this->getRepresentation($entity);
         return new Response($representation);
     }
@@ -374,7 +374,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'entity' => $entity,
             'request' => $request,
         ]);
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
         $this->getEntityManager()->remove($entity);
         return $entity;
     }
@@ -404,7 +404,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
             'errorStore' => $errorStore,
         ]);
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
 
         // Validate the request.
         $this->validateRequest($request, $errorStore);
@@ -423,7 +423,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
             'errorStore' => $errorStore,
         ]);
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
 
         // Validate the entity.
         $this->validateEntity($entity, $errorStore);
@@ -490,7 +490,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
 
-        $this->getEventManager()->trigger($event);
+        $this->getEventManager()->triggerEvent($event);
         $entity = $qb->getQuery()->getOneOrNullResult();
         if (!$entity) {
             throw new Exception\NotFoundException(sprintf(

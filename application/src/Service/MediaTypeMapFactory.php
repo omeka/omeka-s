@@ -1,12 +1,12 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class MediaTypeMapFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $mapPath = OMEKA_PATH . '/application/data/media-types/media-type-map.php';
         if (!is_file($mapPath)) {

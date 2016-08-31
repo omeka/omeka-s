@@ -2,14 +2,14 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\ItemSetSelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ItemSetSelectFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $helpers)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $formElementManager = $helpers->getServiceLocator()->get('FormElementManager');
+        $formElementManager = $services->get('FormElementManager');
         return new ItemSetSelect($formElementManager);
     }
 }

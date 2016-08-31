@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
@@ -9,8 +10,7 @@ use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
 use Zend\Permissions\Acl\Assertion\AssertionAggregate;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Access control list factory.
@@ -20,17 +20,17 @@ class AclFactory implements FactoryInterface
     /**
      * Create the access control list.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @return Acl
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $acl = new Acl;
 
         $auth = $serviceLocator->get('Omeka\AuthenticationService');
         $acl->setAuthenticationService($auth);
 
-        $this->addRoles($acl, $serviceLocator);
+        $this->addRoles($acl);
         $this->addResources($acl, $serviceLocator);
 
         $status = $serviceLocator->get('Omeka\Status');
@@ -40,7 +40,7 @@ class AclFactory implements FactoryInterface
             // Allow all privileges during installation and migration.
             $acl->allow();
         } else {
-            $this->addRules($acl, $serviceLocator);
+            $this->addRules($acl);
         }
 
         return $acl;
@@ -50,9 +50,8 @@ class AclFactory implements FactoryInterface
      * Add ACL roles.
      *
      * @param Acl $acl
-     * @param ServiceLocatorInterface $serviceLocator
      */
-    protected function addRoles(Acl $acl, ServiceLocatorInterface $serviceLocator)
+    protected function addRoles(Acl $acl)
     {
         $acl->addRole(Acl::ROLE_RESEARCHER)
             ->addRole(Acl::ROLE_AUTHOR)
@@ -72,9 +71,9 @@ class AclFactory implements FactoryInterface
      * - Controller classes
      *
      * @param Acl $acl
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      */
-    protected function addResources(Acl $acl, ServiceLocatorInterface $serviceLocator)
+    protected function addResources(Acl $acl, ContainerInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
 
@@ -110,8 +109,10 @@ class AclFactory implements FactoryInterface
 
         // Add controllers as ACL resources. These rules are used to set rules
         // for access to controllers and their actions.
-        $controllers = array_keys($serviceLocator->get('ControllerLoader')
-            ->getCanonicalNames());
+        $controllers = array_merge(
+            array_keys($config['controllers']['invokables']),
+            array_keys($config['controllers']['factories'])
+        );
         foreach ($controllers as $controller) {
             $acl->addResource($controller);
         }
@@ -121,9 +122,8 @@ class AclFactory implements FactoryInterface
      * Add ACL rules.
      *
      * @param Acl $acl
-     * @param ServiceLocatorInterface $serviceLocator
      */
-    protected function addRules(Acl $acl, ServiceLocatorInterface $serviceLocator)
+    protected function addRules(Acl $acl)
     {
         $this->addRulesForSites($acl);
         $this->addRulesForAllRoles($acl);

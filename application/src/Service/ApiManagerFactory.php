@@ -2,18 +2,17 @@
 namespace Omeka\Service;
 
 use Omeka\Api\Manager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ApiManagerFactory implements FactoryInterface
 {
     /**
      * Create the CLI service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Cli
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $adapterManager = $serviceLocator->get('Omeka\ApiAdapterManager');
         $acl = $serviceLocator->get('Omeka\Acl');

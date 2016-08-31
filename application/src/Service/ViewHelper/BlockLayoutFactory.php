@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\BlockLayout;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the blockLayout view helper.
@@ -14,12 +14,10 @@ class BlockLayoutFactory implements FactoryInterface
     /**
      * Create and return the blockLayout view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return BlockLayout
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new BlockLayout($serviceLocator->get('Omeka\BlockLayoutManager'));
+        return new BlockLayout($services->get('Omeka\BlockLayoutManager'));
     }
 }

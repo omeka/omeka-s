@@ -2,18 +2,17 @@
 namespace Omeka\Service;
 
 use Zend\Http\Client;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class HttpClientFactory implements FactoryInterface
 {
     /**
      * Create an HTTP Client instance.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Client
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         $options = [];

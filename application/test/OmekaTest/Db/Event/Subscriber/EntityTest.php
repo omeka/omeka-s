@@ -29,7 +29,7 @@ class EntityTest extends TestCase
             ->method('setIdentifiers')
             ->with($this->equalTo(['Omeka\Db\Event\Subscriber\Entity']));
         $eventManager->expects($this->exactly(6))
-            ->method('trigger')
+            ->method('triggerEvent')
             ->with($this->isInstanceOf('Omeka\Event\Event'));
         $entity = new Entity($eventManager);
 

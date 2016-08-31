@@ -90,19 +90,31 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
-            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            OmekaEvent::API_SEARCH_QUERY,
+            [$this, 'filterMedia']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\MediaAdapter',
+            OmekaEvent::API_FIND_QUERY,
             [$this, 'filterMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SiteAdapter',
-            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            OmekaEvent::API_SEARCH_QUERY,
+            [$this, 'filterSites']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\SiteAdapter',
+            OmekaEvent::API_FIND_QUERY,
             [$this, 'filterSites']
         );
 
         $sharedEventManager->attach(
             'Zend\Stdlib\DispatchableInterface',
-            [MvcEvent::EVENT_DISPATCH],
+            MvcEvent::EVENT_DISPATCH,
             [$this, 'authorizeUserAgainstController'],
             1000
         );
@@ -125,36 +137,34 @@ class Module extends AbstractModule
             }
         );
 
-        $sharedEventManager->attach(
-            [
-                'Omeka\Controller\Admin\Item',
-                'Omeka\Controller\Admin\ItemSet',
-                'Omeka\Controller\Admin\Media',
-                'Omeka\Controller\Site\Item',
-                'Omeka\Controller\Site\Media',
-            ],
-            'view.show.after',
-            function (OmekaEvent $event) {
-                $resource = $event->getTarget()->resource;
-                echo $resource->embeddedJsonLd();
-            }
-        );
-
-        $sharedEventManager->attach(
-            [
-                'Omeka\Controller\Admin\Item',
-                'Omeka\Controller\Admin\ItemSet',
-                'Omeka\Controller\Admin\Media',
-                'Omeka\Controller\Site\Item',
-            ],
-            'view.browse.after',
-            function (OmekaEvent $event) {
-                $resources = $event->getTarget()->resources;
-                foreach ($resources as $resource) {
+        $resources = [
+            'Omeka\Controller\Admin\Item',
+            'Omeka\Controller\Admin\ItemSet',
+            'Omeka\Controller\Admin\Media',
+            'Omeka\Controller\Site\Item',
+            'Omeka\Controller\Site\Media',
+        ];
+        foreach ($resources as $resource) {
+            $sharedEventManager->attach(
+                $resource,
+                'view.show.after',
+                function (OmekaEvent $event) {
+                    $resource = $event->getTarget()->resource;
                     echo $resource->embeddedJsonLd();
                 }
-            }
-        );
+            );
+            $sharedEventManager->attach(
+                $resource,
+                'view.browse.after',
+                function (OmekaEvent $event) {
+                    $resources = $event->getTarget()->resources;
+                    foreach ($resources as $resource) {
+                        echo $resource->embeddedJsonLd();
+                    }
+                }
+            );
+        }
+
 
         $sharedEventManager->attach(
             '*',

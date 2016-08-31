@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Trigger;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the trigger view helper.
@@ -14,12 +14,10 @@ class TriggerFactory implements FactoryInterface
     /**
      * Create and return the trigger view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return Trigger
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Trigger($serviceLocator->get('EventManager'), $serviceLocator->get('Application'));
+        return new Trigger($services->get('EventManager'), $services->get('Application'));
     }
 }

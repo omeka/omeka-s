@@ -2,15 +2,15 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\SiteForm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class SiteFormFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $form = new SiteForm;
-        $form->setThemeManager($elements->getServiceLocator()->get('Omeka\Site\ThemeManager'));
+        $form->setThemeManager($services->get('Omeka\Site\ThemeManager'));
         return $form;
     }
 }

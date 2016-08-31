@@ -1,21 +1,13 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
-use Omeka\Api\Exception;
 use Omeka\ServiceManager\AbstractPluginManager;
+use Omeka\Site\BlockLayout\BlockLayoutInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
-    /**
-     * Do not replace strings during canonicalization.
-     *
-     * This prevents distinct yet similarly named block layouts from referencing
-     * the same handler instance.
-     *
-     * {@inheritDoc}
-     */
-    protected $canonicalNamesReplacements = [];
+    protected $instanceOf = BlockLayoutInterface::class;
 
     /**
      * {@inheritDoc}
@@ -27,18 +19,5 @@ class Manager extends AbstractPluginManager
             $instance = new Fallback($name);
         }
         return $instance;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validatePlugin($plugin)
-    {
-        if (!is_subclass_of($plugin, 'Omeka\Site\BlockLayout\BlockLayoutInterface')) {
-            throw new Exception\InvalidAdapterException(sprintf(
-                'The block layout class "%s" does not implement Omeka\BlockLayout\BlockLayoutInterface.',
-                get_class($plugin)
-            ));
-        }
     }
 }

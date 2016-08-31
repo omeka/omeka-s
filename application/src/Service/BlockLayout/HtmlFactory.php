@@ -1,21 +1,20 @@
 <?php
 namespace Omeka\Service\BlockLayout;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Site\BlockLayout\Html;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class HtmlFactory implements FactoryInterface
 {
     /**
      * Create the Html block layout service.
      *
-     * @param ServiceLocatorInterface $blockLayoutServiceLocator
+     * @param ContainerInterface $serviceLocator
      * @return Html
      */
-    public function createService(ServiceLocatorInterface $blockLayoutServiceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        $serviceLocator = $blockLayoutServiceLocator->getServiceLocator();
         $htmlPurifier = $serviceLocator->get('Omeka\HtmlPurifier');
         return new Html($htmlPurifier);
     }

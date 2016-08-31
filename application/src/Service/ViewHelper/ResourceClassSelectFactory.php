@@ -3,14 +3,13 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\ResourceClassSelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ResourceClassSelectFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $helpers)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $formElementManager = $helpers->getServiceLocator()->get('FormElementManager');
-        return new ResourceClassSelect($formElementManager);
+        return new ResourceClassSelect($services->get('FormElementManager'));
     }
 }

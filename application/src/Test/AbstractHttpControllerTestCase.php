@@ -23,7 +23,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $this->application = \Omeka\Mvc\Application::init($config);
 
         $events = $this->application->getEventManager();
-        $events->detach($this->application->getServiceManager()->get('SendResponseListener'));
+        $this->application->getServiceManager()->get('SendResponseListener')->detach($events);
 
         return $this->application;
     }

@@ -2,8 +2,8 @@
 namespace Omeka\Service;
 
 use Omeka\Media\FileRenderer\Manager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * File renderer manager factory.
@@ -13,10 +13,9 @@ class FileRendererManagerFactory implements FactoryInterface
     /**
      * Create the file renderer manager service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Manager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['file_renderers'])) {

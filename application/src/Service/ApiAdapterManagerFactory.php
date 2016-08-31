@@ -2,8 +2,8 @@
 namespace Omeka\Service;
 
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * API adapter manager factory.
@@ -13,10 +13,9 @@ class ApiAdapterManagerFactory implements FactoryInterface
     /**
      * Create the API adapter manager service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return ApiManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['api_adapters'])) {

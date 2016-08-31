@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\SiteSettings;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class SiteSettingsFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $plugins)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new SiteSettings($plugins->getServiceLocator()->get('Omeka\SiteSettings'));
+        return new SiteSettings($services->get('Omeka\SiteSettings'));
     }
 }

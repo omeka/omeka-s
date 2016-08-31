@@ -113,6 +113,6 @@ class Entity implements EventSubscriber
         }
         $this->events->setIdentifiers($identifiers);
         $event = new OmekaEvent($eventName, $entity);
-        $this->events->trigger($event);
+        $this->events->triggerEvent($event);
     }
 }

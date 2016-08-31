@@ -54,7 +54,7 @@ class MvcListenersTest extends TestCase
             ->will($this->returnValue($application));
 
         // Zend\Mvc\Router\RouteMatch
-        $routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+        $routeMatch = $this->getMockBuilder('Zend\Router\RouteMatch')
             ->disableOriginalConstructor()
             ->getMock();
         $routeMatch->expects($this->any())
@@ -65,7 +65,7 @@ class MvcListenersTest extends TestCase
             ->will($this->returnValue($routeMatch));
 
         // Zend\Mvc\Router\RouteStackInterface
-        $router = $this->getMock('Zend\Mvc\Router\RouteStackInterface');
+        $router = $this->getMock('Zend\Router\RouteStackInterface');
         $router->expects($this->any())
             ->method('assemble')
             ->with($this->equalTo([]), $this->equalTo(['name' => 'install']));

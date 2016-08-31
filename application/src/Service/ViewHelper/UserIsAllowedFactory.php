@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\UserIsAllowed;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the userIsAllowed view helper.
@@ -14,12 +14,10 @@ class UserIsAllowedFactory implements FactoryInterface
     /**
      * Create and return the userIsAllowed view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return UserIsAllowed
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new UserIsAllowed($serviceLocator->get('Omeka\Acl'));
+        return new UserIsAllowed($services->get('Omeka\Acl'));
     }
 }

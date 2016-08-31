@@ -2,18 +2,17 @@
 namespace Omeka\Service\JobDispatchStrategy;
 
 use Omeka\Job\Strategy\PhpCliStrategy;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class PhpCliFactory implements FactoryInterface
 {
     /**
      * Create the PhpCli strategy service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return PhpCliStrategy
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $cli = $serviceLocator->get('Omeka\Cli');
         $basePathHelper = $serviceLocator->get('ViewHelperManager')->get('BasePath');

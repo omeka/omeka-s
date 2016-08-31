@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\DataType;
 
-use Omeka\DataType\DataTypeInterface;
 use Omeka\Entity\Value;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;

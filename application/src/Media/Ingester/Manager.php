@@ -1,14 +1,13 @@
 <?php
 namespace Omeka\Media\Ingester;
 
-use Omeka\Media\Ingester\IngesterInterface;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
     protected $instanceOf = IngesterInterface::class;
-    
+
     /**
      * {@inheritDoc}
      */

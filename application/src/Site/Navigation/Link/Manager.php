@@ -2,7 +2,6 @@
 namespace Omeka\Site\Navigation\Link;
 
 use Omeka\ServiceManager\AbstractPluginManager;
-use Omeka\Site\Navigation\Link\LinkInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
-use Interop\Container\ContainerInterface
+use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\JobDispatcher;
 use Zend\ServiceManager\Factory\FactoryInterface;
 

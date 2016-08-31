@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Media\Renderer;
 
-use Omeka\Media\Renderer\RendererInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 

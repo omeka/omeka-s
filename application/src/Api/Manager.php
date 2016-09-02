@@ -335,7 +335,7 @@ class Manager
             $createEvent = new Event(Event::API_CREATE_PRE, $adapter, [
                 'request' => $createRequest,
             ]);
-            $adapter->getEventManager()->trigger($createEvent);
+            $adapter->getEventManager()->triggerEvent($createEvent);
         }
 
         $response = $adapter->batchCreate($request);
@@ -353,7 +353,7 @@ class Manager
                 'request' => $createRequest,
                 'response' => new Response($resource),
             ]);
-            $adapter->getEventManager()->trigger($createEvent);
+            $adapter->getEventManager()->triggerEvent($createEvent);
         }
 
         return $response;

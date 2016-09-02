@@ -61,6 +61,7 @@ class AbstractEntityAdapterTest extends TestCase
             'Omeka\EntityManager' => $entityManager,
             'MvcTranslator' => $translator,
             'Omeka\Acl' => $acl,
+            'EventManager' => $eventManager,
         ]);
         $this->adapter->setServiceLocator($serviceManager);
 

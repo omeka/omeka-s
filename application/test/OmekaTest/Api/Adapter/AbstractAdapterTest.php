@@ -71,6 +71,7 @@ class AbstractAdapterTest extends TestCase
         $serviceManager = $this->getServiceManager([
             'MvcTranslator' => $mockTranslator,
             'Omeka\ApiAdapterManager' => $mockAdapterManager,
+            'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
         ]);
         $this->adapter->setServiceLocator($serviceManager);
     }

@@ -3,6 +3,7 @@ namespace OmekaTest\Api\Representation;
 
 use Omeka\Test\TestCase;
 use ReflectionClass;
+use Zend\EventManager\EventManager;
 
 class AbstractResourceRepresentationTest extends TestCase
 {
@@ -26,7 +27,9 @@ class AbstractResourceRepresentationTest extends TestCase
         $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
         $adapter->expects($this->once())
             ->method('getServiceLocator')
-            ->will($this->returnValue($this->getServiceManager()));
+            ->will($this->returnValue($this->getServiceManager([
+                'EventManager' => new EventManager,
+            ])));
 
         $abstractResourceRep = $this->getMock(
             'Omeka\Api\Representation\AbstractResourceRepresentation',

@@ -30,6 +30,7 @@ class AbstractResourceEntityRepresentationTest extends TestCase
 
         $serviceLocator = $this->getServiceManager([
             'Omeka\ApiAdapterManager' => $apiAdapterManager,
+            'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
         ]);
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
@@ -53,7 +54,9 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             ->method('getCreated')
             ->will($this->returnValue($resourceCreated));
 
-        $serviceLocator = $this->getServiceManager();
+        $serviceLocator = $this->getServiceManager([
+            'EventManager' => $this->getMock('Zend\EventManager\EventManager')
+        ]);
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
         $adapter->expects($this->once())
@@ -76,7 +79,9 @@ class AbstractResourceEntityRepresentationTest extends TestCase
             ->method('getModified')
             ->will($this->returnValue($resourceModified));
 
-        $serviceLocator = $this->getServiceManager();
+        $serviceLocator = $this->getServiceManager([
+            'EventManager' => $this->getMock('Zend\EventManager\EventManager')
+        ]);
 
         $adapter = $this->getMock('Omeka\Api\Adapter\AbstractEntityAdapter');
         $adapter->expects($this->once())

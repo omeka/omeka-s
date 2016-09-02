@@ -168,6 +168,11 @@ var Omeka = {
     $(function() {
         Omeka.reserveSidebarSpace();
 
+        if (window.location.hash && $('.section').filter(window.location.hash).length) {
+            // Open the section that corresponds to the URL fragment identifier.
+            Omeka.switchActiveSection($(window.location.hash));
+        }
+
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
             var sidebarSelector = $(this).data('sidebar-selector') || '#content > .sidebar';

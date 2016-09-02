@@ -37,7 +37,7 @@ class ResourceVisibilityFilter extends SQLFilter
             $eventManager = $this->serviceLocator->get('EventManager');
             $event = new Event(Event::SQL_FILTER_RESOURCE_VISIBILITY, $this);
             $event->setParam('relatedEntities', []);
-            $eventManager->trigger($event);
+            $eventManager->triggerEvent($event);
             $this->relatedEntities = $event->getParam('relatedEntities');
         }
 

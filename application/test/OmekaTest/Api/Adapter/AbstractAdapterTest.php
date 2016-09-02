@@ -60,7 +60,9 @@ class AbstractAdapterTest extends TestCase
             ->method('translate')
             ->will($this->returnArgument(0));
 
-        $mockAdapterManager = $this->getMock('Omeka\Api\Adapter\Manager');
+        $mockAdapterManager = $this->getMockBuilder('Omeka\Api\Adapter\Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
         $mockAdapterManager->expects($this->any())
             ->method('get')
             ->with($this->equalTo('test_adapter'))

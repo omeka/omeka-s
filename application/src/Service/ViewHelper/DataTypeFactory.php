@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\DataType;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the dataType view helper.
@@ -14,12 +14,10 @@ class DataTypeFactory implements FactoryInterface
     /**
      * Create and return the dataType view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return DataType
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new DataType($serviceLocator->get('Omeka\DataTypeManager'));
+        return new DataType($services->get('Omeka\DataTypeManager'));
     }
 }

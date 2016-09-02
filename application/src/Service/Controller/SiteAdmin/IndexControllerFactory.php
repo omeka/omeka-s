@@ -1,15 +1,14 @@
 <?php
 namespace Omeka\Service\Controller\SiteAdmin;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Controller\SiteAdmin\IndexController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class IndexControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $controllers)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $services = $controllers->getServiceLocator();
         return new IndexController(
             $services->get('Omeka\Site\ThemeManager'),
             $services->get('Omeka\Site\NavigationLinkManager'),

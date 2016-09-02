@@ -2,22 +2,15 @@
 namespace Omeka\Service\Form\Element;
 
 use Omeka\Form\Element\Recaptcha;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class RecaptchaFactory implements FactoryInterface
 {
-    protected $options = [];
-
-    public function createService(ServiceLocatorInterface $formElements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $element = new Recaptcha(null, $this->options);
-        $element->setClient($formElements->getServiceLocator()->get('Omeka\HttpClient'));
+        $element = new Recaptcha(null, $options);
+        $element->setClient($services->get('Omeka\HttpClient'));
         return $element;
-    }
-
-    public function setCreationOptions(array $options)
-    {
-        $this->options = $options;
     }
 }

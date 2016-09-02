@@ -2,8 +2,8 @@
 namespace Omeka\Service;
 
 use Omeka\Db\Migration\Manager as MigrationManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Migration manager factory.
@@ -13,10 +13,9 @@ class MigrationManagerFactory implements FactoryInterface
     /**
      * Create the migration manager service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return MigrationManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = [
             'path'      => OMEKA_PATH . '/application/data/migrations',

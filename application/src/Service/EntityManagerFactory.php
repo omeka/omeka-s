@@ -10,8 +10,8 @@ use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\Utf8mb4;
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\ProxyAutoloader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Factory for creating the Doctrine entity manager.
@@ -26,7 +26,7 @@ class EntityManagerFactory implements FactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @return EntityManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');

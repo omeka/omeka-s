@@ -5,8 +5,8 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Noop;
 use Zend\Log\Writer\Stream;
 use Zend\Log\Filter\Priority;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Logger factory.
@@ -16,10 +16,9 @@ class LoggerFactory implements FactoryInterface
     /**
      * Create the logger service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Logger
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (isset($config['logger']['log'])

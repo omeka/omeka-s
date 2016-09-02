@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Pagination;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the pagination view helper.
@@ -14,12 +14,10 @@ class PaginationFactory implements FactoryInterface
     /**
      * Create and return the pagination view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return Pagination
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Pagination($serviceLocator->get('Omeka\Paginator'));
+        return new Pagination($services->get('Omeka\Paginator'));
     }
 }

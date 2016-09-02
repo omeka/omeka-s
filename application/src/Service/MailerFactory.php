@@ -2,18 +2,17 @@
 namespace Omeka\Service;
 
 use Zend\Mail\Transport\Factory as TransportFactory;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class MailerFactory implements FactoryInterface
 {
     /**
      * Create the mailer service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Mialer
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         $viewHelpers = $serviceLocator->get('ViewHelperManager');

@@ -2,14 +2,13 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\DeleteConfirm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class DeleteConfirmFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $helpers)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $formElementManager = $helpers->getServiceLocator()->get('FormElementManager');
-        return new DeleteConfirm($formElementManager);
+        return new DeleteConfirm($services->get('FormElementManager'));
     }
 }

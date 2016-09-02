@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Form\Initializer;
 
+use Interop\Container\ContainerInterface;
 use Zend\Form\Form;
-use Zend\ServiceManager\InitializerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Initializer\InitializerInterface;
 
 class Csrf implements InitializerInterface
 {
-    public function initialize($form, ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $form)
     {
         if (!$form instanceof Form) {
             return;

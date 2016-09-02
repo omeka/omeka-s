@@ -1,16 +1,16 @@
 <?php
 namespace Omeka\Service\Form\Element;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Form\Element\ItemSetSelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ItemSetSelectFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $element = new ItemSetSelect;
-        $element->setApiManager($elements->getServiceLocator()->get('Omeka\ApiManager'));
+        $element->setApiManager($services->get('Omeka\ApiManager'));
         return $element;
     }
 }

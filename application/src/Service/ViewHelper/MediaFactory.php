@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Media;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the media view helper.
@@ -17,12 +17,11 @@ class MediaFactory implements FactoryInterface
      * @param ServiceLocatorInterface $viewServiceLocator
      * @return Media
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
         return new Media(
-            $serviceLocator->get('Omeka\MediaIngesterManager'),
-            $serviceLocator->get('Omeka\MediaRendererManager')
+            $services->get('Omeka\MediaIngesterManager'),
+            $services->get('Omeka\MediaRendererManager')
         );
     }
 }

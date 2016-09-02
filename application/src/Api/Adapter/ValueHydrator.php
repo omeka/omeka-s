@@ -5,7 +5,7 @@ use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\Stdlib\Hydrator\HydrationInterface;
+use Zend\Hydrator\HydrationInterface;
 
 class ValueHydrator implements HydrationInterface
 {

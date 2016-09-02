@@ -37,8 +37,13 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      */
     public function getRegisteredNames()
     {
-        $services = $this->getRegisteredServices();
-        $registeredNames = array_merge($services['invokableClasses'], $services['factories']);
+        $aliases = $this->aliases;
+        $registeredNames = array_keys($aliases);
+        foreach ($this->factories as $key => $value) {
+            if (!in_array($key, $aliases)) {
+                $registeredNames[] = $key;
+            }
+        }
         $registeredNames = array_merge($this->sortedNames, array_diff($registeredNames, $this->sortedNames));
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,

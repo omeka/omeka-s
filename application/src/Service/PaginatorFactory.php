@@ -1,18 +1,17 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class PaginatorFactory implements FactoryInterface
 {
     /**
      * Create the Paginator service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return Paginator
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $settings = $serviceLocator->get('Omeka\Settings');
 

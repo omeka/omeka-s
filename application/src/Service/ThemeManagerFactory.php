@@ -6,12 +6,12 @@ use SplFileInfo;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Omeka\Site\Theme\Theme;
 use Zend\Config\Reader\Ini as IniReader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ThemeManagerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $manager = new ThemeManager;
         $iniReader = new IniReader;

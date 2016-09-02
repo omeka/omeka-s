@@ -24,12 +24,11 @@ class ApiAdapterManagerFactoryTest extends TestCase
             'Config' => $config,
         ]);
         $factory = new ApiAdapterManagerFactory;
-        $service = $factory->createService($serviceManager);
+        $service = $factory($serviceManager, 'Foo');
 
         $this->assertInstanceOf('Omeka\Api\Adapter\Manager', $service);
 
         // The adapter manager injects the service manager into the adapter.
-        $service->setServiceLocator($serviceManager);
         $this->assertInstanceOf(
             'OmekaTest\Service\TestAdapter',
             $service->get('test_adapter')

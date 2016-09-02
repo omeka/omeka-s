@@ -3,25 +3,23 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\ThemeSetting;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
- * Service factory for the assetUrl view helper.
+ * Service factory for the themeSetting view helper.
  */
 class ThemeSettingFactory implements FactoryInterface
 {
     /**
-     * Create and return the assetUrl view helper
+     * Create and return the themeSetting view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
-     * @return ApiJsonStrategy
+     * @return ThemeSetting
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')->getCurrentTheme();
-        $siteSettings = $serviceLocator->get('Omeka\SiteSettings');
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        $siteSettings = $services->get('Omeka\SiteSettings');
 
         $themeSettings = $siteSettings->get($currentTheme->getSettingsKey(), []);
         return new ThemeSetting($themeSettings);

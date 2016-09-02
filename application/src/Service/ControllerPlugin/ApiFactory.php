@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\Api;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ApiFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $plugins)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Api($plugins->getServiceLocator()->get('Omeka\ApiManager'));
+        return new Api($services->get('Omeka\ApiManager'));
     }
 }

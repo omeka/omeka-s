@@ -112,5 +112,6 @@ abstract class AbstractRepresentation implements RepresentationInterface
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->services = $serviceLocator;
+        $this->setEventManager($serviceLocator->get('EventManager'));
     }
 }

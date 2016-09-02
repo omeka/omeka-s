@@ -21,6 +21,7 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
     public function __construct($configOrContainerInterface = null, array $v3config = [])
     {
         parent::__construct($configOrContainerInterface, $v3config);
+        $this->setEventManager($configOrContainerInterface->get('EventManager'));
 
         if (isset($v3config['sorted_names'])) {
             $this->sortedNames = $v3config['sorted_names'];

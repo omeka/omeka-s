@@ -119,6 +119,17 @@ class File
     }
 
     /**
+     * Get the SHA-256 checksum of the file.
+     *
+     * @uses hash_file
+     * @return string
+     */
+    public function getSha256()
+    {
+        return hash_file('sha256', $this->getTempPath());
+    }
+
+    /**
      * Delete this temporary file.
      *
      * Always delete a temporary file after all work has been done. Otherwise

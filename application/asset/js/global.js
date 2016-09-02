@@ -39,6 +39,7 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+        window.location.hash = section.attr('id');
         this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {

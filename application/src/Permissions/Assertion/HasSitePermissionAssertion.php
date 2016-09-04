@@ -3,7 +3,6 @@ namespace Omeka\Permissions\Assertion;
 
 use Doctrine\Common\Collections\Criteria;
 use Omeka\Entity\Site;
-use Omeka\Entity\SitePage;
 use Omeka\Entity\SitePermission;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
@@ -22,12 +21,10 @@ class HasSitePermissionAssertion implements AssertionInterface
     public function assert(Acl $acl, RoleInterface $role = null,
         ResourceInterface $resource = null, $privilege = null
     ) {
-        if ($resource instanceof Site) {
-            $site = $resource;
-        } elseif ($resource instanceof SitePage) {
-            $site = $resource->getSite();
-        } else {
-            // Not a recognized resource.
+        if (method_exists($resource, 'getSite')) {
+            $resource = $resource->getSite();
+        }
+        if (!$resource instanceof Site) {
             return false;
         }
 
@@ -37,7 +34,7 @@ class HasSitePermissionAssertion implements AssertionInterface
         }
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('user', $role));
-        $sitePermission =  $site->getSitePermissions()
+        $sitePermission =  $resource->getSitePermissions()
             ->matching($criteria)->first();
         if (!$sitePermission) {
             // This user has no site permission

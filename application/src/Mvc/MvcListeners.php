@@ -270,7 +270,8 @@ class MvcListeners extends AbstractListenerAggregate
         } catch (\Exception $e) {
             $event->setError(ZendApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
-            $event->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $event->getApplication()->getEventManager()->triggerEvent($event);
             return false;
         }
 

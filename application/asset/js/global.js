@@ -36,10 +36,11 @@ var Omeka = {
 
     switchActiveSection: function (section) {
         var closedSection = $('.section.active');
+        var sectionId = '#' + section.attr('id');
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
-        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
-        window.location.hash = section.attr('id');
+        $('.section-nav a[href="' + sectionId + '"]').parent().addClass('active');
+        history.replaceState(null, document.title, sectionId);
         this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {

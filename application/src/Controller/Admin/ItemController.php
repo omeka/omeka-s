@@ -127,6 +127,7 @@ class ItemController extends AbstractActionController
     public function addAction()
     {
         $form = $this->getForm(ResourceForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'add-item');
         if ($this->getRequest()->isPost()) {
@@ -153,6 +154,7 @@ class ItemController extends AbstractActionController
     public function editAction()
     {
         $form = $this->getForm(ResourceForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'edit-item');
         $item = $this->api()->read('items', $this->params('id'))->getContent();

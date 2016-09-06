@@ -144,7 +144,9 @@ body {
         border: 1px solid rgba(0,0,0,.15);
         display: block;
         background-color: #fff;
-        min-height: rhythm(3);
+        min-height: 3 * $spacing-large;
+        max-height: 5 * $spacing-large;
+        overflow-y: scroll;
     }
 
     [contenteditable="true"] p {

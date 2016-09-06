@@ -485,11 +485,6 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
-            'Omeka\Controller\Admin\ResourceTemplate',
-            'add-new-property-row'
-        );
-        $acl->allow(
-            'reviewer',
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -507,7 +502,6 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
-                'Omeka\Controller\Admin\ResourceTemplate',
             ],
             [
                 'add',
@@ -521,7 +515,6 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
-                'Omeka\Api\Adapter\ResourceTemplateAdapter',
             ],
             [
                 'create',
@@ -535,7 +528,6 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
-                'Omeka\Entity\ResourceTemplate',
             ],
             [
                 'create',
@@ -548,7 +540,6 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
-                'Omeka\Entity\ResourceTemplate',
             ],
             [
                 'delete',

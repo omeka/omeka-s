@@ -548,6 +548,11 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
+            'Omeka\Entity\Resource',
+            'view-all'
+        );
+        $acl->allow(
+            'reviewer',
             'Omeka\Controller\Admin\User'
         );
         $acl->allow(
@@ -654,6 +659,11 @@ class AclFactory implements FactoryInterface
                 'update',
                 'delete',
             ]
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Entity\Resource',
+            'view-all'
         );
         $acl->allow(
             'editor',

@@ -5,19 +5,19 @@ $this->pageTitle($page->title(), 2);
 
 <div id="content" role="main">
 <?php
-$nav =  $this->navigation('Zend\Navigation\Site');
+$nav = $site->publicNav();
 $container = $nav->getContainer();
 $activePage = $nav->findActive($container);
 if ($activePage):
 ?>
     <?php if ($activePage['depth'] !== 0): ?>
-    <nav class="breadcrumbs"><?php echo $this->navigation()->breadcrumbs(); ?></nav>
+    <nav class="breadcrumbs"><?php echo $nav->breadcrumbs(); ?></nav>
     <?php endif; ?>
 <?php endif; ?>
 
 <?php if ($activePage): ?>
     <?php if ($this->displayNavigation && $activePage['page']->hasPages()): ?>
-    <nav class="sub-menu"><?php echo $this->navigation()->menu()->renderSubMenu(); ?></nav>
+    <nav class="sub-menu"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
     <?php endif; ?>
 <?php endif; ?>
 

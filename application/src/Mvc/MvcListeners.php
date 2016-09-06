@@ -241,14 +241,6 @@ class MvcListeners extends AbstractListenerAggregate
                 $services->get('ViewHelperManager')->setFactory($helper, $factory);
             }
         }
-
-        $translator = $services->get('Omeka\Site\NavigationTranslator');
-        $config = $services->get('Config');
-        $config['navigation']['site'] = $translator->toZend($site);
-        $allowOverride = $services->getAllowOverride();
-        $services->setAllowOverride(true);
-        $services->setService('Config', $config);
-        $services->setAllowOverride($allowOverride);
     }
 
     /**

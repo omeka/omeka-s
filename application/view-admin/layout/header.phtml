@@ -54,7 +54,7 @@ $globalNav =
                 <?php echo $site->link($site->title(), 'show'); ?>
             </h5>
             <a href="<?php echo $site->siteUrl(); ?>" class="o-icon-external public" target="_blank" aria-label="<?php echo $this->translate('View public site'); ?>" title="<?php echo $this->translate('View public site'); ?>"></a>
-        <?php echo $site->adminNav(); ?>
+        <?php echo $site->adminNav()->menu(); ?>
         </nav>
         <?php endif; ?>
         <?php echo $globalNav; ?>

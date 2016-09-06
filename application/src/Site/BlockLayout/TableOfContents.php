@@ -36,7 +36,7 @@ class TableOfContents extends AbstractBlockLayout
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
 
-        $nav =  $view->navigation('Zend\Navigation\Site');
+        $nav = $block->site()->publicNav();
         $container = $nav->getContainer();
         $activePage = $nav->findActive($container);
 

@@ -92,18 +92,21 @@ body {
         width: 100%;
     }
 
-    th {
+    th,
+    table.tablesaw th {
         font-weight: bold;
         text-align: left;
     }
 
-    td {
+    td,
+    table.tablesaw td {
         padding: #{$spacing-medium - 1px} $spacing-small 0;
         border-top: 1px solid $border-gray;
         vertical-align: middle;
     }
 
-    table {
+    table,
+    table.tablesaw {
         margin-bottom: $spacing-medium;
     }
 
@@ -115,7 +118,8 @@ body {
         background-color: $delete-bg;
     }
 
-    td {
+    td,
+    table.tablesaw td {
         padding: $spacing-small .5em;
         position: relative;
         vertical-align: top;
@@ -127,7 +131,7 @@ body {
         border-bottom: 1px solid $border-gray;
     }
 
-    .tablesaw thead tr:first-child th {
+    table.tablesaw thead tr:first-child th {
         padding-top: $spacing-small;
         padding-bottom: ($spacing-small - 1px);
         border-bottom: 1px solid $border-gray;

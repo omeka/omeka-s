@@ -159,7 +159,8 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Api\Adapter\SiteAdapter',
                 'Omeka\Api\Adapter\SitePageAdapter',
-            ]
+            ],
+            ['search', 'read']
         );
 
         $acl->allow(

@@ -341,7 +341,7 @@ class Module extends AbstractModule
     public function filterSites(Event $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+        if ($acl->userIsAllowed('Omeka\Entity\Site', 'view-all')) {
             return;
         }
 

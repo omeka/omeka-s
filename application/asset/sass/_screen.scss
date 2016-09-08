@@ -2769,6 +2769,13 @@ body.sidebar-open #content {
     margin-right: 0;
 }
 
+.resource-template .property.row label.require-property {
+    margin: -(1.5 * $spacing-large) 0 0 -4px;
+    display: block;
+    width: auto;
+    float: left;
+}
+
 /* @end */
 
 /* @group ----- Module: Browse ----- */

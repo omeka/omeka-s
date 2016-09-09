@@ -956,6 +956,16 @@ nav.pagination + *:not(.sorting) {
 
     /* @end */
 
+    /* @group ---- Site Settings ---- */
+
+    .settings legend {
+        font-size: 1.25 * $base-font-size;
+        padding: $spacing-medium 0;
+        font-weight: bold;
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @group ----- Wrappers ----- */

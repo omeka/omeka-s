@@ -361,6 +361,8 @@ return [
             'uploadLimit' => 'Omeka\View\Helper\UploadLimit',
             'formRecaptcha' => 'Omeka\Form\View\Helper\FormRecaptcha',
             'prepareRecaptcha' => 'Omeka\Form\View\Helper\PrepareRecaptcha',
+            'formHtmlTextarea' => 'Omeka\Form\View\Helper\FormHtmlTextarea',
+            'prepareHtmlTextarea' => 'Omeka\Form\View\Helper\PrepareHtmlTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
         ],
         'factories' => [
@@ -401,6 +403,7 @@ return [
             'Omeka\Form\Element\PropertySelect' => 'Omeka\Service\Form\Element\PropertySelectFactory',
             'Omeka\Form\Element\ItemSetSelect' => 'Omeka\Service\Form\Element\ItemSetSelectFactory',
             'Omeka\Form\Element\Recaptcha' => 'Omeka\Service\Form\Element\RecaptchaFactory',
+            'Omeka\Form\Element\HtmlTextarea' => 'Omeka\Service\Form\Element\HtmlTextareaFactory',
         ],
     ],
     'data_types' => [

@@ -386,6 +386,11 @@ return [
             'propertySelect' => 'Omeka\Service\ViewHelper\PropertySelectFactory',
             'itemSetSelect' => 'Omeka\Service\ViewHelper\ItemSetSelectFactory',
         ],
+        'delegators' => [
+            'Zend\Form\View\Helper\FormElement' => [
+                'Omeka\Service\Delegator\FormElementDelegatorFactory',
+            ],
+        ],
     ],
     'form_elements' => [
         'initializers' => [

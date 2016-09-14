@@ -14,9 +14,5 @@ class CkEditor extends AbstractHelper
         $view->headScript()->appendFile($view->assetUrl('js/ckeditor/ckeditor.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/ckeditor/adapters/jquery.js', 'Omeka'));
         $view->headScript()->appendScript("CKEDITOR.config.customConfig = '$customConfigUrl'");
-
-        // Map the CKEditor element types to the view helpers that render them.
-        $view->formElement()->addType('ckeditor', 'formCkeditor');
-        $view->formElement()->addType('ckeditor_inline', 'formCkeditorInline');
     }
 }

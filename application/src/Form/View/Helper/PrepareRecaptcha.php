@@ -15,9 +15,6 @@ class PrepareRecaptcha extends AbstractHelper
     {
         $view = $this->getView();
 
-        // Map the reCAPTCHA element type to the view helper that renders it.
-        $view->formElement()->addType('recaptcha', 'formRecaptcha');
-
         // Render the reCAPTCHA elements. The callback must be defined before
         // the reCAPTCHA API loads.
         $view->headScript()->appendScript('

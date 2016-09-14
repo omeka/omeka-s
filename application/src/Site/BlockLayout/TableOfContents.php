@@ -2,6 +2,7 @@
 namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Navigation\Navigation;
 use Zend\Form\Element\Number;
@@ -15,7 +16,7 @@ class TableOfContents extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $depth = new Number("o:block[__blockIndex__][o:data][depth]");
 

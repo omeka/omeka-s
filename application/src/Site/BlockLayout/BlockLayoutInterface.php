@@ -2,6 +2,7 @@
 namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
@@ -47,11 +48,12 @@ interface BlockLayoutInterface
      *
      * @param PhpRenderer $view
      * @param SiteRepresentation $site
+     * @param SitePageRepresentation $page
      * @param null|SitePageBlockRepresentation $block
      * @return string
      */
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null);
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null);
 
     /**
      * Render the provided block.

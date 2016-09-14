@@ -7,7 +7,7 @@ use Zend\Form\ElementInterface;
 /**
  * Render a textarea with an inline CKEditor HTML editor enabled.
  */
-class FormHtmlTextarea extends FormTextarea
+class FormCkeditorInline extends FormTextarea
 {
     public function render(ElementInterface $element)
     {

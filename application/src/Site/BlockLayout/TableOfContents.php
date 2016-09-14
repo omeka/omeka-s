@@ -36,7 +36,7 @@ class TableOfContents extends AbstractBlockLayout
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
 
-        $nav = $block->site()->publicNav();
+        $nav = $block->page()->site()->publicNav();
         $container = $nav->getContainer();
         $activePage = $nav->findActive($container);
 

@@ -3,7 +3,6 @@ namespace Omeka\Form\Element;
 
 use Omeka\Service\HtmlPurifier;
 use Zend\Form\Element\Textarea;
-use Zend\Form\View\Helper\FormElement;
 use Zend\InputFilter\InputProviderInterface;
 
 /**

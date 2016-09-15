@@ -17,7 +17,9 @@ class SettingController extends AbstractActionController
             'pagination_per_page' => $this->settings()->get('pagination_per_page'),
             'property_label_information' => $this->settings()->get('property_label_information'),
             'use_htmlpurifier' => $this->settings()->get('use_htmlpurifier'),
-            'default_site' => $this->settings()->get('default_site')
+            'default_site' => $this->settings()->get('default_site'),
+            'recaptcha_site_key' => $this->settings()->get('recaptcha_site_key'),
+            'recaptcha_secret_key' => $this->settings()->get('recaptcha_secret_key'),
         ];
         $form->setData($data);
 

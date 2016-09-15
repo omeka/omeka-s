@@ -74,14 +74,17 @@ class BlockLayout extends AbstractHelper
      * @param null|SiteRepresentation $site This layout/block's site
      * @return string
      */
-    public function form($layout, SiteRepresentation $site = null)
+    public function form($layout, SiteRepresentation $site = null,
+        SitePageRepresentation $page = null
+    )
     {
         $view = $this->getView();
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
-            $site = $block->page()->site();
+            $page = $block->page();
+            $site = $page->site();
         }
         return '
 <div class="block value" data-block-layout="' . $view->escapeHtml($layout) . '">
@@ -96,7 +99,7 @@ class BlockLayout extends AbstractHelper
     </div>
     <div class="block-content">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="' . $layout . '">' .
-    $this->manager->get($layout)->form($this->getView(), $site, $block) .
+    $this->manager->get($layout)->form($this->getView(), $site, $page, $block) .
     '</div>
 </div>';
     }

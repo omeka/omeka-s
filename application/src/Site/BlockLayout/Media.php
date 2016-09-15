@@ -3,6 +3,7 @@ namespace Omeka\Site\BlockLayout;
 
 use Zend\Form\Element\Select;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -14,7 +15,7 @@ class Media extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $html = '';
         $html .= $view->blockAttachmentsForm($block);

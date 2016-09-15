@@ -2,6 +2,7 @@
 namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Form\Element\Text;
 use Zend\View\Renderer\PhpRenderer;
@@ -14,7 +15,7 @@ class BrowsePreview extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $text = new Text("o:block[__blockIndex__][o:data][query]");
         $heading = new Text("o:block[__blockIndex__][o:data][heading]");

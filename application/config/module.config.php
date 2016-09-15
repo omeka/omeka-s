@@ -390,6 +390,12 @@ return [
             'Zend\Form\View\Helper\FormElement' => [
                 'Omeka\Service\Delegator\FormElementDelegatorFactory',
             ],
+            'Zend\Form\View\Helper\FormRow' => [
+                'Omeka\Service\Delegator\FormRowDelegatorFactory',
+            ],
+            'Zend\View\Helper\Navigation' => [
+                'Omeka\Service\Delegator\NavigationDelegatorFactory',
+            ],
         ],
     ],
     'form_elements' => [

@@ -122,7 +122,7 @@ body {
     table.tablesaw td {
         padding: $spacing-small .5em;
         position: relative;
-        vertical-align: top;
+        vertical-align: middle;
     }
 
     tr:last-of-type td,
@@ -1041,7 +1041,6 @@ div[role="main"] {
     max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-wrap: break-word;
-    margin: -($spacing-small) 0;
 }
 
 .browse .add.button,
@@ -1070,7 +1069,7 @@ div[role="main"] {
 .browse table img {
     width: (1.5 * $spacing-large);
     display: inline-block;
-    margin: -($spacing-small + 1px) $spacing-small #{-($spacing-small)} 0;
+    margin: 0 $spacing-small 0 0;
     vertical-align: middle;
 }
 
@@ -1089,6 +1088,13 @@ div[role="main"] {
 
 .browse .sorting button {
     padding: 0 10px;
+}
+
+.browse .actions {
+    position: absolute;
+    right: $spacing-small;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .actions {
@@ -2066,7 +2072,7 @@ input[type="text"].value-language,
     }
 
     .media.row img + .resource-name {
-        margin-left: (2 * $spacing-large);
+        margin: $spacing-small 0 $spacing-small (2 * $spacing-large);
     }
 
     .media.row .sortable-handle:before {

@@ -65,7 +65,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             if (!$blockData) {
                 // Add the pageTitle block to all new pages.
                 $blockData = [[
-                    'o:layout' => 'pagetitle',
+                    'o:layout' => 'pageTitle',
                     'o:data' => [],
                 ]];
             }

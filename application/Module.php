@@ -41,7 +41,6 @@ class Module extends AbstractModule
         parent::onBootstrap($event);
 
         $this->bootstrapSession();
-        $this->bootstrapViewHelpers();
 
         // Enable automatic translation for validation error messages
         AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
@@ -430,20 +429,5 @@ class Module extends AbstractModule
 
         $sessionManager = new SessionManager($sessionConfig, null, $sessionSaveHandler, []);
         Container::setDefaultManager($sessionManager);
-    }
-
-    /**
-     * Bootstrap view helpers.
-     */
-    private function bootstrapViewHelpers()
-    {
-        $services = $this->getServiceLocator();
-        $manager = $services->get('ViewHelperManager');
-
-        // Set the custom form row partial.
-        $manager->get('FormRow')->setPartial('common/form-row');
-
-        // Set the ACL to the navigation helper.
-        $manager->get('Navigation')->setAcl($services->get('Omeka\Acl'));
     }
 }

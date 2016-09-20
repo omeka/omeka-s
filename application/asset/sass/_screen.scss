@@ -122,7 +122,7 @@ body {
     table.tablesaw td {
         padding: $spacing-small .5em;
         position: relative;
-        vertical-align: top;
+        vertical-align: middle;
     }
 
     tr:last-of-type td,
@@ -316,7 +316,7 @@ body {
 
         .actions {
             font-size: $base-font-size;
-            padding: $spacing-small 0;
+            padding: $spacing-small (.5 * $spacing-small);
         }
     }
 
@@ -914,7 +914,7 @@ nav.pagination + *:not(.sorting) {
     #site-nav h5 {
         border-top: 0;
         border-bottom: 1px solid darken($blue, 10%);
-        padding-bottom: ($spacing-small - 1px);
+        padding: 0 $spacing-large ($spacing-small - 1px) 0;
         margin-bottom: $spacing-small;
     }
 
@@ -940,6 +940,7 @@ nav.pagination + *:not(.sorting) {
         text-align: right;
         font-size: $base-font-size;
         line-height: 1.25 * $spacing-large;
+        margin-top: -(1.625 * $spacing-large);
     }
 
     #menu a.item-pool:before {
@@ -1040,7 +1041,6 @@ div[role="main"] {
     max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-wrap: break-word;
-    margin: -($spacing-small) 0;
 }
 
 .browse .add.button,
@@ -1069,7 +1069,7 @@ div[role="main"] {
 .browse table img {
     width: (1.5 * $spacing-large);
     display: inline-block;
-    margin: -($spacing-small + 1px) $spacing-small #{-($spacing-small)} 0;
+    margin: 0 $spacing-small 0 0;
     vertical-align: middle;
 }
 
@@ -1088,6 +1088,13 @@ div[role="main"] {
 
 .browse .sorting button {
     padding: 0 10px;
+}
+
+.browse .actions {
+    position: absolute;
+    right: $spacing-small;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .actions {
@@ -2065,7 +2072,7 @@ input[type="text"].value-language,
     }
 
     .media.row img + .resource-name {
-        margin-left: (2 * $spacing-large);
+        margin: $spacing-small 0 $spacing-small (2 * $spacing-large);
     }
 
     .media.row .sortable-handle:before {
@@ -2101,7 +2108,8 @@ input[type="text"].value-language,
 
     .media-header h4 {
         font-size: $base-font-size;
-        margin: -($spacing-medium) -($spacing-small) $spacing-small;
+        margin: $spacing-small (-$spacing-small);
+        margin-top: -2 * $spacing-small;
         background-color: $gray-on-white;
         padding: $spacing-small;
     }

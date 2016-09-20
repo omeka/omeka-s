@@ -94,6 +94,9 @@ class Event extends ZendEvent
     // Site settings event
     const SITE_SETTINGS_FORM = 'site_settings.form';
 
+    // Global settings event
+    const GLOBAL_SETTINGS_FORM = 'global_settings.form';
+
     // Resource visibility SQL filter event
     const SQL_FILTER_RESOURCE_VISIBILITY = 'sql_filter.resource_visibility';
 }

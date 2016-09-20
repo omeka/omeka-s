@@ -21,6 +21,9 @@ class SettingController extends AbstractActionController
         ];
         $form->setData($data);
 
+        $event = new Event(Event::GLOBAL_SETTINGS_FORM, $this, ['form' => $form]);
+        $this->getEventManager()->triggerEvent($event);
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($this->params()->fromPost());

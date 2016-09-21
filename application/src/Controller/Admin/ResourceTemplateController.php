@@ -220,6 +220,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
             'o:data_type' => null,
+            'o:is_required' => false,
         ];
 
         $view = new ViewModel;

@@ -1,8 +1,10 @@
 <?php
 namespace Omeka\Service\ViewHelper;
+
 use Omeka\View\Helper\BlockShowTitleSelect;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
+
 /**
  * Service factory for the blockShowTitleeSelect view helper.
  */

@@ -4,7 +4,6 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\Form\Element\Select;
 use Zend\View\Renderer\PhpRenderer;
 
 class ItemShowcase extends AbstractBlockLayout

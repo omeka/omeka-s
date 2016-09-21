@@ -21,6 +21,7 @@ class HtmlTextarea extends Textarea implements InputProviderInterface
     {
         return [
             'name' => $this->getName(),
+            'required' => false,
             'filters' => [
                 [
                     'name' => 'callback',

@@ -22,6 +22,7 @@ class SettingForm extends Form
                 'label' => 'Administrator Email', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('administrator_email'),
                 'required' => true,
             ],
         ]);
@@ -33,6 +34,7 @@ class SettingForm extends Form
                 'label' => 'Installation Title', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('installation_title'),
                 'id' => 'installation-title',
                 'required' => true,
             ],
@@ -50,7 +52,7 @@ class SettingForm extends Form
             'attributes' => [
                 'id' => 'time-zone',
                 'required' => true,
-                'value' => $this->getSettings()->get('time_zone', 'UTC'),
+                'value' => $this->settings->get('time_zone', 'UTC'),
             ],
         ]);
 
@@ -62,6 +64,7 @@ class SettingForm extends Form
                 'info' => 'The maximum number of results per page on browse pages.', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('pagination_per_page'),
                 'required' => true,
             ],
         ]);
@@ -77,7 +80,10 @@ class SettingForm extends Form
                     'vocab' => 'Show Vocabulary',
                     'term' => 'Show Term'
                 ],
-            ]
+            ],
+            'attributes' => [
+                'value'    => $this->settings->get('property_label_information'),
+            ],
         ]);
 
         $this->add([
@@ -95,6 +101,9 @@ class SettingForm extends Form
                     },
                 ],
             ],
+            'attributes' => [
+                'value'    => $this->settings->get('default_site'),
+            ],
         ]);
 
         $this->add([
@@ -103,7 +112,10 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'Use HTMLPurifier', // @translate
                 'info'  => 'Clean up user-entered HTML.' // @translate
-            ]
+            ],
+            'attributes' => [
+                'value'    => $this->settings->get('use_htmlpurifier'),
+            ],
         ]);
 
         $inputFilter = $this->getInputFilter();

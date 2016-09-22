@@ -72,8 +72,10 @@ var Omeka = {
             });
             if (count > 0) {
                 parent.addClass('show');
+                parent.show();
             } else {
                 parent.removeClass('show');
+                parent.hide();
             }
             parent.children('span.selector-child-count').text(count);
         });

@@ -118,6 +118,21 @@ class SettingForm extends Form
             ],
         ]);
 
+        $this->add([
+            'type' => 'text',
+            'name' => 'recaptcha_site_key',
+            'options' => [
+                'label' => 'reCAPTCHA site key', // @translate
+            ],
+        ]);
+        $this->add([
+            'type' => 'text',
+            'name' => 'recaptcha_secret_key',
+            'options' => [
+                'label' => 'reCAPTCHA secret key', // @translate
+            ],
+        ]);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'pagination_per_page',

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Omeka\Event\Event;
 use Omeka\Form\SettingForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -11,9 +10,6 @@ class SettingController extends AbstractActionController
     public function browseAction()
     {
         $form = $this->getForm(SettingForm::class);
-
-        $event = new Event(Event::GLOBAL_SETTINGS_FORM, $this, ['form' => $form]);
-        $this->getEventManager()->triggerEvent($event);
 
         $request = $this->getRequest();
         if ($request->isPost()) {

@@ -2,12 +2,16 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
+use Omeka\Event\Event;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Settings\Settings;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
 
 class SettingForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var Settings
      */
@@ -103,6 +107,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value'    => $this->settings->get('default_site'),
+                'required' => false,
             ],
         ]);
 
@@ -133,7 +138,11 @@ class SettingForm extends Form
             ],
         ]);
 
+        $event = new Event('global_settings_form.add_elements', $this, ['form' => $this]);
+        $this->getEventManager()->triggerEvent($event);
+
         $inputFilter = $this->getInputFilter();
+
         $inputFilter->add([
             'name' => 'pagination_per_page',
             'required' => true,
@@ -144,10 +153,14 @@ class SettingForm extends Form
                 ['name' => 'Digits']
             ],
         ]);
+
         $inputFilter->add([
             'name' => 'default_site',
             'allow_empty' => true,
         ]);
+
+        $event = new Event('global_settings_form.add_input_filters', $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($event);
     }
 
     /**
@@ -165,4 +178,5 @@ class SettingForm extends Form
     {
         return $this->settings;
     }
+
 }

@@ -2,6 +2,7 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\SettingForm;
+use Zend\EventManager\EventManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
@@ -11,6 +12,7 @@ class SettingFormFactory implements FactoryInterface
     {
         $form = new SettingForm;
         $form->setSettings($services->get('Omeka\Settings'));
+        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

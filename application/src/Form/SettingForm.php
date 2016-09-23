@@ -158,7 +158,8 @@ class SettingForm extends Form
             'name' => 'default_site',
             'allow_empty' => true,
         ]);
-
+        // Separate events because calling $form->getInputFilters()
+        // resets everythhing
         $event = new Event(Event::GLOBAL_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }

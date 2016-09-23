@@ -262,6 +262,11 @@ return [
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
         ],
+        'delegators' => [
+            'Zend\I18n\Translator\TranslatorInterface' => [
+                'Omeka\Service\Delegator\TranslatorDelegatorFactory',
+            ],
+        ],
         'aliases' => [
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'

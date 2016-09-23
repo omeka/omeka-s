@@ -15,7 +15,7 @@ class ErrorStore
      * Add an error.
      *
      * @param string $key
-     * @param string $message
+     * @param string|Omeka\Stdlib\Message $message
      */
     public function addError($key, $message)
     {

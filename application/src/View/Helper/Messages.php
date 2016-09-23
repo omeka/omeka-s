@@ -52,16 +52,10 @@ class Messages extends AbstractHelper
                     $class = 'notice';
             }
             foreach ($messages as $message) {
-                $args = $message[1];
-                $message = $view->translate($message[0]);
-                if ($args) {
-                    // Only interpolate args into messages that have them.
-                    $message = vsprintf($message, $args);
-                }
                 $output .= sprintf(
                     '<li class="%s">%s</li>',
                     $class,
-                    $view->escapeHtml($message)
+                    $view->escapeHtml($view->translate($message))
                 );
             }
         }

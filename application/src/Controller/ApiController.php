@@ -224,9 +224,10 @@ class ApiController extends AbstractRestfulController
         $method = strtolower($request->getMethod());
         $contentType = $request->getHeader('content-type');
         if (in_array($method, ['post', 'put', 'patch'])
-            && !$contentType->match([
-                'application/json',
-                'multipart/form-data'])
+            && (
+                !$contentType
+                || !$contentType->match(['application/json','multipart/form-data'])
+            )
         ) {
             $contentType = $request->getHeader('Content-Type');
             $errorMessage = sprintf(

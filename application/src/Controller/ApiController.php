@@ -226,7 +226,7 @@ class ApiController extends AbstractRestfulController
         if (in_array($method, ['post', 'put', 'patch'])
             && (
                 !$contentType
-                || !$contentType->match(['application/json','multipart/form-data'])
+                || !$contentType->match(['application/json', 'multipart/form-data'])
             )
         ) {
             $contentType = $request->getHeader('Content-Type');

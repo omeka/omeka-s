@@ -92,10 +92,12 @@ class Event extends ZendEvent
     const SERVICE_REGISTERED_NAMES = 'service.registered_names';
 
     // Site settings event
-    const SITE_SETTINGS_FORM = 'site_settings.form';
+    const SITE_SETTINGS_ADD_ELEMENTS = 'site_settings.add_elements';
+    const SITE_SETTINGS_ADD_INPUT_FILTERS = 'site_settings.add_input_filters';
 
     // Global settings event
-    const GLOBAL_SETTINGS_FORM = 'global_settings.form';
+    const GLOBAL_SETTINGS_ADD_ELEMENTS = 'global_settings.add_elements';
+    const GLOBAL_SETTINGS_ADD_INPUT_FILTERS = 'global_settings.add_input_filters';
 
     // Resource visibility SQL filter event
     const SQL_FILTER_RESOURCE_VISIBILITY = 'sql_filter.resource_visibility';

@@ -138,7 +138,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $event = new Event('global_settings_form.add_elements', $this, ['form' => $this]);
+        $event = new Event(Event::GLOBAL_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
         $this->getEventManager()->triggerEvent($event);
 
         $inputFilter = $this->getInputFilter();
@@ -159,7 +159,7 @@ class SettingForm extends Form
             'allow_empty' => true,
         ]);
 
-        $event = new Event('global_settings_form.add_input_filters', $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $event = new Event(Event::GLOBAL_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }
 

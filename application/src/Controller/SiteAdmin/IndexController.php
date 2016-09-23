@@ -111,9 +111,6 @@ class IndexController extends AbstractActionController
         }
         $form = $this->getForm(SiteSettingsForm::class);
 
-        $event = new Event(Event::SITE_SETTINGS_FORM, $this, ['form' => $form]);
-        $this->getEventManager()->triggerEvent($event);
-
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {

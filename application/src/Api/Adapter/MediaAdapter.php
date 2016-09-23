@@ -100,7 +100,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (Request::CREATE === $request->getOperation()
             && !$request->getValue('o:ingester')
         ) {
-            $errorStore->addError('o:ingester', 'Media must set an ingester.');
+            $errorStore->addError('o:ingester', 'Media must set an ingester.'); // @translate
         }
     }
 
@@ -125,7 +125,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         if (Request::CREATE === $request->getOperation()) {
             if ($ingester instanceof Fallback) {
-                $errorStore->addError('o:ingester', 'Media must set a valid ingester.');
+                $errorStore->addError('o:ingester', 'Media must set a valid ingester.'); // @translate
                 return;
             }
             $entity->setIngester($ingesterName);
@@ -164,7 +164,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         ErrorStore $errorStore
     ) {
         if (!($entity->getItem() instanceof Item)) {
-            $errorStore->addError('o:item', 'Media must belong to an item.');
+            $errorStore->addError('o:item', 'Media must belong to an item.'); // @translate
         }
         parent::validateEntity($entity, $errorStore);
     }

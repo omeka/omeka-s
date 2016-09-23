@@ -9,6 +9,7 @@ use Omeka\Form\UserForm;
 use Omeka\Form\UserKeyForm;
 use Omeka\Form\UserPasswordForm;
 use Omeka\Mvc\Exception;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -272,6 +273,6 @@ class UserController extends AbstractActionController
         $this->entityManager->persist($key);
 
         $this->messenger()->addSuccess('Key created.'); // @translate
-        $this->messenger()->addSuccess("ID: %s, Credential: %s", [$id, $credential]); // @translate
+        $this->messenger()->addSuccess(new Message('ID: %s, Credential: %s', $id, $credential)); // @translate
     }
 }

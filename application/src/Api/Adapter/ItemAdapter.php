@@ -125,13 +125,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         if (array_key_exists('o:item_set', $data)
             && !is_array($data['o:item_set'])
         ) {
-            $errorStore->addError('o:item_set', 'Item sets must be an array');
+            $errorStore->addError('o:item_set', 'Item sets must be an array'); // @translate
         }
 
         if (array_key_exists('o:media', $data)
             && !is_array($data['o:media'])
         ) {
-            $errorStore->addError('o:item_set', 'Media must be an array');
+            $errorStore->addError('o:item_set', 'Media must be an array'); // @translate
         }
     }
 

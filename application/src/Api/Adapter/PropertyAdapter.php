@@ -6,6 +6,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {
@@ -168,12 +169,12 @@ class PropertyAdapter extends AbstractEntityAdapter
     {
         // Validate local name
         if (false == $entity->getLocalName()) {
-            $errorStore->addError('o:local_name', 'The local name cannot be empty.');
+            $errorStore->addError('o:local_name', 'The local name cannot be empty.'); // @translate
         }
 
         // Validate label
         if (false == $entity->getLabel()) {
-            $errorStore->addError('o:label', 'The label cannot be empty.');
+            $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
         }
 
         // Validate vocabulary
@@ -185,14 +186,14 @@ class PropertyAdapter extends AbstractEntityAdapter
                     'localName' => $entity->getLocalName(),
                 ];
                 if (!$this->isUnique($entity, $criteria)) {
-                    $errorStore->addError('o:local_name', sprintf(
-                        'The local name "%s" is already taken.',
+                    $errorStore->addError('o:local_name', new Message(
+                        'The local name "%s" is already taken.', // @translate
                         $entity->getLocalName()
                     ));
                 }
             }
         } else {
-            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.');
+            $errorStore->addError('o:vocabulary', 'A vocabulary must be set.'); // @translate
         }
     }
 }

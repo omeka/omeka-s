@@ -173,30 +173,29 @@ class SiteAdapter extends AbstractEntityAdapter
     {
         $title = $entity->getTitle();
         if (!is_string($title) || $title === '') {
-            $errorStore->addError('o:title', 'A site must have a title.');
+            $errorStore->addError('o:title', 'A site must have a title.'); // @translate
         }
         $slug = $entity->getSlug();
         if (!is_string($slug) || $slug === '') {
-            $errorStore->addError('o:slug', 'The slug cannot be empty.');
+            $errorStore->addError('o:slug', 'The slug cannot be empty.'); // @translate
         }
         if (preg_match('/[^a-zA-Z0-9-]/u', $slug)) {
-            $errorStore->addError('o:slug',
-                'A slug can only contain letters, numbers, and hyphens.');
+            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, and hyphens.'); // @translate
         }
         if (!$this->isUnique($entity, ['slug' => $slug])) {
-            $errorStore->addError('o:slug', sprintf(
-                'The slug "%s" is already taken.',
+            $errorStore->addError('o:slug', new Message(
+                'The slug "%s" is already taken.', // @translate
                 $slug
             ));
         }
 
         if (false == $entity->getTheme()) {
-            $errorStore->addError('o:theme', 'A site must have a theme.');
+            $errorStore->addError('o:theme', 'A site must have a theme.'); // @translate
         }
 
         $this->validateNavigation($entity, $errorStore);
         if (!is_array($entity->getItemPool())) {
-            $errorStore->addError('o:item_pool', 'A site must have item pool data.');
+            $errorStore->addError('o:item_pool', 'A site must have item pool data.'); // @translate
         }
     }
 
@@ -229,7 +228,7 @@ class SiteAdapter extends AbstractEntityAdapter
         $navigation = $entity->getNavigation();
 
         if (!is_array($navigation)) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: navigation must be an array');
+            $errorStore->addError('o:navigation', 'Invalid navigation: navigation must be an array'); // @translate
             return;
         }
 
@@ -239,27 +238,27 @@ class SiteAdapter extends AbstractEntityAdapter
         {
             foreach ($linksIn as $key => $data) {
                 if (!isset($data['type'])) {
-                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing type');
+                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing type'); // @translate
                     return;
                 }
                 if (!isset($data['data'])) {
-                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing data');
+                    $errorStore->addError('o:navigation', 'Invalid navigation: link missing data'); // @translate
                     return;
                 }
                 if (!$manager->get($data['type'])->isValid($data['data'], $errorStore)) {
-                    $errorStore->addError('o:navigation', 'Invalid navigation: invalid link data');
+                    $errorStore->addError('o:navigation', 'Invalid navigation: invalid link data'); // @translate
                     return;
                 }
                 if ('page' === $data['type']) {
                     if (in_array($data['data']['id'], $pagesInNavigation)) {
-                        $errorStore->addError('o:navigation', 'Invalid navigation: page links must be unique');
+                        $errorStore->addError('o:navigation', 'Invalid navigation: page links must be unique'); // @translate
                         return;
                     }
                     $pagesInNavigation[] = $data['data']['id'];
                 }
                 if (isset($data['links'])) {
                     if (!is_array($data['links'])) {
-                        $errorStore->addError('o:navigation', 'Invalid navigation: links must be an array');
+                        $errorStore->addError('o:navigation', 'Invalid navigation: links must be an array'); // @translate
                         return;
                     }
                     $validateLinks($data['links']);

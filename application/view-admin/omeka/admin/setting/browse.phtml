@@ -1,4 +1,7 @@
-<?php $form->prepare(); ?>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'settings');
+$form->prepare();
+?>
 
 <?php echo $this->pageTitle($this->translate('Global Settings')); ?>
 

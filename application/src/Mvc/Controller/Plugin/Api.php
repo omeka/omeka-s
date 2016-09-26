@@ -160,7 +160,10 @@ class Api extends AbstractPlugin
             $formMessages = [];
             foreach ($response->getErrors() as $key => $messages) {
                 foreach ($messages as $message) {
-                    $formMessages[$key][] = $this->getController()->translate($message);
+                    // Do not set nested errors to the form.
+                    if (!is_array($message)) {
+                        $formMessages[$key][] = $this->getController()->translate($message);
+                    }
                 }
             }
             $this->form->setMessages($formMessages);

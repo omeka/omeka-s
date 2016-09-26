@@ -1,4 +1,5 @@
 <?php
+
 namespace Omeka\Form;
 
 use Omeka\Settings\SiteSettings;
@@ -9,7 +10,7 @@ use Zend\EventManager\EventManagerAwareTrait;
 class SiteSettingsForm extends Form
 {
     use EventManagerAwareTrait;
-    
+
     /**
      * @var SiteSettings
      */
@@ -41,9 +42,9 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $this->getSiteSettings()->get('attachment_link_type'),
-            ]
+            ],
         ]);
-        
+
         $addEvent = new Event(Event::SITE_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
         $this->getEventManager()->triggerEvent($addEvent);
 

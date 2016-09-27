@@ -14,6 +14,11 @@ class Message
     protected $args;
 
     /**
+     * @var bool
+     */
+    protected $escapeHtml = true;
+
+    /**
      * Set the message string and its arguments.
      *
      * @param string $message
@@ -51,5 +56,15 @@ class Message
     public function hasArgs()
     {
         return (bool) $this->args;
+    }
+
+    public function setEscapeHtml($escapeHtml)
+    {
+        $this->escapeHtml = (bool) $escapeHtml;
+    }
+
+    public function escapeHtml()
+    {
+        return $this->escapeHtml;
     }
 }

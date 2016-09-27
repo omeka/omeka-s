@@ -17,14 +17,11 @@ class Message
      * Set the message string and its arguments.
      *
      * @param string $message
-     * @param string $arg1
-     * @param string $arg2
-     * @param ...
+     * @param string $args,...
      */
-    public function __construct($message)
+    public function __construct($message, ...$args)
     {
-        $args = func_get_args();
-        $this->message = array_shift($args);
+        $this->message = $message;
         $this->args = $args;
     }
 

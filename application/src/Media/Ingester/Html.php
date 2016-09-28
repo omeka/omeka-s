@@ -4,10 +4,10 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\Form\Element\Ckeditor;
 use Omeka\Service\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
-use Zend\Form\Element\Textarea;
 
 class Html implements MutableIngesterInterface
 {
@@ -81,7 +81,7 @@ class Html implements MutableIngesterInterface
     protected function getForm(PhpRenderer $view, $id, $value = '')
     {
         $view->ckEditor();
-        $textarea = new Textarea('o:media[__index__][html]');
+        $textarea = new Ckeditor('o:media[__index__][html]');
         $textarea->setOptions([
             'label' => 'HTML', // @translate
             'info'  => 'HTML or plain text.', // @translate
@@ -94,11 +94,6 @@ class Html implements MutableIngesterInterface
             'value'    => $value
         ]);
         $field = $view->formRow($textarea);
-        $field .= "
-            <script type='text/javascript'>
-                CKEDITOR.inline('$id');
-            </script>
-        ";
         return $field;
     }
 }

@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
 use Omeka\Mvc\Exception\NotFoundException;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -110,9 +111,19 @@ class ResourceTemplateController extends AbstractActionController
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
                 if ($response->isSuccess()) {
-                    $successMessage = ('edit' === $action)
-                        ? 'Resource template successfully updated' // @translate
-                        : 'Resource template successfully created'; // @translate
+                    if ('edit' === $action) {
+                        $successMessage = 'Resource template successfully updated'; // @translate
+                    } else {
+                        $successMessage = new Message(
+                            'Resource template successfully created. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                                $this->translate('Add another resource template?')
+                            )
+                        );
+                        $successMessage->setEscapeHtml(false);
+                    }
                     $this->messenger()->addSuccess($successMessage);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }

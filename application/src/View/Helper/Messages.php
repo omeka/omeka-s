@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Mvc\Controller\Plugin\Messenger;
+use Omeka\Stdlib\Message;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -52,11 +53,15 @@ class Messages extends AbstractHelper
                     $class = 'notice';
             }
             foreach ($messages as $message) {
-                $output .= sprintf(
-                    '<li class="%s">%s</li>',
-                    $class,
-                    $view->escapeHtml($view->translate($message))
-                );
+                $escapeHtml = true; // escape HTML by default
+                if ($message instanceof Message) {
+                    $escapeHtml = $message->escapeHtml();
+                }
+                $message = $view->translate($message);
+                if ($escapeHtml) {
+                    $message = $view->escapeHtml($message);
+                }
+                $output .= sprintf('<li class="%s">%s</li>', $class, $message);
             }
         }
         $output .= '</ul>';

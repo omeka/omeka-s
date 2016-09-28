@@ -14,17 +14,19 @@ class Message
     protected $args;
 
     /**
+     * @var bool
+     */
+    protected $escapeHtml = true;
+
+    /**
      * Set the message string and its arguments.
      *
      * @param string $message
-     * @param string $arg1
-     * @param string $arg2
-     * @param ...
+     * @param string $args,...
      */
-    public function __construct($message)
+    public function __construct($message, ...$args)
     {
-        $args = func_get_args();
-        $this->message = array_shift($args);
+        $this->message = $message;
         $this->args = $args;
     }
 
@@ -54,5 +56,15 @@ class Message
     public function hasArgs()
     {
         return (bool) $this->args;
+    }
+
+    public function setEscapeHtml($escapeHtml)
+    {
+        $this->escapeHtml = (bool) $escapeHtml;
+    }
+
+    public function escapeHtml()
+    {
+        return $this->escapeHtml;
     }
 }

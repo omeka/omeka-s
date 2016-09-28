@@ -29,7 +29,7 @@ class Translator implements TranslatorInterface
         }
         $translation = $this->translator->translate($message->getMessage(), $textDomain, $locale);
         if ($message->hasArgs()) {
-            $translation = vsprintf($translation, $message->getArgs());
+            $translation = sprintf($translation, ...$message->getArgs());
         }
         return $translation;
     }

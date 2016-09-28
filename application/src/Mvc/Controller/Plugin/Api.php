@@ -154,12 +154,20 @@ class Api extends AbstractPlugin
      *
      * @param Response $response
      */
-    protected function detectError(Response $response)
+    public function detectError(Response $response)
     {
         if ($this->form && $response->getStatus() === Response::ERROR_VALIDATION) {
-            $errors = $response->getErrors();
-            $this->form->setMessages($errors);
-            $this->getController()->messenger()->addErrors($errors);
+            $formMessages = [];
+            foreach ($response->getErrors() as $key => $messages) {
+                foreach ($messages as $message) {
+                    // Do not set nested errors to the form.
+                    if (!is_array($message)) {
+                        $formMessages[$key][] = $this->getController()->translate($message);
+                    }
+                }
+            }
+            $this->form->setMessages($formMessages);
+            $this->getController()->messenger()->addErrors($response->getErrors());
         }
     }
 }

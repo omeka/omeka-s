@@ -18,8 +18,13 @@ class ItemShowcase extends AbstractBlockLayout
     ) {
         $html = '';
         $html .= $view->blockAttachmentsForm($block);
+
         $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options'). '</h4></a>';
-        $html .= '<div class="collapsible">' . $view->blockThumbnailTypeSelect($block) . '</div>';
+        $html .= '<div class="collapsible">';
+        $html .= $view->blockThumbnailTypeSelect($block);
+        $html .= $view->blockShowTitleSelect($block);
+        $html .= '</div>';
+
         return $html;
     }
 
@@ -31,10 +36,12 @@ class ItemShowcase extends AbstractBlockLayout
         }
 
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
+        $showTitleOption = $block->dataValue('show_title_option', 'item_title');
         return $view->partial('common/block-layout/item-showcase', array(
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $thumbnailType,
+            'showTitleOption' => $showTitleOption
         ));
     }
 }

@@ -6,6 +6,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\ResourceTemplateProperty;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class ResourceTemplateAdapter extends AbstractEntityAdapter
 {
@@ -88,8 +89,8 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 }
                 $propertyId = $resTemPropData['o:property']['o:id'];
                 if (in_array($propertyId, $propertyIds)) {
-                    $errorStore->addError('o:property', sprintf(
-                        'Attempting to add duplicate property with ID %s',
+                    $errorStore->addError('o:property', new Message(
+                        'Attempting to add duplicate property with ID %s', // @translate
                         $propertyId
                     ));
                 }
@@ -106,10 +107,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     ) {
         $label = $entity->getLabel();
         if (false == trim($label)) {
-            $errorStore->addError('o:label', 'The label cannot be empty.');
+            $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
         }
         if (!$this->isUnique($entity, ['label' => $label])) {
-            $errorStore->addError('o:label', 'The label is already taken.');
+            $errorStore->addError('o:label', 'The label is already taken.'); // @translate
         }
     }
 

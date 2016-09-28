@@ -13,8 +13,12 @@
             <img src="<?php echo $this->escapeHtml($media->thumbnailUrl($this->thumbnailType)); ?>">
         </a>
         <?php endif; ?>
-
+        <?php $showTitleOption = $this->showTitleOption; ?>
+        <?php if ($showTitleOption == 'item_title'): ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
+        <?php elseif ($showTitleOption == 'file_name'): ?>
+        <h3><?php echo $media->filename(); ?>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php

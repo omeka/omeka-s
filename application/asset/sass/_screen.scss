@@ -1238,7 +1238,7 @@ td .o-icon-private {
             width: calc(100% + #{$spacing-large});
             font-weight: bold;
             padding: $spacing-small $spacing-medium;
-            margin: -($spacing-small) -($spacing-medium) $spacing-medium;
+            margin: (-$spacing-small) (-$spacing-medium) $spacing-medium;
             background-color: $gray-on-white;
             max-width: none;
         }
@@ -3046,6 +3046,7 @@ body.sidebar-open #content {
         padding: 0;
         border-color: transparent;
         background-color: transparent;
+        margin-top: $spacing-small;
 
         &:last-child {
             margin-bottom: 0;
@@ -3228,7 +3229,7 @@ body.sidebar-open #content {
     }
 
     .block .collapse + .collapsible label.thumbnail-option:first-of-type {
-        padding-top: $spacing-small;
+        padding-top: 0;
     }
 
     .block .collapse + .collapsible label.thumbnail-option:last-of-type {

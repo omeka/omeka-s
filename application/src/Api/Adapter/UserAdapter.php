@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Zend\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Stdlib\Message;
 use Omeka\Stdlib\ErrorStore;
 
 class UserAdapter extends AbstractEntityAdapter
@@ -99,7 +100,7 @@ class UserAdapter extends AbstractEntityAdapter
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         if (false == $entity->getName()) {
-            $errorStore->addError('o:name', 'The name cannot be empty.');
+            $errorStore->addError('o:name', 'The name cannot be empty.'); // @translate
         }
 
         $email = $entity->getEmail();
@@ -108,14 +109,14 @@ class UserAdapter extends AbstractEntityAdapter
             $errorStore->addValidatorMessages('o:email', $validator->getMessages());
         }
         if (!$this->isUnique($entity, ['email' => $email])) {
-            $errorStore->addError('o:email', sprintf(
-                'The email "%s" is already taken.',
+            $errorStore->addError('o:email', new Message(
+                'The email %s is already taken.', // @translate
                 $email
             ));
         }
 
         if (false == $entity->getRole()) {
-            $errorStore->addError('o:role', 'Users must have a role.');
+            $errorStore->addError('o:role', 'Users must have a role.'); // @translate
         }
     }
 }

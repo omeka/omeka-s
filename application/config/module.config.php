@@ -262,6 +262,11 @@ return [
             'Omeka\File\GdThumbnailer'          => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer'     => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
         ],
+        'delegators' => [
+            'Zend\I18n\Translator\TranslatorInterface' => [
+                'Omeka\Service\Delegator\TranslatorDelegatorFactory',
+            ],
+        ],
         'aliases' => [
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService'
@@ -370,6 +375,7 @@ return [
             'assetUrl' => 'Omeka\Service\ViewHelper\AssetUrlFactory',
             'blockLayout' => 'Omeka\Service\ViewHelper\BlockLayoutFactory',
             'blockThumbnailTypeSelect' => 'Omeka\Service\ViewHelper\BlockThumbnailTypeSelectFactory',
+            'blockShowTitleSelect' => 'Omeka\Service\ViewHelper\BlockShowTitleSelectFactory',
             'dataType' => 'Omeka\Service\ViewHelper\DataTypeFactory',
             'i18n' => 'Omeka\Service\ViewHelper\I18nFactory',
             'media' => 'Omeka\Service\ViewHelper\MediaFactory',

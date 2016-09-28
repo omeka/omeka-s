@@ -18,6 +18,6 @@ class TriggerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Trigger($services->get('EventManager'), $services->get('Application'));
+        return new Trigger($services->get('EventManager'), $services->get('ControllerPluginManager'));
     }
 }

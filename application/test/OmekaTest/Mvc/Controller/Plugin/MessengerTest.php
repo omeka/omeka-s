@@ -20,10 +20,10 @@ class MessengerTest extends TestCase
 
         $messages = $messenger->get();
         $this->assertEquals([
-            0 => [['test-error-one', []], ['test-error-two', []]],
-            1 => [['test-success-one', []], ['test-success-two', []]],
-            2 => [['test-warning-one', []], ['test-warning-two', []]],
-            3 => [['test-notice-one', []], ['test-notice-two', []]],
+            0 => ['test-error-one', 'test-error-two'],
+            1 => ['test-success-one', 'test-success-two'],
+            2 => ['test-warning-one', 'test-warning-two'],
+            3 => ['test-notice-one', 'test-notice-two'],
         ], $messages);
 
         // Must clear to avoid message bleed-over in subsequent tests.
@@ -37,7 +37,7 @@ class MessengerTest extends TestCase
 
         $messages = $messenger->get();
         $this->assertEquals([
-            Messenger::ERROR => [['test-error', []]],
+            Messenger::ERROR => ['test-error'],
         ], $messages);
 
         $messenger->clear();
@@ -50,7 +50,7 @@ class MessengerTest extends TestCase
 
         $messages = $messenger->get();
         $this->assertEquals([
-            Messenger::SUCCESS => [['test-success', []]],
+            Messenger::SUCCESS => ['test-success'],
         ], $messages);
 
         $messenger->clear();
@@ -63,7 +63,7 @@ class MessengerTest extends TestCase
 
         $messages = $messenger->get();
         $this->assertEquals([
-            Messenger::WARNING => [['test-warning', []]],
+            Messenger::WARNING => ['test-warning'],
         ], $messages);
 
         $messenger->clear();
@@ -76,7 +76,7 @@ class MessengerTest extends TestCase
 
         $messages = $messenger->get();
         $this->assertEquals([
-            Messenger::NOTICE => [['test-notice', []]],
+            Messenger::NOTICE => ['test-notice'],
         ], $messages);
 
         $messenger->clear();

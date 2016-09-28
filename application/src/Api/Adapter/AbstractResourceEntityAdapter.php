@@ -7,6 +7,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Resource;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
@@ -142,8 +143,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     }
                 );
                 if (!$propExists) {
-                    $errorStore->addError('o:resource_template_property', sprintf(
-                        'The "%s" resource template requires a "%s" value',
+                    $errorStore->addError('o:resource_template_property', new Message(
+                        'The "%s" resource template requires a "%s" value', // @translate
                         $resourceTemplate->getLabel(),
                         $requiredProp->getAlternateLabel()
                             ? $requiredProp->getAlternateLabel()

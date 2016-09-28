@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Media\Ingester\Manager;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
@@ -137,10 +138,19 @@ class ItemController extends AbstractActionController
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api($form)->create('items', $data, $fileData);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Item successfully created'); // @translate
+                    $message = new Message(
+                        'Item successfully created. %s', // @translate
+                        sprintf(
+                            '<a href="%s">%s</a>',
+                            htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                            $this->translate('Add another item?')
+                        ));
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addSuccess($message);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
+                exit('sdf');
                 $this->messenger()->addErrors($form->getMessages());
             }
         }

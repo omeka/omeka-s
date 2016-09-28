@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -25,7 +26,15 @@ class ItemSetController extends AbstractActionController
             if ($form->isValid()) {
                 $response = $this->api($form)->create('item_sets', $data);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Item set successfully created'); // @translate
+                    $message = new Message(
+                        'Item set successfully created. %s', // @translate
+                        sprintf(
+                            '<a href="%s">%s</a>',
+                            htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                            $this->translate('Add another item set?')
+                        ));
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addSuccess($message);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {

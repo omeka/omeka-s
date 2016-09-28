@@ -89,11 +89,9 @@ class Html implements MutableIngesterInterface
         $textarea->setAttributes([
             'rows'     => 15,
             'id'       => $id,
-            'required' => true,
             'class'    => 'media-html',
             'value'    => $value
         ]);
-        $field = $view->formRow($textarea);
-        return $field;
+        return $view->formRow($textarea);
     }
 }

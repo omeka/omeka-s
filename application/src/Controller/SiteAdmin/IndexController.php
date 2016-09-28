@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\SiteAdmin;
 
-use Omeka\Event\Event;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;

@@ -1,10 +1,10 @@
 <?php
 // Prepare the item set queries
-$itemSetIds = [[]];
+$itemSetIds = [null];
 if (isset($query['item_set_id'])) {
-    $itemSetIds = [];
-    foreach ($query['item_set_id'] as $id) {
-        $itemSetIds[] = ['id' => $id];
+    $itemSetIds = $query['item_set_id'];
+    if (!is_array($itemSetIds)) {
+        $itemSetIds = [$itemSetIds];
     }
 }
 ?>
@@ -21,7 +21,7 @@ if (isset($query['item_set_id'])) {
         <div class="value">
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
-                'attributes' => ['value' => isset($itemSetId['id']) ? $itemSetId['id'] : null],
+                'attributes' => ['value' => $itemSetId],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>

@@ -154,7 +154,7 @@ class Api extends AbstractPlugin
      *
      * @param Response $response
      */
-    protected function detectError(Response $response)
+    public function detectError(Response $response)
     {
         if ($this->form && $response->getStatus() === Response::ERROR_VALIDATION) {
             $formMessages = [];

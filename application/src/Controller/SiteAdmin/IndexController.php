@@ -1,7 +1,7 @@
 <?php
-
 namespace Omeka\Controller\SiteAdmin;
 
+use Omeka\Event\Event;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
@@ -45,9 +45,8 @@ class IndexController extends AbstractActionController
         $response = $this->api()->search('sites', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
-
         return $view;
     }
 
@@ -69,9 +68,8 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('form', $form);
-
         return $view;
     }
 
@@ -97,10 +95,9 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-
         return $view;
     }
 
@@ -137,10 +134,9 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-
         return $view;
     }
 
@@ -168,10 +164,9 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-
         return $view;
     }
 
@@ -196,11 +191,10 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('navTree', $this->navTranslator->toJstree($site));
         $view->setVariable('form', $form);
         $view->setVariable('site', $site);
-
         return $view;
     }
 
@@ -226,11 +220,10 @@ class IndexController extends AbstractActionController
 
         $itemsResponse = $this->api()->search('items', ['limit' => 0, 'site_id' => $site->id()]);
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('itemCount', $itemsResponse->getTotalResults());
-
         return $view;
     }
 
@@ -255,11 +248,10 @@ class IndexController extends AbstractActionController
 
         $users = $this->api()->search('users', ['sort_by' => 'name']);
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('users', $users->getContent());
-
         return $view;
     }
 
@@ -276,7 +268,7 @@ class IndexController extends AbstractActionController
         $theme = $this->themes->getTheme($site->theme());
         $config = $theme->getConfigSpec();
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         if (!($config && $config['elements'])) {
             return $view;
         }
@@ -305,7 +297,6 @@ class IndexController extends AbstractActionController
             }
         }
         $view->setVariable('form', $form);
-
         return $view;
     }
 
@@ -323,29 +314,26 @@ class IndexController extends AbstractActionController
                 $this->messenger()->addErrors($form->getMessages());
             }
         }
-
         return $this->redirect()->toRoute('admin/site');
     }
 
     public function showAction()
     {
         $site = $this->currentSite();
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setVariable('site', $site);
-
         return $view;
     }
 
     public function deleteConfirmAction()
     {
         $site = $this->currentSite();
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resourceLabel', 'site');
         $view->setVariable('partialPath', 'omeka/site-admin/index/show-details');
         $view->setVariable('resource', $site);
-
         return $view;
     }
 
@@ -354,13 +342,12 @@ class IndexController extends AbstractActionController
         $site = $this->currentSite();
         $link = $this->navLinks->get($this->params()->fromPost('type'));
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate($link->getFormTemplate());
         $view->setVariable('data', $this->params()->fromPost('data'));
         $view->setVariable('site', $site);
         $view->setVariable('link', $link);
-
         return $view;
     }
 
@@ -377,14 +364,13 @@ class IndexController extends AbstractActionController
         $items = $response->getContent();
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/item/sidebar-select');
         $value = $this->params()->fromQuery('value');
         $view->setVariable('searchValue', $value ? $value['in'][0] : '');
         $view->setVariable('items', $items);
         $view->setVariable('showDetails', false);
-
         return $view;
     }
 }

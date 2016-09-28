@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\SiteAdmin;
 
-use Omeka\Event\Event;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
@@ -110,9 +109,6 @@ class IndexController extends AbstractActionController
             );
         }
         $form = $this->getForm(SiteSettingsForm::class);
-
-        $event = new Event(Event::SITE_SETTINGS_FORM, $this, ['form' => $form]);
-        $this->getEventManager()->triggerEvent($event);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());

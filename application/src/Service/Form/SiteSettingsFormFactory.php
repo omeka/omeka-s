@@ -11,6 +11,7 @@ class SiteSettingsFormFactory implements FactoryInterface
     {
         $form = new SiteSettingsForm;
         $form->setSiteSettings($services->get('Omeka\SiteSettings'));
+        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

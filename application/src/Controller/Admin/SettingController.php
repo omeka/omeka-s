@@ -10,28 +10,22 @@ class SettingController extends AbstractActionController
     public function browseAction()
     {
         $form = $this->getForm(SettingForm::class);
-        $data = [
-            'administrator_email' => $this->settings()->get('administrator_email'),
-            'installation_title' => $this->settings()->get('installation_title'),
-            'time_zone' => $this->settings()->get('time_zone'),
-            'pagination_per_page' => $this->settings()->get('pagination_per_page'),
-            'property_label_information' => $this->settings()->get('property_label_information'),
-            'use_htmlpurifier' => $this->settings()->get('use_htmlpurifier'),
-            'default_site' => $this->settings()->get('default_site'),
-            'recaptcha_site_key' => $this->settings()->get('recaptcha_site_key'),
-            'recaptcha_secret_key' => $this->settings()->get('recaptcha_secret_key'),
-        ];
-        $form->setData($data);
 
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                foreach ($form->getData() as $key => $value) {
-                    // Set whitelisted settings only, otherwise this would set
-                    // the CSRF value and any other element passed by the form.
-                    if (array_key_exists($key, $data)) {
-                        $this->settings()->set($key, $value);
+                $data = $form->getData();
+                $fieldsets = $form->getFieldsets();
+                unset($data['csrf']);
+                foreach ($data as $id => $value) {
+                    if (array_key_exists($id, $fieldsets) && is_array($value)) {
+                        // De-nest fieldsets.
+                        foreach ($value as $fieldsetId => $fieldsetValue) {
+                            $this->settings()->set($fieldsetId, $fieldsetValue);
+                        }
+                    } else {
+                        $this->settings()->set($id, $value);
                     }
                 }
                 $this->messenger()->addSuccess('Settings successfully updated'); // @translate

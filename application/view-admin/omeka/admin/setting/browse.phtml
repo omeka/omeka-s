@@ -1,4 +1,7 @@
-<?php $form->prepare(); ?>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'settings');
+$form->prepare();
+?>
 
 <?php echo $this->pageTitle($this->translate('Global Settings')); ?>
 
@@ -6,7 +9,7 @@
 <div id="page-actions">
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formCollection($form); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php $this->trigger('view.browse.after'); ?>

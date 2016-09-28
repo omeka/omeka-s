@@ -2,10 +2,14 @@
 namespace Omeka\Form;
 
 use Omeka\Settings\SiteSettings;
+use Omeka\Event\Event;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
 
 class SiteSettingsForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var SiteSettings
      */
@@ -39,6 +43,15 @@ class SiteSettingsForm extends Form
                 'value' => $this->getSiteSettings()->get('attachment_link_type'),
             ]
         ]);
+
+        $addEvent = new Event(Event::SITE_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
+        $this->getEventManager()->triggerEvent($addEvent);
+
+        // Separate events because calling $form->getInputFilters()
+        // resets everythhing
+        $inputFilter = $this->getInputFilter();
+        $filterEvent = new Event(Event::SITE_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($filterEvent);
     }
 
     /**

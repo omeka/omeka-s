@@ -129,12 +129,18 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'reCAPTCHA site key', // @translate
             ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_site_key'),
+            ],
         ]);
         $this->add([
             'type' => 'text',
             'name' => 'recaptcha_secret_key',
             'options' => [
                 'label' => 'reCAPTCHA secret key', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_secret_key'),
             ],
         ]);
 

@@ -150,7 +150,6 @@ class ItemController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                exit('sdf');
                 $this->messenger()->addErrors($form->getMessages());
             }
         }

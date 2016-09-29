@@ -7,6 +7,8 @@ use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
+    protected $autoAddInvokableClass = false;
+
     protected $instanceOf = DataTypeInterface::class;
 
     public function getForExtract(Value $value)

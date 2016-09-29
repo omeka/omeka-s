@@ -6,6 +6,8 @@ use Zend\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {
+    protected $autoAddInvokableClass = false;
+
     protected $instanceOf = RendererInterface::class;
 
     /**

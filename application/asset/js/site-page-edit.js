@@ -83,7 +83,7 @@
             draggable: ".block",
             handle: ".sortable-handle",
             onStart: function (e) {
-                var editor = $(e.item).find('.wysiwyg').ckeditor();
+                var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
                 if (editor) {
                     editor.destroy();
                 }

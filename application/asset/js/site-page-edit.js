@@ -10,10 +10,11 @@
 
         context.find('.wysiwyg').each(function () {
             if ($(this).is('.caption')) {
-                CKEDITOR.inline(this, config)
+                editor = CKEDITOR.inline(this, config)
             } else {
-                CKEDITOR.inline(this);
+                editor = CKEDITOR.inline(this);
             }
+            $(this).data('ckeditorInstance', editor);
         })
     }
 

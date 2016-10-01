@@ -385,12 +385,12 @@ class Manager
     /**
      * Validate a file.
      *
-     * Validates a file against the media type and extension whitelists. The
-     * file's sourceName must be set File prior to calling this method.
+     * Validates a file against the media type and extension whitelists. Prior
+     * to calling this method the file must be saved to `File::$tempPath` and
+     * the file's original filename must be saved to `File::$sourceName`.
      *
      * @param File $file
      * @param ErrorStore $errorStore
-     * @param string $filename
      * @return bool
      */
     public function validateFile(File $file, ErrorStore $errorStore)

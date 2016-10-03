@@ -10,12 +10,12 @@ class ManagerTest extends TestCase
 
     public function setUp()
     {
-        $this->manager = new Manager;
+        $this->manager = new Manager($this->getMockForAbstractClass('Interop\Container\ContainerInterface'));
     }
 
-    public function testValidatePluginRequiresAdapterInterface()
+    public function testValidateRequiresAdapterInterface()
     {
-        $this->setExpectedException('Omeka\Api\Exception\InvalidAdapterException');
-        $this->manager->validatePlugin(new \stdClass);
+        $this->setExpectedException('Zend\ServiceManager\Exception\InvalidServiceException');
+        $this->manager->validate(new \stdClass);
     }
 }

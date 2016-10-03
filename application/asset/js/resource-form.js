@@ -111,6 +111,54 @@
             }
         });
 
+        // Handle validation for required properties.
+        $('#add-item,#edit-item').on('submit', function(e) {
+
+            var thisForm = $(this);
+            var errors = [];
+
+            // Iterate all required properties.
+            var requiredProps = thisForm.find('fieldset.resource-values.required');
+            requiredProps.each(function() {
+
+                var thisProp = $(this);
+                var propIsCompleted = false;
+
+                // Iterate all values for this required property.
+                var requiredValues = $(this).find('fieldset.value').not('.delete');
+                requiredValues.each(function() {
+
+                    var thisValue = $(this);
+                    var valueIsCompleted = true;
+
+                    // All inputs of this value with the "to-require" class must
+                    // be completed when the property is required.
+                    var toRequire = thisValue.find('.to-require');
+                    toRequire.each(function() {
+                        if ('' === $.trim($(this).val())) {
+                            // Found an incomplete input.
+                            valueIsCompleted = false;
+                        }
+                    });
+                    if (valueIsCompleted) {
+                        // There's at least one completed value of this required
+                        // property. Consider the requirement satisfied.
+                        propIsCompleted = true;
+                        return false; // break out of each
+                    }
+                });
+                if (!propIsCompleted) {
+                    // No completed values found for this required property.
+                    var propLabel = thisProp.find('legend.field-label').text();
+                    errors.push('The following field is required: ' + propLabel);
+                }
+            });
+            if (errors.length) {
+                e.preventDefault();
+                alert(errors.join("\n"));
+            }
+        });
+
         initPage();
     });
 
@@ -276,6 +324,10 @@
             originalDescription.hide();
         }
 
+        if (template['o:is_required']) {
+            field.addClass('required');
+        }
+
         properties.prepend(field);
     };
 
@@ -284,13 +336,16 @@
      * resource template.
      */
     var rewritePropertyFields = function(changeClass) {
+
+        // Fieldsets may have been marked as required in a previous state.
+        $('fieldset.field').removeClass('required');
+
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         var fields = $('#properties fieldset.resource-values');
         if (!templateId) {
-            // Using the default resource template, so the resource class must
-            // be null and all properties should use the default selector.
-            $('#resource-class-select').val(null);
+            // Using the default resource template, so all properties should use the default
+            // selector.
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
             return;

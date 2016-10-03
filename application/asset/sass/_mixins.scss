@@ -1,12 +1,12 @@
 @mixin field-row {
     width: 100%;
     background-color: $gray-on-white;
-    padding: rhythm(.25);
+    padding: $spacing-small;
     position: relative;
-    @include trailer(.25);
+    margin-bottom: $spacing-small;
 }
 
 @mixin subhead-row {
-    border-color: $border-gray;
-    @include trailing-border(1px, .5, $base-font-size, solid);
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: ($spacing-medium - 1px);
 }

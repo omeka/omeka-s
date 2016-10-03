@@ -3,7 +3,7 @@ namespace Omeka\View\Helper;
 
 use Omeka\Event\Event;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Mvc\Application;
+use Zend\Mvc\Controller\PluginManager as ControllerPluginManager;
 use Zend\View\Helper\AbstractHelper;
 
 class Trigger extends AbstractHelper
@@ -14,20 +14,20 @@ class Trigger extends AbstractHelper
     protected $events;
 
     /**
-     * @var Application
+     * @var ControllerPluginManager
      */
-    protected $application;
+    protected $controllerPluginManager;
 
     /**
      * Construct the helper.
      *
      * @param EventManagerInterface $eventManager
-     * @param Application $application
+     * @param ControllerPluginManager $controllerPluginManager
      */
-    public function __construct(EventManagerInterface $eventManager, Application $application)
+    public function __construct(EventManagerInterface $eventManager, ControllerPluginManager $controllerPluginManager)
     {
         $this->events = $eventManager;
-        $this->application = $application;
+        $this->controllerPluginManager = $controllerPluginManager;
     }
 
     /**
@@ -39,7 +39,8 @@ class Trigger extends AbstractHelper
      */
     public function __invoke($name, array $params = [], $filter = false)
     {
-        $routeMatch = $this->application->getMvcEvent()->getRouteMatch();
+        $routeMatch = $this->controllerPluginManager->getController()
+            ->getEvent()->getRouteMatch();
         if (!$routeMatch) {
             // Without a route match this request is 404. No need to trigger.
             return;
@@ -50,8 +51,8 @@ class Trigger extends AbstractHelper
             $params = $this->events->prepareArgs($params);
         }
         $event = new Event($name, $this->getView(), $params);
-        $this->events->setIdentifiers($routeMatch->getParam('controller'));
-        $this->events->trigger($event);
+        $this->events->setIdentifiers([$routeMatch->getParam('controller')]);
+        $this->events->triggerEvent($event);
         if ($filter) {
             return $params;
         }

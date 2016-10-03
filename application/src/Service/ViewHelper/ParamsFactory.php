@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Params;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the params view helper.
@@ -14,12 +14,10 @@ class ParamsFactory implements FactoryInterface
     /**
      * Create and return the params view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return Params
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Params($serviceLocator->get('ControllerPluginManager')->get('Params'));
+        return new Params($services->get('ControllerPluginManager')->get('Params'));
     }
 }

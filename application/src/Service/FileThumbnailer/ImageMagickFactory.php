@@ -1,21 +1,19 @@
 <?php
 namespace Omeka\Service\FileThumbnailer;
 
+use Interop\Container\ContainerInterface;
 use Omeka\File\Thumbnailer\ImageMagickThumbnailer;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ImageMagickFactory implements FactoryInterface
 {
     /**
      * Create the ImageMagick thumbnailer service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return ImageMagickThumbnailer
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $cli = $serviceLocator->get('Omeka\Cli');
-        return new ImageMagickThumbnailer($cli);
+        return new ImageMagickThumbnailer($services->get('Omeka\Cli'));
     }
 }

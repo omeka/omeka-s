@@ -20,7 +20,9 @@ class ResourceReferenceTest extends TestCase
         $this->adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $this->adapter->expects($this->once())
             ->method('getServiceLocator')
-            ->will($this->returnValue($this->getServiceManager()));
+            ->will($this->returnValue($this->getServiceManager([
+                'EventManager' => $this->getMock('Zend\EventManager\EventManager')
+            ])));
     }
 
     public function testGetRepresentation()

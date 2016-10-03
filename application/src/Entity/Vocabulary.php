@@ -5,9 +5,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * A vocabulary.
- * 
+ *
  * Vocabularies are defined sets of classes and properties.
- * 
+ *
  * @Entity
  */
 class Vocabulary extends AbstractEntity

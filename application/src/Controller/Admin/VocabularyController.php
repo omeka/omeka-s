@@ -6,6 +6,7 @@ use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
 use Omeka\Mvc\Exception;
 use Omeka\Service\RdfImporter;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -76,10 +77,17 @@ class VocabularyController extends AbstractActionController
                     $response = $this->rdfImporter->import(
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
-                    if ($response->isError()) {
-                        $form->setMessages($response->getErrors());
-                    } else {
-                        $this->messenger()->addSuccess('Vocabulary successfully imported'); // @translate
+                    $this->api($form)->detectError($response);
+                    if ($response->isSuccess()) {
+                        $message = new Message(
+                            'Vocabulary successfully imported. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                                $this->translate('Import another vocabulary?')
+                            ));
+                        $message->setEscapeHtml(false);
+                        $this->messenger()->addSuccess($message);
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (\Exception $e) {

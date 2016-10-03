@@ -17,7 +17,7 @@ class RdfImporter
 
     /**
      * Class types to import.
-     * 
+     *
      * @var array
      */
     protected $classTypes = [
@@ -31,7 +31,7 @@ class RdfImporter
      * Not included are the OWL DL properties owl:AnnotationProperty and
      * owl:OntologyProperty because they typically serve internal annotative
      * purposes.
-     * 
+     *
      * @var array
      */
     protected $propertyTypes = [
@@ -149,7 +149,7 @@ class RdfImporter
             'o:class' => [],
             'o:property' => [],
         ];
-        // Iterate through all resources of the graph instead of selectively by 
+        // Iterate through all resources of the graph instead of selectively by
         // rdf:type becuase a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
         foreach ($graph->resources() as $resource) {

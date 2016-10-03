@@ -10,7 +10,7 @@ RewriteRule ^.*$ - [NC,L]
 
 # Strip any trailing slashes from incoming requests
 RewriteCond %{REQUEST_URI} ^(.+)/+$
-RewriteRule .* %1 [R=301,L]
+RewriteRule .* %1 [R=307,L]
 
 # The following rewrites all other queries to index.php. The 
 # condition ensures that if you are using Apache aliases to do

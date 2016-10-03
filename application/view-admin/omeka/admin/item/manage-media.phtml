@@ -1,7 +1,7 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
-
+$this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omeka'));
 ?>
 <legend><?php echo $this->translate('Media'); ?></legend>
 <?php foreach ($mediaForms as $type => $form): ?>
@@ -11,7 +11,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 ></span>
 <?php endforeach; ?>
 
-<div id="media-list">
+<div id="media-list" data-media-count="<?php echo ($resource) ? count($resource->media()) : 0; ?>">
 <?php if ($resource && $resource->media()): ?>
     <?php
     $i = 0;
@@ -82,40 +82,3 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
     <button type="button" data-media-type="<?php echo $escape($type); ?>" class="option"><?php echo $escape($this->translate($form['label'])); ?></option>
     <?php endforeach; ?>
 </div>
-
-<script type="text/javascript">
-
-var list = document.getElementById('media-list');
-new Sortable(list, {
-    draggable: ".media",
-    handle: ".sortable-handle"
-});
-
-var index = <?php echo ($resource) ? count($resource->media()) : 0; ?>;
-
-$('#media-selector button').click(function () {
-    var type = $(this).data('media-type');
-    if (!type) {
-        return;
-    }
-
-    var template = $('#media-template-' + type).data('template');
-    $('#media-list').append(
-        template.replace(/__index__/g, index++)
-    );
-    $(this).val('');
-    $('html, body').animate({
-        scrollTop: ($('.media-field-wrapper').last().offset().top -100)
-    },200);
-    $('#media-list .no-resources').hide();
-});
-
-$('#item-media').on('click', 'a.remove-new-media-field', function (e) {
-    e.preventDefault();
-    $(this).parents(".media-field-wrapper").remove();
-    if ($('.media-field-wrapper').length < 1) {
-        $('#media-list .no-resources').show();
-    }
-});
-
-</script>

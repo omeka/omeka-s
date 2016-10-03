@@ -2,12 +2,16 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
+use Omeka\Event\Event;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Settings\Settings;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
 
 class SettingForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var Settings
      */
@@ -22,6 +26,7 @@ class SettingForm extends Form
                 'label' => 'Administrator Email', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('administrator_email'),
                 'required' => true,
             ],
         ]);
@@ -33,6 +38,7 @@ class SettingForm extends Form
                 'label' => 'Installation Title', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('installation_title'),
                 'id' => 'installation-title',
                 'required' => true,
             ],
@@ -50,7 +56,7 @@ class SettingForm extends Form
             'attributes' => [
                 'id' => 'time-zone',
                 'required' => true,
-                'value' => $this->getSettings()->get('time_zone', 'UTC'),
+                'value' => $this->settings->get('time_zone', 'UTC'),
             ],
         ]);
 
@@ -62,6 +68,7 @@ class SettingForm extends Form
                 'info' => 'The maximum number of results per page on browse pages.', // @translate
             ],
             'attributes' => [
+                'value'    => $this->settings->get('pagination_per_page'),
                 'required' => true,
             ],
         ]);
@@ -77,7 +84,10 @@ class SettingForm extends Form
                     'vocab' => 'Show Vocabulary',
                     'term' => 'Show Term'
                 ],
-            ]
+            ],
+            'attributes' => [
+                'value'    => $this->settings->get('property_label_information'),
+            ],
         ]);
 
         $this->add([
@@ -95,6 +105,10 @@ class SettingForm extends Form
                     },
                 ],
             ],
+            'attributes' => [
+                'value'    => $this->settings->get('default_site'),
+                'required' => false,
+            ],
         ]);
 
         $this->add([
@@ -103,10 +117,38 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'Use HTMLPurifier', // @translate
                 'info'  => 'Clean up user-entered HTML.' // @translate
-            ]
+            ],
+            'attributes' => [
+                'value'    => $this->settings->get('use_htmlpurifier'),
+            ],
         ]);
 
+        $this->add([
+            'type' => 'text',
+            'name' => 'recaptcha_site_key',
+            'options' => [
+                'label' => 'reCAPTCHA site key', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_site_key'),
+            ],
+        ]);
+        $this->add([
+            'type' => 'text',
+            'name' => 'recaptcha_secret_key',
+            'options' => [
+                'label' => 'reCAPTCHA secret key', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_secret_key'),
+            ],
+        ]);
+
+        $event = new Event(Event::GLOBAL_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
+        $this->getEventManager()->triggerEvent($event);
+
         $inputFilter = $this->getInputFilter();
+
         $inputFilter->add([
             'name' => 'pagination_per_page',
             'required' => true,
@@ -117,10 +159,15 @@ class SettingForm extends Form
                 ['name' => 'Digits']
             ],
         ]);
+
         $inputFilter->add([
             'name' => 'default_site',
             'allow_empty' => true,
         ]);
+        // Separate events because calling $form->getInputFilters()
+        // resets everythhing
+        $event = new Event(Event::GLOBAL_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($event);
     }
 
     /**
@@ -138,4 +185,5 @@ class SettingForm extends Form
     {
         return $this->settings;
     }
+
 }

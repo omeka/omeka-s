@@ -21,7 +21,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.7.1-alpha';
+    const VERSION = '0.8.2-alpha';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -41,7 +41,6 @@ class Module extends AbstractModule
         parent::onBootstrap($event);
 
         $this->bootstrapSession();
-        $this->bootstrapViewHelpers();
 
         // Enable automatic translation for validation error messages
         AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
@@ -90,19 +89,31 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
-            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            OmekaEvent::API_SEARCH_QUERY,
+            [$this, 'filterMedia']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\MediaAdapter',
+            OmekaEvent::API_FIND_QUERY,
             [$this, 'filterMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SiteAdapter',
-            [OmekaEvent::API_SEARCH_QUERY, OmekaEvent::API_FIND_QUERY],
+            OmekaEvent::API_SEARCH_QUERY,
+            [$this, 'filterSites']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\SiteAdapter',
+            OmekaEvent::API_FIND_QUERY,
             [$this, 'filterSites']
         );
 
         $sharedEventManager->attach(
             'Zend\Stdlib\DispatchableInterface',
-            [MvcEvent::EVENT_DISPATCH],
+            MvcEvent::EVENT_DISPATCH,
             [$this, 'authorizeUserAgainstController'],
             1000
         );
@@ -114,35 +125,45 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            [
-                'Omeka\Controller\Admin\Item',
-                'Omeka\Controller\Admin\ItemSet',
-                'Omeka\Controller\Admin\Media',
-                'Omeka\Controller\Site\Item',
-                'Omeka\Controller\Site\Media',
-            ],
-            'view.show.after',
+            '*',
+            OmekaEvent::SQL_FILTER_RESOURCE_VISIBILITY,
             function (OmekaEvent $event) {
-                $resource = $event->getTarget()->resource;
-                echo $resource->embeddedJsonLd();
+                // Users can view block attachments only if they have permission
+                // to view the attached item.
+                $relatedEntities = $event->getParam('relatedEntities');
+                $relatedEntities['Omeka\Entity\SiteBlockAttachment'] = 'item_id';
+                $event->setParam('relatedEntities', $relatedEntities);
             }
         );
 
-        $sharedEventManager->attach(
-            [
-                'Omeka\Controller\Admin\Item',
-                'Omeka\Controller\Admin\ItemSet',
-                'Omeka\Controller\Admin\Media',
-                'Omeka\Controller\Site\Item',
-            ],
-            'view.browse.after',
-            function (OmekaEvent $event) {
-                $resources = $event->getTarget()->resources;
-                foreach ($resources as $resource) {
+        $resources = [
+            'Omeka\Controller\Admin\Item',
+            'Omeka\Controller\Admin\ItemSet',
+            'Omeka\Controller\Admin\Media',
+            'Omeka\Controller\Site\Item',
+            'Omeka\Controller\Site\Media',
+        ];
+        foreach ($resources as $resource) {
+            $sharedEventManager->attach(
+                $resource,
+                'view.show.after',
+                function (OmekaEvent $event) {
+                    $resource = $event->getTarget()->resource;
                     echo $resource->embeddedJsonLd();
                 }
-            }
-        );
+            );
+            $sharedEventManager->attach(
+                $resource,
+                'view.browse.after',
+                function (OmekaEvent $event) {
+                    $resources = $event->getTarget()->resources;
+                    foreach ($resources as $resource) {
+                        echo $resource->embeddedJsonLd();
+                    }
+                }
+            );
+        }
+
 
         $sharedEventManager->attach(
             '*',
@@ -319,7 +340,7 @@ class Module extends AbstractModule
     public function filterSites(Event $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+        if ($acl->userIsAllowed('Omeka\Entity\Site', 'view-all')) {
             return;
         }
 
@@ -408,20 +429,5 @@ class Module extends AbstractModule
 
         $sessionManager = new SessionManager($sessionConfig, null, $sessionSaveHandler, []);
         Container::setDefaultManager($sessionManager);
-    }
-
-    /**
-     * Bootstrap view helpers.
-     */
-    private function bootstrapViewHelpers()
-    {
-        $services = $this->getServiceLocator();
-        $manager = $services->get('ViewHelperManager');
-
-        // Set the custom form row partial.
-        $manager->get('FormRow')->setPartial('common/form-row');
-
-        // Set the ACL to the navigation helper.
-        $manager->get('Navigation')->setAcl($services->get('Omeka\Acl'));
     }
 }

@@ -2,24 +2,22 @@
 namespace Omeka\Service\MediaIngester;
 
 use Omeka\Media\Ingester\OEmbed;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class OEmbedFactory implements FactoryInterface
 {
     /**
      * Create the oEmbed media ingester service.
      *
-     * @param ServiceLocatorInterface $mediaIngesterServiceLocator
      * @return OEmbed
      */
-    public function createService(ServiceLocatorInterface $mediaIngesterServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $mediaIngesterServiceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
+        $config = $services->get('Config');
         $whitelist = $config['oembed']['whitelist'];
-        $httpClient = $serviceLocator->get('Omeka\HttpClient');
-        $fileManager = $serviceLocator->get('Omeka\File\Manager');
+        $httpClient = $services->get('Omeka\HttpClient');
+        $fileManager = $services->get('Omeka\File\Manager');
         return new OEmbed($whitelist, $httpClient, $fileManager);
     }
 }

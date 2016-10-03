@@ -2,22 +2,15 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\UserForm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class UserFormFactory implements FactoryInterface
 {
-    protected $options = [];
-
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new UserForm(null, $this->options);
-        $form->setAcl($elements->getServiceLocator()->get('Omeka\Acl'));
+        $form = new UserForm(null, $options);
+        $form->setAcl($services->get('Omeka\Acl'));
         return $form;
-    }
-
-    public function setCreationOptions(array $options)
-    {
-        $this->options = $options;
     }
 }

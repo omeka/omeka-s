@@ -34,7 +34,7 @@ class Request extends ZendRequest
 
     /**
      * Construct an API request.
-     * 
+     *
      * @param null|int $operation
      * @param null|string $resource
      */
@@ -50,7 +50,7 @@ class Request extends ZendRequest
 
     /**
      * Set the request operation.
-     * 
+     *
      * @param int $operation
      */
     public function setOperation($operation)
@@ -60,7 +60,7 @@ class Request extends ZendRequest
 
     /**
      * Get the request operation.
-     * 
+     *
      * @return int
      */
     public function getOperation()
@@ -80,7 +80,7 @@ class Request extends ZendRequest
 
     /**
      * Set the request resource.
-     * 
+     *
      * @param string $resource
      */
     public function setResource($resource)
@@ -90,7 +90,7 @@ class Request extends ZendRequest
 
     /**
      * Get the request resource.
-     * 
+     *
      * @return string
      */
     public function getResource()
@@ -100,7 +100,7 @@ class Request extends ZendRequest
 
     /**
      * Set the request resource ID.
-     * 
+     *
      * @param mixed $id
      */
     public function setId($id)
@@ -110,7 +110,7 @@ class Request extends ZendRequest
 
     /**
      * Get the request resource ID.
-     * 
+     *
      * @return mixed
      */
     public function getId()

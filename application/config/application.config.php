@@ -2,6 +2,12 @@
 $reader = new Zend\Config\Reader\Ini;
 return [
     'modules' => [
+        'Zend\Form',
+        'Zend\I18n',
+        'Zend\Mvc\I18n',
+        'Zend\Mvc\Plugin\Identity',
+        'Zend\Navigation',
+        'Zend\Router',
         'Omeka',
     ],
     'module_listener_options' => [

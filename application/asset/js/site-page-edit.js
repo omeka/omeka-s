@@ -3,17 +3,18 @@
         var config = {
             toolbar:
             [
-                ['Source', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
+                ['Sourcedialog', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
             ],
             height: '96px'
         };
 
         context.find('.wysiwyg').each(function () {
             if ($(this).is('.caption')) {
-                $(this).ckeditor(config);
+                editor = CKEDITOR.inline(this, config)
             } else {
-                $(this).ckeditor();
+                editor = CKEDITOR.inline(this);
             }
+            $(this).data('ckeditorInstance', editor);
         })
     }
 

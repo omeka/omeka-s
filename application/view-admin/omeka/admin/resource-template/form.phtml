@@ -2,6 +2,7 @@
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -15,7 +16,7 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 
 <?php echo $this->formCollection($form, false); ?>
 
-<ul id="properties">
+<ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
     <li>
         <div class="property-heading" id="original-label"><?php echo $this->translate('Label'); ?></div>
         <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate Comment'); ?></div>
@@ -44,59 +45,3 @@ $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
-
-<script>
-// Enable sorting on property rows.
-var list = document.getElementById('properties');
-new Sortable(list, {
-    draggable: ".property",
-    handle: ".sortable-handle"
-});
-
-// Add property row via the property selector.
-$('#property-selector .selector-child').click(function(event) {
-    event.preventDefault();
-    var propertyId = $(this).closest('li').data('property-id');
-    if ($('#properties tbody tr[data-property-id="' + propertyId + '"]').length) {
-        // Resource templates cannot be assigned duplicate properties.
-        return;
-    }
-    var url = '<?php echo $this->escapeJs($this->url(null, ['action' => 'add-new-property-row'], true)); ?>';
-    $.get(url, {property_id: propertyId})
-        .done(function(data) {
-            $('#properties').append(data);
-        });
-});
-
-// Remove property via the delete icon.
-$('#content').on('click', '.resource-template-property-remove', function(event) {
-    event.preventDefault();
-
-    var removeLink = $(this);
-    var propertyRow =  removeLink.closest('li.property.row');
-    var propertyId = propertyRow.data('property-id');
-
-    // Remove the property ID element from the form.
-    var propertyIdElement = propertyRow.children('.property-id-element');
-    propertyRow.data('property-id-element', propertyIdElement);
-    propertyIdElement.remove();
-
-    // Undo remove property link.
-    var undoRemoveLink = $('<a>', {
-        href: '#',
-        class: 'fa fa-undo',
-        title: 'Undo remove property',
-        click: function(event) {
-            event.preventDefault();
-            propertyRow.toggleClass('delete');
-            propertyRow.append(propertyRow.data('property-id-element'));
-            removeLink.show();
-            $(this).remove();
-        },
-    });
-
-    propertyRow.toggleClass('delete');
-    undoRemoveLink.insertAfter(removeLink);
-    removeLink.hide();
-});
-</script>

@@ -8,8 +8,8 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\Callback;
 use Zend\Authentication\Storage\NonPersistent;
 use Zend\Authentication\Storage\Session;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Authentication service factory.
@@ -19,10 +19,9 @@ class AuthenticationServiceFactory implements FactoryInterface
     /**
      * Create the authentication service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return ApiManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
         $status = $serviceLocator->get('Omeka\Status');

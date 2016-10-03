@@ -19,7 +19,11 @@ class ResourceClassSelect extends Select
             foreach ($response->getContent() as $vocabulary) {
                 $options = [];
                 foreach ($vocabulary->resourceClasses() as $resourceClass) {
-                    $options[$resourceClass->id()] = $resourceClass->label();
+                    $options[] = [
+                        'label' => $resourceClass->label(),
+                        'value' => $resourceClass->id(),
+                        'attributes' => ['data-term' => $resourceClass->term()],
+                    ];
                 }
                 if (!$options) {
                     continue;

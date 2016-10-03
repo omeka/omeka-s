@@ -2,15 +2,15 @@
 namespace Omeka\Service\Form\Element;
 
 use Omeka\Form\Element\ResourceSelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ResourceSelectFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $element = new ResourceSelect;
-        $element->setApiManager($elements->getServiceLocator()->get('Omeka\ApiManager'));
+        $element->setApiManager($services->get('Omeka\ApiManager'));
         return $element;
     }
 }

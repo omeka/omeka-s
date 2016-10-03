@@ -10,8 +10,8 @@ use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Listener\Utf8mb4;
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\ProxyAutoloader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Factory for creating the Doctrine entity manager.
@@ -22,11 +22,11 @@ class EntityManagerFactory implements FactoryInterface
 
     /**
      * Create the entity manager service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return EntityManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
@@ -88,8 +88,8 @@ class EntityManagerFactory implements FactoryInterface
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new Utf8mb4);
         $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator->get('EventManager')));
         // Instantiate the visibility filter and inject the service locator.
-        $em->getFilters()->enable('visibility');
-        $em->getFilters()->getFilter('visibility')->setServiceLocator($serviceLocator);
+        $em->getFilters()->enable('resource_visibility');
+        $em->getFilters()->getFilter('resource_visibility')->setServiceLocator($serviceLocator);
 
         // Register a custom mapping type for an IP address.
         if (!Type::hasType('ip_address')) {

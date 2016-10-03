@@ -6,8 +6,8 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Events;
 use Omeka\Db\Event\Listener\CreateTableOverride;
 use Omeka\Db\Logging\FileSqlLogger;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Factory for creating the DBAL connection.
@@ -19,11 +19,11 @@ class ConnectionFactory implements FactoryInterface
 
     /**
      * Create the DBAL connection service.
-     * 
+     *
      * @param ServiceLocatorInterface $serviceLocator
      * @return Connection
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('ApplicationConfig');
 

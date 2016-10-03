@@ -2,8 +2,6 @@
 @import "mixins";
 @import "font-awesome/variables";
 @import "susy";
-@import "compass/css3";
-@import "compass/typography";
 
 .jstree-container-ul {
     margin: 0;
@@ -30,13 +28,13 @@
 .jstree-anchor {
     @include field-row;
     display: block;
-    margin: rhythm(.25) 0 0;
+    margin: $spacing-small 0 0;
 }
 
 .jstree-editlink-container {
     display: none;
-    border-color: $gray-on-white;
-    @include rhythm-borders(1px, .5, $base-font-size, solid);
+    padding: ($spacing-medium - 1px);
+    border: 1px solid $gray-on-white;
     overflow: hidden;
     line-height: 1.5 * $base-line-height;
     font-weight: bold;
@@ -53,7 +51,7 @@
         display: block;
 
         &:not(:last-child) {
-            margin-bottom: rhythm(.25);
+            margin-bottom: $spacing-small;
         }
     }
 }
@@ -66,7 +64,7 @@
 i.jstree-icon {
     font-style: normal;
     position: absolute;
-    right: rhythm(.5);
+    right: $spacing-medium;
     top: 0;
 }
 
@@ -206,7 +204,7 @@ i.jstree-editlink-edit {
 
 #jstree-dnd {
     z-index: 1;
-    padding: rhythm(.25) rhythm(.5);
+    padding: $spacing-small $spacing-medium;
     background-color: $gray-on-white;
     line-height: $base-line-height;
 }

@@ -3,6 +3,7 @@ namespace Omeka\Site\BlockLayout;
 
 use Zend\Form\Element\Select;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -14,7 +15,7 @@ class Media extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $html = '';
         $html .= $view->blockAttachmentsForm($block);
@@ -22,6 +23,7 @@ class Media extends AbstractBlockLayout
         $html .= '<div class="collapsible">';
         $html .= $view->blockThumbnailTypeSelect($block);
         $html .= $this->alignmentClassSelect($view, $block);
+        $html .= $view->blockShowTitleSelect($block);
         $html .= '</div>';
         return $html;
     }
@@ -36,6 +38,7 @@ class Media extends AbstractBlockLayout
         $alignmentClass = $block->dataValue('alignment', 'left');
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
         $linkType = $view->siteSetting('attachment_link_type', 'item');
+        $showTitleOption = $block->dataValue('show_title_option', 'item_title');
 
         return $view->partial('common/block-layout/file', array(
             'block' => $block,
@@ -43,6 +46,7 @@ class Media extends AbstractBlockLayout
             'alignmentClass' => $alignmentClass,
             'thumbnailType' => $thumbnailType,
             'link' => $linkType,
+            'showTitleOption' => $showTitleOption
         ));
 
     }
@@ -54,6 +58,10 @@ class Media extends AbstractBlockLayout
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
-        return '<label class="thumbnail-option">Thumbnail Alignment ' . $view->formSelect($select) . '</label>';
+        $selectLabel = 'Thumbnail Alignment'; // @translate
+        $html  = '<div class="field"><div class="field-meta">';
+        $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
+        $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
+        return $html;
     }
 }

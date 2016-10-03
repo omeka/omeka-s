@@ -4,8 +4,8 @@
 
 .tablesaw tr .actions {
     position: absolute;
-    top: rhythm(.25);
-    right: rhythm(.5);
+    top: $spacing-small;
+    right: $spacing-medium;
 
     li {
         margin: 0;
@@ -30,7 +30,7 @@
 
     .resource-name {
         display: inline-block;
-        max-width: calc(100% - #{rhythm(6)});
+        max-width: calc(100% - #{6 * $spacing-large});
         vertical-align: middle;
     }
 }
@@ -41,22 +41,22 @@
 }
 
 .tablesaw-cell-content img {
-    margin: 0 rhythm(.25) 0 0;
+    margin: 0 $spacing-small 0 0;
 }
 
 .tablesaw tr:last-of-type td,
 .tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
-    padding: rhythm(.25) rhythm(.5);
+    padding: $spacing-small $spacing-medium;
     vertical-align: top;
 }
 
 /* @group ----- Special cases ----- */
 
 .page.browse .tablesaw {
-    border-color: $gray-on-white;
-    @include trailing-border(1px, 0, $base-font-size, solid);
+    padding-bottom: -1px;
+    border-bottom: 1px solid $gray-on-white;
 }
 
 .page.browse .tablesaw tr {
@@ -72,7 +72,7 @@
 
 .modules.browse .tablesaw-cell-content > span {
     display: block;
-    max-width: calc(100% - #{rhythm(4)});
+    max-width: calc(100% - #{4 * $spacing-large});
 }
 
 .resource-template th:first-of-type,

@@ -2,22 +2,15 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\ModuleStateChangeForm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ModuleStateChangeFormFactory implements FactoryInterface
 {
-    protected $options = [];
-
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new ModuleStateChangeForm(null, $this->options);
-        $form->setUrlHelper($elements->getServiceLocator()->get('ViewHelperManager')->get('Url'));
+        $form = new ModuleStateChangeForm(null, $options);
+        $form->setUrlHelper($services->get('ViewHelperManager')->get('Url'));
         return $form;
-    }
-
-    public function setCreationOptions(array $options)
-    {
-        $this->options = $options;
     }
 }

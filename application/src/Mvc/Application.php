@@ -20,8 +20,12 @@ class Application
     public static function init($configuration = [])
     {
         $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : [];
-        $serviceManager = new ServiceManager(new Service\ServiceManagerConfig($smConfig));
+        $smConfig = new Service\ServiceManagerConfig($smConfig);
+
+        $serviceManager = new ServiceManager;
+        $smConfig->configureServiceManager($serviceManager);
         $serviceManager->setService('ApplicationConfig', $configuration);
+
         $moduleManager = $serviceManager->get('ModuleManager');
 
         // Merge application modules with active user modules and load them.

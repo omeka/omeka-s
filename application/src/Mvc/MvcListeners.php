@@ -11,7 +11,7 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
@@ -241,14 +241,6 @@ class MvcListeners extends AbstractListenerAggregate
                 $services->get('ViewHelperManager')->setFactory($helper, $factory);
             }
         }
-
-        $translator = $services->get('Omeka\Site\NavigationTranslator');
-        $config = $services->get('Config');
-        $config['navigation']['site'] = $translator->toZend($site);
-        $allowOverride = $services->getAllowOverride();
-        $services->setAllowOverride(true);
-        $services->setService('Config', $config);
-        $services->setAllowOverride($allowOverride);
     }
 
     /**
@@ -270,7 +262,8 @@ class MvcListeners extends AbstractListenerAggregate
         } catch (\Exception $e) {
             $event->setError(ZendApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
-            $event->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $event->getApplication()->getEventManager()->triggerEvent($event);
             return false;
         }
 

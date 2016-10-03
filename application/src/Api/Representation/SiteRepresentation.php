@@ -2,9 +2,15 @@
 namespace Omeka\Api\Representation;
 
 use RecursiveIteratorIterator;
+use Zend\Navigation\Service\ConstructedNavigationFactory;
 
 class SiteRepresentation extends AbstractEntityRepresentation
 {
+    /**
+     * @var \Zend\Navigation\Navigation
+     */
+    protected $publicNavContainer;
+
     /**
      * {@inheritDoc}
      */
@@ -191,7 +197,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Render the correct admin-side nav for this site for the current user
+     * Get the navigation helper for admin-side nav for this site for the current user
+     *
+     * @return \Zend\View\Helper\Navigation
      */
     public function adminNav()
     {
@@ -205,6 +213,36 @@ class SiteRepresentation extends AbstractEntityRepresentation
             }
         }
 
-        return $nav->menu();
+        return $nav;
+    }
+
+    /**
+     * Get the navigation helper for public-side nav for this site
+     *
+     * @return \Zend\View\Helper\Navigation
+     */
+    public function publicNav()
+    {
+        $navHelper = $this->getViewHelper('Navigation');
+        $navTranslator = $this->getServiceLocator()->get('Omeka\Site\NavigationTranslator');
+
+        return $navHelper($this->getPublicNavContainer());
+    }
+
+    /**
+     * Get the navigation container for this site's public nav
+     *
+     * @return \Zend\Navigation\Navigation
+     */
+    protected function getPublicNavContainer()
+    {
+        if (!$this->publicNavContainer) {
+            $services = $this->getServiceLocator();
+            $navTranslator = $services->get('Omeka\Site\NavigationTranslator');
+            $factory = new ConstructedNavigationFactory($navTranslator->toZend($this));
+            $this->publicNavContainer = $factory($services, '');
+        }
+
+        return $this->publicNavContainer;
     }
 }

@@ -2,21 +2,18 @@
 namespace Omeka\Service\MediaRenderer;
 
 use Omeka\Media\Renderer\File;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class FileFactory implements FactoryInterface
 {
     /**
      * Create the File media renderer thumbnailer service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @return File
      */
-    public function createService(ServiceLocatorInterface $mediaRendererServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $mediaRendererServiceLocator->getServiceLocator();
-        $fileRendererManager = $serviceLocator->get('Omeka\FileRendererManager');
-        return new File($fileRendererManager);
+        return new File($services->get('Omeka\FileRendererManager'));
     }
 }

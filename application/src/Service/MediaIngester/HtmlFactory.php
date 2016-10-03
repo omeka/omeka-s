@@ -2,21 +2,18 @@
 namespace Omeka\Service\MediaIngester;
 
 use Omeka\Media\Ingester\Html;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class HtmlFactory implements FactoryInterface
 {
     /**
      * Create the Html media ingester service.
      *
-     * @param ServiceLocatorInterface $mediaIngesterServiceLocator
      * @return Html
      */
-    public function createService(ServiceLocatorInterface $mediaIngesterServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $mediaIngesterServiceLocator->getServiceLocator();
-        $htmlPurifier = $serviceLocator->get('Omeka\HtmlPurifier');
-        return new Html($htmlPurifier);
+        return new Html($services->get('Omeka\HtmlPurifier'));
     }
 }

@@ -30,6 +30,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:item' => $this->item()->getReference(),
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
+            'o:sha256' => $this->sha256(),
             'o:filename' => $this->filename(),
             'o:lang' => $this->lang(),
             'o:original_url' => $this->originalUrl(),
@@ -45,7 +46,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function render(array $options = [])
     {
-        return $this->getViewHelper('Media')->render($this, $options);
+        return $this->getViewHelper('media')->render($this, $options);
     }
 
     /**
@@ -154,6 +155,16 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Get the SHA-256 of the media.
+     *
+     * @return string|null
+     */
+    public function sha256()
+    {
+        return $this->resource->getSha256();
+    }
+
+    /**
      * Get the media's filename (if any).
      *
      * @return string|null
@@ -161,6 +172,26 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function filename()
     {
         return $this->resource->getFilename();
+    }
+
+    /**
+     * Get the media's storage ID (if any).
+     *
+     * @return string|null
+     */
+    public function storageId()
+    {
+        return $this->resource->getStorageId();
+    }
+
+    /**
+     * Get the media's file extension (if any).
+     *
+     * @return string|null
+     */
+    public function extension()
+    {
+        return $this->resource->getExtension();
     }
 
     /**

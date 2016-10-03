@@ -52,6 +52,11 @@ class ResourceTemplateProperty extends AbstractEntity
      */
     protected $dataType;
 
+    /**
+     * @Column(type="boolean")
+     */
+    protected $isRequired = false;
+
     public function getId()
     {
         return $this->id;
@@ -115,5 +120,15 @@ class ResourceTemplateProperty extends AbstractEntity
     public function getDataType()
     {
         return $this->dataType;
+    }
+
+    public function setIsRequired($isRequired)
+    {
+        $this->isRequired = (bool) $isRequired;
+    }
+
+    public function isRequired()
+    {
+        return (bool) $this->isRequired;
     }
 }

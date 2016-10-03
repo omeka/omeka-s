@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Resource;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
@@ -80,7 +82,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     "$entityClass.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
                 );
-                $qb->addOrderBy("$valuesAlias.value", $query['sort_order']);
+                $qb->addOrderBy(
+                    "GROUP_CONCAT($valuesAlias.value ORDER BY $valuesAlias.id)",
+                    $query['sort_order']
+                );
             } elseif ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
                 $qb->leftJoin("$entityClass.resourceClass", $resourceClassAlias)
@@ -123,6 +128,33 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $this->hydrateResourceTemplate($request, $entity);
     }
 
+    public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
+    {
+        $resourceTemplate = $entity->getResourceTemplate();
+        if ($resourceTemplate) {
+            // Confirm that a value exists for each required property.
+            $criteria = Criteria::create()->where(Criteria::expr()->eq('isRequired', true));
+            $requiredProps = $resourceTemplate->getResourceTemplateProperties()->matching($criteria);
+            foreach ($requiredProps as $requiredProp) {
+                $propExists = $entity->getValues()->exists(
+                    function ($key, $element) use ($requiredProp) {
+                        return $requiredProp->getProperty()->getId()
+                            === $element->getProperty()->getId();
+                    }
+                );
+                if (!$propExists) {
+                    $errorStore->addError('o:resource_template_property', new Message(
+                        'The "%s" resource template requires a "%s" value', // @translate
+                        $resourceTemplate->getLabel(),
+                        $requiredProp->getAlternateLabel()
+                            ? $requiredProp->getAlternateLabel()
+                            : $requiredProp->getProperty()->getLabel()
+                    ));
+                }
+            }
+        }
+    }
+
     /**
      * Build query on value (optionally by property).
      *
@@ -133,7 +165,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      *   + property[{pid}][nin][]={value}: does not contain value
      *
      * If {pid} is zero/empty, queries are against all values. Otherwise, query results are limited
-     * to the given property. 
+     * to the given property.
      *
      * @param QueryBuilder $qb
      * @param array $query

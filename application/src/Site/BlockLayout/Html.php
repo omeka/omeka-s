@@ -2,6 +2,7 @@
 namespace Omeka\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Service\HtmlPurifier;
@@ -35,7 +36,7 @@ class Html extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
         $textarea->setAttribute('class', 'block-html full wysiwyg');

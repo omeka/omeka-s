@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Form\Element\ResourceClassSelect;
 use Zend\Form\Form;
 use Zend\View\Helper\Url;
 
@@ -38,7 +39,7 @@ class ResourceForm extends Form
 
         $this->add([
             'name' => 'o:resource_class[o:id]',
-            'type' => ResourceSelect::class,
+            'type' => ResourceClassSelect::class,
             'attributes' => [
                 'id' => 'resource-class-select',
             ],
@@ -46,16 +47,6 @@ class ResourceForm extends Form
                 'label' => 'Class', // @translate
                 'info' => 'A type for the resource. Different types have different default properties attached to them.', // @translate
                 'empty_option' => 'Select Class', // @translate
-                'resource_value_options' => [
-                    'resource' => 'resource_classes',
-                    'query' => [],
-                    'option_text_callback' => function ($resourceClass) {
-                        return [
-                            $resourceClass->vocabulary()->label(),
-                            $resourceClass->label()
-                        ];
-                    },
-                ],
             ],
         ]);
 

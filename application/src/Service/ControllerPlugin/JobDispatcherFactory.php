@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\JobDispatcher;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class JobDispatcherFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $plugins)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new JobDispatcher($plugins->getServiceLocator()->get('Omeka\JobDispatcher'));
+        return new JobDispatcher($services->get('Omeka\JobDispatcher'));
     }
 }

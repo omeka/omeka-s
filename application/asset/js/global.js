@@ -36,9 +36,11 @@ var Omeka = {
 
     switchActiveSection: function (section) {
         var closedSection = $('.section.active');
+        var sectionId = '#' + section.attr('id');
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
-        $('.section-nav a[href="#' + section.attr('id') + '"]').parent().addClass('active');
+        $('.section-nav a[href="' + sectionId + '"]').parent().addClass('active');
+        history.replaceState(null, document.title, sectionId);
         this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {
@@ -70,8 +72,10 @@ var Omeka = {
             });
             if (count > 0) {
                 parent.addClass('show');
+                parent.show();
             } else {
                 parent.removeClass('show');
+                parent.hide();
             }
             parent.children('span.selector-child-count').text(count);
         });
@@ -118,6 +122,48 @@ var Omeka = {
                 });
             }
         }
+    },
+
+    warnIfUnsaved: function() {
+        var setSubmittedFlag = function () {
+            $(this).data('omekaFormSubmitted', true);
+        };
+
+        var setOriginalData = function () {
+            $(this).data('omekaFormOriginalData', $(this).serialize());
+        };
+
+        var formsToCheck = $('form[method=POST]:not(.disable-unsaved-warning)');
+        formsToCheck.on('o:form-loaded', setOriginalData);
+        formsToCheck.each(function () {
+            var form = $(this);
+            form.trigger('o:form-loaded');
+            form.submit(setSubmittedFlag);
+        });
+
+        $(window).on('beforeunload', function() {
+            var preventNav = false;
+            formsToCheck.each(function () {
+                var form = $(this);
+                var originalData = form.data('omekaFormOriginalData');
+                if (form.data('omekaFormSubmitted')) {
+                    return;
+                }
+
+                form.trigger('o:before-form-unload');
+
+                if (form.data('omekaFormDirty')
+                    || (originalData && originalData !== form.serialize())
+                ) {
+                    preventNav = true;
+                    return false;
+                }
+            });
+
+            if (preventNav) {
+                return 'You have unsaved changes.';
+            }
+        });
     }
 };
 
@@ -125,6 +171,11 @@ var Omeka = {
 
     $(function() {
         Omeka.reserveSidebarSpace();
+
+        if (window.location.hash && $('.section').filter(window.location.hash).length) {
+            // Open the section that corresponds to the URL fragment identifier.
+            Omeka.switchActiveSection($(window.location.hash));
+        }
 
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
@@ -290,50 +341,12 @@ var Omeka = {
         // Maintain iframe aspect ratios
         $(window).on('load resize', Omeka.framerateCallback(Omeka.fixIframeAspect));
         Omeka.fixIframeAspect();
-    });
 
-    $(window).on('load', function() {
-        // Wait until we're done manipulating things to enable CSS transitions
-        $('body').addClass('transitions-enabled');
+        $(function() {
+            // Wait until we're done manipulating things to enable CSS transitions
+            $('body').addClass('transitions-enabled');
 
-        var setSubmittedFlag = function () {
-            $(this).data('omekaFormSubmitted', true);
-        };
-
-        var setOriginalData = function () {
-            $(this).data('omekaFormOriginalData', $(this).serialize());
-        };
-
-        var formsToCheck = $('form[method=POST]:not(.disable-unsaved-warning)');
-        formsToCheck.on('o:form-loaded', setOriginalData);
-        formsToCheck.each(function () {
-            var form = $(this);
-            form.trigger('o:form-loaded');
-            form.submit(setSubmittedFlag);
-        });
-
-        $(window).on('beforeunload', function() {
-            var preventNav = false;
-            formsToCheck.each(function () {
-                var form = $(this);
-                var originalData = form.data('omekaFormOriginalData');
-                if (form.data('omekaFormSubmitted')) {
-                    return;
-                }
-
-                form.trigger('o:before-form-unload');
-
-                if (form.data('omekaFormDirty')
-                    || (originalData && originalData !== form.serialize())
-                ) {
-                    preventNav = true;
-                    return false;
-                }
-            });
-
-            if (preventNav) {
-                return 'You have unsaved changes.';
-            }
+            Omeka.warnIfUnsaved();
         });
     });
 

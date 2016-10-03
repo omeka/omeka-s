@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
@@ -75,13 +76,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (array_key_exists('o:class', $data)
             && !is_array($data['o:class'])
         ) {
-            $errorStore->addError('o:item_set', 'Classes must be an array');
+            $errorStore->addError('o:item_set', 'Classes must be an array'); // @translate
         }
 
         if (array_key_exists('o:property', $data)
             && !is_array($data['o:property'])
         ) {
-            $errorStore->addError('o:item_set', 'Properties must be an array');
+            $errorStore->addError('o:item_set', 'Properties must be an array'); // @translate
         }
     }
 
@@ -208,11 +209,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
         // Validate namespace URI
         $namespaceUri = $entity->getNamespaceUri();
         if (false == $entity->getNamespaceUri()) {
-            $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.');
+            $errorStore->addError('o:namespace_uri', 'The namespace URI cannot be empty.'); // @translate
         }
         if (!$this->isUnique($entity, ['namespaceUri' => $namespaceUri])) {
-            $errorStore->addError('o:namespace_uri', sprintf(
-                'The namespace URI "%s" is already taken.',
+            $errorStore->addError('o:namespace_uri', new Message(
+                'The namespace URI "%s" is already taken.', // @translate
                 $namespaceUri
             ));
         }
@@ -220,18 +221,18 @@ class VocabularyAdapter extends AbstractEntityAdapter
         // Validate prefix
         $prefix = $entity->getPrefix();
         if (false == $entity->getPrefix()) {
-            $errorStore->addError('o:prefix', 'The prefix cannot be empty.');
+            $errorStore->addError('o:prefix', 'The prefix cannot be empty.'); // @translate
         }
         if (!$this->isUnique($entity, ['prefix' => $prefix])) {
-            $errorStore->addError('o:prefix', sprintf(
-                'The prefix "%s" is already taken.',
+            $errorStore->addError('o:prefix', new Message(
+                'The prefix "%s" is already taken.', // @translate
                 $prefix
             ));
         }
         foreach ($this->reservedPrefixes as $reservedPrefix) {
             if (preg_match("/$reservedPrefix/", $prefix)) {
-                $errorStore->addError('o:prefix', sprintf(
-                    'The prefix "%s" is reserved.',
+                $errorStore->addError('o:prefix', new Message(
+                    'The prefix "%s" is reserved.', // @translate
                     $prefix
                 ));
                 break;
@@ -240,15 +241,15 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
         // Validate label
         if (false == $entity->getLabel()) {
-            $errorStore->addError('o:label', 'The label cannot be empty.');
+            $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
         }
 
         // Check for uniqueness of resource class local names.
         $uniqueLocalNames = [];
         foreach ($entity->getResourceClasses() as $resourceClass) {
             if (in_array($resourceClass->getLocalName(), $uniqueLocalNames)) {
-                $errorStore->addError('o:resource_class', sprintf(
-                    'The local name "%s" is already taken.',
+                $errorStore->addError('o:resource_class', new Message(
+                    'The local name "%s" is already taken.', // @translate
                     $resourceClass->getLocalName()
                 ));
             } else {
@@ -260,8 +261,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $uniqueLocalNames = [];
         foreach ($entity->getProperties() as $property) {
             if (in_array($property->getLocalName(), $uniqueLocalNames)) {
-                $errorStore->addError('o:resource_class', sprintf(
-                    'The local name "%s" is already taken.',
+                $errorStore->addError('o:resource_class', new Message(
+                    'The local name "%s" is already taken.', // @translate
                     $property->getLocalName()
                 ));
             } else {

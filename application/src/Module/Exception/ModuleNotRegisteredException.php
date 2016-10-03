@@ -1,6 +1,5 @@
 <?php
 namespace Omeka\Module\Exception;
 
-class ModuleNotRegisteredException extends \RuntimeException implements
-    ExceptionInterface
+class ModuleNotRegisteredException extends \RuntimeException implements ExceptionInterface
 {}

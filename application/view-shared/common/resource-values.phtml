@@ -28,11 +28,14 @@ $labelInfo = $this->setting('property_label_information');
             ?>
             <div class="<?php echo $class; ?>">
                 <?php if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()): ?>
-                    <img 
-                        src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>" 
-                        title="<?php echo $escape($thumbnail->displayTitle()); ?>" 
+                    <img
+                        src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>"
+                        title="<?php echo $escape($thumbnail->displayTitle()); ?>"
                         alt="<?php echo $escape($thumbnail->mediaType()); ?> thumbnail"
                     >
+                <?php endif; ?>
+                <?php if ($language = $value->lang()): ?>
+                <span class="language"><?php echo $language; ?></span>
                 <?php endif; ?>
                 <?php echo $value->asHtml(); ?>
             </div>

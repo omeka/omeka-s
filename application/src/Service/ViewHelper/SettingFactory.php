@@ -3,8 +3,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Setting;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the setting view helper.
@@ -14,12 +14,10 @@ class SettingFactory implements FactoryInterface
     /**
      * Create and return the setting view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return Setting
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new Setting($serviceLocator->get('Omeka\Settings'));
+        return new Setting($services->get('Omeka\Settings'));
     }
 }

@@ -81,7 +81,7 @@ class Installer
 
     /**
      * Register an installation task.
-     * 
+     *
      * @param string $task
      */
     public function registerTask($task)
@@ -91,7 +91,7 @@ class Installer
 
     /**
      * Register an pre-installation task to occur before the installation begins.
-     * 
+     *
      * @param string $task
      */
     public function registerPreTask($task)

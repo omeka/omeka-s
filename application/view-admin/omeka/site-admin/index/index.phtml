@@ -20,7 +20,9 @@ $sortHeadings = [
 <?php echo $this->pageTitle($this->translate('Sites')); ?>
 
 <div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Entity\Site', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), ['class' => 'button']); ?>
+    <?php endif; ?>
 </div>
 
 <?php if (count($sites) > 0): ?>

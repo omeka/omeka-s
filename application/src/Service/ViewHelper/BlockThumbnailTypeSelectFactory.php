@@ -2,8 +2,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\BlockThumbnailTypeSelect;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Service factory for the blockThumbnailTypeSelect view helper.
@@ -13,12 +13,10 @@ class BlockThumbnailTypeSelectFactory implements FactoryInterface
     /**
      * Create and return the blockThumbnailTypeSelect view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
      * @return BlockThumbnailTypeSelect
      */
-    public function createService(ServiceLocatorInterface $viewServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $viewServiceLocator->getServiceLocator();
-        return new BlockThumbnailTypeSelect($serviceLocator->get('Omeka\File\Manager'));
+        return new BlockThumbnailTypeSelect($services->get('Omeka\File\Manager'));
     }
 }

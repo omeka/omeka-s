@@ -2,22 +2,20 @@
 namespace Omeka\Service\MediaIngester;
 
 use Omeka\Media\Ingester\IIIF;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class IIIFFactory implements FactoryInterface
 {
     /**
      * Create the IIIF media ingester service.
      *
-     * @param ServiceLocatorInterface $mediaIngesterServiceLocator
      * @return IIIF
      */
-    public function createService(ServiceLocatorInterface $mediaIngesterServiceLocator)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $serviceLocator = $mediaIngesterServiceLocator->getServiceLocator();
-        $httpClient = $serviceLocator->get('Omeka\HttpClient');
-        $fileManager = $serviceLocator->get('Omeka\File\Manager');
+        $httpClient = $services->get('Omeka\HttpClient');
+        $fileManager = $services->get('Omeka\File\Manager');
         return new IIIF($httpClient, $fileManager);
     }
 }

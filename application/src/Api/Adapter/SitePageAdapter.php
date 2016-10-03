@@ -8,6 +8,7 @@ use Omeka\Entity\SiteBlockAttachment;
 use Omeka\Entity\SitePage;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class SitePageAdapter extends AbstractEntityAdapter
 {
@@ -54,17 +55,28 @@ class SitePageAdapter extends AbstractEntityAdapter
     ) {
         $title = null;
         $data = $request->getContent();
-        if (Request::CREATE === $request->getOperation()
-            && isset($data['o:site']['o:id'])
-        ) {
+        $blockData = $request->getValue('o:block', []);
+
+        if (Request::CREATE === $request->getOperation() && isset($data['o:site']['o:id'])) {
+
             $site = $this->getAdapter('sites')->findEntity($data['o:site']['o:id']);
             $this->authorize($site, 'add-page');
             $entity->setSite($site);
+
+            if (!$blockData) {
+                // Add the pageTitle block to all new pages.
+                $blockData = [[
+                    'o:layout' => 'pageTitle',
+                    'o:data' => [],
+                ]];
+            }
         }
+
         if ($this->shouldHydrate($request, 'o:title')) {
             $title = trim($request->getValue('o:title', ''));
             $entity->setTitle($title);
         }
+
         if ($this->shouldHydrate($request, 'o:slug')) {
             $slug = trim($request->getValue('o:slug', ''));
             if ($slug === ''
@@ -77,10 +89,8 @@ class SitePageAdapter extends AbstractEntityAdapter
             $entity->setSlug($slug);
         }
 
-        $appendBlocks = $request->getOperation() === Request::UPDATE
-            && $request->isPartial();
-        $this->hydrateBlocks($request->getValue('o:block', []), $entity, $errorStore,
-            $appendBlocks);
+        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->isPartial();
+        $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
     }
 
     /**
@@ -89,29 +99,28 @@ class SitePageAdapter extends AbstractEntityAdapter
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         if (!$entity->getSite()) {
-            $errorStore->addError('o:site', 'A page must belong to a site.');
+            $errorStore->addError('o:site', 'A page must belong to a site.'); // @translate
         }
 
         $title = $entity->getTitle();
         if (!is_string($title) || $title === '') {
-            $errorStore->addError('o:title', 'A page must have a title.');
+            $errorStore->addError('o:title', 'A page must have a title.'); // @translate
         }
 
         $slug = $entity->getSlug();
         if (!is_string($slug) || $slug === '') {
-            $errorStore->addError('o:slug', 'The slug cannot be empty.');
+            $errorStore->addError('o:slug', 'The slug cannot be empty.'); // @translate
         }
         if (preg_match('/[^a-zA-Z0-9-]/u', $slug)) {
-            $errorStore->addError('o:slug',
-                'A slug can only contain letters, numbers, and hyphens.');
+            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, and hyphens.'); // @translate
         }
         $site = $entity->getSite();
         if ($site && $site->getId() && !$this->isUnique($entity, [
                 'slug' => $slug,
                 'site' => $entity->getSite()
         ])) {
-            $errorStore->addError('o:slug', sprintf(
-                'The slug "%s" is already taken.',
+            $errorStore->addError('o:slug', new Message(
+                'The slug "%s" is already taken.', // @translate
                 $slug
             ));
         }
@@ -155,11 +164,11 @@ class SitePageAdapter extends AbstractEntityAdapter
             }
 
             if (!is_string($inputBlock['o:layout']) || $inputBlock['o:layout'] === '') {
-                $errorStore->addError('o:block', 'All blocks must have a layout.');
+                $errorStore->addError('o:block', 'All blocks must have a layout.'); // @translate
                 return;
             }
             if (!is_array($inputBlock['o:data'])) {
-                $errorStore->addError('o:block', 'Block data must not be a scalar value.');
+                $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
                 return;
             }
 

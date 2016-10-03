@@ -46,9 +46,19 @@ class Media extends Resource
     protected $mediaType;
 
     /**
+     * @Column(nullable=true, unique=true, length=190)
+     */
+    protected $storageId;
+
+    /**
      * @Column(nullable=true)
      */
-    protected $filename;
+    protected $extension;
+
+    /**
+     * @Column(nullable=true, type="string", length=64, options={"fixed" = true})
+     */
+    protected $sha256;
 
     /**
      * @Column(type="boolean")
@@ -156,14 +166,43 @@ class Media extends Resource
         return (bool) $this->hasThumbnails;
     }
 
-    public function setFilename($filename)
+    public function setStorageId($storageId)
     {
-        $this->filename = $filename;
+        $this->storageId = $storageId;
+    }
+
+    public function getStorageId()
+    {
+        return $this->storageId;
+    }
+
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+    }
+
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    public function setSha256($sha256)
+    {
+        $this->sha256 = $sha256;
+    }
+
+    public function getSha256()
+    {
+        return $this->sha256;
     }
 
     public function getFilename()
     {
-        return $this->filename;
+        $filename = $this->storageId;
+        if ($filename !== null && $this->extension !== null) {
+            $filename .= '.' . $this->extension;
+        }
+        return $filename;
     }
 
     public function setPosition($position)

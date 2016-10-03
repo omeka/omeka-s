@@ -41,6 +41,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:alternate_label' => $this->alternateLabel(),
             'o:alternate_comment' => $this->alternateComment(),
             'o:data_type' => $this->dataType(),
+            'o:is_required' => $this->isRequired(),
         ];
     }
 
@@ -111,5 +112,13 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         }
         return $this->getServiceLocator()->get('Omeka\DataTypeManager')
             ->get($dataType)->getLabel();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequired()
+    {
+        return $this->templateProperty->isRequired();
     }
 }

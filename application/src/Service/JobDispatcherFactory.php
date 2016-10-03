@@ -2,12 +2,12 @@
 namespace Omeka\Service;
 
 use Omeka\Job\Dispatcher;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class JobDispatcherFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $strategy = $serviceLocator->get('Omeka\JobDispatchStrategy');
         $em = $serviceLocator->get('Omeka\EntityManager');

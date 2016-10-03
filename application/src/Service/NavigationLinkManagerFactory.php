@@ -2,18 +2,17 @@
 namespace Omeka\Service;
 
 use Omeka\Site\Navigation\Link\Manager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class NavigationLinkManagerFactory implements FactoryInterface
 {
     /**
      * Create the navigation link manager service.
-     * 
-     * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return Manager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['navigation_links'])) {

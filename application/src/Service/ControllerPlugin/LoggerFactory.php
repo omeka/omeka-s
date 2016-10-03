@@ -1,14 +1,14 @@
 <?php
 namespace Omeka\Service\ControllerPlugin;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\Logger;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class LoggerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $plugins)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Logger($plugins->getServiceLocator()->get('Omeka\Logger'));
+        return new Logger($services->get('Omeka\Logger'));
     }
 }

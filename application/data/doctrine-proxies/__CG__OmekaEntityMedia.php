@@ -64,10 +64,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'filename', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -356,12 +356,67 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setFilename($filename)
+    public function setStorageId($storageId)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFilename', [$filename]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStorageId', [$storageId]);
 
-        return parent::setFilename($filename);
+        return parent::setStorageId($storageId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStorageId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStorageId', []);
+
+        return parent::getStorageId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setExtension($extension)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExtension', [$extension]);
+
+        return parent::setExtension($extension);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtension()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExtension', []);
+
+        return parent::getExtension();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSha256($sha256)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSha256', [$sha256]);
+
+        return parent::setSha256($sha256);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSha256()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSha256', []);
+
+        return parent::getSha256();
     }
 
     /**

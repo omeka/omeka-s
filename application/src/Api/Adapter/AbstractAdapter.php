@@ -167,6 +167,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+        $this->setEventManager($serviceLocator->get('EventManager'));
     }
 
     /**

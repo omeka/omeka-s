@@ -2,7 +2,6 @@
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'));
 $escape = $this->plugin('escapeHtml');
 ?>
-<legend><?php echo $this->translate('Item Sets'); ?></legend>
 <table id="item-item-sets" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
     <thead>
     <tr>

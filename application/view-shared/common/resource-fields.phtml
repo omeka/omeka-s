@@ -1,5 +1,4 @@
-<fieldset id='<?php echo $id; ?>' class='<?php echo $class; ?>'>
-    <legend><?php echo $this->translate('Values'); ?></legend>
+<fieldset id='<?php echo $id; ?>' class='<?php echo $class; ?>' aria-labelledby="<?php echo $id; ?>-label">
     <div class="non-properties">
     <?php
     $resourceTemplateSelect = $form->get('o:resource_template[o:id]');

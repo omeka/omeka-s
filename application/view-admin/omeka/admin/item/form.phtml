@@ -32,7 +32,7 @@ $sectionNavs = [
     );
     ?>
 
-    <fieldset id="item-media" class="section">
+    <fieldset id="item-media" class="section" aria-labelledby="media-label">
         <?php
         echo $this->partial('omeka/admin/item/manage-media',
             [
@@ -42,7 +42,7 @@ $sectionNavs = [
         );
         ?>
     </fieldset>
-    <fieldset id='item-sets' class='section'>
+    <fieldset id='item-sets' class='section' aria-labelledby="item-sets-label">
         <?php
         echo $this->partial(
             'omeka/admin/item/manage-item-sets',

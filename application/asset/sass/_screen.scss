@@ -1060,12 +1060,6 @@ div[role="main"] {
     overflow: hidden;
 }
 
-.browse tr:last-of-type td,
-.browse tr:last-of-type th {
-    border-bottom: 1px solid $border-gray;
-    padding-bottom: ($spacing-medium - 1px);
-}
-
 .browse table img {
     width: (1.5 * $spacing-large);
     display: inline-block;

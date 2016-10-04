@@ -3438,3 +3438,23 @@ body.minimal {
 }
 
 /* @end */
+
+/* @group ----- Assets ----- */
+.asset-form-element {
+    &.empty {
+        .asset-form-clear {
+            display: none;
+        }
+    }
+    &:not(.empty) {
+        .no-selected-asset {
+            display: none;
+        }
+    }
+}
+
+.select-asset img {
+    width: 25%;
+}
+
+/* @end */

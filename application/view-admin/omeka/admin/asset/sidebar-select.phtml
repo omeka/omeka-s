@@ -1,0 +1,23 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+?>
+<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+
+<h3><?php echo $this->translate('Upload New Asset'); ?></h3>
+<form class="asset-upload" method="post" enctype="multipart/form-data" action="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'add'])); ?>">
+    <input type="file" name="file" required>
+    <button type="submit"><?php echo $this->translate('Upload'); ?></button>
+</form>
+
+
+<h3><?php echo $this->translate('Select Asset'); ?></h3>
+<div class="asset-list">
+<?php foreach ($assets as $asset): ?>
+    <div class="asset">
+        <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
+            <img src="<?php echo $escape($asset->assetUrl()); ?>">
+            <?php echo $escape($asset->name()); ?>
+        </a>
+    </div>
+<?php endforeach; ?>
+</div>

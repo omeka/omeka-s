@@ -286,6 +286,7 @@ return [
             'Omeka\Controller\Site\ItemSet'           => 'Omeka\Controller\Site\ItemSetController',
             'Omeka\Controller\Site\Media'             => 'Omeka\Controller\Site\MediaController',
             'Omeka\Controller\Site\Page'              => 'Omeka\Controller\Site\PageController',
+            'Omeka\Controller\Admin\Asset'            => 'Omeka\Controller\Admin\AssetController',
             'Omeka\Controller\Admin\Index'            => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\ItemSet'          => 'Omeka\Controller\Admin\ItemSetController',
             'Omeka\Controller\Admin\ResourceTemplate' => 'Omeka\Controller\Admin\ResourceTemplateController',
@@ -370,6 +371,7 @@ return [
             'formCkeditorInline' => 'Omeka\Form\View\Helper\FormCkeditorInline',
             'formRestoreTextarea' => 'Omeka\Form\View\Helper\FormRestoreTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
+            'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

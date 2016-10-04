@@ -365,7 +365,6 @@ return [
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
             'uploadLimit' => 'Omeka\View\Helper\UploadLimit',
             'formRecaptcha' => 'Omeka\Form\View\Helper\FormRecaptcha',
-            'prepareRecaptcha' => 'Omeka\Form\View\Helper\PrepareRecaptcha',
             'formCkeditor' => 'Omeka\Form\View\Helper\FormCkeditor',
             'formCkeditorInline' => 'Omeka\Form\View\Helper\FormCkeditorInline',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',

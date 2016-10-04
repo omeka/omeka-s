@@ -51,7 +51,7 @@ $sectionNavs = [
         ?>
     </fieldset>
 
-    <fieldset id="page-actions">
+    <div id="page-actions">
 
         <?php if ($item && $item->isPublic() || !isset($item)): ?>
         <a href="#"
@@ -70,7 +70,7 @@ $sectionNavs = [
         <?php endif; ?>
         <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
         <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
-    </fieldset>
+    </div>
 
     <?php echo $formElement($form->get('csrf')); ?>
     <?php $this->trigger($formAfterEvent); ?>

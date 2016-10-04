@@ -161,6 +161,7 @@ class SettingForm extends Form
         $mediaTypeWhitelist
             ->setLabel('Allowed media types') // @translate
             ->setOption('info', 'A comma-separated list of allowed media types for file uploads.') // @translate
+            ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default media types')
             ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
             ->setRestoreValue(FileManager::MEDIA_TYPE_WHITELIST);
@@ -170,6 +171,7 @@ class SettingForm extends Form
         $extensionWhitelist
             ->setLabel('Allowed file extensions') // @translate
             ->setOption('info', 'A comma-separated list of allowed file extensions for file uploads.') // @translate
+            ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default extensions')
             ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
             ->setRestoreValue(FileManager::EXTENSION_WHITELIST);

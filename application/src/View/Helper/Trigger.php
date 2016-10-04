@@ -39,8 +39,11 @@ class Trigger extends AbstractHelper
      */
     public function __invoke($name, array $params = [], $filter = false)
     {
-        $routeMatch = $this->controllerPluginManager->getController()
-            ->getEvent()->getRouteMatch();
+        $controller = $this->controllerPluginManager->getController();
+        if (!$controller) {
+            return;
+        }
+        $routeMatch = $controller->getEvent()->getRouteMatch();
         if (!$routeMatch) {
             // Without a route match this request is 404. No need to trigger.
             return;

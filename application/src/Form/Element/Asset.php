@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Omeka\Service\HtmlPurifier;
 use Zend\Form\Element;
 use Zend\InputFilter\InputProviderInterface;
 

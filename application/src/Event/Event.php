@@ -74,6 +74,8 @@ class Event extends ZendEvent
     const VIEW_LAYOUT       = 'view.layout';
     const VIEW_SHOW_AFTER   = 'view.show.after';
     const VIEW_BROWSE_AFTER = 'view.browse.after';
+    const VIEW_SHOW_BEFORE  = 'view.show.before';
+    const VIEW_BROWSE_BEFORE = 'view.browse.before';
     const VIEW_ADD_AFTER    = 'view.add.after';
     const VIEW_EDIT_AFTER   = 'view.edit.after';
     const VIEW_ADD_FORM_AFTER   = 'view.add.form.after';
@@ -82,6 +84,10 @@ class Event extends ZendEvent
     const VIEW_ADD_SECTION_NAV  = 'view.add.section_nav';
     const VIEW_EDIT_SECTION_NAV = 'view.edit.section_nav';
     const VIEW_ADVANCED_SEARCH = 'view.advanced_search';
+    const VIEW_MANAGE_SITES_AFTER = 'view.manage-sites.after';
+    const VIEW_MANAGE_SITES_BEFORE = 'view.manage-sites.before';
+    const VIEW_MANAGE_RESOURCES_AFTER = 'view.manage-resources.after';
+    const VIEW_MANAGE_RESOURCES_BEFORE = 'view.manage-resources.before';
 
     /**
      * Event triggered by service managers.

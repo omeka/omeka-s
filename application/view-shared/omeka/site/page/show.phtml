@@ -20,7 +20,7 @@ if ($activePage):
     <nav class="sub-menu"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
     <?php endif; ?>
 <?php endif; ?>
-
+    <?php $this->trigger('view.show.before'); ?>
     <?php echo $this->content; ?>
     <?php echo $this->sitePagePagination(); ?>
     <?php $this->trigger('view.show.after'); ?>

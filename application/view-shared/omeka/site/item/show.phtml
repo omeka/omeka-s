@@ -4,6 +4,7 @@
 <div id="content" role="navigation">
     <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
     <h3><?php echo $this->translate('Item'); ?></h3>
+    <?php $this->trigger('view.show.before'); ?>
     <?php echo $item->displayValues(); ?>
     <div class="property">
         <?php $itemSets = $item->itemSets(); ?>

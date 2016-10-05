@@ -8,6 +8,7 @@ class AssetController extends AbstractActionController
 {
     public function sidebarSelectAction()
     {
+        $this->setBrowseDefaults('id');
         $response = $this->api()->search('assets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 

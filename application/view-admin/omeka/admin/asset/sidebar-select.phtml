@@ -11,6 +11,7 @@ $escape = $this->plugin('escapeHtml');
 
 
 <h3><?php echo $this->translate('Select Asset'); ?></h3>
+<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 <div class="asset-list">
 <?php foreach ($assets as $asset): ?>
     <div class="asset">

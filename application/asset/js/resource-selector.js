@@ -6,11 +6,6 @@
     }
 
     $(document).ready( function() {
-        $('#select-resource').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).attr('href'));
-        });
-
         $('#select-resource').on('keydown', '.pagination input', function (e) {
             if ((e.keycode || e.which) == '13') {
                 e.preventDefault();

@@ -3440,6 +3440,7 @@ body.minimal {
 /* @end */
 
 /* @group ----- Assets ----- */
+
 .asset-form-element {
     &.empty {
         .asset-form-clear {
@@ -3455,6 +3456,38 @@ body.minimal {
 
 .select-asset img {
     width: 25%;
+}
+
+.selected-asset,
+.no-selected-asset {
+    display: block;
+}
+
+.asset-upload {
+    overflow: hidden;
+}
+
+.asset-upload button {
+    margin: $spacing-small 0 $spacing-large;
+}
+
+.asset-list .asset {
+    padding-bottom: $spacing-small - 1px;
+    border-bottom: 1px solid $border-gray;
+    margin-bottom: $spacing-small;
+
+    &:last-child {
+        border-bottom-color: transparent;
+    }
+}
+
+.asset-list .select-asset {
+    display: flex;
+    align-items: center;
+}
+
+.asset-list .select-asset img {
+    margin-right: $spacing-small;
 }
 
 /* @end */

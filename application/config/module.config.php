@@ -367,6 +367,7 @@ return [
             'formRecaptcha' => 'Omeka\Form\View\Helper\FormRecaptcha',
             'formCkeditor' => 'Omeka\Form\View\Helper\FormCkeditor',
             'formCkeditorInline' => 'Omeka\Form\View\Helper\FormCkeditorInline',
+            'formRestoreTextarea' => 'Omeka\Form\View\Helper\FormRestoreTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
         ],
         'factories' => [

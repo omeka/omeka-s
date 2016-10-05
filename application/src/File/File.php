@@ -27,6 +27,11 @@ class File
     protected $mediaType;
 
     /**
+     * @var string Extension of the file
+     */
+    protected $extension;
+
+    /**
      * @var string $tempPath Local temporary path to the file
      */
     public function __construct($tempPath)
@@ -116,6 +121,20 @@ class File
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $this->mediaType = $finfo->file($this->getTempPath());
         return $this->mediaType;
+    }
+
+    /**
+     * Get the extension of the file.
+     *
+     * @return string
+     */
+    public function getExtension(Manager $fileManager)
+    {
+        if (isset($this->extension)) {
+            return $this->extension;
+        }
+        $this->extension = $fileManager->getExtension($this);
+        return $this->extension;
     }
 
     /**

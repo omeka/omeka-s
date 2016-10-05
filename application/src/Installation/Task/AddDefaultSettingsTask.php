@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\File\Manager as FileManager;
 use Omeka\Installation\Installer;
 use Omeka\Module;
 use Omeka\Service\Paginator;
@@ -10,6 +11,8 @@ class AddDefaultSettingsTask implements TaskInterface
     protected $defaultSettings = [
         'version' => Module::VERSION,
         'pagination_per_page' => Paginator::PER_PAGE,
+        'media_type_whitelist' => FileManager::EXTENSION_WHITELIST,
+        'extension_whitelist' => FileManager::MEDIA_TYPE_WHITELIST,
     ];
 
     public function perform(Installer $installer)

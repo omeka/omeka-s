@@ -3,7 +3,9 @@ namespace Omeka\Form;
 
 use DateTimeZone;
 use Omeka\Event\Event;
+use Omeka\File\Manager as FileManager;
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -144,6 +146,37 @@ class SettingForm extends Form
             ],
         ]);
 
+        $this->add([
+            'type' => 'checkbox',
+            'name' => 'disable_file_validation',
+            'options' => [
+                'label' => 'Disable file validation', // @translate
+                'info'  => 'Check this to disable file media type and extension validation.' // @translate
+            ],
+            'attributes' => [
+                'value'    => $this->settings->get('disable_file_validation'),
+            ],
+        ]);
+        $mediaTypeWhitelist = new RestoreTextarea('media_type_whitelist');
+        $mediaTypeWhitelist
+            ->setLabel('Allowed media types') // @translate
+            ->setOption('info', 'A comma-separated list of allowed media types for file uploads.') // @translate
+            ->setAttribute('rows', '4')
+            ->setRestoreButtonText('Restore default media types')
+            ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
+            ->setRestoreValue(FileManager::MEDIA_TYPE_WHITELIST);
+        $this->add($mediaTypeWhitelist);
+
+        $extensionWhitelist = new RestoreTextarea('extension_whitelist');
+        $extensionWhitelist
+            ->setLabel('Allowed file extensions') // @translate
+            ->setOption('info', 'A comma-separated list of allowed file extensions for file uploads.') // @translate
+            ->setAttribute('rows', '4')
+            ->setRestoreButtonText('Restore default extensions')
+            ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
+            ->setRestoreValue(FileManager::EXTENSION_WHITELIST);
+        $this->add($extensionWhitelist);
+
         $event = new Event(Event::GLOBAL_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
         $this->getEventManager()->triggerEvent($event);
 
@@ -157,6 +190,42 @@ class SettingForm extends Form
             ],
             'validators' => [
                 ['name' => 'Digits']
+            ],
+        ]);
+        $inputFilter->add([
+            'name' => 'media_type_whitelist',
+            'required' => false,
+            'filters' => [
+                [
+                    'name' => 'callback',
+                    'options' => [
+                        'callback' => function ($mediaTypes) {
+                            $mediaTypes = explode(',', $mediaTypes);
+                            $mediaTypes = array_map('trim', $mediaTypes); // trim all
+                            $mediaTypes = array_filter($mediaTypes); // remove empty
+                            $mediaTypes = array_unique($mediaTypes); // remove duplicate
+                            return $mediaTypes;
+                        }
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
+            'name' => 'extension_whitelist',
+            'required' => false,
+            'filters' => [
+                [
+                    'name' => 'callback',
+                    'options' => [
+                        'callback' => function ($extensions) {
+                            $extensions = explode(',', $extensions);
+                            $extensions = array_map('trim', $extensions); // trim all
+                            $extensions = array_filter($extensions); // remove empty
+                            $extensions = array_unique($extensions); // remove duplicate
+                            return $extensions;
+                        }
+                    ],
+                ],
             ],
         ]);
 

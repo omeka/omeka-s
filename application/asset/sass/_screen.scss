@@ -2209,7 +2209,9 @@ input[type="text"].value-language,
         width: calc(100% - #{(1.5 * $spacing-large)});
         border-right: 0;
     }
+}
 
+.sidebar {
     .pagination {
         font-size: .8175 * $base-font-size;
         border-bottom: 1px solid rgba(0,0,0,.08);
@@ -3488,6 +3490,10 @@ body.minimal {
 
 .asset-list .select-asset img {
     margin-right: $spacing-small;
+}
+
+#asset-sidebar input[type="file"] {
+    width: 100%;
 }
 
 /* @end */

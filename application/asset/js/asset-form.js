@@ -1,7 +1,7 @@
 (function ($) {
     $(document).ready(function () {
         var selectingForm = null;
-        var sidebar = $('<div class="sidebar"><div class="sidebar-content"></div></div>');
+        var sidebar = $('<div class="sidebar" id="asset-sidebar"><div class="sidebar-content"></div></div>');
         sidebar.appendTo('#content');
 
         $('#content').on('click', '.asset-form-select', function () {

@@ -19,6 +19,7 @@
     <?php echo $this->searchFilters(); ?>
     <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->pagination(); ?>
+    <?php $this->trigger('view.browse.before'); ?>
     <ul class="resource-list">
         <?php foreach ($items as $item): ?>
         <li class="item resource">
@@ -36,6 +37,6 @@
         </li>
         <?php endforeach; ?>
     </ul>
-    <?php echo $this->pagination(); ?>
     <?php $this->trigger('view.browse.after'); ?>
+    <?php echo $this->pagination(); ?>
 </div>

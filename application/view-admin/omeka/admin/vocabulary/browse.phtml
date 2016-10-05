@@ -35,7 +35,7 @@ $sortHeadings = [
     <?php echo $this->pagination(); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
-
+<?php $this->trigger('view.browse.before'); ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>

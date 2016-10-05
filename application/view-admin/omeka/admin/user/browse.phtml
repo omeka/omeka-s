@@ -24,7 +24,7 @@ $sortHeadings = [
         <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
-
+<?php $this->trigger('view.browse.before'); ?>
 <?php if (count($users)): ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>

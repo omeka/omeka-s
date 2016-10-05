@@ -31,6 +31,7 @@ $sortHeadings = [
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
+<?php $this->trigger('view.browse.before'); ?>
 <?php if($medias): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>

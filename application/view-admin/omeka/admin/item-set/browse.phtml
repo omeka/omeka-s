@@ -36,7 +36,7 @@ $sortHeadings = [
     <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
-
+<?php $this->trigger('view.browse.before'); ?>
 <?php if($itemSets): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>

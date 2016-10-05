@@ -4,9 +4,11 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
 ?>
 
 <div id="dashboard">
+<?php $this->trigger('view.browse.before'); ?>
     <p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
     <div id="manage-resources" class="panel">
         <h2><?php echo $this->translate('Manage Resources'); ?></h2>
+        <?php $this->trigger('view.manage-resources.before'); ?>
         <div class="items resource row">
             <?php echo $this->hyperlink(sprintf($this->translate('Items (%s)'), $itemCount), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
@@ -35,6 +37,7 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
     </div>
 
     <div id="manage-sites" class="panel">
+    <?php $this->trigger('view.manage-sites.before'); ?>
         <h2><?php echo $this->translate('Manage Sites'); ?></h2>
         <?php foreach ($sites as $site): ?>
         <div class="site row">
@@ -47,9 +50,9 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
         <?php if ($this->userIsAllowed('Omeka\Api\Adapter\SiteAdapter', 'create')): ?>
         <?php echo $this->hyperlink($this->translate('Add site'), $this->url('admin/site/add'), ['class' => 'add button']); ?>
         <?php endif; ?>
-    </div>
     <?php $this->trigger('view.manage-sites.after'); ?>
-
+    </div>
+<?php $this->trigger('view.browse.after'); ?>
 </div>
 
-<?php $this->trigger('view.browse.after'); ?>
+

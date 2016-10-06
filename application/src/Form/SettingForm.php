@@ -164,7 +164,7 @@ class SettingForm extends Form
             ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default media types')
             ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
-            ->setRestoreValue(FileManager::MEDIA_TYPE_WHITELIST);
+            ->setRestoreValue(implode(',', FileManager::MEDIA_TYPE_WHITELIST));
         $this->add($mediaTypeWhitelist);
 
         $extensionWhitelist = new RestoreTextarea('extension_whitelist');
@@ -174,7 +174,7 @@ class SettingForm extends Form
             ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default extensions')
             ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
-            ->setRestoreValue(FileManager::EXTENSION_WHITELIST);
+            ->setRestoreValue(implode(',', FileManager::EXTENSION_WHITELIST));
         $this->add($extensionWhitelist);
 
         $event = new Event(Event::GLOBAL_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);

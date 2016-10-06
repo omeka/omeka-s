@@ -21,9 +21,9 @@ class AddFileValidation implements ConstructedMigrationInterface
 
     public function up(Connection $conn)
     {
-        $mediaTypes = explode(',', FileManager::MEDIA_TYPE_WHITELIST);
+        $mediaTypes = FileManager::MEDIA_TYPE_WHITELIST;
         $this->settings->set('media_type_whitelist', $mediaTypes);
-        $extensions = explode(',', FileManager::EXTENSION_WHITELIST);
+        $extensions = FileManager::EXTENSION_WHITELIST;
         $this->settings->set('extension_whitelist', $extensions);
     }
 

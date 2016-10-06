@@ -11,8 +11,8 @@ class AddDefaultSettingsTask implements TaskInterface
     protected $defaultSettings = [
         'version' => Module::VERSION,
         'pagination_per_page' => Paginator::PER_PAGE,
-        'media_type_whitelist' => FileManager::EXTENSION_WHITELIST,
-        'extension_whitelist' => FileManager::MEDIA_TYPE_WHITELIST,
+        'media_type_whitelist' => FileManager::MEDIA_TYPE_WHITELIST,
+        'extension_whitelist' => FileManager::EXTENSION_WHITELIST,
     ];
 
     public function perform(Installer $installer)

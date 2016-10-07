@@ -81,4 +81,9 @@ class InstallDefaultVocabulariesTask implements TaskInterface
             $entityManager->clear();
         }
     }
+
+    public function getVocabularies()
+    {
+        return $this->vocabularies;
+    }
 }

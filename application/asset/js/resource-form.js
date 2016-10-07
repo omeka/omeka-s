@@ -71,13 +71,13 @@
             $(this).toggleClass('o-icon-lock').toggleClass('o-icon-unlock');
             var isOpenHiddenValue = $('input[name="o:is_open"]');
             if (isOpenHiddenValue.val() == 0) {
-                isOpenIcon.attr('aria-label', 'Close icon set');
-                isOpenIcon.attr('title', 'Close icon set');
+                isOpenIcon.attr('aria-label', Omeka.jsTranslate('Close item set'));
+                isOpenIcon.attr('title', Omeka.jsTranslate('Close item set'));
                 isOpenHiddenValue.attr('value', 1);
             } else {
                 isOpenHiddenValue.attr('value', 0);
-                isOpenIcon.attr('aria-label', 'Open icon set');
-                isOpenIcon.attr('title', 'Open icon set');
+                isOpenIcon.attr('aria-label', Omeka.jsTranslate('Open item set'));
+                isOpenIcon.attr('title', Omeka.jsTranslate('Open item set'));
             }
         });
 
@@ -216,7 +216,7 @@
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {
-                valueObj['display_title'] = '[Untitled]';
+                valueObj['display_title'] = Omeka.jsTranslate('[Untitled]');
             }
             resource.find('.o-title')
                 .removeClass() // remove all classes

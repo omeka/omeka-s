@@ -226,12 +226,12 @@ var Omeka = {
             $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
             var isPublicHiddenValue = $(this).next('[type="hidden"]');
             if (isPublicHiddenValue.val() == 0) {
-                isPublicIcon.attr('aria-label', 'Make private');
-                isPublicIcon.attr('title', 'Make private');
+                isPublicIcon.attr('aria-label', Omeka.jsTranslate('Make private'));
+                isPublicIcon.attr('title', Omeka.jsTranslate('Make private'));
                 isPublicHiddenValue.attr('value', 1);
             } else {
-                isPublicIcon.attr('aria-label', 'Make public');
-                isPublicIcon.attr('title', 'Make public');
+                isPublicIcon.attr('aria-label', Omeka.jsTranslate('Make public'));
+                isPublicIcon.attr('title', Omeka.jsTranslate('Make public'));
                 isPublicHiddenValue.attr('value', 0);
             }
         });
@@ -269,10 +269,10 @@ var Omeka = {
             var toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
-                toggle.attr('aria-label','Expand');
+                toggle.attr('aria-label', Omeka.jsTranslate('Expand'));
                 toggle.trigger('o:collapsed');
             } else {
-                toggle.attr('aria-label','Collapse');
+                toggle.attr('aria-label', Omeka.jsTranslate('Collapse'));
                 toggle.trigger('o:expanded');
             }
         });

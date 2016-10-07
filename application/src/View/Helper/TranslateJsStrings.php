@@ -9,8 +9,8 @@ class TranslateJsStrings extends AbstractHelper
      * Provide translations for JavaScript strings.
      *
      * Attach to the "js.translate_strings" event to add strings to be
-     * translated. Use the `jsTranslate(str)` function to interpolate translated
-     * strings in JS.
+     * translated. Use the `Omeka.jsTranslate(str)` function to interpolate
+     * translated strings in JS.
      */
     public function __invoke()
     {
@@ -20,9 +20,9 @@ class TranslateJsStrings extends AbstractHelper
         foreach ($params['strings'] as $jsString) {
             $jsTranslations[$jsString] = $view->translate($jsString);
         }
-        $view->headScript()->prependScript(sprintf('
-var jsTranslations = %s;
-var jsTranslate = function(str) {
+        $view->headScript()->appendScript(sprintf('
+Omeka.jsTranslate = function(str) {
+    var jsTranslations = %s;
     return (str in jsTranslations) ? jsTranslations[str] : str;
 };', json_encode($jsTranslations)));
     }

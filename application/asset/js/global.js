@@ -27,7 +27,7 @@ var Omeka = {
                 $(sidebar).trigger('o:sidebar-content-loaded');
             })
             .fail(function() {
-                sidebarContent.html('<p>' + jsTranslate('Something went wrong') + '</p>');
+                sidebarContent.html('<p>' + Omeka.jsTranslate('Something went wrong') + '</p>');
             })
             .always(function () {
                 sidebar.removeClass('loading');

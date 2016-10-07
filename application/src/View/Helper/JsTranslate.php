@@ -3,7 +3,7 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-class TranslateJsStrings extends AbstractHelper
+class JsTranslate extends AbstractHelper
 {
     /**
      * Provide translations for JavaScript strings.

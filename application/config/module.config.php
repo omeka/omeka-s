@@ -369,7 +369,7 @@ return [
             'formCkeditorInline' => 'Omeka\Form\View\Helper\FormCkeditorInline',
             'formRestoreTextarea' => 'Omeka\Form\View\Helper\FormRestoreTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
-            'translateJsStrings' => 'Omeka\View\Helper\TranslateJsStrings',
+            'jsTranslate' => 'Omeka\View\Helper\JsTranslate',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

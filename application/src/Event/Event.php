@@ -105,4 +105,7 @@ class Event extends ZendEvent
 
     // Resource visibility SQL filter event
     const SQL_FILTER_RESOURCE_VISIBILITY = 'sql_filter.resource_visibility';
+
+    // JavaScript translate strings filter event
+    const JS_TRANSLATE_STRINGS = 'js.translate_strings';
 }

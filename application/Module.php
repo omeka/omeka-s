@@ -164,7 +164,6 @@ class Module extends AbstractModule
             );
         }
 
-
         $sharedEventManager->attach(
             '*',
             'view.advanced_search',
@@ -172,6 +171,34 @@ class Module extends AbstractModule
                 if ('item' === $event->getParam('resourceType')) {
                     echo $event->getTarget()->partial('common/item-sets-advanced-search');
                 }
+            }
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'js.translate_strings',
+            function (OmekaEvent $event) {
+                $jsStrings = $event->getParam('strings') + [
+                    // global.js
+                    'Something went wrong', // @translate
+                    'Make private', // @translate
+                    'Make public', // @translate
+                    'Expand', // @translate
+                    'Collapse', // @translate
+                    'You have unsaved changes.', // @translate
+                    // item-manage-item-sets.js
+                    'Undo remove item set', // @translate
+                    // resource-form.js
+                    'Close icon set', // @translate
+                    'Open icon set', // @translate
+                    '[Untitled]', // @translate
+                    'Failed loading resource template from API', // @translate
+                    // resource-template-form.js
+                    'Undo remove property', // @translate
+                    // site-navigation.js
+                    'There are no available pages.', // @translate
+                ];
+                $event->setParam('strings', $jsStrings);
             }
         );
     }

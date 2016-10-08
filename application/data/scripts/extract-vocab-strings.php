@@ -30,22 +30,22 @@ foreach ($defaultVocabs as $defaultVocab) {
     );
 
     $msgids[$defaultVocab['vocabulary']['o:label']][] = sprintf(
-        '#: %s vocabulary label',
+        '#. Vocabulary label for %s',
         $defaultVocab['vocabulary']['o:label']
     );
     $msgids[$defaultVocab['vocabulary']['o:comment']][] = sprintf(
-        '#: %s vocabulary comment',
+        '#. Vocabulary comment for %s',
         $defaultVocab['vocabulary']['o:label']
     );
 
     foreach ($members['o:class'] as $class) {
         $msgids[$class['o:label']][] = sprintf(
-            '#: %s : %s class label',
+            '#. Class label for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
             $class['o:local_name']
         );
         $msgids[$class['o:comment']][] = sprintf(
-            '#: %s : %s class comment',
+            '#. Class comment for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
             $class['o:local_name']
         );
@@ -53,12 +53,12 @@ foreach ($defaultVocabs as $defaultVocab) {
 
     foreach ($members['o:property'] as $property) {
         $msgids[$property['o:label']][] = sprintf(
-            '#: %s : %s property label',
+            '#. Property label for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
             $property['o:local_name']
         );
         $msgids[$property['o:comment']][] = sprintf(
-            '#: %s : %s property comment',
+            '#. Property comment for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
             $property['o:local_name']
         );

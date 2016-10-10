@@ -3,6 +3,10 @@ $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
 $form->prepare();
+$sectionNavs = [
+    'admin' => $this->translate('Admin'),
+    'item-pool' => $this->translate('Item Pool'),
+];
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>
 <?php echo $this->form()->openTag($form); ?>
@@ -13,20 +17,13 @@ $form->prepare();
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
 
-<nav class="section-nav">
-    <ul>
-        <li class="active"><a href="#admin"><?php echo $this->translate('Admin'); ?></a></li>
-        <li><a href="#item-pool"><?php echo $this->translate('Item Pool'); ?></a></li>
-    </ul>
-</nav>
+<?php echo $this->sectionNav($sectionNavs); ?>
 
-<fieldset id="admin" class="section active">
-    <legend><?php echo $this->translate('Admin'); ?></legend>
+<fieldset id="admin" class="section active" aria-labelledby="admin-label">
     <?php echo $this->formCollection($form, false); ?>
 </fieldset>
 
-<fieldset id="item-pool" class="section">
-    <legend><?php echo $this->translate('Item Pool'); ?></legend>
+<fieldset id="item-pool" class="section" aria-labelledby="item-pool-label">
     <div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item']); ?></div>
 </fieldset>
 

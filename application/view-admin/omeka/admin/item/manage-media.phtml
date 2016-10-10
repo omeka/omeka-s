@@ -3,7 +3,6 @@ $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omeka'));
 ?>
-<legend><?php echo $this->translate('Media'); ?></legend>
 <?php foreach ($mediaForms as $type => $form): ?>
 <span
     id="media-template-<?php echo $escape($type); ?>"

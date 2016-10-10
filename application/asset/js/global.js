@@ -201,9 +201,9 @@ var Omeka = {
             });
         });
 
-        $('.sidebar').on('click', '.sidebar-close', function(e) {
+        $('#content').on('click', '.sidebar-close', function(e) {
             e.preventDefault();
-            Omeka.closeSidebar($(e.delegateTarget));
+            Omeka.closeSidebar($(this).closest('.sidebar'));
         });
 
         // Open sidebars on mobile

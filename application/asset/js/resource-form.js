@@ -166,17 +166,18 @@
      * Make a new value.
      */
     var makeNewValue = function(term, valueObj, type) {
-        var field = $('fieldset.resource-values.field[data-property-term="' + term + '"]');
+        var field = $('.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
         if (typeof type !== 'string') {
             type = valueObj['type'];
         }
-        var value = $('fieldset.value.template[data-data-type="' + type + '"]').clone(true);
+        var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');
 
         // Prepare the value node.
-        var count = field.find('fieldset.value').length;
+        var count = field.find('.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';
+        var valueLabelID = 'property-' + field.data('property-id') + '-value-' + count + '-label';
         value.data('name-prefix', namePrefix);
         value.find('input.property')
             .attr('name', namePrefix + '[property_id]')
@@ -184,6 +185,9 @@
         value.find('input.type')
             .attr('name', namePrefix + '[type]')
             .val(type);
+        value.find('span.label')
+            .attr('id', valueLabelID);
+        value.attr('aria-labelledby', valueLabelID);
         $(document).trigger('o:prepare-value', [type, value, valueObj, namePrefix]);
 
         return value;
@@ -256,7 +260,7 @@
         var term = propertyLi.data('property-term');
         var field = $('.resource-values.field.template').clone(true);
         field.removeClass('template');
-        field.find('.field-label').text(propertyLi.data('child-search'));
+        field.find('.field-label').text(propertyLi.data('child-search')).attr('id', 'property-' + propertyId + '-label');
         field.find('.field-term').text(term);
         field.find('.field-description').prepend(propertyLi.find('.field-comment').text());
         field.data('property-term', term);
@@ -265,6 +269,7 @@
         // and count when adding more.
         field.attr('data-property-term', term);
         field.attr('data-property-id', propertyId);
+        field.attr('aria-labelledby', 'property-' + propertyId + '-label');
         $('div#properties').append(field);
         return field;
     };
@@ -276,7 +281,7 @@
     var rewritePropertyField = function(template) {
         var properties = $('div#properties');
         var propertyId = template['o:property']['o:id'];
-        var field = properties.find('fieldset[data-property-id="' + propertyId + '"]');
+        var field = properties.find('[data-property-id="' + propertyId + '"]');
 
         if (field.length == 0) {
             field = makeNewField(propertyId);
@@ -290,7 +295,7 @@
             singleSelector.show();
 
             // Add an empty value if none already exist in the property.
-            if (!field.find('fieldset.value').length) {
+            if (!field.find('.value').length) {
                 field.find('.values').append(makeNewValue(
                     field.data('property-term'), null, template['o:data_type']
                 ));

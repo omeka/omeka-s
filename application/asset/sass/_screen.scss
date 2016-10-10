@@ -140,6 +140,11 @@ body {
     /* @end */
 
     /* @group ----- Form elements ----- */
+    legend {
+        font-size: 1.25 * $base-font-size;
+        padding: $spacing-medium 0;
+        font-weight: bold;
+    }
 
     [contenteditable="true"],
     textarea {
@@ -953,16 +958,6 @@ nav.pagination + *:not(.sorting) {
 
     #menu a.theme:before {
         content: $fa-var-paint-brush;
-    }
-
-    /* @end */
-
-    /* @group ---- Site Settings ---- */
-
-    .settings legend {
-        font-size: 1.25 * $base-font-size;
-        padding: $spacing-medium 0;
-        font-weight: bold;
     }
 
     /* @end */
@@ -1923,7 +1918,7 @@ input[type="text"].value-language,
         background-color: transparent;
     }
 
-    .value legend[class*="o-icon-"] {
+    .value [class*="o-icon-"].label {
         position: absolute;
         top: 0;
         left: 0;
@@ -1947,21 +1942,21 @@ input[type="text"].value-language,
         line-height: $base-line-height;
     }
 
-    .inputs fieldset.value textarea,
-    .inputs fieldset.value input[type="text"] {
+    .inputs .value textarea,
+    .inputs .value input[type="text"] {
         width: calc(100% + #{2 * $spacing-small});
-        margin: 0 (-($spacing-small));
+        margin: 0 (-$spacing-small);
     }
 
-    fieldset[data-data-type="resource"] .default,
-    fieldset[data-data-type="resource"] .o-title:not(:empty) {
+    [data-data-type="resource"] .default,
+    [data-data-type="resource"] .o-title:not(:empty) {
         @include bleed-x($spacing-small);
         border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: block;
     }
 
-    fieldset[data-data-type="resource"].delete .o-icon-undo:before {
+    [data-data-type="resource"].delete .o-icon-undo:before {
         padding-right: 0;
     }
 
@@ -1971,7 +1966,7 @@ input[type="text"].value-language,
         padding: 0 $spacing-small;
     }
 
-    fieldset[data-data-type="resource"] .button:before {
+    [data-data-type="resource"] .button:before {
         margin-right: .5em;
     }
 
@@ -2012,12 +2007,12 @@ input[type="text"].value-language,
         content: $fa-var-cubes;
     }
 
-    fieldset[data-data-type="uri"] .input {
+    [data-data-type="uri"] .input {
         position: relative;
         clear: both;
     }
 
-    fieldset[data-data-type="uri"] label:not(.o-icon-uri) {
+    [data-data-type="uri"] label:not(.o-icon-uri) {
         position: absolute;
         top: 50%;
         left: $spacing-small;
@@ -2029,13 +2024,13 @@ input[type="text"].value-language,
         color: rgba(0,0,0,.35);
     }
 
-    fieldset[data-data-type="uri"] input.value,
-    fieldset[data-data-type="uri"] textarea.value-label {
+    [data-data-type="uri"] input.value,
+    [data-data-type="uri"] textarea.value-label {
         padding-left: (2.5 * $spacing-large);
         height: (1.5 * $spacing-large);
     }
 
-    fieldset[data-data-type="uri"] textarea.value-label {
+    [data-data-type="uri"] textarea.value-label {
         margin-top: 0;
         border-top-width: 0;
         padding-bottom: 0;
@@ -2539,7 +2534,7 @@ input[type="text"].value-language,
 
     h3,
     label,
-    legend {
+    .label {
         display: block;
         font-size: $base-font-size;
         font-weight: bold;

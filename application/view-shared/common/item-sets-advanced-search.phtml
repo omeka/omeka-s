@@ -8,9 +8,9 @@ if (isset($query['item_set_id'])) {
     }
 }
 ?>
-<div id="item-sets" class="field removable">
+<div id="item-sets" class="field removable" role="group" aria-labelledby="by-item-set-label">
     <div class="field-meta">
-        <legend><?php echo $this->translate('Search by item set'); ?></legend>
+        <span id="by-item-set-label" class="label"><?php echo $this->translate('Search by item set'); ?></span>
         <a href="#" class="expand" aria-label=" Expand"></a>
         <div class="collapsible">
             <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>

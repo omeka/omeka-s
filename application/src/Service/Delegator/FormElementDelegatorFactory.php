@@ -16,6 +16,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addType('recaptcha', 'formRecaptcha');
         $formElement->addType('ckeditor', 'formCkeditor');
         $formElement->addType('ckeditor_inline', 'formCkeditorInline');
+        $formElement->addType('restore_textarea', 'formRestoreTextarea');
         return $formElement;
     }
 }

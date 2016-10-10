@@ -81,9 +81,12 @@ class Upload implements IngesterInterface
         }
         $fileInput->getValue();
         $file->setSourceName($fileData['name']);
+        if (!$fileManager->validateFile($file, $errorStore)) {
+            return;
+        }
 
         $media->setStorageId($file->getStorageId());
-        $media->setExtension($fileManager->getExtension($file));
+        $media->setExtension($file->getExtension($fileManager));
         $media->setMediaType($file->getMediaType());
         $media->setSha256($file->getSha256());
         $media->setHasThumbnails($fileManager->storeThumbnails($file));

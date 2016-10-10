@@ -44,7 +44,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <?php echo $mediaForm; ?>
     </fieldset>
 
-    <fieldset id="page-actions">
+    <div id="page-actions">
         <?php if ($media->isPublic()): ?>
         <a href="#"
         class="o-icon-public button"
@@ -60,7 +60,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <?php endif; ?>
         <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
-    </fieldset>
+    </div>
     <?php echo $this->formElement($form->get('csrf')); ?>
     <?php $this->trigger('view.edit.form.after'); ?>
 </form>

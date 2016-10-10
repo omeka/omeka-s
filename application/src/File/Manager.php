@@ -5,6 +5,7 @@ use Omeka\File\Store\StoreInterface;
 use Omeka\File\Thumbnailer\ThumbnailerInterface;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager
@@ -12,6 +13,44 @@ class Manager
     const ORIGINAL_PREFIX = 'original';
 
     const THUMBNAIL_EXTENSION = 'jpg';
+
+    const MEDIA_TYPE_WHITELIST = [
+        'application/msword', 'application/ogg', 'application/pdf',
+        'application/rtf', 'application/vnd.ms-access',
+        'application/vnd.ms-excel', 'application/vnd.ms-powerpoint',
+        'application/vnd.ms-project', 'application/vnd.ms-write',
+        'application/vnd.oasis.opendocument.chart',
+        'application/vnd.oasis.opendocument.database',
+        'application/vnd.oasis.opendocument.formula',
+        'application/vnd.oasis.opendocument.graphics',
+        'application/vnd.oasis.opendocument.presentation',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.text',
+        'application/x-ms-wmp', 'application/x-ogg', 'application/x-gzip',
+        'application/x-msdownload', 'application/x-shockwave-flash',
+        'application/x-tar', 'application/zip', 'audio/aac', 'audio/aiff',
+        'audio/mid', 'audio/midi', 'audio/mp3', 'audio/mp4', 'audio/mpeg',
+        'audio/mpeg3', 'audio/ogg', 'audio/wav', 'audio/wma', 'audio/x-aac',
+        'audio/x-aiff', 'audio/x-midi', 'audio/x-mp3', 'audio/x-mp4',
+        'audio/x-mpeg', 'audio/x-mpeg3', 'audio/x-mpegaudio', 'audio/x-ms-wax',
+        'audio/x-realaudio', 'audio/x-wav', 'audio/x-wma', 'image/bmp',
+        'image/gif', 'image/icon', 'image/jpeg', 'image/pjpeg', 'image/png',
+        'image/tiff', 'image/x-icon', 'image/x-ms-bmp', 'text/css',
+        'text/plain', 'text/richtext', 'text/rtf', 'video/asf', 'video/avi',
+        'video/divx', 'video/mp4', 'video/mpeg', 'video/msvideo',
+        'video/ogg', 'video/quicktime', 'video/x-ms-wmv', 'video/x-msvideo',
+    ];
+
+    const EXTENSION_WHITELIST = [
+        'aac', 'aif', 'aiff', 'asf', 'asx', 'avi', 'bmp', 'c', 'cc', 'class',
+        'css', 'divx', 'doc', 'docx', 'exe', 'gif', 'gz', 'gzip', 'h', 'ico',
+        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'm4a', 'mdb', 'mid', 'midi', 'mov',
+        'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'mpp', 'odb', 'odc',
+        'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'pdf', 'png', 'pot', 'pps',
+        'ppt', 'pptx', 'qt', 'ra', 'ram', 'rtf', 'rtx', 'swf', 'tar', 'tif',
+        'tiff', 'txt', 'wav', 'wax', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls',
+        'xlsx', 'xlt', 'xlw', 'zip',
+    ];
 
     /**
      * @var array
@@ -375,5 +414,43 @@ class Manager
         $storageName = sprintf('%s%s', $file->getStorageId(),
             $extension ? ".$extension" : null);
         return $storageName;
+    }
+
+    /**
+     * Validate a file.
+     *
+     * Validates a file against the media type and extension whitelists. Prior
+     * to calling this method the file must be saved to `File::$tempPath` and
+     * the file's original filename must be saved to `File::$sourceName`.
+     *
+     * @param File $file
+     * @param ErrorStore $errorStore
+     * @return bool
+     */
+    public function validateFile(File $file, ErrorStore $errorStore)
+    {
+        $settings = $this->serviceLocator->get('Omeka\Settings');
+        if ($settings->get('disable_file_validation')) {
+            return true;
+        }
+
+        $mediaType = $file->getMediaType();
+        $extension = $file->getExtension($this);
+        $mediaTypeIsValid = in_array($mediaType, $settings->get('media_type_whitelist', []));
+        $extensionIsValid = in_array($extension, $settings->get('extension_whitelist', []));
+
+        if (!$mediaTypeIsValid) {
+            $errorStore->addError('upload', new Message(
+                'Error ingesting "%s". Cannot store files with the media type "%s".', // @translate
+                $file->getSourceName(), $mediaType
+            ));
+        }
+        if (!$extensionIsValid) {
+            $errorStore->addError('upload', new Message(
+                'Error ingesting "%s". Cannot store files with the resolved extension "%s".', // @translate
+                $file->getSourceName(), $extension
+            ));
+        }
+        return $mediaTypeIsValid && $extensionIsValid;
     }
 }

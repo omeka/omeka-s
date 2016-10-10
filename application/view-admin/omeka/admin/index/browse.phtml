@@ -4,8 +4,8 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
 ?>
 
 <div id="dashboard">
-<?php $this->trigger('view.browse.before'); ?>
     <p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
+    <?php $this->trigger('view.browse.before'); ?>
     <div id="manage-resources" class="panel">
         <h2><?php echo $this->translate('Manage Resources'); ?></h2>
         <?php $this->trigger('view.manage-resources.before'); ?>

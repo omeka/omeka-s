@@ -29,8 +29,9 @@ class SectionNav extends AbstractHelper
         $firstId = key($sectionNavArgs['section_nav']);
         foreach ($sectionNavArgs['section_nav'] as $id => $label) {
             $html .= sprintf(
-                '<li%s><a href="#%s">%s</a></li>',
+                '<li%s><a href="#%s" id="%s-label">%s</a></li>',
                 ($id === $firstId) ? ' class="active"' : null,
+                $this->getView()->escapeHtml($id),
                 $this->getView()->escapeHtml($id),
                 $this->getView()->escapeHtml($label)
             );

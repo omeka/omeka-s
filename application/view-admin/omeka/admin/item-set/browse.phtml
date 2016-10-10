@@ -100,7 +100,7 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
-
+<?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>
@@ -121,4 +121,4 @@ $sortHeadings = [
 
 <?php endif; ?>
 
-<?php $this->trigger('view.browse.after'); ?>
+

@@ -24,13 +24,13 @@ $sortHeadings = [
         <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
-<?php $this->trigger('view.browse.before'); ?>
+
 <?php if (count($users)): ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
-
+<?php $this->trigger('view.browse.before'); ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -74,7 +74,7 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
-
+<?php $this->trigger('view.browse.after'); ?>
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
@@ -91,4 +91,4 @@ $sortHeadings = [
 
 <?php endif; ?>
 
-<?php $this->trigger('view.browse.after'); ?>
+

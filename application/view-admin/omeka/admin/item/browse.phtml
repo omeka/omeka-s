@@ -36,6 +36,7 @@ $sortHeadings = [
 <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
+<?php $this->trigger('view.browse.before'); ?>
 <?php if ($items): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
@@ -102,7 +103,7 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
-
+<?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>
@@ -123,4 +124,4 @@ $sortHeadings = [
 
 <?php endif; ?>
 
-<?php $this->trigger('view.browse.after'); ?>
+

@@ -165,6 +165,7 @@
             deleteonexit="true"
         />
         <tempfile property="tagged.temp" suffix=".pot" destdir ="${lang.dir}" deleteonexit="true"/>
+        <tempfile property="vocab.temp" suffix=".pot" destdir ="${lang.dir}" deleteonexit="true"/>
         <apply executable="xgettext" relative="true" parallel="true" verbose="true">
             <arg value="--language=php"/>
             <arg value="--from-code=utf-8"/>
@@ -176,9 +177,13 @@
                 excludes="themes/ modules/"/>
         </apply>
         <exec executable="${composer.bin.path}/extract-tagged-strings.php" output="${tagged.temp}"/>
+        <exec executable="${php.path}" failonerror="true" output="${vocab.temp}">
+            <arg file="${scripts.data.dir}/extract-vocab-strings.php"/>
+        </exec>
         <exec executable="msgcat">
             <arg file="${xgettext.temp}"/>
             <arg file="${tagged.temp}"/>
+            <arg file="${vocab.temp}"/>
             <arg value="-o"/>
             <arg file="${pot.file}"/>
         </exec>

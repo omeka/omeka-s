@@ -6,8 +6,6 @@ use Omeka\Entity\ApiKey;
 use Omeka\Entity\User;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserForm;
-use Omeka\Form\UserKeyForm;
-use Omeka\Form\UserPasswordForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -119,6 +117,8 @@ class UserController extends AbstractActionController
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
         $userEntity = $user->getEntity();
+        $currentUser = $userEntity === $this->identity();
+        $keys = $userEntity->getKeys();
 
         $changeRole = $this->userIsAllowed($userEntity, 'change-role');
         $changeRoleAdmin = $this->userIsAllowed($userEntity, 'change-role-admin');
@@ -128,47 +128,11 @@ class UserController extends AbstractActionController
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
+            'current_password' => $currentUser,
         ]);
 
         $data = $user->jsonSerialize();
         $form->setData($data);
-
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
-            if ($form->isValid()) {
-                $formData = $form->getData();
-                $response = $this->api($form)->update('users', $id, $formData);
-                if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('User successfully updated'); // @translate
-                    return $this->redirect()->refresh();
-                }
-            } else {
-                $this->messenger()->addErrors($form->getMessages());
-            }
-        }
-
-        $view = new ViewModel;
-        $view->setVariable('user', $user);
-        $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function changePasswordAction()
-    {
-        $id = $this->params('id');
-
-        $readResponse = $this->api()->read('users', $id);
-        $userRepresentation = $readResponse->getContent();
-        $user = $userRepresentation->getEntity();
-        $currentUser = $user === $this->identity();
-
-        $form = $this->getForm(UserPasswordForm::class, [
-            'current_password' => $currentUser,
-        ]);
-
-        $view = new ViewModel;
-        $view->setVariable('user', $userRepresentation);
-        $view->setVariable('form', $form);
 
         if ($this->getRequest()->isPost()) {
             if (!$this->userIsAllowed($user, 'change-password')) {
@@ -178,55 +142,18 @@ class UserController extends AbstractActionController
             }
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $values = $form->getData();
+                $formData = $form->getData();
                 if ($currentUser && !$user->verifyPassword($values['current-password'])) {
                     $this->messenger()->addError('The current password entered was invalid'); // @translate
                     return $view;
                 }
+                $response = $this->api($form)->update('users', $id, $formData);
                 $user->setPassword($values['password']);
                 $this->entityManager->flush();
-                $this->messenger()->addSuccess('Password successfully changed'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'edit'], [], true);
-            } else {
-                $this->messenger()->addErrors($form->getMessages());
-            }
-        }
-
-        return $view;
-    }
-
-    public function editKeysAction()
-    {
-        $form = $this->getForm(UserKeyForm::class);
-        $id = $this->params('id');
-
-        $readResponse = $this->api()->read('users', $id);
-        $userRepresentation = $readResponse->getContent();
-        $user = $userRepresentation->getEntity();
-        $keys = $user->getKeys();
-
-        if (!$this->userIsAllowed($user, 'edit-keys')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit API keys'
-            );
-        }
-
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->params()->fromPost();
-            $form->setData($postData);
-            if ($form->isValid()) {
-                $formData = $form->getData();
-                $this->addKey($user, $formData['new-key-label']);
-
-                // Remove any keys marked for deletion
-                if (!empty($postData['delete']) && is_array($postData['delete'])) {
-                    foreach ($postData['delete'] as $deleteId) {
-                        $keys->remove($deleteId);
-                    }
-                    $this->messenger()->addSuccess("Key(s) successfully deleted"); // @translate
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('User successfully updated'); // @translate
+                    return $this->redirect()->refresh();
                 }
-                $this->entityManager->flush();
-                return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addErrors($form->getMessages());
             }
@@ -239,9 +166,9 @@ class UserController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $view->setVariable('user', $userRepresentation);
-        $view->setVariable('keys', $viewKeys);
+        $view->setVariable('user', $user);
         $view->setVariable('form', $form);
+        $view->setVariable('keys', $viewKeys);
         return $view;
     }
 

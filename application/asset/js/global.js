@@ -206,6 +206,11 @@ var Omeka = {
             Omeka.closeSidebar($(this).closest('.sidebar'));
         });
 
+        $('#content').on('click', '.sidebar .pagination a', function (e) {
+            e.preventDefault();
+            Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).attr('href'));
+        });
+
         // Open sidebars on mobile
         $('button.mobile-only').on('click', function(e) {
             e.preventDefault();

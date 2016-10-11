@@ -286,6 +286,7 @@ return [
             'Omeka\Controller\Site\ItemSet'           => 'Omeka\Controller\Site\ItemSetController',
             'Omeka\Controller\Site\Media'             => 'Omeka\Controller\Site\MediaController',
             'Omeka\Controller\Site\Page'              => 'Omeka\Controller\Site\PageController',
+            'Omeka\Controller\Admin\Asset'            => 'Omeka\Controller\Admin\AssetController',
             'Omeka\Controller\Admin\Index'            => 'Omeka\Controller\Admin\IndexController',
             'Omeka\Controller\Admin\ItemSet'          => 'Omeka\Controller\Admin\ItemSetController',
             'Omeka\Controller\Admin\ResourceTemplate' => 'Omeka\Controller\Admin\ResourceTemplateController',
@@ -345,6 +346,7 @@ return [
             'site_pages'         => 'Omeka\Api\Adapter\SitePageAdapter',
             'jobs'               => 'Omeka\Api\Adapter\JobAdapter',
             'resources'          => 'Omeka\Api\Adapter\ResourceAdapter',
+            'assets'             => 'Omeka\Api\Adapter\AssetAdapter',
         ],
     ],
     'view_helpers' => [
@@ -369,6 +371,8 @@ return [
             'formCkeditorInline' => 'Omeka\Form\View\Helper\FormCkeditorInline',
             'formRestoreTextarea' => 'Omeka\Form\View\Helper\FormRestoreTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
+            'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
+            'themeSettingAssetUrl' => 'Omeka\View\Helper\ThemeSettingAssetUrl',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

@@ -84,6 +84,10 @@ return array (
   array (
     0 => 'pfr',
   ),
+  'application/font-woff' => 
+  array (
+    0 => 'woff',
+  ),
   'application/gml+xml' => 
   array (
     0 => 'gml',
@@ -2140,10 +2144,6 @@ return array (
     2 => 'pfm',
     3 => 'afm',
   ),
-  'application/font-woff' => 
-  array (
-    0 => 'woff',
-  ),
   'application/x-freearc' => 
   array (
     0 => 'arc',
@@ -2506,7 +2506,8 @@ return array (
   ),
   'audio/mp4' => 
   array (
-    0 => 'mp4a',
+    0 => 'm4a',
+    1 => 'mp4a',
   ),
   'audio/mpeg' => 
   array (
@@ -2718,14 +2719,14 @@ return array (
     2 => 'uvg',
     3 => 'uvvg',
   ),
-  'image/vnd.dvb.subtitle' => 
-  array (
-    0 => 'sub',
-  ),
   'image/vnd.djvu' => 
   array (
     0 => 'djvu',
     1 => 'djv',
+  ),
+  'image/vnd.dvb.subtitle' => 
+  array (
+    0 => 'sub',
   ),
   'image/vnd.dwg' => 
   array (
@@ -2996,13 +2997,13 @@ return array (
   array (
     0 => 'dcurl',
   ),
-  'text/vnd.curl.scurl' => 
-  array (
-    0 => 'scurl',
-  ),
   'text/vnd.curl.mcurl' => 
   array (
     0 => 'mcurl',
+  ),
+  'text/vnd.curl.scurl' => 
+  array (
+    0 => 'scurl',
   ),
   'text/vnd.dvb.subtitle' => 
   array (
@@ -3066,6 +3067,10 @@ return array (
   array (
     0 => 'java',
   ),
+  'text/x-nfo' => 
+  array (
+    0 => 'nfo',
+  ),
   'text/x-opml' => 
   array (
     0 => 'opml',
@@ -3074,10 +3079,6 @@ return array (
   array (
     0 => 'p',
     1 => 'pas',
-  ),
-  'text/x-nfo' => 
-  array (
-    0 => 'nfo',
   ),
   'text/x-setext' => 
   array (

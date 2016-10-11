@@ -372,6 +372,7 @@ return [
             'formRestoreTextarea' => 'Omeka\Form\View\Helper\FormRestoreTextarea',
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
             'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
+            'themeSettingAssetUrl' => 'Omeka\View\Helper\ThemeSettingAssetUrl',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

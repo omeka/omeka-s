@@ -164,7 +164,6 @@ class Module extends AbstractModule
             );
         }
 
-
         $sharedEventManager->attach(
             '*',
             'view.advanced_search',

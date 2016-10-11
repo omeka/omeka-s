@@ -133,7 +133,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                 var pageLinks = $(e.delegateTarget);
                 if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
                     pageLinks.siblings('.page-selector-filter').hide();
-                    pageLinks.after('<p>There are no available pages.</p>');
+                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
                 }
                 this.toggleLinkEdit($('#' + nodeId));
             }, this)

@@ -395,6 +395,7 @@ return [
             'resourceClassSelect' => 'Omeka\Service\ViewHelper\ResourceClassSelectFactory',
             'propertySelect' => 'Omeka\Service\ViewHelper\PropertySelectFactory',
             'itemSetSelect' => 'Omeka\Service\ViewHelper\ItemSetSelectFactory',
+            'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
@@ -563,5 +564,20 @@ return [
         'default_message_options' => [
             'encoding' => 'UTF-8',
         ],
+    ],
+    'js_translate_strings' => [
+        'Something went wrong', // @translate
+        'Make private', // @translate
+        'Make public', // @translate
+        'Expand', // @translate
+        'Collapse', // @translate
+        'You have unsaved changes.', // @translate
+        'Undo remove item set', // @translate
+        'Close icon set', // @translate
+        'Open icon set', // @translate
+        '[Untitled]', // @translate
+        'Failed loading resource template from API', // @translate
+        'Undo remove property', // @translate
+        'There are no available pages.', // @translate
     ],
 ];

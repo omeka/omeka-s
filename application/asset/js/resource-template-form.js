@@ -39,7 +39,7 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     var undoRemoveLink = $('<a>', {
         href: '#',
         class: 'fa fa-undo',
-        title: 'Undo remove property',
+        title: Omeka.jsTranslate('Undo remove property'),
         click: function(event) {
             event.preventDefault();
             propertyRow.toggleClass('delete');

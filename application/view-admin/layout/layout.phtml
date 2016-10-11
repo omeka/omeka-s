@@ -10,8 +10,10 @@ $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+C
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('js/tablesaw.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
+$this->jsTranslate();
 $this->trigger('view.layout');
 ?>
+
 <?php echo $this->doctype(); ?>
 <?php echo $this->htmlElement('html'); ?>
     <head>

@@ -11,6 +11,15 @@ CREATE TABLE `api_key` (
   KEY `IDX_C912ED9D7E3C61F9` (`owner_id`),
   CONSTRAINT `FK_C912ED9D7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `asset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `media_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `storage_id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `extension` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_2AF5A5C5CC5DB90` (`storage_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),

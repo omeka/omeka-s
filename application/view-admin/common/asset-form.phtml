@@ -1,0 +1,30 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
+?>
+<div class="asset-form-element<?php if (!$element->getValue()) echo ' empty'; ?>">
+    <span class="selected-asset">
+    <?php
+    if ($element->getValue()):
+        $response = $this->api()->read('assets', $element->getValue());
+        if ($response):
+            echo $response->getContent()->name();
+        endif;
+    endif;
+    ?>
+    </span>
+    <span class="no-selected-asset">
+        <?php echo $this->translate('[No asset selected]'); ?>
+    </span>
+    <button type="button"
+        class="asset-form-select"
+        data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"
+    >
+        <?php echo $this->translate('Select'); ?>
+    </button>
+    <button type="button"
+        class="asset-form-clear red button"
+    >
+        <?php echo $this->translate('Clear'); ?>
+    </button>
+    <?php echo $this->formHidden($element); ?>
+</div>

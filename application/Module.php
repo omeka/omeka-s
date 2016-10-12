@@ -21,7 +21,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.8.3-alpha';
+    const VERSION = '0.8.4-alpha';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -163,7 +163,6 @@ class Module extends AbstractModule
                 }
             );
         }
-
 
         $sharedEventManager->attach(
             '*',

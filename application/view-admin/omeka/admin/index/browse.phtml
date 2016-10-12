@@ -37,8 +37,8 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
     </div>
 
     <div id="manage-sites" class="panel">
-    <?php $this->trigger('view.manage-sites.before'); ?>
         <h2><?php echo $this->translate('Manage Sites'); ?></h2>
+        <?php $this->trigger('view.manage-sites.before'); ?>
         <?php foreach ($sites as $site): ?>
         <div class="site row">
             <span class="site-name"><a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a></span>

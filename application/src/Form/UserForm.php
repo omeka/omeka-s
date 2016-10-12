@@ -30,27 +30,15 @@ class UserForm extends Form
     {
         $this->add([
             'name' => 'user-information',
-            'type' => 'fieldset',
-            'attributes' => [
-                'class' => 'section active',
-                'id' => 'user-information'
-            ]
+            'type' => 'fieldset'
         ]);
         $this->add([
             'name' => 'change-password',
-            'type' => 'fieldset',
-            'attributes' => [
-                'class' => 'section',
-                'id' => 'change-password'
-            ]
+            'type' => 'fieldset'
         ]);
         $this->add([
             'name' => 'edit-keys',
-            'type' => 'fieldset',
-            'attributes' => [
-                'class' => 'section',
-                'id' => 'edit-keys'
-            ]
+            'type' => 'fieldset'
         ]);
         $this->get('user-information')->add([
             'name' => 'o:email',
@@ -60,7 +48,7 @@ class UserForm extends Form
             ],
             'attributes' => [
                 'id' => 'email',
-                'required' => true,
+                'class' => 'required'
             ],
         ]);
         $this->get('user-information')->add([
@@ -122,7 +110,6 @@ class UserForm extends Form
             ],
             'attributes' => [
                 'id' => 'password',
-                'required' => true,
             ],
         ]);
 
@@ -134,14 +121,13 @@ class UserForm extends Form
             ],
             'attributes' => [
                 'id' => 'password-confirm',
-                'required' => true,
             ],
         ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
+        $inputFilter->get('change-password')->add([
             'name' => 'password',
-            'required' => true,
+            'required' => false,
             'validators' => [
                 [
                     'name' => 'StringLength',
@@ -151,9 +137,9 @@ class UserForm extends Form
                 ],
             ],
         ]);
-        $inputFilter->add([
+        $inputFilter->get('change-password')->add([
             'name' => 'password-confirm',
-            'required' => true,
+            'required' => false,
             'validators' => [
                 [
                     'name' => 'Identical',
@@ -175,7 +161,7 @@ class UserForm extends Form
             ],
         ]);
 
-        $inputFilter->add([
+        $inputFilter->get('edit-keys')->add([
             'name' => 'new-key-label',
             'required' => false,
             'validators' => [

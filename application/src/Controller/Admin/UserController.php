@@ -132,24 +132,27 @@ class UserController extends AbstractActionController
         ]);
 
         $data = $user->jsonSerialize();
-        $form->setData($data);
+        $form->get('user-information')->populateValues($data);
+        $form->get('change-password')->populateValues($data);
 
         if ($this->getRequest()->isPost()) {
-            if (!$this->userIsAllowed($user, 'change-password')) {
-                throw new Exception\PermissionDeniedException(
-                    'User does not have permission to change the password'
-                );
-            }
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $formData = $form->getData();
-                if ($currentUser && !$user->verifyPassword($values['current-password'])) {
-                    $this->messenger()->addError('The current password entered was invalid'); // @translate
-                    return $view;
+                $values = $form->getData();
+                $response = $this->api($form)->update('users', $id, $values['user-information']);
+                if (isset($values['password'])) {
+                    if (!$this->userIsAllowed($user, 'change-password')) {
+                        throw new Exception\PermissionDeniedException(
+                            'User does not have permission to change the password'
+                        );
+                    }
+                    if ($currentUser && !$user->verifyPassword($values['current-password'])) {
+                        $this->messenger()->addError('The current password entered was invalid'); // @translate
+                        return $view;
+                    }
+                    $user->setPassword($passwordValues['password']);
+                    $this->entityManager->flush();
                 }
-                $response = $this->api($form)->update('users', $id, $formData);
-                $user->setPassword($values['password']);
-                $this->entityManager->flush();
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('User successfully updated'); // @translate
                     return $this->redirect()->refresh();
@@ -169,6 +172,7 @@ class UserController extends AbstractActionController
         $view->setVariable('user', $user);
         $view->setVariable('form', $form);
         $view->setVariable('keys', $viewKeys);
+
         return $view;
     }
 

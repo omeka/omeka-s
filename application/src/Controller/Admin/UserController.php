@@ -135,22 +135,38 @@ class UserController extends AbstractActionController
         $form->get('user-information')->populateValues($data);
         $form->get('change-password')->populateValues($data);
 
+        // Only expose key IDs and values to the view
+        $viewKeys = [];
+        foreach ($keys as $keyId => $key) {
+            $viewKeys[$keyId] = $key->getLabel();
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('user', $user);
+        $view->setVariable('form', $form);
+        $view->setVariable('keys', $viewKeys);
+
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $values = $form->getData();
+                $passwordValues = $values['change-password'];
                 $response = $this->api($form)->update('users', $id, $values['user-information']);
-                if (isset($values['password'])) {
-                    if (!$this->userIsAllowed($user, 'change-password')) {
+                if ($passwordValues['password'] || $passwordValues['current-password']) {
+                    if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to change the password'
                         );
                     }
-                    if ($currentUser && !$user->verifyPassword($values['current-password'])) {
+                    if ($currentUser && !$userEntity->verifyPassword($passwordValues['current-password'])) {
                         $this->messenger()->addError('The current password entered was invalid'); // @translate
                         return $view;
                     }
-                    $user->setPassword($passwordValues['password']);
+                    if (!$passwordValues['password-confirm'] || ($passwordValues['password'] !== $passwordValues['password-confirm'])) {
+                        $this->messenger()->addError('Password confirmation must match new password'); // @translate
+                        return $view;
+                    }
+                    $userEntity->setPassword($passwordValues['password']);
                     $this->entityManager->flush();
                 }
                 if ($response->isSuccess()) {
@@ -161,17 +177,6 @@ class UserController extends AbstractActionController
                 $this->messenger()->addErrors($form->getMessages());
             }
         }
-
-        // Only expose key IDs and values to the view
-        $viewKeys = [];
-        foreach ($keys as $id => $key) {
-            $viewKeys[$id] = $key->getLabel();
-        }
-
-        $view = new ViewModel;
-        $view->setVariable('user', $user);
-        $view->setVariable('form', $form);
-        $view->setVariable('keys', $viewKeys);
 
         return $view;
     }

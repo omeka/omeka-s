@@ -147,12 +147,13 @@ class UserController extends AbstractActionController
         $view->setVariable('keys', $viewKeys);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
             if ($form->isValid()) {
                 $values = $form->getData();
                 $passwordValues = $values['change-password'];
                 $response = $this->api($form)->update('users', $id, $values['user-information']);
-                if ($passwordValues['password'] || $passwordValues['current-password']) {
+                if (!empty($passwordValues['password']) || !empty($passwordValues['current-password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to change the password'
@@ -162,14 +163,30 @@ class UserController extends AbstractActionController
                         $this->messenger()->addError('The current password entered was invalid'); // @translate
                         return $view;
                     }
-                    if (!$passwordValues['password-confirm'] || ($passwordValues['password'] !== $passwordValues['password-confirm'])) {
+                    if (!empty($passwordValues['password-confirm']) || ($passwordValues['password'] !== $passwordValues['password-confirm'])) {
                         $this->messenger()->addError('Password confirmation must match new password'); // @translate
                         return $view;
                     }
                     $userEntity->setPassword($passwordValues['password']);
-                    $this->entityManager->flush();
+                }
+                if (!empty($values['edit-keys']['new-key-label']) || !empty($postData['delete'])) {
+                    if (!$this->userIsAllowed($userEntity, 'edit-keys')) {
+                        throw new Exception\PermissionDeniedException(
+                            'User does not have permission to edit API keys'
+                        );
+                    }
+                    $this->addKey($userEntity, $values['edit-keys']['new-key-label']);
+
+                    // Remove any keys marked for deletion
+                    if (!empty($postData['delete']) && is_array($postData['delete'])) {
+                        foreach ($postData['delete'] as $deleteId) {
+                            $keys->remove($deleteId);
+                        }
+                        $this->messenger()->addSuccess("Key(s) successfully deleted"); // @translate
+                    }
                 }
                 if ($response->isSuccess()) {
+                    $this->entityManager->flush();
                     $this->messenger()->addSuccess('User successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -177,7 +194,6 @@ class UserController extends AbstractActionController
                 $this->messenger()->addErrors($form->getMessages());
             }
         }
-
         return $view;
     }
 

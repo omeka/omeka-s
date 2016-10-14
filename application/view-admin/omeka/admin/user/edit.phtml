@@ -5,6 +5,7 @@ $sectionNavs = [
     'change-password' => $this->translate('Password'),
     'edit-keys' => $this->translate('API Keys')
 ];
+$formElement = $this->plugin('formElement');
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Edit User: “%s”'), $user->email())); ?>
@@ -48,6 +49,7 @@ $sectionNavs = [
     <h3><?php echo $this->translate('Add a New Key'); ?></h3>
     <?php echo $this->formCollection($form->get('edit-keys'), false); ?>
 </fieldset>
+ <?php echo $formElement($form->get('csrf')); ?>
 <?php $this->trigger('view.edit.form.after'); ?>
 <?php echo $this->form()->closeTag(); ?>
 

@@ -373,6 +373,7 @@ return [
             'queryToHiddenInputs' => 'Omeka\View\Helper\QueryToHiddenInputs',
             'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
             'themeSettingAssetUrl' => 'Omeka\View\Helper\ThemeSettingAssetUrl',
+            'formColorPicker' => 'Omeka\Form\View\Helper\FormColorPicker',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

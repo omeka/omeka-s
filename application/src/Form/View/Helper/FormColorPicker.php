@@ -12,8 +12,8 @@ class FormColorPicker extends FormText
         $view->headScript()->appendFile($view->assetUrl('js/color-picker.js', 'Omeka'));
         return '
 <div class="color-picker">
-    ' . parent::render($element) . '
     <div class="color-picker-sample" style="height:2em; border:1px solid #D9D9D9;"></div>
+    ' . parent::render($element) . '
 </div>';
     }
 }

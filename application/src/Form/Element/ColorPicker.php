@@ -8,7 +8,7 @@ class ColorPicker extends Text implements InputProviderInterface
 {
     protected $attributes = [
         'type' => 'color_picker',
-        'placeholder' => 'three- or six-digit hexadecimal form, or "transparent"',
+        'placeholder' => 'three- or six-digit hexadecimal form, or "transparent"', // @translate
     ];
 
     public function getInputSpecification()
@@ -21,6 +21,7 @@ class ColorPicker extends Text implements InputProviderInterface
                     'name' => 'Callback',
                     'options' => [
                         'callback' => [$this, 'validateColor'],
+                        'message' => 'Invalid color format', // @translate
                     ],
                 ]
             ]

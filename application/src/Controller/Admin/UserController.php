@@ -147,6 +147,8 @@ class UserController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('keys', $viewKeys);
 
+        $successMessages = [];
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
             $form->setData($postData);
@@ -154,6 +156,13 @@ class UserController extends AbstractActionController
                 $values = $form->getData();
                 $passwordValues = $values['change-password'];
                 $response = $this->api($form)->update('users', $id, $values['user-information']);
+
+                // Stop early if the API update fails
+                if (!$response->isSuccess()) {
+                    return $view;
+                }
+                $this->messenger()->addSuccess('User successfully updated'); // @translate
+
                 if (!empty($passwordValues['password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
@@ -165,6 +174,7 @@ class UserController extends AbstractActionController
                         return $view;
                     }
                     $userEntity->setPassword($passwordValues['password']);
+                    $successMessages[] = 'Password successfully changed'; // @translate
                 }
                 if (!empty($values['edit-keys']['new-key-label']) || !empty($postData['delete'])) {
                     if (!$this->userIsAllowed($userEntity, 'edit-keys')) {
@@ -172,21 +182,22 @@ class UserController extends AbstractActionController
                             'User does not have permission to edit API keys'
                         );
                     }
-                    $this->addKey($userEntity, $values['edit-keys']['new-key-label']);
+                    $this->addKey($userEntity, $values['edit-keys']['new-key-label'], $successMessages);
 
                     // Remove any keys marked for deletion
                     if (!empty($postData['delete']) && is_array($postData['delete'])) {
                         foreach ($postData['delete'] as $deleteId) {
                             $keys->remove($deleteId);
                         }
-                        $this->messenger()->addSuccess("Key(s) successfully deleted"); // @translate
+                        $successMessages[] = 'Key(s) successfully deleted'; // @translate
                     }
                 }
-                if ($response->isSuccess()) {
-                    $this->entityManager->flush();
-                    $this->messenger()->addSuccess('User successfully updated'); // @translate
-                    return $this->redirect()->refresh();
+
+                $this->entityManager->flush();
+                foreach ($successMessages as $message) {
+                    $this->messenger()->addSuccess($message);
                 }
+                return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addErrors($form->getMessages());
             }
@@ -215,7 +226,7 @@ class UserController extends AbstractActionController
         );
     }
 
-    private function addKey($user, $label)
+    private function addKey($user, $label, &$successMessages)
     {
         if (empty($label)) {
             return;
@@ -229,7 +240,7 @@ class UserController extends AbstractActionController
         $credential = $key->setCredential();
         $this->entityManager->persist($key);
 
-        $this->messenger()->addSuccess('Key created.'); // @translate
-        $this->messenger()->addSuccess(new Message('ID: %s, Credential: %s', $id, $credential)); // @translate
+        $successMessages[] = 'Key created.'; // @translate
+        $successMessages[] = new Message('ID: %s, Credential: %s', $id, $credential); // @translate
     }
 }

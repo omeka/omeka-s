@@ -84,11 +84,11 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
-
+<?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>
-<?php $this->trigger('view.browse.after'); ?>
+
 <div class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"

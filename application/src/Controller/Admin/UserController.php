@@ -153,7 +153,7 @@ class UserController extends AbstractActionController
                 $values = $form->getData();
                 $passwordValues = $values['change-password'];
                 $response = $this->api($form)->update('users', $id, $values['user-information']);
-                if (!empty($passwordValues['password']) || !empty($passwordValues['current-password'])) {
+                if (!empty($passwordValues['password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to change the password'
@@ -161,10 +161,6 @@ class UserController extends AbstractActionController
                     }
                     if ($currentUser && !$userEntity->verifyPassword($passwordValues['current-password'])) {
                         $this->messenger()->addError('The current password entered was invalid'); // @translate
-                        return $view;
-                    }
-                    if (!empty($passwordValues['password-confirm']) || ($passwordValues['password'] !== $passwordValues['password-confirm'])) {
-                        $this->messenger()->addError('Password confirmation must match new password'); // @translate
                         return $view;
                     }
                     $userEntity->setPassword($passwordValues['password']);

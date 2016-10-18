@@ -138,13 +138,16 @@ class UserForm extends Form
             ],
         ]);
         $inputFilter->get('change-password')->add([
-            'name' => 'password-confirm',
+            'name' => 'password',
             'required' => false,
             'validators' => [
                 [
                     'name' => 'Identical',
                     'options' => [
-                        'token' => 'password',
+                        'token' => 'password-confirm',
+                        'messages' => [
+                            'notSame' => 'Password confirmation must match new password', // @translate
+                        ]
                     ],
                 ],
             ],

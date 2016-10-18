@@ -24,4 +24,5 @@ $escape = $this->plugin('escapeHtml');
         <h4>Type</h4>
         <div class="value"><?php echo $resource->type(); ?></div>
     </div>
+    <?php $this->trigger('view.details', array('entity' => $resource)); ?>
 </div>

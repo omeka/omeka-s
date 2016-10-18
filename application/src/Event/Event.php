@@ -86,6 +86,7 @@ class Event extends ZendEvent
     const VIEW_MANAGE_SITES_BEFORE = 'view.manage-sites.before';
     const VIEW_MANAGE_RESOURCES_AFTER = 'view.manage-resources.after';
     const VIEW_MANAGE_RESOURCES_BEFORE = 'view.manage-resources.before';
+    const VIEW_DETAILS = 'view.details';
 
     /**
      * Event triggered by service managers.

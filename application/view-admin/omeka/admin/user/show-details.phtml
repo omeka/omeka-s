@@ -9,3 +9,4 @@
     <h4><?php echo $this->translate('Item Sets'); ?></h4>
     <div class="value"><?php echo $this->hyperlink($resource->itemSetCount(), $this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'], ['query' => ['owner_id' => $resource->id()]])); ?></div>
 </div>
+<?php $this->trigger('view.details', array('entity' => $resource)); ?>

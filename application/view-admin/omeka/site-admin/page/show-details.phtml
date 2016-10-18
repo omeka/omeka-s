@@ -1,3 +1,4 @@
 <div class='resource-details'>
     <h3 class="title"><?php echo $resource->title(); ?></h3>
 </div>
+<?php $this->trigger('view.details', array('entity' => $resource)); ?>

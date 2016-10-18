@@ -4,3 +4,4 @@
     <h4><?php echo $this->translate('Namespace URI:'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($resource->namespaceUri()); ?></div>
 </div>
+<?php $this->trigger('view.details', array('entity' => $resource)); ?>

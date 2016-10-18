@@ -3497,3 +3497,21 @@ body.minimal {
 }
 
 /* @end */
+
+/* @group ------- Color Picker ------- */
+
+.color-picker {
+    display: flex;
+
+    input[type="text"] {
+        margin: 0;
+    }
+
+    .color-picker-sample {
+        border: 1px solid $border-gray;
+        width: 30%;
+        margin-left: $spacing-small;
+    }
+}
+
+/* @end */

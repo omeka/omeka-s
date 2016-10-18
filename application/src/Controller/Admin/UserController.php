@@ -130,6 +130,7 @@ class UserController extends AbstractActionController
             'include_is_active' => $activateUser,
             'current_password' => $currentUser,
         ]);
+        $form->setAttribute('action', $this->getRequest()->getRequestUri());
 
         $data = $user->jsonSerialize();
         $form->get('user-information')->populateValues($data);

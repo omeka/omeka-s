@@ -44,13 +44,13 @@ class SiteSettingsForm extends Form
             ]
         ]);
 
-        $addEvent = new Event(Event::SITE_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
+        $addEvent = new Event(Event::ADD_ELEMENTS, $this, ['form' => $this]);
         $this->getEventManager()->triggerEvent($addEvent);
 
         // Separate events because calling $form->getInputFilters()
         // resets everythhing
         $inputFilter = $this->getInputFilter();
-        $filterEvent = new Event(Event::SITE_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $filterEvent = new Event(Event::ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);
     }
 

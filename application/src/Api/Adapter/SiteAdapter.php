@@ -74,6 +74,10 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:item_pool')) {
             $entity->setItemPool($request->getValue('o:item_pool', []));
         }
+        if ($this->shouldHydrate($request, 'o:item_sets')) {
+            $itemSets = array_unique($request->getValue('o:item_sets', []));
+            $entity->setItemSets($itemSets);
+        }
         if ($this->shouldHydrate($request, 'o:is_public')) {
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }

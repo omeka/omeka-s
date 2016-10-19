@@ -1,0 +1,47 @@
+<?php
+$form->prepare();
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka'));
+
+$rowTemplate = '
+<tr class="item-set-row">
+    <td class="sortable-handle"></td>
+    <td class="item-set-title"></td>
+    <td class="item-set-owner-email"></td>
+    <td>
+        <a href="#" class="o-icon-delete" title="' . $this->translate('Remove item set') . '" aria-label="' . $this->translate('Remove item set') . '"></a>
+        <a href="#" class="o-icon-undo" title="' . $this->translate('Undo remove') . '" aria-label="' . $this->translate('Undo remove') . '" style="display: none;"></a>
+        <input type="hidden" class="item-set-id" name="o:item_sets[]">
+    </td>
+</tr>';
+?>
+
+<?php echo $this->pageTitle($this->translate('Item Sets')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
+
+<div id="page-actions">
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<table id="item-sets" class="tablesaw tablesaw-stack" style="display: none;"
+    data-tablesaw-mode="stack"
+    data-item-sets="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+    data-row-template="<?php echo $this->escapeHtml($rowTemplate); ?>">
+    <thead>
+        <tr>
+            <th></th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="item-set-rows"></tbody>
+</table>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<p id="no-item-sets" style="display: none;"><?php echo $this->translate('No item sites are assigned to this site.'); ?></p>
+
+<?php echo $this->itemSetSelector(); ?>

@@ -64,6 +64,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
             'o:item_pool' => $this->itemPool(),
+            'o:item_sets' => $this->itemSets(),
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
@@ -96,6 +97,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function itemPool()
     {
         return $this->resource->getItemPool();
+    }
+
+    public function itemSets()
+    {
+        return $this->resource->getItemSets();
     }
 
     public function created()

@@ -55,6 +55,7 @@ class IndexController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $formData['o:item_sets'] = [];
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
@@ -223,6 +224,49 @@ class IndexController extends AbstractActionController
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('itemCount', $itemsResponse->getTotalResults());
+        return $view;
+    }
+
+    public function itemSetsAction()
+    {
+        $site = $this->currentSite();
+        $form = $this->getForm(Form::class);
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            if (!isset($formData['o:item_sets'])) {
+                $formData['o:item_sets'] = [];
+            }
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Item sets successfully updated'); // @translate
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addErrors($form->getMessages());
+            }
+        }
+
+        $itemSets = [];
+        foreach ($site->itemSets() as $itemSetId) {
+            try {
+                $itemSet = $this->api()->read('item_sets', $itemSetId)->getContent();
+                $itemSets[] = [
+                    'id' => $itemSet->id(),
+                    'title' => $itemSet->displayTitle(),
+                    'email' => $itemSet->owner()->email(),
+                ];
+            } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                // do nothing
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('site', $site);
+        $view->setVariable('form', $form);
+        $view->setVariable('itemSets', $itemSets);
         return $view;
     }
 

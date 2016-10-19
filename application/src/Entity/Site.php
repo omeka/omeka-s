@@ -45,6 +45,11 @@ class Site extends AbstractEntity
     protected $itemPool;
 
     /**
+     * @Column(type="json_array")
+     */
+    protected $itemSets;
+
+    /**
      * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
     protected $owner;
@@ -145,6 +150,16 @@ class Site extends AbstractEntity
     public function getItemPool()
     {
         return $this->itemPool;
+    }
+
+    public function setItemSets($itemSets)
+    {
+        $this->itemSets = $itemSets;
+    }
+
+    public function getItemSets()
+    {
+        return $this->itemSets;
     }
 
     public function setOwner(User $owner = null)

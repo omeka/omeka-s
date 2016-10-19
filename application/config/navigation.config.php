@@ -192,6 +192,14 @@ return [
                 'useRouteMatch' => true
             ],
             [
+                'label'         => 'Item Sets', // @translate
+                'class'         => 'item-sets',
+                'route'         => 'admin/site/slug/action',
+                'action'        => 'item-sets',
+                'privilege'     => 'update',
+                'useRouteMatch' => true
+            ],
+            [
                 'label'         => 'User Permissions', // @translate
                 'class'         => 'users',
                 'route'         => 'admin/site/slug/action',

@@ -369,6 +369,8 @@ class Manager
     public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
     {
         $client = $this->serviceLocator->get('Omeka\HttpClient');
+        // Disable compressed response; it's broken alongside streaming
+        $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');
         $client->setUri($uri)->setStream($tempPath);
 
         // Attempt three requests before handling an exception.

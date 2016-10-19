@@ -45,11 +45,6 @@ class Site extends AbstractEntity
     protected $itemPool;
 
     /**
-     * @Column(type="json_array")
-     */
-    protected $itemSets;
-
-    /**
      * @ManyToOne(targetEntity="User", inversedBy="sites")
      */
     protected $owner;
@@ -90,11 +85,23 @@ class Site extends AbstractEntity
      */
     protected $sitePermissions;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="SiteItemSet",
+     *     mappedBy="site",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     * @OrderBy({"position" = "ASC"})
+     */
+    protected $siteItemSets;
+
     public function __construct()
     {
         $this->siteItems = new ArrayCollection;
         $this->pages = new ArrayCollection;
         $this->sitePermissions = new ArrayCollection;
+        $this->siteItemSets = new ArrayCollection;
     }
 
     public function getId()
@@ -152,16 +159,6 @@ class Site extends AbstractEntity
         return $this->itemPool;
     }
 
-    public function setItemSets($itemSets)
-    {
-        $this->itemSets = $itemSets;
-    }
-
-    public function getItemSets()
-    {
-        return $this->itemSets;
-    }
-
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
@@ -210,6 +207,11 @@ class Site extends AbstractEntity
     public function getSitePermissions()
     {
         return $this->sitePermissions;
+    }
+
+    public function getSiteItemSets()
+    {
+        return $this->siteItemSets;
     }
 
     /**

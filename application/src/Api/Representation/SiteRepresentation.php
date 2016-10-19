@@ -64,13 +64,13 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:title' => $this->title(),
             'o:navigation' => $this->navigation(),
             'o:item_pool' => $this->itemPool(),
-            'o:item_sets' => $this->itemSets(),
             'o:owner' => $owner,
             'o:created' => $created,
             'o:modified' => $modified,
             'o:is_public' => $this->isPublic(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
+            'o:site_item_set' => $this->siteItemSets(),
         ];
     }
 
@@ -97,11 +97,6 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function itemPool()
     {
         return $this->resource->getItemPool();
-    }
-
-    public function itemSets()
-    {
-        return $this->resource->getItemSets();
     }
 
     public function created()
@@ -176,6 +171,20 @@ class SiteRepresentation extends AbstractEntityRepresentation
                 $sitePermission, $this->getServiceLocator());
         }
         return $sitePermissions;
+    }
+
+    /**
+     * Return the item sets assigned to this site.
+     *
+     * @return array
+     */
+    public function siteItemSets()
+    {
+        $itemSets = [];
+        foreach ($this->resource->getSiteItemSets() as $itemSet) {
+            $itemSets[]= new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
+        }
+        return $itemSets;
     }
 
     /**

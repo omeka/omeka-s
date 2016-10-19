@@ -55,7 +55,6 @@ class IndexController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
-            $formData['o:item_sets'] = [];
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
@@ -234,8 +233,8 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            if (!isset($formData['o:item_sets'])) {
-                $formData['o:item_sets'] = [];
+            if (!isset($formData['o:site_item_set'])) {
+                $formData['o:site_item_set'] = [];
             }
             $form->setData($formData);
             if ($form->isValid()) {
@@ -250,17 +249,13 @@ class IndexController extends AbstractActionController
         }
 
         $itemSets = [];
-        foreach ($site->itemSets() as $itemSetId) {
-            try {
-                $itemSet = $this->api()->read('item_sets', $itemSetId)->getContent();
-                $itemSets[] = [
-                    'id' => $itemSet->id(),
-                    'title' => $itemSet->displayTitle(),
-                    'email' => $itemSet->owner()->email(),
-                ];
-            } catch (\Omeka\Api\Exception\NotFoundException $e) {
-                // do nothing
-            }
+        foreach ($site->siteItemSets() as $siteItemSet) {
+            $itemSet = $siteItemSet->itemSet();
+            $itemSets[] = [
+                'id' => $itemSet->id(),
+                'title' => $itemSet->displayTitle(),
+                'email' => $itemSet->owner()->email(),
+            ];
         }
 
         $view = new ViewModel;

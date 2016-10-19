@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'itemSets', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'itemSets', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
     }
 
     /**
@@ -301,28 +301,6 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setItemSets($itemSets)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItemSets', [$itemSets]);
-
-        return parent::setItemSets($itemSets);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getItemSets()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItemSets', []);
-
-        return parent::getItemSets();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
@@ -428,6 +406,17 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSitePermissions', []);
 
         return parent::getSitePermissions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSiteItemSets()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteItemSets', []);
+
+        return parent::getSiteItemSets();
     }
 
     /**

@@ -6,6 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
+use Omeka\Entity\SiteItemSet;
 use Omeka\Stdlib\ErrorStore;
 
 class SiteAdapter extends AbstractEntityAdapter
@@ -73,10 +74,6 @@ class SiteAdapter extends AbstractEntityAdapter
         }
         if ($this->shouldHydrate($request, 'o:item_pool')) {
             $entity->setItemPool($request->getValue('o:item_pool', []));
-        }
-        if ($this->shouldHydrate($request, 'o:item_sets')) {
-            $itemSets = array_unique($request->getValue('o:item_sets', []));
-            $entity->setItemSets($itemSets);
         }
         if ($this->shouldHydrate($request, 'o:is_public')) {
             $entity->setIsPublic($request->getValue('o:is_public', true));
@@ -165,6 +162,37 @@ class SiteAdapter extends AbstractEntityAdapter
             foreach ($sitePermissions as $sitePermissionId => $sitePermission) {
                 if (!in_array($sitePermission, $sitePermissionsToRetain)) {
                     $sitePermissions->remove($sitePermissionId);
+                }
+            }
+        }
+
+        if ($this->shouldHydrate($request, 'o:site_item_set')) {
+
+            $itemSetsData = $request->getValue('o:site_item_set', []);
+            $siteItemSets = $entity->getSiteItemSets();
+            $itemSetsAdapter = $this->getAdapter('item_sets');
+            $siteItemSetsToRetain = [];
+
+            $position = 1;
+            foreach ($itemSetsData as $itemSetData) {
+                if (!isset($itemSetData['o:item_set']['o:id'])) {
+                    continue;
+                }
+                $itemSet = $itemSetsAdapter->findEntity($itemSetData['o:item_set']['o:id']);
+                $criteria = Criteria::create()->where(Criteria::expr()->eq('itemSet', $itemSet));
+                $siteItemSet = $siteItemSets->matching($criteria)->first();
+                if (!$siteItemSet) {
+                    $siteItemSet = new SiteItemSet;
+                    $siteItemSet->setSite($entity);
+                    $siteItemSet->setItemSet($itemSet);
+                    $siteItemSets->add($siteItemSet);
+                }
+                $siteItemSet->setPosition($position++);
+                $siteItemSetsToRetain[] = $siteItemSet;
+            }
+            foreach ($siteItemSets as $siteItemSet) {
+                if (!in_array($siteItemSet, $siteItemSetsToRetain)) {
+                    $siteItemSets->removeElement($siteItemSet);
                 }
             }
         }

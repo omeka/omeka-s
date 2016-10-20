@@ -76,7 +76,7 @@ You can find Omeka-specific code under `application/`.
 
 Omeka uses the following libraries, among others:
 
-* [Zend Framework 2](http://framework.zend.com/)
+* [Zend Framework 3](http://framework.zend.com/)
 * [Doctrine 2](http://www.doctrine-project.org/)
 * [EasyRdf](http://www.easyrdf.org/)
 * [PHPUnit](https://phpunit.de/)

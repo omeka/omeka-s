@@ -137,6 +137,11 @@ body {
         border-bottom: 1px solid $border-gray;
     }
 
+    table .sortable-handle:before {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
     /* @end */
 
     /* @group ----- Form elements ----- */
@@ -2061,17 +2066,17 @@ input[type="text"].value-language,
     }
 
     .media.row img + .resource-name {
-        margin: $spacing-small 0 $spacing-small (2 * $spacing-large);
+        margin: 0 0 0 (2 * $spacing-large);
     }
 
     .media.row .sortable-handle:before {
-        top: (1.5 * $spacing-small);
+        top: $spacing-medium;
     }
 
     .media.row .actions {
         position: absolute;
         right: $spacing-small;
-        top: (1.5 * $spacing-small);
+        top: $spacing-medium;
     }
 
     .media.row .resource-name {

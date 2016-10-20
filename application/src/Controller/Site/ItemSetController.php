@@ -12,7 +12,7 @@ class ItemSetController extends AbstractActionController
 
         $this->setBrowseDefaults('created');
 
-        $response = $this->api()->search('item_sets', $this->params()->fromQuery());
+        $response = $this->api()->search('item_sets', ['site_id' => $site->id()]);
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
         $itemSets = $response->getContent();
 

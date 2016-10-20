@@ -64,10 +64,10 @@ class ItemSet extends \Omeka\Entity\ItemSet implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'isOpen', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'isOpen', 'items', 'siteItemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'isOpen', 'items', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'isOpen', 'items', 'siteItemSets', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -230,6 +230,17 @@ class ItemSet extends \Omeka\Entity\ItemSet implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItems', []);
 
         return parent::getItems();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSiteItemSets()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteItemSets', []);
+
+        return parent::getSiteItemSets();
     }
 
     /**

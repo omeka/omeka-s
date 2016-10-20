@@ -8,6 +8,12 @@ namespace Omeka\Entity;
  *         @UniqueConstraint(
  *             columns={"site_id", "item_set_id"}
  *         )
+ *     },
+ *     indexes={
+ *         @Index(
+ *             name="position",
+ *             columns={"position"}
+ *         )
  *     }
  * )
  */
@@ -22,13 +28,13 @@ class SiteItemSet extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="Site")
-     * @JoinColumn(onDelete="SET NULL")
+     * @JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $site;
 
     /**
      * @ManyToOne(targetEntity="ItemSet")
-     * @JoinColumn(onDelete="SET NULL")
+     * @JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $itemSet;
 

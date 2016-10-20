@@ -1,24 +1,24 @@
 $(document).ready(function() {
     
-new Sortable(document.getElementById('item-set-rows'), {
-    draggable: '.item-set-row',
+new Sortable(document.getElementById('site-item-set-rows'), {
+    draggable: '.site-item-set-row',
     handle: '.sortable-handle',
 });
 
-var itemSets = $('#item-sets');
-var noItemSets = $('#no-item-sets');
+var itemSets = $('#site-item-sets');
+var noItemSets = $('#no-site-item-sets');
 var itemSetsData = itemSets.data('itemSets');
 var rowTemplate = $($.parseHTML(itemSets.data('rowTemplate')));
 
 var appendItemSet = function(id, title, email) {
-    if (itemSets.find(".item-set-id[value='" + id + "']").length) {
+    if (itemSets.find(".site-item-set-id[value='" + id + "']").length) {
         return;
     }
     var row = rowTemplate.clone();
-    row.find('.item-set-id').val(id);
-    row.find('.item-set-title').text(title);
-    row.find('.item-set-owner-email').text(email);
-    $('#item-set-rows').append(row);
+    row.find('.site-item-set-id').val(id);
+    row.find('.site-item-set-title').text(title);
+    row.find('.site-item-set-owner-email').text(email);
+    $('#site-item-set-rows').append(row);
 }
 
 if (itemSetsData.length) {
@@ -45,7 +45,7 @@ itemSets.on('click', '.o-icon-delete', function(e) {
     e.preventDefault();
     var removeLink = $(this);
     var undoLink = removeLink.siblings('.o-icon-undo');
-    var row = removeLink.closest('.item-set-row');
+    var row = removeLink.closest('.site-item-set-row');
     row.find('input').prop('disabled', true);
     row.toggleClass('delete');
     removeLink.hide();
@@ -56,7 +56,7 @@ itemSets.on('click', '.o-icon-undo', function(e) {
     e.preventDefault();
     var undoLink = $(this);
     var removeLink = undoLink.siblings('.o-icon-delete');
-    var row = undoLink.closest('.item-set-row');
+    var row = undoLink.closest('.site-item-set-row');
     row.find('input').prop('disabled', false);
     row.toggleClass('delete');
     undoLink.hide();

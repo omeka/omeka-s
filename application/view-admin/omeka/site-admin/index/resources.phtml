@@ -1,0 +1,72 @@
+<?php
+$form->prepare();
+$this->headScript()->appendFile($this->assetUrl('js/sortable.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka'));
+
+$rowTemplate = '
+<tr class="site-item-set-row">
+    <td class="sortable-handle"></td>
+    <td class="site-item-set-title"></td>
+    <td class="site-item-set-owner-email"></td>
+    <td>
+        <a href="#" class="o-icon-delete" title="' . $this->translate('Remove item set') . '" aria-label="' . $this->translate('Remove item set') . '"></a>
+        <a href="#" class="o-icon-undo" title="' . $this->translate('Undo remove') . '" aria-label="' . $this->translate('Undo remove') . '" style="display: none;"></a>
+        <input type="hidden" class="site-item-set-id" name="o:site_item_set[][o:item_set][o:id]">
+    </td>
+</tr>';
+?>
+
+<?php echo $this->pageTitle($this->translate('Resources')); ?>
+<?php echo $this->sectionNav([
+    'item-pool-section' => $this->translate('Item Pool'),
+    'item-sets-section' => $this->translate('Item Sets'),
+]); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
+
+<div id="page-actions">
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<div id="item-pool-section" class="active section">
+    <p><?php echo sprintf(
+        $this->translate('There are currently %s items in this site’s pool.'),
+        $this->hyperlink(
+            $itemCount,
+            $this->url(
+                'admin/default',
+                ['controller' => 'item'],
+                ['query' => ['site_id' => $site->id()]]
+            ),
+            ['target' => '_blank']
+        )
+    ); ?></p>
+    <div id="advanced-search"><?php echo $this->partial(
+        'common/advanced-search',
+        ['query' => $site->itemPool(), 'resourceType' => 'item']
+    ); ?></div>
+</div>
+
+<div id="item-sets-section" class="section">
+    <table id="site-item-sets" class="tablesaw tablesaw-stack" style="display: none;"
+        data-tablesaw-mode="stack"
+        data-item-sets="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+        data-row-template="<?php echo $this->escapeHtml($rowTemplate); ?>">
+        <thead>
+            <tr>
+                <th></th>
+                <th><?php echo $this->translate('Title'); ?></th>
+                <th><?php echo $this->translate('Owner'); ?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="site-item-set-rows"></tbody>
+    </table>
+    <p id="no-site-item-sets" style="display: none;"><?php echo $this->translate('No item sites are assigned to this site.'); ?></p>
+    <?php echo $this->itemSetSelector(); ?>
+</div>
+
+<?php echo $this->form()->closeTag(); ?>

@@ -4,8 +4,8 @@ namespace Omeka\Db\Filter;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use Omeka\Event\Event;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\EventManager\Event;
 
 /**
  * Filter resource or resource-related entities by visibility.
@@ -35,7 +35,7 @@ class ResourceVisibilityFilter extends SQLFilter
         if (null === $this->relatedEntities) {
             // Cache the related entities on the first pass.
             $eventManager = $this->serviceLocator->get('EventManager');
-            $event = new Event(Event::SQL_FILTER_RESOURCE_VISIBILITY, $this);
+            $event = new Event('sql_filter.resource_visibility', $this);
             $event->setParam('relatedEntities', []);
             $eventManager->triggerEvent($event);
             $this->relatedEntities = $event->getParam('relatedEntities');

@@ -163,7 +163,7 @@ class ManagerTest extends TestCase
         $mockEventManager = $this->getMock('Zend\EventManager\EventManager');
         $mockEventManager->expects($this->any())
             ->method('trigger')
-            ->with($this->isInstanceOf('Omeka\Event\Event'));
+            ->with($this->isInstanceOf('Zend\EventManager\Event'));
 
         // TestAdapter returned by the adapter manager
         $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');

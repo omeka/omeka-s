@@ -3,7 +3,7 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\ResourceInterface;
 use Omeka\Api\Adapter\AdapterInterface;
-use Omeka\Event\Event;
+use Zend\EventManager\Event;
 
 /**
  * Abstract API resource representation.
@@ -93,7 +93,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         ];
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs($args);
-        $eventManager->trigger(Event::REP_RESOURCE_JSON, $this, $args);
+        $eventManager->trigger('rep.resource.json', $this, $args);
         return $args['jsonLd'];
     }
 

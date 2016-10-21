@@ -4,9 +4,9 @@ namespace Omeka\Db\Event\Subscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvent;
-use Omeka\Event\Event as OmekaEvent;
 use Omeka\Entity\Resource as OmekaResource;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\Event as ZendEvent;
 
 /**
  * Entity event subscriber.
@@ -44,7 +44,7 @@ class Entity implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_REMOVE_PRE, $args);
+        $this->trigger('entity.remove.pre', $args);
     }
 
     /**
@@ -54,7 +54,7 @@ class Entity implements EventSubscriber
      */
     public function postRemove(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_REMOVE_POST, $args);
+        $this->trigger('entity.remove.post', $args);
     }
 
     /**
@@ -64,7 +64,7 @@ class Entity implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_PERSIST_PRE, $args);
+        $this->trigger('entity.persist.pre', $args);
     }
 
     /**
@@ -74,7 +74,7 @@ class Entity implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_PERSIST_POST, $args);
+        $this->trigger('entity.persist.post', $args);
     }
 
     /**
@@ -84,7 +84,7 @@ class Entity implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_UPDATE_PRE, $args);
+        $this->trigger('entity.update.pre', $args);
     }
 
     /**
@@ -94,7 +94,7 @@ class Entity implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        $this->trigger(OmekaEvent::ENTITY_UPDATE_POST, $args);
+        $this->trigger('entity.update.post', $args);
     }
 
     /**
@@ -112,7 +112,7 @@ class Entity implements EventSubscriber
             $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
-        $event = new OmekaEvent($eventName, $entity);
+        $event = new ZendEvent($eventName, $entity);
         $this->events->triggerEvent($event);
     }
 }

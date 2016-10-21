@@ -8,9 +8,9 @@ use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Entity\User;
-use Omeka\Event\Event;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Zend\EventManager\Event;
 
 /**
  * Abstract entity API adapter.
@@ -205,7 +205,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb->groupBy("$entityClass.id");
 
         // Trigger the search.query event.
-        $event = new Event(Event::API_SEARCH_QUERY, $this, [
+        $event = new Event('api.search.query', $this, [
             'queryBuilder' => $qb,
             'request' => $request,
         ]);
@@ -315,7 +315,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::READ);
-        $event = new Event(Event::API_FIND_POST, $this, [
+        $event = new Event('api.find.post', $this, [
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -370,7 +370,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->authorize($entity, Request::DELETE);
-        $event = new Event(Event::API_FIND_POST, $this, [
+        $event = new Event('api.find.post', $this, [
             'entity' => $entity,
             'request' => $request,
         ]);
@@ -399,7 +399,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->authorize($entity, $operation);
 
         // Trigger the operation's api.hydrate.pre event.
-        $event = new Event(Event::API_HYDRATE_PRE, $this, [
+        $event = new Event('api.hydrate.pre', $this, [
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -418,7 +418,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->hydrate($request, $entity, $errorStore);
 
         // Trigger the operation's api.hydrate.post event.
-        $event = new Event(Event::API_HYDRATE_POST, $this, [
+        $event = new Event('api.hydrate.post', $this, [
             'entity' => $entity,
             'request' => $request,
             'errorStore' => $errorStore,
@@ -485,7 +485,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
         $qb->setMaxResults(1);
 
-        $event = new Event(Event::API_FIND_QUERY, $this, [
+        $event = new Event('api.find.query', $this, [
             'queryBuilder' => $qb,
             'request' => $request,
         ]);

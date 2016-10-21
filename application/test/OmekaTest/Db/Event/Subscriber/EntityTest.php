@@ -30,7 +30,7 @@ class EntityTest extends TestCase
             ->with($this->equalTo(['Omeka\Db\Event\Subscriber\Entity']));
         $eventManager->expects($this->exactly(6))
             ->method('triggerEvent')
-            ->with($this->isInstanceOf('Omeka\Event\Event'));
+            ->with($this->isInstanceOf('Zend\EventManager\Event'));
         $entity = new Entity($eventManager);
 
         $eventArgs = $this->getMockBuilder('Doctrine\Common\Persistence\Event\LifecycleEventArgs')

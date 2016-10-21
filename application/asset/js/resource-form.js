@@ -31,6 +31,20 @@
             }
         });
 
+        $('input.value-language').on('keyup', function(e) {
+            var thisInput = $(this);
+            var languageTag = thisInput.val();
+            // @see http://stackoverflow.com/questions/7035825/regular-expression-for-a-language-tag-as-defined-by-bcp47
+            // Removes `[A-Za-z]{5,8}` from the "language" portion becuase,
+            // while in the spec, it does not represent current usage.
+            if ('' == languageTag
+                || languageTag.match(/^(((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+))$/)) {
+                thisInput.css('background-color', 'transparent');
+            } else {
+                thisInput.css('background-color', '#f1dada');
+            }
+        });
+
         // Make new value inputs whenever "add value" button clicked.
         $('#properties').on('click', '.add-value', function(e) {
             e.preventDefault();
@@ -71,13 +85,13 @@
             $(this).toggleClass('o-icon-lock').toggleClass('o-icon-unlock');
             var isOpenHiddenValue = $('input[name="o:is_open"]');
             if (isOpenHiddenValue.val() == 0) {
-                isOpenIcon.attr('aria-label', 'Close icon set');
-                isOpenIcon.attr('title', 'Close icon set');
+                isOpenIcon.attr('aria-label', Omeka.jsTranslate('Close item set'));
+                isOpenIcon.attr('title', Omeka.jsTranslate('Close item set'));
                 isOpenHiddenValue.attr('value', 1);
             } else {
                 isOpenHiddenValue.attr('value', 0);
-                isOpenIcon.attr('aria-label', 'Open icon set');
-                isOpenIcon.attr('title', 'Open icon set');
+                isOpenIcon.attr('aria-label', Omeka.jsTranslate('Open item set'));
+                isOpenIcon.attr('title', Omeka.jsTranslate('Open item set'));
             }
         });
 
@@ -220,7 +234,7 @@
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {
-                valueObj['display_title'] = '[Untitled]';
+                valueObj['display_title'] = Omeka.jsTranslate('[Untitled]');
             }
             resource.find('.o-title')
                 .removeClass() // remove all classes

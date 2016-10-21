@@ -2,10 +2,9 @@
 namespace Omeka;
 
 use Composer\Semver\Comparator;
-use Omeka\Event\Event as OmekaEvent;
 use Omeka\Module\AbstractModule;
 use Omeka\Session\SaveHandler\Db;
-use Zend\EventManager\Event;
+use Zend\EventManager\Event as ZendEvent;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Session\Config\SessionConfig;
@@ -21,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '0.8.3-alpha';
+    const VERSION = '0.8.4-alpha';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -71,43 +70,43 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             'Omeka\Entity\Media',
-            OmekaEvent::ENTITY_REMOVE_POST,
+            'entity.remove.post',
             [$this, 'deleteMediaFiles']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
-            OmekaEvent::REP_RESOURCE_JSON,
+            'rep.resource.json',
             [$this, 'filterHtmlMediaJsonLd']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
-            OmekaEvent::REP_RESOURCE_JSON,
+            'rep.resource.json',
             [$this, 'filterYoutubeMediaJsonLd']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
-            OmekaEvent::API_SEARCH_QUERY,
+            'api.search.query',
             [$this, 'filterMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
-            OmekaEvent::API_FIND_QUERY,
+            'api.find.query',
             [$this, 'filterMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SiteAdapter',
-            OmekaEvent::API_SEARCH_QUERY,
+            'api.search.query',
             [$this, 'filterSites']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SiteAdapter',
-            OmekaEvent::API_FIND_QUERY,
+            'api.find.query',
             [$this, 'filterSites']
         );
 
@@ -120,14 +119,14 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
-            OmekaEvent::API_CONTEXT,
+            'api.context',
             [$this, 'addTermDefinitionsToContext']
         );
 
         $sharedEventManager->attach(
             '*',
-            OmekaEvent::SQL_FILTER_RESOURCE_VISIBILITY,
-            function (OmekaEvent $event) {
+            'sql_filter.resource_visibility',
+            function (ZendEvent $event) {
                 // Users can view block attachments only if they have permission
                 // to view the attached item.
                 $relatedEntities = $event->getParam('relatedEntities');
@@ -147,7 +146,7 @@ class Module extends AbstractModule
             $sharedEventManager->attach(
                 $resource,
                 'view.show.after',
-                function (OmekaEvent $event) {
+                function (ZendEvent $event) {
                     $resource = $event->getTarget()->resource;
                     echo $resource->embeddedJsonLd();
                 }
@@ -155,7 +154,7 @@ class Module extends AbstractModule
             $sharedEventManager->attach(
                 $resource,
                 'view.browse.after',
-                function (OmekaEvent $event) {
+                function (ZendEvent $event) {
                     $resources = $event->getTarget()->resources;
                     foreach ($resources as $resource) {
                         echo $resource->embeddedJsonLd();
@@ -164,11 +163,10 @@ class Module extends AbstractModule
             );
         }
 
-
         $sharedEventManager->attach(
             '*',
             'view.advanced_search',
-            function (OmekaEvent $event) {
+            function (ZendEvent $event) {
                 if ('item' === $event->getParam('resourceType')) {
                     echo $event->getTarget()->partial('common/item-sets-advanced-search');
                 }
@@ -183,7 +181,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function addTermDefinitionsToContext(Event $event)
+    public function addTermDefinitionsToContext(ZendEvent $event)
     {
         $context = $event->getParam('context');
         $context[self::OMEKA_VOCABULARY_TERM] = self::OMEKA_VOCABULARY_IRI;
@@ -208,7 +206,7 @@ class Module extends AbstractModule
      * @param Event $event
      * @return bool
      */
-    public function navigationPageIsAllowed(Event $event)
+    public function navigationPageIsAllowed(ZendEvent $event)
     {
         $accepted = true;
         $params   = $event->getParams();
@@ -236,7 +234,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function deleteMediaFiles(Event $event)
+    public function deleteMediaFiles(ZendEvent $event)
     {
         $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $media = $event->getTarget();
@@ -255,7 +253,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function filterHtmlMediaJsonLd(Event $event)
+    public function filterHtmlMediaJsonLd(ZendEvent $event)
     {
         if ('html' !== $event->getTarget()->ingester()) {
             return;
@@ -273,7 +271,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function filterYoutubeMediaJsonLd(Event $event)
+    public function filterYoutubeMediaJsonLd(ZendEvent $event)
     {
         if ('youtube' !== $event->getTarget()->ingester()) {
             return;
@@ -302,7 +300,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function filterMedia(Event $event)
+    public function filterMedia(ZendEvent $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
@@ -337,7 +335,7 @@ class Module extends AbstractModule
      *
      * @param Event $event
      */
-    public function filterSites(Event $event)
+    public function filterSites(ZendEvent $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Site', 'view-all')) {

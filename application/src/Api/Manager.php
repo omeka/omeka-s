@@ -4,11 +4,11 @@ namespace Omeka\Api;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
 use Omeka\Api\Representation\RepresentationInterface;
-use Omeka\Event\Event;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Zend\EventManager\Event;
 
 /**
  * API manager service.
@@ -190,7 +190,7 @@ class Manager
             }
 
             // Trigger the api.execute.pre event.
-            $event = new Event(Event::API_EXECUTE_PRE, $adapter, [
+            $event = new Event('api.execute.pre', $adapter, [
                 'request' => $request,
             ]);
             $adapter->getEventManager()->triggerEvent($event);
@@ -265,7 +265,7 @@ class Manager
             $adapter->getEventManager()->triggerEvent($event);
 
             // Trigger the api.execute.post event.
-            $event = new Event(Event::API_EXECUTE_POST, $adapter, [
+            $event = new Event('api.execute.post', $adapter, [
                 'request' => $request,
                 'response' => $response,
             ]);
@@ -332,7 +332,7 @@ class Manager
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {
             $createRequest->setContent($content);
-            $createEvent = new Event(Event::API_CREATE_PRE, $adapter, [
+            $createEvent = new Event('api.create.pre', $adapter, [
                 'request' => $createRequest,
             ]);
             $adapter->getEventManager()->triggerEvent($createEvent);
@@ -349,7 +349,7 @@ class Manager
         // Trigger the create.post event for every created resource.
         foreach ($response->getContent() as $resource) {
             $createRequest->setContent($resource);
-            $createEvent = new Event(Event::API_CREATE_POST, $adapter, [
+            $createEvent = new Event('api.create.post', $adapter, [
                 'request' => $createRequest,
                 'response' => new Response($resource),
             ]);

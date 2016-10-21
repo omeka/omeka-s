@@ -13,6 +13,7 @@ class UserForm extends Form
         'include_role' => false,
         'include_admin_roles' => false,
         'include_is_active' => false,
+        'current_password' => false,
     ];
 
     /**
@@ -28,6 +29,18 @@ class UserForm extends Form
     public function init()
     {
         $this->add([
+            'name' => 'user-information',
+            'type' => 'fieldset'
+        ]);
+        $this->add([
+            'name' => 'change-password',
+            'type' => 'fieldset'
+        ]);
+        $this->add([
+            'name' => 'edit-keys',
+            'type' => 'fieldset'
+        ]);
+        $this->get('user-information')->add([
             'name' => 'o:email',
             'type' => 'Email',
             'options' => [
@@ -35,10 +48,10 @@ class UserForm extends Form
             ],
             'attributes' => [
                 'id' => 'email',
-                'required' => true,
+                'class' => 'required'
             ],
         ]);
-        $this->add([
+        $this->get('user-information')->add([
             'name' => 'o:name',
             'type' => 'Text',
             'options' => [
@@ -53,7 +66,7 @@ class UserForm extends Form
         if ($this->getOption('include_role')) {
             $excludeAdminRoles = !$this->getOption('include_admin_roles');
             $roles = $this->getAcl()->getRoleLabels($excludeAdminRoles);
-            $this->add([
+            $this->get('user-information')->add([
                 'name' => 'o:role',
                 'type' => 'select',
                 'options' => [
@@ -68,7 +81,7 @@ class UserForm extends Form
         }
 
         if ($this->getOption('include_is_active')) {
-            $this->add([
+            $this->get('user-information')->add([
                 'name' => 'o:is_active',
                 'type' => 'checkbox',
                 'options' => [
@@ -79,6 +92,90 @@ class UserForm extends Form
                 ],
             ]);
         }
+        if ($this->getOption('current_password')){
+            $this->get('change-password')->add([
+                'name' => 'current-password',
+                'type' => 'password',
+                'options' => [
+                    'label' => 'Current Password', // @translate
+                ],
+            ]);
+        }
+
+        $this->get('change-password')->add([
+            'name' => 'password',
+            'type' => 'Password',
+            'options' => [
+                'label' => 'New Password', // @translate
+            ],
+            'attributes' => [
+                'id' => 'password',
+            ],
+        ]);
+
+        $this->get('change-password')->add([
+            'name' => 'password-confirm',
+            'type' => 'Password',
+            'options' => [
+                'label' => 'Confirm New Password', // @translate
+            ],
+            'attributes' => [
+                'id' => 'password-confirm',
+            ],
+        ]);
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->get('change-password')->add([
+            'name' => 'password',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => 'StringLength',
+                    'options' => [
+                        'min' => 6,
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->get('change-password')->add([
+            'name' => 'password',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => 'Identical',
+                    'options' => [
+                        'token' => 'password-confirm',
+                        'messages' => [
+                            'notSame' => 'Password confirmation must match new password', // @translate
+                        ]
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->get('edit-keys')->add([
+            'name' => 'new-key-label',
+            'type' => 'Text',
+            'options' => [
+                'label' => 'New Key Label', // @translate
+            ],
+            'attributes' => [
+                'id' => 'new-key-label',
+            ],
+        ]);
+
+        $inputFilter->get('edit-keys')->add([
+            'name' => 'new-key-label',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => 'StringLength',
+                    'options' => [
+                        'max' => 255,
+                    ],
+                ],
+            ],
+        ]);
     }
 
     /**

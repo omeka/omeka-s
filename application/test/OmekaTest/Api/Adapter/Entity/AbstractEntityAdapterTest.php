@@ -55,7 +55,7 @@ class AbstractEntityAdapterTest extends TestCase
         $eventManager = $this->getMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->exactly(2))
             ->method('triggerEvent')
-            ->with($this->isInstanceOf('Omeka\Event\Event'));
+            ->with($this->isInstanceOf('Zend\EventManager\Event'));
 
         $serviceManager = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,

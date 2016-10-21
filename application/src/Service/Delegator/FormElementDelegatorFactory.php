@@ -17,6 +17,8 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addType('ckeditor', 'formCkeditor');
         $formElement->addType('ckeditor_inline', 'formCkeditorInline');
         $formElement->addType('restore_textarea', 'formRestoreTextarea');
+        $formElement->addType('color_picker', 'formColorPicker');
+        $formElement->addClass('Omeka\Form\Element\Asset', 'formAsset');
         return $formElement;
     }
 }

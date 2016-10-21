@@ -49,5 +49,6 @@ $formElement = $this->plugin('formElement');
     <h3><?php echo $this->translate('Add a New Key'); ?></h3>
     <?php echo $this->formCollection($form->get('edit-keys'), false); ?>
 </fieldset>
+<?php $this->trigger('view.edit.after', array('form' => $form)); ?>
  <?php echo $formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>

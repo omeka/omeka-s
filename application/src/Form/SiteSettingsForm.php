@@ -2,9 +2,9 @@
 namespace Omeka\Form;
 
 use Omeka\Settings\SiteSettings;
-use Omeka\Event\Event;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
 
 class SiteSettingsForm extends Form
 {
@@ -44,13 +44,13 @@ class SiteSettingsForm extends Form
             ]
         ]);
 
-        $addEvent = new Event(Event::ADD_ELEMENTS, $this, ['form' => $this]);
+        $addEvent = new Event('add.elements', $this, ['form' => $this]);
         $this->getEventManager()->triggerEvent($addEvent);
 
         // Separate events because calling $form->getInputFilters()
         // resets everythhing
         $inputFilter = $this->getInputFilter();
-        $filterEvent = new Event(Event::ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $filterEvent = new Event('add.input.filters', $this, ['form' => $this, 'inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);
     }
 

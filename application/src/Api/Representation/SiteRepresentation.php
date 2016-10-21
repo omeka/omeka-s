@@ -70,6 +70,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:is_public' => $this->isPublic(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
+            'o:site_item_set' => $this->siteItemSets(),
         ];
     }
 
@@ -170,6 +171,20 @@ class SiteRepresentation extends AbstractEntityRepresentation
                 $sitePermission, $this->getServiceLocator());
         }
         return $sitePermissions;
+    }
+
+    /**
+     * Return the item sets assigned to this site.
+     *
+     * @return array
+     */
+    public function siteItemSets()
+    {
+        $itemSets = [];
+        foreach ($this->resource->getSiteItemSets() as $itemSet) {
+            $itemSets[]= new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
+        }
+        return $itemSets;
     }
 
     /**

@@ -197,7 +197,7 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function itemPoolAction()
+    public function resourcesAction()
     {
         $site = $this->currentSite();
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
@@ -205,11 +205,14 @@ class IndexController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            if (!isset($formData['o:site_item_set'])) {
+                $formData['o:site_item_set'] = [];
+            }
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Item pool successfully updated'); // @translate
+                    $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
             } else {
@@ -217,12 +220,24 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $itemsResponse = $this->api()->search('items', ['limit' => 0, 'site_id' => $site->id()]);
+        $itemCount = $this->api()
+            ->search('items', ['limit' => 0, 'site_id' => $site->id()])
+            ->getTotalResults();
+        $itemSets = [];
+        foreach ($site->siteItemSets() as $siteItemSet) {
+            $itemSet = $siteItemSet->itemSet();
+            $itemSets[] = [
+                'id' => $itemSet->id(),
+                'title' => $itemSet->displayTitle(),
+                'email' => $itemSet->owner()->email(),
+            ];
+        }
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
-        $view->setVariable('itemCount', $itemsResponse->getTotalResults());
+        $view->setVariable('itemCount', $itemCount);
+        $view->setVariable('itemSets', $itemSets);
         return $view;
     }
 

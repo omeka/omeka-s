@@ -85,11 +85,23 @@ class Site extends AbstractEntity
      */
     protected $sitePermissions;
 
+    /**
+     * @OneToMany(
+     *     targetEntity="SiteItemSet",
+     *     mappedBy="site",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     * @OrderBy({"position" = "ASC"})
+     */
+    protected $siteItemSets;
+
     public function __construct()
     {
         $this->siteItems = new ArrayCollection;
         $this->pages = new ArrayCollection;
         $this->sitePermissions = new ArrayCollection;
+        $this->siteItemSets = new ArrayCollection;
     }
 
     public function getId()
@@ -195,6 +207,11 @@ class Site extends AbstractEntity
     public function getSitePermissions()
     {
         return $this->sitePermissions;
+    }
+
+    public function getSiteItemSets()
+    {
+        return $this->siteItemSets;
     }
 
     /**

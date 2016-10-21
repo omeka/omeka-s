@@ -184,10 +184,10 @@ return [
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Item Pool', // @translate
-                'class'         => 'item-pool',
+                'label'         => 'Resources', // @translate
+                'class'         => 'resources',
                 'route'         => 'admin/site/slug/action',
-                'action'        => 'item-pool',
+                'action'        => 'resources',
                 'privilege'     => 'update',
                 'useRouteMatch' => true
             ],

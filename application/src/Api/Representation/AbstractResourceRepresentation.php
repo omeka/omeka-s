@@ -3,7 +3,6 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\ResourceInterface;
 use Omeka\Api\Adapter\AdapterInterface;
-use Zend\EventManager\Event;
 
 /**
  * Abstract API resource representation.

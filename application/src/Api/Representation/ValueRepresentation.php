@@ -3,7 +3,6 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\Event;
 
 class ValueRepresentation extends AbstractRepresentation
 {

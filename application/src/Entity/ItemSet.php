@@ -25,9 +25,15 @@ class ItemSet extends Resource
      */
     protected $items;
 
+    /**
+     * @OneToMany(targetEntity="SiteItemSet", mappedBy="itemSet")
+     */
+    protected $siteItemSets;
+
     public function __construct() {
         parent::__construct();
         $this->items = new ArrayCollection;
+        $this->siteItemSets = new ArrayCollection;
     }
 
     public function getResourceName()
@@ -53,5 +59,10 @@ class ItemSet extends Resource
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function getSiteItemSets()
+    {
+        return $this->siteItemSets;
     }
 }

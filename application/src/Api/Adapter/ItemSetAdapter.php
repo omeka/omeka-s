@@ -70,6 +70,25 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 $qb->andWhere($expr);
             }
         }
+
+        if (isset($query['site_id'])) {
+            $siteAdapter = $this->getAdapter('sites');
+            try {
+                $site = $siteAdapter->findEntity($query['site_id']);
+            } catch (Exception\NotFoundException $e) {
+                $site = null;
+            }
+            $siteItemSetsAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\ItemSet.siteItemSets',
+                $siteItemSetsAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteItemSetsAlias.site",
+                $this->createNamedParameter($qb, $query['site_id']))
+            );
+            $qb->addOrderBy("$siteItemSetsAlias.position", 'ASC');
+        }
     }
 
     /**

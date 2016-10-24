@@ -344,6 +344,7 @@ return [
             'modules'            => 'Omeka\Api\Adapter\ModuleAdapter',
             'sites'              => 'Omeka\Api\Adapter\SiteAdapter',
             'site_pages'         => 'Omeka\Api\Adapter\SitePageAdapter',
+            'site_item_sets'     => 'Omeka\Api\Adapter\SiteItemSetAdapter',
             'jobs'               => 'Omeka\Api\Adapter\JobAdapter',
             'resources'          => 'Omeka\Api\Adapter\ResourceAdapter',
             'assets'             => 'Omeka\Api\Adapter\AssetAdapter',

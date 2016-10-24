@@ -184,10 +184,10 @@ return [
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Item Pool', // @translate
-                'class'         => 'item-pool',
+                'label'         => 'Resources', // @translate
+                'class'         => 'resources',
                 'route'         => 'admin/site/slug/action',
-                'action'        => 'item-pool',
+                'action'        => 'resources',
                 'privilege'     => 'update',
                 'useRouteMatch' => true
             ],
@@ -200,7 +200,7 @@ return [
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Theme', // @translate
+                'label'         => 'Theme Settings', // @translate
                 'class'         => 'theme',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'theme',

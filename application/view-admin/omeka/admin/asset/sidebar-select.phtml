@@ -5,10 +5,10 @@ $escape = $this->plugin('escapeHtml');
 
 <h3><?php echo $this->translate('Upload New Asset'); ?></h3>
 <form class="asset-upload" method="post" enctype="multipart/form-data" action="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'add'])); ?>">
-    <input type="file" name="file" required>
+    <input type="file" name="file" accept="image/jpeg,image/png,image/gif" required>
     <button type="submit"><?php echo $this->translate('Upload'); ?></button>
+    <ul class="errors"></ul>
 </form>
-
 
 <h3><?php echo $this->translate('Select Asset'); ?></h3>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>

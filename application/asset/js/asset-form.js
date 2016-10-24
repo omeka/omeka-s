@@ -27,16 +27,23 @@
         });
 
         $('#content').on('submit', '.asset-upload', function (e) {
+            var form = $(this);
             e.preventDefault();
             $.post({
-                url: $(this).attr('action'),
+                url: form.attr('action'),
                 data: new FormData(this),
                 contentType: false,
                 processData: false
             }).done(function () {
                 Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));
-            }).fail(function () {
-                console.log('oops');
+            }).fail(function (jqXHR) {
+                var errorList = form.find('ul.errors');
+                errorList.empty();
+                $.each(JSON.parse(jqXHR.responseText), function () {
+                    errorList.append($('<li>', {
+                        text: this
+                    }));
+                })
             });
         });
     });

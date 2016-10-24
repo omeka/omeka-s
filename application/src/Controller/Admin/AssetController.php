@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
@@ -21,18 +23,28 @@ class AssetController extends AbstractActionController
     public function addAction()
     {
         $httpResponse = $this->getResponse();
-        $httpResponse->getHeaders()->addHeaderLine('Content-Type', 'text/plain');
+        $httpResponse->getHeaders()->addHeaderLine('Content-Type', 'application/json');
         if ($this->getRequest()->isPost()) {
             $fileData = $this->getRequest()->getFiles()->toArray();
             $response = $this->api()->create('assets', [], $fileData);
             if ($response->isSuccess()) {
-                $httpResponse->setContent('Success!');
+                $httpResponse->setContent(json_encode([]));
             } else {
-                $httpResponse->setContent(json_encode($response->getErrorStore()->getErrors()));
-                $httpResponse->setStatusCode(500);
+                $errors = [];
+                $iterator = new RecursiveIteratorIterator(
+                    new RecursiveArrayIterator(
+                        $response->getErrorStore()->getErrors(),
+                        RecursiveArrayIterator::CHILD_ARRAYS_ONLY
+                    )
+                );
+                foreach ($iterator as $error) {
+                    $errors[] = $this->translate($error);
+                }
+                $httpResponse->setContent(json_encode($errors));
+                $httpResponse->setStatusCode(422);
             }
         } else {
-            $httpResponse->setContent('Asset uploads must be POSTed.');
+            $httpResponse->setContent(json_encode([$this->translate('Asset uploads must be POSTed.')]));
             $httpResponse->setStatusCode(405);
         }
 

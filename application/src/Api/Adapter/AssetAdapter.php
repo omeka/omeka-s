@@ -4,11 +4,14 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 use Zend\Filter\File\RenameUpload;
 use Zend\InputFilter\FileInput;
 
 class AssetAdapter extends AbstractEntityAdapter
 {
+    const ALLOWED_MEDIA_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
+
     /**
      * {@inheritDoc}
      */
@@ -77,6 +80,15 @@ class AssetAdapter extends AbstractEntityAdapter
             }
             $fileInput->getValue();
             $file->setSourceName($fileData['name']);
+            $mediaType = $file->getMediaType();
+
+            if (!in_array($mediaType, self::ALLOWED_MEDIA_TYPES)) {
+                $errorStore->addError('file', new Message(
+                    'Cannot store assets with the media type "%s".', // @translate
+                    $mediaType
+                ));
+                return;
+            }
 
             $storageId = $file->getStorageId();
             $extension = $fileManager->getExtension($file);
@@ -99,6 +111,11 @@ class AssetAdapter extends AbstractEntityAdapter
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
+        // Don't add this name error if we have any other errors already
+        if ($errorStore->hasErrors()) {
+            return;
+        }
+
         $name = $entity->getName();
         if (!is_string($name) || $name === '') {
             $errorStore->addError('o:name', 'An asset must have a name.');

@@ -3,9 +3,13 @@ namespace Omeka\Form;
 
 use Omeka\Permissions\Acl;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
 
 class UserForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var array
      */

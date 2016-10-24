@@ -3,9 +3,14 @@ namespace Omeka\Form;
 
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
+
 
 class SiteForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var ThemeManager
      */
@@ -53,6 +58,16 @@ class SiteForm extends Form
                 'required' => true,
             ],
         ]);
+
+        $event = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($event);
+
+        $inputFilter = $this->getInputFilter();
+
+        // Separate events because calling $form->getInputFilters()
+        // resets everythhing
+        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($event);
     }
 
     /**

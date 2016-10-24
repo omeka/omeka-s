@@ -200,7 +200,7 @@ return [
                 'useRouteMatch' => true
             ],
             [
-                'label'         => 'Theme', // @translate
+                'label'         => 'Theme Settings', // @translate
                 'class'         => 'theme',
                 'route'         => 'admin/site/slug/action',
                 'action'        => 'theme',

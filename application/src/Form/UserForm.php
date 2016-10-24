@@ -124,6 +124,20 @@ class UserForm extends Form
             ],
         ]);
 
+        $this->get('edit-keys')->add([
+            'name' => 'new-key-label',
+            'type' => 'Text',
+            'options' => [
+                'label' => 'New Key Label', // @translate
+            ],
+            'attributes' => [
+                'id' => 'new-key-label',
+            ],
+        ]);
+
+        $event = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($event);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->get('change-password')->add([
             'name' => 'password',
@@ -153,16 +167,7 @@ class UserForm extends Form
             ],
         ]);
 
-        $this->get('edit-keys')->add([
-            'name' => 'new-key-label',
-            'type' => 'Text',
-            'options' => [
-                'label' => 'New Key Label', // @translate
-            ],
-            'attributes' => [
-                'id' => 'new-key-label',
-            ],
-        ]);
+
 
         $inputFilter->get('edit-keys')->add([
             'name' => 'new-key-label',
@@ -176,6 +181,11 @@ class UserForm extends Form
                 ],
             ],
         ]);
+
+        // Separate events because calling $form->getInputFilters()
+        // resets everythhing
+        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($event);
     }
 
     /**

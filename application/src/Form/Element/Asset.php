@@ -19,7 +19,7 @@ class Asset extends Element implements InputProviderInterface
             'validators' => [
                 [
                     'name' => 'Regex',
-                    'options' => ['pattern' => '/^[0-9]$/'],
+                    'options' => ['pattern' => '/^[0-9]+$/'],
                 ]
             ]
         ];

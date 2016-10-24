@@ -1,15 +1,22 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
+$asset = null;
+$value = $element->getValue();
+if ($value) {
+    try {
+        $response = $this->api()->read('assets', $value);
+        $asset = $response->getContent();
+    } catch (Omeka\Api\Exception\NotFoundException $e) {
+        $element->setValue(null);
+    }
+}
 ?>
-<div class="asset-form-element<?php if (!$element->getValue()) echo ' empty'; ?>">
+<div class="asset-form-element<?php if (!$asset) echo ' empty'; ?>">
     <span class="selected-asset">
     <?php
-    if ($element->getValue()):
-        $response = $this->api()->read('assets', $element->getValue());
-        if ($response):
-            echo $response->getContent()->name();
-        endif;
-    endif;
+    if ($asset) {
+        echo $asset->name();
+    }
     ?>
     </span>
     <span class="no-selected-asset">

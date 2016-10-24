@@ -177,7 +177,7 @@ class SettingForm extends Form
             ->setRestoreValue(implode(',', FileManager::EXTENSION_WHITELIST));
         $this->add($extensionWhitelist);
 
-        $event = new Event('add.elements', $this, ['form' => $this]);
+        $event = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($event);
 
         $inputFilter = $this->getInputFilter();
@@ -235,7 +235,7 @@ class SettingForm extends Form
         ]);
         // Separate events because calling $form->getInputFilters()
         // resets everythhing
-        $event = new Event('add.input.filters', $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }
 

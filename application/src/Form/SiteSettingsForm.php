@@ -44,13 +44,13 @@ class SiteSettingsForm extends Form
             ]
         ]);
 
-        $addEvent = new Event('add.elements', $this, ['form' => $this]);
+        $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
         // Separate events because calling $form->getInputFilters()
         // resets everythhing
         $inputFilter = $this->getInputFilter();
-        $filterEvent = new Event('add.input.filters', $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);
     }
 

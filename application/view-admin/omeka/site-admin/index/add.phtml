@@ -18,7 +18,7 @@ $sectionNavs = [
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
 
-<?php echo $this->sectionNav($sectionNavs); ?>
+<?php echo $this->sectionNav($sectionNavs, 'view.add.section_nav'); ?>
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
 <fieldset id="admin" class="section active" aria-labelledby="admin-label">
     <?php echo $this->formCollection($form, false); ?>

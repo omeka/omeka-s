@@ -14,7 +14,7 @@ $formElement = $this->plugin('formElement');
 <div id="page-actions">
     <button type="submit"><?php echo $this->translate('Save'); ?></button>
 </div>
-<?php echo $this->sectionNav($sectionNavs); ?>
+<?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav' ); ?>
 <?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
 <fieldset id="user-information" class="section active">
     <?php echo $this->formCollection($form->get('user-information'), false); ?>

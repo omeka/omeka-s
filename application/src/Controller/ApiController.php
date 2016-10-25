@@ -46,7 +46,7 @@ class ApiController extends AbstractRestfulController
     {
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['context' => []]);
-        $eventManager->trigger(new Event(Event::API_CONTEXT, null, $args));
+        $eventManager->triggerEvent(new Event(Event::API_CONTEXT, null, $args));
         return new ApiJsonModel($args['context'], $this->getViewOptions());
     }
 

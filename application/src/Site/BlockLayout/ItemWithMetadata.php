@@ -23,36 +23,11 @@ class ItemWithMetadata extends AbstractBlockLayout
     {
         $attachments = $block->attachments();
         if (!$attachments) {
-            return 'foo';
+            return 'No item selected'; // @translate
         }
 
-        $html = '';
-        foreach($attachments as $attachment) {
-            $item = $attachment->item();
-            $html .= $item->displayValues();
-            if($item->itemSets()) {
-                $html .= '<div class="property">';
-                    $html .= '<h4>' . $view->translate('Item Sets') . '</h4>';
-
-                    foreach ($item->itemSets() as $itemSet) {
-                        $html .= '<div class="value"><a href="' . $view->escapeHtml(($itemSet->url())) . '">' . $itemSet->displayTitle() . '</a></div>';
-                    }
-                $html .= '</div>';
-            }
-        }
-
-        if($item->media()) {
-            $html .= '<div class="media-list">';
-
-            foreach ($item->media() as $media) {
-                $html .= '<a href="' . $media->url() . '" class="media resource">';
-                $html .= '<img src="' . $view->escapeHtml(($media->thumbnailUrl('square'))) . '" alt="">';
-                $html .= '<span class="media-title">' . $view->escapeHtml(($media->displayTitle())) . '</span>';
-                $html .= '</a>';
-            }
-        }
-
-        $html .= '</div>';
-        return $html;
+        return $view->partial('common/block-layout/item-with-metadata', array(
+            'attachments' => $attachments,
+        ));
     }
 }

@@ -13,3 +13,4 @@ $propertyAltComment = $escape($resourceTemplateProperty->alternateComment());
     <div class="comment"><?php echo ($propertyAltComment) ? $propertyAltComment : $property->comment(); ?></div>
 </div>
 <?php endforeach; ?>
+<?php $this->trigger('view.details', array('entity' => $resource)); ?>

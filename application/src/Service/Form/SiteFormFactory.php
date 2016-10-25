@@ -11,6 +11,7 @@ class SiteFormFactory implements FactoryInterface
     {
         $form = new SiteForm;
         $form->setThemeManager($services->get('Omeka\Site\ThemeManager'));
+        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

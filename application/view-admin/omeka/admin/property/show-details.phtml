@@ -11,3 +11,4 @@
     <h4><?php echo $this->translate('Comment'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($this->translate($property->comment())); ?></div>
 </div>
+<?php $this->trigger('view.details', array('entity' => $property)); ?>

@@ -16,7 +16,7 @@ $this->plugin('formRow')->setPartial(null);
         <?php endforeach; ?>
     </select>
 </form>
-
+<?php $this->trigger('view.browse.before'); ?>
 <?php if ($modules): ?>
 <div id="modules">
         <?php foreach ($modules as $id => $module): ?>

@@ -3,9 +3,13 @@ namespace Omeka\Form;
 
 use Omeka\Permissions\Acl;
 use Zend\Form\Form;
+use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
 
 class UserForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var array
      */
@@ -125,8 +129,29 @@ class UserForm extends Form
                     'id' => 'password-confirm',
                 ],
             ]);
+        }
 
-            $inputFilter = $this->getInputFilter();
+        if ($this->getOption('include_key')) {
+            $this->get('edit-keys')->add([
+                'name' => 'new-key-label',
+                'type' => 'Text',
+                'options' => [
+                    'label' => 'New Key Label', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'new-key-label',
+                ],
+            ]);
+
+        }
+
+        $addEvent = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($addEvent);
+
+        // separate input filter stuff so that the event work right
+        $inputFilter = $this->getInputFilter();
+
+        if ($this->getOption('include_password')) {
             $inputFilter->get('change-password')->add([
                 'name' => 'password',
                 'required' => false,
@@ -156,18 +181,7 @@ class UserForm extends Form
             ]);
         }
 
-
         if ($this->getOption('include_key')) {
-            $this->get('edit-keys')->add([
-                'name' => 'new-key-label',
-                'type' => 'Text',
-                'options' => [
-                    'label' => 'New Key Label', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'new-key-label',
-                ],
-            ]);
             $inputFilter->get('edit-keys')->add([
                 'name' => 'new-key-label',
                 'required' => false,
@@ -181,6 +195,9 @@ class UserForm extends Form
                 ],
             ]);
         }
+
+        $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($filterEvent);
     }
 
     /**

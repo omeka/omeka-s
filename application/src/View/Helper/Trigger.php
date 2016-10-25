@@ -1,10 +1,10 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Event\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\PluginManager as ControllerPluginManager;
 use Zend\View\Helper\AbstractHelper;
+use Zend\EventManager\Event;
 
 class Trigger extends AbstractHelper
 {

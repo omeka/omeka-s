@@ -15,4 +15,5 @@
         <h4><?php echo $this->translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $resource->id()]])); ?></div>
     </div>
+    <?php $this->trigger('view.details', array('entity' => $resource)); ?>
 </div>

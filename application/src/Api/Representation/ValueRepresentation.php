@@ -3,7 +3,6 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Omeka\Event\Event;
 
 class ValueRepresentation extends AbstractRepresentation
 {
@@ -53,7 +52,7 @@ class ValueRepresentation extends AbstractRepresentation
         $args = $eventManager->prepareArgs([
             'html' => $this->dataType->render($view, $this),
         ]);
-        $eventManager->trigger(Event::REP_VALUE_HTML, $this, $args);
+        $eventManager->trigger('rep.value.html', $this, $args);
         return $args['html'];
     }
 

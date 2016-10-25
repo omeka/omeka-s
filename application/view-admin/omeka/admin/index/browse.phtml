@@ -5,8 +5,10 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
 
 <div id="dashboard">
     <p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
+    <?php $this->trigger('view.browse.before'); ?>
     <div id="manage-resources" class="panel">
         <h2><?php echo $this->translate('Manage Resources'); ?></h2>
+        <?php $this->trigger('view.manage_resources.before'); ?>
         <div class="items resource row">
             <?php echo $this->hyperlink(sprintf($this->translate('Items (%s)'), $itemCount), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
@@ -31,11 +33,12 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
             <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'resource-template', 'action' => 'add']), ['class' => 'add button', 'title' => $this->translate('Add new resource template')]); ?>
             <?php endif; ?>
         </div>
-        <?php $this->trigger('view.manage-resources.after'); ?>
+        <?php $this->trigger('view.manage_resources.after'); ?>
     </div>
 
     <div id="manage-sites" class="panel">
         <h2><?php echo $this->translate('Manage Sites'); ?></h2>
+        <?php $this->trigger('view.manage_sites.before'); ?>
         <?php foreach ($sites as $site): ?>
         <div class="site row">
             <span class="site-name"><a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a></span>
@@ -47,9 +50,9 @@ echo $this->pageTitle($this->translate('Admin Dashboard'));
         <?php if ($this->userIsAllowed('Omeka\Api\Adapter\SiteAdapter', 'create')): ?>
         <?php echo $this->hyperlink($this->translate('Add site'), $this->url('admin/site/add'), ['class' => 'add button']); ?>
         <?php endif; ?>
+    <?php $this->trigger('view.manage_sites.after'); ?>
     </div>
-    <?php $this->trigger('view.manage-sites.after'); ?>
-
+<?php $this->trigger('view.browse.after'); ?>
 </div>
 
-<?php $this->trigger('view.browse.after'); ?>
+

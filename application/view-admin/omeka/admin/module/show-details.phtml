@@ -1,2 +1,3 @@
 <h3 class="o-title"><?php echo $this->escapeHtml($module->getName()); ?></h3>
 <div class="o-description"><?php echo $this->escapeHtml($module->getIni('description')); ?></div>
+<?php $this->trigger('view.details', array('entity' => $module)); ?>

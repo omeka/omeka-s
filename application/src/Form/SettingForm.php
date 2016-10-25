@@ -2,13 +2,13 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
-use Omeka\Event\Event;
 use Omeka\File\Manager as FileManager;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
 
 class SettingForm extends Form
 {
@@ -177,9 +177,8 @@ class SettingForm extends Form
             ->setRestoreValue(implode(',', FileManager::EXTENSION_WHITELIST));
         $this->add($extensionWhitelist);
 
-        $event = new Event(Event::GLOBAL_SETTINGS_ADD_ELEMENTS, $this, ['form' => $this]);
-        $this->getEventManager()->triggerEvent($event);
-
+        $event = new Event('form.add_elements', $this);
+        $triggerResult = $this->getEventManager()->triggerEvent($event);
         $inputFilter = $this->getInputFilter();
 
         $inputFilter->add([
@@ -235,7 +234,7 @@ class SettingForm extends Form
         ]);
         // Separate events because calling $form->getInputFilters()
         // resets everythhing
-        $event = new Event(Event::GLOBAL_SETTINGS_ADD_INPUT_FILTERS, $this, ['form' => $this, 'inputFilter' => $inputFilter]);
+        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }
 

@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\ServiceManager;
 
-use Omeka\Event\Event;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\AbstractPluginManager as ZendAbstractPluginManager;
+use Zend\EventManager\Event;
 
 abstract class AbstractPluginManager extends ZendAbstractPluginManager
 {
@@ -49,7 +49,7 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,
         ]);
-        $this->getEventManager()->trigger(Event::SERVICE_REGISTERED_NAMES, $this, $args);
+        $this->getEventManager()->trigger('service.registered_names', $this, $args);
         return $args['registered_names'];
     }
 }

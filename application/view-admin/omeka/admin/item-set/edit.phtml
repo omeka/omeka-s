@@ -9,7 +9,7 @@ var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 </script>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Item Set: “%s”'), $itemSet->displayTitle())); ?>
-
+<?php $this->trigger('view.edit.before'); ?>
 <?php
 echo $this->partial('omeka/admin/item-set/form.phtml', [
     'form' => $form,
@@ -17,6 +17,7 @@ echo $this->partial('omeka/admin/item-set/form.phtml', [
     'submitLabel' => $this->translate('Save'),
     'deleteButton' => $deleteButton,
     'sectionNavEvent' => 'view.edit.section_nav',
+    'action' => 'edit',
 ]);
 ?>
 

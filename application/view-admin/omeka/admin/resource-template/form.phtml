@@ -13,7 +13,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
     <?php endif; ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
-
+<?php $this->trigger("view.$action.form.before"); ?>
 <?php echo $this->formCollection($form, false); ?>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
@@ -29,7 +29,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
     ) ?>
     <?php endforeach; ?>
 </ul>
-
+<?php $this->trigger("view.$action.form.after"); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->propertySelector(); ?>

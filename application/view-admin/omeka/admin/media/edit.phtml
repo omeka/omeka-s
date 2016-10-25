@@ -21,11 +21,11 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Edit Media: “%s”'), $media->displayTitle())); ?>
-
+<?php $this->trigger('view.edit.before'); ?>
 <form method='post' id='edit-media'>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav'); ?>
-
+<?php $this->trigger('view.edit.form.before'); ?>
     <?php
         //produces a <fieldset> with the id and class atts passed in.
         //on, e.g., the item add/edit pages, the id will work with the classes on
@@ -61,6 +61,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
     </div>
+    <?php $this->trigger('view.edit.form.after'); ?>
     <?php echo $this->formElement($form->get('csrf')); ?>
 </form>
 

@@ -42,7 +42,7 @@ class UserController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $response = $this->api($form)->create('users', $formData);
+                $response = $this->api($form)->create('users', $formData['user-information']);
                 if ($response->isSuccess()) {
                     $user = $response->getContent()->getEntity();
                     $this->mailer()->sendUserActivation($user);
@@ -129,6 +129,8 @@ class UserController extends AbstractActionController
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
             'current_password' => $currentUser,
+            'include_password' => true,
+            'include_key' => true,
         ]);
         $form->setAttribute('action', $this->getRequest()->getRequestUri());
 

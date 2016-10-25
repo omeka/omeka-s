@@ -3472,10 +3472,19 @@ body.minimal {
 
 .asset-upload {
     overflow: hidden;
-}
 
-.asset-upload button {
-    margin: $spacing-small 0 $spacing-large;
+    button {
+        margin: $spacing-small 0 $spacing-large;
+    }
+
+    ul.errors {
+        color: $red;
+        margin-top: 0;
+
+        &:empty {
+            display: none;
+        }
+    }
 }
 
 .asset-list .asset {

@@ -12,7 +12,7 @@ $sectionNavs = [
 <?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->sectionNav($sectionNavs, $sectionNavEvent); ?>
-<?php $this->trigger("view.$action.form.before"); ?>
+<?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
 <?php
 //produces a <fieldset> with the id and class atts passed in.
 //on, e.g., the item add/edit pages, the id will work with the classes on
@@ -61,7 +61,7 @@ echo $this->partial(
         <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
         <input type="submit" name="add-item-set-submit" value="<?php echo $this->translate('Save'); ?>">
     </div>
-    <?php $this->trigger("view.$action.form.after"); ?>
+    <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
 <?php echo $formElement($form->get('csrf')); ?>
 </form>
 

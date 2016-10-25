@@ -14,6 +14,8 @@ class UserForm extends Form
         'include_admin_roles' => false,
         'include_is_active' => false,
         'current_password' => false,
+        'include_password' => false,
+        'include_key' => false,
     ];
 
     /**
@@ -48,7 +50,7 @@ class UserForm extends Form
             ],
             'attributes' => [
                 'id' => 'email',
-                'class' => 'required'
+                'required' => true,
             ],
         ]);
         $this->get('user-information')->add([
@@ -92,90 +94,93 @@ class UserForm extends Form
                 ],
             ]);
         }
-        if ($this->getOption('current_password')){
-            $this->get('change-password')->add([
-                'name' => 'current-password',
-                'type' => 'password',
+
+        if ($this->getOption('include_password')) {
+            if ($this->getOption('current_password')){
+                $this->get('change-password')->add([
+                    'name' => 'current-password',
+                    'type' => 'password',
+                    'options' => [
+                        'label' => 'Current Password', // @translate
+                    ],
+                ]);
+            }
+           $this->get('change-password')->add([
+                'name' => 'password',
+                'type' => 'Password',
                 'options' => [
-                    'label' => 'Current Password', // @translate
+                    'label' => 'New Password', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'password',
+                ],
+            ]);
+            $this->get('change-password')->add([
+                'name' => 'password-confirm',
+                'type' => 'Password',
+                'options' => [
+                    'label' => 'Confirm New Password', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'password-confirm',
+                ],
+            ]);
+
+            $inputFilter = $this->getInputFilter();
+            $inputFilter->get('change-password')->add([
+                'name' => 'password',
+                'required' => false,
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'min' => 6,
+                        ],
+                    ],
+                ],
+            ]);
+            $inputFilter->get('change-password')->add([
+                'name' => 'password',
+                'required' => false,
+                'validators' => [
+                    [
+                        'name' => 'Identical',
+                        'options' => [
+                            'token' => 'password-confirm',
+                            'messages' => [
+                                'notSame' => 'Password confirmation must match new password', // @translate
+                            ]
+                        ],
+                    ],
                 ],
             ]);
         }
 
-        $this->get('change-password')->add([
-            'name' => 'password',
-            'type' => 'Password',
-            'options' => [
-                'label' => 'New Password', // @translate
-            ],
-            'attributes' => [
-                'id' => 'password',
-            ],
-        ]);
 
-        $this->get('change-password')->add([
-            'name' => 'password-confirm',
-            'type' => 'Password',
-            'options' => [
-                'label' => 'Confirm New Password', // @translate
-            ],
-            'attributes' => [
-                'id' => 'password-confirm',
-            ],
-        ]);
-
-        $inputFilter = $this->getInputFilter();
-        $inputFilter->get('change-password')->add([
-            'name' => 'password',
-            'required' => false,
-            'validators' => [
-                [
-                    'name' => 'StringLength',
-                    'options' => [
-                        'min' => 6,
+        if ($this->getOption('include_key')) {
+            $this->get('edit-keys')->add([
+                'name' => 'new-key-label',
+                'type' => 'Text',
+                'options' => [
+                    'label' => 'New Key Label', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'new-key-label',
+                ],
+            ]);
+            $inputFilter->get('edit-keys')->add([
+                'name' => 'new-key-label',
+                'required' => false,
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'max' => 255,
+                        ],
                     ],
                 ],
-            ],
-        ]);
-        $inputFilter->get('change-password')->add([
-            'name' => 'password',
-            'required' => false,
-            'validators' => [
-                [
-                    'name' => 'Identical',
-                    'options' => [
-                        'token' => 'password-confirm',
-                        'messages' => [
-                            'notSame' => 'Password confirmation must match new password', // @translate
-                        ]
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->get('edit-keys')->add([
-            'name' => 'new-key-label',
-            'type' => 'Text',
-            'options' => [
-                'label' => 'New Key Label', // @translate
-            ],
-            'attributes' => [
-                'id' => 'new-key-label',
-            ],
-        ]);
-
-        $inputFilter->get('edit-keys')->add([
-            'name' => 'new-key-label',
-            'required' => false,
-            'validators' => [
-                [
-                    'name' => 'StringLength',
-                    'options' => [
-                        'max' => 255,
-                    ],
-                ],
-            ],
-        ]);
+            ]);
+        }
     }
 
     /**

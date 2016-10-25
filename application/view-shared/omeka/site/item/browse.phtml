@@ -15,7 +15,7 @@ endif;
         <div class="metadata">
             <?php echo $itemSet->displayValues(); ?>
         </div>
-        <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
+        <?php echo '<h3>' . $escape($this->translate('Items')) . '</h3>'; ?>
     <?php else: ?>
         <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
     <?php endif; ?>

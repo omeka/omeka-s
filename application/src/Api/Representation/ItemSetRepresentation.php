@@ -24,8 +24,18 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function getResourceJsonLd()
     {
+        $url = $this->getViewHelper('Url');
+        $itemsUrl = $url(
+            'api/default',
+            ['resource' => 'items'],
+            [
+                'force_canonical' => true,
+                'query' => ['item_set_id' => $this->id()],
+            ]
+        );
         return [
             'o:is_open' => $this->isOpen(),
+            'o:items' => ['@id' => $itemsUrl],
         ];
     }
 

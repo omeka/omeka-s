@@ -10,6 +10,32 @@ return [
                 'route'      => 'admin/site',
                 'resource'   => 'Omeka\Controller\SiteAdmin\Index',
                 'privilege'  => 'index',
+                'pages' => [
+                    [
+                        'route' => 'admin/site',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/add',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/slug',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/slug/page',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/slug/action',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/slug/page/default',
+                        'visible' => false,
+                    ],
+                ],
             ],
         ],
         'AdminResource' => [
@@ -24,6 +50,11 @@ return [
                 'pages' => [
                     [
                         'route'      => 'admin/id',
+                        'controller' => 'item',
+                        'visible'    => false,
+                    ],
+                    [
+                        'route'      => 'admin/default',
                         'controller' => 'item',
                         'visible'    => false,
                     ]
@@ -42,6 +73,11 @@ return [
                         'route'      => 'admin/id',
                         'controller' => 'item-set',
                         'visible'    => false,
+                    ],
+                    [
+                        'route'      => 'admin/default',
+                        'controller' => 'item-set',
+                        'visible'    => false,
                     ]
                 ],
             ],
@@ -56,6 +92,11 @@ return [
                 'pages' => [
                     [
                         'route'      => 'admin/id',
+                        'controller' => 'vocabulary',
+                        'visible'    => false,
+                    ],
+                    [
+                        'route'      => 'admin/default',
                         'controller' => 'vocabulary',
                         'visible'    => false,
                     ],
@@ -95,6 +136,11 @@ return [
                 'pages' => [
                     [
                         'route'      => 'admin/id',
+                        'controller' => 'user',
+                        'visible'    => false,
+                    ],
+                    [
+                        'route'      => 'admin/default',
                         'controller' => 'user',
                         'visible'    => false,
                     ],

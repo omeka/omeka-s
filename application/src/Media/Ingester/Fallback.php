@@ -22,10 +22,9 @@ class Fallback implements IngesterInterface
     /**
      * @param string $name
      */
-    public function __construct($name, TranslatorInterface $translator)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->translator = $translator;
     }
 
     /**
@@ -33,7 +32,7 @@ class Fallback implements IngesterInterface
      */
     public function getLabel()
     {
-        return sprintf('%s [%s]', $this->translator->translate('Unknown'), $this->name);
+        return sprintf('%s [%s]', 'Unknown', $this->name); // @translate
     }
 
     /**

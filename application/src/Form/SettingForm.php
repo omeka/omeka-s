@@ -178,8 +178,7 @@ class SettingForm extends Form
         $this->add($extensionWhitelist);
 
         $event = new Event('form.add_elements', $this);
-        $this->getEventManager()->triggerEvent($event);
-
+        $triggerResult = $this->getEventManager()->triggerEvent($event);
         $inputFilter = $this->getInputFilter();
 
         $inputFilter->add([

@@ -60,7 +60,7 @@ class SiteForm extends Form
         ]);
 
         $event = new Event('form.add_elements', $this);
-        $this->getEventManager()->triggerEvent($event);
+        $triggerResult = $this->getEventManager()->triggerEvent($event);
 
         $inputFilter = $this->getInputFilter();
 
@@ -68,6 +68,7 @@ class SiteForm extends Form
         // resets everythhing
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
+        
     }
 
     /**

@@ -11,6 +11,7 @@ class ResourceFormFactory implements FactoryInterface
     {
         $form = new ResourceForm;
         $form->setUrlHelper($services->get('ViewHelperManager')->get('Url'));
+        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

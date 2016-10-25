@@ -5,9 +5,13 @@ use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Zend\Form\Form;
 use Zend\View\Helper\Url;
+use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\Event;
 
 class ResourceForm extends Form
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var Url
      */
@@ -50,6 +54,9 @@ class ResourceForm extends Form
             ],
         ]);
 
+        $addEvent = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($addEvent);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:resource_template[o:id]',
@@ -59,6 +66,9 @@ class ResourceForm extends Form
             'name' => 'o:resource_class[o:id]',
             'required' => false,
         ]);
+
+        $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($filterEvent);
     }
 
     /**

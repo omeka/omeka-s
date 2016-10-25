@@ -6,7 +6,6 @@ use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\Event;
 
-
 class SiteForm extends Form
 {
     use EventManagerAwareTrait;
@@ -68,7 +67,6 @@ class SiteForm extends Form
         // resets everythhing
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
-        
     }
 
     /**

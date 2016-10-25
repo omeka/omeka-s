@@ -11,6 +11,7 @@ class UserFormFactory implements FactoryInterface
     {
         $form = new UserForm(null, $options);
         $form->setAcl($services->get('Omeka\Acl'));
+        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

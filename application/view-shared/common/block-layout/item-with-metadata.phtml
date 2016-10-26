@@ -5,7 +5,7 @@
     <?php echo $item->displayValues(); ?>
     <?php if($item->itemSets()): ?>
         <div class="property">
-            <h4><?php $this->translate('Item Sets'); ?></h4>
+            <h4><?php echo $this->translate('Item Sets'); ?></h4>
             <?php foreach ($item->itemSets() as $itemSet): ?>
             <div class="value"><a href="<?php echo $this->escapeHtml(($itemSet->url())); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
             <?php endforeach; ?>

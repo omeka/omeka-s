@@ -132,14 +132,14 @@
             var errors = [];
 
             // Iterate all required properties.
-            var requiredProps = thisForm.find('fieldset.resource-values.required');
+            var requiredProps = thisForm.find('.resource-values.required');
             requiredProps.each(function() {
 
                 var thisProp = $(this);
                 var propIsCompleted = false;
 
                 // Iterate all values for this required property.
-                var requiredValues = $(this).find('fieldset.value').not('.delete');
+                var requiredValues = $(this).find('.value').not('.delete');
                 requiredValues.each(function() {
 
                     var thisValue = $(this);
@@ -352,11 +352,11 @@
     var rewritePropertyFields = function(changeClass) {
 
         // Fieldsets may have been marked as required in a previous state.
-        $('fieldset.field').removeClass('required');
+        $('.field').removeClass('required');
 
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
-        var fields = $('#properties fieldset.resource-values');
+        var fields = $('#properties .resource-values');
         if (!templateId) {
             // Using the default resource template, so all properties should use the default
             // selector.

@@ -163,7 +163,7 @@
                 });
                 if (!propIsCompleted) {
                     // No completed values found for this required property.
-                    var propLabel = thisProp.find('legend.field-label').text();
+                    var propLabel = thisProp.find('.field-label').text();
                     errors.push('The following field is required: ' + propLabel);
                 }
             });

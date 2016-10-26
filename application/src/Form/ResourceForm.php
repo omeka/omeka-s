@@ -20,6 +20,7 @@ class ResourceForm extends Form
     public function init()
     {
         $urlHelper = $this->getUrlHelper();
+        $this->setAttribute('class', 'resource-form');
         $this->add([
             'name' => 'o:resource_template[o:id]',
             'type' => ResourceSelect::class,

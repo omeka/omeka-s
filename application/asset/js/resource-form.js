@@ -126,7 +126,7 @@
         });
 
         // Handle validation for required properties.
-        $('#add-item,#edit-item').on('submit', function(e) {
+        $('form.resource-form').on('submit', function(e) {
 
             var thisForm = $(this);
             var errors = [];

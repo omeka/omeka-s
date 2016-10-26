@@ -12,7 +12,7 @@ new Sortable(propertyList[0], {
 $('#property-selector .selector-child').click(function(event) {
     event.preventDefault();
     var propertyId = $(this).closest('li').data('property-id');
-    if ($('#properties tbody tr[data-property-id="' + propertyId + '"]').length) {
+    if ($('#properties li[data-property-id="' + propertyId + '"]').length) {
         // Resource templates cannot be assigned duplicate properties.
         return;
     }

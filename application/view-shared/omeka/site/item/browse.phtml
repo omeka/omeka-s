@@ -1,8 +1,12 @@
-<?php $escape = $this->plugin('escapeHtml');?>
-<?php $this->htmlElement('body')->appendAttribute('class', 'item resource browse'); ?>
-<?php if (isset($itemSet)): ?>
-<?php $this->htmlElement('body')->appendAttribute('class', 'item-set'); ?>
-<?php endif; ?>
+<?php
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item resource browse');
+$query = $this->params()->fromQuery();
+if (isset($itemSet)):
+    $this->htmlElement('body')->appendAttribute('class', 'item-set');
+    $query['item_set_id'] = $itemSet->id();
+endif;
+?>
 
 <div id="content" role="main">
     <?php if (isset($itemSet)): ?>
@@ -11,13 +15,13 @@
         <div class="metadata">
             <?php echo $itemSet->displayValues(); ?>
         </div>
-        <?php echo $this->pageTitle($this->translate('Items'), 3); ?>
+        <?php echo '<h3>' . $escape($this->translate('Items')) . '</h3>'; ?>
     <?php else: ?>
         <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
     <?php endif; ?>
 
     <?php echo $this->searchFilters(); ?>
-    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->pagination(); ?>
     <?php $this->trigger('view.browse.before'); ?>
     <ul class="resource-list">

@@ -308,6 +308,9 @@
             singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
             singleSelector.show();
 
+            // Remove any unchanged default values for this property so we start fresh.
+            field.find('.value.default-value').remove();
+
             // Add an empty value if none already exist in the property.
             if (!field.find('.value').length) {
                 field.find('.values').append(makeNewValue(
@@ -399,15 +402,23 @@
             });
     }
 
+    var makeDefaultValue = function (term, type) {
+        return makeNewValue(term, null, type)
+            .addClass('default-value')
+            .one('change', '*', function (event) {
+                $(event.delegateTarget).removeClass('default-value');
+            });
+    };
+
     /**
      * Initialize the page.
      */
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title').find('.values')
-                .append(makeNewValue('dcterms:title', null, 'literal'));
+                .append(makeDefaultValue('dcterms:title', 'literal'));
             makeNewField('dcterms:description').find('.values')
-                .append(makeNewValue('dcterms:description', null, 'literal'));
+                .append(makeDefaultValue('dcterms:description', 'literal'));
         } else {
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);

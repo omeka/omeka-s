@@ -83,7 +83,8 @@ class Messenger extends AbstractPlugin
                 $this->addFormErrors($elementOrFieldset);
             } else {
                 foreach ($elementOrFieldset->getMessages() as $message) {
-                    $this->addError(sprintf('%s: %s', $elementOrFieldset->getLabel(), $message));
+                    $label = $this->getController()->translate($elementOrFieldset->getLabel());
+                    $this->addError(sprintf('%s: %s', $label, $message));
                 }
             }
         }

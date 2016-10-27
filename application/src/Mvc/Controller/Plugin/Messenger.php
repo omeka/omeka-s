@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
+use Zend\Form;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\Session\Container;
 
@@ -32,25 +33,24 @@ class Messenger extends AbstractPlugin
      *
      * @param string $type
      * @param string $message
-     * @param string $key
+     * @param array $args
      */
-    public function add($type, $message, $key = null)
+    public function add($type, $message)
     {
         if (!isset($this->container->messages)) {
             $this->container->messages = [];
         }
-        $this->container->messages[$type][] = [$message, $key];
+        $this->container->messages[$type][] = $message;
     }
 
     /**
      * Add an error message.
      *
      * @param string $message
-     * @param string $key
      */
-    public function addError($message, $key = null)
+    public function addError($message)
     {
-        $this->add(self::ERROR, $message, $key);
+        $this->add(self::ERROR, $message);
     }
 
     /**
@@ -71,13 +71,21 @@ class Messenger extends AbstractPlugin
         }
     }
 
-    public function addFormErrors(\Zend\Form\Form $form)
+    /**
+     * Add form errors.
+     *
+     * @param Form\Element $form
+     */
+    public function addFormErrors(Form\Element $form)
     {
-        $allMessages = $form->getMessages();
-        foreach ($allMessages as $elementName => $messages) {
-            $elementLabel = $form->get($elementName)->getLabel();
-            foreach ($messages as $message) {
-                $this->addError($message, $elementLabel);
+        foreach ($form->getElements() as $element) {
+            if ($element instanceof Form\Fieldset) {
+                $this->addFormErrors($element);
+            } else {
+                $label = $element->getLabel();
+                foreach ($element->getMessages() as $message) {
+                    $this->addError(sprintf('%s: %s', $element->getLabel(), $message));
+                }
             }
         }
     }

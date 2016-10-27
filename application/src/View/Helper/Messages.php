@@ -53,11 +53,6 @@ class Messages extends AbstractHelper
                     $class = 'notice';
             }
             foreach ($messages as $message) {
-                $key = null;
-                if (is_array($message)) {
-                    $key = $message[1];
-                    $message = $message[0];
-                }
                 $escapeHtml = true; // escape HTML by default
                 if ($message instanceof Message) {
                     $escapeHtml = $message->escapeHtml();
@@ -66,11 +61,7 @@ class Messages extends AbstractHelper
                 if ($escapeHtml) {
                     $message = $view->escapeHtml($message);
                 }
-                if ($key) {
-                    $output .= sprintf('<li class="%s">%s: %s</li>', $class, $key, $message);
-                } else {
-                    $output .= sprintf('<li class="%s">%s</li>', $class, $message);
-                }
+                $output .= sprintf('<li class="%s">%s</li>', $class, $message);
             }
         }
         $output .= '</ul>';

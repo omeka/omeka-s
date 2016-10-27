@@ -31,7 +31,7 @@ class PageController extends AbstractActionController
                     return $this->redirect()->toUrl($page->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -95,7 +95,7 @@ class PageController extends AbstractActionController
                     $this->messenger()->addSuccess('Page successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute(

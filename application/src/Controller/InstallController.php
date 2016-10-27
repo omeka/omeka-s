@@ -58,7 +58,7 @@ class InstallController extends AbstractActionController
                     }
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         } else {
             if (!$this->installer->preInstall()) {

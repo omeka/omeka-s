@@ -58,7 +58,7 @@ class UserController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -224,7 +224,7 @@ class UserController extends AbstractActionController
                 }
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $view;
@@ -241,7 +241,7 @@ class UserController extends AbstractActionController
                     $this->messenger()->addSuccess('User successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute(

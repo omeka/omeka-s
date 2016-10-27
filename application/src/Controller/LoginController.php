@@ -63,7 +63,7 @@ class LoginController extends AbstractActionController
                     $this->messenger()->addError('Email or password is invalid'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 

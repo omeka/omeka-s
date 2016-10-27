@@ -82,7 +82,6 @@ class Messenger extends AbstractPlugin
             if ($element instanceof Form\Fieldset) {
                 $this->addFormErrors($element);
             } else {
-                $label = $element->getLabel();
                 foreach ($element->getMessages() as $message) {
                     $this->addError(sprintf('%s: %s', $element->getLabel(), $message));
                 }

@@ -63,7 +63,7 @@ class IndexController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -90,7 +90,7 @@ class IndexController extends AbstractActionController
                     return $this->redirect()->toUrl($site->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -129,7 +129,7 @@ class IndexController extends AbstractActionController
                 $this->messenger()->addSuccess('Settings successfully updated'); // @translate
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -159,7 +159,7 @@ class IndexController extends AbstractActionController
                     );
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -186,7 +186,7 @@ class IndexController extends AbstractActionController
                     return $this->redirect()->refresh();
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -216,7 +216,7 @@ class IndexController extends AbstractActionController
                     return $this->redirect()->refresh();
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -256,7 +256,7 @@ class IndexController extends AbstractActionController
                     return $this->redirect()->refresh();
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -307,7 +307,7 @@ class IndexController extends AbstractActionController
                 $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         $view->setVariable('form', $form);
@@ -325,7 +325,7 @@ class IndexController extends AbstractActionController
                     $this->messenger()->addSuccess('Site successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute('admin/site');

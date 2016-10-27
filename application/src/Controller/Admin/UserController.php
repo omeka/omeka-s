@@ -224,7 +224,7 @@ class UserController extends AbstractActionController
                 }
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $view;

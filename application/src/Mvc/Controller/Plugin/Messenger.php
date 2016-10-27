@@ -32,24 +32,25 @@ class Messenger extends AbstractPlugin
      *
      * @param string $type
      * @param string $message
-     * @param array $args
+     * @param string $key
      */
-    public function add($type, $message)
+    public function add($type, $message, $key = null)
     {
         if (!isset($this->container->messages)) {
             $this->container->messages = [];
         }
-        $this->container->messages[$type][] = $message;
+        $this->container->messages[$type][] = [$message, $key];
     }
 
     /**
      * Add an error message.
      *
      * @param string $message
+     * @param string $key
      */
-    public function addError($message)
+    public function addError($message, $key = null)
     {
-        $this->add(self::ERROR, $message);
+        $this->add(self::ERROR, $message, $key);
     }
 
     /**
@@ -66,6 +67,17 @@ class Messenger extends AbstractPlugin
                 $this->addErrors($message);
             } else {
                 $this->addError($message);
+            }
+        }
+    }
+
+    public function addFormErrors(\Zend\Form\Form $form)
+    {
+        $allMessages = $form->getMessages();
+        foreach ($allMessages as $elementName => $messages) {
+            $elementLabel = $form->get($elementName)->getLabel();
+            foreach ($messages as $message) {
+                $this->addError($message, $elementLabel);
             }
         }
     }

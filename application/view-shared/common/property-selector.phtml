@@ -8,7 +8,7 @@ $escape = $this->plugin('escapeHtml');
     <?php else: ?>
     <h3><?php echo $this->translate('Click on a property to add it to the edit panel.'); ?></h3>
     <?php endif; ?>
-    <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter properties'); // @translate ?>">
+    <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter properties'); ?>">
     <ul class="selectable-list">
         <?php foreach ($vocabularies as $vocabulary): ?>
         <?php

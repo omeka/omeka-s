@@ -31,7 +31,7 @@ class SettingController extends AbstractActionController
                 $this->messenger()->addSuccess('Settings successfully updated'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 

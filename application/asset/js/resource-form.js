@@ -126,20 +126,20 @@
         });
 
         // Handle validation for required properties.
-        $('#add-item,#edit-item').on('submit', function(e) {
+        $('form.resource-form').on('submit', function(e) {
 
             var thisForm = $(this);
             var errors = [];
 
             // Iterate all required properties.
-            var requiredProps = thisForm.find('fieldset.resource-values.required');
+            var requiredProps = thisForm.find('.resource-values.required');
             requiredProps.each(function() {
 
                 var thisProp = $(this);
                 var propIsCompleted = false;
 
                 // Iterate all values for this required property.
-                var requiredValues = $(this).find('fieldset.value').not('.delete');
+                var requiredValues = $(this).find('.value').not('.delete');
                 requiredValues.each(function() {
 
                     var thisValue = $(this);
@@ -163,7 +163,7 @@
                 });
                 if (!propIsCompleted) {
                     // No completed values found for this required property.
-                    var propLabel = thisProp.find('legend.field-label').text();
+                    var propLabel = thisProp.find('.field-label').text();
                     errors.push('The following field is required: ' + propLabel);
                 }
             });
@@ -308,6 +308,9 @@
             singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
             singleSelector.show();
 
+            // Remove any unchanged default values for this property so we start fresh.
+            field.find('.value.default-value').remove();
+
             // Add an empty value if none already exist in the property.
             if (!field.find('.value').length) {
                 field.find('.values').append(makeNewValue(
@@ -352,11 +355,11 @@
     var rewritePropertyFields = function(changeClass) {
 
         // Fieldsets may have been marked as required in a previous state.
-        $('fieldset.field').removeClass('required');
+        $('.field').removeClass('required');
 
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
-        var fields = $('#properties fieldset.resource-values');
+        var fields = $('#properties .resource-values');
         if (!templateId) {
             // Using the default resource template, so all properties should use the default
             // selector.
@@ -399,15 +402,23 @@
             });
     }
 
+    var makeDefaultValue = function (term, type) {
+        return makeNewValue(term, null, type)
+            .addClass('default-value')
+            .one('change', '*', function (event) {
+                $(event.delegateTarget).removeClass('default-value');
+            });
+    };
+
     /**
      * Initialize the page.
      */
     var initPage = function() {
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title').find('.values')
-                .append(makeNewValue('dcterms:title', null, 'literal'));
+                .append(makeDefaultValue('dcterms:title', 'literal'));
             makeNewField('dcterms:description').find('.values')
-                .append(makeNewValue('dcterms:description', null, 'literal'));
+                .append(makeDefaultValue('dcterms:description', 'literal'));
         } else {
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);

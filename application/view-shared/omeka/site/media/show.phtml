@@ -1,10 +1,8 @@
 <?php $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
 
-<div id="content" role="main">
-    <?php echo $this->pageTitle($media->displayTitle(), 2); ?>
-    <h3><?php echo $this->translate('Media'); ?></h3>
-    <?php $this->trigger('view.show.before'); ?>
-    <?php echo $media->render(); ?>
-    <?php echo $media->displayValues(); ?>
-    <?php $this->trigger('view.show.after'); ?>
-</div>
+<?php echo $this->pageTitle($media->displayTitle(), 2); ?>
+<h3><?php echo $this->translate('Media'); ?></h3>
+<?php $this->trigger('view.show.before'); ?>
+<?php echo $media->render(); ?>
+<?php echo $media->displayValues(); ?>
+<?php $this->trigger('view.show.after'); ?>

@@ -45,7 +45,7 @@ class MediaController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -110,7 +110,7 @@ class MediaController extends AbstractActionController
                     $this->messenger()->addSuccess('Media successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute(

@@ -157,6 +157,9 @@ class Manager
             $t = $this->translator;
 
             // Validate the request.
+            if (null === $request->getResource() || '' === $request->getResource()) {
+                throw new Exception\BadRequestException($t->translate('The API request must include a resource. None given'));
+            }
             if (!$request->isValidOperation($request->getOperation())) {
                 throw new Exception\BadRequestException(sprintf(
                     $t->translate('The API does not support the "%1$s" request operation.'),

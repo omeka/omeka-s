@@ -58,7 +58,7 @@ class UserController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -178,13 +178,26 @@ class UserController extends AbstractActionController
                     $userEntity->setPassword($passwordValues['password']);
                     $successMessages[] = 'Password successfully changed'; // @translate
                 }
+
+                $keyPersisted = false;
                 if (!empty($values['edit-keys']['new-key-label']) || !empty($postData['delete'])) {
                     if (!$this->userIsAllowed($userEntity, 'edit-keys')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to edit API keys'
                         );
                     }
-                    $this->addKey($userEntity, $values['edit-keys']['new-key-label'], $successMessages);
+
+                    // Create a new API key.
+                    if (!empty($values['edit-keys']['new-key-label'])) {
+                        $key = new ApiKey;
+                        $key->setId();
+                        $key->setLabel($values['edit-keys']['new-key-label']);
+                        $key->setOwner($userEntity);
+                        $keyId = $key->getId();
+                        $keyCredential = $key->setCredential();
+                        $this->entityManager->persist($key);
+                        $keyPersisted = true;
+                    }
 
                     // Remove any keys marked for deletion
                     if (!empty($postData['delete']) && is_array($postData['delete'])) {
@@ -196,12 +209,22 @@ class UserController extends AbstractActionController
                 }
 
                 $this->entityManager->flush();
+
+                if ($keyPersisted) {
+                    $message = new Message(sprintf(
+                        'API key successfully created.<br><br>Here is your key ID and credential for access to the API. WARNING: "key_credential" will be unretrievable after you navigate away from this page.<br><br>key_identity: <code>%s</code><br>key_credential: <code>%s</code>', // @translate
+                        $keyId, $keyCredential
+                    ));
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addWarning($message);
+                }
+
                 foreach ($successMessages as $message) {
                     $this->messenger()->addSuccess($message);
                 }
                 return $this->redirect()->refresh();
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $view;
@@ -218,7 +241,7 @@ class UserController extends AbstractActionController
                     $this->messenger()->addSuccess('User successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute(
@@ -226,23 +249,5 @@ class UserController extends AbstractActionController
             ['action' => 'browse'],
             true
         );
-    }
-
-    private function addKey($user, $label, &$successMessages)
-    {
-        if (empty($label)) {
-            return;
-        }
-
-        $key = new ApiKey;
-        $key->setId();
-        $key->setLabel($label);
-        $key->setOwner($user);
-        $id = $key->getId();
-        $credential = $key->setCredential();
-        $this->entityManager->persist($key);
-
-        $successMessages[] = 'Key created.'; // @translate
-        $successMessages[] = new Message('ID: %s, Credential: %s', $id, $credential); // @translate
     }
 }

@@ -128,7 +128,7 @@ class ResourceTemplateController extends AbstractActionController
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 

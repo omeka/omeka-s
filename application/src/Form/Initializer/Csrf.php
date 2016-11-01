@@ -20,6 +20,7 @@ class Csrf implements InitializerInterface
             'type' => 'csrf',
             'name' => $name ? $name . '_csrf' : 'csrf',
             'options' => [
+                'label' => 'CSRF',
                 'csrf_options' => [
                     'timeout' => 3600,
                 ],

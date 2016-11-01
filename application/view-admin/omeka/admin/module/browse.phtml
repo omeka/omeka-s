@@ -38,7 +38,7 @@ $this->plugin('formRow')->setPartial(null);
                 <?php endif; ?>
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author">
-                    <?php if ($moduleLink = $module->getIni('module_link')): ?>
+                    <?php if ($moduleLink = $module->getIni('author_link')): ?>
                     <?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
                     <?php else: ?>
                     <?php echo sprintf($this->translate('by %s'), $author); ?>
@@ -123,6 +123,16 @@ $this->plugin('formRow')->setPartial(null);
                     echo $this->form($form);
                 }
                 ?>
+
+                <?php if ($module->getState() === Manager::STATE_INVALID_MODULE): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid Module.php file'); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_INVALID_INI): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid config/module.ini file'); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid omeka_version_constraint'); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_NOT_FOUND): ?>
+                <span class="error"><?php echo $this->translate('Error: module in database but not in filesystem'); ?></span>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>

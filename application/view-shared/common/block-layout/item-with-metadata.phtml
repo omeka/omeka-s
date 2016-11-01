@@ -1,0 +1,25 @@
+<div class="item-with-metadata">
+<?php foreach($attachments as $attachment): ?>
+    <div class="resource show">
+    <?php $item = $attachment->item(); ?>
+    <?php echo $item->displayValues(); ?>
+    <?php if($item->itemSets()): ?>
+        <div class="property">
+            <h4><?php echo $this->translate('Item Sets'); ?></h4>
+            <?php foreach ($item->itemSets() as $itemSet): ?>
+            <div class="value"><a href="<?php echo $this->escapeHtml(($itemSet->url())); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <?php if($item->media()): ?>
+        <div class="media-list">
+        <?php foreach ($item->media() as $media): ?>
+                <a href="<?php echo $media->url(); ?>" class="media resource">
+                <img src="<?php echo $this->escapeHtml(($media->thumbnailUrl('medium'))); ?>" title="<?php echo $this->escapeHtml(($media->displayTitle())); ?>">
+                </a>
+        <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+</div>

@@ -64,6 +64,9 @@ return [
                                 'controller' => 'Item',
                                 'action'     => 'browse',
                             ],
+                            'constraints' => [
+                                'item-set-id' => '\d+',
+                            ]
                         ],
                     ],
                     'page' => [

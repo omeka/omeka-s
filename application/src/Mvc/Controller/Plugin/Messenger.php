@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
+use Zend\Form\Fieldset;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\Session\Container;
 
@@ -66,6 +67,25 @@ class Messenger extends AbstractPlugin
                 $this->addErrors($message);
             } else {
                 $this->addError($message);
+            }
+        }
+    }
+
+    /**
+     * Add form errors.
+     *
+     * @param Fieldset $formOrFieldset
+     */
+    public function addFormErrors(Fieldset $formOrFieldset)
+    {
+        foreach ($formOrFieldset->getIterator() as $elementOrFieldset) {
+            if ($elementOrFieldset instanceof Fieldset) {
+                $this->addFormErrors($elementOrFieldset);
+            } else {
+                foreach ($elementOrFieldset->getMessages() as $message) {
+                    $label = $this->getController()->translate($elementOrFieldset->getLabel());
+                    $this->addError(sprintf('%s: %s', $label, $message));
+                }
             }
         }
     }

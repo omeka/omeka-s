@@ -94,7 +94,7 @@ class VocabularyController extends AbstractActionController
                     $this->messenger()->addError($e->getMessage());
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -129,7 +129,7 @@ class VocabularyController extends AbstractActionController
                     return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
 
@@ -150,7 +150,7 @@ class VocabularyController extends AbstractActionController
                     $this->messenger()->addSuccess('Vocabulary successfully deleted'); // @translate
                 }
             } else {
-                $this->messenger()->addErrors($form->getMessages());
+                $this->messenger()->addFormErrors($form);
             }
         }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);

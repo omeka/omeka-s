@@ -123,6 +123,19 @@ $this->plugin('formRow')->setPartial(null);
                     echo $this->form($form);
                 }
                 ?>
+
+                <?php if ($module->getState() === Manager::STATE_INVALID_MODULE): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid Module.php file'); ?></span>
+                <?php endif; ?>
+                <?php if ($module->getState() === Manager::STATE_INVALID_INI): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid config/module.ini file'); ?></span>
+                <?php endif; ?>
+                <?php if ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid omeka_version_constraint'); ?></span>
+                <?php endif; ?>
+                <?php if ($module->getState() === Manager::STATE_NOT_FOUND): ?>
+                <span class="error"><?php echo $this->translate('Error: module in database but not in filesystem'); ?></span>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>

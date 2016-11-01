@@ -21,7 +21,18 @@ class SettingForm extends Form
 
     public function init()
     {
+        // General fieldset
+
         $this->add([
+            'type' => 'fieldset',
+            'name' => 'general',
+            'options' => [
+                'label' => 'General', // @translate
+            ],
+        ]);
+        $generalFieldset = $this->get('general');
+
+        $generalFieldset->add([
             'name' => 'administrator_email',
             'type' => 'Email',
             'options' => [
@@ -33,7 +44,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $this->add([
+        $generalFieldset->add([
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
@@ -48,7 +59,7 @@ class SettingForm extends Form
 
         $timeZones = DateTimeZone::listIdentifiers();
         $timeZones = array_combine($timeZones, $timeZones);
-        $this->add([
+        $generalFieldset->add([
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
@@ -62,7 +73,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $this->add([
+        $generalFieldset->add([
             'name' => 'pagination_per_page',
             'type' => 'Text',
             'options' => [
@@ -75,7 +86,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $this->add([
+        $generalFieldset->add([
             'name' => 'property_label_information',
             'type' => 'Select',
             'options' => [
@@ -92,7 +103,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $this->add([
+        $generalFieldset->add([
             'name' => 'default_site',
             'type' => ResourceSelect::class,
             'options' => [
@@ -113,7 +124,18 @@ class SettingForm extends Form
             ],
         ]);
 
+        // Security fieldset
+
         $this->add([
+            'type' => 'fieldset',
+            'name' => 'security',
+            'options' => [
+                'label' => 'Security', // @translate
+            ],
+        ]);
+        $securityFieldset = $this->get('security');
+
+        $securityFieldset->add([
             'name'    => 'use_htmlpurifier',
             'type'    => 'Checkbox',
             'options' => [
@@ -125,28 +147,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $this->add([
-            'type' => 'text',
-            'name' => 'recaptcha_site_key',
-            'options' => [
-                'label' => 'reCAPTCHA site key', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->settings->get('recaptcha_site_key'),
-            ],
-        ]);
-        $this->add([
-            'type' => 'text',
-            'name' => 'recaptcha_secret_key',
-            'options' => [
-                'label' => 'reCAPTCHA secret key', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->settings->get('recaptcha_secret_key'),
-            ],
-        ]);
-
-        $this->add([
+        $securityFieldset->add([
             'type' => 'checkbox',
             'name' => 'disable_file_validation',
             'options' => [
@@ -165,7 +166,7 @@ class SettingForm extends Form
             ->setRestoreButtonText('Restore default media types')
             ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
             ->setRestoreValue(implode(',', FileManager::MEDIA_TYPE_WHITELIST));
-        $this->add($mediaTypeWhitelist);
+        $securityFieldset->add($mediaTypeWhitelist);
 
         $extensionWhitelist = new RestoreTextarea('extension_whitelist');
         $extensionWhitelist
@@ -175,13 +176,38 @@ class SettingForm extends Form
             ->setRestoreButtonText('Restore default extensions')
             ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
             ->setRestoreValue(implode(',', FileManager::EXTENSION_WHITELIST));
-        $this->add($extensionWhitelist);
+        $securityFieldset->add($extensionWhitelist);
+
+        $securityFieldset->add([
+            'type' => 'text',
+            'name' => 'recaptcha_site_key',
+            'options' => [
+                'label' => 'reCAPTCHA site key', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_site_key'),
+            ],
+        ]);
+        $securityFieldset->add([
+            'type' => 'text',
+            'name' => 'recaptcha_secret_key',
+            'options' => [
+                'label' => 'reCAPTCHA secret key', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('recaptcha_secret_key'),
+            ],
+        ]);
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);
+
+        // Input filters
+
         $inputFilter = $this->getInputFilter();
 
-        $inputFilter->add([
+        $generalInputFilter = $inputFilter->get('general');
+        $generalInputFilter->add([
             'name' => 'pagination_per_page',
             'required' => true,
             'filters' => [
@@ -191,7 +217,13 @@ class SettingForm extends Form
                 ['name' => 'Digits']
             ],
         ]);
-        $inputFilter->add([
+        $generalInputFilter->add([
+            'name' => 'default_site',
+            'allow_empty' => true,
+        ]);
+
+        $securityInputFilter = $inputFilter->get('security');
+        $securityInputFilter->add([
             'name' => 'media_type_whitelist',
             'required' => false,
             'filters' => [
@@ -209,7 +241,7 @@ class SettingForm extends Form
                 ],
             ],
         ]);
-        $inputFilter->add([
+        $securityInputFilter->add([
             'name' => 'extension_whitelist',
             'required' => false,
             'filters' => [
@@ -228,12 +260,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        $inputFilter->add([
-            'name' => 'default_site',
-            'allow_empty' => true,
-        ]);
-        // Separate events because calling $form->getInputFilters()
-        // resets everythhing
+        // Separate events because calling getInputFilters() resets everything.
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }

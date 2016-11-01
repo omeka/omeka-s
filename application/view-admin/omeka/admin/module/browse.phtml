@@ -38,7 +38,7 @@ $this->plugin('formRow')->setPartial(null);
                 <?php endif; ?>
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author">
-                    <?php if ($moduleLink = $module->getIni('module_link')): ?>
+                    <?php if ($moduleLink = $module->getIni('author_link')): ?>
                     <?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
                     <?php else: ?>
                     <?php echo sprintf($this->translate('by %s'), $author); ?>

@@ -10,7 +10,7 @@ a collaboratively built pool of items, media, and their metadata.
 * Linux
 * Apache
 * MySql 5.5.3+ and the MySQL driver for PDO
-* PHP 5.5.2+ (the latest stable version preferred) and the PHP extensions for PDO
+* PHP 5.6+ (the latest stable version preferred) and the PHP extensions for PDO
 
 ### Gotchas
 * The default library for generating thumbnails is ImageMagick, at least version 6.7.5. Older versions will not correctly produce thumbnails. See local.config.php options below. 

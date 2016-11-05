@@ -2,7 +2,6 @@
 namespace Omeka\Controller;
 
 use Omeka\Api\Response;
-use Omeka\Event\Event;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
@@ -46,7 +45,7 @@ class ApiController extends AbstractRestfulController
     {
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['context' => []]);
-        $eventManager->triggerEvent(new Event(Event::API_CONTEXT, null, $args));
+        $eventManager->triggerEvent(new MvcEvent('api_context', null, $args));
         return new ApiJsonModel($args['context'], $this->getViewOptions());
     }
 

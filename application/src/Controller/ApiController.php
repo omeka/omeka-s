@@ -6,7 +6,6 @@ use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
-use Zend\Log\Logger;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface as Request;
@@ -19,23 +18,16 @@ class ApiController extends AbstractRestfulController
     protected $paginator;
 
     /**
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
      * @var array
      */
     protected $viewOptions = [];
 
     /**
      * @param Paginator $paginator
-     * @param Logger $logger
      */
-    public function __construct(Paginator $paginator, Logger $logger)
+    public function __construct(Paginator $paginator)
     {
         $this->paginator = $paginator;
-        $this->logger = $logger;
     }
 
     /**
@@ -162,7 +154,7 @@ class ApiController extends AbstractRestfulController
             $this->checkContentType($request);
             parent::onDispatch($event);
         } catch (\Exception $e) {
-            $this->logger->err((string) $e);
+            $this->logger()->err((string) $e);
             return $this->getErrorResult($event, $e);
         }
     }

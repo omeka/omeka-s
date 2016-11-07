@@ -3,11 +3,27 @@
 var gulp = require('gulp');
 var child_process = require('child_process');
 var Promise = require('bluebird');
+var fs = require('fs');
 
 var composerDir = __dirname + '/vendor/bin';
 var buildDir = __dirname + '/build';
 
-function runCommand (cmd, args, options) {
+function download(url, path) {
+    return new Promise(function (resolve, reject) {
+        var https = require('https');
+        var file = fs.createWriteStream(path);
+        file.on('finish', function () {
+            file.close(resolve());
+        });
+        https.get(url, function (response) {
+            response.pipe(file);
+        }).on('error', function(err) {
+            reject(err);
+        });
+    });
+}
+
+function runCommand(cmd, args, options) {
     return new Promise(function (resolve, reject) {
         if (!options) {
             options = {};
@@ -24,6 +40,34 @@ function runCommand (cmd, args, options) {
                 }
             });
     });
+}
+
+function composer(args) {
+    var composerPath = buildDir + '/composer.phar';
+    var installerPath = buildDir + '/composer-installer';
+    var installerUrl = 'https://getcomposer.org/installer';
+    var getComposer = new Promise(function (resolve, reject) {
+        fs.stat(composerPath, function(err, stats) {
+            if (!err) {
+                resolve();
+            } else {
+                download(installerUrl, installerPath)
+                    .then(function () {
+                        return runCommand('php', [installerPath], {cwd: buildDir})
+                    })
+                    .then(function () {
+                        resolve();
+                    });
+            }
+        });
+    });
+    return getComposer
+        .then(function () {
+            return runCommand('php', [composerPath, 'self-update']);
+        })
+        .then(function () {
+            return runCommand('php', [composerPath].concat(args));
+        });
 }
 
 function testCs() {
@@ -64,4 +108,12 @@ gulp.task('test:cs', testCs);
 gulp.task('test:php', testPhp);
 gulp.task('test', function () {
     return testPhp().then(testCs);
+});
+
+gulp.task('deps', function () {
+    return composer(['install']);
+});
+
+gulp.task('deps:update', function () {
+    return composer(['update']);
 });

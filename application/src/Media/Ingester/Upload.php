@@ -95,6 +95,7 @@ class Upload implements IngesterInterface
             $media->setSource($fileData['name']);
         }
         $fileManager->storeOriginal($file);
+        $file->delete();
     }
 
     /**

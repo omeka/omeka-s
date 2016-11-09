@@ -104,6 +104,7 @@ class OEmbed implements IngesterInterface
                     $media->setHasThumbnails(true);
                 }
             }
+            $file->delete();
         }
 
         $media->setData($mediaData);

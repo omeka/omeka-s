@@ -89,6 +89,7 @@ class Url implements IngesterInterface
             $fileManager->storeOriginal($file);
             $media->setHasOriginal(true);
         }
+        $file->delete();
     }
 
     /**

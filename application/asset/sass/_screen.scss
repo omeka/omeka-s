@@ -3357,6 +3357,59 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Theme Settings ----- */
+
+    .selectable-themes,
+    .current-theme {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .selectable-themes .theme {
+        width: calc(33.33% - #{$spacing-large});
+        margin: 0 $spacing-large $spacing-large 0;
+        padding: $spacing-medium - 1px;
+        border: 1px solid $border-gray;
+    }
+
+    .selectable-themes .theme:hover {
+        border: 1px solid darken($border-gray, 25%);
+    }
+
+    .selectable-themes .theme-thumbnail {
+        width: 100%;
+        opacity: .3;
+        padding-bottom: 66.66%;
+        background-color: $border-gray;
+        margin-bottom: $spacing-medium;
+    }
+
+    .selectable-themes .active.theme .theme-thumbnail {
+        opacity: 1;
+    }
+
+    .current-theme {
+        padding-bottom: $spacing-large - 1px;
+        border-bottom: 1px solid $border-gray;
+        margin-bottom: $spacing-large;
+    }
+
+    .current-theme .theme-thumbnail {
+        width: 50%;
+        padding-bottom: 33.33%;
+        margin: 0 $spacing-large 0 0;
+        background-color: $border-gray;
+    }
+
+    .current-theme-label {
+        font-size: $base-font-size;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: $spacing-small;
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @groups ----- Jobs ----- */

@@ -272,6 +272,25 @@ class IndexController extends AbstractActionController
     public function themeAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site theme settings'
+            );
+        }
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-theme-form');
+        $themes = $this->themes->getThemes();
+        $currentTheme = $this->themes->getTheme($site->theme());
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('site', $site);
+        $view->setVariable('themes', $themes);
+        $view->setVariable('currentTheme', $currentTheme);
+        return $view;
+    }
+
+    public function themeSettingsAction()
+    {
+        $site = $this->currentSite();
 
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException(

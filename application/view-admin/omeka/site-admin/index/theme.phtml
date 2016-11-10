@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 ?>
 <h1><?php echo $this->translate('Theme'); ?></h1>
 <?php if(isset($this->form)): ?>
@@ -8,8 +9,48 @@ $this->htmlElement('body')->appendAttribute('class', 'sites theme');
     <div id="page-actions">
         <button><?php echo $this->translate('Save'); ?></button>
     </div>
+    <div class="current-theme">
+        <div class="theme-thumbnail placeholder"></div>
+        <div class="theme-meta">
+            <h3>
+                <span class="current-theme-label"><?php echo $this->translate('Current Theme'); ?></span>
+                <span class="current-theme-name"><?php echo $currentTheme->getName(); ?></span>
+            </h3>
+            <p>
+                <span class="current-theme-author"><a href="<?php echo $currentTheme->getIni('author_link'); ?>"><?php echo $currentTheme->getIni('author'); ?></a></span>
+                <?php if (($currentDescription = $currentTheme->getIni('description')) && ($currentDescription !== '')): ?>
+                <span class="current-theme-description"><?php echo $currentDescription; ?></span>
+                <?php endif; ?>
+            </p>
+            <?php echo $this->hyperlink($this->translate('Configure this theme'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+        </div>
+    </div>
     <?php echo $this->formCollection($form, false); ?>
+    <div class="selectable-themes">
+        <?php foreach ($themes as $theme): ?>
+        <?php if ($theme->getName() !== $currentTheme->getName()): ?>
+        <div class="theme">
+            <div class="theme-thumbnail placeholder"></div>
+            <h4><?php echo $theme->getName(); ?></h4>
+            <div class="theme-meta">
+                <span class="theme-author">
+                    <?php $themeAuthor = $theme->getIni('author'); ?>
+                    <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
+
+                    <?php if (isset($themeAuthorLink)): ?>
+                    <a href="<?php echo $themeAuthorLink; ?>"><?php echo $themeAuthor; ?></a>
+                    <?php else: ?>
+                    <?php echo $themeAuthor; ?>
+                    <?php endif; ?>
+                </span>
+                <?php $themeDescription = ''; ?>
+                <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
+                <span class="theme-description"><?php echo $themeDescription; ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
     <?php echo $this->form()->closeTag(); ?>
-<?php else: ?>
-    <p><?php echo $this->translate('The current theme has no configuration options.'); ?></p>
 <?php endif; ?>

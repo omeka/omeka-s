@@ -48,6 +48,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
                 <span class="theme-description"><?php echo $themeDescription; ?></span>
                 <?php endif; ?>
             </div>
+            <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" disabled>
         </div>
         <?php endif; ?>
         <?php endforeach; ?>

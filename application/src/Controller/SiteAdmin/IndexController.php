@@ -278,6 +278,20 @@ class IndexController extends AbstractActionController
             );
         }
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-theme-form');
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
         $themes = $this->themes->getThemes();
         $currentTheme = $this->themes->getTheme($site->theme());
         $view = new ViewModel;

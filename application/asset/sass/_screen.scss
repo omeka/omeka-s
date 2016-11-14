@@ -160,7 +160,7 @@ body {
         background-color: #fff;
         min-height: 3 * $spacing-large;
         max-height: 5 * $spacing-large;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     [contenteditable="true"] p {

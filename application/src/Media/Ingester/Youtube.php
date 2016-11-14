@@ -85,6 +85,7 @@ class Youtube implements IngesterInterface
             $mediaData['end'] = $end;
         }
         $media->setData($mediaData);
+        $file->delete();
     }
 
     /**

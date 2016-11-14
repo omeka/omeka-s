@@ -96,6 +96,7 @@ class IIIF implements IngesterInterface
                     $media->setHasThumbnails(true);
                 }
             }
+            $file->delete();
         }
     }
 

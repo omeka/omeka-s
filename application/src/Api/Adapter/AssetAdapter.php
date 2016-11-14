@@ -99,6 +99,7 @@ class AssetAdapter extends AbstractEntityAdapter
 
             $storagePath = $fileManager->getStoragePath('asset', $storageId, $extension);
             $fileStore->put($file->getTempPath(), $storagePath);
+            $file->delete();
         } else {
             if ($this->shouldHydrate($request, 'o:name')) {
                 $entity->setName($request->getValue('o:name'));

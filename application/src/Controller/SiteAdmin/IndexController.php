@@ -52,6 +52,7 @@ class IndexController extends AbstractActionController
     public function addAction()
     {
         $form = $this->getForm(SiteForm::class);
+        $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
@@ -69,6 +70,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        $view->setVariable('themes', $themes);
         return $view;
     }
 

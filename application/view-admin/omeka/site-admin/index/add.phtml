@@ -2,10 +2,12 @@
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 $form->prepare();
 $sectionNavs = [
     'admin' => $this->translate('Admin'),
-    'item-pool' => $this->translate('Item Pool'),
+    'theme' => $this->translate('Theme'),
+    'item-pool' => $this->translate('Item Pool')
 ];
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>
@@ -22,6 +24,41 @@ $sectionNavs = [
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
 <fieldset id="admin" class="section active" aria-labelledby="admin-label">
     <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="theme" class="section" aria-labelledby="theme-label">
+    <div class="selectable-themes">
+        <?php foreach ($themes as $theme): ?>
+        <?php $themeName = $theme->getName(); ?>
+        <div class="theme <?php echo ($themeName == 'Default') ? 'active' : ''; ?>">
+            <?php $localThumbnailUrl = OMEKA_PATH . $theme->getThumbnail(); ?>
+            <?php $absoluteThumbnailUrl = $this->basePath() . $theme->getThumbnail(); ?>
+            <?php $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka'); ?>
+            <div class="theme-thumbnail">
+            <img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>">
+            </div>
+            <h4><?php echo $themeName; ?></h4>
+            <div class="theme-meta">
+                <span class="theme-author">
+                    <?php $themeAuthor = $theme->getIni('author'); ?>
+                    <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
+
+                    <?php if (isset($themeAuthorLink)): ?>
+                    <a href="<?php echo $themeAuthorLink; ?>"><?php echo $themeAuthor; ?></a>
+                    <?php else: ?>
+                    <?php echo $themeAuthor; ?>
+                    <?php endif; ?>
+                </span>
+                <?php $themeDescription = ''; ?>
+                <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
+                <span class="theme-description"><?php echo $themeDescription; ?></span>
+                <?php endif; ?>
+            </div>
+            <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" <?php echo ($themeName == 'Default') ? '' : 'disabled'; ?>>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
 </fieldset>
 
 <fieldset id="item-pool" class="section" aria-labelledby="item-pool-label">

@@ -3368,6 +3368,8 @@ body.sidebar-open #content {
             max-width: 100%;
             height: auto;
             vertical-align: bottom;
+            position: relative;
+            z-index: 1;
         }
     }
 
@@ -3376,6 +3378,7 @@ body.sidebar-open #content {
         margin: 0 $spacing-large $spacing-large 0;
         padding: $spacing-medium - 1px;
         border: 1px solid $border-gray;
+        background-color: #fff;
     }
 
     .selectable-themes .theme:hover {
@@ -3390,6 +3393,19 @@ body.sidebar-open #content {
 
     .selectable-themes .active.theme {
         background-color: #f7f7f7;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            content: $fa-var-check;
+            font-family: "FontAwesome";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: .15;
+            font-size: 6 * $base-font-size;
+            line-height: 4 * $base-line-height;
+        }
     }
 
     .current-theme {

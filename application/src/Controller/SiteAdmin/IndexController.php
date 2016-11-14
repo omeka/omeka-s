@@ -344,6 +344,7 @@ class IndexController extends AbstractActionController
             }
         }
         $view->setVariable('form', $form);
+        $view->setVariable('theme', $theme);
         return $view;
     }
 

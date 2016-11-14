@@ -1,6 +1,8 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
+
+$fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
 <h1><?php echo $this->translate('Theme'); ?></h1>
 <?php if(isset($this->form)): ?>
@@ -10,7 +12,9 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
         <button><?php echo $this->translate('Save'); ?></button>
     </div>
     <div class="current-theme">
-        <div class="theme-thumbnail placeholder"></div>
+        <?php $localThumbnailUrl = OMEKA_PATH . $currentTheme->getThumbnail(); ?>
+        <?php $absoluteThumbnailUrl = $this->basePath() . $currentTheme->getThumbnail(); ?>
+        <div class="theme-thumbnail"><img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>"></div>
         <div class="theme-meta">
             <h3>
                 <span class="current-theme-label"><?php echo $this->translate('Current Theme'); ?></span>
@@ -22,7 +26,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
                 <span class="current-theme-description"><?php echo $currentDescription; ?></span>
                 <?php endif; ?>
             </p>
-            <?php echo $this->hyperlink($this->translate('Configure this theme'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+            <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
         </div>
     </div>
     <?php echo $this->formCollection($form, false); ?>
@@ -30,7 +34,11 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
         <?php foreach ($themes as $theme): ?>
         <?php if ($theme->getName() !== $currentTheme->getName()): ?>
         <div class="theme">
-            <div class="theme-thumbnail placeholder"></div>
+            <?php $localThumbnailUrl = OMEKA_PATH . $theme->getThumbnail(); ?>
+            <?php $absoluteThumbnailUrl = $this->basePath() . $theme->getThumbnail(); ?>
+            <div class="theme-thumbnail">
+            <img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>">
+            </div>
             <h4><?php echo $theme->getName(); ?></h4>
             <div class="theme-meta">
                 <span class="theme-author">

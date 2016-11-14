@@ -3363,6 +3363,12 @@ body.sidebar-open #content {
     .current-theme {
         display: flex;
         flex-wrap: wrap;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: bottom;
+        }
     }
 
     .selectable-themes .theme {
@@ -3378,14 +3384,12 @@ body.sidebar-open #content {
 
     .selectable-themes .theme-thumbnail {
         width: 100%;
-        opacity: .3;
-        padding-bottom: 66.66%;
-        background-color: $border-gray;
         margin-bottom: $spacing-medium;
+        border: 1px solid $border-gray;
     }
 
-    .selectable-themes .active.theme .theme-thumbnail {
-        opacity: 1;
+    .selectable-themes .active.theme {
+        background-color: #f7f7f7;
     }
 
     .current-theme {
@@ -3396,9 +3400,8 @@ body.sidebar-open #content {
 
     .current-theme .theme-thumbnail {
         width: 50%;
-        padding-bottom: 33.33%;
         margin: 0 $spacing-large 0 0;
-        background-color: $border-gray;
+        border: 1px solid $border-gray;
     }
 
     .current-theme-label {

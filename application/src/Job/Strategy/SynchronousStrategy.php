@@ -42,6 +42,8 @@ class SynchronousStrategy implements StrategyInterface
             $job->setStatus(Job::STATUS_COMPLETED);
         }
         $job->setEnded(new DateTime('now'));
+        $entityManager->clear();
+        $entityManager->merge($job);
         $entityManager->flush();
     }
 

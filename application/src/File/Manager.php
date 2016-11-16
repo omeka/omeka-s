@@ -98,7 +98,7 @@ class Manager
      */
     public function getThumbnailer()
     {
-        return $this->serviceLocator->get($this->config['thumbnailer']);
+        return $this->serviceLocator->build($this->config['thumbnailer']);
     }
 
     /**
@@ -162,7 +162,7 @@ class Manager
         $tempPaths = [];
 
         try {
-            $thumbnailer->setSource($file->getTempPath());
+            $thumbnailer->setSource($file);
             $thumbnailer->setOptions($this->config['thumbnail_options']);
             foreach ($this->config['thumbnail_types'] as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(

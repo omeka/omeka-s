@@ -1,20 +1,43 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\Api\ResourceInterface;
+use Omeka\Api\Adapter\AdapterInterface;
+
 /**
  * A reference representation of an API resource.
  *
  * Provides the minimal representation of a resource.
  */
-class ResourceReference extends AbstractResourceRepresentation
+class ResourceReference extends AbstractRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function getRepresentation()
+    protected $id;
+
+    protected $resourceName;
+
+    public function __construct(ResourceInterface $resource, AdapterInterface $adapter)
     {
-        return $this->getAdapter()
-            ->getRepresentation($this->resource);
+        $this->setServiceLocator($adapter->getServiceLocator());
+        $this->id = $resource->getId();
+        $this->resourceName = $adapter->getResourceName();
+    }
+
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function apiUrl()
+    {
+        $url = $this->getViewHelper('Url');
+        return $url(
+            'api/default',
+            [
+                'resource' => $this->resourceName,
+                'id' => $this->id,
+            ],
+            ['force_canonical' => true]
+        );
     }
 
     /**
@@ -27,18 +50,4 @@ class ResourceReference extends AbstractResourceRepresentation
             'o:id'  => $this->id(),
         ];
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJsonLdType()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJsonLd()
-    {}
 }

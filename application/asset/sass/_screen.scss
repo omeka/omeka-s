@@ -3382,7 +3382,8 @@ body.sidebar-open #content {
     }
 
     .selectable-themes .theme:hover {
-        border: 1px solid darken($border-gray, 25%);
+        border: 3px solid darken($border-gray, 25%);
+        padding: $spacing-medium - 3px;
     }
 
     .selectable-themes .theme-thumbnail {
@@ -3392,9 +3393,11 @@ body.sidebar-open #content {
     }
 
     .selectable-themes .active.theme {
-        background-color: #f7f7f7;
+        background-color: #e7e7e7;
         position: relative;
         overflow: hidden;
+        border-width: 3px;
+        padding: $spacing-medium - 3px;
 
         &:after {
             content: $fa-var-check;

@@ -453,6 +453,10 @@ div[role="main"] > .messages {
     .warning {
         background-color: lighten(orange, 45%);
     }
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 .messages {
@@ -475,15 +479,18 @@ div[role="main"] > .messages {
     color: $red;
 }
 
-.error {
+.error,
+.error a {
     color: $red;
 }
 
-.success {
+.success,
+.success a {
     color: green;
 }
 
-.warning {
+.warning,
+.warning a {
     color: orange;
 }
 
@@ -3484,6 +3491,10 @@ body.minimal {
 
         &:empty {
             display: none;
+        }
+
+        a {
+            border-bottom: 1px solid $red;
         }
     }
 }

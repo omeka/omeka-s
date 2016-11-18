@@ -1,16 +1,17 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
+use Omeka\File\File;
 use Omeka\File\Manager;
 
 interface ThumbnailerInterface
 {
     /**
-     * Set the file source (typically path to temporary file).
+     * Set the file source.
      *
-     * @param string $source
+     * @param File $source
      */
-    public function setSource($source);
+    public function setSource(File $source);
 
     /**
      * Set options for all thumbnail strategies.

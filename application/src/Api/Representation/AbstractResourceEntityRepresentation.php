@@ -433,7 +433,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function displayTitle($default = null)
     {
         $title = $this->value('dcterms:title', [
-            'type' => 'literal',
             'default' => null,
         ]);
 
@@ -458,7 +457,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function displayDescription($default = null)
     {
         return (string) $this->value('dcterms:description', [
-            'type' => 'literal',
             'default' => $default,
         ]);
     }

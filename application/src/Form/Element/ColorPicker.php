@@ -6,9 +6,14 @@ use Zend\InputFilter\InputProviderInterface;
 
 class ColorPicker extends Text implements InputProviderInterface
 {
+    const REGEX = '#([0-9A-Fa-f]{3}){1,2}|transparent';
+    const REGEX_EXPLANATION = 'three- or six-digit hexadecimal color, or "transparent"'; // @translate
+
     protected $attributes = [
         'type' => 'color_picker',
-        'placeholder' => 'three- or six-digit hexadecimal form, or "transparent"', // @translate
+        'placeholder' => self::REGEX_EXPLANATION,
+        'title' => self::REGEX_EXPLANATION,
+        'pattern' => self::REGEX,
     ];
 
     public function getInputSpecification()
@@ -33,9 +38,6 @@ class ColorPicker extends Text implements InputProviderInterface
         if ('' === $color) {
             return true;
         }
-        if (preg_match('/^#([0-9a-f]{3}){1,2}$/i', $color) || 'transparent' === $color) {
-            return true;
-        }
-        return false;
+        return (bool) preg_match('/^(?:' . self::REGEX . ')$/', $color);
     }
 }

@@ -197,6 +197,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
+        $this->index = 0;
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select($entityClass)
@@ -475,6 +476,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $entityClass = $this->getEntityClass();
+        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
         foreach ($criteria as $field => $value) {
@@ -553,6 +555,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isUnique(EntityInterface $entity, array $criteria)
     {
+        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');

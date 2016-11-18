@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Stdlib;
 
-class Message
+class Message implements \JsonSerializable
 {
     /**
      * @var string
@@ -66,5 +66,15 @@ class Message
     public function escapeHtml()
     {
         return $this->escapeHtml;
+    }
+
+    public function __toString()
+    {
+        return sprintf($this->getMessage(), ...$this->getArgs());
+    }
+
+    public function jsonSerialize()
+    {
+        return (string) $this;
     }
 }

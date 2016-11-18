@@ -274,7 +274,6 @@ return [
         'shared' => [
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
-            'Omeka\File\GdThumbnailer' => false,
         ],
     ],
     'controllers' => [

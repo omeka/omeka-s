@@ -369,6 +369,8 @@ class Manager
     public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
     {
         $client = $this->serviceLocator->get('Omeka\HttpClient');
+        $logger = $this->serviceLocator->get('Omeka\Logger');
+
         // Disable compressed response; it's broken alongside streaming
         $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');
         $client->setUri($uri)->setStream($tempPath);
@@ -381,10 +383,15 @@ class Manager
                 break;
             } catch (\Exception $e) {
                 if (++$attempt === 3) {
+                    $logger->err((string) $e);
                     if ($errorStore) {
-                        $errorStore->addError('error', $e->getMessage());
+                        $message = sprintf(
+                            'Error downloading %s: %s',
+                            (string) $uri,
+                            $e->getMessage()
+                        );
+                        $errorStore->addError('error', $message);
                     }
-                    $this->serviceLocator->get('Omeka\Logger')->err((string) $e);
                     return false;
                 }
             }
@@ -392,7 +399,7 @@ class Manager
 
         if (!$response->isOk()) {
             $message = sprintf(
-                'Error downloading "%s": %s %s',
+                'Error downloading %s: %s %s',
                 (string) $uri,
                 $response->getStatusCode(),
                 $response->getReasonPhrase()
@@ -400,7 +407,7 @@ class Manager
             if ($errorStore) {
                 $errorStore->addError('error', $message);
             }
-            $this->serviceLocator->get('Omeka\Logger')->err($message);
+            $logger->err($message);
             return false;
         }
 

@@ -580,5 +580,6 @@ return [
         'Failed loading resource template from API', // @translate
         'Undo remove property', // @translate
         'There are no available pages.', // @translate
+        'Please enter a valid language tag', // @translate
     ],
 ];

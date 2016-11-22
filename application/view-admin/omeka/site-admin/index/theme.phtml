@@ -1,4 +1,5 @@
 <?php
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 
@@ -14,16 +15,16 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
     <div class="current-theme">
         <?php $localThumbnailUrl = OMEKA_PATH . $currentTheme->getThumbnail(); ?>
         <?php $absoluteThumbnailUrl = $this->basePath() . $currentTheme->getThumbnail(); ?>
-        <div class="theme-thumbnail"><img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>"></div>
+        <div class="theme-thumbnail"><img src="<?php echo $escape((file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl); ?>"></div>
         <div class="theme-meta">
             <h3>
                 <span class="current-theme-label"><?php echo $this->translate('Current Theme'); ?></span>
                 <span class="current-theme-name"><?php echo $currentTheme->getName(); ?></span>
             </h3>
             <p>
-                <span class="current-theme-author"><a href="<?php echo $currentTheme->getIni('author_link'); ?>" target="_blank"><?php echo $currentTheme->getIni('author'); ?></a></span>
+                <span class="current-theme-author"><a href="<?php echo $escape($currentTheme->getIni('author_link')); ?>" target="_blank"><?php echo $escape($currentTheme->getIni('author')); ?></a></span>
                 <?php if (($currentDescription = $currentTheme->getIni('description')) && ($currentDescription !== '')): ?>
-                <span class="current-theme-description"><?php echo $currentDescription; ?></span>
+                <span class="current-theme-description"><?php echo $escape($currentDescription); ?></span>
                 <?php endif; ?>
             </p>
             <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
@@ -46,14 +47,14 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                     <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
 
                     <?php if (isset($themeAuthorLink)): ?>
-                    <a href="<?php echo $themeAuthorLink; ?>" target="_blank"><?php echo $themeAuthor; ?></a>
+                    <a href="<?php echo $escape($themeAuthorLink); ?>" target="_blank"><?php echo $escape($themeAuthor); ?></a>
                     <?php else: ?>
-                    <?php echo $themeAuthor; ?>
+                    <?php echo $escape($themeAuthor); ?>
                     <?php endif; ?>
                 </span>
                 <?php $themeDescription = ''; ?>
                 <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
-                <span class="theme-description"><?php echo $themeDescription; ?></span>
+                <span class="theme-description"><?php echo $escape($themeDescription); ?></span>
                 <?php endif; ?>
             </div>
             <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" disabled>

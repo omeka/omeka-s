@@ -1,4 +1,5 @@
 <?php
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
@@ -44,14 +45,14 @@ $sectionNavs = [
                     <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
 
                     <?php if (isset($themeAuthorLink)): ?>
-                    <a href="<?php echo $themeAuthorLink; ?>" target="_blank"><?php echo $themeAuthor; ?></a>
+                    <a href="<?php echo $escape($themeAuthorLink); ?>" target="_blank"><?php echo $escape($themeAuthor); ?></a>
                     <?php else: ?>
                     <?php echo $themeAuthor; ?>
                     <?php endif; ?>
                 </span>
                 <?php $themeDescription = ''; ?>
                 <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
-                <span class="theme-description"><?php echo $themeDescription; ?></span>
+                <span class="theme-description"><?php echo $escape($themeDescription); ?></span>
                 <?php endif; ?>
             </div>
             <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" <?php echo ($themeName == 'Default') ? '' : 'disabled'; ?>>

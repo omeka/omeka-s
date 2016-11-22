@@ -1,0 +1,33 @@
+<div class="selectable-themes">
+    <?php foreach ($themes as $theme): ?>
+    <?php $themeName = $theme->getName(); ?>
+    <?php $defaultActive = (($themeName == 'Default') && !(isset($currentTheme))); ?>
+    <?php if (!(isset($currentTheme)) || ($theme->getName() !== $currentTheme->getName())): ?>
+    <div class="theme <?php echo ($defaultActive) ? 'active' : ''; ?>">
+        <?php $localThumbnailUrl = OMEKA_PATH . $theme->getThumbnail(); ?>
+        <?php $absoluteThumbnailUrl = $this->basePath() . $theme->getThumbnail(); ?>
+        <div class="theme-thumbnail">
+        <img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>">
+        </div>
+        <h4><?php echo $themeName; ?></h4>
+        <div class="theme-meta">
+            <span class="theme-author">
+                <?php $themeAuthor = $theme->getIni('author'); ?>
+                <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
+
+                <?php if (isset($themeAuthorLink)): ?>
+                <a href="<?php echo $escape($themeAuthorLink); ?>" target="_blank"><?php echo $escape($themeAuthor); ?></a>
+                <?php else: ?>
+                <?php echo $escape($themeAuthor); ?>
+                <?php endif; ?>
+            </span>
+            <?php $themeDescription = ''; ?>
+            <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
+            <span class="theme-description"><?php echo $escape($themeDescription); ?></span>
+            <?php endif; ?>
+        </div>
+        <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" <?php echo ($defaultActive) ? '' : 'disabled'; ?>>
+    </div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+</div>

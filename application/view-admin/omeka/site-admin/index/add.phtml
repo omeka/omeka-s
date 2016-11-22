@@ -10,6 +10,7 @@ $sectionNavs = [
     'theme' => $this->translate('Theme'),
     'item-pool' => $this->translate('Item Pool')
 ];
+$fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>
 <?php $this->trigger('view.add.before'); ?>
@@ -28,38 +29,13 @@ $sectionNavs = [
 </fieldset>
 
 <fieldset id="theme" class="section" aria-labelledby="theme-label">
-    <div class="selectable-themes">
-        <?php foreach ($themes as $theme): ?>
-        <?php $themeName = $theme->getName(); ?>
-        <div class="theme <?php echo ($themeName == 'Default') ? 'active' : ''; ?>">
-            <?php $localThumbnailUrl = OMEKA_PATH . $theme->getThumbnail(); ?>
-            <?php $absoluteThumbnailUrl = $this->basePath() . $theme->getThumbnail(); ?>
-            <?php $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka'); ?>
-            <div class="theme-thumbnail">
-            <img src="<?php echo (file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl; ?>">
-            </div>
-            <h4><?php echo $themeName; ?></h4>
-            <div class="theme-meta">
-                <span class="theme-author">
-                    <?php $themeAuthor = $theme->getIni('author'); ?>
-                    <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
-
-                    <?php if (isset($themeAuthorLink)): ?>
-                    <a href="<?php echo $escape($themeAuthorLink); ?>" target="_blank"><?php echo $escape($themeAuthor); ?></a>
-                    <?php else: ?>
-                    <?php echo $themeAuthor; ?>
-                    <?php endif; ?>
-                </span>
-                <?php $themeDescription = ''; ?>
-                <?php if (($themeDescription = $theme->getIni('description')) && ($themeDescription !== '')): ?>
-                <span class="theme-description"><?php echo $escape($themeDescription); ?></span>
-                <?php endif; ?>
-            </div>
-            <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" <?php echo ($themeName == 'Default') ? '' : 'disabled'; ?>>
-        </div>
-        <?php endforeach; ?>
-    </div>
-
+    <?php
+    echo $this->partial('omeka/site-admin/index/theme-selector.phtml', [
+        'themes' => $themes,
+        'escape' => $escape,
+        'fallbackThumbnailUrl' => $fallbackThumbnailUrl
+    ]);
+    ?>
 </fieldset>
 
 <fieldset id="item-pool" class="section" aria-labelledby="item-pool-label">

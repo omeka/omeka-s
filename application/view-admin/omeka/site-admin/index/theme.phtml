@@ -46,7 +46,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                     <?php $themeAuthorLink = $theme->getIni('author_link'); ?>
 
                     <?php if (isset($themeAuthorLink)): ?>
-                    <a href="<?php echo $themeAuthorLink; ?>"><?php echo $themeAuthor; ?></a>
+                    <a href="<?php echo $themeAuthorLink; ?>" target="_blank"><?php echo $themeAuthor; ?></a>
                     <?php else: ?>
                     <?php echo $themeAuthor; ?>
                     <?php endif; ?>

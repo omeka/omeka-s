@@ -3365,6 +3365,81 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Theme Settings ----- */
+
+    .selectable-themes,
+    .current-theme {
+        display: flex;
+        flex-wrap: wrap;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: bottom;
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .selectable-themes .theme {
+        width: calc(33.33% - #{$spacing-large});
+        margin: 0 $spacing-large $spacing-large 0;
+        padding: $spacing-medium - 1px;
+        border: 1px solid $border-gray;
+        background-color: #fff;
+    }
+
+    .selectable-themes .theme:hover {
+        border: 3px solid darken($border-gray, 25%);
+        padding: $spacing-medium - 3px;
+    }
+
+    .selectable-themes .theme-thumbnail {
+        width: 100%;
+        margin-bottom: $spacing-medium;
+        border: 1px solid $border-gray;
+    }
+
+    .selectable-themes .active.theme {
+        background-color: #e7e7e7;
+        position: relative;
+        overflow: hidden;
+        border-width: 3px;
+        padding: $spacing-medium - 3px;
+
+        &:after {
+            content: $fa-var-check;
+            font-family: "FontAwesome";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: .15;
+            font-size: 6 * $base-font-size;
+            line-height: 4 * $base-line-height;
+        }
+    }
+
+    .current-theme {
+        padding-bottom: $spacing-large - 1px;
+        border-bottom: 1px solid $border-gray;
+        margin-bottom: $spacing-large;
+    }
+
+    .current-theme .theme-thumbnail {
+        width: 50%;
+        margin: 0 $spacing-large 0 0;
+        border: 1px solid $border-gray;
+    }
+
+    .current-theme-label {
+        font-size: $base-font-size;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: $spacing-small;
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @groups ----- Jobs ----- */

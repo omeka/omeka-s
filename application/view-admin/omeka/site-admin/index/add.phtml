@@ -1,12 +1,16 @@
 <?php
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 $form->prepare();
 $sectionNavs = [
     'admin' => $this->translate('Admin'),
-    'item-pool' => $this->translate('Item Pool'),
+    'theme' => $this->translate('Theme'),
+    'item-pool' => $this->translate('Item Pool')
 ];
+$fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
 <?php echo $this->pageTitle('Add Site'); ?>
 <?php $this->trigger('view.add.before'); ?>
@@ -22,6 +26,16 @@ $sectionNavs = [
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
 <fieldset id="admin" class="section active" aria-labelledby="admin-label">
     <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="theme" class="section" aria-labelledby="theme-label">
+    <?php
+    echo $this->partial('omeka/site-admin/index/theme-selector.phtml', [
+        'themes' => $themes,
+        'escape' => $escape,
+        'fallbackThumbnailUrl' => $fallbackThumbnailUrl
+    ]);
+    ?>
 </fieldset>
 
 <fieldset id="item-pool" class="section" aria-labelledby="item-pool-label">

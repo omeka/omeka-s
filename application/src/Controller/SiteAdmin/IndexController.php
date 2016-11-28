@@ -52,6 +52,7 @@ class IndexController extends AbstractActionController
     public function addAction()
     {
         $form = $this->getForm(SiteForm::class);
+        $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
@@ -69,6 +70,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        $view->setVariable('themes', $themes);
         return $view;
     }
 
@@ -272,6 +274,39 @@ class IndexController extends AbstractActionController
     public function themeAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site theme settings'
+            );
+        }
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-theme-form');
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                if ($response->isSuccess()) {
+                    $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $themes = $this->themes->getThemes();
+        $currentTheme = $this->themes->getTheme($site->theme());
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('site', $site);
+        $view->setVariable('themes', $themes);
+        $view->setVariable('currentTheme', $currentTheme);
+        return $view;
+    }
+
+    public function themeSettingsAction()
+    {
+        $site = $this->currentSite();
 
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException(
@@ -311,6 +346,7 @@ class IndexController extends AbstractActionController
             }
         }
         $view->setVariable('form', $form);
+        $view->setVariable('theme', $theme);
         return $view;
     }
 

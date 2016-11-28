@@ -71,4 +71,12 @@ class Theme
     {
         return "theme_settings_" . $this->getId();
     }
+
+    public function getThumbnail($key = null)
+    {
+        if ($key) {
+            return '/themes/' . $key . "/theme.jpg";
+        }
+        return '/themes/' . $this->id . "/theme.jpg";
+    }
 }

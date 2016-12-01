@@ -129,7 +129,7 @@ $this->plugin('formRow')->setPartial(null);
                 <?php elseif ($module->getState() === Manager::STATE_INVALID_INI): ?>
                 <span class="error"><?php echo $this->translate('Error: invalid config/module.ini file'); ?></span>
                 <?php elseif ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
-                <span class="error"><?php echo sprintf($this->translate('Error: invalid omeka_version_constraint (%s)'), $module->getIni('omeka_version_constraint')); ?></span>
+                <span class="error"><?php echo sprintf($this->translate('Error: %1$s requires Omeka S %2$s'), $module->getName(), $module->getIni('omeka_version_constraint')); ?></span>
                 <?php elseif ($module->getState() === Manager::STATE_NOT_FOUND): ?>
                 <span class="error"><?php echo $this->translate('Error: module in database but not in filesystem'); ?></span>
                 <?php endif; ?>

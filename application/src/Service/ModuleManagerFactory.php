@@ -48,7 +48,14 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            $module->setIni($iniReader->fromFile($iniFile->getRealPath()));
+            $ini = $iniReader->fromFile($iniFile->getRealPath());
+
+            // INI configuration may be under the [info] header.
+            if (isset($ini['info'])) {
+                $ini = $ini['info'];
+            }
+
+            $module->setIni($ini);
 
             // Module INI must be valid
             if (!$manager->iniIsValid($module)) {

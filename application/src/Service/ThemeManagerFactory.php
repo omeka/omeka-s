@@ -31,13 +31,23 @@ class ThemeManagerFactory implements FactoryInterface
                 continue;
             }
 
-            // Theme INI must be valid
             $ini = $iniReader->fromFile($iniFile->getRealPath());
+
+            $configSpec = [];
+            if (isset($ini['config'])) {
+                $configSpec = $ini['config'];
+                unset($ini['config']);
+            }
+            // INI configuration may be under the [info] header.
+            if (isset($ini['info'])) {
+                $ini = $ini['info'];
+            }
+
             if (!$manager->iniIsValid($ini)) {
                 continue;
             }
 
-            $manager->registerTheme(new Theme($dir->getBasename(), $ini));
+            $manager->registerTheme(new Theme($dir->getBasename(), $ini, $configSpec));
         }
 
         return $manager;

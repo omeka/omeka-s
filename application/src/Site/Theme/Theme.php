@@ -14,15 +14,22 @@ class Theme
     protected $ini;
 
     /**
+     * @var array
+     */
+    protected $configSpec;
+
+    /**
      * Construct the theme.
      *
      * @param string $id The theme identifier, the directory name
      * @param array $ini The theme INI configuration
+     * @param array $configSpec The spec for the theme config form
      */
-    public function __construct($id, array $ini)
+    public function __construct($id, array $ini, array $configSpec)
     {
         $this->id = $id;
         $this->ini = $ini;
+        $this->configSpec = $configSpec;
     }
 
     /**
@@ -64,7 +71,7 @@ class Theme
      */
     public function getConfigSpec()
     {
-        return $this->getIni('config') ?: [];
+        return $this->configSpec;
     }
 
     public function getSettingsKey()

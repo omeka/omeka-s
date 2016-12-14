@@ -66,6 +66,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['resource_template_id']))
             );
         }
+
+        if (isset($query['is_public'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.isPublic',
+                $this->createNamedParameter($qb, (bool) $query['is_public'])
+            ));
+        }
     }
 
     /**

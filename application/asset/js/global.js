@@ -40,7 +40,9 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="' + sectionId + '"]').parent().addClass('active');
-        history.replaceState(null, document.title, sectionId);
+        if (!$('body').hasClass('no-section-hashes')) {
+            history.replaceState(null, document.title, sectionId);
+        }
         this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {

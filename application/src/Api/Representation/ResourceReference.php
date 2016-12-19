@@ -27,6 +27,11 @@ class ResourceReference extends AbstractRepresentation
         return $this->id;
     }
 
+    public function resourceName()
+    {
+        return $this->resourceName;
+    }
+
     public function apiUrl()
     {
         $url = $this->getViewHelper('Url');

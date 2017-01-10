@@ -13,6 +13,7 @@ class CheckEnvironmentTask implements TaskInterface
     public static $requiredExtensions = [
         'PDO',
         'pdo_mysql',
+        'xml',
     ];
 
     public function perform(Installer $installer)

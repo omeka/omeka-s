@@ -301,7 +301,7 @@ class Manager
      */
     public function getBasename($name)
     {
-        return strstr($name, '.', true) ?: $name;
+        return pathinfo($name, PATHINFO_FILENAME);
     }
 
     /**

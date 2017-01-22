@@ -201,7 +201,7 @@ class Manager
         foreach ($this->getThumbnailTypes() as $type) {
             $storagePath = $this->getStoragePath(
                 $type,
-                $this->getBasename($media->getFilename()),
+                $media->getStorageId(),
                 self::THUMBNAIL_EXTENSION
             );
             $this->getStore()->delete($storagePath);
@@ -238,7 +238,7 @@ class Manager
 
         $storagePath = $this->getStoragePath(
             $type,
-            $this->getBasename($media->getFilename()),
+            $media->getStorageId(),
             self::THUMBNAIL_EXTENSION
         );
         return $this->getStore()->getUri($storagePath);

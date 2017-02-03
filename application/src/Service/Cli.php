@@ -93,7 +93,7 @@ class Cli
     /**
      * Execute command using PHP's exec function.
      *
-     * @see http://php.net/manual/en/function.exec.php
+     * @link http://php.net/manual/en/function.exec.php
      * @param string $command
      * @return string|false
      */
@@ -111,7 +111,7 @@ class Cli
      *
      * For servers that allow proc_open. Logs standard error.
      *
-     * @see http://php.net/manual/en/function.proc-open.php
+     * @link http://php.net/manual/en/function.proc-open.php
      * @param string $command
      * @return string|false
      */

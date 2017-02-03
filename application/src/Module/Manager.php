@@ -57,7 +57,7 @@ class Manager implements ResourceInterface
     protected $translator;
 
     /**
-     * @var ServiceLocatorInterface;
+     * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
 

@@ -19,7 +19,7 @@ use Zend\EventManager\Event;
  * setting the name of the foreign key column, keyed by the related entity's
  * class name, to the event's "relatedEntities" param.
  *
- * @see http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
+ * @link http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
 class ResourceVisibilityFilter extends SQLFilter
 {

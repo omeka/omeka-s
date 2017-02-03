@@ -8,7 +8,7 @@ use Omeka\File\Manager as FileManager;
 class GdThumbnailer extends AbstractThumbnailer
 {
     /**
-     * @var "gd" resource
+     * @var resource
      */
     protected $origImage;
 

@@ -19,7 +19,7 @@ class OEmbed implements IngesterInterface
     protected $whitelist;
 
     /**
-     * @var HttpClient;
+     * @var HttpClient
      */
     protected $httpClient;
 

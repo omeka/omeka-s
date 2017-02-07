@@ -5,6 +5,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Container;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -137,8 +138,9 @@ class MvcListeners extends AbstractListenerAggregate
             // This is an admin request.
             $url = $event->getRouter()->assemble([], [
                 'name' => 'login',
-                'query' => ['redirect' => $event->getRequest()->getUriString()]
             ]);
+            $session = Container::getDefaultManager()->getStorage();
+            $session->offsetSet('redirect_url', $event->getRequest()->getUriString());
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);

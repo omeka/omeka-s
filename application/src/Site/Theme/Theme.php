@@ -9,6 +9,11 @@ class Theme
     protected $id;
 
     /**
+     * @var string
+     */
+    protected $state;
+
+    /**
      * @var array
      */
     protected $ini;
@@ -22,14 +27,10 @@ class Theme
      * Construct the theme.
      *
      * @param string $id The theme identifier, the directory name
-     * @param array $ini The theme INI configuration
-     * @param array $configSpec The spec for the theme config form
      */
-    public function __construct($id, array $ini, array $configSpec)
+    public function __construct($id)
     {
         $this->id = $id;
-        $this->ini = $ini;
-        $this->configSpec = $configSpec;
     }
 
     /**
@@ -40,6 +41,36 @@ class Theme
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the theme state.
+     *
+     * @param string $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * Get the theme state.
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set the theme INI data.
+     *
+     * @param array $ini
+     */
+    public function setIni($ini)
+    {
+        $this->ini = $ini;
     }
 
     /**
@@ -64,6 +95,16 @@ class Theme
     public function getName()
     {
         return $this->getIni('name') ?: $this->getId();
+    }
+
+    /**
+     * Set the spec for this theme's configuration form.
+     *
+     * @param array $configSpec
+     */
+    public function setConfigSpec($configSpec)
+    {
+        $this->configSpec = $configSpec;
     }
 
     /**

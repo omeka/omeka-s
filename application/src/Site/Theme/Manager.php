@@ -3,6 +3,11 @@ namespace Omeka\Site\Theme;
 
 class Manager
 {
+    const STATE_ACTIVE = 'active';
+    const STATE_INVALID_INI = 'invalid_ini';
+    const STATE_INVALID_OMEKA_VERSION = 'invalid_omeka_version';
+    const STATE_NOT_FOUND = 'not_found';
+
     /**
      * @var array Registered themes
      */
@@ -17,21 +22,24 @@ class Manager
      * Register a new theme.
      *
      * @param string $id
-     * @return Module
+     * @return Theme
      */
-    public function registerTheme(Theme $theme)
+    public function registerTheme($id)
     {
-        $this->themes[$theme->getId()] = $theme;
+        $theme = new Theme($id);
+        $this->themes[$id] = $theme;
+        return $theme;
     }
 
     /**
      * Check whether the theme INI is valid.
      *
-     * @param array $ini
+     * @param Theme $theme
      * @return bool
      */
-    public function iniIsValid(array $ini)
+    public function iniIsValid(Theme $theme)
     {
+        $ini = $theme->getIni();
         if (!isset($ini['name'])) {
             return false;
         }

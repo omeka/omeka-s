@@ -1,5 +1,11 @@
+<?php
+use Omeka\Site\Theme\Manager;
+?>
 <div class="selectable-themes">
-    <?php foreach ($themes as $theme): ?>
+    <?php
+    foreach ($themes as $theme):
+        if (Manager::STATE_ACTIVE === $theme->getState()):
+    ?>
     <?php $themeName = $theme->getName(); ?>
     <?php $defaultActive = (($themeName == 'Default') && !(isset($currentTheme))); ?>
     <?php if (!(isset($currentTheme)) || ($theme->getName() !== $currentTheme->getName())): ?>
@@ -29,5 +35,8 @@
         <input type="hidden" name="o:theme" value="<?php echo $theme->getId(); ?>" <?php echo ($defaultActive) ? '' : 'disabled'; ?>>
     </div>
     <?php endif; ?>
-    <?php endforeach; ?>
+    <?php
+    endif;
+    endforeach;
+    ?>
 </div>

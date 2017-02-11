@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Mvc;
 
+use Omeka\Site\Theme\Manager;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
@@ -226,6 +227,14 @@ class MvcListeners extends AbstractListenerAggregate
         $theme = $site->theme();
         $themeManager = $services->get('Omeka\Site\ThemeManager');
         $themeManager->setCurrentTheme($theme);
+
+        $currentTheme = $themeManager->getCurrentTheme();
+        if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
+            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $event->getApplication()->getEventManager()->triggerEvent($event);
+            return;
+        }
 
         // Add the theme view templates to the path stack.
         $services->get('ViewTemplatePathStack')

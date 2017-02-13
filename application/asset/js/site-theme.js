@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.selectable-themes .theme').click(function() {
+    $('.selectable-themes .theme').not('.invalid').click(function() {
         var theme = $(this);
         if (theme.hasClass('active') && (theme.parents('#site-form').length == 0)) {
             theme.removeClass('active');

@@ -54,7 +54,7 @@ class DbTestCase extends TestCase
         $config = require OMEKA_PATH . '/application/config/application.config.php';
         $reader = new \Zend\Config\Reader\Ini;
         $testConfig = [
-            'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini')
+            'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini'),
         ];
         $config = array_merge($config, $testConfig);
         \Zend\Console\Console::overrideIsConsole(false);
@@ -104,8 +104,8 @@ class DbTestCase extends TestCase
             $installer->registerVars(
                 'Omeka\Installation\Task\AddDefaultSettingsTask', [
                     'administrator_email' => 'admin@example.com',
-                    'installation_title'  => 'Omeka S Test',
-                    'time_zone'           => 'UTC',
+                    'installation_title' => 'Omeka S Test',
+                    'time_zone' => 'UTC',
                 ]);
 
             if (!$installer->install()) {

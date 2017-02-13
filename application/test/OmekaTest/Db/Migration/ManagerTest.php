@@ -9,12 +9,12 @@ class ManagerTest extends TestCase
     public $migrations = [
         '1' => [
             'path' => '/path/1',
-            'class' => 'Migration1'
+            'class' => 'Migration1',
         ],
         '2' => [
             'path' => '/path/2',
-            'class' => 'Migration2'
-        ]
+            'class' => 'Migration2',
+        ],
     ];
 
     public function testGetMigrationsWithNoneCompleted()
@@ -131,12 +131,12 @@ class ManagerTest extends TestCase
         $migrations = [
             '1' => [
                 'path' => $path . DIRECTORY_SEPARATOR . '1_MockMigration.php',
-                'class' => $namespace . '\MockMigration'
+                'class' => $namespace . '\MockMigration',
             ],
             '2' => [
                 'path' => $path . DIRECTORY_SEPARATOR . '2_MockInvalidMigration.php',
-                'class' => $namespace . '\MockInvalidMigration'
-            ]
+                'class' => $namespace . '\MockInvalidMigration',
+            ],
         ];
 
         $connection = $this->getMock('Doctrine\DBAL\Connection',
@@ -163,7 +163,7 @@ class ManagerTest extends TestCase
 
         $manager = $this->getMock('Omeka\Db\Migration\Manager',
             ['getMigrationsToPerform', 'loadMigration', 'recordMigration',
-                'clearDoctrineCache'],
+                'clearDoctrineCache', ],
             [[], $connection, $sm], '');
         $manager->expects($this->once())
             ->method('getMigrationsToPerform')

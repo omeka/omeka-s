@@ -38,7 +38,7 @@ class Installer
      */
     public function preInstall()
     {
-        foreach($this->getPreTasks() as $taskName) {
+        foreach ($this->getPreTasks() as $taskName) {
             try {
                 $task = new $taskName;
                 $task->perform($this);
@@ -62,7 +62,7 @@ class Installer
             return false;
         }
 
-        foreach($this->getTasks() as $taskName) {
+        foreach ($this->getTasks() as $taskName) {
             try {
                 $task = new $taskName;
                 $task->perform($this);
@@ -122,7 +122,7 @@ class Installer
     /**
      * Register a specific task's variables.
      *
-     * @param str $task
+     * @param string $task
      * @param array $vars
      */
     public function registerVars($task, array $vars)

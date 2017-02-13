@@ -112,9 +112,9 @@ class SiteAdapter extends AbstractEntityAdapter
                             'o:block' => [
                                 [
                                     'o:layout' => 'html',
-                                    'o:data' => ['html' => $translator->translate('Welcome to your new site. This is an example page.')]
-                                ]
-                            ]
+                                    'o:data' => ['html' => $translator->translate('Welcome to your new site. This is an example page.')],
+                                ],
+                            ],
                         ]
                     );
                 try {
@@ -130,13 +130,11 @@ class SiteAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:site_permission')
             && is_array($sitePermissionsData)
         ) {
-
             $userAdapter = $this->getAdapter('users');
             $sitePermissions = $entity->getSitePermissions();
             $sitePermissionsToRetain = [];
 
             foreach ($sitePermissionsData as $sitePermissionData) {
-
                 if (!isset($sitePermissionData['o:user']['o:id'])) {
                     continue;
                 }
@@ -167,7 +165,6 @@ class SiteAdapter extends AbstractEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:site_item_set')) {
-
             $itemSetsData = $request->getValue('o:site_item_set', []);
             $siteItemSets = $entity->getSiteItemSets();
             $itemSetsAdapter = $this->getAdapter('item_sets');
@@ -266,8 +263,7 @@ class SiteAdapter extends AbstractEntityAdapter
 
         $pagesInNavigation = [];
         $manager = $this->getServiceLocator()->get('Omeka\Site\NavigationLinkManager');
-        $validateLinks = function ($linksIn) use (&$validateLinks, $manager, $errorStore, $pagesInNavigation)
-        {
+        $validateLinks = function ($linksIn) use (&$validateLinks, $manager, $errorStore, $pagesInNavigation) {
             foreach ($linksIn as $key => $data) {
                 if (!isset($data['type'])) {
                     $errorStore->addError('o:navigation', 'Invalid navigation: link missing type'); // @translate
@@ -319,7 +315,7 @@ class SiteAdapter extends AbstractEntityAdapter
                     'query' => '',
                 ],
                 'links' => [],
-            ]
+            ],
         ];
     }
 }

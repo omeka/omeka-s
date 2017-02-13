@@ -30,7 +30,7 @@ class LoginForm extends Form
         ]);
         $this->add([
             'name' => 'submit',
-            'type'  => 'Submit',
+            'type' => 'Submit',
             'attributes' => [
                 'value' => 'Log in', // @translate
             ],

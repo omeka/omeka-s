@@ -123,7 +123,7 @@ class OEmbed implements IngesterInterface
         ]);
         $urlInput->setAttributes([
             'id' => 'media-oembed-source-__index__',
-            'required' => true
+            'required' => true,
         ]);
         return $view->formRow($urlInput);
     }

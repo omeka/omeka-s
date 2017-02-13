@@ -22,6 +22,5 @@ class PageTitle extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         return sprintf('<h2>%s</h2>', $block->page()->title());
-
     }
 }

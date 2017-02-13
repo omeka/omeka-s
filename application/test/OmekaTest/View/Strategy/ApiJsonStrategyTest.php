@@ -58,7 +58,7 @@ class ApiJsonStrategyTest extends TestCase
             [ApiResponse::ERROR, 'bar', new Exception\PermissionDeniedException, 403],
             [ApiResponse::ERROR, 'bar', new \Exception, 500],
             [ApiResponse::ERROR, 'bar', new JsonException\RuntimeException, 400],
-            ['foo', 'bar', null, 500]
+            ['foo', 'bar', null, 500],
         ];
     }
 

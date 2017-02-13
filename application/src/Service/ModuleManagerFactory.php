@@ -102,7 +102,6 @@ class ModuleManagerFactory implements FactoryInterface
         }
 
         foreach ($dbModules as $moduleRow) {
-
             if (!$manager->isRegistered($moduleRow['id'])) {
                 // Module installed but not in filesystem
                 $module = $manager->registerModule($moduleRow['id']);

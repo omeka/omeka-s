@@ -14,12 +14,12 @@ class UserAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'        => 'id',
-        'email'     => 'email',
-        'name'      => 'name',
-        'created'   => 'created',
-        'modified'  => 'modified',
-        'role'      => 'role',
+        'id' => 'id',
+        'email' => 'email',
+        'name' => 'name',
+        'created' => 'created',
+        'modified' => 'modified',
+        'role' => 'role',
     ];
 
     /**

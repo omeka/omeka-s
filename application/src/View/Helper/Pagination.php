@@ -78,19 +78,19 @@ class Pagination extends AbstractHelper
         return $this->getView()->partial(
             $this->partialName,
             [
-                'totalCount'      => $paginator->getTotalCount(),
-                'perPage'         => $paginator->getPerPage(),
-                'currentPage'     => $paginator->getCurrentPage(),
-                'previousPage'    => $paginator->getPreviousPage(),
-                'nextPage'        => $paginator->getNextPage(),
-                'pageCount'       => $pageCount,
-                'query'           => $this->getView()->params()->fromQuery(),
-                'firstPageUrl'    => $this->getUrl(1),
+                'totalCount' => $paginator->getTotalCount(),
+                'perPage' => $paginator->getPerPage(),
+                'currentPage' => $paginator->getCurrentPage(),
+                'previousPage' => $paginator->getPreviousPage(),
+                'nextPage' => $paginator->getNextPage(),
+                'pageCount' => $pageCount,
+                'query' => $this->getView()->params()->fromQuery(),
+                'firstPageUrl' => $this->getUrl(1),
                 'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
-                'nextPageUrl'     => $this->getUrl($paginator->getNextPage()),
-                'lastPageUrl'     => $this->getUrl($pageCount),
-                'pagelessUrl'     => $this->getPagelessUrl(),
-                'offset'          => $paginator->getOffset()
+                'nextPageUrl' => $this->getUrl($paginator->getNextPage()),
+                'lastPageUrl' => $this->getUrl($pageCount),
+                'pagelessUrl' => $this->getPagelessUrl(),
+                'offset' => $paginator->getOffset(),
             ]
         );
     }

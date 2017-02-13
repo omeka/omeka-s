@@ -36,7 +36,9 @@ class ResourceReferenceTest extends TestCase
         $this->viewHelperManager->expects($this->once())
             ->method('get')
             ->with('Url')
-            ->will($this->returnValue(function () use ($jsonLdId) { return $jsonLdId; }));
+            ->will($this->returnValue(function () use ($jsonLdId) {
+                return $jsonLdId;
+            }));
 
         $resourceReference = new ResourceReference($this->resource, $this->adapter);
 

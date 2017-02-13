@@ -25,7 +25,6 @@ class LineBreak extends AbstractBlockLayout
         $breakType = $block->dataValue('break_type');
 
         return "<div class='break $breakType'></div>";
-
     }
 
     public function breakTypeSelect(PhpRenderer $view, SiteRepresentation $site,
@@ -40,7 +39,7 @@ class LineBreak extends AbstractBlockLayout
         $select = new Select('o:block[__blockIndex__][o:data][break_type]');
         $select->setValueOptions($options)->setValue($breakType);
 
-        $html  = '<div class="field">';
+        $html = '<div class="field">';
         $html .= '<div class="field-meta"><label>' . $view->translate('Break Type') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div>';
         $html .= '</div>';

@@ -16,7 +16,8 @@ class Paginator extends AbstractPlugin
         $this->viewHelpers = $viewHelpers;
     }
 
-    public function __invoke($totalCount, $currentPage, $perPage = null, $name = null) {
+    public function __invoke($totalCount, $currentPage, $perPage = null, $name = null)
+    {
         $pagination = $this->viewHelpers->get('pagination');
         $pagination($name, $totalCount, $currentPage, $perPage);
     }

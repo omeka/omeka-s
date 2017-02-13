@@ -52,7 +52,7 @@ class ResourceReference extends AbstractRepresentation
     {
         return [
             '@id' => $this->apiUrl(),
-            'o:id'  => $this->id(),
+            'o:id' => $this->id(),
         ];
     }
 }

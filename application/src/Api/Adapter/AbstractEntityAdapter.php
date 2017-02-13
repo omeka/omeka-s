@@ -63,7 +63,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param ErrorStore $errorStore
      */
     public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
+    {
+    }
 
     /**
      * Validate an entity.
@@ -77,7 +78,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param ErrorStore $errorStore
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
-    {}
+    {
+    }
 
     /**
      * Build a conditional search query from an API request.
@@ -91,7 +93,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param array $query
      */
     public function buildQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+    }
 
     /**
      * Set sort_by and sort_order conditions to the query builder.

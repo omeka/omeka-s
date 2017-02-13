@@ -133,8 +133,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         $linkedPages = [];
         $pages = $this->pages();
-        $iterate = function ($linksIn) use (&$iterate, &$linkedPages, $pages)
-        {
+        $iterate = function ($linksIn) use (&$iterate, &$linkedPages, $pages) {
             foreach ($linksIn as $key => $data) {
                 if ('page' === $data['type'] && isset($pages[$data['data']['id']])) {
                     $linkedPages[$data['data']['id']] = $pages[$data['data']['id']];
@@ -167,7 +166,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         $sitePermissions = [];
         foreach ($this->resource->getSitePermissions() as $sitePermission) {
-            $sitePermissions[]= new SitePermissionRepresentation(
+            $sitePermissions[] = new SitePermissionRepresentation(
                 $sitePermission, $this->getServiceLocator());
         }
         return $sitePermissions;
@@ -182,7 +181,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         $itemSets = [];
         foreach ($this->resource->getSiteItemSets() as $itemSet) {
-            $itemSets[]= new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
+            $itemSets[] = new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
         }
         return $itemSets;
     }

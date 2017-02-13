@@ -197,7 +197,7 @@ class ItemController extends AbstractActionController
         foreach ($this->mediaIngesters->getRegisteredNames() as $ingester) {
             $forms[$ingester] = [
                 'label' => $this->mediaIngesters->get($ingester)->getLabel(),
-                'form' => $mediaHelper->form($ingester)
+                'form' => $mediaHelper->form($ingester),
             ];
         }
         return $forms;

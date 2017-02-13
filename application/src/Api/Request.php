@@ -8,12 +8,12 @@ use Zend\Stdlib\Request as ZendRequest;
  */
 class Request extends ZendRequest
 {
-    const SEARCH       = 'search';
-    const CREATE       = 'create';
+    const SEARCH = 'search';
+    const CREATE = 'create';
     const BATCH_CREATE = 'batch_create';
-    const READ         = 'read';
-    const UPDATE       = 'update';
-    const DELETE       = 'delete';
+    const READ = 'read';
+    const UPDATE = 'update';
+    const DELETE = 'delete';
 
     /**
      * @var array

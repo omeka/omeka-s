@@ -18,12 +18,13 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter = $this->getMock(
             'Omeka\Api\Adapter\AbstractEntityAdapter',
             ['hydrate', 'getResourceName', 'getRepresentationClass',
-                'getEntityClass', 'getEventManager']
+                'getEntityClass', 'getEventManager', ]
         );
     }
 
     public function testSearch()
-    {}
+    {
+    }
 
     public function testCreate()
     {
@@ -97,15 +98,29 @@ class AbstractEntityAdapterTest extends TestCase
 
 class TestEntity extends AbstractEntity
 {
-    public function getId() {}
+    public function getId()
+    {
+    }
 }
 
 class TestRepresentation implements RepresentationInterface
 {
-    public function setData($data) {}
-    public function jsonSerialize() {}
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {}
-    public function getServiceLocator() {}
-    public function setEventManager(EventManagerInterface $eventManager) {}
-    public function getEventManager() {}
+    public function setData($data)
+    {
+    }
+    public function jsonSerialize()
+    {
+    }
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+    }
+    public function getServiceLocator()
+    {
+    }
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+    }
+    public function getEventManager()
+    {
+    }
 }

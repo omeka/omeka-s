@@ -183,7 +183,7 @@ class AclFactory implements FactoryInterface
 
         $adminAssertion = $this->aggregate([
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('admin')
+            new HasSitePermissionAssertion('admin'),
         ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
@@ -194,7 +194,7 @@ class AclFactory implements FactoryInterface
 
         $editorAssertion = $this->aggregate([
                 new OwnsEntityAssertion,
-                new HasSitePermissionAssertion('editor')
+                new HasSitePermissionAssertion('editor'),
             ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
@@ -212,7 +212,7 @@ class AclFactory implements FactoryInterface
         $viewerAssertion = $this->aggregate([
             new SiteIsPublicAssertion,
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('viewer')
+            new HasSitePermissionAssertion('viewer'),
         ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,

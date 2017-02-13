@@ -34,7 +34,7 @@ class HasSitePermissionAssertion implements AssertionInterface
         }
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('user', $role));
-        $sitePermission =  $resource->getSitePermissions()
+        $sitePermission = $resource->getSitePermissions()
             ->matching($criteria)->first();
         if (!$sitePermission) {
             // This user has no site permission

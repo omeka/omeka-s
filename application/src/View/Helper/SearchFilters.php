@@ -32,11 +32,10 @@ class SearchFilters extends AbstractHelper
             'in' => $translate('contains value(s)'),
             'nin' => $translate('does not contain value(s)'),
             'res' => $translate('has resource'),
-            'nres' => $translate('does not have resource')
+            'nres' => $translate('does not have resource'),
         ];
 
-        foreach($query as $key => $value) {
-
+        foreach ($query as $key => $value) {
             if ($value != null && in_array($key, $exclude) == false) {
                 switch ($key) {
 
@@ -157,7 +156,7 @@ class SearchFilters extends AbstractHelper
         return $this->getView()->partial(
             $partialName,
             [
-                'filters'     => $filters
+                'filters' => $filters,
             ]
         );
     }

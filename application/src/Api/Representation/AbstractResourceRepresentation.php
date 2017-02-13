@@ -152,7 +152,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
             'api/default',
             [
                 'resource' => $this->getAdapter()->getResourceName(),
-                'id' => $this->id()
+                'id' => $this->id(),
             ],
             ['force_canonical' => true]
         );

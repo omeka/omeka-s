@@ -63,7 +63,6 @@ class ApiJsonRendererTest extends TestCase
               ->method('getException')
               ->will($this->returnValue(new \Exception('exception message')));
 
-
         $renderer = new ApiJsonRenderer;
 
         $errors['status'] = 'exception message';

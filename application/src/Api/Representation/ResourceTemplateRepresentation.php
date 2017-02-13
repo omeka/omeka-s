@@ -81,7 +81,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         $resTemProps = [];
         foreach ($this->resource->getResourceTemplateProperties() as $resTemProp) {
-            $resTemProps[]= new ResourceTemplatePropertyRepresentation(
+            $resTemProps[] = new ResourceTemplatePropertyRepresentation(
                 $resTemProp, $this->getServiceLocator());
         }
         return $resTemProps;

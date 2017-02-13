@@ -26,8 +26,8 @@ class ItemWithMetadata extends AbstractBlockLayout
             return 'No item selected'; // @translate
         }
 
-        return $view->partial('common/block-layout/item-with-metadata', array(
+        return $view->partial('common/block-layout/item-with-metadata', [
             'attachments' => $attachments,
-        ));
+        ]);
     }
 }

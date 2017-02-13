@@ -53,10 +53,10 @@ class SystemInfoController extends AbstractActionController
             'MySQL' => [
                 'Server Version' => $conn->getAttribute(PDO::ATTR_SERVER_VERSION),
                 'Client Version' => $conn->getAttribute(PDO::ATTR_CLIENT_VERSION),
-                'Mode'           => explode(',', $mode),
+                'Mode' => explode(',', $mode),
             ],
             'OS' => [
-                'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m'))
+                'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
         ];
 

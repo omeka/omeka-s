@@ -217,7 +217,6 @@ class Manager
     public function getThumbnailUrl($type, Media $media)
     {
         if (!$media->hasThumbnails() || !$this->thumbnailTypeExists($type)) {
-
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);

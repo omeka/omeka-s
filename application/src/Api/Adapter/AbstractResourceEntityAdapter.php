@@ -309,7 +309,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ->createQuery($dql)
             ->setParameters([
                 'localName' => $localName,
-                'prefix' => $prefix
+                'prefix' => $prefix,
             ])->getOneOrNullResult();
     }
 

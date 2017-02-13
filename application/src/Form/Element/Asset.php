@@ -20,8 +20,8 @@ class Asset extends Element implements InputProviderInterface
                 [
                     'name' => 'Regex',
                     'options' => ['pattern' => '/^[0-9]+$/'],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

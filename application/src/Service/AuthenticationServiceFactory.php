@@ -31,7 +31,9 @@ class AuthenticationServiceFactory implements FactoryInterface
             ($status->needsVersionUpdate() && $status->needsMigration())
         ) {
             $storage = new NonPersistent;
-            $adapter = new Callback(function () { return null; });
+            $adapter = new Callback(function () {
+                return null;
+            });
         } else {
             $userRepository = $entityManager->getRepository('Omeka\Entity\User');
             if ($status->isApiRequest()) {

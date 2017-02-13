@@ -41,7 +41,7 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $this->getSiteSettings()->get('attachment_link_type'),
-            ]
+            ],
         ]);
 
         $addEvent = new Event('form.add_elements', $this);

@@ -84,7 +84,6 @@ class ResourceAdapter extends AbstractEntityAdapter
         AbstractAdapter::batchCreate($request);
     }
 
-
     /**
      * {@inheritDoc}
      */

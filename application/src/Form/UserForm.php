@@ -36,15 +36,15 @@ class UserForm extends Form
     {
         $this->add([
             'name' => 'user-information',
-            'type' => 'fieldset'
+            'type' => 'fieldset',
         ]);
         $this->add([
             'name' => 'change-password',
-            'type' => 'fieldset'
+            'type' => 'fieldset',
         ]);
         $this->add([
             'name' => 'edit-keys',
-            'type' => 'fieldset'
+            'type' => 'fieldset',
         ]);
         $this->get('user-information')->add([
             'name' => 'o:email',
@@ -100,7 +100,7 @@ class UserForm extends Form
         }
 
         if ($this->getOption('include_password')) {
-            if ($this->getOption('current_password')){
+            if ($this->getOption('current_password')) {
                 $this->get('change-password')->add([
                     'name' => 'current-password',
                     'type' => 'password',
@@ -109,7 +109,7 @@ class UserForm extends Form
                     ],
                 ]);
             }
-           $this->get('change-password')->add([
+            $this->get('change-password')->add([
                 'name' => 'password',
                 'type' => 'Password',
                 'options' => [
@@ -142,7 +142,6 @@ class UserForm extends Form
                     'id' => 'new-key-label',
                 ],
             ]);
-
         }
 
         $addEvent = new Event('form.add_elements', $this);
@@ -174,7 +173,7 @@ class UserForm extends Form
                             'token' => 'password-confirm',
                             'messages' => [
                                 'notSame' => 'Password confirmation must match new password', // @translate
-                            ]
+                            ],
                         ],
                     ],
                 ],

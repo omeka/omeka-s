@@ -15,7 +15,6 @@ $defaultVocabs = (new InstallDefaultVocabulariesTask)->getVocabularies();
 // Build the msgids and their comments.
 $msgids = [];
 foreach ($defaultVocabs as $defaultVocab) {
-
     $members = $rdfImporter->getMembers(
         $defaultVocab['strategy'],
         $defaultVocab['vocabulary']['o:namespace_uri'],

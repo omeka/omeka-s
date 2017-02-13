@@ -54,7 +54,6 @@ class HtmlElement extends AbstractHtmlElement
         return $this;
     }
 
-
     /**
      * Append an attribute to an element
      *

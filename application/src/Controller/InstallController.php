@@ -42,8 +42,8 @@ class InstallController extends AbstractActionController
                     'Omeka\Installation\Task\AddDefaultSettingsTask',
                     [
                         'administrator_email' => $data['user']['email'],
-                        'installation_title'  => $data['settings']['installation_title'],
-                        'time_zone'           => $data['settings']['time_zone'],
+                        'installation_title' => $data['settings']['installation_title'],
+                        'time_zone' => $data['settings']['time_zone'],
                     ]
                 );
                 if ($this->installer->install()) {

@@ -27,7 +27,7 @@ class OEmbed implements RendererInterface
                 $view->escapeHtml($height),
                 $view->escapeHtml($title)
             );
-        } else if (!empty($data['html'])) {
+        } elseif (!empty($data['html'])) {
             return $data['html'];
         } else {
             $source = $media->source();

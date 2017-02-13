@@ -9,9 +9,9 @@ use Zend\Stdlib\Response as ZendResponse;
  */
 class Response extends ZendResponse
 {
-    const SUCCESS           = 'success';
-    const ERROR             = 'error';
-    const ERROR_VALIDATION  = 'error_validation';
+    const SUCCESS = 'success';
+    const ERROR = 'error';
+    const ERROR_VALIDATION = 'error_validation';
 
     /**
      * @var array

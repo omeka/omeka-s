@@ -12,11 +12,11 @@ class JobAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'      => 'id',
-        'status'  => 'status',
-        'class'   => 'class',
+        'id' => 'id',
+        'status' => 'status',
+        'class' => 'class',
         'started' => 'started',
-        'ended'   => 'ended',
+        'ended' => 'ended',
     ];
 
     /**
@@ -48,7 +48,8 @@ class JobAdapter extends AbstractEntityAdapter
      */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

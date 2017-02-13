@@ -37,11 +37,11 @@ class ItemShowcase extends AbstractBlockLayout
 
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
-        return $view->partial('common/block-layout/item-showcase', array(
+        return $view->partial('common/block-layout/item-showcase', [
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $thumbnailType,
-            'showTitleOption' => $showTitleOption
-        ));
+            'showTitleOption' => $showTitleOption,
+        ]);
     }
 }

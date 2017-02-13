@@ -14,10 +14,10 @@ class PropertyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'         => 'id',
+        'id' => 'id',
         'local_name' => 'localName',
-        'label'      => 'label',
-        'comment'    => 'comment',
+        'label' => 'label',
+        'comment' => 'comment',
     ];
 
     /**

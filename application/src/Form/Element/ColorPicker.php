@@ -28,8 +28,8 @@ class ColorPicker extends Text implements InputProviderInterface
                         'callback' => [$this, 'validateColor'],
                         'message' => 'Invalid color format', // @translate
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 

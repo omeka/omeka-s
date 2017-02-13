@@ -40,26 +40,25 @@ class Media extends AbstractBlockLayout
         $linkType = $view->siteSetting('attachment_link_type', 'item');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
 
-        return $view->partial('common/block-layout/file', array(
+        return $view->partial('common/block-layout/file', [
             'block' => $block,
             'attachments' => $attachments,
             'alignmentClass' => $alignmentClass,
             'thumbnailType' => $thumbnailType,
             'link' => $linkType,
-            'showTitleOption' => $showTitleOption
-        ));
-
+            'showTitleOption' => $showTitleOption,
+        ]);
     }
 
     public function alignmentClassSelect(PhpRenderer $view,
         SitePageBlockRepresentation $block = null
     ) {
-        $alignments = array('left', 'right');
+        $alignments = ['left', 'right'];
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
         $selectLabel = 'Thumbnail Alignment'; // @translate
-        $html  = '<div class="field"><div class="field-meta">';
+        $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
         return $html;

@@ -47,8 +47,7 @@ class PageController extends AbstractActionController
         $site = $this->currentSite();
 
         $indents = [];
-        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents)
-        {
+        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents) {
             foreach ($linksIn as $key => $data) {
                 if ('page' === $data['type']) {
                     $indents[$data['data']['id']] = $depth;

@@ -35,7 +35,7 @@ class BlockThumbnailTypeSelect extends AbstractHelper
 
         $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
         $select->setValueOptions(array_combine($types, $types))->setValue($type);
-        $html  = '<div class="field"><div class="field-meta">';
+        $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][thumbnail_type]">' . $view->translate('Thumbnail Type') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
         return $html;

@@ -28,7 +28,7 @@ class SiteForm extends Form
             'name' => 'o:slug',
             'type' => 'Text',
             'options' => [
-                'label' => 'URL slug' // @translate
+                'label' => 'URL slug', // @translate
             ],
             'attributes' => [
                 'id' => 'slug',

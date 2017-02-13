@@ -32,8 +32,7 @@ class Translator
     public function toZend(SiteRepresentation $site)
     {
         $manager = $this->linkManager;
-        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
-        {
+        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager) {
             $linksOut = [];
             foreach ($linksIn as $key => $data) {
                 $linkType = $manager->get($data['type']);
@@ -68,8 +67,7 @@ class Translator
     public function toJstree(SiteRepresentation $site)
     {
         $manager = $this->linkManager;
-        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager)
-        {
+        $buildLinks = function ($linksIn) use (&$buildLinks, $site, $manager) {
             $linksOut = [];
             foreach ($linksIn as $data) {
                 $linkType = $manager->get($data['type']);

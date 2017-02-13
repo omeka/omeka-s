@@ -142,7 +142,7 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $user =  $this->entityManager->getRepository('Omeka\Entity\User')
+                $user = $this->entityManager->getRepository('Omeka\Entity\User')
                     ->findOneBy([
                         'email' => $data['email'],
                         'isActive' => true,

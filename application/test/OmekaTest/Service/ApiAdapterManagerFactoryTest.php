@@ -38,17 +38,43 @@ class ApiAdapterManagerFactoryTest extends TestCase
 
 class TestAdapter implements AdapterInterface
 {
-    public function getResourceName() {}
-    public function getRepresentationClass() {}
-    public function search(Request $request) {}
-    public function create(Request $request) {}
-    public function batchCreate(Request $request) {}
-    public function read(Request $request) {}
-    public function update(Request $request) {}
-    public function delete(Request $request) {}
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {}
-    public function getServiceLocator() {}
-    public function setEventManager(EventManagerInterface $events) {}
-    public function getEventManager() {}
-    public function getResourceId() {}
+    public function getResourceName()
+    {
+    }
+    public function getRepresentationClass()
+    {
+    }
+    public function search(Request $request)
+    {
+    }
+    public function create(Request $request)
+    {
+    }
+    public function batchCreate(Request $request)
+    {
+    }
+    public function read(Request $request)
+    {
+    }
+    public function update(Request $request)
+    {
+    }
+    public function delete(Request $request)
+    {
+    }
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+    }
+    public function getServiceLocator()
+    {
+    }
+    public function setEventManager(EventManagerInterface $events)
+    {
+    }
+    public function getEventManager()
+    {
+    }
+    public function getResourceId()
+    {
+    }
 }

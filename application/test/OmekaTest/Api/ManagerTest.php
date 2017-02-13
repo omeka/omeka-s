@@ -12,7 +12,7 @@ class ManagerTest extends TestCase
 
     protected $requestOperations = [
         Request::SEARCH, Request::CREATE, Request::READ,
-        Request::UPDATE, Request::DELETE
+        Request::UPDATE, Request::DELETE,
     ];
 
     public function testSearch()
@@ -234,7 +234,6 @@ class ManagerTest extends TestCase
             ->method('setRequest')
             ->with($this->isInstanceOf('Omeka\Api\request'));
         return $mockResponse;
-
     }
 
     protected function getMockRequest($operation, $isValidOperation)

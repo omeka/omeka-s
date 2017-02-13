@@ -15,7 +15,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $config = require OMEKA_PATH . '/application/config/application.config.php';
         $reader = new \Zend\Config\Reader\Ini;
         $testConfig = [
-            'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini')
+            'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini'),
         ];
         $config = array_merge($config, $testConfig);
 

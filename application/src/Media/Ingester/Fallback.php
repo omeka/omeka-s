@@ -49,7 +49,8 @@ class Fallback implements IngesterInterface
      */
     public function ingest(Media $media, Request $request,
         ErrorStore $errorStore
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

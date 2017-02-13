@@ -8,8 +8,8 @@ return [
                     'route' => '/',
                     'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => 'Index',
+                        'action' => 'index',
                     ],
                 ],
             ],
@@ -18,13 +18,13 @@ return [
                 'options' => [
                     'route' => '/s/:site-slug',
                     'constraints' => [
-                        'site-slug'  => '[a-zA-Z0-9_-]+',
+                        'site-slug' => '[a-zA-Z0-9_-]+',
                     ],
                     'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller\Site',
-                        '__SITE__'      => true,
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        '__SITE__' => true,
+                        'controller' => 'Index',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
@@ -34,11 +34,11 @@ return [
                         'options' => [
                             'route' => '/:controller[/:action]',
                             'defaults' => [
-                                'action'    => 'browse',
+                                'action' => 'browse',
                             ],
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ],
                         ],
                     ],
@@ -47,12 +47,12 @@ return [
                         'options' => [
                             'route' => '/:controller/:id[/:action]',
                             'defaults' => [
-                                'action'     => 'show',
+                                'action' => 'show',
                             ],
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'         => '\d+',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
                             ],
                         ],
                     ],
@@ -62,11 +62,11 @@ return [
                             'route' => '/item-set/:item-set-id',
                             'defaults' => [
                                 'controller' => 'Item',
-                                'action'     => 'browse',
+                                'action' => 'browse',
                             ],
                             'constraints' => [
                                 'item-set-id' => '\d+',
-                            ]
+                            ],
                         ],
                     ],
                     'page' => [
@@ -87,9 +87,9 @@ return [
                     'route' => '/admin',
                     'defaults' => [
                         '__NAMESPACE__' => 'Omeka\Controller\Admin',
-                        '__ADMIN__'     => true,
-                        'controller'    => 'Index',
-                        'action'        => 'browse',
+                        '__ADMIN__' => true,
+                        'controller' => 'Index',
+                        'action' => 'browse',
                     ],
                 ],
                 'may_terminate' => true,
@@ -100,7 +100,7 @@ return [
                             'route' => '/:controller[/:action]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ],
                             'defaults' => [
                                 'action' => 'browse',
@@ -113,8 +113,8 @@ return [
                             'route' => '/:controller/:id[/:action]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'         => '\d+',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
                             ],
                             'defaults' => [
                                 'action' => 'show',
@@ -127,9 +127,9 @@ return [
                             'route' => '/site',
                             'defaults' => [
                                 '__NAMESPACE__' => 'Omeka\Controller\SiteAdmin',
-                                '__SITEADMIN__'  => true,
-                                'controller'    => 'Index',
-                                'action'        => 'index',
+                                '__SITEADMIN__' => true,
+                                'controller' => 'Index',
+                                'action' => 'index',
                             ],
                         ],
                         'may_terminate' => true,
@@ -172,7 +172,7 @@ return [
                                                 'options' => [
                                                     'route' => '/:page-slug[/:action]',
                                                     'constraints' => [
-                                                        'page-slug'  => '[a-zA-Z0-9_-]+',
+                                                        'page-slug' => '[a-zA-Z0-9_-]+',
                                                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                                     ],
                                                     'defaults' => [

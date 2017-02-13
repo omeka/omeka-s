@@ -39,7 +39,7 @@ class SettingForm extends Form
                 'label' => 'Administrator Email', // @translate
             ],
             'attributes' => [
-                'value'    => $this->settings->get('administrator_email'),
+                'value' => $this->settings->get('administrator_email'),
                 'required' => true,
             ],
         ]);
@@ -51,7 +51,7 @@ class SettingForm extends Form
                 'label' => 'Installation Title', // @translate
             ],
             'attributes' => [
-                'value'    => $this->settings->get('installation_title'),
+                'value' => $this->settings->get('installation_title'),
                 'id' => 'installation-title',
                 'required' => true,
             ],
@@ -81,7 +81,7 @@ class SettingForm extends Form
                 'info' => 'The maximum number of results per page on browse pages.', // @translate
             ],
             'attributes' => [
-                'value'    => $this->settings->get('pagination_per_page'),
+                'value' => $this->settings->get('pagination_per_page'),
                 'required' => true,
             ],
         ]);
@@ -92,14 +92,14 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'Property Label Information', // @translate
                 'info' => 'The additional information that accompanies labels on resource pages.', // @translate
-                'value_options' =>  [
+                'value_options' => [
                     'none' => 'None',
                     'vocab' => 'Show Vocabulary',
-                    'term' => 'Show Term'
+                    'term' => 'Show Term',
                 ],
             ],
             'attributes' => [
-                'value'    => $this->settings->get('property_label_information'),
+                'value' => $this->settings->get('property_label_information'),
             ],
         ]);
 
@@ -119,7 +119,7 @@ class SettingForm extends Form
                 ],
             ],
             'attributes' => [
-                'value'    => $this->settings->get('default_site'),
+                'value' => $this->settings->get('default_site'),
                 'required' => false,
             ],
         ]);
@@ -136,14 +136,14 @@ class SettingForm extends Form
         $securityFieldset = $this->get('security');
 
         $securityFieldset->add([
-            'name'    => 'use_htmlpurifier',
-            'type'    => 'Checkbox',
+            'name' => 'use_htmlpurifier',
+            'type' => 'Checkbox',
             'options' => [
                 'label' => 'Use HTMLPurifier', // @translate
-                'info'  => 'Clean up user-entered HTML.' // @translate
+                'info' => 'Clean up user-entered HTML.', // @translate
             ],
             'attributes' => [
-                'value'    => $this->settings->get('use_htmlpurifier'),
+                'value' => $this->settings->get('use_htmlpurifier'),
             ],
         ]);
 
@@ -152,10 +152,10 @@ class SettingForm extends Form
             'name' => 'disable_file_validation',
             'options' => [
                 'label' => 'Disable file validation', // @translate
-                'info'  => 'Check this to disable file media type and extension validation.' // @translate
+                'info' => 'Check this to disable file media type and extension validation.', // @translate
             ],
             'attributes' => [
-                'value'    => $this->settings->get('disable_file_validation'),
+                'value' => $this->settings->get('disable_file_validation'),
             ],
         ]);
         $mediaTypeWhitelist = new RestoreTextarea('media_type_whitelist');
@@ -214,7 +214,7 @@ class SettingForm extends Form
                 ['name' => 'StringTrim'],
             ],
             'validators' => [
-                ['name' => 'Digits']
+                ['name' => 'Digits'],
             ],
         ]);
         $generalInputFilter->add([
@@ -236,7 +236,7 @@ class SettingForm extends Form
                             $mediaTypes = array_filter($mediaTypes); // remove empty
                             $mediaTypes = array_unique($mediaTypes); // remove duplicate
                             return $mediaTypes;
-                        }
+                        },
                     ],
                 ],
             ],
@@ -254,7 +254,7 @@ class SettingForm extends Form
                             $extensions = array_filter($extensions); // remove empty
                             $extensions = array_unique($extensions); // remove duplicate
                             return $extensions;
-                        }
+                        },
                     ],
                 ],
             ],
@@ -280,5 +280,4 @@ class SettingForm extends Form
     {
         return $this->settings;
     }
-
 }

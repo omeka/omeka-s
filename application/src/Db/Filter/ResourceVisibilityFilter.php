@@ -30,8 +30,8 @@ class ResourceVisibilityFilter extends SQLFilter
 
     protected $relatedEntities;
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias) {
-
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    {
         if (null === $this->relatedEntities) {
             // Cache the related entities on the first pass.
             $eventManager = $this->serviceLocator->get('EventManager');

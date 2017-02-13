@@ -63,7 +63,6 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-
         if (isset($query['label'])) {
             $qb->andWhere($qb->expr()->eq(
                 "Omeka\Entity\ResourceTemplate.label",
@@ -75,7 +74,8 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function validateRequest(Request $request, ErrorStore $errorStore) {
+    public function validateRequest(Request $request, ErrorStore $errorStore)
+    {
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties.
@@ -148,7 +148,6 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $resTemPropsToRetain = [];
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
-
                 if (!isset($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
                 }

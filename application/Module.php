@@ -209,15 +209,15 @@ class Module extends AbstractModule
     public function navigationPageIsAllowed(ZendEvent $event)
     {
         $accepted = true;
-        $params   = $event->getParams();
-        $acl      = $params['acl'];
-        $page     = $params['page'];
+        $params = $event->getParams();
+        $acl = $params['acl'];
+        $page = $params['page'];
 
         if (!$acl) {
             return $accepted;
         }
 
-        $resource  = $page->getResource();
+        $resource = $page->getResource();
         $privilege = $page->getPrivilege();
 
         if ($resource || $privilege) {
@@ -245,7 +245,7 @@ class Module extends AbstractModule
 
         if ($media->hasThumbnails()) {
             $fileManager->deleteThumbnails($media);
-       }
+        }
     }
 
     /**

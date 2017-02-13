@@ -39,7 +39,7 @@ class ErrorStore
                     }
                 }
             }
-        } else if ($errorStore->hasErrors()) {
+        } elseif ($errorStore->hasErrors()) {
             $this->addError($key, $errorStore->getErrors());
         }
     }

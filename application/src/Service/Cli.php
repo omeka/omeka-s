@@ -34,7 +34,8 @@ class Cli
      * @param string $command
      * @return string|false
      */
-    public function getCommandPath($command) {
+    public function getCommandPath($command)
+    {
         $command = sprintf('command -v %s', escapeshellarg($command));
         return $this->execute($command);
     }

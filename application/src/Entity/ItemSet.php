@@ -30,7 +30,8 @@ class ItemSet extends Resource
      */
     protected $siteItemSets;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->items = new ArrayCollection;
         $this->siteItemSets = new ArrayCollection;

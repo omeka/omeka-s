@@ -29,7 +29,7 @@ class Uri extends AbstractDataType
             && is_string($valueObject['@id'])
             && '' !== trim($valueObject['@id'])
         ) {
-             return true;
+            return true;
         }
         return false;
     }

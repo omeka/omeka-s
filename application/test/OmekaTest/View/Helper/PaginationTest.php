@@ -8,14 +8,14 @@ class PaginationTest extends TestCase
 {
     public function testToString()
     {
-        $totalCount   = 1000;
-        $currentPage  = 50;
-        $perPage      = 10;
-        $pageCount    = 100;
+        $totalCount = 1000;
+        $currentPage = 50;
+        $perPage = 10;
+        $pageCount = 100;
         $previousPage = 49;
-        $nextPage     = 51;
-        $name         = 'name';
-        $query        = ['foo' => 'bar'];
+        $nextPage = 51;
+        $name = 'name';
+        $query = ['foo' => 'bar'];
 
         // Request
         $request = $this->getMock(
@@ -71,19 +71,19 @@ class PaginationTest extends TestCase
             ->with(
                 $this->equalTo($name),
                 $this->equalTo([
-                    'totalCount'      => $totalCount,
-                    'perPage'         => $perPage,
-                    'currentPage'     => $currentPage,
-                    'previousPage'    => $previousPage,
-                    'nextPage'        => $nextPage,
-                    'pageCount'       => $pageCount,
-                    'query'           => $query,
-                    'firstPageUrl'    => null,
+                    'totalCount' => $totalCount,
+                    'perPage' => $perPage,
+                    'currentPage' => $currentPage,
+                    'previousPage' => $previousPage,
+                    'nextPage' => $nextPage,
+                    'pageCount' => $pageCount,
+                    'query' => $query,
+                    'firstPageUrl' => null,
                     'previousPageUrl' => null,
-                    'nextPageUrl'     => null,
-                    'lastPageUrl'     => null,
-                    'pagelessUrl'     => null,
-                    'offset'          => null,
+                    'nextPageUrl' => null,
+                    'lastPageUrl' => null,
+                    'pagelessUrl' => null,
+                    'offset' => null,
                 ])
             );
         $params = $this->getMockBuilder('Omeka\View\Helper\Params')

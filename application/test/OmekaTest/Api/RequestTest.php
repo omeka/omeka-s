@@ -56,4 +56,5 @@ class RequestTest extends TestCase
     {
         $this->request->setContent('foo');
         $this->assertEquals('foo', $this->request->getContent());
-    }}
+    }
+}

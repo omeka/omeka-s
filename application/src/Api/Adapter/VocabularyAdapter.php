@@ -13,11 +13,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'            => 'id',
+        'id' => 'id',
         'namespace_uri' => 'namespaceUri',
-        'prefix'        => 'prefix',
-        'label'         => 'label',
-        'comment'       => 'comment',
+        'prefix' => 'prefix',
+        'label' => 'label',
+        'comment' => 'comment',
     ];
 
     /**
@@ -168,7 +168,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 }
             }
         }
-
     }
 
     /**

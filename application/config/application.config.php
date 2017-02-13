@@ -16,12 +16,12 @@ return [
             OMEKA_PATH . '/modules',
         ],
         'config_glob_paths' => [
-            OMEKA_PATH . '/config/local.config.php'
-        ]
+            OMEKA_PATH . '/config/local.config.php',
+        ],
     ],
     'service_manager' => [
         'factories' => [
-            'Omeka\Connection'    => 'Omeka\Service\ConnectionFactory',
+            'Omeka\Connection' => 'Omeka\Service\ConnectionFactory',
             'Omeka\ModuleManager' => 'Omeka\Service\ModuleManagerFactory',
             'Omeka\Status' => 'Omeka\Service\StatusFactory',
         ],

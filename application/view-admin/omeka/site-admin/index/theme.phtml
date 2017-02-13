@@ -14,7 +14,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
     <div id="page-actions">
         <button><?php echo $this->translate('Save'); ?></button>
     </div>
-    <div class="current-theme">
+    <div class="current-theme<?php echo Manager::STATE_ACTIVE !== $currentTheme->getState() ? ' invalid' : ''; ?>">
         <?php $localThumbnailUrl = OMEKA_PATH . $currentTheme->getThumbnail(); ?>
         <?php $absoluteThumbnailUrl = $this->basePath() . $currentTheme->getThumbnail(); ?>
         <div class="theme-thumbnail"><img src="<?php echo $escape((file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl); ?>"></div>

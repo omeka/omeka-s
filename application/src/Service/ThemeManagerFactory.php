@@ -66,18 +66,10 @@ class ThemeManagerFactory implements FactoryInterface
             $theme->setState(ThemeManager::STATE_ACTIVE);
         }
 
-        // Get all themes from the database.
-        $statement = $connection->prepare('SELECT DISTINCT(theme) FROM site');
-        $statement->execute();
-        $dbThemes = $statement->fetchAll();
-        foreach ($dbThemes as $themeRow) {
-            if (!$manager->isRegistered($themeRow['theme'])) {
-                // At least one site uses this theme but it's not in filesystem.
-                $theme = $manager->registerTheme($themeRow['theme']);
-                $theme->setState(ThemeManager::STATE_NOT_FOUND);
-                continue;
-            }
-        }
+        // Note that, unlike the ModuleManagerFactory, this does not register
+        // themes that exist in the database but have no corresponding directory
+        // in the filesystem. Instead, we handle such a circumstance when
+        // preparing the site in an MVC listener.
 
         return $manager;
     }

@@ -2,6 +2,7 @@
 namespace Omeka\Mvc;
 
 use Omeka\Site\Theme\Manager;
+use Omeka\Site\Theme\Theme;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
@@ -223,11 +224,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         $services = $event->getApplication()->getServiceManager();
 
-        // Set the current theme.
-        $theme = $site->theme();
         $themeManager = $services->get('Omeka\Site\ThemeManager');
-        $themeManager->setCurrentTheme($theme);
-
         $currentTheme = $themeManager->getCurrentTheme();
         if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
             $event->setError(ZendApplication::ERROR_EXCEPTION);
@@ -284,6 +281,15 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Set the site to the top level view model
         $event->getViewModel()->site = $site;
+
+        // Set the current theme for this site.
+        $themeManager = $services->get('Omeka\Site\ThemeManager');
+        $currentTheme = $themeManager->getTheme($site->theme());
+        if (!$currentTheme) {
+            $currentTheme = new Theme('not_found');
+            $currentTheme->setState(Manager::STATE_NOT_FOUND);
+        }
+        $themeManager->setCurrentTheme($currentTheme);
 
         return $site;
     }

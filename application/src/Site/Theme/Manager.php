@@ -81,11 +81,11 @@ class Manager
     /**
      * Set the current theme.
      *
-     * @param string $id
+     * @param Theme $theme
      */
-    public function setCurrentTheme($id)
+    public function setCurrentTheme(Theme $theme)
     {
-        $this->currentTheme = $this->getTheme($id);
+        $this->currentTheme = $theme;
     }
 
     /**

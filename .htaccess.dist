@@ -6,7 +6,7 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ - [L]
 
 # Strip any trailing slashes from incoming requests
 RewriteCond %{REQUEST_URI} ^(.+)/+$
@@ -18,9 +18,9 @@ RewriteRule .* %1 [R=307,L]
 # allow proper resolution of the index.php file; it will work
 # in non-aliased environments as well, providing a safe, one-size 
 # fits all solution.
-RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
+RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
-RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
+RewriteRule ^(.*)$ %{ENV:BASE}/index.php [L]
 
 # Block access to all .ini files.
 <FilesMatch "\.ini$">

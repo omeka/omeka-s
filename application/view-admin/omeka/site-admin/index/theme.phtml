@@ -33,14 +33,12 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
             </p>
             <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
             <?php else: ?>
-            <p class="error">Error: this theme is invalid.</p>
+            <p class="error"><?php echo $this->translate('Error: this theme is invalid.'); ?></p>
             <ul>
-                <li>ID: <?php echo $currentTheme->getId(); ?></li>
-                <li>Status: <?php echo $currentTheme->getState(); ?></li>
+                <li><?php echo sprintf($this->translate('ID: %s'), $currentTheme->getId()); ?></li>
+                <li><?php echo sprintf($this->translate('Status: %s'), $currentTheme->getState()); ?></li>
             </ul>
-            <p>Please contact the Omeka S administrator. This site will not be
-            publicly available until the problem is resolved or you select
-            another theme below.</p>
+            <p><?php echo $this->translate('Please contact the Omeka S administrator. This site will not be publicly available until the problem is resolved or you select another theme below.'); ?></p>
             <?php endif; ?>
         </div>
     </div>

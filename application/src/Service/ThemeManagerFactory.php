@@ -3,6 +3,8 @@ namespace Omeka\Service;
 
 use DirectoryIterator;
 use SplFileInfo;
+use Composer\Semver\Semver;
+use Omeka\Module as CoreModule;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Omeka\Site\Theme\Theme;
 use Zend\Config\Reader\Ini as IniReader;
@@ -25,9 +27,12 @@ class ThemeManagerFactory implements FactoryInterface
                 continue;
             }
 
+            $theme = $manager->registerTheme($dir->getBasename());
+
             // Theme directory must contain config/module.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/theme.ini');
             if (!$iniFile->isReadable() || !$iniFile->isFile()) {
+                $theme->setState(ThemeManager::STATE_INVALID_INI);
                 continue;
             }
 
@@ -43,12 +48,28 @@ class ThemeManagerFactory implements FactoryInterface
                 $ini = $ini['info'];
             }
 
-            if (!$manager->iniIsValid($ini)) {
+            $theme->setIni($ini);
+            $theme->setConfigSpec($configSpec);
+
+            // Theme INI must be valid
+            if (!$manager->iniIsValid($theme)) {
+                $theme->setState(ThemeManager::STATE_INVALID_INI);
                 continue;
             }
 
-            $manager->registerTheme(new Theme($dir->getBasename(), $ini, $configSpec));
+            $omekaConstraint = $theme->getIni('omeka_version_constraint');
+            if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                $theme->setState(ThemeManager::STATE_INVALID_OMEKA_VERSION);
+                continue;
+            }
+
+            $theme->setState(ThemeManager::STATE_ACTIVE);
         }
+
+        // Note that, unlike the ModuleManagerFactory, this does not register
+        // themes that exist in the database but have no corresponding directory
+        // in the filesystem. Instead, we handle such a circumstance when
+        // preparing the site in an MVC listener.
 
         return $manager;
     }

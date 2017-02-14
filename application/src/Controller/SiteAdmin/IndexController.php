@@ -294,13 +294,11 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $themes = $this->themes->getThemes();
-        $currentTheme = $this->themes->getTheme($site->theme());
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('site', $site);
-        $view->setVariable('themes', $themes);
-        $view->setVariable('currentTheme', $currentTheme);
+        $view->setVariable('themes', $this->themes->getThemes());
+        $view->setVariable('currentTheme', $this->themes->getCurrentTheme());
         return $view;
     }
 

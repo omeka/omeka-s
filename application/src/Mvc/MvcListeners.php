@@ -235,14 +235,14 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Add the theme view templates to the path stack.
         $services->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
+            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $site->theme()));
 
         // Load theme view helpers on-demand.
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
         if (is_array($helpers)) {
             foreach ($helpers as $helper) {
-                $factory = function ($pluginManager) use ($theme, $helper) {
-                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $theme, $helper);
+                $factory = function ($pluginManager) use ($site, $helper) {
+                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $site->theme(), $helper);
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;
                 };

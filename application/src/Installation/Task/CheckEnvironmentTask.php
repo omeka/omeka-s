@@ -34,5 +34,19 @@ class CheckEnvironmentTask implements TaskInterface
                 ));
             }
         }
+
+        $this->testRandomGeneration();
+    }
+
+    /**
+     * Test if we can successfully generate random data. If not, refuse to install.
+     */
+    protected function testRandomGeneration()
+    {
+        try {
+            random_bytes(32);
+        } catch (Exception $e) {
+            $installer->addError('Omeka is unable to securely generate random numbers.');
+        }
     }
 }

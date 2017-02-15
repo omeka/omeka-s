@@ -38,17 +38,17 @@ class ThemeManagerFactory implements FactoryInterface
 
             $ini = $iniReader->fromFile($iniFile->getRealPath());
 
+            // The INI configuration must be under the [info] header.
+            if (!isset($ini['info'])) {
+                $theme->setState(ThemeManager::STATE_INVALID_INI);
+                continue;
+            }
             $configSpec = [];
             if (isset($ini['config'])) {
                 $configSpec = $ini['config'];
-                unset($ini['config']);
-            }
-            // INI configuration may be under the [info] header.
-            if (isset($ini['info'])) {
-                $ini = $ini['info'];
             }
 
-            $theme->setIni($ini);
+            $theme->setIni($ini['info']);
             $theme->setConfigSpec($configSpec);
 
             // Theme INI must be valid

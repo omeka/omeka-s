@@ -50,12 +50,13 @@ class ModuleManagerFactory implements FactoryInterface
 
             $ini = $iniReader->fromFile($iniFile->getRealPath());
 
-            // INI configuration may be under the [info] header.
-            if (isset($ini['info'])) {
-                $ini = $ini['info'];
+            // The INI configuration must be under the [info] header.
+            if (!isset($ini['info'])) {
+                $module->setState(ModuleManager::STATE_INVALID_INI);
+                continue;
             }
 
-            $module->setIni($ini);
+            $module->setIni($ini['info']);
 
             // Module INI must be valid
             if (!$manager->iniIsValid($module)) {

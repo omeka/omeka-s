@@ -24,8 +24,15 @@ var dataDir = __dirname + '/application/data';
 var scriptsDir = dataDir + '/scripts';
 var langDir = __dirname + '/application/language';
 
+function ensureBuildDir() {
+    if (!fs.existsSync(buildDir)) {
+        fs.mkdirSync(buildDir);
+    }
+}
+
 function download(url, path) {
     return new Promise(function (resolve, reject) {
+        ensureBuildDir();
         var https = require('https');
         var file = fs.createWriteStream(path);
         file.on('finish', function () {

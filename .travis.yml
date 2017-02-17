@@ -10,7 +10,9 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-install: ant init
+install:
+  - npm install
+  - ./node_modules/gulp/bin/gulp.js init
 
 before_script:
   - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot
@@ -18,4 +20,4 @@ before_script:
   - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
   - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
 
-script: ant test-all
+script: ./node_modules/gulp/bin/gulp.js test

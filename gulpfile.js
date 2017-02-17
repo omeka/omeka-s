@@ -50,7 +50,7 @@ function runCommand(cmd, args, options) {
         child_process.spawn(cmd, args, options)
             .on('exit', function (code) {
                 if (code !== 0) {
-                    reject(new Error(`Command "${cmd}" exited with code ${code}.`));
+                    reject(new Error('Command "' + cmd + '" exited with code ' +  code));
                 } else {
                     resolve();
                 }

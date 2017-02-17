@@ -9,6 +9,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache
+    - build/cache
 
 before_install:
  - nvm install node

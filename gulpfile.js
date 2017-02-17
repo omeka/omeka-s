@@ -28,6 +28,10 @@ function ensureBuildDir() {
     if (!fs.existsSync(buildDir)) {
         fs.mkdirSync(buildDir);
     }
+
+    if (!fs.existsSync(buildDir + '/cache')) {
+        fs.mkdirSync(buildDir + '/cache');
+    }
 }
 
 function download(url, path) {
@@ -94,7 +98,7 @@ function composer(args) {
 }
 
 function testCs() {
-    return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff']);
+    return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
 }
 
 function testPhp() {

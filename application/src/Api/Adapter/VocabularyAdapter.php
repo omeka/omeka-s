@@ -24,7 +24,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * @var array Reserved vocabulary prefixes
      */
     protected $reservedPrefixes = [
-        '^o-?', '^time$', '^cnt$',
+        // Omeka and module prefixes
+        '^o$', '^o-',
+        // Prefixes introduced in core code
+        '^time$', '^cnt$',
     ];
 
     /**

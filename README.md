@@ -22,7 +22,9 @@ a collaboratively built pool of items, media, and their metadata.
 1. Change into the Omeka S directory:
    * `$ cd omeka-s`
 1. Perform first-time setup:
-   * `$ ant init`
+   * `$ npm install`
+   * `$ npm install --global gulp-cli` (if you do not already have `gulp` installed)
+   * `$ gulp init`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name. The user and database must be created before this step.
 1. Make sure the `files/` directory is writable by Apache.
@@ -47,7 +49,7 @@ You can find Omeka-specific code under `application/`.
 ### Updating from GitHub
 
 1. `git pull` as usual. Before the official release, latest code will be on branch 'develop'.
-2. From the Omeka S root directory, run `ant install-deps` to make sure dependencies are up to date.
+2. From the Omeka S root directory, run `gulp deps` to make sure dependencies are up to date.
 3. Compare changes in `/config/local.config.php` and `/config/local.config.php.dist`. Some default configurations might have changed, so you might need to reconcile changes to the distributed configuration with your local configuration (e.g., a path to PHP specific to your server, dev mode settings, etc.)
 4. In your web browser, go to your site and run any migrations that are needed.
 

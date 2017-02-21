@@ -7,12 +7,14 @@ var readline = require('readline');
 var Promise = require('bluebird');
 var dateFormat = require('dateformat');
 var glob = require('glob');
+var minimist = require('minimist');
+var rimraf = require('rimraf');
 var tmp = require('tmp');
 
 var gulp = require('gulp');
-var changed = require('gulp-changed');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
+var zip = require('gulp-zip');
 
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
@@ -23,6 +25,12 @@ var buildDir = __dirname + '/build';
 var dataDir = __dirname + '/application/data';
 var scriptsDir = dataDir + '/scripts';
 var langDir = __dirname + '/application/language';
+
+var cliOptions = minimist(process.argv.slice(2), {
+    string: 'php-path',
+    boolean: 'dev',
+    default: {'php-path': 'php', 'dev': true}
+});
 
 function ensureBuildDir() {
     if (!fs.existsSync(buildDir)) {
@@ -69,45 +77,38 @@ function runCommand(cmd, args, options) {
     });
 }
 
+function runPhpCommand(cmd, args, options) {
+    return runCommand(cliOptions['php-path'], [cmd].concat(args), options);
+}
+
 function composer(args) {
     var composerPath = buildDir + '/composer.phar';
     var installerPath = buildDir + '/composer-installer';
     var installerUrl = 'https://getcomposer.org/installer';
-    var getComposer = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         fs.stat(composerPath, function(err, stats) {
             if (!err) {
                 resolve();
             } else {
                 download(installerUrl, installerPath)
                     .then(function () {
-                        return runCommand('php', [installerPath], {cwd: buildDir})
+                        return runPhpCommand(installerPath, [], {cwd: buildDir})
                     })
                     .then(function () {
                         resolve();
                     });
             }
         });
+    })
+    .then(function () {
+        return runPhpCommand(composerPath, ['self-update']);
+    })
+    .then(function () {
+        if (!cliOptions['dev']) {
+            args.push('--no-dev');
+        }
+        return runPhpCommand(composerPath, args);
     });
-    return getComposer
-        .then(function () {
-            return runCommand('php', [composerPath, 'self-update']);
-        })
-        .then(function () {
-            return runCommand('php', [composerPath].concat(args));
-        });
-}
-
-function testCs() {
-    return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
-}
-
-function testPhp() {
-    return runCommand(composerDir + '/phpunit', [
-        '-d',
-        'date.timezone=America/New_York',
-        '--log-junit',
-        buildDir + '/test-results.xml'
-    ], {cwd: 'application/test'});
 }
 
 gulp.task('css', function () {
@@ -127,11 +128,18 @@ gulp.task('css:watch', function () {
 });
 
 
-gulp.task('test:cs', testCs);
-gulp.task('test:php', testPhp);
-gulp.task('test', function () {
-    return testPhp().then(testCs);
+gulp.task('test:cs', function () {
+    return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
 });
+gulp.task('test:php', function () {
+    return runCommand(composerDir + '/phpunit', [
+        '-d',
+        'date.timezone=America/New_York',
+        '--log-junit',
+        buildDir + '/test-results.xml'
+    ], {cwd: 'application/test'});
+});
+gulp.task('test', gulp.series('test:cs', 'test:php'));
 
 gulp.task('deps', function () {
     return composer(['install']);
@@ -145,20 +153,11 @@ gulp.task('dedist', function () {
         .pipe(rename(function (path) {
             path.extname = '';
         }))
-        // workaround to prevent overwrites (possibly removable under Gulp 4)
-        .pipe(changed('.', {hasChanged: function (stream, cb, src, dest) {
-            fs.stat(dest, function (err) {
-                if (err) {
-                    stream.push(src);
-                }
-                cb();
-            });
-        }}))
-        .pipe(gulp.dest('.'))
+        .pipe(gulp.dest('.', {overwrite: false}))
 });
 
 gulp.task('db:schema', function () {
-    return runCommand('php', [scriptsDir + '/create-schema.php']);
+    return runPhpCommand(scriptsDir + '/create-schema.php');
 });
 gulp.task('db:proxies', function () {
     return runCommand(composerDir + '/doctrine', ['orm:generate-proxies']);
@@ -178,7 +177,7 @@ gulp.task('db:create-migration', function () {
         });
     });
 })
-gulp.task('db', ['db:schema', 'db:proxies']);
+gulp.task('db', gulp.series('db:schema', 'db:proxies'));
 
 gulp.task('i18n:template', function () {
     var pot = langDir + '/template.pot';
@@ -207,8 +206,7 @@ gulp.task('i18n:template', function () {
                     reject(err);
                     return;
                 }
-                var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
-                runCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']}).then(function () {
+                runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']}).then(function () {
                     resolve(path);
                 });
             });
@@ -219,8 +217,7 @@ gulp.task('i18n:template', function () {
                     reject(err);
                     return;
                 }
-                var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
-                runCommand('php', [scriptsDir + '/extract-vocab-strings.php'], {stdio: ['pipe', fd, 'pipe']}).then(function () {
+                runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, 'pipe']}).then(function () {
                     resolve(path);
                 });
             });
@@ -231,4 +228,24 @@ gulp.task('i18n:template', function () {
     });
 });
 
-gulp.task('init', ['dedist', 'deps']);
+gulp.task('create-media-type-map', function () {
+    return runPhpCommand(scriptsDir + '/create-media-type-map.php');
+});
+
+gulp.task('init', gulp.series('dedist', 'deps'));
+
+gulp.task('clean', function (cb) {
+    rimraf.sync(buildDir);
+    rimraf.sync(__dirname + '/vendor');
+    cb();
+});
+
+gulp.task('zip', gulp.series('clean', 'init', function () {
+    return gulp.src(['./**', '!./**/*.dist', '!./build/**', '!./**/node_modules/**', '!./**/.git/**', '!./**/.gitattributes', '!./**/.gitignore'],
+        {base: '.'})
+        .pipe(rename(function (path) {
+            path.dirname = 'omeka-s/' + path.dirname;
+        }))
+        .pipe(zip('omeka-s.zip'))
+        .pipe(gulp.dest(buildDir))
+}));

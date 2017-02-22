@@ -2556,6 +2556,7 @@ input[type="text"].value-language,
         margin: 0 0 $spacing-medium 0;
         padding-bottom: $spacing-medium;
         position: relative;
+        width: 100%;
 
         &:after {
             content: "";
@@ -2573,6 +2574,7 @@ input[type="text"].value-language,
         background-color: transparent;
         padding: 0;
         margin-bottom: $spacing-large;
+        flex-wrap: wrap;
     }
 
     .button,
@@ -3361,6 +3363,10 @@ body.sidebar-open #content {
     input[type="text"].page-selector-filter {
         width: 100%;
         margin-bottom: $spacing-medium;
+    }
+
+    #nav-page-links {
+        width: 100%;
     }
 
     /* @end */

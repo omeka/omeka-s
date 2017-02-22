@@ -288,8 +288,8 @@ body {
         padding-right: $spacing-medium;
     }
 
-    *:invalid {
-        outline-color: $red;
+    .invalid {
+        box-shadow: 0 0 10px $red;
     }
 
     .field {

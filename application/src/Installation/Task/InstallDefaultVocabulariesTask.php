@@ -44,7 +44,7 @@ class InstallDefaultVocabulariesTask implements TaskInterface
                 'o:comment' => 'Bibliographic metadata (BIBO)',
             ],
             'strategy' => 'file',
-            'file' => 'bibo.rdf',
+            'file' => 'bibo.owl',
             'format' => 'rdfxml',
         ],
         [

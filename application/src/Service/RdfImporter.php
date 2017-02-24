@@ -168,6 +168,106 @@ class RdfImporter
     }
 
     /**
+     * Get the diff between a stored vocab and one represented in an RDF graph.
+     *
+     * Only gets the diffs that we can process safely: add new members and
+     * update existing labels and comments. It doesn't get the diffs we cannot
+     * process safely: delete existing members or update existing local names.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param string $namespaceUri
+     * @param array $options
+     * @return array
+     */
+    public function getDiff($strategy, $namespaceUri, array $options = [])
+    {
+        // Get classes and properties from the database.
+        $classes = $this->apiManager->search(
+            'resource_classes',
+            ['vocabulary_namespace_uri' => $namespaceUri]
+        )->getContent();
+        $dbClasses = [];
+        foreach ($classes as $class) {
+            $dbClasses[$class->localName()] = [
+                'label' => $class->label(),
+                'comment' => $class->comment(),
+            ];
+        }
+        $properties = $this->apiManager->search(
+            'properties',
+            ['vocabulary_namespace_uri' => $namespaceUri]
+        )->getContent();
+        $dbProperties = [];
+        foreach ($properties as $property) {
+            $dbProperties[$property->localName()] = [
+                'label' => $property->label(),
+                'comment' => $property->comment(),
+            ];
+        }
+
+        // Get classes and properties from the RDF graph.
+        $members = $this->getMembers($strategy, $namespaceUri, $options);
+
+        // Extract differences.
+        $diff = [
+            'classes' => ['new' => [], 'label' => [], 'comment' => []],
+            'properties' => ['new' => [], 'label' => [], 'comment' => []],
+        ];
+        foreach ($members['classes'] as $localName => $info) {
+            if (array_key_exists($localName, $dbProperties)) {
+                // Existing class.
+                if ($dbProperties[$localName]['label'] !== $info['label']) {
+                    // Updated label.
+                    $diff['classes']['label'][$localName] = [
+                        $dbProperties[$localName]['label'],
+                        $info['label'],
+                    ];
+                }
+                if ($dbProperties[$localName]['comment'] !== $info['comment']) {
+                    // Updated comment.
+                    $diff['classes']['comment'][$localName] = [
+                        $dbProperties[$localName]['comment'],
+                        $info['comment'],
+                    ];
+                }
+            } else {
+                // New class.
+                $diff['classes']['new'][$localName] = [
+                    $info['label'],
+                    $info['comment'],
+                ];
+            }
+        }
+        foreach ($members['properties'] as $localName => $info) {
+            if (array_key_exists($localName, $dbProperties)) {
+                // Existing property.
+                if ($dbProperties[$localName]['label'] !== $info['label']) {
+                    // Updated label.
+                    $diff['properties']['label'][$localName] = [
+                        $dbProperties[$localName]['label'],
+                        $info['label'],
+                    ];
+                }
+                if ($dbProperties[$localName]['comment'] !== $info['comment']) {
+                    // Updated comment.
+                    $diff['properties']['comment'][$localName] = [
+                        $dbProperties[$localName]['comment'],
+                        $info['comment'],
+                    ];
+                }
+            } else {
+                // New property.
+                $diff['properties']['new'][$localName] = [
+                    $info['label'],
+                    $info['comment'],
+                ];
+            }
+        }
+        return $diff;
+    }
+
+    /**
      * Determine whether a resource is a local member of the vocabulary.
      *
      * @param EasyRdf_Resource $resource

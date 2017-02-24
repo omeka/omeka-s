@@ -106,10 +106,7 @@ class VocabularyController extends AbstractActionController
     public function editAction()
     {
         $form = $this->getForm(VocabularyForm::class);
-        $id = $this->params('id');
-
-        $readResponse = $this->api()->read('vocabularies', $id);
-        $vocabulary = $readResponse->getContent();
+        $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
 
         if ($vocabulary->isPermanent()) {
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
@@ -118,12 +115,11 @@ class VocabularyController extends AbstractActionController
         $data = $vocabulary->jsonSerialize();
         $form->setData($data);
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($this->params()->fromPost());
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
             if ($form->isValid()) {
-                $formData = $form->getData();
-                $response = $this->api($form)->update('vocabularies', $id, $formData);
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], true);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
                     return $this->redirect()->toRoute(null, ['action' => 'browse'], true);

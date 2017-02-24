@@ -215,19 +215,19 @@ class RdfImporter
             'properties' => ['new' => [], 'label' => [], 'comment' => []],
         ];
         foreach ($members['classes'] as $localName => $info) {
-            if (array_key_exists($localName, $dbProperties)) {
+            if (array_key_exists($localName, $dbClasses)) {
                 // Existing class.
-                if ($dbProperties[$localName]['label'] !== $info['label']) {
+                if ($dbClasses[$localName]['label'] !== $info['label']) {
                     // Updated label.
                     $diff['classes']['label'][$localName] = [
-                        $dbProperties[$localName]['label'],
+                        $dbClasses[$localName]['label'],
                         $info['label'],
                     ];
                 }
-                if ($dbProperties[$localName]['comment'] !== $info['comment']) {
+                if ($dbClasses[$localName]['comment'] !== $info['comment']) {
                     // Updated comment.
                     $diff['classes']['comment'][$localName] = [
-                        $dbProperties[$localName]['comment'],
+                        $dbClasses[$localName]['comment'],
                         $info['comment'],
                     ];
                 }

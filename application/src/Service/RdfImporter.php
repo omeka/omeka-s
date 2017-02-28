@@ -209,59 +209,36 @@ class RdfImporter
         // Get classes and properties from the RDF graph.
         $members = $this->getMembers($strategy, $namespaceUri, $options);
 
-        // Extract differences.
-        $diff = [
-            'classes' => ['new' => [], 'label' => [], 'comment' => []],
-            'properties' => ['new' => [], 'label' => [], 'comment' => []],
+        return [
+            'classes' => $this->calculateDiff($dbClasses, $members['classes']),
+            'properties' => $this->calculateDiff($dbProperties, $members['properties']),
         ];
-        foreach ($members['classes'] as $localName => $info) {
-            if (array_key_exists($localName, $dbClasses)) {
-                // Existing class.
-                if ($dbClasses[$localName]['label'] !== $info['label']) {
+    }
+
+    /**
+     * Calculate the difference between vocabulary members.
+     *
+     * @param array $from
+     * @param array $to
+     * @return array
+     */
+    protected function calculateDiff(array $from, array $to)
+    {
+        $diff = ['new' => [], 'label' => [], 'comment' => []];
+        foreach ($to as $localName => $info) {
+            if (array_key_exists($localName, $from)) {
+                // Existing member.
+                if ($from[$localName]['label'] !== $info['label']) {
                     // Updated label.
-                    $diff['classes']['label'][$localName] = [
-                        $dbClasses[$localName]['label'],
-                        $info['label'],
-                    ];
+                    $diff['label'][$localName] = [$to[$localName]['label'], $info['label']];
                 }
-                if ($dbClasses[$localName]['comment'] !== $info['comment']) {
+                if ($from[$localName]['comment'] !== $info['comment']) {
                     // Updated comment.
-                    $diff['classes']['comment'][$localName] = [
-                        $dbClasses[$localName]['comment'],
-                        $info['comment'],
-                    ];
+                    $diff['comment'][$localName] = [$to[$localName]['comment'], $info['comment']];
                 }
             } else {
-                // New class.
-                $diff['classes']['new'][$localName] = [
-                    $info['label'],
-                    $info['comment'],
-                ];
-            }
-        }
-        foreach ($members['properties'] as $localName => $info) {
-            if (array_key_exists($localName, $dbProperties)) {
-                // Existing property.
-                if ($dbProperties[$localName]['label'] !== $info['label']) {
-                    // Updated label.
-                    $diff['properties']['label'][$localName] = [
-                        $dbProperties[$localName]['label'],
-                        $info['label'],
-                    ];
-                }
-                if ($dbProperties[$localName]['comment'] !== $info['comment']) {
-                    // Updated comment.
-                    $diff['properties']['comment'][$localName] = [
-                        $dbProperties[$localName]['comment'],
-                        $info['comment'],
-                    ];
-                }
-            } else {
-                // New property.
-                $diff['properties']['new'][$localName] = [
-                    $info['label'],
-                    $info['comment'],
-                ];
+                // New member.
+                $diff['new'][$localName] = [$info['label'], $info['comment']];
             }
         }
         return $diff;

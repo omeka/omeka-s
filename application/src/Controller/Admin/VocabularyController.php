@@ -136,7 +136,7 @@ class VocabularyController extends AbstractActionController
                 if ($response->isSuccess()) {
                     $fileData = $this->params()->fromFiles('file');
                     if (0 === $fileData['error']) {
-                        $this->messenger()->addSuccess('Vocabulary label and comment successfully updated. Please review these changes before you accept them.'); // @translate
+                        $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
                         $diff = $this->rdfImporter->getDiff(
                             'file',
                             $vocabulary->namespaceUri(),

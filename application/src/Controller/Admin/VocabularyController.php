@@ -1,9 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Doctrine\ORM\EntityManager;
-use Omeka\Entity\Property;
-use Omeka\Entity\ResourceClass;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
@@ -22,17 +19,11 @@ class VocabularyController extends AbstractActionController
     protected $rdfImporter;
 
     /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    /**
      * @param RdfImporter $rdfImporter
      */
-    public function __construct(RdfImporter $rdfImporter, EntityManager $entityManager)
+    public function __construct(RdfImporter $rdfImporter)
     {
         $this->rdfImporter = $rdfImporter;
-        $this->entityManager = $entityManager;
     }
 
     public function browseAction()
@@ -169,60 +160,7 @@ class VocabularyController extends AbstractActionController
             $form = $this->getForm(VocabularyUpdateForm::class);
             $form->setData($data);
             if ($form->isValid()) {
-                $diff = json_decode($data['diff'], true);
-
-                $em = $this->entityManager;
-                $vocabulary = $em->find('Omeka\Entity\Vocabulary', $this->params('id'));
-                $classRepo = $em->getRepository('Omeka\Entity\ResourceClass');
-                $propertyRepo = $em->getRepository('Omeka\Entity\Property');
-
-                foreach ($diff['properties']['new'] as $localName => $info) {
-                    $property = new Property;
-                    $property->setVocabulary($vocabulary);
-                    $property->setLocalName($localName);
-                    $property->setLabel($info[0]);
-                    $property->setComment($info[1]);
-                    $em->persist($property);
-                }
-                foreach ($diff['properties']['label'] as $localName => $change) {
-                    $property = $propertyRepo->findOneBy([
-                        'vocabulary' => $vocabulary,
-                        'localName' => $localName,
-                    ]);
-                    $property->setLabel($change[1]);
-                }
-                foreach ($diff['properties']['comment'] as $localName => $change) {
-                    $property = $propertyRepo->findOneBy([
-                        'vocabulary' => $vocabulary,
-                        'localName' => $localName,
-                    ]);
-                    $property->setComment($change[1]);
-                }
-
-                foreach ($diff['classes']['new'] as $localName => $info) {
-                    $class = new ResourceClass;
-                    $class->setVocabulary($vocabulary);
-                    $class->setLocalName($localName);
-                    $class->setLabel($info[0]);
-                    $class->setComment($info[1]);
-                    $em->persist($class);
-                }
-                foreach ($diff['classes']['label'] as $localName => $change) {
-                    $class = $classRepo->findOneBy([
-                        'vocabulary' => $vocabulary,
-                        'localName' => $localName,
-                    ]);
-                    $class->setLabel($change[1]);
-                }
-                foreach ($diff['classes']['comment'] as $localName => $change) {
-                    $class = $classRepo->findOneBy([
-                        'vocabulary' => $vocabulary,
-                        'localName' => $localName,
-                    ]);
-                    $class->setComment($change[1]);
-                }
-
-                $em->flush();
+                $this->rdfImporter->update($this->params('id'), json_decode($data['diff'], true));
                 $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
             } else {
                 $this->messenger()->addFormErrors($form);

@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
+use Omeka\Entity\ResourceClass;
 use Omeka\Entity\Vocabulary;
 
 class RdfImporter
@@ -14,6 +16,11 @@ class RdfImporter
      * @var Omeka\Api\Manager
      */
     protected $apiManager;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
 
     /**
      * Class types to import.
@@ -44,9 +51,10 @@ class RdfImporter
         'owl:InverseFunctionalProperty',
     ];
 
-    public function __construct(ApiManager $apiManager)
+    public function __construct(ApiManager $apiManager, EntityManager $entityManager)
     {
         $this->apiManager = $apiManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -168,11 +176,69 @@ class RdfImporter
     }
 
     /**
-     * Get the diff between a stored vocab and one represented in an RDF graph.
+     * Update a vocabulary given a diff.
      *
-     * Only gets the diffs that we can process safely: add new members and
-     * update existing labels and comments. It doesn't get the diffs we cannot
-     * process safely: delete existing members or update existing local names.
+     * @param int $vocabId
+     * @param array $diff
+     */
+    public function update($vocabId, array $diff)
+    {
+        $em = $this->entityManager;
+        $vocabulary = $em->find('Omeka\Entity\Vocabulary', $vocabId);
+        $classRepo = $em->getRepository('Omeka\Entity\ResourceClass');
+        $propertyRepo = $em->getRepository('Omeka\Entity\Property');
+
+        foreach ($diff['properties']['new'] as $localName => $info) {
+            $property = new Property;
+            $property->setVocabulary($vocabulary);
+            $property->setLocalName($localName);
+            $property->setLabel($info[0]);
+            $property->setComment($info[1]);
+            $em->persist($property);
+        }
+        foreach ($diff['properties']['label'] as $localName => $change) {
+            $property = $propertyRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $property->setLabel($change[1]);
+        }
+        foreach ($diff['properties']['comment'] as $localName => $change) {
+            $property = $propertyRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $property->setComment($change[1]);
+        }
+
+        foreach ($diff['classes']['new'] as $localName => $info) {
+            $class = new ResourceClass;
+            $class->setVocabulary($vocabulary);
+            $class->setLocalName($localName);
+            $class->setLabel($info[0]);
+            $class->setComment($info[1]);
+            $em->persist($class);
+        }
+        foreach ($diff['classes']['label'] as $localName => $change) {
+            $class = $classRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $class->setLabel($change[1]);
+        }
+        foreach ($diff['classes']['comment'] as $localName => $change) {
+            $class = $classRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $class->setComment($change[1]);
+        }
+
+        $em->flush();
+    }
+
+    /**
+     * Get the diff between a stored vocab and one represented in an RDF graph.
      *
      * @see self::getMembers()
      * @param string $strategy
@@ -216,7 +282,11 @@ class RdfImporter
     }
 
     /**
-     * Calculate the difference between vocabulary members.
+     * Calculate the difference between two vocabulary members.
+     *
+     * Only gets the diffs that we can process safely: add new members and
+     * update existing labels and comments. It doesn't get the diffs we cannot
+     * process safely: delete existing members or update existing local names.
      *
      * @param array $from
      * @param array $to
@@ -230,11 +300,11 @@ class RdfImporter
                 // Existing member.
                 if ($from[$localName]['label'] !== $info['label']) {
                     // Updated label.
-                    $diff['label'][$localName] = [$to[$localName]['label'], $info['label']];
+                    $diff['label'][$localName] = [$from[$localName]['label'], $info['label']];
                 }
                 if ($from[$localName]['comment'] !== $info['comment']) {
                     // Updated comment.
-                    $diff['comment'][$localName] = [$to[$localName]['comment'], $info['comment']];
+                    $diff['comment'][$localName] = [$from[$localName]['comment'], $info['comment']];
                 }
             } else {
                 // New member.

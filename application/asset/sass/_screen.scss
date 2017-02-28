@@ -97,13 +97,7 @@ body {
     table.tablesaw th {
         font-weight: bold;
         text-align: left;
-    }
-
-    td,
-    table.tablesaw td {
-        padding: #{$spacing-medium - 1px} $spacing-small 0;
-        border-top: 1px solid $border-gray;
-        vertical-align: middle;
+        padding: $spacing-small .5em;
     }
 
     table,
@@ -2366,6 +2360,36 @@ input[type="text"].value-language,
 
 .vocabulary h2 {
     margin-bottom: 0;
+}
+
+/* @end */
+
+/* @group ----- Vocabulary: Update ----- */
+
+.vocabs.update td {
+    vertical-align: top;
+}
+
+.vocabs.update td:first-of-type,
+.vocabs.update td:nth-of-type(2) {
+    width: 20%;
+}
+
+.vocabs.update td:nth-of-type(3),
+.vocabs.update td:nth-of-type(4) {
+    width: 30%;
+}
+
+.vocabs.update td:nth-of-type(3):last-child {
+    width: auto;
+}
+
+.vocabs.update td:nth-of-type(3):not(:last-child) {
+    background-color: lighten(red, 45%);
+}
+
+.vocabs.update td:nth-of-type(4) {
+    background-color: lighten(green, 65%);
 }
 
 /* @end */

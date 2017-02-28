@@ -1,4 +1,5 @@
 <?php
+$this->htmlElement('body')->appendAttribute('class', 'vocabs update');
 $changedProperties = [];
 foreach ($diff['properties']['label'] as $localName => $change) {
     $changedProperties[] = ['label', $localName, $change];
@@ -26,7 +27,7 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
 
 <h3>Changed Properties</h3>
 <?php if ($changedProperties): ?>
-<table>
+<table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
         <th>Local name</th>
@@ -45,14 +46,14 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
     </tr>
     <?php endforeach; ?>
 </tbody>
-</table>
+</table class="tablesaw" data-tablesaw-mode="stack">
 <?php else: ?>
 <p>No changed properties found.</p>
 <?php endif; ?>
 
 <h3>Changed Classes</h3>
 <?php if ($changedClasses): ?>
-<table>
+<table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
         <th>Local name</th>
@@ -78,7 +79,7 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
 
 <h3>New Properties</h3>
 <?php if ($diff['properties']['new']): ?>
-<table>
+<table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
         <th>Local name</th>
@@ -102,7 +103,7 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
 
 <h3>New Classes</h3>
 <?php if ($diff['classes']['new']): ?>
-<table>
+<table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
         <th>Local name</th>

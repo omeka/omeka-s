@@ -187,14 +187,14 @@ class VocabularyController extends AbstractActionController
                 foreach ($diff['properties']['label'] as $localName => $change) {
                     $property = $propertyRepo->findOneBy([
                         'vocabulary' => $vocabulary,
-                        'localName' => $localName
+                        'localName' => $localName,
                     ]);
                     $property->setLabel($change[1]);
                 }
                 foreach ($diff['properties']['comment'] as $localName => $change) {
                     $property = $propertyRepo->findOneBy([
                         'vocabulary' => $vocabulary,
-                        'localName' => $localName
+                        'localName' => $localName,
                     ]);
                     $property->setComment($change[1]);
                 }
@@ -210,14 +210,14 @@ class VocabularyController extends AbstractActionController
                 foreach ($diff['classes']['label'] as $localName => $change) {
                     $class = $classRepo->findOneBy([
                         'vocabulary' => $vocabulary,
-                        'localName' => $localName
+                        'localName' => $localName,
                     ]);
                     $class->setLabel($change[1]);
                 }
                 foreach ($diff['classes']['comment'] as $localName => $change) {
                     $class = $classRepo->findOneBy([
                         'vocabulary' => $vocabulary,
-                        'localName' => $localName
+                        'localName' => $localName,
                     ]);
                     $class->setComment($change[1]);
                 }

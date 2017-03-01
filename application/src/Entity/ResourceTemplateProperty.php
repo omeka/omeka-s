@@ -104,7 +104,7 @@ class ResourceTemplateProperty extends AbstractEntity
 
     public function getPosition()
     {
-        return $this->sortOrder;
+        return $this->position;
     }
 
     public function setPosition($position)

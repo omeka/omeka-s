@@ -34,11 +34,15 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            [$this, 'prepareAdmin']
+            [$this, 'prepareAdminSite']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'preparePublicSite']
+        );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'prepareAdminLayout']
         );
     }
 
@@ -182,28 +186,30 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Prepare the administrative interface.
+     * Prepare the site administrative interface.
      *
      * @param MvcEvent $event
      */
-    public function prepareAdmin(MvcEvent $event)
+    public function prepareAdminSite(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        if (!$routeMatch->getParam('__ADMIN__')) {
-            // Not an admin route; do nothing.
-            return;
-        }
-
-        $event->getApplication()->getServiceManager()
-            ->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
-
-        if ($routeMatch->getParam('__SITEADMIN__')
+        if ($routeMatch->getParam('__ADMIN__')
+            && $routeMatch->getParam('__SITEADMIN__')
             && $routeMatch->getParam('site-slug')
         ) {
-            if (!$this->prepareSite($event)) {
-                return;
-            }
+            $this->prepareSite($event);
+        }
+    }
+
+    /**
+     * Switch the layout for the admin interface.
+     *
+     * @param MvcEvent $event
+     */
+    public function prepareAdminLayout(MvcEvent $event)
+    {
+        if ($event->getRouteMatch()->getParam('__ADMIN__')) {
+            $event->getTarget()->layout('layout/layout-admin');
         }
     }
 

@@ -288,8 +288,8 @@ body {
         padding-right: $spacing-medium;
     }
 
-    .invalid {
-        box-shadow: 0 0 10px $red;
+    .touched:invalid {
+        box-shadow: 0 0 2px 2px $red;
     }
 
     .field {

@@ -366,12 +366,7 @@ var Omeka = {
         });
 
         $('body').on('blur', 'input', function() {
-            var element = $(this);
-            if (element.is(':invalid')) {
-                element.addClass('invalid');
-            } else {
-                element.removeClass('invalid');
-            }
+            $(this).addClass('touched');
         });
     });
 

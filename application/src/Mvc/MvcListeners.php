@@ -34,15 +34,11 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
-            [$this, 'prepareAdminSite']
+            [$this, 'prepareAdmin']
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'preparePublicSite']
-        );
-        $this->listeners[] = $events->attach(
-            MvcEvent::EVENT_DISPATCH,
-            [$this, 'prepareAdminLayout']
         );
     }
 
@@ -190,26 +186,19 @@ class MvcListeners extends AbstractListenerAggregate
      *
      * @param MvcEvent $event
      */
-    public function prepareAdminSite(MvcEvent $event)
+    public function prepareAdmin(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        if ($routeMatch->getParam('__ADMIN__')
-            && $routeMatch->getParam('__SITEADMIN__')
+        if (!$routeMatch->getParam('__ADMIN__')) {
+            return;
+        }
+
+        $event->getViewModel()->setTemplate('layout/layout-admin');
+
+        if ($routeMatch->getParam('__SITEADMIN__')
             && $routeMatch->getParam('site-slug')
         ) {
             $this->prepareSite($event);
-        }
-    }
-
-    /**
-     * Switch the layout for the admin interface.
-     *
-     * @param MvcEvent $event
-     */
-    public function prepareAdminLayout(MvcEvent $event)
-    {
-        if ($event->getRouteMatch()->getParam('__ADMIN__')) {
-            $event->getTarget()->layout('layout/layout-admin');
         }
     }
 

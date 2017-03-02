@@ -129,9 +129,11 @@ gulp.task('css:watch', function () {
 
 
 gulp.task('test:cs', function () {
+    ensureBuildDir();
     return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
 });
 gulp.task('test:php', function () {
+    ensureBuildDir();
     return runCommand(composerDir + '/phpunit', [
         '-d',
         'date.timezone=America/New_York',

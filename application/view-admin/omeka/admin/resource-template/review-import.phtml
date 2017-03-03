@@ -1,5 +1,6 @@
 <?php
 $form->prepare();
+$this->htmlElement('body')->appendAttribute('class', 'resource-template');
 echo $this->pageTitle($this->translate('Resource Template: Review Import'));
 ?>
 <?php echo $this->form()->openTag($form); ?>
@@ -9,26 +10,32 @@ echo $this->pageTitle($this->translate('Resource Template: Review Import'));
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
 
-<table>
+<?php if ($template['o:resource_class']): ?>
+<?php $vocab = $vocabs[$template['o:resource_class']['namespace_uri']]; ?>
+<div class="class-row">
+    <span class="class-label"><?php echo $this->translate('Class'); ?></span>
+    <span class="class-value"><?php echo sprintf('%s:%s', $vocab->prefix(), $template['o:resource_class']['local_name']); ?></span>
+</div>
+<?php endif; ?>
+
+<table id="properties" class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th>Property</th>
-        <th>Alternate label</th>
-        <th>Alternate comment</th>
-        <th>Required?</th>
-        <!-- @todo position, is_required, data_type -->
+        <th><?php echo $this->translate('Property'); ?></th>
+        <th><?php echo $this->translate('Alternate Label'); ?></th>
+        <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Required?'); ?></th>
     </tr>
 </thead>
-<?php foreach ($found['properties'] as $namespaceUri => $properties): ?>
-<?php foreach ($properties as $localName => $info): ?>
 <tbody>
+<?php foreach ($template['o:resource_template_property'] as $property): ?>
+<?php $vocab = $vocabs[$property['namespace_uri']]; ?>
     <tr>
-        <td><?php echo $localName; ?></td>
-        <td><?php echo $info['alternate_label']; ?></td>
-        <td><?php echo $info['alternate_comment']; ?></td>
-        <td><?php echo $info['is_required'] ? 'Yes' : 'No'; ?></td>
+        <td><?php echo sprintf('%s:%s', $vocab->prefix(), $property['local_name']); ?></td>
+        <td><?php echo $property['o:alternate_label']; ?></td>
+        <td><?php echo $property['o:alternate_comment']; ?></td>
+        <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
     </tr>
+<?php endforeach; ?>
 </tbody>
-<?php endforeach; ?>
-<?php endforeach; ?>
 </table>

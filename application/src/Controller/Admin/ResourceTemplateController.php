@@ -57,13 +57,14 @@ class ResourceTemplateController extends AbstractActionController
                     $import = json_decode(file_get_contents($file['tmp_name']), true);
                     if (JSON_ERROR_NONE === json_last_error()) {
                         if ($this->importIsValid($import)) {
-                            list($found, $notFound) = $this->getImportCompatibility($import);
+                            list($template, $notFound, $vocabs) = $this->getImportCompatibility($import);
 
                             $form = $this->getForm(ResourceTemplateReviewImportForm::class);
                             $form->get('import')->setValue(json_encode($import));
 
-                            $view->setVariable('found', $found);
+                            $view->setVariable('template', $template);
                             $view->setVariable('notFound', $notFound);
+                            $view->setVariable('vocabs', $vocabs);
                             $view->setTemplate('omeka/admin/resource-template/review-import');
                         } else {
                             $this->messenger()->addError('Invalid import file format');
@@ -93,65 +94,70 @@ class ResourceTemplateController extends AbstractActionController
      */
     protected function getImportCompatibility(array $import)
     {
-        $found = [
-            'vocabularies' => [],
-            'class' => null,
-            'properties' => [],
+        $template = [
+            'o:label' => $import['label'],
+            'o:resource_class' => null,
+            'o:resource_template_property' => [],
         ];
         $notFound = [
             'vocabularies' => [],
             'class' => null,
             'properties' => [],
         ];
-        $vocabCache = [];
+        $vocabs = [];
 
-        $getVocab = function ($namespaceUri) use ($vocabCache) {
-            if (isset($vocabCache[$namespaceUri])) {
-                return $vocabCache[$namespaceUri];
+        $getVocab = function ($namespaceUri) use (&$vocabs) {
+            if (isset($vocabs[$namespaceUri])) {
+                return $vocabs[$namespaceUri];
             }
             $vocab = $this->api()->searchOne('vocabularies', [
                 'namespace_uri' => $namespaceUri,
             ])->getContent();
             if ($vocab) {
-                $vocabCache[$namespaceUri] = $vocab;
+                $vocabs[$namespaceUri] = $vocab;
                 return $vocab;
             }
             return false;
         };
 
         if ($vocab = $getVocab($import['class']['namespace_uri'])) {
-            $found['vocabularies'][$vocab->namespaceUri()] = [
-                'prefix' => $vocab->prefix(),
-                'label' => $vocab->label(),
-                'comment' => $vocab->comment(),
-            ];
             $class = $this->api()->searchOne('resource_classes', [
                 'vocabulary_namespace_uri' => $import['class']['namespace_uri'],
                 'local_name' => $import['class']['local_name'],
             ])->getContent();
             if ($class) {
-                $found['class'] = $import['class'];
+                $template['o:resource_class'] = [
+                    'o:id' => $class->id(),
+                    'namespace_uri' => $import['class']['namespace_uri'],
+                    'local_name' => $class->localName(),
+                    'label' => $class->label(),
+                    'comment' => $class->comment(),
+                ];
             } else {
                 $notFound['class'] = $import['class'];
             }
         } else {
-            $notFound['vocabularies'][] = $import['class']['namespace_uri'];
             $notFound['class'] = $import['class'];
+            $notFound['vocabularies'][] = $import['class']['namespace_uri'];
         }
 
         foreach ($import['properties'] as $property) {
             if ($vocab = $getVocab($property['namespace_uri'])) {
-                $found['vocabularies'][$vocab->namespaceUri()] = [
-                    'prefix' => $vocab->prefix(),
-                    'label' => $vocab->label(),
-                    'comment' => $vocab->comment(),
-                ];
                 $prop = $this->api()->searchOne('properties', [
                     'vocabulary_namespace_uri' => $property['namespace_uri'],
                     'local_name' => $property['local_name'],
                 ])->getContent();
                 if ($prop) {
-                    $found['properties'][] = $property;
+                    $template['o:resource_template_property'][] = [
+                        'o:property' => ['o:id' => $prop->id()],
+                        'o:alternate_label' => $property['alternate_label'],
+                        'o:alternate_comment' => $property['alternate_comment'],
+                        'o:is_required' => $property['is_required'],
+                        'namespace_uri' => $property['namespace_uri'],
+                        'local_name' => $prop->localName(),
+                        'label' => $prop->label(),
+                        'comment' => $prop->comment(),
+                    ];
                 } else {
                     $notFound['properties'][] = $property;
                 }
@@ -161,7 +167,7 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
-        return [$found, $notFound];
+        return [$template, $notFound, $vocabs];
     }
 
     /**

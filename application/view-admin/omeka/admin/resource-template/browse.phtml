@@ -24,6 +24,7 @@ $sortHeadings = [
 <?php echo $this->pageTitle($this->translate('Resource Templates')); ?>
 
 <div id="page-actions">
+    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'import'], true)); ?>"><?php echo $this->translate('Import'); ?></a>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>

@@ -6,6 +6,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pageTitle(sprintf($this->translate('Resource Template: “%s”'), $resourceTemplate->label())); ?>
 
 <div id="page-actions">
+    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'export'], true)); ?>"><?php echo $this->translate('Export'); ?></a>
     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
     <a class="button" href="<?php echo $escape($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
     <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
 $form->prepare();
-echo $this->pageTitle($this->translate('Review Import Resource Template'));
+echo $this->pageTitle($this->translate('Resource Template: Review Import'));
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
@@ -8,3 +8,27 @@ echo $this->pageTitle($this->translate('Review Import Resource Template'));
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<table>
+<thead>
+    <tr>
+        <th>Property</th>
+        <th>Alternate label</th>
+        <th>Alternate comment</th>
+        <th>Required?</th>
+        <!-- @todo position, is_required, data_type -->
+    </tr>
+</thead>
+<?php foreach ($found['properties'] as $namespaceUri => $properties): ?>
+<?php foreach ($properties as $localName => $info): ?>
+<tbody>
+    <tr>
+        <td><?php echo $localName; ?></td>
+        <td><?php echo $info['alternate_label']; ?></td>
+        <td><?php echo $info['alternate_comment']; ?></td>
+        <td><?php echo $info['is_required'] ? 'Yes' : 'No'; ?></td>
+    </tr>
+</tbody>
+<?php endforeach; ?>
+<?php endforeach; ?>
+</table>

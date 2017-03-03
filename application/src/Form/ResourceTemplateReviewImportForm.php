@@ -8,7 +8,7 @@ class ResourceTemplateReviewImportForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'import',
+            'name' => 'resource_template',
             'type' => 'hidden',
             'attributes' => [
                 'required' => true,

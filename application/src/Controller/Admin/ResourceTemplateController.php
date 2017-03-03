@@ -60,7 +60,7 @@ class ResourceTemplateController extends AbstractActionController
                             list($template, $notFound, $vocabs) = $this->getImportCompatibility($import);
 
                             $form = $this->getForm(ResourceTemplateReviewImportForm::class);
-                            $form->get('import')->setValue(json_encode($import));
+                            $form->get('resource_template')->setValue(json_encode($template));
 
                             $view->setVariable('template', $template);
                             $view->setVariable('notFound', $notFound);
@@ -87,20 +87,15 @@ class ResourceTemplateController extends AbstractActionController
     }
 
     /**
-     * Derive what is compatible and incompatible in the import.
+     * Derive what is compatible and incompatible from the import.
      *
      * @param array $import
      * @return array
      */
     protected function getImportCompatibility(array $import)
     {
-        $template = [
-            'o:label' => $import['label'],
-            'o:resource_class' => null,
-            'o:resource_template_property' => [],
-        ];
+        $template = $import['resource_template'];
         $notFound = [
-            'vocabularies' => [],
             'class' => null,
             'properties' => [],
         ];
@@ -120,50 +115,37 @@ class ResourceTemplateController extends AbstractActionController
             return false;
         };
 
-        if ($vocab = $getVocab($import['class']['namespace_uri'])) {
+        if ($vocab = $getVocab($template['o:resource_class']['namespace_uri'])) {
             $class = $this->api()->searchOne('resource_classes', [
-                'vocabulary_namespace_uri' => $import['class']['namespace_uri'],
-                'local_name' => $import['class']['local_name'],
+                'vocabulary_namespace_uri' => $template['o:resource_class']['namespace_uri'],
+                'local_name' => $template['o:resource_class']['local_name'],
             ])->getContent();
             if ($class) {
-                $template['o:resource_class'] = [
-                    'o:id' => $class->id(),
-                    'namespace_uri' => $import['class']['namespace_uri'],
-                    'local_name' => $class->localName(),
-                    'label' => $class->label(),
-                    'comment' => $class->comment(),
-                ];
+                $template['o:resource_class']['o:id'] = $class->id();
             } else {
-                $notFound['class'] = $import['class'];
+                $notFound['class'] = $template['o:resource_class'];
+                $template['o:resource_class'] = null;
             }
         } else {
-            $notFound['class'] = $import['class'];
-            $notFound['vocabularies'][] = $import['class']['namespace_uri'];
+            $notFound['class'] = $template['o:resource_class'];
+            $template['o:resource_class'] = null;
         }
 
-        foreach ($import['properties'] as $property) {
+        foreach ($template['o:resource_template_property'] as $key => $property) {
             if ($vocab = $getVocab($property['namespace_uri'])) {
                 $prop = $this->api()->searchOne('properties', [
                     'vocabulary_namespace_uri' => $property['namespace_uri'],
                     'local_name' => $property['local_name'],
                 ])->getContent();
                 if ($prop) {
-                    $template['o:resource_template_property'][] = [
-                        'o:property' => ['o:id' => $prop->id()],
-                        'o:alternate_label' => $property['alternate_label'],
-                        'o:alternate_comment' => $property['alternate_comment'],
-                        'o:is_required' => $property['is_required'],
-                        'namespace_uri' => $property['namespace_uri'],
-                        'local_name' => $prop->localName(),
-                        'label' => $prop->label(),
-                        'comment' => $prop->comment(),
-                    ];
+                    $template['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
                 } else {
                     $notFound['properties'][] = $property;
+                    unset($template['o:resource_template_property'][$key]);
                 }
             } else {
+                unset($template['o:resource_template_property'][$key]);
                 $notFound['properties'][] = $property;
-                $notFound['vocabularies'][] = $property['namespace_uri'];
             }
         }
 
@@ -182,38 +164,47 @@ class ResourceTemplateController extends AbstractActionController
             // invalid format
             return false;
         }
+        if (!array_key_exists('vocabularies', $import) || !is_array($import['vocabularies'])) {
+            return false;
+        }
+        if (!array_key_exists('resource_template', $import) || !is_array($import['resource_template'])) {
+            return false;
+        }
 
-        if (!isset($import['label'])) {
+        $vocabs = $import['vocabularies'];
+        $template = $import['resource_template'];
+
+        if (!isset($template['o:label'])) {
             // missing label
             return false;
         }
-        if (!is_string($import['label'])) {
+        if (!is_string($template['o:label'])) {
             // invalid label
             return false;
         }
 
         // Validate class.
-        if (!array_key_exists('class', $import)) { // class can be null
+        if (!array_key_exists('o:resource_class', $template)) { // class can be null
             // missing class
             return false;
         }
-        if (!is_array($import['class']) && null !== $import['class']) {
+        if (!is_array($template['o:resource_class']) && null !== $template['o:resource_class']) {
             // invalid class format
             return false;
         }
-        if (is_array($import['class'])) {
-            if (!array_key_exists('namespace_uri', $import['class'])
-                || !array_key_exists('local_name', $import['class'])
-                || !array_key_exists('label', $import['class'])
-                || !array_key_exists('comment', $import['class'])
+        if (is_array($template['o:resource_class'])) {
+            if (!array_key_exists('namespace_uri', $template['o:resource_class'])
+                || !array_key_exists('local_name', $template['o:resource_class'])
+                || !array_key_exists('label', $template['o:resource_class'])
+                || !array_key_exists('comment', $template['o:resource_class'])
             ) {
                 // missing class info
                 return false;
             }
-            if (!is_string($import['class']['namespace_uri'])
-                || !is_string($import['class']['local_name'])
-                || !is_string($import['class']['label'])
-                || (!is_string($import['class']['comment']) && null !== $import['class']['comment'])
+            if (!is_string($template['o:resource_class']['namespace_uri'])
+                || !is_string($template['o:resource_class']['local_name'])
+                || !is_string($template['o:resource_class']['label'])
+                || (!is_string($template['o:resource_class']['comment']) && null !== $template['o:resource_class']['comment'])
             ) {
                 // invalid class info
                 return false;
@@ -221,16 +212,16 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         // Validate properties.
-        if (!isset($import['properties'])) {
+        if (!isset($template['o:resource_template_property'])) {
             // missing properties
             return false;
         }
-        if (!is_array($import['properties'])) {
+        if (!is_array($template['o:resource_template_property'])) {
             // invalid properties format
             return false;
         }
 
-        foreach ($import['properties'] as $property) {
+        foreach ($template['o:resource_template_property'] as $property) {
             if (!is_array($property)) {
                 // invalid property format
                 return false;
@@ -239,10 +230,10 @@ class ResourceTemplateController extends AbstractActionController
                 || !array_key_exists('local_name', $property)
                 || !array_key_exists('label', $property)
                 || !array_key_exists('comment', $property)
-                || !array_key_exists('alternate_label', $property)
-                || !array_key_exists('alternate_comment', $property)
-                || !array_key_exists('is_required', $property)
-                || !array_key_exists('data_type', $property)
+                || !array_key_exists('o:alternate_label', $property)
+                || !array_key_exists('o:alternate_comment', $property)
+                || !array_key_exists('o:is_required', $property)
+                || !array_key_exists('o:data_type', $property)
             ) {
                 // missing property info
                 return false;
@@ -251,10 +242,10 @@ class ResourceTemplateController extends AbstractActionController
                 || !is_string($property['local_name'])
                 || !is_string($property['label'])
                 || (!is_string($property['comment']) && !is_null($property['comment']))
-                || (!is_string($property['alternate_label']) && !is_null($property['alternate_label']))
-                || (!is_string($property['alternate_comment']) && !is_null($property['alternate_comment']))
-                || !is_bool($property['is_required'])
-                || (!is_string($property['data_type']) && !is_null($property['data_type']))
+                || (!is_string($property['o:alternate_label']) && !is_null($property['o:alternate_label']))
+                || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
+                || !is_bool($property['o:is_required'])
+                || (!is_string($property['o:data_type']) && !is_null($property['o:data_type']))
             ) {
                 // invalid property info
                 return false;
@@ -270,10 +261,12 @@ class ResourceTemplateController extends AbstractActionController
         $templateProperties = $template->resourceTemplateProperties();
 
         $export = [
-            'label' => $template->label(),
             'vocabularies' => [],
-            'class' => null,
-            'properties' => [],
+            'resource_template' => [
+                'o:label' => $template->label(),
+                'o:resource_class' => null,
+                'o:resource_template_property' => [],
+            ],
         ];
 
         if ($templateClass) {
@@ -282,7 +275,7 @@ class ResourceTemplateController extends AbstractActionController
                 'label' => $vocab->label(),
                 'comment' => $vocab->comment(),
             ];
-            $export['class'] = [
+            $export['resource_template']['o:resource_class'] = [
                 'namespace_uri' => $vocab->namespaceUri(),
                 'local_name' => $templateClass->localName(),
                 'label' => $templateClass->label(),
@@ -299,15 +292,15 @@ class ResourceTemplateController extends AbstractActionController
                 'comment' => $vocab->comment(),
             ];
             // Note that "position" is implied by array order.
-            $export['properties'][] = [
+            $export['resource_template']['o:resource_template_property'][] = [
+                'o:alternate_label' => $templateProperty->alternateLabel(),
+                'o:alternate_comment' => $templateProperty->alternateComment(),
+                'o:is_required' => $templateProperty->isRequired(),
+                'o:data_type' => $templateProperty->dataType(),
                 'namespace_uri' => $vocab->namespaceUri(),
                 'local_name' => $property->localName(),
                 'label' => $property->label(),
                 'comment' => $property->comment(),
-                'alternate_label' => $templateProperty->alternateLabel(),
-                'alternate_comment' => $templateProperty->alternateComment(),
-                'is_required' => $templateProperty->isRequired(),
-                'data_type' => $templateProperty->dataType(),
             ];
         }
 

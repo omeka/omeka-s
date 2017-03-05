@@ -59,7 +59,7 @@ class IIIF implements IngesterInterface
         if (!$response->isOk()) {
             $errorStore->addError('o:source', sprintf(
                 "Error reading %s: %s (%s)",
-                $type,
+                $this->getLabel(),
                 $response->getReasonPhrase(),
                 $response->getStatusCode()
             ));

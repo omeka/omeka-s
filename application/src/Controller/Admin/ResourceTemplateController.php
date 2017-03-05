@@ -57,13 +57,12 @@ class ResourceTemplateController extends AbstractActionController
                     $import = json_decode(file_get_contents($file['tmp_name']), true);
                     if (JSON_ERROR_NONE === json_last_error()) {
                         if ($this->importIsValid($import)) {
-                            list($template, $notFound, $vocabs) = $this->getImportCompatibility($import);
+                            list($template, $vocabs) = $this->getImportCompatibility($import);
 
                             $form = $this->getForm(ResourceTemplateReviewImportForm::class);
                             $form->get('resource_template')->setValue(json_encode($template));
 
                             $view->setVariable('template', $template);
-                            $view->setVariable('notFound', $notFound);
                             $view->setVariable('vocabs', $vocabs);
                             $view->setTemplate('omeka/admin/resource-template/review-import');
                         } else {
@@ -95,10 +94,6 @@ class ResourceTemplateController extends AbstractActionController
     protected function getImportCompatibility(array $import)
     {
         $template = $import['resource_template'];
-        $notFound = [
-            'class' => null,
-            'properties' => [],
-        ];
         $vocabs = [];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
@@ -122,13 +117,7 @@ class ResourceTemplateController extends AbstractActionController
             ])->getContent();
             if ($class) {
                 $template['o:resource_class']['o:id'] = $class->id();
-            } else {
-                $notFound['class'] = $template['o:resource_class'];
-                $template['o:resource_class'] = null;
             }
-        } else {
-            $notFound['class'] = $template['o:resource_class'];
-            $template['o:resource_class'] = null;
         }
 
         foreach ($template['o:resource_template_property'] as $key => $property) {
@@ -139,17 +128,11 @@ class ResourceTemplateController extends AbstractActionController
                 ])->getContent();
                 if ($prop) {
                     $template['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
-                } else {
-                    $notFound['properties'][] = $property;
-                    unset($template['o:resource_template_property'][$key]);
                 }
-            } else {
-                unset($template['o:resource_template_property'][$key]);
-                $notFound['properties'][] = $property;
             }
         }
 
-        return [$template, $notFound, $vocabs];
+        return [$template, $vocabs];
     }
 
     /**

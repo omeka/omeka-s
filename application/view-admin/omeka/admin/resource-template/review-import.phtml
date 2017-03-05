@@ -10,37 +10,6 @@ echo $this->pageTitle(sprintf($this->translate('Resource Template: Review â€œ%sâ
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
 
-<?php if ($notFound['class'] || $notFound['properties']): ?>
-<h3 style="color: red;">Not Able to Import</h3>
-<table>
-<thead>
-    <tr>
-        <th>Type</th>
-        <th>Namespace URI</th>
-        <th>Local Name</th>
-    </tr>
-</thead>
-<tbody>
-    <?php if ($notFound['class']): ?>
-    <tr>
-        <td>Class</td>
-        <td><?php echo $notFound['class']['namespace_uri']; ?></td>
-        <td><?php echo $notFound['class']['local_name']; ?></td>
-    </tr>
-    <?php endif; ?>
-    <?php foreach ($notFound['properties'] as $property): ?>
-    <tr>
-        <td>Property</td>
-        <td><?php echo $property['namespace_uri']; ?></td>
-        <td><?php echo $property['local_name']; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-<?php endif; ?>
-
-<h3 style="color: green;">Able to Import</h3>
-
 <?php if ($template['o:resource_class']): ?>
 <?php $vocab = $vocabs[$template['o:resource_class']['namespace_uri']]; ?>
 <div class="class-row">
@@ -60,9 +29,19 @@ echo $this->pageTitle(sprintf($this->translate('Resource Template: Review â€œ%sâ
 </thead>
 <tbody>
 <?php foreach ($template['o:resource_template_property'] as $property): ?>
-<?php $vocab = $vocabs[$property['namespace_uri']]; ?>
-    <tr>
-        <td><?php echo sprintf('%s:%s', $vocab->prefix(), $property['local_name']); ?></td>
+<?php
+$hasVocab = isset($vocabs[$property['namespace_uri']]);
+$hasProperty = isset($property['o:property']['o:id']);
+if (!$hasVocab) {
+    $uri = '<span style="color:red;">' . $property['namespace_uri'] . $property['local_name'] . '</span>';
+} elseif (!$hasProperty)  {
+    $uri = $vocabs[$property['namespace_uri']]->prefix() . ':<span style="color:red;">' . $property['local_name'] . '</span>';
+} else {
+    $uri = $vocabs[$property['namespace_uri']]->prefix() . ':' . $property['local_name'];
+}
+?>
+    <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
+        <td><?php echo sprintf('%s<br>%s', $property['label'], $uri); ?></td>
         <td><?php echo $property['o:alternate_label']; ?></td>
         <td><?php echo $property['o:alternate_comment']; ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>

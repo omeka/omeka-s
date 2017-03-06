@@ -364,6 +364,10 @@ var Omeka = {
 
             Omeka.warnIfUnsaved();
         });
+
+        $('body').on('blur', 'input,textarea,select', function() {
+            $(this).addClass('touched');
+        });
     });
 
 }(window.jQuery, window, document));

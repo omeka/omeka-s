@@ -282,8 +282,8 @@ body {
         padding-right: $spacing-medium;
     }
 
-    *:invalid {
-        outline-color: $red;
+    .touched:invalid {
+        box-shadow: 0 0 2px 2px $red;
     }
 
     .field {

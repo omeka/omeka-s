@@ -2,16 +2,18 @@
 use Omeka\Site\Theme\Manager;
 ?>
 <div class="selectable-themes">
+    <?php foreach ($themes as $theme): ?>
     <?php
-    foreach ($themes as $theme):
-        if ($theme->getId() !== $currentTheme->getId()):
-            $state = $theme->getState();
-            $thumbnailUrl = file_exists(OMEKA_PATH . $theme->getThumbnail())
-                ? $this->basePath() . $theme->getThumbnail()
-                : $fallbackThumbnailUrl;
-            $author = $theme->getIni('author');
-            $authorLink = $theme->getIni('author_link');
-            $description = $theme->getIni('description')
+        if (isset($currentTheme) && $theme->getId() === $currentTheme->getId()) {
+            continue;
+        }
+        $state = $theme->getState();
+        $thumbnailUrl = file_exists(OMEKA_PATH . $theme->getThumbnail())
+            ? $this->basePath() . $theme->getThumbnail()
+            : $fallbackThumbnailUrl;
+        $author = $theme->getIni('author');
+        $authorLink = $theme->getIni('author_link');
+        $description = $theme->getIni('description')
     ?>
     <div class="theme<?php echo Manager::STATE_ACTIVE !== $state ? ' invalid' : ''; ?>">
 
@@ -39,8 +41,5 @@ use Omeka\Site\Theme\Manager;
 
         <input type="hidden" name="o:theme" value="<?php echo $this->escapeHtml($theme->getId()); ?>" disabled>
     </div>
-    <?php
-        endif;
-    endforeach;
-    ?>
+    <?php endforeach; ?>
 </div>

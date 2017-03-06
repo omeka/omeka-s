@@ -13,6 +13,9 @@ class RdfImporterFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        return new RdfImporter($serviceLocator->get('Omeka\ApiManager'));
+        return new RdfImporter(
+            $serviceLocator->get('Omeka\ApiManager'),
+            $serviceLocator->get('Omeka\EntityManager')
+        );
     }
 }

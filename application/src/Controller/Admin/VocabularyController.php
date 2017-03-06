@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
+use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Exception;
 use Omeka\Service\RdfImporter;
 use Omeka\Stdlib\Message;
@@ -115,24 +116,57 @@ class VocabularyController extends AbstractActionController
         $data = $vocabulary->jsonSerialize();
         $form->setData($data);
 
+        $view = new ViewModel;
+        $view->setVariable('vocabulary', $vocabulary);
+
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], true);
                 if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    $fileData = $this->params()->fromFiles('file');
+                    if (0 === $fileData['error']) {
+                        $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
+                        $diff = $this->rdfImporter->getDiff(
+                            'file',
+                            $vocabulary->namespaceUri(),
+                            ['file' => $fileData['tmp_name']]
+                        );
+                        $form = $this->getForm(VocabularyUpdateForm::class);
+                        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
+                        $form->get('diff')->setValue(json_encode($diff));
+
+                        $view->setVariable('diff', $diff);
+                        $view->setTemplate('omeka/admin/vocabulary/update');
+                    } else {
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    }
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
 
-        $view = new ViewModel;
-        $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('form', $form);
         return $view;
+    }
+
+    public function updateAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form = $this->getForm(VocabularyUpdateForm::class);
+            $form->setData($data);
+            if ($form->isValid()) {
+                $this->rdfImporter->update($this->params('id'), json_decode($data['diff'], true));
+                $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     public function deleteAction()

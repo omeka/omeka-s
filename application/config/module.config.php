@@ -16,7 +16,7 @@ return [
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
         'template_path_stack' => [
-            OMEKA_PATH . '/application/view-shared',
+            OMEKA_PATH . '/application/view',
         ],
         'strategies' => [
             'Omeka\ViewApiJsonStrategy',

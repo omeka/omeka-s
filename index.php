@@ -18,5 +18,5 @@ try {
 } catch (\Exception $e) {
     http_response_code(500);
     error_log($e);
-    include OMEKA_PATH . '/application/view-shared/error/fallback.phtml';
+    include OMEKA_PATH . '/application/view/error/fallback.phtml';
 }

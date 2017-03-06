@@ -16,26 +16,24 @@ $class = $import['o:resource_class'];
 $hasVocab = isset($class['vocabulary_prefix']);
 $hasClass = isset($class['o:id']);
 if (!$hasVocab) {
-    $title = sprintf('Missing vocabulary “%s” with namespace URI %s', $class['vocabulary_label'], $class['vocabulary_namespace_uri']);
-    $classText = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $class['label']);
+    $errorText = sprintf('Unknown vocabulary “%s” with namespace URI %s', $class['vocabulary_label'], $class['vocabulary_namespace_uri']);
 } elseif (!$hasClass) {
-    $title = sprintf('Missing property “%s” in vocabulary “%s” (%s:%s) ', $class['label'], $class['vocabulary_label'], $class['vocabulary_prefix'], $class['local_name']);
-    $classText = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $class['label']);
-} else {
-    $title = sprintf('%s:%s', $class['vocabulary_prefix'], $class['local_name']);
-    $classText = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $class['label']);
+    $errorText = sprintf('Unknown class “%s” in vocabulary “%s” (%s:%s) ', $class['label'], $class['vocabulary_label'], $class['vocabulary_prefix'], $class['local_name']);
 }
 ?>
-<div class="class-row">
+<div class="class-row"<?php if (!$hasClass): echo ' style="background-color:#ffe6e6;'; endif; ?>>
     <span class="class-label"><?php echo $this->translate('Class'); ?></span>
-    <span class="class-value"><?php echo $classText; ?></span>
+    <span class="class-value"><?php echo $class['label']; ?></span>
 </div>
+<?php if (!$hasVocab || !$hasClass): ?>
+<div style="color:red;"><?php echo $errorText; ?></div>
+<?php endif; ?>
 <?php endif; ?>
 
 <table id="properties" class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th><?php echo $this->translate('Property'); ?></th>
+        <th><?php echo $this->translate('Original Label'); ?></th>
         <th><?php echo $this->translate('Alternate Label'); ?></th>
         <th><?php echo $this->translate('Alternate Comment'); ?></th>
         <th><?php echo $this->translate('Required?'); ?></th>
@@ -46,25 +44,23 @@ if (!$hasVocab) {
 <?php
 $hasVocab = isset($property['vocabulary_prefix']);
 $hasProperty = isset($property['o:property']['o:id']);
+if (!$hasVocab) {
+    $errorText = sprintf('Unknown vocabulary “%s” with namespace URI “%s”', $property['vocabulary_label'], $property['vocabulary_namespace_uri']);
+} elseif (!$hasProperty) {
+    $errorText = sprintf('Unknown property “%s” in vocabulary “%s” (%s:%s) ', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
+}
 ?>
-    <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
+    <tr<?php if (!$hasProperty): echo ' style="background-color:#ffe6e6;"'; endif; ?>>
         <td><?php echo $property['label']; ?></td>
         <td><?php echo $property['o:alternate_label']; ?></td>
         <td><?php echo $property['o:alternate_comment']; ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
     </tr>
-<?php
-if (!$hasVocab || !$hasProperty) {
-    if (!$hasVocab) {
-        $errorText = sprintf('Missing vocabulary “%s” with namespace URI “%s”', $property['vocabulary_label'], $property['vocabulary_namespace_uri']);
-    } elseif (!$hasProperty) {
-        $errorText = sprintf('Missing property “%s” in vocabulary “%s” (%s:%s) ', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
-    } else {
-        $errorText = sprintf('%s:%s', $property['vocabulary_prefix'], $property['local_name']);
-    }
-    echo '<tr><td colspan="4" style="background-color:#ffe6e6;">' . $errorText . '</td></tr>';
-}
-?>
+    <?php if (!$hasVocab || !$hasProperty): ?>
+    <tr>
+        <td colspan="4" style="color:red;"><?php echo $errorText; ?></td>
+    </tr>
+    <?php endif; ?>
 <?php endforeach; ?>
 </tbody>
 </table>

@@ -1,7 +1,7 @@
 <?php
 $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'resource-template');
-echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s”'), $template['o:label']));
+echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s”'), $import['o:label']));
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
@@ -10,11 +10,10 @@ echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s�
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
 
-<?php if ($template['o:resource_class']): ?>
-<?php $vocab = $vocabs[$template['o:resource_class']['namespace_uri']]; ?>
+<?php if ($import['o:resource_class']): ?>
 <div class="class-row">
     <span class="class-label"><?php echo $this->translate('Class'); ?></span>
-    <span class="class-value"><?php echo sprintf('%s:%s', $vocab->prefix(), $template['o:resource_class']['local_name']); ?></span>
+    <span class="class-value"><?php echo $import['o:resource_class']['local_name']; ?></span>
 </div>
 <?php endif; ?>
 
@@ -28,20 +27,23 @@ echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s�
     </tr>
 </thead>
 <tbody>
-<?php foreach ($template['o:resource_template_property'] as $property): ?>
+<?php foreach ($import['o:resource_template_property'] as $property): ?>
 <?php
-$hasVocab = isset($vocabs[$property['namespace_uri']]);
+$hasVocab = isset($property['vocabulary_prefix']);
 $hasProperty = isset($property['o:property']['o:id']);
 if (!$hasVocab) {
-    $uri = '<span style="color:red;">' . $property['namespace_uri'] . $property['local_name'] . '</span>';
-} elseif (!$hasProperty)  {
-    $uri = $vocabs[$property['namespace_uri']]->prefix() . ':<span style="color:red;">' . $property['local_name'] . '</span>';
+    $title = sprintf('Missing vocabulary “%s” with namespace URI %s', $property['vocabulary_label'], $property['vocabulary_namespace_uri']);
+    $propertyCell = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $property['label']);
+} elseif (!$hasProperty) {
+    $title = sprintf('Missing property “%s” in vocabulary “%s” (%s:%s) ', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
+    $propertyCell = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $property['label']);
 } else {
-    $uri = $vocabs[$property['namespace_uri']]->prefix() . ':' . $property['local_name'];
+    $title = sprintf('%s:%s', $property['vocabulary_prefix'], $property['local_name']);
+    $propertyCell = sprintf('<span title="%s">%s</span>', $this->escapeHtml($title), $property['label']);
 }
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
-        <td><?php echo sprintf('%s<br>%s', $property['label'], $uri); ?></td>
+        <td><?php echo $propertyCell; ?></td>
         <td><?php echo $property['o:alternate_label']; ?></td>
         <td><?php echo $property['o:alternate_comment']; ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>

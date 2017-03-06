@@ -57,13 +57,12 @@ class ResourceTemplateController extends AbstractActionController
                     $import = json_decode(file_get_contents($file['tmp_name']), true);
                     if (JSON_ERROR_NONE === json_last_error()) {
                         if ($this->importIsValid($import)) {
-                            list($template, $vocabs) = $this->getImportCompatibility($import);
+                            $import = $this->flagCompatibleMembers($import);
 
                             $form = $this->getForm(ResourceTemplateReviewImportForm::class);
-                            $form->get('resource_template')->setValue(json_encode($template));
+                            $form->get('resource_template')->setValue(json_encode($import));
 
-                            $view->setVariable('template', $template);
-                            $view->setVariable('vocabs', $vocabs);
+                            $view->setVariable('import', $import);
                             $view->setTemplate('omeka/admin/resource-template/review-import');
                         } else {
                             $this->messenger()->addError('Invalid import file format');
@@ -73,8 +72,7 @@ class ResourceTemplateController extends AbstractActionController
                     }
                 } else {
                     // Process review import form.
-                    $import = $this->params()->fromPost('import');
-                    echo '<pre>';print_r($import);echo '</pre>';exit;
+                    $import = $this->params()->fromPost('resource_template');
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -86,14 +84,22 @@ class ResourceTemplateController extends AbstractActionController
     }
 
     /**
-     * Derive what is compatible and incompatible from the import.
+     * Flag members as compatible.
+     *
+     * All members start as incompatible until we determine whether the
+     * corresponding vocabulary and member exists in this installation. By
+     * design, the API will only hydrate members that are flagged as compatible.
+     *
+     * We flag a compatible vocabulary by adding [vocabulary_prefix] to the
+     * member; a compatible class by adding [o:id]; and a compatible property by
+     * adding [o:property][o:id].
+     *
      *
      * @param array $import
      * @return array
      */
-    protected function getImportCompatibility(array $import)
+    protected function flagCompatibleMembers(array $import)
     {
-        $template = $import['resource_template'];
         $vocabs = [];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
@@ -110,29 +116,31 @@ class ResourceTemplateController extends AbstractActionController
             return false;
         };
 
-        if ($vocab = $getVocab($template['o:resource_class']['namespace_uri'])) {
+        if ($vocab = $getVocab($import['o:resource_class']['vocabulary_namespace_uri'])) {
+            $import['o:resource_class']['vocabulary_prefix'] = $vocab->prefix();
             $class = $this->api()->searchOne('resource_classes', [
-                'vocabulary_namespace_uri' => $template['o:resource_class']['namespace_uri'],
-                'local_name' => $template['o:resource_class']['local_name'],
+                'vocabulary_namespace_uri' => $import['o:resource_class']['vocabulary_namespace_uri'],
+                'local_name' => $import['o:resource_class']['local_name'],
             ])->getContent();
             if ($class) {
-                $template['o:resource_class']['o:id'] = $class->id();
+                $import['o:resource_class']['o:id'] = $class->id();
             }
         }
 
-        foreach ($template['o:resource_template_property'] as $key => $property) {
-            if ($vocab = $getVocab($property['namespace_uri'])) {
+        foreach ($import['o:resource_template_property'] as $key => $property) {
+            if ($vocab = $getVocab($property['vocabulary_namespace_uri'])) {
+                $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->prefix();
                 $prop = $this->api()->searchOne('properties', [
-                    'vocabulary_namespace_uri' => $property['namespace_uri'],
+                    'vocabulary_namespace_uri' => $property['vocabulary_namespace_uri'],
                     'local_name' => $property['local_name'],
                 ])->getContent();
                 if ($prop) {
-                    $template['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
+                    $import['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
                 }
             }
         }
 
-        return [$template, $vocabs];
+        return $import;
     }
 
     /**
@@ -147,90 +155,67 @@ class ResourceTemplateController extends AbstractActionController
             // invalid format
             return false;
         }
-        if (!array_key_exists('vocabularies', $import) || !is_array($import['vocabularies'])) {
-            return false;
-        }
-        if (!array_key_exists('resource_template', $import) || !is_array($import['resource_template'])) {
-            return false;
-        }
 
-        $vocabs = $import['vocabularies'];
-        $template = $import['resource_template'];
-
-        if (!isset($template['o:label'])) {
-            // missing label
-            return false;
-        }
-        if (!is_string($template['o:label'])) {
-            // invalid label
+        if (!isset($import['o:label']) || !is_string($import['o:label'])) {
+            // missing or invalid label
             return false;
         }
 
         // Validate class.
-        if (!array_key_exists('o:resource_class', $template)) { // class can be null
-            // missing class
+        if (!isset($import['o:resource_class']) || !is_array($import['o:resource_class'])) {
+            // missing or invalid o:resource_class
             return false;
         }
-        if (!is_array($template['o:resource_class']) && null !== $template['o:resource_class']) {
-            // invalid class format
+        if (!array_key_exists('vocabulary_namespace_uri', $import['o:resource_class'])
+            || !array_key_exists('vocabulary_label', $import['o:resource_class'])
+            || !array_key_exists('local_name', $import['o:resource_class'])
+            || !array_key_exists('label', $import['o:resource_class'])
+        ) {
+            // missing o:resource_class info
             return false;
         }
-        if (is_array($template['o:resource_class'])) {
-            if (!array_key_exists('namespace_uri', $template['o:resource_class'])
-                || !array_key_exists('local_name', $template['o:resource_class'])
-                || !array_key_exists('label', $template['o:resource_class'])
-                || !array_key_exists('comment', $template['o:resource_class'])
-            ) {
-                // missing class info
-                return false;
-            }
-            if (!is_string($template['o:resource_class']['namespace_uri'])
-                || !is_string($template['o:resource_class']['local_name'])
-                || !is_string($template['o:resource_class']['label'])
-                || (!is_string($template['o:resource_class']['comment']) && null !== $template['o:resource_class']['comment'])
-            ) {
-                // invalid class info
-                return false;
-            }
+        if (!is_string($import['o:resource_class']['vocabulary_namespace_uri'])
+            || !is_string($import['o:resource_class']['vocabulary_label'])
+            || !is_string($import['o:resource_class']['local_name'])
+            || !is_string($import['o:resource_class']['label'])
+        ) {
+            // invalid o:resource_class info
+            return false;
         }
 
         // Validate properties.
-        if (!isset($template['o:resource_template_property'])) {
-            // missing properties
-            return false;
-        }
-        if (!is_array($template['o:resource_template_property'])) {
-            // invalid properties format
+        if (!isset($import['o:resource_template_property']) || !is_array($import['o:resource_template_property'])) {
+            // missing or invalid o:resource_template_property
             return false;
         }
 
-        foreach ($template['o:resource_template_property'] as $property) {
+        foreach ($import['o:resource_template_property'] as $property) {
             if (!is_array($property)) {
-                // invalid property format
+                // invalid o:resource_template_property format
                 return false;
             }
-            if (!array_key_exists('namespace_uri', $property)
+            if (!array_key_exists('vocabulary_namespace_uri', $property)
+                || !array_key_exists('vocabulary_label', $property)
                 || !array_key_exists('local_name', $property)
                 || !array_key_exists('label', $property)
-                || !array_key_exists('comment', $property)
                 || !array_key_exists('o:alternate_label', $property)
                 || !array_key_exists('o:alternate_comment', $property)
                 || !array_key_exists('o:is_required', $property)
                 || !array_key_exists('o:data_type', $property)
             ) {
-                // missing property info
+                // missing o:resource_template_property info
                 return false;
             }
-            if (!is_string($property['namespace_uri'])
+            if (!is_string($property['vocabulary_namespace_uri'])
+                || !is_string($property['vocabulary_label'])
                 || !is_string($property['local_name'])
                 || !is_string($property['label'])
-                || (!is_string($property['comment']) && !is_null($property['comment']))
                 || (!is_string($property['o:alternate_label']) && !is_null($property['o:alternate_label']))
                 || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
                 || !is_bool($property['o:is_required'])
                 || (!is_string($property['o:data_type']) && !is_null($property['o:data_type']))
             ) {
-                // invalid property info
+                // invalid o:resource_template_property info
                 return false;
             }
         }
@@ -244,25 +229,18 @@ class ResourceTemplateController extends AbstractActionController
         $templateProperties = $template->resourceTemplateProperties();
 
         $export = [
-            'vocabularies' => [],
-            'resource_template' => [
-                'o:label' => $template->label(),
-                'o:resource_class' => null,
-                'o:resource_template_property' => [],
-            ],
+            'o:label' => $template->label(),
+            'o:resource_class' => [],
+            'o:resource_template_property' => [],
         ];
 
         if ($templateClass) {
             $vocab = $templateClass->vocabulary();
-            $export['vocabularies'][$vocab->namespaceUri()] = [
-                'label' => $vocab->label(),
-                'comment' => $vocab->comment(),
-            ];
-            $export['resource_template']['o:resource_class'] = [
-                'namespace_uri' => $vocab->namespaceUri(),
+            $export['o:resource_class'] = [
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
                 'local_name' => $templateClass->localName(),
                 'label' => $templateClass->label(),
-                'comment' => $templateClass->comment(),
             ];
         }
 
@@ -270,20 +248,16 @@ class ResourceTemplateController extends AbstractActionController
             $property = $templateProperty->property();
             $vocab = $property->vocabulary();
 
-            $export['vocabularies'][$vocab->namespaceUri()] = [
-                'label' => $vocab->label(),
-                'comment' => $vocab->comment(),
-            ];
             // Note that "position" is implied by array order.
-            $export['resource_template']['o:resource_template_property'][] = [
+            $export['o:resource_template_property'][] = [
                 'o:alternate_label' => $templateProperty->alternateLabel(),
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:data_type' => $templateProperty->dataType(),
-                'namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),
                 'label' => $property->label(),
-                'comment' => $property->comment(),
             ];
         }
 

@@ -365,7 +365,7 @@ var Omeka = {
             Omeka.warnIfUnsaved();
         });
 
-        $('body').on('blur', 'input', function() {
+        $('body').on('blur', 'input,textarea,select', function() {
             $(this).addClass('touched');
         });
     });

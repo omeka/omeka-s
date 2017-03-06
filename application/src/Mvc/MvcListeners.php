@@ -182,7 +182,7 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Prepare the administrative interface.
+     * Prepare the site administrative interface.
      *
      * @param MvcEvent $event
      */
@@ -190,20 +190,15 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $routeMatch = $event->getRouteMatch();
         if (!$routeMatch->getParam('__ADMIN__')) {
-            // Not an admin route; do nothing.
             return;
         }
 
-        $event->getApplication()->getServiceManager()
-            ->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
+        $event->getViewModel()->setTemplate('layout/layout-admin');
 
         if ($routeMatch->getParam('__SITEADMIN__')
             && $routeMatch->getParam('site-slug')
         ) {
-            if (!$this->prepareSite($event)) {
-                return;
-            }
+            $this->prepareSite($event);
         }
     }
 

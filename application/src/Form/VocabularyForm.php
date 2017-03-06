@@ -27,5 +27,14 @@ class VocabularyForm extends Form
                 'info' => 'A human-readable description of the vocabulary.', // @translate
             ],
         ]);
+
+        $this->add([
+            'name' => 'file',
+            'type' => 'file',
+            'options' => [
+                'label' => 'Update vocabulary', // @translate
+                'info' => 'Update this vocabulary to a newer version. You will be able to review the changes before you accept. Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle.', // @translate
+            ],
+        ]);
     }
 }

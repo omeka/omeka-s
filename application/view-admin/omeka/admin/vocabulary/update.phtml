@@ -1,0 +1,126 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'vocabs update');
+$changedProperties = [];
+foreach ($diff['properties']['label'] as $localName => $change) {
+    $changedProperties[] = ['label', $localName, $change];
+}
+foreach ($diff['properties']['comment'] as $localName => $change) {
+    $changedProperties[] = ['comment', $localName, $change];
+}
+
+$changedClasses = [];
+foreach ($diff['classes']['label'] as $localName => $change) {
+    $changedClasses[] = ['label', $localName, $change];
+}
+foreach ($diff['classes']['comment'] as $localName => $change) {
+    $changedClasses[] = ['comment', $localName, $change];
+}
+?>
+<?php echo $this->pageTitle(sprintf($this->translate('Update Vocabulary: “%s”'), $vocabulary->label())); ?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <a href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>" class="button"><?php echo $this->translate('Cancel'); ?></a>
+    <button><?php echo $this->translate('Accept Changes'); ?></button>
+</div>
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<h3>Changed Properties</h3>
+<?php if ($changedProperties): ?>
+<table class="tablesaw" data-tablesaw-mode="stack">
+<thead>
+    <tr>
+        <th>Local name</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($changedProperties as $changedProperty): ?>
+    <tr>
+        <td><?php echo $changedProperty[1]; ?></td>
+        <td><?php echo $changedProperty[0]; ?></td>
+        <td><?php echo $changedProperty[2][0]; ?></td>
+        <td><?php echo $changedProperty[2][1]; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
+</table class="tablesaw" data-tablesaw-mode="stack">
+<?php else: ?>
+<p>No changed properties found.</p>
+<?php endif; ?>
+
+<h3>Changed Classes</h3>
+<?php if ($changedClasses): ?>
+<table class="tablesaw" data-tablesaw-mode="stack">
+<thead>
+    <tr>
+        <th>Local name</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($changedClasses as $changedClass): ?>
+    <tr>
+        <td><?php echo $changedClass[1]; ?></td>
+        <td><?php echo $changedClass[0]; ?></td>
+        <td><?php echo $changedClass[2][0]; ?></td>
+        <td><?php echo $changedClass[2][1]; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
+</table>
+<?php else: ?>
+<p>No changed classes found.</p>
+<?php endif; ?>
+
+<h3>New Properties</h3>
+<?php if ($diff['properties']['new']): ?>
+<table class="tablesaw" data-tablesaw-mode="stack">
+<thead>
+    <tr>
+        <th>Local name</th>
+        <th>Label</th>
+        <th>Comment</th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($diff['properties']['new'] as $localName => $info): ?>
+    <tr>
+        <td><?php echo $localName; ?></td>
+        <td><?php echo $info[0]; ?></td>
+        <td><?php echo $info[1]; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
+</table>
+<?php else: ?>
+<p>No new properties found.</p>
+<?php endif; ?>
+
+<h3>New Classes</h3>
+<?php if ($diff['classes']['new']): ?>
+<table class="tablesaw" data-tablesaw-mode="stack">
+<thead>
+    <tr>
+        <th>Local name</th>
+        <th>Label</th>
+        <th>Comment</th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($diff['classes']['new'] as $localName => $info): ?>
+    <tr>
+        <td><?php echo $localName; ?></td>
+        <td><?php echo $info[0]; ?></td>
+        <td><?php echo $info[1]; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
+</table>
+<?php else: ?>
+<p>No new classes found.</p>
+<?php endif; ?>

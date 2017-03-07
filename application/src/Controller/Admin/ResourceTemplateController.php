@@ -109,7 +109,7 @@ class ResourceTemplateController extends AbstractActionController
     protected function flagCompatibleMembers(array $import)
     {
         $vocabs = [];
-        $dataTypes = ['literal', 'uri', 'resource'];
+        $dataTypes = $this->dataTypeManager->getRegisteredNames();
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {

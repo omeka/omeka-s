@@ -8,7 +8,6 @@ echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s�
     <button><?php echo $this->translate('Complete import'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>
-<?php echo $this->form()->closeTag(); ?>
 
 <?php if ($import['o:resource_class']): ?>
 <?php
@@ -41,31 +40,40 @@ if (!$hasVocab) {
     </tr>
 </thead>
 <tbody>
-<?php foreach ($import['o:resource_template_property'] as $property): ?>
+<?php foreach ($import['o:resource_template_property'] as $key => $property): ?>
 <?php
 $hasVocab = isset($property['vocabulary_prefix']);
 $hasProperty = isset($property['o:property']['o:id']);
 if (!$hasVocab) {
-    $errorText = sprintf('Unknown vocabulary “%s” with namespace URI %s', $property['vocabulary_label'], $property['vocabulary_namespace_uri']);
+    $errorText = sprintf('Unknown property "%s" and unknown vocabulary "%s": %s%s', $property['label'], $property['vocabulary_label'], $property['vocabulary_namespace_uri'], $property['local_name']);
 } elseif (!$hasProperty) {
-    $errorText = sprintf('Unknown property “%s” in vocabulary “%s” (%s:%s)', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
+    $errorText = sprintf('Unknown property "%s" in vocabulary "%s": %s:%s', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
 }
-$dataType = isset($property['o:data_type'])
-    ? $property['data_type_label']
-    : sprintf('<span style="color:red;">%s</span>', $property['data_type_label']);
+// Set the data type
+if (is_null($property['data_type_name'])) {
+    $dataType = 'Default';
+} elseif (in_array($property['data_type_name'], ['literal', 'uri', 'resource'])) {
+    $dataType = $property['data_type_label'];
+} elseif ($hasProperty) {
+    $dataType = sprintf('%s<br>%s', $property['data_type_label'], $this->dataType()->getSelect('data_types[]', null, ['style' => 'width:100%;']));
+} else {
+    $dataType = $property['data_type_label'];
+}
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
         <td><?php echo $property['label']; ?></td>
-        <td><?php echo $dataType; ?></td>
+        <td><?php echo $dataType ?></td>
         <td><?php echo $property['o:alternate_label']; ?></td>
         <td><?php echo $property['o:alternate_comment']; ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
     </tr>
-    <?php if (!$hasVocab || !$hasProperty): ?>
+    <?php if (!$hasProperty): ?>
     <tr>
-        <td colspan="4" style="background-color:#ffe6e6; color:red;"><?php echo $errorText; ?></td>
+        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $errorText; ?></td>
     </tr>
     <?php endif; ?>
 <?php endforeach; ?>
 </tbody>
 </table>
+
+<?php echo $this->form()->closeTag(); ?>

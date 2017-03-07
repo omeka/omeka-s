@@ -20,5 +20,13 @@
     "rimraf": "^2.6.0",
     "susy": "^2.2.12",
     "tmp": "0.0.31"
+  },
+  "dependencies": {
+    "ckeditor": "^4.6.2",
+    "jquery": "^3.1.1",
+    "jstree": "^3.3.3",
+    "openseadragon": "^2.2.1",
+    "sortablejs": "^1.5.1",
+    "tablesaw": "^3.0.0"
   }
 }

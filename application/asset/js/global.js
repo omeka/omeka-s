@@ -368,6 +368,8 @@ var Omeka = {
         $('body').on('blur', 'input,textarea,select', function() {
             $(this).addClass('touched');
         });
+
+        $(document).trigger('enhance.tablesaw');
     });
 
 }(window.jQuery, window, document));

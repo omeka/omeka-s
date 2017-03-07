@@ -149,6 +149,22 @@ gulp.task('deps', function () {
 gulp.task('deps:update', function () {
     return composer(['update']);
 });
+gulp.task('deps:js', function (cb) {
+    var deps = {
+        'ckeditor': '**',
+        'jquery': 'dist/**',
+        'jstree': 'dist/**',
+        'openseadragon': 'build/openseadragon/**',
+        'sortablejs': 'Sortable.min.js',
+        'tablesaw': 'dist/stackonly/**'
+    }
+
+    Object.keys(deps).forEach(function (module) {
+        gulp.src('./node_modules/' + module + '/' + deps[module])
+            .pipe(gulp.dest('./application/asset/vendor/' + module));
+    });
+    cb();
+})
 
 gulp.task('dedist', function () {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})

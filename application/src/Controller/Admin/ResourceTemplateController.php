@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\DataType\Manager as DataTypeManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
 use Omeka\Form\ResourceTemplateImportForm;
@@ -12,6 +13,13 @@ use Zend\View\Model\ViewModel;
 
 class ResourceTemplateController extends AbstractActionController
 {
+    protected $dataTypeManager;
+
+    public function __construct(DataTypeManager $dataTypeManager)
+    {
+        $this->dataTypeManager = $dataTypeManager;
+    }
+
     public function browseAction()
     {
         $this->setBrowseDefaults('label');
@@ -101,6 +109,7 @@ class ResourceTemplateController extends AbstractActionController
     protected function flagCompatibleMembers(array $import)
     {
         $vocabs = [];
+        $dataTypes = ['literal', 'uri', 'resource'];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {
@@ -136,6 +145,9 @@ class ResourceTemplateController extends AbstractActionController
                 ])->getContent();
                 if ($prop) {
                     $import['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
+                    if (in_array($import['o:resource_template_property'][$key]['data_type_name'], $dataTypes)) {
+                        $import['o:resource_template_property'][$key]['o:data_type'] = $import['o:resource_template_property'][$key]['data_type_name'];
+                    }
                 }
             }
         }
@@ -201,7 +213,8 @@ class ResourceTemplateController extends AbstractActionController
                 || !array_key_exists('o:alternate_label', $property)
                 || !array_key_exists('o:alternate_comment', $property)
                 || !array_key_exists('o:is_required', $property)
-                || !array_key_exists('o:data_type', $property)
+                || !array_key_exists('data_type_name', $property)
+                || !array_key_exists('data_type_label', $property)
             ) {
                 // missing o:resource_template_property info
                 return false;
@@ -213,7 +226,8 @@ class ResourceTemplateController extends AbstractActionController
                 || (!is_string($property['o:alternate_label']) && !is_null($property['o:alternate_label']))
                 || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
                 || !is_bool($property['o:is_required'])
-                || (!is_string($property['o:data_type']) && !is_null($property['o:data_type']))
+                || (!is_string($property['data_type_name']) && !is_null($property['data_type_name']))
+                || (!is_string($property['data_type_label']) && !is_null($property['data_type_label']))
             ) {
                 // invalid o:resource_template_property info
                 return false;
@@ -248,12 +262,20 @@ class ResourceTemplateController extends AbstractActionController
             $property = $templateProperty->property();
             $vocab = $property->vocabulary();
 
+            $dataTypeName = $templateProperty->dataType();
+            $dataTypeLabel = null;
+            if ($dataTypeName) {
+                $dataType = $this->dataTypeManager->get($dataTypeName);
+                $dataTypeLabel = $dataType->getLabel();
+            }
+
             // Note that "position" is implied by array order.
             $export['o:resource_template_property'][] = [
                 'o:alternate_label' => $templateProperty->alternateLabel(),
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
-                'o:data_type' => $templateProperty->dataType(),
+                'data_type_name' => $dataTypeName,
+                'data_type_label' => $dataTypeLabel,
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),

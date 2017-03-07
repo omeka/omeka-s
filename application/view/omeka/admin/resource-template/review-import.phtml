@@ -34,6 +34,7 @@ if (!$hasVocab) {
 <thead>
     <tr>
         <th><?php echo $this->translate('Original Label'); ?></th>
+        <th><?php echo $this->translate('Data Type'); ?></th>
         <th><?php echo $this->translate('Alternate Label'); ?></th>
         <th><?php echo $this->translate('Alternate Comment'); ?></th>
         <th><?php echo $this->translate('Required?'); ?></th>
@@ -49,9 +50,13 @@ if (!$hasVocab) {
 } elseif (!$hasProperty) {
     $errorText = sprintf('Unknown property “%s” in vocabulary “%s” (%s:%s)', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
 }
+$dataType = isset($property['o:data_type'])
+    ? $property['data_type_label']
+    : sprintf('<span style="color:red;">%s</span>', $property['data_type_label']);
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
         <td><?php echo $property['label']; ?></td>
+        <td><?php echo $dataType; ?></td>
         <td><?php echo $property['o:alternate_label']; ?></td>
         <td><?php echo $property['o:alternate_comment']; ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>

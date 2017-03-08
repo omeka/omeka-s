@@ -15,9 +15,9 @@ $class = $import['o:resource_class'];
 $hasVocab = isset($class['vocabulary_prefix']);
 $hasClass = isset($class['o:id']);
 if (!$hasVocab) {
-    $errorText = sprintf('Unknown vocabulary “%s” with namespace URI %s', $class['vocabulary_label'], $class['vocabulary_namespace_uri']);
+    $errorText = sprintf('Unknown class "%s" and unknown vocabulary "%s": %s%s', $class['label'], $class['vocabulary_label'], $class['vocabulary_namespace_uri'], $class['local_name']);
 } elseif (!$hasClass) {
-    $errorText = sprintf('Unknown class “%s” in vocabulary “%s” (%s:%s)', $class['label'], $class['vocabulary_label'], $class['vocabulary_prefix'], $class['local_name']);
+    $errorText = sprintf('Unknown class "%s" in vocabulary "%s": %s:%s', $class['label'], $class['vocabulary_label'], $class['vocabulary_prefix'], $class['local_name']);
 }
 ?>
 <div class="class-row" style="background-color:#<?php echo $hasClass ? 'cdffcd' : 'ffe6e6'; ?>;">

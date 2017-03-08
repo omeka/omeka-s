@@ -65,10 +65,11 @@ class ResourceTemplateController extends AbstractActionController
                     $import = json_decode(file_get_contents($file['tmp_name']), true);
                     if (JSON_ERROR_NONE === json_last_error()) {
                         if ($this->importIsValid($import)) {
-                            $import = $this->flagCompatibleMembers($import);
+                            $import = $this->flagValid($import);
 
                             $form = $this->getForm(ResourceTemplateReviewImportForm::class);
-                            $form->get('resource_template')->setValue(json_encode($import));
+                            $form->get('import')->setValue(json_encode($import));
+                            $form->get('label')->setValue($import['o:label']);
 
                             $view->setVariable('import', $import);
                             $view->setTemplate('omeka/admin/resource-template/review-import');
@@ -80,7 +81,24 @@ class ResourceTemplateController extends AbstractActionController
                     }
                 } else {
                     // Process review import form.
-                    $import = $this->params()->fromPost('resource_template');
+                    $import = json_decode($this->params()->fromPost('import'), true);
+                    $dataTypes = $this->params()->fromPost('data_types');
+
+                    $import['o:label'] = $this->params()->fromPost('label');
+                    foreach ($dataTypes as $key => $dataType) {
+                        $import['o:resource_template_property'][$key]['o:data_type'] = $dataType;
+                    }
+
+                    $response = $this->api($form)->create('resource_templates', $import);
+                    if ($response->isSuccess()) {
+                        return $this->redirect()->toUrl($response->getContent()->url());
+                    } else {
+                        $form = $this->getForm(ResourceTemplateReviewImportForm::class);
+                        $form->get('import')->setValue(json_encode($import));
+                        $form->get('label')->setValue($import['o:label']);
+                        $view->setVariable('import', $import);
+                        $view->setTemplate('omeka/admin/resource-template/review-import');
+                    }
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -92,24 +110,26 @@ class ResourceTemplateController extends AbstractActionController
     }
 
     /**
-     * Flag members as compatible.
+     * Flag members and data types as valid.
      *
-     * All members start as incompatible until we determine whether the
-     * corresponding vocabulary and member exists in this installation. By
-     * design, the API will only hydrate members that are flagged as compatible.
+     * All members start as invalid until we determine whether the corresponding
+     * vocabulary and member exists in this installation. All data types start
+     * as "Default" (i.e. none declared) until we determine whether they match
+     * the native types (literal, uri, resource).
      *
-     * We flag a compatible vocabulary by adding [vocabulary_prefix] to the
-     * member; a compatible class by adding [o:id]; and a compatible property by
-     * adding [o:property][o:id].
-     *
+     * We flag a valid vocabulary by adding [vocabulary_prefix] to the member; a
+     * valid class by adding [o:id]; and a valid property by adding
+     * [o:property][o:id]. We flag a valid data type by adding [o:data_type] to
+     * the property. By design, the API will only hydrate members and data types
+     * that are flagged as valid.
      *
      * @param array $import
      * @return array
      */
-    protected function flagCompatibleMembers(array $import)
+    protected function flagValid(array $import)
     {
         $vocabs = [];
-        $dataTypes = $this->dataTypeManager->getRegisteredNames();
+        $dataTypes = ['literal', 'uri', 'resource'];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {

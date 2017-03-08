@@ -22,10 +22,10 @@ if (!$hasVocab) {
 ?>
 <div class="class-row" style="background-color:#<?php echo $hasClass ? 'cdffcd' : 'ffe6e6'; ?>;">
     <span class="class-label"><?php echo $this->translate('Class'); ?></span>
-    <span class="class-value"><?php echo $class['label']; ?></span>
+    <span class="class-value"><?php echo $this->escapeHtml($class['label']); ?></span>
 </div>
 <?php if (!$hasVocab || !$hasClass): ?>
-<div style="background-color:#ffe6e6; color:red;"><?php echo $errorText; ?></div>
+<div style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></div>
 <?php endif; ?>
 <?php endif; ?>
 
@@ -53,23 +53,28 @@ if (!$hasVocab) {
 if (is_null($property['data_type_name'])) {
     $dataType = 'Default';
 } elseif (in_array($property['data_type_name'], ['literal', 'uri', 'resource'])) {
-    $dataType = $property['data_type_label'];
+    $dataType = $this->escapeHtml($property['data_type_label']);
 } elseif ($hasProperty) {
-    $dataType = sprintf('%s<br>%s', $property['data_type_label'], $this->dataType()->getSelect('data_types[]', null, ['style' => 'width:100%;']));
+    $dataTypeSelect = $this->dataType()->getSelect(
+        sprintf('data_types[%s]', $key),
+        isset($property['o:data_type']) ? $property['o:data_type'] : null,
+        ['style' => 'width:100%;']
+    );
+    $dataType = sprintf('%s<br>%s', $this->escapeHtml($property['data_type_label']), $dataTypeSelect);
 } else {
     $dataType = $property['data_type_label'];
 }
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
-        <td><?php echo $property['label']; ?></td>
-        <td><?php echo $dataType ?></td>
-        <td><?php echo $property['o:alternate_label']; ?></td>
-        <td><?php echo $property['o:alternate_comment']; ?></td>
+        <td><?php echo $this->escapeHtml($property['label']); ?></td>
+        <td><?php echo $dataType; ?></td>
+        <td><?php echo $this->escapeHtml($property['o:alternate_label']); ?></td>
+        <td><?php echo $this->escapeHtml($property['o:alternate_comment']); ?></td>
         <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
     </tr>
     <?php if (!$hasProperty): ?>
     <tr>
-        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $errorText; ?></td>
+        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></td>
     </tr>
     <?php endif; ?>
 <?php endforeach; ?>

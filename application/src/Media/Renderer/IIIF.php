@@ -13,7 +13,7 @@ class IIIF implements RendererInterface
         $prefixUrl = $view->assetUrl('js/openseadragon/images/', 'Omeka');
         $noscript = 'OpenSeadragon is not available unless JavaScript is enabled.'; // @translate
         $image =
-            '<div class="openseadragon" id="iiif-'.$media->id().'" style="width: 600px; height: 400px;"></div>
+            '<div class="openseadragon" id="iiif-' . $media->id() . '" style="height: 400px;"></div>
             <script type="text/javascript">
                 var viewer = OpenSeadragon({
                     id: "iiif-'.$media->id().'",

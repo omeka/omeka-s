@@ -105,8 +105,9 @@ body {
         margin-bottom: $spacing-medium;
     }
 
-    tr {
+    .tablesaw tr {
         background-color: #fff;
+        border-bottom: 1px solid $border-gray;
     }
 
     tr.delete {
@@ -118,18 +119,17 @@ body {
         padding: $spacing-small .5em ($spacing-small - 1px);
         position: relative;
         vertical-align: middle;
-        border-bottom: 1px solid $border-gray;
     }
 
-    td:first-child a {
-        max-width: calc(100% - 5em);
+    table.tablesaw td:first-child a {
+        max-width: calc(100% - #{3 * $spacing-large});
         display: inline-block;
+        vertical-align: middle;
+        word-break: break-word;
     }
 
-    tr:last-of-type td,
-    tr:last-of-type th {
-        padding-bottom: ($spacing-small - 1px);
-        border-bottom: 1px solid $border-gray;
+    table.tablesaw td:first-child img + .resource-name a {
+        max-width: calc(100% - #{5 * $spacing-large});
     }
 
     table.tablesaw thead tr:first-child th {
@@ -995,12 +995,6 @@ div[role="main"] {
 /* @end */
 
 /* @group ----- Browse views ----- */
-
-.browse .resource-name {
-    display: inline-block;
-    vertical-align: middle;
-    word-wrap: break-word;
-}
 
 .browse .add.button,
 .browse .batch-edit.button {

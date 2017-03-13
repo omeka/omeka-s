@@ -1,5 +1,6 @@
-.tablesaw-stack tbody tr {
-    border-bottom: 0;
+.tablesaw tr {
+    overflow: hidden;
+    margin-bottom: 0;
 
     &:first-of-type {
         border-top: 1px solid $border-gray;
@@ -17,7 +18,6 @@
 
 .tablesaw td:first-of-type {
     background-color: $gray-on-white;
-    position: relative;
 
     .tablesaw-cell-label {
         width: 0;
@@ -30,11 +30,6 @@
         width: 100%;
         max-width: 100%;
     }
-}
-
-.tablesaw-cell-content {
-    width: 70%;
-    max-width: 70%;
 }
 
 .tablesaw-cell-content img {
@@ -50,21 +45,12 @@
     vertical-align: top;
 }
 
+.tablesaw th:not(:last-of-type),
+.tablesaw td:not(:last-of-type) {
+    border-bottom: 1px solid $border-gray;
+}
+
 /* @group ----- Special cases ----- */
-
-.page.browse .tablesaw {
-    padding-bottom: -1px;
-    border-bottom: 1px solid $gray-on-white;
-}
-
-.page.browse .tablesaw tr {
-    position: relative;
-}
-
-.modules.browse .tablesaw-cell-content > span {
-    display: block;
-    max-width: calc(100% - #{4 * $spacing-large});
-}
 
 .resource-template th:first-of-type,
 .resource-template td:first-of-type {

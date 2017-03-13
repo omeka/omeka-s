@@ -115,9 +115,15 @@ body {
 
     td,
     table.tablesaw td {
-        padding: $spacing-small .5em;
+        padding: $spacing-small .5em ($spacing-small - 1px);
         position: relative;
         vertical-align: middle;
+        border-bottom: 1px solid $border-gray;
+    }
+
+    td:first-child a {
+        max-width: calc(100% - 5em);
+        display: inline-block;
     }
 
     tr:last-of-type td,
@@ -366,54 +372,6 @@ body {
     .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
-
-    /* @group ----- CKEditor source dialog ----- */
-
-    .cke_dialog .cke_dialog_title,
-    .cke_dialog .cke_dialog_footer {
-        background-image: none;
-        border-radius: 0;
-        box-shadow: none;
-        background-color: #f2f2f2;
-        border-color: $border-gray;
-    }
-
-    .cke_dialog td:last-of-type,
-    .cke_dialog tr:last-of-type td {
-        border-bottom: 0;
-    }
-
-    .cke_dialog textarea.cke_dialog_ui_input_textarea {
-        border-radius: 0;
-        box-shadow: none;
-        border-color: #dfdfdf;
-    }
-
-    .cke_dialog a.cke_dialog_ui_button {
-        float: left;
-        margin: 0 6px 5px 0;
-        border: 1px solid #eee;
-        border-bottom-color: #979797;
-        color: #000;
-        background: #fff;
-        border-radius: 0px;
-
-        &:hover,
-        &:active {
-            background-color: #ddd;
-            background-image: none;
-            color: #000;
-            text-shadow: none;
-            box-shadow: none;
-            border-color: #ddd #ddd #979797 #ddd;
-        }
-
-        span {
-            text-shadow: none;
-        }
-    }
-
-    /* @end */
 
     /* @end */
 
@@ -1040,7 +998,6 @@ div[role="main"] {
 
 .browse .resource-name {
     display: inline-block;
-    max-width: calc(100% - 9.5em);
     vertical-align: middle;
     word-wrap: break-word;
 }
@@ -1091,6 +1048,11 @@ div[role="main"] {
     right: $spacing-small;
     top: 50%;
     transform: translateY(-50%);
+}
+
+span.indent {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .actions {
@@ -2081,7 +2043,6 @@ input[type="text"].value-language,
     }
 
     .media.row .resource-name {
-        width: calc(100% - #{6 * $spacing-large});
         word-break: break-all;
         display: block;
     }

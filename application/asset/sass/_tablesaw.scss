@@ -1,10 +1,13 @@
 .tablesaw-stack tbody tr {
     border-bottom: 0;
+
+    &:first-of-type {
+        border-top: 1px solid $border-gray;
+    }
 }
 
 .tablesaw tr .actions {
     position: absolute;
-    top: $spacing-small;
     right: $spacing-medium;
 
     li {
@@ -27,12 +30,6 @@
         width: 100%;
         max-width: 100%;
     }
-
-    .resource-name {
-        display: inline-block;
-        max-width: calc(100% - #{6 * $spacing-large});
-        vertical-align: middle;
-    }
 }
 
 .tablesaw-cell-content {
@@ -48,7 +45,8 @@
 .tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
-    padding: $spacing-small $spacing-medium;
+    padding-top: $spacing-small;
+    padding-bottom: $spacing-small;
     vertical-align: top;
 }
 
@@ -61,13 +59,6 @@
 
 .page.browse .tablesaw tr {
     position: relative;
-}
-
-.page.browse .tablesaw td:last-of-type {
-    position: absolute;
-    right: 0;
-    height: rhythm(1.5);
-    border: 0;
 }
 
 .modules.browse .tablesaw-cell-content > span {

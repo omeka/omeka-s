@@ -138,7 +138,7 @@ td .o-icon-private {
 }
 
 .browse .resource-name {
-    max-width: 100%;
+    width: 100%;
     display: inline;
     vertical-align: top;
 }
@@ -384,8 +384,9 @@ fieldset.section > .always.active {
     margin-right: 2 * $spacing-large;
 }
 
-.browse tr:last-of-type td:not(:last-of-type) {
-    border-bottom: 0;
+.jobs.browse th:first-child, 
+.jobs.browse td:first-child {
+    width: 100%;
 }
 
 /* @end */

@@ -149,41 +149,26 @@ class Request extends ZendRequest
     }
 
     /**
-     * Set whether this is a partial request (used for partial update, aka
-     * PATCH)
+     * Set a request option or options.
      *
-     * @param bool isPartial
+     * @param  string|int|array|Traversable $spec
+     * @param  mixed $value
+     * @return Message
      */
-    public function setIsPartial($isPartial)
+    public function setOption($spec, $value = null)
     {
-        $this->setMetadata('isPartial', (bool) $isPartial);
+        $this->setMetadata($spec, $value);
     }
 
     /**
-     * Whether this is a partial request.
+     * Get all options or a single option as specified by key.
      *
-     * @return bool
+     * @param  null|string|int $key
+     * @param  null|mixed $default
+     * @return mixed
      */
-    public function isPartial()
+    public function getOption($key = null, $default = null)
     {
-        return $this->getMetadata('isPartial', false);
-    }
-
-    /**
-     * Set whether a batch operation should continue processing on error.
-     *
-     * @param bool $continueOnError
-     */
-    public function setContinueOnError($continueOnError)
-    {
-        $this->setMetadata('continueOnError', (bool) $continueOnError);
-    }
-
-    /**
-     * Whether a batch operation should continue processing on error.
-     */
-    public function continueOnError()
-    {
-        return $this->getMetadata('continueOnError', false);
+        return $this->getMetadata($key, $default);
     }
 }

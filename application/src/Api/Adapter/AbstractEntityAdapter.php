@@ -289,7 +289,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             try {
                 $this->hydrateEntity($subRequest, $entity, $errorStore);
             } catch (\Exception $e) {
-                if ($request->continueOnError()) {
+                if ($request->getOption('continueOnError', false)) {
                     $logger->err((string) $e);
                     continue;
                 }
@@ -591,7 +591,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function shouldHydrate(Request $request, $key)
     {
         if ($request->getOperation() === Request::UPDATE
-            && $request->isPartial()
+            && $request->getOption('isPartial', false)
         ) {
             // Conditionally hydrate on partial_update operation.
             return array_key_exists($key, $request->getContent());

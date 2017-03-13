@@ -84,7 +84,7 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Site successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
@@ -182,7 +182,7 @@ class IndexController extends AbstractActionController
             $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Navigation successfully updated'); // @translate
                     return $this->redirect()->refresh();
@@ -212,7 +212,7 @@ class IndexController extends AbstractActionController
             }
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
@@ -252,7 +252,7 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
                     return $this->redirect()->refresh();
@@ -284,7 +284,7 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
                     return $this->redirect()->refresh();

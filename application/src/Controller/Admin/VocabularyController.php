@@ -123,7 +123,7 @@ class VocabularyController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], true);
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
                 if ($response->isSuccess()) {
                     $fileData = $this->params()->fromFiles('file');
                     if (0 === $fileData['error']) {

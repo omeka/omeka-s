@@ -121,7 +121,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 
         // Hydrate this resource's values.
         $append = $request->getOperation() === Request::UPDATE
-            && $request->isPartial();
+            && $request->getOption('isPartial', false);
         $valueHydrator = new ValueHydrator($this);
         $valueHydrator->hydrate($data, $entity, $append);
 

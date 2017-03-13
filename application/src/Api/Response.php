@@ -2,12 +2,11 @@
 namespace Omeka\Api;
 
 use Omeka\Stdlib\ErrorStore;
-use Zend\Stdlib\Response as ZendResponse;
 
 /**
  * Api response.
  */
-class Response extends ZendResponse
+class Response
 {
     const SUCCESS = 'success';
     const ERROR = 'error';
@@ -16,36 +15,41 @@ class Response extends ZendResponse
     /**
      * @var array
      */
-    protected $validStatuses = [
-        self::SUCCESS,
-        self::ERROR,
-        self::ERROR_VALIDATION,
-    ];
+    protected $validStatuses = [self::SUCCESS, self::ERROR, self::ERROR_VALIDATION];
 
     /**
      * @var array
      */
-    protected $errorStatuses = [
-        self::ERROR,
-        self::ERROR_VALIDATION,
-    ];
+    protected $errorStatuses = [self::ERROR, self::ERROR_VALIDATION];
 
     /**
-     * @var mixed
+     * @var string
      */
-    protected $content = null;
+    protected $status = self::SUCCESS;
+
+    /**
+     * @var ErrorStore
+     */
+    protected $errorStore;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $totalResults;
 
     /**
      * Construct the API response.
      *
      * @param mixed $data
-     * @param null|Request $request
      */
     public function __construct($content = null)
     {
-        // Set the default metadata.
-        $this->setMetadata('status', self::SUCCESS);
-        $this->setMetadata('error_store', new ErrorStore);
+        $this->errorStore = new ErrorStore;
         if (null !== $content) {
             $this->setContent($content);
         }
@@ -54,21 +58,21 @@ class Response extends ZendResponse
     /**
      * Set the response status.
      *
-     * @param int $status
+     * @param string $status
      */
     public function setStatus($status)
     {
-        $this->setMetadata('status', $status);
+        $this->status = $status;
     }
 
     /**
      * Get the response status.
      *
-     * @return int
+     * @return string
      */
     public function getStatus()
     {
-        return $this->getMetadata('status');
+        return $this->status;
     }
 
     /**
@@ -82,13 +86,13 @@ class Response extends ZendResponse
     }
 
     /**
-     * Merge errors of an ErrorStore.
+     * Merge errorStore errors.
      *
-     * @param array $errors
+     * @param ErrorStore $errorStore
      */
     public function mergeErrors(ErrorStore $errorStore)
     {
-        $this->getMetadata('error_store')->mergeErrors($errorStore);
+        $this->errorStore->mergeErrors($errorStore);
     }
 
     /**
@@ -99,7 +103,7 @@ class Response extends ZendResponse
      */
     public function addError($key, $message)
     {
-        $this->getMetadata('error_store')->addError($key, $message);
+        $this->errorStore->addError($key, $message);
     }
 
     /**
@@ -109,7 +113,7 @@ class Response extends ZendResponse
      */
     public function getErrorStore()
     {
-        return $this->getMetadata('error_store');
+        return $this->errorStore;
     }
 
     /**
@@ -119,7 +123,7 @@ class Response extends ZendResponse
      */
     public function getErrors()
     {
-        return $this->getMetadata('error_store')->getErrors();
+        return $this->errorStore->getErrors();
     }
 
     /**
@@ -129,7 +133,7 @@ class Response extends ZendResponse
      */
     public function isError()
     {
-        return in_array($this->getMetadata('status'), $this->errorStatuses);
+        return in_array($this->status, $this->errorStatuses);
     }
 
     /**
@@ -139,7 +143,7 @@ class Response extends ZendResponse
      */
     public function isSuccess()
     {
-        return self::SUCCESS === $this->getMetadata('status');
+        return self::SUCCESS === $this->status;
     }
 
     /**
@@ -149,7 +153,7 @@ class Response extends ZendResponse
      */
     public function setRequest(Request $request)
     {
-        $this->setMetadata('request', $request);
+        $this->request;
     }
 
     /**
@@ -159,26 +163,46 @@ class Response extends ZendResponse
      */
     public function getRequest()
     {
-        return $this->getMetadata('request');
+        return $this->request;
     }
 
     /**
-     * Set the total results of the query.
+     * Set the total results of this response.
      *
      * @param int
      */
     public function setTotalResults($totalResults)
     {
-        $this->setMetadata('total_results', $totalResults);
+        $this->totalResults = $totalResults;
     }
 
     /**
-     * Get the total results of the query.
+     * Get the total results of this response.
      *
      * @return int
      */
     public function getTotalResults()
     {
-        return $this->getMetadata('total_results');
+        return $this->totalResults;
+    }
+
+    /**
+     * Set request content.
+     *
+     * @param mixed $value
+     */
+    public function setContent($value)
+    {
+        $this->content = $value;
+    }
+
+    /**
+     * Get request content.
+     *
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }

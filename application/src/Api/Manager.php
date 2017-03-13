@@ -52,7 +52,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function search($resource, $data = [], array $options = [])
+    public function search($resource, array $data = [], array $options = [])
     {
         $request = new Request(Request::SEARCH, $resource);
         $request->setContent($data);
@@ -69,7 +69,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function create($resource, $data = [], $fileData = [], array $options = [])
+    public function create($resource, array $data = [], $fileData = [], array $options = [])
     {
         $request = new Request(Request::CREATE, $resource);
         $request->setContent($data);
@@ -87,7 +87,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function batchCreate($resource, $data = [], $fileData = [], array $options = [])
+    public function batchCreate($resource, array $data = [], $fileData = [], array $options = [])
     {
         $request = new Request(Request::BATCH_CREATE, $resource);
         $request->setContent($data);
@@ -105,7 +105,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function read($resource, $id, $data = [], array $options = [])
+    public function read($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::READ, $resource);
         $request->setId($id);
@@ -124,7 +124,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function update($resource, $id, $data = [], $fileData = [], array $options = [])
+    public function update($resource, $id, array $data = [], array $fileData = [], array $options = [])
     {
         $request = new Request(Request::UPDATE, $resource);
         $request->setId($id);
@@ -143,7 +143,7 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function delete($resource, $id, $data = [], array $options = [])
+    public function delete($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::DELETE, $resource);
         $request->setId($id);
@@ -173,12 +173,6 @@ class Manager
                     $request->getOperation()
                 ));
             }
-            if (!is_array($request->getContent())) {
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API request content must be a JSON object (for HTTP) or PHP array. "%1$s" given.'),
-                    gettype($request->getContent())
-                ));
-            }
 
             // Get the adapter.
             try {
@@ -199,7 +193,7 @@ class Manager
                 ));
             }
 
-            if ($request->getMetadata('initialize', true)) {
+            if ($request->getOption('initialize', true)) {
                 $this->initialize($adapter, $request);
             }
 
@@ -252,7 +246,7 @@ class Manager
                 ));
             }
 
-            if ($request->getMetadata('finalize', true)) {
+            if ($request->getOption('finalize', true)) {
                 $this->finalize($adapter, $request, $response);
             }
         } catch (Exception\ValidationException $e) {

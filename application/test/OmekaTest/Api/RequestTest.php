@@ -54,7 +54,7 @@ class RequestTest extends TestCase
 
     public function testSetsAndGetsContent()
     {
-        $this->request->setContent('foo');
-        $this->assertEquals('foo', $this->request->getContent());
+        $this->request->setContent([]);
+        $this->assertEquals([], $this->request->getContent());
     }
 }

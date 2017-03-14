@@ -43,6 +43,11 @@ class Response
     protected $totalResults;
 
     /**
+     * @var mixed
+     */
+    protected $content;
+
+    /**
      * Construct the API response.
      *
      * @param mixed $data
@@ -153,7 +158,7 @@ class Response
      */
     public function setRequest(Request $request)
     {
-        $this->request;
+        $this->request = $request;
     }
 
     /**

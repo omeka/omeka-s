@@ -90,7 +90,8 @@ class ResponseTest extends TestCase
 
     public function testSetsAndGetsRequest()
     {
-        $request = $this->getMock('Omeka\Api\Request');
+        $request = $this->getMockBuilder('Omeka\Api\Request')
+            ->disableOriginalConstructor()->getMock();
         $this->response->setRequest($request);
         $this->assertInstanceOf('Omeka\Api\Request', $this->response->getRequest());
     }

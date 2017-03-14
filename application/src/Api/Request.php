@@ -16,7 +16,7 @@ class Request
     /**
      * @var array
      */
-    protected $validOperations = [
+    protected $operations = [
         self::SEARCH, self::CREATE, self::BATCH_CREATE,
         self::READ, self::UPDATE, self::DELETE,
     ];
@@ -54,27 +54,30 @@ class Request
     /**
      * Construct an API request.
      *
-     * @param null|string $operation
-     * @param null|string $resource
+     * @throws Exception\BadRequestException
+     * @param string $operation The request operation
+     * @param string $resource The request resource
      */
-    public function __construct($operation = null, $resource = null)
+    public function __construct($operation, $resource)
     {
-        if (null !== $operation) {
-            $this->setOperation($operation);
+        if (!in_array($operation, $this->operations)) {
+            throw new Exception\BadRequestException(sprintf(
+                'The API does not support the "%s" request operation.',
+                $operation
+            ));
         }
-        if (null !== $resource) {
-            $this->setResource($resource);
+        if (!is_string($resource)) {
+            throw new Exception\BadRequestException(sprintf(
+                'The API request resource must be a string. Type "%s" given.',
+                gettype($resource)
+            ));
         }
-    }
+        if ('' === $resource) {
+            throw new Exception\BadRequestException('The API request must include a resource. None given.');
+        }
 
-    /**
-     * Set the request operation.
-     *
-     * @param string $operation
-     */
-    public function setOperation($operation)
-    {
         $this->operation = $operation;
+        $this->resource = $resource;
     }
 
     /**
@@ -85,26 +88,6 @@ class Request
     public function getOperation()
     {
         return $this->operation;
-    }
-
-    /**
-     * Check whether a request operation is valid.
-     *
-     * @return bool
-     */
-    public function isValidOperation($operation)
-    {
-        return in_array($operation, $this->validOperations);
-    }
-
-    /**
-     * Set the request resource.
-     *
-     * @param string $resource
-     */
-    public function setResource($resource)
-    {
-        $this->resource = $resource;
     }
 
     /**
@@ -125,6 +108,7 @@ class Request
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -145,6 +129,7 @@ class Request
     public function setFileData(array $fileData)
     {
         $this->fileData = $fileData;
+        return $this;
     }
 
     /**
@@ -172,6 +157,7 @@ class Request
         } else {
             $this->options[$spec] = $value;
         }
+        return $this;
     }
 
     /**
@@ -202,6 +188,7 @@ class Request
     public function setContent(array $value)
     {
         $this->content = $value;
+        return $this;
     }
 
     /**

@@ -55,8 +55,8 @@ class Manager
     public function search($resource, array $data = [], array $options = [])
     {
         $request = new Request(Request::SEARCH, $resource);
-        $request->setContent($data);
-        $request->setOption($options);
+        $request->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -69,12 +69,13 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function create($resource, array $data = [], $fileData = [], array $options = [])
-    {
+    public function create($resource, array $data = [], $fileData = [],
+        array $options = []
+    ) {
         $request = new Request(Request::CREATE, $resource);
-        $request->setContent($data);
-        $request->setFileData($fileData);
-        $request->setOption($options);
+        $request->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -87,12 +88,13 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function batchCreate($resource, array $data = [], $fileData = [], array $options = [])
-    {
+    public function batchCreate($resource, array $data = [], $fileData = [],
+        array $options = []
+    ) {
         $request = new Request(Request::BATCH_CREATE, $resource);
-        $request->setContent($data);
-        $request->setFileData($fileData);
-        $request->setOption($options);
+        $request->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -108,9 +110,9 @@ class Manager
     public function read($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::READ, $resource);
-        $request->setId($id);
-        $request->setContent($data);
-        $request->setOption($options);
+        $request->setId($id)
+            ->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -124,13 +126,14 @@ class Manager
      * @param array $options
      * @return Response
      */
-    public function update($resource, $id, array $data = [], array $fileData = [], array $options = [])
-    {
+    public function update($resource, $id, array $data = [], array $fileData = [],
+        array $options = []
+    ) {
         $request = new Request(Request::UPDATE, $resource);
-        $request->setId($id);
-        $request->setContent($data);
-        $request->setFileData($fileData);
-        $request->setOption($options);
+        $request->setId($id)
+            ->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -146,9 +149,9 @@ class Manager
     public function delete($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::DELETE, $resource);
-        $request->setId($id);
-        $request->setContent($data);
-        $request->setOption($options);
+        $request->setId($id)
+            ->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -162,17 +165,6 @@ class Manager
     {
         try {
             $t = $this->translator;
-
-            // Validate the request.
-            if (null === $request->getResource() || '' === $request->getResource()) {
-                throw new Exception\BadRequestException($t->translate('The API request must include a resource. None given'));
-            }
-            if (!$request->isValidOperation($request->getOperation())) {
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%1$s" request operation.'),
-                    $request->getOperation()
-                ));
-            }
 
             // Get the adapter.
             try {
@@ -363,10 +355,7 @@ class Manager
         }
 
         // Create a simulated request for individual create events.
-        $createRequest = new Request(
-            Request::CREATE,
-            $request->getResource()
-        );
+        $createRequest = new Request(Request::CREATE, $request->getResource());
 
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {

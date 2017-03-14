@@ -145,6 +145,14 @@ class Request
     /**
      * Set a request option or options.
      *
+     * - isPartial (bool): Set whether this is a partial UPDATE request (aka PATCH).
+     * - continueOnError (bool): Set whether a BATCH_CREATE operation should
+     *      continue processing on error.
+     * - initialize (bool): Set whether to initialize the request during execute()
+     *      (e.g. trigger API-pre events).
+     * - finalize (bool): Set whether to finalize the request during execute()
+     *      (e.g. trigger API-post events).
+     *
      * @param string|int|array $spec
      * @param mixed $value
      */

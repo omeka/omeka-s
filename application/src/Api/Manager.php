@@ -171,7 +171,7 @@ class Manager
                 $adapter = $this->adapterManager->get($request->getResource());
             } catch (ServiceNotFoundException $e) {
                 throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%1$s" resource.'),
+                    $t->translate('The API does not support the "%s" resource.'),
                     $request->getResource()
                 ));
             }
@@ -179,7 +179,7 @@ class Manager
             // Verify that the current user has general access to this resource.
             if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
-                    $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
+                    $t->translate('Permission denied for the current user to %s the %s resource.'),
                     $request->getOperation(),
                     $adapter->getResourceId()
                 ));
@@ -210,7 +210,7 @@ class Manager
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
-                        $t->translate('The API does not support the "%1$s" request operation.'),
+                        $t->translate('The API does not support the "%s" request operation.'),
                         $request->getOperation()
                     ));
             }
@@ -218,21 +218,14 @@ class Manager
             // Validate the response.
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-            if (!$response->isValidStatus($response->getStatus())) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response status.'),
+                    $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));
             }
             if (!$this->isValidResponseContent($response)) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
+                    $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));

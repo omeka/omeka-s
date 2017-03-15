@@ -123,18 +123,6 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\BadResponseException
-     */
-    public function testExecuteRequiresValidResponseStatus()
-    {
-        $mockResponse = $this->getMockResponse(false);
-        $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
-
-        $mockRequest = $this->getMockRequest(Request::SEARCH, 'foo');
-        $response = $manager->execute($mockRequest);
-    }
-
     protected function getApiManager($requestOperation, $mockResponse,
         $isAllowed = true, $validResource = true, $isBatchCreate = false
     ) {

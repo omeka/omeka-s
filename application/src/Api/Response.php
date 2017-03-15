@@ -63,10 +63,17 @@ class Response
     /**
      * Set the response status.
      *
+     * @throws Exception\BadResponseException
      * @param string $status
      */
     public function setStatus($status)
     {
+        if (!in_array($status, $this->validStatuses)) {
+            throw new Exception\BadResponseException(sprintf(
+                'The API does not support the "%s" response status.',
+                $status
+            ));
+        }
         $this->status = $status;
     }
 
@@ -78,16 +85,6 @@ class Response
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Check whether a response status is valid.
-     *
-     * @return bool
-     */
-    public function isValidStatus($status)
-    {
-        return in_array($status, $this->validStatuses);
     }
 
     /**

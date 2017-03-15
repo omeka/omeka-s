@@ -10,8 +10,7 @@ class ResponseTest extends TestCase
     protected $response;
 
     protected $validStatuses = [
-        'success', 'error_internal', 'error_validation', 'error_not_found',
-        'error_bad_request', 'error_bad_response', 'error_permission_denied',
+        'success', 'error_validation', 'error',
     ];
 
     public function setUp()
@@ -90,7 +89,8 @@ class ResponseTest extends TestCase
 
     public function testSetsAndGetsRequest()
     {
-        $request = $this->getMock('Omeka\Api\Request');
+        $request = $this->getMockBuilder('Omeka\Api\Request')
+            ->disableOriginalConstructor()->getMock();
         $this->response->setRequest($request);
         $this->assertInstanceOf('Omeka\Api\Request', $this->response->getRequest());
     }

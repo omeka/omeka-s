@@ -114,7 +114,7 @@ class ApiController extends AbstractRestfulController
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data, [], true);
+        $response = $this->api()->update($resource, $id, $data, [], ['isPartial' => true]);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 

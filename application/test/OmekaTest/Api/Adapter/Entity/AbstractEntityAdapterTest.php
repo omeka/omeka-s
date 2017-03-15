@@ -79,7 +79,8 @@ class AbstractEntityAdapterTest extends TestCase
 
         /* Request **/
 
-        $request = $this->getMock('Omeka\Api\Request');
+        $request = $this->getMockBuilder('Omeka\Api\Request')
+            ->disableOriginalConstructor()->getMock();
         $request->expects($this->once())
             ->method('getOperation')
             ->will($this->returnValue(\Omeka\Api\Request::CREATE));

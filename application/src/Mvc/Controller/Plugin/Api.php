@@ -44,9 +44,9 @@ class Api extends AbstractPlugin
      * @param array $data
      * @return Response
      */
-    public function search($resource, $data = [])
+    public function search($resource, $data = [], array $options = [])
     {
-        $response = $this->api->search($resource, $data);
+        $response = $this->api->search($resource, $data, $options);
         $this->detectError($response);
         return $response;
     }
@@ -59,12 +59,13 @@ class Api extends AbstractPlugin
      *
      * @param string $resource
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function searchOne($resource, $data = [])
+    public function searchOne($resource, $data = [], array $options = [])
     {
         $data['limit'] = 1;
-        $response = $this->search($resource, $data);
+        $response = $this->search($resource, $data, $options);
         $content = $response->getContent();
         $content = is_array($content) && count($content) ? $content[0] : null;
         $response->setContent($content);
@@ -76,12 +77,13 @@ class Api extends AbstractPlugin
      *
      * @param string $resource
      * @param array $data
-     * @param array $files
+     * @param array $fileData
+     * @param array $options
      * @return Response
      */
-    public function create($resource, $data = [], $fileData = [])
+    public function create($resource, $data = [], $fileData = [], array $options = [])
     {
-        $response = $this->api->create($resource, $data, $fileData);
+        $response = $this->api->create($resource, $data, $fileData, $options);
         $this->detectError($response);
         return $response;
     }
@@ -91,11 +93,13 @@ class Api extends AbstractPlugin
      *
      * @param string $resource
      * @param array $data
+     * @param array $fileData
+     * @param array $options
      * @return Response
      */
-    public function batchCreate($resource, $data = [])
+    public function batchCreate($resource, $data = [], $fileData = [], array $options = [])
     {
-        $response = $this->api->batchCreate($resource, $data);
+        $response = $this->api->batchCreate($resource, $data, $fileData, $options);
         $this->detectError($response);
         return $response;
     }
@@ -106,11 +110,12 @@ class Api extends AbstractPlugin
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function read($resource, $id, $data = [])
+    public function read($resource, $id, $data = [], array $options = [])
     {
-        $response = $this->api->read($resource, $id, $data);
+        $response = $this->api->read($resource, $id, $data, $options);
         $this->detectError($response);
         return $response;
     }
@@ -122,14 +127,12 @@ class Api extends AbstractPlugin
      * @param mixed $id
      * @param array $data
      * @param array $fileData
-     * @param bool $partial
+     * @param array $options
      * @return Response
      */
-    public function update($resource, $id, $data = [], $fileData = [],
-        $partial = false
-    ) {
-        $response = $this->api->update($resource, $id, $data,
-            $fileData, $partial);
+    public function update($resource, $id, $data = [], $fileData = [], array $options = [])
+    {
+        $response = $this->api->update($resource, $id, $data, $fileData, $options);
         $this->detectError($response);
         return $response;
     }
@@ -140,11 +143,12 @@ class Api extends AbstractPlugin
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function delete($resource, $id, $data = [])
+    public function delete($resource, $id, $data = [], array $options = [])
     {
-        $response = $this->api->delete($resource, $id, $data);
+        $response = $this->api->delete($resource, $id, $data, $options);
         $this->detectError($response);
         return $response;
     }

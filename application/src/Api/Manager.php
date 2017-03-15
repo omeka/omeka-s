@@ -49,12 +49,14 @@ class Manager
      *
      * @param string $resource
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function search($resource, $data = [])
+    public function search($resource, array $data = [], array $options = [])
     {
         $request = new Request(Request::SEARCH, $resource);
-        $request->setContent($data);
+        $request->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -64,13 +66,16 @@ class Manager
      * @param string $resource
      * @param array $data
      * @param array $fileData
+     * @param array $options
      * @return Response
      */
-    public function create($resource, $data = [], $fileData = [])
-    {
+    public function create($resource, array $data = [], $fileData = [],
+        array $options = []
+    ) {
         $request = new Request(Request::CREATE, $resource);
-        $request->setContent($data);
-        $request->setFileData($fileData);
+        $request->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -80,15 +85,16 @@ class Manager
      * @param string $resource
      * @param array $data
      * @param array $fileData
-     * @param bool $continueOnError
+     * @param array $options
      * @return Response
      */
-    public function batchCreate($resource, $data = [], $fileData = [],
-        $continueOnError = false
+    public function batchCreate($resource, array $data = [], $fileData = [],
+        array $options = []
     ) {
         $request = new Request(Request::BATCH_CREATE, $resource);
-        $request->setContent($data);
-        $request->setContinueOnError($continueOnError);
+        $request->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -98,13 +104,15 @@ class Manager
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function read($resource, $id, $data = [])
+    public function read($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::READ, $resource);
-        $request->setId($id);
-        $request->setContent($data);
+        $request->setId($id)
+            ->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -115,17 +123,17 @@ class Manager
      * @param mixed $id
      * @param array $data
      * @param array $fileData
-     * @param bool $partial
+     * @param array $options
      * @return Response
      */
-    public function update($resource, $id, $data = [], $fileData = [],
-        $partial = false
+    public function update($resource, $id, array $data = [], array $fileData = [],
+        array $options = []
     ) {
         $request = new Request(Request::UPDATE, $resource);
-        $request->setId($id);
-        $request->setContent($data);
-        $request->setFileData($fileData);
-        $request->setIsPartial($partial);
+        $request->setId($id)
+            ->setContent($data)
+            ->setFileData($fileData)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -135,13 +143,15 @@ class Manager
      * @param string $resource
      * @param mixed $id
      * @param array $data
+     * @param array $options
      * @return Response
      */
-    public function delete($resource, $id, $data = [])
+    public function delete($resource, $id, array $data = [], array $options = [])
     {
         $request = new Request(Request::DELETE, $resource);
-        $request->setId($id);
-        $request->setContent($data);
+        $request->setId($id)
+            ->setContent($data)
+            ->setOption($options);
         return $this->execute($request);
     }
 
@@ -156,29 +166,12 @@ class Manager
         try {
             $t = $this->translator;
 
-            // Validate the request.
-            if (null === $request->getResource() || '' === $request->getResource()) {
-                throw new Exception\BadRequestException($t->translate('The API request must include a resource. None given'));
-            }
-            if (!$request->isValidOperation($request->getOperation())) {
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%1$s" request operation.'),
-                    $request->getOperation()
-                ));
-            }
-            if (!is_array($request->getContent())) {
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API request content must be a JSON object (for HTTP) or PHP array. "%1$s" given.'),
-                    gettype($request->getContent())
-                ));
-            }
-
             // Get the adapter.
             try {
                 $adapter = $this->adapterManager->get($request->getResource());
             } catch (ServiceNotFoundException $e) {
                 throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%1$s" resource.'),
+                    $t->translate('The API does not support the "%s" resource.'),
                     $request->getResource()
                 ));
             }
@@ -186,26 +179,15 @@ class Manager
             // Verify that the current user has general access to this resource.
             if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
                 throw new Exception\PermissionDeniedException(sprintf(
-                    $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
+                    $t->translate('Permission denied for the current user to %s the %s resource.'),
                     $request->getOperation(),
                     $adapter->getResourceId()
                 ));
             }
 
-            // Trigger the api.execute.pre event.
-            $event = new Event('api.execute.pre', $adapter, [
-                'request' => $request,
-            ]);
-            $adapter->getEventManager()->triggerEvent($event);
-
-            // Trigger the api.{operation}.pre event.
-            $event = new Event(
-                'api.' . $request->getOperation() . '.pre',
-                $adapter, [
-                    'request' => $request,
-                ]
-            );
-            $adapter->getEventManager()->triggerEvent($event);
+            if ($request->getOption('initialize', true)) {
+                $this->initialize($adapter, $request);
+            }
 
             switch ($request->getOperation()) {
                 case Request::SEARCH:
@@ -228,7 +210,7 @@ class Manager
                     break;
                 default:
                     throw new Exception\BadRequestException(sprintf(
-                        $t->translate('The API does not support the "%1$s" request operation.'),
+                        $t->translate('The API does not support the "%s" request operation.'),
                         $request->getOperation()
                     ));
             }
@@ -236,43 +218,22 @@ class Manager
             // Validate the response.
             if (!$response instanceof Response) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-            if (!$response->isValidStatus($response->getStatus())) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return a valid response status.'),
+                    $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));
             }
             if (!$this->isValidResponseContent($response)) {
                 throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%1$s" operation for the "%2$s" adapter did not return valid response content.'),
+                    $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
                     $request->getOperation(),
                     $request->getResource()
                 ));
             }
 
-            // Trigger the api.{operation}.post event.
-            $event = new Event(
-                'api.' . $request->getOperation() . '.post',
-                $adapter,
-                [
-                    'request' => $request,
-                    'response' => $response,
-                ]
-            );
-            $adapter->getEventManager()->triggerEvent($event);
-
-            // Trigger the api.execute.post event.
-            $event = new Event('api.execute.post', $adapter, [
-                'request' => $request,
-                'response' => $response,
-            ]);
-            $adapter->getEventManager()->triggerEvent($event);
+            if ($request->getOption('finalize', true)) {
+                $this->finalize($adapter, $request, $response);
+            }
         } catch (Exception\ValidationException $e) {
             $this->logger->err((string) $e);
             $response = new Response;
@@ -282,6 +243,66 @@ class Manager
 
         $response->setRequest($request);
         return $response;
+    }
+
+    /**
+     * Initialize the request.
+     *
+     * Triggers the API-pre events.
+     *
+     * @param AdapterInterface $adapter
+     * @param Request $request
+     */
+    public function initialize(AdapterInterface $adapter, Request $request)
+    {
+        $eventManager = $adapter->getEventManager();
+
+        $event = new Event(
+            'api.execute.pre',
+            $adapter,
+            ['request' => $request]
+        );
+        $eventManager->triggerEvent($event);
+
+        // Trigger the api.{operation}.pre event.
+        $event = new Event(
+            sprintf('api.%s.pre', $request->getOperation()),
+            $adapter,
+            ['request' => $request]
+        );
+        $eventManager->triggerEvent($event);
+    }
+
+    /**
+     * Finalize the request.
+     *
+     * Triggers the API-post events.
+     *
+     * @param AdapterInterface $adapter
+     * @param Request $request
+     * @param Response $response
+     */
+    public function finalize(AdapterInterface $adapter, Request $request,
+        Response $response
+    ) {
+        $eventManager = $adapter->getEventManager();
+
+        $event = new Event(
+            sprintf('api.%s.post', $request->getOperation()),
+            $adapter,
+            ['request' => $request, 'response' => $response]
+        );
+        $eventManager->triggerEvent($event);
+
+        $event = new Event(
+            'api.execute.post',
+            $adapter,
+            [
+                'request' => $request,
+                'response' => $response,
+            ]
+        );
+        $eventManager->triggerEvent($event);
     }
 
     /**
@@ -327,10 +348,7 @@ class Manager
         }
 
         // Create a simulated request for individual create events.
-        $createRequest = new Request(
-            Request::CREATE,
-            $request->getResource()
-        );
+        $createRequest = new Request(Request::CREATE, $request->getResource());
 
         // Trigger the create.pre event for every resource.
         foreach ($request->getContent() as $content) {

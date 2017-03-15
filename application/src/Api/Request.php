@@ -1,12 +1,10 @@
 <?php
 namespace Omeka\Api;
 
-use Zend\Stdlib\Request as ZendRequest;
-
 /**
  * API request.
  */
-class Request extends ZendRequest
+class Request
 {
     const SEARCH = 'search';
     const CREATE = 'create';
@@ -18,14 +16,35 @@ class Request extends ZendRequest
     /**
      * @var array
      */
-    protected $validOperations = [
-        self::SEARCH,
-        self::CREATE,
-        self::BATCH_CREATE,
-        self::READ,
-        self::UPDATE,
-        self::DELETE,
+    protected $operations = [
+        self::SEARCH, self::CREATE, self::BATCH_CREATE,
+        self::READ, self::UPDATE, self::DELETE,
     ];
+
+    /**
+     * @var string
+     */
+    protected $operation;
+
+    /**
+     * @var string
+     */
+    protected $resource;
+
+    /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
+     * @var array
+     */
+    protected $fileData = [];
+
+    /**
+     * @var array
+     */
+    protected $options = [];
 
     /**
      * @var array
@@ -35,57 +54,40 @@ class Request extends ZendRequest
     /**
      * Construct an API request.
      *
-     * @param null|int $operation
-     * @param null|string $resource
+     * @throws Exception\BadRequestException
+     * @param string $operation The request operation
+     * @param string $resource The request resource
      */
-    public function __construct($operation = null, $resource = null)
+    public function __construct($operation, $resource)
     {
-        if (null !== $operation) {
-            $this->setOperation($operation);
+        if (!in_array($operation, $this->operations)) {
+            throw new Exception\BadRequestException(sprintf(
+                'The API does not support the "%s" request operation.',
+                $operation
+            ));
         }
-        if (null !== $resource) {
-            $this->setResource($resource);
+        if (!is_string($resource)) {
+            throw new Exception\BadRequestException(sprintf(
+                'The API request resource must be a string. Type "%s" given.',
+                gettype($resource)
+            ));
         }
-    }
+        if ('' === $resource) {
+            throw new Exception\BadRequestException('The API request must include a resource. None given.');
+        }
 
-    /**
-     * Set the request operation.
-     *
-     * @param int $operation
-     */
-    public function setOperation($operation)
-    {
-        $this->setMetadata('operation', $operation);
+        $this->operation = $operation;
+        $this->resource = $resource;
     }
 
     /**
      * Get the request operation.
      *
-     * @return int
+     * @return string
      */
     public function getOperation()
     {
-        return $this->getMetadata('operation');
-    }
-
-    /**
-     * Check whether a request operation is valid.
-     *
-     * @return bool
-     */
-    public function isValidOperation($operation)
-    {
-        return in_array($operation, $this->validOperations);
-    }
-
-    /**
-     * Set the request resource.
-     *
-     * @param string $resource
-     */
-    public function setResource($resource)
-    {
-        $this->setMetadata('resource', $resource);
+        return $this->operation;
     }
 
     /**
@@ -95,7 +97,7 @@ class Request extends ZendRequest
      */
     public function getResource()
     {
-        return $this->getMetadata('resource');
+        return $this->resource;
     }
 
     /**
@@ -105,7 +107,8 @@ class Request extends ZendRequest
      */
     public function setId($id)
     {
-        $this->setMetadata('id', $id);
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -115,7 +118,98 @@ class Request extends ZendRequest
      */
     public function getId()
     {
-        return $this->getMetadata('id');
+        return $this->id;
+    }
+
+    /**
+     * Set the file data for the request.
+     *
+     * @param array $fileData
+     */
+    public function setFileData(array $fileData)
+    {
+        $this->fileData = $fileData;
+        return $this;
+    }
+
+    /**
+     * Get the file data for the request.
+     *
+     * @return array
+     */
+    public function getFileData()
+    {
+        return $this->fileData;
+    }
+
+    /**
+     * Set a request option or options.
+     *
+     * Options that affect the execution of a request are:
+     *
+     * - initialize: (bool) Set whether to initialize the request during
+     *      execute() (e.g. trigger API-pre events). Default is true.
+     * - finalize: (bool) Set whether to finalize the request during execute()
+     *      (e.g. trigger API-post events). Default is true.
+     * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
+     *      PATCH). Default is false.
+     * - continueOnError: (bool) Set whether a BATCH_CREATE operation should
+     *      continue processing on error. Default is false.
+     *
+     * @param string|int|array $spec
+     * @param mixed $value
+     */
+    public function setOption($spec, $value = null)
+    {
+        if (is_array($spec)) {
+            foreach ($spec as $key => $value) {
+                $this->options[$key] = $value;
+            }
+        } else {
+            $this->options[$spec] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * Get all options or a single option as specified by key.
+     *
+     * @param null|string|int $key
+     * @param null|mixed $default
+     * @return mixed
+     */
+    public function getOption($key = null, $default = null)
+    {
+        if (null === $key) {
+            return $this->options;
+        }
+        if (array_key_exists($key, $this->options)) {
+            return $this->options[$key];
+        }
+        return $default;
+    }
+
+    /**
+     * Set request content.
+     *
+     * The API request content must always be an array.
+     *
+     * @param array $value
+     */
+    public function setContent(array $value)
+    {
+        $this->content = $value;
+        return $this;
+    }
+
+    /**
+     * Get request content.
+     *
+     * @return array
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 
     /**
@@ -128,62 +222,6 @@ class Request extends ZendRequest
     public function getValue($key, $default = null)
     {
         $data = $this->getContent();
-        return (is_array($data) && array_key_exists($key, $data))
-            ? $data[$key] : $default;
-    }
-
-    /**
-     * Set the file data for the request.
-     */
-    public function setFileData($fileData)
-    {
-        $this->setMetadata('fileData', $fileData);
-    }
-
-    /**
-     * Get the file data for the request.
-     */
-    public function getFileData()
-    {
-        return $this->getMetadata('fileData');
-    }
-
-    /**
-     * Set whether this is a partial request (used for partial update, aka
-     * PATCH)
-     *
-     * @param bool isPartial
-     */
-    public function setIsPartial($isPartial)
-    {
-        $this->setMetadata('isPartial', (bool) $isPartial);
-    }
-
-    /**
-     * Whether this is a partial request.
-     *
-     * @return bool
-     */
-    public function isPartial()
-    {
-        return $this->getMetadata('isPartial', false);
-    }
-
-    /**
-     * Set whether a batch operation should continue processing on error.
-     *
-     * @param bool $continueOnError
-     */
-    public function setContinueOnError($continueOnError)
-    {
-        $this->setMetadata('continueOnError', (bool) $continueOnError);
-    }
-
-    /**
-     * Whether a batch operation should continue processing on error.
-     */
-    public function continueOnError()
-    {
-        return $this->getMetadata('continueOnError', false);
+        return array_key_exists($key, $data) ? $data[$key] : $default;
     }
 }

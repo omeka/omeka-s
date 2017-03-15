@@ -88,7 +88,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             $entity->setSlug($slug);
         }
 
-        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->isPartial();
+        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
     }
 

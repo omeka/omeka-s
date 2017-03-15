@@ -10,46 +10,52 @@ class AbstractAdapterTest extends TestCase
         $this->adapter = $this->getMockForAbstractClass('Omeka\Api\Adapter\AbstractAdapter');
     }
 
+    protected function getMockRequest()
+    {
+        return $this->getMockBuilder('Omeka\Api\Request')
+            ->disableOriginalConstructor()->getMock();
+    }
+
     public function testSearchRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->search($this->getMock('Omeka\Api\Request'));
+        $this->adapter->search($this->getMockRequest());
     }
 
     public function testCreateRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->create($this->getMock('Omeka\Api\Request'));
+        $this->adapter->create($this->getMockRequest());
     }
 
     public function testBatchCreateRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->batchCreate($this->getMock('Omeka\Api\Request'));
+        $this->adapter->batchCreate($this->getMockRequest());
     }
 
     public function testReadRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->read($this->getMock('Omeka\Api\Request'));
+        $this->adapter->read($this->getMockRequest());
     }
 
     public function testUpdateRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->update($this->getMock('Omeka\Api\Request'));
+        $this->adapter->update($this->getMockRequest());
     }
 
     public function testDeleteRequiresImplementation()
     {
         $this->setServiceManager();
         $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
-        $this->adapter->delete($this->getMock('Omeka\Api\Request'));
+        $this->adapter->delete($this->getMockRequest());
     }
 
     protected function setServiceManager()

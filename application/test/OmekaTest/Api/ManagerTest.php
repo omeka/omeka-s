@@ -67,7 +67,7 @@ class ManagerTest extends TestCase
             $mockResponse = $this->getMockResponse(true);
             $manager = $this->getApiManager($operation, $mockResponse);
 
-            $mockRequest = $this->getMockRequest($operation, true);
+            $mockRequest = $this->getMockRequest($operation, 'foo');
             $response = $manager->execute($mockRequest);
 
             $this->assertInstanceOf('Omeka\Api\Response', $response);
@@ -80,23 +80,11 @@ class ManagerTest extends TestCase
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager('batch_create', $mockResponse, true, true, true);
 
-        $mockRequest = $this->getMockRequest('batch_create', true);
+        $mockRequest = $this->getMockRequest('batch_create', 'foo');
         $response = $manager->execute($mockRequest);
 
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertNull($response->getErrors());
-    }
-
-    /**
-     * @expectedException \Omeka\Api\Exception\BadRequestException
-     */
-    public function testExecuteRequiresValidRequestOperation()
-    {
-        $mockResponse = $this->getMockResponse(true);
-        $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
-
-        $mockRequest = $this->getMockRequest(Request::SEARCH, false);
-        $response = $manager->execute($mockRequest);
     }
 
     /**
@@ -107,7 +95,7 @@ class ManagerTest extends TestCase
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, true, false);
 
-        $mockRequest = $this->getMockRequest(Request::SEARCH, true);
+        $mockRequest = $this->getMockRequest(Request::SEARCH, 'foo');
         $response = $manager->execute($mockRequest);
     }
 
@@ -119,7 +107,7 @@ class ManagerTest extends TestCase
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, false);
 
-        $mockRequest = $this->getMockRequest(Request::SEARCH, true);
+        $mockRequest = $this->getMockRequest(Request::SEARCH, 'foo');
         $response = $manager->execute($mockRequest);
     }
 
@@ -131,19 +119,7 @@ class ManagerTest extends TestCase
         $mockResponse = null;
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
 
-        $mockRequest = $this->getMockRequest(Request::SEARCH, true);
-        $response = $manager->execute($mockRequest);
-    }
-
-    /**
-     * @expectedException \Omeka\Api\Exception\BadResponseException
-     */
-    public function testExecuteRequiresValidResponseStatus()
-    {
-        $mockResponse = $this->getMockResponse(false);
-        $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
-
-        $mockRequest = $this->getMockRequest(Request::SEARCH, true);
+        $mockRequest = $this->getMockRequest(Request::SEARCH, 'foo');
         $response = $manager->execute($mockRequest);
     }
 
@@ -236,13 +212,9 @@ class ManagerTest extends TestCase
         return $mockResponse;
     }
 
-    protected function getMockRequest($operation, $isValidOperation)
+    protected function getMockRequest($operation, $resource)
     {
-        $request = $this->getMock('Omeka\Api\Request');
-        $request->expects($this->any())
-            ->method('isValidOperation')
-            ->with($this->equalTo($operation))
-            ->will($this->returnValue($isValidOperation));
+        $request = $this->getMock('Omeka\Api\Request', [], [$operation, $resource]);
         $request->expects($this->any())
             ->method('getOperation')
             ->will($this->returnValue($operation));

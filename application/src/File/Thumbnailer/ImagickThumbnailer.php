@@ -26,7 +26,11 @@ class ImagickThumbnailer extends AbstractThumbnailer
     public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
     {
         try {
-            $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
+            $imagick = new Imagick;
+            if ($this->sourceFile->getMediaType() == 'application/pdf') {
+                $imagick->setResolution(150, 150);
+            }
+            $imagick->readImage(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
         } catch (ImagickException $e) {
             throw new Exception\CannotCreateThumbnailException;
         }

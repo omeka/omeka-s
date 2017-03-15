@@ -11,6 +11,11 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
     protected $source;
 
     /**
+     * @var File
+     */
+    protected $sourceFile;
+
+    /**
      * @var array
      */
     protected $options;
@@ -21,6 +26,7 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
     public function setSource(File $source)
     {
         $this->source = $source->getTempPath();
+        $this->sourceFile = $source;
     }
 
     /**

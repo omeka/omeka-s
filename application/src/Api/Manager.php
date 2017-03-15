@@ -163,82 +163,75 @@ class Manager
      */
     public function execute(Request $request)
     {
+        $t = $this->translator;
+
+        // Get the adapter.
         try {
-            $t = $this->translator;
+            $adapter = $this->adapterManager->get($request->getResource());
+        } catch (ServiceNotFoundException $e) {
+            throw new Exception\BadRequestException(sprintf(
+                $t->translate('The API does not support the "%s" resource.'),
+                $request->getResource()
+            ));
+        }
 
-            // Get the adapter.
-            try {
-                $adapter = $this->adapterManager->get($request->getResource());
-            } catch (ServiceNotFoundException $e) {
+        // Verify that the current user has general access to this resource.
+        if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                $t->translate('Permission denied for the current user to %s the %s resource.'),
+                $request->getOperation(),
+                $adapter->getResourceId()
+            ));
+        }
+
+        if ($request->getOption('initialize', true)) {
+            $this->initialize($adapter, $request);
+        }
+
+        switch ($request->getOperation()) {
+            case Request::SEARCH:
+                $response = $adapter->search($request);
+                break;
+            case Request::CREATE:
+                $response = $adapter->create($request);
+                break;
+            case Request::BATCH_CREATE:
+                $response = $this->executeBatchCreate($request, $adapter);
+                break;
+            case Request::READ:
+                $response = $adapter->read($request);
+                break;
+            case Request::UPDATE:
+                $response = $adapter->update($request);
+                break;
+            case Request::DELETE:
+                $response = $adapter->delete($request);
+                break;
+            default:
                 throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%s" resource.'),
-                    $request->getResource()
+                    $t->translate('The API does not support the "%s" request operation.'),
+                    $request->getOperation()
                 ));
-            }
+        }
 
-            // Verify that the current user has general access to this resource.
-            if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
-                throw new Exception\PermissionDeniedException(sprintf(
-                    $t->translate('Permission denied for the current user to %s the %s resource.'),
-                    $request->getOperation(),
-                    $adapter->getResourceId()
-                ));
-            }
+        // Validate the response.
+        if (!$response instanceof Response) {
+            throw new Exception\BadResponseException(sprintf(
+                $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
+                $request->getOperation(),
+                $request->getResource()
+            ));
+        }
+        if (!$this->isValidResponseContent($response)) {
+            throw new Exception\BadResponseException(sprintf(
+                $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
+                $request->getOperation(),
+                $request->getResource()
+            ));
+        }
 
-            if ($request->getOption('initialize', true)) {
-                $this->initialize($adapter, $request);
-            }
-
-            switch ($request->getOperation()) {
-                case Request::SEARCH:
-                    $response = $adapter->search($request);
-                    break;
-                case Request::CREATE:
-                    $response = $adapter->create($request);
-                    break;
-                case Request::BATCH_CREATE:
-                    $response = $this->executeBatchCreate($request, $adapter);
-                    break;
-                case Request::READ:
-                    $response = $adapter->read($request);
-                    break;
-                case Request::UPDATE:
-                    $response = $adapter->update($request);
-                    break;
-                case Request::DELETE:
-                    $response = $adapter->delete($request);
-                    break;
-                default:
-                    throw new Exception\BadRequestException(sprintf(
-                        $t->translate('The API does not support the "%s" request operation.'),
-                        $request->getOperation()
-                    ));
-            }
-
-            // Validate the response.
-            if (!$response instanceof Response) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-            if (!$this->isValidResponseContent($response)) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-
-            if ($request->getOption('finalize', true)) {
-                $this->finalize($adapter, $request, $response);
-            }
-        } catch (Exception\ValidationException $e) {
-            $this->logger->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_VALIDATION);
-            $response->mergeErrors($e->getErrorStore());
+        if ($request->getOption('finalize', true)) {
+            $this->finalize($adapter, $request, $response);
         }
 
         $response->setRequest($request);

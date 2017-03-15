@@ -1,8 +1,10 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager;
 use Omeka\Api\Response;
+use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
@@ -46,9 +48,7 @@ class Api extends AbstractPlugin
      */
     public function search($resource, $data = [], array $options = [])
     {
-        $response = $this->api->search($resource, $data, $options);
-        $this->detectError($response);
-        return $response;
+        return $this->api->search($resource, $data, $options);
     }
 
     /**
@@ -79,13 +79,15 @@ class Api extends AbstractPlugin
      * @param array $data
      * @param array $fileData
      * @param array $options
-     * @return Response
+     * @return Response|false Returns false on validation error
      */
     public function create($resource, $data = [], $fileData = [], array $options = [])
     {
-        $response = $this->api->create($resource, $data, $fileData, $options);
-        $this->detectError($response);
-        return $response;
+        try {
+            return $this->api->create($resource, $data, $fileData, $options);
+        } catch (ValidationException $e) {
+            return $this->handleValidationException($e);
+        }
     }
 
     /**
@@ -95,13 +97,15 @@ class Api extends AbstractPlugin
      * @param array $data
      * @param array $fileData
      * @param array $options
-     * @return Response
+     * @return Response|false Returns false on validation error
      */
     public function batchCreate($resource, $data = [], $fileData = [], array $options = [])
     {
-        $response = $this->api->batchCreate($resource, $data, $fileData, $options);
-        $this->detectError($response);
-        return $response;
+        try {
+            return $this->api->batchCreate($resource, $data, $fileData, $options);
+        } catch (ValidationException $e) {
+            return $this->handleValidationException($e);
+        }
     }
 
     /**
@@ -115,9 +119,7 @@ class Api extends AbstractPlugin
      */
     public function read($resource, $id, $data = [], array $options = [])
     {
-        $response = $this->api->read($resource, $id, $data, $options);
-        $this->detectError($response);
-        return $response;
+        return $this->api->read($resource, $id, $data, $options);
     }
 
     /**
@@ -128,13 +130,15 @@ class Api extends AbstractPlugin
      * @param array $data
      * @param array $fileData
      * @param array $options
-     * @return Response
+     * @return Response|false Returns false on validation error
      */
     public function update($resource, $id, $data = [], $fileData = [], array $options = [])
     {
-        $response = $this->api->update($resource, $id, $data, $fileData, $options);
-        $this->detectError($response);
-        return $response;
+        try {
+            return $this->api->update($resource, $id, $data, $fileData, $options);
+        } catch (ValidationException $e) {
+            return $this->handleValidationException($e);
+        }
     }
 
     /**
@@ -148,21 +152,21 @@ class Api extends AbstractPlugin
      */
     public function delete($resource, $id, $data = [], array $options = [])
     {
-        $response = $this->api->delete($resource, $id, $data, $options);
-        $this->detectError($response);
-        return $response;
+        return $this->api->delete($resource, $id, $data, $options);
     }
 
     /**
-     * Detect and account for API response errors.
+     * Handle an API validation exception.
      *
-     * @param Response $response
+     * @param ErrorStore $errorStore
+     * @return Response
      */
-    public function detectError(Response $response)
+    public function handleValidationException(ValidationException $e)
     {
-        if ($this->form && $response->getStatus() === Response::ERROR_VALIDATION) {
+        $errorStore = $e->getErrorStore();
+        if ($this->form) {
             $formMessages = [];
-            foreach ($response->getErrors() as $key => $messages) {
+            foreach ($errorStore->getErrors() as $key => $messages) {
                 foreach ($messages as $message) {
                     // Do not set nested errors to the form.
                     if (!is_array($message)) {
@@ -171,7 +175,11 @@ class Api extends AbstractPlugin
                 }
             }
             $this->form->setMessages($formMessages);
-            $this->getController()->messenger()->addErrors($response->getErrors());
+            $this->getController()->messenger()->addErrors($errorStore->getErrors());
         }
+        $response = new Response;
+        $response->setStatus(Response::ERROR_VALIDATION);
+        $response->mergeErrors($errorStore);
+        return $response;
     }
 }

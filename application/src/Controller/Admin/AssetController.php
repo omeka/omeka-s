@@ -29,6 +29,7 @@ class AssetController extends AbstractActionController
             $fileData = $this->getRequest()->getFiles()->toArray();
             try {
                 $response = $this->api(null, true)->create('assets', [], $fileData);
+                $httpResponse->setContent(json_encode([]));
             } catch (ValidationException $e) {
                 $errors = [];
                 $iterator = new RecursiveIteratorIterator(
@@ -43,7 +44,6 @@ class AssetController extends AbstractActionController
                 $httpResponse->setContent(json_encode($errors));
                 $httpResponse->setStatusCode(422);
             }
-            $httpResponse->setContent(json_encode([]));
         } else {
             $httpResponse->setContent(json_encode([$this->translate('Asset uploads must be POSTed.')]));
             $httpResponse->setStatusCode(405);

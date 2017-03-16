@@ -111,7 +111,7 @@ class ItemController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('items', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Item successfully deleted'); // @translate
                 }
             } else {
@@ -137,7 +137,7 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api($form)->create('items', $data, $fileData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $message = new Message(
                         'Item successfully created. %s', // @translate
                         sprintf(
@@ -174,7 +174,7 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api($form)->update('items', $this->params('id'), $data, $fileData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Item successfully updated'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }

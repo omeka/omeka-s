@@ -70,22 +70,19 @@ class ApiJsonStrategy extends JsonStrategy
     protected function getResponseStatusCode(ApiJsonModel $model)
     {
         $response = $model->getApiResponse();
+        $exception = $model->getException();
 
-        if (!$response instanceof \Omeka\Api\Response) {
+        if ($response instanceof Response) {
+            if (null === $response->getContent()) {
+                return 204; // No Content
+            }
+            return 200; // OK
+        } elseif ($exception instanceof ApiException\ValidationException) {
+            return 422; // Unprocessable Entity
+        } elseif ($exception instanceof \Exception) {
+            return $this->getStatusCodeForException($exception);
+        } else {
             return 200;
-        }
-
-        switch ($response->getStatus()) {
-            case Response::SUCCESS:
-                if (null === $response->getContent()) {
-                    return 204; // No Content
-                }
-                return 200; // OK
-            case Response::ERROR_VALIDATION:
-                return 422; // Unprocessable Entity
-            case Response::ERROR:
-            default:
-                return $this->getStatusCodeForException($model->getException());
         }
     }
 

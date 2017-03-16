@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Installation\Installer;
 
 /**
@@ -66,16 +67,17 @@ class InstallDefaultVocabulariesTask implements TaskInterface
         $entityManager = $installer->getServiceLocator()->get('Omeka\EntityManager');
 
         foreach ($this->vocabularies as $vocabulary) {
-            $response = $rdfImporter->import(
-                $vocabulary['strategy'],
-                $vocabulary['vocabulary'],
-                [
-                    'file' => OMEKA_PATH . "/application/data/vocabularies/{$vocabulary['file']}",
-                    'format' => $vocabulary['format'],
-                ]
-            );
-            if ($response->isError()) {
-                $installer->addErrorStore($response->getErrorStore());
+            try {
+                $response = $rdfImporter->import(
+                    $vocabulary['strategy'],
+                    $vocabulary['vocabulary'],
+                    [
+                        'file' => OMEKA_PATH . "/application/data/vocabularies/{$vocabulary['file']}",
+                        'format' => $vocabulary['format'],
+                    ]
+                );
+            } catch (ValidationException $e) {
+                $installer->addErrorStore($e->getErrorStore());
                 return;
             }
             $entityManager->clear();

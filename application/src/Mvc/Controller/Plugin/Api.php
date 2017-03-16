@@ -23,6 +23,11 @@ class Api extends AbstractPlugin
      */
     protected $form;
 
+    /**
+     * @var bool
+     */
+    protected $throwValidationException = false;
+
     public function __construct(Manager $api)
     {
         $this->api = $api;
@@ -32,10 +37,12 @@ class Api extends AbstractPlugin
      * Set this API request's corresponding form, if any.
      *
      * @param null|Form $form
+     * @param bool $throwValidationException
      */
-    public function __invoke(Form $form = null)
+    public function __invoke(Form $form = null, $throwValidationException = false)
     {
         $this->form = $form;
+        $this->throwValidationException = $throwValidationException;
         return $this;
     }
 
@@ -86,7 +93,8 @@ class Api extends AbstractPlugin
         try {
             return $this->api->create($resource, $data, $fileData, $options);
         } catch (ValidationException $e) {
-            return $this->handleValidationException($e);
+            $this->handleValidationException($e);
+            return false;
         }
     }
 
@@ -104,7 +112,8 @@ class Api extends AbstractPlugin
         try {
             return $this->api->batchCreate($resource, $data, $fileData, $options);
         } catch (ValidationException $e) {
-            return $this->handleValidationException($e);
+            $this->handleValidationException($e);
+            return false;
         }
     }
 
@@ -137,7 +146,8 @@ class Api extends AbstractPlugin
         try {
             return $this->api->update($resource, $id, $data, $fileData, $options);
         } catch (ValidationException $e) {
-            return $this->handleValidationException($e);
+            $this->handleValidationException($e);
+            return false;
         }
     }
 
@@ -158,8 +168,8 @@ class Api extends AbstractPlugin
     /**
      * Handle an API validation exception.
      *
+     * @throws ValidationException
      * @param ErrorStore $errorStore
-     * @return Response
      */
     public function handleValidationException(ValidationException $e)
     {
@@ -177,9 +187,8 @@ class Api extends AbstractPlugin
             $this->form->setMessages($formMessages);
             $this->getController()->messenger()->addErrors($errorStore->getErrors());
         }
-        $response = new Response;
-        $response->setStatus(Response::ERROR_VALIDATION);
-        $response->mergeErrors($errorStore);
-        return $response;
+        if ($this->throwValidationException) {
+            throw $e;
+        }
     }
 }

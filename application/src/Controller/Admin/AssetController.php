@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Api\Exception\ValidationException;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use Zend\View\Model\ViewModel;
@@ -26,14 +27,13 @@ class AssetController extends AbstractActionController
         $httpResponse->getHeaders()->addHeaderLine('Content-Type', 'application/json');
         if ($this->getRequest()->isPost()) {
             $fileData = $this->getRequest()->getFiles()->toArray();
-            $response = $this->api()->create('assets', [], $fileData);
-            if ($response->isSuccess()) {
-                $httpResponse->setContent(json_encode([]));
-            } else {
+            try {
+                $response = $this->api(null, true)->create('assets', [], $fileData);
+            } catch (ValidationException $e) {
                 $errors = [];
                 $iterator = new RecursiveIteratorIterator(
                     new RecursiveArrayIterator(
-                        $response->getErrorStore()->getErrors(),
+                        $e->getErrorStore()->getErrors(),
                         RecursiveArrayIterator::CHILD_ARRAYS_ONLY
                     )
                 );
@@ -43,6 +43,7 @@ class AssetController extends AbstractActionController
                 $httpResponse->setContent(json_encode($errors));
                 $httpResponse->setStatusCode(422);
             }
+            $httpResponse->setContent(json_encode([]));
         } else {
             $httpResponse->setContent(json_encode([$this->translate('Asset uploads must be POSTed.')]));
             $httpResponse->setStatusCode(405);

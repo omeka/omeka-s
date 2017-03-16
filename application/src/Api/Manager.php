@@ -354,9 +354,9 @@ class Manager
 
         $response = $adapter->batchCreate($request);
 
-        // Do not trigger create.post events if an error has occured or if the
-        // response does not return valid content.
-        if ($response->isError() || !is_array($response->getContent())) {
+        // Do not trigger create.post events if the response does not return
+        // valid content.
+        if (!is_array($response->getContent())) {
             return $response;
         }
 

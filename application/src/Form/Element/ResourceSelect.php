@@ -51,17 +51,15 @@ class ResourceSelect extends Select
     {
         $valueOptions = [];
         $response = $this->getApiManager()->search($resource, $query);
-        if (!$response->isError()) {
-            foreach ($response->getContent() as $representation) {
-                $value = $callback($representation);
-                if (is_array($value)) {
-                    if (!isset($valueOptions[$value[0]])) {
-                        $valueOptions[$value[0]]['label'] = $value[0];
-                    }
-                    $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
-                } else {
-                    $valueOptions[$representation->id()] = $value;
+        foreach ($response->getContent() as $representation) {
+            $value = $callback($representation);
+            if (is_array($value)) {
+                if (!isset($valueOptions[$value[0]])) {
+                    $valueOptions[$value[0]]['label'] = $value[0];
                 }
+                $valueOptions[$value[0]]['options'][$representation->id()] = $value[1];
+            } else {
+                $valueOptions[$representation->id()] = $value;
             }
         }
         $this->setValueOptions($valueOptions);

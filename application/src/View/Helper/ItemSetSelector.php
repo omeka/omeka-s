@@ -14,9 +14,6 @@ class ItemSetSelector extends AbstractHelper
     {
         $query = ['is_open' => true];
         $response = $this->getView()->api()->search('item_sets', $query);
-        if ($response->isError()) {
-            return;
-        }
 
         // Organize items sets by owner.
         $itemSetOwners = [];

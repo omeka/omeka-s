@@ -43,7 +43,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $response = $this->api($form)->create('users', $formData['user-information']);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $user = $response->getContent()->getEntity();
                     $this->mailer()->sendUserActivation($user);
                     $message = new Message(
@@ -160,7 +160,7 @@ class UserController extends AbstractActionController
                 $response = $this->api($form)->update('users', $id, $values['user-information']);
 
                 // Stop early if the API update fails
-                if (!$response->isSuccess()) {
+                if (!$response) {
                     return $view;
                 }
                 $this->messenger()->addSuccess('User successfully updated'); // @translate
@@ -237,7 +237,7 @@ class UserController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('users', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('User successfully deleted'); // @translate
                 }
             } else {

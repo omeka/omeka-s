@@ -222,7 +222,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
         $paginator = new Paginator($qb, false);
-        $representations = [];
+        $responseContent = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the
         // only information needed is total results.
         if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
@@ -232,11 +232,15 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     // "AS HIDDEN {alias}" to avoid this condition.
                     $entity = $entity[0];
                 }
-                $representations[] = $this->getRepresentation($entity);
+                if ($request->getOption('returnEntity', false)) {
+                    $responseContent[] = $entity;
+                } else {
+                    $responseContent[] = $this->getRepresentation($entity);
+                }
             }
         }
 
-        $response = new Response($representations);
+        $response = new Response($responseContent);
         $response->setTotalResults($paginator->count());
         return $response;
     }
@@ -250,12 +254,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entity = new $entityClass;
         $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+        if ($request->getOption('flushEntity', true)) {
+            $this->getEntityManager()->flush();
+        }
         // Refresh the entity on the chance that it contains associations that
         // have not been loaded.
         $this->getEntityManager()->refresh($entity);
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('detachEntity', false)) {
+            $this->getEntityManager()->detach($entity);
+        }
+        if ($request->getOption('returnEntity', false)) {
+            return new Response($entity);
+        }
+        return new Response($this->getRepresentation($entity));
     }
 
     /**
@@ -324,8 +335,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
         $this->getEventManager()->triggerEvent($event);
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('returnEntity', false)) {
+            return new Response($entity);
+        }
+        return new Response($this->getRepresentation($entity));
     }
 
     /**
@@ -335,9 +348,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->hydrateEntity($request, $entity, new ErrorStore);
-        $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('flushEntity', true)) {
+            $this->getEntityManager()->flush();
+        }
+        if ($request->getOption('detachEntity', false)) {
+            $this->getEntityManager()->detach($entity);
+        }
+        if ($request->getOption('returnEntity', false)) {
+            return new Response($entity);
+        }
+        return new Response($this->getRepresentation($entity));
     }
 
     /**
@@ -346,9 +366,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function delete(Request $request)
     {
         $entity = $this->deleteEntity($request);
-        $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('flushEntity', true)) {
+            $this->getEntityManager()->flush();
+        }
+        if ($request->getOption('returnEntity', false)) {
+            return new Response($entity);
+        }
+        return new Response($this->getRepresentation($entity));
     }
 
     /**

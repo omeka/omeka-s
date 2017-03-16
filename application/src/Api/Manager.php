@@ -222,13 +222,6 @@ class Manager
                 $request->getResource()
             ));
         }
-        if (!$this->isValidResponseContent($response)) {
-            throw new Exception\BadResponseException(sprintf(
-                $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
-                $request->getOperation(),
-                $request->getResource()
-            ));
-        }
 
         if ($request->getOption('finalize', true)) {
             $this->finalize($adapter, $request, $response);
@@ -296,32 +289,6 @@ class Manager
             ]
         );
         $eventManager->triggerEvent($event);
-    }
-
-    /**
-     * Check whether the response content is valid.
-     *
-     * A valid response content is a representation object or an array
-     * containing representation objects.
-     *
-     * @param Response $response
-     * @return bool
-     */
-    protected function isValidResponseContent(Response $response)
-    {
-        $content = $response->getContent();
-        if ($content instanceof RepresentationInterface) {
-            return true;
-        }
-        if (is_array($content)) {
-            foreach ($content as $representation) {
-                if (!$representation instanceof RepresentationInterface) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     /**

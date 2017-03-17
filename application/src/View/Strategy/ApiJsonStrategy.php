@@ -77,8 +77,6 @@ class ApiJsonStrategy extends JsonStrategy
                 return 204; // No Content
             }
             return 200; // OK
-        } elseif ($exception instanceof ApiException\ValidationException) {
-            return 422; // Unprocessable Entity
         } elseif ($exception instanceof \Exception) {
             return $this->getStatusCodeForException($exception);
         } else {
@@ -105,6 +103,9 @@ class ApiJsonStrategy extends JsonStrategy
         }
         if ($exception instanceof MvcException\UnsupportedMediaTypeException) {
             return 415; // Unsupported Media Type
+        }
+        if ($exception instanceof ApiException\ValidationException) {
+            return 422; // Unprocessable Entity
         }
         return 500; // Internal Server Error
     }

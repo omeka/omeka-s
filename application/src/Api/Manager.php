@@ -196,7 +196,7 @@ class Manager
                 $response = $adapter->create($request);
                 break;
             case Request::BATCH_CREATE:
-                $response = $this->executeBatchCreate($request, $adapter);
+                $response = $adapter->batchCreate($request);
                 break;
             case Request::READ:
                 $response = $adapter->read($request);
@@ -289,54 +289,5 @@ class Manager
             ]
         );
         $eventManager->triggerEvent($event);
-    }
-
-    /**
-     * Execute a batch create operation.
-     *
-     * @param Request $request
-     * @param null|AdapterInterface $adapter Custom adapter
-     * @return Response
-     */
-    protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
-    {
-        $t = $this->translator;
-        if (!is_array($request->getContent())) {
-            throw new Exception\BadRequestException(
-                $t->translate('Invalid batch operation request data.')
-            );
-        }
-
-        // Create a simulated request for individual create events.
-        $createRequest = new Request(Request::CREATE, $request->getResource());
-
-        // Trigger the create.pre event for every resource.
-        foreach ($request->getContent() as $content) {
-            $createRequest->setContent($content);
-            $createEvent = new Event('api.create.pre', $adapter, [
-                'request' => $createRequest,
-            ]);
-            $adapter->getEventManager()->triggerEvent($createEvent);
-        }
-
-        $response = $adapter->batchCreate($request);
-
-        // Do not trigger create.post events if the response does not return
-        // valid content.
-        if (!is_array($response->getContent())) {
-            return $response;
-        }
-
-        // Trigger the create.post event for every created resource.
-        foreach ($response->getContent() as $resource) {
-            $createRequest->setContent($resource);
-            $createEvent = new Event('api.create.post', $adapter, [
-                'request' => $createRequest,
-                'response' => new Response($resource),
-            ]);
-            $adapter->getEventManager()->triggerEvent($createEvent);
-        }
-
-        return $response;
     }
 }

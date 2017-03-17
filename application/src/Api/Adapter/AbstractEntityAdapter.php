@@ -256,10 +256,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->getEntityManager()->persist($entity);
         if ($request->getOption('flushEntity', true)) {
             $this->getEntityManager()->flush();
+            // Refresh the entity on the chance that it contains associations
+            // that have not been loaded.
+            $this->getEntityManager()->refresh($entity);
         }
-        // Refresh the entity on the chance that it contains associations that
-        // have not been loaded.
-        $this->getEntityManager()->refresh($entity);
         if ($request->getOption('detachEntity', false)) {
             $this->getEntityManager()->detach($entity);
         }
@@ -278,8 +278,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      *
      * There are two outcomes if an exception is thrown during a batch. If
      * continueOnError is set to the request, the current entity is thrown away
-     * but the operation continues. Otherwise, all previously created entities
-     * are removed.
+     * but the operation continues. Otherwise, all previously persisted entities
+     * are detached from the entity manager.
      *
      * Detaches entities after they've been created to minimize memory usage.
      * Because the entities are detached, this returns resource references
@@ -289,38 +289,45 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function batchCreate(Request $request)
     {
-        $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $entities = [];
-        foreach ($request->getContent() as $key => $datum) {
-            $errorStore = new ErrorStore;
-            $entityClass = $this->getEntityClass();
-            $entity = new $entityClass;
-            $subRequest = new Request(Request::CREATE, $request->getResource());
-            $subRequest->setContent($datum);
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+
+        $subresponses = [];
+        $subrequestOptions = [
+            'flushEntity' => false, // Flush once, after persisting all entities
+            'returnEntity' => true, // Return entities to work directly on them
+            'finialize' => false, // Finalize only after flushing entities
+        ];
+        foreach ($request->getContent() as $key => $subrequestData) {
             try {
-                $this->hydrateEntity($subRequest, $entity, $errorStore);
+                $subresponse = $apiManager->create(
+                    $request->getResource(), $subrequestData, [], $subrequestOptions
+                );
             } catch (\Exception $e) {
                 if ($request->getOption('continueOnError', false)) {
-                    $logger->err((string) $e);
                     continue;
                 }
-                // Remove previously persisted entities before re-throwing.
-                foreach ($entities as $entity) {
-                    $this->getEntityManager()->remove($entity);
+                // Detatch previously persisted entities before re-throwing.
+                foreach ($subresponses as $subresponse) {
+                    $this->getEntityManager()->detatch($subresponse->getContent());
                 }
-                $this->getEntityManager()->flush();
                 throw $e;
             }
-            $this->getEntityManager()->persist($entity);
-            $entities[$key] = $entity;
+            $subresponses[$key] = $subresponse;
         }
         $this->getEntityManager()->flush();
-        $references = [];
-        foreach ($entities as $key => $entity) {
-            $references[$key] = new ResourceReference($entity, $this);
+
+        $responseContent = [];
+        foreach ($subresponses as $key => $subresponse) {
+            // Finalize the execution of each created resource.
+            $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
+
+            // Add a resource reference to the batch create response.
+            $entity = $subresponse->getContent();
+            $responseContent[$key] = new ResourceReference($entity, $this);
             $this->getEntityManager()->detach($entity);
         }
-        return new Response($references);
+
+        return new Response($responseContent);
     }
 
     /**

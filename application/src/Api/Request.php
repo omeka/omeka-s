@@ -155,12 +155,11 @@ class Request
      *      PATCH). Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should
      *      continue processing on error. Default is false.
-     * - flushEntity: (bool) Set whether to flush the entity manager during
-     *      CREATE, UPDATE, and DELETE. Default is true.
-     * - returnEntity: (bool) Set whether to return an entity instead of a
-     *      representation during CREATE, UPDATE, and DELETE. Default is false.
-     * - detachEntity: (bool) Set whether to detach the entity from the entity
-     *      manager during CREATE and UPDATE. Default is false.
+     * - returnResource: (bool) Set whether to return an API resource instead of
+     *      a representation of an API resource during CREATE, UPDATE, and
+     *      DELETE. Default is false.
+     * - flushEntityManager: (bool) Set whether to flush the entity manager
+     *      during CREATE, UPDATE, and DELETE. Default is true.
      *
      * @param string|int|array $spec
      * @param mixed $value

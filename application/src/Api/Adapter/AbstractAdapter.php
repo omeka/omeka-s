@@ -126,7 +126,6 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Compose a resource representation object.
      *
-     * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return RepresentationInterface|null
      */
@@ -176,5 +175,33 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getServiceLocator()
     {
         return $this->serviceLocator;
+    }
+
+    /**
+     * Prepare response content.
+     *
+     * Respects API Request options that govern the type of content the API
+     * Response should contain.
+     *
+     * @param Request $request
+     * @param mixed $content
+     * @return mixed
+     */
+    public function prepareResponseContent(Request $request, $content)
+    {
+        $prepareResource = function(ResourceInterface $resource) use ($request) {
+            return $request->getOption('returnResource', false)
+                ? $resource
+                : $this->getRepresentation($resource);
+        };
+
+        if (is_array($content)) {
+            $preparedResources = [];
+            foreach ($content as $key => $resource) {
+                $preparedResources[$key] = $prepareResource($resource);
+            }
+            return $preparedResources;
+        }
+        return $prepareResource($content);
     }
 }

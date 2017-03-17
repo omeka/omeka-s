@@ -222,7 +222,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
         $paginator = new Paginator($qb, false);
-        $responseContent = [];
+        $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the
         // only information needed is total results.
         if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
@@ -232,15 +232,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     // "AS HIDDEN {alias}" to avoid this condition.
                     $entity = $entity[0];
                 }
-                if ($request->getOption('returnEntity', false)) {
-                    $responseContent[] = $entity;
-                } else {
-                    $responseContent[] = $this->getRepresentation($entity);
-                }
+                $entities[] = $entity;
             }
         }
 
-        $response = new Response($responseContent);
+        $content = $this->prepareResponseContent($request, $entities);
+        $response = new Response($content);
         $response->setTotalResults($paginator->count());
         return $response;
     }
@@ -254,19 +251,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entity = new $entityClass;
         $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->persist($entity);
-        if ($request->getOption('flushEntity', true)) {
+        if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
             // Refresh the entity on the chance that it contains associations
             // that have not been loaded.
             $this->getEntityManager()->refresh($entity);
         }
-        if ($request->getOption('detachEntity', false)) {
-            $this->getEntityManager()->detach($entity);
-        }
-        if ($request->getOption('returnEntity', false)) {
-            return new Response($entity);
-        }
-        return new Response($this->getRepresentation($entity));
+        $content = $this->prepareResponseContent($request, $entity);
+        return new Response($content);
     }
 
     /**
@@ -293,8 +285,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         $subresponses = [];
         $subrequestOptions = [
-            'flushEntity' => false, // Flush once, after persisting all entities
-            'returnEntity' => true, // Return entities to work directly on them
+            'flushEntityManager' => false, // Flush once, after persisting all entities
+            'returnResource' => true, // Return entities to work directly on them
             'finialize' => false, // Finalize only after flushing entities
         ];
         foreach ($request->getContent() as $key => $subrequestData) {
@@ -308,7 +300,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                 }
                 // Detatch previously persisted entities before re-throwing.
                 foreach ($subresponses as $subresponse) {
-                    $this->getEntityManager()->detatch($subresponse->getContent());
+                    $this->getEntityManager()->detach($subresponse->getContent());
                 }
                 throw $e;
             }
@@ -342,10 +334,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
         $this->getEventManager()->triggerEvent($event);
-        if ($request->getOption('returnEntity', false)) {
-            return new Response($entity);
-        }
-        return new Response($this->getRepresentation($entity));
+        $content = $this->prepareResponseContent($request, $entity);
+        return new Response($content);
     }
 
     /**
@@ -355,16 +345,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->hydrateEntity($request, $entity, new ErrorStore);
-        if ($request->getOption('flushEntity', true)) {
+        if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        if ($request->getOption('detachEntity', false)) {
-            $this->getEntityManager()->detach($entity);
-        }
-        if ($request->getOption('returnEntity', false)) {
-            return new Response($entity);
-        }
-        return new Response($this->getRepresentation($entity));
+        $content = $this->prepareResponseContent($request, $entity);
+        return new Response($content);
     }
 
     /**
@@ -373,13 +358,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function delete(Request $request)
     {
         $entity = $this->deleteEntity($request);
-        if ($request->getOption('flushEntity', true)) {
+        if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        if ($request->getOption('returnEntity', false)) {
-            return new Response($entity);
-        }
-        return new Response($this->getRepresentation($entity));
+        $content = $this->prepareResponseContent($request, $entity);
+        return new Response($content);
     }
 
     /**

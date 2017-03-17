@@ -151,7 +151,7 @@ gulp.task('deps:update', function () {
 });
 gulp.task('deps:js', function (cb) {
     var deps = {
-        'ckeditor': '**',
+        'ckeditor': ['**', '!samples/**'],
         'jquery': 'dist/**',
         'jstree': 'dist/**',
         'openseadragon': 'build/openseadragon/**',
@@ -160,7 +160,17 @@ gulp.task('deps:js', function (cb) {
     }
 
     Object.keys(deps).forEach(function (module) {
-        gulp.src('./node_modules/' + module + '/' + deps[module])
+        var moduleDeps = deps[module];
+        if (!(moduleDeps instanceof Array)) {
+            moduleDeps = [moduleDeps];
+        }
+        moduleDeps = moduleDeps.map(function (value) {
+            if (value[0] === '!') {
+                return '!' + './node_modules/' + module + '/' + value.substr(1);
+            }
+            return './node_modules/' + module + '/' + value;
+        });
+        gulp.src(moduleDeps, {nodir: true})
             .pipe(gulp.dest('./application/asset/vendor/' + module));
     });
     cb();

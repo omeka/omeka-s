@@ -31,13 +31,8 @@ class ModuleAdapter extends AbstractAdapter
     public function search(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $response = new Response;
-        $representations = [];
-        foreach ($manager->getModules() as $id => $module) {
-            $representations[$id] = $this->getRepresentation($module);
-        }
-        $response->setContent($representations);
-        return $response;
+        $content = $this->prepareResponseContent($request, $manager->getModules());
+        return new Response($content);
     }
 
     /**
@@ -46,9 +41,7 @@ class ModuleAdapter extends AbstractAdapter
     public function read(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ModuleManager');
-        $response = new Response;
-        $representation = $this->getRepresentation($manager->getModule($request->getId()));
-        $response->setContent($representation);
-        return $response;
+        $content = $this->prepareResponseContent($request, $manager->getModule($request->getId()));
+        return new Response($content);
     }
 }

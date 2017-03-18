@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -180,19 +181,25 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Prepare response content.
      *
-     * Respects API Request options that govern the type of content the API
-     * Response should contain.
+     * Respects the "responseContent" API request option, which sets the type of
+     * content the API response should contain.
      *
+     * @param mixed $content One or an array of Omeka\Api\ResourceInterface
      * @param Request $request
-     * @param mixed $content
      * @return mixed
      */
-    public function prepareResponseContent(Request $request, $content)
+    public function prepareResponseContent($content, Request $request)
     {
         $prepareResource = function(ResourceInterface $resource) use ($request) {
-            return $request->getOption('returnResource', false)
-                ? $resource
-                : $this->getRepresentation($resource);
+            switch ($request->getOption('responseContent')) {
+                case 'resource':
+                    return $resource;
+                case 'reference':
+                    return new ResourceReference($resource, $this);
+                case 'representation':
+                default:
+                    return $this->getRepresentation($resource);
+            }
         };
 
         if (is_array($content)) {

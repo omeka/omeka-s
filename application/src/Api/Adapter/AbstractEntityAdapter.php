@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Entity\User;
@@ -236,7 +235,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             }
         }
 
-        $content = $this->prepareResponseContent($request, $entities);
+        $content = $this->prepareResponseContent($entities, $request);
         $response = new Response($content);
         $response->setTotalResults($paginator->count());
         return $response;
@@ -257,7 +256,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             // that have not been loaded.
             $this->getEntityManager()->refresh($entity);
         }
-        $content = $this->prepareResponseContent($request, $entity);
+        $content = $this->prepareResponseContent($entity, $request);
         return new Response($content);
     }
 
@@ -282,11 +281,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function batchCreate(Request $request)
     {
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
 
         $subresponses = [];
         $subrequestOptions = [
             'flushEntityManager' => false, // Flush once, after persisting all entities
-            'returnResource' => true, // Return entities to work directly on them
+            'responseContent' => 'resource', // Return entities to work directly on them
             'finialize' => false, // Finalize only after flushing entities
         ];
         foreach ($request->getContent() as $key => $subrequestData) {
@@ -296,6 +296,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                 );
             } catch (\Exception $e) {
                 if ($request->getOption('continueOnError', false)) {
+                    $logger->err((string) $e);
                     continue;
                 }
                 // Detatch previously persisted entities before re-throwing.
@@ -308,18 +309,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
         $this->getEntityManager()->flush();
 
-        $responseContent = [];
+        $entities = [];
+        // Iterate each subresponse to finalize the execution of each created
+        // entity; to detach each entity to ease subsequent flushes; and to
+        // build response content.
         foreach ($subresponses as $key => $subresponse) {
-            // Finalize the execution of each created resource.
             $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
-
-            // Add a resource reference to the batch create response.
             $entity = $subresponse->getContent();
-            $responseContent[$key] = new ResourceReference($entity, $this);
             $this->getEntityManager()->detach($entity);
+            $entities[$key] = $entity;
         }
 
-        return new Response($responseContent);
+        $request->setOption('responseContent', 'reference');
+        $content = $this->prepareResponseContent($entities, $request);
+        return new Response($content);
     }
 
     /**
@@ -334,7 +337,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
         $this->getEventManager()->triggerEvent($event);
-        $content = $this->prepareResponseContent($request, $entity);
+        $content = $this->prepareResponseContent($entity, $request);
         return new Response($content);
     }
 
@@ -348,7 +351,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        $content = $this->prepareResponseContent($request, $entity);
+        $content = $this->prepareResponseContent($entity, $request);
         return new Response($content);
     }
 
@@ -361,7 +364,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        $content = $this->prepareResponseContent($request, $entity);
+        $content = $this->prepareResponseContent($entity, $request);
         return new Response($content);
     }
 

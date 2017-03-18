@@ -148,18 +148,20 @@ class Request
      * Options that affect the execution of a request are:
      *
      * - initialize: (bool) Set whether to initialize the request during
-     *      execute() (e.g. trigger API-pre events). Default is true.
+     *     execute() (e.g. trigger API-pre events). Default is true.
      * - finalize: (bool) Set whether to finalize the request during execute()
-     *      (e.g. trigger API-post events). Default is true.
+     *     (e.g. trigger API-post events). Default is true.
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
-     *      PATCH). Default is false.
+     *     PATCH). Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should
-     *      continue processing on error. Default is false.
-     * - returnResource: (bool) Set whether to return an API resource instead of
-     *      a representation of an API resource during CREATE, UPDATE, and
-     *      DELETE. Default is false.
+     *     continue processing on error. Default is false.
      * - flushEntityManager: (bool) Set whether to flush the entity manager
-     *      during CREATE, UPDATE, and DELETE. Default is true.
+     *     during CREATE, UPDATE, and DELETE. Default is true.
+     * - responseContent: (string) Set the type of content the API response
+     *     should contain. Default is "representation". The types are:
+     *     - representation: an API resource representation (implements Omeka\Api\Representation\RepresentationInterface)
+     *     - reference: an API resource reference (instance of Omeka\Api\Representation\ResourceReference)
+     *     - resource: an API resource (implements Omeka\Api\ResourceInterface)
      *
      * @param string|int|array $spec
      * @param mixed $value

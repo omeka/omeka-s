@@ -196,11 +196,7 @@ abstract class AbstractAdapter implements AdapterInterface
         };
 
         if (is_array($content)) {
-            $preparedResources = [];
-            foreach ($content as $key => $resource) {
-                $preparedResources[$key] = $prepareResource($resource);
-            }
-            return $preparedResources;
+            return array_map($prepareResource, $content);
         }
         return $prepareResource($content);
     }

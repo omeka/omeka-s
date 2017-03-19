@@ -63,26 +63,22 @@ class ResourceTemplateController extends AbstractActionController
                 if ($file) {
                     // Process import form.
                     $import = json_decode(file_get_contents($file['tmp_name']), true);
-                    if (JSON_ERROR_NONE === json_last_error()) {
-                        if ($this->importIsValid($import)) {
-                            $import = $this->flagValid($import);
+                    if ($this->importIsValid($import)) {
+                        $import = $this->flagValid($import);
 
-                            $form = $this->getForm(ResourceTemplateReviewImportForm::class);
-                            $form->get('import')->setValue(json_encode($import));
-                            $form->get('label')->setValue($import['o:label']);
+                        $form = $this->getForm(ResourceTemplateReviewImportForm::class);
+                        $form->get('import')->setValue(json_encode($import));
+                        $form->get('label')->setValue($import['o:label']);
 
-                            $view->setVariable('import', $import);
-                            $view->setTemplate('omeka/admin/resource-template/review-import');
-                        } else {
-                            $this->messenger()->addError('Invalid import file format');
-                        }
+                        $view->setVariable('import', $import);
+                        $view->setTemplate('omeka/admin/resource-template/review-import');
                     } else {
-                        $this->messenger()->addError('Invalid import file');
+                        $this->messenger()->addError('Invalid import file format');
                     }
                 } else {
                     // Process review import form.
                     $import = json_decode($this->params()->fromPost('import'), true);
-                    $dataTypes = $this->params()->fromPost('data_types');
+                    $dataTypes = $this->params()->fromPost('data_types', []);
 
                     $import['o:label'] = $this->params()->fromPost('label');
                     foreach ($dataTypes as $key => $dataType) {
@@ -145,14 +141,16 @@ class ResourceTemplateController extends AbstractActionController
             return false;
         };
 
-        if ($vocab = $getVocab($import['o:resource_class']['vocabulary_namespace_uri'])) {
-            $import['o:resource_class']['vocabulary_prefix'] = $vocab->prefix();
-            $class = $this->api()->searchOne('resource_classes', [
-                'vocabulary_namespace_uri' => $import['o:resource_class']['vocabulary_namespace_uri'],
-                'local_name' => $import['o:resource_class']['local_name'],
-            ])->getContent();
-            if ($class) {
-                $import['o:resource_class']['o:id'] = $class->id();
+        if (isset($import['o:resource_class'])) {
+            if ($vocab = $getVocab($import['o:resource_class']['vocabulary_namespace_uri'])) {
+                $import['o:resource_class']['vocabulary_prefix'] = $vocab->prefix();
+                $class = $this->api()->searchOne('resource_classes', [
+                    'vocabulary_namespace_uri' => $import['o:resource_class']['vocabulary_namespace_uri'],
+                    'local_name' => $import['o:resource_class']['local_name'],
+                ])->getContent();
+                if ($class) {
+                    $import['o:resource_class']['o:id'] = $class->id();
+                }
             }
         }
 
@@ -194,25 +192,27 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         // Validate class.
-        if (!isset($import['o:resource_class']) || !is_array($import['o:resource_class'])) {
-            // missing or invalid o:resource_class
-            return false;
-        }
-        if (!array_key_exists('vocabulary_namespace_uri', $import['o:resource_class'])
-            || !array_key_exists('vocabulary_label', $import['o:resource_class'])
-            || !array_key_exists('local_name', $import['o:resource_class'])
-            || !array_key_exists('label', $import['o:resource_class'])
-        ) {
-            // missing o:resource_class info
-            return false;
-        }
-        if (!is_string($import['o:resource_class']['vocabulary_namespace_uri'])
-            || !is_string($import['o:resource_class']['vocabulary_label'])
-            || !is_string($import['o:resource_class']['local_name'])
-            || !is_string($import['o:resource_class']['label'])
-        ) {
-            // invalid o:resource_class info
-            return false;
+        if (isset($import['o:resource_class'])) {
+            if (!is_array($import['o:resource_class'])) {
+                // invalid o:resource_class
+                return false;
+            }
+            if (!array_key_exists('vocabulary_namespace_uri', $import['o:resource_class'])
+                || !array_key_exists('vocabulary_label', $import['o:resource_class'])
+                || !array_key_exists('local_name', $import['o:resource_class'])
+                || !array_key_exists('label', $import['o:resource_class'])
+            ) {
+                // missing o:resource_class info
+                return false;
+            }
+            if (!is_string($import['o:resource_class']['vocabulary_namespace_uri'])
+                || !is_string($import['o:resource_class']['vocabulary_label'])
+                || !is_string($import['o:resource_class']['local_name'])
+                || !is_string($import['o:resource_class']['label'])
+            ) {
+                // invalid o:resource_class info
+                return false;
+            }
         }
 
         // Validate properties.
@@ -264,7 +264,6 @@ class ResourceTemplateController extends AbstractActionController
 
         $export = [
             'o:label' => $template->label(),
-            'o:resource_class' => [],
             'o:resource_template_property' => [],
         ];
 

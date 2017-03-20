@@ -3,6 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
+use Omeka\Api\Representation\ResourceReference;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -207,20 +208,20 @@ class Manager
                 $response = $adapter->delete($request);
                 break;
             default:
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%s" request operation.'),
-                    $request->getOperation()
-                ));
+                throw new Exception\BadRequestException('Invalid API request operation.');
         }
 
-        // Validate the response.
+        // Validate the response and response content.
         if (!$response instanceof Response) {
-            throw new Exception\BadResponseException(sprintf(
-                $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
-                $request->getOperation(),
-                $request->getResource()
-            ));
+            throw new Exception\BadResponseException('The API response must implement Omeka\Api\Response');
         }
+        $validateContent = function ($value) {
+            if (!$value instanceof ResourceInterface) {
+                throw new Exception\BadResponseException('API response content must implement Omeka\Api\ResourceInterface.');
+            }
+        };
+        $content = $response->getContent();
+        is_array($content) ? array_walk($content, $validateContent) : $validateContent($content);
 
         if ($request->getOption('finalize', true)) {
             $this->finalize($adapter, $request, $response);
@@ -261,7 +262,8 @@ class Manager
     /**
      * Finalize the request.
      *
-     * Triggers the API-post events.
+     * Triggers API-post events and then transforms response content according
+     * to the "responseContent" request option
      *
      * @param AdapterInterface $adapter
      * @param Request $request
@@ -282,11 +284,25 @@ class Manager
         $event = new Event(
             'api.execute.post',
             $adapter,
-            [
-                'request' => $request,
-                'response' => $response,
-            ]
+            ['request' => $request, 'response' => $response]
         );
         $eventManager->triggerEvent($event);
+
+        // Transform the response content.
+        $transformContent = function (ResourceInterface $resource) use ($adapter, $request) {
+            switch ($request->getOption('responseContent')) {
+                case 'resource':
+                    return $resource;
+                case 'reference':
+                    return new ResourceReference($resource, $adapter);
+                case 'representation':
+                default:
+                    return $adapter->getRepresentation($resource);
+            }
+        };
+        $content = $response->getContent();
+        $content = is_array($content)
+            ? array_map($transformContent, $content) : $transformContent($content);
+        $response->setContent($content);
     }
 }

@@ -235,8 +235,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             }
         }
 
-        $content = $this->prepareResponseContent($entities, $request);
-        $response = new Response($content);
+        $response = new Response($entities);
         $response->setTotalResults($paginator->count());
         return $response;
     }
@@ -256,8 +255,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             // that have not been loaded.
             $this->getEntityManager()->refresh($entity);
         }
-        $content = $this->prepareResponseContent($entity, $request);
-        return new Response($content);
+        return new Response($entity);
     }
 
     /**
@@ -321,8 +319,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $request->setOption('responseContent', 'reference');
-        $content = $this->prepareResponseContent($entities, $request);
-        return new Response($content);
+        return new Response($entities);
     }
 
     /**
@@ -337,8 +334,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
         $this->getEventManager()->triggerEvent($event);
-        $content = $this->prepareResponseContent($entity, $request);
-        return new Response($content);
+        return new Response($entity);
     }
 
     /**
@@ -351,8 +347,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        $content = $this->prepareResponseContent($entity, $request);
-        return new Response($content);
+        return new Response($entity);
     }
 
     /**
@@ -364,8 +359,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($request->getOption('flushEntityManager', true)) {
             $this->getEntityManager()->flush();
         }
-        $content = $this->prepareResponseContent($entity, $request);
-        return new Response($content);
+        return new Response($entity);
     }
 
     /**

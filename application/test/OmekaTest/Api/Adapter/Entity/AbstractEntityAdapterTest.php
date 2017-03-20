@@ -71,9 +71,6 @@ class AbstractEntityAdapterTest extends TestCase
         $this->adapter->expects($this->exactly(1))
             ->method('getEntityClass')
             ->will($this->returnValue(self::TEST_ENTITY_CLASS));
-        $this->adapter->expects($this->once())
-            ->method('getRepresentationClass')
-            ->will($this->returnValue('OmekaTest\Api\Adapter\Entity\TestRepresentation'));
 
         /* Request **/
 
@@ -88,7 +85,7 @@ class AbstractEntityAdapterTest extends TestCase
         $response = $this->adapter->create($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
         $this->assertInstanceOf(
-            'OmekaTest\Api\Adapter\Entity\TestRepresentation',
+            'OmekaTest\Api\Adapter\Entity\TestEntity',
             $response->getContent()
         );
     }

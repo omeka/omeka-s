@@ -2,7 +2,6 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -176,35 +175,5 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getServiceLocator()
     {
         return $this->serviceLocator;
-    }
-
-    /**
-     * Prepare response content.
-     *
-     * Respects the "responseContent" API request option, which sets the type of
-     * content the API response should contain.
-     *
-     * @param mixed $content One or an array of Omeka\Api\ResourceInterface
-     * @param Request $request
-     * @return mixed
-     */
-    public function prepareResponseContent($content, Request $request)
-    {
-        $prepareResource = function (ResourceInterface $resource) use ($request) {
-            switch ($request->getOption('responseContent')) {
-                case 'resource':
-                    return $resource;
-                case 'reference':
-                    return new ResourceReference($resource, $this);
-                case 'representation':
-                default:
-                    return $this->getRepresentation($resource);
-            }
-        };
-
-        if (is_array($content)) {
-            return array_map($prepareResource, $content);
-        }
-        return $prepareResource($content);
     }
 }

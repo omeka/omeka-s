@@ -150,7 +150,8 @@ class Request
      * - initialize: (bool) Set whether to initialize the request during
      *     execute() (e.g. trigger API-pre events). Default is true.
      * - finalize: (bool) Set whether to finalize the request during execute()
-     *     (e.g. trigger API-post events). Default is true.
+     *     (e.g. trigger API-post events and transform response content
+     *     according to the "responseContent" option). Default is true.
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
      *     PATCH). Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should

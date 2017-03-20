@@ -21,7 +21,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('search', $mockResponse);
         $response = $manager->search(self::TEST_RESOURCE, []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testCreate()
@@ -30,7 +29,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('create', $mockResponse);
         $response = $manager->create(self::TEST_RESOURCE, []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testRead()
@@ -39,7 +37,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('read', $mockResponse);
         $response = $manager->read(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testUpdate()
@@ -48,7 +45,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('update', $mockResponse);
         $response = $manager->update(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testDelete()
@@ -57,7 +53,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('delete', $mockResponse);
         $response = $manager->delete(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testExecute()
@@ -71,7 +66,6 @@ class ManagerTest extends TestCase
             $response = $manager->execute($mockRequest);
 
             $this->assertInstanceOf('Omeka\Api\Response', $response);
-            $this->assertNull($response->getErrors());
         }
     }
 
@@ -84,7 +78,6 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
 
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     /**

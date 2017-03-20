@@ -37,8 +37,6 @@ class AbstractEntityAdapterTest extends TestCase
         $entityManager->expects($this->once())
             ->method('persist')
             ->with($this->isInstanceOf('Omeka\Entity\EntityInterface'));
-        $entityManager->expects($this->once())
-            ->method('flush');
 
         // Service: MvcTranslator
         $translator = $this->getMock('Zend\I18n\Translator\Translator');
@@ -89,7 +87,6 @@ class AbstractEntityAdapterTest extends TestCase
 
         $response = $this->adapter->create($request);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertEquals('success', $response->getStatus());
         $this->assertInstanceOf(
             'OmekaTest\Api\Adapter\Entity\TestRepresentation',
             $response->getContent()

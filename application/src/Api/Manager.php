@@ -3,7 +3,7 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Omeka\Api\Representation\RepresentationInterface;
+use Omeka\Api\Representation\ResourceReference;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -163,82 +163,68 @@ class Manager
      */
     public function execute(Request $request)
     {
+        $t = $this->translator;
+
+        // Get the adapter.
         try {
-            $t = $this->translator;
+            $adapter = $this->adapterManager->get($request->getResource());
+        } catch (ServiceNotFoundException $e) {
+            throw new Exception\BadRequestException(sprintf(
+                $t->translate('The API does not support the "%s" resource.'),
+                $request->getResource()
+            ));
+        }
 
-            // Get the adapter.
-            try {
-                $adapter = $this->adapterManager->get($request->getResource());
-            } catch (ServiceNotFoundException $e) {
-                throw new Exception\BadRequestException(sprintf(
-                    $t->translate('The API does not support the "%s" resource.'),
-                    $request->getResource()
-                ));
-            }
+        // Verify that the current user has general access to this resource.
+        if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
+            throw new Exception\PermissionDeniedException(sprintf(
+                $t->translate('Permission denied for the current user to %s the %s resource.'),
+                $request->getOperation(),
+                $adapter->getResourceId()
+            ));
+        }
 
-            // Verify that the current user has general access to this resource.
-            if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
-                throw new Exception\PermissionDeniedException(sprintf(
-                    $t->translate('Permission denied for the current user to %s the %s resource.'),
-                    $request->getOperation(),
-                    $adapter->getResourceId()
-                ));
-            }
+        if ($request->getOption('initialize', true)) {
+            $this->initialize($adapter, $request);
+        }
 
-            if ($request->getOption('initialize', true)) {
-                $this->initialize($adapter, $request);
-            }
+        switch ($request->getOperation()) {
+            case Request::SEARCH:
+                $response = $adapter->search($request);
+                break;
+            case Request::CREATE:
+                $response = $adapter->create($request);
+                break;
+            case Request::BATCH_CREATE:
+                $response = $adapter->batchCreate($request);
+                break;
+            case Request::READ:
+                $response = $adapter->read($request);
+                break;
+            case Request::UPDATE:
+                $response = $adapter->update($request);
+                break;
+            case Request::DELETE:
+                $response = $adapter->delete($request);
+                break;
+            default:
+                throw new Exception\BadRequestException('Invalid API request operation.');
+        }
 
-            switch ($request->getOperation()) {
-                case Request::SEARCH:
-                    $response = $adapter->search($request);
-                    break;
-                case Request::CREATE:
-                    $response = $adapter->create($request);
-                    break;
-                case Request::BATCH_CREATE:
-                    $response = $this->executeBatchCreate($request, $adapter);
-                    break;
-                case Request::READ:
-                    $response = $adapter->read($request);
-                    break;
-                case Request::UPDATE:
-                    $response = $adapter->update($request);
-                    break;
-                case Request::DELETE:
-                    $response = $adapter->delete($request);
-                    break;
-                default:
-                    throw new Exception\BadRequestException(sprintf(
-                        $t->translate('The API does not support the "%s" request operation.'),
-                        $request->getOperation()
-                    ));
+        // Validate the response and response content.
+        if (!$response instanceof Response) {
+            throw new Exception\BadResponseException('The API response must implement Omeka\Api\Response');
+        }
+        $validateContent = function ($value) {
+            if (!$value instanceof ResourceInterface) {
+                throw new Exception\BadResponseException('API response content must implement Omeka\Api\ResourceInterface.');
             }
+        };
+        $content = $response->getContent();
+        is_array($content) ? array_walk($content, $validateContent) : $validateContent($content);
 
-            // Validate the response.
-            if (!$response instanceof Response) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%s" operation for the "%s" adapter did not return a valid response.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-            if (!$this->isValidResponseContent($response)) {
-                throw new Exception\BadResponseException(sprintf(
-                    $t->translate('The "%s" operation for the "%s" adapter did not return valid response content.'),
-                    $request->getOperation(),
-                    $request->getResource()
-                ));
-            }
-
-            if ($request->getOption('finalize', true)) {
-                $this->finalize($adapter, $request, $response);
-            }
-        } catch (Exception\ValidationException $e) {
-            $this->logger->err((string) $e);
-            $response = new Response;
-            $response->setStatus(Response::ERROR_VALIDATION);
-            $response->mergeErrors($e->getErrorStore());
+        if ($request->getOption('finalize', true)) {
+            $this->finalize($adapter, $request, $response);
         }
 
         $response->setRequest($request);
@@ -276,7 +262,8 @@ class Manager
     /**
      * Finalize the request.
      *
-     * Triggers the API-post events.
+     * Triggers API-post events and then transforms response content according
+     * to the "responseContent" request option
      *
      * @param AdapterInterface $adapter
      * @param Request $request
@@ -297,86 +284,25 @@ class Manager
         $event = new Event(
             'api.execute.post',
             $adapter,
-            [
-                'request' => $request,
-                'response' => $response,
-            ]
+            ['request' => $request, 'response' => $response]
         );
         $eventManager->triggerEvent($event);
-    }
 
-    /**
-     * Check whether the response content is valid.
-     *
-     * A valid response content is a representation object or an array
-     * containing representation objects.
-     *
-     * @param Response $response
-     * @return bool
-     */
-    protected function isValidResponseContent(Response $response)
-    {
-        $content = $response->getContent();
-        if ($content instanceof RepresentationInterface) {
-            return true;
-        }
-        if (is_array($content)) {
-            foreach ($content as $representation) {
-                if (!$representation instanceof RepresentationInterface) {
-                    return false;
-                }
+        // Transform the response content.
+        $transformContent = function (ResourceInterface $resource) use ($adapter, $request) {
+            switch ($request->getOption('responseContent')) {
+                case 'resource':
+                    return $resource;
+                case 'reference':
+                    return new ResourceReference($resource, $adapter);
+                case 'representation':
+                default:
+                    return $adapter->getRepresentation($resource);
             }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Execute a batch create operation.
-     *
-     * @param Request $request
-     * @param null|AdapterInterface $adapter Custom adapter
-     * @return Response
-     */
-    protected function executeBatchCreate(Request $request, AdapterInterface $adapter)
-    {
-        $t = $this->translator;
-        if (!is_array($request->getContent())) {
-            throw new Exception\BadRequestException(
-                $t->translate('Invalid batch operation request data.')
-            );
-        }
-
-        // Create a simulated request for individual create events.
-        $createRequest = new Request(Request::CREATE, $request->getResource());
-
-        // Trigger the create.pre event for every resource.
-        foreach ($request->getContent() as $content) {
-            $createRequest->setContent($content);
-            $createEvent = new Event('api.create.pre', $adapter, [
-                'request' => $createRequest,
-            ]);
-            $adapter->getEventManager()->triggerEvent($createEvent);
-        }
-
-        $response = $adapter->batchCreate($request);
-
-        // Do not trigger create.post events if an error has occured or if the
-        // response does not return valid content.
-        if ($response->isError() || !is_array($response->getContent())) {
-            return $response;
-        }
-
-        // Trigger the create.post event for every created resource.
-        foreach ($response->getContent() as $resource) {
-            $createRequest->setContent($resource);
-            $createEvent = new Event('api.create.post', $adapter, [
-                'request' => $createRequest,
-                'response' => new Response($resource),
-            ]);
-            $adapter->getEventManager()->triggerEvent($createEvent);
-        }
-
-        return $response;
+        };
+        $content = $response->getContent();
+        $content = is_array($content)
+            ? array_map($transformContent, $content) : $transformContent($content);
+        $response->setContent($content);
     }
 }

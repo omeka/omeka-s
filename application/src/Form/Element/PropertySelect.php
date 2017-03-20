@@ -15,24 +15,22 @@ class PropertySelect extends Select
     {
         $valueOptions = [];
         $response = $this->getApiManager()->search('vocabularies');
-        if (!$response->isError()) {
-            foreach ($response->getContent() as $vocabulary) {
-                $options = [];
-                foreach ($vocabulary->properties() as $property) {
-                    $options[] = [
-                        'label' => $property->label(),
-                        'value' => $property->id(),
-                        'attributes' => ['data-term' => $property->term()],
-                    ];
-                }
-                if (!$options) {
-                    continue;
-                }
-                $valueOptions[] = [
-                    'label' => $vocabulary->label(),
-                    'options' => $options,
+        foreach ($response->getContent() as $vocabulary) {
+            $options = [];
+            foreach ($vocabulary->properties() as $property) {
+                $options[] = [
+                    'label' => $property->label(),
+                    'value' => $property->id(),
+                    'attributes' => ['data-term' => $property->term()],
                 ];
             }
+            if (!$options) {
+                continue;
+            }
+            $valueOptions[] = [
+                'label' => $vocabulary->label(),
+                'options' => $options,
+            ];
         }
         return $valueOptions;
     }

@@ -3,6 +3,7 @@ namespace OmekaTest\Service;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Request;
+use Omeka\Api\ResourceInterface as ApiResourceInterface;
 use Omeka\Service\ApiAdapterManagerFactory;
 use Omeka\Test\TestCase;
 use Zend\EventManager\EventManagerInterface;
@@ -60,6 +61,9 @@ class TestAdapter implements AdapterInterface
     {
     }
     public function delete(Request $request)
+    {
+    }
+    public function getRepresentation(ApiResourceInterface $data = null)
     {
     }
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

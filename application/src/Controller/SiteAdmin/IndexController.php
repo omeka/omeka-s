@@ -59,7 +59,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -85,7 +85,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
@@ -152,7 +152,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api($form)->create('site_pages', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
                         'admin/site/slug/page',
@@ -183,7 +183,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Navigation successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -213,7 +213,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -253,7 +253,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -285,7 +285,7 @@ class IndexController extends AbstractActionController
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -355,7 +355,7 @@ class IndexController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('sites', ['slug' => $this->params('site-slug')]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully deleted'); // @translate
                 }
             } else {

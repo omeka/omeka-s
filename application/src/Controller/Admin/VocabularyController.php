@@ -79,7 +79,7 @@ class VocabularyController extends AbstractActionController
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
                     $this->api($form)->detectError($response);
-                    if ($response->isSuccess()) {
+                    if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -124,7 +124,7 @@ class VocabularyController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $fileData = $this->params()->fromFiles('file');
                     if (0 === $fileData['error']) {
                         $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
@@ -176,7 +176,7 @@ class VocabularyController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('vocabularies', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Vocabulary successfully deleted'); // @translate
                 }
             } else {

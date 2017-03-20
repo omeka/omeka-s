@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
 use Omeka\Api\Response;
+use Omeka\Api\ResourceInterface as ApiResourceInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -70,6 +71,14 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      * @return Response
      */
     public function delete(Request $request);
+
+    /**
+     * Compose a resource representation object.
+     *
+     * @param ApiResourceInterface $data Data needed to compose the representation.
+     * @return RepresentationInterface|null
+     */
+    public function getRepresentation(ApiResourceInterface $data = null);
 
     /**
      * Set the service locator.

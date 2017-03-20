@@ -60,10 +60,10 @@ class ResourceTemplateController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api()->delete('resource_templates', $this->params('id'));
-                if ($response->isError()) {
-                    $this->messenger()->addError('Resource template could not be deleted'); // @translate
-                } else {
+                if ($response) {
                     $this->messenger()->addSuccess('Resource template successfully deleted'); // @translate
+                } else {
+                    $this->messenger()->addError('Resource template could not be deleted'); // @translate
                 }
             } else {
                 $this->messenger()->addError('Resource template could not be deleted'); // @translate
@@ -110,7 +110,7 @@ class ResourceTemplateController extends AbstractActionController
                 $response = ('edit' === $action)
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
-                if ($response->isSuccess()) {
+                if ($response) {
                     if ('edit' === $action) {
                         $successMessage = 'Resource template successfully updated'; // @translate
                     } else {

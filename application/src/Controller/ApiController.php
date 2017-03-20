@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller;
 
-use Omeka\Api\Response;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
@@ -238,10 +237,7 @@ class ApiController extends AbstractRestfulController
      */
     protected function getErrorResult(MvcEvent $event, \Exception $error)
     {
-        $response = new Response;
-        $response->setStatus(Response::ERROR);
-
-        $result = new ApiJsonModel($response, $this->getViewOptions());
+        $result = new ApiJsonModel(null, $this->getViewOptions());
         $result->setException($error);
 
         $event->setResult($result);

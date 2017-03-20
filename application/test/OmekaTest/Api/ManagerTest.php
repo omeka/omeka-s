@@ -21,7 +21,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('search', $mockResponse);
         $response = $manager->search(self::TEST_RESOURCE, []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testCreate()
@@ -30,7 +29,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('create', $mockResponse);
         $response = $manager->create(self::TEST_RESOURCE, []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testRead()
@@ -39,7 +37,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('read', $mockResponse);
         $response = $manager->read(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testUpdate()
@@ -48,7 +45,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('update', $mockResponse);
         $response = $manager->update(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testDelete()
@@ -57,7 +53,6 @@ class ManagerTest extends TestCase
         $manager = $this->getApiManager('delete', $mockResponse);
         $response = $manager->delete(self::TEST_RESOURCE, 'test-id', []);
         $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     public function testExecute()
@@ -71,20 +66,7 @@ class ManagerTest extends TestCase
             $response = $manager->execute($mockRequest);
 
             $this->assertInstanceOf('Omeka\Api\Response', $response);
-            $this->assertNull($response->getErrors());
         }
-    }
-
-    public function testExecuteBatchCreate()
-    {
-        $mockResponse = $this->getMockResponse(true);
-        $manager = $this->getApiManager('batch_create', $mockResponse, true, true, true);
-
-        $mockRequest = $this->getMockRequest('batch_create', 'foo');
-        $response = $manager->execute($mockRequest);
-
-        $this->assertInstanceOf('Omeka\Api\Response', $response);
-        $this->assertNull($response->getErrors());
     }
 
     /**
@@ -147,6 +129,11 @@ class ManagerTest extends TestCase
             ->method('getResourceId')
             ->will($this->returnValue('Omeka\Api\Adapter\AdapterInterface'));
         $mockAdapter->expects($this->any())
+            ->method('getRepresentation')
+            ->will($this->returnValue(
+                $this->getMock('Omeka\Api\Representation\RepresentationInterface')
+            ));
+        $mockAdapter->expects($this->any())
             ->method('getEventManager')
             ->will($this->returnValue($mockEventManager));
         if ($isBatchCreate) {
@@ -192,20 +179,13 @@ class ManagerTest extends TestCase
 
     protected function getMockResponse($isValidStatus)
     {
-        $mockRepresentation = $this->getMock(
-            'Omeka\Api\Representation\RepresentationInterface'
+        $mockResource = $this->getMock(
+            'Omeka\Api\ResourceInterface'
         );
         $mockResponse = $this->getMock('Omeka\Api\Response');
         $mockResponse->expects($this->any())
-            ->method('isValidStatus')
-            ->with($this->equalTo('response_status'))
-            ->will($this->returnValue($isValidStatus));
-        $mockResponse->expects($this->any())
-            ->method('getStatus')
-            ->will($this->returnValue('response_status'));
-        $mockResponse->expects($this->any())
             ->method('getContent')
-            ->will($this->returnValue($mockRepresentation));
+            ->will($this->returnValue($mockResource));
         $mockResponse->expects($this->any())
             ->method('setRequest')
             ->with($this->isInstanceOf('Omeka\Api\request'));

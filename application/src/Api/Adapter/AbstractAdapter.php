@@ -190,7 +190,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function prepareResponseContent($content, Request $request)
     {
-        $prepareResource = function(ResourceInterface $resource) use ($request) {
+        $prepareResource = function (ResourceInterface $resource) use ($request) {
             switch ($request->getOption('responseContent')) {
                 case 'resource':
                     return $resource;

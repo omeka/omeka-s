@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller;
 
-use Omeka\Api\Response;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;

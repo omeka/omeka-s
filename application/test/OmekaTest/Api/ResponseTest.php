@@ -2,7 +2,6 @@
 namespace OmekaTest\Api;
 
 use Omeka\Api\Response;
-use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 
 class ResponseTest extends TestCase

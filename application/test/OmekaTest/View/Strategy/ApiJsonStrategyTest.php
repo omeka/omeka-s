@@ -1,8 +1,11 @@
 <?php
 namespace OmekaTest\View\Strategy;
 
+use Omeka\Api\Exception;
+use Omeka\Api\Response as ApiResponse;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
+use Zend\Json\Exception as JsonException;
 use Zend\View\ViewEvent;
 use Omeka\Test\TestCase;
 
@@ -43,5 +46,64 @@ class ApiJsonStrategyTest extends TestCase
 
         $this->assertNull($this->strategy->selectRenderer($this->event));
         $this->strategy->injectResponse($this->event);
+    }
+
+    public function statusProvider()
+    {
+        return [
+            ['bar', null, 200],
+            [null, null, 204],
+            ['bar', new Exception\ValidationException, 422],
+            ['bar', new Exception\NotFoundException, 404],
+            ['bar', new Exception\PermissionDeniedException, 403],
+            ['bar', new \Exception, 500],
+            ['bar', new JsonException\RuntimeException, 400],
+        ];
+    }
+
+    /**
+     * @dataProvider statusProvider
+     */
+    public function testStrategySetsStatus($apiContent, $apiException, $httpStatus)
+    {
+        if (!$apiException) {
+            $apiResponse = $this->getMock('Omeka\Api\Response');
+            $apiResponse->expects($this->any())
+                        ->method('getContent')
+                        ->will($this->returnValue($apiContent));
+        } else {
+            $apiResponse = null;
+        }
+
+        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue($apiResponse));
+        $model->expects($this->any())
+              ->method('getException')
+              ->will($this->returnValue($apiException));
+
+        $this->event->setModel($model);
+        $this->event->setRenderer($this->renderer);
+        $this->strategy->injectResponse($this->event);
+        $this->assertEquals($httpStatus, $this->event->getResponse()->getStatusCode());
+    }
+
+    public function testStrategySetsContentType()
+    {
+        $apiResponse = $this->getMock('Omeka\Api\Response');
+
+        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue($apiResponse));
+
+        $this->event->setModel($model);
+        $this->event->setRenderer($this->renderer);
+        $this->strategy->injectResponse($this->event);
+
+        $headers = $this->event->getResponse()->getHeaders();
+        $expectedContentType = 'application/json; charset=utf-8';
+        $this->assertEquals($expectedContentType, $headers->get('Content-Type')->getFieldValue());
     }
 }

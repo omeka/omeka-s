@@ -1,8 +1,10 @@
 <?php
 namespace OmekaTest\View\Renderer;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\View\Renderer\ApiJsonRenderer;
 use Zend\Json\Json;
+use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 
 class ApiJsonRendererTest extends TestCase
@@ -38,5 +40,24 @@ class ApiJsonRendererTest extends TestCase
 
         $renderer = new ApiJsonRenderer;
         $this->assertEquals(null, $renderer->render($model));
+    }
+
+    public function testRendererShowsErrors()
+    {
+        $errorStore = new ErrorStore;
+        $errorStore->addError('foo', 'bar');
+        $exception = new ValidationException('exception message');
+        $exception->setErrorStore($errorStore);
+
+        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue(null));
+        $model->expects($this->once())
+              ->method('getException')
+              ->will($this->returnValue($exception));
+
+        $renderer = new ApiJsonRenderer;
+        $this->assertEquals(Json::encode(['errors' => ['foo' => ['bar']]]), $renderer->render($model));
     }
 }

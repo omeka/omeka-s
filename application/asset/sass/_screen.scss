@@ -289,6 +289,8 @@ body {
     .field {
         @include field-row;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -469,7 +471,7 @@ div[role="main"] > .messages {
 }
 
 .field .messages {
-    width: 100%;
+    width: 70%;
     color: $red;
 }
 
@@ -1787,7 +1789,6 @@ input[type="text"].value-language,
         flex: 1;
         vertical-align: top;
         position: relative;
-        margin-left: -4px;
         line-height: 1.5 * $spacing-large;
 
         &:only-child {
